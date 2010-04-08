@@ -50,7 +50,7 @@
 @end
 
 
-@interface JRAuthenticate : NSObject 
+@interface JRAuthenticate : NSObject <JRConnectionManagerDelegate>
 {
 	JRModalNavigationController *jrModalNavController;
 	

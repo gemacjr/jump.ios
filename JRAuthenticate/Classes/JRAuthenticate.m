@@ -270,7 +270,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 		return singletonJRAuth;
 	
 	return [[JRAuthenticate alloc] initWithAppID:appId 
-									  //andAppName:nil 
 									 andTokenUrl:tokenUrl 
 										delegate:delegate];
 }	
