@@ -62,6 +62,8 @@
 
 
 @implementation DemoViewController
+@synthesize button;
+@synthesize label;
 
 static NSString *appId = @"appcfamhnpkagijaeinl";
 static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";

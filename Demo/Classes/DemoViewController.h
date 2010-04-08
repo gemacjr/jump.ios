@@ -32,7 +32,8 @@
 #import <UIKit/UIKit.h>
 #import "JRAuthenticate.h"
 
-@interface DemoViewController : UIViewController {
+@interface DemoViewController : UIViewController <JRAuthenticateDelegate>
+{
 	JRAuthenticate *jrAuthenticate;
 	
 	UIButton *button;
