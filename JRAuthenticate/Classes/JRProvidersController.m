@@ -168,7 +168,7 @@
 
 - (void)getInfo
 {
-	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"JanRain Authenticate Library\nVersion 0.0.9"
+	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"JanRain Authenticate Library\nVersion 0.1.0"
 														delegate:self
 											   cancelButtonTitle:@"OK"  
 										  destructiveButtonTitle:nil

@@ -302,9 +302,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* Demo */ = {
+		1D6058900D05DD3D006BFB54 /* demo.janrain.authenticate */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Demo" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "demo.janrain.authenticate" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -315,7 +315,7 @@
 			dependencies = (
 				9F5906D4116E82E4006955EF /* PBXTargetDependency */,
 			);
-			name = Demo;
+			name = demo.janrain.authenticate;
 			productName = Demo;
 			productReference = 1D6058910D05DD3D006BFB54 /* Demo.app */;
 			productType = "com.apple.product-type.application";
@@ -338,7 +338,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* Demo */,
+				1D6058900D05DD3D006BFB54 /* demo.janrain.authenticate */,
 			);
 		};
 /* End PBXProject section */
@@ -498,7 +498,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Demo" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "demo.janrain.authenticate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
