@@ -31,6 +31,12 @@
 
 #import "JRWebViewController.h"
 
+@interface JRWebViewController ()
+- (void)handleSuccessfulAuthentication:(NSString*)tok;
+- (void)makeCallToTokenUrlWithToken:(NSString*)tok;
+- (void)webViewWithUrl:(NSURL*)url;
+@end
+
 
 
 @implementation JRWebViewController
@@ -115,7 +121,7 @@
 		[self.view addSubview:powered_by];
 	}
 	
-	[spinner setHidesWhenStopped:YES];
+//	[spinner setHidesWhenStopped:YES];
 
 	[self webViewWithUrl:[sessionData startURL]];
 //	[self makeOpenIDCallWithProvider:sessionData.provider andAddlInfo:sessionData.user_input];
@@ -124,7 +130,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	[[self navigationController].parentViewController dismissModalNavigationController:NO];	
+	[(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
 }
 
 - (void)startProgress
