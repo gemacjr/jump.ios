@@ -98,6 +98,14 @@
 	[self presentModalViewController:navigationController animated:YES];
 }
 
+- (void)restore:(BOOL)animated
+{
+	while ([navigationController.viewControllers count] != 1)
+	{
+		[navigationController popViewControllerAnimated:animated];	
+	}
+}
+
 - (void)viewDidAppear:(BOOL)animated 
 {
 	if (shouldRestore)
@@ -106,13 +114,7 @@
 	shouldRestore = NO;
 }
 
-- (void)restore:(BOOL)animated
-{
-	while ([navigationController.viewControllers count] != 1)
-	{
-		[navigationController popViewControllerAnimated:animated];	
-	}
-}
+
 
 - (void)cancelButtonPressed:(id)sender
 {
