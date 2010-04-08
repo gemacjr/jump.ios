@@ -1,0 +1,142 @@
+{	"providers" :
+	{	
+		"aol" :	
+		{
+			"friendly_name" : "Aol",
+			"url" : "/openid/start",
+			"requires_input" : "YES",
+			"input_prompt" : "Enter your AOL screenname",
+			"openid_identifier" : "http%3A%2F%2Fopenid.aol.com%2F%s"
+		},
+							
+		"blogger" :
+		{
+			"friendly_name" : "Blogger",
+			"url" : "/openid/start",
+			"requires_input" : "YES",
+			"input_prompt" : "Enter your Blogger domain",
+			"openid_identifier" : "%s"
+		},
+		
+		"facebook" :
+		{
+			"friendly_name" : "Facebook",
+			"url" : "/facebook/connect_start"
+			"requires_input" : "NO"
+		},
+		
+		"flickr" :
+		{
+			"friendly_name" : "Flickr",
+			"url" : "/openid/start",
+			"openid_identifier" : "http%3A%2F%2Fflickr.com%2F"
+			"requires_input" : "NO"
+		},
+		
+		"google" :
+		{
+			"friendly_name" : "Google",
+			"url" : "/openid/start",
+			"openid_identifier" : "https%3A%2F%2Fwww.google.com%2Faccounts%2Fo8%2Fid"
+			"requires_input" : "NO"
+		},
+		
+		"hyves" :
+		{
+			"friendly_name" : "Hyves",
+			"url" : "/openid/start",
+			"openid_identifier" : "http%3A%2F%2Fhyves.nl%2F"
+			"requires_input" : "NO"
+		},
+		
+		"linkedin" :
+		{
+			"friendly_name" : "LinkedIn",
+			"url" : "/linkedin/start"
+			"requires_input" : "NO"
+		},
+		
+		"livejournal" :
+		{
+			"friendly_name" : "Livejournal",
+			"url" : "/openid/start",
+			"requires_input" : "YES",
+			"input_prompt" : "Enter your LiveJournal username",
+			"openid_identifier" : "%s"
+		},
+		
+		"myopenid" :
+		{
+			"friendly_name" : "MyOpenID",
+			"url" : "/openid/start"
+			"openid_identifier" : "http%3A%2F%2Fmyopenid.com%2F"
+			"requires_input" : "NO"
+		},
+		
+		"myspace" :
+		{
+			"friendly_name" : "MySpace",
+			"url" : "/myspace/start"
+			"requires_input" : "NO"
+		},
+		
+		"netlog" :
+		{
+			"friendly_name" : "Netlog",
+			"url" : "/openid/start",
+			"requires_input" : "YES",
+			"input_prompt" : "Netlog Nickname",
+			"show_pattern" : true,
+			"pattern" : ["http:\/\/netlog.com\/",""],
+			"openid_identifier" : "http%3A%2F%2Fnetlog.com%2F%s"
+		},
+		
+		"openid" :
+		{
+			"friendly_name" : "OpenID",
+			"url" : "/openid/start",
+			"requires_input" : "YES",
+			"input_prompt" : "OpenID URL",
+			"openid_identifier" : "%s"
+		},
+		
+		"twitter" :
+		{
+			"friendly_name" : "Twitter",
+			"url" : "/twitter/start"
+			"requires_input" : "NO"
+		},
+		
+		"verisign" :
+		{
+			"friendly_name" : "Verisign",
+			"url" : "/openid/start",
+			"openid_identifier" : "http%3A%2F%2Fpip.verisignlabs.com%2F"
+			"requires_input" : "NO"
+		},
+		
+		"live_id" :
+		{
+			"friendly_name" : "Windows Live",
+			"url" : "/liveid/start"
+			"requires_input" : "NO"
+		},
+		
+		"wordpress" :
+		{
+			"friendly_name" : "Wordpress",
+			"url" : "/openid/start",
+			"requires_input" : "YES",
+			"input_prompt" : "Enter your WordPress username",
+			"openid_identifier" : "http%3A%2F%2F%s.wordpress.com"
+		},
+		
+		"yahoo" :
+		{
+			"friendly_name" : "Yahoo!",
+			"url" :	"/openid/start",
+			"openid_identifier" : "http%3A%2F%2Fme.yahoo.com%2F"
+			"requires_input" : "NO"
+		}
+	}	
+}
