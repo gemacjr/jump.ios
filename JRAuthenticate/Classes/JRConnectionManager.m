@@ -128,7 +128,7 @@ static JRConnectionManager* singleton = nil;
 {
 	ConnectionData2* connectionData = nil;
 	
-	for (NSURLConnection* connection in [connectionBuffers allKeys])
+	for (NSURLConnection* connection in [(NSMutableDictionary*)connectionBuffers allKeys])
 	{
 		connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 		[connection cancel];
@@ -142,6 +142,8 @@ static JRConnectionManager* singleton = nil;
 	}
 	
 	CFRelease(connectionBuffers);	
+	
+	[super dealloc];
 }
 
 + (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata
@@ -178,7 +180,7 @@ static JRConnectionManager* singleton = nil;
 	CFMutableDictionaryRef connectionBuffers = connMan.connectionBuffers;
 	ConnectionData2 *connectionData = nil;
 
-	for (NSURLConnection* connection in [connectionBuffers allKeys])
+	for (NSURLConnection* connection in [(NSMutableDictionary*)connectionBuffers allKeys])
 	{
 		connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 		
