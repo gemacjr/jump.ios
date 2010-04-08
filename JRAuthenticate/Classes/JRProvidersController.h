@@ -39,7 +39,11 @@
 @class JRWebViewController;
 @class JRSessionData;
 
-@interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate> 
+@interface JRProvidersController : UIViewController <UINavigationBarDelegate, 
+														UITableViewDelegate, 
+														UITableViewDataSource,
+														UIAlertViewDelegate,
+														UIActionSheetDelegate> 
 {
 	UITableView				*myTableView;
 	UILabel					*myLoadingLabel;

@@ -92,5 +92,9 @@
 @property (readonly) NSURL *startURL;
 
 - (id)initWithBaseUrl:(NSString*)URL;
+- (void)setReturningProviderToProvider:(JRProvider*)provider;
+- (void)setProvider:(NSString *)prov;
+- (void)setCurrentProviderToReturningProvider;
+	
 
 @end
