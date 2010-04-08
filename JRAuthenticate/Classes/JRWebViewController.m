@@ -80,7 +80,7 @@
 {
     [super viewWillAppear:animated];
 	
-	self.title = [NSString stringWithFormat:@"%@", sessionData.currentProvider.friendly_name];
+	self.title = [NSString stringWithFormat:@"%@", sessionData.currentProvider.friendlyName];
 				 // [[sessionData.allProviders objectForKey:sessionData.provider] objectForKey:@"friendly_name"]];
 		
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
@@ -182,7 +182,7 @@
 	
 	cookie = [NSHTTPCookie cookieWithProperties:
 				[NSDictionary dictionaryWithObjectsAndKeys:
-					sessionData.returningProvider.user_input, NSHTTPCookieValue,
+					sessionData.returningProvider.userInput, NSHTTPCookieValue,
 					@"user_input", NSHTTPCookieName,
 					@"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
 					@"/", NSHTTPCookiePath,

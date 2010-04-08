@@ -35,38 +35,34 @@
 @interface JRProvider : NSObject
 {
 	NSString *name;
-	NSString *friendly_name;
-	NSString *placeholder_text;
-	NSString *user_input;
+	NSString *friendlyName;
+	NSString *placeholderText;
+	BOOL providerRequiresInput;
+
+	NSString *userInput;
+	NSString *welcomeString;
 	
-	NSString *welcome_string;
-	
-	NSDictionary *provider_stats;
-	
-	BOOL provider_requires_input;
+	NSDictionary *providerStats;	
 }
 
 @property (readonly) NSString *name;
-@property (readonly) NSString *friendly_name;
-@property (readonly) NSString *placeholder_text;
+@property (readonly) NSString *friendlyName;
+@property (readonly) NSString *placeholderText;
+@property (readonly) BOOL providerRequiresInput;
 
-@property (retain) NSString *user_input;
-@property (retain) NSString *welcome_string;
+@property (retain) NSString *userInput;
+@property (retain) NSString *welcomeString;
 
-@property (readonly) BOOL provider_requires_input;
-
-- (void)setCurrentProviderToReturningProvider;
+//- (void)setCurrentProviderToReturningProvider;
 
 - (JRProvider*)initWithName:(NSString*)nm andStats:(NSDictionary*)stats;
 
 //- (void)setUserInput:(NSString *)ui;
-- (void)setWelcomeString:(NSString *)ws;
-
-
+//- (void)setWelcomeString:(NSString *)ws;
 @end
 
 
-@interface JRSessionData : NSObject 
+@interface JRSessionData : NSObject <JRConnectionManagerDelegate>
 {
 	JRProvider *currentProvider;
 	JRProvider *returningProvider;	

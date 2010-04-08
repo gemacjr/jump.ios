@@ -345,7 +345,7 @@
 
 //	[self loadProviderStats:provider];
 	
-	if (sessionData.currentProvider.provider_requires_input) 
+	if (sessionData.currentProvider.providerRequiresInput) 
 	{		
 		if (!myUserLandingController)
 			myUserLandingController = [JRUserLandingController alloc];

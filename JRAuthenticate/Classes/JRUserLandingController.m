@@ -260,10 +260,10 @@
 
 - (NSString*)customTitle
 {
-	if (!sessionData.currentProvider.provider_requires_input)
+	if (!sessionData.currentProvider.providerRequiresInput)
 		return [NSString stringWithString:@"Welcome Back!"];
 	
-	NSArray *arr = [[sessionData.currentProvider.placeholder_text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsSeparatedByString:@" "];
+	NSArray *arr = [[sessionData.currentProvider.placeholderText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsSeparatedByString:@" "];
 	NSRange subArr = {[arr count] - 2, 2};
 	
 	NSArray *newArr = [arr subarrayWithRange:subArr];
@@ -290,7 +290,7 @@
 		self.navigationItem.titleView = label;
 	}
 	
-	label.text = [NSString stringWithString:sessionData.currentProvider.friendly_name];
+	label.text = [NSString stringWithString:sessionData.currentProvider.friendlyName];
 	
 	
 	if (!bar)
@@ -419,20 +419,20 @@
 	cell.logo.image = [UIImage imageNamed:imagePath];
 	
 
-	if (sessionData.currentProvider.provider_requires_input/* || sessionData.returning_user_input*/)
+	if (sessionData.currentProvider.providerRequiresInput/* || sessionData.returning_userInput*/)
 	{
 //		requiresInput = TRUE;
 		if ([sessionData.currentProvider.name isEqualToString:sessionData.returningProvider.name])
-			[sessionData.currentProvider setUser_input:[NSString stringWithString:sessionData.returningProvider.user_input]];
+			[sessionData.currentProvider setuserInput:[NSString stringWithString:sessionData.returningProvider.userInput]];
 		else
 			[cell.bigSignInButton setHidden:NO];
 		
-		if (sessionData.currentProvider.user_input)
-			cell.textField.text = [NSString stringWithString:sessionData.currentProvider.user_input];
+		if (sessionData.currentProvider.userInput)
+			cell.textField.text = [NSString stringWithString:sessionData.currentProvider.userInput];
 		else
 			cell.textField.text = nil;
 		
-		cell.textField.placeholder = [NSString stringWithString:sessionData.currentProvider.placeholder_text];
+		cell.textField.placeholder = [NSString stringWithString:sessionData.currentProvider.placeholderText];
 		
 		[cell.textField setHidden:NO];
 		[cell.welcomeLabel setHidden:YES];
@@ -441,7 +441,7 @@
 	}
 	else 
 	{
-		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningProvider.welcome_string];
+		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningProvider.welcomeString];
 		cell.welcomeLabel.text = welcomeMsg;
 	}
 
@@ -547,13 +547,13 @@
 
 - (void)callWebView:(UITextField *)textField
 {
-	if (sessionData.currentProvider.provider_requires_input)
+	if (sessionData.currentProvider.providerRequiresInput)
 	{
 		if (textField.text.length > 0)
 		{
 			[textField resignFirstResponder];
 			
-			sessionData.currentProvider.user_input = [NSString stringWithString:textField.text];
+			sessionData.currentProvider.userInput = [NSString stringWithString:textField.text];
 		}
 		else
 		{
@@ -579,8 +579,8 @@
 
 //- (BOOL)textFieldShouldReturn:(UITextField *)textField
 //{
-////	sessionData.user_input = [NSString stringWithString:textField.text];
-////	[sessionData.user_input retain];
+////	sessionData.userInput = [NSString stringWithString:textField.text];
+////	[sessionData.userInput retain];
 //	[textField resignFirstResponder];
 //	return YES;
 //}
@@ -598,12 +598,12 @@
 		
 		if ([jrAuth.theAppName hasSuffix:cookie.domain] &&
 			([cookie.name isEqualToString:@"login_tab"] || 
-			 [cookie.name isEqualToString:@"user_input"]))
+			 [cookie.name isEqualToString:@"userInput"]))
 			[cookieStore deleteCookie:cookie];
 	}	
 
 	[sessionData setProvider:nil];
-//	sessionData.user_input = nil;
+//	sessionData.userInput = nil;
 	
 	[[self navigationController] popViewControllerAnimated:YES];
 }
@@ -613,7 +613,7 @@
 - (void)backToProvidersTouchUpInside
 {
 	[sessionData setProvider:nil];
-//	sessionData.user_input = nil;
+//	sessionData.userInput = nil;
 		
 	[[self navigationController] popViewControllerAnimated:YES];
 }

@@ -33,8 +33,8 @@
 
 @implementation JRProvider
 
-@dynamic friendly_name;
-@dynamic placeholder_text;
+//@dynamic friendlyName;
+//@dynamic placeholderText;
 //@dynamic provider_requires_input;
 //@synthesize provider_requires_input;
 
@@ -42,15 +42,15 @@
 {
 	[super init];
 	
-	provider_stats = [[NSDictionary dictionaryWithDictionary:stats] retain];
+	providerStats = [[NSDictionary dictionaryWithDictionary:stats] retain];
 	name = [nm retain];
 
-	welcome_string = nil;
+	welcomeString = nil;
 	
-	placeholder_text = nil;
-	user_input = nil;
-	friendly_name = nil;
-	provider_requires_input = NO;
+	placeholderText = nil;
+	userInput = nil;
+	friendlyName = nil;
+	providerRequiresInput = NO;
 	
 	return self;
 }
@@ -60,41 +60,41 @@
 	return name;
 }
 
-- (NSString*)friendly_name 
+- (NSString*)friendlyName 
 {
-	return [provider_stats objectForKey:@"friendly_name"];
+	return [providerStats objectForKey:@"friendly_name"];
 }
 
-- (NSString*)placeholder_text
+- (NSString*)placeholderText
 {
-	return [provider_stats objectForKey:@"input_prompt"];
+	return [providerStats objectForKey:@"input_prompt"];
 }
 
-- (NSString*)user_input
+- (NSString*)userInput
 {
-	return user_input;
+	return userInput;
 }
 
-- (void)setUser_input:(NSString*)ui
+- (void)setUserInput:(NSString*)ui
 {
-	user_input = [ui retain];
+	userInput = [ui retain];
 }
 
 - (void)setWelcomeString:(NSString*)ws
 {
-	welcome_string = [ws retain];
+	welcomeString = [ws retain];
 }
 
-- (NSString*)welcome_string
+- (NSString*)welcomeString
 {
-	return welcome_string;
+	return welcomeString;
 }
 
 
 
-- (BOOL)provider_requires_input
+- (BOOL)providerRequiresInput
 {
-	if ([[provider_stats objectForKey:@"requires_input"] isEqualToString:@"YES"])
+	if ([[providerStats objectForKey:@"requires_input"] isEqualToString:@"YES"])
 		 return YES;
 		
 	return NO;
@@ -102,10 +102,10 @@
 
 - (void)dealloc
 {
-	[provider_stats release];
+	[providerStats release];
 	[name release];
-	[welcome_string release];
-	[user_input release];
+	[welcomeString release];
+	[userInput release];
 	
 	[super dealloc];
 }
@@ -181,16 +181,16 @@
 
 - (NSURL*)startURL
 {
-	NSDictionary *provider_stats = [allProviders objectForKey:currentProvider.name];
+	NSDictionary *providerStats = [allProviders objectForKey:currentProvider.name];
 	NSMutableString *oid;
 	
-	if ([provider_stats objectForKey:@"openid_identifier"])
+	if ([providerStats objectForKey:@"openid_identifier"])
 	{
-		oid = [NSMutableString stringWithString:[provider_stats objectForKey:@"openid_identifier"]];
+		oid = [NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
 		
-		if(currentProvider.user_input)
+		if(currentProvider.userInput)
 		{
-			[oid replaceOccurrencesOfString:@"%s" withString:[currentProvider.user_input stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] options:NSLiteralSearch range:NSMakeRange(0, [oid length])];
+			[oid replaceOccurrencesOfString:@"%s" withString:[currentProvider.userInput stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] options:NSLiteralSearch range:NSMakeRange(0, [oid length])];
 		}
 		oid = [[@"openid_identifier=" stringByAppendingString:oid] stringByAppendingString:@"&"];
 	}
@@ -199,10 +199,9 @@
 		oid = [NSMutableString stringWithString:@""];
 	}
 	
-	NSString* str = [NSString stringWithFormat:@"%@%@?%@device=iphone", baseURL, [provider_stats objectForKey:@"url"], oid];
-	printf("\nurl string: %s\n", [str cString]);
+	NSString* str = [NSString stringWithFormat:@"%@%@?%@device=iphone", baseURL, [providerStats objectForKey:@"url"], oid];
 	
-	return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?%@device=iphone", baseURL, [provider_stats objectForKey:@"url"], oid]];
+	return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?%@device=iphone", baseURL, [providerStats objectForKey:@"url"], oid]];
 }
 
 
@@ -211,9 +210,9 @@
 	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseURL]];
 	
-	NSString *welcome_string = nil;
+	NSString *welcomeString = nil;
 	NSString *provider = nil;
-	NSString *user_input = nil;
+	NSString *userInput = nil;
 		
 	for (NSHTTPCookie *cookie in cookies) 
 	{
@@ -221,7 +220,7 @@
 //		{
 			if ([cookie.name isEqualToString:@"welcome_info"])
 			{
-				welcome_string = [NSString stringWithString:cookie.value];
+				welcomeString = [NSString stringWithString:cookie.value];
 			}
 			else if ([cookie.name isEqualToString:@"login_tab"])
 			{
@@ -229,7 +228,7 @@
 			}
 			else if ([cookie.name isEqualToString:@"user_input"])
 			{
-				user_input = [NSString stringWithString:cookie.value];
+				userInput = [NSString stringWithString:cookie.value];
 			}
 //		}
 	}	
@@ -238,10 +237,10 @@
 	{
 		returningProvider = [[JRProvider alloc] initWithName:provider andStats:[allProviders objectForKey:provider]];
 		
-		if (welcome_string)
-			[returningProvider setWelcomeString:welcome_string];
-		if (user_input)
-			[returningProvider setUser_input:user_input];
+		if (welcomeString)
+			[returningProvider setWelcomeString:welcomeString];
+		if (userInput)
+			[returningProvider setUserInput:userInput];
 		
 //		currentProvider = [returningProvider retain];
 	}
