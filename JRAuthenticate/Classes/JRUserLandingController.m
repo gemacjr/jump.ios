@@ -83,7 +83,7 @@
 		[forgetUserButton setFrame:CGRectMake(188, 62, 85, 33)];
 		
 		[forgetUserButton setBackgroundImage:[UIImage imageNamed:@"forget_me_button.png"] forState:UIControlStateNormal];
-		[forgetUserButton setFont:[UIFont systemFontOfSize:13.0]];
+		forgetUserButton.titleLabel.font = [UIFont systemFontOfSize:13.0];
 		forgetUserButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 9, 0);
 		[forgetUserButton setTitle:@"forget me" forState:UIControlStateNormal];
 		[forgetUserButton setTitleColor:[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:0.8]//blueColor] 
@@ -133,7 +133,7 @@
 		[signInButton setFrame:CGRectMake(165, 128, 135, 38)];
 		
 		[signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button.png"] forState:UIControlStateNormal];
-		[signInButton setFont:[UIFont boldSystemFontOfSize:20.0]];
+		signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 		[signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
 		[signInButton setTitleColor:[UIColor whiteColor] 
 						   forState:UIControlStateNormal];
@@ -159,7 +159,7 @@
 		[backToProvidersButton setFrame:CGRectMake(20, 128, 135, 38)];
 		
 		[backToProvidersButton setBackgroundImage:[UIImage imageNamed:@"black_button.png"] forState:UIControlStateNormal];
-		[backToProvidersButton setFont:[UIFont boldSystemFontOfSize:14.0]];
+		backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		[backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateNormal];
 		[backToProvidersButton setTitleColor:[UIColor whiteColor] 
 									forState:UIControlStateNormal];
@@ -184,7 +184,7 @@
 		[bigSignInButton setFrame:CGRectMake(20, 128, 280, 38)];
 		
 		[bigSignInButton setBackgroundImage:[UIImage imageNamed:@"big_blue_button.png"] forState:UIControlStateNormal];
-		[bigSignInButton setFont:[UIFont boldSystemFontOfSize:20.0]];
+		bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 		[bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
 		[bigSignInButton setTitleColor:[UIColor whiteColor] 
 						   forState:UIControlStateNormal];
@@ -230,7 +230,19 @@
 @end
 
 
+
+@interface JRUserLandingController ()
+- (NSString*)customTitle;
+- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString;
+- (NSString*)validateText:(NSString*)textFieldText;
+- (void)callWebView:(UITextField *)textField;
+@end
+
+
+
 @implementation JRUserLandingController
+
+@synthesize myTableView;
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -423,7 +435,7 @@
 	{
 //		requiresInput = TRUE;
 		if ([sessionData.currentProvider.name isEqualToString:sessionData.returningProvider.name])
-			[sessionData.currentProvider setuserInput:[NSString stringWithString:sessionData.returningProvider.userInput]];
+			[sessionData.currentProvider setUserInput:[NSString stringWithString:sessionData.returningProvider.userInput]];
 		else
 			[cell.bigSignInButton setHidden:NO];
 		
@@ -636,7 +648,7 @@
 	[jrAuth	release];
 	[myTableView release];
 	[myWebViewController release];
-	[provider release];
+//	[provider release];
 	
     [super dealloc];
 }

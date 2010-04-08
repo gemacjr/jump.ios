@@ -44,7 +44,7 @@
 	UITableView				*myTableView;
 	JRWebViewController		*myWebViewController;
 	
-	NSString				*provider;
+//	NSString				*provider;
 	
 	BOOL requiresInput;
 	
@@ -55,7 +55,7 @@
 	JRSessionData	*sessionData;
 }
 
-@property (nonatomic, retain) NSString *provider;
+//@property (nonatomic, retain) NSString *provider;
 
 
 - (void)backToProvidersTouchUpInside;
@@ -67,6 +67,6 @@
 - (BOOL)textFieldShouldClear:(UITextField *)textField;
 
 @property (nonatomic, retain) IBOutlet UITableView *myTableView;
-@property (nonatomic, retain) IBOutlet JRWebViewController *myWebViewController;
+//@property (nonatomic, retain) IBOutlet JRWebViewController *myWebViewController;
 
 @end
