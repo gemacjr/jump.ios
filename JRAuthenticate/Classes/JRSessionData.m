@@ -90,8 +90,6 @@
 	return welcomeString;
 }
 
-
-
 - (BOOL)providerRequiresInput
 {
 	if ([[providerStats objectForKey:@"requires_input"] isEqualToString:@"YES"])
@@ -111,17 +109,21 @@
 }
 @end
 
+@interface JRSessionData()
+- (void)startGetConfiguredProviders;
+- (void)finishGetConfiguredProviders:(NSString*)dataStr;
+
+- (void)startGetAllProviders;
+- (void)finishGetAllProviders:(NSString*)dataStr;
+
+- (void)loadAllProviders;
+- (void)loadCookieData;
+@end
+
+
 
 @implementation JRSessionData
-
-//@synthesize provider;
-//@synthesize placeholder_text;
-//@synthesize user_input;
-//@synthesize provider_requires_input;
-//
-//@synthesize welcome_string;
-//@synthesize returning_provider;
-//@synthesize returning_user_input;
+@synthesize errorStr;
 
 @synthesize allProviders;
 @synthesize configedProviders;
@@ -137,16 +139,7 @@
 		
 		currentProvider = nil;
 		returningProvider = nil;
-		
-//		provider = nil;
-//		placeholder_text = nil;
-//		user_input = nil;
-//		provider_requires_input = NO;
-		
-//		welcome_string = nil;
-//		returning_provider = nil;
-//		returning_user_input = nil;
-		
+	
 		allProviders = nil;
 		configedProviders = nil;
 	
@@ -161,14 +154,6 @@
 
 - (void)dealloc 
 {
-//	[provider release];
-//	[placeholder_text release];
-//	[user_input release];
-//	
-//	[welcome_string release];
-//	[returning_provider release];
-//	[returning_user_input release];
-	
 	[allProviders release];
 	[configedProviders release];
 	
@@ -201,7 +186,7 @@
 	
 	NSString* str = [NSString stringWithFormat:@"%@%@?%@device=iphone", baseURL, [providerStats objectForKey:@"url"], oid];
 	
-	return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?%@device=iphone", baseURL, [providerStats objectForKey:@"url"], oid]];
+	return [NSURL URLWithString:str];
 }
 
 
@@ -355,18 +340,7 @@
 {
 	NSString* tag = (NSString*)userdata;
 	
-	if ([tag isEqualToString:@"getBaseURL"])
-	{
-		if ([payload hasPrefix:@"RPXNOW._base_cb(true"])
-		{
-			[self finishGetBaseUrl:payload];
-		}
-		else // There was an error...
-		{
-			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
-		}
-	}
-	else if ([tag isEqualToString:@"getConfiguredProviders"])
+	if ([tag isEqualToString:@"getConfiguredProviders"])
 	{
 		if ([payload rangeOfString:@"\"provider_info\":{"].length != 0)
 		{
