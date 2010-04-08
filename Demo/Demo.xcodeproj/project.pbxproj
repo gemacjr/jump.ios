@@ -445,6 +445,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = Demo;
+				SDKROOT = iphoneos3.1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
 			name = Debug;
@@ -463,6 +464,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = Demo;
+				SDKROOT = iphoneos3.1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
 			name = Release;
