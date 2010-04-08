@@ -198,6 +198,13 @@
 								 forState:UIControlStateSelected];	
 		[bigSignInButton setReversesTitleShadowWhenHighlighted:YES];
 		
+		[bigSignInButton setBackgroundImage:@"jrauth_google_logo.png" forState:UIControlStateDisabled];
+		[bigSignInButton setTitle:@"Sign In" forState:UIControlStateDisabled];
+		[bigSignInButton setTitleColor:[UIColor whiteColor] 
+							  forState:UIControlStateDisabled];	
+		[bigSignInButton setTitleShadowColor:[UIColor grayColor]
+									forState:UIControlStateDisabled];	
+		
 		[bigSignInButton addTarget:targetForSelector
 						 action:@selector(signInButtonTouchUpInside:) 
 			   forControlEvents:UIControlEventTouchUpInside];
@@ -279,11 +286,12 @@
 		label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
 		label.textAlignment = UITextAlignmentCenter;
 		label.textColor = [UIColor whiteColor];
-		label.text = [NSString stringWithString:sessionData.currentProvider.friendly_name];
-					//  [[sessionData.allProviders objectForKey:sessionData.provider] objectForKey:@"friendly_name"]];
-		
+
 		self.navigationItem.titleView = label;
 	}
+	
+	label.text = [NSString stringWithString:sessionData.currentProvider.friendly_name];
+	
 	
 	if (!bar)
 	{
@@ -443,7 +451,9 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	[tableView deselectRowAtIndexPath:indexPath animated:NO];
     // Navigation logic may go here. Create and push another view controller.
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
 	// [self.navigationController pushViewController:anotherViewController];
@@ -503,10 +513,12 @@
 	if (range.location == 0 && string.length == 0)
 	{
 		[cell.signInButton setEnabled:NO];
+		[cell.bigSignInButton setEnabled:NO];
 	}
 	if (range.location == 0 && string.length != 0)
 	{
 		[cell.signInButton setEnabled:YES];
+		[cell.bigSignInButton setEnabled:YES];
 	}
 	
 	return YES;
@@ -516,10 +528,17 @@
 {
 	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
 	[cell.signInButton setEnabled:NO];
+	[cell.bigSignInButton setEnabled:NO];
 	
 	return YES;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[self callWebView:textField];
+	
+	return YES;
+}
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -555,16 +574,16 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-	[self callWebView:textField];
+//	[self callWebView:textField];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-//	sessionData.user_input = [NSString stringWithString:textField.text];
-//	[sessionData.user_input retain];
-	[textField resignFirstResponder];
-	return YES;
-}
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+////	sessionData.user_input = [NSString stringWithString:textField.text];
+////	[sessionData.user_input retain];
+//	[textField resignFirstResponder];
+//	return YES;
+//}
 
 - (void)forgetUserTouchUpInside
 {
@@ -604,9 +623,9 @@
 	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[button superview];// (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
 	UITextField *textField = cell.textField;
 
-	if ([textField isFirstResponder])
-		[self.view endEditing:YES];
-	else
+//	if ([textField isFirstResponder])
+//		[self.view endEditing:YES];
+//	else
 		[self callWebView:textField];
 }
 
