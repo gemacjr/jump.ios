@@ -167,6 +167,9 @@ static JRConnectionManager* singleton = nil;
 	[connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[connection start];
 	
+	UIApplication* app = [UIApplication sharedApplication]; 
+	app.networkActivityIndicatorVisible = YES;
+	
 	[request release];
 	[connection release];
 	[connectionData release];
@@ -210,6 +213,12 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection 
 {
+	if ([(NSDictionary*)connectionBuffers count] == 1)
+	{
+		UIApplication* app = [UIApplication sharedApplication]; 
+		app.networkActivityIndicatorVisible = NO;
+	}
+	
 	ConnectionData2 *connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 	
 	NSURLRequest *request = [connectionData request];
@@ -225,6 +234,12 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error 
 {
+	if ([(NSDictionary*)connectionBuffers count] == 1)
+	{
+		UIApplication* app = [UIApplication sharedApplication]; 
+		app.networkActivityIndicatorVisible = NO;
+	}
+	
 	printf("\nconnection(%p) didFailWithError\n", connection);
 	ConnectionData2 *connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 	

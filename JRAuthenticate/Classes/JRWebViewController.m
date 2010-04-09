@@ -135,12 +135,16 @@
 
 - (void)startProgress
 { 
+	UIApplication* app = [UIApplication sharedApplication]; 
+	app.networkActivityIndicatorVisible = YES;
 //	[grayView setHidden:NO];
 //	[spinner startAnimating];
 }
 
 - (void)stopProgress
 {
+	UIApplication* app = [UIApplication sharedApplication]; 
+	app.networkActivityIndicatorVisible = NO;
 //	[spinner stopAnimating];
 //	[grayView setHidden:YES];
 }
