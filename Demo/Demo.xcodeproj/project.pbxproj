@@ -16,6 +16,8 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* DemoViewController.m */; };
 		9F5906D2116E82D9006955EF /* libJRAuthenticate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F5906D1116E82BB006955EF /* libJRAuthenticate.a */; };
+		9F5908D1116F9316006955EF /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F5908D0116F9316006955EF /* Entitlements.plist */; };
+		9F5908DB116F9470006955EF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F5908DA116F9470006955EF /* icon.png */; };
 		9F9F07B1116D6249007EEDDE /* big_blue_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F0783116D6249007EEDDE /* big_blue_button.png */; };
 		9F9F07B2116D6249007EEDDE /* black_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F0784116D6249007EEDDE /* black_button.png */; };
 		9F9F07B3116D6249007EEDDE /* blue_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F0785116D6249007EEDDE /* blue_button.png */; };
@@ -65,14 +67,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 9F5906CC116E82BB006955EF /* JRAuthenticate.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D /* libJRAuthenticate.a */;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
 			remoteInfo = JRAuthenticate;
 		};
 		9F5906D3116E82E4006955EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9F5906CC116E82BB006955EF /* JRAuthenticate.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D /* JRAuthenticate */;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = JRAuthenticate;
 		};
 /* End PBXContainerItemProxy section */
@@ -92,6 +94,8 @@
 		32CA4F630368D1EE00C91783 /* Demo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Demo-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		9F5906CC116E82BB006955EF /* JRAuthenticate.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JRAuthenticate.xcodeproj; path = ../JRAuthenticate/JRAuthenticate.xcodeproj; sourceTree = SOURCE_ROOT; };
+		9F5908D0116F9316006955EF /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		9F5908DA116F9470006955EF /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		9F9F0783116D6249007EEDDE /* big_blue_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = big_blue_button.png; sourceTree = "<group>"; };
 		9F9F0784116D6249007EEDDE /* black_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_button.png; sourceTree = "<group>"; };
 		9F9F0785116D6249007EEDDE /* blue_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_button.png; sourceTree = "<group>"; };
@@ -197,6 +201,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9F5908DA116F9470006955EF /* icon.png */,
+				9F5908D0116F9316006955EF /* Entitlements.plist */,
 				9F9F0781116D6249007EEDDE /* assets */,
 				9F9F07AD116D6249007EEDDE /* JRProvidersController.xib */,
 				9F9F07AE116D6249007EEDDE /* JRUserLandingController.xib */,
@@ -302,9 +308,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* demo.janrain.authenticate */ = {
+		1D6058900D05DD3D006BFB54 /* Demo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "demo.janrain.authenticate" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Demo" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -315,7 +321,7 @@
 			dependencies = (
 				9F5906D4116E82E4006955EF /* PBXTargetDependency */,
 			);
-			name = demo.janrain.authenticate;
+			name = Demo;
 			productName = Demo;
 			productReference = 1D6058910D05DD3D006BFB54 /* Demo.app */;
 			productType = "com.apple.product-type.application";
@@ -338,7 +344,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* demo.janrain.authenticate */,
+				1D6058900D05DD3D006BFB54 /* Demo */,
 			);
 		};
 /* End PBXProject section */
@@ -402,6 +408,8 @@
 				9F9F07DA116D6249007EEDDE /* JRUserLandingController.xib in Resources */,
 				9F9F07DB116D6249007EEDDE /* JRWebViewController.xib in Resources */,
 				9F9F07DC116D6249007EEDDE /* provider_list.json in Resources */,
+				9F5908D1116F9316006955EF /* Entitlements.plist in Resources */,
+				9F5908DB116F9470006955EF /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +442,8 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/${PLATFORM_NAME}.sdk";
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lilli Szafranski (QWMWM2H3HW)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -445,6 +455,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = Demo;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7304DCC5-8EF1-4316-BA46-00358E9F013C";
 				SDKROOT = iphoneos3.1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
@@ -455,6 +466,8 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/${PLATFORM_NAME}.sdk";
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
@@ -464,10 +477,47 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = Demo;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F454B76-32EB-4DB7-97BC-EA11298BC5E9";
 				SDKROOT = iphoneos3.1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
 			name = Release;
+		};
+		9F5908C7116F921F006955EF /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos3.1.3;
+			};
+			name = Distribution;
+		};
+		9F5908C8116F921F006955EF /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/${PLATFORM_NAME}.sdk";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Demo_Prefix.pch;
+				INFOPLIST_FILE = "Demo-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = Demo;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C575B195-D3FD-462B-84FE-2A8C62622F1C";
+				SDKROOT = iphoneos3.1;
+				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
+			};
+			name = Distribution;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -498,11 +548,12 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "demo.janrain.authenticate" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				9F5908C8116F921F006955EF /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -512,6 +563,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				9F5908C7116F921F006955EF /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

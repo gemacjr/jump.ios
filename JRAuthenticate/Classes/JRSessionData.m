@@ -48,6 +48,7 @@
 	welcomeString = nil;
 	
 	placeholderText = nil;
+	shortText = nil;
 	userInput = nil;
 	friendlyName = nil;
 	providerRequiresInput = NO;
@@ -68,6 +69,22 @@
 - (NSString*)placeholderText
 {
 	return [providerStats objectForKey:@"input_prompt"];
+}
+
+- (NSString*)shortText
+{
+	if (self.providerRequiresInput)
+	{
+		NSArray *arr = [[self.placeholderText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsSeparatedByString:@" "];
+		NSRange subArr = {[arr count] - 2, 2};
+		
+		NSArray *newArr = [arr subarrayWithRange:subArr];
+		return [newArr componentsJoinedByString:@" "];	
+	}
+	else 
+	{
+		return @"";
+	}
 }
 
 - (NSString*)userInput

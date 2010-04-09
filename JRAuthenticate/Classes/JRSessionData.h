@@ -37,6 +37,7 @@
 	NSString *name;
 	NSString *friendlyName;
 	NSString *placeholderText;
+	NSString *shortText;
 	BOOL providerRequiresInput;
 
 	NSString *userInput;
@@ -47,6 +48,7 @@
 
 @property (readonly) NSString *name;
 @property (readonly) NSString *friendlyName;
+@property (readonly) NSString *shortText;
 @property (readonly) NSString *placeholderText;
 @property (readonly) BOOL providerRequiresInput;
 

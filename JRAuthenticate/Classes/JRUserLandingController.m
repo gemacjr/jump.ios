@@ -274,12 +274,13 @@
 {
 	if (!sessionData.currentProvider.providerRequiresInput)
 		return [NSString stringWithString:@"Welcome Back!"];
-	
-	NSArray *arr = [[sessionData.currentProvider.placeholderText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsSeparatedByString:@" "];
-	NSRange subArr = {[arr count] - 2, 2};
-	
-	NSArray *newArr = [arr subarrayWithRange:subArr];
-	return [newArr componentsJoinedByString:@" "];	
+
+	return sessionData.currentProvider.shortText;
+//	NSArray *arr = [[sessionData.currentProvider.placeholderText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsSeparatedByString:@" "];
+//	NSRange subArr = {[arr count] - 2, 2};
+//	
+//	NSArray *newArr = [arr subarrayWithRange:subArr];
+//	return [newArr componentsJoinedByString:@" "];	
 }
 
 - (void)viewWillAppear:(BOOL)animated 

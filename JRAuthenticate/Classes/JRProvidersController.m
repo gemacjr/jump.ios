@@ -100,10 +100,10 @@
 		label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
 		label.textAlignment = UITextAlignmentCenter;
 		label.textColor = [UIColor whiteColor];
-		label.text = NSLocalizedString(@"Sign in with...", @"");
 
 		self.navigationItem.titleView = label;
 	}	
+	label.text = NSLocalizedString(@"Sign in with...", @"");
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel

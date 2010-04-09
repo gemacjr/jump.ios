@@ -130,7 +130,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	[(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
+//	[(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
 }
 
 - (void)startProgress
@@ -236,12 +236,24 @@
 		}
 		else 
 		{
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Authentication Error"
-															message:@"There seems to be a problem authenticating.  Please try again later."
-														   delegate:self
-												  cancelButtonTitle:@"OK" 
-												  otherButtonTitles:nil];
-			[alert show];
+			if ([[payloadDict objectForKey:@"error"] isEqualToString:@"Discovery failed for the OpenID you entered"])
+			{
+				NSString *message = nil;
+				if (sessionData.currentProvider.providerRequiresInput)
+					message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.", sessionData.currentProvider.shortText];
+				else
+					message = @"There was a problem authenticating with this provider. Please try again.";
+					
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
+																message:message
+															   delegate:self
+													  cancelButtonTitle:@"OK" 
+													  otherButtonTitles:nil];
+				
+				[[self navigationController] popViewControllerAnimated:YES];
+
+				[alert show];
+			}
 		}
 	}
 	else if ([tag isEqualToString:@"token_url_payload"])
