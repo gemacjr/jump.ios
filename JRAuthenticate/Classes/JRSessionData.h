@@ -77,6 +77,8 @@
 	NSString *baseURL;
 	
 	NSString *errorStr;
+
+	BOOL forceReauth;
 }
 
 @property (readonly) NSString *errorStr;
@@ -88,6 +90,7 @@
 @property (readonly) NSArray *configedProviders;
 
 @property (readonly) NSURL *startURL;
+@property (assign) BOOL forceReauth;
 
 - (id)initWithBaseUrl:(NSString*)URL;
 - (void)setReturningProviderToProvider:(JRProvider*)provider;

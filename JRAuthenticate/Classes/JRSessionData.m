@@ -148,6 +148,8 @@
 @synthesize currentProvider;
 @synthesize returningProvider;
 
+@synthesize forceReauth;
+
 - (id)initWithBaseUrl:(NSString*)URL
 {
 	if (self = [super init]) 
@@ -161,6 +163,7 @@
 		configedProviders = nil;
 	
 		errorStr = nil;
+		forceReauth = NO;
 		
 		[self startGetConfiguredProviders];
 		[self loadAllProviders];
@@ -201,7 +204,9 @@
 		oid = [NSMutableString stringWithString:@""];
 	}
 	
-	NSString* str = [NSString stringWithFormat:@"%@%@?%@device=iphone", baseURL, [providerStats objectForKey:@"url"], oid];
+	NSString* str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", baseURL, [providerStats objectForKey:@"url"], oid, ((forceReauth)? @"force_reauth=true&" : @"")];
+	
+	forceReauth = NO;
 	
 	return [NSURL URLWithString:str];
 }
