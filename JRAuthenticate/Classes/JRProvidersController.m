@@ -168,7 +168,7 @@
 
 - (void)getInfo
 {
-	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"JanRain Authenticate Library\nVersion 0.1.0"
+	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"JanRain Authenticate Library\nVersion 0.1.5"
 														delegate:self
 											   cancelButtonTitle:@"OK"  
 										  destructiveButtonTitle:nil
@@ -345,7 +345,7 @@
 
 //	[self loadProviderStats:provider];
 	
-	if (sessionData.currentProvider.providerRequiresInput) 
+	if (sessionData.currentProvider.providerRequiresInput || [provider isEqualToString:sessionData.returningProvider.name]) 
 	{		
 		if (!myUserLandingController)
 			myUserLandingController = [JRUserLandingController alloc];

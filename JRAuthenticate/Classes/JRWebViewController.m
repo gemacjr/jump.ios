@@ -255,6 +255,7 @@
 													  otherButtonTitles:nil];
 				
 				[[self navigationController] popViewControllerAnimated:YES];
+				[[self navigationController] popViewControllerAnimated:YES];
 
 				[alert show];
 			}

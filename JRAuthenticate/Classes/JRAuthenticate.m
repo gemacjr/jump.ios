@@ -130,8 +130,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	[theAppName retain];
 	
-//	[theAppId retain];
-	
 	sessionData = [[JRSessionData alloc] initWithBaseUrl:theAppName];
 }
 
@@ -150,18 +148,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
 		}
 	}
-//	else if ([tag isEqualToString:@"getConfiguredProviders"])
-//	{
-//		if ([payload rangeOfString:@"\"provider_info\":{"].length != 0)
-//		{
-//			[self finishGetConfiguredProviders:payload];
-//		}
-//		else // There was an error...
-//		{
-//			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
-//		}
-//	}
-	
+
 	[tag release];	
 }
 
@@ -186,29 +173,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[(NSString*)userdata release];
 }
 
-
-//- (JRAuthenticate*)init
-//{	
-//	if (self = [super init]) 
-//	{
-//		singletonJRAuth = self;
-//		
-//		delegates = nil;
-//		
-//		theAppId = nil;
-//		theAppName = nil;
-//		theTokenUrl = nil;
-//		
-//		errorStr = nil;
-//	
-//		sessionData = nil;
-//	}
-//	
-//	return singletonJRAuth;
-//}
-
 - (JRAuthenticate*)initWithAppID:(NSString*)appId 
-					 // andAppName:(NSString*)appName 
 					 andTokenUrl:(NSString*)tokenUrl 
 						delegate:(id<JRAuthenticateDelegate>)delegate
 {
@@ -223,44 +188,15 @@ static JRAuthenticate* singletonJRAuth = nil;
 		singletonJRAuth = self;
 		
 		delegates = [[NSArray alloc] initWithObjects:[delegate retain], nil];
-//		[delegates retain];
 		
-		theAppId = [[NSString alloc] initWithString:appId];	//(appId) ? [NSString stringWithString:appId] : nil;
+		theAppId = [[NSString alloc] initWithString:appId];
 		theTokenUrl = (tokenUrl) ? [[NSString alloc] initWithString:tokenUrl] : nil;
-//		theAppName = (appName) ? [NSString stringWithString:appName] : nil;
-			
-	//	if(!appName)
-			[self startGetBaseUrl];
-	//	else
-	//		sessionData = [[JRSessionData alloc] initWithBaseUrl:appName];
+
+		[self startGetBaseUrl];
 	}	
 		
 	return self;
 }
-
-//+ (JRAuthenticate*)initWithAppID:(NSString*)appId 
-//						delegate:(id<JRAuthenticateDelegate>)delegate
-//{
-//	if(singletonJRAuth)
-//		return singletonJRAuth;
-//	
-//	return [[JRAuthenticate alloc] initWithAppID:appId 
-//									  andAppName:nil 
-//									 andTokenUrl:nil 
-//										delegate:delegate];
-//}	
-//
-//+ (JRAuthenticate*)initWithAppName:(NSString*)appName
-//						  delegate:(id<JRAuthenticateDelegate>)delegate
-//{
-//	if(singletonJRAuth)
-//		return singletonJRAuth;
-//	
-//	return [[JRAuthenticate alloc] initWithAppID:nil 
-//									  andAppName:appName 
-//									 andTokenUrl:nil 
-//										delegate:delegate];
-//}
 
 + (JRAuthenticate*)initWithAppID:(NSString*)appId 
 					 andTokenUrl:(NSString*)tokenUrl
@@ -273,20 +209,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 									 andTokenUrl:tokenUrl 
 										delegate:delegate];
 }	
-
-//+ (JRAuthenticate*)initWithAppName:(NSString*)appName 
-//					   andTokenUrl:(NSString*)tokenUrl
-//						  delegate:(id<JRAuthenticateDelegate>)delegate
-//{
-//	if(singletonJRAuth)
-//		return singletonJRAuth;
-//	
-//	return [[JRAuthenticate alloc] initWithAppID:nil 
-//									  andAppName:appName 
-//									 andTokenUrl:tokenUrl 
-//										delegate:delegate];
-//}
-
 
 - (void)didCompleteAuthentication:(NSDictionary*)userInfo
 {
@@ -305,7 +227,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 	
 	[jrModalNavController dismissModalNavigationController:YES];
-//	[jrModalNavController restore];
 }
 
 - (void)didReachTokenURL:(NSString*)payload
