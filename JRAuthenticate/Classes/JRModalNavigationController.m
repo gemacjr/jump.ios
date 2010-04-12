@@ -37,6 +37,9 @@
 @synthesize navigationController;
 @synthesize sessionData;
 
+@synthesize myUserLandingController;
+@synthesize myWebViewController;
+
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -77,6 +80,14 @@
 								  initWithNibName:@"JRProvidersController" 
 								  bundle:[NSBundle mainBundle]] autorelease]];
 	}
+	
+	myUserLandingController = [[JRUserLandingController alloc]
+							   initWithNibName:@"JRUserLandingController"
+							   bundle:[NSBundle mainBundle]];
+	
+	myWebViewController = [[JRWebViewController alloc]
+							   initWithNibName:@"JRWebViewController"
+							   bundle:[NSBundle mainBundle]];
 	
 	[view setHidden:YES];
 	[self setView:view];

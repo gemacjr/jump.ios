@@ -304,11 +304,18 @@
 	[myTableView reloadData];
 }
 
-/*
+
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+	NSArray *vcs = [self navigationController].viewControllers;
+	printf("\nvc list\n");	
+	for (NSObject *vc in vcs)
+	{
+		printf("vc: %s\n", [[vc description] cString] );
+	}
+    
+	[super viewDidAppear:animated];
 }
-*/
+ 
 /*
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
@@ -543,10 +550,15 @@
 			return;
 		}
 	}
+
+	[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+										   animated:YES]; 
 	
-	myWebViewController = [JRWebViewController alloc];
 	
-	[[self navigationController] pushViewController:myWebViewController animated:YES];
+	
+//	myWebViewController = [JRWebViewController alloc];
+//	
+//	[[self navigationController] pushViewController:myWebViewController animated:YES];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField

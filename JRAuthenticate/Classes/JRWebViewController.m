@@ -57,6 +57,18 @@
 }
 */
 
+- (void)viewDidAppear:(BOOL)animated {
+	NSArray *vcs = [self navigationController].viewControllers;
+	printf("\nvc list\n");	
+	for (NSObject *vc in vcs)
+	{
+		printf("vc: %s\n", [[vc description] cString] );
+	}
+    
+	[self webViewWithUrl:[sessionData startURL]];
+	
+	[super viewDidAppear:animated];
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
@@ -119,8 +131,6 @@
 		powered_by.text = @"Powered by RPX";
 		[self.view addSubview:powered_by];
 	}
-	
-	[self webViewWithUrl:[sessionData startURL]];
 }
 
 
@@ -237,8 +247,15 @@
 													  otherButtonTitles:nil];
 				
 				[[self navigationController] popViewControllerAnimated:YES];
-				[[self navigationController] popViewControllerAnimated:YES];
+//				[[self navigationController] popViewControllerAnimated:YES];
 
+//				NSArray *vcs = [self navigationController].viewControllers;
+//				
+//				for (NSObject *vc in vcs)
+//				{
+//					printf("vc: %s\n", [[vc description] cString] );
+//				}
+				
 				[alert show];
 			}
 		}

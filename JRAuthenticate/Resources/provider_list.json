@@ -37,7 +37,8 @@
 		{
 			"friendly_name" : "Google",
 			"url" : "/openid/start",
-			"openid_identifier" : "https%3A%2F%2Fwww.google.com%2Faccounts%2Fo8%2Fid",
+			"openid_identifier" : "foo"
+			"bar" : "https%3A%2F%2Fwww.google.com%2Faccounts%2Fo8%2Fid",
 			"requires_input" : "NO"
 		},
 		

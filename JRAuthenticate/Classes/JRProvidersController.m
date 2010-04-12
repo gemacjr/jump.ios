@@ -221,6 +221,18 @@
 	[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(checkProviders:) userInfo:nil repeats:NO];
 }
 
+
+- (void)viewDidAppear:(BOOL)animated {
+	NSArray *vcs = [self navigationController].viewControllers;
+	printf("\nvc list\n");
+	for (NSObject *vc in vcs)
+	{
+		printf("vc: %s\n", [[vc description] cString] );
+	}
+    
+	[super viewDidAppear:animated];
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
@@ -245,9 +257,15 @@
 
 //		[sessionData setProvider:[NSString stringWithString:sessionData.returning_provider]];
 		[sessionData setCurrentProviderToReturningProvider];
-		myUserLandingController = [JRUserLandingController alloc];
 		
-		[[self navigationController] pushViewController:myUserLandingController animated:NO];
+		
+		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+												animated:NO]; 
+
+		
+//		myUserLandingController = [JRUserLandingController alloc];
+//		
+//		[[self navigationController] pushViewController:myUserLandingController animated:NO];
 	}
 	
 	[myTableView reloadData];
@@ -319,20 +337,28 @@
 	
 	NSString *provider = [sessionData.configedProviders objectAtIndex:indexPath.row];
 	[sessionData setProvider:[NSString stringWithString:provider]];
-
+	
 	if (sessionData.currentProvider.providerRequiresInput || [provider isEqualToString:sessionData.returningProvider.name]) 
-	{		
-		if (!myUserLandingController)
-			myUserLandingController = [JRUserLandingController alloc];
+	{	
+		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+											   animated:YES]; 
 		
-		[[self navigationController] pushViewController:myUserLandingController animated:YES];
+//		
+//		if (!myUserLandingController)
+//			myUserLandingController = [JRUserLandingController alloc];
+//		
+//		[[self navigationController] pushViewController:myUserLandingController animated:YES];
 	}
 	else
 	{
-		if (!myWebViewController)
-			myWebViewController = [JRWebViewController alloc];
+		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+											   animated:YES]; 
 		
-		[[self navigationController] pushViewController:myWebViewController animated:YES];
+		
+//		if (!myWebViewController)
+//			myWebViewController = [JRWebViewController alloc];
+//		
+//		[[self navigationController] pushViewController:myWebViewController animated:YES];
 	}	
 }
 

@@ -46,11 +46,17 @@
 	UINavigationController	*navigationController;
 	BOOL shouldRestore;
 	
+	JRUserLandingController	*myUserLandingController;
+	JRWebViewController	*myWebViewController;
+	
 	JRSessionData *sessionData;
 }
 
 @property (retain) UINavigationController *navigationController;
 @property (readonly) JRSessionData *sessionData;
+
+@property (readonly) JRUserLandingController *myUserLandingController;
+@property (readonly) JRWebViewController *myWebViewController;
 
 - (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data;
 
