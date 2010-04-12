@@ -57,9 +57,6 @@
 {
 	UIWebView	*myWebView;
 	
-//	UIActivityIndicatorView *spinner;
-//	UIView *grayView;
-	
 	JRAuthenticate	*jrAuth;
 	
 	NSString *token;
@@ -74,8 +71,4 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIWebView *myWebView;
-
-//@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
-//@property (nonatomic, retain) IBOutlet UIView *grayView;
-
 @end

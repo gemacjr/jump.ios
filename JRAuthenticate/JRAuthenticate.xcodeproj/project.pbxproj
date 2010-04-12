@@ -26,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F590C0C11739175006955EF /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
 		9F720B17116A894B00E69F8D /* JRAuthenticate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRAuthenticate.h; path = Classes/JRAuthenticate.h; sourceTree = "<group>"; };
 		9F720B18116A894B00E69F8D /* JRAuthenticate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRAuthenticate.m; path = Classes/JRAuthenticate.m; sourceTree = "<group>"; };
 		9F720B19116A894B00E69F8D /* JRConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRConnectionManager.h; path = Classes/JRConnectionManager.h; sourceTree = "<group>"; };
@@ -110,6 +111,7 @@
 		0867D691FE84028FC02AAC07 /* JRAuthenticate */ = {
 			isa = PBXGroup;
 			children = (
+				9F590C0C11739175006955EF /* scratch */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				9F720AAC116A7F8A00E69F8D /* Resources */,
 				32C88DFF0371C24200C91783 /* Other Sources */,

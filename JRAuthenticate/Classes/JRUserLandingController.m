@@ -77,36 +77,7 @@
 		welcomeLabel.backgroundColor = [UIColor clearColor];
 		welcomeLabel.textAlignment = UITextAlignmentLeft;
 		[self addSubview:welcomeLabel];	
-		
-		
-//		forgetUserButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//		[forgetUserButton setFrame:CGRectMake(188, 62, 85, 33)];
-//		
-//		[forgetUserButton setBackgroundImage:[UIImage imageNamed:@"forget_me_button.png"] forState:UIControlStateNormal];
-//		forgetUserButton.titleLabel.font = [UIFont systemFontOfSize:13.0];
-//		forgetUserButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 9, 0);
-//		[forgetUserButton setTitle:@"forget me" forState:UIControlStateNormal];
-//		[forgetUserButton setTitleColor:[UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:0.8]//blueColor] 
-//							  forState:UIControlStateNormal];
-//		[forgetUserButton setTitleShadowColor:[UIColor grayColor]
-//									forState:UIControlStateNormal];
-//		
-//		[forgetUserButton setBackgroundImage:[UIImage imageNamed:@"forget_me_button_down.png"] forState:UIControlStateHighlighted];
-//		[forgetUserButton setTitle:@"forget me" forState:UIControlStateHighlighted];
-//		[forgetUserButton setTitleColor:[UIColor whiteColor]
-//							  forState:UIControlStateHighlighted];	
-//		[forgetUserButton setTitleShadowColor:[UIColor grayColor]
-//									forState:UIControlStateHighlighted];	
-//		[forgetUserButton setReversesTitleShadowWhenHighlighted:YES];
-//		
-//		[forgetUserButton addTarget:targetForSelector
-//							action:@selector(forgetUserTouchUpInside) 
-//				  forControlEvents:UIControlEventTouchUpInside];
-//		
-//		[self addSubview:forgetUserButton];
-		
-				
-				
+						
 		textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 83, 280, 35)];
 		textField.adjustsFontSizeToFitWidth = YES;
 		textField.textColor = [UIColor blackColor];
@@ -152,8 +123,7 @@
 			   forControlEvents:UIControlEventTouchUpInside];
 
 		[self addSubview:signInButton];
-		
-		
+				
 		
 		backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		[backToProvidersButton setFrame:CGRectMake(20, 128, 135, 38)];
@@ -276,11 +246,6 @@
 		return [NSString stringWithString:@"Welcome Back!"];
 
 	return sessionData.currentProvider.shortText;
-//	NSArray *arr = [[sessionData.currentProvider.placeholderText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsSeparatedByString:@" "];
-//	NSRange subArr = {[arr count] - 2, 2};
-//	
-//	NSArray *newArr = [arr subarrayWithRange:subArr];
-//	return [newArr componentsJoinedByString:@" "];	
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -434,7 +399,6 @@
 
 	if (sessionData.currentProvider.providerRequiresInput/* || sessionData.returning_userInput*/)
 	{
-//		requiresInput = TRUE;
 		if ([sessionData.currentProvider.name isEqualToString:sessionData.returningProvider.name])
 			[sessionData.currentProvider setUserInput:[NSString stringWithString:sessionData.returningProvider.userInput]];
 		else
@@ -616,7 +580,6 @@
 	}	
 
 	[sessionData setProvider:nil];
-//	sessionData.userInput = nil;
 	
 	[[self navigationController] popViewControllerAnimated:YES];
 }
@@ -628,20 +591,16 @@
 	[sessionData setProvider:nil];
 	[sessionData setReturningProviderToProvider:nil];
 	sessionData.forceReauth = YES;
-//	sessionData.userInput = nil;
 		
 	[[self navigationController] popViewControllerAnimated:YES];
 }
 
 - (void)signInButtonTouchUpInside:(UIButton*)button
 {
-	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[button superview];// (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
+	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[button superview];
 	UITextField *textField = cell.textField;
 
-//	if ([textField isFirstResponder])
-//		[self.view endEditing:YES];
-//	else
-		[self callWebView:textField];
+	[self callWebView:textField];
 }
 
 
@@ -651,7 +610,6 @@
 	[jrAuth	release];
 	[myTableView release];
 	[myWebViewController release];
-//	[provider release];
 	
     [super dealloc];
 }

@@ -44,8 +44,6 @@
 	UITableView				*myTableView;
 	JRWebViewController		*myWebViewController;
 	
-//	NSString				*provider;
-	
 	BOOL requiresInput;
 	
 	UILabel			*label;
@@ -54,9 +52,6 @@
 	
 	JRSessionData	*sessionData;
 }
-
-//@property (nonatomic, retain) NSString *provider;
-
 
 - (void)backToProvidersTouchUpInside;
 - (void)signInButtonTouchUpInside:(UIButton*)button;

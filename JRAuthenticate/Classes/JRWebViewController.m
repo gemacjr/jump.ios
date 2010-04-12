@@ -87,7 +87,6 @@
     [super viewWillAppear:animated];
 	
 	self.title = [NSString stringWithFormat:@"%@", sessionData.currentProvider.friendlyName];
-				 // [[sessionData.allProviders objectForKey:sessionData.provider] objectForKey:@"friendly_name"]];
 		
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -121,39 +120,29 @@
 		[self.view addSubview:powered_by];
 	}
 	
-//	[spinner setHidesWhenStopped:YES];
-
 	[self webViewWithUrl:[sessionData startURL]];
-//	[self makeOpenIDCallWithProvider:sessionData.provider andAddlInfo:sessionData.user_input];
 }
 
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-//	[(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
 }
 
 - (void)startProgress
 { 
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = YES;
-//	[grayView setHidden:NO];
-//	[spinner startAnimating];
 }
 
 - (void)stopProgress
 {
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
-//	[spinner stopAnimating];
-//	[grayView setHidden:YES];
 }
 
 
 - (void)handleSuccessfulAuthentication:(NSString*)tok
 {
-//	[jrAuth setToken:token];
-
 	token = [NSString stringWithString:tok];
 	
 	for (id<JRWebViewControllerDelegate> delegate in delegates) 
@@ -184,11 +173,6 @@
 					@"FALSE", NSHTTPCookieDiscard,
 					date, NSHTTPCookieExpires, nil]];
 	[cookieStore setCookie:cookie];
-	//
-//	if(sessionData.returningProvider.user_input)
-//	{
-//		sessionData.returning_user_input = [NSString stringWithString:sessionData.user_input];
-//	}
 	
 	cookie = [NSHTTPCookie cookieWithProperties:
 				[NSDictionary dictionaryWithObjectsAndKeys:
@@ -234,8 +218,6 @@
 		
 		if ([[payloadDict objectForKey:@"stat"] isEqualToString:@"ok"])
 		{
-			//[self setToken:[NSString stringWithString:[payloadDict objectForKey:@"token"]]];
-			
 			[self handleSuccessfulAuthentication:[payloadDict objectForKey:@"token"]];
 		}
 		else 
@@ -263,7 +245,6 @@
 	}
 	else if ([tag isEqualToString:@"token_url_payload"])
 	{
-		//[jrAuth setTokenUrlPayload:payload];
 		for (id<JRWebViewControllerDelegate> delegate in delegates) 
 		{
 			[delegate didReachTokenURL:payload];
@@ -328,14 +309,7 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error 
 {
 	printf("\nwebViewDidFailLoadWithError: %s\n", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]); 
-	
-//	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Authentication Error (Webview)"
-//													message:[NSString stringWithFormat:@"There seems to be a problem authenticating: %@.  Please try again later.", [error localizedDescription]]
-//												   delegate:self
-//										  cancelButtonTitle:@"OK" 
-//										  otherButtonTitles:nil];
-//	[alert show];
-	
+
 	for (id<JRWebViewControllerDelegate> delegate in delegates) 
 	{
 		[delegate didFailWithError:[error localizedDescription]];
@@ -348,37 +322,6 @@
 	NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	[myWebView loadRequest:request];
 }
-
-//- (void)makeOpenIDCallWithProvider:(NSString*)provider andAddlInfo:(NSString*)addlInfo
-//{
-//	NSDictionary *provider_stats = [sessionData.allProviders objectForKey:provider];
-//	NSMutableString *oid;
-//	
-//	[self startProgress];
-//	
-//	if ([provider_stats objectForKey:@"openid_identifier"])
-//	{
-//		oid = [NSMutableString stringWithString:[provider_stats objectForKey:@"openid_identifier"]];
-//		if(addlInfo)
-//		{
-//			[oid replaceOccurrencesOfString:@"%s" withString:[addlInfo stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] options:NSLiteralSearch range:NSMakeRange(0, [oid length])];
-//		}
-//		oid = [[@"openid_identifier=" stringByAppendingString:oid] stringByAppendingString:@"&"];
-//	}
-//	else 
-//	{
-//		oid = [NSMutableString stringWithString:@""];
-//	}
-//	
-//	NSString* str = [NSString stringWithFormat:@"%@%@?%@device=iphone", jrAuth.theAppName, [provider_stats objectForKey:@"url"], oid];
-//	printf("\nurl string: %s\n", [str cString]);
-//	
-//	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?%@device=iphone", jrAuth.theAppName, [provider_stats objectForKey:@"url"], oid]];
-//
-//	[self webViewWithUrl:url];	
-//}
-
-
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.

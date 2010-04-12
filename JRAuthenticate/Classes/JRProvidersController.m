@@ -184,7 +184,6 @@
 
 - (void)checkProviders:(NSTimer*)theTimer
 {
-//	[theTimer release];
 	static NSTimeInterval interval = 0.125;
 	interval = interval * 2;
 	
@@ -314,28 +313,6 @@
 	return cell;
 }
 
-- (void)loadProviderStats:(NSString*)provider
-{
-//	NSDictionary *provider_stats = [sessionData.allProviders objectForKey:provider];
-//	NSString *input_required = [provider_stats objectForKey:@"requires_input"];
-//	NSString *input_prompt = [provider_stats objectForKey:@"input_prompt"];
-//	
-//	sessionData.provider = [NSString stringWithString:provider];
-//	sessionData.user_input = nil;
-//	
-//	if ([input_required isEqualToString:@"YES"]) 
-//	{		
-//		sessionData.provider_requires_input = YES;
-//		sessionData.placeholder_text = [NSString stringWithString:input_prompt];
-//	}
-//	else
-//	{
-//		sessionData.provider_requires_input = NO;
-//		sessionData.placeholder_text = nil;
-//	}		
-}
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -343,8 +320,6 @@
 	NSString *provider = [sessionData.configedProviders objectAtIndex:indexPath.row];
 	[sessionData setProvider:[NSString stringWithString:provider]];
 
-//	[self loadProviderStats:provider];
-	
 	if (sessionData.currentProvider.providerRequiresInput || [provider isEqualToString:sessionData.returningProvider.name]) 
 	{		
 		if (!myUserLandingController)

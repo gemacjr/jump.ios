@@ -68,7 +68,6 @@
 - (void)loadView  
 {
 	UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-//	shouldRestore = NO;
 	
 	if (!navigationController)
 	{
@@ -113,8 +112,6 @@
 	
 	shouldRestore = NO;
 }
-
-
 
 - (void)cancelButtonPressed:(id)sender
 {
@@ -164,7 +161,6 @@
 
 	[sessionData release];
 	[navigationController release];
-//	navigationController = nil;
 	
 	[super dealloc];
 }

@@ -55,12 +55,7 @@
 @property (retain) NSString *userInput;
 @property (retain) NSString *welcomeString;
 
-//- (void)setCurrentProviderToReturningProvider;
-
 - (JRProvider*)initWithName:(NSString*)nm andStats:(NSDictionary*)stats;
-
-//- (void)setUserInput:(NSString *)ui;
-//- (void)setWelcomeString:(NSString *)ws;
 @end
 
 

@@ -33,11 +33,6 @@
 
 @implementation JRProvider
 
-//@dynamic friendlyName;
-//@dynamic placeholderText;
-//@dynamic provider_requires_input;
-//@synthesize provider_requires_input;
-
 - (JRProvider*)initWithName:(NSString*)nm andStats:(NSDictionary*)stats
 {
 	[super init];
@@ -223,21 +218,18 @@
 		
 	for (NSHTTPCookie *cookie in cookies) 
 	{
-//		if ([baseURL hasSuffix:cookie.domain])  // TODO: match on whole appname, not just suffix
-//		{
-			if ([cookie.name isEqualToString:@"welcome_info"])
-			{
-				welcomeString = [NSString stringWithString:cookie.value];
-			}
-			else if ([cookie.name isEqualToString:@"login_tab"])
-			{
-				provider = [NSString stringWithString:cookie.value];
-			}
-			else if ([cookie.name isEqualToString:@"user_input"])
-			{
-				userInput = [NSString stringWithString:cookie.value];
-			}
-//		}
+		if ([cookie.name isEqualToString:@"welcome_info"])
+		{
+			welcomeString = [NSString stringWithString:cookie.value];
+		}
+		else if ([cookie.name isEqualToString:@"login_tab"])
+		{
+			provider = [NSString stringWithString:cookie.value];
+		}
+		else if ([cookie.name isEqualToString:@"user_input"])
+		{
+			userInput = [NSString stringWithString:cookie.value];
+		}
 	}	
 	
 	if (provider)
@@ -249,7 +241,6 @@
 		if (userInput)
 			[returningProvider setUserInput:userInput];
 		
-//		currentProvider = [returningProvider retain];
 	}
 }
 
@@ -334,7 +325,6 @@
 	NSString *tag = [NSString stringWithFormat:@"getConfiguredProviders"];
 	[tag retain];
 	
-	//	if (![self createConnectionFromRequest:request])
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
 		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the list of configured providers."];
 }
@@ -404,11 +394,6 @@
 	[(NSString*)userdata release];
 }
 
-//- (void)provider
-//{
-//	return provider;
-//}
-
 - (void)setCurrentProviderToReturningProvider
 {
 	currentProvider = [returningProvider retain];
@@ -425,31 +410,8 @@
 		else
 			currentProvider = [[[JRProvider alloc] initWithName:prov andStats:[allProviders objectForKey:prov]] retain];
 	}
+
 	[currentProvider retain];
-printf("currentProvider(%p)\n", currentProvider);
-	if (currentProvider.name)
-	{
-		printf("helloooooooooooo\n");
-	}
-	//provider = prov;
-	
-//	NSDictionary *provider_stats = [allProviders objectForKey:provider];
-//	NSString *input_required = [provider_stats objectForKey:@"requires_input"];
-//	NSString *input_prompt = [provider_stats objectForKey:@"input_prompt"];
-//	
-////	provider = [NSString stringWithString:provider];
-//	user_input = nil;
-//	
-//	if ([input_required isEqualToString:@"YES"]) 
-//	{		
-//		provider_requires_input = YES;
-//		placeholder_text = [NSString stringWithString:input_prompt];
-//	}
-//	else
-//	{
-//		provider_requires_input = NO;
-//		placeholder_text = nil;
-//	}
 }
 
 
