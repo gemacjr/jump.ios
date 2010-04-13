@@ -59,9 +59,12 @@
 	UILabel			*powered_by;
 	UIButton		*info;
 	
+	UITabBar *tabBar;
+	
 	JRSessionData	*sessionData;
 }
 
+@property (nonatomic, retain) IBOutlet UITabBar *tabBar;
 
 @property (nonatomic, retain) IBOutlet UITableView	*myTableView;
 @property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;

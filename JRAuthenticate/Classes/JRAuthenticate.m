@@ -198,7 +198,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	return self;
 }
 
-+ (JRAuthenticate*)initWithAppID:(NSString*)appId 
++ (JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
 					 andTokenUrl:(NSString*)tokenUrl
 						delegate:(id<JRAuthenticateDelegate>)delegate
 {
@@ -242,7 +242,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 {
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
-        [delegate jrAuthenticate:self didFailWithError:error];
+        [delegate jrAuthenticate:self didFailWithError:nil];
 	}
 }
 
@@ -250,7 +250,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 { 
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
-        [delegate jrAuthenticate:self didNotCompleteAuthentication:reason];
+        [delegate jrAuthenticateDidNotCompleteAuthentication:self];
 	}
 }
 
@@ -258,17 +258,17 @@ static JRAuthenticate* singletonJRAuth = nil;
 {	
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticate:self didNotCompleteAuthentication:@""];
+		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
 	}
 
 	[jrModalNavController dismissModalNavigationController:NO];
 }
 
-- (void)cancelAuthenticationWithError:(NSString*)error
+- (void)cancelAuthenticationWithError:(NSError*)error
 {
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
-        [delegate jrAuthenticate:self didFailWithError:error];
+        [delegate jrAuthenticate:self didFailWithError:nil];
 	}	
 	
 	[jrModalNavController dismissModalNavigationController:NO];

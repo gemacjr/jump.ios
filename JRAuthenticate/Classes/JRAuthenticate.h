@@ -45,8 +45,8 @@
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token;
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenUrlPayload;
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSString*)error;
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didNotCompleteAuthentication:(NSString*)reason;
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error;
+- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth;
 @end
 
 
@@ -77,21 +77,20 @@
 + (JRAuthenticate*)jrAuthenticate;
 + (void)setJRAuthenticate:(JRAuthenticate*)jrAuth;
 
-+ (JRAuthenticate*)initWithAppID:(NSString*)appId 
++ (JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
 					 andTokenUrl:(NSString*)tokenUrl
 						delegate:(id<JRAuthenticateDelegate>)delegate;
 
 - (void)showJRAuthenticateDialog;
 
 - (void)cancelAuthentication;
-- (void)cancelAuthenticationWithError:(NSString*)error;
+- (void)cancelAuthenticationWithError:(NSError*)error;
 
 - (void)didCompleteAuthentication:(NSDictionary*)userInfo;
 
 - (void)didReceiveToken:(NSString*)token;
 - (void)didReachTokenURL:(NSString*)tokenURLdataLoad;
 
-- (void)didFailWithError:(NSString*)error;
-- (void)didNotCompleteAuthentication:(NSString*)reason;
-
+- (void)didFailWithError:(NSError*)error;
+- (void)didNotCompleteAuthentication;
 @end

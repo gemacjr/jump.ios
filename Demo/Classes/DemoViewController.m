@@ -91,7 +91,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	
 	button.titleLabel.textAlignment = UITextAlignmentCenter;
 	
-	jrAuthenticate = [[JRAuthenticate initWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
+	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
 }
 
 - (IBAction)launchJRAuthenticate:(id)sender 
@@ -167,14 +167,14 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[alert show];
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSString*)error 
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error 
 {
 	
 	
 	
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didNotCompleteAuthentication:(NSString*)reason 
+- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth
 {
 	
 	

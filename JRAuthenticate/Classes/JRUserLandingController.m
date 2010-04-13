@@ -312,7 +312,7 @@
 	{
 		printf("vc: %s\n", [[vc description] cString] );
 	}
-    
+	
 	[super viewDidAppear:animated];
 }
  
@@ -411,6 +411,7 @@
 		else
 			[cell.bigSignInButton setHidden:NO];
 		
+				
 		if (sessionData.currentProvider.userInput)
 			cell.textField.text = [NSString stringWithString:sessionData.currentProvider.userInput];
 		else
@@ -419,12 +420,17 @@
 		cell.textField.placeholder = [NSString stringWithString:sessionData.currentProvider.placeholderText];
 		
 		[cell.textField setHidden:NO];
+		[cell.textField setEnabled:YES];
 		[cell.welcomeLabel setHidden:YES];
 		[cell.forgetUserButton setHidden:YES];
-		[cell.textField isFirstResponder];
+		
 	}
 	else 
 	{
+		[cell.textField setHidden:YES];
+		[cell.textField setEnabled:NO];
+		[cell.welcomeLabel setHidden:NO];
+		[cell.bigSignInButton setHidden:YES];
 		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningProvider.welcomeString];
 		cell.welcomeLabel.text = welcomeMsg;
 	}
@@ -563,6 +569,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+	[textField resignFirstResponder];
 //	[self callWebView:textField];
 }
 

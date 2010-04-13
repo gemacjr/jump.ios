@@ -72,6 +72,8 @@
 @synthesize myUserLandingController;
 @synthesize myWebViewController;
 
+@synthesize tabBar;
+
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -173,6 +175,7 @@
 											   cancelButtonTitle:@"OK"  
 										  destructiveButtonTitle:nil
 											   otherButtonTitles:nil];
+//	[action showFromTabBar:tabBar];
 	[action showInView:self.view];
 }
 
