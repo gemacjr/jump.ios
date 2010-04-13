@@ -28,7 +28,6 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  */
 
-
 #import <UIKit/UIKit.h>
 #import <JSON/JSON.h>
 #import "JRAuthenticate.h"
@@ -66,6 +65,8 @@
 	UILabel			*label;
 	UIImageView		*bar;	
 	UILabel			*powered_by;
+	
+	BOOL finished;
 	
 	JRSessionData	*sessionData;
 }

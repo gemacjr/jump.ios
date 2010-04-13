@@ -90,6 +90,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
     [super viewDidLoad];
 	
 	button.titleLabel.textAlignment = UITextAlignmentCenter;
+	button.titleLabel.adjustsFontSizeToFitWidth = YES;
 	
 	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
 }
@@ -104,7 +105,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	else
 	{
 		signedIn = NO;
-		button.titleLabel.text = @"Authenticate";
+		button.titleLabel.text = @"Sign In";
 		[label setHidden:YES];
 	}
 	

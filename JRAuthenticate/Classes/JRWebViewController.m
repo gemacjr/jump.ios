@@ -247,15 +247,7 @@
 													  otherButtonTitles:nil];
 				
 				[[self navigationController] popViewControllerAnimated:YES];
-//				[[self navigationController] popViewControllerAnimated:YES];
 
-//				NSArray *vcs = [self navigationController].viewControllers;
-//				
-//				for (NSObject *vc in vcs)
-//				{
-//					printf("vc: %s\n", [[vc description] cString] );
-//				}
-				
 				[alert show];
 			}
 		}
@@ -266,10 +258,16 @@
 		{
 			[delegate didReachTokenURL:payload];
 		}		
+		
+		finished = YES;
 	}
 	
 	[tag release];	
 	[self stopProgress];
+
+//	if (finished)
+		
+
 }
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
