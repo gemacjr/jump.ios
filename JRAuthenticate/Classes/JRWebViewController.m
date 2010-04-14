@@ -138,56 +138,56 @@
 		[delegate didReceiveToken:token];
 	}
 	
-	if (jrAuth.theTokenUrl)
-		[self makeCallToTokenUrlWithToken:token];
-	
-	
-	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	
-	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-	NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:604800];
-
-	NSHTTPCookie	*cookie = nil;
-	
-	[sessionData setReturningProviderToProvider:sessionData.currentProvider];
-	
-	cookie = [NSHTTPCookie cookieWithProperties:
-				[NSDictionary dictionaryWithObjectsAndKeys:
-					sessionData.returningProvider.name, NSHTTPCookieValue,
-					@"login_tab", NSHTTPCookieName,
-					@"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
-					@"/", NSHTTPCookiePath,
-					@"FALSE", NSHTTPCookieDiscard,
-					date, NSHTTPCookieExpires, nil]];
-	[cookieStore setCookie:cookie];
-	
-	cookie = [NSHTTPCookie cookieWithProperties:
-				[NSDictionary dictionaryWithObjectsAndKeys:
-					sessionData.returningProvider.userInput, NSHTTPCookieValue,
-					@"user_input", NSHTTPCookieName,
-					@"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
-					@"/", NSHTTPCookiePath,
-					@"FALSE", NSHTTPCookieDiscard,
-					date, NSHTTPCookieExpires, nil]];
-	[cookieStore setCookie:cookie];
+//	if (jrAuth.theTokenUrl)
+//		[self makeCallToTokenUrlWithToken:token];
+//	
+//	
+//	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+//	
+//	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+//	NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:604800];
+//
+//	NSHTTPCookie	*cookie = nil;
+//	
+//	[sessionData setReturningProviderToProvider:sessionData.currentProvider];
+//	
+//	cookie = [NSHTTPCookie cookieWithProperties:
+//				[NSDictionary dictionaryWithObjectsAndKeys:
+//					sessionData.returningProvider.name, NSHTTPCookieValue,
+//					@"login_tab", NSHTTPCookieName,
+//					@"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
+//					@"/", NSHTTPCookiePath,
+//					@"FALSE", NSHTTPCookieDiscard,
+//					date, NSHTTPCookieExpires, nil]];
+//	[cookieStore setCookie:cookie];
+//	
+//	cookie = [NSHTTPCookie cookieWithProperties:
+//				[NSDictionary dictionaryWithObjectsAndKeys:
+//					sessionData.returningProvider.userInput, NSHTTPCookieValue,
+//					@"user_input", NSHTTPCookieName,
+//					@"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
+//					@"/", NSHTTPCookiePath,
+//					@"FALSE", NSHTTPCookieDiscard,
+//					date, NSHTTPCookieExpires, nil]];
+//	[cookieStore setCookie:cookie];
 }
 
-- (void)makeCallToTokenUrlWithToken:(NSString*)tok
-{
-	NSMutableData* body = [NSMutableData data];
-	[body appendData:[[NSString stringWithFormat:@"token=%@", tok] dataUsingEncoding:NSUTF8StringEncoding]];
-	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[jrAuth theTokenUrl]]] retain];
-	
-	[request setHTTPMethod:@"POST"];
-	[request setHTTPBody:body];
-
-	NSString* tag = [NSString stringWithFormat:@"token_url_payload"];
-	[tag retain];
-	
-	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
-	
-	[self startProgress];
-}
+//- (void)makeCallToTokenUrlWithToken:(NSString*)tok
+//{
+//	NSMutableData* body = [NSMutableData data];
+//	[body appendData:[[NSString stringWithFormat:@"token=%@", tok] dataUsingEncoding:NSUTF8StringEncoding]];
+//	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[jrAuth theTokenUrl]]] retain];
+//	
+//	[request setHTTPMethod:@"POST"];
+//	[request setHTTPBody:body];
+//
+//	NSString* tag = [NSString stringWithFormat:@"token_url_payload"];
+//	[tag retain];
+//	
+//	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
+//	
+//	[self startProgress];
+//}
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {

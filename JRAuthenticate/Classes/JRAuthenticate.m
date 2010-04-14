@@ -148,6 +148,14 @@ static JRAuthenticate* singletonJRAuth = nil;
 			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
 		}
 	}
+	else if ([tag isEqualToString:@"token_url_payload"])
+	{
+		tokenUrlPayload = payload;
+		for (id<JRAuthenticateDelegate> delegate in delegates) 
+		{
+			[delegate jrAuthenticate:self didReachTokenURL:tokenUrlPayload];
+		}
+	}
 
 	[tag release];	
 }
@@ -218,6 +226,24 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 }
 
+- (void)makeCallToTokenUrlWithToken:(NSString*)tok
+{
+	NSMutableData* body = [NSMutableData data];
+	[body appendData:[[NSString stringWithFormat:@"token=%@", tok] dataUsingEncoding:NSUTF8StringEncoding]];
+	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:theTokenUrl]] retain];
+	
+	[request setHTTPMethod:@"POST"];
+	[request setHTTPBody:body];
+	
+	NSString* tag = [NSString stringWithFormat:@"token_url_payload"];
+	[tag retain];
+	
+	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
+	
+//	[self startProgress];
+}
+
+
 - (void)didReceiveToken:(NSString*)tok
 {
 	token = tok;
@@ -227,6 +253,40 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 	
 	[jrModalNavController dismissModalNavigationController:YES];
+	
+	if (theTokenUrl)
+		[self makeCallToTokenUrlWithToken:token];
+	
+	
+	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	
+	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+	NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:604800];
+	
+	NSHTTPCookie	*cookie = nil;
+	
+	[sessionData setReturningProviderToProvider:sessionData.currentProvider];
+	
+	cookie = [NSHTTPCookie cookieWithProperties:
+			  [NSDictionary dictionaryWithObjectsAndKeys:
+			   sessionData.returningProvider.name, NSHTTPCookieValue,
+			   @"login_tab", NSHTTPCookieName,
+			   @"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
+			   @"/", NSHTTPCookiePath,
+			   @"FALSE", NSHTTPCookieDiscard,
+			   date, NSHTTPCookieExpires, nil]];
+	[cookieStore setCookie:cookie];
+	
+	cookie = [NSHTTPCookie cookieWithProperties:
+			  [NSDictionary dictionaryWithObjectsAndKeys:
+			   sessionData.returningProvider.userInput, NSHTTPCookieValue,
+			   @"user_input", NSHTTPCookieName,
+			   @"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
+			   @"/", NSHTTPCookiePath,
+			   @"FALSE", NSHTTPCookieDiscard,
+			   date, NSHTTPCookieExpires, nil]];
+	[cookieStore setCookie:cookie];
+	
 }
 
 - (void)didReachTokenURL:(NSString*)payload
