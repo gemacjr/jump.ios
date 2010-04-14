@@ -69,10 +69,10 @@
 @synthesize myLoadingLabel;
 @synthesize myActivitySpinner;
 
-@synthesize myUserLandingController;
-@synthesize myWebViewController;
+//@synthesize myUserLandingController;
+//@synthesize myWebViewController;
 
-@synthesize tabBar;
+//@synthesize tabBar;
 
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -84,6 +84,31 @@
     return self;
 }
 */
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad 
+{
+	[super viewDidLoad];
+	
+	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
+	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
+
+    printf("viewdidload\n");
+	printf("prov count = %d\n", [sessionData.configedProviders count]);
+	
+	label = nil;
+	
+	if (sessionData.returningProvider)
+	{
+		[sessionData setCurrentProviderToReturningProvider];
+		
+		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+											   animated:NO]; 
+	}
+	
+	[myTableView reloadData];
+}
+
 
 - (void)viewWillAppear:(BOOL)animated 
 {
@@ -122,35 +147,11 @@
 	self.navigationItem.leftBarButtonItem = dummyPlaceholder;
 	self.navigationItem.leftBarButtonItem.enabled = NO;
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStylePlain;
-	
-	if (!bar)
+
+	if (!infoBar)
 	{
-		bar = [[UIImageView alloc] initWithFrame:CGRectMake(0, yPos, 320, 20)];
-		bar.image = [UIImage imageNamed:@"info_bar.png"];
-		[self.view addSubview:bar];
-	}
-	
-	if (!powered_by)
-	{
-		powered_by = [[UILabel alloc] initWithFrame:CGRectMake(0, yPos, 320, 20)];
-		powered_by.backgroundColor = [UIColor clearColor];
-		powered_by.font = [UIFont italicSystemFontOfSize:14.0];
-		powered_by.textColor = [UIColor colorWithWhite:0.0 alpha:0.8];
-		powered_by.shadowColor = [UIColor colorWithWhite:0.8 alpha:0.8];
-		powered_by.shadowOffset = CGSizeMake(1.0, 1.0);
-		powered_by.textAlignment = UITextAlignmentCenter;
-		powered_by.text = @"Powered by RPX";
-		[self.view addSubview:powered_by];
-	}
-	
-	if (!info)
-	{
-		info = [UIButton buttonWithType:UIButtonTypeInfoDark];
-		info.frame = CGRectMake(304, yPos+4, 15, 15);
-		[info addTarget:self
-				 action:@selector(getInfo) 
-	   forControlEvents:UIControlEventTouchUpInside];
-		[self.view addSubview:info];
+		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30)];
+		[self.view addSubview:infoBar];
 	}
 	
 	printf("prov count = %d\n", [sessionData.configedProviders count]);
@@ -165,25 +166,14 @@
 	else 
 	{
 		[myTableView reloadData];
+		[infoBar fadeIn];
 	}
-}
-
-- (void)getInfo
-{
-	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"JanRain Authenticate Library\nVersion 0.1.5"
-														delegate:self
-											   cancelButtonTitle:@"OK"  
-										  destructiveButtonTitle:nil
-											   otherButtonTitles:nil];
-//	[action showFromTabBar:tabBar];
-	[action showInView:self.view];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	[(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
 }
-
 
 - (void)checkProviders:(NSTimer*)theTimer
 {
@@ -224,56 +214,16 @@
 	[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(checkProviders:) userInfo:nil repeats:NO];
 }
 
-
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated 
+{
+	[super viewDidAppear:animated];
 	NSArray *vcs = [self navigationController].viewControllers;
 	printf("\nvc list\n");
 	for (NSObject *vc in vcs)
 	{
 		printf("vc: %s\n", [[vc description] cString] );
 	}
-    
-	[super viewDidAppear:animated];
 }
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad 
-{
-	[super viewDidLoad];
-	
-	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-	
-	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
-
-    printf("viewdidload\n");
-	printf("prov count = %d\n", [sessionData.configedProviders count]);
-		
-	label = nil;
-	bar = nil;
-	powered_by = nil;
-	info = nil;
-	
-	
-	if (sessionData.returningProvider)
-	{
-//		[self loadProviderStats:sessionData.returning_provider];
-
-//		[sessionData setProvider:[NSString stringWithString:sessionData.returning_provider]];
-		[sessionData setCurrentProviderToReturningProvider];
-		
-		
-		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-												animated:NO]; 
-
-		
-//		myUserLandingController = [JRUserLandingController alloc];
-//		
-//		[[self navigationController] pushViewController:myUserLandingController animated:NO];
-	}
-	
-	[myTableView reloadData];
-}
-
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -282,6 +232,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
+
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -309,10 +260,8 @@
 		cell = [[[UITableViewCellProviders alloc] 
 				 initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 	
-	
 	NSString *provider = [sessionData.configedProviders objectAtIndex:indexPath.row];
 	NSDictionary* provider_stats = [sessionData.allProviders objectForKey:provider];
-	
 	
 	NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
 	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider];
@@ -345,23 +294,11 @@
 	{	
 		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
 											   animated:YES]; 
-		
-//		
-//		if (!myUserLandingController)
-//			myUserLandingController = [JRUserLandingController alloc];
-//		
-//		[[self navigationController] pushViewController:myUserLandingController animated:YES];
 	}
 	else
 	{
 		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
 											   animated:YES]; 
-		
-		
-//		if (!myWebViewController)
-//			myWebViewController = [JRWebViewController alloc];
-//		
-//		[[self navigationController] pushViewController:myWebViewController animated:YES];
 	}	
 }
 
@@ -373,24 +310,9 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-//- (void)viewDidUnload {
-//	// Release any retained subviews of the main view.
-//	// e.g. self.myOutlet = nil;
-//}
-
-//- (void)viewWillDisappear:(BOOL)animated
-//{
-//
-//}
-
-
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-}
-
 - (void)viewWillDisappear:(BOOL)animated
 {
+	[infoBar fadeOut];
 	[super viewWillDisappear:animated];
 }
 
@@ -399,16 +321,21 @@
 	[super viewDidDisappear:animated];
 }
 
+- (void)viewDidUnload
+{
+	[super viewDidUnload];
+}
+
 - (void)dealloc 
 {
+	[jrAuth release];
+	[sessionData release];
+
 	[myTableView release];
 	[myLoadingLabel release];
 	[myActivitySpinner release];
-
-	[myUserLandingController release];
-	[myWebViewController release];
-
-	[jrAuth release];
+	[label release];
+	[infoBar release];
     
 	[super dealloc];
 }

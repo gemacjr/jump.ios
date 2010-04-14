@@ -33,45 +33,28 @@
 #import "JRAuthenticate.h"
 #import "JRUserLandingController.h"
 #import "JRWebViewController.h"
+#import "JRInfoBar.h"
 
 @class JRAuthenticate;
 @class JRUserLandingController;
 @class JRWebViewController;
 @class JRSessionData;
 
-@interface JRProvidersController : UIViewController <UINavigationBarDelegate, 
-														UITableViewDelegate, 
-														UITableViewDataSource,
-														UIAlertViewDelegate,
-														UIActionSheetDelegate> 
+@interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
+														UITableViewDataSource, UIAlertViewDelegate,	UIActionSheetDelegate> 
 {
+	JRAuthenticate	*jrAuth;
+	JRSessionData	*sessionData;
+
 	UITableView				*myTableView;
 	UILabel					*myLoadingLabel;
 	UIActivityIndicatorView *myActivitySpinner;
-	
-	JRUserLandingController	*myUserLandingController;
-	JRWebViewController		*myWebViewController;
-	
-	JRAuthenticate			*jrAuth;
-	
-	UILabel			*label;
-	UIImageView		*bar;	
-	UILabel			*powered_by;
-	UIButton		*info;
-	
-	UITabBar *tabBar;
-	
-	JRSessionData	*sessionData;
-}
+	UILabel		*label;
 
-@property (nonatomic, retain) IBOutlet UITabBar *tabBar;
+	JRInfoBar	*infoBar;
+}
 
 @property (nonatomic, retain) IBOutlet UITableView	*myTableView;
 @property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
-
-@property (nonatomic, retain) IBOutlet JRUserLandingController	*myUserLandingController;
-@property (nonatomic, retain) IBOutlet JRWebViewController	*myWebViewController;
-
-
 @end

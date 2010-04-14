@@ -32,25 +32,21 @@
 #import <UIKit/UIKit.h>
 #import "JRAuthenticate.h"
 #import "JRWebViewController.h"
+#import "JRInfoBar.h"
 
 @class JRAuthenticate;
 @class JRWebViewController;
 @class JRSessionData;
 
-@interface JRUserLandingController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate> 
+@interface JRUserLandingController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
+														UITableViewDataSource, UIAlertViewDelegate> 
 {
-	JRAuthenticate			*jrAuth;
-	
-	UITableView				*myTableView;
-	JRWebViewController		*myWebViewController;
-	
-	BOOL requiresInput;
-	
-	UILabel			*label;
-	UIImageView		*bar;	
-	UILabel			*powered_by;
-	
+	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
+	
+	UITableView	*myTableView;	
+	UILabel		*label;
+	JRInfoBar	*infoBar;
 }
 
 - (void)backToProvidersTouchUpInside;
@@ -62,6 +58,4 @@
 - (BOOL)textFieldShouldClear:(UITextField *)textField;
 
 @property (nonatomic, retain) IBOutlet UITableView *myTableView;
-//@property (nonatomic, retain) IBOutlet JRWebViewController *myWebViewController;
-
 @end

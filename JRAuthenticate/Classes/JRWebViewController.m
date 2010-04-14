@@ -37,12 +37,8 @@
 - (void)webViewWithUrl:(NSURL*)url;
 @end
 
-
-
 @implementation JRWebViewController
-
 @synthesize myWebView;
-
 
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -57,19 +53,6 @@
 }
 */
 
-- (void)viewDidAppear:(BOOL)animated {
-	NSArray *vcs = [self navigationController].viewControllers;
-	printf("\nvc list\n");	
-	for (NSObject *vc in vcs)
-	{
-		printf("vc: %s\n", [[vc description] cString] );
-	}
-    
-	[self webViewWithUrl:[sessionData startURL]];
-	
-	[super viewDidAppear:animated];
-}
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
@@ -77,29 +60,17 @@
 	
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
-
+	
 	delegates = [[[NSArray alloc] init] arrayByAddingObject:jrAuth];
 	[delegates retain];
-	
-	bar = nil;
-	powered_by = nil;		
 }
-
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
 	
 	self.title = [NSString stringWithFormat:@"%@", sessionData.currentProvider.friendlyName];
-		
+	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 									  target:[self navigationController].parentViewController
@@ -109,45 +80,52 @@
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-
-	int yPos = (self.view.frame.size.height - 20);
 	
-	if (!bar)
+	if (!infoBar)
 	{
-		bar = [[UIImageView alloc] initWithFrame:CGRectMake(0, yPos, 320, 20)];
-		bar.image = [UIImage imageNamed:@"info_bar.png"];
-		[self.view addSubview:bar];
+		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30)];
+		[self.view addSubview:infoBar];
 	}
-	
-	if (!powered_by)
-	{
-		powered_by = [[UILabel alloc] initWithFrame:CGRectMake(0, yPos, 320, 20)];
-		powered_by.backgroundColor = [UIColor clearColor];
-		powered_by.font = [UIFont italicSystemFontOfSize:14.0];
-		powered_by.textColor = [UIColor colorWithWhite:0.0 alpha:0.8];
-		powered_by.shadowColor = [UIColor colorWithWhite:0.8 alpha:0.8];
-		powered_by.shadowOffset = CGSizeMake(1.0, 1.0);
-		powered_by.textAlignment = UITextAlignmentCenter;
-		powered_by.text = @"Powered by RPX";
-		[self.view addSubview:powered_by];
-	}
+	[infoBar fadeIn];
 }
 
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)viewDidAppear:(BOOL)animated 
 {
+	[super viewDidAppear:animated];
+
+	NSArray *vcs = [self navigationController].viewControllers;
+	printf("\nvc list\n");	
+	for (NSObject *vc in vcs)
+	{
+		printf("vc: %s\n", [[vc description] cString] );
+	}
+  	
+	[self webViewWithUrl:[sessionData startURL]];
 }
+
+/*
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex { }
 
 - (void)startProgress
 { 
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = YES;
+	[infoBar startProgress];
 }
 
 - (void)stopProgress
 {
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
+	[infoBar stopProgress];
 }
 	
 
@@ -172,7 +150,6 @@
 	NSHTTPCookie	*cookie = nil;
 	
 	[sessionData setReturningProviderToProvider:sessionData.currentProvider];
-	//sessionData.returning_provider = [NSString stringWithString:sessionData.provider];
 	
 	cookie = [NSHTTPCookie cookieWithProperties:
 				[NSDictionary dictionaryWithObjectsAndKeys:
@@ -194,8 +171,6 @@
 					date, NSHTTPCookieExpires, nil]];
 	[cookieStore setCookie:cookie];
 }
-
-
 
 - (void)makeCallToTokenUrlWithToken:(NSString*)tok
 {
@@ -266,8 +241,7 @@
 	[self stopProgress];
 
 //	if (finished)
-		
-
+	
 }
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
@@ -289,7 +263,6 @@
 {
 	[(NSString*)userdata release];
 }
-
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 												 navigationType:(UIWebViewNavigationType)navigationType 
@@ -345,27 +318,41 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[myWebView stopLoading];
 	[myWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
 	
 	[JRConnectionManager stopConnectionsForDelegate:self];
+	[self stopProgress];
 	
+	[infoBar fadeOut];
 	[super viewWillDisappear:animated];	
 }
 
-- (void)dealloc {
-	[myWebView release];
-	[jrAuth release];
-	
-    [super dealloc];
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+}
+
+- (void)viewDidUnload {
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 }
 
 
+- (void)dealloc {
+	[jrAuth release];
+	[sessionData release];
+
+	// TODO: Need to release all the objects in the array?
+	[delegates release];
+	[token release];
+
+	[myWebView release];
+	[label release];
+	[infoBar release];
+		
+    [super dealloc];
+}
 @end

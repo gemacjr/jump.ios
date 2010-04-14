@@ -18,6 +18,7 @@
 		9F5906D2116E82D9006955EF /* libJRAuthenticate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F5906D1116E82BB006955EF /* libJRAuthenticate.a */; };
 		9F5908D1116F9316006955EF /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F5908D0116F9316006955EF /* Entitlements.plist */; };
 		9F5908DB116F9470006955EF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F5908DA116F9470006955EF /* icon.png */; };
+		9F590EF611752EE9006955EF /* bottom_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F590EF511752EE9006955EF /* bottom_bar.png */; };
 		9F9F07B1116D6249007EEDDE /* big_blue_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F0783116D6249007EEDDE /* big_blue_button.png */; };
 		9F9F07B2116D6249007EEDDE /* black_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F0784116D6249007EEDDE /* black_button.png */; };
 		9F9F07B3116D6249007EEDDE /* blue_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F0785116D6249007EEDDE /* blue_button.png */; };
@@ -96,6 +97,7 @@
 		9F5906CC116E82BB006955EF /* JRAuthenticate.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JRAuthenticate.xcodeproj; path = ../JRAuthenticate/JRAuthenticate.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9F5908D0116F9316006955EF /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		9F5908DA116F9470006955EF /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		9F590EF511752EE9006955EF /* bottom_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_bar.png; sourceTree = "<group>"; };
 		9F9F0783116D6249007EEDDE /* big_blue_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = big_blue_button.png; sourceTree = "<group>"; };
 		9F9F0784116D6249007EEDDE /* black_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_button.png; sourceTree = "<group>"; };
 		9F9F0785116D6249007EEDDE /* blue_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_button.png; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 		9F9F0782116D6249007EEDDE /* button_graphics */ = {
 			isa = PBXGroup;
 			children = (
+				9F590EF511752EE9006955EF /* bottom_bar.png */,
 				9F9F0783116D6249007EEDDE /* big_blue_button.png */,
 				9F9F0784116D6249007EEDDE /* black_button.png */,
 				9F9F0785116D6249007EEDDE /* blue_button.png */,
@@ -410,6 +413,7 @@
 				9F9F07DC116D6249007EEDDE /* provider_list.json in Resources */,
 				9F5908D1116F9316006955EF /* Entitlements.plist in Resources */,
 				9F5908DB116F9470006955EF /* icon.png in Resources */,
+				9F590EF611752EE9006955EF /* bottom_bar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

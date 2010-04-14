@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F590EFE11752FC3006955EF /* JRInfoBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F590EFC11752FC3006955EF /* JRInfoBar.h */; };
+		9F590EFF11752FC3006955EF /* JRInfoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F590EFD11752FC3006955EF /* JRInfoBar.m */; };
 		9F720B25116A894B00E69F8D /* JRAuthenticate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F720B17116A894B00E69F8D /* JRAuthenticate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9F720B26116A894B00E69F8D /* JRAuthenticate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F720B18116A894B00E69F8D /* JRAuthenticate.m */; };
 		9F720B27116A894B00E69F8D /* JRConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F720B19116A894B00E69F8D /* JRConnectionManager.h */; };
@@ -27,6 +29,9 @@
 
 /* Begin PBXFileReference section */
 		9F590C0C11739175006955EF /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
+		9F590EF311752ED1006955EF /* bottom_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bottom_bar.png; path = Resources/assets/button_graphics/bottom_bar.png; sourceTree = "<group>"; };
+		9F590EFC11752FC3006955EF /* JRInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRInfoBar.h; path = Classes/JRInfoBar.h; sourceTree = "<group>"; };
+		9F590EFD11752FC3006955EF /* JRInfoBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRInfoBar.m; path = Classes/JRInfoBar.m; sourceTree = "<group>"; };
 		9F720B17116A894B00E69F8D /* JRAuthenticate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRAuthenticate.h; path = Classes/JRAuthenticate.h; sourceTree = "<group>"; };
 		9F720B18116A894B00E69F8D /* JRAuthenticate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRAuthenticate.m; path = Classes/JRAuthenticate.m; sourceTree = "<group>"; };
 		9F720B19116A894B00E69F8D /* JRConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRConnectionManager.h; path = Classes/JRConnectionManager.h; sourceTree = "<group>"; };
@@ -132,6 +137,8 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9F590EFC11752FC3006955EF /* JRInfoBar.h */,
+				9F590EFD11752FC3006955EF /* JRInfoBar.m */,
 				9F720B17116A894B00E69F8D /* JRAuthenticate.h */,
 				9F720B18116A894B00E69F8D /* JRAuthenticate.m */,
 				9F720B19116A894B00E69F8D /* JRConnectionManager.h */,
@@ -231,6 +238,7 @@
 		9F720AB0116A800B00E69F8D /* button_graphics */ = {
 			isa = PBXGroup;
 			children = (
+				9F590EF311752ED1006955EF /* bottom_bar.png */,
 				9F720B36116A897A00E69F8D /* big_blue_button.png */,
 				9F720B37116A897A00E69F8D /* black_button.png */,
 				9F720B38116A897A00E69F8D /* blue_button.png */,
@@ -254,6 +262,7 @@
 				9F720B2D116A894B00E69F8D /* JRSessionData.h in Headers */,
 				9F720B2F116A894B00E69F8D /* JRUserLandingController.h in Headers */,
 				9F720B31116A894B00E69F8D /* JRWebViewController.h in Headers */,
+				9F590EFE11752FC3006955EF /* JRInfoBar.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +316,7 @@
 				9F720B2E116A894B00E69F8D /* JRSessionData.m in Sources */,
 				9F720B30116A894B00E69F8D /* JRUserLandingController.m in Sources */,
 				9F720B32116A894B00E69F8D /* JRWebViewController.m in Sources */,
+				9F590EFF11752FC3006955EF /* JRInfoBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

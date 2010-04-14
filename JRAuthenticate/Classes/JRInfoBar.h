@@ -26,45 +26,22 @@
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- */
+*/
 
 #import <UIKit/UIKit.h>
-#import <JSON/JSON.h>
-#import "JRAuthenticate.h"
-#import "JRInfoBar.h"
 
-@protocol JRWebViewControllerDelegate;
-@protocol JRWebViewControllerDelegate <NSObject>
-
-- (void)didCompleteAuthentication:(NSDictionary*)userInfo;
-- (void)didReceiveToken:(NSString*)token;
-- (void)didReachTokenURL:(NSString*)tokenURLdataLoad;
-
-- (void)didFailWithError:(NSString*)error;
-- (void)didNotCompleteAuthentication:(NSString*)reason;
-
-@end
-
-@protocol JRConnectionManagerDelegate;
-
-@class JRModalNavigationController;
-@class JRAuthenticate;
-@class JRSessionData;
-
-@interface JRWebViewController : UIViewController <UINavigationBarDelegate, UIWebViewDelegate, JRConnectionManagerDelegate> 
+@interface JRInfoBar : UIView 
 {
-	JRAuthenticate	*jrAuth;
-	JRSessionData	*sessionData;
-	
-	NSString *token;
-	NSArray *delegates;
-	
-	UIWebView	*myWebView;
-	UILabel		*label;
-	JRInfoBar	*infoBar;
-	
-	BOOL finished;
+	UIActivityIndicatorView *spinner;
+	UILabel			*loadingLabel;
+	UIImageView		*barImage;	
+	UILabel			*poweredByLabel;
+	UIButton		*infoButton;
 }
 
-@property (nonatomic, retain) IBOutlet UIWebView *myWebView;
+- (void)startProgress;
+- (void)stopProgress;
+- (void)fadeIn;
+- (void)fadeOut;
+
 @end

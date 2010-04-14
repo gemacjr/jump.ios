@@ -26,8 +26,7 @@
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- */
-
+*/
 
 #import "JRUserLandingController.h"
 
@@ -199,8 +198,6 @@
 }
 @end
 
-
-
 @interface JRUserLandingController ()
 - (NSString*)customTitle;
 - (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString;
@@ -208,10 +205,7 @@
 - (void)callWebView:(UITextField *)textField;
 @end
 
-
-
 @implementation JRUserLandingController
-
 @synthesize myTableView;
 
 /*
@@ -224,7 +218,8 @@
 */
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
 	
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
@@ -232,12 +227,6 @@
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
 	
 	label = nil;
-	bar = nil;
-	powered_by = nil;
-	
-    requiresInput = FALSE;
-	// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (NSString*)customTitle
@@ -251,8 +240,6 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
-
-	int yPos = (self.view.frame.size.height - 20);
 	
 	self.title = [self customTitle];
 	
@@ -267,29 +254,14 @@
 
 		self.navigationItem.titleView = label;
 	}
-	
 	label.text = [NSString stringWithString:sessionData.currentProvider.friendlyName];
 	
-	
-	if (!bar)
+	if (!infoBar)
 	{
-		bar = [[UIImageView alloc] initWithFrame:CGRectMake(0, yPos, 320, 20)];
-		bar.image = [UIImage imageNamed:@"info_bar.png"];
-		[self.view addSubview:bar];
+		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30)];
+		[self.view addSubview:infoBar];
 	}
-	
-	if (!powered_by)
-	{
-		powered_by = [[UILabel alloc] initWithFrame:CGRectMake(0, yPos, 320, 20)];
-		powered_by.backgroundColor = [UIColor clearColor];
-		powered_by.font = [UIFont italicSystemFontOfSize:14.0];
-		powered_by.textColor = [UIColor colorWithWhite:0.0 alpha:0.8];
-		powered_by.shadowColor = [UIColor colorWithWhite:0.8 alpha:0.8];
-		powered_by.shadowOffset = CGSizeMake(1.0, 1.0);
-		powered_by.textAlignment = UITextAlignmentCenter;
-		powered_by.text = @"Powered by RPX";
-		[self.view addSubview:powered_by];
-	}
+	[infoBar fadeIn];	
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -304,36 +276,25 @@
 	[myTableView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated 
+{
+	[super viewDidAppear:animated];
 
-- (void)viewDidAppear:(BOOL)animated {
 	NSArray *vcs = [self navigationController].viewControllers;
 	printf("\nvc list\n");	
 	for (NSObject *vc in vcs)
 	{
 		printf("vc: %s\n", [[vc description] cString] );
 	}
-	
-	[super viewDidAppear:animated];
 }
- 
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
 
 /*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
+ // Override to allow orientations other than the default portrait orientation.
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations
+ return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ }
+ */
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -342,17 +303,21 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	[infoBar fadeOut];
+	[super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+}
+
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
 
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-//	[[self navigationController].parentViewController dismissModalNavigationController:NO];	
-}
-
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex { }
 
 
 - (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString
@@ -361,7 +326,6 @@
 	
 	if ([strArr count] <= 1)
 		return @"Welcome, user!";
-	
 	
 	return [[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] stringByReplacingOccurrencesOfString:@"+" withString:@" "];
 }
@@ -431,12 +395,11 @@
 		[cell.textField setEnabled:NO];
 		[cell.welcomeLabel setHidden:NO];
 		[cell.bigSignInButton setHidden:YES];
+
 		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningProvider.welcomeString];
 		cell.welcomeLabel.text = welcomeMsg;
 	}
 
-    // Set up the cell...
-	
     return cell;
 }
 
@@ -450,7 +413,6 @@
 	// [anotherViewController release];
 }
 
-
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -458,7 +420,6 @@
     return YES;
 }
 */
-
 
 /*
 // Override to support editing the table view.
@@ -474,13 +435,11 @@
 }
 */
 
-
 /*
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
 }
 */
-
 
 /*
 // Override to support conditional rearranging of the table view.
@@ -489,12 +448,6 @@
     return YES;
 }
 */
-
-
-- (NSString*)validateText:(NSString*)textFieldText
-{
-	return textFieldText;
-}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -559,51 +512,34 @@
 
 	[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
 										   animated:YES]; 
-	
-	
-	
-//	myWebViewController = [JRWebViewController alloc];
-//	
-//	[[self navigationController] pushViewController:myWebViewController animated:YES];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
 	[textField resignFirstResponder];
-//	[self callWebView:textField];
 }
 
-//- (BOOL)textFieldShouldReturn:(UITextField *)textField
+//- (void)forgetUserTouchUpInside
 //{
-////	sessionData.userInput = [NSString stringWithString:textField.text];
-////	[sessionData.userInput retain];
-//	[textField resignFirstResponder];
-//	return YES;
+//	NSString *urlStr = [NSString stringWithFormat:@".%@.com", sessionData.returningProvider.name];
+//	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+//	NSArray *cookies = [cookieStore cookies];
+//	
+//	for (NSHTTPCookie *cookie in cookies) 
+//	{
+//		if ([cookie.domain hasSuffix:urlStr])
+//			[cookieStore deleteCookie:cookie];
+//		
+//		if ([jrAuth.theAppName hasSuffix:cookie.domain] &&
+//			([cookie.name isEqualToString:@"login_tab"] || 
+//			 [cookie.name isEqualToString:@"userInput"]))
+//			[cookieStore deleteCookie:cookie];
+//	}	
+//
+//	[sessionData setProvider:nil];
+//	
+//	[[self navigationController] popViewControllerAnimated:YES];
 //}
-
-- (void)forgetUserTouchUpInside
-{
-	NSString *urlStr = [NSString stringWithFormat:@".%@.com", sessionData.returningProvider.name];
-	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	NSArray *cookies = [cookieStore cookies];
-	
-	for (NSHTTPCookie *cookie in cookies) 
-	{
-		if ([cookie.domain hasSuffix:urlStr])
-			[cookieStore deleteCookie:cookie];
-		
-		if ([jrAuth.theAppName hasSuffix:cookie.domain] &&
-			([cookie.name isEqualToString:@"login_tab"] || 
-			 [cookie.name isEqualToString:@"userInput"]))
-			[cookieStore deleteCookie:cookie];
-	}	
-
-	[sessionData setProvider:nil];
-	
-	[[self navigationController] popViewControllerAnimated:YES];
-}
-
-
 
 - (void)backToProvidersTouchUpInside
 {
@@ -622,17 +558,16 @@
 	[self callWebView:textField];
 }
 
-
-
 - (void)dealloc 
 {
 	[jrAuth	release];
+	[sessionData release];
+	
 	[myTableView release];
-	[myWebViewController release];
+	[label release];
+	[infoBar release];
 	
     [super dealloc];
 }
-
-
 @end
 
