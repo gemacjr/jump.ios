@@ -61,7 +61,7 @@
 	if (self = [super init])
 	{
 		shouldRestore = NO;
-		sessionData = data;
+		sessionData = [data retain];
 	}
 	
 	return self;
@@ -70,6 +70,8 @@
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView  
 {
+	NSLog(@"JRModalNavController loadView");
+
 	UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	
 	if (!navigationController)
@@ -118,8 +120,10 @@
 
 - (void)viewDidAppear:(BOOL)animated 
 {
+	NSLog(@"JRModalNavController viewDidAppear");
 	if (shouldRestore)
-		[self restore:animated];
+		[[JRAuthenticate jrAuthenticate] unloadModalViewController];	
+	//	[self restore:animated];
 	
 	shouldRestore = NO;
 }
@@ -131,18 +135,21 @@
 
 - (void)dismissModalNavigationController:(BOOL)successfullyAuthed
 {
+	NSLog(@"JRModalNavController dismissModalNavigationController");
+	
 	if (successfullyAuthed)
 	{
 		shouldRestore = YES;
 		navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+		[self.view setHidden:NO];
+		[self dismissModalViewControllerAnimated:YES];
 	}
 	else 
 	{
 		navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+		[self dismissModalViewControllerAnimated:YES];
+		[self.view removeFromSuperview];
 	}
-	
-	[self dismissModalViewControllerAnimated:YES];
-	[self.view removeFromSuperview];
 }
 
 /*
@@ -160,6 +167,16 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+}
+
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
@@ -168,10 +185,13 @@
 
 - (void)dealloc 
 {
-	printf("navController retainCount: %d\n", [navigationController retainCount]);
+	NSLog(@"JRModalNavController dealloc");
+//	printf("navController retainCount: %d\n", [navigationController retainCount]);
 
 	[sessionData release];
 	[navigationController release];
+	[myUserLandingController release];
+	[myWebViewController release];
 	
 	[super dealloc];
 }

@@ -220,6 +220,7 @@
 
 - (void)viewDidLoad 
 {
+	NSLog(@"JRUserLandingController (%p)", self);
     [super viewDidLoad];
 	
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
@@ -560,11 +561,12 @@
 
 - (void)dealloc 
 {
+	NSLog(@"JRUserLandingController dealloc");
+
 	[jrAuth	release];
 	[sessionData release];
 	
-	[myTableView release];
-	[label release];
+//	[myTableView release];
 	[infoBar release];
 	
     [super dealloc];

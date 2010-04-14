@@ -75,6 +75,8 @@
 		spinner.alpha = 0.0;
 		loadingLabel.alpha = 0.0;
 	}
+	NSLog(@"JRInfoBar (%p)", self);
+
     return self;
 }
 
@@ -90,11 +92,14 @@
 
 - (void)startProgress
 {
+	NSLog(@"JRInfoBar startProgress");
+
 	[spinner startAnimating];
 
 	[UIView beginAnimations:@"fade" context:nil];
 	[UIView setAnimationDuration:0.1];
 	[UIView	setAnimationDelay:0.0];
+	[UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
 	spinner.alpha = 1.0;
 	loadingLabel.alpha = 1.0;
 	[UIView commitAnimations];
@@ -105,11 +110,14 @@
 
 - (void)stopProgress
 {
-	[spinner startAnimating];
+	NSLog(@"JRInfoBar stopProgress");
+
+	[spinner stopAnimating];
 	
 	[UIView beginAnimations:@"fade" context:nil];
 	[UIView setAnimationDuration:0.4];
 	[UIView	setAnimationDelay:0.1];
+	[UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
 	spinner.alpha = 0.0;
 	loadingLabel.alpha = 0.0;
 	[UIView commitAnimations];
@@ -120,26 +128,37 @@
 
 - (void)fadeIn
 {
-	[UIView beginAnimations:@"fade" context:nil];
-	[UIView setAnimationDuration:0.1];
-	[UIView	setAnimationDelay:0.0];
-	poweredByLabel.alpha = 1.0;
-	infoButton.alpha = 1.0;
-//	spinner.alpha = 1.0;
-//	loadingLabel.alpha = 1.0;
-	[UIView commitAnimations];
+	NSLog(@"JRInfoBar fadeIn");
+
+//	[UIView beginAnimations:@"fade" context:nil];
+//	[UIView setAnimationDuration:0.1];
+//	[UIView	setAnimationDelay:0.0];
+//	[UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
+//	poweredByLabel.alpha = 1.0;
+//	infoButton.alpha = 1.0;
+////	spinner.alpha = 1.0;
+////	loadingLabel.alpha = 1.0;
+//	[UIView commitAnimations];
+}
+
+- (void)foo:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+{
+	NSLog(@"JRInfoBar animationStopped");
 }
 
 - (void)fadeOut
 {
-	[UIView beginAnimations:@"fade" context:nil];
-	[UIView setAnimationDuration:0.1];
-	[UIView	setAnimationDelay:0.0];
-	poweredByLabel.alpha = 0.0;
-	infoButton.alpha = 0.0;
-	spinner.alpha = 0.0;
-	loadingLabel.alpha = 0.0;
-	[UIView commitAnimations];
+	NSLog(@"JRInfoBar fadeOut");
+	
+//	[UIView beginAnimations:@"fade" context:nil];
+//	[UIView setAnimationDuration:0.1];
+//	[UIView	setAnimationDelay:0.0];
+//	[UIView setAnimationDidStopSelector:@selector(foo:finished:context:)];
+//	poweredByLabel.alpha = 0.0;
+//	infoButton.alpha = 0.0;
+//	spinner.alpha = 0.0;
+//	loadingLabel.alpha = 0.0;
+//	[UIView commitAnimations];
 }
 
 /*
@@ -150,9 +169,11 @@
 
 - (void)dealloc 
 {
+	NSLog(@"JRInfoBar dealloc");
+
 	[barImage release];
 	[poweredByLabel release];
-	[infoButton release];
+//	[infoButton release];
 	[spinner release];
 	[loadingLabel release];
     

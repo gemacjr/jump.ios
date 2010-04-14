@@ -334,6 +334,15 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[jrModalNavController dismissModalNavigationController:NO];
 }
 
+- (void)unloadModalViewController
+{
+	[[jrModalNavController view] removeFromSuperview];
+	[jrModalNavController release];
+	jrModalNavController = nil;	
+}
+
+
+
 - (void)dealloc 
 {
 	if (singletonJRAuth == self)

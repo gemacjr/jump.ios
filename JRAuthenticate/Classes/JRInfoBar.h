@@ -44,4 +44,7 @@
 - (void)fadeIn;
 - (void)fadeOut;
 
+- (void)foo:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
+
+
 @end

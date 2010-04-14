@@ -88,6 +88,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
+	NSLog(@"JRProvidersController (%p)", self);
 	[super viewDidLoad];
 	
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
@@ -321,20 +322,21 @@
 	[super viewDidDisappear:animated];
 }
 
-- (void)viewDidUnload
+- (void)viewDidUnload	
 {
 	[super viewDidUnload];
 }
 
 - (void)dealloc 
 {
+	NSLog(@"JRProvidersController dealloc");
+
 	[jrAuth release];
 	[sessionData release];
 
 	[myTableView release];
 	[myLoadingLabel release];
 	[myActivitySpinner release];
-	[label release];
 	[infoBar release];
     
 	[super dealloc];

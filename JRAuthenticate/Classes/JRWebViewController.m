@@ -56,7 +56,8 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
-    [super viewDidLoad];
+	NSLog(@"JRWebViewController (%p)", self);
+	[super viewDidLoad];
 	
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
@@ -342,15 +343,16 @@
 
 
 - (void)dealloc {
+	NSLog(@"JRWebViewController dealloc");
+	
 	[jrAuth release];
 	[sessionData release];
 
 	// TODO: Need to release all the objects in the array?
 	[delegates release];
-	[token release];
+//	[token release];
 
 	[myWebView release];
-	[label release];
 	[infoBar release];
 		
     [super dealloc];

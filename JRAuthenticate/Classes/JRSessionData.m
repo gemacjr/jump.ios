@@ -169,11 +169,15 @@
 
 - (void)dealloc 
 {
+	NSLog(@"JRSessionData dealloc");
+
 	[allProviders release];
 	[configedProviders release];
 	
-	[baseURL release];
+	[currentProvider release];
+	[returningProvider release];
 	
+	[baseURL release];
 	[errorStr release];
 	
 	[super dealloc];
