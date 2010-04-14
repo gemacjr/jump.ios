@@ -57,8 +57,8 @@
 		
 		spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(5, 5, 20, 20)];
 		spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-		[spinner setHidden:YES];
-		spinner.hidesWhenStopped = YES;
+		[spinner setHidden:NO];
+//		spinner.hidesWhenStopped = YES;
 		[self addSubview:spinner];
 		
 		loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(33, 0, 130, 30)];
@@ -67,7 +67,7 @@
 		loadingLabel.textColor = [UIColor whiteColor];
 		loadingLabel.textAlignment = UITextAlignmentLeft;
 		loadingLabel.text = @"Loading...";
-		[loadingLabel setHidden:YES];
+		[loadingLabel setHidden:NO];
 		[self addSubview:loadingLabel];
 
     	poweredByLabel.alpha = 0.0;
@@ -90,35 +90,51 @@
 
 - (void)startProgress
 {
-	[loadingLabel setHidden:NO];
-	[spinner setHidden:NO];
 	[spinner startAnimating];
+
+	[UIView beginAnimations:@"fade" context:nil];
+	[UIView setAnimationDuration:0.1];
+	[UIView	setAnimationDelay:0.0];
+	spinner.alpha = 1.0;
+	loadingLabel.alpha = 1.0;
+	[UIView commitAnimations];
 	
+//	[loadingLabel setHidden:NO];
+//	[spinner setHidden:NO];
 }
 
 - (void)stopProgress
 {
-	[loadingLabel setHidden:YES];
-	[spinner setHidden:YES];
+	[spinner startAnimating];
+	
+	[UIView beginAnimations:@"fade" context:nil];
+	[UIView setAnimationDuration:0.4];
+	[UIView	setAnimationDelay:0.1];
+	spinner.alpha = 0.0;
+	loadingLabel.alpha = 0.0;
+	[UIView commitAnimations];
+
+//	[loadingLabel setHidden:YES];
+//	[spinner setHidden:YES];
 }	
 
 - (void)fadeIn
 {
 	[UIView beginAnimations:@"fade" context:nil];
-	[UIView setAnimationDuration:0.25];
-	[UIView	setAnimationDelay:0.1];
+	[UIView setAnimationDuration:0.1];
+	[UIView	setAnimationDelay:0.0];
 	poweredByLabel.alpha = 1.0;
 	infoButton.alpha = 1.0;
-	spinner.alpha = 1.0;
-	loadingLabel.alpha = 1.0;
+//	spinner.alpha = 1.0;
+//	loadingLabel.alpha = 1.0;
 	[UIView commitAnimations];
 }
 
 - (void)fadeOut
 {
 	[UIView beginAnimations:@"fade" context:nil];
-	[UIView setAnimationDuration:0.25];
-	[UIView	setAnimationDelay:0.1];
+	[UIView setAnimationDuration:0.1];
+	[UIView	setAnimationDelay:0.0];
 	poweredByLabel.alpha = 0.0;
 	infoButton.alpha = 0.0;
 	spinner.alpha = 0.0;
