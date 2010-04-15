@@ -82,7 +82,8 @@
 		
 		spinner.alpha = 0.0;
 		loadingLabel.alpha = 0.0;		
-		self.alpha = 0.8;
+
+		self.alpha = 0.9;
 	}		
 
     return self;
