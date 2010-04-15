@@ -87,11 +87,11 @@
 - (void)getInfo
 {
 	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.6"
-														delegate:self
+														delegate:nil
 											   cancelButtonTitle:@"OK"  
 										  destructiveButtonTitle:nil
 											   otherButtonTitles:nil];
-	[action showInView:self];
+	[action showInView:self.superview];
 }
 
 - (void)startProgress
