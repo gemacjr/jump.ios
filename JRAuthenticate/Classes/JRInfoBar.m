@@ -88,15 +88,35 @@
     return self;
 }
 
+- (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	[UIView beginAnimations:@"fade" context:nil];
+	[UIView setAnimationDuration:0.2];
+	[UIView	setAnimationDelay:0.0];
+	self.alpha = 0.8;
+	[UIView commitAnimations];
+}
+
+- (void)willPresentActionSheet:(UIActionSheet *)actionSheet
+{
+	[UIView beginAnimations:@"fade" context:nil];
+	[UIView setAnimationDuration:0.2];
+	[UIView	setAnimationDelay:0.0];
+	self.alpha = 0.0;
+	[UIView commitAnimations];
+}
+
 - (void)getInfo
 {
     DLog(@"");
+
 	// TODO: Should autorelease this?
 	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.6"
-														delegate:nil
+														delegate:self
 											   cancelButtonTitle:@"OK"  
 										  destructiveButtonTitle:nil
 											   otherButtonTitles:nil];
+	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	[action showInView:self.superview];
 }
 
