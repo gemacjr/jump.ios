@@ -30,6 +30,17 @@
 
 #import "JRUserLandingController.h"
 
+// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
+#define DEBUG
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+
 @interface UITableViewUserLandingCell : UITableViewCell 
 {
 	UIImageView	*logo;
@@ -187,6 +198,8 @@
 
 - (void)dealloc
 {
+	DLog(@"");
+
 	[logo release];
 	[welcomeLabel release];
 	[textField release];
@@ -220,7 +233,7 @@
 
 - (void)viewDidLoad 
 {
-	NSLog(@"JRUserLandingController (%p)", self);
+	DLog(@"");
     [super viewDidLoad];
 	
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
@@ -240,6 +253,7 @@
 
 - (void)viewWillAppear:(BOOL)animated 
 {
+	DLog(@"");
     [super viewWillAppear:animated];
 	
 	self.title = [self customTitle];
@@ -282,10 +296,10 @@
 	[super viewDidAppear:animated];
 
 	NSArray *vcs = [self navigationController].viewControllers;
-	printf("\nvc list\n");	
+	DLog(@"");
 	for (NSObject *vc in vcs)
 	{
-		printf("vc: %s\n", [[vc description] cString] );
+		DLog(@"view controller: %@", [vc description]);
 	}
 }
 
@@ -349,8 +363,9 @@
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	DLog(@"cell for %@", sessionData.currentProvider.name);   
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewUserLandingCell *cell = 
@@ -368,9 +383,10 @@
 	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_logo.png", sessionData.currentProvider.name];
 	cell.logo.image = [UIImage imageNamed:imagePath];
 	
-
 	if (sessionData.currentProvider.providerRequiresInput/* || sessionData.returning_userInput*/)
 	{
+		DLog(@"current provider requires input");
+		
 		if ([sessionData.currentProvider.name isEqualToString:sessionData.returningProvider.name])
 			[sessionData.currentProvider setUserInput:[NSString stringWithString:sessionData.returningProvider.userInput]];
 		else
@@ -388,10 +404,11 @@
 		[cell.textField setEnabled:YES];
 		[cell.welcomeLabel setHidden:YES];
 		[cell.forgetUserButton setHidden:YES];
-		
 	}
 	else 
 	{
+		DLog(@"current provider does not require input");
+		
 		[cell.textField setHidden:YES];
 		[cell.textField setEnabled:NO];
 		[cell.welcomeLabel setHidden:NO];
@@ -399,6 +416,8 @@
 
 		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningProvider.welcomeString];
 		cell.welcomeLabel.text = welcomeMsg;
+		
+		DLog(@"welcomeMsg: %@", welcomeMsg);
 	}
 
     return cell;
@@ -452,33 +471,36 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
-	
-	if (range.location == 0 && string.length == 0)
-	{
-		[cell.signInButton setEnabled:NO];
-		[cell.bigSignInButton setEnabled:NO];
-	}
-	if (range.location == 0 && string.length != 0)
-	{
-		[cell.signInButton setEnabled:YES];
-		[cell.bigSignInButton setEnabled:YES];
-	}
+//	TODO: Get this working
+//	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
+//	
+//	if (range.location == 0 && string.length == 0)
+//	{
+//		[cell.signInButton setEnabled:NO];
+//		[cell.bigSignInButton setEnabled:NO];
+//	}
+//	if (range.location == 0 && string.length != 0)
+//	{
+//		[cell.signInButton setEnabled:YES];
+//		[cell.bigSignInButton setEnabled:YES];
+//	}
 	
 	return YES;
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
 {
-	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
-	[cell.signInButton setEnabled:NO];
-	[cell.bigSignInButton setEnabled:NO];
+//	TODO: Get this working
+//	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
+//	[cell.signInButton setEnabled:NO];
+//	[cell.bigSignInButton setEnabled:NO];
 	
 	return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+	DLog(@"");
 	[self callWebView:textField];
 	
 	return YES;
@@ -491,6 +513,7 @@
 
 - (void)callWebView:(UITextField *)textField
 {
+	DLog(@"user input: %@", textField.text);
 	if (sessionData.currentProvider.providerRequiresInput)
 	{
 		if (textField.text.length > 0)
@@ -544,6 +567,7 @@
 
 - (void)backToProvidersTouchUpInside
 {
+	DLog(@"");
 	[sessionData setProvider:nil];
 	[sessionData setReturningProviderToProvider:nil];
 	sessionData.forceReauth = YES;
@@ -553,6 +577,7 @@
 
 - (void)signInButtonTouchUpInside:(UIButton*)button
 {
+	DLog(@"");
 	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[button superview];
 	UITextField *textField = cell.textField;
 
@@ -561,7 +586,7 @@
 
 - (void)dealloc 
 {
-	NSLog(@"JRUserLandingController dealloc");
+	DLog(@"");
 
 	[jrAuth	release];
 	[sessionData release];

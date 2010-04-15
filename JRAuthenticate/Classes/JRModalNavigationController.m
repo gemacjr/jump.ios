@@ -31,6 +31,15 @@
 
 #import "JRModalNavigationController.h"
 
+// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
+#define DEBUG
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 @implementation JRModalNavigationController
 
@@ -52,6 +61,8 @@
 
 - (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data
 {
+	DLog(@"");
+
 	if (!data)
 	{
 		[self release];
@@ -70,7 +81,7 @@
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView  
 {
-	NSLog(@"JRModalNavController loadView");
+	DLog(@"");
 
 	UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	
@@ -105,6 +116,7 @@
 
 - (void)presentModalNavigationController
 {
+	DLog(@"");
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 
 	[self presentModalViewController:navigationController animated:YES];
@@ -112,6 +124,7 @@
 
 - (void)restore:(BOOL)animated
 {
+	DLog(@"");
 	while ([navigationController.viewControllers count] != 1)
 	{
 		[navigationController popViewControllerAnimated:animated];	
@@ -120,7 +133,7 @@
 
 - (void)viewDidAppear:(BOOL)animated 
 {
-	NSLog(@"JRModalNavController viewDidAppear");
+	DLog(@"");
 	if (shouldRestore)
 		[[JRAuthenticate jrAuthenticate] unloadModalViewController];	
 	//	[self restore:animated];
@@ -130,12 +143,13 @@
 
 - (void)cancelButtonPressed:(id)sender
 {
+	DLog(@"");
 	[self dismissModalNavigationController:NO];
 }
 
 - (void)dismissModalNavigationController:(BOOL)successfullyAuthed
 {
-	NSLog(@"JRModalNavController dismissModalNavigationController");
+	DLog(@"%@", (successfullyAuthed ? @"YES" : @"NO"));
 	
 	if (successfullyAuthed)
 	{
@@ -185,8 +199,7 @@
 
 - (void)dealloc 
 {
-	NSLog(@"JRModalNavController dealloc");
-//	printf("navController retainCount: %d\n", [navigationController retainCount]);
+	DLog(@"");
 
 	[sessionData release];
 	[navigationController release];

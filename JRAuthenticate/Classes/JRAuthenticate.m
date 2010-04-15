@@ -31,6 +31,16 @@
 
 #import "JRAuthenticate.h"
 
+// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
+#define DEBUG
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
 @implementation JRAuthenticate
 
 @synthesize theAppName;
@@ -52,6 +62,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    DLog(@"");
 	if (jrModalNavController) 
 		[jrModalNavController dismissModalNavigationController:NO];	
 }
@@ -59,8 +70,10 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)showJRAuthenticateDialog
 {
+    DLog(@"");
 	if (errorStr) 
 	{
+		DLog(@"%@", errorStr);
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Initialization Error"
 														message:@"JRAuthenticate had a problem initializing and cannot be used at this time."
 													   delegate:self
@@ -97,6 +110,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 							stringByAppendingString:theAppId]
 						   stringByAppendingString:@"&skipXdReceiver=true"];
 #endif
+    DLog(@"url: %@", urlString);
 	
 	NSURL *url = [NSURL URLWithString:urlString];
 	
@@ -113,7 +127,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)finishGetBaseUrl:(NSString*)dataStr
 {
-	printf("finishGetBaseUrl\n");
+	DLog(@"dataStr: %@", dataStr);
+	
 	NSArray *arr = [dataStr componentsSeparatedByString:@"\""];
 	
 	if(!arr)
@@ -135,8 +150,11 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
-	NSString* tag = (NSString*)userdata;
-	
+ 	NSString* tag = (NSString*)userdata;
+
+	DLog(@"payload: %@", payload);
+	DLog(@"tag:     %@", tag);
+
 	if ([tag isEqualToString:@"getBaseURL"])
 	{
 		if ([payload hasPrefix:@"RPXNOW._base_cb(true"])
@@ -163,6 +181,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
 	NSString* tag = (NSString*)userdata;
+	DLog(@"tag:     %@", tag);
 	
 	if ([tag isEqualToString:@"getBaseURL"])
 	{
@@ -185,6 +204,10 @@ static JRAuthenticate* singletonJRAuth = nil;
 					 andTokenUrl:(NSString*)tokenUrl 
 						delegate:(id<JRAuthenticateDelegate>)delegate
 {
+	DLog(@"appID:    %@", appId);
+	if (tokenUrl)
+		DLog(@"tokenURL: %@", tokenUrl);
+
 	if (appId == nil)
 	{
 		[self release];
@@ -228,6 +251,9 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)makeCallToTokenUrlWithToken:(NSString*)tok
 {
+	DLog(@"token:    %@", tok);
+	DLog(@"tokenURL: %@", theTokenUrl);
+
 	NSMutableData* body = [NSMutableData data];
 	[body appendData:[[NSString stringWithFormat:@"token=%@", tok] dataUsingEncoding:NSUTF8StringEncoding]];
 	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:theTokenUrl]] retain];
@@ -235,17 +261,16 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[request setHTTPMethod:@"POST"];
 	[request setHTTPBody:body];
 	
-	NSString* tag = [NSString stringWithFormat:@"token_url_payload"];
-	[tag retain];
+	NSString* tag = [[NSString stringWithFormat:@"token_url_payload"] retain];
 	
 	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
-	
-//	[self startProgress];
-}
+}	
 
 
 - (void)didReceiveToken:(NSString*)tok
 {
+	DLog(@"token: %@", tok);
+	
 	token = tok;
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
@@ -257,7 +282,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	if (theTokenUrl)
 		[self makeCallToTokenUrlWithToken:token];
 	
-	
 	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 	
 	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
@@ -267,6 +291,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	[sessionData setReturningProviderToProvider:sessionData.currentProvider];
 	
+	DLog("Setting cookie \"login_tab\" to value:  %@", sessionData.returningProvider.name);
 	cookie = [NSHTTPCookie cookieWithProperties:
 			  [NSDictionary dictionaryWithObjectsAndKeys:
 			   sessionData.returningProvider.name, NSHTTPCookieValue,
@@ -277,6 +302,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 			   date, NSHTTPCookieExpires, nil]];
 	[cookieStore setCookie:cookie];
 	
+	DLog("Setting cookie \"user_input\" to value: %@", sessionData.returningProvider.userInput);
 	cookie = [NSHTTPCookie cookieWithProperties:
 			  [NSDictionary dictionaryWithObjectsAndKeys:
 			   sessionData.returningProvider.userInput, NSHTTPCookieValue,
@@ -286,11 +312,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 			   @"FALSE", NSHTTPCookieDiscard,
 			   date, NSHTTPCookieExpires, nil]];
 	[cookieStore setCookie:cookie];
-	
 }
 
 - (void)didReachTokenURL:(NSString*)payload
 {
+	DLog(@"");
+	
 	tokenUrlPayload = payload;
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
@@ -300,6 +327,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)didFailWithError:(NSString*)error 
 {
+	DLog(@"");
+
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
         [delegate jrAuthenticate:self didFailWithError:nil];
@@ -308,6 +337,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)didNotCompleteAuthentication:(NSString*)reason 
 { 
+	DLog(@"");
+
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
         [delegate jrAuthenticateDidNotCompleteAuthentication:self];
@@ -316,6 +347,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)cancelAuthentication
 {	
+	DLog(@"");
+
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
@@ -326,6 +359,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)cancelAuthenticationWithError:(NSError*)error
 {
+	DLog(@"");
+
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
         [delegate jrAuthenticate:self didFailWithError:nil];
@@ -336,6 +371,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)unloadModalViewController
 {
+	DLog(@"");
+
 	[[jrModalNavController view] removeFromSuperview];
 	[jrModalNavController release];
 	jrModalNavController = nil;	
@@ -345,6 +382,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)dealloc 
 {
+	DLog(@"");
+
 	if (singletonJRAuth == self)
 		singletonJRAuth = nil;
 	

@@ -31,6 +31,16 @@
 
 #import "JRWebViewController.h"
 
+// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
+//#define DEBUG
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
 @interface JRWebViewController ()
 - (void)handleSuccessfulAuthentication:(NSString*)tok;
 - (void)makeCallToTokenUrlWithToken:(NSString*)tok;
@@ -56,7 +66,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
-	NSLog(@"JRWebViewController (%p)", self);
+	DLog(@"");
 	[super viewDidLoad];
 	
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
@@ -68,6 +78,7 @@
 
 - (void)viewWillAppear:(BOOL)animated 
 {
+	DLog(@"");
     [super viewWillAppear:animated];
 	
 	self.title = [NSString stringWithFormat:@"%@", sessionData.currentProvider.friendlyName];
@@ -96,10 +107,10 @@
 	[super viewDidAppear:animated];
 
 	NSArray *vcs = [self navigationController].viewControllers;
-	printf("\nvc list\n");	
+	DLog(@"");
 	for (NSObject *vc in vcs)
 	{
-		printf("vc: %s\n", [[vc description] cString] );
+		DLog(@"view controller: %@", [vc description]);
 	}
   	
 	[self webViewWithUrl:[sessionData startURL]];
@@ -132,68 +143,22 @@
 
 - (void)handleSuccessfulAuthentication:(NSString*)tok
 {
+	DLog(@"token: %@", tok);
 	token = [NSString stringWithString:tok];
 	
 	for (id<JRWebViewControllerDelegate> delegate in delegates) 
 	{
 		[delegate didReceiveToken:token];
 	}
-	
-//	if (jrAuth.theTokenUrl)
-//		[self makeCallToTokenUrlWithToken:token];
-//	
-//	
-//	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-//	
-//	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-//	NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:604800];
-//
-//	NSHTTPCookie	*cookie = nil;
-//	
-//	[sessionData setReturningProviderToProvider:sessionData.currentProvider];
-//	
-//	cookie = [NSHTTPCookie cookieWithProperties:
-//				[NSDictionary dictionaryWithObjectsAndKeys:
-//					sessionData.returningProvider.name, NSHTTPCookieValue,
-//					@"login_tab", NSHTTPCookieName,
-//					@"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
-//					@"/", NSHTTPCookiePath,
-//					@"FALSE", NSHTTPCookieDiscard,
-//					date, NSHTTPCookieExpires, nil]];
-//	[cookieStore setCookie:cookie];
-//	
-//	cookie = [NSHTTPCookie cookieWithProperties:
-//				[NSDictionary dictionaryWithObjectsAndKeys:
-//					sessionData.returningProvider.userInput, NSHTTPCookieValue,
-//					@"user_input", NSHTTPCookieName,
-//					@"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
-//					@"/", NSHTTPCookiePath,
-//					@"FALSE", NSHTTPCookieDiscard,
-//					date, NSHTTPCookieExpires, nil]];
-//	[cookieStore setCookie:cookie];
 }
-
-//- (void)makeCallToTokenUrlWithToken:(NSString*)tok
-//{
-//	NSMutableData* body = [NSMutableData data];
-//	[body appendData:[[NSString stringWithFormat:@"token=%@", tok] dataUsingEncoding:NSUTF8StringEncoding]];
-//	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[jrAuth theTokenUrl]]] retain];
-//	
-//	[request setHTTPMethod:@"POST"];
-//	[request setHTTPBody:body];
-//
-//	NSString* tag = [NSString stringWithFormat:@"token_url_payload"];
-//	[tag retain];
-//	
-//	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
-//	
-//	[self startProgress];
-//}
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
 	NSString* tag = (NSString*)userdata;
 	
+	DLog(@"payload: %@", payload);
+	DLog(@"tag:     %@", tag);
+		
 	if ([tag isEqualToString:@"rpx_result"])
 	{
 		NSDictionary *payloadDict = [payload JSONValue];
@@ -215,7 +180,9 @@
 					message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.", sessionData.currentProvider.shortText];
 				else
 					message = @"There was a problem authenticating with this provider. Please try again.";
-					
+				
+				DLog(@"Discovery failed for the OpenID you entered.\n%@", message);
+				
 				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
 																message:message
 															   delegate:self
@@ -228,31 +195,26 @@
 			}
 		}
 	}
-	else if ([tag isEqualToString:@"token_url_payload"])
-	{
-		for (id<JRWebViewControllerDelegate> delegate in delegates) 
-		{
-			[delegate didReachTokenURL:payload];
-		}		
-		
-		finished = YES;
-	}
+//	else if ([tag isEqualToString:@"token_url_payload"])
+//	{
+//		for (id<JRWebViewControllerDelegate> delegate in delegates) 
+//		{
+//			[delegate didReachTokenURL:payload];
+//		}		
+//		
+//		finished = YES;
+//	}
 	
 	[tag release];	
-	[self stopProgress];
-
-//	if (finished)
-	
+	[self stopProgress];	
 }
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
 	NSString* tag = (NSString*)userdata;
+	DLog(@"tag:     %@", tag);
 	
 	if ([tag isEqualToString:@"rpx_result"])
-	{
-	}
-	else if ([tag isEqualToString:@"token_url_payload"])
 	{
 	}
 	
@@ -268,10 +230,12 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 												 navigationType:(UIWebViewNavigationType)navigationType 
 {	
-	printf("\nwebView shouldStartLoadingWithRequest and navigation:%d\n", navigationType);
-		
+	DLog(@"navigation type: %d", navigationType);
+	
 	if ([[[request URL] absoluteString] hasPrefix:@"https://jrauthenticate.rpxnow.com/signin/device"])
 	{
+		DLog(@"request url has prefix: %@", jrAuth.theAppName);
+		
 		NSString* tag = [[NSString stringWithFormat:@"rpx_result"] retain];
 		[JRConnectionManager createConnectionFromRequest:[request retain] forDelegate:self withTag:tag];
 		
@@ -283,21 +247,19 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView 
 { 
-	printf("\nwebViewDidStartLoad\n"); 
-
+	DLog(@"");
 	[self startProgress];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView 
 {
-	printf("\nwebViewDidFinishLoad\n");
-	
+	DLog(@"");
 	[self stopProgress];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error 
 {
-	printf("\nwebViewDidFailLoadWithError: %s\n", [[error localizedDescription] cStringUsingEncoding:NSUTF8StringEncoding]); 
+	DLog(@"error message: %@", [error localizedDescription]); 
 
 	for (id<JRWebViewControllerDelegate> delegate in delegates) 
 	{
@@ -308,6 +270,7 @@
 
 - (void)webViewWithUrl:(NSURL*)url
 {
+	DLog(@"");
 	NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	[myWebView loadRequest:request];
 }
@@ -321,6 +284,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+	DLog(@"");
 	[myWebView stopLoading];
 	[myWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
 	
@@ -343,7 +307,7 @@
 
 
 - (void)dealloc {
-	NSLog(@"JRWebViewController dealloc");
+	DLog(@"");
 	
 	[jrAuth release];
 	[sessionData release];

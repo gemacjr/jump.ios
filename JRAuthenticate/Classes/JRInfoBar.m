@@ -30,15 +30,26 @@
 
 #import "JRInfoBar.h"
 
+// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
+#define DEBUG
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
 
 @implementation JRInfoBar
 
-- (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-		
+- (id)initWithFrame:(CGRect)frame 
+{
+    DLog(@"");
+	if (self = [super initWithFrame:frame]) 
+	{
 		barImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
 		barImage.image = [UIImage imageNamed:@"bottom_bar.png"];
-		[self addSubview:barImage];
 
 		poweredByLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 0, 130, 30)];
 		poweredByLabel.backgroundColor = [UIColor clearColor];
@@ -46,20 +57,15 @@
 		poweredByLabel.textColor = [UIColor whiteColor];
 		poweredByLabel.textAlignment = UITextAlignmentRight;
 		poweredByLabel.text = @"Powered by Janrain";
-		[self addSubview:poweredByLabel];
 		
 		infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
 		infoButton.frame = CGRectMake(300, 7, 15, 15);
 		[infoButton addTarget:self
-				 action:@selector(getInfo) 
-	   forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:infoButton];
+					   action:@selector(getInfo) 
+			 forControlEvents:UIControlEventTouchUpInside];
 		
 		spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(5, 5, 20, 20)];
 		spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-		[spinner setHidden:NO];
-//		spinner.hidesWhenStopped = YES;
-		[self addSubview:spinner];
 		
 		loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(33, 0, 130, 30)];
 		loadingLabel.backgroundColor = [UIColor clearColor];
@@ -67,25 +73,25 @@
 		loadingLabel.textColor = [UIColor whiteColor];
 		loadingLabel.textAlignment = UITextAlignmentLeft;
 		loadingLabel.text = @"Loading...";
-		[loadingLabel setHidden:NO];
+
+		[self addSubview:barImage];
+		[self addSubview:poweredByLabel];
+		[self addSubview:infoButton];
+		[self addSubview:spinner];
 		[self addSubview:loadingLabel];
 		
-//   	poweredByLabel.alpha = 0.0;
-//		infoButton.alpha = 0.0;
 		spinner.alpha = 0.0;
-		loadingLabel.alpha = 0.0;
-		
+		loadingLabel.alpha = 0.0;		
 		self.alpha = 0.8;
-		
-		[self setUserInteractionEnabled:YES];
-	}
-	NSLog(@"JRInfoBar (%p)", self);
+	}		
 
     return self;
 }
 
 - (void)getInfo
 {
+    DLog(@"");
+	// TODO: Should autorelease this?
 	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.6"
 														delegate:nil
 											   cancelButtonTitle:@"OK"  
@@ -96,73 +102,56 @@
 
 - (void)startProgress
 {
-	NSLog(@"JRInfoBar startProgress");
+    DLog(@"");
 
 	[spinner startAnimating];
 
 	[UIView beginAnimations:@"fade" context:nil];
 	[UIView setAnimationDuration:0.1];
 	[UIView	setAnimationDelay:0.0];
-	[UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
 	spinner.alpha = 1.0;
 	loadingLabel.alpha = 1.0;
 	[UIView commitAnimations];
-	
-//	[loadingLabel setHidden:NO];
-//	[spinner setHidden:NO];
 }
 
 - (void)stopProgress
 {
-	NSLog(@"JRInfoBar stopProgress");
+    DLog(@"");
 
 	[spinner stopAnimating];
 	
 	[UIView beginAnimations:@"fade" context:nil];
 	[UIView setAnimationDuration:0.4];
 	[UIView	setAnimationDelay:0.1];
-	[UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
 	spinner.alpha = 0.0;
 	loadingLabel.alpha = 0.0;
 	[UIView commitAnimations];
-
-//	[loadingLabel setHidden:YES];
-//	[spinner setHidden:YES];
 }	
 
 - (void)fadeIn
 {
-	NSLog(@"JRInfoBar fadeIn");
+    DLog(@"");
 
-//	[UIView beginAnimations:@"fade" context:nil];
-//	[UIView setAnimationDuration:0.1];
-//	[UIView	setAnimationDelay:0.0];
-//	[UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
-//	poweredByLabel.alpha = 1.0;
-//	infoButton.alpha = 1.0;
-////	spinner.alpha = 1.0;
-////	loadingLabel.alpha = 1.0;
-//	[UIView commitAnimations];
-}
-
-- (void)foo:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
-{
-	NSLog(@"JRInfoBar animationStopped");
+	[UIView beginAnimations:@"fade" context:nil];
+	[UIView setAnimationDuration:0.1];
+	[UIView	setAnimationDelay:0.0];
+	poweredByLabel.alpha = 1.0;
+	infoButton.alpha = 1.0;
+	[UIView commitAnimations];
 }
 
 - (void)fadeOut
 {
-	NSLog(@"JRInfoBar fadeOut");
+    DLog(@"");
 	
-//	[UIView beginAnimations:@"fade" context:nil];
-//	[UIView setAnimationDuration:0.1];
-//	[UIView	setAnimationDelay:0.0];
-//	[UIView setAnimationDidStopSelector:@selector(foo:finished:context:)];
-//	poweredByLabel.alpha = 0.0;
-//	infoButton.alpha = 0.0;
-//	spinner.alpha = 0.0;
-//	loadingLabel.alpha = 0.0;
-//	[UIView commitAnimations];
+	[UIView beginAnimations:@"fade" context:nil];
+	[UIView setAnimationDuration:0.1];
+	[UIView	setAnimationDelay:0.0];
+	poweredByLabel.alpha = 0.0;
+	infoButton.alpha = 0.0;
+	spinner.alpha = 0.0;
+	loadingLabel.alpha = 0.0;
+	[UIView commitAnimations];
 }
 
 /*
@@ -173,7 +162,7 @@
 
 - (void)dealloc 
 {
-	NSLog(@"JRInfoBar dealloc");
+    DLog(@"");
 
 	[barImage release];
 	[poweredByLabel release];

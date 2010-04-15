@@ -31,6 +31,16 @@
 
 #import "JRProvidersController.h"
 
+// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
+#define DEBUG
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
 @interface UITableViewCellProviders : UITableViewCell 
 {
 	UIImageView *icon;
@@ -69,11 +79,6 @@
 @synthesize myLoadingLabel;
 @synthesize myActivitySpinner;
 
-//@synthesize myUserLandingController;
-//@synthesize myWebViewController;
-
-//@synthesize tabBar;
-
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -88,19 +93,17 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
-	NSLog(@"JRProvidersController (%p)", self);
+	DLog(@"");
 	[super viewDidLoad];
 	
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
 
-    printf("viewdidload\n");
-	printf("prov count = %d\n", [sessionData.configedProviders count]);
-	
 	label = nil;
 	
 	if (sessionData.returningProvider)
 	{
+		DLog(@"and there was a returning provider");
 		[sessionData setCurrentProviderToReturningProvider];
 		
 		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
@@ -113,12 +116,10 @@
 
 - (void)viewWillAppear:(BOOL)animated 
 {
-    printf("viewwillappear\n");
+	DLog(@"");
 	[super viewWillAppear:animated];
 	
 	self.title = @"Providers";
-
-	int yPos = (self.view.frame.size.height - 20);
 
 	if (!label)
 	{
@@ -155,7 +156,8 @@
 		[self.view addSubview:infoBar];
 	}
 	
-	printf("prov count = %d\n", [sessionData.configedProviders count]);
+	DLog(@"prov count = %d", [sessionData.configedProviders count]);
+	
 	if ([sessionData.configedProviders count] == 0)
 	{
 		[myActivitySpinner setHidden:NO];
@@ -181,8 +183,8 @@
 	static NSTimeInterval interval = 0.125;
 	interval = interval * 2;
 	
-	printf("prov count = %d\n", [sessionData.configedProviders count]);
-	printf("interval = %f\n", interval);
+	DLog(@"prov count = %d", [sessionData.configedProviders count]);
+	DLog(@"interval = %f", interval);
 	
 	if ([sessionData.configedProviders count] != 0)
 	{
@@ -196,8 +198,8 @@
 	}
 	
 	if (interval >= 8.0)
-	{
-		printf("alert!\n");
+	{	
+		DLog(@"No Available Providers");
 
 		[myActivitySpinner setHidden:YES];
 		[myLoadingLabel setHidden:YES];
@@ -219,10 +221,10 @@
 {
 	[super viewDidAppear:animated];
 	NSArray *vcs = [self navigationController].viewControllers;
-	printf("\nvc list\n");
+	DLog(@"");
 	for (NSObject *vc in vcs)
 	{
-		printf("vc: %s\n", [[vc description] cString] );
+		DLog(@"view controller: %@", [vc description]);
 	}
 }
 
@@ -278,6 +280,8 @@
 	NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
 	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider];
 	
+	DLog(@"cell for %@", provider);
+
 #if __IPHONE_3_0
 	cell.textLabel.text = friendly_name;
 #else
@@ -301,7 +305,9 @@
 	
 	NSString *provider = [sessionData.configedProviders objectAtIndex:indexPath.row];
 	[sessionData setProvider:[NSString stringWithString:provider]];
-	
+
+	DLog(@"cell for %@ was selected", provider);
+
 	if (sessionData.currentProvider.providerRequiresInput || [provider isEqualToString:sessionData.returningProvider.name]) 
 	{	
 		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
@@ -340,7 +346,7 @@
 
 - (void)dealloc 
 {
-	NSLog(@"JRProvidersController dealloc");
+	DLog(@"");
 
 	[jrAuth release];
 	[sessionData release];

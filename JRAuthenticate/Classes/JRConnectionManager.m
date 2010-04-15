@@ -31,6 +31,17 @@
 
 #import "JRConnectionManager.h"
 
+// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
+#define DEBUG
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+
 @interface ConnectionData2 : NSObject 
 {
 	NSURLRequest	*request;
@@ -39,7 +50,6 @@
 	void *tag;
 	
 	id<JRConnectionManagerDelegate> delegate;
-	
 }
 
 @property (retain) NSURLRequest		*request;
@@ -48,8 +58,6 @@
 @property (readonly) void *tag;
 @property (readonly) id<JRConnectionManagerDelegate> delegate;
 @end
-
-
 
 @implementation ConnectionData2
 
@@ -60,11 +68,13 @@
 
 - (id)initWithRequest:(NSURLRequest*)req forDelegate:(id<JRConnectionManagerDelegate>)del withTag:(void*)userdata
 {
-	if (req == nil || del == nil)
-	{
-		[self release];
-		return nil;
-	}
+	DLog(@"");
+	
+//	if (req == nil || del == nil)
+//	{
+//		[self release];
+//		return nil;
+//	}
 	
 	if (self = [super init]) 
 	{
@@ -81,6 +91,8 @@
 
 - (void)dealloc 
 {
+	DLog(@"");
+	
 	[request release];
 	[response release];
 	[delegate release];
@@ -126,6 +138,7 @@ static JRConnectionManager* singleton = nil;
 
 - (void)dealloc
 {
+	DLog(@"");
 	ConnectionData2* connectionData = nil;
 	
 	for (NSURLConnection* connection in [(NSMutableDictionary*)connectionBuffers allKeys])
@@ -148,6 +161,8 @@ static JRConnectionManager* singleton = nil;
 
 + (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata
 {		
+	DLog(@"request: %@", [[request URL] absoluteString]);
+
 	JRConnectionManager* connMan = [JRConnectionManager getJRConnectionManager];
 	CFMutableDictionaryRef connectionBuffers = connMan.connectionBuffers;
 	
@@ -179,6 +194,8 @@ static JRConnectionManager* singleton = nil;
 
 + (void)stopConnectionsForDelegate:(id<JRConnectionManagerDelegate>)delegate
 {
+	DLog(@"");
+	
 	JRConnectionManager* connMan = [JRConnectionManager getJRConnectionManager];
 	CFMutableDictionaryRef connectionBuffers = connMan.connectionBuffers;
 	ConnectionData2 *connectionData = nil;
@@ -203,16 +220,20 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data 
 {
+	DLog(@"");
 	[[(ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection) response] appendData:data];
 }
 
 - (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response 
 {
+	DLog(@"");
 	[(ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection) setResponse:[[NSMutableData alloc] init]];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection 
 {
+	DLog(@"");
+
 	if ([(NSDictionary*)connectionBuffers count] == 1)
 	{
 		UIApplication* app = [UIApplication sharedApplication]; 
@@ -226,21 +247,23 @@ static JRConnectionManager* singleton = nil;
 	void* userdata = [connectionData tag];
 	id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 	
+	DLog(@"request: %@", [[request URL] absoluteString]);
+	
 	[delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userdata];
-	
-	
+		
 	CFDictionaryRemoveValue(connectionBuffers, connection);
 }
 
 - (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error 
 {
+	DLog(@"error message: %@", [error localizedDescription]);
+
 	if ([(NSDictionary*)connectionBuffers count] == 1)
 	{
 		UIApplication* app = [UIApplication sharedApplication]; 
 		app.networkActivityIndicatorVisible = NO;
 	}
 	
-	printf("\nconnection(%p) didFailWithError\n", connection);
 	ConnectionData2 *connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 	
 	NSURLRequest *request = [connectionData request];
@@ -255,18 +278,17 @@ static JRConnectionManager* singleton = nil;
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request 
 														  redirectResponse:(NSURLResponse *)redirectResponse
 {
-	printf("\nconnection(%p) willSendRequest redirectResponse\n", connection);
-	printf("willSendRequest: %s\n", [[[request URL] absoluteString] cStringUsingEncoding:NSUTF8StringEncoding]);
-	printf("redirectResponse: %s\n", [[[redirectResponse URL] absoluteString] cStringUsingEncoding:NSUTF8StringEncoding]);
+	DLog(@"willSendRequest:  %@", [[request URL] absoluteString]);
+	DLog(@"redirectResponse: %@", [[redirectResponse URL] absoluteString]);
 	
 	return request;
 }
 
-- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { }
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { }
-- (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse { return cachedResponse; }
+- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { DLog(@""); }
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { DLog(@""); }
+- (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse { DLog(@""); return cachedResponse; }
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten 
 											   totalBytesWritten:(NSInteger)totalBytesWritten 
-									   totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite { }
+									   totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite { DLog(@""); }
 
 @end

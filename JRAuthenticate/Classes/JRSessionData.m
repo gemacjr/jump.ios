@@ -31,22 +31,42 @@
 
 #import "JRSessionData.h"
 
+// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
+#define DEBUG
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+
 @implementation JRProvider
 
 - (JRProvider*)initWithName:(NSString*)nm andStats:(NSDictionary*)stats
 {
-	[super init];
+	DLog(@"");
 	
-	providerStats = [[NSDictionary dictionaryWithDictionary:stats] retain];
-	name = [nm retain];
+	if (nm == nil || nm.length == 0 || stats == nil)
+	{
+		[self release];
+		return nil;
+	}
+	
+	if (self = [super init]) 
+	{
+		providerStats = [[NSDictionary dictionaryWithDictionary:stats] retain];
+		name = [nm retain];
 
-	welcomeString = nil;
-	
-	placeholderText = nil;
-	shortText = nil;
-	userInput = nil;
-	friendlyName = nil;
-	providerRequiresInput = NO;
+		welcomeString = nil;
+		
+		placeholderText = nil;
+		shortText = nil;
+		userInput = nil;
+		friendlyName = nil;
+		providerRequiresInput = NO;
+	}
 	
 	return self;
 }
@@ -112,6 +132,8 @@
 
 - (void)dealloc
 {
+	DLog(@"");
+		
 	[providerStats release];
 	[name release];
 	[welcomeString release];
@@ -147,6 +169,14 @@
 
 - (id)initWithBaseUrl:(NSString*)URL
 {
+	DLog(@"");
+	
+	if (URL == nil || URL.length == 0)
+	{
+		[self release];
+		return nil;
+	}
+	
 	if (self = [super init]) 
 	{
 		baseURL = [[NSString stringWithString:URL] retain];
@@ -169,8 +199,8 @@
 
 - (void)dealloc 
 {
-	NSLog(@"JRSessionData dealloc");
-
+	DLog(@"");
+		
 	[allProviders release];
 	[configedProviders release];
 	
@@ -185,6 +215,7 @@
 
 - (NSURL*)startURL
 {
+	DLog(@"");
 	NSDictionary *providerStats = [allProviders objectForKey:currentProvider.name];
 	NSMutableString *oid;
 	
@@ -207,12 +238,14 @@
 	
 	forceReauth = NO;
 	
+	DLog(@"startURL: %@", str);
 	return [NSURL URLWithString:str];
 }
 
 
 - (void)loadCookieData
 {
+	DLog(@"");
 	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseURL]];
 	
@@ -225,19 +258,23 @@
 		if ([cookie.name isEqualToString:@"welcome_info"])
 		{
 			welcomeString = [NSString stringWithString:cookie.value];
+			DLog(@"welcomeString: %@", welcomeString);
 		}
 		else if ([cookie.name isEqualToString:@"login_tab"])
 		{
 			provider = [NSString stringWithString:cookie.value];
+			DLog(@"provider:      %@", provider);
 		}
 		else if ([cookie.name isEqualToString:@"user_input"])
 		{
 			userInput = [NSString stringWithString:cookie.value];
+			DLog(@"userInput:     %@", userInput);
 		}
 	}	
 	
 	if (provider)
 	{
+		DLog(@"returningProvider: %@", provider);
 		returningProvider = [[JRProvider alloc] initWithName:provider andStats:[allProviders objectForKey:provider]];
 		
 		if (welcomeString)
@@ -251,6 +288,7 @@
 
 - (void)loadAllProviders
 {
+	DLog(@"");
 	NSString	 *path = nil;
 	NSFileHandle *readHandle = nil;
 	NSString	 *provList = nil;
@@ -279,13 +317,12 @@
 	
 	allProviders = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"providers"]];
 	[allProviders retain];
-	
-	printf("finishloadAllProviders\n");
 }
 
 
 - (void)startGetAllProviders
 {
+	DLog(@"");
 	NSString *urlString = @"http://rpxnow.com/iphone/providers";
 	
 	NSURL *url = [NSURL URLWithString:urlString];
@@ -295,16 +332,15 @@
 	
 	NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
 	
-	NSString *tag = [NSString stringWithFormat:@"getAllProviders"];
-	[tag retain];
-	
-	//	if (![self createConnectionFromRequest:request])
+	NSString *tag = [[NSString stringWithFormat:@"getAllProviders"] retain];
+
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
 		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the list of all providers."];
 }
 
 - (void)finishGetAllProviders:(NSString*)dataStr
 {
+	DLog(@"");
 	NSDictionary *jsonDict = [dataStr JSONValue];
 	
 	if(!jsonDict) // Then there was an error
@@ -317,6 +353,7 @@
 
 - (void)startGetConfiguredProviders
 {
+	DLog(@"");
 	NSString *urlString = [baseURL stringByAppendingString:@"/openid/ui_config"];
 	
 	NSURL *url = [NSURL URLWithString:urlString];
@@ -326,8 +363,7 @@
 	
 	NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
 	
-	NSString *tag = [NSString stringWithFormat:@"getConfiguredProviders"];
-	[tag retain];
+	NSString *tag = [[NSString stringWithFormat:@"getConfiguredProviders"] retain];
 	
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
 		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the list of configured providers."];
@@ -335,7 +371,7 @@
 
 - (void)finishGetConfiguredProviders:(NSString*)dataStr
 {
-	printf("finishGetConfiguredProviders\n");
+	DLog(@"");
 	NSDictionary *jsonDict = [dataStr JSONValue];
 	
 	if(!jsonDict)
@@ -345,16 +381,15 @@
 	
 	if(configedProviders)
 		[configedProviders retain];
-	
-	
-	printf("jsonDict retain count: %d\n", [jsonDict retainCount]);
-	printf("configed providers retain count: %d\n", [configedProviders retainCount]);
 }
 
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
 	NSString* tag = (NSString*)userdata;
+	
+	DLog(@"payload: %@", payload);
+	DLog(@"tag:     %@", tag);
 	
 	if ([tag isEqualToString:@"getConfiguredProviders"])
 	{
@@ -373,6 +408,8 @@
 
 - (void)setReturningProviderToProvider:(JRProvider*)provider
 {
+	DLog(@"");
+
 	[returningProvider release];
 	returningProvider = [provider retain];
 }
@@ -380,7 +417,8 @@
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
 	NSString* tag = (NSString*)userdata;
-	
+	DLog(@"tag:     %@", tag);
+
 	if ([tag isEqualToString:@"getBaseURL"])
 	{
 		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
@@ -400,11 +438,14 @@
 
 - (void)setCurrentProviderToReturningProvider
 {
+	DLog(@"");
 	currentProvider = [returningProvider retain];
 }
 
 - (void)setProvider:(NSString *)prov
 {
+	DLog(@"provider: %@", prov);
+
 	if (![currentProvider.name isEqualToString:prov])
 	{	
 		[currentProvider release];
