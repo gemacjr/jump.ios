@@ -554,7 +554,7 @@
 //		if ([cookie.domain hasSuffix:urlStr])
 //			[cookieStore deleteCookie:cookie];
 //		
-//		if ([jrAuth.theAppName hasSuffix:cookie.domain] &&
+//		if ([jrAuth.theBaseUrl hasSuffix:cookie.domain] &&
 //			([cookie.name isEqualToString:@"login_tab"] || 
 //			 [cookie.name isEqualToString:@"userInput"]))
 //			[cookieStore deleteCookie:cookie];

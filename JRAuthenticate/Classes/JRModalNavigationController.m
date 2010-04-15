@@ -144,6 +144,7 @@
 - (void)cancelButtonPressed:(id)sender
 {
 	DLog(@"");
+	[sessionData authenticationDidCancel];
 	[self dismissModalNavigationController:NO];
 }
 

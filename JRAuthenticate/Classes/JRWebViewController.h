@@ -33,18 +33,6 @@
 #import "JRAuthenticate.h"
 #import "JRInfoBar.h"
 
-@protocol JRWebViewControllerDelegate;
-@protocol JRWebViewControllerDelegate <NSObject>
-
-- (void)didCompleteAuthentication:(NSDictionary*)userInfo;
-- (void)didReceiveToken:(NSString*)token;
-- (void)didReachTokenURL:(NSString*)tokenURLdataLoad;
-
-- (void)didFailWithError:(NSString*)error;
-- (void)didNotCompleteAuthentication:(NSString*)reason;
-
-@end
-
 @protocol JRConnectionManagerDelegate;
 
 @class JRModalNavigationController;
@@ -55,15 +43,10 @@
 {
 	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
-	
-	NSString *token;
-	NSArray *delegates;
-	
+
 	UIWebView	*myWebView;
 	UILabel		*label;
 	JRInfoBar	*infoBar;
-	
-	BOOL finished;
 }
 
 @property (nonatomic, retain) IBOutlet UIWebView *myWebView;

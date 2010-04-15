@@ -32,7 +32,7 @@
 #import "JRWebViewController.h"
 
 // TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -43,7 +43,6 @@
 
 @interface JRWebViewController ()
 - (void)handleSuccessfulAuthentication:(NSString*)tok;
-- (void)makeCallToTokenUrlWithToken:(NSString*)tok;
 - (void)webViewWithUrl:(NSURL*)url;
 @end
 
@@ -71,9 +70,6 @@
 	
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
-	
-	delegates = [[[NSArray alloc] init] arrayByAddingObject:jrAuth];
-	[delegates retain];
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -144,12 +140,8 @@
 - (void)handleSuccessfulAuthentication:(NSString*)tok
 {
 	DLog(@"token: %@", tok);
-	token = [NSString stringWithString:tok];
 	
-	for (id<JRWebViewControllerDelegate> delegate in delegates) 
-	{
-		[delegate didReceiveToken:token];
-	}
+	[sessionData authenticationDidCompleteWithToken:tok];
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
@@ -195,16 +187,7 @@
 			}
 		}
 	}
-//	else if ([tag isEqualToString:@"token_url_payload"])
-//	{
-//		for (id<JRWebViewControllerDelegate> delegate in delegates) 
-//		{
-//			[delegate didReachTokenURL:payload];
-//		}		
-//		
-//		finished = YES;
-//	}
-	
+
 	[tag release];	
 	[self stopProgress];	
 }
@@ -216,6 +199,7 @@
 	
 	if ([tag isEqualToString:@"rpx_result"])
 	{
+		[sessionData authenticationDidFailWithError:error];
 	}
 	
 	[tag release];	
@@ -230,11 +214,15 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 												 navigationType:(UIWebViewNavigationType)navigationType 
 {	
+	DLog(@"request: %@", [[request URL] absoluteString]);
 	DLog(@"navigation type: %d", navigationType);
 	
-	if ([[[request URL] absoluteString] hasPrefix:@"https://jrauthenticate.rpxnow.com/signin/device"])
+	NSString *thatURL = [NSString stringWithFormat:@"%@/signin/device", jrAuth.theBaseUrl];
+	
+//	if ([[[request URL] absoluteString] hasPrefix:@"https://jrauthenticate.rpxnow.com/signin/device"])
+	if ([[[request URL] absoluteString] hasPrefix:thatURL])
 	{
-		DLog(@"request url has prefix: %@", jrAuth.theAppName);
+		DLog(@"request url has prefix: %@", jrAuth.theBaseUrl);
 		
 		NSString* tag = [[NSString stringWithFormat:@"rpx_result"] retain];
 		[JRConnectionManager createConnectionFromRequest:[request retain] forDelegate:self withTag:tag];
@@ -261,10 +249,7 @@
 {
 	DLog(@"error message: %@", [error localizedDescription]); 
 
-	for (id<JRWebViewControllerDelegate> delegate in delegates) 
-	{
-		[delegate didFailWithError:[error localizedDescription]];
-	}
+	[sessionData authenticationDidFailWithError:error];
 	[self stopProgress];
 }
 
@@ -311,10 +296,6 @@
 	
 	[jrAuth release];
 	[sessionData release];
-
-	// TODO: Need to release all the objects in the array?
-	[delegates release];
-//	[token release];
 
 	[myWebView release];
 	[infoBar release];

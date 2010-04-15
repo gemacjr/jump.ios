@@ -59,8 +59,19 @@
 @end
 
 
+
+@protocol JRSessionDelegate <NSObject>
+
+- (void)jrAuthenticationDidCancel;
+- (void)jrAuthenticationDidCompleteWithToken:(NSString*)tok;
+- (void)jrAuthenticationDidFailWithError:(NSError*)err;
+
+@end
+
 @interface JRSessionData : NSObject <JRConnectionManagerDelegate>
 {
+	id<JRSessionDelegate> delegate;
+	
 	JRProvider *currentProvider;
 	JRProvider *returningProvider;	
 	
@@ -74,6 +85,8 @@
 	NSString *errorStr;
 
 	BOOL forceReauth;
+	
+	NSString *token;
 }
 
 @property (readonly) NSString *errorStr;
@@ -87,10 +100,14 @@
 @property (readonly) NSURL *startURL;
 @property (assign) BOOL forceReauth;
 
-- (id)initWithBaseUrl:(NSString*)URL;
+@property (readonly) NSString* token;
+
+- (id)initWithBaseUrl:(NSString*)URL andDelegate:(id<JRSessionDelegate>)del;
 - (void)setReturningProviderToProvider:(JRProvider*)provider;
 - (void)setProvider:(NSString *)prov;
 - (void)setCurrentProviderToReturningProvider;
 	
-
+- (void)authenticationDidCancel;
+- (void)authenticationDidCompleteWithToken:(NSString*)tok;
+- (void)authenticationDidFailWithError:(NSError*)err;
 @end

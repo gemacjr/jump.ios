@@ -86,7 +86,8 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
 	
 	button.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -111,16 +112,13 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	
 }
 
-
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didCompleteAuthentication:(NSDictionary*)userInfo { }
-
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token 
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token
 {
 	signedIn = YES;
 	button.titleLabel.text = @"Sign Out";
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenUrlPayload 
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload
 {
 	NSRange found = [tokenUrlPayload rangeOfString:@"{"];
 	
@@ -168,19 +166,18 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[alert show];
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error 
-{
-	
-	
-	
-}
+
 
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth
 {
 	
-	
+}
+
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error 
+{
 	
 }
+
 
 
 

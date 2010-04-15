@@ -167,7 +167,7 @@
 
 @synthesize forceReauth;
 
-- (id)initWithBaseUrl:(NSString*)URL
+- (id)initWithBaseUrl:(NSString*)URL andDelegate:(id<JRSessionDelegate>)del
 {
 	DLog(@"");
 	
@@ -179,6 +179,7 @@
 	
 	if (self = [super init]) 
 	{
+		delegate = [del retain];
 		baseURL = [[NSString stringWithString:URL] retain];
 		
 		currentProvider = nil;
@@ -209,6 +210,9 @@
 	
 	[baseURL release];
 	[errorStr release];
+	
+	[token release];
+	[delegate release];
 	
 	[super dealloc];
 }
@@ -284,7 +288,6 @@
 		
 	}
 }
-
 
 - (void)loadAllProviders
 {
@@ -459,5 +462,20 @@
 	[currentProvider retain];
 }
 
+- (void)authenticationDidCancel
+{
+	[delegate jrAuthenticationDidCancel];
+}
+
+- (void)authenticationDidCompleteWithToken:(NSString*)tok
+{
+	token = [tok retain];
+	[delegate jrAuthenticationDidCompleteWithToken:token];
+}
+
+- (void)authenticationDidFailWithError:(NSError*)err
+{
+	[delegate jrAuthenticationDidFailWithError:err];
+}
 
 @end

@@ -39,40 +39,37 @@
 #define LOCAL 0
 
 @protocol JRAuthenticateDelegate <NSObject>
-
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didCompleteAuthentication:(NSDictionary*)userInfo;
-
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token;
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenUrlPayload;
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload;
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error;
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth;
 @end
 
 
-@interface JRAuthenticate : NSObject <JRConnectionManagerDelegate>
+@interface JRAuthenticate : NSObject <JRConnectionManagerDelegate, JRSessionDelegate>
 {
 	JRModalNavigationController *jrModalNavController;
 	
 	NSString		*theAppId;
-	NSString		*theAppName;
+	NSString		*theBaseUrl;
 	NSString		*theTokenUrl;
 	
 	NSArray			*delegates;
 	
-	NSString		*token;
-	NSString		*tokenUrlPayload;
+	NSString		*theToken;
+	NSString		*theTokenUrlPayload;
 	
 	JRSessionData	*sessionData;
 	
 	NSString		*errorStr;
 }
 
-@property (nonatomic, readonly) NSString* theAppName;
+@property (nonatomic, readonly) NSString* theBaseUrl;
 @property (nonatomic, readonly) NSString* theTokenUrl;
 
-@property (nonatomic, readonly) NSString* token;
-@property (nonatomic, readonly) NSString* tokenUrlPayload;
+@property (nonatomic, readonly) NSString* theToken;
+@property (nonatomic, readonly) NSString* theTokenUrlPayload;
 
 + (JRAuthenticate*)jrAuthenticate;
 + (void)setJRAuthenticate:(JRAuthenticate*)jrAuth;
@@ -82,15 +79,10 @@
 						delegate:(id<JRAuthenticateDelegate>)delegate;
 
 - (void)showJRAuthenticateDialog;
+- (void)unloadModalViewController;
 
 - (void)cancelAuthentication;
 - (void)cancelAuthenticationWithError:(NSError*)error;
 
-- (void)didCompleteAuthentication:(NSDictionary*)userInfo;
-
-- (void)didReceiveToken:(NSString*)token;
-- (void)didReachTokenURL:(NSString*)tokenURLdataLoad;
-
-- (void)didFailWithError:(NSError*)error;
-- (void)didNotCompleteAuthentication;
+- (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token;
 @end
