@@ -235,6 +235,17 @@
 */
 
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)];
+	return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	return 37;
+}
+
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 50;

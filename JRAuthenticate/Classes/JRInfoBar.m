@@ -69,11 +69,15 @@
 		loadingLabel.text = @"Loading...";
 		[loadingLabel setHidden:NO];
 		[self addSubview:loadingLabel];
-
-    	poweredByLabel.alpha = 0.0;
-		infoButton.alpha = 0.0;
+		
+//   	poweredByLabel.alpha = 0.0;
+//		infoButton.alpha = 0.0;
 		spinner.alpha = 0.0;
 		loadingLabel.alpha = 0.0;
+		
+		self.alpha = 0.8;
+		
+		[self setUserInteractionEnabled:YES];
 	}
 	NSLog(@"JRInfoBar (%p)", self);
 
@@ -82,7 +86,7 @@
 
 - (void)getInfo
 {
-	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.5"
+	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.6"
 														delegate:self
 											   cancelButtonTitle:@"OK"  
 										  destructiveButtonTitle:nil

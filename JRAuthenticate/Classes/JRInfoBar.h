@@ -30,7 +30,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JRInfoBar : UIView 
+@interface JRInfoBar : UIView <UIActionSheetDelegate>
 {
 	UIActivityIndicatorView *spinner;
 	UILabel			*loadingLabel;
@@ -45,6 +45,6 @@
 - (void)fadeOut;
 
 - (void)foo:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
-
+- (void)getInfo;
 
 @end
