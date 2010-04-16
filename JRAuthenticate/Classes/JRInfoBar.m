@@ -112,7 +112,7 @@
     DLog(@"");
 
 	// TODO: Should autorelease this?
-	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.6"
+	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.0.2"
 														delegate:self
 											   cancelButtonTitle:@"OK"  
 										  destructiveButtonTitle:nil
