@@ -1,53 +1,131 @@
-Linking JRAuthenticate
-To link the JRAuthenticate library in your XCode project, please follow the instructions found here:http://www.clintharris.net/2009/iphone-app-shared-libraries/
+Before You Begin
 
-You must also copy the resources found in the Resources folder of the JRAuthenticate project into your project.
-
-Also, the library uses sbrautaset's json-framework library found at http://code.google.com/p/json-framework/.
-
-Our library follows Option 2 of the installation instructions included in the json SDK, posted below:
-
-[code]
-Option 2: Use the iPhone Custom SDK
-
-    1)    Create a directory ~/Library/SDKs/, if it does not already exist.
-    2)    Copy the SDKs/JSON folder from this disk image into the directory you just created.
-    3)    In your Project, select your target in the left-hand menu and click the blue Info button (Apple-i) and select the "Build" tab.
-    4)    Make sure "All Configurations" is selected in the "Configuration" drop-down.
-    5)    Add the following new line to the "Additional SDKs" option: $HOME/Library/SDKs/JSON/${PLATFORM_NAME}.sdk
-    6)    Add the following two options to the "Other Linker Flags" option: -ObjC -ljson
-    7)    Use '#import <JSON/JSON.h>' in your source files.
-[/code]
-
-You must download and install the json library for the libJRAuthenticate to work.  You should configure your project's "Additional SDKs" option to point to the install location of the json library.  If you installed the library somewhere other than your $HOME directory, please make sure that you change the path variable for "Additional SDKs" in both the JRAuthenticate project as well as your project. 
-
-Do not include the "-ljson" option for "Other Linker Flags" in your project.  Instead, you must add the option "-all_load" due to a bug in the linker for device builds only.  If you don't, when the library tries to reference a method in the json library, it will work on the simulator but crash your app on the device.
-
-Using JRAuthenticate
-Make sure you import the JRAuthenticate headers:
-
-	#import "JRAuthenticate.h"
-
-Go to your application's dashboard on rpxnow to find your 20-character Application ID.  To instantiate an instance of the JRAuthenticate library, you can store the Application ID as an NSString and pass it to the class method initWithAppID.  Make sure that your delegate class implements the JRAuthenticateDelegate protocol.
+	* You need to have created an RPX application. 
+	* You'll need a token_url to extract the token and pass it into the auth_info 
+	  call.
 
 
-	static NSString *appId = @"appcfamhnpkagijaeinl";
+Get the Library
+
+	Option 1: Download from GitHub (stable)
+
+	Option 2: Pull from GitHub (edge) - git clone
+			  git://github.com/janrain/authenticate.iphone.git 
+
+
+Get the JSON SDK
+
+	The library uses sbrautaset's json-framework library. Our library follows
+	Option 2 of the installation instructions included in the json SDK. You must
+	download and install the json library for the libJRAuthenticate to work. To
+	enable your app with the JSON library, follow the first 5 instructions, listed
+	below:
+
+	1. Create a directory ~/Library/SDKs/, if it does not already exist. 
+	2. Copy the SDKs/JSON folder from this disk image into the directory 
+	   you just created.
+	3. In your Project, select your target in the left-hand menu and click 
+	   the blue Info button (Apple-i) and select the "Build" tab. 
+	4. Make sure "All Configurations" is selected in the "Configuration" drop-down. 
+	5. Add the following new line to the "Additional SDKs" 
+	   option:$HOME/Library/SDKs/JSON/${PLATFORM_NAME}.sdk 
+	6. Add the following two options to the "Other Linker Flags" 
+	   option:-ObjC -all_load
+
+	Steps 3-6 have already been completed in the demo application the library
+	comes bundled with.
+
+	You should configure your project's "Additional SDKs" option to point to the
+	install location of the json library. If you installed the library somewhere
+	other than your $HOME directory, please make sure that you change the path
+	variable for "Additional SDKs" in both the JRAuthenticate project as well as
+	your project. 
+
+	
+Add the Library to Your Xcode Project
+
+	1. Open your project in Xcode. 
+	2. Open the JRAuthenticate library in Xcode.
+	3. Drag the JRAuthenticate group into your application's Xcode project. In the
+	   dialog, do NOT check the "Copy items" box and make sure the "Recursively 
+	   create groups..." option is selected, then click "Add". 
+	4. Make sure that the JRAuthenticate headers are in the include path. Go 
+	   into your project's settings and enter the relative or absolute path to 
+	   the "src" directory. 
+	5. Include the headers in your code: #import "JRAuthenticate.h"
+
+	For more detailed instructions on adding the library to your project see:
+	http://www.clintharris.net/2009/iphone-app-shared-libraries/. 
+	
+	
+Using JanRain Authenticate
+
+	Sign in to RPX to get your 20-character Application ID from the Application
+	Info box.
+
+	To initialize an instance of the library, you can store the Application ID
+	as an NSString* and pass it to the class method 
+	+(JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
+	andTokenUrl:(NSString*)tokenUrl delegate:(id)delegate
+
+	Make sure that your delegate class implements the JRAuthenticateDelegate
+	protocol:
+
+	static NSString *appId = @"<your app id>";
+
 	...
-	JRAuthenticate*  jrAuthenticate = [[JRAuthenticate initWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
+
+	JRAuthenticate* jrAuthenticate = [[JRAuthenticate initWithAppID:appId
+										andTokenUrl:tokenUrl 
+										delegate:self] retain];
 
 
-In the section of code where you wish to launch the library's authentication process, send the showJRAuthenticateDialog message from your JRAuthenticate object:
+	In the section of code where you wish to launch the library's authentication
+	process, send the showJRAuthenticateDialog message from your JRAuthenticate
+	object:
 
-    [jrAuthenticate showJRAuthenticateDialog];
+	[jrAuthenticate showJRAuthenticateDialog];
 
-After the user authenticates with the provider, the JRAuthenticate library will post the - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token message to your delegate, containing the session token for the user. 
+	After the user authenticates with the provider, the JRAuthenticate library
+	will post the - (void)jrAuthenticate:(JRAuthenticate*)jrAuth
+	didReceiveToken:(NSString*)token message to your delegate, containing the
+	session token for the user.
 
-If you provide the initWithAppID function with a token URL, the library will post the didReceiveToken: message to your delegate and then continue to post the token to the token URL that was provided.  It is here that you should make the call to auth_info with your Application Key.  After the JRAuthenticate library receives a response from the token URL, it will send the - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenUrlPayload message to your delegate with the contents of that response.  It is your application's responsibility to parse the response for the user's information.  We recommend that you make at least one token URL specific to your mobile application, and have its response contain only the information your iPhone application needs.
+	If you provide the initWithAppID: function with a token URL, the library
+	will post the - (void)jrAuthenticate:(JRAuthenticate*)jrAuth
+	didReceiveToken:(NSString*)token message to your delegate and then continue 
+	to post the token to the token URL that was provided.
 
-Unlike the RPX web-based widget, the library will not redirect the user to the token URL.  Instead, it will close the view controller containing the web view, and perform the action of posting the token to the token URL headlessly.
+	It is on your token URL that you should make the call to auth_info with your
+	Application Key. After the library receives a response from the token URL, it
+	will send the -(void)jrAuthenticate:(JRAuthenticate*)jrAuth
+	didReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload
+	message to your delegate with the contents of that response. It is your
+	application's responsibility to parse the response for the user's information.
 
-If you did not instantiate the library with a token URL, the library will remove it's view controller at this point, and it is your responsibility to post the token to your token URL and process the response.
+	We recommend that you make at least one token URL specific to your mobile
+	application, and have its response contain only the information your iPhone
+	application needs.
 
-Whether the JRAuthenticate posts the token to the token URL or your application does, your token URL should be making the call to auth_info with your 40-character Application Key.  Your iPhone application should not contain the Application Key.   
+	Unlike the RPX web-based widget, the library will not redirect the user to
+	the token URL. Instead, it will close the view controller containing the web
+	view, and perform the action of posting the token to the token URL headlessly.
 
-If there were any problems authenticating, or if the user canceled the authentication, the didFailWithError: or the didNotCompleteAuthentication method may be called instead of the didReceiveToken: function.
+	If you did not instantiate the library with a token URL, the library will
+	remove its view controller at this point, and it is your responsibility to 
+	post the token to your token URL and process the response.
+
+	Optionally, you can call the message
+	-(void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token 
+	with any tokenURL and token.
+
+	Whether the library posts the token to the token URL or your application
+	does, your token URL should be making the call to auth_info with your
+	40-character Application Key. Your iPhone application should not contain 
+	the Application Key.
+
+	If there were any problems authenticating, or if the user canceled the
+	authentication, the -(void)jrAuthenticate:(JRAuthenticate*)jrAuth
+	didFailWithError:(NSError*)error or the
+	-(void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth
+	messages may be called instead of the didReceiveToken: message.

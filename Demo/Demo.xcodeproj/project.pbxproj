@@ -505,7 +505,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/${PLATFORM_NAME}.sdk";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
 				COPY_PHASE_STRIP = YES;

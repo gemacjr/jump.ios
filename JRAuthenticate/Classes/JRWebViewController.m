@@ -219,7 +219,6 @@
 	
 	NSString *thatURL = [NSString stringWithFormat:@"%@/signin/device", jrAuth.theBaseUrl];
 	
-//	if ([[[request URL] absoluteString] hasPrefix:@"https://jrauthenticate.rpxnow.com/signin/device"])
 	if ([[[request URL] absoluteString] hasPrefix:thatURL])
 	{
 		DLog(@"request url has prefix: %@", jrAuth.theBaseUrl);
