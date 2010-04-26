@@ -158,7 +158,7 @@
 	
 	DLog(@"prov count = %d", [sessionData.configedProviders count]);
 	
-	if ([sessionData.configedProviders count] == 0)
+	if (!sessionData || [sessionData.configedProviders count] == 0)
 	{
 		[myActivitySpinner setHidden:NO];
 		[myLoadingLabel setHidden:NO];
@@ -186,6 +186,9 @@
 	DLog(@"prov count = %d", [sessionData.configedProviders count]);
 	DLog(@"interval = %f", interval);
 	
+	if (!sessionData && [((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData])
+		sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
+
 	if ([sessionData.configedProviders count] != 0)
 	{
 		[myActivitySpinner stopAnimating];

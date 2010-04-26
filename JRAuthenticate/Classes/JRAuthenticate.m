@@ -70,24 +70,28 @@ static JRAuthenticate* singletonJRAuth = nil;
 - (void)showJRAuthenticateDialog
 {
     DLog(@"");
-	if (errorStr) 
-	{
-		DLog(@"%@", errorStr);
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Initialization Error"
-														message:@"JRAuthenticate had a problem initializing and cannot be used at this time."
-													   delegate:self
-											  cancelButtonTitle:@"OK" 
-											  otherButtonTitles:nil];
-		[alert show];
-		
-		return;
-	}
+//	if (errorStr) 
+//	{
+//		DLog(@"%@", errorStr);
+//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Initialization Error"
+//														message:@"JRAuthenticate had a problem initializing and cannot be used at this time."
+//													   delegate:self
+//											  cancelButtonTitle:@"OK" 
+//											  otherButtonTitles:nil];
+//		[alert show];
+//		
+//		return;
+//	}
 	
 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
 	if (!window) 
 	{
 		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
 	}
+	
+	if (!theBaseUrl)
+		[self startGetBaseUrl];
+	
 	
 	if (!jrModalNavController)
 		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
@@ -144,7 +148,11 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	[theBaseUrl retain];
 	
-	sessionData = [[JRSessionData alloc] initWithBaseUrl:theBaseUrl andDelegate:self];
+	if (!sessionData)
+		sessionData = [[JRSessionData alloc] initWithBaseUrl:theBaseUrl andDelegate:self];
+	
+	if (jrModalNavController)
+		jrModalNavController.sessionData = sessionData;
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata

@@ -62,12 +62,6 @@
 - (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data
 {
 	DLog(@"");
-
-	if (!data)
-	{
-		[self release];
-		return nil;
-	}
 	
 	if (self = [super init])
 	{

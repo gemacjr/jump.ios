@@ -53,7 +53,7 @@
 }
 
 @property (retain) UINavigationController *navigationController;
-@property (readonly) JRSessionData *sessionData;
+@property (retain) JRSessionData *sessionData;
 
 @property (readonly) JRUserLandingController *myUserLandingController;
 @property (readonly) JRWebViewController *myWebViewController;
