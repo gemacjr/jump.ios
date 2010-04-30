@@ -21,7 +21,7 @@
 		"facebook" :
 		{
 			"friendly_name" : "Facebook",
-			"url" : "/facebook/connect_start"
+			"url" : "/facebook/connect_start",
 			"requires_input" : "NO"
 		},
 		
@@ -29,7 +29,7 @@
 		{
 			"friendly_name" : "Flickr",
 			"url" : "/openid/start",
-			"openid_identifier" : "http%3A%2F%2Fflickr.com%2F"
+			"openid_identifier" : "http%3A%2F%2Fflickr.com%2F",
 			"requires_input" : "NO"
 		},
 		
@@ -45,14 +45,14 @@
 		{
 			"friendly_name" : "Hyves",
 			"url" : "/openid/start",
-			"openid_identifier" : "http%3A%2F%2Fhyves.nl%2F"
+			"openid_identifier" : "http%3A%2F%2Fhyves.nl%2F",
 			"requires_input" : "NO"
 		},
 		
 		"linkedin" :
 		{
 			"friendly_name" : "LinkedIn",
-			"url" : "/linkedin/start"
+			"url" : "/linkedin/start",
 			"requires_input" : "NO"
 		},
 		
@@ -68,15 +68,15 @@
 		"myopenid" :
 		{
 			"friendly_name" : "MyOpenID",
-			"url" : "/openid/start"
-			"openid_identifier" : "http%3A%2F%2Fmyopenid.com%2F"
+			"url" : "/openid/start",
+			"openid_identifier" : "http%3A%2F%2Fmyopenid.com%2F",
 			"requires_input" : "NO"
 		},
 		
 		"myspace" :
 		{
 			"friendly_name" : "MySpace",
-			"url" : "/myspace/start"
+			"url" : "/myspace/start",
 			"requires_input" : "NO"
 		},
 		
@@ -103,7 +103,7 @@
 		"twitter" :
 		{
 			"friendly_name" : "Twitter",
-			"url" : "/twitter/start"
+			"url" : "/twitter/start",
 			"requires_input" : "NO"
 		},
 		
@@ -111,14 +111,14 @@
 		{
 			"friendly_name" : "Verisign",
 			"url" : "/openid/start",
-			"openid_identifier" : "http%3A%2F%2Fpip.verisignlabs.com%2F"
+			"openid_identifier" : "http%3A%2F%2Fpip.verisignlabs.com%2F",
 			"requires_input" : "NO"
 		},
 		
 		"live_id" :
 		{
 			"friendly_name" : "Windows Live",
-			"url" : "/liveid/start"
+			"url" : "/liveid/start",
 			"requires_input" : "NO"
 		},
 		
@@ -135,7 +135,7 @@
 		{
 			"friendly_name" : "Yahoo!",
 			"url" :	"/openid/start",
-			"openid_identifier" : "http%3A%2F%2Fme.yahoo.com%2F"
+			"openid_identifier" : "http%3A%2F%2Fme.yahoo.com%2F",
 			"requires_input" : "NO"
 		}
 	}	

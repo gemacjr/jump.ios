@@ -283,9 +283,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	[jrModalNavController dismissModalNavigationController:YES];
 	
-	if (theTokenUrl)
-		[self makeCallToTokenUrlWithToken:theToken];
-	
 	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 	
 	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
@@ -316,6 +313,9 @@ static JRAuthenticate* singletonJRAuth = nil;
 			   @"FALSE", NSHTTPCookieDiscard,
 			   date, NSHTTPCookieExpires, nil]];
 	[cookieStore setCookie:cookie];
+	
+	if (theTokenUrl)
+		[self makeCallToTokenUrlWithToken:theToken];
 }
 
 - (void)jrAuthenticationDidFailWithError:(NSError*)error
@@ -374,19 +374,20 @@ static JRAuthenticate* singletonJRAuth = nil;
 	if (singletonJRAuth == self)
 		singletonJRAuth = nil;
 	
-	[errorStr release];
-
-	[sessionData release];
-	
-	[delegates release];
-	
 	[jrModalNavController release];
 	
 	[theAppId release];
 	[theBaseUrl release];
+	[theTokenUrl release];
+	
+	[delegates release];
 	
 	[theToken release];
-	[theTokenUrl release];
+	[theTokenUrlPayload release];
+	
+	[sessionData release];
+	
+	[errorStr release];
 	
 	[super dealloc];
 }

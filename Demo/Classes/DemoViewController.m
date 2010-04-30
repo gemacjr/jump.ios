@@ -94,6 +94,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	button.titleLabel.adjustsFontSizeToFitWidth = YES;
 	
 	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
+//	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:nil delegate:self] retain];
 }
 
 - (IBAction)launchJRAuthenticate:(id)sender 
