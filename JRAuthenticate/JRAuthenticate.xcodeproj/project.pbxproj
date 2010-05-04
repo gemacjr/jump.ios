@@ -87,7 +87,6 @@
 		9F720B59116A89A600E69F8D /* jrauth_verisign_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_verisign_icon.png; path = Resources/assets/provider_icons/jrauth_verisign_icon.png; sourceTree = "<group>"; };
 		9F720B5A116A89A600E69F8D /* jrauth_wordpress_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_wordpress_icon.png; path = Resources/assets/provider_icons/jrauth_wordpress_icon.png; sourceTree = "<group>"; };
 		9F720B5B116A89A600E69F8D /* jrauth_yahoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_yahoo_icon.png; path = Resources/assets/provider_icons/jrauth_yahoo_icon.png; sourceTree = "<group>"; };
-		9F720C68116AABBF00E69F8D /* provider_list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = provider_list.json; path = Resources/provider_list.json; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* JRAuthenticate_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRAuthenticate_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libJRAuthenticate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJRAuthenticate.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,7 +167,6 @@
 		9F720AAC116A7F8A00E69F8D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9F720C68116AABBF00E69F8D /* provider_list.json */,
 				9F720B33116A895C00E69F8D /* JRProvidersController.xib */,
 				9F720B34116A895C00E69F8D /* JRUserLandingController.xib */,
 				9F720B35116A895C00E69F8D /* JRWebViewController.xib */,
