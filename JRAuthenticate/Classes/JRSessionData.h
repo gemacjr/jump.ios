@@ -76,6 +76,7 @@
 	JRProvider *returningProvider;	
 	
 	NSDictionary	*allProviders;
+	NSDictionary	*providerInfo;
 	NSArray			*configedProviders;
 	
 	NSURL *startURL;
@@ -106,6 +107,7 @@
 - (void)setReturningProviderToProvider:(JRProvider*)provider;
 - (void)setProvider:(NSString *)prov;
 - (void)setCurrentProviderToReturningProvider;
+- (void)loadCookieData;
 	
 - (void)authenticationDidCancel;
 - (void)authenticationDidCompleteWithToken:(NSString*)tok;

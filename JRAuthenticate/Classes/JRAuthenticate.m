@@ -282,38 +282,9 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 	
 	[jrModalNavController dismissModalNavigationController:YES];
-	
-	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	
-	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-	NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:604800];
-	
-	NSHTTPCookie	*cookie = nil;
-	
-	[sessionData setReturningProviderToProvider:sessionData.currentProvider];
-	
-	DLog("Setting cookie \"login_tab\" to value:  %@", sessionData.returningProvider.name);
-	cookie = [NSHTTPCookie cookieWithProperties:
-			  [NSDictionary dictionaryWithObjectsAndKeys:
-			   sessionData.returningProvider.name, NSHTTPCookieValue,
-			   @"login_tab", NSHTTPCookieName,
-			   @"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
-			   @"/", NSHTTPCookiePath,
-			   @"FALSE", NSHTTPCookieDiscard,
-			   date, NSHTTPCookieExpires, nil]];
-	[cookieStore setCookie:cookie];
-	
-	DLog("Setting cookie \"user_input\" to value: %@", sessionData.returningProvider.userInput);
-	cookie = [NSHTTPCookie cookieWithProperties:
-			  [NSDictionary dictionaryWithObjectsAndKeys:
-			   sessionData.returningProvider.userInput, NSHTTPCookieValue,
-			   @"user_input", NSHTTPCookieName,
-			   @"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
-			   @"/", NSHTTPCookiePath,
-			   @"FALSE", NSHTTPCookieDiscard,
-			   date, NSHTTPCookieExpires, nil]];
-	[cookieStore setCookie:cookie];
-	
+
+	[sessionData loadCookieData];
+
 	if (theTokenUrl)
 		[self makeCallToTokenUrlWithToken:theToken];
 }

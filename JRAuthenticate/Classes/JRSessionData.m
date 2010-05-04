@@ -186,13 +186,14 @@
 		returningProvider = nil;
 	
 		allProviders = nil;
+		providerInfo = nil;
 		configedProviders = nil;
 	
 		errorStr = nil;
 		forceReauth = NO;
 		
 		[self startGetConfiguredProviders];
-		[self loadAllProviders];
+//		[self loadAllProviders];
 		[self loadCookieData];
 	}
 	return self;
@@ -203,6 +204,7 @@
 	DLog(@"");
 		
 	[allProviders release];
+	[providerInfo release];
 	[configedProviders release];
 	
 	[currentProvider release];
@@ -229,7 +231,7 @@
 		
 		if(currentProvider.userInput)
 		{
-			[oid replaceOccurrencesOfString:@"%s" withString:[currentProvider.userInput stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] options:NSLiteralSearch range:NSMakeRange(0, [oid length])];
+			[oid replaceOccurrencesOfString:@"%@" withString:[currentProvider.userInput stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] options:NSLiteralSearch range:NSMakeRange(0, [oid length])];
 		}
 		oid = [[@"openid_identifier=" stringByAppendingString:oid] stringByAppendingString:@"&"];
 	}
@@ -289,75 +291,11 @@
 	}
 }
 
-- (void)loadAllProviders
-{
-	DLog(@"");
-	NSString	 *path = nil;
-	NSFileHandle *readHandle = nil;
-	NSString	 *provList = nil;
-	NSDictionary *jsonDict = nil;
-	
-	path = [[NSBundle mainBundle] pathForResource:@"provider_list" ofType:@"json"];
-	
-	if(!path) // Then there was an error
-		return; // TODO: manage error and memory
-	
-	readHandle = [NSFileHandle fileHandleForReadingAtPath:path];
-	
-	if(!readHandle)  // Then there was an error
-		return; // TODO: manage error and memory
-	
-	provList = [[NSString alloc] initWithData:[readHandle readDataToEndOfFile] 
-									 encoding:NSUTF8StringEncoding];
-	
-	if(!provList) // Then there was an error
-		return; // TODO: manage error and memory
-	
-	jsonDict = [provList JSONValue];
-	
-	if(!jsonDict) // Then there was an error
-		return; // TODO: manage error and memory
-	
-	allProviders = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"providers"]];
-	[allProviders retain];
-}
-
-
-- (void)startGetAllProviders
-{
-	DLog(@"");
-	NSString *urlString = @"http://rpxnow.com/iphone/providers";
-	
-	NSURL *url = [NSURL URLWithString:urlString];
-	
-	if(!url) // Then there was an error
-		return;
-	
-	NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
-	
-	NSString *tag = [[NSString stringWithFormat:@"getAllProviders"] retain];
-
-	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
-		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the list of all providers."];
-}
-
-- (void)finishGetAllProviders:(NSString*)dataStr
-{
-	DLog(@"");
-	NSDictionary *jsonDict = [dataStr JSONValue];
-	
-	if(!jsonDict) // Then there was an error
-		return;
-	
-	allProviders = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"providers"]];
-	[allProviders retain];
-}
-
-
 - (void)startGetConfiguredProviders
 {
 	DLog(@"");
-	NSString *urlString = [baseURL stringByAppendingString:@"/openid/ui_config"];
+
+	NSString *urlString = [baseURL stringByAppendingString:@"/openid/iphone_config"];
 	
 	NSURL *url = [NSURL URLWithString:urlString];
 	
@@ -379,6 +317,9 @@
 	
 	if(!jsonDict)
 		return;
+	
+//	providerInfo = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
+	allProviders = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
 	
 	configedProviders = [NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]];
 	
