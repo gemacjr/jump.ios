@@ -250,7 +250,6 @@ static JRConnectionManager* singleton = nil;
 	DLog(@"request: %@", [[request URL] absoluteString]);
 	
 	[delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userdata];
-	[delegate connectionDidFailWithError:nil request:request andTag:userdata];
 	
 	CFDictionaryRemoveValue(connectionBuffers, connection);
 }

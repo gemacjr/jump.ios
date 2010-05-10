@@ -66,7 +66,7 @@
 @synthesize label;
 
 static NSString *appId = @"appcfamhnpkagijaeinl";
-static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
+static NSString *tokenUrl = @"http://jrauthenticate-sandbox.appspot.com/login";
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -95,6 +95,21 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	
 	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
 //	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:nil delegate:self] retain];
+	
+	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:@"jrauthenticate-sandbox.appspot.com"]];
+	
+	NSString *identifier = nil;
+	
+	for (NSHTTPCookie *cookie in cookies) 
+	{
+		if ([cookie.name isEqualToString:@"sid"])
+		{
+			identifier = [NSString stringWithString:cookie.value];
+		}
+	}	
+	
+	
 }
 
 - (IBAction)launchJRAuthenticate:(id)sender 
