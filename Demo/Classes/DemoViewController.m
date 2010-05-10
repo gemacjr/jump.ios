@@ -66,7 +66,7 @@
 @synthesize label;
 
 static NSString *appId = @"appcfamhnpkagijaeinl";
-static NSString *tokenUrl = @"http://jrauthenticate-sandbox.appspot.com/login";
+static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
