@@ -43,6 +43,7 @@
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload;
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error;
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error;
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth;
 @end
 

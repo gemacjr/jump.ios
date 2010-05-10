@@ -147,7 +147,7 @@
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
-	NSString* tag = (NSString*)userdata;
+	NSString* tag = [(NSString*)userdata retain];
 	
 	DLog(@"payload: %@", payload);
 	DLog(@"tag:     %@", tag);
@@ -195,7 +195,7 @@
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
-	NSString* tag = (NSString*)userdata;
+	NSString* tag = [(NSString*)userdata retain];
 	DLog(@"tag:     %@", tag);
 	
 	if ([tag isEqualToString:@"rpx_result"])

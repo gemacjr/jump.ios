@@ -70,18 +70,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 - (void)showJRAuthenticateDialog
 {
     DLog(@"");
-//	if (errorStr) 
-//	{
-//		DLog(@"%@", errorStr);
-//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Initialization Error"
-//														message:@"JRAuthenticate had a problem initializing and cannot be used at this time."
-//													   delegate:self
-//											  cancelButtonTitle:@"OK" 
-//											  otherButtonTitles:nil];
-//		[alert show];
-//		
-//		return;
-//	}
 	
 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
 	if (!window) 
@@ -157,7 +145,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
- 	NSString* tag = (NSString*)userdata;
+ 	NSString* tag = [(NSString*)userdata retain]; 
 
 	DLog(@"payload: %@", payload);
 	DLog(@"tag:     %@", tag);
@@ -189,19 +177,27 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
-	NSString* tag = (NSString*)userdata;
+	NSString* tag = [(NSString*)userdata retain];
 	DLog(@"tag:     %@", tag);
 	
 	if ([tag isEqualToString:@"getBaseURL"])
 	{
 		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
 	}
-	else if ([tag isEqualToString:@"token_url_payload"])
+	else if ([tag hasPrefix:@"token_url:"])
 	{
 		errorStr = [NSString stringWithFormat:@"There was an error posting the token to the token URL.\nThere was an error in the response to a request."];
+		NSRange prefix = [tag rangeOfString:@"token_url:"];
+		
+		NSString *tokenURL = (prefix.length > 0) ? [tag substringFromIndex:prefix.length]: nil;
+		
+		for (id<JRAuthenticateDelegate> delegate in delegates) 
+		{
+			[delegate jrAuthenticate:self callToTokenURL:tokenURL didFailWithError:error];
+		}
 	}
 	
-	[tag release];	
+//	[tag release];	
 }
 
 - (void)connectionWasStoppedWithTag:(void*)userdata 
@@ -261,9 +257,21 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[request setHTTPMethod:@"POST"];
 	[request setHTTPBody:body];
 	
-	NSString* tag = [[NSString stringWithFormat:@"token_url_payload"] retain];
+	NSString* tag = [[NSString stringWithFormat:@"token_url:%@", tokenURL] retain];
 	
-	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
+	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+	{
+		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL"
+                                                             forKey:NSLocalizedDescriptionKey];
+        NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
+                                                         code:100
+                                                     userInfo:userInfo];
+		
+		for (id<JRAuthenticateDelegate> delegate in delegates) 
+		{
+			[delegate jrAuthenticate:self callToTokenURL:tokenURL didFailWithError:error];
+		}
+	}
 }
 
 - (void)makeCallToTokenUrlWithToken:(NSString*)token
