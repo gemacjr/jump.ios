@@ -84,48 +84,118 @@ static NSString *tokenUrl = @"http://jrauthenticate-sandbox.appspot.com/login";
 }
 */
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad 
+- (NSDictionary*)getSignedInUser
 {
-    [super viewDidLoad];
-	
-	button.titleLabel.textAlignment = UITextAlignmentCenter;
-	button.titleLabel.adjustsFontSizeToFitWidth = YES;
-	
-	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
-//	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:nil delegate:self] retain];
-	
 	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:@"jrauthenticate-sandbox.appspot.com"]];
-	
-	NSString *identifier = nil;
+	NSArray *cookies = [cookieStore cookies];//[cookieStore cookiesForURL:[NSURL URLWithString:@"jrauthenticate-sandbox.appspot.com"]];
 	
 	for (NSHTTPCookie *cookie in cookies) 
 	{
 		if ([cookie.name isEqualToString:@"sid"])
 		{
-			identifier = [NSString stringWithString:cookie.value];
+			identifier = [[[NSString stringWithString:cookie.value] 
+							stringByTrimmingCharactersInSet:
+							[NSCharacterSet characterSetWithCharactersInString:@"\""]] retain];
 		}
 	}	
 	
+	if (!identifier)
+		return nil;
 	
+	prefs = [[NSUserDefaults standardUserDefaults] retain];
+
+	NSDictionary *tmp = [prefs dictionaryForKey:identifier];
+	return tmp;
+//	return [prefs dictionaryForKey:identifier];
+}
+
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad 
+{
+	user = nil;
+	identifier = nil;
+	
+	button.titleLabel.textAlignment = UITextAlignmentCenter;
+	button.titleLabel.adjustsFontSizeToFitWidth = YES;
+	
+	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
+	//	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:nil delegate:self] retain];
+
+    [super viewDidLoad];
+	
+	if(user = [self getSignedInUser])
+	{
+		signedIn = YES;
+		button.titleLabel.text = @"Sign Out";
+		[self displayWelcomeMessage];
+	}
+	else
+	{
+		
+	}
+}
+
+- (void)signUserIn
+{
+	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\/" withString:@"/"] retain];
+	[prefs setObject:user forKey:identifier];
+}
+
+- (void)signUserOut
+{
+	[prefs removeObjectForKey:identifier];	
 }
 
 - (IBAction)launchJRAuthenticate:(id)sender 
 {
-	printf("clicked button\n");
 	if (!signedIn)
 	{
 		[jrAuthenticate showJRAuthenticateDialog];
 	}
 	else
 	{
+		[self signUserOut];
 		signedIn = NO;
 		button.titleLabel.text = @"Sign In";
 		[label setHidden:YES];
 	}
 	
+}
+
+- (void)displayWelcomeMessage
+{
+	NSString *welcome_message = nil;
+	NSString *name = nil;
+
+	NSDictionary *profile = [user objectForKey:@"profile"];
+	
+	if ([[profile objectForKey:@"name"] objectForKey:@"givenName"] && [[profile objectForKey:@"name"] objectForKey:@"familyName"])
+		name = [NSString stringWithFormat:@"%@ %@", 
+				[[profile objectForKey:@"name"] objectForKey:@"givenName"], 
+				[[profile objectForKey:@"name"] objectForKey:@"familyName"]];
+	else if ([profile objectForKey:@"preferredUsername"])
+		name = [NSString stringWithFormat:@"%@", [profile objectForKey:@"preferredUsername"]];
+	
+	if (name)
+	{
+		welcome_message = [NSString stringWithFormat:@"You are now signed in as %@", name];
+		label.text = [NSString stringWithFormat:@"Welcome, %@!", name];
+	}
+	else 
+	{
+		welcome_message = [NSString stringWithFormat:@"You are now signed in."];
+		label.text = [NSString stringWithFormat:@"Welcome!", name];
+	}
+	
+	[label setHidden:NO];
+	
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"User Authenticated"
+													message:welcome_message
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles:nil];
+	[alert show];
 }
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token
@@ -143,46 +213,16 @@ static NSString *tokenUrl = @"http://jrauthenticate-sandbox.appspot.com/login";
 	
 	NSString *userStr = [tokenUrlPayload substringFromIndex:found.location];
 	
-	NSDictionary *userDict = [userStr JSONValue];
+	user = [[userStr JSONValue] retain];
 	
-	if(!userDict) // Then there was an error
+	if(!user) // Then there was an error
 		return; // TODO: manage error and memory
 	
-	User* user = [[User alloc] initWithDictionary:[userDict objectForKey:@"profile"]];
+	[self signUserIn];
+	[self displayWelcomeMessage];
 	
-	
-	NSString *welcome_message = nil;
-	NSString *name = nil;
-	
-	if ([[user.dictionary objectForKey:@"name"] objectForKey:@"givenName"] && [[user.dictionary objectForKey:@"name"] objectForKey:@"familyName"])
-		name = [NSString stringWithFormat:@"%@ %@", 
-						   [[user.dictionary objectForKey:@"name"] objectForKey:@"givenName"], 
-						   [[user.dictionary objectForKey:@"name"] objectForKey:@"familyName"]];
-	else if ([user.dictionary objectForKey:@"preferredUsername"])
-		name = [NSString stringWithFormat:@"%@", [user.dictionary objectForKey:@"preferredUsername"]];
-	
-	if (name)
-	{
-		welcome_message = [NSString stringWithFormat:@"You are now signed in as %@", name];
-		label.text = [NSString stringWithFormat:@"Welcome, %@!", name];
-	}
-	else 
-	{
-		welcome_message = [NSString stringWithFormat:@"You are now signed in."];
-		label.text = [NSString stringWithFormat:@"Welcome!", name];
-	}
-
-	[label setHidden:NO];
-	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"User Authenticated"
-													message:welcome_message
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
-	[alert show];
+//	User* user = [[User alloc] initWithDictionary:[userDict objectForKey:@"profile"]];
 }
-
-
 
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth
 {
@@ -222,8 +262,13 @@ static NSString *tokenUrl = @"http://jrauthenticate-sandbox.appspot.com/login";
 }
 
 
-- (void)dealloc {
-    [super dealloc];
+- (void)dealloc 
+{
+	[user release];
+	[identifier release];
+	[prefs release];
+    
+	[super dealloc];
 }
 
 @end

@@ -40,6 +40,11 @@
 	UILabel	 *label;
 	
 	BOOL signedIn;
+	
+	NSString		*identifier;
+	NSDictionary	*user;
+	
+	NSUserDefaults *prefs;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *button;
