@@ -31,25 +31,24 @@
 
 #import <UIKit/UIKit.h>
 #import "JRAuthenticate.h"
-#import "JRUserLandingController.h"
-#import "JRWebViewController.h"
 #import "JRInfoBar.h"
 
 @class JRAuthenticate;
-@class JRUserLandingController;
-@class JRWebViewController;
 @class JRSessionData;
 
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
-														UITableViewDataSource, UIAlertViewDelegate,	UIActionSheetDelegate> 
+														UITableViewDataSource, UIAlertViewDelegate> 
 {
 	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
 
-	UITableView				*myTableView;
+	UITableView		*myTableView;
+	
+	/* Activity Spinner and Label displayed while the list of configured providers is empty */
 	UILabel					*myLoadingLabel;
-	UIActivityIndicatorView *myActivitySpinner;
-	UILabel		*label;
+	UIActivityIndicatorView *myActivitySpinner; 
+	
+	UILabel		*titleLabel;
 
 	JRInfoBar	*infoBar;
 }
