@@ -161,7 +161,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
 		}
 	}
-	else if ([tag isEqualToString:@"token_url_payload"])
+	else if ([tag hasPrefix:@"token_url:"])
 	{
 		theTokenUrlPayload = [[NSString stringWithString:payload] retain];
 		NSString* tokenURL = [[NSString stringWithString:[[request URL] absoluteString]] retain];
