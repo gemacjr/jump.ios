@@ -99,6 +99,7 @@ static NSString *tokenUrl = @"http://jrauthenticate-sandbox.appspot.com/login";
 		}
 	}	
 	
+	
 	if (!identifier)
 		return nil;
 	

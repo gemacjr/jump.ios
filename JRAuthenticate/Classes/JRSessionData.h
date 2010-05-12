@@ -107,7 +107,7 @@
 - (void)setReturningProviderToProvider:(JRProvider*)provider;
 - (void)setProvider:(NSString *)prov;
 - (void)setCurrentProviderToReturningProvider;
-- (void)loadCookieData;
+//- (void)loadCookieData;
 	
 - (void)authenticationDidCancel;
 - (void)authenticationDidCompleteWithToken:(NSString*)tok;

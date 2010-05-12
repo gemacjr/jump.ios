@@ -193,8 +193,6 @@
 		forceReauth = NO;
 		
 		[self startGetConfiguredProviders];
-//		[self loadAllProviders];
-		[self loadCookieData];
 	}
 	return self;
 }
@@ -287,7 +285,6 @@
 			[returningProvider setWelcomeString:welcomeString];
 		if (userInput)
 			[returningProvider setUserInput:userInput];
-		
 	}
 }
 
@@ -325,6 +322,8 @@
 	
 	if(configedProviders)
 		[configedProviders retain];
+	
+	[self loadCookieData];
 }
 
 
@@ -411,6 +410,48 @@
 - (void)authenticationDidCompleteWithToken:(NSString*)tok
 {
 	token = [tok retain];
+	
+	[self setReturningProviderToProvider:self.currentProvider];
+	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseURL]];
+	
+	NSString *welcomeString = nil;
+	
+	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+	NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:604800];
+	
+	NSHTTPCookie	*cookie = nil;
+	
+	DLog("Setting cookie \"login_tab\" to value:  %@", self.returningProvider.name);
+	cookie = [NSHTTPCookie cookieWithProperties:
+			  [NSDictionary dictionaryWithObjectsAndKeys:
+			   self.returningProvider.name, NSHTTPCookieValue,
+			   @"login_tab", NSHTTPCookieName,
+			   @"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
+			   @"/", NSHTTPCookiePath,
+			   @"FALSE", NSHTTPCookieDiscard,
+			   date, NSHTTPCookieExpires, nil]];
+	[cookieStore setCookie:cookie];
+	
+	DLog("Setting cookie \"user_input\" to value: %@", self.returningProvider.userInput);
+	cookie = [NSHTTPCookie cookieWithProperties:
+			  [NSDictionary dictionaryWithObjectsAndKeys:
+			   self.returningProvider.userInput, NSHTTPCookieValue,
+			   @"user_input", NSHTTPCookieName,
+			   @"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
+			   @"/", NSHTTPCookiePath,
+			   @"FALSE", NSHTTPCookieDiscard,
+			   date, NSHTTPCookieExpires, nil]];
+	[cookieStore setCookie:cookie];
+	
+	for (NSHTTPCookie *savedCookie in cookies) 
+	{
+		if ([savedCookie.name isEqualToString:@"welcome_info"])
+		{
+			[returningProvider setWelcomeString:[NSString stringWithString:savedCookie.value]];
+		}
+	}	
+	
 	[delegate jrAuthenticationDidCompleteWithToken:token];
 }
 

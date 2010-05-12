@@ -292,7 +292,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	[jrModalNavController dismissModalNavigationController:YES];
 
-	[sessionData loadCookieData];
+//	[sessionData loadCookieData];
 
 	if (theTokenUrl)
 		[self makeCallToTokenUrlWithToken:theToken];
