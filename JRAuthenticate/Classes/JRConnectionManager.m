@@ -227,7 +227,7 @@ static JRConnectionManager* singleton = nil;
 - (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response 
 {
 	DLog(@"");
-	[(ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection) setResponse:[[NSMutableData alloc] init]];
+	[(ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection) setResponse:[[[NSMutableData alloc] init] autorelease]];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection 
@@ -243,7 +243,7 @@ static JRConnectionManager* singleton = nil;
 	ConnectionData2 *connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 	
 	NSURLRequest *request = [connectionData request];
-	NSString *payload = [[NSString alloc] initWithData:[connectionData response] encoding:NSASCIIStringEncoding];	
+	NSString *payload = [[[NSString alloc] initWithData:[connectionData response] encoding:NSASCIIStringEncoding] autorelease];	
 	void* userdata = [connectionData tag];
 	id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 	
