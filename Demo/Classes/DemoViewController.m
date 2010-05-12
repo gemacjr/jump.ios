@@ -191,11 +191,11 @@ static NSString *tokenUrl = @"http://jrauthenticate-sandbox.appspot.com/login";
 	
 	[label setHidden:NO];
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"User Authenticated"
-													message:welcome_message
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"User Authenticated"
+													 message:welcome_message
+													delegate:self
+										   cancelButtonTitle:@"OK"
+										   otherButtonTitles:nil] autorelease];
 	[alert show];
 }
 

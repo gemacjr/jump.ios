@@ -527,11 +527,11 @@
 		}
 		else
 		{
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
-															message:@"The input you have entered is not valid. Please try again."
-														   delegate:self
-												  cancelButtonTitle:@"OK" 
-												  otherButtonTitles:nil];
+			UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Invalid Input"
+															 message:@"The input you have entered is not valid. Please try again."
+															delegate:self
+												   cancelButtonTitle:@"OK" 
+												   otherButtonTitles:nil] autorelease];
 			[alert show];
 			return;
 		}

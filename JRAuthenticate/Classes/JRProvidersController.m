@@ -231,10 +231,10 @@
 		app.networkActivityIndicatorVisible = YES;
 			
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers"
-														message:@"There seems to be a problem connecting.  Please try again later."
-													   delegate:self
-											  cancelButtonTitle:@"OK" 
-											  otherButtonTitles:nil] autorelease];
+														 message:@"There seems to be a problem connecting.  Please try again later."
+														delegate:self
+											   cancelButtonTitle:@"OK" 
+											   otherButtonTitles:nil] autorelease];
 		[alert show];
 		return;
 	}
