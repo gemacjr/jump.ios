@@ -37,7 +37,7 @@
 
 
 @class JRAuthenticate;
-@class JRProvidersController;
+@class JRWebViewController;
 @class JRUserLandingController;
 
 
