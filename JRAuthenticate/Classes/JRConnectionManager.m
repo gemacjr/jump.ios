@@ -106,15 +106,15 @@
 @synthesize connectionBuffers;
 
 static JRConnectionManager* singleton = nil;
-+ (JRConnectionManager*)jrConnectionManager
-{
-	return singleton;
-}
-
-+ (void)setJRConnectionManager:(JRConnectionManager*)connMan 
-{
-	singleton = connMan;
-}
+//+ (JRConnectionManager*)jrConnectionManager
+//{
+//	return singleton;
+//}
+//
+//+ (void)setJRConnectionManager:(JRConnectionManager*)connMan 
+//{
+//	singleton = connMan;
+//}
 
 - (JRConnectionManager*)init
 {
@@ -127,15 +127,61 @@ static JRConnectionManager* singleton = nil;
 	
 	return self;	
 }
+//
+//+ (MyGizmoClass*)sharedManager
+//{
+//    if (sharedGizmoManager == nil) {
+//        sharedGizmoManager = [[super allocWithZone:NULL] init];
+//    }
+//    return sharedGizmoManager;
+//}
+
++ (id)allocWithZone:(NSZone *)zone
+{
+    return [[self getJRConnectionManager] retain];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (id)retain
+{
+    return self;
+}
+
+- (NSUInteger)retainCount
+{
+    return NSUIntegerMax;  //denotes an object that cannot be released
+}
+
+- (void)release
+{
+    //do nothing
+}
+
+- (id)autorelease
+{
+    return self;
+}
 
 + (JRConnectionManager*)getJRConnectionManager
 {
-	if (singleton)
-		return singleton;
+    if (singleton == nil) {
+        singleton = [[super allocWithZone:NULL] init];
+    }
 	
-	return [[JRConnectionManager alloc] init];
+    return singleton;
+	
+//	if (singleton)
+//		return singleton;
+//	
+//	return [[JRConnectionManager alloc] init];
 }
 
+/* Hmmmm... now that I've set up a full singleton instance of this class, will this ever be called?
+   Leaving it here in case I want to make this not a singleton, so that my library isn't eating memory. */
 - (void)dealloc
 {
 	DLog(@"");
@@ -185,7 +231,7 @@ static JRConnectionManager* singleton = nil;
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
 	
-	[request release];
+//	[request release];
 	[connection release];
 	[connectionData release];
 	

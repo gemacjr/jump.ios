@@ -112,11 +112,11 @@
     DLog(@"");
 
 	// TODO: Should autorelease this?
-	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.0.23"
-														delegate:self
-											   cancelButtonTitle:@"OK"  
-										  destructiveButtonTitle:nil
-											   otherButtonTitles:nil];
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.0.23"
+														 delegate:self
+												cancelButtonTitle:@"OK"  
+										   destructiveButtonTitle:nil
+												otherButtonTitles:nil] autorelease];
 	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	[action showInView:self.superview];
 }

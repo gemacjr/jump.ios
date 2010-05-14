@@ -42,6 +42,11 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+@interface JRAuthenticate()
+- (void)startGetBaseUrl;
+@end
+
+
 @implementation JRAuthenticate
 
 @synthesize theBaseUrl;
@@ -115,6 +120,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
 		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the base url."];
+	
+	[request release];
 }
 
 - (void)finishGetBaseUrl:(NSString*)dataStr
@@ -146,10 +153,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
- 	NSString* tag = [(NSString*)userdata retain]; 
-
-	DLog(@"payload: %@", payload);
-	DLog(@"tag:     %@", tag);
+ 	NSString* tag = (NSString*)userdata;//[(NSString*)userdata retain]; 
+	[payload retain];
+	
+	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
+	DLog(@"payload (retain count: %d): %@", [payload retainCount], payload);
+	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
 
 	if ([tag isEqualToString:@"getBaseURL"])
 	{
@@ -165,7 +174,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	else if ([tag hasPrefix:@"token_url:"])
 	{
 		theTokenUrlPayload = [[NSString stringWithString:payload] retain];
-		NSString* tokenURL = [[NSString stringWithString:[[request URL] absoluteString]] retain];
+		NSString* tokenURL = [NSString stringWithString:[[request URL] absoluteString]];
 							
 		for (id<JRAuthenticateDelegate> delegate in delegates) 
 		{
@@ -178,7 +187,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
-	NSString* tag = [(NSString*)userdata retain];
+	NSString* tag = (NSString*)userdata;//[(NSString*)userdata retain];
 	DLog(@"tag:     %@", tag);
 	
 	if ([tag isEqualToString:@"getBaseURL"])
@@ -198,7 +207,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 		}
 	}
 	
-//	[tag release];	
+	[tag release];	
 }
 
 - (void)connectionWasStoppedWithTag:(void*)userdata 
@@ -273,6 +282,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 			[delegate jrAuthenticate:self callToTokenURL:tokenURL didFailWithError:error];
 		}
 	}
+	
+	[request release];
 }
 
 - (void)makeCallToTokenUrlWithToken:(NSString*)token

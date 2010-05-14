@@ -149,7 +149,7 @@
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
 	// TODO: Do we wanna autorelease the BarButtonItem and the View?
-	UIBarButtonItem *dummyPlaceholder = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 44)]];
+	UIBarButtonItem *dummyPlaceholder = [[[UIBarButtonItem alloc] initWithCustomView:[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 44)] autorelease]] autorelease];
 	
 	self.navigationItem.leftBarButtonItem = dummyPlaceholder;
 	self.navigationItem.leftBarButtonItem.enabled = NO;
@@ -265,7 +265,7 @@
 /* Footer makes room for info bar.  If info bar is removed, remove the footer as well. */
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-	UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)];
+	UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)] autorelease];
 	return view;
 }
 

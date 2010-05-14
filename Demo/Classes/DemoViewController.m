@@ -110,65 +110,11 @@ static NSString *tokenUrl = @"http://jrauthenticate-sandbox.appspot.com/login";
 //	return [prefs dictionaryForKey:identifier];
 }
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad 
-{
-	user = nil;
-	identifier = nil;
-	
-	button.titleLabel.textAlignment = UITextAlignmentCenter;
-	button.titleLabel.adjustsFontSizeToFitWidth = YES;
-	
-	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
-	//	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:nil delegate:self] retain];
-
-    [super viewDidLoad];
-	
-	if(user = [self getSignedInUser])
-	{
-		signedIn = YES;
-		button.titleLabel.text = @"Sign Out";
-		[self displayWelcomeMessage];
-	}
-	else
-	{
-		
-	}
-}
-
-- (void)signUserIn
-{
-	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\/" withString:@"/"] retain];
-	[prefs setObject:user forKey:identifier];
-}
-
-- (void)signUserOut
-{
-	[prefs removeObjectForKey:identifier];	
-}
-
-- (IBAction)launchJRAuthenticate:(id)sender 
-{
-	if (!signedIn)
-	{
-		[jrAuthenticate showJRAuthenticateDialog];
-	}
-	else
-	{
-		[self signUserOut];
-		signedIn = NO;
-		button.titleLabel.text = @"Sign In";
-		[label setHidden:YES];
-	}
-	
-}
-
 - (void)displayWelcomeMessage
 {
 	NSString *welcome_message = nil;
 	NSString *name = nil;
-
+	
 	NSDictionary *profile = [user objectForKey:@"profile"];
 	
 	if ([[profile objectForKey:@"name"] objectForKey:@"givenName"] && [[profile objectForKey:@"name"] objectForKey:@"familyName"])
@@ -198,6 +144,63 @@ static NSString *tokenUrl = @"http://jrauthenticate-sandbox.appspot.com/login";
 										   otherButtonTitles:nil] autorelease];
 	[alert show];
 }
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad 
+{
+	user = nil;
+	identifier = nil;
+	
+	button.titleLabel.textAlignment = UITextAlignmentCenter;
+	button.titleLabel.adjustsFontSizeToFitWidth = YES;
+	
+	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
+	//	jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:nil delegate:self] retain];
+
+    [super viewDidLoad];
+	
+	if(user = [self getSignedInUser])
+	{
+		signedIn = YES;
+		button.titleLabel.text = @"Sign Out";
+		[self displayWelcomeMessage];
+	}
+	else
+	{
+		
+	}
+}
+
+
+
+- (void)signUserIn
+{
+	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
+	[prefs setObject:user forKey:identifier];
+}
+
+- (void)signUserOut
+{
+	[prefs removeObjectForKey:identifier];	
+}
+
+- (IBAction)launchJRAuthenticate:(id)sender 
+{
+	if (!signedIn)
+	{
+		[jrAuthenticate showJRAuthenticateDialog];
+	}
+	else
+	{
+		[self signUserOut];
+		signedIn = NO;
+		button.titleLabel.text = @"Sign In";
+		[label setHidden:YES];
+	}
+	
+}
+
+
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token
 {

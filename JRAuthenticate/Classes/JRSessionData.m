@@ -147,14 +147,8 @@
 - (void)startGetConfiguredProviders;
 - (void)finishGetConfiguredProviders:(NSString*)dataStr;
 
-- (void)startGetAllProviders;
-- (void)finishGetAllProviders:(NSString*)dataStr;
-
-- (void)loadAllProviders;
 - (void)loadCookieData;
 @end
-
-
 
 @implementation JRSessionData
 @synthesize errorStr;
@@ -166,6 +160,8 @@
 @synthesize returningProvider;
 
 @synthesize forceReauth;
+@synthesize token;
+
 
 - (id)initWithBaseUrl:(NSString*)URL andDelegate:(id<JRSessionDelegate>)del
 {
@@ -305,6 +301,9 @@
 	
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
 		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the list of configured providers."];
+
+	[request release];
+	DLog("XXXXXXX request retain count = %d", [request retainCount]);
 }
 
 - (void)finishGetConfiguredProviders:(NSString*)dataStr
@@ -330,6 +329,7 @@
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
 	NSString* tag = (NSString*)userdata;
+	[payload retain];
 	
 	DLog(@"payload: %@", payload);
 	DLog(@"tag:     %@", tag);
@@ -346,6 +346,7 @@
 		}
 	}
 	
+	[payload release];
 	[tag release];	
 }
 
@@ -415,10 +416,8 @@
 	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseURL]];
 	
-	NSString *welcomeString = nil;
-	
 	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-	NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:604800];
+	NSDate *date = [[[NSDate alloc] initWithTimeIntervalSinceNow:604800] autorelease];
 	
 	NSHTTPCookie	*cookie = nil;
 	

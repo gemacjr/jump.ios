@@ -214,7 +214,6 @@
 @interface JRUserLandingController ()
 - (NSString*)customTitle;
 - (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString;
-- (NSString*)validateText:(NSString*)textFieldText;
 - (void)callWebView:(UITextField *)textField;
 @end
 

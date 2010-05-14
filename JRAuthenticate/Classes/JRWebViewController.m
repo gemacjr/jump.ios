@@ -148,6 +148,7 @@
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
 	NSString* tag = [(NSString*)userdata retain];
+	[payload retain];
 	
 	DLog(@"payload: %@", payload);
 	DLog(@"tag:     %@", tag);
@@ -176,11 +177,11 @@
 				
 				DLog(@"Discovery failed for the OpenID you entered.\n%@", message);
 				
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
-																message:message
-															   delegate:self
-													  cancelButtonTitle:@"OK" 
-													  otherButtonTitles:nil];
+				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Invalid Input"
+																 message:message
+																delegate:self
+													   cancelButtonTitle:@"OK" 
+													   otherButtonTitles:nil] autorelease];
 				
 				[[self navigationController] popViewControllerAnimated:YES];
 
@@ -189,6 +190,7 @@
 		}
 	}
 
+	[payload release];
 	[tag release];	
 	[self stopProgress];	
 }
