@@ -40,13 +40,23 @@ import cgi
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.ext import db
+
+from django.utils import simplejson
+
+import Cookie
+
+
+class UserLogin(db.Model):
+    identifier = db.StringProperty(multiline=False)
+    date = db.DateTimeProperty(auto_now_add=True)
+
 
 class MainHandler(webapp.RequestHandler):
 	
 	def get(self):
        		path = os.path.join(os.path.dirname(__file__), 'index.html')
        		self.response.out.write(template.render(path, 0))
-
 
 
 class Login(webapp.RequestHandler):
@@ -58,7 +68,6 @@ class Login(webapp.RequestHandler):
 		
 			# Step 2) Now that we have the token, we need to make the api call to 
 			# auth_info.  auth_info expects an HTTP Post with the following paramters:
-			# LOCAL 
 			api_params = {
 				'token': token,
 				'apiKey': '<YOUR_RPX_APPLICATIONS_40_CHARACTER_API_KEY>',
@@ -66,8 +75,34 @@ class Login(webapp.RequestHandler):
 			}
 			http_response = urllib2.urlopen('https://rpxnow.com/api/v2/auth_info',
 											urllib.urlencode(api_params))
-			self.response.out.write(http_response.read())
-			print http_response.read()
+			response = http_response.read()
+
+			auth_info = simplejson.loads(response)
+			profile = auth_info['profile']
+   
+			# 'identifier' will always be in the payload. This is the
+			# unique idenfifier that you use to sign the user in to your site
+			identifier = profile['identifier']
+   
+   			# Create a user object and store it in your datastore
+			userLogin = UserLogin()
+			userLogin.identifier = identifier
+			userLogin.put()
+
+			# Create a cookie with the identifier to send to the iPhone app
+			cookie = Cookie.SimpleCookie()
+			
+			# Set the sid in the cookie
+			cookie['sid'] = identifier
+			
+			# Will expire in two weeks
+			cookie['sid']['expires'] = 14 * 24 * 60 * 60
+			cookie['sid']['path'] = "/"
+			cookie['sid']['domain'] = "jrauthenticate.appspot.com"
+			
+			self.response.headers.add_header('Set-Cookie', cookie['sid'].OutputString())
+			self.response.out.write(response)
+			print response
 	
 
 def main():
