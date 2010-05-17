@@ -148,13 +148,13 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
-	// TODO: Do we wanna autorelease the BarButtonItem and the View?
-	UIBarButtonItem *dummyPlaceholder = [[[UIBarButtonItem alloc] initWithCustomView:[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 44)] autorelease]] autorelease];
-	
-	self.navigationItem.leftBarButtonItem = dummyPlaceholder;
-	self.navigationItem.leftBarButtonItem.enabled = NO;
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStylePlain;
+	UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
+										initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+										target:nil
+										action:nil] autorelease];
 
+	self.navigationItem.leftBarButtonItem = placeholderItem;
+	
 	if (!infoBar)
 	{
 		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30)];
