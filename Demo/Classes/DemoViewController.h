@@ -31,23 +31,42 @@
 
 #import <UIKit/UIKit.h>
 #import "JRAuthenticate.h"
+#import "UserProfileLevel1.h"
+
+@interface UIDemoButton : UIButton 
+{
+	UILabel		*label;
+	UIImageView	*logo1;
+	UIImageView	*logo2;
+	UIImageView	*logo3;
+	UIImageView	*logo4;
+}
+
+@property (retain) 	UILabel		*label;
+@property (retain) 	UIImageView	*logo1;
+@property (retain) 	UIImageView	*logo2;
+@property (retain) 	UIImageView	*logo3;
+@property (retain) 	UIImageView	*logo4;
+@end
 
 @interface DemoViewController : UIViewController <JRAuthenticateDelegate>
 {
 	JRAuthenticate *jrAuthenticate;
 	
-	UIButton *button;
+	UIDemoButton *button;
 	UILabel	 *label;
 	
 	BOOL signedIn;
 	
 	NSString		*identifier;
-	NSDictionary	*user;
+	NSDictionary	*currentUser;
 	
 	NSUserDefaults *prefs;
+	
+	UINavigationController	*navigationController;
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *button;
+@property (nonatomic, retain) IBOutlet UIDemoButton *button;
 @property (nonatomic, retain) IBOutlet UILabel	*label;
 
 - (IBAction)launchJRAuthenticate:(id)sender;
