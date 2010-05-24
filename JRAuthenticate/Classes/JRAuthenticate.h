@@ -40,6 +40,7 @@
 
 @protocol JRAuthenticateDelegate <NSObject>
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token;
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider;
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload;
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error;

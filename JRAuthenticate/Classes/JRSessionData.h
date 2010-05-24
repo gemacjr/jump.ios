@@ -58,12 +58,10 @@
 - (JRProvider*)initWithName:(NSString*)nm andStats:(NSDictionary*)stats;
 @end
 
-
-
 @protocol JRSessionDelegate <NSObject>
 
 - (void)jrAuthenticationDidCancel;
-- (void)jrAuthenticationDidCompleteWithToken:(NSString*)tok;
+- (void)jrAuthenticationDidCompleteWithToken:(NSString*)tok andProvider:(NSString*)prov;
 - (void)jrAuthenticationDidFailWithError:(NSError*)err;
 
 @end
@@ -78,6 +76,8 @@
 	NSDictionary	*allProviders;
 	NSDictionary	*providerInfo;
 	NSArray			*configedProviders;
+	
+	BOOL hidePoweredBy;
 	
 	NSURL *startURL;
 	
@@ -97,6 +97,8 @@
 
 @property (readonly) NSDictionary *allProviders;
 @property (readonly) NSArray *configedProviders;
+
+@property (readonly) BOOL hidePoweredBy;
 
 @property (readonly) NSURL *startURL;
 @property (assign) BOOL forceReauth;

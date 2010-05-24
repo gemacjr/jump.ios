@@ -159,6 +159,8 @@
 @synthesize currentProvider;
 @synthesize returningProvider;
 
+@synthesize hidePoweredBy;
+
 @synthesize forceReauth;
 @synthesize token;
 
@@ -319,6 +321,11 @@
 	
 	configedProviders = [NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]];
 	
+	if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
+		hidePoweredBy = YES;
+	else
+		hidePoweredBy = NO;
+	
 	if(configedProviders)
 		[configedProviders retain];
 	
@@ -451,7 +458,7 @@
 		}
 	}	
 	
-	[delegate jrAuthenticationDidCompleteWithToken:token];
+	[delegate jrAuthenticationDidCompleteWithToken:token andProvider:currentProvider.name];
 }
 
 - (void)authenticationDidFailWithError:(NSError*)err

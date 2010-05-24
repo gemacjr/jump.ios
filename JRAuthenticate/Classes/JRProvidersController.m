@@ -149,15 +149,19 @@
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
 	UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
-										initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+										initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
 										target:nil
 										action:nil] autorelease];
 
+	placeholderItem.width = 100;
 	self.navigationItem.leftBarButtonItem = placeholderItem;
 	
 	if (!infoBar)
 	{
-		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30)];
+		if (!sessionData || [sessionData hidePoweredBy])
+			infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:JRInfoBarStyleHidePoweredBy];
+		else
+			infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:JRInfoBarStyleShowPoweredBy];
 		[self.view addSubview:infoBar];
 	}
 

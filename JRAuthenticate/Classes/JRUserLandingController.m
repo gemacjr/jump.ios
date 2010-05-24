@@ -272,7 +272,7 @@
 	
 	if (!infoBar)
 	{
-		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30)];
+		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
 		[self.view addSubview:infoBar];
 	}
 	[infoBar fadeIn];	

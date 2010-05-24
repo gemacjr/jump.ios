@@ -30,6 +30,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum
+{
+	JRInfoBarStyleShowPoweredBy = 0,
+	JRInfoBarStyleHidePoweredBy
+} JRInfoBarStyle;
+
 @interface JRInfoBar : UIView <UIActionSheetDelegate>
 {
 	UIActivityIndicatorView *spinner;
@@ -37,7 +43,12 @@
 	UIImageView		*barImage;	
 	UILabel			*poweredByLabel;
 	UIButton		*infoButton;
+	
+	BOOL hidesPoweredBy;
+	NSInteger y_origin_hidden;
 }
+
+- (JRInfoBar*)initWithFrame:(CGRect)frame andStyle:(JRInfoBarStyle)style;
 
 - (void)startProgress;
 - (void)stopProgress;

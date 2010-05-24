@@ -98,9 +98,10 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)startGetBaseUrl
 {
-#if LOCAL // TODO: Change this to use stringWithFormat instead
+	
+#ifdef LOCAL // TODO: Change this to use stringWithFormat instead
 	NSString *urlString = [[@"http://lillialexis.janrain.com:8080/jsapi/v3/base_url?appId=" 
-							stringByAppendingString:theAppId]
+							stringByAppendingString:@"dgnclgmgpcjmdebbhkhf"]
 						   stringByAppendingString:@"&skipXdReceiver=true"];
 #else
 	NSString *urlString = [[@"http://rpxnow.com/jsapi/v3/base_url?appId=" 
@@ -291,7 +292,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[self makeCallToTokenUrl:theTokenUrl WithToken:token];
 }	
 
-- (void)jrAuthenticationDidCompleteWithToken:(NSString*)token
+- (void)jrAuthenticationDidCompleteWithToken:(NSString*)token andProvider:(NSString*)provider
 {
 	DLog(@"token: %@", token);
 	
@@ -299,6 +300,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
 		[delegate jrAuthenticate:self didReceiveToken:token];
+		[delegate jrAuthenticate:self didReceiveToken:token forProvider:provider];
 	}
 	
 	[jrModalNavController dismissModalNavigationController:YES];

@@ -43,11 +43,19 @@
 
 @implementation JRInfoBar
 
-- (id)initWithFrame:(CGRect)frame 
+- (id)initWithFrame:(CGRect)frame andStyle:(JRInfoBarStyle)style
 {
     DLog(@"");
+	
 	if (self = [super initWithFrame:frame]) 
 	{
+		hidesPoweredBy = style;
+		y_origin_hidden = self.frame.origin.y + self.frame.size.height;
+		
+		if (hidesPoweredBy)
+			[self setFrame:CGRectMake(self.frame.origin.x, y_origin_hidden, self.frame.size.width, self.frame.size.height)];
+				
+		
 		barImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
 		barImage.image = [UIImage imageNamed:@"bottom_bar.png"];
 
@@ -56,7 +64,11 @@
 		poweredByLabel.font = [UIFont italicSystemFontOfSize:13.0];
 		poweredByLabel.textColor = [UIColor whiteColor];
 		poweredByLabel.textAlignment = UITextAlignmentRight;
-		poweredByLabel.text = @"Powered by Janrain";
+		
+		if (style == JRInfoBarStyleShowPoweredBy)
+			poweredByLabel.text = @"Powered by Janrain";
+		else
+			poweredByLabel.text = @"";
 		
 		infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
 		infoButton.frame = CGRectMake(300, 7, 15, 15);
@@ -127,9 +139,18 @@
 
 	[spinner startAnimating];
 
+	if (hidesPoweredBy)
+	{
+		[UIView beginAnimations:@"show" context:nil];
+		[UIView setAnimationDuration:0.3];
+		[UIView	setAnimationDelay:0.0];
+		[self setFrame:CGRectMake(self.frame.origin.x, (y_origin_hidden - self.frame.size.height), self.frame.size.width, self.frame.size.height)];
+		[UIView commitAnimations];
+	}
+	
 	[UIView beginAnimations:@"fade" context:nil];
 	[UIView setAnimationDuration:0.1];
-	[UIView	setAnimationDelay:0.0];
+	[UIView	setAnimationDelay:(hidesPoweredBy) ? 0.3 : 0.0];
 	spinner.alpha = 1.0;
 	loadingLabel.alpha = 1.0;
 	[UIView commitAnimations];
@@ -147,6 +168,15 @@
 	spinner.alpha = 0.0;
 	loadingLabel.alpha = 0.0;
 	[UIView commitAnimations];
+	
+	if (hidesPoweredBy)
+	{
+		[UIView beginAnimations:@"show" context:nil];
+		[UIView setAnimationDuration:0.3];
+		[UIView	setAnimationDelay:0.9];
+		[self setFrame:CGRectMake(self.frame.origin.x, y_origin_hidden, self.frame.size.width, self.frame.size.height)];
+		[UIView commitAnimations];
+	}
 }	
 
 - (void)fadeIn
