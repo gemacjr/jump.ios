@@ -18,13 +18,12 @@
 		9F5906D2116E82D9006955EF /* libJRAuthenticate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F5906D1116E82BB006955EF /* libJRAuthenticate.a */; };
 		9F5908D1116F9316006955EF /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F5908D0116F9316006955EF /* Entitlements.plist */; };
 		9F5908DB116F9470006955EF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F5908DA116F9470006955EF /* icon.png */; };
-		9F590EF611752EE9006955EF /* bottom_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F590EF511752EE9006955EF /* bottom_bar.png */; };
-		9F9CE2F3119DCB3C00883E34 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9CE2F2119DCB3C00883E34 /* Default.png */; };
-		9F9CE35D119DD73800883E34 /* aol_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9CE358119DD73800883E34 /* aol_icon.png */; };
-		9F9CE35E119DD73800883E34 /* facebook_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9CE359119DD73800883E34 /* facebook_icon.png */; };
-		9F9CE35F119DD73800883E34 /* google_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9CE35A119DD73800883E34 /* google_icon.png */; };
-		9F9CE360119DD73800883E34 /* twitter_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9CE35B119DD73800883E34 /* twitter_icon.png */; };
-		9F9CE361119DD73800883E34 /* yahoo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9CE35C119DD73800883E34 /* yahoo_icon.png */; };
+		9F96EC5311A1F53F004367C3 /* UserProfileLevel2.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F96EC5111A1F53F004367C3 /* UserProfileLevel2.m */; };
+		9F96EC5411A1F53F004367C3 /* UserProfileLevel2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F96EC5211A1F53F004367C3 /* UserProfileLevel2.xib */; };
+		9F96EE8E11A34136004367C3 /* navigation_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96EE8D11A34136004367C3 /* navigation_background.png */; };
+		9F96F1CC11A5B7B4004367C3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96F1CB11A5B7B4004367C3 /* Default.png */; };
+		9F96F23B11A5C537004367C3 /* DemoUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F96F23A11A5C537004367C3 /* DemoUserModel.m */; };
+		9F96FD2711AC9931004367C3 /* bottom_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96FD2611AC9931004367C3 /* bottom_bar.png */; };
 		9F9CE371119DEFA800883E34 /* UserProfileLevel1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9CE36F119DEFA800883E34 /* UserProfileLevel1.m */; };
 		9F9CE372119DEFA800883E34 /* UserProfileLevel1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F9CE370119DEFA800883E34 /* UserProfileLevel1.xib */; };
 		9F9F07B1116D6249007EEDDE /* big_blue_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F0783116D6249007EEDDE /* big_blue_button.png */; };
@@ -104,13 +103,14 @@
 		9F5906CC116E82BB006955EF /* JRAuthenticate.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JRAuthenticate.xcodeproj; path = ../JRAuthenticate/JRAuthenticate.xcodeproj; sourceTree = SOURCE_ROOT; };
 		9F5908D0116F9316006955EF /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		9F5908DA116F9470006955EF /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		9F590EF511752EE9006955EF /* bottom_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_bar.png; sourceTree = "<group>"; };
-		9F9CE2F2119DCB3C00883E34 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		9F9CE358119DD73800883E34 /* aol_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aol_icon.png; sourceTree = "<group>"; };
-		9F9CE359119DD73800883E34 /* facebook_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_icon.png; sourceTree = "<group>"; };
-		9F9CE35A119DD73800883E34 /* google_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = google_icon.png; sourceTree = "<group>"; };
-		9F9CE35B119DD73800883E34 /* twitter_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter_icon.png; sourceTree = "<group>"; };
-		9F9CE35C119DD73800883E34 /* yahoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = yahoo_icon.png; sourceTree = "<group>"; };
+		9F96EC5011A1F53F004367C3 /* UserProfileLevel2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileLevel2.h; sourceTree = "<group>"; };
+		9F96EC5111A1F53F004367C3 /* UserProfileLevel2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileLevel2.m; sourceTree = "<group>"; };
+		9F96EC5211A1F53F004367C3 /* UserProfileLevel2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserProfileLevel2.xib; path = Classes/UserProfileLevel2.xib; sourceTree = "<group>"; };
+		9F96EE8D11A34136004367C3 /* navigation_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigation_background.png; sourceTree = "<group>"; };
+		9F96F1CB11A5B7B4004367C3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		9F96F23911A5C537004367C3 /* DemoUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoUserModel.h; sourceTree = "<group>"; };
+		9F96F23A11A5C537004367C3 /* DemoUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoUserModel.m; sourceTree = "<group>"; };
+		9F96FD2611AC9931004367C3 /* bottom_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_bar.png; sourceTree = "<group>"; };
 		9F9CE36E119DEFA800883E34 /* UserProfileLevel1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileLevel1.h; sourceTree = "<group>"; };
 		9F9CE36F119DEFA800883E34 /* UserProfileLevel1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileLevel1.m; sourceTree = "<group>"; };
 		9F9CE370119DEFA800883E34 /* UserProfileLevel1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = UserProfileLevel1.xib; path = Classes/UserProfileLevel1.xib; sourceTree = "<group>"; };
@@ -183,6 +183,10 @@
 				28D7ACF70DDB3853001CB0EB /* DemoViewController.m */,
 				9F9CE36E119DEFA800883E34 /* UserProfileLevel1.h */,
 				9F9CE36F119DEFA800883E34 /* UserProfileLevel1.m */,
+				9F96EC5011A1F53F004367C3 /* UserProfileLevel2.h */,
+				9F96EC5111A1F53F004367C3 /* UserProfileLevel2.m */,
+				9F96F23911A5C537004367C3 /* DemoUserModel.h */,
+				9F96F23A11A5C537004367C3 /* DemoUserModel.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -220,12 +224,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9F9CE358119DD73800883E34 /* aol_icon.png */,
-				9F9CE359119DD73800883E34 /* facebook_icon.png */,
-				9F9CE35A119DD73800883E34 /* google_icon.png */,
-				9F9CE35B119DD73800883E34 /* twitter_icon.png */,
-				9F9CE35C119DD73800883E34 /* yahoo_icon.png */,
-				9F9CE2F2119DCB3C00883E34 /* Default.png */,
+				9F96F1CB11A5B7B4004367C3 /* Default.png */,
+				9F96EE8D11A34136004367C3 /* navigation_background.png */,
 				9F5908DA116F9470006955EF /* icon.png */,
 				9F5908D0116F9316006955EF /* Entitlements.plist */,
 				9F9F0781116D6249007EEDDE /* assets */,
@@ -234,6 +234,7 @@
 				9F9F07AF116D6249007EEDDE /* JRWebViewController.xib */,
 				2899E5210DE3E06400AC0155 /* DemoViewController.xib */,
 				9F9CE370119DEFA800883E34 /* UserProfileLevel1.xib */,
+				9F96EC5211A1F53F004367C3 /* UserProfileLevel2.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Demo-Info.plist */,
 			);
@@ -272,7 +273,7 @@
 		9F9F0782116D6249007EEDDE /* button_graphics */ = {
 			isa = PBXGroup;
 			children = (
-				9F590EF511752EE9006955EF /* bottom_bar.png */,
+				9F96FD2611AC9931004367C3 /* bottom_bar.png */,
 				9F9F0783116D6249007EEDDE /* big_blue_button.png */,
 				9F9F0784116D6249007EEDDE /* black_button.png */,
 				9F9F0785116D6249007EEDDE /* blue_button.png */,
@@ -435,14 +436,11 @@
 				9F9F07DB116D6249007EEDDE /* JRWebViewController.xib in Resources */,
 				9F5908D1116F9316006955EF /* Entitlements.plist in Resources */,
 				9F5908DB116F9470006955EF /* icon.png in Resources */,
-				9F590EF611752EE9006955EF /* bottom_bar.png in Resources */,
-				9F9CE2F3119DCB3C00883E34 /* Default.png in Resources */,
-				9F9CE35D119DD73800883E34 /* aol_icon.png in Resources */,
-				9F9CE35E119DD73800883E34 /* facebook_icon.png in Resources */,
-				9F9CE35F119DD73800883E34 /* google_icon.png in Resources */,
-				9F9CE360119DD73800883E34 /* twitter_icon.png in Resources */,
-				9F9CE361119DD73800883E34 /* yahoo_icon.png in Resources */,
 				9F9CE372119DEFA800883E34 /* UserProfileLevel1.xib in Resources */,
+				9F96EC5411A1F53F004367C3 /* UserProfileLevel2.xib in Resources */,
+				9F96EE8E11A34136004367C3 /* navigation_background.png in Resources */,
+				9F96F1CC11A5B7B4004367C3 /* Default.png in Resources */,
+				9F96FD2711AC9931004367C3 /* bottom_bar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +455,8 @@
 				1D3623260D0F684500981E51 /* DemoAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* DemoViewController.m in Sources */,
 				9F9CE371119DEFA800883E34 /* UserProfileLevel1.m in Sources */,
+				9F96EC5311A1F53F004367C3 /* UserProfileLevel2.m in Sources */,
+				9F96F23B11A5C537004367C3 /* DemoUserModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,7 +547,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = Demo;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C575B195-D3FD-462B-84FE-2A8C62622F1C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1151C4BF-E2D9-455A-991E-EA89D482978E";
 				SDKROOT = iphoneos3.1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};

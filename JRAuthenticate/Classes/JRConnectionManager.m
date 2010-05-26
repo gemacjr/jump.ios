@@ -229,7 +229,7 @@ static JRConnectionManager* singleton = nil;
 	[connection start];
 	
 	UIApplication* app = [UIApplication sharedApplication]; 
-	app.networkActivityIndicatorVisible = NO;
+	app.networkActivityIndicatorVisible = YES;
 	
 //	[request release];
 	[connection release];

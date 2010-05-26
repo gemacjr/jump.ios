@@ -127,7 +127,7 @@
 
 	if (!titleLabel)
 	{
-		titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
+		titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
 		titleLabel.backgroundColor = [UIColor clearColor];
 		titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 		titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
@@ -147,13 +147,13 @@
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-
+	
 	UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
 										initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
 										target:nil
 										action:nil] autorelease];
 
-	placeholderItem.width = 100;
+	placeholderItem.width = 85;
 	self.navigationItem.leftBarButtonItem = placeholderItem;
 	
 	if (!infoBar)

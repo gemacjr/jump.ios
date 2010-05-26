@@ -30,8 +30,9 @@
 
 
 #import <UIKit/UIKit.h>
-#import "JRAuthenticate.h"
+//#import "JRAuthenticate.h"
 #import "UserProfileLevel1.h"
+#import "DemoUserModel.h"
 
 @interface UIDemoButton : UIButton 
 {
@@ -49,29 +50,36 @@
 @property (retain) 	UIImageView	*logo4;
 @end
 
-@interface DemoViewController : UIViewController <JRAuthenticateDelegate>
+@interface DemoViewController : UIViewController <DemoUserModelDelegate>
 {
-	JRAuthenticate *jrAuthenticate;
+//	JRAuthenticate *jrAuthenticate;
 	
-	UIDemoButton *button;
-	UILabel	 *label;
-	
-	BOOL signedIn;
+	UIDemoButton *signInButton;
+	UIButton	 *signOutButton;
+	UIButton	 *historyButton;
+	UILabel		 *welcomeLabelSignedOut;
+	UILabel		 *welcomeLabelSignedIn;
 	
 	NSString		*identifier;
+	NSString		*displayName;
 	NSDictionary	*currentUser;
 	
 	NSUserDefaults *prefs;
 	
-	UINavigationController	*navigationController;
+	UserProfileLevel1 *userProfileLevel1;
+	
+//	UINavigationController	*navigationController;
 }
 
-@property (nonatomic, retain) IBOutlet UIDemoButton *button;
-@property (nonatomic, retain) IBOutlet UILabel	*label;
+@property (nonatomic, retain) IBOutlet UIDemoButton *signInButton;
+@property (nonatomic, retain) IBOutlet UIButton *signOutButton;
+@property (nonatomic, retain) IBOutlet UIButton *historyButton;
+@property (nonatomic, retain) IBOutlet UILabel	*welcomeLabelSignedIn;
+@property (nonatomic, retain) IBOutlet UILabel	*welcomeLabelSignedOut;
 
-- (IBAction)launchJRAuthenticate:(id)sender;
-
-
-
+- (IBAction)signInButtonPressed:(id)sender; 
+- (IBAction)signOutButtonPressed:(id)sender;
+- (IBAction)viewHistoryButtonPressed:(id)sender;
+//- (void)hideHistoryButtonPressed:(id)sender;
 @end
 

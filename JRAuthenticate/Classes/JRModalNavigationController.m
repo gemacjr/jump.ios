@@ -86,6 +86,8 @@
 								[[[JRProvidersController alloc] 
 								  initWithNibName:@"JRProvidersController" 
 								  bundle:[NSBundle mainBundle]] autorelease]];
+
+		navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	}
 	
 	myUserLandingController = [[JRUserLandingController alloc]
@@ -119,10 +121,7 @@
 - (void)restore:(BOOL)animated
 {
 	DLog(@"");
-	while ([navigationController.viewControllers count] != 1)
-	{
-		[navigationController popViewControllerAnimated:animated];	
-	}
+	[navigationController popToRootViewControllerAnimated:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -140,6 +139,7 @@
 	DLog(@"");
 	[sessionData authenticationDidCancel];
 	[self dismissModalNavigationController:NO];
+	[self restore:NO];
 }
 
 - (void)dismissModalNavigationController:(BOOL)successfullyAuthed
