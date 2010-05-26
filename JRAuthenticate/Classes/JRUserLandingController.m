@@ -191,6 +191,8 @@
 		
 		[bigSignInButton setHidden:YES];
 		[self addSubview:bigSignInButton];
+		
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
 	
 	return self;
