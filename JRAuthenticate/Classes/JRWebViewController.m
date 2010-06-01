@@ -110,6 +110,7 @@
 	}
   	
 	[self webViewWithUrl:[sessionData startURL]];
+	[myWebView becomeFirstResponder];
 }
 
 
@@ -132,6 +133,7 @@
 
 - (void)stopProgress
 {
+	keepProgress = NO;
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
 	[infoBar stopProgress];
@@ -147,6 +149,8 @@
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
+	[self stopProgress];
+	
 	NSString* tag = [(NSString*)userdata retain];
 	[payload retain];
 	
@@ -192,7 +196,7 @@
 
 	[payload release];
 	[tag release];	
-	[self stopProgress];	
+
 }
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
@@ -228,7 +232,8 @@
 		
 		NSString* tag = [[NSString stringWithFormat:@"rpx_result"] retain];
 		[JRConnectionManager createConnectionFromRequest:[request retain] forDelegate:self withTag:tag];
-		
+
+		keepProgress = YES;
 		return NO;
 	}
 
@@ -244,7 +249,8 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView 
 {
 	DLog(@"");
-	[self stopProgress];
+	if (!keepProgress)
+		[self stopProgress];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error 

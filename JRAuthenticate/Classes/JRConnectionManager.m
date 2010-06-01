@@ -136,6 +136,20 @@ static JRConnectionManager* singleton = nil;
 //    return sharedGizmoManager;
 //}
 
++ (JRConnectionManager*)getJRConnectionManager
+{
+    if (singleton == nil) {
+        singleton = [[super allocWithZone:NULL] init];
+    }
+	
+    return singleton;
+	
+	//	if (singleton)
+	//		return singleton;
+	//	
+	//	return [[JRConnectionManager alloc] init];
+}
+
 + (id)allocWithZone:(NSZone *)zone
 {
     return [[self getJRConnectionManager] retain];
@@ -166,19 +180,7 @@ static JRConnectionManager* singleton = nil;
     return self;
 }
 
-+ (JRConnectionManager*)getJRConnectionManager
-{
-    if (singleton == nil) {
-        singleton = [[super allocWithZone:NULL] init];
-    }
-	
-    return singleton;
-	
-//	if (singleton)
-//		return singleton;
-//	
-//	return [[JRConnectionManager alloc] init];
-}
+
 
 /* Hmmmm... now that I've set up a full singleton instance of this class, will this ever be called?
    Leaving it here in case I want to make this not a singleton, so that my library isn't eating memory. */

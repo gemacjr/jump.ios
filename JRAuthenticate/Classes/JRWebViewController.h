@@ -47,6 +47,8 @@
 	UIWebView	*myWebView;
 	UILabel		*label;
 	JRInfoBar	*infoBar;
+	
+	BOOL keepProgress;
 }
 
 @property (nonatomic, retain) IBOutlet UIWebView *myWebView;

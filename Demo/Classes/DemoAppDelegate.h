@@ -31,17 +31,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class DemoViewController;
+@class DemoRootViewController;
 
 @interface DemoAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 	UINavigationController *viewController;
-	//    DemoViewController *viewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *viewController;
-//@property (nonatomic, retain) IBOutlet DemoViewController *viewController;
 
 @end
 

@@ -30,7 +30,7 @@
 
 
 #import "DemoAppDelegate.h"
-#import "DemoViewController.h"
+#import "DemoRootViewController.h"
 
 @implementation DemoAppDelegate
 

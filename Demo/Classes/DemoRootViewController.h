@@ -30,56 +30,23 @@
 
 
 #import <UIKit/UIKit.h>
-//#import "JRAuthenticate.h"
-#import "UserProfileLevel1.h"
+#import "DemoViewControllerLevel1.h"
 #import "DemoUserModel.h"
 
-@interface UIDemoButton : UIButton 
+@interface DemoRootViewController : UIViewController
 {
-	UILabel		*label;
-	UIImageView	*logo1;
-	UIImageView	*logo2;
-	UIImageView	*logo3;
-	UIImageView	*logo4;
+	UIButton	*signInButton;
+	UIButton	*linkButton;
+	
+	DemoViewControllerLevel1 *level1ViewController;
 }
 
-@property (retain) 	UILabel		*label;
-@property (retain) 	UIImageView	*logo1;
-@property (retain) 	UIImageView	*logo2;
-@property (retain) 	UIImageView	*logo3;
-@property (retain) 	UIImageView	*logo4;
-@end
-
-@interface DemoViewController : UIViewController <DemoUserModelDelegate>
-{
-//	JRAuthenticate *jrAuthenticate;
-	
-	UIDemoButton *signInButton;
-	UIButton	 *signOutButton;
-	UIButton	 *historyButton;
-	UILabel		 *welcomeLabelSignedOut;
-	UILabel		 *welcomeLabelSignedIn;
-	
-	NSString		*identifier;
-	NSString		*displayName;
-	NSDictionary	*currentUser;
-	
-	NSUserDefaults *prefs;
-	
-	UserProfileLevel1 *userProfileLevel1;
-	
-//	UINavigationController	*navigationController;
-}
-
-@property (nonatomic, retain) IBOutlet UIDemoButton *signInButton;
-@property (nonatomic, retain) IBOutlet UIButton *signOutButton;
-@property (nonatomic, retain) IBOutlet UIButton *historyButton;
-@property (nonatomic, retain) IBOutlet UILabel	*welcomeLabelSignedIn;
-@property (nonatomic, retain) IBOutlet UILabel	*welcomeLabelSignedOut;
+@property (nonatomic, retain) IBOutlet UIButton *signInButton;
+@property (nonatomic, retain) IBOutlet UIButton *linkButton;
 
 - (IBAction)signInButtonPressed:(id)sender; 
-- (IBAction)signOutButtonPressed:(id)sender;
-- (IBAction)viewHistoryButtonPressed:(id)sender;
-//- (void)hideHistoryButtonPressed:(id)sender;
+- (IBAction)signInButtonOnEvent:(id)sender;
+- (IBAction)signInButtonOffEvent:(id)sender;
+- (IBAction)janrainLinkClicked:(id)sender;
 @end
 

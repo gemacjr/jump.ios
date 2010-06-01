@@ -317,6 +317,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		[delegate jrAuthenticate:self didFailWithError:error];
 	}
+	
+	[jrModalNavController dismissModalNavigationController:NO];
 }
 
 - (void)jrAuthenticationDidCancel
@@ -325,6 +327,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
 	}
+	
+	[jrModalNavController dismissModalNavigationController:NO];
 }
 
 - (void)cancelAuthentication

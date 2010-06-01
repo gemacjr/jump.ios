@@ -26,36 +26,26 @@
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
-*/
+ */
 
 #import <UIKit/UIKit.h>
+#import "DemoUserModel.h"
+#import "DemoViewControllerLevel2.h"
 
-typedef enum
+@interface DemoViewControllerLevel1 : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
+												 UITableViewDataSource, DemoUserModelDelegate>
 {
-	JRInfoBarStyleShowPoweredBy = 0,
-	JRInfoBarStyleHidePoweredBy
-} JRInfoBarStyle;
-
-@interface JRInfoBar : UIView <UIActionSheetDelegate>
-{
-	UIActivityIndicatorView *spinner;
-	UILabel			*loadingLabel;
-	UIImageView		*barImage;	
-	UILabel			*poweredByLabel;
-	UIButton		*infoButton;
+	UITableView		*myTableView;
+	UIBarButtonItem *myToolBarButton;
+	UILabel			*myNotSignedInLabel;
 	
-	BOOL hidesPoweredBy;
-	NSInteger y_origin_hidden;
+	DemoViewControllerLevel2 *level2ViewController;
 }
 
-- (id)initWithFrame:(CGRect)frame andStyle:(JRInfoBarStyle)style;
+@property (nonatomic, retain) IBOutlet UITableView	*myTableView;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *myToolBarButton;
+@property (nonatomic, retain) IBOutlet UILabel *myNotSignedInLabel;
 
-- (void)startProgress;
-- (void)stopProgress;
-- (void)fadeIn;
-- (void)fadeOut;
-
-//- (void)foo:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
-- (void)getInfo;
-
+- (IBAction)signOutButtonPressed:(id)sender;
+- (void)addAnotherButtonPressed:(id)sender;
 @end

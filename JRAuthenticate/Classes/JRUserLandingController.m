@@ -100,7 +100,7 @@
 		textField.clearButtonMode = UITextFieldViewModeWhileEditing;
 		textField.autocorrectionType = UITextAutocorrectionTypeNo;
 		textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-		textField.keyboardType = UIKeyboardTypeEmailAddress;
+		textField.keyboardType = UIKeyboardTypeURL;
 		textField.returnKeyType = UIReturnKeyDone;
 		textField.enablesReturnKeyAutomatically = YES;
 		
@@ -288,7 +288,7 @@
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-	
+
 	[myTableView reloadData];
 }
 
@@ -303,7 +303,11 @@
 		DLog(@"view controller: %@", [vc description]);
 	}
 	
-	[self becomeFirstResponder];
+	NSIndexPath *indexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
+	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:indexPath];
+	
+	if (![sessionData.currentProvider.name isEqualToString:sessionData.returningProvider.name])
+		[cell.textField becomeFirstResponder];
 }
 
 
@@ -395,7 +399,6 @@
 			[sessionData.currentProvider setUserInput:[NSString stringWithString:sessionData.returningProvider.userInput]];
 		else
 			[cell.bigSignInButton setHidden:NO];
-		
 				
 		if (sessionData.currentProvider.userInput)
 			cell.textField.text = [NSString stringWithString:sessionData.currentProvider.userInput];

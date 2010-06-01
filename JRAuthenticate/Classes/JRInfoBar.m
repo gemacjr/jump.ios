@@ -49,7 +49,7 @@
 	
 	if (self = [super initWithFrame:frame]) 
 	{
-		hidesPoweredBy = style;
+		hidesPoweredBy = NO;style;
 		y_origin_hidden = self.frame.origin.y + self.frame.size.height;
 		
 		if (hidesPoweredBy)
@@ -65,7 +65,7 @@
 		poweredByLabel.textColor = [UIColor whiteColor];
 		poweredByLabel.textAlignment = UITextAlignmentRight;
 		
-		if (style == JRInfoBarStyleShowPoweredBy)
+		if (1)//(style == JRInfoBarStyleShowPoweredBy)
 			poweredByLabel.text = @"Powered by Janrain";
 		else
 			poweredByLabel.text = @"";
@@ -124,7 +124,7 @@
     DLog(@"");
 
 	// TODO: Should autorelease this?
-	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.0.23"
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.0.30"
 														 delegate:self
 												cancelButtonTitle:@"OK"  
 										   destructiveButtonTitle:nil

@@ -29,14 +29,11 @@
  */
 
 
-#import "DemoViewController.h"
+#import "DemoRootViewController.h"
 
-@implementation DemoViewController
+@implementation DemoRootViewController
 @synthesize signInButton;	
-@synthesize signOutButton;
-@synthesize historyButton;
-@synthesize welcomeLabelSignedIn;
-@synthesize welcomeLabelSignedOut;
+@synthesize linkButton;
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -64,125 +61,85 @@
 
 	[self navigationController].navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
-	userProfileLevel1 = [[UserProfileLevel1 alloc] 
-						  initWithNibName:@"UserProfileLevel1" 
-						  bundle:[NSBundle mainBundle]];
-
+#ifdef LILLI	
+	UIBarButtonItem *spacerButton = [[[UIBarButtonItem alloc]
+									  initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+									  target:nil
+									  action:nil] autorelease];
+	
+	
+	self.navigationItem.leftBarButtonItem = spacerButton;
+	self.navigationItem.leftBarButtonItem.enabled = YES;
+	
+	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+	
+	UIBarButtonItem *viewHistoryButton = [[[UIBarButtonItem alloc] 
+										   initWithTitle:@"View Profiles" 
+										   style:UIBarButtonItemStyleBordered
+										   target:self
+										   action:@selector(viewHistoryButtonPressed:)] autorelease];
+	
+	self.navigationItem.rightBarButtonItem = viewHistoryButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
+#endif
+	
+	level1ViewController = [[DemoViewControllerLevel1 alloc] 
+						 initWithNibName:@"DemoViewControllerLevel1" 
+						 bundle:[NSBundle mainBundle]];
 	
 	if ([[DemoUserModel getDemoUserModel] currentUser])
-	{	
-		[[self navigationController] pushViewController:userProfileLevel1 animated:YES];
-	}
-	else
-	{
-	
-	}
+		[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
-
-#ifdef LILLI	
-	UIBarButtonItem *spacerButton = [[[UIBarButtonItem alloc]
-									initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-									target:nil
-									action:nil] autorelease];
-
-
-	self.navigationItem.leftBarButtonItem = spacerButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
-
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
-
-	UIBarButtonItem *addAnotherButton = [[[UIBarButtonItem alloc] 
-										  initWithTitle:@"View Profiles" 
-										  style:UIBarButtonItemStyleBordered
-										  target:self
-										  action:@selector(viewHistoryButtonPressed:)] autorelease];
-
-	self.navigationItem.rightBarButtonItem = addAnotherButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-#endif
-
-}
-
-- (void)displayWelcomeMessage:(NSDictionary*)user
-{
-	NSString *welcome_message = nil;
-	
-	if (displayName)
-	{
-		welcome_message = [NSString stringWithFormat:@"You are now signed in as %@.", displayName];
-		[UIView beginAnimations:@"fade" context:nil];
-		[UIView setAnimationDuration:0.1];
-		[UIView	setAnimationDelay:0.0];
-		welcomeLabelSignedIn.text = welcome_message;
-		[UIView commitAnimations];		
-	}
-	else 
-	{
-		welcome_message = [NSString stringWithFormat:@"You are now signed in."];
-	}
-	
-	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"User Authenticated"
-													 message:welcome_message
-													delegate:self
-										   cancelButtonTitle:@"OK"
-										   otherButtonTitles:nil] autorelease];
-	[alert show];
 }
 
 
 - (void)delaySwitchAccounts:(NSTimer*)theTimer
 {
-	[userProfileLevel1 switchAccounts];
+	[level1ViewController addAnotherButtonPressed:nil];
 }
 
 - (void)delayNavPush:(NSTimer*)theTimer
 {
-	[[self navigationController] pushViewController:userProfileLevel1 animated:YES]; 	
+	[[self navigationController] pushViewController:level1ViewController animated:YES]; 	
+}
+
+- (IBAction)janrainLinkClicked:(id)sender
+{
+	NSURL *url = [NSURL URLWithString:@"http://www.janrain.com"];
+	if (![[UIApplication sharedApplication] openURL:url])	
+		NSLog(@"%@%@",@"Failed to open url:",[url description]);
+}
+
+- (IBAction)signInButtonOnEvent:(id)sender
+{
+	if (sender == signInButton)
+		signInButton.alpha = 0.2;
+}
+
+- (IBAction)signInButtonOffEvent:(id)sender
+{
+	if (sender == signInButton)
+		signInButton.alpha = 0.02;
 }
 
 - (IBAction)signInButtonPressed:(id)sender 
 {
 #ifdef LILLI
-	[[self navigationController] pushViewController:userProfileLevel1 animated:YES]; 	
+	[[self navigationController] pushViewController:level1ViewController animated:YES]; 	
 	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySwitchAccounts:) userInfo:nil repeats:NO];
 #else
-	[[DemoUserModel getDemoUserModel] startSignUserIn:userProfileLevel1];
+	[[DemoUserModel getDemoUserModel] startSignUserIn:level1ViewController];
 	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
 #endif
-	
-}
-
-- (IBAction)signOutButtonPressed:(id)sender
-{
 }
 
 - (IBAction)viewHistoryButtonPressed:(id)sender
 {
-	[[self navigationController] pushViewController:userProfileLevel1 animated:YES]; 
-}
-
-- (void)didReceiveToken
-{
-//	[[self navigationController] pushViewController:userProfileLevel1 animated:YES]; 	
-}
-
-- (void)userDidSignIn
-{
-//	[[self navigationController] pushViewController:userProfileLevel1 animated:YES]; 	
-}
-
-- (void)userDidSignOut
-{
-	
-}
-
-- (void)didFailToSignIn
-{
-	
+	[[self navigationController] pushViewController:level1ViewController animated:YES]; 
 }
 
 /*
@@ -207,11 +164,7 @@
 
 - (void)dealloc 
 {
-	[currentUser release];	
-	[displayName release];
-	[identifier release];
-
-	[userProfileLevel1 release];
+	[level1ViewController release];
 	
 	[super dealloc];
 }
