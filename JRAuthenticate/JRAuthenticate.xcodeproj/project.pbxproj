@@ -52,7 +52,6 @@
 		9F720B36116A897A00E69F8D /* big_blue_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = big_blue_button.png; path = Resources/assets/button_graphics/big_blue_button.png; sourceTree = "<group>"; };
 		9F720B37116A897A00E69F8D /* black_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = black_button.png; path = Resources/assets/button_graphics/black_button.png; sourceTree = "<group>"; };
 		9F720B38116A897A00E69F8D /* blue_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blue_button.png; path = Resources/assets/button_graphics/blue_button.png; sourceTree = "<group>"; };
-		9F720B39116A897A00E69F8D /* forget_me_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = forget_me_button.png; path = Resources/assets/button_graphics/forget_me_button.png; sourceTree = "<group>"; };
 		9F720B3A116A898D00E69F8D /* jrauth_aol_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_aol_logo.png; path = Resources/assets/provider_logos/jrauth_aol_logo.png; sourceTree = "<group>"; };
 		9F720B3B116A898D00E69F8D /* jrauth_blogger_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_blogger_logo.png; path = Resources/assets/provider_logos/jrauth_blogger_logo.png; sourceTree = "<group>"; };
 		9F720B3C116A898D00E69F8D /* jrauth_facebook_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_facebook_logo.png; path = Resources/assets/provider_logos/jrauth_facebook_logo.png; sourceTree = "<group>"; };
@@ -240,7 +239,6 @@
 				9F720B36116A897A00E69F8D /* big_blue_button.png */,
 				9F720B37116A897A00E69F8D /* black_button.png */,
 				9F720B38116A897A00E69F8D /* blue_button.png */,
-				9F720B39116A897A00E69F8D /* forget_me_button.png */,
 			);
 			name = button_graphics;
 			sourceTree = "<group>";
