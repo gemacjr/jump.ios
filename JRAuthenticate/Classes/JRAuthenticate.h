@@ -81,8 +81,8 @@
 + (void)setJRAuthenticate:(JRAuthenticate*)jrAuth;
 
 + (JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
-					 andTokenUrl:(NSString*)tokenUrl
-						delegate:(id<JRAuthenticateDelegate>)delegate;
+							   andTokenUrl:(NSString*)tokenUrl
+								  delegate:(id<JRAuthenticateDelegate>)delegate;
 
 - (void)showJRAuthenticateDialog;
 - (void)unloadModalViewController;

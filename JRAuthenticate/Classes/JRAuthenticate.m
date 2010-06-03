@@ -52,10 +52,8 @@
 
 
 @implementation JRAuthenticate
-
 @synthesize theBaseUrl;
 @synthesize theTokenUrl;
-
 @synthesize theToken;
 @synthesize theTokenUrlPayload;
 
@@ -68,6 +66,76 @@ static JRAuthenticate* singletonJRAuth = nil;
 + (void)setJRAuthenticate:(JRAuthenticate*)jrAuth 
 {
 	singletonJRAuth = jrAuth;
+}
+
++ (id)allocWithZone:(NSZone *)zone
+{
+    return [[self jrAuthenticate] retain];
+}
+
+- (JRAuthenticate*)initWithAppID:(NSString*)appId 
+					 andTokenUrl:(NSString*)tokenUrl 
+						delegate:(id<JRAuthenticateDelegate>)delegate
+{
+	DLog(@"appID:    %@", appId);
+	DLog(@"tokenURL: %@", tokenUrl);
+		
+	if (self = [super init])
+	{
+		singletonJRAuth = self;
+		
+		delegates = [[NSArray alloc] initWithObjects:[delegate retain], nil];
+		
+		theAppId = [[NSString alloc] initWithString:appId];
+		theTokenUrl = (tokenUrl) ? [[NSString alloc] initWithString:tokenUrl] : nil;
+		
+		[self startGetBaseUrl];
+	}	
+	
+	return self;
+}
+
+
+
++ (JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
+							   andTokenUrl:(NSString*)tokenUrl
+								  delegate:(id<JRAuthenticateDelegate>)delegate
+{
+	if(singletonJRAuth)
+		return singletonJRAuth;
+	
+	if (appId == nil)
+		return nil;
+	
+//	return [[JRAuthenticate alloc] initWithAppID:appId 
+	return [[super allocWithZone:nil] initWithAppID:appId 
+										andTokenUrl:tokenUrl 
+										   delegate:delegate];
+}	
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (id)retain
+{
+    return self;
+}
+
+- (NSUInteger)retainCount
+{
+    return NSUIntegerMax;  //denotes an object that cannot be released
+}
+
+- (void)release
+{
+    //do nothing
+}
+
+- (id)autorelease
+{
+    return self;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -219,46 +287,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 {
 	[(NSString*)userdata release];
 }
-
-- (JRAuthenticate*)initWithAppID:(NSString*)appId 
-					 andTokenUrl:(NSString*)tokenUrl 
-						delegate:(id<JRAuthenticateDelegate>)delegate
-{
-	DLog(@"appID:    %@", appId);
-	DLog(@"tokenURL: %@", tokenUrl);
-
-	if (appId == nil)
-	{
-		[self release];
-		return nil;
-	}
-	
-	if (self = [super init])
-	{
-		singletonJRAuth = self;
-		
-		delegates = [[NSArray alloc] initWithObjects:[delegate retain], nil];
-		
-		theAppId = [[NSString alloc] initWithString:appId];
-		theTokenUrl = (tokenUrl) ? [[NSString alloc] initWithString:tokenUrl] : nil;
-
-		[self startGetBaseUrl];
-	}	
-		
-	return self;
-}
-
-+ (JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
-					 andTokenUrl:(NSString*)tokenUrl
-						delegate:(id<JRAuthenticateDelegate>)delegate
-{
-	if(singletonJRAuth)
-		return singletonJRAuth;
-	
-	return [[JRAuthenticate alloc] initWithAppID:appId 
-									 andTokenUrl:tokenUrl 
-										delegate:delegate];
-}	
 
 - (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token
 {

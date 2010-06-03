@@ -37,8 +37,9 @@
 #import "DemoUserModel.h"
 #import "DemoViewControllerLevel2.h"
 
-@interface DemoViewControllerLevel1 : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
-												 UITableViewDataSource, DemoUserModelDelegate>
+@interface DemoViewControllerLevel1 : UIViewController <UINavigationBarDelegate, 
+														UITableViewDelegate, UITableViewDataSource, 
+														DemoUserModelDelegate>
 {
 	UITableView		*myTableView;
 	UIBarButtonItem *myToolBarButton;
@@ -47,9 +48,9 @@
 	DemoViewControllerLevel2 *level2ViewController;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView	*myTableView;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *myToolBarButton;
-@property (nonatomic, retain) IBOutlet UILabel *myNotSignedInLabel;
+@property (nonatomic, retain) IBOutlet UITableView		*myTableView;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem	*myToolBarButton;
+@property (nonatomic, retain) IBOutlet UILabel			*myNotSignedInLabel;
 
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)addAnotherButtonPressed:(id)sender;

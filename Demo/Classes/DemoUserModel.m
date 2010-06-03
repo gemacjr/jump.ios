@@ -42,21 +42,40 @@
 
 
 @implementation DemoUserModel
-static DemoUserModel* singleton = nil;
-
-static NSString *appId = @"appcfamhnpkagijaeinl";
-static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
-
 @synthesize currentUser;
 @synthesize selectedUser;
-
 @synthesize loadingUserData;
+
+/* Singleton instance of DemoUserModel */
+static DemoUserModel* singleton = nil;
+
+/* To use the JRAuthenticate library, you must first sign up for an account and create
+   an application on http://rpxnow.com.  You must also have a web server that can host
+   your token URL.  Your token URL contains your RPX Application's 40-character key and 
+   makes the auth_info post to rpxnow.  You can have more than one token URL, and you can 
+   instantiate the JRAuthenticate library with tokenURL=nil, but you will need to 
+   post the token to a token URL to finish authentication.  If you already have an RPX
+   widget working on your site, it is recommended that you create a second, more simple
+   token URL specifically for the iPhone Library.  If you don't already have the RPX 
+   working on your site, or you don't have a site, I recommend that you create a very 
+   simple application using Google's App Engine: http://code.google.com/appengine/.
+   See my reference application in the ../googleAppEngineDemoApp folder for an example 
+   of a simple token URL that call auth_info, and serves the returned json response
+   back to this application.
+ 
+ 
+Instantiate the JRAuthenticate Library with your RPX Application's 20-character ID and
+(optional) token URL, which you create on your web site.  If you don't instantiate the 
+library with a token URL, you must make the call yourself after you receive the token,
+otherwise, this happens automatically.													*/
+static NSString *appId = @"appcfamhnpkagijaeinl";
+static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
 - (DemoUserModel*)init
 {
 	if (self = [super init])
 	{
-		/* Instantiate an instance of the JRAuthenticate library with your appID and token URL */
+		/* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
 		jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
 		
 		prefs = [[NSUserDefaults standardUserDefaults] retain];
@@ -69,7 +88,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
 		historyCountSnapShot = [prefs integerForKey:@"historyCount"];
 		
-		/* Load any user that was still logged in when the app closed */
+		/* Load any session that was still logged in when the application closed. */
 		[self loadSignedInUser];
 	}
 	
@@ -77,7 +96,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 }
 
 
-/* Return the singleton instance of this class */
+/* Return the singleton instance of this class. */
 + (DemoUserModel*)getDemoUserModel
 {
     if (singleton == nil) {
@@ -117,146 +136,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
     return self;
 }
 
-/* Instance variable access functions */
-
-/* Returns the log in history as an ordered array of dictionaries, where each dictionary contains
-   the identifier, display name, and timestamp for that log in.  As one user may log in many times,
-   identifiers are not unique. */
-- (NSArray*)signinHistory
-{
-	return [prefs objectForKey:@"signinHistory"];
-}
-
-/* Returns a dictionary of dictionaries, where each dictionary contains the profile
-   data of previously logged in users.  One dictionary is saved per identifier. */
-- (NSDictionary*)userProfiles
-{
-	return [prefs objectForKey:@"userProfiles"];
-}
-
-- (void)removeUserFromHistory:(int)index
-{
-	NSArray *tmpArr = [prefs arrayForKey:@"signinHistory"];
-	NSMutableArray *historyArr = [[NSMutableArray alloc] initWithCapacity:[tmpArr count]];
-	[historyArr addObjectsFromArray:tmpArr];
-
-	@try
-		{ [historyArr removeObjectAtIndex:index]; }
-	@catch ( NSException *e ) 
-		{ return; }
-
-	[prefs setObject:historyArr forKey:@"signinHistory"];
-
-	/* As we remove log ins from the history, eventually we will have to prune the dictionary of user profiles,
-	   so that we don't have needless information hanging around.  Since this is time consuming, only prune when
-	   the size of the signinHistory array is half of what it was before. */
-	if ([historyArr count] <= (historyCountSnapShot/2)) 
-	{	
-		/* Since the login history array likely contains several duplicate identifiers, we'll first 
-		   go through the array one time, pull out all the identifiers, and add them to an NSMutableSet.
-		   When finished, the NSSet will contain only the *unique* identifiers, which should be far fewer than
-		   the size of the login history array. */
-		NSMutableSet *uniqueIDS = [[NSMutableSet alloc] initWithCapacity:[historyArr count]];
-		
-		if (currentUser)
-			[uniqueIDS addObject:[currentUser objectForKey:@"identifier"]];
-
-		for (NSDictionary* savedLogin in historyArr)
-		{
-			[uniqueIDS addObject:[savedLogin objectForKey:@"identifier"]];
-		}
-				
-		/* This is the dictionary of profiles which we will be pruning */
-		NSDictionary *profiles = [[prefs objectForKey:@"userProfiles"] retain];
-
-		/* This is the new dictionary of profiles inited to the correct capacity */
-		NSMutableDictionary* newProfiles = [[NSMutableDictionary alloc] 
-										initWithCapacity:[uniqueIDS count]]; 
-			
-		/* Figure out the new size for the number of profiles in our new dictionary based on the number of
-		   identifiers we are saving in our history, so we can stop one we've finished pruning */
-		NSUInteger theNewSize = [uniqueIDS count];
-		NSUInteger whatWeHaveFoundSoFar = 0;
-		
-		for (NSString* ident in [profiles allKeys])
-		{
-			/* If we're done, just stop */
-			if (whatWeHaveFoundSoFar == theNewSize) 
-				break;
-			
-			/* If this identifier is still in the set, add it to the new dictionary of profiles */
-			if ([uniqueIDS containsObject:ident])
-			{
-				[newProfiles setObject:[profiles objectForKey:ident] forKey:ident];
-				whatWeHaveFoundSoFar++;
-			}
-		}
-		
-		/* Now, save the new, pruned dictionary and release */
-		[prefs setObject:newProfiles forKey:@"userProfiles"];
-		[newProfiles release];
-		[profiles release];
-		
-		/* And update the test value */
-		historyCountSnapShot = [historyArr count];
-
-		/* Save the historyCountSnapShot, as it may be bigger than the current array count */
-		[prefs setInteger:historyCountSnapShot forKey:@"historyCount"];
-	}
-	
-	[historyArr release];
-}
-
-
-
-- (void)loadSignedInUser
-{
-	/* First, see if there is a saved user */
-	currentUser = [prefs objectForKey:@"currentUser"];
-	
-	if (!currentUser)
-		return;// NO;	
-	
-	/* If there is, load the displayName and identifier */
-	identifier = [[currentUser objectForKey:@"identifier"] retain];
-	displayName = [[currentUser objectForKey:@"displayName"] retain];
-	currentProvider = [[currentUser objectForKey:@"provider"] retain];
-	
-	/* Then check the cookies to make sure the saved user's identifier matches any cookie returned from
-	 the token URL, or if their session has expired */
-	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:@"http://jrauthenticate.appspot.com"]];
-	NSString *cookieIdentifier = nil;
-	
-	for (NSHTTPCookie *cookie in cookies) 
-	{
-		if ([cookie.name isEqualToString:@"sid"])
-		{
-			cookieIdentifier = [[NSString stringWithString:cookie.value] 
-								stringByTrimmingCharactersInSet:
-								[NSCharacterSet characterSetWithCharactersInString:@"\""]];
-		}
-	}	
-	
-	/* Then the cookie expired, and we have a user currently logged in, so we have to
-	 log out the current user and save the history of the session in the array of preivous sessions */
-	if (!cookieIdentifier)
-	{
-		[self finishSignUserOut];
-		return;// NO;
-	}
-	
-	/* Make sure the cookie's identifier matches the saved user's identifier,
-	 otherwise, sign the user out */
-	if (![cookieIdentifier isEqualToString:identifier])
-	{
-		[self finishSignUserOut];
-		return;
-	}
-	
-	return;
-}
-
+/* Instance variable/property/misc access functions. */
 
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
 {
@@ -316,6 +196,152 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	return addr;
 }
 
+/* Returns the signin history as an ordered array of sessions, store as dictionaries.
+   Each session's dictionary contains the identifier, display name, provider, and timestamp 
+   for that particular session.  As one user may log in many times, identifiers are not unique. */
+- (NSArray*)signinHistory
+{
+	return [prefs objectForKey:@"signinHistory"];
+}
+
+/* Returns a dictionary of dictionaries, where each dictionary contains the profile
+   data of previously logged in users.  One dictionary is saved per identifier. */
+- (NSDictionary*)userProfiles
+{
+	return [prefs objectForKey:@"userProfiles"];
+}
+
+- (void)pruneUserProfiles
+{
+	NSArray *historyArr = [prefs arrayForKey:@"signinHistory"];
+	
+	/* Since the signin history array likely contains several duplicate identifiers, we'll first 
+	   go through the array one time, pull out all the identifiers, and add them to an NSMutableSet.
+	   When finished, the NSSet will contain only the *unique* identifiers, which should be far fewer than
+	   the size of the signin history array. */
+	NSMutableSet *uniqueIDS = [[NSMutableSet alloc] initWithCapacity:[historyArr count]];
+	
+	/* Don't forget the current user. */
+	if (currentUser)
+		[uniqueIDS addObject:[currentUser objectForKey:@"identifier"]];
+	
+	for (NSDictionary* savedLogin in historyArr)
+	{
+		[uniqueIDS addObject:[savedLogin objectForKey:@"identifier"]];
+	}
+	
+	/* This is the dictionary of profiles which we will be pruning. */
+	NSDictionary *profiles = [[prefs objectForKey:@"userProfiles"] retain];
+	
+	/* This is the new dictionary of profiles init-ed to the correct capacity. */
+	NSMutableDictionary* newProfiles = [[NSMutableDictionary alloc] 
+										initWithCapacity:[uniqueIDS count]]; 
+	
+	/* Figure out the new size for the number of profiles in our new dictionary based on the number of
+	   identifiers we are saving in our history, so we can stop one we've finished pruning */
+	NSUInteger theNewSize = [uniqueIDS count];
+	NSUInteger whatWeHaveFoundSoFar = 0;
+	
+	for (NSString* ident in [profiles allKeys])
+	{
+		/* If we're done, just stop */
+		if (whatWeHaveFoundSoFar == theNewSize) 
+			break;
+		
+		/* If this identifier is still in the set, add it to the new dictionary of profiles */
+		if ([uniqueIDS containsObject:ident])
+		{
+			[newProfiles setObject:[profiles objectForKey:ident] forKey:ident];
+			whatWeHaveFoundSoFar++;
+		}
+	}
+	
+	/* Now, save the new, pruned dictionary and release */
+	[prefs setObject:newProfiles forKey:@"userProfiles"];
+	[newProfiles release];
+	[profiles release];
+	
+	/* And update the test value */
+	historyCountSnapShot = [historyArr count];
+	
+	/* Save the historyCountSnapShot, as it may be bigger than the current array count */
+	[prefs setInteger:historyCountSnapShot forKey:@"historyCount"];	
+}
+
+- (void)removeUserFromHistory:(int)index
+{
+	/* Create a mutable array from the non-mutable NSUserDefaults array, */
+	NSArray *tmpArr = [prefs arrayForKey:@"signinHistory"];
+	NSMutableArray *historyArr = [[NSMutableArray alloc] initWithCapacity:[tmpArr count]];
+	[historyArr addObjectsFromArray:tmpArr];
+
+	/* Remove the entry, */
+	@try
+		{ [historyArr removeObjectAtIndex:index]; }
+	@catch ( NSException *e ) 
+		{ return; }
+
+	/* And save. */
+	[prefs setObject:historyArr forKey:@"signinHistory"];
+
+	/* As we remove the unique signins from the history, eventually we may remove all entries 
+	   for a specific user, but we will still have their profile data saved in the userProfiles
+	   dictionary.  Therefore, we should eventually prune the userProfiles dictionary so that 
+	   we don't have needless information hanging around. Since this is time consuming, only 
+	   prune when the size of the signinHistory array is half of what it was before. */
+	if ([historyArr count] <= (historyCountSnapShot/2)) 
+		[self pruneUserProfiles];
+	
+	[historyArr release];
+}
+
+- (void)loadSignedInUser
+{
+	/* First, see if there is a saved user */
+	currentUser = [prefs objectForKey:@"currentUser"];
+	
+	if (!currentUser)
+		return;
+	
+	/* If there is, load the displayName and identifier */
+	identifier = [[currentUser objectForKey:@"identifier"] retain];
+	displayName = [[currentUser objectForKey:@"displayName"] retain];
+	currentProvider = [[currentUser objectForKey:@"provider"] retain];
+	
+	/* Then check the cookies to make sure the saved user's identifier matches any cookie returned from
+	   the token URL, or if their session has expired */
+	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:@"http://jrauthenticate.appspot.com"]];
+	NSString *cookieIdentifier = nil;
+	
+	for (NSHTTPCookie *cookie in cookies) 
+	{
+		if ([cookie.name isEqualToString:@"sid"])
+		{
+			cookieIdentifier = [[NSString stringWithString:cookie.value] 
+								stringByTrimmingCharactersInSet:
+								[NSCharacterSet characterSetWithCharactersInString:@"\""]];
+		}
+	}	
+	
+	/* Then the cookie expired, and we have a user currently logged in, so we have to
+	   log out the current user and save the history of the session in the array of preivous sessions */
+	if (!cookieIdentifier)
+	{
+		[self finishSignUserOut];
+		return;
+	}
+	
+	/* Make sure the cookie's identifier matches the saved user's identifier,
+	   otherwise, sign the user out. */
+	if (![cookieIdentifier isEqualToString:identifier])
+	{
+		[self finishSignUserOut];
+		return;
+	}
+	
+	return;
+}
 
 - (void)finishSignUserIn:(NSDictionary*)user
 {
@@ -329,16 +355,18 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	displayName = [[DemoUserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
 	
 	/* Store the current user's profile dictionary in the dictionary of users, 
-	 using the identifier as the key, and then save the dictionary of users */
+	   using the identifier as the key, and then save the dictionary of users */
 	NSDictionary *tmp = [prefs objectForKey:@"userProfiles"];
 	
 	/* If this profile doesn't already exist in the dictionary of saved profiles */
 	if (![tmp objectForKey:identifier])
 	{
+		/* Create a mutable dictionary from the non-mutable NSUserDefaults dictionary, */
 		NSMutableDictionary* profiles = [[NSMutableDictionary alloc] 
-												  initWithCapacity:([tmp count] + 1)]; 
+										initWithCapacity:([tmp count] + 1)]; 
 		[profiles addEntriesFromDictionary:tmp];
 		
+		/* add the user's profile to the dictionary, indexed by the identifier, and save. */
 		[profiles setObject:user forKey:identifier];
 		[prefs setObject:profiles forKey:@"userProfiles"];
 		
@@ -355,7 +383,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[dateFormatter release];
 	
 	/* Create a dictionary of the identifier and the timestamp.  For now, save this dictionary 
-	 as the currently logged in user. */
+	   as the currently logged in user. */
 	currentUser = [[NSDictionary dictionaryWithObjectsAndKeys:
 					identifier, @"identifier",
 					currentProvider, @"provider",
@@ -373,17 +401,23 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
 - (void)finishSignUserOut
 {
-	/* Save the dictionary (identifier and the timestamp) at the beginning of the array (stack) of 
-	 previously logged in users one user may have multiple sessions.  Saving a list of timestamps 
-	 in the previous users' dictionaries would require more work to sort in the UserProfileLevel1 
-	 class, whereas the sole purpose of using this array is to preserve login order. */
+	/* Save the currentUser's session dictionary (identifier, display name, provider and timestamp) 
+	   at the beginning of the signin history array.  One specific user may have multiple distinct 
+	   sessions saved in this array, which is why we're saving minimal session data in this array 
+	   and keeping their full profiles in the separate userProfiles dictionary. */
+
+	/* Create a mutable array from the non-mutable NSUserDefaults array, */
 	NSArray *tmp = [prefs arrayForKey:@"signinHistory"];
 	NSMutableArray *signinHistory = [[NSMutableArray alloc] 
 									 initWithCapacity:([tmp count] + 1)];
 	[signinHistory addObjectsFromArray:tmp];
 	
+	// TODO: Explore how the SDK stores arrays and if it would be quicker to insert values
+	// at the end of the array [O(1) vs. O(n)]
+	/* Insert the currentUser's session dictionary at the beginning of the array, */
 	[signinHistory insertObject:currentUser atIndex:0];
 	
+	/* save the array, and nullify the currentUser. */
 	[prefs setObject:signinHistory forKey:@"signinHistory"];
 	[prefs setObject:nil forKey:@"currentUser"];
 	
@@ -405,22 +439,22 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[signOutDelegate release];
 	signInDelegate = nil;
 
-	/* As we remove log ins from the history, eventually we need to prune the profiles from the
-	   dictionary of profiles.  We do this when the size of the signinHistory array is half 
+	/* As we remove signin sessions from the history, eventually we need to prune the profiles from the
+	   userProfiles dictionary.  We do this when the size of the signinHistory array is half 
 	   of the historyCountSnapShot.  As the array grows, so does historyCountSnapShot, but
 	   historyCountSnapShot only shrinks after a pruning. */
 	historyCountSnapShot++;
 
-	/* Save the historyCountSnapShot, as it may be bigger than the current array count */
+	/* Save the historyCountSnapShot, as it may be bigger than the current array count. */
 	[prefs setInteger:historyCountSnapShot forKey:@"historyCount"];
 }
 
 - (void)startSignUserIn:(id<DemoUserModelDelegate>)interestedParty
 {
-	signInDelegate = [interestedParty retain]; 
-	
 	loadingUserData = YES;
-	
+	signInDelegate = [interestedParty retain]; 
+
+	/* Launch the JRAuthenticate Library. */
 	[jrAuthenticate showJRAuthenticateDialog];	
 }
 
@@ -454,7 +488,8 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[signInDelegate didReceiveToken];
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenURL 
+													withPayload:(NSString*)tokenUrlPayload
 {
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
@@ -498,7 +533,6 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[displayName release];
 	[identifier release];
 	[selectedUser release];
-	
 	
 	[super dealloc];
 }

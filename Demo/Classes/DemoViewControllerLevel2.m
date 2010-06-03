@@ -50,7 +50,6 @@
  }
 */
 
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
@@ -61,10 +60,10 @@
 {
 	[super viewWillAppear:animated];
 	
-	selectedUser = [[[DemoUserModel getDemoUserModel] selectedUser] retain];	//[[usersDict objectForKey:identifier] retain];
+	selectedUser = [[[DemoUserModel getDemoUserModel] selectedUser] retain];
 	NSString* identifier = [selectedUser objectForKey:@"identifier"];
 	
-	selectedUsersProfile = [[[[[DemoUserModel getDemoUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain]; //[[NSUserDefaults standardUserDefaults] objectForKey:@"previousUsersDict"];
+	selectedUsersProfile = [[[[[DemoUserModel getDemoUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
 	profileEntriesArray = [[selectedUsersProfile allKeys] retain];
 
 	self.title = [DemoUserModel getDisplayNameFromProfile:selectedUsersProfile];
@@ -222,15 +221,8 @@
 	return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-}
-
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath { }
+//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath { }
 
 - (IBAction)signOutButtonPressed:(id)sender
 {

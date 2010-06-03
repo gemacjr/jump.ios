@@ -41,8 +41,8 @@
 
 @interface DemoRootViewController : UIViewController
 {
-	UIButton	*signInButton;
-	UIButton	*linkButton;
+	UIButton *signInButton;
+	UIButton *linkButton;
 	
 	DemoViewControllerLevel1 *level1ViewController;
 }

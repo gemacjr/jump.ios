@@ -47,40 +47,71 @@
 
 @interface DemoUserModel : NSObject <JRAuthenticateDelegate>
 {
+	/* Instance of the JRAuthenticate library */
 	JRAuthenticate *jrAuthenticate;
+	
+	/* Singleton instance of the NSUserDefaults class */
 	NSUserDefaults *prefs;
 	
+	/* Session dictionary (and strings) containing the identifier, display name, 
+	   current provider, and timestamp of the currently signed in user. */
+	NSDictionary	*currentUser;
 	NSString		*identifier;
 	NSString		*displayName;
 	NSString		*currentProvider;
-	NSDictionary	*currentUser;
-
+	
+	/* Boolean variable to tell the View Controller classes whether or not the 
+	   Model is signing in a user. */
 	BOOL loadingUserData;
 
+	/* A place to store the specific profile a user selects in the DemoViewControllerLevel1
+	   to load in DemoViewControllerLevel2. */
 	NSDictionary	*selectedUser;
 	
+	/* This unsigned int holds a snapshot of the max size reached by the 
+	   signin history array, so that once a user deletes half of the saved sessions,
+	   the Model will go through and clean out the userProfiles dictionary.  
+	   The dictionary of profiles is unordered and has one entry per user, but the
+	   signin history array is ordered, and may have a many-to-one mapping of sessions 
+	   to profiles. */
 	NSUInteger historyCountSnapShot;
 	
+	/* Delegates for the DemoUserModelDelegate protocol. */
 	id<DemoUserModelDelegate> signInDelegate;
 	id<DemoUserModelDelegate> signOutDelegate;
 }
 
 @property (readonly) BOOL loadingUserData;
-
 @property (readonly) NSDictionary *currentUser;
 @property (retain)	 NSDictionary *selectedUser;
 
+/* This is a dictionary of dictionaries, where each dictionary represents the 
+   full profile returned by the token URL on http://jrauthenticate.appspot.com/login.  
+   Each time a new user is signed in, an entry is added to the userProfiles 
+   dictionary and saved to the NSUserDefaults class. The dictionary of profiles 
+   is unordered, has one entry per user, and is indexed by the identifier. */
 @property (readonly) NSDictionary *userProfiles;
-@property (readonly) NSArray *signinHistory;
 
+/* This is an array of dictionaries, where each dictionary represents a unique session 
+   for any user.  Each dictionary contains the identifier, display name, current provider,
+   and timestamp for that specific session. The signinHistory array is ordered, and each 
+   session's user has a profile in the userProfiles dictionary, indexed by identifier. */
+@property (readonly) NSArray	  *signinHistory;
+
+/* Function that removes specific sessions from the signinHistory array, and
+   periodically purges the removed profiles from the userProfile dictionary. */
 - (void)removeUserFromHistory:(int)index;
 
-- (void)startSignUserIn:(id<DemoUserModelDelegate>)interestedPartySignIn afterSignOut:(id<DemoUserModelDelegate>)interestedPartySignOut;
+/* Functions to initiate signing in/out of a user. */
+- (void)startSignUserIn:(id<DemoUserModelDelegate>)interestedPartySignIn 
+		   afterSignOut:(id<DemoUserModelDelegate>)interestedPartySignOut;
 - (void)startSignUserIn:(id<DemoUserModelDelegate>)interestedParty;
 - (void)startSignUserOut:(id<DemoUserModelDelegate>)interestedParty;
 
+/* Returns singleton instance of class. */
 + (DemoUserModel*)getDemoUserModel;
 
+/* Misc functions that nicely format profile data. */
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile;
 + (NSString*)getAddressFromProfile:(NSDictionary*)profile;
 @end

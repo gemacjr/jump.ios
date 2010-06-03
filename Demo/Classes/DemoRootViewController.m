@@ -61,7 +61,6 @@
 	[super viewDidLoad];
 	
 	self.title = @"Quick Sign-In!";
-	
 
 	[self navigationController].navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
@@ -71,11 +70,9 @@
 									  target:nil
 									  action:nil] autorelease];
 	
-	
 	self.navigationItem.leftBarButtonItem = spacerButton;
 	self.navigationItem.leftBarButtonItem.enabled = YES;
-	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+//	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
 	
 	UIBarButtonItem *viewHistoryButton = [[[UIBarButtonItem alloc] 
 										   initWithTitle:@"View Profiles" 
@@ -88,10 +85,11 @@
 #endif
 	
 	level1ViewController = [[DemoViewControllerLevel1 alloc] 
-						 initWithNibName:@"DemoViewControllerLevel1" 
-						 bundle:[NSBundle mainBundle]];
+							initWithNibName:@"DemoViewControllerLevel1" 
+							bundle:[NSBundle mainBundle]];
 	
-	if ([[DemoUserModel getDemoUserModel] currentUser])
+	/* Check to see if a user is already logged in, and, if so, wait half a second then drill down a level. */
+	if ([[DemoUserModel getDemoUserModel] currentUser]) 
 		[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
 }
 
@@ -99,7 +97,6 @@
 {
 	[super viewDidAppear:animated];
 }
-
 
 - (void)delaySwitchAccounts:(NSTimer*)theTimer
 {
@@ -111,6 +108,7 @@
 	[[self navigationController] pushViewController:level1ViewController animated:YES]; 	
 }
 
+/* Go to www.janrain.com */
 - (IBAction)janrainLinkClicked:(id)sender
 {
 	NSURL *url = [NSURL URLWithString:@"http://www.janrain.com"];
@@ -118,12 +116,14 @@
 		NSLog(@"%@%@",@"Failed to open url:",[url description]);
 }
 
+/* If any of the small icons are touched, show the faint outline of the surrounding button... */
 - (IBAction)signInButtonOnEvent:(id)sender
 {
 	if (sender == signInButton)
 		signInButton.alpha = 0.2;
 }
 
+/* and if that touch is released, hide the faint outline of the surrounding button. */
 - (IBAction)signInButtonOffEvent:(id)sender
 {
 	if (sender == signInButton)
@@ -132,7 +132,7 @@
 
 - (IBAction)signInButtonPressed:(id)sender 
 {
-#ifdef LILLI
+#ifdef LILLI /* Drill down a level, then after half a second, sign the user in. */
 	[[self navigationController] pushViewController:level1ViewController animated:YES]; 	
 	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySwitchAccounts:) userInfo:nil repeats:NO];
 #else

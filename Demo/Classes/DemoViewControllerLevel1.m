@@ -35,7 +35,8 @@ Copyright (c) 2010, Janrain, Inc.
 
 #import "DemoViewControllerLevel1.h"
 
-
+// TODO: I subclassed UITableViewCell, but later learned that I should have just customized 
+// the layout in tableView: cellForRowAtIndexPath: like I did in DemoViewControllerLevel2.m
 @interface UITableViewCellSignInHistory : UITableViewCell 
 {
 	UIImageView *icon;
@@ -67,7 +68,6 @@ Copyright (c) 2010, Janrain, Inc.
 @end
 
 
-
 @implementation DemoViewControllerLevel1
 @synthesize myTableView;
 @synthesize myToolBarButton;
@@ -90,8 +90,8 @@ Copyright (c) 2010, Janrain, Inc.
     [super viewDidLoad];
 	
 	level2ViewController = [[DemoViewControllerLevel2 alloc] 
-						  initWithNibName:@"DemoViewControllerLevel2" 
-						  bundle:[NSBundle mainBundle]];
+							initWithNibName:@"DemoViewControllerLevel2" 
+							bundle:[NSBundle mainBundle]];
 	
 }
 
@@ -121,7 +121,6 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	self.navigationItem.leftBarButtonItem = editButton;
 	self.navigationItem.leftBarButtonItem.enabled = YES;
-	
 	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
 
 	UIBarButtonItem *addAnotherButton = [[[UIBarButtonItem alloc] 
@@ -232,7 +231,6 @@ Copyright (c) 2010, Janrain, Inc.
 - (IBAction)signOutButtonPressed:(id)sender
 {
 #ifdef LILLI	
-	
 	if ([[DemoUserModel getDemoUserModel] currentUser])
 	{
 		myNotSignedInLabel.text = @"You are not currently signed in.";
@@ -242,12 +240,9 @@ Copyright (c) 2010, Janrain, Inc.
 	{
 		[[self navigationController] popToRootViewControllerAnimated:YES];
 	}
-
 #else
-
 	[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySignOut:) userInfo:nil repeats:NO];
 	[[self navigationController] popToRootViewControllerAnimated:YES];
-	
 #endif
 
 }
@@ -255,7 +250,7 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)userDidSignIn
 {	
 	NSArray *insIndexPaths = [NSArray arrayWithObjects: 
-							  [NSIndexPath indexPathForRow:0 inSection:0], nil];	
+								[NSIndexPath indexPathForRow:0 inSection:0], nil];	
 	NSIndexSet *set = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
 
 	[UIView beginAnimations:@"fade" context:nil];
@@ -342,7 +337,7 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-		return 50;
+	return 50;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -430,8 +425,10 @@ Copyright (c) 2010, Janrain, Inc.
 {
 	if (editingStyle == UITableViewCellEditingStyleDelete)
 	{
+		/* Remove this profile from the Model's saved history. */ 
 		[[DemoUserModel getDemoUserModel] removeUserFromHistory:indexPath.row];
 			
+		/* If that profile was the last one in the list of previous users... */
 		if (![[[DemoUserModel getDemoUserModel] signinHistory] count])
 		{
 			if (![[DemoUserModel getDemoUserModel] currentUser]) 

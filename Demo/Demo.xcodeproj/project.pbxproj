@@ -541,7 +541,7 @@
 				);
 				PRODUCT_NAME = Demo;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C77F6446-B0C3-459A-862E-B6508C468BF8";
-				SDKROOT = iphoneos3.1;
+				SDKROOT = iphoneos3.0;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
 			name = Distribution;
