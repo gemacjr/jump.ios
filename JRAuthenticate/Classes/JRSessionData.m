@@ -316,7 +316,7 @@
 	if(!jsonDict)
 		return;
 	
-// TODO: Switch all the classes to call providerInfo instead of allProviders	
+//	TODO: Switch all the classes to call providerInfo instead of allProviders	
 //	providerInfo = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
 	allProviders = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
 	

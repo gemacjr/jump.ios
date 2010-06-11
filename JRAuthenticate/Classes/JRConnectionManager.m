@@ -74,12 +74,6 @@
 {
 	DLog(@"");
 	
-//	if (req == nil || del == nil)
-//	{
-//		[self release];
-//		return nil;
-//	}
-	
 	if (self = [super init]) 
 	{
 		request  = [req retain];
@@ -110,15 +104,6 @@
 @synthesize connectionBuffers;
 
 static JRConnectionManager* singleton = nil;
-//+ (JRConnectionManager*)jrConnectionManager
-//{
-//	return singleton;
-//}
-//
-//+ (void)setJRConnectionManager:(JRConnectionManager*)connMan 
-//{
-//	singleton = connMan;
-//}
 
 - (JRConnectionManager*)init
 {
@@ -131,14 +116,6 @@ static JRConnectionManager* singleton = nil;
 	
 	return self;	
 }
-//
-//+ (MyGizmoClass*)sharedManager
-//{
-//    if (sharedGizmoManager == nil) {
-//        sharedGizmoManager = [[super allocWithZone:NULL] init];
-//    }
-//    return sharedGizmoManager;
-//}
 
 + (JRConnectionManager*)getJRConnectionManager
 {
@@ -147,11 +124,6 @@ static JRConnectionManager* singleton = nil;
     }
 	
     return singleton;
-	
-	//	if (singleton)
-	//		return singleton;
-	//	
-	//	return [[JRConnectionManager alloc] init];
 }
 
 + (id)allocWithZone:(NSZone *)zone
@@ -256,7 +228,6 @@ static JRConnectionManager* singleton = nil;
 	
 	[connMan startActivity];
 	
-//	[request release];
 	[connection release];
 	[connectionData release];
 	
@@ -326,12 +297,6 @@ static JRConnectionManager* singleton = nil;
 {
 	DLog(@"error message: %@", [error localizedDescription]);
 
-//	if ([(NSDictionary*)connectionBuffers count] == 1)
-//	{
-//		UIApplication* app = [UIApplication sharedApplication]; 
-//		app.networkActivityIndicatorVisible = NO;
-//	}
-	
 	ConnectionData2 *connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 	
 	NSURLRequest *request = [connectionData request];

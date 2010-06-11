@@ -63,11 +63,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	return singletonJRAuth;
 }
 
-//+ (void)setJRAuthenticate:(JRAuthenticate*)jrAuth 
-//{
-//	singletonJRAuth = jrAuth;
-//}
-
 + (id)allocWithZone:(NSZone *)zone
 {
     return [[self jrAuthenticate] retain];
@@ -107,7 +102,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	if (appId == nil)
 		return nil;
 	
-//	return [[JRAuthenticate alloc] initWithAppID:appId 
 	return [[super allocWithZone:nil] initWithAppID:appId 
 										andTokenUrl:tokenUrl 
 										   delegate:delegate];
@@ -226,7 +220,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
- 	NSString* tag = (NSString*)userdata;//[(NSString*)userdata retain]; 
+ 	NSString* tag = (NSString*)userdata; 
 	[payload retain];
 	
 	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
@@ -260,7 +254,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
-	NSString* tag = (NSString*)userdata;//[(NSString*)userdata retain];
+	NSString* tag = (NSString*)userdata;
 	DLog(@"tag:     %@", tag);
 	
 	if ([tag isEqualToString:@"getBaseURL"])
@@ -336,8 +330,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 	
 	[jrModalNavController dismissModalNavigationController:YES];
-
-//	[sessionData loadCookieData];
 
 	if (theTokenUrl)
 		[self makeCallToTokenUrlWithToken:theToken];

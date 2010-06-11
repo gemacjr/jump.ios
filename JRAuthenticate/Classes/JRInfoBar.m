@@ -128,7 +128,6 @@
 {
     DLog(@"");
 
-	// TODO: Should autorelease this?
 	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.0.30"
 														 delegate:self
 												cancelButtonTitle:@"OK"  
@@ -229,7 +228,6 @@
 
 	[barImage release];
 	[poweredByLabel release];
-//	[infoButton release];
 	[spinner release];
 	[loadingLabel release];
     

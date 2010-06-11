@@ -55,6 +55,4 @@
 + (void)stopConnectionsForDelegate:(id<JRConnectionManagerDelegate>)delegate;
 
 + (NSUInteger)openConnections;
-//- (void)startActivity;
-//- (void)stopActivity;
 @end

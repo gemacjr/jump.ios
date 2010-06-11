@@ -83,15 +83,13 @@
 	
 	BOOL hidePoweredBy;
 	
-	NSURL *startURL;
-	
+	NSString *token;
+	NSURL	 *startURL;
 	NSString *baseURL;
 	
-	NSString *errorStr;
-
 	BOOL forceReauth;
-	
-	NSString *token;
+
+	NSString *errorStr;
 }
 
 @property (readonly) NSString *errorStr;
@@ -113,7 +111,6 @@
 - (void)setReturningProviderToProvider:(JRProvider*)provider;
 - (void)setProvider:(NSString *)prov;
 - (void)setCurrentProviderToReturningProvider;
-//- (void)loadCookieData;
 	
 - (void)authenticationDidCancel;
 - (void)authenticationDidCompleteWithToken:(NSString*)tok;

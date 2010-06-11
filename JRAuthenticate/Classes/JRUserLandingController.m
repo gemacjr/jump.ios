@@ -554,28 +554,6 @@
 	[textField resignFirstResponder];
 }
 
-//- (void)forgetUserTouchUpInside
-//{
-//	NSString *urlStr = [NSString stringWithFormat:@".%@.com", sessionData.returningProvider.name];
-//	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-//	NSArray *cookies = [cookieStore cookies];
-//	
-//	for (NSHTTPCookie *cookie in cookies) 
-//	{
-//		if ([cookie.domain hasSuffix:urlStr])
-//			[cookieStore deleteCookie:cookie];
-//		
-//		if ([jrAuth.theBaseUrl hasSuffix:cookie.domain] &&
-//			([cookie.name isEqualToString:@"login_tab"] || 
-//			 [cookie.name isEqualToString:@"userInput"]))
-//			[cookieStore deleteCookie:cookie];
-//	}	
-//
-//	[sessionData setProvider:nil];
-//	
-//	[[self navigationController] popViewControllerAnimated:YES];
-//}
-
 - (void)backToProvidersTouchUpInside
 {
 	DLog(@"");
@@ -601,8 +579,6 @@
 
 	[jrAuth	release];
 	[sessionData release];
-	
-//	[myTableView release];
 	[infoBar release];
 	
     [super dealloc];
