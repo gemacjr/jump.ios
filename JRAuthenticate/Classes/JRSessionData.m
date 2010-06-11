@@ -223,14 +223,19 @@
 {
 	DLog(@"");
 	NSDictionary *providerStats = [allProviders objectForKey:currentProvider.name];
-	NSString *oid;
+	NSMutableString *oid;
 	
 	if ([providerStats objectForKey:@"openid_identifier"])
 	{
-		oid = [NSString stringWithFormat:@"openid_identifier=%@&", [NSString stringWithString:[providerStats objectForKey:@"openid_identifier"]]]; //[NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
+		oid = [NSMutableString stringWithFormat:@"openid_identifier=%@&", [NSString stringWithString:[providerStats objectForKey:@"openid_identifier"]]]; //[NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
 		
 		if(currentProvider.providerRequiresInput)
-			oid = [NSString stringWithFormat:oid, [currentProvider.userInput stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+			[oid replaceOccurrencesOfString:@"%@" 
+								 withString:[currentProvider.userInput 
+											 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] 
+									options:NSLiteralSearch 
+									  range:NSMakeRange(0, [oid length])];
+		//	oid = [NSString stringWithFormat:oid, [currentProvider.userInput stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	}
 	else 
 	{
