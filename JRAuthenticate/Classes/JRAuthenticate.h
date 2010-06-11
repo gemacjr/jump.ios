@@ -50,7 +50,7 @@
  * library closes the modal dialog, so you may want to capture this moment so that you can update
  * you UI.  You may implement neither or both, but the only difference between the two is that the 
  * second one includes the provider the user is authenticating with (the first one was left for 
- * backwards compatibility).  If you intiantiate the library with a token URL, authentication is 
+ * backwards compatibility).  If you instantiate the library with a token URL, authentication is 
  * completed automatically, and you won't need the token for anything.  As tokens are only valid for
  * a small amount of time, do not persist this value.
  */

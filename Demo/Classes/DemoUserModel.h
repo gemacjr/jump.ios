@@ -69,10 +69,10 @@
 	NSDictionary	*selectedUser;
 	
 	/* This unsigned int holds a snapshot of the max size reached by the 
-	   signin history array, so that once a user deletes half of the saved sessions,
+	   sign-in history array, so that once a user deletes half of the saved sessions,
 	   the Model will go through and clean out the userProfiles dictionary.  
 	   The dictionary of profiles is unordered and has one entry per user, but the
-	   signin history array is ordered, and may have a many-to-one mapping of sessions 
+	   sign-in history array is ordered, and may have a many-to-one mapping of sessions 
 	   to profiles. */
 	NSUInteger historyCountSnapShot;
 	

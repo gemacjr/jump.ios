@@ -196,7 +196,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	return addr;
 }
 
-/* Returns the signin history as an ordered array of sessions, store as dictionaries.
+/* Returns the sign-in history as an ordered array of sessions, store as dictionaries.
    Each session's dictionary contains the identifier, display name, provider, and timestamp 
    for that particular session.  As one user may log in many times, identifiers are not unique. */
 - (NSArray*)signinHistory
@@ -215,10 +215,10 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 {
 	NSArray *historyArr = [prefs arrayForKey:@"signinHistory"];
 	
-	/* Since the signin history array likely contains several duplicate identifiers, we'll first 
+	/* Since the sign-in history array likely contains several duplicate identifiers, we'll first 
 	   go through the array one time, pull out all the identifiers, and add them to an NSMutableSet.
 	   When finished, the NSSet will contain only the *unique* identifiers, which should be far fewer than
-	   the size of the signin history array. */
+	   the size of the sign-in history array. */
 	NSMutableSet *uniqueIDS = [[NSMutableSet alloc] initWithCapacity:[historyArr count]];
 	
 	/* Don't forget the current user. */
@@ -284,7 +284,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	/* And save. */
 	[prefs setObject:historyArr forKey:@"signinHistory"];
 
-	/* As we remove the unique signins from the history, eventually we may remove all entries 
+	/* As we remove the unique sign-ins from the history, eventually we may remove all entries 
 	   for a specific user, but we will still have their profile data saved in the userProfiles
 	   dictionary.  Therefore, we should eventually prune the userProfiles dictionary so that 
 	   we don't have needless information hanging around. Since this is time consuming, only 
@@ -325,7 +325,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	}	
 	
 	/* Then the cookie expired, and we have a user currently logged in, so we have to
-	   log out the current user and save the history of the session in the array of preivous sessions */
+	   log out the current user and save the history of the session in the array of previous sessions */
 	if (!cookieIdentifier)
 	{
 		[self finishSignUserOut];
@@ -402,7 +402,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 - (void)finishSignUserOut
 {
 	/* Save the currentUser's session dictionary (identifier, display name, provider and timestamp) 
-	   at the beginning of the signin history array.  One specific user may have multiple distinct 
+	   at the beginning of the sign-in history array.  One specific user may have multiple distinct 
 	   sessions saved in this array, which is why we're saving minimal session data in this array 
 	   and keeping their full profiles in the separate userProfiles dictionary. */
 
@@ -439,7 +439,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[signOutDelegate release];
 	signInDelegate = nil;
 
-	/* As we remove signin sessions from the history, eventually we need to prune the profiles from the
+	/* As we remove sign-in sessions from the history, eventually we need to prune the profiles from the
 	   userProfiles dictionary.  We do this when the size of the signinHistory array is half 
 	   of the historyCountSnapShot.  As the array grows, so does historyCountSnapShot, but
 	   historyCountSnapShot only shrinks after a pruning. */
