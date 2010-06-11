@@ -89,7 +89,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* DemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* DemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Quick Sign-In.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quick Sign-In.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E5210DE3E06400AC0155 /* DemoRootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DemoRootViewController.xib; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Demo.app */,
+				1D6058910D05DD3D006BFB54 /* Quick Sign-In.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -343,7 +343,7 @@
 			);
 			name = Demo;
 			productName = Demo;
-			productReference = 1D6058910D05DD3D006BFB54 /* Demo.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Quick Sign-In.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -480,8 +480,8 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = Demo;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7304DCC5-8EF1-4316-BA46-00358E9F013C";
+				PRODUCT_NAME = "Quick Sign-In";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D8485228-7D2C-4444-B9A4-1B14485988E9";
 				SDKROOT = iphoneos3.1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
@@ -502,7 +502,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = Demo;
+				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F454B76-32EB-4DB7-97BC-EA11298BC5E9";
 				SDKROOT = iphoneos3.1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
@@ -539,7 +539,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = Demo;
+				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C77F6446-B0C3-459A-862E-B6508C468BF8";
 				SDKROOT = iphoneos3.0;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";

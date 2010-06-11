@@ -43,8 +43,11 @@
 #define LOCAL 0
 
 @protocol JRAuthenticateDelegate <NSObject>
+@optional
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token;
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider;
+
+@required
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload;
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error;

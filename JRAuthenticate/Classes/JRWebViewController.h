@@ -53,6 +53,7 @@
 	JRInfoBar	*infoBar;
 	
 	BOOL keepProgress;
+	BOOL userStopped;
 }
 
 @property (nonatomic, retain) IBOutlet UIWebView *myWebView;

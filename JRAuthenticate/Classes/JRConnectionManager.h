@@ -49,10 +49,12 @@
 	CFMutableDictionaryRef connectionBuffers;
 }
 
-
 @property CFMutableDictionaryRef connectionBuffers;
 
 + (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata;
 + (void)stopConnectionsForDelegate:(id<JRConnectionManagerDelegate>)delegate;
 
++ (NSUInteger)openConnections;
+//- (void)startActivity;
+//- (void)stopActivity;
 @end

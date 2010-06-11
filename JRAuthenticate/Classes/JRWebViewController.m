@@ -98,6 +98,8 @@
 		[self.view addSubview:infoBar];
 	}
 	[infoBar fadeIn];
+
+	userStopped = NO;
 }
 
 
@@ -136,9 +138,13 @@
 
 - (void)stopProgress
 {
+	if ([JRConnectionManager openConnections] == 0)
+	{
+		UIApplication* app = [UIApplication sharedApplication]; 
+		app.networkActivityIndicatorVisible = NO;
+	}
+	
 	keepProgress = NO;
-	UIApplication* app = [UIApplication sharedApplication]; 
-	app.networkActivityIndicatorVisible = NO;
 	[infoBar stopProgress];
 }
 	
@@ -260,7 +266,10 @@
 {
 	DLog(@"error message: %@", [error localizedDescription]); 
 
-	[sessionData authenticationDidFailWithError:error];
+	if (!userStopped)
+		[sessionData authenticationDidFailWithError:error];
+	userStopped = NO;
+	
 	[self stopProgress];
 }
 
@@ -281,6 +290,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	DLog(@"");
+	
+	userStopped = YES;
 	[myWebView stopLoading];
 	[myWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
 	

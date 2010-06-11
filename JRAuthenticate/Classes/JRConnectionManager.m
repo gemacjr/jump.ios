@@ -184,7 +184,26 @@ static JRConnectionManager* singleton = nil;
     return self;
 }
 
++ (NSUInteger)openConnections
+{
+	JRConnectionManager* connMan = [JRConnectionManager getJRConnectionManager];
+	return [connMan.connectionBuffers count];
+}
 
+- (void)startActivity
+{
+	UIApplication* app = [UIApplication sharedApplication]; 
+	app.networkActivityIndicatorVisible = YES;
+}
+
+- (void)stopActivity
+{
+	if ([(NSDictionary*)connectionBuffers count] == 0)
+	{
+		UIApplication* app = [UIApplication sharedApplication]; 
+		app.networkActivityIndicatorVisible = NO;
+	}	
+}
 
 /* Hmmmm... now that I've set up a full singleton instance of this class, will this ever be called?
    Leaving it here in case I want to make this not a singleton, so that my library isn't eating memory. */
@@ -207,6 +226,7 @@ static JRConnectionManager* singleton = nil;
 	}
 	
 	CFRelease(connectionBuffers);	
+	[self stopActivity];
 	
 	[super dealloc];
 }
@@ -234,8 +254,7 @@ static JRConnectionManager* singleton = nil;
 	[connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[connection start];
 	
-	UIApplication* app = [UIApplication sharedApplication]; 
-	app.networkActivityIndicatorVisible = YES;
+	[connMan startActivity];
 	
 //	[request release];
 	[connection release];
@@ -268,6 +287,8 @@ static JRConnectionManager* singleton = nil;
 			CFDictionaryRemoveValue(connectionBuffers, connection);
 		}
 	}
+	
+	[connMan stopActivity];
 }	
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data 
@@ -285,13 +306,6 @@ static JRConnectionManager* singleton = nil;
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection 
 {
 	DLog(@"");
-
-	if ([(NSDictionary*)connectionBuffers count] == 1)
-	{
-		UIApplication* app = [UIApplication sharedApplication]; 
-		app.networkActivityIndicatorVisible = NO;
-	}
-	
 	ConnectionData2 *connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 	
 	NSURLRequest *request = [connectionData request];
@@ -304,17 +318,19 @@ static JRConnectionManager* singleton = nil;
 	[delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userdata];
 	
 	CFDictionaryRemoveValue(connectionBuffers, connection);
+
+	[self stopActivity];
 }
 
 - (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error 
 {
 	DLog(@"error message: %@", [error localizedDescription]);
 
-	if ([(NSDictionary*)connectionBuffers count] == 1)
-	{
-		UIApplication* app = [UIApplication sharedApplication]; 
-		app.networkActivityIndicatorVisible = NO;
-	}
+//	if ([(NSDictionary*)connectionBuffers count] == 1)
+//	{
+//		UIApplication* app = [UIApplication sharedApplication]; 
+//		app.networkActivityIndicatorVisible = NO;
+//	}
 	
 	ConnectionData2 *connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 	
@@ -325,6 +341,8 @@ static JRConnectionManager* singleton = nil;
 	[delegate connectionDidFailWithError:error request:request andTag:userdata];
 	
 	CFDictionaryRemoveValue(connectionBuffers, connection);
+	
+	[self stopActivity];
 }
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request 
