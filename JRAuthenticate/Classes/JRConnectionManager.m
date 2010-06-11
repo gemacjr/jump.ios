@@ -187,7 +187,7 @@ static JRConnectionManager* singleton = nil;
 + (NSUInteger)openConnections
 {
 	JRConnectionManager* connMan = [JRConnectionManager getJRConnectionManager];
-	return [connMan.connectionBuffers count];
+	return [(NSDictionary*)connMan.connectionBuffers count];
 }
 
 - (void)startActivity

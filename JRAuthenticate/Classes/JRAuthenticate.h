@@ -81,7 +81,7 @@
 @property (nonatomic, readonly) NSString* theTokenUrlPayload;
 
 + (JRAuthenticate*)jrAuthenticate;
-+ (void)setJRAuthenticate:(JRAuthenticate*)jrAuth;
+//+ (void)setJRAuthenticate:(JRAuthenticate*)jrAuth;
 
 + (JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
 							   andTokenUrl:(NSString*)tokenUrl

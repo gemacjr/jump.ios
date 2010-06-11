@@ -63,10 +63,10 @@ static JRAuthenticate* singletonJRAuth = nil;
 	return singletonJRAuth;
 }
 
-+ (void)setJRAuthenticate:(JRAuthenticate*)jrAuth 
-{
-	singletonJRAuth = jrAuth;
-}
+//+ (void)setJRAuthenticate:(JRAuthenticate*)jrAuth 
+//{
+//	singletonJRAuth = jrAuth;
+//}
 
 + (id)allocWithZone:(NSZone *)zone
 {

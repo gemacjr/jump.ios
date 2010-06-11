@@ -200,6 +200,26 @@
 
 				[alert show];
 			}
+			else if ([[payloadDict objectForKey:@"error"] isEqualToString:@"Please enter your OpenID"])
+			{
+				NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Authentication failed: %@", payload]
+																	 forKey:NSLocalizedDescriptionKey];
+				NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
+													 code:100
+												 userInfo:userInfo];
+				
+				[sessionData authenticationDidFailWithError:error];
+			}
+			else
+			{
+				NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Authentication failed: %@", payload]
+																	 forKey:NSLocalizedDescriptionKey];
+				NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
+													 code:100
+												 userInfo:userInfo];
+				
+				[sessionData authenticationDidFailWithError:error];
+			}
 		}
 	}
 

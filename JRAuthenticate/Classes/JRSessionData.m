@@ -223,23 +223,20 @@
 {
 	DLog(@"");
 	NSDictionary *providerStats = [allProviders objectForKey:currentProvider.name];
-	NSMutableString *oid;
+	NSString *oid;
 	
 	if ([providerStats objectForKey:@"openid_identifier"])
 	{
-		oid = [NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
+		oid = [NSString stringWithFormat:@"openid_identifier=%@&", [NSString stringWithString:[providerStats objectForKey:@"openid_identifier"]]]; //[NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
 		
-		if(currentProvider.userInput)
-		{
-			[oid replaceOccurrencesOfString:@"%@" withString:[currentProvider.userInput stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] options:NSLiteralSearch range:NSMakeRange(0, [oid length])];
-		}
-		oid = [[@"openid_identifier=" stringByAppendingString:oid] stringByAppendingString:@"&"];
+		if(currentProvider.providerRequiresInput)
+			oid = [NSString stringWithFormat:oid, [currentProvider.userInput stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	}
 	else 
 	{
 		oid = [NSMutableString stringWithString:@""];
 	}
-	
+
 	NSString* str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", baseURL, [providerStats objectForKey:@"url"], oid, ((forceReauth)? @"force_reauth=true&" : @"")];
 	
 	forceReauth = NO;
@@ -309,7 +306,6 @@
 		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the list of configured providers."];
 
 	[request release];
-	DLog("XXXXXXX request retain count = %d", [request retainCount]);
 }
 
 - (void)finishGetConfiguredProviders:(NSString*)dataStr
@@ -320,6 +316,7 @@
 	if(!jsonDict)
 		return;
 	
+// TODO: Switch all the classes to call providerInfo instead of allProviders	
 //	providerInfo = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
 	allProviders = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
 	
