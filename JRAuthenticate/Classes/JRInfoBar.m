@@ -128,7 +128,7 @@
 {
     DLog(@"");
 
-	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.0.30"
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.01"
 														 delegate:self
 												cancelButtonTitle:@"OK"  
 										   destructiveButtonTitle:nil
