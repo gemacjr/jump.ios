@@ -83,9 +83,9 @@
 
 /**
  * Use the JRAuthenticate class to authenticate the user with an account they may 
- * have on several providers.  To create an singleton instance of the JRAuthenticate
- * class, you will need to have an application on RPXNow.com and use your application's
- * 20-character application ID.  You must also implement a token URL on a 
+ * have on several providers.  To create a singleton instance of the JRAuthenticate
+ * class, you will need to have an Engage application on RPXNow.com and use your
+ * application's 20-character application ID.  You must also implement a token URL on a 
  * web application to complete authentication.
  */
 @interface JRAuthenticate : NSObject <JRConnectionManagerDelegate, JRSessionDelegate>
@@ -107,7 +107,7 @@
 }
 
 /**
- * This is the base URL of your rpx application.
+ * This is the base URL of your Engage application.
  */
 @property (nonatomic, readonly) NSString* theBaseUrl;
 
@@ -118,7 +118,7 @@
 @property (nonatomic, readonly) NSString* theTokenUrl;
 
 /**
- * This is the token returned to the library from the RPX server once your
+ * This is the token returned to the library from the Engage server once your
  * user authenticates with a provider.  This token is used to retrieve the 
  * profile data of your user from your token URL.  It has a short lifetime,
  * so it is not recommended that you store this anywhere.

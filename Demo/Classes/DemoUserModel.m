@@ -51,20 +51,20 @@ static DemoUserModel* singleton = nil;
 
 /* To use the JRAuthenticate library, you must first sign up for an account and create
    an application on http://rpxnow.com.  You must also have a web server that can host
-   your token URL.  Your token URL contains your RPX Application's 40-character key and 
-   makes the auth_info post to rpxnow.  You can have more than one token URL, and you can 
-   instantiate the JRAuthenticate library with tokenURL=nil, but you will need to 
-   post the token to a token URL to finish authentication.  If you already have an RPX
+   your token URL.  Your token URL contains your Engage Application's 40-character key and 
+   makes the auth_info post to the Engage server.  You can have more than one token URL, 
+   and you can instantiate the JRAuthenticate library with tokenURL=nil, but you will need 
+   to post the token to a token URL to finish authentication.  If you already have an Engage
    widget working on your site, it is recommended that you create a second, more simple
-   token URL specifically for the iPhone Library.  If you don't already have the RPX 
-   working on your site, or you don't have a site, I recommend that you create a very 
-   simple application using Google's App Engine: http://code.google.com/appengine/.
+   token URL specifically for the iPhone Library.  If you don't already have the Engage 
+   widget working on your site, or you don't have a site, we recommend that you create a 
+   very simple application using Google's App Engine: http://code.google.com/appengine/.
    See my reference application in the ../googleAppEngineDemoApp folder for an example 
    of a simple token URL that call auth_info, and serves the returned json response
    back to this application.
  
  
-Instantiate the JRAuthenticate Library with your RPX Application's 20-character ID and
+Instantiate the JRAuthenticate Library with your Engage Application's 20-character ID and
 (optional) token URL, which you create on your web site.  If you don't instantiate the 
 library with a token URL, you must make the call yourself after you receive the token,
 otherwise, this happens automatically.													*/
@@ -471,13 +471,9 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[self finishSignUserOut];	
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token
-{
-	UIApplication* app = [UIApplication sharedApplication]; 
-	app.networkActivityIndicatorVisible = YES;
-	
-	[signInDelegate didReceiveToken];
-}
+
+
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token { }
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider
 {
@@ -496,14 +492,14 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	
 	NSRange found = [tokenUrlPayload rangeOfString:@"{"];
 	
-	if (found.length == 0)
-		return;
+	if (found.length == 0)// Then there was an error
+		return; // TODO: Manage error
 	
 	NSString *userStr = [tokenUrlPayload substringFromIndex:found.location];
 	NSDictionary* user = [userStr JSONValue];
 	
 	if(!user) // Then there was an error
-		return; // TODO: manage error and memory
+		return; // TODO: Manage error
 	
 	[self finishSignUserIn:user];
 }

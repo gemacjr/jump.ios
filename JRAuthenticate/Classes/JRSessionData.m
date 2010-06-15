@@ -432,14 +432,26 @@
 	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
 	NSDate *date = [[[NSDate alloc] initWithTimeIntervalSinceNow:604800] autorelease];
 	
-	NSHTTPCookie	*cookie = nil;
+	NSHTTPCookie *cookie = nil;
+	NSRange found;
+	NSString* cookieDomain = nil;
+	
+	found = [baseURL rangeOfString:@"http://"];
+	
+	if (found.length == 0)
+		found = [baseURL rangeOfString:@"https://"];
+
+	if (found.length == 0)
+		cookieDomain = baseURL;
+	else
+		cookieDomain = [baseURL substringFromIndex:(found.location + found.length)];
 	
 	DLog("Setting cookie \"login_tab\" to value:  %@", self.returningProvider.name);
 	cookie = [NSHTTPCookie cookieWithProperties:
 			  [NSDictionary dictionaryWithObjectsAndKeys:
 			   self.returningProvider.name, NSHTTPCookieValue,
 			   @"login_tab", NSHTTPCookieName,
-			   @"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
+			   cookieDomain, NSHTTPCookieDomain,
 			   @"/", NSHTTPCookiePath,
 			   @"FALSE", NSHTTPCookieDiscard,
 			   date, NSHTTPCookieExpires, nil]];
@@ -450,7 +462,7 @@
 			  [NSDictionary dictionaryWithObjectsAndKeys:
 			   self.returningProvider.userInput, NSHTTPCookieValue,
 			   @"user_input", NSHTTPCookieName,
-			   @"jrauthenticate.rpxnow.com", NSHTTPCookieDomain,
+			   cookieDomain, NSHTTPCookieDomain,
 			   @"/", NSHTTPCookiePath,
 			   @"FALSE", NSHTTPCookieDiscard,
 			   date, NSHTTPCookieExpires, nil]];
