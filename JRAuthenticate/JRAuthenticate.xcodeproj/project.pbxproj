@@ -333,12 +333,15 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = JRAuthenticate_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = "-fblocks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-ljson",
 				);
 				PRODUCT_NAME = JRAuthenticate;
+				SDKROOT = iphoneos3.2;
 			};
 			name = Debug;
 		};
@@ -352,12 +355,15 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = JRAuthenticate_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
+				OTHER_CFLAGS = "-fblocks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-ljson",
 				);
 				PRODUCT_NAME = JRAuthenticate;
+				SDKROOT = iphoneos3.2;
 			};
 			name = Release;
 		};
