@@ -34,7 +34,6 @@
 
 
 #import "JRSessionData.h"
-#import "JSON.h"
 
 // TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
 #define DEBUG
