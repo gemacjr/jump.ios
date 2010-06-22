@@ -23,6 +23,17 @@
 		9F720B30116A894B00E69F8D /* JRUserLandingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F720B22116A894B00E69F8D /* JRUserLandingController.m */; };
 		9F720B31116A894B00E69F8D /* JRWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F720B23116A894B00E69F8D /* JRWebViewController.h */; };
 		9F720B32116A894B00E69F8D /* JRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F720B24116A894B00E69F8D /* JRWebViewController.m */; };
+		9FCD674311D13D9C009E36A4 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD673811D13D9C009E36A4 /* JSON.h */; };
+		9FCD674411D13D9C009E36A4 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD673911D13D9C009E36A4 /* NSObject+SBJSON.h */; };
+		9FCD674511D13D9C009E36A4 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD673A11D13D9C009E36A4 /* NSObject+SBJSON.m */; };
+		9FCD674611D13D9C009E36A4 /* NSString+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD673B11D13D9C009E36A4 /* NSString+SBJSON.h */; };
+		9FCD674711D13D9C009E36A4 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD673C11D13D9C009E36A4 /* NSString+SBJSON.m */; };
+		9FCD674811D13D9C009E36A4 /* SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD673D11D13D9C009E36A4 /* SBJsonBase.h */; };
+		9FCD674911D13D9C009E36A4 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD673E11D13D9C009E36A4 /* SBJsonBase.m */; };
+		9FCD674A11D13D9C009E36A4 /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD673F11D13D9C009E36A4 /* SBJsonParser.h */; };
+		9FCD674B11D13D9C009E36A4 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD674011D13D9C009E36A4 /* SBJsonParser.m */; };
+		9FCD674C11D13D9C009E36A4 /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD674111D13D9C009E36A4 /* SBJsonWriter.h */; };
+		9FCD674D11D13D9C009E36A4 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD674211D13D9C009E36A4 /* SBJsonWriter.m */; };
 		AA747D9F0F9514B9006C5449 /* JRAuthenticate_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* JRAuthenticate_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -86,6 +97,17 @@
 		9F720B59116A89A600E69F8D /* jrauth_verisign_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_verisign_icon.png; path = Resources/assets/provider_icons/jrauth_verisign_icon.png; sourceTree = "<group>"; };
 		9F720B5A116A89A600E69F8D /* jrauth_wordpress_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_wordpress_icon.png; path = Resources/assets/provider_icons/jrauth_wordpress_icon.png; sourceTree = "<group>"; };
 		9F720B5B116A89A600E69F8D /* jrauth_yahoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_yahoo_icon.png; path = Resources/assets/provider_icons/jrauth_yahoo_icon.png; sourceTree = "<group>"; };
+		9FCD673811D13D9C009E36A4 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		9FCD673911D13D9C009E36A4 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		9FCD673A11D13D9C009E36A4 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		9FCD673B11D13D9C009E36A4 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		9FCD673C11D13D9C009E36A4 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		9FCD673D11D13D9C009E36A4 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		9FCD673E11D13D9C009E36A4 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		9FCD673F11D13D9C009E36A4 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		9FCD674011D13D9C009E36A4 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		9FCD674111D13D9C009E36A4 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		9FCD674211D13D9C009E36A4 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* JRAuthenticate_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRAuthenticate_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libJRAuthenticate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libJRAuthenticate.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +157,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9FCD673711D13D9C009E36A4 /* JSON */,
 				9F590EFC11752FC3006955EF /* JRInfoBar.h */,
 				9F590EFD11752FC3006955EF /* JRInfoBar.m */,
 				9F720B17116A894B00E69F8D /* JRAuthenticate.h */,
@@ -243,6 +266,25 @@
 			name = button_graphics;
 			sourceTree = "<group>";
 		};
+		9FCD673711D13D9C009E36A4 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				9FCD673811D13D9C009E36A4 /* JSON.h */,
+				9FCD673911D13D9C009E36A4 /* NSObject+SBJSON.h */,
+				9FCD673A11D13D9C009E36A4 /* NSObject+SBJSON.m */,
+				9FCD673B11D13D9C009E36A4 /* NSString+SBJSON.h */,
+				9FCD673C11D13D9C009E36A4 /* NSString+SBJSON.m */,
+				9FCD673D11D13D9C009E36A4 /* SBJsonBase.h */,
+				9FCD673E11D13D9C009E36A4 /* SBJsonBase.m */,
+				9FCD673F11D13D9C009E36A4 /* SBJsonParser.h */,
+				9FCD674011D13D9C009E36A4 /* SBJsonParser.m */,
+				9FCD674111D13D9C009E36A4 /* SBJsonWriter.h */,
+				9FCD674211D13D9C009E36A4 /* SBJsonWriter.m */,
+			);
+			name = JSON;
+			path = Source;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -259,6 +301,12 @@
 				9F720B2F116A894B00E69F8D /* JRUserLandingController.h in Headers */,
 				9F720B31116A894B00E69F8D /* JRWebViewController.h in Headers */,
 				9F590EFE11752FC3006955EF /* JRInfoBar.h in Headers */,
+				9FCD674311D13D9C009E36A4 /* JSON.h in Headers */,
+				9FCD674411D13D9C009E36A4 /* NSObject+SBJSON.h in Headers */,
+				9FCD674611D13D9C009E36A4 /* NSString+SBJSON.h in Headers */,
+				9FCD674811D13D9C009E36A4 /* SBJsonBase.h in Headers */,
+				9FCD674A11D13D9C009E36A4 /* SBJsonParser.h in Headers */,
+				9FCD674C11D13D9C009E36A4 /* SBJsonWriter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +361,11 @@
 				9F720B30116A894B00E69F8D /* JRUserLandingController.m in Sources */,
 				9F720B32116A894B00E69F8D /* JRWebViewController.m in Sources */,
 				9F590EFF11752FC3006955EF /* JRInfoBar.m in Sources */,
+				9FCD674511D13D9C009E36A4 /* NSObject+SBJSON.m in Sources */,
+				9FCD674711D13D9C009E36A4 /* NSString+SBJSON.m in Sources */,
+				9FCD674911D13D9C009E36A4 /* SBJsonBase.m in Sources */,
+				9FCD674B11D13D9C009E36A4 /* SBJsonParser.m in Sources */,
+				9FCD674D11D13D9C009E36A4 /* SBJsonWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,8 +375,8 @@
 		1DEB921F08733DC00010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/${PLATFORM_NAME}.sdk";
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ADDITIONAL_SDKS = "";
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/JRAuthenticate.dst;
@@ -336,20 +389,18 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = "-fblocks";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-ljson",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = JRAuthenticate;
 				SDKROOT = iphoneos3.2;
+				USER_HEADER_SEARCH_PATHS = "../json-framework/**";
 			};
 			name = Debug;
 		};
 		1DEB922008733DC00010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/${PLATFORM_NAME}.sdk";
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ADDITIONAL_SDKS = "";
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/JRAuthenticate.dst;
 				GCC_MODEL_TUNING = G5;
@@ -358,12 +409,10 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = "-fblocks";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-ljson",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = JRAuthenticate;
 				SDKROOT = iphoneos3.2;
+				USER_HEADER_SEARCH_PATHS = "../json-framework/**";
 			};
 			name = Release;
 		};

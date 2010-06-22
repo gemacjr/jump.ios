@@ -34,7 +34,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import <JSON/JSON.h>
+#import "JSON.h"
 #import "JRConnectionManager.h"
 #import "JRModalNavigationController.h"
 #import "JRWebViewController.h"

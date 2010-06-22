@@ -33,7 +33,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
-#import <JSON/JSON.h>
+//#import "JSON.h"
 #import "JRConnectionManager.h"
 
 @interface JRProvider : NSObject
