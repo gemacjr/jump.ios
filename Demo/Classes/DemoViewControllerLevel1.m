@@ -250,7 +250,7 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)userDidSignIn
 {	
 	NSArray *insIndexPaths = [NSArray arrayWithObjects: 
-								[NSIndexPath indexPathForRow:0 inSection:0], nil];	
+							 [NSIndexPath indexPathForRow:0 inSection:0], nil];	
 	NSIndexSet *set = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
 
 	[UIView beginAnimations:@"fade" context:nil];
@@ -357,6 +357,7 @@ Copyright (c) 2010, Janrain, Inc.
 				return 0;
 			break;
 		case 1:
+			printf("rows in section 1: %d", [[[DemoUserModel getDemoUserModel] signinHistory] count]);
 			return [[[DemoUserModel getDemoUserModel] signinHistory] count];
 			break;
 		default:
