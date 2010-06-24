@@ -535,9 +535,9 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "-fblocks";
 				OTHER_LDFLAGS = (
 					"-v",
@@ -545,7 +545,7 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D8485228-7D2C-4444-B9A4-1B14485988E9";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphonesimulator4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
@@ -561,8 +561,9 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "-fblocks";
 				OTHER_LDFLAGS = (
 					"-v",
@@ -571,7 +572,7 @@
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F454B76-32EB-4DB7-97BC-EA11298BC5E9";
 				SDKROOT = iphoneos3.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
 			name = Release;
@@ -611,8 +612,9 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "-fblocks";
 				OTHER_LDFLAGS = (
 					"-v",
@@ -621,6 +623,7 @@
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C77F6446-B0C3-459A-862E-B6508C468BF8";
 				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
 			name = Distribution;

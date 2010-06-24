@@ -144,12 +144,14 @@ Copyright (c) 2010, Janrain, Inc.
 	if (![[DemoUserModel getDemoUserModel] currentUser])
 	{
 		myToolBarButton.title = @"Home";
-		myNotSignedInLabel.alpha = 1.0;
+		myTableView.tableHeaderView.alpha = 1.0;
+//		myNotSignedInLabel.alpha = 1.0;
 	}
 	else
 	{
 		myToolBarButton.title = @"Sign Out";
-		myNotSignedInLabel.alpha = 0.0;
+		myTableView.tableHeaderView.alpha = 0.0;
+//		myNotSignedInLabel.alpha = 0.0;
 	}		
 	
 	[myTableView setEditing:NO animated:NO];
@@ -252,16 +254,18 @@ Copyright (c) 2010, Janrain, Inc.
 	NSArray *insIndexPaths = [NSArray arrayWithObjects: 
 							 [NSIndexPath indexPathForRow:0 inSection:0], nil];	
 	NSIndexSet *set = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
+	
+	[myTableView beginUpdates];
+	[myTableView insertRowsAtIndexPaths:insIndexPaths withRowAnimation:UITableViewRowAnimationRight];
+	[myTableView endUpdates];
+
+	[myTableView reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
 
 	[UIView beginAnimations:@"fade" context:nil];
 	myToolBarButton.title = @"Sign Out";
-	myNotSignedInLabel.alpha = 0.0;
+	myTableView.tableHeaderView.alpha = 0.0;
+	//myNotSignedInLabel.alpha = 0.0;
 	[UIView commitAnimations];
-	
-	[myTableView beginUpdates];
-	[myTableView reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
-	[myTableView insertRowsAtIndexPaths:insIndexPaths withRowAnimation:UITableViewRowAnimationRight];
-	[myTableView endUpdates];
 }
 
 - (void)userDidSignOut
@@ -272,18 +276,20 @@ Copyright (c) 2010, Janrain, Inc.
 	NSArray *insIndexPaths = [NSArray arrayWithObjects: 
 							  [NSIndexPath indexPathForRow:0 inSection:1], nil];
 	NSIndexSet *set = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
-
-	[UIView beginAnimations:@"fade" context:nil];
-	myToolBarButton.title = @"Home";
-	myNotSignedInLabel.alpha = 1.0;
-	[UIView commitAnimations];
 	
 	[myTableView beginUpdates];
-	[myTableView reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
 	[myTableView deleteRowsAtIndexPaths:delIndexPaths withRowAnimation:UITableViewRowAnimationRight];
 	[myTableView insertRowsAtIndexPaths:insIndexPaths withRowAnimation:UITableViewRowAnimationRight];
 	[myTableView endUpdates];
+	
+	[UIView beginAnimations:@"fade" context:nil];
+	myToolBarButton.title = @"Home";
+	myTableView.tableHeaderView.alpha = 1.0;
+	//	myNotSignedInLabel.alpha = 1.0;
+	[UIView commitAnimations];
 
+	[myTableView reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+	
 	[self doneButtonPressed:nil];
 }
 
@@ -351,13 +357,14 @@ Copyright (c) 2010, Janrain, Inc.
 	switch (section)
 	{
 		case 0:
+			printf("rows in section 0: %d\n", [[DemoUserModel getDemoUserModel] currentUser] ? 1 : 0);
 			if ([[DemoUserModel getDemoUserModel] currentUser])
 				return 1;
 			else 
 				return 0;
 			break;
 		case 1:
-			printf("rows in section 1: %d", [[[DemoUserModel getDemoUserModel] signinHistory] count]);
+			printf("rows in section 1: %d\n", [[[DemoUserModel getDemoUserModel] signinHistory] count]);
 			return [[[DemoUserModel getDemoUserModel] signinHistory] count];
 			break;
 		default:
@@ -424,6 +431,8 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle 
 											forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	CGFloat headerAlpha = myTableView.tableHeaderView.alpha;
+	
 	if (editingStyle == UITableViewCellEditingStyleDelete)
 	{
 		/* Remove this profile from the Model's saved history. */ 
@@ -448,6 +457,7 @@ Copyright (c) 2010, Janrain, Inc.
 		}
 		
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];		
+		myTableView.tableHeaderView.alpha = headerAlpha;
 	}
 }
 
