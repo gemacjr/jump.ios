@@ -189,7 +189,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9FCD67D611D14274009E36A4 /* Source */,
+				9FCD67D611D14274009E36A4 /* JSON Framework */,
 				1D3623240D0F684500981E51 /* DemoAppDelegate.h */,
 				1D3623250D0F684500981E51 /* DemoAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* DemoRootViewController.h */,
@@ -342,7 +342,7 @@
 			path = provider_logos;
 			sourceTree = "<group>";
 		};
-		9FCD67D611D14274009E36A4 /* Source */ = {
+		9FCD67D611D14274009E36A4 /* JSON Framework */ = {
 			isa = PBXGroup;
 			children = (
 				9FCD67D711D14274009E36A4 /* JSON.h */,
@@ -357,7 +357,8 @@
 				9FCD67E011D14274009E36A4 /* SBJsonWriter.h */,
 				9FCD67E111D14274009E36A4 /* SBJsonWriter.m */,
 			);
-			path = Source;
+			name = "JSON Framework";
+			path = JSONFramework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

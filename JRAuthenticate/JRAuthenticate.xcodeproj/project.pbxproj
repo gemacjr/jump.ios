@@ -157,7 +157,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9FCD673711D13D9C009E36A4 /* JSON */,
+				9FCD673711D13D9C009E36A4 /* JSON Framework */,
 				9F590EFC11752FC3006955EF /* JRInfoBar.h */,
 				9F590EFD11752FC3006955EF /* JRInfoBar.m */,
 				9F720B17116A894B00E69F8D /* JRAuthenticate.h */,
@@ -266,7 +266,7 @@
 			name = button_graphics;
 			sourceTree = "<group>";
 		};
-		9FCD673711D13D9C009E36A4 /* JSON */ = {
+		9FCD673711D13D9C009E36A4 /* JSON Framework */ = {
 			isa = PBXGroup;
 			children = (
 				9FCD673811D13D9C009E36A4 /* JSON.h */,
@@ -281,8 +281,8 @@
 				9FCD674111D13D9C009E36A4 /* SBJsonWriter.h */,
 				9FCD674211D13D9C009E36A4 /* SBJsonWriter.m */,
 			);
-			name = JSON;
-			path = Source;
+			name = "JSON Framework";
+			path = Classes/JSONFramework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
