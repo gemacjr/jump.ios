@@ -546,7 +546,7 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CC0B75F6-A82E-4779-A902-CF76C80BDADC";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
@@ -562,10 +562,10 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = "Demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				OTHER_CFLAGS = "-fblocks";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-v",
 					"$(OBJC_LIBRARY)",
@@ -613,10 +613,10 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = "Demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
-				OTHER_CFLAGS = "-fblocks";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-v",
 					"$(OBJC_LIBRARY)",
