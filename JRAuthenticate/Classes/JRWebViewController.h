@@ -33,7 +33,6 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-//#import <JSON/JSON.h>
 #import "JRAuthenticate.h"
 #import "JRInfoBar.h"
 
