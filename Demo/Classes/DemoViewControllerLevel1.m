@@ -275,20 +275,32 @@ Copyright (c) 2010, Janrain, Inc.
 
 	NSArray *insIndexPaths = [NSArray arrayWithObjects: 
 							  [NSIndexPath indexPathForRow:0 inSection:1], nil];
-	NSIndexSet *set = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
+	//	NSIndexSet *set = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
+	NSRange range = NSMakeRange(0, 2);
+	NSIndexSet *set = [[[NSIndexSet alloc] initWithIndexesInRange:range] autorelease];
+	NSIndexSet *set0 = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
+	NSIndexSet *set1 = [[[NSIndexSet alloc] initWithIndex:1] autorelease];
+
+//	[myTableView beginUpdates];
+//	[myTableView deleteRowsAtIndexPaths:delIndexPaths withRowAnimation:UITableViewRowAnimationRight];
+//	[myTableView insertRowsAtIndexPaths:insIndexPaths withRowAnimation:UITableViewRowAnimationRight];
+//	[myTableView endUpdates];
 	
 	[myTableView beginUpdates];
-	[myTableView deleteRowsAtIndexPaths:delIndexPaths withRowAnimation:UITableViewRowAnimationRight];
-	[myTableView insertRowsAtIndexPaths:insIndexPaths withRowAnimation:UITableViewRowAnimationRight];
+	[myTableView reloadSections:set0 withRowAnimation:UITableViewRowAnimationFade];
+	[myTableView reloadSections:set1 withRowAnimation:UITableViewRowAnimationLeft];
+	//[myTableView deleteRowsAtIndexPaths:delIndexPaths withRowAnimation:UITableViewRowAnimationRight];
+	//[myTableView insertRowsAtIndexPaths:insIndexPaths withRowAnimation:UITableViewRowAnimationRight];
 	[myTableView endUpdates];
 	
 	[UIView beginAnimations:@"fade" context:nil];
 	myToolBarButton.title = @"Home";
 	myTableView.tableHeaderView.alpha = 1.0;
+	//[myTableView setSectionFooterHeight:<#(CGFloat)#>  rectForHeaderInSection:0].alpha = 0.0;
 	//	myNotSignedInLabel.alpha = 1.0;
 	[UIView commitAnimations];
 
-	[myTableView reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+	//[myTableView reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
 	
 	[self doneButtonPressed:nil];
 }
@@ -453,10 +465,18 @@ Copyright (c) 2010, Janrain, Inc.
 						
 			[self.navigationItem setLeftBarButtonItem:fillerButton animated:YES];
 
+			[myTableView beginUpdates];
+			[myTableView reloadSections:[NSIndexSet indexSetWithIndex:1] 
+					   withRowAnimation:UITableViewRowAnimationTop];
+			[myTableView endUpdates];
+			
 			[myTableView setEditing:NO animated:YES];
 		}
+		else
+		{
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];		
+		}
 		
-		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];		
 		myTableView.tableHeaderView.alpha = headerAlpha;
 	}
 }
