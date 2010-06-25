@@ -545,8 +545,8 @@
 					"$(OBJC_LIBRARY)",
 				);
 				PRODUCT_NAME = "Quick Sign-In";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D8485228-7D2C-4444-B9A4-1B14485988E9";
-				SDKROOT = iphonesimulator3.1.3;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CC0B75F6-A82E-4779-A902-CF76C80BDADC";
+				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
