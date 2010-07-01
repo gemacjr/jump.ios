@@ -285,6 +285,7 @@ static JRConnectionManager* singleton = nil;
 	id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 	
 	DLog(@"request: %@", [[request URL] absoluteString]);
+	DLog(@"payload: %@", payload);
 	
 	[delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userdata];
 	

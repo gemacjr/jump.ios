@@ -298,11 +298,11 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
 	{
-		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL"
+		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL" 
                                                              forKey:NSLocalizedDescriptionKey];
         NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
-                                                         code:100
-                                                     userInfo:userInfo];
+                                             code:100
+                                         userInfo:userInfo];
 		
 		for (id<JRAuthenticateDelegate> delegate in delegates) 
 		{

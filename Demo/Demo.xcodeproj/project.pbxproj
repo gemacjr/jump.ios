@@ -66,6 +66,8 @@
 		9F9F07D9116D6249007EEDDE /* JRProvidersController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F07AD116D6249007EEDDE /* JRProvidersController.xib */; };
 		9F9F07DA116D6249007EEDDE /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F07AE116D6249007EEDDE /* JRUserLandingController.xib */; };
 		9F9F07DB116D6249007EEDDE /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F9F07AF116D6249007EEDDE /* JRWebViewController.xib */; };
+		9FAD243B11D56B08003BB6B5 /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD243A11D56B08003BB6B5 /* icon_ipad.png */; };
+		9FAD243D11D56B16003BB6B5 /* icon_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FAD243C11D56B16003BB6B5 /* icon_big.png */; };
 		9FCD67E211D14274009E36A4 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD67D911D14274009E36A4 /* NSObject+SBJSON.m */; };
 		9FCD67E311D14274009E36A4 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD67DB11D14274009E36A4 /* NSString+SBJSON.m */; };
 		9FCD67E411D14274009E36A4 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD67DD11D14274009E36A4 /* SBJsonBase.m */; };
@@ -158,6 +160,8 @@
 		9F9F07AD116D6249007EEDDE /* JRProvidersController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRProvidersController.xib; path = ../JRAuthenticate/Resources/JRProvidersController.xib; sourceTree = SOURCE_ROOT; };
 		9F9F07AE116D6249007EEDDE /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRUserLandingController.xib; path = ../JRAuthenticate/Resources/JRUserLandingController.xib; sourceTree = SOURCE_ROOT; };
 		9F9F07AF116D6249007EEDDE /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRWebViewController.xib; path = ../JRAuthenticate/Resources/JRWebViewController.xib; sourceTree = SOURCE_ROOT; };
+		9FAD243A11D56B08003BB6B5 /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
+		9FAD243C11D56B16003BB6B5 /* icon_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_big.png; sourceTree = "<group>"; };
 		9FCD67D711D14274009E36A4 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9FCD67D811D14274009E36A4 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		9FCD67D911D14274009E36A4 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -237,6 +241,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9FAD243C11D56B16003BB6B5 /* icon_big.png */,
+				9FAD243A11D56B08003BB6B5 /* icon_ipad.png */,
 				9F96018E11ADDBB5004367C3 /* janrain_logo.png */,
 				9F96F1CB11A5B7B4004367C3 /* Default.png */,
 				9F5908DA116F9470006955EF /* icon.png */,
@@ -473,6 +479,8 @@
 				9F96F1CC11A5B7B4004367C3 /* Default.png in Resources */,
 				9F96FD2711AC9931004367C3 /* bottom_bar.png in Resources */,
 				9F96018F11ADDBB5004367C3 /* janrain_logo.png in Resources */,
+				9FAD243B11D56B08003BB6B5 /* icon_ipad.png in Resources */,
+				9FAD243D11D56B16003BB6B5 /* icon_big.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,7 +617,7 @@
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
-				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
