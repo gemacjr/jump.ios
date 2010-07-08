@@ -83,6 +83,7 @@
 @synthesize myTableView;
 @synthesize myLoadingLabel;
 @synthesize myActivitySpinner;
+@synthesize social;
 
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -106,19 +107,22 @@
 
 	titleLabel = nil;
 	
-	/* Check the session data to see if there's information on the last provider the user logged in with. */
-	if (sessionData.returningProvider)
-	{
-		DLog(@"and there was a returning provider");
-		[sessionData setCurrentProviderToReturningProvider];
-		
-		/* If so, go straight to the returning provider screen. */
-		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-											   animated:NO]; 
-	}
-	
-	/* Load the table with the list of providers. */
-	[myTableView reloadData];
+//	/* Check the session data to see if there's information on the last provider the user logged in with. */
+//	if (sessionData.returningProvider && !social)
+//	{
+//		DLog(@"and there was a returning provider");
+//		[sessionData setCurrentProviderToReturningProvider];
+//		
+//		/* If so, go straight to the returning provider screen. */
+//		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+//											   animated:NO]; 
+//	}
+//	
+//    social = [((JRModalNavigationController*)[[self navigationController] parentViewController]) isSocial];	
+//    providers = (social) ? [sessionData.socialProviders retain] : [sessionData.configedProviders retain];
+//        
+//	/* Load the table with the list of providers. */
+//	[myTableView reloadData];
 }
 
 
@@ -140,8 +144,12 @@
 
 		self.navigationItem.titleView = titleLabel;
 	}	
-	titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
-	
+    
+    if (social)
+        titleLabel.text = NSLocalizedString(@"Share with...", @"");
+	else 
+        titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
+        
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 									  target:[self navigationController].parentViewController
@@ -168,15 +176,32 @@
 			infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:JRInfoBarStyleShowPoweredBy];
 		[self.view addSubview:infoBar];
 	}
-
-	DLog(@"prov count = %d", [sessionData.configedProviders count]);
+    
+	/* Check the session data to see if there's information on the last provider the user logged in with. */
+	if (sessionData.returningProvider && !social)
+	{
+		DLog(@"and there was a returning provider");
+		[sessionData setCurrentProviderToReturningProvider];
+		
+		/* If so, go straight to the returning provider screen. */
+		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+											   animated:NO]; 
+	}
+	
+    social = [((JRModalNavigationController*)[[self navigationController] parentViewController]) isSocial];	
+    providers = (social) ? [sessionData.socialProviders retain] : [sessionData.configedProviders retain];
+    
+	/* Load the table with the list of providers. */
+	[myTableView reloadData];    
+    
+	DLog(@"prov count = %d", [providers count]);
 	
 	/* If the user calls the library before the session data object is done initializing - 
 	   because either the requests for the base URL or provider list haven't returned - 
 	   display the "Loading Providers" label and activity spinner. 
 	   sessionData = nil when the call to get the base URL hasn't returned
 	   [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-	if (!sessionData || [sessionData.configedProviders count] == 0)
+	if (!sessionData || [providers count] == 0)
 	{
 		[myActivitySpinner setHidden:NO];
 		[myLoadingLabel setHidden:NO];
@@ -207,7 +232,7 @@
 	static NSTimeInterval interval = 0.125;
 	interval = interval * 2;
 	
-	DLog(@"prov count = %d", [sessionData.configedProviders count]);
+	DLog(@"prov count = %d", [providers count]);
 	DLog(@"interval = %f", interval);
 	
 	/* If sessionData was nil in viewDidLoad and viewWillAppear, but it isn't nil now, set the sessionData variable. */
@@ -215,7 +240,7 @@
 		sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
 
 	/* If we have our list of providers, stop the progress indicators and load the table. */
-	if ([sessionData.configedProviders count] != 0)
+	if ([providers count] != 0)
 	{
 		[myActivitySpinner stopAnimating];
 		[myActivitySpinner setHidden:YES];
@@ -239,7 +264,13 @@
 		app.networkActivityIndicatorVisible = YES;
 			
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers"
-														 message:@"There seems to be a problem connecting.  Please try again later."
+														 message:((social) ? 
+                                                                  @"There seems to be a problem connecting. \
+                                                                  Please try again later." :
+                                                                  @"There are no available providers. \
+                                                                  Either there is a problem connecting \
+                                                                  or no providers have been configured. \
+                                                                  Please try again later.")
 														delegate:self
 											   cancelButtonTitle:@"OK" 
 											   otherButtonTitles:nil] autorelease];
@@ -295,7 +326,7 @@
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section 
 {
-	return [sessionData.configedProviders count];
+	return [providers count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView 
@@ -310,8 +341,8 @@
 	
 	// TODO: Add error handling for the case where there may be an error retrieving the provider stats.
 	// Shouldn't happen, unless the response from rpxnow becomes malformed in the future, but just in case.
-	NSString *provider = [sessionData.configedProviders objectAtIndex:indexPath.row];
-	NSDictionary* provider_stats = [sessionData.allProviders objectForKey:provider];
+	NSString *provider = [providers objectAtIndex:indexPath.row];
+	NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:provider];
 	
 	NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
 	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider];
@@ -334,6 +365,7 @@
 
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		
+    [cell layoutSubviews];
 	return cell;
 }
 
@@ -342,25 +374,41 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	
 	/* Let sessionData know which provider the user selected */
-	NSString *provider = [sessionData.configedProviders objectAtIndex:indexPath.row];
-	[sessionData setProvider:[NSString stringWithString:provider]];
+	NSString *provider = [providers objectAtIndex:indexPath.row];
+    NSString *identifier = @"YES";//[[sessionData authenticatedIdentifierForProvider:provider] retain];
+    
+	if (!identifier || !social)
+    {
+        [sessionData setProvider:[NSString stringWithString:provider]];
 
-	DLog(@"cell for %@ was selected", provider);
+        DLog(@"cell for %@ was selected", provider);
 
-	/* If the selected provider requires input from the user, go to the user landing view.
-	   Or if the user started on the user landing page, went back to the list of providers, then selected 
-	   the same provider as their last-used provider, go back to the user landing view. */
-	if (sessionData.currentProvider.providerRequiresInput || [provider isEqualToString:sessionData.returningProvider.name]) 
-	{	
-		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-											   animated:YES]; 
-	}
-	/* Otherwise, go straight to the web view. */
-	else
-	{
-		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
-											   animated:YES]; 
-	}	
+        /* If the selected provider requires input from the user, go to the user landing view.
+           Or if the user started on the user landing page, went back to the list of providers, then selected 
+           the same provider as their last-used provider, go back to the user landing view. */
+        if (sessionData.currentProvider.providerRequiresInput || [provider isEqualToString:sessionData.returningProvider.name]) 
+        {	
+            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+                                                   animated:YES]; 
+        }
+        /* Otherwise, go straight to the web view. */
+        else
+        {
+            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+                                                   animated:YES]; 
+        }
+    }
+    else
+    {
+        [sessionData setSocialProvider:[NSString stringWithString:provider]];
+        
+        DLog(@"cell for %@ was selected", provider);
+        
+        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myPublishActivityController
+                                               animated:YES]; 
+        
+    }
+
 }
 
 - (void)didReceiveMemoryWarning 

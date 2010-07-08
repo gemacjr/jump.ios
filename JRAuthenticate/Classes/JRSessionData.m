@@ -157,19 +157,26 @@
 @implementation JRSessionData
 @synthesize errorStr;
 
-@synthesize allProviders;
+//@synthesize allProviders;
+@synthesize providerInfo;
 @synthesize configedProviders;
+@synthesize socialProviders;
 
 @synthesize currentProvider;
 @synthesize returningProvider;
+@synthesize currentSocialProvider;
+@synthesize returningSocialProvider;
+
+//@synthesize activity;
 
 @synthesize hidePoweredBy;
 
 @synthesize forceReauth;
-@synthesize token;
 
+//@synthesize token;
+//@synthesize tokenUrl;
 
-- (id)initWithBaseUrl:(NSString*)URL andDelegate:(id<JRSessionDelegate>)del
+- (id)initWithBaseUrl:(NSString*)URL /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)del
 {
 	DLog(@"");
 	
@@ -183,11 +190,12 @@
 	{
 		delegate = [del retain];
 		baseURL = [[NSString stringWithString:URL] retain];
-		
+
+//		tokenUrl = tokUrl;
 		currentProvider = nil;
 		returningProvider = nil;
 	
-		allProviders = nil;
+//		allProviders = nil;
 		providerInfo = nil;
 		configedProviders = nil;
 	
@@ -203,7 +211,7 @@
 {
 	DLog(@"");
 		
-	[allProviders release];
+//	[allProviders release];
 	[providerInfo release];
 	[configedProviders release];
 	
@@ -213,7 +221,7 @@
 	[baseURL release];
 	[errorStr release];
 	
-	[token release];
+//	[token release];
 	[delegate release];
 	
 	[super dealloc];
@@ -222,7 +230,8 @@
 - (NSURL*)startURL
 {
 	DLog(@"");
-	NSDictionary *providerStats = [allProviders objectForKey:currentProvider.name];
+//	NSDictionary *providerStats = [allProviders objectForKey:currentProvider.name];
+	NSDictionary *providerStats = [providerInfo objectForKey:currentProvider.name];
 	NSMutableString *oid;
 	
 	if ([providerStats objectForKey:@"openid_identifier"])
@@ -289,7 +298,8 @@
 	if (provider)
 	{
 		DLog(@"returningProvider: %@", provider);
-		returningProvider = [[JRProvider alloc] initWithName:provider andStats:[allProviders objectForKey:provider]];
+//		returningProvider = [[JRProvider alloc] initWithName:provider andStats:[allProviders objectForKey:provider]];
+		returningProvider = [[JRProvider alloc] initWithName:provider andStats:[providerInfo objectForKey:provider]];
 		
 		if (welcomeString)
 			[returningProvider setWelcomeString:welcomeString];
@@ -328,22 +338,51 @@
 		return;
 	
 //	TODO: Switch all the classes to call providerInfo instead of allProviders	
-//	providerInfo = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
-	allProviders = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
+	providerInfo = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
+//	allProviders = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
 	
-	configedProviders = [NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]];
-	
+	configedProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
+	socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+    
 	if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
 		hidePoweredBy = YES;
 	else
 		hidePoweredBy = NO;
 	
-	if(configedProviders)
-		[configedProviders retain];
+//	if(configedProviders)
+//		[configedProviders retain];
 	
 	[self loadCookieData];
 }
 
+- (NSString*)authenticatedIdentifierForProvider:(NSString*)provider
+{
+    return [identifiersProviders objectForKey:provider];
+}
+
+// TODO: Many issues with this function, like timing of cookies/calls/etc/
+- (void)checkForIdentifierCookie:(NSURLRequest*)request
+{
+    NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	NSArray *cookies = [cookieStore cookiesForURL:[request URL]];//[NSURL URLWithString:@"http://jrauthenticate.appspot.com"]];
+	NSString *cookieIdentifier = nil;
+//	NSString *test = [request valueForHTTPHeaderField:@"sid"];
+    
+	for (NSHTTPCookie *cookie in cookies) 
+	{
+		if ([cookie.name isEqualToString:@"sid"])
+		{
+			cookieIdentifier = [[NSString stringWithString:cookie.value] 
+								stringByTrimmingCharactersInSet:
+								[NSCharacterSet characterSetWithCharactersInString:@"\""]];
+		}
+	}	
+    
+    if (!identifiersProviders)
+        identifiersProviders = [[NSMutableDictionary alloc] initWithObjectsAndKeys:cookieIdentifier, currentProvider.name, nil];
+    else
+        [identifiersProviders setObject:cookieIdentifier forKey:currentProvider.name];
+}
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
@@ -364,17 +403,18 @@
 			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
 		}
 	}
-	
+	else if ([tag hasPrefix:@"token_url:"])
+	{
+//		theTokenUrlPayload = [[NSString stringWithString:payload] retain];
+		NSString* tokenURL = [NSString stringWithString:[[request URL] absoluteString]];
+							
+        [self checkForIdentifierCookie:request];
+        
+        [delegate jrAuthenticateDidReachTokenURL:tokenURL withPayload:payload];
+	}
+
 	[payload release];
 	[tag release];	
-}
-
-- (void)setReturningProviderToProvider:(JRProvider*)provider
-{
-	DLog(@"");
-
-	[returningProvider release];
-	returningProvider = [provider retain];
 }
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
@@ -390,6 +430,16 @@
 	{
 		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
 	}
+    else if ([tag hasPrefix:@"token_url:"])
+	{
+		errorStr = [NSString stringWithFormat:@"There was an error posting the token to the token URL.\nThere was an error in the response to a request."];
+		NSRange prefix = [tag rangeOfString:@"token_url:"];
+		
+		NSString *tokenURL = (prefix.length > 0) ? [tag substringFromIndex:prefix.length]: nil;
+		
+        [delegate jrAuthenticateCallToTokenURL:tokenURL didFailWithError:error];
+    }
+    
 	
 	[tag release];	
 }
@@ -399,37 +449,99 @@
 	[(NSString*)userdata release];
 }
 
+- (void)setReturningProviderToProvider:(JRProvider*)provider
+{
+	DLog(@"");
+    
+	[returningProvider release];
+	returningProvider = [provider retain];
+}
+
 - (void)setCurrentProviderToReturningProvider
 {
 	DLog(@"");
 	currentProvider = [returningProvider retain];
 }
 
-- (void)setProvider:(NSString *)prov
+- (void)setProvider:(NSString *)provider
 {
-	DLog(@"provider: %@", prov);
+	DLog(@"provider: %@", provider);
 
-	if (![currentProvider.name isEqualToString:prov])
+	if (![currentProvider.name isEqualToString:provider])
 	{	
 		[currentProvider release];
 		
-		if ([returningProvider.name isEqualToString:prov])
+		if ([returningProvider.name isEqualToString:provider])
 			[self setCurrentProviderToReturningProvider];
 		else
-			currentProvider = [[[JRProvider alloc] initWithName:prov andStats:[allProviders objectForKey:prov]] retain];
+			currentProvider = [[[JRProvider alloc] initWithName:provider andStats:[providerInfo objectForKey:provider]] retain];
+//			currentProvider = [[[JRProvider alloc] initWithName:prov andStats:[allProviders objectForKey:prov]] retain];
 	}
 
 	[currentProvider retain];
 }
+
+
+- (void)setSocialProvider:(NSString *)provider
+{
+	DLog(@"provider: %@", provider);
+    
+	if (![currentSocialProvider.name isEqualToString:provider])
+	{	
+		[currentSocialProvider release];
+		
+        currentSocialProvider = [[[JRProvider alloc] initWithName:provider andStats:[providerInfo objectForKey:provider]] retain];
+    }
+    
+//	[currentProvider retain];
+}
+
+- (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token
+{
+	DLog(@"token:    %@", token);
+	DLog(@"tokenURL: %@", tokenURL);
+	
+	NSMutableData* body = [NSMutableData data];
+	[body appendData:[[NSString stringWithFormat:@"token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
+	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:tokenURL]] retain];
+	
+	[request setHTTPMethod:@"POST"];
+	[request setHTTPBody:body];
+	
+	NSString* tag = [[NSString stringWithFormat:@"token_url:%@", tokenURL] retain];
+	
+	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+	{
+		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL" 
+                                                             forKey:NSLocalizedDescriptionKey];
+        NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
+                                             code:100
+                                         userInfo:userInfo];
+		
+        [delegate jrAuthenticateCallToTokenURL:tokenURL didFailWithError:error];
+	}
+	
+	[request release];
+}
+
+
+//- (void)makeCallToTokenUrlWithToken:(NSString*)token
+//{
+//	[self makeCallToTokenUrl:theTokenUrl WithToken:token];
+//}	
+
+
+
+
 
 - (void)authenticationDidCancel
 {
 	[delegate jrAuthenticationDidCancel];
 }
 
-- (void)authenticationDidCompleteWithToken:(NSString*)tok
+- (void)authenticationDidCompleteWithToken:(NSString*)token
 {
-	token = [tok retain];
+//	token = [tok retain];
 	
 	[self setReturningProviderToProvider:self.currentProvider];
 	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];

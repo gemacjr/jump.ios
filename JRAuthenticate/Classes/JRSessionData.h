@@ -35,6 +35,7 @@
 #import <Foundation/Foundation.h>
 #import "JSON.h"
 #import "JRConnectionManager.h"
+//#import "JRPublishActivityController.h"
 
 @interface JRProvider : NSObject
 {
@@ -67,6 +68,8 @@
 - (void)jrAuthenticationDidCancel;
 - (void)jrAuthenticationDidCompleteWithToken:(NSString*)tok andProvider:(NSString*)prov;
 - (void)jrAuthenticationDidFailWithError:(NSError*)err;
+- (void)jrAuthenticateDidReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload;
+- (void)jrAuthenticateCallToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error;
 
 @end
 
@@ -76,14 +79,22 @@
 	
 	JRProvider *currentProvider;
 	JRProvider *returningProvider;	
+    JRProvider *currentSocialProvider;
+    JRProvider *returningSocialProvider;
 	
-	NSDictionary	*allProviders;
-	NSDictionary	*providerInfo;
+//	NSDictionary	*allProviders;
+	NSDictionary    *providerInfo;
 	NSArray			*configedProviders;
+    NSArray         *socialProviders;
+    
+    NSMutableDictionary    *identifiersProviders;
 	
+//    JRActivityObject *activity;
+    
 	BOOL hidePoweredBy;
 	
-	NSString *token;
+//	NSString *token;
+//  NSString *tokenURL;
 	NSURL	 *startURL;
 	NSString *baseURL;
 	
@@ -96,22 +107,34 @@
 
 @property (readonly) JRProvider *currentProvider;
 @property (readonly) JRProvider *returningProvider;
+@property (readonly) JRProvider *currentSocialProvider;
+@property (readonly) JRProvider *returningSocialProvider;
 
-@property (readonly) NSDictionary *allProviders;
+//@property (readonly) NSDictionary *allProviders;
+@property (readonly) NSDictionary *providerInfo;
 @property (readonly) NSArray *configedProviders;
+@property (readonly) NSArray *socialProviders;
+
+//@property (retain) JRActivityObject *activity;
 
 @property (readonly) BOOL hidePoweredBy;
 
 @property (readonly) NSURL *startURL;
 @property (assign) BOOL forceReauth;
 
-@property (readonly) NSString* token;
+//@property (readonly) NSString* token;
+//@property (readonly) NSString* tokenURL;
 
-- (id)initWithBaseUrl:(NSString*)URL andDelegate:(id<JRSessionDelegate>)del;
+- (NSString*)authenticatedIdentifierForProvider:(NSString*)provider;
+
+- (id)initWithBaseUrl:(NSString*)URL /*tokenUrl:(NSString)tokUrl*/ andDelegate:(id<JRSessionDelegate>)del;
 - (void)setReturningProviderToProvider:(JRProvider*)provider;
-- (void)setProvider:(NSString *)prov;
+- (void)setProvider:(NSString*)provider;
 - (void)setCurrentProviderToReturningProvider;
+- (void)setSocialProvider:(NSString*)provider;
 	
+- (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token;
+
 - (void)authenticationDidCancel;
 - (void)authenticationDidCompleteWithToken:(NSString*)tok;
 - (void)authenticationDidFailWithError:(NSError*)err;

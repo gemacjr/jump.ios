@@ -34,37 +34,47 @@
 
 
 #import <UIKit/UIKit.h>
-#import "JRAuthenticate.h"
+//#import "JRAuthenticate.h"
+//#import "JRSessionData.h"
 #import "JRProvidersController.h"
 #import "JRUserLandingController.h"
-#import "JRSessionData.h"
-
+#import "JRWebViewController.h"
+#import "JRPublishActivityController.h"
 
 @class JRAuthenticate;
 @class JRWebViewController;
 @class JRUserLandingController;
-
+@class JRPublishActivityController;
 
 @interface JRModalNavigationController : UIViewController 
 {
 	UINavigationController	*navigationController;
 	BOOL shouldRestore;
+    BOOL isSocial;
 	
 	JRUserLandingController	*myUserLandingController;
 	JRWebViewController	*myWebViewController;
+    JRPublishActivityController *myPublishActivityController;
 	
+    JRActivityObject *activity;
+
 	JRSessionData *sessionData;
 }
 
 @property (retain) UINavigationController *navigationController;
 @property (retain) JRSessionData *sessionData;
 
+@property (retain) JRActivityObject *activity;
+@property BOOL isSocial;
+
 @property (readonly) JRUserLandingController *myUserLandingController;
 @property (readonly) JRWebViewController *myWebViewController;
+@property (readonly) JRPublishActivityController *myPublishActivityController;
 
 - (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data;
 
-- (void)presentModalNavigationController;
+- (void)presentModalNavigationControllerForAuthentication;
+- (void)presentModalNavigationControllerForPublishingActivity:(JRActivityObject*)_activity;
 - (void)dismissModalNavigationController:(BOOL)successfullyAuthed;
 
 - (void)cancelButtonPressed:(id)sender;

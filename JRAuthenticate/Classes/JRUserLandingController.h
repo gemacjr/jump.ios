@@ -35,7 +35,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JRAuthenticate.h"
-#import "JRWebViewController.h"
+//#import "JRWebViewController.h"
 #import "JRInfoBar.h"
 
 @class JRAuthenticate;

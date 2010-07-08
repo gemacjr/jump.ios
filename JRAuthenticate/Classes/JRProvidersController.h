@@ -45,7 +45,10 @@
 {
 	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
-
+    
+    BOOL social;
+    NSArray* providers;
+    
 	UITableView		*myTableView;
 	
 	/* Activity Spinner and Label displayed while the list of configured providers is empty */
@@ -60,4 +63,5 @@
 @property (nonatomic, retain) IBOutlet UITableView	*myTableView;
 @property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
+@property BOOL social;
 @end

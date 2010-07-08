@@ -36,11 +36,14 @@
 #import <Foundation/Foundation.h>
 #import "JSON.h"
 #import "JRConnectionManager.h"
-#import "JRModalNavigationController.h"
-#import "JRWebViewController.h"
 #import "JRSessionData.h"
+#import "JRActivityObject.h"
+#import "JRModalNavigationController.h"
+//#import "JRWebViewController.h"
 
 #define LOCAL 0
+@class JRAuthenticate;
+@class JRModalNavigationController;
 
 @protocol JRAuthenticateDelegate <NSObject>
 @optional
@@ -160,6 +163,8 @@
  * pop up a modal dialog and take the user through the sign-in process.
  */
 - (void)showJRAuthenticateDialog;
+- (void)showAuthenticationDialog;
+- (void)showPublishingDialogWithActivity:(JRActivityObject*)activity;
 - (void)unloadModalViewController;
 
 /**

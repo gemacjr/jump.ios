@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F3C6DDA11DE9EAC00FC5BE6 /* JRPublishActivityController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F3C6DD711DE9EAC00FC5BE6 /* JRPublishActivityController.h */; };
+		9F3C6DDB11DE9EAC00FC5BE6 /* JRPublishActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3C6DD811DE9EAC00FC5BE6 /* JRPublishActivityController.m */; };
 		9F590EFE11752FC3006955EF /* JRInfoBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F590EFC11752FC3006955EF /* JRInfoBar.h */; };
 		9F590EFF11752FC3006955EF /* JRInfoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F590EFD11752FC3006955EF /* JRInfoBar.m */; };
 		9F720B25116A894B00E69F8D /* JRAuthenticate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F720B17116A894B00E69F8D /* JRAuthenticate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,6 +25,8 @@
 		9F720B30116A894B00E69F8D /* JRUserLandingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F720B22116A894B00E69F8D /* JRUserLandingController.m */; };
 		9F720B31116A894B00E69F8D /* JRWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F720B23116A894B00E69F8D /* JRWebViewController.h */; };
 		9F720B32116A894B00E69F8D /* JRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F720B24116A894B00E69F8D /* JRWebViewController.m */; };
+		9FAC893211E3CDF800994F1A /* JRActivityObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FAC893011E3CDF800994F1A /* JRActivityObject.h */; };
+		9FAC893311E3CDF800994F1A /* JRActivityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FAC893111E3CDF800994F1A /* JRActivityObject.m */; };
 		9FCD674311D13D9C009E36A4 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD673811D13D9C009E36A4 /* JSON.h */; };
 		9FCD674411D13D9C009E36A4 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD673911D13D9C009E36A4 /* NSObject+SBJSON.h */; };
 		9FCD674511D13D9C009E36A4 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD673A11D13D9C009E36A4 /* NSObject+SBJSON.m */; };
@@ -39,6 +43,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F3C6DD711DE9EAC00FC5BE6 /* JRPublishActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRPublishActivityController.h; sourceTree = "<group>"; };
+		9F3C6DD811DE9EAC00FC5BE6 /* JRPublishActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRPublishActivityController.m; sourceTree = "<group>"; };
+		9F3C6DD911DE9EAC00FC5BE6 /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRPublishActivityController.xib; sourceTree = "<group>"; };
 		9F590C0C11739175006955EF /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
 		9F590EF311752ED1006955EF /* bottom_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bottom_bar.png; path = Resources/assets/button_graphics/bottom_bar.png; sourceTree = "<group>"; };
 		9F590EFC11752FC3006955EF /* JRInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRInfoBar.h; path = Classes/JRInfoBar.h; sourceTree = "<group>"; };
@@ -97,6 +104,8 @@
 		9F720B59116A89A600E69F8D /* jrauth_verisign_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_verisign_icon.png; path = Resources/assets/provider_icons/jrauth_verisign_icon.png; sourceTree = "<group>"; };
 		9F720B5A116A89A600E69F8D /* jrauth_wordpress_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_wordpress_icon.png; path = Resources/assets/provider_icons/jrauth_wordpress_icon.png; sourceTree = "<group>"; };
 		9F720B5B116A89A600E69F8D /* jrauth_yahoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_yahoo_icon.png; path = Resources/assets/provider_icons/jrauth_yahoo_icon.png; sourceTree = "<group>"; };
+		9FAC893011E3CDF800994F1A /* JRActivityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActivityObject.h; sourceTree = "<group>"; };
+		9FAC893111E3CDF800994F1A /* JRActivityObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRActivityObject.m; sourceTree = "<group>"; };
 		9FCD673811D13D9C009E36A4 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9FCD673911D13D9C009E36A4 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		9FCD673A11D13D9C009E36A4 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -174,6 +183,10 @@
 				9F720B22116A894B00E69F8D /* JRUserLandingController.m */,
 				9F720B23116A894B00E69F8D /* JRWebViewController.h */,
 				9F720B24116A894B00E69F8D /* JRWebViewController.m */,
+				9F3C6DD711DE9EAC00FC5BE6 /* JRPublishActivityController.h */,
+				9F3C6DD811DE9EAC00FC5BE6 /* JRPublishActivityController.m */,
+				9FAC893011E3CDF800994F1A /* JRActivityObject.h */,
+				9FAC893111E3CDF800994F1A /* JRActivityObject.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -189,6 +202,7 @@
 		9F720AAC116A7F8A00E69F8D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9F3C6DD911DE9EAC00FC5BE6 /* JRPublishActivityController.xib */,
 				9F720B33116A895C00E69F8D /* JRProvidersController.xib */,
 				9F720B34116A895C00E69F8D /* JRUserLandingController.xib */,
 				9F720B35116A895C00E69F8D /* JRWebViewController.xib */,
@@ -307,6 +321,8 @@
 				9FCD674811D13D9C009E36A4 /* SBJsonBase.h in Headers */,
 				9FCD674A11D13D9C009E36A4 /* SBJsonParser.h in Headers */,
 				9FCD674C11D13D9C009E36A4 /* SBJsonWriter.h in Headers */,
+				9F3C6DDA11DE9EAC00FC5BE6 /* JRPublishActivityController.h in Headers */,
+				9FAC893211E3CDF800994F1A /* JRActivityObject.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +382,8 @@
 				9FCD674911D13D9C009E36A4 /* SBJsonBase.m in Sources */,
 				9FCD674B11D13D9C009E36A4 /* SBJsonParser.m in Sources */,
 				9FCD674D11D13D9C009E36A4 /* SBJsonWriter.m in Sources */,
+				9F3C6DDB11DE9EAC00FC5BE6 /* JRPublishActivityController.m in Sources */,
+				9FAC893311E3CDF800994F1A /* JRActivityObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

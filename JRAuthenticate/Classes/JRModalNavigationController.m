@@ -49,9 +49,12 @@
 
 @synthesize navigationController;
 @synthesize sessionData;
+@synthesize activity;
+@synthesize isSocial;
 
 @synthesize myUserLandingController;
 @synthesize myWebViewController;
+@synthesize myPublishActivityController;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -85,23 +88,27 @@
 	
 	if (!navigationController)
 	{
-		navigationController = [[UINavigationController alloc] 
-								initWithRootViewController:
-								[[[JRProvidersController alloc] 
-								  initWithNibName:@"JRProvidersController" 
-								  bundle:[NSBundle mainBundle]] autorelease]];
+		navigationController    = [[UINavigationController alloc] 
+                                   initWithRootViewController:
+                                   [[[JRProvidersController alloc] 
+                                     initWithNibName:@"JRProvidersController" 
+                                     bundle:[NSBundle mainBundle]] autorelease]];
 
 		navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	}
 	
-	myUserLandingController = [[JRUserLandingController alloc]
-							   initWithNibName:@"JRUserLandingController"
-							   bundle:[NSBundle mainBundle]];
+	myUserLandingController     = [[JRUserLandingController alloc]
+                                   initWithNibName:@"JRUserLandingController"
+                                   bundle:[NSBundle mainBundle]];
 	
-	myWebViewController = [[JRWebViewController alloc]
-							   initWithNibName:@"JRWebViewController"
-							   bundle:[NSBundle mainBundle]];
+	myWebViewController         = [[JRWebViewController alloc]
+                                   initWithNibName:@"JRWebViewController"
+                                   bundle:[NSBundle mainBundle]];
 	
+	myPublishActivityController = [[JRPublishActivityController alloc]
+                                   initWithNibName:@"JRPublishActivityController"
+                                   bundle:[NSBundle mainBundle]];
+    
 	[view setHidden:YES];
 	[self setView:view];
 }
@@ -114,11 +121,24 @@
 }
 */
 
-- (void)presentModalNavigationController
+- (void)presentModalNavigationControllerForPublishingActivity:(JRActivityObject*)_activity
+{
+	DLog(@"");
+    
+    activity = _activity;
+    
+	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    isSocial = YES;//((JRProvidersController*)[navigationController.viewControllers objectAtIndex:0]).social = YES;
+    
+	[self presentModalViewController:navigationController animated:YES];
+}
+
+- (void)presentModalNavigationControllerForAuthentication
 {
 	DLog(@"");
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-
+    isSocial = NO;//((JRProvidersController*)navigationController.topViewController).social = NO;
+    
 	[self presentModalViewController:navigationController animated:YES];
 }
 
