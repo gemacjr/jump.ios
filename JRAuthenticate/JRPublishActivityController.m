@@ -335,9 +335,12 @@
 		
         displayNameAndAction_label  = [[[UITextView alloc] initWithFrame:CGRectMake(2, 0, 297, 26)] autorelease];
         contentTitle_label          = [[[UITextView alloc] initWithFrame:CGRectMake(97, 30, 203, 25)] autorelease];
-        contentDescription_label    = [[[UITextView alloc] initWithFrame:CGRectMake(97, 60, 203, 60)] autorelease];
+        contentDescription_label    = [[[UITextView alloc] initWithFrame:CGRectMake(97, 45, 203, 75)] autorelease];
         thumbnail_imageview         = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 30, 90, 90)] autorelease];
-        userContent_textview        = [[[UITextView alloc] initWithFrame:CGRectMake(10, 125, 280, 180)] autorelease];
+        userContent_textview        = [[[UITextView alloc] initWithFrame:CGRectMake(10, 128, 280, 177)] autorelease];
+        
+        UIButton *userContent_background = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [userContent_background setFrame:CGRectMake(10, 125, 280, 180)];
         
 //        displayNameAndAction_label.tag  = displayNameAndAction_tag;
 //        contentTitle_label.tag          = contentTitle_tag;
@@ -345,11 +348,14 @@
 //        thumbnail_imageview.tag         = thumbnail_tag;
 //        userContent_textview.tag        = userContent_tag;
         
-//        displayNameAndAction_label.backgroundColor  = [UIColor yellowColor];
-//        contentTitle_label.backgroundColor          = [UIColor yellowColor];
-//        contentDescription_label.backgroundColor    = [UIColor yellowColor];
-//        thumbnail_imageview.backgroundColor         = [UIColor yellowColor];
-//        userContent_textview.backgroundColor        = [UIColor yellowColor];
+        displayNameAndAction_label.backgroundColor  = [UIColor clearColor];
+        contentTitle_label.backgroundColor          = [UIColor clearColor];
+        contentDescription_label.backgroundColor    = [UIColor clearColor];
+        thumbnail_imageview.backgroundColor         = [UIColor clearColor];
+        userContent_textview.backgroundColor        = [UIColor clearColor];
+        
+        userContent_background.userInteractionEnabled = FALSE;
+//        [userContent_background ssetButtonType:UIButtonTypeRoundedRect];    
         
         displayNameAndAction_label.scrollEnabled = FALSE;
         displayNameAndAction_label.userInteractionEnabled = FALSE;
@@ -381,6 +387,7 @@
 //        userContent_textview.keyboardAppearance = UIKeyboardAppearanceAlert;
 //        [userContent_textview canResignFirstResponder:YES];
         
+        [cell.contentView addSubview:userContent_background];
         [cell.contentView addSubview:displayNameAndAction_label];
         [cell.contentView addSubview:contentTitle_label];
         [cell.contentView addSubview:contentDescription_label];

@@ -239,7 +239,9 @@
 	if (!sessionData && [((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData])
 		sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
 
-	/* If we have our list of providers, stop the progress indicators and load the table. */
+	providers = (social) ? [sessionData.socialProviders retain] : [sessionData.configedProviders retain];
+    
+    /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([providers count] != 0)
 	{
 		[myActivitySpinner stopAnimating];
