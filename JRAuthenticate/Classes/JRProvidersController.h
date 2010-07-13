@@ -47,7 +47,7 @@
 	JRSessionData	*sessionData;
     
     BOOL social;
-    NSArray* providers;
+    NSArray *providers;
     
 	UITableView		*myTableView;
 	

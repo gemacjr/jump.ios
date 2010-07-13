@@ -49,6 +49,9 @@
 @interface JRModalNavigationController : UIViewController 
 {
 	UINavigationController	*navigationController;
+    UINavigationController  *socialNavigationController;
+    //    UITabBarController *myTabBarController;
+    
 	BOOL shouldRestore;
     BOOL isSocial;
 	
@@ -62,6 +65,8 @@
 }
 
 @property (retain) UINavigationController *navigationController;
+@property (retain) UINavigationController *socialNavigationController   ;
+
 @property (retain) JRSessionData *sessionData;
 
 @property (retain) JRActivityObject *activity;

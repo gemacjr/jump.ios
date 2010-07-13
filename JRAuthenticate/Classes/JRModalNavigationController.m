@@ -108,8 +108,19 @@
 	myPublishActivityController = [[JRPublishActivityController alloc]
                                    initWithNibName:@"JRPublishActivityController"
                                    bundle:[NSBundle mainBundle]];
+
+    int i = 1;
     
-	[view setHidden:YES];
+    if (!socialNavigationController)
+    {
+        socialNavigationController = [[UINavigationController alloc]
+                                      initWithRootViewController:
+                                      [[[JRPublishActivityController alloc]
+                                        initWithNibName:@"JRPublishActivityController"
+                                        bundle:[NSBundle mainBundle]] autorelease]];
+    }          
+    
+    [view setHidden:YES];
 	[self setView:view];
 }
 
@@ -130,7 +141,7 @@
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     isSocial = YES;//((JRProvidersController*)[navigationController.viewControllers objectAtIndex:0]).social = YES;
     
-	[self presentModalViewController:navigationController animated:YES];
+	[self presentModalViewController:socialNavigationController animated:YES];
 }
 
 - (void)presentModalNavigationControllerForAuthentication
