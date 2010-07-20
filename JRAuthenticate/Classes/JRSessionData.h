@@ -122,6 +122,7 @@
 @property (readonly) NSURL *startURL;
 @property (assign) BOOL forceReauth;
 
+@property (retain) id<JRSessionDelegate> delegate;
 //@property (readonly) NSString* token;
 //@property (readonly) NSString* tokenURL;
 

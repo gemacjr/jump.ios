@@ -14,14 +14,18 @@
 
 
 @interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, UITableViewDataSource, 
-                                                           UITabBarDelegate, UITabBarControllerDelegate,
+                                                           UITabBarDelegate, JRSessionDelegate,
                                                            JRConnectionManagerDelegate>
 {
 	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
-    NSArray         *providers;
 
+    NSArray         *providers;
+    NSString        *selectedProvider;
+    
 	UITabBar *myTabBar;
+    
+    BOOL ready;
     
 	UITableView	*myTableView;	
 	UILabel		*label;
@@ -32,7 +36,10 @@
     /* Activity Spinner and Label displayed while the list of configured providers is empty */
 	UILabel					*myLoadingLabel;
 	UIActivityIndicatorView *myActivitySpinner; 
-   
+    UIView                  *grayView;
+    
+    UIButton *bigShareButton;
+    UILabel  *buttonLabel;
     
     UITextView *displayNameAndAction_label;
     UITextView *contentTitle_label;
@@ -48,8 +55,11 @@
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *myTableView;
+@property (nonatomic, retain) IBOutlet UITabBar    *myTabBar;
+
 @property (nonatomic, retain) IBOutlet UILabel *myLoadingLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
+@property (nonatomic, retain) IBOutlet UIView *grayView;
 
 @property (nonatomic, retain) IBOutlet UIToolbar *keyboardToolbar;
 @property (nonatomic, retain) IBOutlet UIBarItem *shareButton;

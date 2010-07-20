@@ -109,8 +109,6 @@
                                    initWithNibName:@"JRPublishActivityController"
                                    bundle:[NSBundle mainBundle]];
 
-    int i = 1;
-    
     if (!socialNavigationController)
     {
         socialNavigationController = [[UINavigationController alloc]
@@ -118,6 +116,8 @@
                                       [[[JRPublishActivityController alloc]
                                         initWithNibName:@"JRPublishActivityController"
                                         bundle:[NSBundle mainBundle]] autorelease]];
+
+		socialNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     }          
     
     [view setHidden:YES];

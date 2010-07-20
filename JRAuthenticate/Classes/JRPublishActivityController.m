@@ -18,10 +18,74 @@
 
 #import "JRPublishActivityController.h"
 
+@interface UITabBarItemCustomView : UITabBarItem
+{
+    UIActivityIndicatorView *loadingIndicator;
+    UILabel                 *loadingLabel;
+}
+
+@property (readonly) UIActivityIndicatorView *loadingIndicator;
+@property (readonly) UILabel                 *loadingLabel;
+
+@end
+
+@implementation UITabBarItemCustomView
+@synthesize loadingLabel;
+@synthesize loadingIndicator;
+
+- (id)initWithTitle:(NSString*)title image:(UIImage*)image tag:(NSInteger)tag andStatus:(BOOL)connected
+{
+    DLog(@"");
+	
+	if (self = [super initWithTitle:title image:image tag:tag]) 
+	{
+        loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 45, 20)];
+        loadingLabel.font = [UIFont systemFontOfSize:16];
+        loadingLabel.textColor = [UIColor whiteColor];
+        loadingLabel.highlightedTextColor = [UIColor blueColor];
+        loadingLabel.text = (connected) ? @"Connected" : @"Not Connected";
+        loadingLabel.textAlignment = UITextAlignmentCenter;
+        loadingLabel.adjustsFontSizeToFitWidth;
+        
+        loadingIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
+        loadingIndicator.hidesWhenStopped = TRUE;
+        [loadingIndicator stopAnimating];
+        
+        [self addSubview:loadingIndicator];
+		[self addSubview:loadingLabel];
+	}		
+
+    return self;
+}
+
+- (void)setHightlighted:(BOOL)highlighted
+{
+    [loadingLabel setHighlighted:highlighted];
+}
+
+- (void)setConnecting
+{
+    loadingLabel.text = @"Connecting";
+    [loadingIndicator startAnimating];
+}
+
+- (void)setConnected:(BOOL)connected
+{
+    loadingLabel.text = (connected) ? @"Connected" : @"Not Connected";
+}
+
+@end
+
+
+
+
+
+
 @implementation JRPublishActivityController
 @synthesize myTableView;
 @synthesize myLoadingLabel;
 @synthesize myActivitySpinner;
+@synthesize grayView;
 @synthesize keyboardToolbar;
 @synthesize shareButton;
 @synthesize doneButton;
@@ -48,18 +112,52 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
+    DLog(@"");
+    
     [super viewDidLoad];
 
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
 	activity = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) activity] retain];
-
+    
+    providers = [sessionData.socialProviders retain];
+    
+	/* Load the table with the list of providers. */
+    //	[myTableView reloadData];    
+    
+	DLog(@"prov count = %d", [providers count]);
+	
+	/* If the user calls the library before the session data object is done initializing - 
+     because either the requests for the base URL or provider list haven't returned - 
+     display the "Loading Providers" label and activity spinner. 
+     sessionData = nil when the call to get the base URL hasn't returned
+     [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
+	if (!sessionData || [providers count] == 0)
+	{
+		[myActivitySpinner setHidden:NO];
+		[myLoadingLabel setHidden:NO];
+		
+		[myActivitySpinner startAnimating];
+		
+		/* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
+		[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
+	}
+	else 
+	{
+        ready = YES;
+        [self addProvidersToTabBar];
+		[myTableView reloadData];
+		[infoBar fadeIn];
+	}
+    
 	label = nil;
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    DLog(@"");
+    
     [super viewWillAppear:animated];
     
     
@@ -93,11 +191,11 @@
 		label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
 		label.textAlignment = UITextAlignmentCenter;
 		label.textColor = [UIColor whiteColor];
-        
-		self.navigationItem.titleView = label;
 	}
+
 	label.text = @"Publish Activity";
-	
+	self.navigationItem.titleView = label;
+    
 	if (!infoBar)
 	{
 		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
@@ -115,40 +213,87 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
     
+    UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
+                                         //initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                         initWithCustomView:[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 65, 44)] autorelease]] autorelease];
+                                         //target:nil
+                                         //action:nil] autorelease];
+    
+	placeholderItem.width = 25;
+	self.navigationItem.leftBarButtonItem = placeholderItem;
+   	self.navigationItem.leftBarButtonItem.enabled = YES;
+    
 //    keyboardToolbar.alpha = 0.0;
 //    [keyboardToolbar setFrame:CGRectMake(0, 416, 320, 44)];
 
-    providers = [sessionData.socialProviders retain];
+
+    if (ready)
+        [myTableView reloadData];
+}
+
+- (void)addProvidersToTabBar
+{
+    DLog(@"");
+    NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:[providers count]];
     
-	/* Load the table with the list of providers. */
-	[myTableView reloadData];    
+    for (NSString *provider in providers)
+    {
+        
+        NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:provider];
+        
+        NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
+        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider];
+        
+        UITabBarItem *providerTab = [[UITabBarItem alloc] initWithTitle:friendly_name 
+                                                                  image:[UIImage imageNamed:imagePath]
+                                                                    tag:[providerTabArr count]];
+
+//        UITabBarItemCustomContentView *contentView = [[UITabBarItemCustomContentView alloc] initWithFrame:providerTab.frame andStatus:NO];
+//        
+//        providerTab.contentView = contentView;
+        
+        [providerTabArr insertObject:providerTab atIndex:[providerTabArr count]];
+    }
     
-	DLog(@"prov count = %d", [providers count]);
-	
-	/* If the user calls the library before the session data object is done initializing - 
-     because either the requests for the base URL or provider list haven't returned - 
-     display the "Loading Providers" label and activity spinner. 
-     sessionData = nil when the call to get the base URL hasn't returned
-     [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-	if (!sessionData || [providers count] == 0)
-	{
-		[myActivitySpinner setHidden:NO];
-		[myLoadingLabel setHidden:NO];
-		
-		[myActivitySpinner startAnimating];
-		
-		/* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
-		[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
-	}
-	else 
-	{
-		[myTableView reloadData];
-		[infoBar fadeIn];
-	}
+    [myTabBar setItems:providerTabArr animated:YES];
+    myTabBar.selectedItem = [providerTabArr objectAtIndex:0];
+    [self tabBar:myTabBar didSelectItem:[providerTabArr objectAtIndex:0]];
+     
+    [providerTabArr release];
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    DLog(@"");
+    selectedProvider = [[providers objectAtIndex:item.tag] retain];
+    
+    NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:selectedProvider];
+    
+//    NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
+    NSString *imagePath1 = [NSString stringWithFormat:@"jrauth_%@_logo_share.png", selectedProvider];
+    NSString *imagePath2 = [NSString stringWithFormat:@"jrauth_%@_logo_share_selected.png", selectedProvider];
+    
+    NSString *identifier = [[sessionData authenticatedIdentifierForProvider:selectedProvider] retain];
+
+//    NSString *bigButtonTitle = nil;
     
     
+    [UIView beginAnimations:@"sizecell" context:nil];
+    buttonLabel.textColor = [UIColor whiteColor];
     
-	[myTableView reloadData];
+    if (!identifier)
+        buttonLabel.text = [NSString stringWithFormat:@"Connect and Share"];
+    else
+        buttonLabel.text = [NSString stringWithFormat:@"Share"];
+    
+    [bigShareButton setBackgroundImage:[UIImage imageNamed:imagePath1] forState:UIControlStateNormal];
+    [bigShareButton setBackgroundImage:[UIImage imageNamed:imagePath2] forState:UIControlStateSelected];
+    
+    [UIView commitAnimations];
+    
+    
+    //[myTableView reloadData];
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -177,10 +322,12 @@
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([providers count] != 0)
 	{
-		[myActivitySpinner stopAnimating];
+		ready = YES;
+        [myActivitySpinner stopAnimating];
 		[myActivitySpinner setHidden:YES];
 		[myLoadingLabel setHidden:YES];
 		
+        [self addProvidersToTabBar];
 		[myTableView reloadData];
         
 		return;
@@ -259,9 +406,28 @@
  	NSString* tag = (NSString*)userdata; 
 	[payload retain];
 	
-	DLog(@"request (retain count: %d): %@/n", [request retainCount], [[request URL] absoluteString]);
-	DLog(@"payload (retain count: %d): %@/n", [payload retainCount], payload);
-	DLog(@"tag     (retain count: %d): %@/n", [tag retainCount], tag);
+	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
+	DLog(@"payload (retain count: %d): %@", [payload retainCount], payload);
+	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
+    
+    if ([tag isEqualToString:@"shareThis"])
+    {
+        NSRange subStr = [payload rangeOfString:@"\"stat\":\"ok\""];
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+                                                         message:((subStr.length) ? 
+                                                                  @"You have successfully shared this activity" :
+                                                                  [NSString stringWithFormat:
+                                                                   @"There was an error while sharing this activity: %@", payload ])
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK" 
+                                               otherButtonTitles:nil] autorelease];
+        [alert show];
+
+        [grayView setHidden:YES];
+        [myLoadingLabel setHidden:YES];
+        [myActivitySpinner stopAnimating];   
+        buttonLabel.text = @"Shared";
+    }
     
 	[tag release];	
 }
@@ -271,77 +437,162 @@
 	NSString* tag = (NSString*)userdata;
 	[tag release];	
     
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+                                                     message:@"There was an error while sharing this activity: %@"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"OK" 
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];
+    
+    [grayView setHidden:YES];
+    [myLoadingLabel setHidden:YES];
+    [myActivitySpinner stopAnimating];   
+    
+    
     DLog("There was an error in sharing/n");    
 }
 
 - (void)connectionWasStoppedWithTag:(void*)userdata 
 {
-	[(NSString*)userdata release];
+	DLog(@"");
+    [(NSString*)userdata release];
 }
 
 
-- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth { }
-
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error { }
-
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error { }
-
-
-- (IBAction)shareButtonPressed:(id)sender
+- (void)jrAuthenticationDidCompleteWithToken:(NSString*)token andProvider:(NSString*)provider 
 {
-    NSString *provider = @"facebook";
+    DLog(@"");
     
-    [sessionData setProvider:[NSString stringWithString:provider]];
+    [[self navigationController] popToRootViewControllerAnimated:YES];
     
-    DLog(@"cell for %@ was selected", provider);
+    [grayView setHidden:NO];
+    [myLoadingLabel setHidden:NO];
+    [myActivitySpinner setHidden:NO];
+    myLoadingLabel.text = @"Sharing...";
+    [myActivitySpinner startAnimating];
     
-    /* If the selected provider requires input from the user, go to the user landing view.
-     Or if the user started on the user landing page, went back to the list of providers, then selected 
-     the same provider as their last-used provider, go back to the user landing view. */
-    if (sessionData.currentProvider.providerRequiresInput || [provider isEqualToString:sessionData.returningProvider.name]) 
-    {	
-        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-                                               animated:YES]; 
-    }
-    /* Otherwise, go straight to the web view. */
-    else
+    if ([jrAuth theTokenUrl])
+        [sessionData makeCallToTokenUrl:[jrAuth theTokenUrl] WithToken:token];
+
+}
+
+
+- (void)jrAuthenticateDidReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload 
+{ 
+    DLog(@"");
+    NSString *identifier = [[sessionData authenticatedIdentifierForProvider:selectedProvider] retain];
+       
+    if (identifier)
     {
-        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
-                                               animated:YES]; 
+        [self shareActivityForIdentifier:identifier];
     }
+    else 
+    {  
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+                                                         message:@"There was an error while sharing this activity: %@"
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK" 
+                                               otherButtonTitles:nil] autorelease];
+        [alert show];
+        
+        [grayView setHidden:YES];
+        [myLoadingLabel setHidden:YES];
+        [myActivitySpinner stopAnimating];   
+    }
+
+
+//    [grayView setHidden:YES];
+//    [myLoadingLabel setHidden:YES];
+//    myLoadingLabel.text = @"Sharing...";
+//    [myActivitySpinner stopAnimating];    
     
-//    if (userContent_textview.text)
-//        activity.user_generated_content = userContent_textview.text;
-//    
+    sessionData.delegate = jrAuth;
+}
+
+- (void)jrAuthenticationDidFailWithError:(NSError*)error { DLog(@""); }
+
+- (void)jrAuthenticateCallToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error { DLog(@""); }
+
+- (void)jrAuthenticationDidCancel { DLog(@""); }
+
+
+- (void)shareActivityForIdentifier:(NSString*)identifier
+{
+    DLog(@"");
+    
+    if (userContent_textview.text)
+        activity.user_generated_content = userContent_textview.text;
+    
 //    NSMutableDictionary* jsonDict = [NSMutableDictionary dictionaryWithObject:activity.action forKey:@"action"];
 //    
 //    [jsonDict setValue:(activity.user_generated_content?activity.user_generated_content:nil) forKey:@"user_generated_content"];
 //    [jsonDict setValue:(activity.title?activity.title:nil) forKey:@"title"];
 //    [jsonDict setValue:(activity.description?activity.description:nil) forKey:@"description"];
-//                              
-//    NSString *content = [jsonDict JSONRepresentation];                          
-//    NSRange range = { 1, content.length-2 };
-//    content = [content substringWithRange:range];
+
+    NSDictionary *jsonDict = [[activity dictionaryForObject] retain];
+    
+    NSString *content = [jsonDict JSONRepresentation];                          
+    
+    
+    NSRange range = { 1, content.length-2 };
+    content = [content substringWithRange:range];
 //    NSString *identifier = [[sessionData authenticatedIdentifierForProvider:sessionData.currentSocialProvider.name] retain];
-//    
-//    //NSString* content = [NSString stringWithFormat:@"\"action\" : { \"%@\" \
-//                                                     \""];
-//	
-//	NSMutableData* body = [NSMutableData data];
-//	[body appendData:[[NSString stringWithFormat:@"identifier=%@", identifier] dataUsingEncoding:NSUTF8StringEncoding]];
-//	[body appendData:[[NSString stringWithFormat:@"&content=%@", content] dataUsingEncoding:NSUTF8StringEncoding]];
-//	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
-//									 [NSURL URLWithString:@"http://social-tester.appspot.com/shareThis"]] retain];
-//	
-//	[request setHTTPMethod:@"POST"];
-//	[request setHTTPBody:body];
-//	
-//    
-//	NSString* tag = [[NSString stringWithString:@"shareThis"] retain];
-//	
-//	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
-//	
-//	[request release];    
+    
+    //NSString* content = [NSString stringWithFormat:@"\"action\" : { \"%@\" \
+    \""];
+    
+ //   content = [content stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    DLog(@"json: %@", content);
+
+    
+    NSMutableData* body = [NSMutableData data];
+    [body appendData:[[NSString stringWithFormat:@"identifier=%@", identifier] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&content=%@", content] dataUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
+                                     [NSURL URLWithString:@"http://social-tester.appspot.com/shareThis"]] retain];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+    
+    
+    NSString* tag = [[NSString stringWithString:@"shareThis"] retain];
+    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
+    
+    [request release];    
+}
+
+- (IBAction)shareButtonPressed:(id)sender
+{
+    DLog(@"");
+    
+    [sessionData setSocialProvider:selectedProvider];
+    NSString *identifier = [[sessionData authenticatedIdentifierForProvider:selectedProvider] retain];
+    
+    
+    if (!identifier)
+    {
+        sessionData.delegate = self;
+        
+        /* If the selected provider requires input from the user, go to the user landing view.
+         Or if the user started on the user landing page, went back to the list of providers, then selected 
+         the same provider as their last-used provider, go back to the user landing view. */
+        if (sessionData.currentSocialProvider.providerRequiresInput || [selectedProvider isEqualToString:sessionData.returningProvider.name]) 
+        {	
+            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+                                                   animated:YES]; 
+        }
+        /* Otherwise, go straight to the web view. */
+        else
+        {
+            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+                                                   animated:YES]; 
+        }
+    }
+    else
+    {
+        [self shareActivityForIdentifier:identifier];
+    }
 }
 
 - (IBAction)doneButtonPressed:(id)sender
@@ -356,65 +607,114 @@
 //}
 
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+{
+    if (!providers)
+        return 0;
+
     return 2;
 }
 
 
 // Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+    if (!providers)
+        return 0;
+
     return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0)
-        return 315;
-
-    return 100;
+        return 260;
+    
+    return 150;
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+    DLog(@"");
+    
 	if (indexPath.section == 1)
     {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sectionTwo"];
         
         if (cell == nil)
         {
+            DLog(@"New cell");
+            
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"sectionTwo"] autorelease];
             UIView *view = cell.backgroundView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 120)] autorelease];
             view.backgroundColor = cell.backgroundColor = [UIColor clearColor];
             
-            
-            UIButton *facebook = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [facebook setFrame:CGRectMake(10, 0, 60, 38)];
-            
-            
-            UIButton *twitter = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [twitter setFrame:CGRectMake(80, 0, 60, 38)];
-            
-            
-            UIButton *yahoo = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [yahoo setFrame:CGRectMake(150, 0, 60, 38)];
-            
-            facebook.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-            [facebook setTitle:@"Facebook\nConnect" forState:UIControlStateNormal];
-            twitter.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-            [twitter setTitle:@"Twitter\nConnect" forState:UIControlStateNormal];
-            yahoo.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-            [yahoo setTitle:@"Yahoo!\nConnect" forState:UIControlStateNormal];
+            buttonLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, 107, 40)];
+            buttonLabel.text = @"Connect and Share";
+            buttonLabel.font = [UIFont systemFontOfSize:16.0];
+            buttonLabel.textAlignment = UITextAlignmentLeft;
+            buttonLabel.textColor = [UIColor whiteColor];
+            buttonLabel.lineBreakMode = UILineBreakModeWordWrap;
+            buttonLabel.numberOfLines = 2;
+            buttonLabel.backgroundColor = [UIColor clearColor];
+            buttonLabel.shadowColor = [UIColor grayColor];
+            buttonLabel.shadowOffset = CGSizeMake(-1, -1);
+ 
+            if (!selectedProvider)
+                selectedProvider = [[providers objectAtIndex:0] retain];
 
-            [facebook addTarget:self
-                               action:@selector(shareButtonPressed:) 
-                     forControlEvents:UIControlEventTouchUpInside];
+            DLog(@"selectedProvider: %@", selectedProvider);
             
+            //    NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:selectedProvider];
+            
+            //    NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
+            NSString *imagePath1 = [NSString stringWithFormat:@"jrauth_%@_logo_share.png", selectedProvider];
+            NSString *imagePath2 = [NSString stringWithFormat:@"jrauth_%@_logo_share_selected.png", selectedProvider];
+            
+            NSString *identifier = [[sessionData authenticatedIdentifierForProvider:selectedProvider] retain];
+            
+            //    NSString *bigButtonTitle = nil;
+            
+            if (!identifier)
+                buttonLabel.text = [NSString stringWithFormat:@"Connect and Share"];
+            else
+                buttonLabel.text = [NSString stringWithFormat:@"Share"];
+            
+            
+            bigShareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [bigShareButton setFrame:CGRectMake(0, 0, 300, 54)];
+            
+            [bigShareButton setBackgroundImage:[UIImage imageNamed:imagePath1] forState:UIControlStateNormal];
+            [bigShareButton setBackgroundImage:[UIImage imageNamed:imagePath2] forState:UIControlStateSelected];
+            
+            
+            
+            
+            //UIButton *facebook = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//            [facebook setFrame:CGRectMake(10, 0, 60, 38)];
+//                        
+//            UIButton *twitter = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//            [twitter setFrame:CGRectMake(80, 0, 60, 38)];
+//                        
+//            UIButton *yahoo = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//            [yahoo setFrame:CGRectMake(150, 0, 60, 38)];
 //            
-//            UIButton *bigShareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//            [bigShareButton setFrame:CGRectMake(10, 0, 280, 38)];
-//            
-//            [bigShareButton setBackgroundImage:[UIImage imageNamed:@"big_blue_button.png"] forState:UIControlStateNormal];
+//            facebook.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+//            [facebook setTitle:@"Facebook\nConnect" forState:UIControlStateNormal];
+//            twitter.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+//            [twitter setTitle:@"Twitter\nConnect" forState:UIControlStateNormal];
+//            yahoo.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+//            [yahoo setTitle:@"Yahoo!\nConnect" forState:UIControlStateNormal];
+//
+//            [facebook addTarget:self
+//                               action:@selector(shareButtonPressed:) 
+//                     forControlEvents:UIControlEventTouchUpInside];
+            
+  
+            //[bigShareButton setBackgroundImage:[UIImage imageNamed:@"big_blue_button.png"] forState:UIControlStateNormal];
+            //          [bigShareButton setBackgroundImage:[UIImage imageNamed:@"jrauth_share_default.png"] forState:UIControlStateNormal];
 //            bigShareButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 //            [bigShareButton setTitle:@"Share" forState:UIControlStateNormal];
 //            [bigShareButton setTitleColor:[UIColor whiteColor] 
@@ -428,21 +728,22 @@
 //            [bigShareButton setTitleShadowColor:[UIColor grayColor]
 //                                       forState:UIControlStateSelected];	
 //            [bigShareButton setReversesTitleShadowWhenHighlighted:YES];
-//            
-//            [bigShareButton addTarget:self
-//                               action:@selector(shareButtonPressed:) 
-//                     forControlEvents:UIControlEventTouchUpInside];
             
-//            UILabel *shareLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 280, 35)] autorelease];
-//            shareLabel.font = [UIFont boldSystemFontOfSize:24.0];
-//            shareLabel.textAlignment = UITextAlignmentCenter;
-//            shareLabel.backgroundColor = [UIColor blueColor];
-//            shareLabel.text = @"Share";
-//            
-//            [cell.contentView addSubview:bigShareButton];
-            [cell.contentView addSubview:facebook];
-            [cell.contentView addSubview:yahoo];
-            [cell.contentView addSubview:twitter];
+            [bigShareButton addTarget:self
+                               action:@selector(shareButtonPressed:) 
+                     forControlEvents:UIControlEventTouchUpInside];
+            
+            UILabel *shareLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 280, 35)] autorelease];
+            shareLabel.font = [UIFont boldSystemFontOfSize:24.0];
+            shareLabel.textAlignment = UITextAlignmentCenter;
+            shareLabel.backgroundColor = [UIColor blueColor];
+            shareLabel.text = @"Share";
+            
+            [cell.contentView addSubview:bigShareButton];
+            [cell.contentView addSubview:buttonLabel];
+//            [cell.contentView addSubview:facebook];
+//            [cell.contentView addSubview:yahoo];
+//            [cell.contentView addSubview:twitter];
             
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -451,7 +752,7 @@
         return cell;    
     }
     
-    DLog(@"cell for %@", sessionData.currentSocialProvider.name);   
+//    DLog(@"cell for %@", sessionData.currentSocialProvider.name);   
     
 //  static NSInteger displayNameAndAction_tag = 1;
 //	static NSInteger contentTitle_tag = 2;
@@ -468,20 +769,20 @@
 	if (cell == nil)
     {
 		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier] autorelease];
-		CGRect frame;
-		frame.origin.x = 10; 
-		frame.origin.y = 5;
-		frame.size.height = 345;
-		frame.size.width = 280;
+//		CGRect frame;
+//		frame.origin.x = 10; 
+//		frame.origin.y = 5;
+//		frame.size.height = 345;
+//		frame.size.width = 280;
 		
         displayNameAndAction_label  = [[[UITextView alloc] initWithFrame:CGRectMake(2, 0, 297, 26)] autorelease];
         contentTitle_label          = [[[UITextView alloc] initWithFrame:CGRectMake(97, 30, 203, 25)] autorelease];
         contentDescription_label    = [[[UITextView alloc] initWithFrame:CGRectMake(97, 45, 203, 75)] autorelease];
         thumbnail_imageview         = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 30, 90, 90)] autorelease];
-        userContent_textview        = [[[UITextView alloc] initWithFrame:CGRectMake(10, 128, 280, 177)] autorelease];
+        userContent_textview        = [[[UITextView alloc] initWithFrame:CGRectMake(10, 128, 280, 122)] autorelease];
         
         UIButton *userContent_background = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [userContent_background setFrame:CGRectMake(10, 125, 280, 180)];
+        [userContent_background setFrame:CGRectMake(10, 125, 280, 125)];
         
 //        displayNameAndAction_label.tag  = displayNameAndAction_tag;
 //        contentTitle_label.tag          = contentTitle_tag;
@@ -534,14 +835,14 @@
         [cell.contentView addSubview:contentDescription_label];
         [cell.contentView addSubview:thumbnail_imageview];
         [cell.contentView addSubview:userContent_textview];
-
-        displayNameAndAction_label.text = [NSString stringWithFormat:@"%@ %@", activity.display_name, activity.action];
-        contentTitle_label.text = [NSString stringWithFormat:@"%@", activity.title];
-        contentDescription_label.text = [NSString stringWithFormat:@"%@", activity.description];
-        userContent_textview.text = [NSString stringWithFormat:@"%@", activity.user_generated_content];        
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }        
+
+    displayNameAndAction_label.text = [NSString stringWithFormat:@"%@ %@", activity.display_name, activity.action];
+    contentTitle_label.text = [NSString stringWithFormat:@"%@", activity.title];
+    contentDescription_label.text = [NSString stringWithFormat:@"%@", activity.description];
+    userContent_textview.text = [NSString stringWithFormat:@"%@", activity.user_generated_content];        
 	
     
 	return cell;
@@ -558,6 +859,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    DLog(@"");
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -571,6 +873,7 @@
 }
 
 - (void)viewDidUnload {
+    DLog(@"");
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

@@ -167,6 +167,7 @@
 @synthesize currentSocialProvider;
 @synthesize returningSocialProvider;
 
+@synthesize delegate;
 //@synthesize activity;
 
 @synthesize hidePoweredBy;
@@ -230,17 +231,23 @@
 - (NSURL*)startURL
 {
 	DLog(@"");
+    
 //	NSDictionary *providerStats = [allProviders objectForKey:currentProvider.name];
-	NSDictionary *providerStats = [providerInfo objectForKey:currentProvider.name];
+	JRProvider *provider = (currentSocialProvider) ? (currentSocialProvider) : currentProvider;
+    
+//    NSDictionary *providerStats = [providerInfo objectForKey:currentProvider.name];
+    NSDictionary *providerStats = [providerInfo objectForKey:provider.name];
 	NSMutableString *oid;
 	
 	if ([providerStats objectForKey:@"openid_identifier"])
 	{
 		oid = [NSMutableString stringWithFormat:@"openid_identifier=%@&", [NSString stringWithString:[providerStats objectForKey:@"openid_identifier"]]]; //[NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
 		
-		if(currentProvider.providerRequiresInput)
+//		if(currentProvider.providerRequiresInput)
+		if(provider.providerRequiresInput)
 			[oid replaceOccurrencesOfString:@"%@" 
-								 withString:[currentProvider.userInput 
+								 //withString:[currentProvider.userInput
+                                 withString:[provider.userInput
 											 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] 
 									options:NSLiteralSearch 
 									  range:NSMakeRange(0, [oid length])];
@@ -256,7 +263,8 @@
                                         [providerStats objectForKey:@"url"], 
                                         oid, 
                                         ((forceReauth) ? @"force_reauth=true&" : @""),
-                                        (([currentProvider.name isEqualToString:@"facebook"]) ? 
+                                        //(([currentProvider.name isEqualToString:@"facebook"]) ? 
+                                        (([provider.name isEqualToString:@"facebook"]) ? 
                                                          @"ext_perm=publish_stream&" : @"")];
 	
 	forceReauth = NO;
@@ -342,7 +350,14 @@
 //	allProviders = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
 	
 	configedProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
-	socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+    //socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+    
+    
+    NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
+                                                                                           copyItems:YES] autorelease];
+    [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
+    socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
+        
     
 	if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
 		hidePoweredBy = YES;
@@ -379,9 +394,9 @@
 	}	
     
     if (!identifiersProviders)
-        identifiersProviders = [[NSMutableDictionary alloc] initWithObjectsAndKeys:cookieIdentifier, currentProvider.name, nil];
+        identifiersProviders = [[NSMutableDictionary alloc] initWithObjectsAndKeys:cookieIdentifier, currentSocialProvider.name, nil];
     else
-        [identifiersProviders setObject:cookieIdentifier forKey:currentProvider.name];
+        [identifiersProviders setObject:cookieIdentifier forKey:currentSocialProvider.name];
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata

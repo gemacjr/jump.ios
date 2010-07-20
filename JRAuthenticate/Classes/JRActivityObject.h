@@ -23,6 +23,8 @@ typedef enum
 @property (readonly) JRMediaType type;
 @property (readonly) NSString *src;
 @property (readonly) NSString *href;
+
+- (id)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
 @end
 
 @interface JRFlashMediaObject : NSObject
@@ -42,6 +44,8 @@ typedef enum
 @property NSUInteger height;
 @property NSUInteger expanded_width;
 @property NSUInteger expanded_height;
+
+- (id)initWithSwfsrc:(NSString *)_swfsrc andImgsrc:(NSString *)_imgsrc;
 @end
 
 @interface JRMp3MediaObject : NSObject
@@ -57,6 +61,8 @@ typedef enum
 @property (retain) NSString *title;
 @property (retain) NSString *artist;
 @property (retain) NSString *album;
+
+- (id)initWithsrc:(NSString *)_src;
 @end
 
 @interface JRActionLink : NSObject
@@ -66,47 +72,49 @@ typedef enum
 }
 @property (retain) NSString *text;
 @property (retain) NSString *href;
+
+- (id)initWithText:(NSString *)_text andHref:(NSString *)_href;
 @end
 
 
-@interface JRActivityElement : NSObject 
-{
-    //    NSString* name;
-    //    Class classType;
-    id value;
-    BOOL visable;
-    BOOL userCanEdit;
-    
-}
-//@property (retain) NSString* name;
-//@property (retain) Class classType;
-@property (retain) id value;
-@property BOOL visable;
-@property BOOL userCanEdit;
-
-
-@end
-
-@interface JRActionElement : JRActivityElement { }
-@end
-
-@interface JRUserContentElement : JRActivityElement { }
-@end
-
-@interface JRTitleElement : JRActivityElement { }
-@end
-
-@interface JRDescriptionElement : JRActivityElement { }
-@end
-
-@interface JRActionLinksElement : JRActivityElement { }
-@end
-
-@interface JRMediaObjectsElement : JRActivityElement { }
-@end
-
-@interface JRPropertiesElement : JRActivityElement { }
-@end
+//@interface JRActivityElement : NSObject 
+//{
+//    //    NSString* name;
+//    //    Class classType;
+//    id value;
+//    BOOL visable;
+//    BOOL userCanEdit;
+//    
+//}
+////@property (retain) NSString* name;
+////@property (retain) Class classType;
+//@property (retain) id value;
+//@property BOOL visable;
+//@property BOOL userCanEdit;
+//
+//
+//@end
+//
+//@interface JRActionElement : JRActivityElement { }
+//@end
+//
+//@interface JRUserContentElement : JRActivityElement { }
+//@end
+//
+//@interface JRTitleElement : JRActivityElement { }
+//@end
+//
+//@interface JRDescriptionElement : JRActivityElement { }
+//@end
+//
+//@interface JRActionLinksElement : JRActivityElement { }
+//@end
+//
+//@interface JRMediaObjectsElement : JRActivityElement { }
+//@end
+//
+//@interface JRPropertiesElement : JRActivityElement { }
+//@end
 
 @interface JRActivityObject : NSObject 
 {
@@ -147,4 +155,5 @@ typedef enum
 //@property (readonly) JRPropertiesElement     *properties;
 
 - (id)initWithDisplayName:(NSString*)name;
+- (NSDictionary*)dictionaryForObject;
 @end
