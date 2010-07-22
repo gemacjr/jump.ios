@@ -242,13 +242,11 @@
 		oid = [NSMutableString stringWithString:@""];
 	}
 
-	NSString* str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
+	NSString* str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
                                         baseURL, 
                                         [providerStats objectForKey:@"url"], 
                                         oid, 
-                                        ((forceReauth) ? @"force_reauth=true&" : @""),
-                                        (([currentProvider.name isEqualToString:@"facebook"]) ? 
-                                                         @"ext_perm=publish_stream&" : @"")];
+                                        ((forceReauth) ? @"force_reauth=true&" : @"")];
 	
 	forceReauth = NO;
 	
