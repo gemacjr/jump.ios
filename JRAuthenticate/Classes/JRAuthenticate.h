@@ -167,6 +167,15 @@
 - (void)showPublishingDialogWithActivity:(JRActivityObject*)activity;
 - (void)unloadModalViewController;
 
+
+/**
+ * 
+ * 
+ */
+- (void)signoutUserForProvider:(NSString*)provider;
+- (void)signoutUserForAllProviders;
+
+
 /**
  * Use these functions if you need to cancel authentication for any reason.
  */

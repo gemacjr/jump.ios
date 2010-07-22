@@ -149,12 +149,15 @@
 }
 	
 
-- (void)handleSuccessfulAuthentication:(NSString*)tok
-{
-	DLog(@"token: %@", tok);
-	
-	[sessionData authenticationDidCompleteWithToken:tok];
-}
+//- (void)handleSuccessfulAuthentication:(NSString*)token
+//{
+//	DLog(@"token: %@", tok);
+//#ifdef SOCIAL_PUBLISHING
+//    [sessionData authenticationDidCompleteWithAuthenticationToken:token andSessionToken:[sessionData currentProvider.name]];
+//#else
+//	[sessionData authenticationDidCompleteWithToken:token];
+//#endif
+//}
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
@@ -176,7 +179,15 @@
 		
 		if ([[payloadDict objectForKey:@"stat"] isEqualToString:@"ok"])
 		{
-			[self handleSuccessfulAuthentication:[payloadDict objectForKey:@"token"]];
+//			[self handleSuccessfulAuthentication:[payloadDict objectForKey:@"token"]];
+#ifdef SOCIAL_PUBLISHING
+            [sessionData authenticationDidCompleteWithAuthenticationToken:[payloadDict objectForKey:@"token"] 
+                                                          andSessionToken:[sessionData currentProvider.name]];
+                                                        //andSessionToken:[payloadDict objectForKey:@"device_token"]];
+#else
+            [sessionData authenticationDidCompleteWithToken:[payloadDict objectForKey:@"token"]];
+#endif
+            
 		}
 		else 
 		{

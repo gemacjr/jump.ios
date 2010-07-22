@@ -48,6 +48,7 @@
 @implementation JRModalNavigationController
 
 @synthesize navigationController;
+@synthesize socialNavigationController;
 @synthesize sessionData;
 @synthesize activity;
 @synthesize isSocial;

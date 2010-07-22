@@ -87,6 +87,8 @@
 	NSArray			*configedProviders;
     NSArray         *socialProviders;
     
+    NSMutableDictionary    *deviceTokensByProvider;
+    
     NSMutableDictionary    *identifiersProviders;
 	
 //    JRActivityObject *activity;
@@ -134,9 +136,16 @@
 - (void)setCurrentProviderToReturningProvider;
 - (void)setSocialProvider:(NSString*)provider;
 	
+
+- (NSString*)sessionTokenForProvider:(NSString*)provider;
+- (void)forgetSessionTokenForProvider:(NSString*)provider;
+- (void)forgetAllSessionTokens;
+
+
 - (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token;
 
 - (void)authenticationDidCancel;
+- (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authToken andSessionToken:(NSString*)sessToken;
 - (void)authenticationDidCompleteWithToken:(NSString*)tok;
 - (void)authenticationDidFailWithError:(NSError*)err;
 @end

@@ -30,6 +30,24 @@
 @end
 
 
+@implementation JRMediaObject 
+@synthesize type;
+- (id)initWithType:(JRMediaType)_type 
+{
+    if (!_type)
+    {
+        [self release];
+        return nil;
+    }
+    
+    if (self = [super init])
+    {
+        type = _type;
+    }
+    
+    return self;
+}
+@end
 
 @interface JRImageMediaObject ()
 - (NSDictionary*)dictionaryForObject;
@@ -45,7 +63,7 @@
 
 
 @implementation JRImageMediaObject 
-@synthesize type;
+//@synthesize type;
 @synthesize src;
 @synthesize href;
 - (id)initWithSrc:(NSString*)_src andHref:(NSString*)_href
@@ -56,9 +74,8 @@
         return nil;
     }
     
-    if (self = [super init])
+    if (self = [super initWithType:JRMediaTypeImage])
     {
-        type = JRMediaTypeImage;
         src = _src;
         href = _href;
     }
@@ -77,7 +94,7 @@
 @end
 
 @implementation JRFlashMediaObject 
-@synthesize type;
+//@synthesize type;
 @synthesize swfsrc;
 @synthesize imgsrc;
 @synthesize width;		
@@ -92,9 +109,8 @@
         return nil;
     }
     
-    if (self = [super init])
+    if (self = [super initWithType:JRMediaTypeFlash])
     {
-        type = JRMediaTypeFlash;
         swfsrc = _swfsrc;
         imgsrc = _imgsrc;
     }
@@ -127,7 +143,7 @@
 @end
 
 @implementation JRMp3MediaObject 
-@synthesize type;
+//@synthesize type;
 @synthesize src;
 @synthesize title;
 @synthesize artist;
@@ -140,9 +156,8 @@
         return nil;
     }
     
-    if (self = [super init])
+    if (self = [super initWithType:JRMediaTypeMp3])
     {
-        type = JRMediaTypeMp3;
         src = _src;
     }
     
@@ -168,10 +183,50 @@
 }
 @end
 
-@interface JRImageMediaObject ()
+
+@interface JRPhotoObject ()
 - (NSDictionary*)dictionaryForObject;
 @end
 
+@implementation JRPhotoObject 
+@synthesize path;
+@synthesize album;
+
+- (id)initWithPath:(NSString *)_path andAlbum:(NSString*)_album;
+{
+    // TODO: Make sure the path points to a real picture, as well
+    if (!_path)
+    {
+        [self release];
+        return nil;
+    }
+    
+    if (self = [super init])
+    {
+        path = _path;
+        album = _album;
+    }
+    
+    return self;
+}
+
+- (NSDictionary*)dictionaryForObject
+{
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys: 
+                                  @"attachment", @"photo", 
+                                  [path URLEscaped], @"source", nil] autorelease];
+    
+    if (album)
+        [dict setValue:[album URLEscaped] forKey:@"album"];
+    
+    return dict;
+}
+@end
+
+
+@interface JRActionLink ()
+- (NSDictionary*)dictionaryForObject;
+@end
 
 @implementation JRActionLink
 @synthesize text;
@@ -204,117 +259,6 @@
 
 @end
 
-//@implementation JRActionElement
-//- (id)init
-//{
-//    return self = [super init];
-//}
-//@end
-//
-//@implementation JRUserContentElement
-//- (id)init
-//{
-//    return self = [super init];
-//}
-//@end
-//
-//@implementation JRTitleElement
-//- (id)init
-//{
-//    return self = [super init];
-//}
-//@end
-//
-//@implementation JRDescriptionElement
-//- (id)init
-//{
-//    return self = [super init];
-//}
-//@end
-//
-//@implementation JRActionLinksElement
-//- (id)init
-//{
-//    return self = [super init];
-//}
-
-//- (void)setValue:(id)_value
-//{
-//    [value release];
-//    if ([_value isKindOfClass:[NSArray class]])
-//        value = ((NSMutableArray*)[[NSMutableArray alloc] initWithArray:(NSArray*)_value]);
-//    else if ([_value isKindOfClass:[JRActionLink class]])
-//        value = ((NSMutableArray*)[[NSMutableArray alloc] initWithObjects:(JRActionLink*)_value, nil]);
-//}
-//@end
-
-//@implementation JRMediaObjectsElement
-//- (id)init
-//{
-//    return self = [super init];
-//}
-//
-//- (void)setValue:(id)_value
-//{
-//    [value release];
-//    if ([_value isKindOfClass:[NSArray class]])
-//        value = ((NSMutableArray*)[[NSMutableArray alloc] initWithArray:(NSArray*)_value]);
-//    //    else if ([_value isKindOfClass:[JRMediaObject class]])
-//    //        value = ((NSMutableArray*)[[NSMutableArray alloc] initWithObjects:(JRMediaObject*)_value, nil]);
-//}
-//@end
-
-//@implementation JRPropertiesElement
-//- (id)init
-//{
-//    return self = [super init];
-//}
-//
-//- (void)setValue:(id)_value
-//{
-//    [value release];
-//    if ([_value isKindOfClass:[NSDictionary class]])
-//        value = ((NSMutableDictionary*)[[NSMutableDictionary alloc] initWithDictionary:(NSDictionary*)_value]);
-//}
-//@end
-
-//@implementation JRActivityElement 
-////@synthesize name;
-////@synthesize value;
-////@synthesize classType;
-//@dynamic value;
-//@synthesize visable;
-//@synthesize userCanEdit;    
-//
-//- (id)init//WithClassType:(Class)class
-//{
-//    //    if (class == nil)
-//    //	{
-//    //		[self release];
-//    //		return nil;
-//    //	}
-//	
-//	if (self = [super init]) 
-//	{
-//        //    value = [class alloc];
-//        //    classType = class;
-//    }
-//    
-//    return self;
-//}
-//
-//- (void)setValue:(id)_value
-//{
-//    [value release];
-//    value = ((NSString*)[[NSString alloc] initWithString:_value]);
-//}
-//
-//- (id)getValue
-//{
-//    return value;
-//}
-//
-//@end
 
 @implementation JRActivityObject
 @synthesize display_name;
@@ -324,6 +268,7 @@
 @synthesize description;
 @synthesize action_links; 					
 @synthesize media;
+@synthesize attachment;
 @synthesize properties;
 
 - (id)initWithDisplayName:(NSString*)name
@@ -337,13 +282,6 @@
     if (self = [super init]) 
 	{
         display_name = name;
-//        action                  = [[JRActivityObject alloc] init];
-//        user_generated_content  = [[JRActivityObject alloc] init];
-//        title                   = [[JRActivityObject alloc] init];
-//        description             = [[JRActivityObject alloc] init];
-//        action_links            = [[JRActivityObject alloc] init];
-//        media                   = [[JRActivityObject alloc] init];
-//        properties              = [[JRActivityObject alloc] init];
     }
     
 	return self;
@@ -352,7 +290,7 @@
 
 - (NSDictionary*)dictionaryForObject
 {
-    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithCapacity:7] autorelease];// initWithObjectsAndKeys:@"action", action, nil] autorelease];
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithCapacity:7] autorelease];
     [dict setValue:[action URLEscaped] forKey:@"action"];
     
     if (user_generated_content)
@@ -376,7 +314,6 @@
         [dict setValue:arr forKey:@"action_links"];
     }
     
-    
     if ([media count])
     {
         NSMutableArray *arr = [[[NSMutableArray alloc] initWithCapacity:[media count]] autorelease];
@@ -388,6 +325,10 @@
         
         [dict setValue:arr forKey:@"media"];
     }
+    
+    if (attachment)
+        [dict setValue:[attachment dictionaryForObject] forKey:@"attachment"];
+
     
     if ([properties count])
         [dict setValue:properties forKey:@"properties"];

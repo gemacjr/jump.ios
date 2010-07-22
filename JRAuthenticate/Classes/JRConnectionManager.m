@@ -51,6 +51,8 @@
 	NSURLRequest	*request;
 	NSMutableData	*response;
 	
+    BOOL encodeData;
+    
 	void *tag;
 	
 	id<JRConnectionManagerDelegate> delegate;
@@ -58,7 +60,7 @@
 
 @property (retain) NSURLRequest		*request;
 @property (retain) NSMutableData	*response;
-
+@property (readonly) BOOL encodeData;
 @property (readonly) void *tag;
 @property (readonly) id<JRConnectionManagerDelegate> delegate;
 @end
@@ -67,19 +69,22 @@
 
 @synthesize request;
 @synthesize response;
+@synthesize encodeData;
 @synthesize tag;
 @synthesize delegate;
 
-- (id)initWithRequest:(NSURLRequest*)req forDelegate:(id<JRConnectionManagerDelegate>)del withTag:(void*)userdata
+- (id)initWithRequest:(NSURLRequest*)_request forDelegate:(id<JRConnectionManagerDelegate>)_delegate withTag:(void*)userdata encodeResponse:(BOOL)_encode
 {
 	DLog(@"");
 	
 	if (self = [super init]) 
 	{
-		request  = [req retain];
+		request  = [_request retain];
 		response = nil;
 	
-		delegate = [del retain];
+        encodeData = _encode;
+        
+		delegate = [_delegate retain];
 		
 		tag = userdata;	
 	}
@@ -203,10 +208,10 @@ static JRConnectionManager* singleton = nil;
 	[super dealloc];
 }
 
-+ (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata
-{		
-	DLog(@"request: %@", [[request URL] absoluteString]);
-
++ (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata stringEncodeData:(BOOL)stringEncode;
+{
+    DLog(@"request: %@", [[request URL] absoluteString]);
+    
 	JRConnectionManager* connMan = [JRConnectionManager getJRConnectionManager];
 	CFMutableDictionaryRef connectionBuffers = connMan.connectionBuffers;
 	
@@ -218,7 +223,7 @@ static JRConnectionManager* singleton = nil;
 	if (!connection)
 		return NO;
 	
-	ConnectionData2 *connectionData = [[ConnectionData2 alloc] initWithRequest:request forDelegate:delegate withTag:userdata];	
+	ConnectionData2 *connectionData = [[ConnectionData2 alloc] initWithRequest:request forDelegate:delegate withTag:userdata encodeResponse:stringEncode];	
 	CFDictionaryAddValue(connectionBuffers,
 						 connection,
 						 connectionData);
@@ -231,7 +236,12 @@ static JRConnectionManager* singleton = nil;
 	[connection release];
 	[connectionData release];
 	
-	return YES;
+	return YES;    
+}
+
++ (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata
+{
+    return [JRConnectionManager createConnectionFromRequest:request forDelegate:delegate withTag:userdata stringEncodeData:YES];
 }
 
 + (void)stopConnectionsForDelegate:(id<JRConnectionManagerDelegate>)delegate
@@ -280,15 +290,23 @@ static JRConnectionManager* singleton = nil;
 	ConnectionData2 *connectionData = (ConnectionData2*)CFDictionaryGetValue(connectionBuffers, connection);
 	
 	NSURLRequest *request = [connectionData request];
-	NSString *payload = [[[NSString alloc] initWithData:[connectionData response] encoding:NSASCIIStringEncoding] autorelease];	
 	void* userdata = [connectionData tag];
 	id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 	
-	DLog(@"request: %@", [[request URL] absoluteString]);
-	DLog(@"payload: %@", payload);
-	
-	[delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userdata];
-	
+    if ([connectionData encodeData] == YES)
+    {
+        NSString *payload = [[[NSString alloc] initWithData:[connectionData response] encoding:NSASCIIStringEncoding] autorelease];	
+        
+        DLog(@"request: %@", [[request URL] absoluteString]);
+        DLog(@"payload: %@", payload);
+        
+        [delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userdata];
+	}
+    else
+    {
+        [delegate connectionDidFinishLoadingWithUnEncodedPayload:[[connectionData response] retain] request:request andTag:userdata];
+    }
+
 	CFDictionaryRemoveValue(connectionBuffers, connection);
 
 	[self stopActivity];

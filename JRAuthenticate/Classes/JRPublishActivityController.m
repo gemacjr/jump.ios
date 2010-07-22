@@ -120,6 +120,24 @@
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
 	activity = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) activity] retain];
     
+    if (activity.media)
+    {
+        JRMediaObject *media = [activity.media objectAtIndex:0];
+        if ([media isKindOfClass:[JRImageMediaObject class]])
+        {
+            NSURL *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
+            
+            NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
+            
+            NSString *tag = [[NSString alloc] initWithFormat:@"getImage"];
+            
+            [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO];
+            
+            [request release];
+            
+        }
+    }
+    
     providers = [sessionData.socialProviders retain];
     
 	/* Load the table with the list of providers. */
@@ -231,6 +249,11 @@
         [myTableView reloadData];
 }
 
+- (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl forToken:(NSString*)sessionToken
+{
+    
+}
+
 - (void)addProvidersToTabBar
 {
     DLog(@"");
@@ -248,6 +271,21 @@
                                                                   image:[UIImage imageNamed:imagePath]
                                                                     tag:[providerTabArr count]];
 
+        NSString *sessionToken = [sessionData sessionTokenForProvider:friendly_name];
+        UIImage *profilePic;
+        NSString *profilePicUrl;
+        
+        if (sessionToken)
+        {
+            profilePic = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", sessionToken, @"profilePic"]] retain];
+            
+            thumbnail_imageview.image = profilePic;
+            profilePicUrl = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", sessionToken, @"profilePicUrl"]];
+            
+            [self fetchProfilePicFromUrl:profilePicUrl forToken:sessionToken];
+        }
+        
+        
 //        UITabBarItemCustomContentView *contentView = [[UITabBarItemCustomContentView alloc] initWithFrame:providerTab.frame andStatus:NO];
 //        
 //        providerTab.contentView = contentView;
@@ -432,6 +470,21 @@
 	[tag release];	
 }
 
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+{
+ 	NSString* tag = (NSString*)userdata; 
+//	[payload retain];
+	
+	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
+//	DLog(@"payload (retain count: %d): %@", [payload retainCount], payload);
+	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
+    
+    thumbnailData = [payload retain];
+    [myTableView reloadData];
+    
+	[tag release];	    
+}
+
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
 	NSString* tag = (NSString*)userdata;
@@ -479,9 +532,9 @@
 
 - (void)jrAuthenticateDidReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload 
 { 
-    DLog(@"");
     NSString *identifier = [[sessionData authenticatedIdentifierForProvider:selectedProvider] retain];
-       
+    DLog(@"identifier: %@", identifier);
+    
     if (identifier)
     {
         [self shareActivityForIdentifier:identifier];
@@ -839,6 +892,13 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }        
 
+    if (thumbnailData)
+    {
+//        [thumbnail_imageview release];
+        thumbnail_imageview.image = [[UIImage alloc] initWithData:thumbnailData];
+        [cell.contentView addSubview:thumbnail_imageview];
+    }
+    
     displayNameAndAction_label.text = [NSString stringWithFormat:@"%@ %@", activity.display_name, activity.action];
     contentTitle_label.text = [NSString stringWithFormat:@"%@", activity.title];
     contentDescription_label.text = [NSString stringWithFormat:@"%@", activity.description];

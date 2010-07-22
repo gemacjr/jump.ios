@@ -9,27 +9,36 @@
 #import <Foundation/Foundation.h>
 typedef enum
 {
-    JRMediaTypeImage,
+    JRMediaTypeImage = 1,
     JRMediaTypeFlash,
     JRMediaTypeMp3
 } JRMediaType;
 
-@interface JRImageMediaObject : NSObject
+@interface JRMediaObject : NSObject
 {
     JRMediaType type;
+}
+// TODO: Do we need this or is the isKindOfClass method going to perform the same function
+@property (readonly) JRMediaType type;
+@end
+
+
+@interface JRImageMediaObject : JRMediaObject
+{
+//    JRMediaType type;
     NSString *src;
     NSString *href;
 }
-@property (readonly) JRMediaType type;
+//@property (readonly) JRMediaType type;
 @property (readonly) NSString *src;
 @property (readonly) NSString *href;
 
 - (id)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
 @end
 
-@interface JRFlashMediaObject : NSObject
+@interface JRFlashMediaObject : JRMediaObject
 {
-    JRMediaType type;
+//    JRMediaType type;
     NSString *swfsrc;
     NSString *imgsrc;		
     NSUInteger width;		
@@ -37,7 +46,7 @@ typedef enum
     NSUInteger expanded_width;
     NSUInteger expanded_height;
 }
-@property (readonly) JRMediaType type;
+//@property (readonly) JRMediaType type;
 @property (readonly) NSString *swfsrc;
 @property (readonly) NSString *imgsrc;
 @property NSUInteger width;		
@@ -48,21 +57,33 @@ typedef enum
 - (id)initWithSwfsrc:(NSString *)_swfsrc andImgsrc:(NSString *)_imgsrc;
 @end
 
-@interface JRMp3MediaObject : NSObject
+@interface JRMp3MediaObject : JRMediaObject
 {
-    JRMediaType type;
+//    JRMediaType type;
     NSString *src;
     NSString *title;
     NSString *artist;
     NSString *album;
 }
-@property (readonly) JRMediaType type;
+//@property (readonly) JRMediaType type;
 @property (readonly) NSString *src;
 @property (retain) NSString *title;
 @property (retain) NSString *artist;
 @property (retain) NSString *album;
 
 - (id)initWithsrc:(NSString *)_src;
+@end
+
+
+@interface JRPhotoObject : NSObject
+{
+    NSString *path;
+    NSString *album;
+}
+@property (retain) NSString *path;
+@property (retain) NSString *album;
+
+- (id)initWithPath:(NSString *)_path andAlbum:(NSString*)_album;
 @end
 
 @interface JRActionLink : NSObject
@@ -76,46 +97,6 @@ typedef enum
 - (id)initWithText:(NSString *)_text andHref:(NSString *)_href;
 @end
 
-
-//@interface JRActivityElement : NSObject 
-//{
-//    //    NSString* name;
-//    //    Class classType;
-//    id value;
-//    BOOL visable;
-//    BOOL userCanEdit;
-//    
-//}
-////@property (retain) NSString* name;
-////@property (retain) Class classType;
-//@property (retain) id value;
-//@property BOOL visable;
-//@property BOOL userCanEdit;
-//
-//
-//@end
-//
-//@interface JRActionElement : JRActivityElement { }
-//@end
-//
-//@interface JRUserContentElement : JRActivityElement { }
-//@end
-//
-//@interface JRTitleElement : JRActivityElement { }
-//@end
-//
-//@interface JRDescriptionElement : JRActivityElement { }
-//@end
-//
-//@interface JRActionLinksElement : JRActivityElement { }
-//@end
-//
-//@interface JRMediaObjectsElement : JRActivityElement { }
-//@end
-//
-//@interface JRPropertiesElement : JRActivityElement { }
-//@end
-
 @interface JRActivityObject : NSObject 
 {
     NSString *display_name;
@@ -126,15 +107,8 @@ typedef enum
     NSString            *description;
     NSMutableArray      *action_links; 					
     NSMutableArray      *media;
+    JRPhotoObject       *attachment;
     NSMutableDictionary *properties;
-    
-//    JRActionElement         *action;  							
-//    JRUserContentElement    *user_generated_content;
-//    JRTitleElement          *title;				
-//    JRDescriptionElement    *description;
-//    JRActionLinksElement    *action_links; 					
-//    JRMediaObjectsElement   *media;
-//    JRPropertiesElement     *properties;
 }
 
 @property (retain) NSString *display_name;
@@ -144,15 +118,8 @@ typedef enum
 @property (retain) NSString *description;
 @property (retain) NSMutableArray *action_links; 					
 @property (retain) NSMutableArray *media;
+@property (retain) JRPhotoObject  *attachment;
 @property (retain) NSMutableDictionary *properties;
-
-//@property (readonly) JRActionElement         *action;  							
-//@property (readonly) JRUserContentElement    *user_generated_content;
-//@property (readonly) JRTitleElement          *title;				
-//@property (readonly) JRDescriptionElement    *description;
-//@property (readonly) JRActionLinksElement    *action_links; 					
-//@property (readonly) JRMediaObjectsElement   *media;
-//@property (readonly) JRPropertiesElement     *properties;
 
 - (id)initWithDisplayName:(NSString*)name;
 - (NSDictionary*)dictionaryForObject;

@@ -38,6 +38,8 @@
 	UIActivityIndicatorView *myActivitySpinner; 
     UIView                  *grayView;
     
+    NSData *thumbnailData;
+    
     UIButton *bigShareButton;
     UILabel  *buttonLabel;
     

@@ -262,6 +262,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 		jrModalNavController.sessionData = sessionData;
 }
 
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
+
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
  	NSString* tag = (NSString*)userdata; 
@@ -450,6 +452,17 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[jrModalNavController release];
 	jrModalNavController = nil;	
 }
+
+- (void)signoutUserForProvider:(NSString*)provider
+{
+    [sessionData forgetSessionTokenForProvider:provider];
+}
+
+- (void)signoutUserForAllProviders
+{
+    [sessionData forgetAllSessionTokens];
+}
+
 
 - (void)dealloc 
 {

@@ -195,7 +195,9 @@
 //		tokenUrl = tokUrl;
 		currentProvider = nil;
 		returningProvider = nil;
-	
+
+        deviceTokensByProvider = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceTokensByProvider"]];
+        
 //		allProviders = nil;
 		providerInfo = nil;
 		configedProviders = nil;
@@ -375,6 +377,25 @@
     return [identifiersProviders objectForKey:provider];
 }
 
+- (NSString*)sessionTokenForProvider:(NSString*)provider
+{
+    return [deviceTokensByProvider objectForKey:provider];
+}
+
+- (void)forgetSessionTokenForProvider:(NSString*)provider
+{
+    [deviceTokensByProvider removeObjectForKey:@"provider"];
+    [[NSUserDefaults standardUserDefaults] setObject:deviceTokensByProvider forKey:@"deviceTokensByProvider"];
+}
+
+- (void)forgetAllSessionTokens
+{
+    [deviceTokensByProvider release];
+    deviceTokensByProvider = nil;
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectforKey:@"deviceTokensByProvider"];
+}
+
 // TODO: Many issues with this function, like timing of cookies/calls/etc/
 - (void)checkForIdentifierCookie:(NSURLRequest*)request
 {
@@ -398,6 +419,8 @@
     else
         [identifiersProviders setObject:cookieIdentifier forKey:currentSocialProvider.name];
 }
+
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
@@ -608,8 +631,19 @@
 			[returningProvider setWelcomeString:[NSString stringWithString:savedCookie.value]];
 		}
 	}	
-	
+    
 	[delegate jrAuthenticationDidCompleteWithToken:token andProvider:currentProvider.name];
+}
+
+- (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authToken andSessionToken:(NSString*)sessToken
+{
+    if (!deviceTokensByProvider)
+        deviceTokensByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
+    
+    [deviceTokensByProvider setObject:sessToken forKey:currentProvider.name];
+    [[NSUserDefaults standardUserDefaults] setObject:deviceTokensByProvider forKey:@"deviceTokensByProvider"];
+
+    [self  authenticationDidCompleteWithToken:authToken];
 }
 
 - (void)authenticationDidFailWithError:(NSError*)err

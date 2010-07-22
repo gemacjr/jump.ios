@@ -39,6 +39,7 @@
 @protocol JRConnectionManagerDelegate <NSObject>
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata;
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata;
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata;
 - (void)connectionWasStoppedWithTag:(void*)userdata;
 
@@ -52,6 +53,7 @@
 @property CFMutableDictionaryRef connectionBuffers;
 
 + (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata;
++ (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata stringEncodeData:(BOOL)stringEncode;
 + (void)stopConnectionsForDelegate:(id<JRConnectionManagerDelegate>)delegate;
 
 + (NSUInteger)openConnections;
