@@ -21,47 +21,101 @@
 	JRSessionData	*sessionData;
 
     NSArray         *providers;
+
     NSString        *selectedProvider;
+    NSString        *loggedInUser;
+    
     
 	UITabBar *myTabBar;
     
     BOOL ready;
     
-	UITableView	*myTableView;	
-	UILabel		*label;
+//	UITableView	*myTableView;	
+	UILabel		*title_label;
 	JRInfoBar	*infoBar;
     
     JRActivityObject *activity;
     
     /* Activity Spinner and Label displayed while the list of configured providers is empty */
 	UILabel					*myLoadingLabel;
-	UIActivityIndicatorView *myActivitySpinner; 
-    UIView                  *grayView;
+	UIActivityIndicatorView *myLoadingActivitySpinner; 
+    UIView                  *myLoadingGrayView;
+    
+    UITextView *myUserContentTextView;
+    
+    UIImageView *myProviderIcon;
+    UILabel     *myPoweredByLabel;
+    
+    UIView      *myMediaContentView;
+    UIView      *myMediaViewBackgroundMiddle;
+    UIImageView *myMediaViewBackgroundTop;
+    UIImageView *myMediaViewBackgroundBottom;
+    UIImageView *myMediaThumbnailView;
+    UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
+    UILabel     *myTitleLabel;
+    UILabel     *myDescriptionLabel;
+    
+    UIView      *myShareToView;
+    UIImageView *myTriangleIcon;
+    UIImageView *myProfilePic;
+    UIActivityIndicatorView *myProfilePicActivityIndicator;
+    UILabel     *myUserName;
+    UIButton    *myConnectAndShareButton;
+    UIButton    *myJustShareButton;
+    UIImageView *mySharedCheckMark;
+    UILabel     *mySharedLabel;
     
     NSData *thumbnailData;
+    NSData *profilePicData;
     
-    UIButton *bigShareButton;
-    UILabel  *buttonLabel;
-    
-    UITextView *displayNameAndAction_label;
-    UITextView *contentTitle_label;
-    UITextView *contentDescription_label;
-    UIImageView *thumbnail_imageview;
-    UITextView *userContent_textview;
+//    UIButton *bigShareButton;
+//    UILabel  *buttonLabel;
+//    
+//    UITextView *displayNameAndAction_label;
+//    UITextView *contentTitle_label;
+//    UITextView *contentDescription_label;
+//    UIImageView *thumbnail_imageview;
+//    UITextView *userContent_textview;
 
     UIToolbar *keyboardToolbar;
     UIBarItem *shareButton;
     UIBarItem *doneButton;
     
-    UIButton *hideKeyboardButton;
+//    UIButton *hideKeyboardButton;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *myTableView;
+//@property (nonatomic, retain) IBOutlet UITableView *myTableView;
 @property (nonatomic, retain) IBOutlet UITabBar    *myTabBar;
 
-@property (nonatomic, retain) IBOutlet UILabel *myLoadingLabel;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
-@property (nonatomic, retain) IBOutlet UIView *grayView;
+@property (nonatomic, retain) IBOutlet UILabel                  *myLoadingLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView  *myLoadingActivitySpinner;
+@property (nonatomic, retain) IBOutlet UIView                   *myLoadingGrayView;
+
+
+@property (nonatomic, retain) IBOutlet UITextView *myUserContentTextView;
+
+@property (nonatomic, retain) IBOutlet UIImageView *myProviderIcon;
+@property (nonatomic, retain) IBOutlet UILabel     *myPoweredByLabel;
+     
+@property (nonatomic, retain) IBOutlet UIView      *myMediaContentView;
+@property (nonatomic, retain) IBOutlet UIView      *myMediaViewBackgroundMiddle;
+@property (nonatomic, retain) IBOutlet UIImageView *myMediaViewBackgroundTop;
+@property (nonatomic, retain) IBOutlet UIImageView *myMediaViewBackgroundBottom;
+@property (nonatomic, retain) IBOutlet UIImageView *myMediaThumbnailView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
+@property (nonatomic, retain) IBOutlet UILabel     *myTitleLabel;
+@property (nonatomic, retain) IBOutlet UILabel     *myDescriptionLabel;
+    
+@property (nonatomic, retain) IBOutlet UIView      *myShareToView;
+@property (nonatomic, retain) IBOutlet UIImageView *myTriangleIcon;
+@property (nonatomic, retain) IBOutlet UIImageView *myProfilePic;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myProfilePicActivityIndicator;
+@property (nonatomic, retain) IBOutlet UILabel     *myUserName;
+@property (nonatomic, retain) IBOutlet UIButton    *myConnectAndShareButton;
+@property (nonatomic, retain) IBOutlet UIButton    *myJustShareButton;
+@property (nonatomic, retain) IBOutlet UIImageView *mySharedCheckMark;
+@property (nonatomic, retain) IBOutlet UILabel     *mySharedLabel;
+
 
 @property (nonatomic, retain) IBOutlet UIToolbar *keyboardToolbar;
 @property (nonatomic, retain) IBOutlet UIBarItem *shareButton;

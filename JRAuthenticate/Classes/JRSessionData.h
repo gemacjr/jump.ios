@@ -128,7 +128,7 @@
 //@property (readonly) NSString* token;
 //@property (readonly) NSString* tokenURL;
 
-- (NSString*)authenticatedIdentifierForProvider:(NSString*)provider;
+- (NSString*)identifierForProvider:(NSString*)provider;
 
 - (id)initWithBaseUrl:(NSString*)URL /*tokenUrl:(NSString)tokUrl*/ andDelegate:(id<JRSessionDelegate>)del;
 - (void)setReturningProviderToProvider:(JRProvider*)provider;

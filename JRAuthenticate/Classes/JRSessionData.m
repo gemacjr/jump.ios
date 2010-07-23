@@ -261,13 +261,13 @@
 	}
 
 	NSString* str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
-                                        baseURL, 
-                                        [providerStats objectForKey:@"url"], 
-                                        oid, 
-                                        ((forceReauth) ? @"force_reauth=true&" : @""),
-                                        //(([currentProvider.name isEqualToString:@"facebook"]) ? 
-                                        (([provider.name isEqualToString:@"facebook"]) ? 
-                                                         @"ext_perm=publish_stream&" : @"")];
+                     baseURL, 
+                     [providerStats objectForKey:@"url"], 
+                     oid, 
+                     ((forceReauth) ? @"force_reauth=true&" : @""),
+                     (([provider.name isEqualToString:@"facebook"]) ? 
+                      @"ext_perm=publish_stream&" : @"")];
+    
 	
 	forceReauth = NO;
 	
@@ -372,7 +372,7 @@
 	[self loadCookieData];
 }
 
-- (NSString*)authenticatedIdentifierForProvider:(NSString*)provider
+- (NSString*)identifierForProvider:(NSString*)provider
 {
     return [identifiersProviders objectForKey:provider];
 }
@@ -393,7 +393,7 @@
     [deviceTokensByProvider release];
     deviceTokensByProvider = nil;
     
-    [[NSUserDefaults standardUserDefaults] removeObjectforKey:@"deviceTokensByProvider"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"deviceTokensByProvider"];
 }
 
 // TODO: Many issues with this function, like timing of cookies/calls/etc/
@@ -418,6 +418,12 @@
         identifiersProviders = [[NSMutableDictionary alloc] initWithObjectsAndKeys:cookieIdentifier, currentSocialProvider.name, nil];
     else
         [identifiersProviders setObject:cookieIdentifier forKey:currentSocialProvider.name];
+    
+    if (!deviceTokensByProvider)
+        deviceTokensByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
+    
+    [deviceTokensByProvider setObject:cookieIdentifier forKey:currentSocialProvider.name];
+    [[NSUserDefaults standardUserDefaults] setObject:deviceTokensByProvider forKey:@"deviceTokensByProvider"];
 }
 
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
@@ -640,7 +646,7 @@
     if (!deviceTokensByProvider)
         deviceTokensByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
     
-    [deviceTokensByProvider setObject:sessToken forKey:currentProvider.name];
+    [deviceTokensByProvider setObject:sessToken forKey:currentSocialProvider.name];
     [[NSUserDefaults standardUserDefaults] setObject:deviceTokensByProvider forKey:@"deviceTokensByProvider"];
 
     [self  authenticationDidCompleteWithToken:authToken];

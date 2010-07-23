@@ -18,85 +18,33 @@
 
 #import "JRPublishActivityController.h"
 
-@interface UITabBarItemCustomView : UITabBarItem
-{
-    UIActivityIndicatorView *loadingIndicator;
-    UILabel                 *loadingLabel;
-}
-
-@property (readonly) UIActivityIndicatorView *loadingIndicator;
-@property (readonly) UILabel                 *loadingLabel;
-
-@end
-
-@implementation UITabBarItemCustomView
-@synthesize loadingLabel;
-@synthesize loadingIndicator;
-
-- (id)initWithTitle:(NSString*)title image:(UIImage*)image tag:(NSInteger)tag andStatus:(BOOL)connected
-{
-    DLog(@"");
-	
-	if (self = [super initWithTitle:title image:image tag:tag]) 
-	{
-        loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 45, 20)];
-        loadingLabel.font = [UIFont systemFontOfSize:16];
-        loadingLabel.textColor = [UIColor whiteColor];
-        loadingLabel.highlightedTextColor = [UIColor blueColor];
-        loadingLabel.text = (connected) ? @"Connected" : @"Not Connected";
-        loadingLabel.textAlignment = UITextAlignmentCenter;
-        loadingLabel.adjustsFontSizeToFitWidth;
-        
-        loadingIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(5, 25, 20, 20)];
-        loadingIndicator.hidesWhenStopped = TRUE;
-        [loadingIndicator stopAnimating];
-        
-        [self addSubview:loadingIndicator];
-		[self addSubview:loadingLabel];
-	}		
-
-    return self;
-}
-
-- (void)setHightlighted:(BOOL)highlighted
-{
-    [loadingLabel setHighlighted:highlighted];
-}
-
-- (void)setConnecting
-{
-    loadingLabel.text = @"Connecting";
-    [loadingIndicator startAnimating];
-}
-
-- (void)setConnected:(BOOL)connected
-{
-    loadingLabel.text = (connected) ? @"Connected" : @"Not Connected";
-}
-
-@end
-
-
-
-
-
-
 @implementation JRPublishActivityController
-@synthesize myTableView;
 @synthesize myLoadingLabel;
-@synthesize myActivitySpinner;
-@synthesize grayView;
+@synthesize myLoadingActivitySpinner; 
+@synthesize myLoadingGrayView;
+@synthesize myUserContentTextView;
+@synthesize myProviderIcon;
+@synthesize myPoweredByLabel;
+@synthesize myMediaContentView;
+@synthesize myMediaViewBackgroundMiddle;
+@synthesize myMediaViewBackgroundTop;
+@synthesize myMediaViewBackgroundBottom;
+@synthesize myMediaThumbnailView;
+@synthesize myMediaThumbnailActivityIndicator;
+@synthesize myTitleLabel;
+@synthesize myDescriptionLabel;
+@synthesize myShareToView;
+@synthesize myTriangleIcon;
+@synthesize myProfilePic;
+@synthesize myProfilePicActivityIndicator;
+@synthesize myUserName;
+@synthesize myConnectAndShareButton;
+@synthesize myJustShareButton;
+@synthesize mySharedCheckMark;
+@synthesize mySharedLabel;
 @synthesize keyboardToolbar;
 @synthesize shareButton;
 @synthesize doneButton;
-
-//@synthesize cellDisplayNameAndAction;
-//@synthesize cellContentTitle;
-//@synthesize cellContentDescription;
-//@synthesize cellImage;
-//@synthesize cellUserContent;
-//@synthesize myCell;
-
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -120,23 +68,23 @@
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
 	activity = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) activity] retain];
     
-    if (activity.media)
-    {
-        JRMediaObject *media = [activity.media objectAtIndex:0];
-        if ([media isKindOfClass:[JRImageMediaObject class]])
-        {
-            NSURL *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
-            
-            NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
-            
-            NSString *tag = [[NSString alloc] initWithFormat:@"getImage"];
-            
-            [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO];
-            
-            [request release];
-            
-        }
-    }
+//    if (activity.media)
+//    {
+//        JRMediaObject *media = [activity.media objectAtIndex:0];
+//        if ([media isKindOfClass:[JRImageMediaObject class]])
+//        {
+//            [self setImageView:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
+//            NSURL *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
+//            
+//            NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
+//            
+//            NSString *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+//            
+//            [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO];
+//            
+//            [request release];            
+//        }
+//    }
     
     providers = [sessionData.socialProviders retain];
     
@@ -152,10 +100,7 @@
      [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
 	if (!sessionData || [providers count] == 0)
 	{
-		[myActivitySpinner setHidden:NO];
-		[myLoadingLabel setHidden:NO];
-		
-		[myActivitySpinner startAnimating];
+        [self showViewIsLoading:YES];
 		
 		/* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
 		[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
@@ -164,11 +109,10 @@
 	{
         ready = YES;
         [self addProvidersToTabBar];
-		[myTableView reloadData];
-		[infoBar fadeIn];
+        [self loadActivityToView];
 	}
     
-	label = nil;
+	title_label = nil;
 }
 
 
@@ -199,27 +143,27 @@
                                                  name:UIKeyboardWillHideNotification 
                                                object:nil];
     
- 	self.title = @"Publish Activity";
+ 	self.title = @"Share";
 	
-	if (!label)
+	if (!title_label)
 	{
-		label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
-		label.backgroundColor = [UIColor clearColor];
-		label.font = [UIFont boldSystemFontOfSize:20.0];
-		label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-		label.textAlignment = UITextAlignmentCenter;
-		label.textColor = [UIColor whiteColor];
+		title_label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
+		title_label.backgroundColor = [UIColor clearColor];
+		title_label.font = [UIFont boldSystemFontOfSize:20.0];
+		title_label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+		title_label.textAlignment = UITextAlignmentCenter;
+		title_label.textColor = [UIColor whiteColor];
 	}
 
-	label.text = @"Publish Activity";
-	self.navigationItem.titleView = label;
+	title_label.text = @"Share";
+	self.navigationItem.titleView = title_label;
     
-	if (!infoBar)
-	{
-		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
-		[self.view addSubview:infoBar];
-	}
-	[infoBar fadeIn];	
+//	if (!infoBar)
+//	{
+//		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+//		[self.view addSubview:infoBar];
+//	}
+//	[infoBar fadeIn];	
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -230,28 +174,90 @@
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+
+    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
+								  initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+								  target:[self navigationController].parentViewController
+								  action:@selector(cancelButtonPressed:)] autorelease];
+	
+	self.navigationItem.leftBarButtonItem = editButton;
+	self.navigationItem.leftBarButtonItem.enabled = YES;
+	
+	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
     
-    UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
-                                         //initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                         initWithCustomView:[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 65, 44)] autorelease]] autorelease];
-                                         //target:nil
-                                         //action:nil] autorelease];
     
-	placeholderItem.width = 25;
-	self.navigationItem.leftBarButtonItem = placeholderItem;
-   	self.navigationItem.leftBarButtonItem.enabled = YES;
+//    UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
+//                                         //initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                         initWithCustomView:[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 65, 44)] autorelease]] autorelease];
+//                                         //target:nil
+//                                         //action:nil] autorelease];
+//    
+//	placeholderItem.width = 25;
+//	self.navigationItem.leftBarButtonItem = placeholderItem;
+//   	self.navigationItem.leftBarButtonItem.enabled = YES;
     
 //    keyboardToolbar.alpha = 0.0;
 //    [keyboardToolbar setFrame:CGRectMake(0, 416, 320, 44)];
 
 
     if (ready)
-        [myTableView reloadData];
+        [self loadActivityToView];
+//        [myTableView reloadData];
 }
 
 - (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl forToken:(NSString*)sessionToken
 {
+    DLog(@"");
+    [self setImageView:myProfilePic toData:nil andSetLoading:myProfilePicActivityIndicator toLoading:YES];
     
+    NSURL        *url = [NSURL URLWithString:profilePicUrl];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSString     *tag = [[NSString alloc] initWithFormat:@"getProfilePic"];
+    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO];
+    
+    [request release];
+}
+
+- (BOOL)providerCanShareMedia:(NSString*)provider
+{
+    DLog(@"");
+    if ([provider isEqualToString:@"facebook"])
+         return YES;
+         
+    return NO;
+}
+
+- (void)loadActivityToView
+{
+    DLog(@"");
+    myUserContentTextView.text = activity.user_generated_content;
+    
+    if (([activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
+    {
+        [myMediaContentView setHidden:NO];
+        
+        myTitleLabel.text = activity.title;
+        myDescriptionLabel.text = activity.description;
+        
+        JRMediaObject *media = [activity.media objectAtIndex:0];
+        if ([media isKindOfClass:[JRImageMediaObject class]])
+        {
+            [self setImageView:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
+
+            NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
+            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+            NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+            
+            [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO];
+            
+            [request release];            
+        }   
+    }
+    else
+    {
+        [myMediaContentView setHidden:YES];
+    }
 }
 
 - (void)addProvidersToTabBar
@@ -270,73 +276,99 @@
         UITabBarItem *providerTab = [[UITabBarItem alloc] initWithTitle:friendly_name 
                                                                   image:[UIImage imageNamed:imagePath]
                                                                     tag:[providerTabArr count]];
-
-        NSString *sessionToken = [sessionData sessionTokenForProvider:friendly_name];
-        UIImage *profilePic;
-        NSString *profilePicUrl;
-        
-        if (sessionToken)
-        {
-            profilePic = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", sessionToken, @"profilePic"]] retain];
-            
-            thumbnail_imageview.image = profilePic;
-            profilePicUrl = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", sessionToken, @"profilePicUrl"]];
-            
-            [self fetchProfilePicFromUrl:profilePicUrl forToken:sessionToken];
-        }
-        
-        
-//        UITabBarItemCustomContentView *contentView = [[UITabBarItemCustomContentView alloc] initWithFrame:providerTab.frame andStatus:NO];
-//        
-//        providerTab.contentView = contentView;
         
         [providerTabArr insertObject:providerTab atIndex:[providerTabArr count]];
     }
     
     [myTabBar setItems:providerTabArr animated:YES];
+    
+    // TODO: Make this be the provider most commonly used
+    // TODO: Do we need both of these?
     myTabBar.selectedItem = [providerTabArr objectAtIndex:0];
     [self tabBar:myTabBar didSelectItem:[providerTabArr objectAtIndex:0]];
      
     [providerTabArr release];
 }
 
+- (void)queryServerForUserNameAndProfilePicUrl
+{
+    UIImage *pic = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePic"]] retain];
+    
+    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"userName"]];
+    NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePicUrl"]];
+
+    myProfilePic.image = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePic"]] retain];
+    myUserName.text = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"userName"]];
+        
+    [self fetchProfilePicFromUrl:url forToken:loggedInUser];
+}
+
+- (void)loadUserNameAndProfilePic:(NSString*)user
+{
+    UIImage *pic = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePic"]] retain];
+    
+    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"userName"]];
+    NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePicUrl"]];
+    
+    if (!name || !url)
+    {
+        [self queryServerForUserNameAndProfilePicUrl];
+    }
+    else
+    {
+        myProfilePic.image = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePic"]] retain];
+        myUserName.text = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"userName"]];
+
+        [self fetchProfilePicFromUrl:url forToken:loggedInUser];
+    }
+}
+
+
+
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     DLog(@"");
     selectedProvider = [[providers objectAtIndex:item.tag] retain];
     
+    loggedInUser = [sessionData sessionTokenForProvider:selectedProvider];
+        
     NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:selectedProvider];
     
-//    NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
-    NSString *imagePath1 = [NSString stringWithFormat:@"jrauth_%@_logo_share.png", selectedProvider];
-    NSString *imagePath2 = [NSString stringWithFormat:@"jrauth_%@_logo_share_selected.png", selectedProvider];
+    NSString *imagePath1 = [NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider];
     
-    NSString *identifier = [[sessionData authenticatedIdentifierForProvider:selectedProvider] retain];
+    UIImage *profilePic;
+    NSString *profilePicUrl;
+    
+    if (loggedInUser)
+    {
+        [self showUserAsLoggedIn:YES];
+        [self loadUserNameAndProfilePic:loggedInUser];
+    }
 
-//    NSString *bigButtonTitle = nil;
+    [self loadActivityToView];
+    [self showActivityAsShared:NO];
+}
+
+
+- (void)showViewIsLoading:(BOOL)loading
+{
+    DLog(@"");
+    UIApplication* app = [UIApplication sharedApplication]; 
+    app.networkActivityIndicatorVisible = loading;
     
+    [myLoadingGrayView setHidden:!loading];
     
-    [UIView beginAnimations:@"sizecell" context:nil];
-    buttonLabel.textColor = [UIColor whiteColor];
-    
-    if (!identifier)
-        buttonLabel.text = [NSString stringWithFormat:@"Connect and Share"];
+    if (loading)
+        [myLoadingActivitySpinner startAnimating];
     else
-        buttonLabel.text = [NSString stringWithFormat:@"Share"];
-    
-    [bigShareButton setBackgroundImage:[UIImage imageNamed:imagePath1] forState:UIControlStateNormal];
-    [bigShareButton setBackgroundImage:[UIImage imageNamed:imagePath2] forState:UIControlStateSelected];
-    
-    [UIView commitAnimations];
-    
-    
-    //[myTableView reloadData];
+        [myLoadingActivitySpinner stopAnimating];
     
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	[(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
+    DLog(@"");
+    [(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
 }
 
 /* If the user calls the library before the session data object is done initializing - 
@@ -361,12 +393,11 @@
 	if ([providers count] != 0)
 	{
 		ready = YES;
-        [myActivitySpinner stopAnimating];
-		[myActivitySpinner setHidden:YES];
-		[myLoadingLabel setHidden:YES];
+        
+        [self showViewIsLoading:NO];
 		
         [self addProvidersToTabBar];
-		[myTableView reloadData];
+        [self loadActivityToView];
         
 		return;
 	}
@@ -376,13 +407,8 @@
 	{	
 		DLog(@"No Available Providers");
         
-		[myActivitySpinner setHidden:YES];
-		[myLoadingLabel setHidden:YES];
-		[myActivitySpinner stopAnimating];
-		
-		UIApplication* app = [UIApplication sharedApplication]; 
-		app.networkActivityIndicatorVisible = YES;
-        
+        [self showViewIsLoading:NO];
+               
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers"
 														 message:@"There are no available providers. \
                                                                   Either there is a problem connecting \
@@ -401,17 +427,9 @@
 
 - (void)keyboardWillShow:(NSNotification *)notif
 {
-//    [keyboardToolbar setHidden:NO];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];	
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];	
 
-    [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    
-//    [UIView beginAnimations:@"show" context:nil];
-//    [UIView setAnimationDuration:0.3];
-//    [UIView	setAnimationDelay:0.0];
-//    [keyboardToolbar setFrame:CGRectMake(0, 156, 320, 44)];
-//    [keyboardToolbar setAlpha:1.0];
-//    [UIView commitAnimations];    
+//    [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];    
 }
 
 - (void)keyboardDidShow:(NSNotification *)notif
@@ -421,16 +439,9 @@
 
 - (void)keyboardWillHide:(NSNotification *)notif
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];	
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];	
     
-    [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    
-//    [UIView beginAnimations:@"show" context:nil];
-//    [UIView setAnimationDuration:0.3];
-//    [UIView	setAnimationDelay:0.0];
-//    [keyboardToolbar setFrame:CGRectMake(0, 416, 320, 44)];
-//    [keyboardToolbar setAlpha:0.0];
-//    [UIView commitAnimations];    
+//    [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)keyboardDidHide:(NSNotification *)notif
@@ -438,6 +449,27 @@
 //    [keyboardToolbar setHidden:YES];
 }
 
+- (void)showUserAsLoggedIn:(BOOL)loggedIn
+{
+    [myJustShareButton setHidden:!loggedIn];
+    [myConnectAndShareButton setHidden:loggedIn];
+    
+    [myProfilePic setHidden:!loggedIn];
+    [myUserName setHidden:!loggedIn];
+    
+}
+
+- (void)showActivityAsShared:(BOOL)shared
+{
+    DLog(@"");
+    [mySharedLabel setHidden:!shared];
+    [mySharedCheckMark setHidden:!shared];
+    
+    if (loggedInUser)
+        [myJustShareButton setHidden:shared];
+    else
+        [myConnectAndShareButton setHidden:shared];
+}
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
@@ -461,27 +493,43 @@
                                                otherButtonTitles:nil] autorelease];
         [alert show];
 
-        [grayView setHidden:YES];
-        [myLoadingLabel setHidden:YES];
-        [myActivitySpinner stopAnimating];   
-        buttonLabel.text = @"Shared";
+        [self showViewIsLoading:NO];
+        [self showActivityAsShared:YES];
     }
     
 	[tag release];	
 }
 
+- (void)setImageView:(UIImageView*)imageView toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
+{
+    DLog(@"");
+    if (!data)
+        imageView.image = nil;
+    else 
+        imageView.image = [UIImage imageWithData:data];
+    
+    if (loading)
+        [actIndicator startAnimating];
+    else
+        [actIndicator stopAnimating];
+}
+
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
  	NSString* tag = (NSString*)userdata; 
-//	[payload retain];
 	
 	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
-//	DLog(@"payload (retain count: %d): %@", [payload retainCount], payload);
 	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
     
-    thumbnailData = [payload retain];
-    [myTableView reloadData];
-    
+    if ([tag isEqualToString:@"getThumbnail"])
+    {
+        [self setImageView:myMediaThumbnailView toData:payload andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+    }
+    else if ([tag isEqualToString:@"getProfilePic"])
+    {
+        [self setImageView:myProfilePic toData:payload andSetLoading:myProfilePicActivityIndicator toLoading:NO];
+    }
+
 	[tag release];	    
 }
 
@@ -497,9 +545,7 @@
                                            otherButtonTitles:nil] autorelease];
     [alert show];
     
-    [grayView setHidden:YES];
-    [myLoadingLabel setHidden:YES];
-    [myActivitySpinner stopAnimating];   
+    [self showViewIsLoading:NO];
     
     
     DLog("There was an error in sharing/n");    
@@ -518,26 +564,71 @@
     
     [[self navigationController] popToRootViewControllerAnimated:YES];
     
-    [grayView setHidden:NO];
-    [myLoadingLabel setHidden:NO];
-    [myActivitySpinner setHidden:NO];
+    [self showViewIsLoading:YES];
     myLoadingLabel.text = @"Sharing...";
-    [myActivitySpinner startAnimating];
     
     if ([jrAuth theTokenUrl])
         [sessionData makeCallToTokenUrl:[jrAuth theTokenUrl] WithToken:token];
-
 }
 
+- (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
+{
+	NSString *name = nil;
+	
+	if ([profile objectForKey:@"preferredUsername"])
+		name = [NSString stringWithFormat:@"%@", [profile objectForKey:@"preferredUsername"]];
+	else if ([[profile objectForKey:@"name"] objectForKey:@"formatted"])
+		name = [NSString stringWithFormat:@"%@", 
+				[[profile objectForKey:@"name"] objectForKey:@"formatted"]];					 
+	else 
+		name = [NSString stringWithFormat:@"%@%@%@%@%@",
+				([[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]) ? 
+				[NSString stringWithFormat:@"%@ ", 
+				 [[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]] : @"",
+				([[profile objectForKey:@"name"] objectForKey:@"givenName"]) ? 
+				[NSString stringWithFormat:@"%@ ", 
+				 [[profile objectForKey:@"name"] objectForKey:@"givenName"]] : @"",
+				([[profile objectForKey:@"name"] objectForKey:@"middleName"]) ? 
+				[NSString stringWithFormat:@"%@ ", 
+				 [[profile objectForKey:@"name"] objectForKey:@"middleName"]] : @"",
+				([[profile objectForKey:@"name"] objectForKey:@"familyName"]) ? 
+				[NSString stringWithFormat:@"%@ ", 
+				 [[profile objectForKey:@"name"] objectForKey:@"familyName"]] : @"",
+				([[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]) ? 
+				[NSString stringWithFormat:@"%@ ", 
+				 [[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]] : @""];
+	
+	return name;
+}
 
 - (void)jrAuthenticateDidReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload 
 { 
-    NSString *identifier = [[sessionData authenticatedIdentifierForProvider:selectedProvider] retain];
-    DLog(@"identifier: %@", identifier);
+    DLog(@"");
     
-    if (identifier)
+    loggedInUser = [[sessionData sessionTokenForProvider:selectedProvider] retain];
+    
+    NSRange found = [tokenUrlPayload rangeOfString:@"{"];
+	
+	if (found.length == 0)// Then there was an error
+		return; // TODO: Manage error
+	
+	NSString *userStr = [tokenUrlPayload substringFromIndex:found.location];
+	NSDictionary* user = [userStr JSONValue];
+
+	/* Get the display name */
+	NSString *displayName = [[self getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
+    
+    if (displayName)
+        [[NSUserDefaults standardUserDefaults] setObject:displayName forKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"userName"]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"http:\/\/graph.facebook.com\/1905641\/picture?type=large" forKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePicUrl"]];
+    
+    if (loggedInUser)//(identifier)
     {
-        [self shareActivityForIdentifier:identifier];
+        [self loadUserNameAndProfilePic:loggedInUser];
+        [self showUserAsLoggedIn:YES];
+        
+        [self shareActivityForIdentifier:loggedInUser];
     }
     else 
     {  
@@ -547,18 +638,9 @@
                                                cancelButtonTitle:@"OK" 
                                                otherButtonTitles:nil] autorelease];
         [alert show];
-        
-        [grayView setHidden:YES];
-        [myLoadingLabel setHidden:YES];
-        [myActivitySpinner stopAnimating];   
+        [self showViewIsLoading:NO];
     }
 
-
-//    [grayView setHidden:YES];
-//    [myLoadingLabel setHidden:YES];
-//    myLoadingLabel.text = @"Sharing...";
-//    [myActivitySpinner stopAnimating];    
-    
     sessionData.delegate = jrAuth;
 }
 
@@ -573,8 +655,8 @@
 {
     DLog(@"");
     
-    if (userContent_textview.text)
-        activity.user_generated_content = userContent_textview.text;
+    if (myUserContentTextView.text)
+        activity.user_generated_content = myUserContentTextView.text;
     
 //    NSMutableDictionary* jsonDict = [NSMutableDictionary dictionaryWithObject:activity.action forKey:@"action"];
 //    
@@ -620,8 +702,7 @@
     DLog(@"");
     
     [sessionData setSocialProvider:selectedProvider];
-    NSString *identifier = [[sessionData authenticatedIdentifierForProvider:selectedProvider] retain];
-    
+    NSString *identifier = [[sessionData identifierForProvider:selectedProvider] retain];
     
     if (!identifier)
     {
@@ -650,263 +731,15 @@
 
 - (IBAction)doneButtonPressed:(id)sender
 {
-    [hideKeyboardButton removeFromSuperview];
-    [userContent_textview resignFirstResponder];    
+    DLog(@"");
+    //    [hideKeyboardButton removeFromSuperview];
+    [myUserContentTextView resignFirstResponder];    
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 //{
 //	return 200;
 //}
-
-
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
-{
-    if (!providers)
-        return 0;
-
-    return 2;
-}
-
-
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
-{
-    if (!providers)
-        return 0;
-
-    return 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0)
-        return 260;
-    
-    return 150;
-}
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
-{
-    DLog(@"");
-    
-	if (indexPath.section == 1)
-    {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sectionTwo"];
-        
-        if (cell == nil)
-        {
-            DLog(@"New cell");
-            
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"sectionTwo"] autorelease];
-            UIView *view = cell.backgroundView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 120)] autorelease];
-            view.backgroundColor = cell.backgroundColor = [UIColor clearColor];
-            
-            buttonLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, 107, 40)];
-            buttonLabel.text = @"Connect and Share";
-            buttonLabel.font = [UIFont systemFontOfSize:16.0];
-            buttonLabel.textAlignment = UITextAlignmentLeft;
-            buttonLabel.textColor = [UIColor whiteColor];
-            buttonLabel.lineBreakMode = UILineBreakModeWordWrap;
-            buttonLabel.numberOfLines = 2;
-            buttonLabel.backgroundColor = [UIColor clearColor];
-            buttonLabel.shadowColor = [UIColor grayColor];
-            buttonLabel.shadowOffset = CGSizeMake(-1, -1);
- 
-            if (!selectedProvider)
-                selectedProvider = [[providers objectAtIndex:0] retain];
-
-            DLog(@"selectedProvider: %@", selectedProvider);
-            
-            //    NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:selectedProvider];
-            
-            //    NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
-            NSString *imagePath1 = [NSString stringWithFormat:@"jrauth_%@_logo_share.png", selectedProvider];
-            NSString *imagePath2 = [NSString stringWithFormat:@"jrauth_%@_logo_share_selected.png", selectedProvider];
-            
-            NSString *identifier = [[sessionData authenticatedIdentifierForProvider:selectedProvider] retain];
-            
-            //    NSString *bigButtonTitle = nil;
-            
-            if (!identifier)
-                buttonLabel.text = [NSString stringWithFormat:@"Connect and Share"];
-            else
-                buttonLabel.text = [NSString stringWithFormat:@"Share"];
-            
-            
-            bigShareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [bigShareButton setFrame:CGRectMake(0, 0, 300, 54)];
-            
-            [bigShareButton setBackgroundImage:[UIImage imageNamed:imagePath1] forState:UIControlStateNormal];
-            [bigShareButton setBackgroundImage:[UIImage imageNamed:imagePath2] forState:UIControlStateSelected];
-            
-            
-            
-            
-            //UIButton *facebook = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//            [facebook setFrame:CGRectMake(10, 0, 60, 38)];
-//                        
-//            UIButton *twitter = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//            [twitter setFrame:CGRectMake(80, 0, 60, 38)];
-//                        
-//            UIButton *yahoo = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//            [yahoo setFrame:CGRectMake(150, 0, 60, 38)];
-//            
-//            facebook.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-//            [facebook setTitle:@"Facebook\nConnect" forState:UIControlStateNormal];
-//            twitter.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-//            [twitter setTitle:@"Twitter\nConnect" forState:UIControlStateNormal];
-//            yahoo.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-//            [yahoo setTitle:@"Yahoo!\nConnect" forState:UIControlStateNormal];
-//
-//            [facebook addTarget:self
-//                               action:@selector(shareButtonPressed:) 
-//                     forControlEvents:UIControlEventTouchUpInside];
-            
-  
-            //[bigShareButton setBackgroundImage:[UIImage imageNamed:@"big_blue_button.png"] forState:UIControlStateNormal];
-            //          [bigShareButton setBackgroundImage:[UIImage imageNamed:@"jrauth_share_default.png"] forState:UIControlStateNormal];
-//            bigShareButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-//            [bigShareButton setTitle:@"Share" forState:UIControlStateNormal];
-//            [bigShareButton setTitleColor:[UIColor whiteColor] 
-//                                 forState:UIControlStateNormal];
-//            [bigShareButton setTitleShadowColor:[UIColor grayColor]
-//                                       forState:UIControlStateNormal];
-//            
-//            [bigShareButton setTitle:@"Share" forState:UIControlStateSelected];
-//            [bigShareButton setTitleColor:[UIColor whiteColor] 
-//                                 forState:UIControlStateSelected];	
-//            [bigShareButton setTitleShadowColor:[UIColor grayColor]
-//                                       forState:UIControlStateSelected];	
-//            [bigShareButton setReversesTitleShadowWhenHighlighted:YES];
-            
-            [bigShareButton addTarget:self
-                               action:@selector(shareButtonPressed:) 
-                     forControlEvents:UIControlEventTouchUpInside];
-            
-            UILabel *shareLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 10, 280, 35)] autorelease];
-            shareLabel.font = [UIFont boldSystemFontOfSize:24.0];
-            shareLabel.textAlignment = UITextAlignmentCenter;
-            shareLabel.backgroundColor = [UIColor blueColor];
-            shareLabel.text = @"Share";
-            
-            [cell.contentView addSubview:bigShareButton];
-            [cell.contentView addSubview:buttonLabel];
-//            [cell.contentView addSubview:facebook];
-//            [cell.contentView addSubview:yahoo];
-//            [cell.contentView addSubview:twitter];
-            
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        
-        return cell;    
-    }
-    
-//    DLog(@"cell for %@", sessionData.currentSocialProvider.name);   
-    
-//  static NSInteger displayNameAndAction_tag = 1;
-//	static NSInteger contentTitle_tag = 2;
-//	static NSInteger contentDescription_tag = 3;
-//	static NSInteger thumbnail_tag = 4;
-//	static NSInteger userContent_tag = 5;
-  
-	UITableViewCellStyle style = UITableViewCellStyleDefault;
-	NSString *reuseIdentifier = @"cachedCell";
-
-    UITableViewCell *cell =
-        (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-	
-	if (cell == nil)
-    {
-		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier] autorelease];
-//		CGRect frame;
-//		frame.origin.x = 10; 
-//		frame.origin.y = 5;
-//		frame.size.height = 345;
-//		frame.size.width = 280;
-		
-        displayNameAndAction_label  = [[[UITextView alloc] initWithFrame:CGRectMake(2, 0, 297, 26)] autorelease];
-        contentTitle_label          = [[[UITextView alloc] initWithFrame:CGRectMake(97, 30, 203, 25)] autorelease];
-        contentDescription_label    = [[[UITextView alloc] initWithFrame:CGRectMake(97, 45, 203, 75)] autorelease];
-        thumbnail_imageview         = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 30, 90, 90)] autorelease];
-        userContent_textview        = [[[UITextView alloc] initWithFrame:CGRectMake(10, 128, 280, 122)] autorelease];
-        
-        UIButton *userContent_background = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [userContent_background setFrame:CGRectMake(10, 125, 280, 125)];
-        
-//        displayNameAndAction_label.tag  = displayNameAndAction_tag;
-//        contentTitle_label.tag          = contentTitle_tag;
-//        contentDescription_label.tag    = contentDescription_tag;
-//        thumbnail_imageview.tag         = thumbnail_tag;
-//        userContent_textview.tag        = userContent_tag;
-        
-        displayNameAndAction_label.backgroundColor  = [UIColor clearColor];
-        contentTitle_label.backgroundColor          = [UIColor clearColor];
-        contentDescription_label.backgroundColor    = [UIColor clearColor];
-        thumbnail_imageview.backgroundColor         = [UIColor clearColor];
-        userContent_textview.backgroundColor        = [UIColor clearColor];
-        
-        userContent_background.userInteractionEnabled = FALSE;
-//        [userContent_background ssetButtonType:UIButtonTypeRoundedRect];    
-        
-        displayNameAndAction_label.scrollEnabled = FALSE;
-        displayNameAndAction_label.userInteractionEnabled = FALSE;
-        displayNameAndAction_label.font = [UIFont systemFontOfSize:14.0];
-//        displayNameAndAction_label.minimumFontSize = 10.0;
-//        displayNameAndAction_label.numberOfLines = 2;
-//        [displayNameAndAction_label setAdjustsFontSizeToFitWidth:YES];
-        
-        contentTitle_label.scrollEnabled = FALSE;
-        contentTitle_label.userInteractionEnabled = FALSE;
-        contentTitle_label.font = [UIFont systemFontOfSize:12.0];
-//        contentTitle_label.minimumFontSize = 8.0;
-//        contentTitle_label.numberOfLines = 1;
-//        [contentTitle_label setAdjustsFontSizeToFitWidth:YES];
-        
-        contentDescription_label.scrollEnabled = FALSE;
-        contentDescription_label.userInteractionEnabled = FALSE;
-        contentDescription_label.font = [UIFont systemFontOfSize:12.0];
-//        contentDescription_label.minimumFontSize = 8.0;
-//        contentDescription_label.numberOfLines = 3;
-//        [contentDescription_label setAdjustsFontSizeToFitWidth:YES];
-        
-        thumbnail_imageview.image = [UIImage imageNamed:@"lilli.jpg"];
-        
-        userContent_textview.keyboardType = UIKeyboardTypeDefault;
-        userContent_textview.inputAccessoryView = keyboardToolbar;
-//        userContent_textview.returnKeyType = UIReturnKeyReturn;
-//        userContent_textview.enablesReturnKeyAutomatically = YES;
-//        userContent_textview.keyboardAppearance = UIKeyboardAppearanceAlert;
-//        [userContent_textview canResignFirstResponder:YES];
-        
-        [cell.contentView addSubview:userContent_background];
-        [cell.contentView addSubview:displayNameAndAction_label];
-        [cell.contentView addSubview:contentTitle_label];
-        [cell.contentView addSubview:contentDescription_label];
-        [cell.contentView addSubview:thumbnail_imageview];
-        [cell.contentView addSubview:userContent_textview];
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }        
-
-    if (thumbnailData)
-    {
-//        [thumbnail_imageview release];
-        thumbnail_imageview.image = [[UIImage alloc] initWithData:thumbnailData];
-        [cell.contentView addSubview:thumbnail_imageview];
-    }
-    
-    displayNameAndAction_label.text = [NSString stringWithFormat:@"%@ %@", activity.display_name, activity.action];
-    contentTitle_label.text = [NSString stringWithFormat:@"%@", activity.title];
-    contentDescription_label.text = [NSString stringWithFormat:@"%@", activity.description];
-    userContent_textview.text = [NSString stringWithFormat:@"%@", activity.user_generated_content];        
-	
-    
-	return cell;
-}
 
 
 /*
