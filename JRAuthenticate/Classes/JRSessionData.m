@@ -414,16 +414,19 @@
 		}
 	}	
     
-    if (!identifiersProviders)
-        identifiersProviders = [[NSMutableDictionary alloc] initWithObjectsAndKeys:cookieIdentifier, currentSocialProvider.name, nil];
-    else
-        [identifiersProviders setObject:cookieIdentifier forKey:currentSocialProvider.name];
-    
-    if (!deviceTokensByProvider)
-        deviceTokensByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
-    
-    [deviceTokensByProvider setObject:cookieIdentifier forKey:currentSocialProvider.name];
-    [[NSUserDefaults standardUserDefaults] setObject:deviceTokensByProvider forKey:@"deviceTokensByProvider"];
+    if (currentSocialProvider)
+    {
+        if (!identifiersProviders)
+            identifiersProviders = [[NSMutableDictionary alloc] initWithObjectsAndKeys:cookieIdentifier, currentSocialProvider.name, nil];
+        else
+            [identifiersProviders setObject:cookieIdentifier forKey:currentSocialProvider.name];
+        
+        if (!deviceTokensByProvider)
+            deviceTokensByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
+        
+        [deviceTokensByProvider setObject:cookieIdentifier forKey:currentSocialProvider.name];
+        [[NSUserDefaults standardUserDefaults] setObject:deviceTokensByProvider forKey:@"deviceTokensByProvider"];
+    }
 }
 
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }

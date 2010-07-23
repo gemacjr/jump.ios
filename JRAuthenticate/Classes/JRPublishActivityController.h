@@ -13,7 +13,7 @@
 
 
 
-@interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, UITableViewDataSource, 
+@interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITextViewDelegate, 
                                                            UITabBarDelegate, JRSessionDelegate,
                                                            JRConnectionManagerDelegate>
 {
@@ -41,7 +41,8 @@
 	UIActivityIndicatorView *myLoadingActivitySpinner; 
     UIView                  *myLoadingGrayView;
     
-    UITextView *myUserContentTextView;
+    UITextView  *myUserContentTextView;
+    UIButton    *myUserContentBoundingBox;
     
     UIImageView *myProviderIcon;
     UILabel     *myPoweredByLabel;
@@ -79,7 +80,9 @@
 
     UIToolbar *keyboardToolbar;
     UIBarItem *shareButton;
-    UIBarItem *doneButton;
+    
+//    UIBarButtonItem *editButton;
+//    UIBarButtonItem *doneButton;
     
 //    UIButton *hideKeyboardButton;
 }
@@ -92,7 +95,8 @@
 @property (nonatomic, retain) IBOutlet UIView                   *myLoadingGrayView;
 
 
-@property (nonatomic, retain) IBOutlet UITextView *myUserContentTextView;
+@property (nonatomic, retain) IBOutlet UITextView  *myUserContentTextView;
+@property (nonatomic, retain) IBOutlet UIButton    *myUserContentBoundingBox;
 
 @property (nonatomic, retain) IBOutlet UIImageView *myProviderIcon;
 @property (nonatomic, retain) IBOutlet UILabel     *myPoweredByLabel;
@@ -119,12 +123,12 @@
 
 @property (nonatomic, retain) IBOutlet UIToolbar *keyboardToolbar;
 @property (nonatomic, retain) IBOutlet UIBarItem *shareButton;
-@property (nonatomic, retain) IBOutlet UIBarItem *doneButton;
+//@property (nonatomic, retain) IBOutlet UIBarItem *doneButton;
 
 
 - (IBAction)shareButtonPressed:(id)sender; 
 - (IBAction)doneButtonPressed:(id)sender; 
-
+- (IBAction)editButtonPressed:(id)sender; 
 
 //@property (nonatomic, retain) IBOutlet UILabel *cellDisplayNameAndAction;
 //@property (nonatomic, retain) IBOutlet UILabel *cellContentTitle;
