@@ -156,6 +156,7 @@
 
 @implementation JRSessionData
 @synthesize errorStr;
+@synthesize configurationComplete;
 
 //@synthesize allProviders;
 @synthesize providerInfo;
@@ -168,20 +169,22 @@
 @synthesize returningSocialProvider;
 
 @synthesize delegate;
-//@synthesize activity;
+@synthesize activity;
 
 @synthesize hidePoweredBy;
+
+@synthesize baseUrl;
 
 @synthesize forceReauth;
 
 //@synthesize token;
 //@synthesize tokenUrl;
 
-- (id)initWithBaseUrl:(NSString*)URL /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)del
+- (id)initWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate
 {
 	DLog(@"");
 	
-	if (URL == nil || URL.length == 0)
+	if (_appId == nil || _appId.length == 0)
 	{
 		[self release];
 		return nil;
@@ -189,11 +192,15 @@
 	
 	if (self = [super init]) 
 	{
-		delegate = [del retain];
-		baseURL = [[NSString stringWithString:URL] retain];
+		delegate = [_delegate retain];
+//		baseURL = [[NSString stringWithString:URL] retain];
 
 //		tokenUrl = tokUrl;
-		currentProvider = nil;
+
+		appId = _appId;
+        baseUrl = nil;        
+        
+        currentProvider = nil;
 		returningProvider = nil;
 
         deviceTokensByProvider = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceTokensByProvider"]];
@@ -205,7 +212,8 @@
 		errorStr = nil;
 		forceReauth = NO;
 		
-		[self startGetConfiguredProviders];
+		[self startGetBaseUrl];
+//		[self startGetConfiguredProviders];
 	}
 	return self;
 }
@@ -221,7 +229,7 @@
 	[currentProvider release];
 	[returningProvider release];
 	
-	[baseURL release];
+	[baseUrl release];
 	[errorStr release];
 	
 //	[token release];
@@ -261,7 +269,7 @@
 	}
 
 	NSString* str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
-                     baseURL, 
+                     baseUrl, 
                      [providerStats objectForKey:@"url"], 
                      oid, 
                      ((forceReauth) ? @"force_reauth=true&" : @""),
@@ -280,7 +288,7 @@
 {
 	DLog(@"");
 	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseURL]];
+	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
 	
 	NSString *welcomeString = nil;
 	NSString *provider = nil;
@@ -316,13 +324,66 @@
 		if (userInput)
 			[returningProvider setUserInput:userInput];
 	}
+    
+    configurationComplete = YES;
 }
+
+- (void)startGetBaseUrl
+{
+	
+#if LOCAL // TODO: Change this to use stringWithFormat instead
+	NSString *urlString = [[@"http://lillialexis.janrain.com:8080/jsapi/v3/base_url?appId=" 
+							stringByAppendingString:@"dgnclgmgpcjmdebbhkhf"]
+						   stringByAppendingString:@"&skipXdReceiver=true"];
+#else
+	NSString *urlString = [[@"http://rpxnow.com/jsapi/v3/base_url?appId=" 
+							stringByAppendingString:appId]
+						   stringByAppendingString:@"&skipXdReceiver=true"];
+#endif
+    DLog(@"url: %@", urlString);
+	
+	NSURL *url = [NSURL URLWithString:urlString];
+	
+	if(!url) // Then there was an error
+		return;
+	
+	NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
+	
+	NSString *tag = [[NSString alloc] initWithFormat:@"getBaseURL"];
+	
+	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the base url."];
+	
+	[request release];
+}
+
+- (void)finishGetBaseUrl:(NSString*)dataStr
+{
+	DLog(@"dataStr: %@", dataStr);
+	
+	NSArray *arr = [dataStr componentsSeparatedByString:@"\""];
+	
+	if(!arr)
+		return;
+	
+	baseUrl = [arr objectAtIndex:1];
+	
+	NSUInteger length = [baseUrl length];
+	unichar endChar = [baseUrl characterAtIndex:(length - 1)];
+	if (endChar == '/') 
+	{ // TODO: Use stringTrim function instead
+		baseUrl = [[baseUrl stringByReplacingCharactersInRange:NSMakeRange ((length - 1), 1) withString:@""] retain];
+	}
+
+    [self startGetConfiguredProviders];
+}
+
 
 - (void)startGetConfiguredProviders
 {
 	DLog(@"");
 
-	NSString *urlString = [baseURL stringByAppendingString:@"/openid/iphone_config"];
+	NSString *urlString = [baseUrl stringByAppendingString:@"/openid/iphone_config"];
 	
 	NSURL *url = [NSURL URLWithString:urlString];
 	
@@ -450,6 +511,17 @@
 			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
 		}
 	}
+    else if ([tag isEqualToString:@"getBaseURL"])
+    {
+        if ([payload hasPrefix:@"RPXNOW._base_cb(true"])
+		{
+			[self finishGetBaseUrl:payload];
+		}
+		else // There was an error...
+		{
+			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
+		}        
+    }
 	else if ([tag hasPrefix:@"token_url:"])
 	{
 //		theTokenUrlPayload = [[NSString stringWithString:payload] retain];
@@ -592,7 +664,7 @@
 	
 	[self setReturningProviderToProvider:self.currentProvider];
 	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseURL]];
+	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
 	
 	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
 	NSDate *date = [[[NSDate alloc] initWithTimeIntervalSinceNow:604800] autorelease];
@@ -601,15 +673,15 @@
 	NSRange found;
 	NSString* cookieDomain = nil;
 	
-	found = [baseURL rangeOfString:@"http://"];
+	found = [baseUrl rangeOfString:@"http://"];
 	
 	if (found.length == 0)
-		found = [baseURL rangeOfString:@"https://"];
+		found = [baseUrl rangeOfString:@"https://"];
 
 	if (found.length == 0)
-		cookieDomain = baseURL;
+		cookieDomain = baseUrl;
 	else
-		cookieDomain = [baseURL substringFromIndex:(found.location + found.length)];
+		cookieDomain = [baseUrl substringFromIndex:(found.location + found.length)];
 	
 	DLog("Setting cookie \"login_tab\" to value:  %@", self.returningProvider.name);
 	cookie = [NSHTTPCookie cookieWithProperties:

@@ -91,11 +91,11 @@
  * application's 20-character application ID.  You must also implement a token URL on a 
  * web application to complete authentication.
  */
-@interface JRAuthenticate : NSObject <JRConnectionManagerDelegate, JRSessionDelegate>
+@interface JRAuthenticate : NSObject </*JRConnectionManagerDelegate,*/ JRSessionDelegate>
 {
 	JRModalNavigationController *jrModalNavController;
 	
-	NSString		*theAppId;
+//	NSString		*theAppId;
 	NSString		*theBaseUrl;
 	NSString		*theTokenUrl;
 	
@@ -106,7 +106,7 @@
 	
 	JRSessionData	*sessionData;
 	
-	NSString		*errorStr;
+//	NSString		*errorStr;
 }
 
 /**

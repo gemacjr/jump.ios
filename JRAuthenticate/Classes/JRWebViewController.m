@@ -264,11 +264,11 @@
 	DLog(@"request: %@", [[request URL] absoluteString]);
 	DLog(@"navigation type: %d", navigationType);
 	
-	NSString *thatURL = [NSString stringWithFormat:@"%@/signin/device", jrAuth.theBaseUrl];
+	NSString *thatURL = [NSString stringWithFormat:@"%@/signin/device", [sessionData baseUrl]];
 	
 	if ([[[request URL] absoluteString] hasPrefix:thatURL])
 	{
-		DLog(@"request url has prefix: %@", jrAuth.theBaseUrl);
+		DLog(@"request url has prefix: %@", [sessionData baseUrl]);
 		
 		NSString* tag = [[NSString stringWithFormat:@"rpx_result"] retain];
 		[JRConnectionManager createConnectionFromRequest:[request retain] forDelegate:self withTag:tag];

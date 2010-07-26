@@ -35,6 +35,7 @@
 #import <Foundation/Foundation.h>
 #import "JSON.h"
 #import "JRConnectionManager.h"
+#import "JRActivityObject.h"
 //#import "JRPublishActivityController.h"
 
 @interface JRProvider : NSObject
@@ -73,6 +74,8 @@
 
 @end
 
+@class JRActivityObject;
+
 @interface JRSessionData : NSObject <JRConnectionManagerDelegate>
 {
 	id<JRSessionDelegate> delegate;
@@ -91,21 +94,24 @@
     
     NSMutableDictionary    *identifiersProviders;
 	
-//    JRActivityObject *activity;
+    JRActivityObject *activity;
     
 	BOOL hidePoweredBy;
 	
 //	NSString *token;
 //  NSString *tokenURL;
-	NSURL	 *startURL;
-	NSString *baseURL;
+	NSURL	 *startUrl;
+	NSString *baseUrl;
+    NSString *appId;
 	
 	BOOL forceReauth;
 
+    BOOL configurationComplete;
 	NSString *errorStr;
 }
 
 @property (readonly) NSString *errorStr;
+@property (readonly) BOOL configurationComplete;
 
 @property (readonly) JRProvider *currentProvider;
 @property (readonly) JRProvider *returningProvider;
@@ -117,11 +123,12 @@
 @property (readonly) NSArray *configedProviders;
 @property (readonly) NSArray *socialProviders;
 
-//@property (retain) JRActivityObject *activity;
+@property (retain) JRActivityObject *activity;
 
 @property (readonly) BOOL hidePoweredBy;
 
-@property (readonly) NSURL *startURL;
+@property (readonly) NSURL *startUrl;
+@property (readonly) NSString *baseUrl;
 @property (assign) BOOL forceReauth;
 
 @property (retain) id<JRSessionDelegate> delegate;
@@ -130,7 +137,7 @@
 
 - (NSString*)identifierForProvider:(NSString*)provider;
 
-- (id)initWithBaseUrl:(NSString*)URL /*tokenUrl:(NSString)tokUrl*/ andDelegate:(id<JRSessionDelegate>)del;
+- (id)initWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate;
 - (void)setReturningProviderToProvider:(JRProvider*)provider;
 - (void)setProvider:(NSString*)provider;
 - (void)setCurrentProviderToReturningProvider;

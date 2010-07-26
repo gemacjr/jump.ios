@@ -79,12 +79,17 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		singletonJRAuth = self;
 		
+        // TODO: Do we need to retain the delegate or does initWithObjects do that for me?
+        // TODO: Add a way to add delegates, or receive notifications automatically
 		delegates = [[NSArray alloc] initWithObjects:[delegate retain], nil];
 		
-		theAppId = [[NSString alloc] initWithString:appId];
+//		theAppId = [[NSString alloc] initWithString:appId];
 		theTokenUrl = (tokenUrl) ? [[NSString alloc] initWithString:tokenUrl] : nil;
-		
-		[self startGetBaseUrl];
+
+        sessionData = [[JRSessionData alloc] initWithAppId:appId andDelegate:self];
+        jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
+        
+//		[self startGetBaseUrl];
 	}	
 	
 	return self;
@@ -149,12 +154,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
 	}
 	
-	if (!theBaseUrl)
-		[self startGetBaseUrl];
+//	if (!theBaseUrl)
+//		[self startGetBaseUrl];
 	
 	
-	if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
+//	if (!jrModalNavController)
+//		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
 	
 	[window addSubview:jrModalNavController.view];
 	
@@ -171,12 +176,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
 	}
 	
-	if (!theBaseUrl)
-		[self startGetBaseUrl];
-	
-	
-	if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
+//	if (!theBaseUrl)
+//		[self startGetBaseUrl];
+//	
+//	
+//	if (!jrModalNavController)
+//		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
 	
 	[window addSubview:jrModalNavController.view];
 	
@@ -193,140 +198,141 @@ static JRAuthenticate* singletonJRAuth = nil;
 		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
 	}
 	
-	if (!theBaseUrl)
-		[self startGetBaseUrl];
-	
-	
-	if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
+//	if (!theBaseUrl)
+//		[self startGetBaseUrl];
+//	
+//	
+//	if (!jrModalNavController)
+//		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
 	
 	[window addSubview:jrModalNavController.view];
-	
-	[jrModalNavController presentModalNavigationControllerForPublishingActivity:activity];
+
+	[sessionData setActivity:activity];
+	[jrModalNavController presentModalNavigationControllerForPublishingActivity];
 }
 
 
-- (void)startGetBaseUrl
-{
-	
-#if LOCAL // TODO: Change this to use stringWithFormat instead
-	NSString *urlString = [[@"http://lillialexis.janrain.com:8080/jsapi/v3/base_url?appId=" 
-							stringByAppendingString:@"dgnclgmgpcjmdebbhkhf"]
-						   stringByAppendingString:@"&skipXdReceiver=true"];
-#else
-	NSString *urlString = [[@"http://rpxnow.com/jsapi/v3/base_url?appId=" 
-							stringByAppendingString:theAppId]
-						   stringByAppendingString:@"&skipXdReceiver=true"];
-#endif
-    DLog(@"url: %@", urlString);
-	
-	NSURL *url = [NSURL URLWithString:urlString];
-	
-	if(!url) // Then there was an error
-		return;
-	
-	NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
-	
-	NSString *tag = [[NSString alloc] initWithFormat:@"getBaseURL"];
-	
-	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
-		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the base url."];
-	
-	[request release];
-}
-
-- (void)finishGetBaseUrl:(NSString*)dataStr
-{
-	DLog(@"dataStr: %@", dataStr);
-	
-	NSArray *arr = [dataStr componentsSeparatedByString:@"\""];
-	
-	if(!arr)
-		return;
-	
-	theBaseUrl = [arr objectAtIndex:1];
-	
-	NSUInteger length = [theBaseUrl length];
-	unichar endChar = [theBaseUrl characterAtIndex:(length - 1)];
-	if (endChar == '/') 
-	{ // TODO: Use stringTrim function instead
-		theBaseUrl = [theBaseUrl stringByReplacingCharactersInRange:NSMakeRange ((length - 1), 1) withString:@""];
-	}
-	
-	[theBaseUrl retain];
-	
-	if (!sessionData)
-		sessionData = [[JRSessionData alloc] initWithBaseUrl:theBaseUrl andDelegate:self];
-	
-	if (jrModalNavController)
-		jrModalNavController.sessionData = sessionData;
-}
-
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
-
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
-{
- 	NSString* tag = (NSString*)userdata; 
-	[payload retain];
-	
-	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
-	DLog(@"payload (retain count: %d): %@", [payload retainCount], payload);
-	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
-
-	if ([tag isEqualToString:@"getBaseURL"])
-	{
-		if ([payload hasPrefix:@"RPXNOW._base_cb(true"])
-		{
-			[self finishGetBaseUrl:payload];
-		}
-		else // There was an error...
-		{
-			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
-		}
-	}
-//	else if ([tag hasPrefix:@"token_url:"])
-//	{
-//		theTokenUrlPayload = [[NSString stringWithString:payload] retain];
-//		NSString* tokenURL = [NSString stringWithString:[[request URL] absoluteString]];
-//							
-//		for (id<JRAuthenticateDelegate> delegate in delegates) 
-//		{
-//			[delegate jrAuthenticate:self didReachTokenURL:tokenURL withPayload:theTokenUrlPayload];
-//		}
+//- (void)startGetBaseUrl
+//{
+//	
+//#if LOCAL // TODO: Change this to use stringWithFormat instead
+//	NSString *urlString = [[@"http://lillialexis.janrain.com:8080/jsapi/v3/base_url?appId=" 
+//							stringByAppendingString:@"dgnclgmgpcjmdebbhkhf"]
+//						   stringByAppendingString:@"&skipXdReceiver=true"];
+//#else
+//	NSString *urlString = [[@"http://rpxnow.com/jsapi/v3/base_url?appId=" 
+//							stringByAppendingString:theAppId]
+//						   stringByAppendingString:@"&skipXdReceiver=true"];
+//#endif
+//    DLog(@"url: %@", urlString);
+//	
+//	NSURL *url = [NSURL URLWithString:urlString];
+//	
+//	if(!url) // Then there was an error
+//		return;
+//	
+//	NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
+//	
+//	NSString *tag = [[NSString alloc] initWithFormat:@"getBaseURL"];
+//	
+//	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+//		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the base url."];
+//	
+//	[request release];
+//}
+//
+//- (void)finishGetBaseUrl:(NSString*)dataStr
+//{
+//	DLog(@"dataStr: %@", dataStr);
+//	
+//	NSArray *arr = [dataStr componentsSeparatedByString:@"\""];
+//	
+//	if(!arr)
+//		return;
+//	
+//	theBaseUrl = [arr objectAtIndex:1];
+//	
+//	NSUInteger length = [theBaseUrl length];
+//	unichar endChar = [theBaseUrl characterAtIndex:(length - 1)];
+//	if (endChar == '/') 
+//	{ // TODO: Use stringTrim function instead
+//		theBaseUrl = [theBaseUrl stringByReplacingCharactersInRange:NSMakeRange ((length - 1), 1) withString:@""];
 //	}
+//	
+//	[theBaseUrl retain];
+//	
+//	if (!sessionData)
+//		sessionData = [[JRSessionData alloc] initWithBaseUrl:theBaseUrl andDelegate:self];
+//	
+//	if (jrModalNavController)
+//		jrModalNavController.sessionData = sessionData;
+//}
 
-	[tag release];	
-}
-
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
-{
-	NSString* tag = (NSString*)userdata;
-	DLog(@"tag:     %@", tag);
-	
-	if ([tag isEqualToString:@"getBaseURL"])
-	{
-		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
-	}
-	//else if ([tag hasPrefix:@"token_url:"])
-//	{
-//		errorStr = [NSString stringWithFormat:@"There was an error posting the token to the token URL.\nThere was an error in the response to a request."];
-//		NSRange prefix = [tag rangeOfString:@"token_url:"];
-//		
-//		NSString *tokenURL = (prefix.length > 0) ? [tag substringFromIndex:prefix.length]: nil;
-//		
-//		for (id<JRAuthenticateDelegate> delegate in delegates) 
-//		{
-//			[delegate jrAuthenticate:self callToTokenURL:tokenURL didFailWithError:error];
-//		}
-//	}
-	
-	[tag release];	
-}
-
-- (void)connectionWasStoppedWithTag:(void*)userdata 
-{
-	[(NSString*)userdata release];
-}
+//- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
+//
+//- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+//{
+// 	NSString* tag = (NSString*)userdata; 
+//	[payload retain];
+//	
+//	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
+//	DLog(@"payload (retain count: %d): %@", [payload retainCount], payload);
+//	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
+//
+////	if ([tag isEqualToString:@"getBaseURL"])
+////	{
+////		if ([payload hasPrefix:@"RPXNOW._base_cb(true"])
+////		{
+////			[self finishGetBaseUrl:payload];
+////		}
+////		else // There was an error...
+////		{
+////			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
+////		}
+////	}
+////	else if ([tag hasPrefix:@"token_url:"])
+////	{
+////		theTokenUrlPayload = [[NSString stringWithString:payload] retain];
+////		NSString* tokenURL = [NSString stringWithString:[[request URL] absoluteString]];
+////							
+////		for (id<JRAuthenticateDelegate> delegate in delegates) 
+////		{
+////			[delegate jrAuthenticate:self didReachTokenURL:tokenURL withPayload:theTokenUrlPayload];
+////		}
+////	}
+//
+//	[tag release];	
+//}
+//
+//- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
+//{
+//	NSString* tag = (NSString*)userdata;
+//	DLog(@"tag:     %@", tag);
+//	
+////	if ([tag isEqualToString:@"getBaseURL"])
+////	{
+////		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
+////	}
+//	//else if ([tag hasPrefix:@"token_url:"])
+////	{
+////		errorStr = [NSString stringWithFormat:@"There was an error posting the token to the token URL.\nThere was an error in the response to a request."];
+////		NSRange prefix = [tag rangeOfString:@"token_url:"];
+////		
+////		NSString *tokenURL = (prefix.length > 0) ? [tag substringFromIndex:prefix.length]: nil;
+////		
+////		for (id<JRAuthenticateDelegate> delegate in delegates) 
+////		{
+////			[delegate jrAuthenticate:self callToTokenURL:tokenURL didFailWithError:error];
+////		}
+////	}
+//	
+//	[tag release];	
+//}
+//
+//- (void)connectionWasStoppedWithTag:(void*)userdata 
+//{
+//	[(NSString*)userdata release];
+//}
 
 - (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token
 {
@@ -473,7 +479,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	[jrModalNavController release];
 	
-	[theAppId release];
+//	[theAppId release];
 	[theBaseUrl release];
 	[theTokenUrl release];
 	
@@ -484,7 +490,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	[sessionData release];
 	
-	[errorStr release];
+//	[errorStr release];
 	
 	[super dealloc];
 }

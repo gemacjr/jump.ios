@@ -59,17 +59,17 @@
 	JRWebViewController	*myWebViewController;
     JRPublishActivityController *myPublishActivityController;
 	
-    JRActivityObject *activity;
+//    JRActivityObject *activity;
 
 	JRSessionData *sessionData;
 }
 
 @property (retain) UINavigationController *navigationController;
-@property (retain) UINavigationController *socialNavigationController   ;
+@property (retain) UINavigationController *socialNavigationController;
 
 @property (retain) JRSessionData *sessionData;
 
-@property (retain) JRActivityObject *activity;
+//@property (retain) JRActivityObject *activity;
 @property BOOL isSocial;
 
 @property (readonly) JRUserLandingController *myUserLandingController;
@@ -79,7 +79,7 @@
 - (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data;
 
 - (void)presentModalNavigationControllerForAuthentication;
-- (void)presentModalNavigationControllerForPublishingActivity:(JRActivityObject*)_activity;
+- (void)presentModalNavigationControllerForPublishingActivity;//:(JRActivityObject*)_activity;
 - (void)dismissModalNavigationController:(BOOL)successfullyAuthed;
 
 - (void)cancelButtonPressed:(id)sender;

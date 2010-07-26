@@ -76,10 +76,8 @@
 
 	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
-	activity = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) activity] retain];
-    
-    providers = [sessionData.socialProviders retain];
-        
+	activity = [sessionData activity];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) activity] retain];
+            
 	DLog(@"prov count = %d", [providers count]);
 	
 	/* If the user calls the library before the session data object is done initializing - 
@@ -87,7 +85,7 @@
      display the "Loading Providers" label and activity spinner. 
      sessionData = nil when the call to get the base URL hasn't returned
      [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-	if (!sessionData || [providers count] == 0)
+	if (![sessionData configurationComplete])// || [providers count] == 0)//!sessionData || [providers count] == 0)
 	{
         [self showViewIsLoading:YES];
 		
@@ -96,6 +94,7 @@
 	}
 	else 
 	{
+        providers = [sessionData.socialProviders retain];
         ready = YES;
         [self addProvidersToTabBar];
         [self loadActivityToView];
@@ -221,16 +220,15 @@
 	DLog(@"prov count = %d", [providers count]);
 	DLog(@"interval = %f", interval);
 	
-	/* If sessionData was nil in viewDidLoad and viewWillAppear, but it isn't nil now, set the sessionData variable. */
-	if (!sessionData && [((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData])
-		sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
-    
-	providers = [sessionData.socialProviders retain];
-    
+//	/* If sessionData was nil in viewDidLoad and viewWillAppear, but it isn't nil now, set the sessionData variable. */
+//	if (!sessionData && [((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData])
+//		sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
+      
     /* If we have our list of providers, stop the progress indicators and load the table. */
-	if ([providers count] != 0)
+	if ([sessionData configurationComplete])//([providers count] != 0)
 	{
-		ready = YES;
+		providers = [sessionData.socialProviders retain];
+        ready = YES;
         
         [self showViewIsLoading:NO];
 		

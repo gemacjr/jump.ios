@@ -50,7 +50,7 @@
 @synthesize navigationController;
 @synthesize socialNavigationController;
 @synthesize sessionData;
-@synthesize activity;
+//@synthesize activity;
 @synthesize isSocial;
 
 @synthesize myUserLandingController;
@@ -133,11 +133,11 @@
 }
 */
 
-- (void)presentModalNavigationControllerForPublishingActivity:(JRActivityObject*)_activity
+- (void)presentModalNavigationControllerForPublishingActivity//:(JRActivityObject*)_activity
 {
 	DLog(@"");
     
-    activity = _activity;
+ //   activity = _activity;
     
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     isSocial = YES;//((JRProvidersController*)[navigationController.viewControllers objectAtIndex:0]).social = YES;
