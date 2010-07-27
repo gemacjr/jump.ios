@@ -51,7 +51,7 @@
 	NSString *userInput;
 	NSString *welcomeString;
     
-    NSString *open_id;
+    NSString *open_identifier;
 	NSString *url;
     
 	NSDictionary *providerStats;	
@@ -168,6 +168,7 @@ typedef enum
 - (NSString*)identifierForProvider:(NSString*)provider;
 
 - (id)initWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate;
+- (void)reconfigure;
 
 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;
 - (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index;

@@ -130,7 +130,7 @@
 	return welcomeString;
 }
 
-- (NSString*)open_id
+- (NSString*)open_identifier
 {
     return [providerStats objectForKey:@"open_identifier"];
 }
@@ -212,6 +212,12 @@
 	return self;
 }
 
+- (void)reconfigure
+{
+    error = [self startGetBaseUrl];
+}
+
+
 - (void)dealloc 
 {
 	DLog(@"");
@@ -264,9 +270,9 @@
 //    NSDictionary *providerStats = [providerInfo objectForKey:currentProvider.name];
 	NSMutableString *oid;
 	
-	if (currentProvider.open_id)//([providerStats objectForKey:@"openid_identifier"])
+	if (currentProvider.open_identifier)//([providerStats objectForKey:@"openid_identifier"])
 	{
-		oid = [NSMutableString stringWithFormat:@"openid_identifier=%@&", currentProvider.open_id];//[NSString stringWithString:[providerStats objectForKey:@"openid_identifier"]]]; //[NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
+		oid = [NSMutableString stringWithFormat:@"openid_identifier=%@&", currentProvider.open_identifier];//[NSString stringWithString:[providerStats objectForKey:@"openid_identifier"]]]; //[NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
 		
 		if(currentProvider.providerRequiresInput)
 			[oid replaceOccurrencesOfString:@"%@" 
@@ -399,7 +405,7 @@
 //	[request release];
 }
 
-- (void)finishGetConfiguredProviders:(NSString*)dataStr
+- (NSError*)finishGetConfiguredProviders:(NSString*)dataStr
 {
 	DLog(@"");
 	NSDictionary *jsonDict = [dataStr JSONValue];
