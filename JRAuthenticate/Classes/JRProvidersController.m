@@ -180,13 +180,13 @@
     
     if ([sessionData configurationComplete])
     {
-        providers = [sessionData.configedProviders retain];
+        providers = [sessionData.basicProviders retain];
     
         /* Check the session data to see if there's information on the last provider the user logged in with. */
-        if (sessionData.returningProvider)// && !social)
+        if (sessionData.returningBasicProvider)// && !social)
         {
             DLog(@"and there was a returning provider");
-            [sessionData setCurrentProviderToReturningProvider];
+            [sessionData setCurrentBasicProviderToReturningProvider];
             
             /* If so, go straight to the returning provider screen. */
             [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
@@ -242,7 +242,7 @@
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([sessionData configurationComplete])//([providers count] != 0)
 	{
-        providers = [sessionData.configedProviders retain];
+        providers = [sessionData.basicProviders retain];
 		
         [myActivitySpinner stopAnimating];
 		[myActivitySpinner setHidden:YES];
@@ -340,13 +340,16 @@
 	
 	// TODO: Add error handling for the case where there may be an error retrieving the provider stats.
 	// Shouldn't happen, unless the response from rpxnow becomes malformed in the future, but just in case.
-	NSString *provider = [providers objectAtIndex:indexPath.row];
-	NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:provider];
+
+	JRProvider* provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
+    
+//  NSString *provider = [providers objectAtIndex:indexPath.row];
+//	NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:provider];
 	
-	NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
-	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider];
+	NSString *friendly_name = provider.friendlyName;//[provider_stats objectForKey:@"friendly_name"];
+	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider.name];//[NSString stringWithFormat:@"jrauth_%@_icon.png", provider];
 	
-	DLog(@"cell for %@", provider);
+	DLog(@"cell for %@", provider.name);
 
 #if __IPHONE_3_0
 	cell.textLabel.text = friendly_name;
@@ -373,19 +376,17 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	
 	/* Let sessionData know which provider the user selected */
-	NSString *provider = [providers objectAtIndex:indexPath.row];
-//    NSString *identifier = @"YES";//[[sessionData authenticatedIdentifierForProvider:provider] retain];
+	//NSString *provider = [providers objectAtIndex:indexPath.row];
+    JRProvider *provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
     
-//	if (!identifier || !social)
-//    {
-    [sessionData setProvider:[NSString stringWithString:provider]];
+    [sessionData setBasicProvider:provider];
 
     DLog(@"cell for %@ was selected", provider);
 
     /* If the selected provider requires input from the user, go to the user landing view.
        Or if the user started on the user landing page, went back to the list of providers, then selected 
        the same provider as their last-used provider, go back to the user landing view. */
-    if (sessionData.currentProvider.providerRequiresInput || [provider isEqualToString:sessionData.returningProvider.name]) 
+    if (provider.providerRequiresInput || [provider isEqualToProvider:sessionData.returningBasicProvider]) 
     {	
         [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
                                                animated:YES]; 
@@ -396,18 +397,8 @@
         [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
                                                animated:YES]; 
     }
-//    }
-//    else
-//    {
-//        [sessionData setSocialProvider:[NSString stringWithString:provider]];
-//        
-//        DLog(@"cell for %@ was selected", provider);
-//        
-//        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myPublishActivityController
-//                                               animated:YES]; 
-//        
-//    }
-
+    
+    [provider release];
 }
 
 - (void)didReceiveMemoryWarning 

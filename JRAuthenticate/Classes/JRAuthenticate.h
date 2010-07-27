@@ -42,6 +42,7 @@
 //#import "JRWebViewController.h"
 
 #define LOCAL 0
+#define SOCIAL_PUBLISHING
 @class JRAuthenticate;
 @class JRModalNavigationController;
 
@@ -96,10 +97,10 @@
 	JRModalNavigationController *jrModalNavController;
 	
 //	NSString		*theAppId;
-	NSString		*theBaseUrl;
+//	NSString		*theBaseUrl;
 	NSString		*theTokenUrl;
 	
-	NSArray			*delegates;
+	NSMutableArray	*delegates;
 	
 	NSString		*theToken;
 	NSString		*theTokenUrlPayload;
@@ -112,7 +113,7 @@
 /**
  * This is the base URL of your Engage application.
  */
-@property (nonatomic, readonly) NSString* theBaseUrl;
+//@property (nonatomic, readonly) NSString* theBaseUrl;
 
 /**
  * This is the token URL you supplied when you created the instance of the

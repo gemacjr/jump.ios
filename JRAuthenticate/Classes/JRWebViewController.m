@@ -45,7 +45,6 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 @interface JRWebViewController ()
-- (void)handleSuccessfulAuthentication:(NSString*)tok;
 - (void)webViewWithUrl:(NSURL*)url;
 @end
 
@@ -159,6 +158,8 @@
 //#endif
 //}
 
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
+
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
 	[self stopProgress];
@@ -182,7 +183,7 @@
 //			[self handleSuccessfulAuthentication:[payloadDict objectForKey:@"token"]];
 #ifdef SOCIAL_PUBLISHING
             [sessionData authenticationDidCompleteWithAuthenticationToken:[payloadDict objectForKey:@"token"] 
-                                                          andSessionToken:[sessionData currentProvider.name]];
+                                                           andDeviceToken:sessionData.currentProvider.name];
                                                         //andSessionToken:[payloadDict objectForKey:@"device_token"]];
 #else
             [sessionData authenticationDidCompleteWithToken:[payloadDict objectForKey:@"token"]];

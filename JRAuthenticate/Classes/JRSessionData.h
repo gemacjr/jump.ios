@@ -38,6 +38,8 @@
 #import "JRActivityObject.h"
 //#import "JRPublishActivityController.h"
 
+#define SOCIAL_PUBLISHING
+
 @interface JRProvider : NSObject
 {
 	NSString *name;
@@ -48,7 +50,10 @@
 
 	NSString *userInput;
 	NSString *welcomeString;
-	
+    
+    NSString *open_id;
+	NSString *url;
+    
 	NSDictionary *providerStats;	
 }
 
@@ -61,7 +66,8 @@
 @property (retain) NSString *userInput;
 @property (retain) NSString *welcomeString;
 
-- (JRProvider*)initWithName:(NSString*)nm andStats:(NSDictionary*)stats;
+- (JRProvider*)initWithName:(NSString*)_name andStats:(NSDictionary*)_stats;
+- (BOOL)isEqualToProvider:(JRProvider*)provider;
 @end
 
 @protocol JRSessionDelegate <NSObject>
@@ -76,83 +82,112 @@
 
 @class JRActivityObject;
 
+typedef enum
+{
+	JRUrlError = 100,
+	JRDataParsingError,
+    JRJsonError,    
+    JRConfigurationInformationError,
+    JRSessionDataFinishGetProvidersError
+} JRSessionDataError;
+
+#define JRErrorSeverityMinor @"minor"
+#define JRErrorSeverityMajor @"major"
+#define JRErrorSeverityConfigurationFailed @"configurationFailed"
+#define JRErrorSeverityConfigurationInformationMissing @"missingInformation"
+#define JRErrorSeverityAuthenticationFailed @"authenticationFailed"
+
+
 @interface JRSessionData : NSObject <JRConnectionManagerDelegate>
 {
-	id<JRSessionDelegate> delegate;
-	
+	NSMutableArray	*delegates;
+//	id<JRSessionDelegate> delegate;
+	    
 	JRProvider *currentProvider;
-	JRProvider *returningProvider;	
+	JRProvider *returningBasicProvider;	
     JRProvider *currentSocialProvider;
     JRProvider *returningSocialProvider;
 	
-//	NSDictionary	*allProviders;
 	NSDictionary    *providerInfo;
-	NSArray			*configedProviders;
+	NSArray			*basicProviders;
     NSArray         *socialProviders;
     
     NSMutableDictionary    *deviceTokensByProvider;
-    
     NSMutableDictionary    *identifiersProviders;
 	
     JRActivityObject *activity;
     
 	BOOL hidePoweredBy;
+    UIView *customView;
+    NSDictionary *customProvider;
 	
-//	NSString *token;
-//  NSString *tokenURL;
 	NSURL	 *startUrl;
+    BOOL      isSocial;
+    
 	NSString *baseUrl;
     NSString *appId;
 	
-	BOOL forceReauth;
+	// TODO: What is the behavior of this (i.e., how does it affect social publishing?)
+    //       when selected during a basic authentication call?
+    BOOL forceReauth;
 
     BOOL configurationComplete;
 	NSString *errorStr;
+    NSError  *error;
 }
 
-@property (readonly) NSString *errorStr;
 @property (readonly) BOOL configurationComplete;
+@property (readonly) NSError *error;
 
 @property (readonly) JRProvider *currentProvider;
-@property (readonly) JRProvider *returningProvider;
+@property (readonly) JRProvider *currentBasicProvider;
+@property (readonly) JRProvider *returningBasicProvider;
 @property (readonly) JRProvider *currentSocialProvider;
 @property (readonly) JRProvider *returningSocialProvider;
 
-//@property (readonly) NSDictionary *allProviders;
 @property (readonly) NSDictionary *providerInfo;
-@property (readonly) NSArray *configedProviders;
+@property (readonly) NSArray *basicProviders;
 @property (readonly) NSArray *socialProviders;
 
 @property (retain) JRActivityObject *activity;
 
 @property (readonly) BOOL hidePoweredBy;
+@property (readonly) UIView       *customView;
+@property (readonly) NSDictionary *customProvider;
 
-@property (readonly) NSURL *startUrl;
+
+@property (readonly) NSURL    *startUrl;
 @property (readonly) NSString *baseUrl;
+
 @property (assign) BOOL forceReauth;
 
-@property (retain) id<JRSessionDelegate> delegate;
-//@property (readonly) NSString* token;
-//@property (readonly) NSString* tokenURL;
+
+- (void)addDelegate:(id<JRSessionDelegate>)_delegate;
+- (void)removeDelegate:(id<JRSessionDelegate>)_delegate;
 
 - (NSString*)identifierForProvider:(NSString*)provider;
 
 - (id)initWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate;
-- (void)setReturningProviderToProvider:(JRProvider*)provider;
-- (void)setProvider:(NSString*)provider;
-- (void)setCurrentProviderToReturningProvider;
-- (void)setSocialProvider:(NSString*)provider;
+
+- (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;
+- (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index;
+
+- (void)setReturningBasicProviderToNewBasicProvider:(JRProvider*)provider;
+- (void)setCurrentBasicProviderToReturningProvider;
+
+- (void)setBasicProvider:(JRProvider*)provider;
+- (void)setSocialProvider:(JRProvider*)provider;
 	
+- (BOOL)gatheringInfo;
 
-- (NSString*)sessionTokenForProvider:(NSString*)provider;
-- (void)forgetSessionTokenForProvider:(NSString*)provider;
-- (void)forgetAllSessionTokens;
-
+- (NSString*)deviceTokenForProvider:(NSString*)provider;
+- (void)forgetDeviceTokenForProvider:(NSString*)provider;
+- (void)forgetAllDeviceTokens;
 
 - (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token;
 
 - (void)authenticationDidCancel;
-- (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authToken andSessionToken:(NSString*)sessToken;
-- (void)authenticationDidCompleteWithToken:(NSString*)tok;
-- (void)authenticationDidFailWithError:(NSError*)err;
+- (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authenticationToken andDeviceToken:(NSString*)deviceToken;
+- (void)authenticationDidCompleteWithToken:(NSString*)authenticationToken;
+- (void)authenticationDidFailWithError:(NSError*)_error;
 @end

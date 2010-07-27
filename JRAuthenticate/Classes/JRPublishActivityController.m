@@ -78,7 +78,6 @@
 	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
 	activity = [sessionData activity];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) activity] retain];
             
-	DLog(@"prov count = %d", [providers count]);
 	
 	/* If the user calls the library before the session data object is done initializing - 
      because either the requests for the base URL or provider list haven't returned - 
@@ -100,6 +99,8 @@
         [self loadActivityToView];
 	}
     
+    DLog(@"prov count = %d", [providers count]);
+	
 	title_label = nil;
 }
 
@@ -386,7 +387,7 @@
     DLog(@"");
     myUserContentTextView.text = activity.user_generated_content;
     
-    if (([activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
+    if (([activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider.name]))
     {
         [myMediaContentView setHidden:NO];
         
@@ -418,19 +419,20 @@
     DLog(@"");
     NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:[providers count]];
     
-    for (NSString *provider in providers)
+    for (int i = 0; i < [providers count]; i++)
     {
-        
-        NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:provider];
-        
-        NSString *friendly_name = [provider_stats objectForKey:@"friendly_name"];
-        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider];
+        JRProvider *provider = [[sessionData getSocialProviderAtIndex:i] retain];
+
+        NSString *friendly_name = provider.friendlyName;//[provider_stats objectForKey:@"friendly_name"];
+        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];//[NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider];
         
         UITabBarItem *providerTab = [[UITabBarItem alloc] initWithTitle:friendly_name 
                                                                   image:[UIImage imageNamed:imagePath]
                                                                     tag:[providerTabArr count]];
         
         [providerTabArr insertObject:providerTab atIndex:[providerTabArr count]];
+
+        [provider release];
     }
     
     [myTabBar setItems:providerTabArr animated:YES];
@@ -478,11 +480,12 @@
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     DLog(@"");
-    selectedProvider = [[providers objectAtIndex:item.tag] retain];
+    selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
 
     myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider]];
     
-    loggedInUser = [sessionData sessionTokenForProvider:selectedProvider];
+    loggedInUser = [sessionData deviceTokenForProvider:selectedProvider.name];
+    
     if (loggedInUser)
     {
         [self showUserAsLoggedIn:YES];
@@ -572,8 +575,6 @@
 	self.navigationItem.leftBarButtonItem.enabled = YES;
 	
 	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;    
-    
-    return YES;
 }
 
 - (void)keyboardDidHide:(NSNotification *)notif
@@ -773,7 +774,7 @@
 { 
     DLog(@"");
     
-    loggedInUser = [[sessionData sessionTokenForProvider:selectedProvider] retain];
+    loggedInUser = [[sessionData deviceTokenForProvider:selectedProvider.name] retain];
     
     NSRange found = [tokenUrlPayload rangeOfString:@"{"];
 	
@@ -809,7 +810,7 @@
         [self showViewIsLoading:NO];
     }
 
-    sessionData.delegate = jrAuth;
+    [sessionData removeDelegate:self];
 }
 
 - (void)jrAuthenticationDidFailWithError:(NSError*)error { DLog(@""); }
@@ -870,16 +871,16 @@
     DLog(@"");
     
     [sessionData setSocialProvider:selectedProvider];
-    NSString *identifier = [[sessionData identifierForProvider:selectedProvider] retain];
+    NSString *identifier = [[sessionData identifierForProvider:selectedProvider.name] retain];
     
     if (!identifier)
     {
-        sessionData.delegate = self;
+        [sessionData addDelegate:self];
         
         /* If the selected provider requires input from the user, go to the user landing view.
          Or if the user started on the user landing page, went back to the list of providers, then selected 
          the same provider as their last-used provider, go back to the user landing view. */
-        if (sessionData.currentSocialProvider.providerRequiresInput || [selectedProvider isEqualToString:sessionData.returningProvider.name]) 
+        if (selectedProvider.providerRequiresInput)
         {	
             [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
                                                    animated:YES]; 
@@ -922,7 +923,7 @@
 {
     DLog(@"");
     [super viewWillDisappear:animated];
-    
+
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -936,6 +937,9 @@
 - (void)viewDidUnload {
     DLog(@"");
     [super viewDidUnload];
+    
+    [sessionData removeDelegate:self];
+    
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }

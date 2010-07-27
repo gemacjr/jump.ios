@@ -45,14 +45,18 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+@interface JRProvider ()
+@property (readonly) NSString *open_identifier;
+@property (readonly) NSString *url;
+@end
 
 @implementation JRProvider
 
-- (JRProvider*)initWithName:(NSString*)nm andStats:(NSDictionary*)stats
+- (JRProvider*)initWithName:(NSString*)_name andStats:(NSDictionary*)_stats
 {
 	DLog(@"");
 	
-	if (nm == nil || nm.length == 0 || stats == nil)
+	if (_name == nil || _name.length == 0 || _stats == nil)
 	{
 		[self release];
 		return nil;
@@ -60,19 +64,19 @@
 	
 	if (self = [super init]) 
 	{
-		providerStats = [[NSDictionary dictionaryWithDictionary:stats] retain];
-		name = [nm retain];
-
-		welcomeString = nil;
-		
-		placeholderText = nil;
-		shortText = nil;
-		userInput = nil;
-		friendlyName = nil;
-		providerRequiresInput = NO;
+		providerStats = [[NSDictionary dictionaryWithDictionary:_stats] retain];
+		name = [_name retain];
 	}
 	
 	return self;
+}
+
+- (BOOL)isEqualToProvider:(JRProvider*)provider
+{
+    if ([self.name isEqualToString:provider.name])
+        return YES;
+    
+    return NO;
 }
 
 - (NSString*)name
@@ -126,6 +130,16 @@
 	return welcomeString;
 }
 
+- (NSString*)open_id
+{
+    return [providerStats objectForKey:@"open_identifier"];
+}
+
+- (NSString*)url
+{
+    return [providerStats objectForKey:@"url"]; 
+}
+
 - (BOOL)providerRequiresInput
 {
 	if ([[providerStats objectForKey:@"requires_input"] isEqualToString:@"YES"])
@@ -148,37 +162,30 @@
 @end
 
 @interface JRSessionData()
-- (void)startGetConfiguredProviders;
-- (void)finishGetConfiguredProviders:(NSString*)dataStr;
-
-- (void)loadCookieData;
+- (NSError*)startGetBaseUrl;
+- (NSError*)startGetConfiguredProviders;
+- (NSError*)finishGetConfiguredProviders:(NSString*)dataStr;
+- (void)loadLastUsedBasicProvider;
+- (void)loadLastUsedSocialProvider;
 @end
 
 @implementation JRSessionData
-@synthesize errorStr;
 @synthesize configurationComplete;
-
-//@synthesize allProviders;
 @synthesize providerInfo;
-@synthesize configedProviders;
+@synthesize basicProviders;
 @synthesize socialProviders;
-
 @synthesize currentProvider;
-@synthesize returningProvider;
+@synthesize currentBasicProvider;
+@synthesize returningBasicProvider;
 @synthesize currentSocialProvider;
 @synthesize returningSocialProvider;
-
-@synthesize delegate;
 @synthesize activity;
-
 @synthesize hidePoweredBy;
-
 @synthesize baseUrl;
-
 @synthesize forceReauth;
-
-//@synthesize token;
-//@synthesize tokenUrl;
+@synthesize error;
+@synthesize customView;
+@synthesize customProvider;
 
 - (id)initWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate
 {
@@ -192,28 +199,15 @@
 	
 	if (self = [super init]) 
 	{
-		delegate = [_delegate retain];
-//		baseURL = [[NSString stringWithString:URL] retain];
-
-//		tokenUrl = tokUrl;
+        delegates = [[NSMutableArray alloc] initWithObjects:[_delegate retain], nil];
 
 		appId = _appId;
-        baseUrl = nil;        
         
-        currentProvider = nil;
-		returningProvider = nil;
-
-        deviceTokensByProvider = [[NSMutableDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"deviceTokensByProvider"]];
+        deviceTokensByProvider = [[NSMutableDictionary alloc] 
+                                  initWithDictionary:[[NSUserDefaults standardUserDefaults] 
+                                        objectForKey:@"deviceTokensByProvider"]];
         
-//		allProviders = nil;
-		providerInfo = nil;
-		configedProviders = nil;
-	
-		errorStr = nil;
-		forceReauth = NO;
-		
-		[self startGetBaseUrl];
-//		[self startGetConfiguredProviders];
+        error = [self startGetBaseUrl];
 	}
 	return self;
 }
@@ -222,42 +216,61 @@
 {
 	DLog(@"");
 		
-//	[allProviders release];
 	[providerInfo release];
-	[configedProviders release];
+	[basicProviders release];
 	
 	[currentProvider release];
-	[returningProvider release];
+	[currentBasicProvider release];
+	[returningBasicProvider release];
+	[currentSocialProvider release];
+	[returningSocialProvider release];
 	
 	[baseUrl release];
 	[errorStr release];
 	
-//	[token release];
-	[delegate release];
+	[delegates release];
 	
 	[super dealloc];
+}
+
+- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andSeverity:(NSString*)severity
+{
+    DLog(@"");
+    NSDictionary *userInfo = [[NSDictionary dictionaryWithObjectsAndKeys:
+                               message, NSLocalizedDescriptionKey,
+                               severity, @"severity", nil] autorelease];
+
+    return [[NSError alloc] initWithDomain:@"JRAuthenticate"
+                                      code:code
+                                  userInfo:userInfo];
+}
+
+- (void)addDelegate:(id<JRSessionDelegate>)_delegate
+{
+	DLog(@"");
+    [delegates addObject:_delegate];
+}
+
+- (void)removeDelegate:(id<JRSessionDelegate>)_delegate
+{
+	DLog(@"");
+    [delegates removeObject:_delegate];
 }
 
 - (NSURL*)startURL
 {
 	DLog(@"");
     
-//	NSDictionary *providerStats = [allProviders objectForKey:currentProvider.name];
-	JRProvider *provider = (currentSocialProvider) ? (currentSocialProvider) : currentProvider;
-    
 //    NSDictionary *providerStats = [providerInfo objectForKey:currentProvider.name];
-    NSDictionary *providerStats = [providerInfo objectForKey:provider.name];
 	NSMutableString *oid;
 	
-	if ([providerStats objectForKey:@"openid_identifier"])
+	if (currentProvider.open_id)//([providerStats objectForKey:@"openid_identifier"])
 	{
-		oid = [NSMutableString stringWithFormat:@"openid_identifier=%@&", [NSString stringWithString:[providerStats objectForKey:@"openid_identifier"]]]; //[NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
+		oid = [NSMutableString stringWithFormat:@"openid_identifier=%@&", currentProvider.open_id];//[NSString stringWithString:[providerStats objectForKey:@"openid_identifier"]]]; //[NSMutableString stringWithString:[providerStats objectForKey:@"openid_identifier"]];
 		
-//		if(currentProvider.providerRequiresInput)
-		if(provider.providerRequiresInput)
+		if(currentProvider.providerRequiresInput)
 			[oid replaceOccurrencesOfString:@"%@" 
-								 //withString:[currentProvider.userInput
-                                 withString:[provider.userInput
+								 withString:[currentProvider.userInput
 											 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] 
 									options:NSLiteralSearch 
 									  range:NSMakeRange(0, [oid length])];
@@ -268,15 +281,30 @@
 		oid = [NSMutableString stringWithString:@""];
 	}
 
-	NSString* str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
-                     baseUrl, 
-                     [providerStats objectForKey:@"url"], 
-                     oid, 
-                     ((forceReauth) ? @"force_reauth=true&" : @""),
-                     (([provider.name isEqualToString:@"facebook"]) ? 
-                      @"ext_perm=publish_stream&" : @"")];
-    
-	
+    NSString *str = nil;
+#ifdef SOCIAL_PUBLISHING
+    if (isSocial)
+        str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
+                         baseUrl, 
+                         currentProvider.url,//[providerStats objectForKey:@"url"], 
+                         oid, 
+                         ((forceReauth) ? @"force_reauth=true&" : @""),
+                         (([currentProvider.name isEqualToString:@"facebook"]) ? 
+                          @"ext_perm=publish_stream&" : @"")];
+    else
+        str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
+                         baseUrl, 
+                         currentProvider.url,//[providerStats objectForKey:@"url"], 
+                         oid, 
+                         ((forceReauth) ? @"force_reauth=true&" : @"")];
+#else
+        str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
+                         baseUrl, 
+                         currentProvider.url,//[providerStats objectForKey:@"url"], 
+                         oid, 
+                         ((forceReauth) ? @"force_reauth=true&" : @"")];    
+#endif
+
 	forceReauth = NO;
 	
 	DLog(@"startURL: %@", str);
@@ -284,51 +312,8 @@
 }
 
 
-- (void)loadCookieData
-{
-	DLog(@"");
-	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
-	
-	NSString *welcomeString = nil;
-	NSString *provider = nil;
-	NSString *userInput = nil;
-		
-	for (NSHTTPCookie *cookie in cookies) 
-	{
-		if ([cookie.name isEqualToString:@"welcome_info"])
-		{
-			welcomeString = [NSString stringWithString:cookie.value];
-			DLog(@"welcomeString: %@", welcomeString);
-		}
-		else if ([cookie.name isEqualToString:@"login_tab"])
-		{
-			provider = [NSString stringWithString:cookie.value];
-			DLog(@"provider:      %@", provider);
-		}
-		else if ([cookie.name isEqualToString:@"user_input"])
-		{
-			userInput = [NSString stringWithString:cookie.value];
-			DLog(@"userInput:     %@", userInput);
-		}
-	}	
-	
-	if (provider)
-	{
-		DLog(@"returningProvider: %@", provider);
-//		returningProvider = [[JRProvider alloc] initWithName:provider andStats:[allProviders objectForKey:provider]];
-		returningProvider = [[JRProvider alloc] initWithName:provider andStats:[providerInfo objectForKey:provider]];
-		
-		if (welcomeString)
-			[returningProvider setWelcomeString:welcomeString];
-		if (userInput)
-			[returningProvider setUserInput:userInput];
-	}
-    
-    configurationComplete = YES;
-}
 
-- (void)startGetBaseUrl
+- (NSError*)startGetBaseUrl
 {
 	
 #if LOCAL // TODO: Change this to use stringWithFormat instead
@@ -345,41 +330,50 @@
 	NSURL *url = [NSURL URLWithString:urlString];
 	
 	if(!url) // Then there was an error
-		return;
-	
-	NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
+		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
+                     withCode:JRUrlError 
+                  andSeverity:JRErrorSeverityConfigurationFailed];
+    
+	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
 	
 	NSString *tag = [[NSString alloc] initWithFormat:@"getBaseURL"];
 	
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
-		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the base url."];
-	
-	[request release];
+		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
+                     withCode:JRUrlError 
+                  andSeverity:JRErrorSeverityConfigurationFailed];
+    	
+//	[request release];
+    return nil;
 }
 
-- (void)finishGetBaseUrl:(NSString*)dataStr
+- (NSError*)finishGetBaseUrl:(NSString*)dataStr
 {
 	DLog(@"dataStr: %@", dataStr);
 	
 	NSArray *arr = [dataStr componentsSeparatedByString:@"\""];
 	
 	if(!arr)
-		return;
+		return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                     withCode:JRDataParsingError
+                  andSeverity:JRErrorSeverityConfigurationFailed];
 	
 	baseUrl = [arr objectAtIndex:1];
 	
-	NSUInteger length = [baseUrl length];
-	unichar endChar = [baseUrl characterAtIndex:(length - 1)];
-	if (endChar == '/') 
-	{ // TODO: Use stringTrim function instead
-		baseUrl = [[baseUrl stringByReplacingCharactersInRange:NSMakeRange ((length - 1), 1) withString:@""] retain];
-	}
+    baseUrl = [[baseUrl stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] retain];
+    
+//	NSUInteger length = [baseUrl length];
+//	unichar endChar = [baseUrl characterAtIndex:(length - 1)];
+//	if (endChar == '/') 
+//	{ // TODO: Use stringTrim function instead
+//		baseUrl = [[baseUrl stringByReplacingCharactersInRange:NSMakeRange ((length - 1), 1) withString:@""] retain];
+//	}
 
-    [self startGetConfiguredProviders];
+    return [self startGetConfiguredProviders];
 }
 
 
-- (void)startGetConfiguredProviders
+- (NSError*)startGetConfiguredProviders
 {
 	DLog(@"");
 
@@ -388,16 +382,21 @@
 	NSURL *url = [NSURL URLWithString:urlString];
 	
 	if(!url) // Then there was an error
-		return;
+		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
+                     withCode:JRUrlError 
+                  andSeverity:JRErrorSeverityConfigurationFailed];
 	
-	NSURLRequest *request = [[NSURLRequest alloc] initWithURL: url];
+	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
 	
 	NSString *tag = [[NSString stringWithFormat:@"getConfiguredProviders"] retain];
 	
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
-		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was a problem getting the list of configured providers."];
-
-	[request release];
+		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
+                     withCode:JRUrlError 
+                  andSeverity:JRErrorSeverityConfigurationFailed];
+  
+    return nil;
+//	[request release];
 }
 
 - (void)finishGetConfiguredProviders:(NSString*)dataStr
@@ -406,51 +405,197 @@
 	NSDictionary *jsonDict = [dataStr JSONValue];
 	
 	if(!jsonDict)
-		return;
+		return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                     withCode:JRJsonError
+                  andSeverity:JRErrorSeverityConfigurationFailed];
 	
-//	TODO: Switch all the classes to call providerInfo instead of allProviders	
-	providerInfo = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
-//	allProviders = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
-	
-	configedProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
+	providerInfo   = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
+    basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
+
+    if (!providerInfo || !basicProviders)
+		return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                     withCode:JRConfigurationInformationError
+                  andSeverity:JRErrorSeverityConfigurationFailed];
+    
+#ifdef SOCIAL_PUBLISHING	    
     //socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
-    
-    
+
     NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
                                                                                            copyItems:YES] autorelease];
     [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
     socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
-        
     
+    if (!socialProviders)		
+        return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                                        withCode:JRConfigurationInformationError
+                                     andSeverity:JRErrorSeverityConfigurationInformationMissing];
+    
+#endif
+        
 	if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
 		hidePoweredBy = YES;
 	else
 		hidePoweredBy = NO;
 	
-//	if(configedProviders)
-//		[configedProviders retain];
+#ifdef SOCIAL_PUBLISHING	
+	[self loadLastUsedSocialProvider];
+#else
+    return [self loadLastUsedBasicProvider];
+#endif
+    
+    return nil;
+}
+
+- (void)loadLastUsedSocialProvider
+{
+	DLog(@"");
+    NSString *savedProvider = [[NSUserDefaults standardUserDefaults] stringForKey:@"lastUsedSocialProvider"];
+    
+    if (savedProvider)
+    {
+        returningSocialProvider = [[[JRProvider alloc] initWithName:savedProvider 
+                                                           andStats:[providerInfo objectForKey:savedProvider]] retain];
+    }
+    
+    [self loadLastUsedBasicProvider];    
+}
+
+- (void)saveLastUsedSocialProvider:(NSString*)deviceToken
+{
+	DLog(@"");
+    [returningSocialProvider release];
+    returningSocialProvider = [currentSocialProvider retain];
+    
+    [[NSUserDefaults standardUserDefaults] setValue:returningSocialProvider.name forKey:@"lastUsedSocialProvider"];
+}
+
+
+- (void)loadLastUsedBasicProvider
+{
+	DLog(@"");
+	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
 	
-	[self loadCookieData];
+	NSString *welcomeString = nil;
+	NSString *savedProvider = nil;
+	NSString *userInput = nil;
+    
+	for (NSHTTPCookie *cookie in cookies) 
+	{
+		if ([cookie.name isEqualToString:@"welcome_info"])
+		{
+			welcomeString = [NSString stringWithString:cookie.value];
+			DLog(@"welcomeString: %@", welcomeString);
+		}
+		else if ([cookie.name isEqualToString:@"login_tab"])
+		{
+			savedProvider = [NSString stringWithString:cookie.value];
+			DLog(@"provider:      %@", savedProvider);
+		}
+		else if ([cookie.name isEqualToString:@"user_input"])
+		{
+			userInput = [NSString stringWithString:cookie.value];
+			DLog(@"userInput:     %@", userInput);
+		}
+	}	
+	
+	if (savedProvider)
+	{
+		DLog(@"returningProvider: %@", savedProvider);
+		returningBasicProvider = [[JRProvider alloc] initWithName:savedProvider andStats:[providerInfo objectForKey:savedProvider]];
+		
+		if (welcomeString)
+			[returningBasicProvider setWelcomeString:welcomeString];
+		if (userInput)
+			[returningBasicProvider setUserInput:userInput];
+	}
+    
+    configurationComplete = YES;
+}
+
+- (void)saveLastUsedBasicProvider
+{
+    DLog(@"");
+    
+    // TODO: There is a problem here with timing.  That is, if I start auth again, before the previous
+    //       auth_info call finishes, the returning provider will be set to the new provider.  Fix this.
+    [self setReturningBasicProviderToNewBasicProvider:currentBasicProvider];
+    
+    NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
+	
+	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+	NSDate *date = [[[NSDate alloc] initWithTimeIntervalSinceNow:604800] autorelease];
+	
+	NSHTTPCookie *cookie = nil;
+	NSRange found;
+	NSString* cookieDomain = nil;
+	
+	found = [baseUrl rangeOfString:@"http://"];
+	
+	if (found.length == 0)
+		found = [baseUrl rangeOfString:@"https://"];
+    
+	if (found.length == 0)
+		cookieDomain = baseUrl;
+	else
+		cookieDomain = [baseUrl substringFromIndex:(found.location + found.length)];
+	
+	DLog("Setting cookie \"login_tab\" to value:  %@", self.returningBasicProvider.name);
+	cookie = [NSHTTPCookie cookieWithProperties:
+			  [NSDictionary dictionaryWithObjectsAndKeys:
+			   self.returningBasicProvider.name, NSHTTPCookieValue,
+			   @"login_tab", NSHTTPCookieName,
+			   cookieDomain, NSHTTPCookieDomain,
+			   @"/", NSHTTPCookiePath,
+			   @"FALSE", NSHTTPCookieDiscard,
+			   date, NSHTTPCookieExpires, nil]];
+	[cookieStore setCookie:cookie];
+	
+	DLog("Setting cookie \"user_input\" to value: %@", self.returningBasicProvider.userInput);
+	cookie = [NSHTTPCookie cookieWithProperties:
+			  [NSDictionary dictionaryWithObjectsAndKeys:
+			   self.returningBasicProvider.userInput, NSHTTPCookieValue,
+			   @"user_input", NSHTTPCookieName,
+			   cookieDomain, NSHTTPCookieDomain,
+			   @"/", NSHTTPCookiePath,
+			   @"FALSE", NSHTTPCookieDiscard,
+			   date, NSHTTPCookieExpires, nil]];
+	[cookieStore setCookie:cookie];
+	
+    
+    // TODO: Why am I creating new cookies above (for "login_tab" and "user_input"), but replacing the "welcome_info" cookie here?
+	for (NSHTTPCookie *savedCookie in cookies) 
+	{
+		if ([savedCookie.name isEqualToString:@"welcome_info"])
+		{
+			[returningBasicProvider setWelcomeString:[NSString stringWithString:savedCookie.value]];
+		}
+	}	    
 }
 
 - (NSString*)identifierForProvider:(NSString*)provider
 {
+    DLog(@"");
     return [identifiersProviders objectForKey:provider];
 }
 
-- (NSString*)sessionTokenForProvider:(NSString*)provider
+- (NSString*)deviceTokenForProvider:(NSString*)provider
 {
+    DLog(@"");
     return [deviceTokensByProvider objectForKey:provider];
 }
 
-- (void)forgetSessionTokenForProvider:(NSString*)provider
+- (void)forgetDeviceTokenForProvider:(NSString*)provider
 {
+    DLog(@"");
     [deviceTokensByProvider removeObjectForKey:@"provider"];
     [[NSUserDefaults standardUserDefaults] setObject:deviceTokensByProvider forKey:@"deviceTokensByProvider"];
 }
 
-- (void)forgetAllSessionTokens
+- (void)forgetAllDeviceTokens
 {
+    DLog(@"");
     [deviceTokensByProvider release];
     deviceTokensByProvider = nil;
     
@@ -460,6 +605,7 @@
 // TODO: Many issues with this function, like timing of cookies/calls/etc/
 - (void)checkForIdentifierCookie:(NSURLRequest*)request
 {
+    DLog(@"");
     NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 	NSArray *cookies = [cookieStore cookiesForURL:[request URL]];//[NSURL URLWithString:@"http://jrauthenticate.appspot.com"]];
 	NSString *cookieIdentifier = nil;
@@ -504,50 +650,64 @@
 	{
 		if ([payload rangeOfString:@"\"provider_info\":{"].length != 0)
 		{
-			[self finishGetConfiguredProviders:payload];
+			error = [self finishGetConfiguredProviders:payload];
 		}
 		else // There was an error...
 		{
-			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
+			error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                          withCode:JRConfigurationInformationError
+                       andSeverity:JRErrorSeverityConfigurationFailed];
 		}
 	}
     else if ([tag isEqualToString:@"getBaseURL"])
     {
         if ([payload hasPrefix:@"RPXNOW._base_cb(true"])
 		{
-			[self finishGetBaseUrl:payload];
+			error = [self finishGetBaseUrl:payload];
 		}
 		else // There was an error...
 		{
-			errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
+			error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                          withCode:JRConfigurationInformationError
+                       andSeverity:JRErrorSeverityConfigurationFailed];
 		}        
     }
 	else if ([tag hasPrefix:@"token_url:"])
 	{
 //		theTokenUrlPayload = [[NSString stringWithString:payload] retain];
 		NSString* tokenURL = [NSString stringWithString:[[request URL] absoluteString]];
-							
-        [self checkForIdentifierCookie:request];
         
-        [delegate jrAuthenticateDidReachTokenURL:tokenURL withPayload:payload];
+        if (!isSocial)
+            [self saveLastUsedBasicProvider];
+        else
+            [self checkForIdentifierCookie:request];
+        
+        for (id<JRSessionDelegate> delegate in delegates) 
+        {
+            [delegate jrAuthenticateDidReachTokenURL:tokenURL withPayload:payload];
+        }
 	}
 
 	[payload release];
 	[tag release];	
 }
 
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
+- (void)connectionDidFailWithError:(NSError*)_error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
 	NSString* tag = (NSString*)userdata;
 	DLog(@"tag:     %@", tag);
 
 	if ([tag isEqualToString:@"getBaseURL"])
 	{
-		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
+        error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                      withCode:JRConfigurationInformationError
+                   andSeverity:JRErrorSeverityConfigurationFailed];
 	}
 	else if ([tag isEqualToString:@"getConfiguredProviders"])
 	{
-		errorStr = [NSString stringWithFormat:@"There was an error initializing JRAuthenticate.\nThere was an error in the response to a request."];
+        error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                      withCode:JRConfigurationInformationError
+                   andSeverity:JRErrorSeverityConfigurationFailed];
 	}
     else if ([tag hasPrefix:@"token_url:"])
 	{
@@ -556,63 +716,108 @@
 		
 		NSString *tokenURL = (prefix.length > 0) ? [tag substringFromIndex:prefix.length]: nil;
 		
-        [delegate jrAuthenticateCallToTokenURL:tokenURL didFailWithError:error];
+        for (id<JRSessionDelegate> delegate in delegates) 
+        {
+            [delegate jrAuthenticateCallToTokenURL:tokenURL didFailWithError:_error];
+        }
     }
     
-	
 	[tag release];	
 }
 
 - (void)connectionWasStoppedWithTag:(void*)userdata 
 {
-	[(NSString*)userdata release];
+    DLog(@"");
+    [(NSString*)userdata release];
 }
 
-- (void)setReturningProviderToProvider:(JRProvider*)provider
+- (JRProvider*)getProviderAtIndex:(NSUInteger)index fromArray:(NSArray*)array
+{
+    DLog(@"");
+    if (index < [array count])
+    {
+        return [[[JRProvider alloc] initWithName:[array objectAtIndex:index] 
+                                        andStats:[providerInfo objectForKey:[array objectAtIndex:index]]] autorelease];
+    }
+    
+    return nil;
+}
+
+- (BOOL)gatheringInfo
+{
+    DLog(@"");
+    /* If we're authenticating with a provider for social publishing, then don't worry about the return experience
+     * for basic authentication. */
+    if (isSocial)
+        return currentProvider.providerRequiresInput;
+    
+    /* If we're authenticating with a basic provider, then we don't need to gather infomation if we're displaying 
+     * return screen. */
+    if ([currentProvider isEqualToProvider:returningBasicProvider])
+        return NO;
+    
+    return currentProvider.providerRequiresInput;
+}
+
+- (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index
+{
+    DLog(@"");
+    return [self getProviderAtIndex:index fromArray:basicProviders];
+}
+
+- (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index
+{
+    DLog(@"");
+    return [self getProviderAtIndex:index fromArray:socialProviders];
+}
+
+- (void)setReturningBasicProviderToNewBasicProvider:(JRProvider*)provider
 {
 	DLog(@"");
     
-	[returningProvider release];
-	returningProvider = [provider retain];
+	[returningBasicProvider release];
+	returningBasicProvider = [provider retain];
 }
 
-- (void)setCurrentProviderToReturningProvider
+- (void)setCurrentBasicProviderToReturningProvider
 {
 	DLog(@"");
-	currentProvider = [returningProvider retain];
+    isSocial = NO;
+	currentProvider = currentBasicProvider = [returningBasicProvider retain];
 }
 
-- (void)setProvider:(NSString *)provider
+- (void)setBasicProvider:(JRProvider*)provider
 {
 	DLog(@"provider: %@", provider);
 
-	if (![currentProvider.name isEqualToString:provider])
+	if (![currentBasicProvider isEqualToProvider:provider])
 	{	
-		[currentProvider release];
+		[currentBasicProvider release];
 		
-		if ([returningProvider.name isEqualToString:provider])
-			[self setCurrentProviderToReturningProvider];
+		if ([returningBasicProvider isEqualToProvider:provider])
+			[self setCurrentBasicProviderToReturningProvider];
 		else
-			currentProvider = [[[JRProvider alloc] initWithName:provider andStats:[providerInfo objectForKey:provider]] retain];
-//			currentProvider = [[[JRProvider alloc] initWithName:prov andStats:[allProviders objectForKey:prov]] retain];
+			currentBasicProvider = [provider retain];
 	}
 
-	[currentProvider retain];
+    isSocial = NO;
+    currentProvider = currentBasicProvider;
 }
 
 
-- (void)setSocialProvider:(NSString *)provider
+- (void)setSocialProvider:(JRProvider*)provider
 {
 	DLog(@"provider: %@", provider);
     
-	if (![currentSocialProvider.name isEqualToString:provider])
+	if (![currentSocialProvider isEqualToProvider:provider])
 	{	
 		[currentSocialProvider release];
 		
-        currentSocialProvider = [[[JRProvider alloc] initWithName:provider andStats:[providerInfo objectForKey:provider]] retain];
+        currentSocialProvider = [provider retain];
     }
     
-//	[currentProvider retain];
+    isSocial = YES;
+    currentProvider = currentSocialProvider;
 }
 
 - (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token
@@ -633,103 +838,66 @@
 	{
 		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL" 
                                                              forKey:NSLocalizedDescriptionKey];
-        NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
+        NSError *new_error = [NSError errorWithDomain:@"JRAuthenticate"
                                              code:100
                                          userInfo:userInfo];
 		
-        [delegate jrAuthenticateCallToTokenURL:tokenURL didFailWithError:error];
+        for (id<JRSessionDelegate> delegate in delegates) 
+        {
+            [delegate jrAuthenticateCallToTokenURL:tokenURL didFailWithError:new_error];
+        }
 	}
 	
 	[request release];
 }
-
 
 //- (void)makeCallToTokenUrlWithToken:(NSString*)token
 //{
 //	[self makeCallToTokenUrl:theTokenUrl WithToken:token];
 //}	
 
-
-
-
-
 - (void)authenticationDidCancel
 {
-	[delegate jrAuthenticationDidCancel];
+    DLog(@"");
+    for (id<JRSessionDelegate> delegate in delegates) 
+    {
+        [delegate jrAuthenticationDidCancel];
+    }
 }
 
 - (void)authenticationDidCompleteWithToken:(NSString*)token
-{
+{	
+    DLog(@"");
 //	token = [tok retain];
 	
-	[self setReturningProviderToProvider:self.currentProvider];
-	NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
-	
-	[cookieStore setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-	NSDate *date = [[[NSDate alloc] initWithTimeIntervalSinceNow:604800] autorelease];
-	
-	NSHTTPCookie *cookie = nil;
-	NSRange found;
-	NSString* cookieDomain = nil;
-	
-	found = [baseUrl rangeOfString:@"http://"];
-	
-	if (found.length == 0)
-		found = [baseUrl rangeOfString:@"https://"];
-
-	if (found.length == 0)
-		cookieDomain = baseUrl;
-	else
-		cookieDomain = [baseUrl substringFromIndex:(found.location + found.length)];
-	
-	DLog("Setting cookie \"login_tab\" to value:  %@", self.returningProvider.name);
-	cookie = [NSHTTPCookie cookieWithProperties:
-			  [NSDictionary dictionaryWithObjectsAndKeys:
-			   self.returningProvider.name, NSHTTPCookieValue,
-			   @"login_tab", NSHTTPCookieName,
-			   cookieDomain, NSHTTPCookieDomain,
-			   @"/", NSHTTPCookiePath,
-			   @"FALSE", NSHTTPCookieDiscard,
-			   date, NSHTTPCookieExpires, nil]];
-	[cookieStore setCookie:cookie];
-	
-	DLog("Setting cookie \"user_input\" to value: %@", self.returningProvider.userInput);
-	cookie = [NSHTTPCookie cookieWithProperties:
-			  [NSDictionary dictionaryWithObjectsAndKeys:
-			   self.returningProvider.userInput, NSHTTPCookieValue,
-			   @"user_input", NSHTTPCookieName,
-			   cookieDomain, NSHTTPCookieDomain,
-			   @"/", NSHTTPCookiePath,
-			   @"FALSE", NSHTTPCookieDiscard,
-			   date, NSHTTPCookieExpires, nil]];
-	[cookieStore setCookie:cookie];
-	
-	for (NSHTTPCookie *savedCookie in cookies) 
-	{
-		if ([savedCookie.name isEqualToString:@"welcome_info"])
-		{
-			[returningProvider setWelcomeString:[NSString stringWithString:savedCookie.value]];
-		}
-	}	
-    
-	[delegate jrAuthenticationDidCompleteWithToken:token andProvider:currentProvider.name];
+//	[self setReturningProviderToProvider:self.currentProvider];
+    for (id<JRSessionDelegate> delegate in delegates) 
+    {
+        [delegate jrAuthenticationDidCompleteWithToken:token andProvider:currentProvider.name];
+    }
 }
 
-- (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authToken andSessionToken:(NSString*)sessToken
+- (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authenticationToken andDeviceToken:(NSString*)deviceToken
 {
+	DLog(@"");
+    [self saveLastUsedSocialProvider:deviceToken];
+    
     if (!deviceTokensByProvider)
         deviceTokensByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
     
-    [deviceTokensByProvider setObject:sessToken forKey:currentSocialProvider.name];
-    [[NSUserDefaults standardUserDefaults] setObject:deviceTokensByProvider forKey:@"deviceTokensByProvider"];
-
-    [self  authenticationDidCompleteWithToken:authToken];
+    [deviceTokensByProvider setObject:deviceToken forKey:currentProvider.name];
+    [[NSUserDefaults standardUserDefaults] setObject:deviceTokensByProvider forKey:@"deviceTokensByProvider"];   
+    
+    [self authenticationDidCompleteWithToken:authenticationToken];
 }
 
-- (void)authenticationDidFailWithError:(NSError*)err
+- (void)authenticationDidFailWithError:(NSError*)_error
 {
-	[delegate jrAuthenticationDidFailWithError:err];
+    DLog(@"");
+    for (id<JRSessionDelegate> delegate in delegates) 
+    {
+        [delegate jrAuthenticationDidFailWithError:_error];
+    }
 }
 
 @end

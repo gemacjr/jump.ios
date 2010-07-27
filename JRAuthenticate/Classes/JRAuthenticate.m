@@ -46,13 +46,8 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-@interface JRAuthenticate()
-- (void)startGetBaseUrl;
-@end
-
-
 @implementation JRAuthenticate
-@synthesize theBaseUrl;
+//@synthesize theBaseUrl;
 @synthesize theTokenUrl;
 @synthesize theToken;
 @synthesize theTokenUrlPayload;
@@ -81,7 +76,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 		
         // TODO: Do we need to retain the delegate or does initWithObjects do that for me?
         // TODO: Add a way to add delegates, or receive notifications automatically
-		delegates = [[NSArray alloc] initWithObjects:[delegate retain], nil];
+		delegates = [[NSMutableArray alloc] initWithObjects:[delegate retain], nil];
 		
 //		theAppId = [[NSString alloc] initWithString:appId];
 		theTokenUrl = (tokenUrl) ? [[NSString alloc] initWithString:tokenUrl] : nil;
@@ -158,8 +153,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 //		[self startGetBaseUrl];
 	
 	
-//	if (!jrModalNavController)
-//		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
+	if (!jrModalNavController)
+		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
 	
 	[window addSubview:jrModalNavController.view];
 	
@@ -180,8 +175,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 //		[self startGetBaseUrl];
 //	
 //	
-//	if (!jrModalNavController)
-//		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
+	if (!jrModalNavController)
+		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
 	
 	[window addSubview:jrModalNavController.view];
 	
@@ -202,8 +197,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 //		[self startGetBaseUrl];
 //	
 //	
-//	if (!jrModalNavController)
-//		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
+	if (!jrModalNavController)
+		jrModalNavController = [[JRModalNavigationController alloc] initWithSessionData:sessionData];
 	
 	[window addSubview:jrModalNavController.view];
 
@@ -461,12 +456,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)signoutUserForProvider:(NSString*)provider
 {
-    [sessionData forgetSessionTokenForProvider:provider];
+    [sessionData forgetDeviceTokenForProvider:provider];
 }
 
 - (void)signoutUserForAllProviders
 {
-    [sessionData forgetAllSessionTokens];
+    [sessionData forgetAllDeviceTokens];
 }
 
 
@@ -480,7 +475,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[jrModalNavController release];
 	
 //	[theAppId release];
-	[theBaseUrl release];
+//	[theBaseUrl release];
 	[theTokenUrl release];
 	
 	[delegates release];

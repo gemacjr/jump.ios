@@ -310,7 +310,7 @@
 	NSIndexPath *indexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
 	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:indexPath];
 	
-	if (![sessionData.currentProvider.name isEqualToString:sessionData.returningProvider.name])
+	if ([sessionData gatheringInfo])//(![sessionData.currentProvider isEqualToProvider:sessionData.returningProvider])
 		[cell.textField becomeFirstResponder];
 }
 
@@ -399,8 +399,8 @@
 	{
 		DLog(@"current provider requires input");
 		
-		if ([sessionData.currentProvider.name isEqualToString:sessionData.returningProvider.name])
-			[sessionData.currentProvider setUserInput:[NSString stringWithString:sessionData.returningProvider.userInput]];
+		if ([sessionData.currentProvider isEqualToProvider:sessionData.returningBasicProvider])
+			[sessionData.currentProvider setUserInput:[NSString stringWithString:sessionData.returningBasicProvider.userInput]];
 		else
 			[cell.bigSignInButton setHidden:NO];
 				
@@ -425,7 +425,7 @@
 		[cell.welcomeLabel setHidden:NO];
 		[cell.bigSignInButton setHidden:YES];
 
-		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningProvider.welcomeString];
+		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningBasicProvider.welcomeString];
 		cell.welcomeLabel.text = welcomeMsg;
 		
 		DLog(@"welcomeMsg: %@", welcomeMsg);
@@ -557,8 +557,10 @@
 - (void)backToProvidersTouchUpInside
 {
 	DLog(@"");
-	[sessionData setProvider:nil];
-	[sessionData setReturningProviderToProvider:nil];
+    
+    // This should work, because these button will only be visible during the return experience of a basic provider
+	[sessionData setBasicProvider:nil];
+	[sessionData setReturningBasicProviderToNewBasicProvider:nil];
 	sessionData.forceReauth = YES;
 		
 	[[self navigationController] popViewControllerAnimated:YES];
