@@ -70,8 +70,8 @@
 	DLog(@"");
 	[super viewDidLoad];
 	
-	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
+//	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
+	sessionData = [JRSessionData jrSessionData];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -348,7 +348,7 @@
 - (void)dealloc {
 	DLog(@"");
 	
-	[jrAuth release];
+//	[jrAuth release];
 	[sessionData release];
 
 	[myWebView release];

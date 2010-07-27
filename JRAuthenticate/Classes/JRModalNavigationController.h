@@ -50,33 +50,28 @@
 {
 	UINavigationController	*navigationController;
     UINavigationController  *socialNavigationController;
-    //    UITabBarController *myTabBarController;
+//  UITabBarController *myTabBarController;
     
 	BOOL shouldRestore;
-    BOOL isSocial;
+//  BOOL isSocial;
 	
-	JRUserLandingController	*myUserLandingController;
-	JRWebViewController	*myWebViewController;
+	JRUserLandingController     *myUserLandingController;
+	JRWebViewController         *myWebViewController;
     JRPublishActivityController *myPublishActivityController;
 	
-//    JRActivityObject *activity;
+//  JRActivityObject *activity;
 
-	JRSessionData *sessionData;
+//	JRSessionData *sessionData;
 }
 
 @property (retain) UINavigationController *navigationController;
 @property (retain) UINavigationController *socialNavigationController;
 
-@property (retain) JRSessionData *sessionData;
-
-//@property (retain) JRActivityObject *activity;
-@property BOOL isSocial;
-
-@property (readonly) JRUserLandingController *myUserLandingController;
-@property (readonly) JRWebViewController *myWebViewController;
+@property (readonly) JRUserLandingController     *myUserLandingController;
+@property (readonly) JRWebViewController         *myWebViewController;
 @property (readonly) JRPublishActivityController *myPublishActivityController;
 
-- (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data;
+//- (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data;
 
 - (void)presentModalNavigationControllerForAuthentication;
 - (void)presentModalNavigationControllerForPublishingActivity;//:(JRActivityObject*)_activity;

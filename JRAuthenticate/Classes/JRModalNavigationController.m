@@ -49,9 +49,9 @@
 
 @synthesize navigationController;
 @synthesize socialNavigationController;
-@synthesize sessionData;
+//@synthesize sessionData;
 //@synthesize activity;
-@synthesize isSocial;
+//@synthesize isSocial;
 
 @synthesize myUserLandingController;
 @synthesize myWebViewController;
@@ -67,18 +67,18 @@
 }
 */
 
-- (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data
-{
-	DLog(@"");
-	
-	if (self = [super init])
-	{
-		shouldRestore = NO;
-		sessionData = [data retain];
-	}
-	
-	return self;
-}
+//- (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data
+//{
+//	DLog(@"");
+//	
+//	if (self = [super init])
+//	{
+//		shouldRestore = NO;
+//		sessionData = [data retain];
+//	}
+//	
+//	return self;
+//}
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView  
@@ -121,6 +121,8 @@
 		socialNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     }          
     
+    shouldRestore = NO;
+    
     [view setHidden:YES];
 	[self setView:view];
 }
@@ -140,7 +142,7 @@
  //   activity = _activity;
     
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    isSocial = YES;//((JRProvidersController*)[navigationController.viewControllers objectAtIndex:0]).social = YES;
+//    isSocial = YES;//((JRProvidersController*)[navigationController.viewControllers objectAtIndex:0]).social = YES;
     
 	[self presentModalViewController:socialNavigationController animated:YES];
 }
@@ -149,7 +151,7 @@
 {
 	DLog(@"");
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    isSocial = NO;//((JRProvidersController*)navigationController.topViewController).social = NO;
+//    isSocial = NO;//((JRProvidersController*)navigationController.topViewController).social = NO;
     
 	[self presentModalViewController:navigationController animated:YES];
 }
@@ -170,10 +172,11 @@
 	shouldRestore = NO;
 }
 
+// TODO: Move this to session data
 - (void)cancelButtonPressed:(id)sender
 {
 	DLog(@"");
-	[sessionData authenticationDidCancel];
+	[[JRSessionData jrSessionData] authenticationDidCancel];
 	[self dismissModalNavigationController:NO];
 	[self restore:NO];
 }
@@ -233,11 +236,13 @@
 {
 	DLog(@"");
 
-	[sessionData release];
+//	[sessionData release];
 	[navigationController release];
+    [socialNavigationController release];
 	[myUserLandingController release];
 	[myWebViewController release];
-	
+	[myPublishActivityController release];
+    
 	[super dealloc];
 }
 

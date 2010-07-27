@@ -187,20 +187,51 @@
 @synthesize customView;
 @synthesize customProvider;
 
+static JRSessionData* singleton = nil;
++ (JRSessionData*)jrSessionData
+{
+	return singleton;
+}
+
++ (id)allocWithZone:(NSZone *)zone
+{
+    return [[self jrSessionData] retain];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (id)retain
+{
+    return self;
+}
+
+- (NSUInteger)retainCount
+{
+    return NSUIntegerMax;  //denotes an object that cannot be released
+}
+
+- (void)release
+{
+    //do nothing
+}
+
+- (id)autorelease
+{
+    return self;
+}
+
 - (id)initWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate
 {
 	DLog(@"");
-	
-	if (_appId == nil || _appId.length == 0)
-	{
-		[self release];
-		return nil;
-	}
-	
+
 	if (self = [super init]) 
 	{
+        singleton = self;
+        
         delegates = [[NSMutableArray alloc] initWithObjects:[_delegate retain], nil];
-
 		appId = _appId;
         
         deviceTokensByProvider = [[NSMutableDictionary alloc] 
@@ -211,6 +242,19 @@
 	}
 	return self;
 }
+
++ (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate
+{
+	if(singleton)
+		return singleton;
+	
+	if (_appId == nil || _appId.length == 0)
+		return nil;
+    
+	return [[super allocWithZone:nil] initWithAppId:_appId andDelegate:_delegate];
+}	
+
+
 
 - (void)reconfigure
 {
@@ -253,12 +297,14 @@
 
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate
 {
+    // TODO: Need memory management here (lock/semaphore?)
 	DLog(@"");
     [delegates addObject:_delegate];
 }
 
 - (void)removeDelegate:(id<JRSessionDelegate>)_delegate
 {
+    // TODO: Need memory management here (lock/semaphore?)
 	DLog(@"");
     [delegates removeObject:_delegate];
 }

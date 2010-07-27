@@ -45,7 +45,7 @@
 @interface JRUserLandingController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
 														UITableViewDataSource, UIAlertViewDelegate> 
 {
-	JRAuthenticate	*jrAuth;
+//	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
 	
 	UITableView	*myTableView;	

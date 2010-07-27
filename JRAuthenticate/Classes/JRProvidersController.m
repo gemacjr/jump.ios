@@ -102,8 +102,8 @@
 	DLog(@"");
 	[super viewDidLoad];
 	
-	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
+//	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
+	sessionData = [JRSessionData jrSessionData];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
 
 	titleLabel = nil;
 	
@@ -429,7 +429,7 @@
 {
 	DLog(@"");
 
-	[jrAuth release];
+//	[jrAuth release];
 	[sessionData release];
 
 	[myTableView release];

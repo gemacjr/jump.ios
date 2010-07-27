@@ -17,7 +17,7 @@
                                                            UITabBarDelegate, JRSessionDelegate,
                                                            JRConnectionManagerDelegate>
 {
-	JRAuthenticate	*jrAuth;
+//	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
 
     NSArray         *providers;

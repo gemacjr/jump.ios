@@ -161,13 +161,14 @@ typedef enum
 
 @property (assign) BOOL forceReauth;
 
++ (JRSessionData*)jrSessionData;
++ (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate;
 
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate;
 - (void)removeDelegate:(id<JRSessionDelegate>)_delegate;
 
 - (NSString*)identifierForProvider:(NSString*)provider;
 
-- (id)initWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate;
 - (void)reconfigure;
 
 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;

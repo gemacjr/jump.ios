@@ -74,8 +74,8 @@
     
     [super viewDidLoad];
 
-	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
+//	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
+	sessionData = [JRSessionData jrSessionData];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
 	activity = [sessionData activity];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) activity] retain];
             
 	
@@ -736,8 +736,8 @@
     [self showViewIsLoading:YES];
     myLoadingLabel.text = @"Sharing...";
     
-    if ([jrAuth theTokenUrl])
-        [sessionData makeCallToTokenUrl:[jrAuth theTokenUrl] WithToken:token];
+//    if ([jrAuth theTokenUrl])
+//        [sessionData makeCallToTokenUrl:[jrAuth theTokenUrl] WithToken:token];
 }
 
 - (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile

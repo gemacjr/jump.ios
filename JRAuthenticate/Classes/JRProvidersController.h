@@ -43,10 +43,10 @@
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
 														UITableViewDataSource, UIAlertViewDelegate> 
 {
-	JRAuthenticate	*jrAuth;
+//	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
     
-    BOOL social;
+//    BOOL social;
     NSArray *providers;
     
 	UITableView		*myTableView;

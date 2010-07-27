@@ -241,9 +241,9 @@
 	DLog(@"");
     [super viewDidLoad];
 	
-	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
+//	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
 
-	sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
+	sessionData = [JRSessionData jrSessionData];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
 	
 	label = nil;
 }
@@ -579,7 +579,7 @@
 {
 	DLog(@"");
 
-	[jrAuth	release];
+//	[jrAuth	release];
 	[sessionData release];
 	[infoBar release];
 	
