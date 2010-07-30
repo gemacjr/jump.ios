@@ -386,7 +386,7 @@
     /* If the selected provider requires input from the user, go to the user landing view.
        Or if the user started on the user landing page, went back to the list of providers, then selected 
        the same provider as their last-used provider, go back to the user landing view. */
-    if (provider.providerRequiresInput || [provider isEqualToProvider:sessionData.returningBasicProvider]) 
+    if (provider.requiresInput || [provider isEqualToProvider:sessionData.returningBasicProvider]) 
     {	
         [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
                                                animated:YES]; 

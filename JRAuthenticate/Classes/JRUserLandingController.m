@@ -250,7 +250,7 @@
 
 - (NSString*)customTitle
 {
-	if (!sessionData.currentProvider.providerRequiresInput)
+	if (!sessionData.currentProvider.requiresInput)
 		return [NSString stringWithString:@"Welcome Back!"];
 
 	return sessionData.currentProvider.shortText;
@@ -395,7 +395,7 @@
 	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_logo.png", sessionData.currentProvider.name];
 	cell.logo.image = [UIImage imageNamed:imagePath];
 	
-	if (sessionData.currentProvider.providerRequiresInput/* || sessionData.returning_userInput*/)
+	if (sessionData.currentProvider.requiresInput/* || sessionData.returning_userInput*/)
 	{
 		DLog(@"current provider requires input");
 		
@@ -525,7 +525,7 @@
 - (void)callWebView:(UITextField *)textField
 {
 	DLog(@"user input: %@", textField.text);
-	if (sessionData.currentProvider.providerRequiresInput)
+	if (sessionData.currentProvider.requiresInput)
 	{
 		if (textField.text.length > 0)
 		{

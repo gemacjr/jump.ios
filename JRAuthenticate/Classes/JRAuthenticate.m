@@ -67,9 +67,13 @@ static JRAuthenticate* singletonJRAuth = nil;
 					 andTokenUrl:(NSString*)tokenUrl 
 						delegate:(id<JRAuthenticateDelegate>)delegate
 {
+#if FOO
+    return nil;
+#endif
 	DLog(@"appID:    %@", appId);
 	DLog(@"tokenURL: %@", tokenUrl);
-		
+
+    
 	if (self = [super init])
 	{
 		singletonJRAuth = self;

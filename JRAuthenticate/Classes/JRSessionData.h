@@ -40,33 +40,59 @@
 
 #define SOCIAL_PUBLISHING
 
+typedef enum
+{
+	JRUrlError = 100,
+    JRDataParsingError,
+    JRJsonError,    
+    JRConfigurationInformationError,
+    JRSessionDataFinishGetProvidersError    
+} JRSessionDataError;
+
+#define JRErrorSeverityMinor @"minor"
+#define JRErrorSeverityMajor @"major"
+#define JRErrorSeverityConfigurationFailed @"configurationFailed"
+#define JRErrorSeverityConfigurationInformationMissing @"missingInformation"
+#define JRErrorSeverityAuthenticationFailed @"authenticationFailed"
+
+@interface JRAuthenticatedUser : NSObject
+{
+    NSString *photo;
+    NSString *preferred_username;
+    NSString *device_token;
+    
+    NSString *provider_name;
+}
+@property (readonly) NSString *photo;
+@property (readonly) NSString *preferred_username;
+@property (readonly) NSString *device_token;
+@property (readonly) NSString *provider_name;
+- (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name;
+@end
+
+
 @interface JRProvider : NSObject
 {
 	NSString *name;
 	NSString *friendlyName;
 	NSString *placeholderText;
 	NSString *shortText;
-	BOOL providerRequiresInput;
-
+	BOOL      requiresInput;
+    NSString *openIdentifier;
+	NSString *url;	
 	NSString *userInput;
 	NSString *welcomeString;
-    
-    NSString *open_identifier;
-	NSString *url;
-    
-	NSDictionary *providerStats;	
 }
 
 @property (readonly) NSString *name;
 @property (readonly) NSString *friendlyName;
 @property (readonly) NSString *shortText;
 @property (readonly) NSString *placeholderText;
-@property (readonly) BOOL providerRequiresInput;
+@property (readonly) BOOL      requiresInput;
+@property (retain)   NSString *userInput;
+@property (retain)   NSString *welcomeString;
 
-@property (retain) NSString *userInput;
-@property (retain) NSString *welcomeString;
-
-- (JRProvider*)initWithName:(NSString*)_name andStats:(NSDictionary*)_stats;
+- (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary;
 - (BOOL)isEqualToProvider:(JRProvider*)provider;
 @end
 
@@ -82,38 +108,23 @@
 
 @class JRActivityObject;
 
-typedef enum
-{
-	JRUrlError = 100,
-	JRDataParsingError,
-    JRJsonError,    
-    JRConfigurationInformationError,
-    JRSessionDataFinishGetProvidersError
-} JRSessionDataError;
-
-#define JRErrorSeverityMinor @"minor"
-#define JRErrorSeverityMajor @"major"
-#define JRErrorSeverityConfigurationFailed @"configurationFailed"
-#define JRErrorSeverityConfigurationInformationMissing @"missingInformation"
-#define JRErrorSeverityAuthenticationFailed @"authenticationFailed"
-
-
 @interface JRSessionData : NSObject <JRConnectionManagerDelegate>
 {
 	NSMutableArray	*delegates;
-//	id<JRSessionDelegate> delegate;
 	    
 	JRProvider *currentProvider;
 	JRProvider *returningBasicProvider;	
     JRProvider *currentSocialProvider;
     JRProvider *returningSocialProvider;
 	
-	NSDictionary    *providerInfo;
-	NSArray			*basicProviders;
-    NSArray         *socialProviders;
+    /* allProviders is an array of JRProviders, where each JRProvider containing the information
+     specific to that provider. basicProviders and socialProviders are arrays of NSStrings, each
+     string being the primary key for a provider.  The arrays are in the order specified by the rp. */
+	NSMutableDictionary *allProviders;
+	NSArray             *basicProviders;
+    NSArray             *socialProviders;
     
-    NSMutableDictionary    *deviceTokensByProvider;
-    NSMutableDictionary    *identifiersProviders;
+    NSMutableDictionary    *authenticatedUsersByProvider;
 	
     JRActivityObject *activity;
     
@@ -145,9 +156,9 @@ typedef enum
 @property (readonly) JRProvider *currentSocialProvider;
 @property (readonly) JRProvider *returningSocialProvider;
 
-@property (readonly) NSDictionary *providerInfo;
-@property (readonly) NSArray *basicProviders;
-@property (readonly) NSArray *socialProviders;
+@property (readonly) NSMutableDictionary *allProviders;
+@property (readonly) NSArray             *basicProviders;
+@property (readonly) NSArray             *socialProviders;
 
 @property (retain) JRActivityObject *activity;
 
@@ -189,6 +200,7 @@ typedef enum
 - (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token;
 
 - (void)authenticationDidCancel;
+- (void)authenticationDidCompleteWithPayload:(NSDictionary*)payloadDict forProvider:(JRProvider*)provider;
 - (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authenticationToken andDeviceToken:(NSString*)deviceToken;
 - (void)authenticationDidCompleteWithToken:(NSString*)authenticationToken;
 - (void)authenticationDidFailWithError:(NSError*)_error;

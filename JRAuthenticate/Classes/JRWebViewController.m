@@ -172,22 +172,25 @@
 		
 	if ([tag isEqualToString:@"rpx_result"])
 	{
+        
+        if (![payload respondsToSelector:@selector(JSONValue)]) { /* TODO: Error */}
+        
 		NSDictionary *payloadDict = [payload JSONValue];
 		
-		if(!payloadDict) { /* ERROR */ }
+		if(!payloadDict) {  /* TODO: Error */ }
 		
-		payloadDict = [payloadDict objectForKey:@"rpx_result"];
-		
-		if ([[payloadDict objectForKey:@"stat"] isEqualToString:@"ok"])
+		if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"stat"] isEqualToString:@"ok"])
 		{
+            [sessionData authenticationDidCompleteWithPayload:payloadDict];
+            
 //			[self handleSuccessfulAuthentication:[payloadDict objectForKey:@"token"]];
-#ifdef SOCIAL_PUBLISHING
-            [sessionData authenticationDidCompleteWithAuthenticationToken:[payloadDict objectForKey:@"token"] 
-                                                           andDeviceToken:sessionData.currentProvider.name];
-                                                        //andSessionToken:[payloadDict objectForKey:@"device_token"]];
-#else
-            [sessionData authenticationDidCompleteWithToken:[payloadDict objectForKey:@"token"]];
-#endif
+//#ifdef SOCIAL_PUBLISHING
+//            [sessionData authenticationDidCompleteWithAuthenticationToken:[payloadDict objectForKey:@"token"] 
+//                                                           andDeviceToken:sessionData.currentProvider.name];
+//                                                        //andSessionToken:[payloadDict objectForKey:@"device_token"]];
+//#else
+//            [sessionData authenticationDidCompleteWithToken:[payloadDict objectForKey:@"token"]];
+//#endif
             
 		}
 		else 
@@ -195,7 +198,7 @@
 			if ([[payloadDict objectForKey:@"error"] isEqualToString:@"Discovery failed for the OpenID you entered"])
 			{
 				NSString *message = nil;
-				if (sessionData.currentProvider.providerRequiresInput)
+				if (sessionData.currentProvider.requiresInput)
 					message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.", sessionData.currentProvider.shortText];
 				else
 					message = @"There was a problem authenticating with this provider. Please try again.";
