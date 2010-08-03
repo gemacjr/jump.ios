@@ -24,7 +24,8 @@
 - (void)showActivityAsShared:(BOOL)shared;
 - (void)showViewIsLoading:(BOOL)loading;
 - (void)loadActivityToView;
-- (void)loadUserNameAndProfilePic:(NSString*)user;
+- (void)setImageView:(UIImageView*)imageView toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading;
+- (void)shareActivity;
 @end
 
 
@@ -53,8 +54,9 @@
 @synthesize myJustShareButton;
 @synthesize mySharedCheckMark;
 @synthesize mySharedLabel;
-//@synthesize keyboardToolbar;
-//@synthesize shareButton;
+@synthesize myTabBar;
+@synthesize keyboardToolbar;
+@synthesize shareButton;
 //@synthesize doneButton;
 
 /*
@@ -78,7 +80,8 @@
 	sessionData = [JRSessionData jrSessionData];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
 	activity = [sessionData activity];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) activity] retain];
             
-	
+    [sessionData addDelegate:self];
+    
 	/* If the user calls the library before the session data object is done initializing - 
      because either the requests for the base URL or provider list haven't returned - 
      display the "Loading Providers" label and activity spinner. 
@@ -293,21 +296,6 @@
 	
 }
 
-- (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl forToken:(NSString*)sessionToken
-{
-    DLog(@"");
-    [self setImageView:myProfilePic toData:nil andSetLoading:myProfilePicActivityIndicator toLoading:YES];
-    
-    NSURL        *url = [NSURL URLWithString:profilePicUrl];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSString     *tag = [[NSString alloc] initWithFormat:@"getProfilePic"];
-    
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO];
-    
-    [request release];
-}
-
-
 - (void)showUserAsLoggedIn:(BOOL)loggedIn
 {
     [UIView beginAnimations:@"buttonSlide" context:nil];
@@ -357,7 +345,6 @@
     else
         [myConnectAndShareButton setHidden:shared];
 }
-
 
 - (BOOL)providerCanShareMedia:(NSString*)provider
 {
@@ -423,10 +410,10 @@
     {
         JRProvider *provider = [[sessionData getSocialProviderAtIndex:i] retain];
 
-        NSString *friendly_name = provider.friendlyName;//[provider_stats objectForKey:@"friendly_name"];
+//        NSString *friendly_name = provider.friendlyName;//[provider_stats objectForKey:@"friendly_name"];
         NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];//[NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider];
         
-        UITabBarItem *providerTab = [[UITabBarItem alloc] initWithTitle:friendly_name 
+        UITabBarItem *providerTab = [[UITabBarItem alloc] initWithTitle:provider.friendlyName 
                                                                   image:[UIImage imageNamed:imagePath]
                                                                     tag:[providerTabArr count]];
         
@@ -445,57 +432,54 @@
     [providerTabArr release];
 }
 
-- (void)queryServerForUserNameAndProfilePicUrl
+- (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl atProviderIndex:(NSUInteger)index
 {
-    NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePicUrl"]];
-
-    myProfilePic.image = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePic"]] retain];
-    myUserName.text = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"userName"]];
-        
-    [self fetchProfilePicFromUrl:url forToken:loggedInUser];
+    DLog(@"");
+    [self setImageView:myProfilePic toData:nil andSetLoading:myProfilePicActivityIndicator toLoading:YES];
+    
+    NSURL        *url = [NSURL URLWithString:profilePicUrl];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSString     *tag = [[NSString alloc] initWithFormat:@"getProfilePic_%u", index];
+    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO];
+    
+    [request release];
 }
 
-- (void)loadUserNameAndProfilePic:(NSString*)user
+- (UIImage*)getCachedImageForUser:(JRAuthenticatedUser*)user
 {
-//    UIImage *pic = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePic"]] retain];
-    
-    NSString *name = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"userName"]];
-    NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePicUrl"]];
-    
-    if (!name || !url)
-    {
-        [self queryServerForUserNameAndProfilePicUrl];
-    }
-    else
-    {
-        myProfilePic.image = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePic"]] retain];
-        myUserName.text = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"userName"]];
+    // TODO: Implement this!!
+    return nil;
+}
 
-        [self fetchProfilePicFromUrl:url forToken:loggedInUser];
-    }
+- (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user atProviderIndex:(NSUInteger)index
+{   
+    myUserName.text = user.preferred_username;
+    [self fetchProfilePicFromUrl:user.photo atProviderIndex:index];    
 }
 
 
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
+    [selectedProvider release];
+    [loggedInUser release];
+    
     DLog(@"");
     selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
-
-    myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider]];
-    
-    loggedInUser = [sessionData deviceTokenForProvider:selectedProvider.name];
+    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
     
     if (loggedInUser)
     {
         [self showUserAsLoggedIn:YES];
-        [self loadUserNameAndProfilePic:loggedInUser];
+        [self loadUserNameAndProfilePicForUser:loggedInUser atProviderIndex:item.tag];
     }
     else
     {
         [self showUserAsLoggedIn:NO];
     }
 
+    myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider.name]];
 
     [self loadActivityToView];
     [self showActivityAsShared:NO];
@@ -649,22 +633,6 @@
 	DLog(@"payload (retain count: %d): %@", [payload retainCount], payload);
 	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
     
-    if ([tag isEqualToString:@"shareThis"])
-    {
-        NSRange subStr = [payload rangeOfString:@"\"stat\":\"ok\""];
-        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-                                                         message:((subStr.length) ? 
-                                                                  @"You have successfully shared this activity" :
-                                                                  [NSString stringWithFormat:
-                                                                   @"There was an error while sharing this activity: %@", payload ])
-                                                        delegate:nil
-                                               cancelButtonTitle:@"OK" 
-                                               otherButtonTitles:nil] autorelease];
-        [alert show];
-
-        [self showViewIsLoading:NO];
-        [self showActivityAsShared:YES];
-    }
     
 	[tag release];	
 }
@@ -672,6 +640,8 @@
 - (void)setImageView:(UIImageView*)imageView toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
 {
     DLog(@"");
+    DLog(@"data retain count: %d", [data retainCount]);    
+    
     if (!data)
         imageView.image = nil;
     else 
@@ -681,6 +651,8 @@
         [actIndicator startAnimating];
     else
         [actIndicator stopAnimating];
+    
+    DLog(@"data retain count: %d", [data retainCount]);
 }
 
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
@@ -689,17 +661,19 @@
 	
 	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
 	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
+    DLog(@"data retain count: %d", [payload retainCount]);
     
     if ([tag isEqualToString:@"getThumbnail"])
     {
         [self setImageView:myMediaThumbnailView toData:payload andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
     }
-    else if ([tag isEqualToString:@"getProfilePic"])
+    else if ([tag isEqualToString:[NSString stringWithFormat:@"getProfilePic_%d", [myTabBar selectedItem].tag]])
     {
         [self setImageView:myProfilePic toData:payload andSetLoading:myProfilePicActivityIndicator toLoading:NO];
     }
 
 	[tag release];	    
+    DLog(@"data retain count: %d", [payload retainCount]);
 }
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
@@ -727,7 +701,7 @@
 }
 
 
-- (void)jrAuthenticationDidCompleteWithToken:(NSString*)token andProvider:(NSString*)provider 
+- (void)authenticationDidCompleteWithToken:(NSString*)token andProvider:(NSString*)provider 
 {
     DLog(@"");
     
@@ -736,68 +710,14 @@
     [self showViewIsLoading:YES];
     myLoadingLabel.text = @"Sharing...";
     
-//    if ([jrAuth theTokenUrl])
-//        [sessionData makeCallToTokenUrl:[jrAuth theTokenUrl] WithToken:token];
-}
-
-- (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
-{
-	NSString *name = nil;
-	
-	if ([profile objectForKey:@"preferredUsername"])
-		name = [NSString stringWithFormat:@"%@", [profile objectForKey:@"preferredUsername"]];
-	else if ([[profile objectForKey:@"name"] objectForKey:@"formatted"])
-		name = [NSString stringWithFormat:@"%@", 
-				[[profile objectForKey:@"name"] objectForKey:@"formatted"]];					 
-	else 
-		name = [NSString stringWithFormat:@"%@%@%@%@%@",
-				([[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
-				 [[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]] : @"",
-				([[profile objectForKey:@"name"] objectForKey:@"givenName"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
-				 [[profile objectForKey:@"name"] objectForKey:@"givenName"]] : @"",
-				([[profile objectForKey:@"name"] objectForKey:@"middleName"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
-				 [[profile objectForKey:@"name"] objectForKey:@"middleName"]] : @"",
-				([[profile objectForKey:@"name"] objectForKey:@"familyName"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
-				 [[profile objectForKey:@"name"] objectForKey:@"familyName"]] : @"",
-				([[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
-				 [[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]] : @""];
-	
-	return name;
-}
-
-- (void)jrAuthenticateDidReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload 
-{ 
-    DLog(@"");
+    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
     
-    loggedInUser = [[sessionData deviceTokenForProvider:selectedProvider.name] retain];
-    
-    NSRange found = [tokenUrlPayload rangeOfString:@"{"];
-	
-	if (found.length == 0)// Then there was an error
-		return; // TODO: Manage error
-	
-	NSString *userStr = [tokenUrlPayload substringFromIndex:found.location];
-	NSDictionary* user = [userStr JSONValue];
-
-	/* Get the display name */
-	NSString *displayName = [[self getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
-    
-    if (displayName)
-        [[NSUserDefaults standardUserDefaults] setObject:displayName forKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"userName"]];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:@"http:\/\/graph.facebook.com\/1905641\/picture?type=large" forKey:[NSString stringWithFormat:@"%@:%@", loggedInUser, @"profilePicUrl"]];
-    
-    if (loggedInUser)//(identifier)
+    if (loggedInUser)
     {
-        [self loadUserNameAndProfilePic:loggedInUser];
+        [self loadUserNameAndProfilePicForUser:loggedInUser atProviderIndex:[myTabBar selectedItem].tag];
         [self showUserAsLoggedIn:YES];
         
-        [self shareActivityForIdentifier:loggedInUser];
+        [self shareActivity];
     }
     else 
     {  
@@ -809,61 +729,60 @@
         [alert show];
         [self showViewIsLoading:NO];
     }
-
-    [sessionData removeDelegate:self];
+    
+    
+//    if ([jrAuth theTokenUrl])
+//        [sessionData makeCallToTokenUrl:[jrAuth theTokenUrl] WithToken:token];
 }
 
-- (void)jrAuthenticationDidFailWithError:(NSError*)error { DLog(@""); }
+- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider
+{ 
+    DLog(@"");
+}
 
-- (void)jrAuthenticateCallToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error { DLog(@""); }
+- (void)authenticationDidCancel { DLog(@""); }
+- (void)authenticationDidCancelForProvider:(NSString*)provider { DLog(@""); }
+- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider { DLog(@""); }
+- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
+- (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 
-- (void)jrAuthenticationDidCancel { DLog(@""); }
+- (void)publishingDidCancel { }
+- (void)publishingDidCancelForProvider:(NSString*)provider { }
+- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider 
+{
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+                                                     message:[NSString stringWithFormat:
+                                                              @"There was an error while sharing this activity: %@", [error localizedDescription]]
+                                                    delegate:nil
+                                           cancelButtonTitle:@"OK" 
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];
+    
+    [self showViewIsLoading:NO];
+//    [self showActivityAsShared:YES];
+}
 
+- (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider 
+{
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+                                                     message:@"You have successfully shared this activity"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"OK" 
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];
+    
+    [self showViewIsLoading:NO];
+    [self showActivityAsShared:YES];
+}
 
-- (void)shareActivityForIdentifier:(NSString*)identifier
+- (void)shareActivity
 {
     DLog(@"");
     
     if (myUserContentTextView.text)
         activity.user_generated_content = myUserContentTextView.text;
-    
-//    NSMutableDictionary* jsonDict = [NSMutableDictionary dictionaryWithObject:activity.action forKey:@"action"];
-//    
-//    [jsonDict setValue:(activity.user_generated_content?activity.user_generated_content:nil) forKey:@"user_generated_content"];
-//    [jsonDict setValue:(activity.title?activity.title:nil) forKey:@"title"];
-//    [jsonDict setValue:(activity.description?activity.description:nil) forKey:@"description"];
 
-    NSDictionary *jsonDict = [[activity dictionaryForObject] retain];
-    
-    NSString *content = [jsonDict JSONRepresentation];                          
-    
-    
-    NSRange range = { 1, content.length-2 };
-    content = [content substringWithRange:range];
-//    NSString *identifier = [[sessionData authenticatedIdentifierForProvider:sessionData.currentSocialProvider.name] retain];
-    
-    //NSString* content = [NSString stringWithFormat:@"\"action\" : { \"%@\" \
-    \""];
-    
- //   content = [content stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    DLog(@"json: %@", content);
-
-    
-    NSMutableData* body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"identifier=%@", identifier] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&content=%@", content] dataUsingEncoding:NSUTF8StringEncoding]];
-    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
-                                     [NSURL URLWithString:@"http://social-tester.appspot.com/shareThis"]] retain];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:body];
-    
-    
-    NSString* tag = [[NSString stringWithString:@"shareThis"] retain];
-    
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
-    
-    [request release];    
+    [sessionData shareActivity:activity forUser:loggedInUser];
 }
 
 - (IBAction)shareButtonPressed:(id)sender
@@ -871,12 +790,10 @@
     DLog(@"");
     
     [sessionData setSocialProvider:selectedProvider];
-    NSString *identifier = [[sessionData deviceTokenForProvider:selectedProvider.name] retain];
+//    NSString *identifier = [[sessionData deviceTokenForProvider:selectedProvider.name] retain];
     
-    if (!identifier)
+    if (!loggedInUser)
     {
-        [sessionData addDelegate:self];
-        
         /* If the selected provider requires input from the user, go to the user landing view.
          Or if the user started on the user landing page, went back to the list of providers, then selected 
          the same provider as their last-used provider, go back to the user landing view. */
@@ -894,7 +811,7 @@
     }
     else
     {
-        [self shareActivityForIdentifier:identifier];
+        [self shareActivity];
     }
 }
 

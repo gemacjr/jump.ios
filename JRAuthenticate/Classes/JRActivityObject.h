@@ -127,9 +127,8 @@ typedef enum
 
 @interface JRActivityObject : NSObject <JRConnectionManagerDelegate>
 {
-    NSString *display_name;
-    
     NSString            *action;  							
+    NSString            *url;
     NSString            *user_generated_content;
     NSString            *title;				
     NSString            *description;
@@ -139,8 +138,8 @@ typedef enum
 //  JRPhotoObject       *attachment;
 }
 
-@property (retain) NSString *display_name;
-@property (retain) NSString *action;  							
+@property (readonly) NSString *action;  							
+@property (readonly) NSString *url;
 @property (retain) NSString *user_generated_content;
 @property (retain) NSString *title;				
 @property (retain) NSString *description;
@@ -149,7 +148,7 @@ typedef enum
 @property (retain) NSMutableDictionary *properties;
 //@property (retain) JRPhotoObject  *attachment;
 
-- (id)initWithDisplayName:(NSString*)name;
+- (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
 - (NSDictionary*)dictionaryForObject;
 - (void)validateActivityForDelegate:(id<JRActivityValidatorDelegate>)delegate;
 @end

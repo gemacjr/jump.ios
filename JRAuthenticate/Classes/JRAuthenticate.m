@@ -47,10 +47,6 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 @implementation JRAuthenticate
-//@synthesize theBaseUrl;
-@synthesize theTokenUrl;
-@synthesize theToken;
-@synthesize theTokenUrlPayload;
 
 static JRAuthenticate* singletonJRAuth = nil;
 + (JRAuthenticate*)jrAuthenticate 
@@ -82,13 +78,8 @@ static JRAuthenticate* singletonJRAuth = nil;
         // TODO: Add a way to add delegates, or receive notifications automatically
 		delegates = [[NSMutableArray alloc] initWithObjects:[delegate retain], nil];
 		
-//		theAppId = [[NSString alloc] initWithString:appId];
-		theTokenUrl = (tokenUrl) ? [[NSString alloc] initWithString:tokenUrl] : nil;
-
-        sessionData = [JRSessionData jrSessionDataWithAppId:appId andDelegate:self];
+        sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
         jrModalNavController = [[JRModalNavigationController alloc] init];//WithSessionData:sessionData];
-        
-//		[self startGetBaseUrl];
 	}	
 	
 	return self;
@@ -149,7 +140,7 @@ static JRAuthenticate* singletonJRAuth = nil;
     {
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
-            [self jrAuthenticationDidFailWithError:[sessionData.error retain]];
+            [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
             [sessionData reconfigure];
             [sessionData.error release];
             return;
@@ -178,7 +169,7 @@ static JRAuthenticate* singletonJRAuth = nil;
     {
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
-            [self jrAuthenticationDidFailWithError:[sessionData.error retain]];
+            [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
             [sessionData reconfigure];
             [sessionData.error release];
             return;
@@ -208,7 +199,7 @@ static JRAuthenticate* singletonJRAuth = nil;
     {
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
-            [self jrAuthenticationDidFailWithError:[sessionData.error retain]];
+            [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
             [sessionData reconfigure];
             [sessionData.error release];
             return;
@@ -230,59 +221,55 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[jrModalNavController presentModalNavigationControllerForPublishingActivity];
 }
 
-- (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token
+- (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
 {
 	DLog(@"token:    %@", token);
-	DLog(@"tokenURL: %@", tokenURL);
+	DLog(@"tokenURL: %@", tokenUrl);
 
-	[sessionData makeCallToTokenUrl:tokenURL WithToken:token];
+	[sessionData makeCallToTokenUrl:tokenUrl WithToken:token];
 }
 
-- (void)jrAuthenticationDidCompleteWithToken:(NSString*)token andProvider:(NSString*)provider
+- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
 {
 	DLog(@"token: %@", token);
 	
-	theToken = [token retain];
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticate:self didReceiveToken:token];
 		[delegate jrAuthenticate:self didReceiveToken:token forProvider:provider];
 	}
 	
-	[jrModalNavController dismissModalNavigationController:YES];
-
-	if (theTokenUrl)
-        [sessionData makeCallToTokenUrl:theTokenUrl WithToken:theToken];
+    if ([sessionData isSocial])
+        [jrModalNavController dismissModalNavigationController:YES];
 }
 
-- (void)jrAuthenticateDidReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload
+- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider
 {
     for (id<JRAuthenticateDelegate> delegate in delegates) 
     {
-        [delegate jrAuthenticate:self didReachTokenURL:tokenURL withPayload:theTokenUrlPayload];
+        [delegate jrAuthenticate:self didReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
     }    
 }
 
-- (void)jrAuthenticationDidFailWithError:(NSError*)error
+- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticate:self didFailWithError:error];
+		[delegate jrAuthenticate:self didFailWithError:error forProvider:provider];
 	}
 	
 	[jrModalNavController dismissModalNavigationController:NO];
 }
 
 
-- (void)jrAuthenticateCallToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error
+- (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     for (id<JRAuthenticateDelegate> delegate in delegates) 
     {
-        [delegate jrAuthenticate:self callToTokenURL:tokenURL didFailWithError:error];
+        [delegate jrAuthenticate:self callToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
     }
 }
 
-- (void)jrAuthenticationDidCancel
+- (void)authenticationDidCancel
 {
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
@@ -291,6 +278,22 @@ static JRAuthenticate* singletonJRAuth = nil;
 	
 	[jrModalNavController dismissModalNavigationController:NO];
 }
+
+- (void)authenticationDidCancelForProvider:(NSString*)provider
+{
+	for (id<JRAuthenticateDelegate> delegate in delegates) 
+	{
+		[delegate jrAuthenticateDidNotCompleteAuthentication:self forProvider:(NSString*)provider];
+	}
+	
+	[jrModalNavController dismissModalNavigationController:NO];
+}
+
+- (void)publishingDidCancel { }
+- (void)publishingDidCancelForProvider:(NSString*)provider { }
+- (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
+- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+
 
 - (void)cancelAuthentication
 {	
@@ -298,7 +301,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
+		[delegate jrAuthenticateDidNotCompleteAuthentication:self forProvider:nil];
 	}
 
 	[jrModalNavController dismissModalNavigationController:NO];
@@ -310,7 +313,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
-        [delegate jrAuthenticate:self didFailWithError:error];
+        [delegate jrAuthenticate:self didFailWithError:error forProvider:nil];
 	}	
 	
 	[jrModalNavController dismissModalNavigationController:NO];
@@ -327,12 +330,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)signoutUserForProvider:(NSString*)provider
 {
-    [sessionData forgetDeviceTokenForProvider:provider];
+    [sessionData forgetAuthenticatedUserForProvider:provider];
 }
 
 - (void)signoutUserForAllProviders
 {
-    [sessionData forgetAllDeviceTokens];
+    [sessionData forgetAllAuthenticatedUsers];
 }
 
 
@@ -344,14 +347,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 		singletonJRAuth = nil;
 	
 	[jrModalNavController release];
-	
-    [theTokenUrl release];
-	
 	[delegates release];
-	
-	[theToken release];
-	[theTokenUrlPayload release];
-	
 	[sessionData release];
 		
 	[super dealloc];

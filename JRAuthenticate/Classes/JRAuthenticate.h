@@ -58,7 +58,6 @@
  * completed automatically, and you won't need the token for anything.  As tokens are only valid for
  * a small amount of time, do not persist this value.
  */
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token;
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider;
 
 @required
@@ -69,13 +68,14 @@
  * of the token URL and application, but should contain any information required by the application, such as the 
  * user's profile, session cookies, etc.
  */
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload;
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider;
+
 
 /**
  * The following messages are sent when authentication failed (not canceled) for any reason. 
  */
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error;
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error;
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
 /**
  * This message is sent if the authorization was canceled for any reason other than an error.  For example, 
@@ -83,6 +83,7 @@
  * cancelAuthentication message.
  */
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth;
+- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString*)provider;
 @end
 
 /**
@@ -95,48 +96,9 @@
 @interface JRAuthenticate : NSObject </*JRConnectionManagerDelegate,*/ JRSessionDelegate>
 {
 	JRModalNavigationController *jrModalNavController;
-	
-//	NSString		*theAppId;
-//	NSString		*theBaseUrl;
-	NSString		*theTokenUrl;
-	
-	NSMutableArray	*delegates;
-	
-	NSString		*theToken;
-	NSString		*theTokenUrlPayload;
-	
 	JRSessionData	*sessionData;
-	
-//	NSString		*errorStr;
+	NSMutableArray	*delegates;
 }
-
-/**
- * This is the base URL of your Engage application.
- */
-//@property (nonatomic, readonly) NSString* theBaseUrl;
-
-/**
- * This is the token URL you supplied when you created the instance of the
- * JRAuthenticate library.
- */
-@property (nonatomic, readonly) NSString* theTokenUrl;
-
-/**
- * This is the token returned to the library from the Engage server once your
- * user authenticates with a provider.  This token is used to retrieve the 
- * profile data of your user from your token URL.  It has a short lifetime,
- * so it is not recommended that you store this anywhere.
- */
-@property (nonatomic, readonly) NSString* theToken;
-
-/**
- * This is the data returned from your token URL after the library POSTS 
- * the token and your token URL makes the call to the auth_info API. The 
- * library will pass this back to your application, but the contents of 
- * this are dependent on your token URL's implementation.
- */
-@property (nonatomic, readonly) NSString* theTokenUrlPayload;
-
 
 /**
  * Once an instance of the JRAuthenticate library is created, this will return 
@@ -188,5 +150,6 @@
  * different than the one you initiated the library with, or if you didn't
  * use a token URL when initiating the library.
  */
-- (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token;
+//- (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token;
+- (void)makeCallToTokenUrl:(NSString*)tokenURL withToken:(NSString *)token;
 @end

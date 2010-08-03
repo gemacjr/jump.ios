@@ -22,8 +22,8 @@
 
     NSArray         *providers;
 
-    JRProvider *selectedProvider;
-    NSString   *loggedInUser;
+    JRProvider          *selectedProvider;
+    JRAuthenticatedUser *loggedInUser;
     
     
 	UITabBar *myTabBar;

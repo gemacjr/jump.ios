@@ -113,7 +113,7 @@
 		DLog(@"view controller: %@", [vc description]);
 	}
   	
-	[self webViewWithUrl:[sessionData startURL]];
+	[self webViewWithUrl:[sessionData startUrl]];
 	[myWebView becomeFirstResponder];
 }
 
@@ -175,13 +175,13 @@
         
         if (![payload respondsToSelector:@selector(JSONValue)]) { /* TODO: Error */}
         
-		NSDictionary *payloadDict = [payload JSONValue];
+		NSDictionary *payloadDict = [[payload JSONValue] retain];
 		
 		if(!payloadDict) {  /* TODO: Error */ }
 		
 		if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"stat"] isEqualToString:@"ok"])
 		{
-            [sessionData authenticationDidCompleteWithPayload:payloadDict];
+            [sessionData authenticationDidCompleteWithPayload:payloadDict forProvider:sessionData.currentProvider];
             
 //			[self handleSuccessfulAuthentication:[payloadDict objectForKey:@"token"]];
 //#ifdef SOCIAL_PUBLISHING

@@ -61,15 +61,50 @@
 	
 	if (self = [super init]) 
 	{
-        provider_name = [_provider_name retain];
+        provider_name = [[NSString alloc] initWithFormat:@"%@", _provider_name];//[NSString stringWithString:_provider_name];//[_provider_name retain];
         
-        photo = [[dictionary objectForKey:@"photo"] retain];
-        preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];
-        device_token = [[dictionary objectForKey:@"device_token"] retain];
+        photo = [[NSString alloc] initWithFormat:@"%@", [dictionary objectForKey:@"photo"]];
+        preferred_username = [[NSString alloc] initWithFormat:@"%@", [dictionary objectForKey:@"preferred_username"]];
+        device_token = [[NSString alloc] initWithFormat:@"%@", [dictionary objectForKey:@"device_token"]];
     }
 	
+    DLog(@"JRAuthenticatedUser retain count:      %d", [self retainCount]);
+    DLog(@"    JRAuthenticatedUser provider_name: %d", [self.provider_name retainCount]);
+    DLog(@"    JRAuthenticatedUser photo:         %d", [self.photo retainCount]);
+    DLog(@"    JRAuthenticatedUser username:      %d", [self.preferred_username retainCount]);
+    DLog(@"    JRAuthenticatedUser device_token:  %d", [self.device_token retainCount]);
+    
 	return self;
 }
+
+- (void)encodeWithCoder:(NSCoder *)coder;
+{
+    [coder encodeObject:provider_name forKey:@"provider_name"];
+    [coder encodeObject:[photo stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] forKey:@"photo"];
+    [coder encodeObject:preferred_username forKey:@"preferred_username"];
+    [coder encodeObject:device_token forKey:@"device_token"];
+}
+
+- (id)initWithCoder:(NSCoder *)coder;
+{
+    self = [[JRAuthenticatedUser alloc] init];
+    if (self != nil)
+    {
+        provider_name = [[coder decodeObjectForKey:@"provider_key"] retain];
+        photo = [[[coder decodeObjectForKey:@"photo"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] retain];
+        preferred_username = [[coder decodeObjectForKey:@"preferred_username"] retain];
+        device_token = [[coder decodeObjectForKey:@"device_token"] retain];
+    }   
+
+    DLog(@"JRAuthenticatedUser retain count:      %d", [self retainCount]);
+    DLog(@"    JRAuthenticatedUser provider_name: %d", [self.provider_name retainCount]);
+    DLog(@"    JRAuthenticatedUser photo:         %d", [self.photo retainCount]);
+    DLog(@"    JRAuthenticatedUser username:      %d", [self.preferred_username retainCount]);
+    DLog(@"    JRAuthenticatedUser device_token:  %d", [self.device_token retainCount]);
+    
+    return self;
+}
+
 @end
 
 
@@ -88,7 +123,7 @@
 @synthesize requiresInput;
 @synthesize shortText;
 @synthesize userInput;
-
+@synthesize welcomeString;
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary
 {
@@ -104,10 +139,10 @@
 	{
 		name = [_name retain];
         
-        friendlyName = [_dictionary objectForKey:@"friendly_name"];;
-        placeholderText = [_dictionary objectForKey:@"input_prompt"];
-        openIdentifier = [_dictionary objectForKey:@"open_identifier"];
-        url = [_dictionary objectForKey:@"url"]; 
+        friendlyName = [[_dictionary objectForKey:@"friendly_name"] retain];
+        placeholderText = [[_dictionary objectForKey:@"input_prompt"] retain];
+        openIdentifier = [[_dictionary objectForKey:@"openid_identifier"] retain];
+        url = [[_dictionary objectForKey:@"url"] retain]; 
 
         if ([[_dictionary objectForKey:@"requires_input"] isEqualToString:@"YES"])
             requiresInput = YES;
@@ -170,10 +205,13 @@
 @synthesize activity;
 @synthesize hidePoweredBy;
 @synthesize baseUrl;
+@synthesize tokenUrl;
 @synthesize forceReauth;
 @synthesize error;
 @synthesize customView;
 @synthesize customProvider;
+@synthesize isSocial;
+
 
 static JRSessionData* singleton = nil;
 + (JRSessionData*)jrSessionData
@@ -211,7 +249,7 @@ static JRSessionData* singleton = nil;
     return self;
 }
 
-- (id)initWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate
+- (id)initWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
 {
 	DLog(@"");
 
@@ -221,21 +259,25 @@ static JRSessionData* singleton = nil;
         
         delegates = [[NSMutableArray alloc] initWithObjects:[_delegate retain], nil];
 		appId = _appId;
+        tokenUrl = _tokenUrl;
         
-        authenticatedUsersByProvider = [[NSMutableDictionary alloc] 
-                                        initWithDictionary:[[NSUserDefaults standardUserDefaults] 
-                                        objectForKey:@"authenticatedUsersByProvider"]];
+        NSData *archivedUsers = [[NSUserDefaults standardUserDefaults] objectForKey:@"authenticatedUsersByProvider"];
+        if (archivedUsers != nil)
+        {
+            NSDictionary *unarchivedUsers = [NSKeyedUnarchiver unarchiveObjectWithData:archivedUsers];
+            if (unarchivedUsers != nil)
+                authenticatedUsersByProvider = [[NSMutableDictionary alloc] initWithDictionary:unarchivedUsers];
+        }
         
         if (!authenticatedUsersByProvider)
             authenticatedUsersByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
-
         
         error = [self startGetBaseUrl];
 	}
 	return self;
 }
 
-+ (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate
++ (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
 {
 	if(singleton)
 		return singleton;
@@ -243,7 +285,7 @@ static JRSessionData* singleton = nil;
 	if (_appId == nil || _appId.length == 0)
 		return nil;
     
-	return [[super allocWithZone:nil] initWithAppId:_appId andDelegate:_delegate];
+	return [[super allocWithZone:nil] initWithAppId:_appId tokenUrl:_tokenUrl andDelegate:_delegate];
 }	
 
 
@@ -278,9 +320,9 @@ static JRSessionData* singleton = nil;
 - (NSError*)setError:(NSString*)message withCode:(NSInteger)code andSeverity:(NSString*)severity
 {
     DLog(@"");
-    NSDictionary *userInfo = [[NSDictionary dictionaryWithObjectsAndKeys:
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                message, NSLocalizedDescriptionKey,
-                               severity, @"severity", nil] autorelease];
+                               severity, @"severity", nil];
 
     return [[NSError alloc] initWithDomain:@"JRAuthenticate"
                                       code:code
@@ -301,7 +343,7 @@ static JRSessionData* singleton = nil;
     [delegates removeObject:_delegate];
 }
 
-- (NSURL*)startURL
+- (NSURL*)startUrl
 {
 	DLog(@"");
     
@@ -444,24 +486,37 @@ static JRSessionData* singleton = nil;
                   andSeverity:JRErrorSeverityConfigurationFailed];
 	
 	NSDictionary *jsonDict = [dataStr JSONValue];
+    
+    DLog(@"dataStr retain count: %d", [dataStr retainCount]);
+    DLog(@"jsonDict retain count: %d", [jsonDict retainCount]);
 	
 	if(!jsonDict)
 		return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                      withCode:JRJsonError
                   andSeverity:JRErrorSeverityConfigurationFailed];
 	
-	NSDictionary *providerInfo   = [[NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]] retain];
+	NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
+
+    DLog(@"providerInfo retain count: %d", [providerInfo retainCount]);
+    
     allProviders = [[NSMutableDictionary  alloc] initWithCapacity:[[providerInfo allKeys] count]];
     
     for (NSString *name in [providerInfo allKeys])
     {
+        DLog(@"name retain count: %d", [name retainCount]);
         if (name)
         {
             NSDictionary *dictionary = [providerInfo objectForKey:name];
-            JRProvider *provider = [[JRProvider alloc] initWithName:name
-                                                      andDictionary:dictionary];
+            
+            DLog(@"dataStr retain count: %d", [dictionary retainCount]);
+
+            JRProvider *provider = [[[JRProvider alloc] initWithName:name
+                                                      andDictionary:dictionary] autorelease];
             
             [allProviders setObject:provider forKey:name];
+            
+            DLog(@"provider retain count: %d", [provider retainCount]);
+            DLog(@"provider members retain count: %d", [provider.friendlyName retainCount]);
         }
     }
     
@@ -494,9 +549,9 @@ static JRSessionData* singleton = nil;
 	
 #ifdef SOCIAL_PUBLISHING	
 	[self loadLastUsedSocialProvider];
-#else
-    return [self loadLastUsedBasicProvider];
 #endif
+    
+    [self loadLastUsedBasicProvider];
     
     return nil;
 }
@@ -511,8 +566,6 @@ static JRSessionData* singleton = nil;
         returningSocialProvider = [[allProviders objectForKey:savedProvider] retain];//[[[JRProvider alloc] initWithName:savedProvider 
                                                                                      //                         andStats:[providerInfo objectForKey:savedProvider]] retain];
     }
-    
-    [self loadLastUsedBasicProvider];    
 }
 
 - (void)saveLastUsedSocialProvider:(NSString*)deviceToken
@@ -629,26 +682,61 @@ static JRSessionData* singleton = nil;
 	}	    
 }
 
-- (NSString*)deviceTokenForProvider:(NSString*)provider
+- (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider
 {
     DLog(@"");
-    return [authenticatedUsersByProvider objectForKey:provider];
+    return [authenticatedUsersByProvider objectForKey:provider.name];
 }
 
-- (void)forgetDeviceTokenForProvider:(NSString*)provider
+
+- (void)forgetAuthenticatedUserForProvider:(NSString*)provider
 {
     DLog(@"");
-    [authenticatedUsersByProvider removeObjectForKey:@"provider"];
-    [[NSUserDefaults standardUserDefaults] setObject:authenticatedUsersByProvider forKey:@"authenticatedUsersByProvider"];
+    [authenticatedUsersByProvider removeObjectForKey:provider];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] forKey:@"authenticatedUsersByProvider"];
+    //[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] forKey:@"authenticatedUsersByProvider"];
 }
 
-- (void)forgetAllDeviceTokens
+- (void)forgetAllAuthenticatedUsers
 {
     DLog(@"");
-    [authenticatedUsersByProvider release];
-    authenticatedUsersByProvider = nil;
+    [authenticatedUsersByProvider removeAllObjects];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] forKey:@"authenticatedUsersByProvider"];
+    //[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] forKey:@"authenticatedUsersByProvider"];
+}
+
+- (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user
+{
+    NSDictionary *jsonDict = [[activity dictionaryForObject] retain];
+
+    DLog(@"_activity retain count: %d", [_activity retainCount]);
+    DLog(@"jsonDict retain count: %d", [jsonDict retainCount]);
     
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"authenticatedUsersByProvider"];
+    NSString *content = [[jsonDict objectForKey:@"activity"] JSONRepresentation];                          
+    NSString *device_token = user.device_token;
+    
+    DLog(@"content retain count: %d", [content retainCount]);    
+    DLog(@"device_token retain count: %d", [device_token retainCount]);
+    
+//    NSRange range = { 1, content.length-2 };
+//    content = [content substringWithRange:range];
+
+    DLog(@"json: %@", content);
+    
+    NSMutableData* body = [NSMutableData data];
+    [body appendData:[[NSString stringWithFormat:@"device_token=%@", device_token] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&activity=%@", content] dataUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
+                                     [NSURL URLWithString:@"https://rpxnow.com/api/v2/activity?"]] retain];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+    
+    NSString* tag = [[NSString stringWithString:@"shareThis"] retain];
+    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
+    
+    [request release];    
 }
 
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
@@ -689,19 +777,38 @@ static JRSessionData* singleton = nil;
     }
 	else if ([tag hasPrefix:@"token_url:"])
 	{
-		NSString* tokenURL = [NSString stringWithString:[[request URL] absoluteString]];
+		NSString* _tokenUrl = [NSString stringWithString:[[request URL] absoluteString]];
         
         if (!isSocial)
             [self saveLastUsedBasicProvider];
-        else
-            [self checkForIdentifierCookie:request];
         
         for (id<JRSessionDelegate> delegate in delegates) 
         {
-            [delegate jrAuthenticateDidReachTokenURL:tokenURL withPayload:payload];
+            [delegate authenticateDidReachTokenUrl:_tokenUrl withPayload:payload forProvider:currentProvider.name];
         }
 	}
-
+    else if ([tag isEqualToString:@"shareThis"])
+    {
+        NSRange subStr = [payload rangeOfString:@"\"stat\":\"ok\""];
+        if (subStr.length)
+        {
+            for (id<JRSessionDelegate> delegate in delegates) 
+            {
+                [delegate publishingDidCompleteWithActivity:activity forProvider:currentProvider.name];
+            }
+        }
+        else
+        {
+            for (id<JRSessionDelegate> delegate in delegates) 
+            {
+                [delegate publishingDidFailWithError:[self setError:[payload retain] 
+                                                           withCode:3902302 
+                                                        andSeverity:@"TODO CHANGE ME"] 
+                                         forProvider:currentProvider.name];
+            }
+        }
+    }
+    
 	[payload release];
 	[tag release];	
 }
@@ -728,11 +835,11 @@ static JRSessionData* singleton = nil;
 		errorStr = [NSString stringWithFormat:@"There was an error posting the token to the token URL.\nThere was an error in the response to a request."];
 		NSRange prefix = [tag rangeOfString:@"token_url:"];
 		
-		NSString *tokenURL = (prefix.length > 0) ? [tag substringFromIndex:prefix.length]: nil;
+		NSString *_tokenUrl = (prefix.length > 0) ? [tag substringFromIndex:prefix.length]: nil;
 		
         for (id<JRSessionDelegate> delegate in delegates) 
         {
-            [delegate jrAuthenticateCallToTokenURL:tokenURL didFailWithError:_error];
+            [delegate authenticateCallToTokenUrl:_tokenUrl didFailWithError:_error forProvider:currentProvider.name];
         }
     }
     
@@ -836,19 +943,19 @@ static JRSessionData* singleton = nil;
     currentProvider = currentSocialProvider;
 }
 
-- (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token
+- (void)makeCallToTokenUrl:(NSString*)_tokenUrl withToken:(NSString *)token forProvider:(NSString*)provider
 {
 	DLog(@"token:    %@", token);
-	DLog(@"tokenURL: %@", tokenURL);
+	DLog(@"tokenURL: %@", _tokenUrl);
 	
 	NSMutableData* body = [NSMutableData data];
 	[body appendData:[[NSString stringWithFormat:@"token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
-	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:tokenURL]] retain];
+	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_tokenUrl]] retain];
 	
 	[request setHTTPMethod:@"POST"];
 	[request setHTTPBody:body];
 	
-	NSString* tag = [[NSString stringWithFormat:@"token_url:%@", tokenURL] retain];
+	NSString* tag = [[NSString stringWithFormat:@"token_url:%@", _tokenUrl] retain];
 	
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
 	{
@@ -860,33 +967,47 @@ static JRSessionData* singleton = nil;
 		
         for (id<JRSessionDelegate> delegate in delegates) 
         {
-            [delegate jrAuthenticateCallToTokenURL:tokenURL didFailWithError:new_error];
+            [delegate authenticateCallToTokenUrl:_tokenUrl didFailWithError:new_error forProvider:currentProvider.name];
         }
 	}
 	
 	[request release];
 }
 
-//- (void)makeCallToTokenUrlWithToken:(NSString*)token
-//{
-//	[self makeCallToTokenUrl:theTokenUrl WithToken:token];
-//}	
+- (void)makeCallToTokenUrlWithToken:(NSString*)token
+{
+	[self makeCallToTokenUrl:tokenUrl withToken:token forProvider:currentProvider.name];
+}	
 
 - (void)authenticationDidCancel
 {
     DLog(@"");
     for (id<JRSessionDelegate> delegate in delegates) 
     {
-        [delegate jrAuthenticationDidCancel];
+        [delegate authenticationDidCancelForProvider:nil];
     }
 }
 
 - (void)authenticationDidCompleteWithPayload:(NSDictionary*)payloadDict forProvider:(JRProvider*)provider
 {  
-//    [authenticatedUsersByProvider setObject:deviceToken forKey:currentProvider.name];
-//    [[NSUserDefaults standardUserDefaults] setObject:authenticatedUsersByProvider forKey:@"deviceTokensByProvider"];   
+    NSDictionary *goodies = [[payloadDict objectForKey:@"rpx_result"] autorelease];
+    NSString *token = [[goodies objectForKey:@"token"] retain];
+    JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
+                                                                    forProviderNamed:provider.name] autorelease];    
+    [authenticatedUsersByProvider setObject:user forKey:provider.name];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
+                                              forKey:@"authenticatedUsersByProvider"];
+    //[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] forKey:@"authenticatedUsersByProvider"];
+
     
-	
+    for (id<JRSessionDelegate> delegate in delegates) 
+    {
+        [delegate authenticationDidCompleteWithToken:token forProvider:provider.name];
+    }
+        
+	if (tokenUrl)
+        [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:provider.name];
+    
 }
 
 - (void)authenticationDidCompleteWithToken:(NSString*)token
@@ -897,7 +1018,7 @@ static JRSessionData* singleton = nil;
 //	[self setReturningProviderToProvider:self.currentProvider];
     for (id<JRSessionDelegate> delegate in delegates) 
     {
-        [delegate jrAuthenticationDidCompleteWithToken:token andProvider:currentProvider.name];
+        [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
     }
 }
 
@@ -906,11 +1027,12 @@ static JRSessionData* singleton = nil;
 	DLog(@"");
     [self saveLastUsedSocialProvider:deviceToken];
     
-    if (!authenticatedUsersByProvider)
-        authenticatedUsersByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
-    
-    [authenticatedUsersByProvider setObject:deviceToken forKey:currentProvider.name];
-    [[NSUserDefaults standardUserDefaults] setObject:authenticatedUsersByProvider forKey:@"deviceTokensByProvider"];   
+//    if (!authenticatedUsersByProvider)
+//        authenticatedUsersByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
+//    
+//    [authenticatedUsersByProvider setObject:deviceToken forKey:currentProvider.name];
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] forKey:@"authenticatedUsersByProvider"];
+    //[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] forKey:@"authenticatedUsersByProvider"];
     
     [self authenticationDidCompleteWithToken:authenticationToken];
 }
@@ -920,7 +1042,7 @@ static JRSessionData* singleton = nil;
     DLog(@"");
     for (id<JRSessionDelegate> delegate in delegates) 
     {
-        [delegate jrAuthenticationDidFailWithError:_error];
+        [delegate authenticationDidFailWithError:_error forProvider:currentProvider.name];
     }
 }
 

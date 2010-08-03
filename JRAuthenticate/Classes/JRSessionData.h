@@ -74,13 +74,16 @@ typedef enum
 @interface JRProvider : NSObject
 {
 	NSString *name;
+    
 	NSString *friendlyName;
 	NSString *placeholderText;
 	NSString *shortText;
 	BOOL      requiresInput;
+    
     NSString *openIdentifier;
 	NSString *url;	
-	NSString *userInput;
+	
+    NSString *userInput;
 	NSString *welcomeString;
 }
 
@@ -97,13 +100,17 @@ typedef enum
 @end
 
 @protocol JRSessionDelegate <NSObject>
+- (void)authenticationDidCancel;
+- (void)authenticationDidCancelForProvider:(NSString*)provider;
+- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider;
+- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider;
+- (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
-- (void)jrAuthenticationDidCancel;
-- (void)jrAuthenticationDidCompleteWithToken:(NSString*)tok andProvider:(NSString*)prov;
-- (void)jrAuthenticationDidFailWithError:(NSError*)err;
-- (void)jrAuthenticateDidReachTokenURL:(NSString*)tokenURL withPayload:(NSString*)tokenUrlPayload;
-- (void)jrAuthenticateCallToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error;
-
+- (void)publishingDidCancel;
+- (void)publishingDidCancelForProvider:(NSString*)provider;
+- (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
+- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 @end
 
 @class JRActivityObject;
@@ -124,7 +131,7 @@ typedef enum
 	NSArray             *basicProviders;
     NSArray             *socialProviders;
     
-    NSMutableDictionary    *authenticatedUsersByProvider;
+    NSMutableDictionary *authenticatedUsersByProvider;
 	
     JRActivityObject *activity;
     
@@ -135,6 +142,7 @@ typedef enum
 	NSURL	 *startUrl;
     BOOL      isSocial;
     
+    NSString *tokenUrl;
 	NSString *baseUrl;
     NSString *appId;
 	
@@ -166,19 +174,19 @@ typedef enum
 @property (readonly) UIView       *customView;
 @property (readonly) NSDictionary *customProvider;
 
-
+@property (readonly) NSString *tokenUrl;
 @property (readonly) NSURL    *startUrl;
 @property (readonly) NSString *baseUrl;
 
 @property (assign) BOOL forceReauth;
+@property (readonly) BOOL isSocial;
+
 
 + (JRSessionData*)jrSessionData;
-+ (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId /*tokenUrl:(NSString*)tokUrl*/ andDelegate:(id<JRSessionDelegate>)_delegate;
++ (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate;
 
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate;
 - (void)removeDelegate:(id<JRSessionDelegate>)_delegate;
-
-- (NSString*)identifierForProvider:(NSString*)provider;
 
 - (void)reconfigure;
 
@@ -193,11 +201,13 @@ typedef enum
 	
 - (BOOL)gatheringInfo;
 
-- (NSString*)deviceTokenForProvider:(NSString*)provider;
-- (void)forgetDeviceTokenForProvider:(NSString*)provider;
-- (void)forgetAllDeviceTokens;
+- (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider;
+- (void)forgetAuthenticatedUserForProvider:(NSString*)provider;
+- (void)forgetAllAuthenticatedUsers;
 
-- (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token;
+- (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user;
+
+- (void)makeCallToTokenUrl:(NSString*)tokenURL withToken:(NSString*)token forProvider:(NSString*)provider;
 
 - (void)authenticationDidCancel;
 - (void)authenticationDidCompleteWithPayload:(NSDictionary*)payloadDict forProvider:(JRProvider*)provider;

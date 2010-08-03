@@ -281,20 +281,19 @@
 
 
 @implementation JRActivityObject
-@synthesize display_name;
 @synthesize action;  							
+@synthesize url;
 @synthesize user_generated_content;
 @synthesize title;				
 @synthesize description;
-//@synthesize attachment;
 @synthesize properties;
 
 @dynamic action_links; 					
 @dynamic media;
 
-- (id)initWithDisplayName:(NSString*)name
+- (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url
 {
-    if (!name)
+    if (!_action || !_url)
     {
         [self release];
         return nil;
@@ -302,7 +301,8 @@
     
     if (self = [super init]) 
 	{
-        display_name = name;
+        action = _action;
+        url = _url;
     }
     
 	return self;
@@ -336,8 +336,11 @@
 
 - (NSDictionary*)dictionaryForObject
 {
+    [self validateActivity];
+    
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithCapacity:7] autorelease];
     [dict setValue:[action URLEscaped] forKey:@"action"];
+    [dict setValue:[url URLEscaped] forKey:@"url"];
     
     if (user_generated_content)
         [dict setValue:[user_generated_content URLEscaped] forKey:@"user_generated_content"];
@@ -376,27 +379,26 @@
     
 //    if (attachment)
 //        [dict setValue:[attachment dictionaryForObject] forKey:@"attachment"];
-
     
     if ([properties count])
         [dict setValue:properties forKey:@"properties"];
     
-    return dict;
+    return [NSDictionary dictionaryWithObject:dict forKey:@"activity"];
 }
 
 - (NSError*)setError:(NSString*)message withCode:(NSInteger)code andSeverity:(NSString*)severity
 {
     DLog(@"");
-    NSDictionary *userInfo = [[NSDictionary dictionaryWithObjectsAndKeys:
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                message, NSLocalizedDescriptionKey,
-                               severity, @"severity", nil] autorelease];
+                               severity, @"severity", nil];
     
     return [[NSError alloc] initWithDomain:@"JRAuthenticate"
                                       code:code
                                   userInfo:userInfo];
 }
 
-- (void)validateActivityForDelegate:(id<JRActivityValidatorDelegate>)delegate
+- (void)validateActivity//ForDelegate:(id<JRActivityValidatorDelegate>)delegate
 {    
     if ([media count] > 0)
     {
@@ -414,9 +416,9 @@
             DLog(@"([images count] && ([songs count] || [videos count]))");
             
             // Set Warning
-            ActivityValidationWarning *warning = [self setError:@"" 
-                                                       withCode:JRMoreThanOnKindOfMediaInActivityWarning 
-                                                    andSeverity:JRWarningSeverityActivityValidationHasWarnings];
+//            ActivityValidationWarning *warning = [self setError:@"" 
+//                                                       withCode:JRMoreThanOnKindOfMediaInActivityWarning 
+//                                                    andSeverity:JRWarningSeverityActivityValidationHasWarnings];
             
             // Only using images, songs or video will be ignored
             // Keep only images
@@ -431,45 +433,46 @@
             [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
         }
         
-        if ([images count])
-        {
-            DLog(@"([images count])");
-            
-            // TODO: Determine if you can send more than 4 or 5 pictures
-//            if ([images count] > 5)
+//        if ([images count])
+//        {
+//            DLog(@"([images count])");
+//            
+//            // TODO: Determine if you can send more than 4 or 5 pictures
+////            if ([images count] > 5)
+////            {
+////                DLog(@"([images count] > 5)");
+////                // Set warning
+////                // Only using first 5 images
+////                // Set media to only first 5
+////                while ([media count] > 5)
+////                    [media removeLastObject];
+////                //[media removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:{5, [images count]}]];
+////            }
+////            else
+////            {
+////                // Set media to images ... or it already is ...
+////            }
+//            
+//            NSUInteger index = 0;
+//            for (JRImageMediaObject *image in media)
 //            {
-//                DLog(@"([images count] > 5)");
-//                // Set warning
-//                // Only using first 5 images
-//                // Set media to only first 5
-//                while ([media count] > 5)
-//                    [media removeLastObject];
-//                //[media removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:{5, [images count]}]];
-//            }
-//            else
-//            {
-//                // Set media to images ... or it already is ...
-//            }
-            
-            NSUInteger index = 0;
-            for (JRImageMediaObject *image in media)
-            {
-                NSURL        *url = [NSURL URLWithString:image.src];
-                NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-                NSString     *tag = [NSString stringWithFormat:@"fetchImageThumbnail_%d", index++];
-
-//                image.tag = tag;
-                
-                if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
-                {
-                    DLog("(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
-                    // Set warning
-                }
-                
-                [request release];            
-            }   
-        }
-        else if ([songs count])
+//                NSURL        *_url = [NSURL URLWithString:image.src];
+//                NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_url];
+//                NSString     *tag = [NSString stringWithFormat:@"fetchImageThumbnail_%d", index++];
+//
+////                image.tag = tag;
+//                
+//                if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+//                {
+//                    DLog("(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
+//                    // Set warning
+//                }
+//                
+//                [request release];            
+//            }   
+//        }
+//        else 
+        if ([songs count])
         {
             DLog(@"([songs count])");
             if ([songs count] > 1)
@@ -486,12 +489,12 @@
                 // Set media to songs ... or it already is ...
             }
             
-            JRMp3MediaObject *song = [media objectAtIndex:0];            
-            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])
-            {
-                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])");
-                // Set error
-            }
+//            JRMp3MediaObject *song = [media objectAtIndex:0];            
+//            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])
+//            {
+//                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])");
+//                // Set error
+//            }
         }
         else if ([videos count])
         {
@@ -510,24 +513,24 @@
                 // Set media to songs ... or it already is ...
             }
             
-            JRFlashMediaObject *video = [media objectAtIndex:0];            
-            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])
-            {
-                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])");
-                // Set error
-            }
-
-            NSURL        *url = [NSURL URLWithString:video.imgsrc];
-            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-            NSString     *tag = @"fetchVideoPreview";
+//            JRFlashMediaObject *video = [media objectAtIndex:0];            
+//            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])
+//            {
+//                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])");
+//                // Set error
+//            }
+//
+//            NSURL        *_url = [[NSURL URLWithString:video.imgsrc] autorelease];
+//            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:_url] autorelease];
+//            NSString     *tag = @"fetchVideoPreview";
 
 //            video.tag = tag;
             
-            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
-            {
-                DLog(@"(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
-                // Set error
-            }
+//            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+//            {
+//                DLog(@"(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
+//                // Set error
+//            }
             
         }
     }
@@ -555,7 +558,7 @@
         }
         else
         {    
-            [self setPreview:payload ForObject:[imageArr objectAtIndex:0]];
+            [self setPreview:payload forObject:[imageArr objectAtIndex:0]];
         }
 
     }
