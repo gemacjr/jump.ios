@@ -70,8 +70,7 @@
 	DLog(@"");
 	[super viewDidLoad];
 	
-//	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-	sessionData = [JRSessionData jrSessionData];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
+	sessionData = [JRSessionData jrSessionData];
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -147,17 +146,6 @@
 	[infoBar stopProgress];
 }
 	
-
-//- (void)handleSuccessfulAuthentication:(NSString*)token
-//{
-//	DLog(@"token: %@", tok);
-//#ifdef SOCIAL_PUBLISHING
-//    [sessionData authenticationDidCompleteWithAuthenticationToken:token andSessionToken:[sessionData currentProvider.name]];
-//#else
-//	[sessionData authenticationDidCompleteWithToken:token];
-//#endif
-//}
-
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
@@ -182,16 +170,6 @@
 		if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"stat"] isEqualToString:@"ok"])
 		{
             [sessionData authenticationDidCompleteWithPayload:payloadDict forProvider:sessionData.currentProvider];
-            
-//			[self handleSuccessfulAuthentication:[payloadDict objectForKey:@"token"]];
-//#ifdef SOCIAL_PUBLISHING
-//            [sessionData authenticationDidCompleteWithAuthenticationToken:[payloadDict objectForKey:@"token"] 
-//                                                           andDeviceToken:sessionData.currentProvider.name];
-//                                                        //andSessionToken:[payloadDict objectForKey:@"device_token"]];
-//#else
-//            [sessionData authenticationDidCompleteWithToken:[payloadDict objectForKey:@"token"]];
-//#endif
-            
 		}
 		else 
 		{
@@ -351,7 +329,6 @@
 - (void)dealloc {
 	DLog(@"");
 	
-//	[jrAuth release];
 	[sessionData release];
 
 	[myWebView release];

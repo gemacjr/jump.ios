@@ -36,7 +36,6 @@
 #import "JSON.h"
 #import "JRConnectionManager.h"
 #import "JRActivityObject.h"
-//#import "JRPublishActivityController.h"
 
 #define SOCIAL_PUBLISHING
 

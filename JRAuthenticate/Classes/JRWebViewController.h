@@ -44,7 +44,6 @@
 
 @interface JRWebViewController : UIViewController <UINavigationBarDelegate, UIWebViewDelegate, JRConnectionManagerDelegate> 
 {
-//	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
 
 	UIWebView	*myWebView;

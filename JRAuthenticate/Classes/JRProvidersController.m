@@ -101,30 +101,9 @@
 {
 	DLog(@"");
 	[super viewDidLoad];
-	
-//	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-	sessionData = [JRSessionData jrSessionData];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
-
+	sessionData = [JRSessionData jrSessionData];
 	titleLabel = nil;
-	
-//	/* Check the session data to see if there's information on the last provider the user logged in with. */
-//	if (sessionData.returningProvider && !social)
-//	{
-//		DLog(@"and there was a returning provider");
-//		[sessionData setCurrentProviderToReturningProvider];
-//		
-//		/* If so, go straight to the returning provider screen. */
-//		[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-//											   animated:NO]; 
-//	}
-//	
-//    social = [((JRModalNavigationController*)[[self navigationController] parentViewController]) isSocial];	
-//    providers = (social) ? [sessionData.socialProviders retain] : [sessionData.configedProviders retain];
-//        
-//	/* Load the table with the list of providers. */
-//	[myTableView reloadData];
 }
-
 
 - (void)viewWillAppear:(BOOL)animated 
 {
@@ -144,10 +123,6 @@
 
 		self.navigationItem.titleView = titleLabel;
 	}	
-    
-//    if (social)
-//        titleLabel.text = NSLocalizedString(@"Share with...", @"");
-//	else 
     titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
         
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
@@ -183,7 +158,7 @@
         providers = [sessionData.basicProviders retain];
     
         /* Check the session data to see if there's information on the last provider the user logged in with. */
-        if (sessionData.returningBasicProvider)// && !social)
+        if (sessionData.returningBasicProvider)
         {
             DLog(@"and there was a returning provider");
             [sessionData setCurrentBasicProviderToReturningProvider];
@@ -232,12 +207,6 @@
 	
 	DLog(@"prov count = %d", [providers count]);
 	DLog(@"interval = %f", interval);
-	
-//	/* If sessionData was nil in viewDidLoad and viewWillAppear, but it isn't nil now, set the sessionData variable. */
-//	if (!sessionData && [((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData])
-//		sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
-//
-//	providers = (social) ? [sessionData.socialProviders retain] : [sessionData.configedProviders retain];
     
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([sessionData configurationComplete])//([providers count] != 0)
@@ -301,6 +270,7 @@
 }
 
 /* Footer makes room for info bar.  If info bar is removed, remove the footer as well. */
+// TODO: Or do we keep it here because the info bar pops up when loading?
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
 	UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)] autorelease];
@@ -338,23 +308,15 @@
 		cell = [[[UITableViewCellProviders alloc] 
 				 initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 	
-	// TODO: Add error handling for the case where there may be an error retrieving the provider stats.
-	// Shouldn't happen, unless the response from rpxnow becomes malformed in the future, but just in case.
-
 	JRProvider* provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
-    
-//  NSString *provider = [providers objectAtIndex:indexPath.row];
-//	NSDictionary* provider_stats = [sessionData.providerInfo objectForKey:provider];
-	
-	NSString *friendly_name = provider.friendlyName;//[provider_stats objectForKey:@"friendly_name"];
-	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider.name];//[NSString stringWithFormat:@"jrauth_%@_icon.png", provider];
+	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider.name];
 	
 	DLog(@"cell for %@", provider.name);
 
 #if __IPHONE_3_0
-	cell.textLabel.text = friendly_name;
+	cell.textLabel.text = provider.friendlyName;
 #else
-	cell.text = friendly_name;
+	cell.text = provider.friendlyName;
 #endif
 
 #if __IPHONE_3_0
@@ -376,9 +338,7 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	
 	/* Let sessionData know which provider the user selected */
-	//NSString *provider = [providers objectAtIndex:indexPath.row];
-    JRProvider *provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
-    
+	JRProvider *provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
     [sessionData setBasicProvider:provider];
 
     DLog(@"cell for %@ was selected", provider);
@@ -429,7 +389,6 @@
 {
 	DLog(@"");
 
-//	[jrAuth release];
 	[sessionData release];
 
 	[myTableView release];

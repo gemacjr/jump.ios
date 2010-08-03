@@ -76,9 +76,8 @@
     
     [super viewDidLoad];
 
-//	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-	sessionData = [JRSessionData jrSessionData];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
-	activity = [sessionData activity];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) activity] retain];
+	sessionData = [JRSessionData jrSessionData];
+	activity = [sessionData activity];
             
     [sessionData addDelegate:self];
     
@@ -202,7 +201,6 @@
 
     if (ready)
         [self loadActivityToView];
-//        [myTableView reloadData];
 }
 
 
@@ -223,13 +221,9 @@
 	
 	DLog(@"prov count = %d", [providers count]);
 	DLog(@"interval = %f", interval);
-	
-//	/* If sessionData was nil in viewDidLoad and viewWillAppear, but it isn't nil now, set the sessionData variable. */
-//	if (!sessionData && [((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData])
-//		sessionData = [[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];	
-      
+	      
     /* If we have our list of providers, stop the progress indicators and load the table. */
-	if ([sessionData configurationComplete])//([providers count] != 0)
+	if ([sessionData configurationComplete])
 	{
 		providers = [sessionData.socialProviders retain];
         ready = YES;
@@ -410,8 +404,7 @@
     {
         JRProvider *provider = [[sessionData getSocialProviderAtIndex:i] retain];
 
-//        NSString *friendly_name = provider.friendlyName;//[provider_stats objectForKey:@"friendly_name"];
-        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];//[NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider];
+        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];
         
         UITabBarItem *providerTab = [[UITabBarItem alloc] initWithTitle:provider.friendlyName 
                                                                   image:[UIImage imageNamed:imagePath]
@@ -491,10 +484,6 @@
 
 - (void)keyboardWillShow:(NSNotification *)notif
 {
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];	
-
-//    [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];    
-    
     [UIView beginAnimations:@"editing" context:nil];
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
                                                myUserContentTextView.frame.origin.y, 
@@ -531,10 +520,6 @@
 
 - (void)keyboardWillHide:(NSNotification *)notif
 {
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];	
-    
-//    [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    
     [UIView beginAnimations:@"editing" context:nil];
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
                                                myUserContentTextView.frame.origin.y, 
@@ -729,10 +714,6 @@
         [alert show];
         [self showViewIsLoading:NO];
     }
-    
-    
-//    if ([jrAuth theTokenUrl])
-//        [sessionData makeCallToTokenUrl:[jrAuth theTokenUrl] WithToken:token];
 }
 
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider
@@ -790,7 +771,6 @@
     DLog(@"");
     
     [sessionData setSocialProvider:selectedProvider];
-//    NSString *identifier = [[sessionData deviceTokenForProvider:selectedProvider.name] retain];
     
     if (!loggedInUser)
     {
@@ -821,12 +801,6 @@
 //    //    [hideKeyboardButton removeFromSuperview];
 //    [myUserContentTextView resignFirstResponder];    
 //}
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-//{
-//	return 200;
-//}
-
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -865,6 +839,5 @@
 - (void)dealloc {
     [super dealloc];
 }
-
 
 @end

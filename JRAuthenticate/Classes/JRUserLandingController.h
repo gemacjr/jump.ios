@@ -35,7 +35,6 @@
 
 #import <UIKit/UIKit.h>
 #import "JRAuthenticate.h"
-//#import "JRWebViewController.h"
 #import "JRInfoBar.h"
 
 @class JRAuthenticate;
@@ -45,7 +44,6 @@
 @interface JRUserLandingController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
 														UITableViewDataSource, UIAlertViewDelegate> 
 {
-//	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
 	
 	UITableView	*myTableView;	

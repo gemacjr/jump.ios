@@ -141,7 +141,6 @@
 
     if (width)
         [dict setObject:[NSString stringWithFormat:@"%d", width] forKey:@"width"];
-//        [dict setValue:width forKey:@"width"];
     
     if (height)
         [dict setValue:[NSString stringWithFormat:@"%d", height] forKey:@"height"];
@@ -264,21 +263,11 @@
 
 - (NSDictionary*)dictionaryForObject
 {
-    //    NSDictionary *odfs = [[NSDictionary alloc] initWithObjectsAndKeys:@"type", @"image", @"src", src, @"href", href, nil];
     return [[[NSDictionary alloc] initWithObjectsAndKeys:
              [text URLEscaped], @"text",
              [href URLEscaped], @"href", nil] autorelease];
 }
 @end
-
-
-
-//@interface JRActivityObject (Private)
-//{
-//    id<JRActivityValidatorDelegate> delegate;
-//}
-//@end
-
 
 @implementation JRActivityObject
 @synthesize action;  							
@@ -575,172 +564,3 @@
 
 - (void)connectionWasStoppedWithTag:(void*)userdata { }
 @end
-
-
-//@interface JRActivityValidator()
-////@property CFMutableDictionaryRef activitiesInValidation;
-//@end
-//
-//
-//@implementation JRActivityValidator
-////@synthesize activitiesInValidation;
-//
-//static JRActivityValidator* singleton = nil;
-//
-//- (JRActivityValidator*)init
-//{
-//	if (self = [super init])
-//	{
-////		activitiesInValidation = CFDictionaryCreateMutable(kCFAllocatorDefault, 0,
-////													  &kCFTypeDictionaryKeyCallBacks,
-////													  &kCFTypeDictionaryValueCallBacks);		
-//	}
-//	
-//	return self;	
-//}
-//
-//+ (JRActivityValidator*)getJRActivityValidator
-//{
-//    if (singleton == nil) 
-//        singleton = [[super allocWithZone:NULL] init];
-//	
-//    return singleton;
-//}
-//
-//+ (id)allocWithZone:(NSZone *)zone
-//{
-//    return [[self getJRActivityValidator] retain];
-//}
-//
-//- (id)copyWithZone:(NSZone *)zone
-//{
-//    return self;
-//}
-//
-//- (id)retain
-//{
-//    return self;
-//}
-//
-//- (NSUInteger)retainCount
-//{
-//    return NSUIntegerMax;  //denotes an object that cannot be released
-//}
-//
-//- (void)release
-//{
-//    //do nothing
-//}
-//
-//- (id)autorelease
-//{
-//    return self;
-//}
-//
-///* A very simple structure that contains the activity that is being validated, the delegtate to receive
-// the validation messages, and an array that stores the list of errors and warnings as they accumulate.
-// Validation of an activity may involve opening connections to multiple urls, and some media must 
-// be downloaded before we know that we can share it (and for the preview in the UI), so there may be more
-// than one error or warning. */
-//typedef struct activityContainer
-//{
-//    JRActivityObject *activity;
-//    id<JRActivityValidatorDelegate> delegate;
-//    NSMutableArray *warningsAndErrors;
-//} ActivityContainer;
-//
-//ActivityContainer* createActivityContainer(JRActivityObject *activity, id<JRActivityValidatorDelegate> delegate)
-//{
-//	ActivityContainer *data = malloc(sizeof(ActivityContainer));
-//    data->activity = [activity retain];
-//    data->delegate = [delegate retain];
-//    return data;
-//}
-//
-///* A very simple structure that contains the activity's ActivityContainer and a unique NSString *tag used by the
-// JRConnectionManager callback.  Since validation of one activity may involve opening connections to multiple urls,
-// we need a way for the connection callbacks to know which url was being validated for each object. */
-//typedef struct connectionContainer
-//{
-//    ActivityContainer *activityContainer;
-//    NSString *tag;
-//} ConnectionContainer;
-//
-//ConnectionContainer* createConnectionContainer(ActivityContainer* activityContainer, NSString *tag)
-//{
-//	ConnectionContainer *data = malloc(sizeof(ConnectionContainer));
-//    data->activityContainer = [tag retain];
-//    data->tag = [tag retain];
-//    return data;
-//}
-//
-//
-//+ (void)validateActivity:(JRActivityObject*)activity delegate:(id<JRActivityValidatorDelegate>)delegate
-//{    
-//    
-//    JRActivityValidator *validator = [JRActivityValidator getJRActivityValidator];
-//    
-//    if ([activity.media count] > 0)
-//    {
-//        NSUInteger images, songs, videos = 0;
-//        
-//        for (JRMediaObject *media in activity.media)
-//        {
-//            if ([media isKindOfClass:[JRImageMediaObject class]])
-//            {
-//                if (++images > 5)
-//                {
-//                    // Set Warning
-//                }
-//                else
-//                {
-//                    ActivityContainer *data = createActivityContainer(activity, delegate);
-//                    ConnectionContainer *
-//                    
-//                    NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
-//                    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-//                    
-//                    [JRConnectionManager createConnectionFromRequest:request forDelegate:validator withTag:data stringEncodeData:NO];
-//                    
-//                    [request release];            
-//                }
-//            }   
-//            
-//        }
-//        // If there are no more than 5 images
-//        // Set warning, use first 5
-//        // If there is mixed media
-//        // Set warning, use images, then songs, then video (or whatever Facebook delegates)
-//        
-//        // If using images, test image urls and download all images
-//        // If using song, test song url
-//        // If using video, test video urls and download thumbnail
-//        JRMediaObject *media = [activity.media objectAtIndex:0];
-//    }
-//}
-//                                                               
-//- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
-//                                                               
-//                                                               
-//- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
-//{
-// 	Pair *pair = (Pair*)userdata;
-//	
-//
-//    if (pair)
-//        free(pair);
-//}
-//                                                               
-//- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
-//{
-//
-//}
-//                                                               
-//- (void)connectionWasStoppedWithTag:(void*)userdata 
-//{
-//	if (userdata)
-//        free(userdata);
-//}
-//                                         
-//@end
-

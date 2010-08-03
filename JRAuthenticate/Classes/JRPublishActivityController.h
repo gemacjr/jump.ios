@@ -17,7 +17,6 @@
                                                            UITabBarDelegate, JRSessionDelegate,
                                                            JRConnectionManagerDelegate>
 {
-//	JRAuthenticate	*jrAuth;
 	JRSessionData	*sessionData;
 
     NSArray         *providers;
@@ -30,7 +29,6 @@
     
     BOOL ready;
     
-//	UITableView	*myTableView;	
 	UILabel		*title_label;
 	JRInfoBar	*infoBar;
     
@@ -69,15 +67,6 @@
     NSData *thumbnailData;
     NSData *profilePicData;
     
-//    UIButton *bigShareButton;
-//    UILabel  *buttonLabel;
-//    
-//    UITextView *displayNameAndAction_label;
-//    UITextView *contentTitle_label;
-//    UITextView *contentDescription_label;
-//    UIImageView *thumbnail_imageview;
-//    UITextView *userContent_textview;
-
     UIToolbar *keyboardToolbar;
     UIBarItem *shareButton;
     
@@ -87,7 +76,6 @@
 //    UIButton *hideKeyboardButton;
 }
 
-//@property (nonatomic, retain) IBOutlet UITableView *myTableView;
 @property (nonatomic, retain) IBOutlet UITabBar    *myTabBar;
 
 @property (nonatomic, retain) IBOutlet UILabel                  *myLoadingLabel;
@@ -129,11 +117,4 @@
 - (IBAction)shareButtonPressed:(id)sender; 
 - (IBAction)doneButtonPressed:(id)sender; 
 - (IBAction)editButtonPressed:(id)sender; 
-
-//@property (nonatomic, retain) IBOutlet UILabel *cellDisplayNameAndAction;
-//@property (nonatomic, retain) IBOutlet UILabel *cellContentTitle;
-//@property (nonatomic, retain) IBOutlet UILabel *cellContentDescription;
-//@property (nonatomic, retain) IBOutlet UIImageView *cellImage;
-//@property (nonatomic, retain) IBOutlet UITextView *cellUserContent;
-//@property (nonatomic, retain) IBOutlet UITableViewCell *myCell;
 @end

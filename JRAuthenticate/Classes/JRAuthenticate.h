@@ -39,10 +39,9 @@
 #import "JRSessionData.h"
 #import "JRActivityObject.h"
 #import "JRModalNavigationController.h"
-//#import "JRWebViewController.h"
 
-#define LOCAL 0
 #define SOCIAL_PUBLISHING
+
 @class JRAuthenticate;
 @class JRModalNavigationController;
 

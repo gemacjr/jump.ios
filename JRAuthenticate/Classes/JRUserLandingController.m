@@ -182,14 +182,7 @@
 								 forState:UIControlStateSelected];	
 		[bigSignInButton setReversesTitleShadowWhenHighlighted:YES];
 		
-//		[bigSignInButton setBackgroundImage:@"jrauth_google_logo.png" forState:UIControlStateDisabled];
-//		[bigSignInButton setTitle:@"Sign In" forState:UIControlStateDisabled];
-//		[bigSignInButton setTitleColor:[UIColor whiteColor] 
-//							  forState:UIControlStateDisabled];	
-//		[bigSignInButton setTitleShadowColor:[UIColor grayColor]
-//									forState:UIControlStateDisabled];	
-		
-		[bigSignInButton addTarget:targetForSelector
+        [bigSignInButton addTarget:targetForSelector
 						 action:@selector(signInButtonTouchUpInside:) 
 			   forControlEvents:UIControlEventTouchUpInside];
 		
@@ -241,9 +234,7 @@
 	DLog(@"");
     [super viewDidLoad];
 	
-//	jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-
-	sessionData = [JRSessionData jrSessionData];//[[((JRModalNavigationController*)[[self navigationController] parentViewController]) sessionData] retain];
+	sessionData = [JRSessionData jrSessionData];
 	
 	label = nil;
 }
@@ -310,7 +301,7 @@
 	NSIndexPath *indexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
 	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:indexPath];
 	
-	if ([sessionData gatheringInfo])//(![sessionData.currentProvider isEqualToProvider:sessionData.returningProvider])
+	if ([sessionData gatheringInfo])
 		[cell.textField becomeFirstResponder];
 }
 
@@ -395,7 +386,7 @@
 	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_logo.png", sessionData.currentProvider.name];
 	cell.logo.image = [UIImage imageNamed:imagePath];
 	
-	if (sessionData.currentProvider.requiresInput/* || sessionData.returning_userInput*/)
+	if (sessionData.currentProvider.requiresInput)
 	{
 		DLog(@"current provider requires input");
 		
@@ -558,7 +549,7 @@
 {
 	DLog(@"");
     
-    // This should work, because these button will only be visible during the return experience of a basic provider
+    /* This should work, because this button will only be visible during the return experience of a basic provider */
 	[sessionData setBasicProvider:nil];
 	[sessionData setReturningBasicProviderToNewBasicProvider:nil];
 	sessionData.forceReauth = YES;
@@ -579,7 +570,6 @@
 {
 	DLog(@"");
 
-//	[jrAuth	release];
 	[sessionData release];
 	[infoBar release];
 	

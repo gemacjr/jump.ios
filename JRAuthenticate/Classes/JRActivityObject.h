@@ -152,13 +152,3 @@ typedef enum
 - (NSDictionary*)dictionaryForObject;
 - (void)validateActivityForDelegate:(id<JRActivityValidatorDelegate>)delegate;
 @end
-
-
-
-//@interface JRActivityValidator : NSObject <JRConnectionManagerDelegate>
-//{
-////	CFMutableDictionaryRef activitiesInValidation;
-//}
-//
-//+ (void)validateActivity:(JRActivityObject*)activity delegate:(id<JRActivityValidatorDelegate>)delegate;
-//@end

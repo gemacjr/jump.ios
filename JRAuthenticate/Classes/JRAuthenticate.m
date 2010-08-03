@@ -79,7 +79,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 		delegates = [[NSMutableArray alloc] initWithObjects:[delegate retain], nil];
 		
         sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
-        jrModalNavController = [[JRModalNavigationController alloc] init];//WithSessionData:sessionData];
+        jrModalNavController = [[JRModalNavigationController alloc] init];
 	}	
 	
 	return self;
@@ -156,7 +156,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 	
 	if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] init];//WithSessionData:sessionData];
+		jrModalNavController = [[JRModalNavigationController alloc] init];
 	
 	[window addSubview:jrModalNavController.view];
 	
@@ -184,7 +184,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 
 	if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] init];//WithSessionData:sessionData];
+		jrModalNavController = [[JRModalNavigationController alloc] init];
 	
 	[window addSubview:jrModalNavController.view];
 	
@@ -213,7 +213,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 	
     if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] init];//WithSessionData:sessionData];
+		jrModalNavController = [[JRModalNavigationController alloc] init];
 	
 	[window addSubview:jrModalNavController.view];
 
