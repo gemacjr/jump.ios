@@ -83,7 +83,6 @@
 @synthesize myTableView;
 @synthesize myLoadingLabel;
 @synthesize myActivitySpinner;
-@synthesize social;
 
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -152,16 +151,16 @@
 		[self.view addSubview:infoBar];
 	}
     
-    
-    if ([sessionData configurationComplete])
+    if ([sessionData configurationComplete] || ([[sessionData basicProviders] count] > 0))
     {
-        providers = [sessionData.basicProviders retain];
+        //providers = [sessionData.basicProviders retain];
     
         /* Check the session data to see if there's information on the last provider the user logged in with. */
-        if (sessionData.returningBasicProvider)
+        if (sessionData.returningBasicProvider && !sessionData.currentProvider)
         {
             DLog(@"and there was a returning provider");
-            [sessionData setCurrentBasicProviderToReturningProvider];
+            //[sessionData setCurrentBasicProviderToReturningProvider];
+            [sessionData setCurrentProvider:sessionData.returningBasicProvider];
             
             /* If so, go straight to the returning provider screen. */
             [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
@@ -174,7 +173,7 @@
     }
     else
     {
-       DLog(@"prov count = %d", [providers count]);
+       DLog(@"prov count = %d", [[sessionData basicProviders] count]);
 	
         /* If the user calls the library before the session data object is done initializing - 
            because either the requests for the base URL or provider list haven't returned - 
@@ -205,13 +204,13 @@
 	static NSTimeInterval interval = 0.125;
 	interval = interval * 2;
 	
-	DLog(@"prov count = %d", [providers count]);
+	DLog(@"prov count = %d", [[sessionData basicProviders] count]);
 	DLog(@"interval = %f", interval);
     
     /* If we have our list of providers, stop the progress indicators and load the table. */
-	if ([sessionData configurationComplete])//([providers count] != 0)
+	if ([sessionData configurationComplete]  || ([[sessionData basicProviders] count] > 0))
 	{
-        providers = [sessionData.basicProviders retain];
+//        providers = [sessionData.basicProviders retain];
 		
         [myActivitySpinner stopAnimating];
 		[myActivitySpinner setHidden:YES];
@@ -295,7 +294,7 @@
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section 
 {
-	return [providers count];
+	return [[sessionData basicProviders] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView 
@@ -309,7 +308,11 @@
 				 initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 	
 	JRProvider* provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
-	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider.name];
+
+    if (!provider)
+        return cell;
+	
+    NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider.name];
 	
 	DLog(@"cell for %@", provider.name);
 
@@ -339,7 +342,8 @@
 	
 	/* Let sessionData know which provider the user selected */
 	JRProvider *provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
-    [sessionData setBasicProvider:provider];
+//    [sessionData setBasicProvider:provider];
+    [sessionData setCurrentProvider:provider];
 
     DLog(@"cell for %@ was selected", provider);
 

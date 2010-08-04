@@ -19,7 +19,7 @@
 {
 	JRSessionData	*sessionData;
 
-    NSArray         *providers;
+//    NSArray         *providers;
 
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;

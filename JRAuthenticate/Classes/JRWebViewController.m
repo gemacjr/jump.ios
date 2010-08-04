@@ -112,6 +112,18 @@
 		DLog(@"view controller: %@", [vc description]);
 	}
   	
+    if (!sessionData.currentProvider)
+    {
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"TODO REWRITE ERROR!! Authentication failed."
+                                                             forKey:NSLocalizedDescriptionKey];
+        NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
+                                             code:100
+                                         userInfo:userInfo];
+        
+        [sessionData authenticationDidFailWithError:error];        
+    }
+        
+    
 	[self webViewWithUrl:[sessionData startUrl]];
 	[myWebView becomeFirstResponder];
 }
@@ -169,7 +181,7 @@
 		
 		if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"stat"] isEqualToString:@"ok"])
 		{
-            [sessionData authenticationDidCompleteWithPayload:payloadDict forProvider:sessionData.currentProvider];
+            [sessionData authenticationDidCompleteWithPayload:payloadDict];// forProvider:sessionData.currentProvider];
 		}
 		else 
 		{

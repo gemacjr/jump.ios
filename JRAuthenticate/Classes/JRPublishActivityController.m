@@ -80,13 +80,14 @@
 	activity = [sessionData activity];
             
     [sessionData addDelegate:self];
+    [sessionData setSocial:YES];
     
 	/* If the user calls the library before the session data object is done initializing - 
      because either the requests for the base URL or provider list haven't returned - 
      display the "Loading Providers" label and activity spinner. 
      sessionData = nil when the call to get the base URL hasn't returned
      [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-	if (![sessionData configurationComplete])// || [providers count] == 0)//!sessionData || [providers count] == 0)
+	if (![sessionData configurationComplete] || !([[sessionData socialProviders] count] > 0))
 	{
         [self showViewIsLoading:YES];
 		
@@ -95,13 +96,13 @@
 	}
 	else 
 	{
-        providers = [sessionData.socialProviders retain];
+        //providers = [sessionData.socialProviders retain];
         ready = YES;
         [self addProvidersToTabBar];
         [self loadActivityToView];
 	}
     
-    DLog(@"prov count = %d", [providers count]);
+    DLog(@"prov count = %d", [[sessionData socialProviders] count]);
 	
 	title_label = nil;
 }
@@ -219,13 +220,13 @@
 	static NSTimeInterval interval = 0.125;
 	interval = interval * 2;
 	
-	DLog(@"prov count = %d", [providers count]);
+	DLog(@"prov count = %d", [[sessionData socialProviders] count]);
 	DLog(@"interval = %f", interval);
 	      
     /* If we have our list of providers, stop the progress indicators and load the table. */
-	if ([sessionData configurationComplete])
+	if ([sessionData configurationComplete] || ([[sessionData socialProviders] count] > 0))
 	{
-		providers = [sessionData.socialProviders retain];
+//		providers = [sessionData.socialProviders retain];
         ready = YES;
         
         [self showViewIsLoading:NO];
@@ -257,6 +258,74 @@
 	
 	[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 }
+
+- (void)addProvidersToTabBar
+{
+    DLog(@"");
+    NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:[[sessionData socialProviders] count]];
+    NSInteger indexOfLastUsedProvider = 0;
+    
+    for (int i = 0; i < [[sessionData socialProviders] count]; i++)
+    {
+        JRProvider *provider = [[sessionData getSocialProviderAtIndex:i] retain];
+        
+        if (!provider)
+            break;
+        
+        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];
+        UITabBarItem *providerTab = [[UITabBarItem alloc] initWithTitle:provider.friendlyName 
+                                                                  image:[UIImage imageNamed:imagePath]
+                                                                    tag:[providerTabArr count]];
+        
+        [providerTabArr insertObject:providerTab atIndex:[providerTabArr count]];
+        
+        if ([provider isEqualToProvider:[sessionData returningSocialProvider]])
+            indexOfLastUsedProvider = i;
+        
+        [provider release];
+    }
+    
+    [myTabBar setItems:providerTabArr animated:YES];
+    
+    // TODO: Make this be the provider most commonly used
+    // TODO: Do we need both of these?
+    if ([providerTabArr count])
+    {
+        myTabBar.selectedItem = [providerTabArr objectAtIndex:indexOfLastUsedProvider];
+        [self tabBar:myTabBar didSelectItem:[providerTabArr objectAtIndex:indexOfLastUsedProvider]];
+    }
+    
+    [providerTabArr release];
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    [selectedProvider release];
+    [loggedInUser release];
+    
+    DLog(@"");
+    selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
+    [sessionData setCurrentProvider:selectedProvider];
+    
+    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
+    
+    if (loggedInUser)
+    {
+        [self showUserAsLoggedIn:YES];
+        [self loadUserNameAndProfilePicForUser:loggedInUser atProviderIndex:item.tag];
+    }
+    else
+    {
+        [self showUserAsLoggedIn:NO];
+    }
+    
+    myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider.name]];
+    
+    [self loadActivityToView];
+    [self showActivityAsShared:NO];
+}
+
+
 
 - (void)doneButtonPressed:(id)sender
 {
@@ -395,36 +464,6 @@
     }
 }
 
-- (void)addProvidersToTabBar
-{
-    DLog(@"");
-    NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:[providers count]];
-    
-    for (int i = 0; i < [providers count]; i++)
-    {
-        JRProvider *provider = [[sessionData getSocialProviderAtIndex:i] retain];
-
-        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];
-        
-        UITabBarItem *providerTab = [[UITabBarItem alloc] initWithTitle:provider.friendlyName 
-                                                                  image:[UIImage imageNamed:imagePath]
-                                                                    tag:[providerTabArr count]];
-        
-        [providerTabArr insertObject:providerTab atIndex:[providerTabArr count]];
-
-        [provider release];
-    }
-    
-    [myTabBar setItems:providerTabArr animated:YES];
-    
-    // TODO: Make this be the provider most commonly used
-    // TODO: Do we need both of these?
-    myTabBar.selectedItem = [providerTabArr objectAtIndex:0];
-    [self tabBar:myTabBar didSelectItem:[providerTabArr objectAtIndex:0]];
-     
-    [providerTabArr release];
-}
-
 - (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl atProviderIndex:(NSUInteger)index
 {
     DLog(@"");
@@ -453,30 +492,6 @@
 
 
 
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
-{
-    [selectedProvider release];
-    [loggedInUser release];
-    
-    DLog(@"");
-    selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
-    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
-    
-    if (loggedInUser)
-    {
-        [self showUserAsLoggedIn:YES];
-        [self loadUserNameAndProfilePicForUser:loggedInUser atProviderIndex:item.tag];
-    }
-    else
-    {
-        [self showUserAsLoggedIn:NO];
-    }
-
-    myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider.name]];
-
-    [self loadActivityToView];
-    [self showActivityAsShared:NO];
-}
 
 
 
@@ -686,7 +701,7 @@
 }
 
 
-- (void)authenticationDidCompleteWithToken:(NSString*)token andProvider:(NSString*)provider 
+- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider 
 {
     DLog(@"");
     
@@ -714,6 +729,8 @@
         [alert show];
         [self showViewIsLoading:NO];
     }
+    
+    
 }
 
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider
@@ -723,7 +740,7 @@
 
 - (void)authenticationDidCancel { DLog(@""); }
 - (void)authenticationDidCancelForProvider:(NSString*)provider { DLog(@""); }
-- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider { DLog(@""); }
+//- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider { DLog(@""); }
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 
@@ -741,6 +758,9 @@
     
     [self showViewIsLoading:NO];
 //    [self showActivityAsShared:YES];
+    
+    // TODO: Move this to somewhere more logical -- hack for now
+    [sessionData setSocial:NO];
 }
 
 - (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider 
@@ -754,6 +774,9 @@
     
     [self showViewIsLoading:NO];
     [self showActivityAsShared:YES];
+
+    // TODO: Move this to somewhere more logical -- hack for now    
+    [sessionData setSocial:NO];
 }
 
 - (void)shareActivity
@@ -770,7 +793,8 @@
 {
     DLog(@"");
     
-    [sessionData setSocialProvider:selectedProvider];
+    // TODO: Move this to somewhere more logical -- hack for now
+    [sessionData setSocial:YES];
     
     if (!loggedInUser)
     {
@@ -829,6 +853,7 @@
     DLog(@"");
     [super viewDidUnload];
     
+    [sessionData setSocial:NO];
     [sessionData removeDelegate:self];
     
     // Release any retained subviews of the main view.

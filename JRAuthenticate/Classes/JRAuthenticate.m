@@ -229,6 +229,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[sessionData makeCallToTokenUrl:tokenUrl WithToken:token];
 }
 
+
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
 {
 	DLog(@"token: %@", token);
@@ -238,7 +239,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 		[delegate jrAuthenticate:self didReceiveToken:token forProvider:provider];
 	}
 	
-    if ([sessionData isSocial])
+    if (![sessionData social])
         [jrModalNavController dismissModalNavigationController:YES];
 }
 

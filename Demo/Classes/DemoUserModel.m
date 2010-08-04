@@ -473,7 +473,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
 
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token { }
+- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString*)provider { }
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider
 {
@@ -484,8 +484,9 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[signInDelegate didReceiveToken];
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenURL:(NSString*)tokenURL 
-													withPayload:(NSString*)tokenUrlPayload
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenUrl:(NSString*)tokenUrl 
+                                                    withPayload:(NSString*)tokenUrlPayload 
+                                                    forProvider:(NSString*)provider
 {
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
@@ -510,13 +511,13 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[signInDelegate didFailToSignIn:nil];
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error 
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:error];
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:error];

@@ -45,7 +45,7 @@
 {
 	JRSessionData	*sessionData;
     
-    NSArray *providers;
+//  NSArray *providers;
     
 	UITableView		*myTableView;
 	
@@ -61,5 +61,4 @@
 @property (nonatomic, retain) IBOutlet UITableView	*myTableView;
 @property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
-@property BOOL social;
 @end

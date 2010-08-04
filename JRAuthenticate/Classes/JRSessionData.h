@@ -119,10 +119,12 @@ typedef enum
 	NSMutableArray	*delegates;
 	    
 	JRProvider *currentProvider;
+	JRProvider *returningProvider;	
 	JRProvider *returningBasicProvider;	
-    JRProvider *currentSocialProvider;
     JRProvider *returningSocialProvider;
-	
+
+    JRProvider *currentSocialProvider;
+    
     /* allProviders is an array of JRProviders, where each JRProvider containing the information
      specific to that provider. basicProviders and socialProviders are arrays of NSStrings, each
      string being the primary key for a provider.  The arrays are in the order specified by the rp. */
@@ -139,7 +141,7 @@ typedef enum
     NSDictionary *customProvider;
 	
 	NSURL	 *startUrl;
-    BOOL      isSocial;
+    BOOL      social;
     
     NSString *tokenUrl;
 	NSString *baseUrl;
@@ -150,17 +152,16 @@ typedef enum
     BOOL forceReauth;
 
     BOOL configurationComplete;
-	NSString *errorStr;
     NSError  *error;
+    
+    NSObject *configurationSemaphore;
 }
 
 @property (readonly) BOOL configurationComplete;
 @property (readonly) NSError *error;
 
-@property (readonly) JRProvider *currentProvider;
-@property (readonly) JRProvider *currentBasicProvider;
+@property (retain) JRProvider *currentProvider;
 @property (readonly) JRProvider *returningBasicProvider;
-@property (readonly) JRProvider *currentSocialProvider;
 @property (readonly) JRProvider *returningSocialProvider;
 
 @property (readonly) NSMutableDictionary *allProviders;
@@ -178,7 +179,7 @@ typedef enum
 @property (readonly) NSString *baseUrl;
 
 @property (assign) BOOL forceReauth;
-@property (readonly) BOOL isSocial;
+@property (assign) BOOL social;
 
 
 + (JRSessionData*)jrSessionData;
@@ -192,11 +193,13 @@ typedef enum
 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;
 - (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index;
 
-- (void)setReturningBasicProviderToNewBasicProvider:(JRProvider*)provider;
-- (void)setCurrentBasicProviderToReturningProvider;
+- (void)setReturningBasicProviderToNil;
 
-- (void)setBasicProvider:(JRProvider*)provider;
-- (void)setSocialProvider:(JRProvider*)provider;
+//- (void)setReturningBasicProviderToNewBasicProvider:(JRProvider*)provider;
+//- (void)setCurrentBasicProviderToReturningProvider;
+//
+//- (void)setBasicProvider:(JRProvider*)provider;
+//- (void)setSocialProvider:(JRProvider*)provider;
 	
 - (BOOL)gatheringInfo;
 
@@ -209,8 +212,8 @@ typedef enum
 - (void)makeCallToTokenUrl:(NSString*)tokenURL withToken:(NSString*)token forProvider:(NSString*)provider;
 
 - (void)authenticationDidCancel;
-- (void)authenticationDidCompleteWithPayload:(NSDictionary*)payloadDict forProvider:(JRProvider*)provider;
-- (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authenticationToken andDeviceToken:(NSString*)deviceToken;
-- (void)authenticationDidCompleteWithToken:(NSString*)authenticationToken;
+- (void)authenticationDidCompleteWithPayload:(NSDictionary*)payloadDict;// forProvider:(JRProvider*)provider;
+//- (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authenticationToken andDeviceToken:(NSString*)deviceToken;
+//- (void)authenticationDidCompleteWithToken:(NSString*)authenticationToken;
 - (void)authenticationDidFailWithError:(NSError*)_error;
 @end

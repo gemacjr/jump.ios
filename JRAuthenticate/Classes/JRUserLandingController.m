@@ -167,7 +167,7 @@
 		bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		[bigSignInButton setFrame:CGRectMake(20, 128, 280, 38)];
 		
-		[bigSignInButton setBackgroundImage:[UIImage imageNamed:@"big_blue_button_280x38.png"] forState:UIControlStateNormal];
+		[bigSignInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_280x38.png"] forState:UIControlStateNormal];
 		bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 		[bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
 		[bigSignInButton setTitleColor:[UIColor whiteColor] 
@@ -381,15 +381,15 @@
 				 targetForSelector:self] autorelease];
     }
     
-	NSString *welcomeMsg = nil;
-
 	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_logo.png", sessionData.currentProvider.name];
 	cell.logo.image = [UIImage imageNamed:imagePath];
 	
+    /* If the provider requires input, we need to enable the textField, and set the text/placeholder text to the apropriate string */
 	if (sessionData.currentProvider.requiresInput)
 	{
 		DLog(@"current provider requires input");
 		
+        // TODO: Now that I'm using JRProvider *s, do I need to do this step, or will these just be the same object?
 		if ([sessionData.currentProvider isEqualToProvider:sessionData.returningBasicProvider])
 			[sessionData.currentProvider setUserInput:[NSString stringWithString:sessionData.returningBasicProvider.userInput]];
 		else
@@ -407,7 +407,7 @@
 		[cell.welcomeLabel setHidden:YES];
 		[cell.forgetUserButton setHidden:YES];
 	}
-	else 
+	else /* If the provider doesn't require input, then we are here because this is the return experience screen and only for basic providers */
 	{
 		DLog(@"current provider does not require input");
 		
@@ -416,10 +416,10 @@
 		[cell.welcomeLabel setHidden:NO];
 		[cell.bigSignInButton setHidden:YES];
 
-		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningBasicProvider.welcomeString];
-		cell.welcomeLabel.text = welcomeMsg;
+//		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningBasicProvider.welcomeString];
+		cell.welcomeLabel.text = sessionData.currentProvider.welcomeString;//welcomeMsg;
 		
-		DLog(@"welcomeMsg: %@", welcomeMsg);
+		DLog(@"welcomeMsg: %@", sessionData.currentProvider.welcomeString);//welcomeMsg);
 	}
 
     return cell;
@@ -550,9 +550,12 @@
 	DLog(@"");
     
     /* This should work, because this button will only be visible during the return experience of a basic provider */
-	[sessionData setBasicProvider:nil];
-	[sessionData setReturningBasicProviderToNewBasicProvider:nil];
-	sessionData.forceReauth = YES;
+//	[sessionData setBasicProvider:nil];
+//	[sessionData setReturningBasicProviderToNewBasicProvider:nil];
+    [sessionData setCurrentProvider:nil];
+    [sessionData setReturningBasicProviderToNil];
+    
+    sessionData.forceReauth = YES;
 		
 	[[self navigationController] popViewControllerAnimated:YES];
 }
