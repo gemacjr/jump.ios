@@ -241,6 +241,7 @@
 
 - (NSString*)customTitle
 {
+	DLog(@"");
 	if (!sessionData.currentProvider.requiresInput)
 		return [NSString stringWithString:@"Welcome Back!"];
 
@@ -276,9 +277,9 @@
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:[self navigationController].parentViewController
-									  action:@selector(cancelButtonPressed:)] autorelease];
-	
+									  target:sessionData//[self navigationController].parentViewController
+                                      action:@selector(authenticationDidCancel:)] autorelease];// @selector(cancelButtonPressed:)] autorelease];
+
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
@@ -289,10 +290,10 @@
 
 - (void)viewDidAppear:(BOOL)animated 
 {
+	DLog(@"");
 	[super viewDidAppear:animated];
 
 	NSArray *vcs = [self navigationController].viewControllers;
-	DLog(@"");
 	for (NSObject *vc in vcs)
 	{
 		DLog(@"view controller: %@", [vc description]);
@@ -321,16 +322,23 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated 
+{
+	DLog(@"");
 	[infoBar fadeOut];
 	[super viewWillDisappear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated 
+{
+	DLog(@"");
 	[super viewDidDisappear:animated];
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload 
+{
+	DLog(@"");
+    [super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
@@ -338,15 +346,15 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex { }
 
 
-- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString
-{
-	NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
-	
-	if ([strArr count] <= 1)
-		return @"Welcome, user!";
-	
-	return [[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-}
+//- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString
+//{
+//	NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
+//	
+//	if ([strArr count] <= 1)
+//		return @"Welcome, user!";
+//	
+//	return [[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+//}
 
 #pragma mark Table view methods
 
@@ -368,7 +376,8 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-	DLog(@"cell for %@", sessionData.currentProvider.name);   
+    DLog(@"");
+    DLog(@"cell for %@", sessionData.currentProvider.name);   
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewUserLandingCell *cell = 
@@ -510,12 +519,14 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-	[textField becomeFirstResponder];
+	DLog(@"");
+    [textField becomeFirstResponder];
 }
 
 - (void)callWebView:(UITextField *)textField
 {
-	DLog(@"user input: %@", textField.text);
+    DLog(@"");
+    DLog(@"user input: %@", textField.text);
 	if (sessionData.currentProvider.requiresInput)
 	{
 		if (textField.text.length > 0)
@@ -542,7 +553,8 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-	[textField resignFirstResponder];
+	DLog(@"");
+    [textField resignFirstResponder];
 }
 
 - (void)backToProvidersTouchUpInside

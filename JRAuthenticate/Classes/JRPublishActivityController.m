@@ -26,6 +26,7 @@
 - (void)loadActivityToView;
 - (void)setImageView:(UIImageView*)imageView toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading;
 - (void)shareActivity;
+- (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user atProviderIndex:(NSUInteger)index;
 @end
 
 
@@ -78,9 +79,6 @@
 
 	sessionData = [JRSessionData jrSessionData];
 	activity = [sessionData activity];
-            
-    [sessionData addDelegate:self];
-    [sessionData setSocial:YES];
     
 	/* If the user calls the library before the session data object is done initializing - 
      because either the requests for the base URL or provider list haven't returned - 
@@ -158,8 +156,8 @@
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:[self navigationController].parentViewController
-									  action:@selector(cancelButtonPressed:)] autorelease];
+									  target:sessionData//[self navigationController].parentViewController
+									  action:@selector(publishingDidCancel:)] autorelease];
 	
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -204,6 +202,11 @@
         [self loadActivityToView];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    DLog(@"");
+	[super viewDidAppear:animated];
+}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -300,10 +303,10 @@
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
+    DLog(@"");
     [selectedProvider release];
     [loggedInUser release];
     
-    DLog(@"");
     selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
     [sessionData setCurrentProvider:selectedProvider];
     
@@ -324,8 +327,6 @@
     [self loadActivityToView];
     [self showActivityAsShared:NO];
 }
-
-
 
 - (void)doneButtonPressed:(id)sender
 {
@@ -356,7 +357,6 @@
 	self.navigationItem.leftBarButtonItem.enabled = YES;
 	
 	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
-	
 }
 
 - (void)showUserAsLoggedIn:(BOOL)loggedIn
@@ -407,6 +407,25 @@
         [myJustShareButton setHidden:shared];
     else
         [myConnectAndShareButton setHidden:shared];
+    
+    UIBarButtonItem *barButton;
+    if (shared)
+    {
+        barButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close" 
+                                                      style:UIBarButtonItemStyleBordered 
+                                                     target:sessionData 
+                                                     action:@selector(publishingDidCancel:)] autorelease];
+    }
+    else
+    {
+        barButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                   target:sessionData
+                                                                   action:@selector(publishingDidCancel:)] autorelease];   
+        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+    }
+
+	self.navigationItem.rightBarButtonItem = barButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;	
 }
 
 - (BOOL)providerCanShareMedia:(NSString*)provider
@@ -486,19 +505,57 @@
 
 - (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user atProviderIndex:(NSUInteger)index
 {   
+    DLog(@"");
     myUserName.text = user.preferred_username;
     [self fetchProfilePicFromUrl:user.photo atProviderIndex:index];    
 }
 
+- (void)shareActivity
+{
+    DLog(@"");
+    
+    if (myUserContentTextView.text)
+        activity.user_generated_content = myUserContentTextView.text;
+    
+    [sessionData shareActivity:activity forUser:loggedInUser];
+}
 
-
-
-
-
-
+- (IBAction)shareButtonPressed:(id)sender
+{
+    DLog(@"");
+    
+    [self showViewIsLoading:YES];
+    
+    // TODO: Move this to somewhere more logical -- hack for now
+    [sessionData setSocial:YES];
+    [sessionData addDelegate:self];
+    
+    if (!loggedInUser)
+    {
+        /* If the selected provider requires input from the user, go to the user landing view.
+         Or if the user started on the user landing page, went back to the list of providers, then selected 
+         the same provider as their last-used provider, go back to the user landing view. */
+        if (selectedProvider.requiresInput)
+        {	
+            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+                                                   animated:YES]; 
+        }
+        /* Otherwise, go straight to the web view. */
+        else
+        {
+            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+                                                   animated:YES]; 
+        }
+    }
+    else
+    {
+        [self shareActivity];
+    }
+}
 
 - (void)keyboardWillShow:(NSNotification *)notif
 {
+    DLog(@"");
     [UIView beginAnimations:@"editing" context:nil];
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
                                                myUserContentTextView.frame.origin.y, 
@@ -535,6 +592,7 @@
 
 - (void)keyboardWillHide:(NSNotification *)notif
 {
+    DLog(@"");
     [UIView beginAnimations:@"editing" context:nil];
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
                                                myUserContentTextView.frame.origin.y, 
@@ -568,6 +626,7 @@
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
+    DLog(@"");
     [UIView beginAnimations:@"editing" context:nil];
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
                                                myUserContentTextView.frame.origin.y, 
@@ -598,6 +657,7 @@
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
+    DLog(@"");
     [UIView beginAnimations:@"editing" context:nil];
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
                                                myUserContentTextView.frame.origin.y, 
@@ -626,7 +686,8 @@
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
- 	NSString* tag = (NSString*)userdata; 
+    DLog(@"");
+    NSString* tag = (NSString*)userdata; 
 	[payload retain];
 	
 	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
@@ -657,7 +718,8 @@
 
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
- 	NSString* tag = (NSString*)userdata; 
+    DLog(@"");
+    NSString* tag = (NSString*)userdata; 
 	
 	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
 	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
@@ -678,7 +740,8 @@
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
-	NSString* tag = (NSString*)userdata;
+    DLog(@"");
+    NSString* tag = (NSString*)userdata;
 	[tag release];	
     
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
@@ -707,7 +770,6 @@
     
     [[self navigationController] popToRootViewControllerAnimated:YES];
     
-    [self showViewIsLoading:YES];
     myLoadingLabel.text = @"Sharing...";
     
     loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
@@ -744,10 +806,11 @@
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 
-- (void)publishingDidCancel { }
-- (void)publishingDidCancelForProvider:(NSString*)provider { }
+- (void)publishingDidCancel { DLog(@""); [sessionData setSocial:NO]; [sessionData removeDelegate:self]; }
+- (void)publishingDidCancelForProvider:(NSString*)provider { DLog(@""); [sessionData setSocial:NO]; [sessionData removeDelegate:self]; }
 - (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider 
 {
+    DLog(@"");
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
                                                      message:[NSString stringWithFormat:
                                                               @"There was an error while sharing this activity: %@", [error localizedDescription]]
@@ -761,10 +824,12 @@
     
     // TODO: Move this to somewhere more logical -- hack for now
     [sessionData setSocial:NO];
+    [sessionData removeDelegate:self];
 }
 
 - (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider 
 {
+    DLog(@"");
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
                                                      message:@"You have successfully shared this activity"
                                                     delegate:nil
@@ -777,47 +842,9 @@
 
     // TODO: Move this to somewhere more logical -- hack for now    
     [sessionData setSocial:NO];
+    [sessionData removeDelegate:self];
 }
 
-- (void)shareActivity
-{
-    DLog(@"");
-    
-    if (myUserContentTextView.text)
-        activity.user_generated_content = myUserContentTextView.text;
-
-    [sessionData shareActivity:activity forUser:loggedInUser];
-}
-
-- (IBAction)shareButtonPressed:(id)sender
-{
-    DLog(@"");
-    
-    // TODO: Move this to somewhere more logical -- hack for now
-    [sessionData setSocial:YES];
-    
-    if (!loggedInUser)
-    {
-        /* If the selected provider requires input from the user, go to the user landing view.
-         Or if the user started on the user landing page, went back to the list of providers, then selected 
-         the same provider as their last-used provider, go back to the user landing view. */
-        if (selectedProvider.requiresInput)
-        {	
-            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-                                                   animated:YES]; 
-        }
-        /* Otherwise, go straight to the web view. */
-        else
-        {
-            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
-                                                   animated:YES]; 
-        }
-    }
-    else
-    {
-        [self shareActivity];
-    }
-}
 
 //- (IBAction)doneButtonPressed:(id)sender
 //{
@@ -842,6 +869,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    DLog(@"");
+    [super viewDidDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -849,19 +882,20 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload 
+{
     DLog(@"");
     [super viewDidUnload];
-    
-    [sessionData setSocial:NO];
-    [sessionData removeDelegate:self];
     
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
 
-- (void)dealloc {
+- (void)dealloc
+{
+    DLog(@"");
+    
     [super dealloc];
 }
 

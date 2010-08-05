@@ -82,9 +82,9 @@
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:[self navigationController].parentViewController
-									  action:@selector(cancelButtonPressed:)] autorelease];
-	
+									  target:sessionData//[self navigationController].parentViewController
+                                      action:@selector(authenticationDidCancel:)] autorelease];// @selector(cancelButtonPressed:)] autorelease];
+
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
@@ -103,10 +103,10 @@
 
 - (void)viewDidAppear:(BOOL)animated 
 {
+	DLog(@"");
 	[super viewDidAppear:animated];
 
 	NSArray *vcs = [self navigationController].viewControllers;
-	DLog(@"");
 	for (NSObject *vc in vcs)
 	{
 		DLog(@"view controller: %@", [vc description]);
@@ -141,6 +141,7 @@
 
 - (void)startProgress
 { 
+	DLog(@"");
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = YES;
 	[infoBar startProgress];
@@ -148,6 +149,7 @@
 
 - (void)stopProgress
 {
+	DLog(@"");
 	if ([JRConnectionManager openConnections] == 0)
 	{
 		UIApplication* app = [UIApplication sharedApplication]; 
@@ -156,12 +158,14 @@
 	
 	keepProgress = NO;
 	[infoBar stopProgress];
+//    [myWebView stopLoading];
 }
 	
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
+	DLog(@"");
 	[self stopProgress];
 	
 	NSString* tag = [(NSString*)userdata retain];
@@ -235,26 +239,30 @@
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
+	DLog(@"");
 	NSString* tag = [(NSString*)userdata retain];
 	DLog(@"tag:     %@", tag);
 	
+    [self stopProgress];
+    
 	if ([tag isEqualToString:@"rpx_result"])
 	{
 		[sessionData authenticationDidFailWithError:error];
 	}
 	
 	[tag release];	
-	[self stopProgress];
 }
 
 - (void)connectionWasStoppedWithTag:(void*)userdata 
 {
+	DLog(@"");
 	[(NSString*)userdata release];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 												 navigationType:(UIWebViewNavigationType)navigationType 
 {	
+	DLog(@"");
 	DLog(@"request: %@", [[request URL] absoluteString]);
 	DLog(@"navigation type: %d", navigationType);
 	
@@ -289,8 +297,11 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error 
 {
+	DLog(@"");
 	DLog(@"error message: %@", [error localizedDescription]); 
-
+    
+    [self stopProgress];
+    
 	if (!userStopped)
 		[sessionData authenticationDidFailWithError:error];
 	userStopped = NO;
@@ -329,10 +340,13 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+	DLog(@"");
 	[super viewDidDisappear:animated];
 }
 
 - (void)viewDidUnload {
+	DLog(@"");
+    [super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }

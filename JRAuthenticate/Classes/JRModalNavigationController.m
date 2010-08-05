@@ -86,7 +86,8 @@
 	DLog(@"");
 
 	UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-	
+	DLog(@"view retain count: %d", [view retainCount]);
+    
 	if (!navigationController)
 	{
 		navigationController    = [[UINavigationController alloc] 
@@ -121,28 +122,32 @@
 		socialNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     }          
     
-    shouldRestore = NO;
+    shouldUnloadSubviews = NO;
     
     [view setHidden:YES];
 	[self setView:view];
+    [view release];
 }
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
+    DLog(@"");
+    
     [super viewDidLoad];
+    [self retain];
+    
+	DLog(@"view retain count: %d", [self.view retainCount]);
 }
-*/
+
 
 - (void)presentModalNavigationControllerForPublishingActivity//:(JRActivityObject*)_activity
 {
 	DLog(@"");
-    
- //   activity = _activity;
+	DLog(@"view retain count: %d", [self.view retainCount]);
     
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-//    isSocial = YES;//((JRProvidersController*)[navigationController.viewControllers objectAtIndex:0]).social = YES;
     
 	[self presentModalViewController:socialNavigationController animated:YES];
 }
@@ -151,7 +156,6 @@
 {
 	DLog(@"");
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-//    isSocial = NO;//((JRProvidersController*)navigationController.topViewController).social = NO;
     
 	[self presentModalViewController:navigationController animated:YES];
 }
@@ -164,40 +168,48 @@
 
 - (void)viewDidAppear:(BOOL)animated 
 {
-	DLog(@"");
-	if (shouldRestore)
-		[[JRAuthenticate jrAuthenticate] unloadModalViewController];	
-	//	[self restore:animated];
-	
-	shouldRestore = NO;
+    DLog(@"");
+    [super viewDidAppear:animated];
+
+	DLog(@"view retain count: %d", [self.view retainCount]);
+	if (shouldUnloadSubviews)
+    {
+        [self.view removeFromSuperview];
+		[self release];//[[JRAuthenticate jrAuthenticate] unloadModalViewController];	
+    }    
 }
 
-// TODO: Move this to session data
-- (void)cancelButtonPressed:(id)sender
-{
-	DLog(@"");
-	[[JRSessionData jrSessionData] authenticationDidCancel];
-	[self dismissModalNavigationController:NO];
-	[self restore:NO];
-}
+//- (void)cancelButtonPressed:(id)sender
+//{
+//	DLog(@"");
+//	[[JRSessionData jrSessionData] authenticationDidCancel];
+//	[self dismissModalNavigationController:NO];
+//	[self restore:NO];
+//}
 
-- (void)dismissModalNavigationController:(BOOL)successfullyAuthed
+- (void)dismissModalNavigationController:(UIModalTransitionStyle)style
 {
-	DLog(@"%@", (successfullyAuthed ? @"YES" : @"NO"));
-	
-	if (successfullyAuthed)
-	{
-		shouldRestore = YES;
-		navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-		[self.view setHidden:NO];
-		[self dismissModalViewControllerAnimated:YES];
-	}
-	else 
-	{
-		navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-		[self dismissModalViewControllerAnimated:YES];
-		[self.view removeFromSuperview];
-	}
+    DLog(@"");
+	DLog(@"view retain count: %d", [self.view retainCount]);
+
+    shouldUnloadSubviews = YES;
+    navigationController.modalTransitionStyle = style;
+    [self.view setHidden:NO];
+    [self dismissModalViewControllerAnimated:YES];
+    
+//	if (successfullyAuthed)
+//	{
+//		shouldUnloadSubviews = YES;
+//		navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//		[self.view setHidden:NO];
+//		[self dismissModalViewControllerAnimated:YES];
+//	}
+//	else 
+//	{
+//		navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//		[self dismissModalViewControllerAnimated:YES];
+//		[self.view removeFromSuperview];
+//	}
 }
 
 
@@ -208,7 +220,6 @@
 	return YES;
 }
 
-
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -218,26 +229,29 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	[super viewWillDisappear:animated];
+	DLog(@"");
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
+	DLog(@"");
+    [super viewDidDisappear:animated];
+//    [self release];
 }
 
 - (void)viewDidUnload {
-	// Release any retained subviews of the main view.
+	DLog(@"");
+    // Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
-
 
 - (void)dealloc 
 {
 	DLog(@"");
-
-//	[sessionData release];
-	[navigationController release];
+    
+	DLog(@"view retain count: %d", [self.view retainCount]);
+    [navigationController release];
     [socialNavigationController release];
 	[myUserLandingController release];
 	[myWebViewController release];
@@ -245,6 +259,5 @@
     
 	[super dealloc];
 }
-
 
 @end

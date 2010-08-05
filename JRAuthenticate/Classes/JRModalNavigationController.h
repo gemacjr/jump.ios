@@ -32,10 +32,7 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import <UIKit/UIKit.h>
-//#import "JRAuthenticate.h"
-//#import "JRSessionData.h"
 #import "JRProvidersController.h"
 #import "JRUserLandingController.h"
 #import "JRWebViewController.h"
@@ -50,18 +47,12 @@
 {
 	UINavigationController	*navigationController;
     UINavigationController  *socialNavigationController;
-//  UITabBarController *myTabBarController;
     
-	BOOL shouldRestore;
-//  BOOL isSocial;
+	BOOL shouldUnloadSubviews;
 	
 	JRUserLandingController     *myUserLandingController;
 	JRWebViewController         *myWebViewController;
     JRPublishActivityController *myPublishActivityController;
-	
-//  JRActivityObject *activity;
-
-//	JRSessionData *sessionData;
 }
 
 @property (retain) UINavigationController *navigationController;
@@ -71,13 +62,11 @@
 @property (readonly) JRWebViewController         *myWebViewController;
 @property (readonly) JRPublishActivityController *myPublishActivityController;
 
-//- (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data;
-
 - (void)presentModalNavigationControllerForAuthentication;
-- (void)presentModalNavigationControllerForPublishingActivity;//:(JRActivityObject*)_activity;
-- (void)dismissModalNavigationController:(BOOL)successfullyAuthed;
+- (void)presentModalNavigationControllerForPublishingActivity;
+- (void)dismissModalNavigationController:(UIModalTransitionStyle)style;
 
-- (void)cancelButtonPressed:(id)sender;
+//- (void)cancelButtonPressed:(id)sender;
 
 
 @end

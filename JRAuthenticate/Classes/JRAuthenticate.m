@@ -63,12 +63,9 @@ static JRAuthenticate* singletonJRAuth = nil;
 					 andTokenUrl:(NSString*)tokenUrl 
 						delegate:(id<JRAuthenticateDelegate>)delegate
 {
-#if FOO
-    return nil;
-#endif
-	DLog(@"appID:    %@", appId);
+	DLog(@"");
+    DLog(@"appID:    %@", appId);
 	DLog(@"tokenURL: %@", tokenUrl);
-
     
 	if (self = [super init])
 	{
@@ -136,6 +133,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)showJRAuthenticateDialog
 {
+    DLog(@"");
     if (sessionData.error)
     {
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
@@ -147,9 +145,7 @@ static JRAuthenticate* singletonJRAuth = nil;
         }
     }
 
-    DLog(@"");
-	
-	UIWindow* window = [UIApplication sharedApplication].keyWindow;
+ 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
 	if (!window) 
 	{
 		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
@@ -165,6 +161,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)showAuthenticationDialog
 {
+    DLog(@"");
     if (sessionData.error)
     {
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
@@ -175,9 +172,8 @@ static JRAuthenticate* singletonJRAuth = nil;
             return;
         }
     }
-    DLog(@"");
-	
-	UIWindow* window = [UIApplication sharedApplication].keyWindow;
+    
+    UIWindow* window = [UIApplication sharedApplication].keyWindow;
 	if (!window) 
 	{
 		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
@@ -221,18 +217,18 @@ static JRAuthenticate* singletonJRAuth = nil;
 	[jrModalNavController presentModalNavigationControllerForPublishingActivity];
 }
 
-- (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
+- (void)unloadModalViewControllerWithTransitionStyle:(UIModalTransitionStyle)style
 {
-	DLog(@"token:    %@", token);
-	DLog(@"tokenURL: %@", tokenUrl);
-
-	[sessionData makeCallToTokenUrl:tokenUrl WithToken:token];
+	DLog(@"");
+    [jrModalNavController dismissModalNavigationController:style];   
+  	[jrModalNavController release];
+	jrModalNavController = nil;	    
 }
-
 
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
 {
-	DLog(@"token: %@", token);
+	DLog(@"");
+    DLog(@"token: %@", token);
 	
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
@@ -240,11 +236,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 	
     if (![sessionData social])
-        [jrModalNavController dismissModalNavigationController:YES];
+        [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
 }
 
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider
 {
+    DLog(@"");
     for (id<JRAuthenticateDelegate> delegate in delegates) 
     {
         [delegate jrAuthenticate:self didReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
@@ -253,17 +250,19 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
-	for (id<JRAuthenticateDelegate> delegate in delegates) 
+	DLog(@"");
+    for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
 		[delegate jrAuthenticate:self didFailWithError:error forProvider:provider];
 	}
 	
-	[jrModalNavController dismissModalNavigationController:NO];
+	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
 
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
+    DLog(@"");
     for (id<JRAuthenticateDelegate> delegate in delegates) 
     {
         [delegate jrAuthenticate:self callToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
@@ -272,28 +271,43 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)authenticationDidCancel
 {
-	for (id<JRAuthenticateDelegate> delegate in delegates) 
+	DLog(@"");
+    for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
 	}
 	
-	[jrModalNavController dismissModalNavigationController:NO];
+	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
 - (void)authenticationDidCancelForProvider:(NSString*)provider
 {
-	for (id<JRAuthenticateDelegate> delegate in delegates) 
+	DLog(@"");
+    for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self forProvider:(NSString*)provider];
 	}
 	
-	[jrModalNavController dismissModalNavigationController:NO];
+	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
-- (void)publishingDidCancel { }
-- (void)publishingDidCancelForProvider:(NSString*)provider { }
-- (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
-- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+- (void)publishingDidCancel 
+{ 
+	DLog(@"");
+    for (id<JRAuthenticateDelegate> delegate in delegates) 
+	{
+		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
+	}
+	
+	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];   
+//  	[jrModalNavController release];
+//	jrModalNavController = nil;	
+//    [self unloadModalViewController];
+}
+
+- (void)publishingDidCancelForProvider:(NSString*)provider { DLog(@""); }
+- (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { DLog(@""); }
+- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 
 
 - (void)cancelAuthentication
@@ -305,7 +319,9 @@ static JRAuthenticate* singletonJRAuth = nil;
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self forProvider:nil];
 	}
 
-	[jrModalNavController dismissModalNavigationController:NO];
+    [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
+//    [jrModalNavController release];
+//    jrModalNavController = nil;
 }
 
 - (void)cancelAuthenticationWithError:(NSError*)error
@@ -317,7 +333,7 @@ static JRAuthenticate* singletonJRAuth = nil;
         [delegate jrAuthenticate:self didFailWithError:error forProvider:nil];
 	}	
 	
-	[jrModalNavController dismissModalNavigationController:NO];
+	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
 - (void)unloadModalViewController
@@ -329,13 +345,24 @@ static JRAuthenticate* singletonJRAuth = nil;
 	jrModalNavController = nil;	
 }
 
+- (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
+{
+	DLog(@"");
+    DLog(@"token:    %@", token);
+	DLog(@"tokenURL: %@", tokenUrl);
+    
+	[sessionData makeCallToTokenUrl:tokenUrl withToken:token];
+}
+
 - (void)signoutUserForProvider:(NSString*)provider
 {
+    DLog(@"");
     [sessionData forgetAuthenticatedUserForProvider:provider];
 }
 
 - (void)signoutUserForAllProviders
 {
+    DLog(@"");
     [sessionData forgetAllAuthenticatedUsers];
 }
 
@@ -353,6 +380,5 @@ static JRAuthenticate* singletonJRAuth = nil;
 		
 	[super dealloc];
 }
-
 
 @end

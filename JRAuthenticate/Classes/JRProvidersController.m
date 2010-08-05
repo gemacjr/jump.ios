@@ -126,8 +126,8 @@
         
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:[self navigationController].parentViewController
-									 action:@selector(cancelButtonPressed:)] autorelease];
+									  target:sessionData//[self navigationController].parentViewController
+                                      action:@selector(authenticationDidCancel:)] autorelease];// @selector(cancelButtonPressed:)] autorelease];
 
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -201,7 +201,8 @@
    until the provider list is loaded or we time out. */
 - (void)checkSessionDataAndProviders:(NSTimer*)theTimer
 {
-	static NSTimeInterval interval = 0.125;
+    DLog(@"");
+    static NSTimeInterval interval = 0.125;
 	interval = interval * 2;
 	
 	DLog(@"prov count = %d", [[sessionData basicProviders] count]);
@@ -250,11 +251,11 @@
 
 - (void)viewDidAppear:(BOOL)animated 
 {
+	DLog(@"");
 	[super viewDidAppear:animated];
 	
 	// TODO: Only compile in debug version
 	NSArray *vcs = [self navigationController].viewControllers;
-	DLog(@"");
 	for (NSObject *vc in vcs)
 	{
 		DLog(@"view controller: %@", [vc description]);
@@ -300,7 +301,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView 
 		 cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-	UITableViewCellProviders *cell = 
+    DLog(@"");
+    UITableViewCellProviders *cell = 
 	(UITableViewCellProviders*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
 	
 	if (cell == nil)
@@ -338,7 +340,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[tableView deselectRowAtIndexPath:indexPath animated:NO];
+    DLog(@"");
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 	
 	/* Let sessionData know which provider the user selected */
 	JRProvider *provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
@@ -375,18 +378,21 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	[infoBar fadeOut];
+    DLog(@"");
+    [infoBar fadeOut];
 	[super viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
+    DLog(@"");
+    [super viewDidDisappear:animated];
 }
 
 - (void)viewDidUnload	
 {
-	[super viewDidUnload];
+    DLog(@"");
+    [super viewDidUnload];
 }
 
 - (void)dealloc 
