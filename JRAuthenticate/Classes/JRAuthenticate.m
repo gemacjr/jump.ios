@@ -76,7 +76,9 @@ static JRAuthenticate* singletonJRAuth = nil;
 		delegates = [[NSMutableArray alloc] initWithObjects:[delegate retain], nil];
 		
         sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
-        jrModalNavController = [[JRModalNavigationController alloc] init];
+        interfaceMaestro = [JRUserInterfaceMaestro jrUserInterfaceMaestroWithSessionData:sessionData];
+        
+//        jrModalNavController = [[JRModalNavigationController alloc] init];
 	}	
 	
 	return self;
@@ -124,12 +126,12 @@ static JRAuthenticate* singletonJRAuth = nil;
     return self;
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    DLog(@"");
-	if (jrModalNavController) 
-		[jrModalNavController dismissModalNavigationController:NO];	
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    DLog(@"");
+//	if (jrModalNavController) 
+//		[jrModalNavController dismissModalNavigationController:NO];	
+//}
 
 - (void)showJRAuthenticateDialog
 {
@@ -145,18 +147,19 @@ static JRAuthenticate* singletonJRAuth = nil;
         }
     }
 
- 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
-	if (!window) 
-	{
-		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
-	}
-	
-	if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] init];
-	
-	[window addSubview:jrModalNavController.view];
-	
-	[jrModalNavController presentModalNavigationControllerForAuthentication];
+    [interfaceMaestro showAuthenticationDialog];
+// 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
+//	if (!window) 
+//	{
+//		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
+//	}
+//	
+//	if (!jrModalNavController)
+//		jrModalNavController = [[JRModalNavigationController alloc] init];
+//	
+//	[window addSubview:jrModalNavController.view];
+//	
+//	[jrModalNavController presentModalNavigationControllerForAuthentication];
 }
 
 - (void)showAuthenticationDialog
@@ -173,18 +176,20 @@ static JRAuthenticate* singletonJRAuth = nil;
         }
     }
     
-    UIWindow* window = [UIApplication sharedApplication].keyWindow;
-	if (!window) 
-	{
-		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
-	}
-
-	if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] init];
-	
-	[window addSubview:jrModalNavController.view];
-	
-	[jrModalNavController presentModalNavigationControllerForAuthentication];
+    [interfaceMaestro showAuthenticationDialog];
+    
+//    UIWindow* window = [UIApplication sharedApplication].keyWindow;
+//	if (!window) 
+//	{
+//		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
+//	}
+//
+//	if (!jrModalNavController)
+//		jrModalNavController = [[JRModalNavigationController alloc] init];
+//	
+//	[window addSubview:jrModalNavController.view];
+//	
+//	[jrModalNavController presentModalNavigationControllerForAuthentication];
 }
 
 - (void)showPublishingDialogWithActivity:(JRActivityObject*)activity
@@ -202,28 +207,30 @@ static JRAuthenticate* singletonJRAuth = nil;
         }
     }
     
-	UIWindow* window = [UIApplication sharedApplication].keyWindow;
-	if (!window) 
-	{
-		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
-	}
-	
-    if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] init];
-	
-	[window addSubview:jrModalNavController.view];
+//	UIWindow* window = [UIApplication sharedApplication].keyWindow;
+//	if (!window) 
+//	{
+//		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
+//	}
+//	
+//    if (!jrModalNavController)
+//		jrModalNavController = [[JRModalNavigationController alloc] init];
+//	
+//	[window addSubview:jrModalNavController.view];
 
 	[sessionData setActivity:activity];
-	[jrModalNavController presentModalNavigationControllerForPublishingActivity];
+//	[jrModalNavController presentModalNavigationControllerForPublishingActivity];
+    
+    [interfaceMaestro showPublishingDialogWithActivity];
 }
 
-- (void)unloadModalViewControllerWithTransitionStyle:(UIModalTransitionStyle)style
-{
-	DLog(@"");
-    [jrModalNavController dismissModalNavigationController:style];   
-  	[jrModalNavController release];
-	jrModalNavController = nil;	    
-}
+//- (void)unloadModalViewControllerWithTransitionStyle:(UIModalTransitionStyle)style
+//{
+//	DLog(@"");
+//    [jrModalNavController dismissModalNavigationController:style];   
+//  	[jrModalNavController release];
+//	jrModalNavController = nil;	    
+//}
 
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
 {
@@ -234,9 +241,10 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		[delegate jrAuthenticate:self didReceiveToken:token forProvider:provider];
 	}
-	
-    if (![sessionData social])
-        [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
+
+	[interfaceMaestro authenticationCompleted];
+//    if (![sessionData social])
+//        [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
 }
 
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider
@@ -255,8 +263,9 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		[delegate jrAuthenticate:self didFailWithError:error forProvider:provider];
 	}
-	
-	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
+
+	[interfaceMaestro authenticationFailed];
+//	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
 
@@ -276,19 +285,31 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
 	}
-	
-	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
+    
+    [interfaceMaestro authenticationCanceled];
+//	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
-- (void)authenticationDidCancelForProvider:(NSString*)provider
+//- (void)authenticationDidCancelForProvider:(NSString*)provider
+//{
+//	DLog(@"");
+//    for (id<JRAuthenticateDelegate> delegate in delegates) 
+//	{
+//		[delegate jrAuthenticateDidNotCompleteAuthentication:self forProvider:(NSString*)provider];
+//	}
+//
+//	[interfaceMaestro authenticationCanceled];
+////	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
+//}
+
+- (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider
 {
-	DLog(@"");
-    for (id<JRAuthenticateDelegate> delegate in delegates) 
-	{
-		[delegate jrAuthenticateDidNotCompleteAuthentication:self forProvider:(NSString*)provider];
-	}
-	
-	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
+    
+}
+
+- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider
+{
+    
 }
 
 - (void)publishingDidCancel 
@@ -298,17 +319,21 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
 	}
-	
-	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];   
+
+	[interfaceMaestro publishingCanceled];
+//	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];   
 //  	[jrModalNavController release];
 //	jrModalNavController = nil;	
 //    [self unloadModalViewController];
 }
 
-- (void)publishingDidCancelForProvider:(NSString*)provider { DLog(@""); }
-- (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { DLog(@""); }
-- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
+- (void)publishingDidComplete
+{
+    [interfaceMaestro publishingCompleted];
+}
 
+- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
+- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error { }
 
 - (void)cancelAuthentication
 {	
@@ -319,9 +344,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self forProvider:nil];
 	}
 
-    [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
-//    [jrModalNavController release];
-//    jrModalNavController = nil;
+    [interfaceMaestro authenticationCanceled];
+//  [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
 }
 
 - (void)cancelAuthenticationWithError:(NSError*)error
@@ -332,18 +356,19 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
         [delegate jrAuthenticate:self didFailWithError:error forProvider:nil];
 	}	
-	
-	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
+
+	[interfaceMaestro authenticationCanceled];
+//	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
-- (void)unloadModalViewController
-{
-	DLog(@"");
-
-	[[jrModalNavController view] removeFromSuperview];
-	[jrModalNavController release];
-	jrModalNavController = nil;	
-}
+//- (void)unloadModalViewController
+//{
+//	DLog(@"");
+//
+//	[[jrModalNavController view] removeFromSuperview];
+//	[jrModalNavController release];
+//	jrModalNavController = nil;	
+//}
 
 - (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
 {
@@ -351,7 +376,7 @@ static JRAuthenticate* singletonJRAuth = nil;
     DLog(@"token:    %@", token);
 	DLog(@"tokenURL: %@", tokenUrl);
     
-	[sessionData makeCallToTokenUrl:tokenUrl withToken:token];
+	[sessionData makeCallToTokenUrl:tokenUrl withToken:token forProvider:nil];
 }
 
 - (void)signoutUserForProvider:(NSString*)provider
@@ -374,9 +399,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 	if (singletonJRAuth == self)
 		singletonJRAuth = nil;
 	
-	[jrModalNavController release];
+//	[jrModalNavController release];
 	[delegates release];
-	[sessionData release];
 		
 	[super dealloc];
 }

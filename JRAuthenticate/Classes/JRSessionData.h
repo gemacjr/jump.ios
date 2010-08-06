@@ -100,16 +100,18 @@ typedef enum
 
 @protocol JRSessionDelegate <NSObject>
 - (void)authenticationDidCancel;
-- (void)authenticationDidCancelForProvider:(NSString*)provider;
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider;
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider;
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
+- (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
+- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider;
+
 - (void)publishingDidCancel;
-- (void)publishingDidCancelForProvider:(NSString*)provider;
-- (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
+- (void)publishingDidComplete;
 - (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error;
 @end
 
 @class JRActivityObject;
@@ -217,4 +219,6 @@ typedef enum
 - (void)authenticationDidFailWithError:(NSError*)_error;
 - (void)publishingDidCancel;
 - (void)publishingDidCancel:(id)sender;
+- (void)authenticationDidCancelWithError;
+- (void)publishingDidCancelWithError;
 @end

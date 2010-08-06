@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "JRAuthenticate.h"
 #import "JRInfoBar.h"
-
-
+#import "JRUserInterfaceMaestro.h"
 
 
 @interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITextViewDelegate, 
                                                            UITabBarDelegate, JRSessionDelegate,
-                                                           JRConnectionManagerDelegate>
+                                                           JRConnectionManagerDelegate, JRUserInterfaceDelegate>
 {
 	JRSessionData	*sessionData;
 
@@ -38,6 +37,7 @@
 	UILabel					*myLoadingLabel;
 	UIActivityIndicatorView *myLoadingActivitySpinner; 
     UIView                  *myLoadingGrayView;
+    NSTimer                 *timer;
     
     UITextView  *myUserContentTextView;
     UIButton    *myUserContentBoundingBox;

@@ -33,34 +33,36 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "JRProvidersController.h"
-#import "JRUserLandingController.h"
-#import "JRWebViewController.h"
-#import "JRPublishActivityController.h"
+//#import "JRProvidersController.h"
+//#import "JRUserLandingController.h"
+//#import "JRWebViewController.h"
+//#import "JRPublishActivityController.h"
 
 @class JRAuthenticate;
-@class JRWebViewController;
-@class JRUserLandingController;
-@class JRPublishActivityController;
+//@class JRWebViewController;
+//@class JRUserLandingController;
+//@class JRPublishActivityController;
 
 @interface JRModalNavigationController : UIViewController 
 {
 	UINavigationController	*navigationController;
-    UINavigationController  *socialNavigationController;
+//    UINavigationController  *socialNavigationController;
     
 	BOOL shouldUnloadSubviews;
 	
-	JRUserLandingController     *myUserLandingController;
-	JRWebViewController         *myWebViewController;
-    JRPublishActivityController *myPublishActivityController;
+//	JRUserLandingController     *myUserLandingController;
+//	JRWebViewController         *myWebViewController;
+//    JRPublishActivityController *myPublishActivityController;
 }
 
 @property (retain) UINavigationController *navigationController;
-@property (retain) UINavigationController *socialNavigationController;
+//@property (retain) UINavigationController *socialNavigationController;
+//
+//@property (readonly) JRUserLandingController     *myUserLandingController;
+//@property (readonly) JRWebViewController         *myWebViewController;
+//@property (readonly) JRPublishActivityController *myPublishActivityController;
 
-@property (readonly) JRUserLandingController     *myUserLandingController;
-@property (readonly) JRWebViewController         *myWebViewController;
-@property (readonly) JRPublishActivityController *myPublishActivityController;
+- (id)initWithRootViewController:(UIViewController*)controller;
 
 - (void)presentModalNavigationControllerForAuthentication;
 - (void)presentModalNavigationControllerForPublishingActivity;

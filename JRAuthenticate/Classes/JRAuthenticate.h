@@ -34,16 +34,18 @@
 
 
 #import <Foundation/Foundation.h>
-#import "JSON.h"
-#import "JRConnectionManager.h"
+//#import "JSON.h"
+//#import "JRConnectionManager.h"
 #import "JRSessionData.h"
 #import "JRActivityObject.h"
-#import "JRModalNavigationController.h"
+#import "JRUserInterfaceMaestro.h"
+//#import "JRModalNavigationController.h"
 
 #define SOCIAL_PUBLISHING
 
 @class JRAuthenticate;
-@class JRModalNavigationController;
+@class JRUserInterfaceMaestro;
+//@class JRModalNavigationController;
 
 @protocol JRAuthenticateDelegate <NSObject>
 @optional
@@ -82,7 +84,15 @@
  * cancelAuthentication message.
  */
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth;
-- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString*)provider;
+//- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString*)provider;
+
+
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didPublishingActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider;
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivityDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+
+- (void)jrAuthenticateDidNotCompletePublishing:(JRAuthenticate*)jrAuth;
+- (void)jrAuthenticateDidCompletePublishing:(JRAuthenticate*)jrAuth;
 @end
 
 /**
@@ -94,7 +104,8 @@
  */
 @interface JRAuthenticate : NSObject </*JRConnectionManagerDelegate,*/ JRSessionDelegate>
 {
-	JRModalNavigationController *jrModalNavController;
+    JRUserInterfaceMaestro *interfaceMaestro;
+//	JRModalNavigationController *jrModalNavController;
 	JRSessionData	*sessionData;
 	NSMutableArray	*delegates;
 }
@@ -127,7 +138,7 @@
 - (void)showJRAuthenticateDialog;
 - (void)showAuthenticationDialog;
 - (void)showPublishingDialogWithActivity:(JRActivityObject*)activity;
-- (void)unloadModalViewController;
+//- (void)unloadModalViewController;
 
 
 /**

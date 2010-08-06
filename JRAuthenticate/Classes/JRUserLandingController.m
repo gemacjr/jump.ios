@@ -252,7 +252,20 @@
 {
 	DLog(@"");
     [super viewWillAppear:animated];
-	
+
+    if (!sessionData.currentProvider)
+    {
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"TODO REWRITE ERROR!! Authentication failed."
+                                                             forKey:NSLocalizedDescriptionKey];
+        NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
+                                             code:100
+                                         userInfo:userInfo];
+        
+        [sessionData authenticationDidFailWithError:error];        
+
+        return;
+    }
+    
 	self.title = [self customTitle];
 	
 	if (!label)
@@ -547,7 +560,7 @@
 		}
 	}
 
-	[[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+	[[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myWebViewController
 										   animated:YES]; 
 }
 
@@ -580,6 +593,9 @@
 
 	[self callWebView:textField];
 }
+
+- (void)userInterfaceWillClose { }
+- (void)userInterfaceDidClose { }
 
 - (void)dealloc 
 {

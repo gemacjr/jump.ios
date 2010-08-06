@@ -321,7 +321,143 @@
     return action_links;
 }
 
-
+- (void)validateActivity//ForDelegate:(id<JRActivityValidatorDelegate>)delegate
+{    
+    if ([media count] > 0)
+    {
+        NSArray *images = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
+        NSArray *songs  = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
+        NSArray *videos = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRFlashMediaObject class])]];
+        
+        DLog(@"images count: %d", [images count]);
+        DLog(@"songs count : %d", [songs count]);
+        DLog(@"videos count: %d", [videos count]);
+        
+        // If we have images and either songs or videos or both
+        if ([images count] && ([songs count] || [videos count]))
+        {
+            DLog(@"([images count] && ([songs count] || [videos count]))");
+            
+            // Set Warning
+            //            ActivityValidationWarning *warning = [self setError:@"" 
+            //                                                       withCode:JRMoreThanOnKindOfMediaInActivityWarning 
+            //                                                    andSeverity:JRWarningSeverityActivityValidationHasWarnings];
+            
+            // Only using images, songs or video will be ignored
+            // Keep only images
+            [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
+        }
+        else if ([songs count] && [videos count])
+        {
+            DLog(@"([songs count] && [videos count])");
+            // Set Warning
+            // Only using songs (or videos - whatever Facebook says)
+            // Keep only songs
+            [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
+        }
+        
+        //        if ([images count])
+        //        {
+        //            DLog(@"([images count])");
+        //            
+        //            // TODO: Determine if you can send more than 4 or 5 pictures
+        ////            if ([images count] > 5)
+        ////            {
+        ////                DLog(@"([images count] > 5)");
+        ////                // Set warning
+        ////                // Only using first 5 images
+        ////                // Set media to only first 5
+        ////                while ([media count] > 5)
+        ////                    [media removeLastObject];
+        ////                //[media removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:{5, [images count]}]];
+        ////            }
+        ////            else
+        ////            {
+        ////                // Set media to images ... or it already is ...
+        ////            }
+        //            
+        //            NSUInteger index = 0;
+        //            for (JRImageMediaObject *image in media)
+        //            {
+        //                NSURL        *_url = [NSURL URLWithString:image.src];
+        //                NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_url];
+        //                NSString     *tag = [NSString stringWithFormat:@"fetchImageThumbnail_%d", index++];
+        //
+        ////                image.tag = tag;
+        //                
+        //                if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+        //                {
+        //                    DLog("(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
+        //                    // Set warning
+        //                }
+        //                
+        //                [request release];            
+        //            }   
+        //        }
+        //        else 
+        if ([songs count])
+        {
+            DLog(@"([songs count])");
+            if ([songs count] > 1)
+            {
+                DLog(@"([songs count] > 1)");
+                // Set warning
+                // Only using first song
+                // Set media to only first song
+                while ([media count] > 1)
+                    [media removeLastObject];
+            }
+            else
+            {
+                // Set media to songs ... or it already is ...
+            }
+            
+            //            JRMp3MediaObject *song = [media objectAtIndex:0];            
+            //            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])
+            //            {
+            //                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])");
+            //                // Set error
+            //            }
+        }
+        else if ([videos count])
+        {
+            DLog(@"([videos count)]");
+            if ([videos count] > 1)
+            {            
+                DLog(@"([videos count] > 1)");
+                // Set warning
+                // Only using first video
+                // Set media to only first video
+                while ([media count] > 1)
+                    [media removeLastObject];
+            }
+            else
+            {
+                // Set media to songs ... or it already is ...
+            }
+            
+            //            JRFlashMediaObject *video = [media objectAtIndex:0];            
+            //            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])
+            //            {
+            //                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])");
+            //                // Set error
+            //            }
+            //
+            //            NSURL        *_url = [[NSURL URLWithString:video.imgsrc] autorelease];
+            //            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:_url] autorelease];
+            //            NSString     *tag = @"fetchVideoPreview";
+            
+            //            video.tag = tag;
+            
+            //            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+            //            {
+            //                DLog(@"(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
+            //                // Set error
+            //            }
+            
+        }
+    }
+}
 
 - (NSDictionary*)dictionaryForObject
 {
@@ -385,144 +521,6 @@
     return [[NSError alloc] initWithDomain:@"JRAuthenticate"
                                       code:code
                                   userInfo:userInfo];
-}
-
-- (void)validateActivity//ForDelegate:(id<JRActivityValidatorDelegate>)delegate
-{    
-    if ([media count] > 0)
-    {
-        NSArray *images = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
-        NSArray *songs  = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
-        NSArray *videos = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRFlashMediaObject class])]];
-
-        DLog(@"images count: %d", [images count]);
-        DLog(@"songs count : %d", [songs count]);
-        DLog(@"videos count: %d", [videos count]);
-                
-        // If we have images and either songs or videos or both
-        if ([images count] && ([songs count] || [videos count]))
-        {
-            DLog(@"([images count] && ([songs count] || [videos count]))");
-            
-            // Set Warning
-//            ActivityValidationWarning *warning = [self setError:@"" 
-//                                                       withCode:JRMoreThanOnKindOfMediaInActivityWarning 
-//                                                    andSeverity:JRWarningSeverityActivityValidationHasWarnings];
-            
-            // Only using images, songs or video will be ignored
-            // Keep only images
-            [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
-        }
-        else if ([songs count] && [videos count])
-        {
-            DLog(@"([songs count] && [videos count])");
-            // Set Warning
-            // Only using songs (or videos - whatever Facebook says)
-            // Keep only songs
-            [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
-        }
-        
-//        if ([images count])
-//        {
-//            DLog(@"([images count])");
-//            
-//            // TODO: Determine if you can send more than 4 or 5 pictures
-////            if ([images count] > 5)
-////            {
-////                DLog(@"([images count] > 5)");
-////                // Set warning
-////                // Only using first 5 images
-////                // Set media to only first 5
-////                while ([media count] > 5)
-////                    [media removeLastObject];
-////                //[media removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:{5, [images count]}]];
-////            }
-////            else
-////            {
-////                // Set media to images ... or it already is ...
-////            }
-//            
-//            NSUInteger index = 0;
-//            for (JRImageMediaObject *image in media)
-//            {
-//                NSURL        *_url = [NSURL URLWithString:image.src];
-//                NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_url];
-//                NSString     *tag = [NSString stringWithFormat:@"fetchImageThumbnail_%d", index++];
-//
-////                image.tag = tag;
-//                
-//                if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
-//                {
-//                    DLog("(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
-//                    // Set warning
-//                }
-//                
-//                [request release];            
-//            }   
-//        }
-//        else 
-        if ([songs count])
-        {
-            DLog(@"([songs count])");
-            if ([songs count] > 1)
-            {
-                DLog(@"([songs count] > 1)");
-                // Set warning
-                // Only using first song
-                // Set media to only first song
-                while ([media count] > 1)
-                    [media removeLastObject];
-            }
-            else
-            {
-                // Set media to songs ... or it already is ...
-            }
-            
-//            JRMp3MediaObject *song = [media objectAtIndex:0];            
-//            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])
-//            {
-//                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])");
-//                // Set error
-//            }
-        }
-        else if ([videos count])
-        {
-            DLog(@"([videos count)]");
-            if ([videos count] > 1)
-            {            
-                DLog(@"([videos count] > 1)");
-                // Set warning
-                // Only using first video
-                // Set media to only first video
-                while ([media count] > 1)
-                    [media removeLastObject];
-            }
-            else
-            {
-                // Set media to songs ... or it already is ...
-            }
-            
-//            JRFlashMediaObject *video = [media objectAtIndex:0];            
-//            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])
-//            {
-//                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])");
-//                // Set error
-//            }
-//
-//            NSURL        *_url = [[NSURL URLWithString:video.imgsrc] autorelease];
-//            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:_url] autorelease];
-//            NSString     *tag = @"fetchVideoPreview";
-
-//            video.tag = tag;
-            
-//            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
-//            {
-//                DLog(@"(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
-//                // Set error
-//            }
-            
-        }
-    }
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }

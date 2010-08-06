@@ -48,14 +48,11 @@
 @implementation JRModalNavigationController
 
 @synthesize navigationController;
-@synthesize socialNavigationController;
-//@synthesize sessionData;
-//@synthesize activity;
-//@synthesize isSocial;
+//@synthesize socialNavigationController;
 
-@synthesize myUserLandingController;
-@synthesize myWebViewController;
-@synthesize myPublishActivityController;
+//@synthesize myUserLandingController;
+//@synthesize myWebViewController;
+//@synthesize myPublishActivityController;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -80,6 +77,31 @@
 //	return self;
 //}
 
+- (id)initWithRootViewController:(UIViewController*)controller
+{
+//	UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+	if (controller == nil)
+	{
+		[self release];
+		return nil;
+	}
+	
+	if (self = [super init]) 
+	{
+        navigationController = [[UINavigationController alloc] 
+                                initWithRootViewController:controller];    
+        navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;        
+    }
+	        
+    return self;
+    
+//    shouldUnloadSubviews = NO;
+    
+//    [view setHidden:YES];
+//	[self setView:view];
+//    [view release];
+}
+
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView  
 {
@@ -88,39 +110,39 @@
 	UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	DLog(@"view retain count: %d", [view retainCount]);
     
-	if (!navigationController)
-	{
-		navigationController    = [[UINavigationController alloc] 
-                                   initWithRootViewController:
-                                   [[[JRProvidersController alloc] 
-                                     initWithNibName:@"JRProvidersController" 
-                                     bundle:[NSBundle mainBundle]] autorelease]];
-
-		navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	}
-	
-	myUserLandingController     = [[JRUserLandingController alloc]
-                                   initWithNibName:@"JRUserLandingController"
-                                   bundle:[NSBundle mainBundle]];
-	
-	myWebViewController         = [[JRWebViewController alloc]
-                                   initWithNibName:@"JRWebViewController"
-                                   bundle:[NSBundle mainBundle]];
-	
-	myPublishActivityController = [[JRPublishActivityController alloc]
-                                   initWithNibName:@"JRPublishActivityController"
-                                   bundle:[NSBundle mainBundle]];
-
-    if (!socialNavigationController)
-    {
-        socialNavigationController = [[UINavigationController alloc]
-                                      initWithRootViewController:
-                                      [[[JRPublishActivityController alloc]
-                                        initWithNibName:@"JRPublishActivityController"
-                                        bundle:[NSBundle mainBundle]] autorelease]];
-
-		socialNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    }          
+//	if (!navigationController)
+//	{
+//		navigationController    = [[UINavigationController alloc] 
+//                                   initWithRootViewController:
+//                                   [[[JRProvidersController alloc] 
+//                                     initWithNibName:@"JRProvidersController" 
+//                                     bundle:[NSBundle mainBundle]] autorelease]];
+//
+//		navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+//	}
+//	
+//	myUserLandingController     = [[JRUserLandingController alloc]
+//                                   initWithNibName:@"JRUserLandingController"
+//                                   bundle:[NSBundle mainBundle]];
+//	
+//	myWebViewController         = [[JRWebViewController alloc]
+//                                   initWithNibName:@"JRWebViewController"
+//                                   bundle:[NSBundle mainBundle]];
+//	
+//	myPublishActivityController = [[JRPublishActivityController alloc]
+//                                   initWithNibName:@"JRPublishActivityController"
+//                                   bundle:[NSBundle mainBundle]];
+//
+//    if (!socialNavigationController)
+//    {
+//        socialNavigationController = [[UINavigationController alloc]
+//                                      initWithRootViewController:
+//                                      [[[JRPublishActivityController alloc]
+//                                        initWithNibName:@"JRPublishActivityController"
+//                                        bundle:[NSBundle mainBundle]] autorelease]];
+//
+//		socialNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+//    }          
     
     shouldUnloadSubviews = NO;
     
@@ -149,7 +171,8 @@
     
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
-	[self presentModalViewController:socialNavigationController animated:YES];
+	[self presentModalViewController:navigationController animated:YES];
+//	[self presentModalViewController:socialNavigationController animated:YES];
 }
 
 - (void)presentModalNavigationControllerForAuthentication
@@ -252,10 +275,10 @@
     
 	DLog(@"view retain count: %d", [self.view retainCount]);
     [navigationController release];
-    [socialNavigationController release];
-	[myUserLandingController release];
-	[myWebViewController release];
-	[myPublishActivityController release];
+//    [socialNavigationController release];
+//	[myUserLandingController release];
+//	[myWebViewController release];
+//	[myPublishActivityController release];
     
 	[super dealloc];
 }

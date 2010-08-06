@@ -150,5 +150,5 @@ typedef enum
 
 - (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
 - (NSDictionary*)dictionaryForObject;
-- (void)validateActivityForDelegate:(id<JRActivityValidatorDelegate>)delegate;
+//- (void)validateActivityForDelegate:(id<JRActivityValidatorDelegate>)delegate;
 @end

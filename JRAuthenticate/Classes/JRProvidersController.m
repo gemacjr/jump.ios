@@ -163,8 +163,10 @@
             [sessionData setCurrentProvider:sessionData.returningBasicProvider];
             
             /* If so, go straight to the returning provider screen. */
-            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                    animated:NO]; 
+//            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+//                                                   animated:NO]; 
         }
     
         /* Load the table with the list of providers. */
@@ -186,13 +188,14 @@
         [myActivitySpinner startAnimating];
         
         /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
-        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
+        timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	[(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
+    [sessionData authenticationDidCancelWithError];
+//	[(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
 }
 
 /* If the user calls the library before the session data object is done initializing - 
@@ -202,8 +205,8 @@
 - (void)checkSessionDataAndProviders:(NSTimer*)theTimer
 {
     DLog(@"");
-    static NSTimeInterval interval = 0.125;
-	interval = interval * 2;
+    static NSTimeInterval interval = 0.5;
+	interval = interval + 0.5;
 	
 	DLog(@"prov count = %d", [[sessionData basicProviders] count]);
 	DLog(@"interval = %f", interval);
@@ -223,7 +226,7 @@
 	}
 	
 	/* Otherwise, keep polling until we've timed out. */
-	if (interval >= 8.0)
+	if (interval >= 16.0)
 	{	
 		DLog(@"No Available Providers");
 
@@ -234,11 +237,13 @@
 		UIApplication* app = [UIApplication sharedApplication]; 
 		app.networkActivityIndicatorVisible = YES;
 			
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers"
-														 message:@"There are no available providers. \
-                                                                 Either there is a problem connecting \
-                                                                 or no providers have been configured. \
-                                                                 Please try again later."
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers" message:
+
+@"There are no available providers. \
+Either there is a problem connecting \
+or no providers have been configured. \
+Please try again later."
+
 														delegate:self
 											   cancelButtonTitle:@"OK" 
 											   otherButtonTitles:nil] autorelease];
@@ -246,7 +251,7 @@
 		return;
 	}
 	
-	[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
+	timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -355,14 +360,18 @@
        the same provider as their last-used provider, go back to the user landing view. */
     if (provider.requiresInput || [provider isEqualToProvider:sessionData.returningBasicProvider]) 
     {	
-        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+        [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                animated:YES]; 
+//        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+//                                               animated:YES]; 
     }
     /* Otherwise, go straight to the web view. */
     else
     {
-        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+        [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myWebViewController
                                                animated:YES]; 
+//        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+//                                               animated:YES]; 
     }
     
     [provider release];
@@ -393,6 +402,16 @@
 {
     DLog(@"");
     [super viewDidUnload];
+}
+
+- (void)userInterfaceWillClose
+{
+    [timer invalidate];
+}
+     
+- (void)userInterfaceDidClose
+{
+ 
 }
 
 - (void)dealloc 

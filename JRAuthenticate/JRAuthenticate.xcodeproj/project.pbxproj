@@ -27,6 +27,8 @@
 		9F720B30116A894B00E69F8D /* JRUserLandingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F720B22116A894B00E69F8D /* JRUserLandingController.m */; };
 		9F720B31116A894B00E69F8D /* JRWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F720B23116A894B00E69F8D /* JRWebViewController.h */; };
 		9F720B32116A894B00E69F8D /* JRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F720B24116A894B00E69F8D /* JRWebViewController.m */; };
+		9F7FE225120B61F100410522 /* JRUserInterfaceMaestro.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F7FE223120B61F100410522 /* JRUserInterfaceMaestro.h */; };
+		9F7FE226120B61F100410522 /* JRUserInterfaceMaestro.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7FE224120B61F100410522 /* JRUserInterfaceMaestro.m */; };
 		9FCD674311D13D9C009E36A4 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD673811D13D9C009E36A4 /* JSON.h */; };
 		9FCD674411D13D9C009E36A4 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FCD673911D13D9C009E36A4 /* NSObject+SBJSON.h */; };
 		9FCD674511D13D9C009E36A4 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCD673A11D13D9C009E36A4 /* NSObject+SBJSON.m */; };
@@ -118,6 +120,8 @@
 		9F720B59116A89A600E69F8D /* jrauth_verisign_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_verisign_icon.png; path = Resources/assets/provider_icons/jrauth_verisign_icon.png; sourceTree = "<group>"; };
 		9F720B5A116A89A600E69F8D /* jrauth_wordpress_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_wordpress_icon.png; path = Resources/assets/provider_icons/jrauth_wordpress_icon.png; sourceTree = "<group>"; };
 		9F720B5B116A89A600E69F8D /* jrauth_yahoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_yahoo_icon.png; path = Resources/assets/provider_icons/jrauth_yahoo_icon.png; sourceTree = "<group>"; };
+		9F7FE223120B61F100410522 /* JRUserInterfaceMaestro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRUserInterfaceMaestro.h; sourceTree = "<group>"; };
+		9F7FE224120B61F100410522 /* JRUserInterfaceMaestro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRUserInterfaceMaestro.m; sourceTree = "<group>"; };
 		9FCD673811D13D9C009E36A4 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9FCD673911D13D9C009E36A4 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		9FCD673A11D13D9C009E36A4 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -207,8 +211,10 @@
 				9F720B24116A894B00E69F8D /* JRWebViewController.m */,
 				9F51B30A11ECF87C00A275CC /* JRPublishActivityController.h */,
 				9F51B30B11ECF87C00A275CC /* JRPublishActivityController.m */,
-				9F51B30C11ECF87C00A275CC /* JRActivityObject.m */,
 				9F51B30D11ECF87C00A275CC /* JRActivityObject.h */,
+				9F51B30C11ECF87C00A275CC /* JRActivityObject.m */,
+				9F7FE223120B61F100410522 /* JRUserInterfaceMaestro.h */,
+				9F7FE224120B61F100410522 /* JRUserInterfaceMaestro.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -386,6 +392,7 @@
 				9FCD674C11D13D9C009E36A4 /* SBJsonWriter.h in Headers */,
 				9F51B30E11ECF87C00A275CC /* JRPublishActivityController.h in Headers */,
 				9F51B31111ECF87C00A275CC /* JRActivityObject.h in Headers */,
+				9F7FE225120B61F100410522 /* JRUserInterfaceMaestro.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +454,7 @@
 				9FCD674D11D13D9C009E36A4 /* SBJsonWriter.m in Sources */,
 				9F51B30F11ECF87C00A275CC /* JRPublishActivityController.m in Sources */,
 				9F51B31011ECF87C00A275CC /* JRActivityObject.m in Sources */,
+				9F7FE226120B61F100410522 /* JRUserInterfaceMaestro.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

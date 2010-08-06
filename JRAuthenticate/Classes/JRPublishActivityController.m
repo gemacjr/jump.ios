@@ -90,7 +90,7 @@
         [self showViewIsLoading:YES];
 		
 		/* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
-		[NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
+		timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 	}
 	else 
 	{
@@ -197,6 +197,7 @@
     [keyboardToolbar setFrame:CGRectMake(0, 416, 320, 44)];
 //    myUserContentTextView.inputAccessoryView = keyboardToolbar;
 
+    [self showViewIsLoading:NO];
 
     if (ready)
         [self loadActivityToView];
@@ -211,7 +212,8 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     DLog(@"");
-    [(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
+    [sessionData publishingDidCancelWithError];
+//    [(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
 }
 
 /* If the user calls the library before the session data object is done initializing - 
@@ -221,7 +223,7 @@
 - (void)checkSessionDataAndProviders:(NSTimer*)theTimer
 {
 	static NSTimeInterval interval = 0.125;
-	interval = interval * 2;
+	interval = interval + 0.5;
 	
 	DLog(@"prov count = %d", [[sessionData socialProviders] count]);
 	DLog(@"interval = %f", interval);
@@ -241,25 +243,28 @@
 	}
 	
 	/* Otherwise, keep polling until we've timed out. */
-	if (interval >= 8.0)
+	if (interval >= 16.0)
 	{	
 		DLog(@"No Available Providers");
         
         [self showViewIsLoading:NO];
         
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers"
-														 message:@"There are no available providers. \
-                               Either there is a problem connecting \
-                               or no providers have been configured. \
-                               Please try again later."
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers" message:
+                               
+@"There are no available providers. \
+Either there is a problem connecting \
+or no providers have been configured. \
+Please try again later."
+                               
 														delegate:self
 											   cancelButtonTitle:@"OK" 
 											   otherButtonTitles:nil] autorelease];
+
 		[alert show];
 		return;
 	}
 	
-	[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
+	timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 }
 
 - (void)addProvidersToTabBar
@@ -414,7 +419,7 @@
         barButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close" 
                                                       style:UIBarButtonItemStyleBordered 
                                                      target:sessionData 
-                                                     action:@selector(publishingDidCancel:)] autorelease];
+                                                     action:@selector(publishingDidComplete:)] autorelease];
     }
     else
     {
@@ -527,8 +532,8 @@
     [self showViewIsLoading:YES];
     
     // TODO: Move this to somewhere more logical -- hack for now
-    [sessionData setSocial:YES];
-    [sessionData addDelegate:self];
+//    [sessionData setSocial:YES];
+//    [sessionData addDelegate:self];
     
     if (!loggedInUser)
     {
@@ -537,14 +542,18 @@
          the same provider as their last-used provider, go back to the user landing view. */
         if (selectedProvider.requiresInput)
         {	
-            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                    animated:YES]; 
+//            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+//                                                   animated:YES]; 
         }
         /* Otherwise, go straight to the web view. */
         else
         {
-            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myWebViewController
                                                    animated:YES]; 
+//            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
+//                                                   animated:YES]; 
         }
     }
     else
@@ -763,7 +772,7 @@
     [(NSString*)userdata release];
 }
 
-
+- (void)authenticationDidCancel { DLog(@""); }
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider 
 {
     DLog(@"");
@@ -776,6 +785,7 @@
     
     if (loggedInUser)
     {
+        [self showViewIsLoading:YES];
         [self loadUserNameAndProfilePicForUser:loggedInUser atProviderIndex:[myTabBar selectedItem].tag];
         [self showUserAsLoggedIn:YES];
         
@@ -791,24 +801,38 @@
         [alert show];
         [self showViewIsLoading:NO];
     }
-    
-    
 }
 
-- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider
-{ 
-    DLog(@"");
-}
-
-- (void)authenticationDidCancel { DLog(@""); }
-- (void)authenticationDidCancelForProvider:(NSString*)provider { DLog(@""); }
-//- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider { DLog(@""); }
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
+- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider { DLog(@""); }
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 
-- (void)publishingDidCancel { DLog(@""); [sessionData setSocial:NO]; [sessionData removeDelegate:self]; }
-- (void)publishingDidCancelForProvider:(NSString*)provider { DLog(@""); [sessionData setSocial:NO]; [sessionData removeDelegate:self]; }
-- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider 
+
+- (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
+{
+    DLog(@"");
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+                                                     message:@"You have successfully shared this activity"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"OK" 
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];
+    
+    [self showViewIsLoading:NO];
+    [self showActivityAsShared:YES];
+    
+    // TODO: Move this to somewhere more logical -- hack for now    
+    //    [sessionData setSocial:NO];
+    //    [sessionData removeDelegate:self];
+}
+
+- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider { }
+
+- (void)publishingDidCancel { DLog(@""); }
+- (void)publishingDidComplete { DLog(@""); }
+- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { };
+
+- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error
 {
     DLog(@"");
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
@@ -823,27 +847,10 @@
 //    [self showActivityAsShared:YES];
     
     // TODO: Move this to somewhere more logical -- hack for now
-    [sessionData setSocial:NO];
-    [sessionData removeDelegate:self];
+//    [sessionData setSocial:NO];
+//    [sessionData removeDelegate:self];
 }
 
-- (void)publishingDidCompleteWithActivity:(JRActivityObject*)activity forProvider:(NSString*)provider 
-{
-    DLog(@"");
-    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-                                                     message:@"You have successfully shared this activity"
-                                                    delegate:nil
-                                           cancelButtonTitle:@"OK" 
-                                           otherButtonTitles:nil] autorelease];
-    [alert show];
-    
-    [self showViewIsLoading:NO];
-    [self showActivityAsShared:YES];
-
-    // TODO: Move this to somewhere more logical -- hack for now    
-    [sessionData setSocial:NO];
-    [sessionData removeDelegate:self];
-}
 
 
 //- (IBAction)doneButtonPressed:(id)sender
@@ -891,6 +898,16 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void)userInterfaceWillClose
+{
+    [self showViewIsLoading:NO];
+    [timer invalidate];
+}
+
+- (void)userInterfaceDidClose
+{
+    
+}
 
 - (void)dealloc
 {

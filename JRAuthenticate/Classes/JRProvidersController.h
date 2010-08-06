@@ -34,14 +34,17 @@
 
 
 #import <UIKit/UIKit.h>
+#import "JRUserInterfaceMaestro.h"
 #import "JRAuthenticate.h"
 #import "JRInfoBar.h"
 
 @class JRAuthenticate;
 @class JRSessionData;
+@class JRUserInterfaceMaestro;
 
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
-														UITableViewDataSource, UIAlertViewDelegate> 
+														UITableViewDataSource, UIAlertViewDelegate,
+                                                        JRUserInterfaceDelegate> 
 {
 	JRSessionData	*sessionData;
     
@@ -52,7 +55,8 @@
 	/* Activity Spinner and Label displayed while the list of configured providers is empty */
 	UILabel					*myLoadingLabel;
 	UIActivityIndicatorView *myActivitySpinner; 
-	
+	NSTimer                 *timer;
+    
 	UILabel		*titleLabel;
 
 	JRInfoBar	*infoBar;
