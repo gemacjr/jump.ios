@@ -159,7 +159,7 @@
             NSRange subArr = {[arr count] - 2, 2};
             
             NSArray *newArr = [arr subarrayWithRange:subArr];
-            shortText = [newArr componentsJoinedByString:@" "];	
+            shortText = [[newArr componentsJoinedByString:@" "] retain];	
         }
         else 
         {

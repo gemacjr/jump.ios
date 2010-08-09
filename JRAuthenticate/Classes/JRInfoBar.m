@@ -54,6 +54,7 @@
 	
 	if (self = [super initWithFrame:frame]) 
 	{
+        //style = NO;
 		hidesPoweredBy = style;
 		y_origin_hidden = self.frame.origin.y + self.frame.size.height;
 		
@@ -128,7 +129,7 @@
 {
     DLog(@"");
 
-	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.01"
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.02"
 														 delegate:self
 												cancelButtonTitle:@"OK"  
 										   destructiveButtonTitle:nil

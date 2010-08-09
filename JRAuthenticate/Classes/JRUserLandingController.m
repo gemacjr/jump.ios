@@ -162,7 +162,6 @@
 								  action:@selector(backToProvidersTouchUpInside) 
 						forControlEvents:UIControlEventTouchUpInside];	
 		[self addSubview:backToProvidersButton];
-
 		
 		bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		[bigSignInButton setFrame:CGRectMake(20, 128, 280, 38)];
