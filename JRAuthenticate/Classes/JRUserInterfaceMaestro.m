@@ -95,6 +95,18 @@ static JRUserInterfaceMaestro* singleton = nil;
     
 }
 
+- (void)pushToCustomNavigationController:(UINavigationController*)_navigationController
+{
+    [navigationController release];
+    navigationController = [_navigationController retain];
+}
+
+//- (void)popCustomNavigationControllerToViewController:(UIViewController*)_viewController
+//{
+//    [viewControllerToPopTo release];
+//    viewControllerToPopTo = _viewController;
+//}
+
 - (void)tearDownViewControllers
 {
     [delegates removeAllObjects];
@@ -113,6 +125,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     
     [jrModalNavController release];
 	jrModalNavController = nil;	   
+    
+    
 }
 
 
@@ -132,14 +146,18 @@ static JRUserInterfaceMaestro* singleton = nil;
         [sessionData removeDelegate:myPublishActivityController];
 }
 
-- (void)showAuthenticationDialog
+- (void)loadModalNavigationControllerWithViewController:(UIViewController*)controller
 {
-    [self setUpViewControllers];
-    
-	if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:myProvidersController];
+    if (!jrModalNavController)
+		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:controller];
 	
+    if (sessionData.returningBasicProvider && !sessionData.currentProvider)
+    {   
+        [sessionData setCurrentProvider:sessionData.returningBasicProvider];
+        [jrModalNavController.navigationController pushViewController:myUserLandingController animated:NO];
+    }
 
+    
 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
 	if (!window) 
 	{
@@ -150,27 +168,73 @@ static JRUserInterfaceMaestro* singleton = nil;
 	[jrModalNavController presentModalNavigationControllerForAuthentication];    
 }
 
+- (void)loadCustomNavigationControllerWithViewController:(UIViewController*)controller
+{
+    if (!viewControllerToPopTo)
+        viewControllerToPopTo = [[navigationController topViewController] retain];
+
+    if (sessionData.returningBasicProvider && !sessionData.currentProvider)
+    {   
+        [sessionData setCurrentProvider:sessionData.returningBasicProvider];
+        [navigationController pushViewController:controller animated:NO];
+        [navigationController pushViewController:myUserLandingController animated:YES];
+    }
+    else
+    {
+        [navigationController pushViewController:controller animated:YES];
+    }
+}
+
+- (void)showAuthenticationDialog
+{
+    [self setUpViewControllers];
+
+    if (navigationController && [navigationController isViewLoaded])
+        [self loadCustomNavigationControllerWithViewController:myProvidersController];
+    else
+        [self loadModalNavigationControllerWithViewController:myProvidersController];
+    
+    
+//	if (!jrModalNavController)
+//		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:myProvidersController];
+//	
+//
+//	UIWindow* window = [UIApplication sharedApplication].keyWindow;
+//	if (!window) 
+//	{
+//		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
+//	}
+//    [window addSubview:jrModalNavController.view];
+//	
+//	[jrModalNavController presentModalNavigationControllerForAuthentication];    
+}
+
 - (void)showPublishingDialogWithActivity
 {   
     [self setUpViewControllers];	
     [self setUpSocialPublishing];
     
-    if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:myPublishActivityController];
-	
-	
-    UIWindow* window = [UIApplication sharedApplication].keyWindow;
-	if (!window) 
-	{
-		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
-	}    
-    [window addSubview:jrModalNavController.view];
-    
-	[jrModalNavController presentModalNavigationControllerForPublishingActivity];
-    
+    if (navigationController && [navigationController isViewLoaded])
+        [self loadCustomNavigationControllerWithViewController:myPublishActivityController];
+    else
+        [self loadModalNavigationControllerWithViewController:myPublishActivityController];
+         
+         
+//    if (!jrModalNavController)
+//		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:myPublishActivityController];
+//	
+//	
+//    UIWindow* window = [UIApplication sharedApplication].keyWindow;
+//	if (!window) 
+//	{
+//		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
+//	}    
+//    [window addSubview:jrModalNavController.view];
+//    
+//	[jrModalNavController presentModalNavigationControllerForPublishingActivity];    
 }
 
-- (void)unloadModalViewControllerWithTransitionStyle:(UIModalTransitionStyle)style
+- (void)unloadModalNavigationControllerWithTransitionStyle:(UIModalTransitionStyle)style
 {
     if ([sessionData social])
         [self tearDownSocialPublishing];
@@ -186,34 +250,50 @@ static JRUserInterfaceMaestro* singleton = nil;
     [self tearDownViewControllers];
 }
 
+- (void)unloadCustomNavigationController
+{
+    [navigationController popToViewController:viewControllerToPopTo animated:YES];
+
+    [viewControllerToPopTo release];
+    viewControllerToPopTo = nil;
+}
+
+- (void)unloadUserInterfaceWithTransitionStyle:(UIModalTransitionStyle)style
+{
+    if (navigationController && [navigationController isViewLoaded])
+        [self unloadCustomNavigationController];
+    else
+        [self unloadModalNavigationControllerWithTransitionStyle:style];
+}
+
 - (void)authenticationCompleted
 {
     if (![sessionData social])
-        [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
+        [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
 }
 
 - (void)authenticationFailed
 {
-    [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
+    [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
 - (void)authenticationCanceled 
 {	
-    [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];
+    [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];
 }
 
 - (void)publishingCompleted 
 { 
-    [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];       
+    [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];       
 }
 
 - (void)publishingCanceled
 {
-	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];   
+	[self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];   
 }
 
 - (void)publishingFailed 
 { 
- 	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];       
+ 	[self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];       
 }
 @end

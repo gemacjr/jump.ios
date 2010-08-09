@@ -150,38 +150,101 @@
 			infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:JRInfoBarStyleShowPoweredBy];
 		[self.view addSubview:infoBar];
 	}
+
+//    [myActivitySpinner startAnimating];
+//    [myActivitySpinner setHidden:NO];
+//    [myLoadingLabel setHidden:NO];
+    
+    
+//    if ([sessionData configurationComplete] || ([[sessionData basicProviders] count] > 0))
+//    {
+//        //providers = [sessionData.basicProviders retain];
+//    
+//        /* Check the session data to see if there's information on the last provider the user logged in with. */
+//        if (sessionData.returningBasicProvider && !sessionData.currentProvider)
+//        {
+//            DLog(@"and there was a returning provider");
+//            //[sessionData setCurrentBasicProviderToReturningProvider];
+//            [sessionData setCurrentProvider:sessionData.returningBasicProvider];
+//            
+//            /* If so, go straight to the returning provider screen. */
+//            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
+//                                                   animated:YES]; 
+////            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
+////                                                   animated:NO]; 
+//        }
+//    
+//        /* Load the table with the list of providers. */
+//        [myTableView reloadData];    
+//		[infoBar fadeIn];
+//    }
+//    else
+//    {
+//       DLog(@"prov count = %d", [[sessionData basicProviders] count]);
+//	
+//        /* If the user calls the library before the session data object is done initializing - 
+//           because either the requests for the base URL or provider list haven't returned - 
+//           display the "Loading Providers" label and activity spinner. 
+//           sessionData = nil when the call to get the base URL hasn't returned
+//           [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
+//        [myActivitySpinner setHidden:NO];
+//        [myLoadingLabel setHidden:NO];
+//        
+//        [myActivitySpinner startAnimating];
+//        
+//        /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
+//        timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
+//    }
+}
+
+
+- (void)viewDidAppear:(BOOL)animated 
+{
+	DLog(@"");
+	[super viewDidAppear:animated];
+	
+	// TODO: Only compile in debug version
+	NSArray *vcs = [self navigationController].viewControllers;
+	for (NSObject *vc in vcs)
+	{
+		DLog(@"view controller: %@", [vc description]);
+	}
+    
+    
+    
     
     if ([sessionData configurationComplete] || ([[sessionData basicProviders] count] > 0))
     {
         //providers = [sessionData.basicProviders retain];
-    
-        /* Check the session data to see if there's information on the last provider the user logged in with. */
-        if (sessionData.returningBasicProvider && !sessionData.currentProvider)
-        {
-            DLog(@"and there was a returning provider");
-            //[sessionData setCurrentBasicProviderToReturningProvider];
-            [sessionData setCurrentProvider:sessionData.returningBasicProvider];
-            
-            /* If so, go straight to the returning provider screen. */
-            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
-                                                   animated:NO]; 
-//            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-//                                                   animated:NO]; 
-        }
-    
+        
+        [myActivitySpinner stopAnimating];
+        [myActivitySpinner setHidden:YES];
+        [myLoadingLabel setHidden:YES];
+         
+//        /* Check the session data to see if there's information on the last provider the user logged in with. */
+//        if (sessionData.returningBasicProvider && !sessionData.currentProvider)
+//        {
+//            DLog(@"and there was a returning provider");
+//            [sessionData setCurrentProvider:sessionData.returningBasicProvider];
+//            
+//            /* If so, go straight to the returning provider screen. */
+//            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
+//                                                   animated:YES]; 
+//        }
+        
         /* Load the table with the list of providers. */
         [myTableView reloadData];    
 		[infoBar fadeIn];
     }
     else
     {
-       DLog(@"prov count = %d", [[sessionData basicProviders] count]);
-	
+        DLog(@"prov count = %d", [[sessionData basicProviders] count]);
+        
         /* If the user calls the library before the session data object is done initializing - 
-           because either the requests for the base URL or provider list haven't returned - 
-           display the "Loading Providers" label and activity spinner. 
-           sessionData = nil when the call to get the base URL hasn't returned
-           [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
+         because either the requests for the base URL or provider list haven't returned - 
+         display the "Loading Providers" label and activity spinner. 
+         sessionData = nil when the call to get the base URL hasn't returned
+         [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
         [myActivitySpinner setHidden:NO];
         [myLoadingLabel setHidden:NO];
         
@@ -191,6 +254,7 @@
         timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
     }
 }
+
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -214,12 +278,29 @@
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([sessionData configurationComplete]  || ([[sessionData basicProviders] count] > 0))
 	{
-//        providers = [sessionData.basicProviders retain];
 		
         [myActivitySpinner stopAnimating];
 		[myActivitySpinner setHidden:YES];
 		[myLoadingLabel setHidden:YES];
 		
+        
+        
+        
+//        if (sessionData.returningBasicProvider && !sessionData.currentProvider)
+//        {
+//            DLog(@"and there was a returning provider");
+//            //[sessionData setCurrentBasicProviderToReturningProvider];
+//            [sessionData setCurrentProvider:sessionData.returningBasicProvider];
+//            
+//            /* If so, go straight to the returning provider screen. */
+//            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
+//                                                   animated:YES]; 
+//        }
+        
+        
+        
+        
+        
 		[myTableView reloadData];
 	
 		return;
@@ -254,18 +335,6 @@ Please try again later."
 	timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 }
 
-- (void)viewDidAppear:(BOOL)animated 
-{
-	DLog(@"");
-	[super viewDidAppear:animated];
-	
-	// TODO: Only compile in debug version
-	NSArray *vcs = [self navigationController].viewControllers;
-	for (NSObject *vc in vcs)
-	{
-		DLog(@"view controller: %@", [vc description]);
-	}
-}
 
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

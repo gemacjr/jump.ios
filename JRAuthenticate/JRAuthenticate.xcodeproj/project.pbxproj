@@ -192,8 +192,6 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9F9E97FF121071EE00FE6DCA /* JRUserInterfaceMaestro.h */,
-				9F9E9800121071EE00FE6DCA /* JRUserInterfaceMaestro.m */,
 				9FCD673711D13D9C009E36A4 /* JSON Framework */,
 				9F590EFC11752FC3006955EF /* JRInfoBar.h */,
 				9F590EFD11752FC3006955EF /* JRInfoBar.m */,
@@ -215,6 +213,8 @@
 				9F51B30B11ECF87C00A275CC /* JRPublishActivityController.m */,
 				9F51B30D11ECF87C00A275CC /* JRActivityObject.h */,
 				9F51B30C11ECF87C00A275CC /* JRActivityObject.m */,
+				9F9E97FF121071EE00FE6DCA /* JRUserInterfaceMaestro.h */,
+				9F9E9800121071EE00FE6DCA /* JRUserInterfaceMaestro.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

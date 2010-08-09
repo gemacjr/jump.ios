@@ -141,6 +141,11 @@
 //- (void)unloadModalViewController;
 
 
+- (void)setCustomNavigationController:(UINavigationController*)navigationController;
+- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;
+
+
+
 /**
  * 
  * 

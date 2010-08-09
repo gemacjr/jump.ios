@@ -391,6 +391,15 @@ static JRAuthenticate* singletonJRAuth = nil;
     [sessionData forgetAllAuthenticatedUsers];
 }
 
+- (void)setCustomNavigationController:(UINavigationController*)navigationController
+{
+    [interfaceMaestro pushToCustomNavigationController:navigationController];
+}
+
+- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController
+{
+//    [interfaceMaestro popCustomNavigationControllerToViewController:viewController];
+}
 
 - (void)dealloc 
 {

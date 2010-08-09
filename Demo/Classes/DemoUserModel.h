@@ -108,6 +108,12 @@
 - (void)startSignUserIn:(id<DemoUserModelDelegate>)interestedParty;
 - (void)startSignUserOut:(id<DemoUserModelDelegate>)interestedParty;
 
+
+- (void)setNavigationController:(UINavigationController*)navigationController;
+- (void)setViewControllerToPopTo:(UIViewController*)viewController;
+
+
+
 /* Returns singleton instance of class. */
 + (DemoUserModel*)getDemoUserModel;
 

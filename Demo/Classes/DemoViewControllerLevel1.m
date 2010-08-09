@@ -97,7 +97,7 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
+        [super viewWillAppear:animated];
 	
 	self.title = @"Profiles";
 

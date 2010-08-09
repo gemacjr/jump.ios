@@ -87,6 +87,8 @@
 	level1ViewController = [[DemoViewControllerLevel1 alloc] 
 							initWithNibName:@"DemoViewControllerLevel1" 
 							bundle:[NSBundle mainBundle]];
+    
+    //[[DemoUserModel getDemoUserModel] setNavigationController:[self navigationController]];
 	
 	/* Check to see if a user is already logged in, and, if so, wait half a second then drill down a level. */
 	if ([[DemoUserModel getDemoUserModel] currentUser]) 

@@ -33,6 +33,7 @@
 	NSMutableArray	*delegates;    
     
     UINavigationController	*navigationController;
+    UIViewController        *viewControllerToPopTo;
 
     JRProvidersController       *myProvidersController;
 	JRUserLandingController     *myUserLandingController;
@@ -44,6 +45,9 @@
 
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
+
+- (void)pushToCustomNavigationController:(UINavigationController*)_navigationController;
+//- (void)popCustomNavigationControllerToViewController:(UIViewController*)_viewController;
 
 - (void)showAuthenticationDialog;
 - (void)showPublishingDialogWithActivity;
