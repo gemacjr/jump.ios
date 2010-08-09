@@ -151,7 +151,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (!jrModalNavController)
 		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:controller];
 	
-    if (sessionData.returningBasicProvider && !sessionData.currentProvider)
+    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData social])
     {   
         [sessionData setCurrentProvider:sessionData.returningBasicProvider];
         [jrModalNavController.navigationController pushViewController:myUserLandingController animated:NO];
@@ -173,7 +173,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (!viewControllerToPopTo)
         viewControllerToPopTo = [[navigationController topViewController] retain];
 
-    if (sessionData.returningBasicProvider && !sessionData.currentProvider)
+    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData social])
     {   
         [sessionData setCurrentProvider:sessionData.returningBasicProvider];
         [navigationController pushViewController:controller animated:NO];

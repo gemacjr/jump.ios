@@ -34,13 +34,16 @@
 
 
 #import <UIKit/UIKit.h>
-#import "JRUserInterfaceMaestro.h"
+//#import "JRUserInterfaceMaestro.h"
 #import "JRAuthenticate.h"
 #import "JRInfoBar.h"
 
 @class JRAuthenticate;
 @class JRSessionData;
 @class JRUserInterfaceMaestro;
+
+@protocol JRUserInterfaceDelegate;
+
 
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
 														UITableViewDataSource, UIAlertViewDelegate,

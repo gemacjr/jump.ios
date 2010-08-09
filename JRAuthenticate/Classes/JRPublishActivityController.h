@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "JRAuthenticate.h"
 #import "JRInfoBar.h"
-#import "JRUserInterfaceMaestro.h"
+//#import "JRUserInterfaceMaestro.h"
 
+@protocol JRUserInterfaceDelegate;
 
 @interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITextViewDelegate, 
                                                            UITabBarDelegate, JRSessionDelegate,

@@ -341,7 +341,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticateDidNotCompleteAuthentication:self forProvider:nil];
+		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
 	}
 
     [interfaceMaestro authenticationCanceled];
