@@ -182,8 +182,8 @@
 								 forState:UIControlStateSelected];	
 		[bigSignInButton setReversesTitleShadowWhenHighlighted:YES];
 		
-		[bigSignInButton setBackgroundImage:@"jrauth_google_logo.png" forState:UIControlStateDisabled];
-		[bigSignInButton setTitle:@"Sign In" forState:UIControlStateDisabled];
+		[bigSignInButton setBackgroundImage:[UIImage imageNamed:@"jrauth_google_logo.png"] forState:UIControlStateDisabled];
+        [bigSignInButton setTitle:@"Sign In" forState:UIControlStateDisabled];
 		[bigSignInButton setTitleColor:[UIColor whiteColor] 
 							  forState:UIControlStateDisabled];	
 		[bigSignInButton setTitleShadowColor:[UIColor grayColor]
