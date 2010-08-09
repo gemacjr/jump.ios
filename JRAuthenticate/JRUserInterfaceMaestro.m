@@ -216,15 +216,4 @@ static JRUserInterfaceMaestro* singleton = nil;
 { 
  	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];       
 }
-
-- (id)setStatusBar
-{
-    JRSetStatusController *setStatus = [[[JRSetStatusController alloc] init] autorelease];
-    
-    if (!setStatusBars)
-        setStatusBars = [[NSMutableArray alloc] initWithObjects:setStatus, nil];
-    
-    return setStatus;
-}
-
 @end

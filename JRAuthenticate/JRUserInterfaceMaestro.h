@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "JRSessionData.h"
 #import "JRModalNavigationController.h"
-#import "JRSetStatusController.h"
 //#import "JRProvidersController.h"
 //#import "JRUserLandingController.h"
 //#import "JRWebViewController.h"
@@ -55,9 +54,6 @@
 - (void)publishingCompleted;
 - (void)publishingCanceled;
 - (void)publishingFailed;
-
-- (id)setStatusBar;
-
 @property (readonly) UINavigationController	*navigationController;
 
 @property (readonly) JRProvidersController       *myProvidersController;
