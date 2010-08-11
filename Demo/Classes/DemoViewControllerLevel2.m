@@ -143,7 +143,7 @@
 	NSString *reuseIdentifier = (indexPath.section == 0) ? @"cachedCellSection0" : @"cachedCellSection1";
 
 	UITableViewCell *cell = 
-		(UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+		[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 	
 	if (cell == nil)
 	{
