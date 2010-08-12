@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JRAuthenticate.h"
+//#import "JRAuthenticate.h"
 
 @interface StoryEnclosure : NSObject
 {
