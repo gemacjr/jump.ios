@@ -8,6 +8,327 @@
 
 #import "FeedReader.h"
 
+static NSDate* NSDateFromRfc822String(NSString* dateString)
+{    
+    /*  The <_pubDate> element in RSS 2.0 follows the date format specified in RFC822.
+        The full version of RFC822 is EEE, dd MMM yyyy HH:mm:ss z (e.g., Fri, 12 Mar 2010 12:34:56 PST).
+        Apparently, both the day of the week and seconds are optional, and the timezone may be listed
+        as universal time ("UT" or "GMT"), a North American time zone abbreviation ("PST", etc.),
+        military time ("Y:+12"), or +HHMM ("+0800").
+     
+        Because of the optional elements, this function will attempt to dynamically detect which bits
+        are present, and set the date format correctly. 
+     
+        We will test for four different combinations:
+            * EEE, dd MMM yyyy HH:mm:ss z => Fri, 12 Mar 2010 12:34:56 PST
+            * dd MMM yyyy HH:mm:ss z      => 12 Mar 2010 12:34:56 PST
+            * EEE, dd MMM yyyy HH:mm z    => Fri, 12 Mar 2010 12:34 PST
+            * dd MMM yyyy HH:mm z         => 12 Mar 2010 12:34 PST
+    */
+    
+    static NSDateFormatter *formatter = nil;
+    
+    NSRange rangeOfComma = [dateString rangeOfString:@","];
+    NSArray *separatedByColons = [dateString componentsSeparatedByString:@":"];
+
+    BOOL isDayOfWeek = NO;
+    BOOL areSeconds = NO;
+    
+    if (rangeOfComma.location != NSNotFound) // That is, if we DID find a comma, then start the format with "EEE, "
+        isDayOfWeek = YES;
+    
+    if ([separatedByColons count] > 2)
+        areSeconds = YES;
+    
+    NSMutableString *format = [NSString stringWithFormat:
+                               @"%@dd MMM yyyy HH:mm%@ z", 
+                               (isDayOfWeek ? @"EEE, " : @""), 
+                               (areSeconds ? @":ss" : @"")];
+    
+    if (formatter == nil) 
+        formatter = [[NSDateFormatter alloc] init];
+   
+    [formatter setDateFormat:format];
+    
+    return [formatter dateFromString:dateString];
+}
+
+static NSString* NSStringFromDate(NSDate* date)
+{    
+    static NSDateFormatter *formatter = nil;
+    if (formatter == nil) 
+        formatter = [[NSDateFormatter alloc] init];
+    
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    
+    return [formatter stringFromDate:date];
+}
+
+static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
+{    
+    static NSDateFormatter *formatter = nil;
+    
+    NSRange rangeOfDate = { 0, 10 };
+    NSRange rangeOfTime = { 13, 8 };
+    
+    /* String is coming in with weird format of "yyyy-MM-ddzzz(?)HH:mm:ss-:??", which doesn't seem 
+       to want to get parsed.  I know it's a hack, but I'm going to chop the string into the 
+       important bits (date and time) and just parse that. */
+    
+    NSString *newDateString = [[[dateString substringWithRange:rangeOfDate]
+                                       stringByAppendingString:@" "]
+                                       stringByAppendingString:
+                                [dateString substringWithRange:rangeOfTime]];
+    
+    NSMutableString *format = [NSString stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    if (formatter == nil) 
+        formatter = [[NSDateFormatter alloc] init];
+    
+    [formatter setDateFormat:format];
+    
+    return [formatter dateFromString:newDateString];
+}
+
+@interface StoryImage ()
+- (void)setAlt:(NSString*)_alt;
+- (void)setSrc:(NSString*)_src;
+- (void)setHeight:(NSString*)_height;
+- (void)setWidth:(NSString*)_width;
+@end
+
+@implementation StoryImage
+@synthesize alt;
+@synthesize src;
+@synthesize height;
+@synthesize width;
+
+- (void)setAlt:(NSString*)_alt
+{
+	[alt release];
+	alt = [_alt retain];
+}
+
+- (void)setSrc:(NSString*)_src
+{
+	[src release];
+	src = [_src retain];
+}
+
+- (void)setHeight:(NSString*)_height
+{
+	[height release];
+	height = [_height retain];
+}
+
+- (void)setWidth:(NSString*)_width
+{
+	[width release];
+	width = [_width retain];
+}
+@end
+
+@interface StoryEnclosure ()
+- (void)setUrl:(NSString*)_url; 
+- (void)setMimeType:(NSString*)_mimeType;
+- (void)setLength:(NSInteger)_length;
+- (void)setImage:(UIImage*)_image;
+@end
+
+@implementation StoryEnclosure
+@synthesize url;
+@synthesize mimeType;
+@synthesize length;
+@synthesize image;
+
+- (void)setUrl:(NSString*)_url
+{
+    [url release];
+    url = [_url retain];
+}
+
+- (void)setMimeType:(NSString*)_mimeType
+{
+    [mimeType release];
+    mimeType = [_mimeType retain];
+}
+
+- (void)setLength:(NSInteger)_length
+{
+    length = _length;
+}
+
+- (void)setImage:(UIImage*)_image
+{
+    [image release];
+    image = [_image retain];    
+}
+@end
+
+@interface Story ()
+- (void)setTitle:(NSString*)_title;
+- (void)setLink:(NSString*)_link;
+- (void)setDescription:(NSString*)_description;
+- (void)setAuthor:(NSString*)_author;
+- (void)setCategory:(NSString*)_category;
+- (void)setComments:(NSString*)_comments;
+- (void)setEnclosure:(StoryEnclosure*)_enclosure;
+- (void)setGuid:(NSString*)_guid;
+- (void)setPubDate:(NSString*)_pubDate;
+- (void)setSource:(NSString*)_source;
+- (void)setPlainText:(NSString*)_plainText;
+- (void)addStoryImage:(NSDictionary*)_storyImage;
+- (void)setFeed:(Feed*)_feed;
+@end
+
+
+@implementation Story
+@synthesize title;
+@synthesize link;
+@synthesize description;
+@synthesize author;
+@synthesize category;
+@synthesize comments;
+@synthesize enclosure;
+@synthesize guid;
+@synthesize pubDate;
+@synthesize source;
+@synthesize plainText;
+@synthesize storyImages;
+@synthesize feed;
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:title forKey:@"title"];
+    [coder encodeObject:link forKey:@"link"];
+    [coder encodeObject:description forKey:@"description"];
+    [coder encodeObject:author forKey:@"author"];
+    [coder encodeObject:category forKey:@"category"];
+    [coder encodeObject:comments forKey:@"comments"];
+    [coder encodeObject:enclosure forKey:@"enclosure"];
+    [coder encodeObject:guid forKey:@"guid"];
+    [coder encodeObject:pubDate forKey:@"pubDate"];
+    [coder encodeObject:source forKey:@"source"];
+}
+
+- (id)initWithCoder:(NSCoder *)coder
+{    
+    self = [[Story alloc] init];
+    if (self != nil)
+    {
+        title = [[coder decodeObjectForKey:@"title"] retain];
+        link = [[coder decodeObjectForKey:@"link"] retain];
+        description = [[coder decodeObjectForKey:@"description"] retain];
+        author = [[coder decodeObjectForKey:@"author"] retain];
+        category = [[coder decodeObjectForKey:@"category"] retain];
+        comments = [[coder decodeObjectForKey:@"comments"] retain];
+        enclosure = [[coder decodeObjectForKey:@"enclosure"] retain];
+        guid = [[coder decodeObjectForKey:@"guid"] retain];
+        pubDate = [[coder decodeObjectForKey:@"pubDate"] retain];
+        source = [[coder decodeObjectForKey:@"source"] retain];
+    }   
+    
+    return self;
+}
+
+- (void)setTitle:(NSString*)_title
+{
+	[title release];
+	title = [_title retain];
+}
+
+- (void)setLink:(NSString*)_link
+{
+	[link release];
+	link = [_link retain];
+}
+
+- (void)setDescription:(NSString*)_description
+{
+	description = [[NSString stringWithFormat:@"%@%@", (description ? description : @""), _description] retain];
+}
+
+- (void)setAuthor:(NSString*)_author
+{
+	[author release];
+	author = [_author retain];
+}
+
+- (void)setCategory:(NSString*)_category
+{
+	category = [[NSString stringWithFormat:@"%@%@", (category ? category : @""), _category] retain];
+}
+
+- (void)setComments:(NSString*)_comments
+{
+	comments = [[NSString stringWithFormat:@"%@%@", (comments ? comments : @""), _comments] retain];
+}
+
+- (void)setEnclosure:(StoryEnclosure*)_enclosure
+{
+	[enclosure release];
+	enclosure = [_enclosure retain];
+}
+
+- (void)setGuid:(NSString*)_guid
+{
+	[guid release];
+	guid = [_guid retain];
+}
+
+- (void)setPubDate:(NSString*)_pubDate
+{
+    NSLog(@"\n"
+          "_pubDate:   |%@| \n"
+          "parsed:     |%@|", _pubDate, pubDate);
+
+    [pubDate release];
+    pubDate = [NSStringFromDate(NSDateFromNonStandardDrupalString(_pubDate)) retain];
+    
+}
+
+- (void)setSource:(NSString*)_source
+{
+	[source release];
+	source = [_source retain];
+}
+
+- (void)setPlainText:(NSString*)_plainText
+{
+    [plainText release];
+    plainText = [_plainText retain];
+}
+
+- (void)addStoryImage:(NSDictionary*)_storyImage
+{
+    
+}
+
+- (void)setFeed:(Feed*)_feed
+{
+    [feed release];
+    feed = [_feed retain];
+}
+
+- (void)dealloc
+{
+	[title release];
+	[link release];
+	[description release];
+	[author release];
+	[category release];
+	[comments release];
+	[enclosure release];
+	[guid release];
+	[pubDate release];
+	[source release];
+    [feed release];
+
+	[super dealloc];
+}
+@end
+
 @interface FeedImage ()
 - (void)setUrl:(NSString*)_url;
 - (void)setTitle:(NSString*)_title;
@@ -25,7 +346,7 @@
 @synthesize width;
 @synthesize height;
 
-- (void)encodeWithCoder:(NSCoder *)coder;
+- (void)encodeWithCoder:(NSCoder *)coder
 {
     [coder encodeObject:url forKey:@"url"];
     [coder encodeObject:title forKey:@"title"];
@@ -35,7 +356,7 @@
     [coder encodeInteger:height forKey:@"height"];
 }
 
-- (id)initWithCoder:(NSCoder *)coder;
+- (id)initWithCoder:(NSCoder *)coder
 {    
     self = [[Feed alloc] init];
     if (self != nil)
@@ -51,22 +372,6 @@
     return self;
 }
 
-//- (id)copyWithZone:(NSZone*)zone
-//{
-//    FeedImage *image = [[FeedImage alloc] init];
-//    
-//    if (image)
-//    {
-//        if (url) image.url = [[NSString alloc] initWithString:url];
-//        if (title) image.title = [[NSString alloc] initWithString:title];
-//        if (link) image.link = [[NSString alloc] initWithString:link];
-//        if (description) image.description = [[NSString alloc] initWithString:description];
-//        image.height = height;
-//        image.width = width;
-//    }
-//    
-//    return image;
-//}
 
 - (void)setUrl:(NSString*)_url
 {
@@ -124,8 +429,8 @@
 @property (retain) NSMutableArray *stories;
 @property (retain) Story *currentStory;
 @property (retain) FeedImage *currentImage;
+@property (retain) StoryEnclosure *currentEnclosure;
 @property (retain) NSString *currentElement;
-
 @end
 
 
@@ -153,8 +458,9 @@
 @synthesize currentStory;
 @synthesize currentImage;
 @synthesize currentElement;
+@synthesize currentEnclosure;
 
-- (void)encodeWithCoder:(NSCoder *)coder;
+- (void)encodeWithCoder:(NSCoder *)coder
 {
     [coder encodeObject:title forKey:@"title"];
     [coder encodeObject:link forKey:@"link"];
@@ -177,7 +483,7 @@
     [coder encodeObject:skipDays forKey:@"skipDays"];
 }
 
-- (id)initWithCoder:(NSCoder *)coder;
+- (id)initWithCoder:(NSCoder *)coder
 {    
     self = [[Feed alloc] init];
     if (self != nil)
@@ -206,166 +512,112 @@
     return self;
 }
 
-//- (id)copyWithZone:(NSZone*)zone
-//{
-//    Feed *feed = [[Feed alloc] init];
-//    
-//    if (feed)
-//    {
-//        if (title) feed.title = [[NSString alloc] initWithString:title];
-//        if (link) feed.link = [[NSString alloc] initWithString:link];
-//        if (description) feed.description = [[NSString alloc] initWithString:description];
-//        if (language) feed.language = [[NSString alloc] initWithString:language];
-//        if (copyright) feed.copyright = [[NSString alloc] initWithString:copyright];
-//        if (managingEditor) feed.managingEditor = [[NSString alloc] initWithString:managingEditor];
-//        if (webMaster) feed.webMaster = [[NSString alloc] initWithString:webMaster];
-//        if (pubDate) feed.pubDate = [[NSString alloc] initWithString:pubDate];
-//        if (lastBuildDate) feed.lastBuildDate = [[NSString alloc] initWithString:lastBuildDate];
-//        if (category) feed.category = [[NSString alloc] initWithString:category];
-//        if (generator) feed.generator = [[NSString alloc] initWithString:generator];
-//        if (docs) feed.docs = [[NSString alloc] initWithString:docs];
-//        if (cloud) feed.cloud = [[NSString alloc] initWithString:cloud];
-//        if (ttl) feed.ttl = [[NSString alloc] initWithString:ttl];
-//        if (rating) feed.rating = [[NSString alloc] initWithString:rating];
-//        if (textInput) feed.textInput = [[NSString alloc] initWithString:textInput];
-//        if (skipHours) feed.skipHours = [[NSString alloc] initWithString:skipHours];
-//        if (skipDays) feed.skipDays = [[NSString alloc] initWithString:skipDays];
-//      
-//        if (image) feed.image = [image copy];
-//        
-//        feed.stories = [[NSMutableArray alloc] initWithArray:stories copyItems:YES];
-//    }
-//    
-//    return feed;
-//}
 
 - (void)setTitle:(NSString*)_title
 {
-    title = [[NSString stringWithFormat:@"%@%@", (title ? title : @""), _title] retain];
+	[title release];
+	title = [_title retain];
 }
 
 - (void)setLink:(NSString*)_link
 {
-    link = [[NSString stringWithFormat:@"%@%@", (link ? link : @""), _link] retain];
+	[link release];
+	link = [_link retain];
 }
 
 - (void)setDescription:(NSString*)_description
 {
-    description = [[NSString stringWithFormat:@"%@%@", (description ? description : @""), _description] retain];
+	description = [[NSString stringWithFormat:@"%@%@", (description ? description : @""), _description] retain];
 }
 
 - (void)setLanguage:(NSString*)_language
 {
-    [language release];
-    language = [_language retain];        
+	[language release];
+	language = [_language retain];
 }
 
 - (void)setCopyright:(NSString*)_copyright
 {
-    [copyright release];
-    copyright = [_copyright retain];    
+	[copyright release];
+	copyright = [_copyright retain];
 }
 
 - (void)setManagingEditor:(NSString*)_managingEditor
 {
-    [managingEditor release];
-    managingEditor = [_managingEditor retain];    
+	[managingEditor release];
+	managingEditor = [_managingEditor retain];
 }
 
 - (void)setWebMaster:(NSString*)_webMaster
 {
-    [webMaster release];
-    webMaster = [_webMaster retain];    
+	[webMaster release];
+	webMaster = [_webMaster retain];
 }
 
 - (void)setPubDate:(NSString*)_pubDate
 {
     [pubDate release];
-    pubDate = [_pubDate retain];    
+    pubDate = [NSStringFromDate(NSDateFromNonStandardDrupalString(_pubDate)) retain];   
 }
 
 - (void)setLastBuildDate:(NSString*)_lastBuildDate
 {
-
+	[lastBuildDate release];
+	lastBuildDate = [_lastBuildDate retain];
 }
 
 - (void)setCategory:(NSString*)_category
 {
-    [category release];
-    category = [_category retain];    
+	[category release];
+	category = [_category retain];
 }
 
 - (void)setGenerator:(NSString*)_generator
 {
-
+	[generator release];
+	generator = [_generator retain];
 }
 
 - (void)setDocs:(NSString*)_docs
 {
-
+	[docs release];
+	docs = [_docs retain];
 }
 
 - (void)setCloud:(NSString*)_cloud
 {
-
+	[cloud release];
+	cloud = [_cloud retain];
 }
 
 - (void)setTtl:(NSString*)_ttl
 {
-
-}
-
-- (void)setImage:(FeedImage*)_image
-{
-    [image release];
-    image = [_image retain];    
+	[ttl release];
+	ttl = [_ttl retain];
 }
 
 - (void)setRating:(NSString*)_rating
 {
-    [rating release];
-    rating = [_rating retain];    
+	[rating release];
+	rating = [_rating retain];
 }
 
 - (void)setTextInput:(NSString*)_textInput
 {
-
+	[textInput release];
+	textInput = [_textInput retain];
 }
 
 - (void)setSkipHours:(NSString*)_skipHours
 {
-
+	[skipHours release];
+	skipHours = [_skipHours retain];
 }
 
 - (void)setSkipDays:(NSString*)_skipDays
 {
-
-}
-@end
-
-@interface StoryEnclosure ()
-- (void)setUrl:(NSString*)_url; 
-- (void)setMimeType:(NSString*)_mimeType;
-- (void)setLength:(NSInteger)_length;
-- (void)setImage:(UIImage*)_image;
-@end
-
-@implementation StoryEnclosure
-- (void)setUrl:(NSString*)_url
-{
-    [url release];
-    url = [_url retain];
-}
-
-- (void)setMimeType:(NSString*)_mimeType
-{
-    [mimeType release];
-    mimeType = [_mimeType retain];
-}
-
-- (void)setLength:(NSInteger)_length
-{
-    length = _length;
+	[skipDays release];
+	skipDays = [_skipDays retain];
 }
 
 - (void)setImage:(FeedImage*)_image
@@ -374,139 +626,6 @@
     image = [_image retain];    
 }
 @end
-
-@interface Story ()
-- (void)setTitle:(NSString*)_title;
-- (void)setLink:(NSString*)_link;
-- (void)setDescription:(NSString*)_description;
-- (void)setAuthor:(NSString*)_author;
-- (void)setCategory:(NSString*)_category;
-- (void)setComments:(NSString*)_comments;
-- (void)setEnclosure:(NSString*)_enclosure;
-- (void)setGuid:(NSString*)_guid;
-- (void)setPubDate:(NSString*)_pubDate;
-- (void)setSource:(NSString*)_source;
-@end
-
-
-@implementation Story
-@synthesize title;
-@synthesize link;
-@synthesize description;
-@synthesize author;
-@synthesize category;
-@synthesize comments;
-@synthesize enclosure;
-@synthesize guid;
-@synthesize pubDate;
-@synthesize source;
-
-- (void)encodeWithCoder:(NSCoder *)coder;
-{
-    [coder encodeObject:title forKey:@"title"];
-    [coder encodeObject:link forKey:@"link"];
-    [coder encodeObject:description forKey:@"description"];
-    [coder encodeObject:author forKey:@"author"];
-    [coder encodeObject:category forKey:@"category"];
-    [coder encodeObject:comments forKey:@"comments"];
-    [coder encodeObject:enclosure forKey:@"enclosure"];
-    [coder encodeObject:guid forKey:@"guid"];
-    [coder encodeObject:pubDate forKey:@"pubDate"];
-    [coder encodeObject:source forKey:@"source"];
-}
-
-- (id)initWithCoder:(NSCoder *)coder;
-{    
-    self = [[Story alloc] init];
-    if (self != nil)
-    {
-        title = [[coder decodeObjectForKey:@"title"] retain];
-        link = [[coder decodeObjectForKey:@"link"] retain];
-        description = [[coder decodeObjectForKey:@"description"] retain];
-        author = [[coder decodeObjectForKey:@"author"] retain];
-        category = [[coder decodeObjectForKey:@"category"] retain];
-        comments = [[coder decodeObjectForKey:@"comments"] retain];
-        enclosure = [[coder decodeObjectForKey:@"enclosure"] retain];
-        guid = [[coder decodeObjectForKey:@"guid"] retain];
-        pubDate = [[coder decodeObjectForKey:@"pubDate"] retain];
-        source = [[coder decodeObjectForKey:@"source"] retain];
-    }   
-    
-    return self;
-}
-
-//- (id)copyWithZone:(NSZone*)zone
-//{
-//    Story *story = [[Story alloc] init];
-//    
-//    if (story)
-//    {
-//        if (title) story.title = [[NSString alloc] initWithString:title];
-//        if (link) story.link = [[NSString alloc] initWithString:link];
-//        if (description) story.description = [[NSString alloc] initWithString:description];
-//        if (author) story.author = [[NSString alloc] initWithString:author];
-//        if (category) story.category = [[NSString alloc] initWithString:category];
-//        if (comments) story.comments = [[NSString alloc] initWithString:comments];
-//        if (enclosure) story.enclosure = [[NSString alloc] initWithString:enclosure];
-//        if (guid) story.guid = [[NSString alloc] initWithString:guid];
-//        if (pubDate) story.pubDate = [[NSString alloc] initWithString:pubDate];
-//        if (source) story.source = [[NSString alloc] initWithString:source];
-//    }
-//    
-//    return story;
-//}
-
-- (void)setTitle:(NSString*)_title
-{
-    title = [[NSString stringWithFormat:@"%@%@", (title ? title : @""), _title] retain];
-}
-
-- (void)setLink:(NSString*)_link
-{
-    link = [[NSString stringWithFormat:@"%@%@", (link ? link : @""), _link] retain];
-}
-
-- (void)setDescription:(NSString*)_description
-{
-    description = [[NSString stringWithFormat:@"%@%@", (description ? description : @""), _description] retain];
-}
-
-- (void)setAuthor:(NSString*)_author
-{
-    author = [[NSString stringWithFormat:@"%@%@", (author ? author : @""), _author] retain];
-}
-
-- (void)setCategory:(NSString*)_category
-{
-    category = [[NSString stringWithFormat:@"%@%@", (category ? category : @""), _category] retain];    
-}
-
-- (void)setComments:(NSString*)_comments
-{
-    comments = [[NSString stringWithFormat:@"%@%@", (comments ? comments : @""), _comments] retain];
-}
-
-- (void)setEnclosure:(NSString*)_enclosure
-{
-    enclosure = [[NSString stringWithFormat:@"%@%@", (enclosure ? enclosure : @""), _enclosure] retain];
-}
-
-- (void)setGuid:(NSString*)_guid
-{
-    guid = [[NSString stringWithFormat:@"%@%@", (guid ? guid : @""), _guid] retain];
-}
-
-- (void)setPubDate:(NSString*)_pubDate
-{
-    pubDate = [[NSString stringWithFormat:@"%@%@", (pubDate ? pubDate : @""), _pubDate] retain];
-}
-
-- (void)setSource:(NSString*)_source
-{
-    source = [[NSString stringWithFormat:@"%@%@", (source ? source : @""), _source] retain];    
-}
-@end
-
 
 @interface FeedReader ()
 - (void)downloadFeedStories;
@@ -570,7 +689,6 @@ static FeedReader* singleton = nil;
         if (!feeds)
             feeds = [[NSMutableDictionary alloc] initWithCapacity:1];
         
-//        allStories = [[NSMutableDictionary alloc] initWithCapacity:[feeds count]*20];
         allStories = [[NSMutableArray alloc] initWithCapacity:[feeds count]*20];
         
         xmlParsers = [[NSMutableDictionary alloc] initWithCapacity:[feeds count]];
@@ -618,38 +736,63 @@ static FeedReader* singleton = nil;
  qualifiedName:(NSString*)qualifiedName attributes:(NSDictionary*)attributeDict
 {
     Feed *feed = currentlyBeingParsedFeed;//[xmlParsers objectForKey:parser.systemID];
+    feed.currentElement = elementName;
     
 	if ([elementName isEqualToString:@"item"]) 
     {
         feed.currentStory = [[Story alloc] init];
+        [feed.currentStory setFeed:feed];
     }
-    else if ([elementName isEqualToString:@"image"]);
+    else if ([elementName isEqualToString:@"image"])
     {
         feed.currentImage = [[FeedImage alloc] init];
     }
-//    else if (feed.currentStory)
-//    {
-        feed.currentElement = elementName;
-//    }
+    else if ([elementName isEqualToString:@"enclosure"])
+    {
+        feed.currentEnclosure = [[StoryEnclosure alloc] init];
+    }
 }
 
-- (void)parser:(NSXMLParser*)parser didEndElement:(NSString*)elementName namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qualifiedName
+- (void)parser:(NSXMLParser*)parser didEndElement:(NSString*)elementName 
+  namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qualifiedName
 {
     Feed *feed = currentlyBeingParsedFeed;//[xmlParsers objectForKey:parser];
 	
+    if ([elementName isEqualToString:@"description"] && feed.currentStory)
+    {
+        ContentParser *contentParser = [[ContentParser alloc] init];
+        [contentParser processContent:feed.currentStory.description];
+        
+        NSMutableString *plainText = [[NSMutableString alloc] init];        
+        for (NSString *chunk in contentParser.theStringsBetweenElements)
+        {
+            [plainText appendFormat:@"%@ ", chunk];
+        }
+        
+        [feed.currentStory setPlainText:plainText];
+        [plainText release];
+        
+        for (NSDictionary *image in contentParser.images)
+        {
+            [feed.currentStory addStoryImage:image];
+        }
+        
+        [contentParser release];
+    }
+    
     if ([elementName isEqualToString:@"item"]) 
     {
 		[feed.stories addObject:feed.currentStory];
-//        [feed.currentStory release];
+        [feed.currentStory release];
         feed.currentStory = nil;
 	}
     else if ([elementName isEqualToString:@"image"]) 
     {
 		[feed setImage:feed.currentImage];
-//        [feed.currentImage release];
+        [feed.currentImage release];
         feed.currentImage = nil;
 	}
-    
+                 
     feed.currentElement = nil;
 }
 
@@ -659,26 +802,46 @@ static FeedReader* singleton = nil;
 	
     if (feed.currentStory)
     {
-        if ([feed.currentElement isEqualToString:@"title"]) 
-        {
-            [feed.currentStory setTitle:string];
-        }
-        else if ([feed.currentElement isEqualToString:@"link"]) 
-        {
-            [feed.currentStory setLink:string];
-        }
-        else if ([feed.currentElement isEqualToString:@"description"]) 
-        {
-            [feed.currentStory setDescription:string];
-        }
-        else if ([feed.currentElement isEqualToString:@"pubDate"]) 
-        {
-            [feed.currentStory setPubDate:string];
-        }
-        else if ([feed.currentElement isEqualToString:@"author"]) 
-        {
-            [feed.currentStory setAuthor:string];
-        }
+		if ([feed.currentElement isEqualToString:@"title"])
+		{
+			[feed.currentStory setTitle:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"link"])
+		{
+			[feed.currentStory setLink:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"description"])
+		{
+			[feed.currentStory setDescription:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"author"])
+		{
+			[feed.currentStory setAuthor:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"category"])
+		{
+			[feed.currentStory setCategory:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"comments"])
+		{
+			[feed.currentStory setComments:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"enclosure"])
+		{
+			//[feed setEnclosure:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"guid"])
+		{
+			[feed.currentStory setGuid:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"pubDate"])
+		{
+			[feed.currentStory setPubDate:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"source"])
+		{
+			[feed.currentStory setSource:string];
+		}
     }
     else if (feed.currentImage)
     {
@@ -701,30 +864,82 @@ static FeedReader* singleton = nil;
     }
     else
     {
-        if ([feed.currentElement isEqualToString:@"title"]) 
-        {
-            [feed setTitle:string];
-        }
-        else if ([feed.currentElement isEqualToString:@"link"]) 
-        {
-            [feed setLink:string];
-        }
-        else if ([feed.currentElement isEqualToString:@"description"]) 
-        {
-            [feed setDescription:string];
-        }
-        else if ([feed.currentElement isEqualToString:@"pubDate"]) 
-        {
-            [feed setPubDate:string];
-        }
-        else if ([feed.currentElement isEqualToString:@"category"]) 
-        {
-            [feed setCategory:string];
-        }
-        else if ([feed.currentElement isEqualToString:@"image"]) 
-        {
-            //[feed setImage:string];
-        }
+		if ([feed.currentElement isEqualToString:@"title"])
+		{
+			[feed setTitle:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"link"])
+		{
+			[feed setLink:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"description"])
+		{
+			[feed setDescription:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"language"])
+		{
+			[feed setLanguage:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"copyright"])
+		{
+			[feed setCopyright:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"managingEditor"])
+		{
+			[feed setManagingEditor:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"webMaster"])
+		{
+			[feed setWebMaster:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"pubDate"])
+		{
+			[feed setPubDate:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"lastBuildDate"])
+		{
+			[feed setLastBuildDate:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"category"])
+		{
+			[feed setCategory:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"generator"])
+		{
+			[feed setGenerator:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"docs"])
+		{
+			[feed setDocs:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"cloud"])
+		{
+			[feed setCloud:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"ttl"])
+		{
+			[feed setTtl:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"image"])
+		{
+//			[feed setImage:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"rating"])
+		{
+			[feed setRating:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"textInput"])
+		{
+			[feed setTextInput:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"skipHours"])
+		{
+			[feed setSkipHours:string];
+		}
+		else if ([feed.currentElement isEqualToString:@"skipDays"])
+		{
+			[feed setSkipDays:string];
+		}
     }
 }
 

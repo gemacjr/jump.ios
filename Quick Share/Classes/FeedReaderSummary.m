@@ -29,14 +29,22 @@
 {
     [super viewWillAppear:animated];
 
+    self.title = @"Janrain Blog";
+    
     reader = [FeedReader initFeedReader];
-    [reader addFeedForUrl:@"http://rss.slashdot.org/Slashdot/slashdot"];
+//    [reader addFeedForUrl:@"http://rss.slashdot.org/Slashdot/slashdot"];
 
     //        [stories release];
     //        stories = [[NSDictionary alloc] initWithDictionary:[reader allStories] copyItems:YES];
     
     [sortedStories release];
     sortedStories = [[NSArray alloc] initWithArray:[reader allStories]];// copyItems:YES];//[stories allKeys];//[[stories allKeys] filteredArrayUsingPredicate:[NSPredicate ]]        
+    
+    newsTable.backgroundColor = [UIColor whiteColor];
+//    newsTable.separatorColor = [UIColor clearColor];
+    [newsTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    newsTable.sectionFooterHeight = 0.0;
+    newsTable.sectionHeaderHeight = 10.0;
 }
 
 
@@ -73,20 +81,20 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView 
 {
-    return 1;
+    return [sortedStories count] + 1;
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    return [sortedStories count] + 1;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == [sortedStories count])
+    if (indexPath.section == [sortedStories count])
         return 40;
     
-    return 90;
+    return 80;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -98,49 +106,65 @@
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
 
-        if (indexPath.row < [sortedStories count])
+        if (indexPath.section < [sortedStories count])
         {
-            Story *story = [[sortedStories objectAtIndex:indexPath.row] retain];
+            Story *story = [[sortedStories objectAtIndex:indexPath.section] retain];
             
-            UIImageView *favicon = [[[UIImageView alloc] initWithFrame:CGRectMake(6, 8, 16, 16)] autorelease];
+            UILabel *documentTitle = [[[UILabel alloc] initWithFrame:CGRectMake(8, 6, 284, 16)] autorelease];
+            documentTitle.font = [UIFont boldSystemFontOfSize:15.0];
+            documentTitle.textColor = [UIColor colorWithRed:0.0 green:0.25 blue:0.5 alpha:1.0];
+            documentTitle.backgroundColor = [UIColor clearColor];
+            documentTitle.text = story.title;
+            
+            UIImageView *favicon = [[[UIImageView alloc] initWithFrame:CGRectMake(8, 27, 36, 36)] autorelease];
             favicon.image = [UIImage imageNamed:@"favicon.png"];
             
-            UILabel *documentTitle = [[[UILabel alloc] initWithFrame:CGRectMake(28, 6, 286, 20)] autorelease];
-            documentTitle.font = [UIFont boldSystemFontOfSize:16.0];
-            documentTitle.textColor = [UIColor blackColor];
-            documentTitle.text = story.title;
+            UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(52, 25, 228, 36)] autorelease];
+            documentDescription.font = [UIFont systemFontOfSize:14.0];
+            documentDescription.textColor = [UIColor darkGrayColor];
+//            documentDescription.lineBreakMode = UILineBreakModeWordWrap;
+            documentDescription.numberOfLines = 2;
+            documentDescription.backgroundColor = [UIColor clearColor];
+            documentDescription.text = story.plainText;//story.description;
+            
+            UILabel *documentDate = [[[UILabel alloc] initWithFrame:CGRectMake(10, 63, 280, 13)] autorelease];
+            documentDate.font = [UIFont systemFontOfSize:11.0];
+            documentDate.textColor = [UIColor darkGrayColor];
+            documentDate.textAlignment = UITextAlignmentRight;
+            documentDate.backgroundColor = [UIColor clearColor];
+            documentDate.text = story.pubDate;
+            
+            
+//            /* First trim just the whitespace off of the end of the string */
+//            NSString *date = [story.pubDate stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+//            
+//            /* Then trim the "+0000" or whatever off of the end of the string (and the "\n")*/
+//            date = [date stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"+0123456789\n"]];
+//            
+//            /* Then trim the remaining whitespace off of the end.  If we trimmed whitespace and decimal characters at the same time,
+//               we'd remove more than just the "+0000" */
+//            documentDate.text = [NSString stringWithFormat:@"published on %@",
+//                                 [date stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 
-            UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(38, 26, 270, 42)] autorelease];
-            documentDescription.font = [UIFont systemFontOfSize:11.0];
-            documentDescription.textColor = [UIColor grayColor];
-            documentDescription.lineBreakMode = UILineBreakModeWordWrap;
-            documentDescription.numberOfLines = 3;
-            documentDescription.text = story.description;
             
-            UILabel *documentDate = [[[UILabel alloc] initWithFrame:CGRectMake(6, 74, 298, 10)] autorelease];
-            documentDate.font = [UIFont italicSystemFontOfSize:10.0];
-            documentDate.textColor = [UIColor grayColor];
-            documentDate.textAlignment = UITextAlignmentLeft;
-            
-            /* First trim just the whitespace off of the end of the string */
-            NSString *date = [story.pubDate stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            
-            /* Then trim the "+0000" or whatever off of the end of the string (and the "\n")*/
-            date = [date stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"+0123456789\n"]];
-            
-            /* Then trim the remaining whitespace off of the end.  If we trimmed whitespace and decimal characters at the same time,
-               we'd remove more than just the "+0000" */
-            documentDate.text = [NSString stringWithFormat:@"published on %@",
-                                 [date stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
             
             [cell.contentView addSubview:favicon];
             [cell.contentView addSubview:documentTitle];
             [cell.contentView addSubview:documentDescription];
             [cell.contentView addSubview:documentDate];
             
+            
+            UIImageView *background = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cell_background.png"]] autorelease];
+            cell.backgroundView = background;
+
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+//            cell.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];//lightGrayColor];
+            
+            
             [story release];
         }
-        else if (indexPath.row == [sortedStories count])
+        else if (indexPath.section == [sortedStories count])
         {
             cell.textLabel.text = @"Reload Stories";
         }
@@ -195,7 +219,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    if (indexPath.row == [sortedStories count])
+    if (indexPath.section == [sortedStories count])
     {
 //        [stories release];
 //        stories = [[NSDictionary alloc] initWithDictionary:[reader allStories] copyItems:YES];
@@ -205,7 +229,7 @@
     }
     else
     {
-        reader.selectedStory = [sortedStories objectAtIndex:indexPath.row];
+        reader.selectedStory = [sortedStories objectAtIndex:indexPath.section];
         FeedReaderDetail *detailViewController = [[FeedReaderDetail alloc] initWithNibName:@"FeedReaderDetail" bundle:[NSBundle mainBundle]];
 
 //        detailViewController.story = [sortedStories objectAtIndex:indexPath.row];

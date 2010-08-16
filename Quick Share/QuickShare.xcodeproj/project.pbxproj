@@ -15,6 +15,14 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* FeedReaderSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* FeedReaderSummary.m */; };
 		28F335F11007B36200424DE2 /* FeedReaderSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* FeedReaderSummary.xib */; };
+		9F87D85412145FDE00FF7E2C /* FeedReaderFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */; };
+		9F87D85512145FDE00FF7E2C /* FeedReaderFeeds.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F87D85312145FDE00FF7E2C /* FeedReaderFeeds.xib */; };
+		9F87D8571214601100FF7E2C /* janrain_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F87D8561214601100FF7E2C /* janrain_logo.png */; };
+		9F87D8591214603000FF7E2C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F87D8581214603000FF7E2C /* Default.png */; };
+		9F87D8FF1214757A00FF7E2C /* cell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F87D8FE1214757A00FF7E2C /* cell_background.png */; };
+		9F87DC091214C05200FF7E2C /* ContentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87DC081214C05200FF7E2C /* ContentParser.m */; };
+		9F87DF471219A97600FF7E2C /* FeedReaderWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */; };
+		9F87DF481219A97600FF7E2C /* FeedReaderWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F87DF461219A97600FF7E2C /* FeedReaderWebView.xib */; };
 		9F8AC6101210BD4E004DB52A /* FeedReaderDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */; };
 		9F8AC6111210BD4E004DB52A /* FeedReaderDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F8AC60F1210BD4E004DB52A /* FeedReaderDetail.xib */; };
 		9F8AC6281210C21E004DB52A /* share_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F8AC6271210C21E004DB52A /* share_button.png */; };
@@ -35,6 +43,17 @@
 		28F335F01007B36200424DE2 /* FeedReaderSummary.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedReaderSummary.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Quick_Share-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quick_Share-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		9F87D85112145FDE00FF7E2C /* FeedReaderFeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderFeeds.h; sourceTree = "<group>"; };
+		9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderFeeds.m; sourceTree = "<group>"; };
+		9F87D85312145FDE00FF7E2C /* FeedReaderFeeds.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderFeeds.xib; path = Classes/FeedReaderFeeds.xib; sourceTree = "<group>"; };
+		9F87D8561214601100FF7E2C /* janrain_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = janrain_logo.png; sourceTree = "<group>"; };
+		9F87D8581214603000FF7E2C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		9F87D8FE1214757A00FF7E2C /* cell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cell_background.png; sourceTree = "<group>"; };
+		9F87DC071214C05200FF7E2C /* ContentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentParser.h; sourceTree = "<group>"; };
+		9F87DC081214C05200FF7E2C /* ContentParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentParser.m; sourceTree = "<group>"; };
+		9F87DF441219A97600FF7E2C /* FeedReaderWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderWebView.h; sourceTree = "<group>"; };
+		9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderWebView.m; sourceTree = "<group>"; };
+		9F87DF461219A97600FF7E2C /* FeedReaderWebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderWebView.xib; path = Classes/FeedReaderWebView.xib; sourceTree = "<group>"; };
 		9F8AC60D1210BD4E004DB52A /* FeedReaderDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderDetail.h; sourceTree = "<group>"; };
 		9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderDetail.m; sourceTree = "<group>"; };
 		9F8AC60F1210BD4E004DB52A /* FeedReaderDetail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderDetail.xib; path = Classes/FeedReaderDetail.xib; sourceTree = "<group>"; };
@@ -68,6 +87,12 @@
 				1D3623250D0F684500981E51 /* Quick_ShareAppDelegate.m */,
 				9F8AC60D1210BD4E004DB52A /* FeedReaderDetail.h */,
 				9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */,
+				9F87D85112145FDE00FF7E2C /* FeedReaderFeeds.h */,
+				9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */,
+				9F87DC071214C05200FF7E2C /* ContentParser.h */,
+				9F87DC081214C05200FF7E2C /* ContentParser.m */,
+				9F87DF441219A97600FF7E2C /* FeedReaderWebView.h */,
+				9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -104,9 +129,14 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9F87D8FE1214757A00FF7E2C /* cell_background.png */,
+				9F87D8581214603000FF7E2C /* Default.png */,
+				9F87D8561214601100FF7E2C /* janrain_logo.png */,
 				9F8AC6271210C21E004DB52A /* share_button.png */,
+				9F87D85312145FDE00FF7E2C /* FeedReaderFeeds.xib */,
 				9F8AC60F1210BD4E004DB52A /* FeedReaderDetail.xib */,
 				28F335F01007B36200424DE2 /* FeedReaderSummary.xib */,
+				9F87DF461219A97600FF7E2C /* FeedReaderWebView.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Quick_Share-Info.plist */,
 			);
@@ -176,6 +206,11 @@
 				28F335F11007B36200424DE2 /* FeedReaderSummary.xib in Resources */,
 				9F8AC6111210BD4E004DB52A /* FeedReaderDetail.xib in Resources */,
 				9F8AC6281210C21E004DB52A /* share_button.png in Resources */,
+				9F87D85512145FDE00FF7E2C /* FeedReaderFeeds.xib in Resources */,
+				9F87D8571214601100FF7E2C /* janrain_logo.png in Resources */,
+				9F87D8591214603000FF7E2C /* Default.png in Resources */,
+				9F87D8FF1214757A00FF7E2C /* cell_background.png in Resources */,
+				9F87DF481219A97600FF7E2C /* FeedReaderWebView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +226,9 @@
 				28C286E10D94DF7D0034E888 /* FeedReaderSummary.m in Sources */,
 				9F8AC6101210BD4E004DB52A /* FeedReaderDetail.m in Sources */,
 				9FD54A111213726800E11512 /* FeedReader.m in Sources */,
+				9F87D85412145FDE00FF7E2C /* FeedReaderFeeds.m in Sources */,
+				9F87DC091214C05200FF7E2C /* ContentParser.m in Sources */,
+				9F87DF471219A97600FF7E2C /* FeedReaderWebView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

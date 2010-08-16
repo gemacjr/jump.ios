@@ -9,20 +9,30 @@
 #import <UIKit/UIKit.h>
 #import "FeedReader.h"
 
-@interface FeedReaderDetail : UIViewController 
+@interface FeedReaderDetail : UIViewController <UIWebViewDelegate>
 {
     Story *story;
+  
+    IBOutlet UIWebView *webview;
     
 //    IBOutlet UILabel *title;
 //    IBOutlet UITextView *description;
 //    IBOutlet UIImageView *media;
-
-    UILabel *storyTitle;
-    UITextView *storyDescription;
-    UIImageView *storyMedia;
+//    IBOutlet UIScrollView *scrollView;
+//    IBOutlet UIView       *contentView;
+//    
+//    
+//    IBOutlet UILabel *storyTitle;
+//    IBOutlet UILabel *storyDate;
+//    IBOutlet UIWebView *storyContent;
+    
+//    IBOutlet UILabel *storySection1;
+//    IBOutlet UILabel *storySection2;
+//    IBOutlet UILabel *storySection3;
+//    IBOutlet UIImageView *storyThumbnail;
     
 }
-@property (nonatomic, retain) IBOutlet UILabel *storyTitle;
-@property (nonatomic, retain) IBOutlet UITextView *storyDescription;
-@property (nonatomic, retain) IBOutlet UIImageView *storyMedia;
+//@property (nonatomic, retain) IBOutlet UILabel *storyTitle;
+//@property (nonatomic, retain) IBOutlet UITextView *storyDescription;
+//@property (nonatomic, retain) IBOutlet UIImageView *storyMedia;
 @end
