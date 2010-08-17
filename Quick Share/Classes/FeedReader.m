@@ -635,6 +635,7 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
 @implementation FeedReader
 @synthesize feeds;
 @synthesize selectedStory;
+@synthesize jrAuthenticate;
 
 static FeedReader* singleton = nil;
 + (FeedReader*)feedReader
@@ -672,6 +673,9 @@ static FeedReader* singleton = nil;
     return self;
 }
 
+static NSString *appId = @"pdjicmldlhebgeepdbdn";
+static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
+
 - (id)init
 {
 	if (self = [super init]) 
@@ -692,7 +696,9 @@ static FeedReader* singleton = nil;
         allStories = [[NSMutableArray alloc] initWithCapacity:[feeds count]*20];
         
         xmlParsers = [[NSMutableDictionary alloc] initWithCapacity:[feeds count]];
-                      
+
+        jrAuthenticate = [JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self];
+        
         [self downloadFeedStories];
 	}
     
@@ -1031,7 +1037,27 @@ static FeedReader* singleton = nil;
     }
 }
 
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token { }
+
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider { }
+
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenUrl:(NSString*)_tokenUrl
+		   withPayload:(NSString*)tokenUrlPayload
+           forProvider:(NSString *)provider 
+{ }
+- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth { }
+//- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString *)provider { }
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
+
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString *)provider 
+{
+}
 
 
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didPublishingActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivityDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 
+- (void)jrAuthenticateDidNotCompletePublishing:(JRAuthenticate*)jrAuth { }
+- (void)jrAuthenticateDidCompletePublishing:(JRAuthenticate*)jrAuth  { }
 @end

@@ -918,6 +918,7 @@ static JRSessionData* singleton = nil;
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:@"https://rpxnow.com/api/v2/activity?"]] retain];
     
+    DLog("Share activity request: %@ and body: %s", [[request URL] absoluteString], body.bytes);
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
     

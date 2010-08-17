@@ -122,6 +122,7 @@
 		9F720B5B116A89A600E69F8D /* jrauth_yahoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_yahoo_icon.png; path = Resources/assets/provider_icons/jrauth_yahoo_icon.png; sourceTree = "<group>"; };
 		9F9E97FF121071EE00FE6DCA /* JRUserInterfaceMaestro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRUserInterfaceMaestro.h; path = Classes/JRUserInterfaceMaestro.h; sourceTree = "<group>"; };
 		9F9E9800121071EE00FE6DCA /* JRUserInterfaceMaestro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRUserInterfaceMaestro.m; path = Classes/JRUserInterfaceMaestro.m; sourceTree = "<group>"; };
+		9FA9D5A1121AF7E8001017E8 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		9FCD673811D13D9C009E36A4 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9FCD673911D13D9C009E36A4 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		9FCD673A11D13D9C009E36A4 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -353,6 +354,7 @@
 		9FEA7A8311FA0DAA00D1FFE1 /* buttons_etc */ = {
 			isa = PBXGroup;
 			children = (
+				9FA9D5A1121AF7E8001017E8 /* gear.png */,
 				9FEA7A8411FA0DAA00D1FFE1 /* black_button.png */,
 				9FEA7A8511FA0DAA00D1FFE1 /* blue_button_135x38.png */,
 				9FEA7A8611FA0DAA00D1FFE1 /* blue_button_145x37.png */,

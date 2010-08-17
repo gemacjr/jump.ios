@@ -34,7 +34,6 @@
     
     story = [[FeedReader feedReader].selectedStory retain];
 
-//      NSString *storyTitle = story.title;
     self.title = [NSString stringWithString:story.title];
     
     NSError *error;
@@ -76,7 +75,6 @@
                                                     font-size:18px;             \
                                                     padding:0px;                \
                                                     margin:3px;                 \
-#                                                    border:1px solid red; \
                                                 }                               \
                                                                                 \
                                                 h2                              \
@@ -84,7 +82,6 @@
                                                     font-size:15px;             \
                                                     padding:0px;                \
                                                     margin:3px;                 \
-#                                                    border:1px solid green; \
                                                 }                               \
                                                                                 \
                                                 p                               \
@@ -92,7 +89,6 @@
                                                     #font-size:12px;            \
                                                     padding:0px;                \
                                                     margin:3px;                 \
-#                                                    border:1px solid blue; \
                                                 }                               \
                                                                                 \
                                                 img                             \
@@ -121,49 +117,62 @@
 
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
     
-//    storyTitle.text = story.title;
-//    storyDate.text = story.pubDate;
-//
-//    NSString *path = [[NSBundle mainBundle] bundlePath];
-//    NSURL *baseURL = [NSURL fileURLWithPath:path];
-    
-//  NSString *webViewContent = [NSString stringWithFormat:
-//                                @"  <div id=\"image\" style=\"float:left;width:200px\">\
-//                                        <img src=\"share_button.png\" style=/>\
-//                                    </div>\
-//                                    <div id=\"content\">\
-//                                        %@\
-//                                    </div>", 
-//                                story.description];
-  
-//    [storyContent loadHTMLString:webViewContent baseURL:baseURL];
-//    [storyContent loadHTMLString:story.description baseURL:[NSURL URLWithString:story.feed.link]];
-    
-//    storySection3.text = story.description;
-
-//   storySection3.numberOfLines = 0;
-//    [storySection3 sizeToFit];
-    
-//    CGRect frame = contentView.frame;
-//    NSUInteger newHeight = storySection3.frame.origin.y + storySection3.frame.size.height + 10;
-//    [contentView setFrame:CGRectMake(0, 0, 320, newHeight)];
-//    [scrollView scrollRectToVisible:CGRectMake(0, 384, 320, 416) animated:YES];
-    
-//    frame = contentView.frame;
-//    [scrollView setContentSize:frame.size];
-    
-    //[scrollView sizeToFit];
-    
-    
-//    storyDescription.text = [NSString stringWithString:story.description];
-//  storyMedia.backgroundColor = [UIColor blueColor];
-    
+    UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
+                                                                     style:UIBarButtonItemStyleBordered 
+                                                                    target:self
+                                                                    action:@selector(shareButtonPressed:)] autorelease];
+									
+	self.navigationItem.rightBarButtonItem = shareButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
+	
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+	
+	
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    [scrollView scrollRectToVisible:CGRectMake(0, 384, 320, 416) animated:YES];
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
+ navigationType:(UIWebViewNavigationType)navigationType 
+{	
+    if (navigationType == UIWebViewNavigationTypeLinkClicked)
+    {
+        FeedReaderWebView *feedReaderWebview = [[FeedReaderWebView alloc] init];
+        [feedReaderWebview setUrlRequest:request];
+        
+        [[self navigationController] pushViewController:feedReaderWebview animated:YES];
+        
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView 
+{ 
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView 
+{
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error 
+{
+}
+
+- (void)shareButtonPressed:(id)sender
+{
+    JRActivityObject *activity = [[JRActivityObject alloc] 
+                                  initWithAction:[NSString stringWithFormat:@"wants to share an article from the %@ rss feed.", story.feed.title]
+                                  andUrl:story.link];
+    
+    activity.title = story.title;
+    activity.description = [story.plainText substringToIndex:100];
+    
+    [[[FeedReader feedReader] jrAuthenticate] showPublishingDialogWithActivity:activity];
 }
 
 /*

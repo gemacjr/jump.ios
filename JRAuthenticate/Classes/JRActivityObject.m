@@ -28,10 +28,29 @@
 //    NSString *str = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *str = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2f"];
     str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
+    str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
+    str = [str stringByReplacingOccurrencesOfString:@"&" withString:@"%38"];
     
     return str;
 }
 @end
+
+
+//@interface NSCFString (NSString_URL_ESCAPING)
+//- (NSString*)URLEscaped;
+//@end
+//
+//
+//@implementation NSCFString (NSString_URL_ESCAPING)
+//- (NSString*)URLEscaped
+//{
+//    //    NSString *str = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    NSString *str = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2f"];
+//    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
+//    
+//    return str;
+//}
+//@end
 
 @protocol JRMediaObjectProtocol
 - (NSDictionary*)dictionaryForObject;
@@ -78,8 +97,8 @@
     
     if (self = [super init])
     {
-        src = _src;
-        href = _href;
+        src = [_src retain];
+        href = [_href retain];
     }
     
     return self;
@@ -119,8 +138,8 @@
     
     if (self = [super init])
     {
-        swfsrc = _swfsrc;
-        imgsrc = _imgsrc;
+        swfsrc = [_swfsrc retain];
+        imgsrc = [_imgsrc retain];
     }
     
     return self;
@@ -170,7 +189,7 @@
     
     if (self = [super init])
     {
-        src = _src;
+        src = [_src retain];
     }
     
     return self;
@@ -254,8 +273,8 @@
     
     if (self = [super init])
     {
-        text = _text;
-        href = _href;
+        text = [_text retain];
+        href = [_href retain];
     }
     
     return self;
@@ -290,8 +309,8 @@
     
     if (self = [super init]) 
 	{
-        action = _action;
-        url = _url;
+        action = [_action retain];
+        url = [_url retain];
     }
     
 	return self;

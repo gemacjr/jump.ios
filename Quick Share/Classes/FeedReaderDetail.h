@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "FeedReader.h"
+#import "FeedReaderWebView.h"
+#import "JRActivityObject.h"
 
 @interface FeedReaderDetail : UIViewController <UIWebViewDelegate>
 {

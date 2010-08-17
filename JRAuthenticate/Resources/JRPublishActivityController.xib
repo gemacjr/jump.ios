@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="32"/>
+			<integer value="33"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -63,7 +63,7 @@
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
-										<object class="NSFont" key="IBUIFont">
+										<object class="NSFont" key="IBUIFont" id="867404015">
 											<string key="NSName">Helvetica-Bold</string>
 											<double key="NSSize">15</double>
 											<int key="NSfFlags">16</int>
@@ -268,6 +268,28 @@
 								<int key="NSvFlags">264</int>
 								<object class="NSMutableArray" key="NSSubviews">
 									<bool key="EncodedWithXMLCoder">YES</bool>
+									<object class="IBUIButton" id="659170962">
+										<reference key="NSNextResponder" ref="723048711"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{295, 61}, {23, 23}}</string>
+										<reference key="NSSuperview" ref="723048711"/>
+										<bool key="IBUIOpaque">NO</bool>
+										<float key="IBUIAlpha">0.57042253017425537</float>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<reference key="IBUIFont" ref="867404015"/>
+										<reference key="IBUIHighlightedTitleColor" ref="147294427"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="58732063"/>
+										<object class="NSCustomResource" key="IBUINormalImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">gear.png</string>
+										</object>
+									</object>
 									<object class="IBUIImageView" id="720422710">
 										<reference key="NSNextResponder" ref="723048711"/>
 										<int key="NSvFlags">-2147483374</int>
@@ -426,11 +448,6 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSMutableArray" key="IBUIItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUITabBarItem" id="171901031">
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<reference key="IBUITabBar" ref="383738671"/>
-								<int key="IBUISystemItemIdentifier">0</int>
-							</object>
 						</object>
 					</object>
 					<object class="IBUIToolbar" id="412791177">
@@ -819,14 +836,8 @@
 						<reference key="object" ref="383738671"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="171901031"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">22</int>
-						<reference key="object" ref="171901031"/>
-						<reference key="parent" ref="383738671"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">32</int>
@@ -865,6 +876,7 @@
 							<reference ref="438495196"/>
 							<reference ref="720422710"/>
 							<reference ref="503985350"/>
+							<reference ref="659170962"/>
 						</object>
 						<reference key="parent" ref="607984093"/>
 						<string key="objectName">Provider Info View</string>
@@ -977,6 +989,7 @@
 						<int key="objectID">89</int>
 						<reference key="object" ref="366203431"/>
 						<reference key="parent" ref="467309782"/>
+						<string key="objectName">Rounded Button Behind Text View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">55</int>
@@ -1042,6 +1055,12 @@
 						<reference key="object" ref="862018976"/>
 						<reference key="parent" ref="486154963"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">94</int>
+						<reference key="object" ref="659170962"/>
+						<reference key="parent" ref="723048711"/>
+						<string key="objectName">Settings Button</string>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1057,7 +1076,6 @@
 					<string>16.IBPluginDependency</string>
 					<string>17.IBPluginDependency</string>
 					<string>20.IBPluginDependency</string>
-					<string>22.IBPluginDependency</string>
 					<string>30.IBPluginDependency</string>
 					<string>32.IBPluginDependency</string>
 					<string>33.IBPluginDependency</string>
@@ -1084,12 +1102,13 @@
 					<string>89.IBPluginDependency</string>
 					<string>9.IBPluginDependency</string>
 					<string>90.IBPluginDependency</string>
+					<string>94.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>JRPublishActivityController</string>
 					<string>UIResponder</string>
-					<string>{{1022, 212}, {320, 480}}</string>
+					<string>{{297, 156}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1141,7 +1160,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">92</int>
+			<int key="maxID">94</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1605,14 +1624,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">UITabBarItem</string>
-					<string key="superclassName">UIBarItem</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UITabBarItem.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">UITextView</string>
 					<string key="superclassName">UIScrollView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1701,6 +1712,7 @@
 				<string>blue_button_145x37.png</string>
 				<string>blue_button_300x37.png</string>
 				<string>check_mark.png</string>
+				<string>gear.png</string>
 				<string>media_view_background_bottom.png</string>
 				<string>media_view_background_top.png</string>
 				<string>triangle_icon.png</string>
@@ -1710,6 +1722,7 @@
 				<string>{145, 37}</string>
 				<string>{300, 37}</string>
 				<string>{20, 20}</string>
+				<string>{256, 256}</string>
 				<string>{300, 8}</string>
 				<string>{300, 8}</string>
 				<string>{18, 18}</string>

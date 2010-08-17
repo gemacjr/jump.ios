@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ContentParser.h"
-//#import "JRAuthenticate.h"
+#import "JRAuthenticate.h"
 
 @interface StoryEnclosure : NSObject
 {
@@ -152,7 +152,7 @@
 @property (readonly) NSMutableArray *stories;
 @end
 
-@interface FeedReader : NSObject <NSXMLParserDelegate>
+@interface FeedReader : NSObject <NSXMLParserDelegate, JRAuthenticateDelegate>
 {
     NSMutableDictionary *xmlParsers;
     Feed *currentlyBeingParsedFeed;
@@ -162,10 +162,14 @@
 //    NSMutableDictionary *allStories;
     
     Story *selectedStory;
+    
+    JRAuthenticate *jrAuthenticate;
 }
+
 @property (readonly) NSMutableDictionary *feeds;
 @property (readonly) NSMutableArray *allStories;
 @property (retain) Story *selectedStory;
+@property (readonly) JRAuthenticate *jrAuthenticate;
 
 + (FeedReader*)initFeedReader;
 + (FeedReader*)feedReader;
