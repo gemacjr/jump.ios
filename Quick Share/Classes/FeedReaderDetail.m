@@ -34,6 +34,33 @@
     
     story = [[FeedReader feedReader].selectedStory retain];
 
+//      NSString *storyTitle = story.title;
+    self.title = [NSString stringWithString:story.title];
+    
+    NSError *error;
+    NSRegularExpression *regexHeight = [NSRegularExpression regularExpressionWithPattern:@"<img(.*?)(height:.*?;)(.*?)>"
+                                                                                 options:0
+                                                                                   error:&error];
+    if (error)
+        return;    
+
+    NSRegularExpression *regexWidth = [NSRegularExpression regularExpressionWithPattern:@"<img(.*?)(width:.*?;)(.*?)>"
+                                                                                 options:0
+                                                                                   error:&error];
+    if (error)
+        return;    
+    
+    NSString *string1 = [regexHeight stringByReplacingMatchesInString:story.description
+                                                              options:0
+                                                                range:NSMakeRange(0, [story.description length])
+                                                         withTemplate:@"<img$1$3>"];
+    
+    NSString *string2 = [regexWidth stringByReplacingMatchesInString:string1
+                                                             options:0
+                                                               range:NSMakeRange(0, [string1 length])
+                                                        withTemplate:@"<img$1$3>"];
+                                
+ 
     NSString *webViewContent = [NSString stringWithFormat:
                                     @"<html>                                    \
                                         <head>                                  \
@@ -43,17 +70,13 @@
                                                     width:300px;                \
                                                     font-family:\"Helvetica\";  \
                                                 }                               \
-                                                body                        \
-                                                {                               \
-                                                width:300px;                \
-                                                }                               \
                                                                                 \
                                                 h1                              \
                                                 {                               \
                                                     font-size:18px;             \
                                                     padding:0px;                \
                                                     margin:3px;                 \
-                                                    border:1px solid red; \
+#                                                    border:1px solid red; \
                                                 }                               \
                                                                                 \
                                                 h2                              \
@@ -61,7 +84,7 @@
                                                     font-size:15px;             \
                                                     padding:0px;                \
                                                     margin:3px;                 \
-                                                    border:1px solid green; \
+#                                                    border:1px solid green; \
                                                 }                               \
                                                                                 \
                                                 p                               \
@@ -69,29 +92,32 @@
                                                     #font-size:12px;            \
                                                     padding:0px;                \
                                                     margin:3px;                 \
-                                                    border:1px solid blue; \
+#                                                    border:1px solid blue; \
                                                 }                               \
                                                                                 \
                                                 img                             \
                                                 {                               \
                                                     max-width:100\%;            \
-                                                    #max-height:100\%            \
+                                                    max-height:100\%;           \
+                                                    padding:0px;                \
+                                                    margin:3px;                 \
+                                                    border:1px solid blue; \
                                                 }                               \
                                                                                 \
                                             </style>                            \
                                         </head>                                 \
                                                                                 \
                                         <body>                                  \
-                                            <!--div class=\"main\"-->                \
+                                            <div class=\"main\">                \
                                                 <h1>%@</h1>                     \
                                                 <h2>%@</h2>                     \
                                                 %@                              \
-                                            <!--/div-->                              \
+                                            </div>                              \
                                         </body>                                 \
                                     </html>", 
                                 story.title,
                                 story.pubDate,
-                                story.description];
+                                string2];
 
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
     

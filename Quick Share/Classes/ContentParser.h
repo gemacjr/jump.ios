@@ -27,5 +27,6 @@
 @property (readonly) NSMutableArray *theStringsBetweenElements;
 @property (readonly) NSMutableArray *images;
 
-- (void)processContent:(NSString*)content;
+- (void)processContent:(NSString*)theString;
+- (void)regexParse:(NSString*)theString;
 @end

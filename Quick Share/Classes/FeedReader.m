@@ -761,16 +761,17 @@ static FeedReader* singleton = nil;
     if ([elementName isEqualToString:@"description"] && feed.currentStory)
     {
         ContentParser *contentParser = [[ContentParser alloc] init];
-        [contentParser processContent:feed.currentStory.description];
+        [contentParser regexParse:feed.currentStory.description];
+//        [contentParser processContent:feed.currentStory.description];
         
-        NSMutableString *plainText = [[NSMutableString alloc] init];        
-        for (NSString *chunk in contentParser.theStringsBetweenElements)
-        {
-            [plainText appendFormat:@"%@ ", chunk];
-        }
+        NSMutableString *plainText = [contentParser currentContent];//[[NSMutableString alloc] init];        
+//        for (NSString *chunk in contentParser.theStringsBetweenElements)
+//        {
+//            [plainText appendFormat:@"%@ ", chunk];
+//        }
         
         [feed.currentStory setPlainText:plainText];
-        [plainText release];
+//        [plainText release];
         
         for (NSDictionary *image in contentParser.images)
         {

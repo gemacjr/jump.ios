@@ -113,6 +113,87 @@
 //}
 
 
+- (void)regexParse:(NSString*)theString
+{
+    NSError *error = NULL;
+    NSRegularExpression *imgRegex = [NSRegularExpression regularExpressionWithPattern:@"<img(.|\n)*?>"
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+
+    if (error)
+        return;    
+    
+    NSArray *matches = [imgRegex matchesInString:theString
+                                         options:0
+                                           range:NSMakeRange(0, [theString length])];
+
+    for (NSTextCheckingResult *match in matches) 
+    {
+        NSRange matchRange = [match range]; 
+        
+        if (!NSEqualRanges(matchRange, NSMakeRange(NSNotFound, 0))) 
+        {
+            NSString *substringForMatch = [theString substringWithRange:matchRange];
+            DLog("match: %@", substringForMatch);
+            
+//            NSRange rangeOfWidthAttr = [substringForMatch rangeOfString:@""];
+//            NSRange rangeOfEndQuoteW = [substringForMatch rangeOfString:@"\"" 
+//                                                               options:nil 
+//                                                                 range:
+//                                       NSRangeMake(rangeOfWidthAttr.location+rangeOfWidthAttr.length,
+//                                                   [substringForMatch length] - rangeOfWidthAttr.location+rangeOfWidthAttr.length)];
+//            
+//            NSString* imgWdth = [substringForMatch substringWithRange:
+//                                 NSRangeMake(rangeOfWidthAttr.location,
+//                                             rangeOfEndQuoteW.location - rangeOfWidthAttr.location+rangeOfWidthAttr.length)];
+//            
+//            
+//            NSInteger width = [imgWdth integerValue];
+//            
+//            NSRange rangeOfHeightAttr = [substringForMatch rangeOfString:@""];
+//            NSRange rangeOfEndQuoteH = [substringForMatch rangeOfString:@"\"" 
+//                                                                options:nil 
+//                                                                  range:
+//                                        NSRangeMake(rangeOfHeightAttr.location+rangeOfHeightAttr.length,
+//                                                    [substringForMatch length] - rangeOfHeightAttr.location+rangeOfHeightAttr.length)];
+//
+//            NSString* imgHeight = [substringForMatch substringWithRange:
+//                                   NSRangeMake(rangeOfHeightAttr.location,
+//                                               rangeOfEndQuoteH.location - rangeOfHeightAttr.location+rangeOfHeightAttr.length)];
+//
+//            NSInteger height = [imgHeight integerValue];
+//            
+//            double ratio = width/300;
+//            
+//            width = width/ratio;
+//            height = height/ratio;            
+        }
+    }
+
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<(.|\n)*?>(\n)*"
+                                                                           options:0
+                                                                             error:&error];
+    if (error)
+        return;    
+
+    NSString *modifiedString = [[regex stringByReplacingMatchesInString:theString
+                                                                options:0
+                                                                  range:NSMakeRange(0, [theString length])
+                                                           withTemplate:@" "]
+                                stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                                
+    DLog("new string: %@", modifiedString);
+    
+    currentContent = [modifiedString retain];
+}
+
+
+
+
+
+
+
 /* This function recursively processes an html string, pulling out elements, their attibutes,
    and the data in between */
 - (void)processContent:(NSString*)theString

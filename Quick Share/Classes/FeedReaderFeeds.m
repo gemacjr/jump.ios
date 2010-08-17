@@ -39,7 +39,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
     FeedReader *reader = [FeedReader initFeedReader];
     [reader addFeedForUrl:@"http://www.janrain.com/feed/blogs"];
 
