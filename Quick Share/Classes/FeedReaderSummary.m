@@ -8,6 +8,7 @@
 
 #import "FeedReaderSummary.h"
 
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 @implementation FeedReaderSummary
 
@@ -27,6 +28,8 @@
 
 - (void)viewWillAppear:(BOOL)animated 
 {
+    DLog(@"");
+
     [super viewWillAppear:animated];
 
     self.title = @"Janrain Blog";
@@ -40,7 +43,7 @@
     [sortedStories release];
     sortedStories = [[NSArray alloc] initWithArray:[reader allStories]];// copyItems:YES];//[stories allKeys];//[[stories allKeys] filteredArrayUsingPredicate:[NSPredicate ]]        
     
-    newsTable.backgroundColor = [UIColor whiteColor];
+    newsTable.backgroundColor = [UIColor colorWithRed:(101.0/255.0) green:(196.0/255.0) blue:(234.0/255.0) alpha:1.0];//[UIColor whiteColor];
 //    newsTable.separatorColor = [UIColor clearColor];
     [newsTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     newsTable.sectionFooterHeight = 0.0;
@@ -81,11 +84,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView 
 {
-    return [sortedStories count] + 1;
+    return [sortedStories count];// + 1;
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section 
-{
+{	
     return 1;
 }
 
@@ -99,27 +102,75 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    static NSString *reuseIdentifier = @"cachedCell";
+    NSString *reuseIdentifier = [NSString stringWithFormat:@"cachedCellForSection_%d", indexPath.section];
+    static NSInteger imageTag       = 10;
+    static NSInteger spinnerTag     = 20;
+    static NSInteger titleTag       = 30;
+    static NSInteger descriptionTag = 40;
+    static NSInteger dateTag        = 50;
+    
+    NSInteger log = 0;
+    
+    Story *story = [[sortedStories objectAtIndex:indexPath.section] retain];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    
     if (cell == nil) 
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
 
         if (indexPath.section < [sortedStories count])
         {
-            Story *story = [[sortedStories objectAtIndex:indexPath.section] retain];
+            NSInteger imageWidth = 42; 
+            UIImageView *documentImage = [[[UIImageView alloc] initWithFrame:CGRectMake(8, 27, imageWidth - 6, 36)] autorelease];
+            UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] 
+                                                 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
+            [spinner setFrame:CGRectMake(18, 37, 16, 16)];
             
+            documentImage.backgroundColor = [UIColor grayColor];
+            documentImage.clipsToBounds = YES;
+            
+            [spinner setHidesWhenStopped:YES];
+            [spinner startAnimating];
+            
+            BOOL imageAvailable = NO;
+            
+            if ([story.storyImages count] > 0)
+            {
+                StoryImage *storyImage = [story.storyImages objectAtIndex:0];
+                imageAvailable = YES;
+                
+                if (storyImage.imageData)
+                {
+                    [spinner stopAnimating];
+                    documentImage.backgroundColor = [UIColor clearColor];
+                    documentImage.image = [UIImage imageWithData:storyImage.imageData];
+                }
+                else
+                {
+                    [spinner startAnimating];
+                }
+            }
+            
+            if (!imageAvailable && story.feed.image)
+            {
+                // TODO
+            }
+            
+            if (!imageAvailable)
+            {
+                [documentImage setHidden:YES];
+                [spinner stopAnimating];
+                imageWidth = 0;
+            }
+
             UILabel *documentTitle = [[[UILabel alloc] initWithFrame:CGRectMake(8, 6, 284, 16)] autorelease];
             documentTitle.font = [UIFont boldSystemFontOfSize:15.0];
             documentTitle.textColor = [UIColor colorWithRed:0.0 green:0.25 blue:0.5 alpha:1.0];
             documentTitle.backgroundColor = [UIColor clearColor];
             documentTitle.text = story.title;
             
-            UIImageView *favicon = [[[UIImageView alloc] initWithFrame:CGRectMake(8, 27, 36, 36)] autorelease];
-            favicon.image = [UIImage imageNamed:@"favicon.png"];
-            
-            UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(52, 25, 228, 36)] autorelease];
+            UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(8 + imageWidth, 25, 270   - imageWidth, 36)] autorelease];
             documentDescription.font = [UIFont systemFontOfSize:14.0];
             documentDescription.textColor = [UIColor darkGrayColor];
 //            documentDescription.lineBreakMode = UILineBreakModeWordWrap;
@@ -134,34 +185,23 @@
             documentDate.backgroundColor = [UIColor clearColor];
             documentDate.text = story.pubDate;
             
+            [documentImage setTag:imageTag];
+            [spinner setTag:spinnerTag];
+            [documentTitle setTag:titleTag];
+            [documentDescription setTag:descriptionTag];
+            [documentDate setTag:dateTag];
             
-//            /* First trim just the whitespace off of the end of the string */
-//            NSString *date = [story.pubDate stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//            
-//            /* Then trim the "+0000" or whatever off of the end of the string (and the "\n")*/
-//            date = [date stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"+0123456789\n"]];
-//            
-//            /* Then trim the remaining whitespace off of the end.  If we trimmed whitespace and decimal characters at the same time,
-//               we'd remove more than just the "+0000" */
-//            documentDate.text = [NSString stringWithFormat:@"published on %@",
-//                                 [date stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-
-            
-            
-            [cell.contentView addSubview:favicon];
+            [cell.contentView addSubview:documentImage];
+            [cell.contentView addSubview:spinner];
             [cell.contentView addSubview:documentTitle];
             [cell.contentView addSubview:documentDescription];
             [cell.contentView addSubview:documentDate];
-            
             
             UIImageView *background = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cell_background.png"]] autorelease];
             cell.backgroundView = background;
 
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
-//            cell.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];//lightGrayColor];
-            
-            
+
             [story release];
         }
         else if (indexPath.section == [sortedStories count])
@@ -169,7 +209,34 @@
             cell.textLabel.text = @"Reload Stories";
         }
     }
-    
+    else
+    {
+        UIImageView *documentImage = (UIImageView*)[cell.contentView viewWithTag:imageTag];
+        UIActivityIndicatorView *spinner = (UIActivityIndicatorView*)[cell.contentView viewWithTag:spinnerTag];
+        
+        if (![spinner isHidden])
+        {
+            BOOL imageAvailable = NO;
+            
+            if ([story.storyImages count] > 0)
+            {
+                StoryImage *storyImage = [story.storyImages objectAtIndex:0];
+                imageAvailable = YES;
+                
+                if (storyImage.imageData)
+                {
+                    [spinner stopAnimating];
+                    documentImage.image = [UIImage imageWithData:storyImage.imageData];
+                }
+            }
+            
+            if (!imageAvailable && story.feed.image)
+            {                
+                // TODO
+            }
+        }
+    }
+
     return cell;
 }
 

@@ -61,7 +61,7 @@ typedef enum
 }
 @property (readonly) NSString *src;
 @property (readonly) NSString *href;
-@property (readonly) UIImage  *preview;
+@property (retain) UIImage *preview;
 
 - (id)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
 @end
@@ -83,7 +83,7 @@ typedef enum
 @property NSUInteger height;
 @property NSUInteger expanded_width;
 @property NSUInteger expanded_height;
-@property (readonly) UIImage  *preview;
+@property (retain) UIImage *preview;
 
 - (id)initWithSwfsrc:(NSString *)_swfsrc andImgsrc:(NSString *)_imgsrc;
 @end

@@ -87,6 +87,7 @@
 @synthesize href;
 @synthesize preview;
 @synthesize tag;
+
 - (id)initWithSrc:(NSString*)_src andHref:(NSString*)_href
 {
     if (!_src || !_href)
@@ -128,6 +129,7 @@
 @synthesize expanded_height;
 @synthesize preview;
 @synthesize tag;
+
 - (id)initWithSwfsrc:(NSString*)_swfsrc andImgsrc:(NSString*)_imgsrc
 {
     if (!_swfsrc || !_imgsrc)
@@ -325,6 +327,9 @@
 
 - (NSMutableArray*)media
 {
+    if (!media)
+        media = [[NSMutableArray alloc] initWithCapacity:1];
+    
     return media;
 }
 
@@ -335,8 +340,11 @@
                       [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRActionLink class])]]] retain];
 }
 
-- (NSMutableArray*)getAction_links
+- (NSMutableArray*)action_links
 {
+    if (!action_links)
+        action_links = [[NSMutableArray alloc] initWithCapacity:1];
+
     return action_links;
 }
 

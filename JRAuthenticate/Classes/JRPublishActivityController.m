@@ -31,31 +31,31 @@
 
 
 @implementation JRPublishActivityController
-@synthesize myLoadingLabel;
-@synthesize myLoadingActivitySpinner; 
-@synthesize myLoadingGrayView;
-@synthesize myUserContentTextView;
-@synthesize myUserContentBoundingBox;
-@synthesize myProviderIcon;
-@synthesize myPoweredByLabel;
-@synthesize myMediaContentView;
-@synthesize myMediaViewBackgroundMiddle;
-@synthesize myMediaViewBackgroundTop;
-@synthesize myMediaViewBackgroundBottom;
-@synthesize myMediaThumbnailView;
-@synthesize myMediaThumbnailActivityIndicator;
-@synthesize myTitleLabel;
-@synthesize myDescriptionLabel;
-@synthesize myShareToView;
-@synthesize myTriangleIcon;
-@synthesize myProfilePic;
-@synthesize myProfilePicActivityIndicator;
-@synthesize myUserName;
-@synthesize myConnectAndShareButton;
-@synthesize myJustShareButton;
-@synthesize mySharedCheckMark;
-@synthesize mySharedLabel;
-@synthesize myTabBar;
+//@synthesize myLoadingLabel;
+//@synthesize myLoadingActivitySpinner; 
+//@synthesize myLoadingGrayView;
+//@synthesize myUserContentTextView;
+//@synthesize myUserContentBoundingBox;
+//@synthesize myProviderIcon;
+//@synthesize myPoweredByLabel;
+//@synthesize myMediaContentView;
+//@synthesize myMediaViewBackgroundMiddle;
+//@synthesize myMediaViewBackgroundTop;
+//@synthesize myMediaViewBackgroundBottom;
+//@synthesize myMediaThumbnailView;
+//@synthesize myMediaThumbnailActivityIndicator;
+//@synthesize myTitleLabel;
+//@synthesize myDescriptionLabel;
+//@synthesize myShareToView;
+//@synthesize myTriangleIcon;
+//@synthesize myProfilePic;
+//@synthesize myProfilePicActivityIndicator;
+//@synthesize myUserName;
+//@synthesize myConnectAndShareButton;
+//@synthesize myJustShareButton;
+//@synthesize mySharedCheckMark;
+//@synthesize mySharedLabel;
+//@synthesize myTabBar;
 @synthesize keyboardToolbar;
 @synthesize shareButton;
 //@synthesize doneButton;
@@ -159,10 +159,10 @@
 									  target:sessionData//[self navigationController].parentViewController
 									  action:@selector(publishingDidCancel:)] autorelease];
 	
-	self.navigationItem.rightBarButtonItem = cancelButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
+	self.navigationItem.leftBarButtonItem = cancelButton;
+	self.navigationItem.leftBarButtonItem.enabled = YES;
 	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
 
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
@@ -175,10 +175,10 @@
 //									action:@selector(doneButtonPressed:)] autorelease];
 	
 	
-	self.navigationItem.leftBarButtonItem = editButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
+	self.navigationItem.rightBarButtonItem = editButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
 //    [myJustShareButton setTitle:@"Share" forState:UIControlStateNormal];
 //    [myJustShareButton setTitle:@"Share" forState:UIControlStateSelected];
@@ -343,10 +343,10 @@ Please try again later."
 									target:self
 									action:@selector(editButtonPressed:)] autorelease];
     
-	self.navigationItem.leftBarButtonItem = editButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
+	self.navigationItem.rightBarButtonItem = editButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;	
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;	
 }
 
 - (void)editButtonPressed:(id)sender
@@ -358,10 +358,10 @@ Please try again later."
 									target:self
 									action:@selector(doneButtonPressed:)] autorelease];
     
-	self.navigationItem.leftBarButtonItem = doneButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
+	self.navigationItem.rightBarButtonItem = doneButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 }
 
 - (void)showUserAsLoggedIn:(BOOL)loggedIn
@@ -373,6 +373,7 @@ Please try again later."
     
     [myProfilePic setHidden:!loggedIn];
     [myUserName setHidden:!loggedIn];
+    [mySettingsButton setHidden:!loggedIn];
     [UIView commitAnimations];
     
     
@@ -426,11 +427,11 @@ Please try again later."
         barButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                    target:sessionData
                                                                    action:@selector(publishingDidCancel:)] autorelease];   
-        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
     }
 
-	self.navigationItem.rightBarButtonItem = barButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;	
+	self.navigationItem.leftBarButtonItem = barButton;
+	self.navigationItem.leftBarButtonItem.enabled = YES;	
 }
 
 - (BOOL)providerCanShareMedia:(NSString*)provider
@@ -461,9 +462,20 @@ Please try again later."
     DLog(@"");
     myUserContentTextView.text = activity.user_generated_content;
     
+    NSInteger mediaOffset = 53;
+    
     if (([activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider.name]))
     {
         [myMediaContentView setHidden:NO];
+        
+        [myTitleLabel setFrame:CGRectMake(63, //myTitleLabel.frame.origin.x + mediaOffset, 
+                                          myTitleLabel.frame.origin.y,
+                                          227, //myTitleLabel.frame.size.width - mediaOffset, 
+                                          myTitleLabel.frame.size.height)];
+        [myDescriptionLabel setFrame:CGRectMake(63, //myDescriptionLabel.frame.origin.x + mediaOffset, 
+                                                myDescriptionLabel.frame.origin.y,
+                                                227, //myDescriptionLabel.frame.size.width - mediaOffset, 
+                                                myDescriptionLabel.frame.size.height)];        
         
         myTitleLabel.text = activity.title;
         myDescriptionLabel.text = activity.description;
@@ -482,9 +494,22 @@ Please try again later."
             [request release];            
         }   
     }
-    else
+    else 
     {
-        [myMediaContentView setHidden:YES];
+//        [myMediaContentView setHidden:YES];
+        [myMediaContentView setHidden:NO];
+        
+        [myTitleLabel setFrame:CGRectMake(10, //myTitleLabel.frame.origin.x - mediaOffset, 
+                                          myTitleLabel.frame.origin.y,
+                                          280, //myTitleLabel.frame.size.width + mediaOffset, 
+                                          myTitleLabel.frame.size.height)];
+        [myDescriptionLabel setFrame:CGRectMake(10, //myDescriptionLabel.frame.origin.x - mediaOffset, 
+                                                myDescriptionLabel.frame.origin.y,
+                                                280, //myDescriptionLabel.frame.size.width + mediaOffset, 
+                                                myDescriptionLabel.frame.size.height)];
+        
+        myTitleLabel.text = activity.title;
+        myDescriptionLabel.text = activity.description;
     }
 }
 
@@ -588,10 +613,10 @@ Please try again later."
 									target:self
 									action:@selector(doneButtonPressed:)] autorelease];
     
-	self.navigationItem.leftBarButtonItem = doneButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
+	self.navigationItem.rightBarButtonItem = doneButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered; 
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered; 
 }
 
 - (void)keyboardDidShow:(NSNotification *)notif
@@ -622,10 +647,10 @@ Please try again later."
 									target:self
 									action:@selector(editButtonPressed:)] autorelease];
     
-	self.navigationItem.leftBarButtonItem = editButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
+	self.navigationItem.rightBarButtonItem = editButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;    
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;    
 }
 
 - (void)keyboardDidHide:(NSNotification *)notif
@@ -655,10 +680,10 @@ Please try again later."
 									target:self
 									action:@selector(doneButtonPressed:)] autorelease];
     
-	self.navigationItem.leftBarButtonItem = doneButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
+	self.navigationItem.rightBarButtonItem = doneButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;    
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;    
     
     return YES;
 }
@@ -683,15 +708,44 @@ Please try again later."
 									target:self
 									action:@selector(editButtonPressed:)] autorelease];
     
-	self.navigationItem.leftBarButtonItem = editButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
+	self.navigationItem.rightBarButtonItem = editButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;    
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;    
     
     return YES;
 }
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 0:
+            [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
+            [loggedInUser release];
+            loggedInUser = nil;
+            [self showUserAsLoggedIn:NO];
+            break;
+        default:
+            break;
+    }
+}
 
+
+- (IBAction)settingsButtonPressed:(id)sender
+{
+    DLog(@"");
+    
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
+                                                                   @"You are currently signed in to %@ as %@. Would you like to sign out?",
+                                                                   selectedProvider.friendlyName, loggedInUser.preferred_username]
+														 delegate:self
+												cancelButtonTitle:@"Cancel"  
+										   destructiveButtonTitle:@"OK"
+												otherButtonTitles:nil] autorelease];
+	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+	[action showInView:self.view];
+}
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
@@ -713,9 +767,15 @@ Please try again later."
     DLog(@"data retain count: %d", [data retainCount]);    
     
     if (!data)
+    {
         imageView.image = nil;
-    else 
+        imageView.backgroundColor = [UIColor darkGrayColor];
+    }
+    else
+    {
         imageView.image = [UIImage imageWithData:data];
+        imageView.backgroundColor = [UIColor whiteColor];
+    }
     
     if (loading)
         [actIndicator startAnimating];

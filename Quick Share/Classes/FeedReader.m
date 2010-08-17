@@ -7,6 +7,7 @@
 //
 
 #import "FeedReader.h"
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 static NSDate* NSDateFromRfc822String(NSString* dateString)
 {    
@@ -93,7 +94,7 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
 
 @interface StoryImage ()
 - (void)setAlt:(NSString*)_alt;
-- (void)setSrc:(NSString*)_src;
+//- (void)setSrc:(NSString*)_src;
 - (void)setHeight:(NSString*)_height;
 - (void)setWidth:(NSString*)_width;
 @end
@@ -103,18 +104,52 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
 @synthesize src;
 @synthesize height;
 @synthesize width;
+@synthesize imageData;
 
+- (id)initWithSrc:(NSString*)_src
+{
+    if (_src == nil)
+    {
+        [self release];
+        return nil;
+    }
+    
+    if ([super init])
+    {
+        src = [_src retain];
+        
+        NSURL *url = [NSURL URLWithString:src];
+        
+        if(!url)
+            return self;
+        
+        NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
+        [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:nil stringEncodeData:NO];
+    }
+    
+    return self;
+}
+
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
+{
+    imageData = [payload retain];
+}
+
+- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
+- (void)connectionDidFailWithError:(NSError*)_error request:(NSURLRequest*)request andTag:(void*)userdata { }
+- (void)connectionWasStoppedWithTag:(void*)userdata { }         
+         
 - (void)setAlt:(NSString*)_alt
 {
 	[alt release];
 	alt = [_alt retain];
 }
 
-- (void)setSrc:(NSString*)_src
-{
-	[src release];
-	src = [_src retain];
-}
+//- (void)setSrc:(NSString*)_src
+//{
+//	[src release];
+//	src = [_src retain];
+//}
 
 - (void)setHeight:(NSString*)_height
 {
@@ -178,7 +213,7 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
 - (void)setPubDate:(NSString*)_pubDate;
 - (void)setSource:(NSString*)_source;
 - (void)setPlainText:(NSString*)_plainText;
-- (void)addStoryImage:(NSDictionary*)_storyImage;
+- (void)addStoryImage:(NSString*)_storyImage;
 - (void)setFeed:(Feed*)_feed;
 @end
 
@@ -285,7 +320,6 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
 
     [pubDate release];
     pubDate = [NSStringFromDate(NSDateFromNonStandardDrupalString(_pubDate)) retain];
-    
 }
 
 - (void)setSource:(NSString*)_source
@@ -300,9 +334,19 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
     plainText = [_plainText retain];
 }
 
-- (void)addStoryImage:(NSDictionary*)_storyImage
+- (void)addStoryImage:(NSString*)_storyImage
 {
+    if (!storyImages)
+        storyImages = [[NSMutableArray alloc] initWithCapacity:1];
     
+    if (![_storyImage hasPrefix:@"http"])
+    {
+        _storyImage = [NSString stringWithFormat:@"%@%@", self.feed.link, _storyImage];
+    }
+    
+    StoryImage *image = [[[StoryImage alloc] initWithSrc:_storyImage] autorelease];
+    
+    [storyImages addObject:image];
 }
 
 - (void)setFeed:(Feed*)_feed
@@ -406,6 +450,7 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
 
 
 @interface Feed ()
+- (void)setUrl:(NSString*)_url;
 - (void)setTitle:(NSString*)_title;
 - (void)setLink:(NSString*)_link;
 - (void)setDescription:(NSString*)_description;
@@ -426,15 +471,17 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
 - (void)setSkipDays:(NSString*)_skipDays;
 
 - (void)setImage:(FeedImage*)_image;
-@property (retain) NSMutableArray *stories;
+//@property (retain) NSMutableArray *stories;
 @property (retain) Story *currentStory;
 @property (retain) FeedImage *currentImage;
 @property (retain) StoryEnclosure *currentEnclosure;
 @property (retain) NSString *currentElement;
+@property (readonly) NSString *url;
 @end
 
 
 @implementation Feed
+@synthesize url;
 @synthesize title;
 @synthesize link;
 @synthesize description;
@@ -454,7 +501,7 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
 @synthesize textInput;
 @synthesize skipHours;
 @synthesize skipDays;
-@synthesize stories;
+//@synthesize stories;
 @synthesize currentStory;
 @synthesize currentImage;
 @synthesize currentElement;
@@ -462,6 +509,7 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
+    [coder encodeObject:url forKey:@"url"];
     [coder encodeObject:title forKey:@"title"];
     [coder encodeObject:link forKey:@"link"];
     [coder encodeObject:description forKey:@"description"];
@@ -488,6 +536,7 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
     self = [[Feed alloc] init];
     if (self != nil)
     {
+        url = [[coder decodeObjectForKey:@"url"] retain];
         title = [[coder decodeObjectForKey:@"title"] retain];
         link = [[coder decodeObjectForKey:@"link"] retain];
         description = [[coder decodeObjectForKey:@"description"] retain];
@@ -507,11 +556,18 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
         textInput = [[coder decodeObjectForKey:@"textInput"] retain];
         skipHours = [[coder decodeObjectForKey:@"skipHours"] retain];
         skipDays = [[coder decodeObjectForKey:@"skipDays"] retain];
+        
+        stories = nil;
     }   
     
     return self;
 }
 
+- (void)setUrl:(NSString*)_url
+{
+	[url release];
+	url = [_url retain];
+}
 
 - (void)setTitle:(NSString*)_title
 {
@@ -625,6 +681,14 @@ static NSDate* NSDateFromNonStandardDrupalString(NSString* dateString)
     [image release];
     image = [_image retain];    
 }
+
+- (NSMutableArray*)stories
+{
+    if (!stories)
+        stories = [[NSMutableArray alloc] initWithCapacity:1];
+    
+    return stories;
+}
 @end
 
 @interface FeedReader ()
@@ -723,19 +787,18 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError 
 {
+    [self removeFeedForUrl:currentlyBeingParsedFeed.url];
     [currentlyBeingParsedFeed release];
+    currentlyBeingParsedFeed = nil;
     
-    //-------------------------------------------------------------------//
-	NSString *errorString = [NSString stringWithFormat:@"Unable to download story feed from web site (Error code %i )", [parseError code]];
-	NSLog(@"error parsing XML: %@", errorString);
+	NSString *errorString = [NSString stringWithFormat:@"Feed reader was unable to download the feed from web site."];
     
-	UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Error loading content" 
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error loading content" 
                                                          message:errorString 
                                                         delegate:self 
                                                cancelButtonTitle:@"OK" 
                                                otherButtonTitles:nil];
-	[errorAlert show];
-    //-------------------------------------------------------------------//
+	[alert show];
 }
 
 - (void)parser:(NSXMLParser*)parser didStartElement:(NSString*)elementName namespaceURI:(NSString*)namespaceURI 
@@ -779,7 +842,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
         [feed.currentStory setPlainText:plainText];
 //        [plainText release];
         
-        for (NSDictionary *image in contentParser.images)
+        for (NSString *image in contentParser.images)
         {
             [feed.currentStory addStoryImage:image];
         }
@@ -952,12 +1015,14 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser 
 {
+    DLog(@"");
     Feed *feed = currentlyBeingParsedFeed;//[xmlParsers objectForKey:parser];
     
     @synchronized (allStories)
     {
         for (Story* story in feed.stories)
         {
+            DLog("Adding story: %@", story.title);
             [allStories addObject:story];
             //[allStories setObject:feed forKey:story];
         }
@@ -969,10 +1034,11 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 
 - (void)parseFeed:(Feed*)feed atUrl:(NSString*)url 
 {
+    DLog(@"");
     currentlyBeingParsedFeed = [feed retain];
 	
-    if (!feed.stories)
-        feed.stories = [[NSMutableArray alloc] init];
+//    if (!feed.stories)
+//        feed.stories = [[NSMutableArray alloc] init];
     
 	NSURL *xmlUrl = [NSURL URLWithString:url];
     
@@ -992,6 +1058,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 {
     for (NSString* url in [feeds allKeys])
     {
+        DLog(@"Parsing stories for feed: %@", url);
         [self parseFeed:[feeds objectForKey:url] atUrl:url];
     }
 }
@@ -999,20 +1066,32 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 
 - (void)addFeedForUrl:(NSString*)url
 {
+    if (!url) return;
+    
+    DLog(@"Attempting to add feed: %@", url);
     Feed* feed = [[[Feed alloc] init] autorelease];
     
     if (![feeds objectForKey:url])
     {
+        [feed setUrl:url];
         [feeds setObject:feed forKey:url];
         [self parseFeed:feed atUrl:url];
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:feeds] 
                                                   forKey:@"archivedFeeds"];
+        DLog(@"Feed added");
+    }
+    else
+    {
+        DLog(@"%@ already added", url);
     }
 }
 
 - (void)removeFeedForUrl:(NSString*)url
 {
+    if (!url) return;
+    
+    DLog(@"Attempting to remove feed: %@", url);
     Feed *feed = [feeds objectForKey:url];
     
     @synchronized (allStories)
@@ -1023,8 +1102,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
         }
     }
     
-    [feeds removeObjectForKey:url];
-    
+    [feeds removeObjectForKey:url];    
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:feeds] 
                                               forKey:@"archivedFeeds"];
 }
@@ -1038,26 +1116,17 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 }
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token { }
-
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider { }
-
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenUrl:(NSString*)_tokenUrl
 		   withPayload:(NSString*)tokenUrlPayload
-           forProvider:(NSString *)provider 
-{ }
+           forProvider:(NSString *)provider { }
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth { }
-//- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString *)provider { }
+- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString *)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
-
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString *)provider 
-{
-}
-
-
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didPublishingActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivityDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
-
 - (void)jrAuthenticateDidNotCompletePublishing:(JRAuthenticate*)jrAuth { }
 - (void)jrAuthenticateDidCompletePublishing:(JRAuthenticate*)jrAuth  { }
 @end

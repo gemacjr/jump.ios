@@ -43,7 +43,6 @@
     FeedReader *reader = [FeedReader initFeedReader];
     [reader addFeedForUrl:@"http://www.janrain.com/feed/blogs"];
 
-    
     self.title = @"Feeds";
     
     UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
@@ -56,6 +55,68 @@
     self.navigationItem.titleView = titleLabel;
 
     titleLabel.text = NSLocalizedString(@"Quick Publish!", @"");
+    
+    if ([reader.allStories count] == 0)
+        [feedButton setEnabled:NO];
+    else
+        [feedButton setEnabled:YES];
+    
+    feedAdder.textAlignment = UITextAlignmentLeft;
+    feedAdder.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    feedAdder.clearsOnBeginEditing = YES;
+    feedAdder.clearButtonMode = UITextFieldViewModeWhileEditing;
+    feedAdder.autocorrectionType = UITextAutocorrectionTypeNo;
+    feedAdder.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    feedAdder.keyboardType = UIKeyboardTypeURL;
+    feedAdder.returnKeyType = UIReturnKeyDone;
+    feedAdder.enablesReturnKeyAutomatically = YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    //	TODO: Get this working
+    //	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
+    //	
+    //	if (range.location == 0 && string.length == 0)
+    //	{
+    //		[cell.signInButton setEnabled:NO];
+    //		[cell.bigSignInButton setEnabled:NO];
+    //	}
+    //	if (range.location == 0 && string.length != 0)
+    //	{
+    //		[cell.signInButton setEnabled:YES];
+    //		[cell.bigSignInButton setEnabled:YES];
+    //	}
+	
+	return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    //	TODO: Get this working
+    //	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
+    //	[cell.signInButton setEnabled:NO];
+    //	[cell.bigSignInButton setEnabled:NO];
+	
+	return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [[FeedReader feedReader] addFeedForUrl:textField.text];
+    [feedAdder resignFirstResponder];
+    
+	return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [textField becomeFirstResponder];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
 }
 
 

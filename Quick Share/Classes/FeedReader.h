@@ -27,23 +27,30 @@
 @property (readonly) UIImage *image;
 @end
 
-@interface StoryImage : NSObject
+@interface StoryImage : NSObject <JRConnectionManagerDelegate>
 {
     NSString *alt;		/* Specifies an alternate text for an image (e.g., x) */
 	NSString *src;		/* (URL) Specifies the URL of an image (e.g., x) */
 	NSString *height;		/* p(ixels) pecifies the height of an image (e.g., x) */
 	NSString *width;		/* (pixels) Specifies the width of an image (e.g., x) */
     
+    NSData *imageData;
+    
 }
 @property (readonly) NSString *alt;
 @property (readonly) NSString *src;
 @property (readonly) NSString *height;
 @property (readonly) NSString *width;
+@property (readonly) NSData   *imageData;
+
+- (id)initWithSrc:(NSString*)_src;
 @end
 
 @class Feed;
 @interface Story : NSObject
 {
+    NSString *url;
+    
 	NSString *title;		/* The title of the item. (e.g., Venice Film Festival Tries to Quit Sinking) */
 	NSString *link;         /* The URL of the item. (e.g., http://nytimes.com/2004/12/07FEST.html) */
 	NSString *description;	/* The item synopsis. (e.g., Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.) */

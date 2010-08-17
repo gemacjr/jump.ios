@@ -6,6 +6,9 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+
 #import "FeedReaderDetail.h"
 
 
@@ -30,6 +33,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    DLog(@"");
     [super viewWillAppear:animated];
     
     story = [[FeedReader feedReader].selectedStory retain];
@@ -40,25 +44,26 @@
     NSRegularExpression *regexHeight = [NSRegularExpression regularExpressionWithPattern:@"<img(.*?)(height:.*?;)(.*?)>"
                                                                                  options:0
                                                                                    error:&error];
-    if (error)
-        return;    
 
     NSRegularExpression *regexWidth = [NSRegularExpression regularExpressionWithPattern:@"<img(.*?)(width:.*?;)(.*?)>"
                                                                                  options:0
                                                                                    error:&error];
-    if (error)
-        return;    
+
+    NSString *string1 = story.description;
+    NSString *string2 = string1;
     
-    NSString *string1 = [regexHeight stringByReplacingMatchesInString:story.description
-                                                              options:0
-                                                                range:NSMakeRange(0, [story.description length])
-                                                         withTemplate:@"<img$1$3>"];
-    
-    NSString *string2 = [regexWidth stringByReplacingMatchesInString:string1
-                                                             options:0
-                                                               range:NSMakeRange(0, [string1 length])
-                                                        withTemplate:@"<img$1$3>"];
-                                
+    if (!error)
+    {
+        string1 = [regexHeight stringByReplacingMatchesInString:story.description
+                                                                  options:0
+                                                                    range:NSMakeRange(0, [story.description length])
+                                                             withTemplate:@"<img$1$3>"];
+        
+        string2 = [regexWidth stringByReplacingMatchesInString:string1
+                                                                 options:0
+                                                                   range:NSMakeRange(0, [string1 length])
+                                                            withTemplate:@"<img$1$3>"];
+    }
  
     NSString *webViewContent = [NSString stringWithFormat:
                                     @"<html>                                    \
@@ -68,6 +73,11 @@
                                                 {                               \
                                                     width:300px;                \
                                                     font-family:\"Helvetica\";  \
+                                                }                               \
+                                                                                \
+                                                body                            \
+                                                {                               \
+                                                    background-color:c3e8f7;    \
                                                 }                               \
                                                                                 \
                                                 h1                              \
@@ -97,7 +107,6 @@
                                                     max-height:100\%;           \
                                                     padding:0px;                \
                                                     margin:3px;                 \
-                                                    border:1px solid blue; \
                                                 }                               \
                                                                                 \
                                             </style>                            \
@@ -116,6 +125,8 @@
                                 string2];
 
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
+    webview.backgroundColor = [UIColor colorWithRed:(201/255) green:(234/255) blue:(237/255) alpha:1.0];
+
     
     UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
                                                                      style:UIBarButtonItemStyleBordered 
@@ -126,8 +137,6 @@
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-	
-	
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -172,6 +181,16 @@
     activity.title = story.title;
     activity.description = [story.plainText substringToIndex:100];
     
+    if ([story.storyImages count] > 0)
+    {
+        StoryImage *storyImage = [story.storyImages objectAtIndex:0];
+    
+        JRImageMediaObject *image = [[JRImageMediaObject alloc] initWithSrc:storyImage.src andHref:story.feed.link];
+        [image setPreview:[UIImage imageWithData:storyImage.imageData]];
+    
+        [activity.media addObject:image];
+    }
+    
     [[[FeedReader feedReader] jrAuthenticate] showPublishingDialogWithActivity:activity];
 }
 
@@ -197,7 +216,9 @@
 }
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    [story release];
     [super dealloc];
 }
 

@@ -133,8 +133,23 @@
         
         if (!NSEqualRanges(matchRange, NSMakeRange(NSNotFound, 0))) 
         {
-            NSString *substringForMatch = [theString substringWithRange:matchRange];
-            DLog("match: %@", substringForMatch);
+            NSString *substringForImageTag = [theString substringWithRange:matchRange];
+//            DLog("match: %@", substringForImageTag);
+            
+            NSRegularExpression *imgRegex = [NSRegularExpression regularExpressionWithPattern:@"src=\"(.*?)\""
+                                                                                      options:NSRegularExpressionCaseInsensitive
+                                                                                        error:&error];
+            
+            NSRange rangeOfFirstMatch = [imgRegex rangeOfFirstMatchInString:substringForImageTag 
+                                                                 options:0 
+                                                                   range:NSMakeRange(0, [substringForImageTag length])];
+
+            if (!NSEqualRanges(rangeOfFirstMatch, NSMakeRange(NSNotFound, 0))) 
+            {
+                NSString *substringForImgSrc = [substringForImageTag substringWithRange:
+                                                NSMakeRange(rangeOfFirstMatch.location+5, rangeOfFirstMatch.length-6)];
+                [images addObject:substringForImgSrc];
+            }
             
 //            NSRange rangeOfWidthAttr = [substringForMatch rangeOfString:@""];
 //            NSRange rangeOfEndQuoteW = [substringForMatch rangeOfString:@"\"" 
@@ -183,7 +198,7 @@
                                                            withTemplate:@" "]
                                 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                                 
-    DLog("new string: %@", modifiedString);
+//    DLog("new string: %@", modifiedString);
     
     currentContent = [modifiedString retain];
 }
