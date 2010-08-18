@@ -9,6 +9,26 @@
 #import "FeedReader.h"
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+@interface NSString (NSString_URL_ESCAPING)
+- (NSString*)URLEscaped;
+@end
+
+
+@implementation NSString (NSString_URL_ESCAPING)
+- (NSString*)URLEscaped
+{
+    //    NSString *str = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *str = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2f"];
+    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
+    str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
+    str = [str stringByReplacingOccurrencesOfString:@"&" withString:@"%38"];
+    
+    return str;
+}
+@end
+
+
+
 static NSDate* NSDateFromRfc822String(NSString* dateString)
 {    
     /*  The <_pubDate> element in RSS 2.0 follows the date format specified in RFC822.
@@ -829,29 +849,41 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 	
     if ([elementName isEqualToString:@"description"] && feed.currentStory)
     {
-        ContentParser *contentParser = [[ContentParser alloc] init];
-        [contentParser regexParse:feed.currentStory.description];
-//        [contentParser processContent:feed.currentStory.description];
-        
-        NSMutableString *plainText = [contentParser currentContent];//[[NSMutableString alloc] init];        
-//        for (NSString *chunk in contentParser.theStringsBetweenElements)
-//        {
-//            [plainText appendFormat:@"%@ ", chunk];
-//        }
-        
-        [feed.currentStory setPlainText:plainText];
-//        [plainText release];
-        
-        for (NSString *image in contentParser.images)
-        {
-            [feed.currentStory addStoryImage:image];
-        }
-        
-        [contentParser release];
     }
     
     if ([elementName isEqualToString:@"item"]) 
     {
+        ContentParser *contentParser = [[ContentParser alloc] init];
+        [contentParser regexParse:feed.currentStory.description];
+        
+        NSString *plainText = [contentParser currentContent];
+
+        
+        NSLog(@"\n\"story\" : \n{\n");
+        NSLog(@"\n\t\"title\" : \"%@\",\n", feed.currentStory.title);
+        NSLog(@"\n\t\"link\" : \"%@\",\n", feed.currentStory.link);
+        NSLog(@"\n\t\"description\" : \"%@\",\n", [[feed.currentStory.description URLEscaped] stringByReplacingOccurrencesOfString:@"\n" withString:@"\t\t\t\t\n"]);
+        NSLog(@"\n\t\"plainText\" :\"%@\",\n", plainText);
+        NSLog(@"\n\t\"date\" : \"%@\",\n", feed.currentStory.pubDate);
+        
+        [feed.currentStory setPlainText:plainText];
+        //        [plainText release];
+        
+        if ([contentParser.images count] > 0)
+        {
+            NSLog(@"\n\t\"images\" : \t\n[\n");
+            for (NSString *image in contentParser.images)
+            {
+                NSLog(@"\n\t\t\"%@\",\n", image);
+                [feed.currentStory addStoryImage:image];
+            }
+            NSLog(@"\n\t]\n");
+        }
+        
+        NSLog(@"\n}\n");
+        
+        [contentParser release];
+
 		[feed.stories addObject:feed.currentStory];
         [feed.currentStory release];
         feed.currentStory = nil;

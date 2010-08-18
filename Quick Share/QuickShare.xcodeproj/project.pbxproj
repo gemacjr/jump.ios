@@ -660,6 +660,7 @@
 				GCC_PREFIX_HEADER = Quick_Share_Prefix.pch;
 				INFOPLIST_FILE = "Quick_Share-Info.plist";
 				PRODUCT_NAME = "Quick Share";
+				SDKROOT = iphoneos4.0;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};
 			name = Debug;
