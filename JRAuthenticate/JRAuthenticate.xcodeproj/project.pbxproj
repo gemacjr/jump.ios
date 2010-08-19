@@ -55,17 +55,6 @@
 		9F51B4C311EF7AAE00A275CC /* jrauth_twitter_greyscale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_twitter_greyscale.png; sourceTree = "<group>"; };
 		9F51B4C411EF7AAE00A275CC /* jrauth_yahoo_greyscale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_yahoo_greyscale.png; sourceTree = "<group>"; };
 		9F51B4F311EF85F100A275CC /* jrauth_facebook_greyscale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_facebook_greyscale.png; sourceTree = "<group>"; };
-		9F51B5C511EF92A500A275CC /* jrauth_facebook_logo_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_facebook_logo_share.png; sourceTree = "<group>"; };
-		9F51B5C611EF92A500A275CC /* jrauth_linkedin_logo_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_linkedin_logo_share.png; sourceTree = "<group>"; };
-		9F51B5C711EF92A500A275CC /* jrauth_myspace_logo_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_myspace_logo_share.png; sourceTree = "<group>"; };
-		9F51B5C811EF92A500A275CC /* jrauth_twitter_logo_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_twitter_logo_share.png; sourceTree = "<group>"; };
-		9F51B5C911EF92A500A275CC /* jrauth_yahoo_logo_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_yahoo_logo_share.png; sourceTree = "<group>"; };
-		9F51B5E711EF9FDA00A275CC /* jrauth_facebook_logo_share_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_facebook_logo_share_selected.png; sourceTree = "<group>"; };
-		9F51B5E811EF9FDA00A275CC /* jrauth_linkedin_logo_share_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_linkedin_logo_share_selected.png; sourceTree = "<group>"; };
-		9F51B5E911EF9FDA00A275CC /* jrauth_myspace_logo_share_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_myspace_logo_share_selected.png; sourceTree = "<group>"; };
-		9F51B5EA11EF9FDA00A275CC /* jrauth_share_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_share_default.png; sourceTree = "<group>"; };
-		9F51B5EB11EF9FDA00A275CC /* jrauth_twitter_logo_share_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_twitter_logo_share_selected.png; sourceTree = "<group>"; };
-		9F51B5EC11EF9FDA00A275CC /* jrauth_yahoo_logo_share_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_yahoo_logo_share_selected.png; sourceTree = "<group>"; };
 		9F590C0C11739175006955EF /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
 		9F590EFC11752FC3006955EF /* JRInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRInfoBar.h; path = Classes/JRInfoBar.h; sourceTree = "<group>"; };
 		9F590EFD11752FC3006955EF /* JRInfoBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRInfoBar.m; path = Classes/JRInfoBar.m; sourceTree = "<group>"; };
@@ -241,25 +230,6 @@
 			path = Resources/assets/provider_icons_greyscale;
 			sourceTree = "<group>";
 		};
-		9F51B5C411EF92A500A275CC /* provider_logos_share */ = {
-			isa = PBXGroup;
-			children = (
-				9F51B5E711EF9FDA00A275CC /* jrauth_facebook_logo_share_selected.png */,
-				9F51B5E811EF9FDA00A275CC /* jrauth_linkedin_logo_share_selected.png */,
-				9F51B5E911EF9FDA00A275CC /* jrauth_myspace_logo_share_selected.png */,
-				9F51B5EA11EF9FDA00A275CC /* jrauth_share_default.png */,
-				9F51B5EB11EF9FDA00A275CC /* jrauth_twitter_logo_share_selected.png */,
-				9F51B5EC11EF9FDA00A275CC /* jrauth_yahoo_logo_share_selected.png */,
-				9F51B5C511EF92A500A275CC /* jrauth_facebook_logo_share.png */,
-				9F51B5C611EF92A500A275CC /* jrauth_linkedin_logo_share.png */,
-				9F51B5C711EF92A500A275CC /* jrauth_myspace_logo_share.png */,
-				9F51B5C811EF92A500A275CC /* jrauth_twitter_logo_share.png */,
-				9F51B5C911EF92A500A275CC /* jrauth_yahoo_logo_share.png */,
-			);
-			name = provider_logos_share;
-			path = Resources/assets/provider_logos_share;
-			sourceTree = "<group>";
-		};
 		9F720AAC116A7F8A00E69F8D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,7 +246,6 @@
 			isa = PBXGroup;
 			children = (
 				9FEA7A8311FA0DAA00D1FFE1 /* buttons_etc */,
-				9F51B5C411EF92A500A275CC /* provider_logos_share */,
 				9F51B4BF11EF7AAE00A275CC /* provider_icons_greyscale */,
 				9F720AAF116A7FBB00E69F8D /* provider_logos */,
 				9F720AAE116A7FB300E69F8D /* provider_icons */,
