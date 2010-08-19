@@ -80,6 +80,8 @@
 	sessionData = [JRSessionData jrSessionData];
 	activity = [sessionData activity];
     
+    [self loadActivityToView];
+    
 	/* If the user calls the library before the session data object is done initializing - 
      because either the requests for the base URL or provider list haven't returned - 
      display the "Loading Providers" label and activity spinner. 
@@ -97,7 +99,6 @@
         //providers = [sessionData.socialProviders retain];
         ready = YES;
         [self addProvidersToTabBar];
-        [self loadActivityToView];
 	}
     
     DLog(@"prov count = %d", [[sessionData socialProviders] count]);
@@ -110,7 +111,6 @@
     DLog(@"");
     
     [super viewWillAppear:animated];
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                              selector:@selector(keyboardDidShow:) 
@@ -317,6 +317,8 @@ Please try again later."
     
     loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
     
+    activity.user_generated_content = myUserContentTextView.text;
+    
     if (loggedInUser)
     {
         [self showUserAsLoggedIn:YES];
@@ -457,30 +459,30 @@ Please try again later."
         [myLoadingActivitySpinner stopAnimating];    
 }
 
-- (void)loadActivityToView
+- (void)loadActivityToView:(JRActivityObject*)_activity
 {
     DLog(@"");
-    myUserContentTextView.text = activity.user_generated_content;
+    myUserContentTextView.text = _activity.user_generated_content;
     
-    NSInteger mediaOffset = 53;
+//    NSInteger mediaOffset = 53;
     
-    if (([activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider.name]))
+    if ((ready) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider.name]))
     {
         [myMediaContentView setHidden:NO];
         
-        [myTitleLabel setFrame:CGRectMake(63, //myTitleLabel.frame.origin.x + mediaOffset, 
-                                          myTitleLabel.frame.origin.y,
-                                          227, //myTitleLabel.frame.size.width - mediaOffset, 
-                                          myTitleLabel.frame.size.height)];
-        [myDescriptionLabel setFrame:CGRectMake(63, //myDescriptionLabel.frame.origin.x + mediaOffset, 
-                                                myDescriptionLabel.frame.origin.y,
-                                                227, //myDescriptionLabel.frame.size.width - mediaOffset, 
-                                                myDescriptionLabel.frame.size.height)];        
+//        [myTitleLabel setFrame:CGRectMake(63, //myTitleLabel.frame.origin.x + mediaOffset, 
+//                                          myTitleLabel.frame.origin.y,
+//                                          227, //myTitleLabel.frame.size.width - mediaOffset, 
+//                                          myTitleLabel.frame.size.height)];
+//        [myDescriptionLabel setFrame:CGRectMake(63, //myDescriptionLabel.frame.origin.x + mediaOffset, 
+//                                                myDescriptionLabel.frame.origin.y,
+//                                                227, //myDescriptionLabel.frame.size.width - mediaOffset, 
+//                                                myDescriptionLabel.frame.size.height)];        
         
-        myTitleLabel.text = activity.title;
-        myDescriptionLabel.text = activity.description;
+        myTitleLabel.text = _activity.title;
+        myDescriptionLabel.text = _activity.description;
         
-        JRMediaObject *media = [activity.media objectAtIndex:0];
+        JRMediaObject *media = [_activity.media objectAtIndex:0];
         if ([media isKindOfClass:[JRImageMediaObject class]])
         {
             [self setImageView:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
@@ -496,21 +498,27 @@ Please try again later."
     }
     else 
     {
-//        [myMediaContentView setHidden:YES];
-        [myMediaContentView setHidden:NO];
-        
-        [myTitleLabel setFrame:CGRectMake(10, //myTitleLabel.frame.origin.x - mediaOffset, 
-                                          myTitleLabel.frame.origin.y,
-                                          280, //myTitleLabel.frame.size.width + mediaOffset, 
-                                          myTitleLabel.frame.size.height)];
-        [myDescriptionLabel setFrame:CGRectMake(10, //myDescriptionLabel.frame.origin.x - mediaOffset, 
-                                                myDescriptionLabel.frame.origin.y,
-                                                280, //myDescriptionLabel.frame.size.width + mediaOffset, 
-                                                myDescriptionLabel.frame.size.height)];
-        
-        myTitleLabel.text = activity.title;
-        myDescriptionLabel.text = activity.description;
+        [myMediaContentView setHidden:YES];
+//        [myMediaContentView setHidden:NO];
+//        
+//        [myTitleLabel setFrame:CGRectMake(10, //myTitleLabel.frame.origin.x - mediaOffset, 
+//                                          myTitleLabel.frame.origin.y,
+//                                          280, //myTitleLabel.frame.size.width + mediaOffset, 
+//                                          myTitleLabel.frame.size.height)];
+//        [myDescriptionLabel setFrame:CGRectMake(10, //myDescriptionLabel.frame.origin.x - mediaOffset, 
+//                                                myDescriptionLabel.frame.origin.y,
+//                                                280, //myDescriptionLabel.frame.size.width + mediaOffset, 
+//                                                myDescriptionLabel.frame.size.height)];
+//        
+//        myTitleLabel.text = activity.title;
+//        myDescriptionLabel.text = activity.description;
     }
+}
+
+
+- (void)loadActivityToView
+{
+    [self loadActivityToView:activity];
 }
 
 - (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl atProviderIndex:(NSUInteger)index
@@ -537,6 +545,8 @@ Please try again later."
 {   
     DLog(@"");
     myUserName.text = user.preferred_username;
+    
+    [myUserName setFrame:CGRectMake(65, 10, 80, 37)];
     [self fetchProfilePicFromUrl:user.photo atProviderIndex:index];    
 }
 
@@ -960,8 +970,11 @@ Please try again later."
 
 - (void)userInterfaceWillClose
 {
+    DLog(@"");
     [self showViewIsLoading:NO];
     [timer invalidate];
+    
+    [self loadActivityToView:nil];
 }
 
 - (void)userInterfaceDidClose
