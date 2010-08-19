@@ -12,7 +12,8 @@
 @interface FeedReaderFeeds : UIViewController 
 {
     IBOutlet UIButton *feedButton;
-    IBOutlet UITextField *feedAdder;
+    FeedReaderSummary *summaryViewController;
+//    IBOutlet UITextField *feedAdder;
 }
 
 - (IBAction)janrainBlogSelected:(id)sender;

@@ -20,8 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    reader = [FeedReader initFeedReader];
-    sortedStories = [[reader allStories] retain];
+    reader = [FeedReader feedReader];
+    stories = [[reader allStories] retain];
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -78,7 +78,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView 
 {
-    return [sortedStories count];// + 1;
+    return [stories count];// + 1;
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section 
@@ -88,7 +88,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == [sortedStories count])
+    if (indexPath.section == [stories count])
         return 40;
     
     return 80;
@@ -103,7 +103,7 @@
     static NSInteger descriptionTag = 40;
     static NSInteger dateTag        = 50;
         
-    Story *story = [[sortedStories objectAtIndex:indexPath.section] retain];
+    Story *story = [stories objectAtIndex:indexPath.section];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     
@@ -111,7 +111,7 @@
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
 
-        if (indexPath.section < [sortedStories count])
+        if (indexPath.section < [stories count])
         {
             NSInteger imageWidth = 42; 
             UIImageView *documentImage = [[[UIImageView alloc] initWithFrame:CGRectMake(8, 27, imageWidth - 6, 36)] autorelease];
@@ -125,20 +125,27 @@
             [spinner setHidesWhenStopped:YES];
             [spinner startAnimating];
             
+            /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).  
+               If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
             BOOL imageAvailable = NO;
-            
-            if ([story.storyImages count] > 0)
+            for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
             {
-                StoryImage *storyImage = [story.storyImages objectAtIndex:0];
+                StoryImage *storyImage = [story.storyImages objectAtIndex:i];
                 imageAvailable = YES;
                 
+                /* If an image has already downloaded, set the image and break. */
                 if (storyImage.image)
                 {
                     [spinner stopAnimating];
                     documentImage.backgroundColor = [UIColor whiteColor];
                     documentImage.image = storyImage.image;
+                    break;
                 }
-                else
+                else if (storyImage.downloadFailed) /* If the image failed to download, check the next image, or don't use an image. */
+                {
+                    imageAvailable = NO;
+                }
+                else /* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
                 {
                     [spinner startAnimating];
                 }
@@ -191,31 +198,44 @@
 
             [story release];
         }
-        else if (indexPath.section == [sortedStories count])
-        {
-            cell.textLabel.text = @"Reload Stories";
-        }
     }
     else
     {
         UIImageView *documentImage = (UIImageView*)[cell.contentView viewWithTag:imageTag];
         UIActivityIndicatorView *spinner = (UIActivityIndicatorView*)[cell.contentView viewWithTag:spinnerTag];
-        
-        if (![spinner isHidden])
+        UILabel *documentDescription = (UILabel*)[cell.contentView viewWithTag:descriptionTag];
+                
+        if (![spinner isHidden]) /* If we were previously waiting for the image to download. */
         {
             BOOL imageAvailable = NO;
-            
-            if ([story.storyImages count] > 0)
+            for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
             {
-                StoryImage *storyImage = [story.storyImages objectAtIndex:0];
+                StoryImage *storyImage = [story.storyImages objectAtIndex:i];
                 imageAvailable = YES;
                 
+                /* If an image has already downloaded, set the image and break. */
                 if (storyImage.image)
                 {
                     [spinner stopAnimating];
-                    documentImage.image = storyImage.image;
                     documentImage.backgroundColor = [UIColor whiteColor];
+                    documentImage.image = storyImage.image;
+                    break;
                 }
+                else if (storyImage.downloadFailed) /* If the image failed to download, check the next image, or don't use an image. */
+                {
+                    imageAvailable = NO;
+                }
+                else /* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
+                {
+                    [spinner startAnimating];
+                }
+            }
+            
+            if (!imageAvailable)
+            {
+                [documentImage setHidden:YES];
+                [spinner stopAnimating];
+                [documentDescription setFrame:CGRectMake(8, 25, 270, 36)];
             }
             
         }
@@ -270,7 +290,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    reader.selectedStory = [sortedStories objectAtIndex:indexPath.section];
+    reader.selectedStory = [stories objectAtIndex:indexPath.section];
 
     if (!detailViewController)
         detailViewController = [[FeedReaderDetail alloc] initWithNibName:@"FeedReaderDetail" bundle:[NSBundle mainBundle]];
@@ -296,6 +316,13 @@
 
 - (void)dealloc 
 {
+    [myTable release];
+    
+//	[activityIndicator release];
+    
+    [detailViewController release];
+    [stories release];
+    
     [super dealloc];
 }
 

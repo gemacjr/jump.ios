@@ -14,11 +14,11 @@
 {
 	IBOutlet UITableView *myTable;
     
-	UIActivityIndicatorView *activityIndicator;
+//	UIActivityIndicatorView *activityIndicator;
 
     FeedReaderDetail *detailViewController;
     FeedReader *reader;
     
-    NSArray *sortedStories;
+    NSArray *stories;
 }
 @end

@@ -20,12 +20,14 @@
     
     UIImage *image;
     
+    BOOL downloadFailed;    
 }
 @property (readonly) NSString *alt;
 @property (readonly) NSString *src;
 @property (readonly) CGFloat  *height;
 @property (readonly) CGFloat  *width;
 @property (readonly) UIImage  *image;
+@property (readonly) BOOL downloadFailed;
 
 - (id)initWithSrc:(NSString*)_src;
 @end
@@ -64,7 +66,6 @@
 	NSString *link;             /* The URL to the HTML website corresponding to the channel. (e.g., http://www.goupstate.com/) */
 
     NSMutableArray *stories;
-    
 }
 
 @property (readonly) NSString *title;
@@ -74,7 +75,7 @@
 
 @interface FeedReader : NSObject <NSXMLParserDelegate, JRAuthenticateDelegate>
 {
-    NSMutableArray *allStories;
+//    NSMutableArray *allStories;
     
     Feed *feed;
     Story *selectedStory;
@@ -83,9 +84,9 @@
 }
 
 @property (readonly) NSMutableArray *allStories;
-@property (retain) Story *selectedStory;
+@property (retain)   Story *selectedStory;
 @property (readonly) JRAuthenticate *jrAuthenticate;
 
-+ (FeedReader*)initFeedReader;
+//+ (FeedReader*)initFeedReader;
 + (FeedReader*)feedReader;
 @end

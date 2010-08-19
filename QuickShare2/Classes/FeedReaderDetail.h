@@ -14,7 +14,8 @@
 @interface FeedReaderDetail : UIViewController <UIWebViewDelegate>
 {
     Story *story;
-  
+    
+    FeedReaderWebView *feedReaderWebview;
     IBOutlet UIWebView *webview;
     
 //    IBOutlet UILabel *title;

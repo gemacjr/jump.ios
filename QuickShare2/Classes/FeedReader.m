@@ -28,8 +28,9 @@
 
 @interface StoryImage ()
 - (void)setAlt:(NSString*)_alt;
-- (void)setHeight:(CGFloat)_height;
-- (void)setWidth:(CGFloat)_width;
+//- (void)setHeight:(CGFloat)_height;
+//- (void)setWidth:(CGFloat)_width;
+- (void)downloadImage;
 @end
 
 @implementation StoryImage
@@ -38,6 +39,7 @@
 @synthesize height;
 @synthesize width;
 @synthesize image;
+@synthesize downloadFailed;
 
 - (id)initWithSrc:(NSString*)_src
 {
@@ -51,13 +53,13 @@
     {
         src = [_src retain];
         
-        NSURL *url = [NSURL URLWithString:src];
-        
-        if(!url)
-            return self;
-        
-        NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
-        [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:nil stringEncodeData:NO];
+//        NSURL *url = [NSURL URLWithString:src];
+//        
+//        if(!url)
+//            return self;
+//        
+//        NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
+//        [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:nil stringEncodeData:NO];
     }
     
     return self;
@@ -66,27 +68,32 @@
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
 {
     image = [[UIImage imageWithData:payload] retain];
-
-//    if (image)
-//    {
-//        self.width = image.size.width;
-//        self.height = image.size.height;
-//    }
     
-    DLog("image w: %d h: %d", image.size.width, image.size.height);
+    if (!image)
+        downloadFailed = YES;
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
-- (void)connectionDidFailWithError:(NSError*)_error request:(NSURLRequest*)request andTag:(void*)userdata { }
+- (void)connectionDidFailWithError:(NSError*)_error request:(NSURLRequest*)request andTag:(void*)userdata { downloadFailed = YES; }
 - (void)connectionWasStoppedWithTag:(void*)userdata { }         
          
+/* To save memory, image will only download itself if prompted to do so by the story. */
+- (void)downloadImage
+{
+    NSURL *url = [NSURL URLWithString:src];
+    
+    if(!url)
+        return self;
+    
+    NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:nil stringEncodeData:NO];    
+}
+
 - (void)setAlt:(NSString*)_alt
 {
 	[alt release];
 	alt = [_alt retain];
 }
-
-
 
 //- (void)setHeight:(CGFloat)_height
 //{
@@ -97,6 +104,15 @@
 //{
 //	width = _width;
 //}
+
+- (void)dealloc
+{
+    [src release];
+    [alt release];
+    [image release];
+    
+    [super dealloc];
+}
 @end
 
 @interface Story ()
@@ -199,6 +215,10 @@
     StoryImage *image = [[[StoryImage alloc] initWithSrc:_storyImage] autorelease];
     
     [storyImages addObject:image];
+    
+    /* Only download the first coupla images */
+    if ([storyImages count] <= 2)
+        [image downloadImage];
 }
 
 - (void)setFeed:(Feed*)_feed
@@ -214,8 +234,11 @@
 	[description release];
 	[author release];
 	[pubDate release];
+    [plainText release];
+    
     [feed release];
 
+    [storyImages release];
 	[super dealloc];
 }
 @end
@@ -281,6 +304,16 @@
     
     return stories;
 }
+
+- (void)dealloc
+{
+    [url release];
+    
+ 	[title release];
+    [link release];
+    
+    [stories release];
+}
 @end
 
 @interface FeedReader ()
@@ -293,11 +326,6 @@
 @synthesize jrAuthenticate;
 
 static FeedReader* singleton = nil;
-+ (FeedReader*)feedReader
-{
-	return singleton;
-}
-
 + (id)allocWithZone:(NSZone *)zone
 {
     return [[self feedReader] retain];
@@ -348,7 +376,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 //        if (!feeds)
 //            feeds = [[NSMutableDictionary alloc] initWithCapacity:1];
         
-        allStories = [[NSMutableArray alloc] initWithCapacity:25];//[feeds count]*20];
+//        allStories = [[NSMutableArray alloc] initWithCapacity:25];//[feeds count]*20];
         
         jrAuthenticate = [JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self];
         
@@ -358,29 +386,35 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 	return self;
 }
 
-+ (FeedReader*)initFeedReader
++ (FeedReader*)feedReader
 {
 	if(singleton)
 		return singleton;
     
 	return [[super allocWithZone:nil] init];
-}	
+}
+
+//+ (FeedReader*)initFeedReader
+//{
+//	if(singleton)
+//		return singleton;
+//    
+//	return [[super allocWithZone:nil] init];
+//}	
 
 
 - (void)downloadFeedStories
 {   
     NSError *error = nil;
     NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
-    NSString *janrain_blog_json = [[NSString alloc] initWithContentsOfFile:path
-                                                                  encoding:NSUTF8StringEncoding
-                                                                     error:&error];
-    NSDictionary *janrain_blog_dictionary = [janrain_blog_json JSONValue];
+    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfFile:path
+                                                                   encoding:NSUTF8StringEncoding
+                                                                      error:&error] autorelease];
+    NSDictionary *janrain_blog_dictionary = [janrain_blog_json JSONValue];  
 
     if (!janrain_blog_dictionary)
-    {
-        DLog("json parse failed");
-    }
-
+        return;
+    
     feed = [[Feed alloc] init];
     [feed setTitle:@"Janrain | Blog"];
     [feed setLink:@"http://www.janrain.com"];
@@ -413,10 +447,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 
 - (NSArray*)allStories
 {
-    @synchronized (allStories)
-    {
-        return feed.stories;
-    }
+    return feed.stories;
 }
 
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token { }
@@ -426,7 +457,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
            forProvider:(NSString *)provider { }
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth { }
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString *)provider { }
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenURL:(NSString*)tokenURL didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenURL:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didPublishingActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }

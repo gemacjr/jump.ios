@@ -27,7 +27,7 @@
 {
     [super viewDidLoad];
 
-    FeedReader *reader = [FeedReader initFeedReader];
+    FeedReader *reader = [FeedReader feedReader];
     self.title = @"Feeds";
     
     UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
@@ -61,63 +61,11 @@
     [super viewWillAppear:animated];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    //	TODO: Get this working
-    //	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
-    //	
-    //	if (range.location == 0 && string.length == 0)
-    //	{
-    //		[cell.signInButton setEnabled:NO];
-    //		[cell.bigSignInButton setEnabled:NO];
-    //	}
-    //	if (range.location == 0 && string.length != 0)
-    //	{
-    //		[cell.signInButton setEnabled:YES];
-    //		[cell.bigSignInButton setEnabled:YES];
-    //	}
-	
-	return YES;
-}
-
-- (BOOL)textFieldShouldClear:(UITextField *)textField
-{
-    //	TODO: Get this working
-    //	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
-    //	[cell.signInButton setEnabled:NO];
-    //	[cell.bigSignInButton setEnabled:NO];
-	
-	return YES;
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [[FeedReader feedReader] addFeedForUrl:textField.text];
-    [feedAdder resignFirstResponder];
-    
-	return YES;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [textField becomeFirstResponder];
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-}
-
-
 - (IBAction)janrainBlogSelected:(id)sender
 {
-    FeedReaderSummary *summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary" bundle:[NSBundle mainBundle]];
-    
-    //        detailViewController.story = [sortedStories objectAtIndex:indexPath.row];
+    summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary" bundle:[NSBundle mainBundle]];
     
     [self.navigationController pushViewController:summaryViewController animated:YES];
-    [summaryViewController release];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -134,7 +82,9 @@
 }
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    [feedButton release];
     [super dealloc];
 }
 

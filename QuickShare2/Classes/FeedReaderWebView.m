@@ -54,7 +54,9 @@
 }
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    [urlRequest release];
     [super dealloc];
 }
 

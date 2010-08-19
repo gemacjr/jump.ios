@@ -125,7 +125,9 @@
 {	
     if (navigationType == UIWebViewNavigationTypeLinkClicked)
     {
-        FeedReaderWebView *feedReaderWebview = [[FeedReaderWebView alloc] init];
+        if (!feedReaderWebview)
+            feedReaderWebview = [[FeedReaderWebView alloc] initWithNibName:@"FeedReaderWebView" bundle:[NSBundle mainBundle]];
+
         [feedReaderWebview setUrlRequest:request];
         
         [[self navigationController] pushViewController:feedReaderWebview animated:YES];
@@ -150,9 +152,9 @@
 
 - (void)shareButtonPressed:(id)sender
 {
-    JRActivityObject *activity = [[JRActivityObject alloc] 
+    JRActivityObject *activity = [[[JRActivityObject alloc] 
                                   initWithAction:[NSString stringWithFormat:@"wants to share an article from the %@ rss feed.", story.feed.title]
-                                  andUrl:story.link];
+                                  andUrl:story.link] autorelease];
     
     activity.title = story.title;
     activity.description = [story.plainText substringToIndex:100];
@@ -184,7 +186,6 @@
     
     [webview stopLoading];
 	[webview loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
-	
 }
 
 - (void)didReceiveMemoryWarning {
@@ -204,6 +205,9 @@
 - (void)dealloc 
 {
     [story release];
+    [webview release];
+    [feedReaderWebview release];
+    
     [super dealloc];
 }
 
