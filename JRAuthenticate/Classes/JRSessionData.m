@@ -55,7 +55,7 @@
 {
 	DLog(@"");
   
-    if (dictionary == nil || _provider_name == nil)
+    if (dictionary == nil || _provider_name == nil || [dictionary objectForKey:@"device_token"] == kCFNull)
 	{
 		[self release];
 		return nil;
@@ -65,8 +65,12 @@
 	{
         provider_name = [[NSString alloc] initWithFormat:@"%@", _provider_name];
         
-        photo = [[dictionary objectForKey:@"photo"] retain];
-        preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];
+        if (![dictionary objectForKey:@"photo"] == kCFNull)
+            photo = [[dictionary objectForKey:@"photo"] retain];
+
+        if (![dictionary objectForKey:@"preferred_username"] == kCFNull)
+            preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];
+        
         device_token = [[dictionary objectForKey:@"device_token"] retain];
     }
 	

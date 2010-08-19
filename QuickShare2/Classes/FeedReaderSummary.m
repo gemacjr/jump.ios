@@ -37,8 +37,9 @@
 
     self.title = @"Janrain Blog";
     
-    myTable.backgroundColor = /*[UIColor colorWithRed:(101.0/255.0) green:(196.0/255.0) blue:(234.0/255.0) alpha:1.0];*/[UIColor whiteColor];
-//    myTable.separatorColor = [UIColor clearColor];
+    myTable.backgroundColor = [UIColor lightGrayColor];//[UIColor whiteColor];
+                                                       //[UIColor colorWithRed:(101.0/255.0) green:(196.0/255.0) blue:(234.0/255.0) alpha:1.0];
+//  myTable.separatorColor = [UIColor clearColor];
     [myTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     myTable.sectionFooterHeight = 0.0;
     myTable.sectionHeaderHeight = 10.0;
@@ -191,8 +192,8 @@
             [cell.contentView addSubview:documentDescription];
             [cell.contentView addSubview:documentDate];
             
-            UIImageView *background = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cell_background.png"]] autorelease];
-            cell.backgroundView = background;
+//           UIImageView *background = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cell_background.png"]] autorelease];
+//           cell.backgroundView = background;
 
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 

@@ -56,23 +56,25 @@
                                                   #  margin:0px; \
                                                 }                               \
                                                                                 \
-                                                h1                              \
-                                                {                               \
-                                                    font-size:20px;             \
-                                                    padding:0px;                \
-                                                    margin:3px;                 \
-                                                }                               \
-                                                                                \
-                                                h2                              \
+                                                div.title                       \
                                                 {                               \
                                                     font-size:16px;             \
                                                     padding:0px;                \
                                                     margin:3px;                 \
                                                 }                               \
                                                                                 \
+                                                div.date                        \
+                                                {                               \
+                                                    font-size:12px;             \
+                                                    color:#999999;              \
+                                                    padding:0px;                \
+                                                    margin:3px;                 \
+                                                }                               \
+                                                                                \
                                                 p                               \
                                                 {                               \
-                                                    font-size:18px;            \
+                                                    color:#333333;              \
+                                                    font-size:14px;             \
                                                     padding:0px;                \
                                                     margin:3px;                 \
                                                 }                               \
@@ -90,8 +92,8 @@
                                                                                 \
                                         <body>                                  \
                                             <div class=\"main\">                \
-                                                <h1>%@</h1>                     \
-                                                <h2>%@</h2>                     \
+                                                <div class=\"title\">%@</div>   \
+                                                <div class=\"date\">%@</div>    \
                                                 %@                              \
                                             </div>                              \
                                         </body>                                 \
