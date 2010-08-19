@@ -338,7 +338,8 @@ Please try again later."
 - (void)doneButtonPressed:(id)sender
 {
     [myUserContentTextView resignFirstResponder];
-    [myUserContentTextView scrollRectToVisible:CGRectMake(0, 0, 300, 125) animated:YES];
+    [myUserContentTextView scrollRangeToVisible:NSRangeFromString(myUserContentTextView.text)];
+    //    [myUserContentTextView scrollRectToVisible:CGRectMake(0, 0, 300, 125) animated:YES];
 	
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
@@ -462,7 +463,11 @@ Please try again later."
 - (void)loadActivityToView:(JRActivityObject*)_activity
 {
     DLog(@"");
-    myUserContentTextView.text = _activity.user_generated_content;
+    
+    if (!hasEditedBefore) 
+        myUserContentTextView.text = _activity.action;
+    else
+        myUserContentTextView.text = _activity.user_generated_content;
     
 //    NSInteger mediaOffset = 53;
     
@@ -554,7 +559,7 @@ Please try again later."
 {
     DLog(@"");
     
-    if (myUserContentTextView.text)
+    if (myUserContentTextView.text && hasEditedBefore)
         activity.user_generated_content = myUserContentTextView.text;
     
     [sessionData shareActivity:activity forUser:loggedInUser];
@@ -671,6 +676,13 @@ Please try again later."
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     DLog(@"");
+    if (!hasEditedBefore)
+    {
+        myUserContentTextView.text = @"";
+        hasEditedBefore = YES;
+    }
+    
+    
     [UIView beginAnimations:@"editing" context:nil];
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
                                                myUserContentTextView.frame.origin.y, 

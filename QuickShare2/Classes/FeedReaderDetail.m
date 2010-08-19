@@ -33,7 +33,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    DLog(@"");
+        DLog(@"");
     [super viewWillAppear:animated];
     
     story = [[FeedReader feedReader].selectedStory retain];

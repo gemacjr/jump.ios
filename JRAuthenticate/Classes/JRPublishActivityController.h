@@ -73,6 +73,8 @@
     UIToolbar *keyboardToolbar;
     UIBarItem *shareButton;
     
+    BOOL hasEditedBefore;
+    
 //    UIBarButtonItem *editButton;
 //    UIBarButtonItem *doneButton;
     

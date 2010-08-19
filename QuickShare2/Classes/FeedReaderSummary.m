@@ -135,7 +135,7 @@
                 if (storyImage.image)
                 {
                     [spinner stopAnimating];
-                    documentImage.backgroundColor = [UIColor clearColor];
+                    documentImage.backgroundColor = [UIColor whiteColor];
                     documentImage.image = storyImage.image;
                 }
                 else
@@ -214,6 +214,7 @@
                 {
                     [spinner stopAnimating];
                     documentImage.image = storyImage.image;
+                    documentImage.backgroundColor = [UIColor whiteColor];
                 }
             }
             
