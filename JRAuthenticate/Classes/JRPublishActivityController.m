@@ -546,13 +546,23 @@ Please try again later."
     return nil;
 }
 
+- (void)setProfilePicToDefaultPic:(UIImageView*)imageView atProviderIndex:(NSUInteger)index
+{
+    imageView.image = nil;
+    imageView.backgroundColor = [UIColor darkGrayColor];
+    [myProfilePicActivityIndicator stopAnimating];
+}
+
 - (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user atProviderIndex:(NSUInteger)index
 {   
     DLog(@"");
     myUserName.text = user.preferred_username;
-    
     [myUserName setFrame:CGRectMake(65, 10, 80, 37)];
-    [self fetchProfilePicFromUrl:user.photo atProviderIndex:index];    
+    
+    if (user.photo)
+        [self fetchProfilePicFromUrl:user.photo atProviderIndex:index];    
+    else
+        [self setProfilePicToDefaultPic:user.photo atProviderIndex:index];
 }
 
 - (void)shareActivity
