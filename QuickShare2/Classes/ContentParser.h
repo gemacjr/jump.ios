@@ -9,24 +9,24 @@
 #import <Foundation/Foundation.h>
 
 
-@interface ContentParser : NSObject <NSXMLParserDelegate>
+@interface ContentParser : NSObject //<NSXMLParserDelegate>
 {
-    NSString *currentElement;
-    NSString *currentContent;
-    
-    NSMutableArray *elementStack;
-    
-    NSMutableArray *allTheContent;
-    NSMutableArray *theStringsBetweenElements;
-    
-    NSMutableArray *images;
+//    NSString *currentElement;
+//    NSString *currentContent;
+//    
+//    NSMutableArray *elementStack;
+//    
+//    NSMutableArray *allTheContent;
+//    NSMutableArray *theStringsBetweenElements;
+//    
+//    NSMutableArray *images;
 }
-@property (readonly) NSString *currentElement;
-@property (readonly) NSString *currentContent;
-@property (readonly) NSMutableArray *allTheContent;
-@property (readonly) NSMutableArray *theStringsBetweenElements;
-@property (readonly) NSMutableArray *images;
+//@property (readonly) NSString *currentElement;
+//@property (readonly) NSString *currentContent;
+//@property (readonly) NSMutableArray *allTheContent;
+//@property (readonly) NSMutableArray *theStringsBetweenElements;
+//@property (readonly) NSMutableArray *images;
 
-- (void)processContent:(NSString*)theString;
-- (void)regexParse:(NSString*)theString;
+//- (void)processContent:(NSString*)theString;
+//- (void)regexParse:(NSString*)theString;
 @end

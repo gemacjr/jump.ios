@@ -73,7 +73,7 @@
 @property (readonly) NSMutableArray *stories;
 @end
 
-@interface FeedReader : NSObject <NSXMLParserDelegate, JRAuthenticateDelegate>
+@interface FeedReader : NSObject <JRAuthenticateDelegate>
 {
 //    NSMutableArray *allStories;
     

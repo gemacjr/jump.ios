@@ -196,8 +196,6 @@
 //           cell.backgroundView = background;
 
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-            [story release];
         }
     }
     else

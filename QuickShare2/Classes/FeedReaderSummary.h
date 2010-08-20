@@ -10,7 +10,7 @@
 #import "FeedReaderDetail.h"
 #import "FeedReader.h"
 
-@interface FeedReaderSummary : UITableViewController <NSXMLParserDelegate>
+@interface FeedReaderSummary : UITableViewController
 {
 	IBOutlet UITableView *myTable;
     
