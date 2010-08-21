@@ -31,34 +31,8 @@
 
 
 @implementation JRPublishActivityController
-//@synthesize myLoadingLabel;
-//@synthesize myLoadingActivitySpinner; 
-//@synthesize myLoadingGrayView;
-//@synthesize myUserContentTextView;
-//@synthesize myUserContentBoundingBox;
-//@synthesize myProviderIcon;
-//@synthesize myPoweredByLabel;
-//@synthesize myMediaContentView;
-//@synthesize myMediaViewBackgroundMiddle;
-//@synthesize myMediaViewBackgroundTop;
-//@synthesize myMediaViewBackgroundBottom;
-//@synthesize myMediaThumbnailView;
-//@synthesize myMediaThumbnailActivityIndicator;
-//@synthesize myTitleLabel;
-//@synthesize myDescriptionLabel;
-//@synthesize myShareToView;
-//@synthesize myTriangleIcon;
-//@synthesize myProfilePic;
-//@synthesize myProfilePicActivityIndicator;
-//@synthesize myUserName;
-//@synthesize myConnectAndShareButton;
-//@synthesize myJustShareButton;
-//@synthesize mySharedCheckMark;
-//@synthesize mySharedLabel;
-//@synthesize myTabBar;
 @synthesize keyboardToolbar;
 @synthesize shareButton;
-//@synthesize doneButton;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -96,7 +70,6 @@
 	}
 	else 
 	{
-        //providers = [sessionData.socialProviders retain];
         ready = YES;
         [self addProvidersToTabBar];
 	}
@@ -147,16 +120,9 @@
 	title_label.text = @"Share";
 	self.navigationItem.titleView = title_label;
     
-//	if (!infoBar)
-//	{
-//		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
-//		[self.view addSubview:infoBar];
-//	}
-//	[infoBar fadeIn];	
-	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:sessionData//[self navigationController].parentViewController
+									  target:sessionData
 									  action:@selector(publishingDidCancel:)] autorelease];
 	
 	self.navigationItem.leftBarButtonItem = cancelButton;
@@ -169,38 +135,18 @@
 									target:self
 									action:@selector(editButtonPressed:)] autorelease];
 	
-//	doneButton = [[[UIBarButtonItem alloc] 
-//									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-//									target:self
-//									action:@selector(doneButtonPressed:)] autorelease];
-	
-	
 	self.navigationItem.rightBarButtonItem = editButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
-//    [myJustShareButton setTitle:@"Share" forState:UIControlStateNormal];
-//    [myJustShareButton setTitle:@"Share" forState:UIControlStateSelected];
-//    
-//    [myConnectAndShareButton setTitle:@"Connect And Share" forState:UIControlStateNormal];
-//    [myConnectAndShareButton setTitle:@"Connect And Share" forState:UIControlStateSelected];    
-//    
-//    
-//    myJustShareButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-//    [myJustShareButton setTitleColor:[UIColor whiteColor] 
-//                          forState:UIControlStateNormal];
-//    [myJustShareButton setTitleShadowColor:[UIColor grayColor]
-//                                forState:UIControlStateNormal];
-    
-//    keyboardToolbar.alpha = 0.0;
     [keyboardToolbar setFrame:CGRectMake(0, 416, 320, 44)];
-//    myUserContentTextView.inputAccessoryView = keyboardToolbar;
-
-    [self showViewIsLoading:NO];
 
     if (ready)
+    {
         [self loadActivityToView];
+        [self showViewIsLoading:NO];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -213,7 +159,6 @@
 {
     DLog(@"");
     [sessionData publishingDidCancelWithError];
-//    [(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
 }
 
 /* If the user calls the library before the session data object is done initializing - 
@@ -231,7 +176,6 @@
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([sessionData configurationComplete] || ([[sessionData socialProviders] count] > 0))
 	{
-//		providers = [sessionData.socialProviders retain];
         ready = YES;
         
         [self showViewIsLoading:NO];
@@ -246,7 +190,7 @@
 	if (interval >= 16.0)
 	{	
 		DLog(@"No Available Providers");
-        
+
         [self showViewIsLoading:NO];
         
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers" message:
@@ -261,7 +205,11 @@ Please try again later."
 											   otherButtonTitles:nil] autorelease];
 
 		[alert show];
-		return;
+        
+        //[timer release];
+        timer = nil;
+		
+        return;
 	}
 	
 	timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
@@ -562,7 +510,7 @@ Please try again later."
     if (user.photo)
         [self fetchProfilePicFromUrl:user.photo atProviderIndex:index];    
     else
-        [self setProfilePicToDefaultPic:user.photo atProviderIndex:index];
+        [self setProfilePicToDefaultPic:myProfilePic atProviderIndex:index];
 }
 
 - (void)shareActivity
@@ -581,10 +529,6 @@ Please try again later."
     
     [self showViewIsLoading:YES];
     
-    // TODO: Move this to somewhere more logical -- hack for now
-//    [sessionData setSocial:YES];
-//    [sessionData addDelegate:self];
-    
     if (!loggedInUser)
     {
         /* If the selected provider requires input from the user, go to the user landing view.
@@ -594,16 +538,12 @@ Please try again later."
         {	
             [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                    animated:YES]; 
-//            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-//                                                   animated:YES]; 
         }
         /* Otherwise, go straight to the web view. */
         else
         {
             [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myWebViewController
                                                    animated:YES]; 
-//            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
-//                                                   animated:YES]; 
         }
     }
     else
@@ -903,11 +843,27 @@ Please try again later."
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
 {
     DLog(@"");
+    
+//    NSMutableArray *remainingProviders = [[NSMutableArray alloc] initWithCapacity:5];
+//    NSMutableString *remainingProviderNames = [[NSMutableString alloc] initWithFormat:@""];
+//
+//    for (NSString* remainingProviderName in sessionData.socialProviders)
+//    {
+//        JRProvider *remainingProvider = [sessionData.allProviders objectForKey:remainingProviderName];
+//        if ([sessionData authenticatedUserForProvider:remainingProvider] && ![remainingProvider.name isEqualToString:provider])
+//        {
+//            [remainingProviders addObject:remainingProvider];
+//            [remainingProviderNames appendFormat:@"%@, ", remainingProvider.friendlyName];
+//        }
+//    }
+    
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-                                                     message:@"You have successfully shared this activity"
-                                                    delegate:nil
+                                                     message:[NSString stringWithFormat:
+                                                              @"You have successfully shared this activity."]// on %@.\nWould you like to share it on %@ as well?", 
+                                                                //provider, remainingProviderNames]
+                                                    delegate:nil//self
                                            cancelButtonTitle:@"OK" 
-                                           otherButtonTitles:nil] autorelease];
+                                           otherButtonTitles:nil] autorelease];//@"No thanks", nil] autorelease];
     [alert show];
     
     [self showViewIsLoading:NO];
@@ -922,25 +878,63 @@ Please try again later."
 
 - (void)publishingDidCancel { DLog(@""); }
 - (void)publishingDidComplete { DLog(@""); }
-- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { };
+- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error
 {
     DLog(@"");
+    NSString *errorMessage = nil;
+    BOOL closeDialog = NO;
+    BOOL reauthenticate = NO;
+
+    [self showViewIsLoading:NO];
+    
+    switch (error.code)
+    {
+        case JRPublishFailedError:
+            errorMessage = [NSString stringWithFormat:
+                            @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
+            closeDialog = YES;
+        case JRPublishErrorDuplicateTwitter:
+            errorMessage = [NSString stringWithFormat:
+                            @"There was an error while sharing this activity: Twitter does not allow duplicate status updates."];
+            closeDialog = NO;
+        case JRPublishErrorLinkedInCharacterExceded:
+            errorMessage = [NSString stringWithFormat:
+                            @"There was an error while sharing this activity: Status was too long."];
+            closeDialog = NO;
+        case JRPublishErrorMissingApiKey:
+            reauthenticate = YES;
+            break;
+        case JRPublishErrorInvalidOauthToken:
+            reauthenticate = YES;
+            break;
+        default:
+            errorMessage = [NSString stringWithFormat:
+                            @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
+            closeDialog = YES;
+            break;
+    }    
+
+    if (reauthenticate)
+    {
+        [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
+        [loggedInUser release];
+        loggedInUser = nil;
+        
+        [self showUserAsLoggedIn:NO];
+        
+        [self shareButtonPressed:nil];
+        return;
+    }
+    
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-                                                     message:[NSString stringWithFormat:
-                                                              @"There was an error while sharing this activity: %@", [error localizedDescription]]
+                                                     message:errorMessage
                                                     delegate:nil
                                            cancelButtonTitle:@"OK" 
                                            otherButtonTitles:nil] autorelease];
     [alert show];
     
-    [self showViewIsLoading:NO];
-//    [self showActivityAsShared:YES];
-    
-    // TODO: Move this to somewhere more logical -- hack for now
-//    [sessionData setSocial:NO];
-//    [sessionData removeDelegate:self];
 }
 
 
@@ -994,6 +988,8 @@ Please try again later."
 {
     DLog(@"");
     [self showViewIsLoading:NO];
+    
+    // TODO: Verify that this won't cause issues if set and the dialog closes for various reasons
     [timer invalidate];
     
     [self loadActivityToView:nil];

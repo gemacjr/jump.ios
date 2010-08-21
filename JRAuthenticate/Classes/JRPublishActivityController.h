@@ -25,6 +25,8 @@
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;
     
+//    NSMutableArray *authenticatedProviders;
+    
     
 	UITabBar *myTabBar;
     
@@ -36,10 +38,10 @@
     JRActivityObject *activity;
     
     /* Activity Spinner and Label displayed while the list of configured providers is empty */
+    NSTimer *timer;
     IBOutlet UILabel					*myLoadingLabel;
     IBOutlet UIActivityIndicatorView    *myLoadingActivitySpinner; 
     IBOutlet UIView                     *myLoadingGrayView;
-    IBOutlet NSTimer                    *timer;
     
     IBOutlet UITextView  *myUserContentTextView;
     IBOutlet UIButton    *myUserContentBoundingBox;

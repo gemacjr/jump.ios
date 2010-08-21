@@ -33,7 +33,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-        DLog(@"");
+    DLog(@"");
     [super viewWillAppear:animated];
     
     story = [[FeedReader feedReader].selectedStory retain];
@@ -44,48 +44,38 @@
                                     @"<html>                                    \
                                         <head>                                  \
                                             <style type=\"text/css\">           \
-                                                div.main                        \
-                                                {                               \
-                                                    width:300px;                \
-                                                    font-family:\"Helvetica\";  \
-                                                }                               \
                                                                                 \
                                                 body                            \
                                                 {                               \
-                                                    #background-color:c3e8f7;   \
-                                                  #  margin:0px; \
+                                                    width:300px;                \
+                                                    font-family:\"Helvetica\";  \
+                                                    color:#333333;              \
+                                                    font-size:14px;             \
+                                                    padding:0px;                \
+                                                    margin:10px;                \
                                                 }                               \
                                                                                 \
                                                 div.title                       \
                                                 {                               \
                                                     font-size:16px;             \
-                                                    padding:0px;                \
-                                                    margin:3px;                 \
+                                                    color:#074764;              \
                                                 }                               \
                                                                                 \
                                                 div.date                        \
                                                 {                               \
                                                     font-size:12px;             \
                                                     color:#999999;              \
-                                                    padding:0px;                \
-                                                    margin:3px;                 \
                                                 }                               \
                                                                                 \
                                                 p                               \
                                                 {                               \
                                                     color:#333333;              \
                                                     font-size:14px;             \
-                                                    padding:0px;                \
-                                                    margin:3px;                 \
                                                 }                               \
                                                                                 \
-                                                img                             \
-                                                {                               \
-                                                    #max-width:100\%;            \
-                                                    #max-height:100\%;           \
-                                                    padding:0px;                \
-                                                    margin:3px;                 \
-                                                }                               \
+                                                a:link    { color:#009DDC; }    \
+                                                a:visited { color:#074764; }    \
+                                                a:active  { color:#7AC143; }    \
                                                                                 \
                                             </style>                            \
                                         </head>                                 \

@@ -65,10 +65,10 @@
 	{
         provider_name = [[NSString alloc] initWithFormat:@"%@", _provider_name];
         
-        if (![dictionary objectForKey:@"photo"] == kCFNull)
+        if ([dictionary objectForKey:@"photo"] == kCFNull)
             photo = [[dictionary objectForKey:@"photo"] retain];
 
-        if (![dictionary objectForKey:@"preferred_username"] == kCFNull)
+        if ([dictionary objectForKey:@"preferred_username"] == kCFNull)
             preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];
         
         device_token = [[dictionary objectForKey:@"device_token"] retain];
@@ -326,32 +326,32 @@ static JRSessionData* singleton = nil;
         if (!authenticatedUsersByProvider)
             authenticatedUsersByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
 
-//        NSData *archivedProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"JRAllProviders"];
-//        if (archivedProviders != nil)
-//        {
-//            NSDictionary *unarchivedProviders = [NSKeyedUnarchiver unarchiveObjectWithData:archivedProviders];
-//            if (unarchivedProviders != nil)
-//                allProviders = [[NSMutableDictionary alloc] initWithDictionary:unarchivedProviders];
-//        }
-//        
-//        NSData *archivedBasicProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"JRBasicProviders"];
-//        if (archivedBasicProviders != nil)
-//        {
-//            NSArray *unarchivedBasicProviders = [NSKeyedUnarchiver unarchiveObjectWithData:archivedBasicProviders];
-//            if (unarchivedBasicProviders != nil)
-//                basicProviders = [[NSArray alloc] initWithArray:unarchivedBasicProviders];
-//        }
-//        
-//        NSData *archivedSocialProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"JRSocialProviders"];
-//        if (archivedSocialProviders != nil)
-//        {
-//            NSArray *unarchivedSocialProviders = [NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders];
-//            if (unarchivedSocialProviders != nil)
-//                socialProviders = [[NSArray alloc] initWithArray:unarchivedSocialProviders];
-//        }
+        NSData *archivedProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"JRAllProviders"];
+        if (archivedProviders != nil)
+        {
+            NSDictionary *unarchivedProviders = [NSKeyedUnarchiver unarchiveObjectWithData:archivedProviders];
+            if (unarchivedProviders != nil)
+                allProviders = [[NSMutableDictionary alloc] initWithDictionary:unarchivedProviders];
+        }
+        
+        NSData *archivedBasicProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"JRBasicProviders"];
+        if (archivedBasicProviders != nil)
+        {
+            NSArray *unarchivedBasicProviders = [NSKeyedUnarchiver unarchiveObjectWithData:archivedBasicProviders];
+            if (unarchivedBasicProviders != nil)
+                basicProviders = [[NSArray alloc] initWithArray:unarchivedBasicProviders];
+        }
+        
+        NSData *archivedSocialProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"JRSocialProviders"];
+        if (archivedSocialProviders != nil)
+        {
+            NSArray *unarchivedSocialProviders = [NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders];
+            if (unarchivedSocialProviders != nil)
+                socialProviders = [[NSArray alloc] initWithArray:unarchivedSocialProviders];
+        }
 
-//        baseUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"JRBaseUrl"];
-//        hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:@"JRHidePoweredBy"];
+        baseUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"JRBaseUrl"];
+        hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:@"JRHidePoweredBy"];
                 
         // TODO: These are going to get called twice if we call them at the end of the configuration calls. Figure out
         // the most optimal solution for this...
@@ -807,7 +807,7 @@ static JRSessionData* singleton = nil;
 			returningBasicProvider.userInput = userInput;
 	}
     
-    configurationComplete = YES;
+      configurationComplete = YES;  
 }
 
 - (void)saveLastUsedBasicProvider
@@ -975,21 +975,9 @@ static JRSessionData* singleton = nil;
         }
         else if ([(NSString*)tag isEqualToString:@"shareThis"])
         {
-            NSRange subStr = [payload rangeOfString:@"\"stat\":\"ok\""];
-            if (subStr.length)
-            {
-                DLog("BEFORE");
-                @synchronized (delegates)
-                {
-                    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                    for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                    {
-                        [delegate publishingActivityDidSucceed:activity forProvider:currentProvider.name];//  DidCompleteWithActivity:activity forProvider:currentProvider.name];
-                    }
-                }
-                DLog("AFTER");
-            }
-            else
+            NSDictionary *response_dict = [payload JSONValue];
+            
+            if (!response_dict)
             {
                 @synchronized (delegates)
                 {
@@ -998,8 +986,78 @@ static JRSessionData* singleton = nil;
                     {
                         [delegate publishingActivity:activity
                                     didFailWithError:[self setError:[payload retain] 
-                                                           withCode:3902302 
-                                                        andSeverity:@"TODO CHANGE ME"]];
+                                                           withCode:JRPublishFailedError 
+                                                        andSeverity:JRErrorSeverityPublishFailed]];
+                        
+                    }
+                }
+            }
+            if ([[response_dict objectForKey:@"stat"] isEqualToString:@"ok"])
+            {
+                @synchronized (delegates)
+                {
+                    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+                    for (id<JRSessionDelegate> delegate in delegatesCopy) 
+                    {
+                        [delegate publishingActivityDidSucceed:activity forProvider:currentProvider.name];
+                    }
+                }
+            }
+            else
+            {
+                NSDictionary *error_dict = [response_dict objectForKey:@"err"];
+                NSError *publishError = nil;
+                
+                if (!error_dict)
+                {
+                    publishError = [self setError:@"There was a problem publishing this activity" 
+                                         withCode:JRPublishFailedError 
+                                      andSeverity:JRErrorSeverityPublishFailed];
+                }
+                else 
+                {
+                    int code;
+                    if (!CFNumberGetValue([error_dict objectForKey:@"code"], kCFNumberSInt32Type, &code))
+                        code = 1000;
+                        
+                    switch (code)
+                    {
+                        case 0: /* "Missing parameter: apiKey" */
+                            publishError = [self setError:[error_dict objectForKey:@"msg"] 
+                                                 withCode:JRPublishErrorMissingApiKey
+                                              andSeverity:JRErrorSeverityPublishNeedsReauthentication];
+                            break;
+                        case 4: /* "Facebook Error: Invalid OAuth 2.0 Access Token" */
+                            publishError = [self setError:[error_dict objectForKey:@"msg"] 
+                                                 withCode:JRPublishErrorInvalidOauthToken 
+                                              andSeverity:JRErrorSeverityPublishNeedsReauthentication];
+                            break;
+                        case 100: // TODO LinkedIn character limit error
+                            publishError = [self setError:[error_dict objectForKey:@"msg"] 
+                                                 withCode:JRPublishErrorLinkedInCharacterExceded
+                                              andSeverity:JRErrorSeverityPublishInvalidActivity];
+                            break;
+                        case 6: // TODO Twitter duplicate error
+                            publishError = [self setError:[error_dict objectForKey:@"msg"] 
+                                                 withCode:JRPublishErrorDuplicateTwitter
+                                              andSeverity:JRErrorSeverityPublishInvalidActivity];
+                            break;
+                        case 1000: /* Extracting code failed; Fall through. */
+                        default: // TODO Other errors (find them)
+                            publishError = [self setError:@"There was a problem publishing this activity" 
+                                                 withCode:JRPublishFailedError 
+                                              andSeverity:JRErrorSeverityPublishFailed];
+                            break;
+                    }
+                }
+                
+                @synchronized (delegates)
+                {
+                    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+                    for (id<JRSessionDelegate> delegate in delegatesCopy) 
+                    {
+                        [delegate publishingActivity:activity
+                                    didFailWithError:publishError];
                                      
                     }
                 }
@@ -1046,7 +1104,16 @@ static JRSessionData* singleton = nil;
                           withCode:JRConfigurationInformationError
                        andSeverity:JRErrorSeverityConfigurationFailed];
         }
-
+        else if ([(NSString*)tag isEqualToString:@"shareThis"])
+        {
+            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+            for (id<JRSessionDelegate> delegate in delegatesCopy) 
+            {
+                [delegate publishingActivity:activity
+                            didFailWithError:_error];
+                
+            }            
+        }
     }
     else if ([(NSDictionary*)tag isKindOfClass:[NSDictionary class]])
     {

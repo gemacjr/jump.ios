@@ -9,20 +9,20 @@
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
 
-typedef NSError ActivityValidationError;
-typedef NSError ActivityValidationWarning;
-
-typedef enum
-{
-	JRMoreThanOnKindOfMediaInActivityWarning = 200,
-} JRActivityError;
-
-#define JRWarningSeverityMinor @"minor"
-#define JRWarningSeverityMajor @"major"
-#define JRWarningSeverityActivityValidationHasWarnings @"activityValidationHasWarnings"
-#define JRWarningSeverityActivityValidationHasWarningsInMedia @"activityValidationHasWarnings"
-
-#define JRErrorSeverityVctivityValidationFailed @"activityValidationFailed"
+//typedef NSError ActivityValidationError;
+//typedef NSError ActivityValidationWarning;
+//
+//typedef enum
+//{
+//	JRMoreThanOnKindOfMediaInActivityWarning = 200,
+//} JRActivityError;
+//
+//#define JRWarningSeverityMinor @"minor"
+//#define JRWarningSeverityMajor @"major"
+//#define JRWarningSeverityActivityValidationHasWarnings @"activityValidationHasWarnings"
+//#define JRWarningSeverityActivityValidationHasWarningsInMedia @"activityValidationHasWarnings"
+//
+//#define JRErrorSeverityActivityValidationFailed @"activityValidationFailed"
 
 typedef enum
 {

@@ -270,7 +270,7 @@
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="IBUIButton" id="445558987">
 										<reference key="NSNextResponder" ref="723048711"/>
-										<int key="NSvFlags">292</int>
+										<int key="NSvFlags">-2147483356</int>
 										<string key="NSFrame">{{65, 40}, {80, 40}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIOpaque">NO</bool>
@@ -366,7 +366,7 @@
 									</object>
 									<object class="IBUILabel" id="463322340">
 										<reference key="NSNextResponder" ref="723048711"/>
-										<int key="NSvFlags">292</int>
+										<int key="NSvFlags">-2147483356</int>
 										<string key="NSFrame">{{232, 28}, {78, 29}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIOpaque">NO</bool>
@@ -871,7 +871,7 @@
 							<reference ref="467309782"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
-						<string key="objectName">Background View</string>
+						<string key="objectName">Content View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">44</int>
@@ -1059,7 +1059,7 @@
 						<int key="objectID">94</int>
 						<reference key="object" ref="445558987"/>
 						<reference key="parent" ref="723048711"/>
-						<string key="objectName">Settings Button</string>
+						<string key="objectName">Sign Out Button</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">30</int>
@@ -1265,7 +1265,6 @@
 							<string>myUserContentTextView</string>
 							<string>myUserName</string>
 							<string>shareButton</string>
-							<string>timer</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1295,7 +1294,6 @@
 							<string>UITextView</string>
 							<string>UILabel</string>
 							<string>UIBarItem</string>
-							<string>NSTimer</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1328,7 +1326,6 @@
 							<string>myUserContentTextView</string>
 							<string>myUserName</string>
 							<string>shareButton</string>
-							<string>timer</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1435,10 +1432,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">shareButton</string>
 								<string key="candidateClassName">UIBarItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">timer</string>
-								<string key="candidateClassName">NSTimer</string>
 							</object>
 						</object>
 					</object>

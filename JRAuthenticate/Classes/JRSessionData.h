@@ -46,13 +46,28 @@ typedef enum
     JRJsonError,    
     JRConfigurationInformationError,
     JRSessionDataFinishGetProvidersError    
-} JRSessionDataError;
+} JRSessionConfigurationError;
 
-#define JRErrorSeverityMinor @"minor"
-#define JRErrorSeverityMajor @"major"
-#define JRErrorSeverityConfigurationFailed @"configurationFailed"
-#define JRErrorSeverityConfigurationInformationMissing @"missingInformation"
-#define JRErrorSeverityAuthenticationFailed @"authenticationFailed"
+typedef enum
+{
+    JRPublishFailedError = 200,
+    JRPublishErrorMissingApiKey,
+    JRPublishErrorInvalidOauthToken,
+    JRPublishErrorDuplicateTwitter,
+    JRPublishErrorLinkedInCharacterExceded,
+} JRSessionPublishActivityError;
+
+#define JRErrorSeverityNoNetworkConnection              @"noNetwork"
+#define JRErrorSeverityMinor                            @"minor"
+#define JRErrorSeverityMajor                            @"major"
+#define JRErrorSeverityConfigurationFailed              @"configurationFailed"
+#define JRErrorSeverityConfigurationInformationMissing  @"missingInformation"
+#define JRErrorSeverityAuthenticationFailed             @"authenticationFailed"
+#define JRErrorSeverityPublishFailed                    @"publishFailed"
+#define JRErrorSeverityPublishNeedsReauthentication     @"publishNeedsReauthentication"
+#define JRErrorSeverityPublishInvalidActivity           @"publishInvalidActivity"
+
+
 
 @interface JRAuthenticatedUser : NSObject
 {

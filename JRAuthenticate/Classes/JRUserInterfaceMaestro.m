@@ -294,6 +294,6 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)publishingFailed 
 { 
- 	[self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];       
+// 	[self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];       
 }
 @end

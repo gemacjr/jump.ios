@@ -37,8 +37,7 @@
 
     self.title = @"Janrain Blog";
     
-    myTable.backgroundColor = [UIColor lightGrayColor];//[UIColor whiteColor];
-                                                       //[UIColor colorWithRed:(101.0/255.0) green:(196.0/255.0) blue:(234.0/255.0) alpha:1.0];
+    myTable.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0];
 //  myTable.separatorColor = [UIColor clearColor];
     [myTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     myTable.sectionFooterHeight = 0.0;
@@ -72,6 +71,33 @@
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
  */
+
+- (UIImage*)zoomAndCropImage:(UIImage*)image
+{
+    if (image.size.width < 72 || image.size.height < 72)
+        return image;
+
+    NSInteger leftCrop;
+    NSInteger topCrop;
+    
+    if (image.size.width < 144)
+        leftCrop = ((image.size.width - 72) / 2);
+    else
+        leftCrop = ((image.size.width - 72) / 2) - 36;
+
+    if (image.size.height < 288)
+        topCrop = ((image.size.height - 72) / 2);
+    else
+        topCrop = ((image.size.height - 72) / 2) - 36;
+    
+    CGRect croppedRect = CGRectMake(leftCrop, topCrop, 72, 72);
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], croppedRect);
+    UIImage *cropped = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    
+    return cropped;
+}
 
 
 #pragma mark -
@@ -122,6 +148,7 @@
             
             documentImage.backgroundColor = [UIColor grayColor];
             documentImage.clipsToBounds = YES;
+            documentImage.contentMode = UIViewContentModeScaleAspectFill;
             
             [spinner setHidesWhenStopped:YES];
             [spinner startAnimating];
@@ -139,7 +166,7 @@
                 {
                     [spinner stopAnimating];
                     documentImage.backgroundColor = [UIColor whiteColor];
-                    documentImage.image = storyImage.image;
+                    documentImage.image = [self zoomAndCropImage:storyImage.image];
                     break;
                 }
                 else if (storyImage.downloadFailed) /* If the image failed to download, check the next image, or don't use an image. */
@@ -161,11 +188,11 @@
 
             UILabel *documentTitle = [[[UILabel alloc] initWithFrame:CGRectMake(8, 6, 284, 16)] autorelease];
             documentTitle.font = [UIFont boldSystemFontOfSize:15.0];
-            documentTitle.textColor = [UIColor colorWithRed:0.0 green:0.25 blue:0.5 alpha:1.0];
+            documentTitle.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
             documentTitle.backgroundColor = [UIColor clearColor];
             documentTitle.text = story.title;
             
-            UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(8 + imageWidth, 25, 270   - imageWidth, 36)] autorelease];
+            UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(8 + imageWidth, 25, 268 - imageWidth, 36)] autorelease];
             documentDescription.font = [UIFont systemFontOfSize:14.0];
             documentDescription.textColor = [UIColor darkGrayColor];
 //            documentDescription.lineBreakMode = UILineBreakModeWordWrap;
@@ -173,10 +200,10 @@
             documentDescription.backgroundColor = [UIColor clearColor];
             documentDescription.text = story.plainText;//story.description;
             
-            UILabel *documentDate = [[[UILabel alloc] initWithFrame:CGRectMake(10, 63, 280, 13)] autorelease];
+            UILabel *documentDate = [[[UILabel alloc] initWithFrame:CGRectMake(8 + imageWidth, 63, 268 - imageWidth, 13)] autorelease];
             documentDate.font = [UIFont systemFontOfSize:11.0];
             documentDate.textColor = [UIColor darkGrayColor];
-            documentDate.textAlignment = UITextAlignmentRight;
+            documentDate.textAlignment = UITextAlignmentLeft;
             documentDate.backgroundColor = [UIColor clearColor];
             documentDate.text = story.pubDate;
             
@@ -203,6 +230,7 @@
         UIImageView *documentImage = (UIImageView*)[cell.contentView viewWithTag:imageTag];
         UIActivityIndicatorView *spinner = (UIActivityIndicatorView*)[cell.contentView viewWithTag:spinnerTag];
         UILabel *documentDescription = (UILabel*)[cell.contentView viewWithTag:descriptionTag];
+        UILabel *documentDate = (UILabel*)[cell.contentView viewWithTag:dateTag];
                 
         if (![spinner isHidden]) /* If we were previously waiting for the image to download. */
         {
@@ -217,7 +245,7 @@
                 {
                     [spinner stopAnimating];
                     documentImage.backgroundColor = [UIColor whiteColor];
-                    documentImage.image = storyImage.image;
+                    documentImage.image = [self zoomAndCropImage:storyImage.image];
                     break;
                 }
                 else if (storyImage.downloadFailed) /* If the image failed to download, check the next image, or don't use an image. */
@@ -234,7 +262,8 @@
             {
                 [documentImage setHidden:YES];
                 [spinner stopAnimating];
-                [documentDescription setFrame:CGRectMake(8, 25, 270, 36)];
+                [documentDescription setFrame:CGRectMake(8, 25, 268, 36)];
+                [documentDate setFrame:CGRectMake(8, 63, 268, 13)];
             }
             
         }
