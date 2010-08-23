@@ -298,7 +298,7 @@ static JRConnectionManager* singleton = nil;
     
     if ([connectionData encodeData] == YES)
     {
-        NSString *payload = [[NSString alloc] initWithData:[connectionData response] encoding:NSASCIIStringEncoding];
+        NSString *payload = [[[NSString alloc] initWithData:[connectionData response] encoding:NSASCIIStringEncoding] autorelease];
         
         DLog(@"request: %@", [[request URL] absoluteString]);
         DLog(@"payload: %@", payload);
@@ -307,7 +307,7 @@ static JRConnectionManager* singleton = nil;
 	}
     else
     {
-        [delegate connectionDidFinishLoadingWithUnEncodedPayload:[[connectionData response] retain] request:request andTag:userdata];
+        [delegate connectionDidFinishLoadingWithUnEncodedPayload:[connectionData response] request:request andTag:userdata];
     }
 
 	CFDictionaryRemoveValue(connectionBuffers, connection);

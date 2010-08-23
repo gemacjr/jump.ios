@@ -77,22 +77,8 @@
 {
 	DLog(@"");
     [super viewWillAppear:animated];
-	
-    if (!sessionData.currentProvider)
-    {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"TODO REWRITE ERROR!! Authentication failed."
-                                                             forKey:NSLocalizedDescriptionKey];
-        NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
-                                             code:100
-                                         userInfo:userInfo];
-        
-        [sessionData authenticationDidFailWithError:error];        
-
-       return;
-    }
     
-    
-	self.title = [NSString stringWithFormat:@"%@", sessionData.currentProvider.friendlyName];
+	self.title = [NSString stringWithFormat:@"%@", (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -125,6 +111,19 @@
 	{
 		DLog(@"view controller: %@", [vc description]);
 	}
+    
+    if (!sessionData.currentProvider)
+    {
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"TODO REWRITE ERROR!! Authentication failed."
+                                                             forKey:NSLocalizedDescriptionKey];
+        NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
+                                             code:100
+                                         userInfo:userInfo];
+        
+        [sessionData authenticationDidFailWithError:error];        
+        
+        return;
+    }    
     
 	[self webViewWithUrl:[sessionData startUrl]];
 	[myWebView becomeFirstResponder];
@@ -171,7 +170,7 @@
 	[self stopProgress];
 	
 	NSString* tag = [(NSString*)userdata retain];
-	[payload retain];
+//	[payload retain];
 	
 	DLog(@"payload: %@", payload);
 	DLog(@"tag:     %@", tag);
@@ -181,7 +180,7 @@
         
         if (![payload respondsToSelector:@selector(JSONValue)]) { /* TODO: Error */}
         
-        NSDictionary *payloadDict = [[payload JSONValue] retain];
+        NSDictionary *payloadDict = [payload JSONValue];
 		
 		if(!payloadDict) {  /* TODO: Error */ }
 		
@@ -234,7 +233,7 @@
 		}
 	}
 
-	[payload release];
+//	[payload release];
 	[tag release];	
 
 }

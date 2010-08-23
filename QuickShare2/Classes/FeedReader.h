@@ -10,7 +10,9 @@
 #import <UIKit/UIKit.h>
 #import "ContentParser.h"
 #import "JRAuthenticate.h"
+#import "FeedReaderDetail.h"
 
+@class FeedReaderDetail;
 @interface StoryImage : NSObject <JRConnectionManagerDelegate>
 {
     NSString *alt;		/* Specifies an alternate text for an image (e.g., x) */
@@ -81,8 +83,11 @@
     Story *selectedStory;
     
     JRAuthenticate *jrAuthenticate;
+    
+    FeedReaderDetail *feedReaderDetail;
 }
 
+@property (retain)   FeedReaderDetail *feedReaderDetail;
 @property (readonly) NSMutableArray *allStories;
 @property (retain)   Story *selectedStory;
 @property (readonly) JRAuthenticate *jrAuthenticate;

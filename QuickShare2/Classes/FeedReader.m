@@ -83,7 +83,7 @@
     NSURL *url = [NSURL URLWithString:src];
     
     if(!url)
-        return self;
+        return;
     
     NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:nil stringEncodeData:NO];    
@@ -313,6 +313,8 @@
     [link release];
     
     [stories release];
+    
+    [super dealloc];
 }
 @end
 
@@ -324,6 +326,7 @@
 @implementation FeedReader
 @synthesize selectedStory;
 @synthesize jrAuthenticate;
+@synthesize feedReaderDetail;
 
 static FeedReader* singleton = nil;
 + (id)allocWithZone:(NSZone *)zone
@@ -423,7 +426,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
     
     for (NSDictionary *item in stories)
     {
-        Story *story = [[Story alloc] init];
+        Story *story = [[[Story alloc] init] autorelease];
         NSDictionary *story_dict = [item objectForKey:@"story"];
         
         [story setTitle:[story_dict objectForKey:@"title"]];
@@ -450,6 +453,11 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
     return feed.stories;
 }
 
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString *)provider 
+{
+    [feedReaderDetail authenticationFailed:error];
+}
+
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenUrl:(NSString*)_tokenUrl
@@ -457,8 +465,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
            forProvider:(NSString *)provider { }
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth { }
 - (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString *)provider { }
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenURL:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
+- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth didPublishingActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }
 - (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivityDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }

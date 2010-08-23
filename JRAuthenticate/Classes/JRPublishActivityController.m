@@ -143,16 +143,16 @@
     [keyboardToolbar setFrame:CGRectMake(0, 416, 320, 44)];
 
     if (ready)
-    {
         [self loadActivityToView];
-        [self showViewIsLoading:NO];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     DLog(@"");
 	[super viewDidAppear:animated];
+
+    if (ready)
+        [self showViewIsLoading:NO];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -229,9 +229,9 @@ Please try again later."
             break;
         
         NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];
-        UITabBarItem *providerTab = [[UITabBarItem alloc] initWithTitle:provider.friendlyName 
-                                                                  image:[UIImage imageNamed:imagePath]
-                                                                    tag:[providerTabArr count]];
+        UITabBarItem *providerTab = [[[UITabBarItem alloc] initWithTitle:provider.friendlyName 
+                                                                   image:[UIImage imageNamed:imagePath]
+                                                                     tag:[providerTabArr count]] autorelease];
         
         [providerTabArr insertObject:providerTab atIndex:[providerTabArr count]];
         
@@ -716,8 +716,10 @@ Please try again later."
     DLog(@"");
     
 	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
-                                                                   @"You are currently signed in to %@ as %@. Would you like to sign out?",
-                                                                   selectedProvider.friendlyName, loggedInUser.preferred_username]
+                                                                   @"You are currently signed in to %@%@. Would you like to sign out?",
+                                                                   selectedProvider.friendlyName, 
+                                                                   (loggedInUser.preferred_username) ? 
+                                                                   [NSString stringWithFormat:@" as %@", loggedInUser.preferred_username] : @""]
 														 delegate:self
 												cancelButtonTitle:@"Cancel"  
 										   destructiveButtonTitle:@"OK"
@@ -886,6 +888,7 @@ Please try again later."
 
 - (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider { }
 
+- (void)publishingDidRestart { }
 - (void)publishingDidCancel { DLog(@""); }
 - (void)publishingDidComplete { DLog(@""); }
 - (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
@@ -894,7 +897,7 @@ Please try again later."
 {
     DLog(@"");
     NSString *errorMessage = nil;
-    BOOL closeDialog = NO;
+//    BOOL closeDialog = NO;
     BOOL reauthenticate = NO;
 
     [self showViewIsLoading:NO];
@@ -904,17 +907,17 @@ Please try again later."
         case JRPublishFailedError:
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
-            closeDialog = YES;
+//            closeDialog = YES;
             break;
         case JRPublishErrorDuplicateTwitter:
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Twitter does not allow duplicate status updates."];
-            closeDialog = NO;
+//            closeDialog = NO;
             break;
         case JRPublishErrorLinkedInCharacterExceded:
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Status was too long."];
-            closeDialog = NO;
+//            closeDialog = NO;
             break;
         case JRPublishErrorMissingApiKey:
             errorMessage = [NSString stringWithFormat:
@@ -929,7 +932,7 @@ Please try again later."
         default:
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
-            closeDialog = YES;
+//            closeDialog = YES;
             break;
     }    
 

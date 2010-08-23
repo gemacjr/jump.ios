@@ -383,7 +383,7 @@ Please try again later."
 		cell = [[[UITableViewCellProviders alloc] 
 				 initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 	
-	JRProvider* provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
+	JRProvider* provider = [sessionData getBasicProviderAtIndex:indexPath.row];
 
     if (!provider)
         return cell;

@@ -538,17 +538,17 @@
     return [NSDictionary dictionaryWithObject:dict forKey:@"activity"];
 }
 
-- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andSeverity:(NSString*)severity
-{
-    DLog(@"");
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                               message, NSLocalizedDescriptionKey,
-                               severity, @"severity", nil];
-    
-    return [[NSError alloc] initWithDomain:@"JRAuthenticate"
-                                      code:code
-                                  userInfo:userInfo];
-}
+//- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andSeverity:(NSString*)severity
+//{
+//    DLog(@"");
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+//                               message, NSLocalizedDescriptionKey,
+//                               severity, @"severity", nil];
+//    
+//    return [[NSError alloc] initWithDomain:@"JRAuthenticate"
+//                                      code:code
+//                                  userInfo:userInfo] ;
+//}
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
 

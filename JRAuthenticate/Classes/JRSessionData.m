@@ -55,7 +55,7 @@
 {
 	DLog(@"");
   
-    if (dictionary == nil || _provider_name == nil || [dictionary objectForKey:@"device_token"] == kCFNull)
+    if (dictionary == nil || _provider_name == nil || [dictionary objectForKey:@"device_token"] == (CFStringRef*)kCFNull)
 	{
 		[self release];
 		return nil;
@@ -476,9 +476,9 @@ static JRSessionData* singleton = nil;
                               message, NSLocalizedDescriptionKey,
                               severity, @"severity", nil];
     
-    return [[NSError alloc] initWithDomain:@"JRAuthenticate"
+    return [[[NSError alloc] initWithDomain:@"JRAuthenticate"
                                       code:code
-                                  userInfo:userInfo];
+                                  userInfo:userInfo] autorelease];
 }
 
 - (NSURL*)startUrl
@@ -903,7 +903,7 @@ static JRSessionData* singleton = nil;
 - (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user
 {
     DLog(@"");
-    NSDictionary *jsonDict = [[activity dictionaryForObject] retain];
+    NSDictionary *jsonDict = [activity dictionaryForObject];
 
 //    DLog(@"_activity retain count: %d", [_activity retainCount]);
 //    DLog(@"jsonDict retain count: %d", [jsonDict retainCount]);
@@ -1288,8 +1288,8 @@ static JRSessionData* singleton = nil;
 - (void)authenticationDidCompleteWithPayload:(NSDictionary*)payloadDict// forProvider:(JRProvider*)provider
 {  
     DLog(@"");
-    NSDictionary *goodies = [[payloadDict objectForKey:@"rpx_result"] autorelease];
-    NSString *token = [[goodies objectForKey:@"token"] retain];
+    NSDictionary *goodies = [payloadDict objectForKey:@"rpx_result"];
+    NSString *token = [goodies objectForKey:@"token"];
     
     JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
                                                                     forProviderNamed:currentProvider.name] autorelease];    

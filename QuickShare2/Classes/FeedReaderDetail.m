@@ -155,14 +155,25 @@
     {
         StoryImage *storyImage = [story.storyImages objectAtIndex:0];
     
-        JRImageMediaObject *image = [[JRImageMediaObject alloc] initWithSrc:storyImage.src andHref:story.feed.link];
+        JRImageMediaObject *image = [[[JRImageMediaObject alloc] initWithSrc:storyImage.src andHref:story.feed.link] autorelease];
         [image setPreview:storyImage.image];
     
         [activity.media addObject:image];
     }
     
+    [FeedReader feedReader].feedReaderDetail = self;
     [[[FeedReader feedReader] jrAuthenticate] setCustomNavigationController:self.navigationController];
     [[[FeedReader feedReader] jrAuthenticate] showPublishingDialogWithActivity:activity];
+}
+
+- (void)authenticationFailed:(NSError*)error
+{
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign in failed"
+                                                     message:@"There seems to have been a problem authenticating.  Please try again."
+                                                    delegate:nil
+                                           cancelButtonTitle:@"OK" 
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];    
 }
 
 /*

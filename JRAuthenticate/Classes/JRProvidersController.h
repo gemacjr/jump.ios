@@ -42,7 +42,7 @@
 @class JRSessionData;
 @class JRUserInterfaceMaestro;
 
-@protocol JRUserInterfaceDelegate;
+//@protocol JRUserInterfaceDelegate;
 
 
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 

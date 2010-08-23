@@ -11,6 +11,7 @@
 #import "FeedReaderWebView.h"
 #import "JRActivityObject.h"
 
+@class Story;
 @interface FeedReaderDetail : UIViewController <UIWebViewDelegate>
 {
     Story *story;
@@ -35,7 +36,6 @@
 //    IBOutlet UIImageView *storyThumbnail;
     
 }
-//@property (nonatomic, retain) IBOutlet UILabel *storyTitle;
-//@property (nonatomic, retain) IBOutlet UITextView *storyDescription;
-//@property (nonatomic, retain) IBOutlet UIImageView *storyMedia;
+
+- (void)authenticationFailed:(NSError*)error;
 @end

@@ -67,6 +67,10 @@ typedef enum
 #define JRErrorSeverityPublishNeedsReauthentication     @"publishNeedsReauthentication"
 #define JRErrorSeverityPublishInvalidActivity           @"publishInvalidActivity"
 
+@protocol JRUserInterfaceDelegate <NSObject>
+- (void)userInterfaceWillClose;
+- (void)userInterfaceDidClose;
+@end
 
 
 @interface JRAuthenticatedUser : NSObject
@@ -179,7 +183,7 @@ typedef enum
 @property (readonly) BOOL configurationComplete;
 @property (readonly) NSError *error;
 
-@property (retain) JRProvider *currentProvider;
+@property (retain)   JRProvider *currentProvider;
 @property (readonly) JRProvider *returningBasicProvider;
 @property (readonly) JRProvider *returningSocialProvider;
 

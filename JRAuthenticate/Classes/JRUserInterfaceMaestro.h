@@ -14,10 +14,10 @@
 #import "JRWebViewController.h"
 #import "JRPublishActivityController.h"
 
-@protocol JRUserInterfaceDelegate <NSObject>
-- (void)userInterfaceWillClose;
-- (void)userInterfaceDidClose;
-@end
+//@protocol JRUserInterfaceDelegate <NSObject>
+//- (void)userInterfaceWillClose;
+//- (void)userInterfaceDidClose;
+//@end
 
 @class JRSessionData;
 @class JRModalNavigationController;

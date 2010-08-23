@@ -11,7 +11,7 @@
 #import "JRInfoBar.h"
 //#import "JRUserInterfaceMaestro.h"
 
-@protocol JRUserInterfaceDelegate;
+//@protocol JRUserInterfaceDelegate;
 
 @interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITextViewDelegate, 
                                                            UITabBarDelegate, JRSessionDelegate,
@@ -28,7 +28,7 @@
 //    NSMutableArray *authenticatedProviders;
     
     
-	UITabBar *myTabBar;
+	IBOutlet UITabBar *myTabBar;
     
     BOOL ready;
     BOOL justAuthenticated;
@@ -46,7 +46,7 @@
     
     IBOutlet UITextView  *myUserContentTextView;
     IBOutlet UIButton    *myUserContentBoundingBox;
-    IBOutlet 
+    
     IBOutlet UIImageView *myProviderIcon;
     IBOutlet UILabel     *myPoweredByLabel;
     
