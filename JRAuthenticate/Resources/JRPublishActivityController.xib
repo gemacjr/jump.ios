@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1"/>
+			<integer value="30"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -85,7 +85,7 @@
 									<object class="IBUITextView" id="572044687">
 										<reference key="NSNextResponder" ref="467309782"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{10, 10}, {300, 100}}</string>
+										<string key="NSFrame">{{10, 13}, {300, 94}}</string>
 										<reference key="NSSuperview" ref="467309782"/>
 										<object class="NSColor" key="IBUIBackgroundColor">
 											<int key="NSColorSpace">1</int>
@@ -1255,10 +1255,12 @@
 							<string>myPoweredByLabel</string>
 							<string>myProfilePic</string>
 							<string>myProfilePicActivityIndicator</string>
+							<string>myProviderIcon</string>
 							<string>mySettingsButton</string>
 							<string>myShareToView</string>
 							<string>mySharedCheckMark</string>
 							<string>mySharedLabel</string>
+							<string>myTabBar</string>
 							<string>myTitleLabel</string>
 							<string>myTriangleIcon</string>
 							<string>myUserContentBoundingBox</string>
@@ -1284,10 +1286,12 @@
 							<string>UILabel</string>
 							<string>UIImageView</string>
 							<string>UIActivityIndicatorView</string>
+							<string>UIImageView</string>
 							<string>UIButton</string>
 							<string>UIView</string>
 							<string>UIImageView</string>
 							<string>UILabel</string>
+							<string>UITabBar</string>
 							<string>UILabel</string>
 							<string>UIImageView</string>
 							<string>UIButton</string>
@@ -1316,10 +1320,12 @@
 							<string>myPoweredByLabel</string>
 							<string>myProfilePic</string>
 							<string>myProfilePicActivityIndicator</string>
+							<string>myProviderIcon</string>
 							<string>mySettingsButton</string>
 							<string>myShareToView</string>
 							<string>mySharedCheckMark</string>
 							<string>mySharedLabel</string>
+							<string>myTabBar</string>
 							<string>myTitleLabel</string>
 							<string>myTriangleIcon</string>
 							<string>myUserContentBoundingBox</string>
@@ -1394,6 +1400,10 @@
 								<string key="candidateClassName">UIActivityIndicatorView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">myProviderIcon</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">mySettingsButton</string>
 								<string key="candidateClassName">UIButton</string>
 							</object>
@@ -1408,6 +1418,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">mySharedLabel</string>
 								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">myTabBar</string>
+								<string key="candidateClassName">UITabBar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">myTitleLabel</string>

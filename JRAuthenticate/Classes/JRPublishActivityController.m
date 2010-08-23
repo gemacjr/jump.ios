@@ -286,7 +286,9 @@ Please try again later."
 - (void)doneButtonPressed:(id)sender
 {
     [myUserContentTextView resignFirstResponder];
-    [myUserContentTextView scrollRangeToVisible:NSRangeFromString(myUserContentTextView.text)];
+
+    if (myUserContentTextView.text.length > 0)
+        [myUserContentTextView scrollRangeToVisible:NSMakeRange(0, 1)];//NSRangeFromString(myUserContentTextView.text)];
     //    [myUserContentTextView scrollRectToVisible:CGRectMake(0, 0, 300, 125) animated:YES];
 	
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
@@ -519,17 +521,17 @@ Please try again later."
 - (void)shareActivity
 {
     DLog(@"");
-    
-    if (myUserContentTextView.text && hasEditedBefore)
-        activity.user_generated_content = myUserContentTextView.text;
-    
+        
     [sessionData shareActivity:activity forUser:loggedInUser];
 }
 
 - (IBAction)shareButtonPressed:(id)sender
 {
     DLog(@"");
-    
+
+    if (myUserContentTextView.text && hasEditedBefore)
+        activity.user_generated_content = myUserContentTextView.text;
+
     [sessionData setCurrentProvider:selectedProvider];
     [self showViewIsLoading:YES];
     
@@ -565,13 +567,13 @@ Please try again later."
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
                                                myUserContentTextView.frame.origin.y, 
                                                myUserContentTextView.frame.size.width, 
-                                               myUserContentTextView.frame.size.height + 60)];
+                                               160)];//myUserContentTextView.frame.size.height + 55)];
     [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
                                                   myUserContentBoundingBox.frame.origin.y, 
                                                   myUserContentBoundingBox.frame.size.width, 
-                                                  myUserContentBoundingBox.frame.size.height + 60)];
+                                                  160)];//myUserContentBoundingBox.frame.size.height + 65)];
     [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            myMediaContentView.frame.origin.y + 60, 
+                                            175,//myMediaContentView.frame.origin.y + 65, 
                                             myMediaContentView.frame.size.width, 
                                             myMediaContentView.frame.size.height)];
     
@@ -599,16 +601,16 @@ Please try again later."
 {
     DLog(@"");
     [UIView beginAnimations:@"editing" context:nil];
-    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
+    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,    
                                                myUserContentTextView.frame.origin.y, 
                                                myUserContentTextView.frame.size.width, 
-                                               myUserContentTextView.frame.size.height - 60)];
+                                               94)];//myUserContentTextView.frame.size.height - 55)];
     [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
-                                               myUserContentBoundingBox.frame.origin.y, 
-                                               myUserContentBoundingBox.frame.size.width, 
-                                               myUserContentBoundingBox.frame.size.height - 60)];
+                                                  myUserContentBoundingBox.frame.origin.y, 
+                                                  myUserContentBoundingBox.frame.size.width, 
+                                                  100)];//myUserContentBoundingBox.frame.size.height - 65)];
     [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            myMediaContentView.frame.origin.y - 60, 
+                                            115,//myMediaContentView.frame.origin.y - 65, 
                                             myMediaContentView.frame.size.width, 
                                             myMediaContentView.frame.size.height)];    
     [UIView commitAnimations];
@@ -639,19 +641,19 @@ Please try again later."
     }
     
     
-    [UIView beginAnimations:@"editing" context:nil];
-    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
-                                               myUserContentTextView.frame.origin.y, 
-                                               myUserContentTextView.frame.size.width, 
-                                               myUserContentTextView.frame.size.height + 40)];
-    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            myMediaContentView.frame.origin.y + 40, 
-                                            myMediaContentView.frame.size.width, 
-                                            myMediaContentView.frame.size.height)];
+//    [UIView beginAnimations:@"editing" context:nil];
+//    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
+//                                               myUserContentTextView.frame.origin.y, 
+//                                               myUserContentTextView.frame.size.width, 
+//                                               myUserContentTextView.frame.size.height + 40)];
+//    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+//                                            myMediaContentView.frame.origin.y + 40, 
+//                                            myMediaContentView.frame.size.width, 
+//                                            myMediaContentView.frame.size.height)];
 
     //myUserContentTextView.frame.size.height = myUserContentTextView.frame.size.height + 40;
     //myMediaContentView.frame.origin.y = myMediaContentView.frame.origin.y + 40;
-    [UIView commitAnimations];
+    //    [UIView commitAnimations];
 
     UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -670,16 +672,16 @@ Please try again later."
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     DLog(@"");
-    [UIView beginAnimations:@"editing" context:nil];
-    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
-                                               myUserContentTextView.frame.origin.y, 
-                                               myUserContentTextView.frame.size.width, 
-                                               myUserContentTextView.frame.size.height - 40)];
-    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            myMediaContentView.frame.origin.y - 40, 
-                                            myMediaContentView.frame.size.width, 
-                                            myMediaContentView.frame.size.height)];    
-    [UIView commitAnimations];
+//    [UIView beginAnimations:@"editing" context:nil];
+//    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
+//                                               myUserContentTextView.frame.origin.y, 
+//                                               myUserContentTextView.frame.size.width, 
+//                                               myUserContentTextView.frame.size.height - 40)];
+//    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+//                                            myMediaContentView.frame.origin.y - 40, 
+//                                            myMediaContentView.frame.size.width, 
+//                                            myMediaContentView.frame.size.height)];    
+//    [UIView commitAnimations];
     
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
@@ -793,18 +795,6 @@ Please try again later."
     DLog(@"");
     NSString* tag = (NSString*)userdata;
 	[tag release];	
-    
-    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-                                                     message:@"There was an error while sharing this activity."
-                                                    delegate:nil
-                                           cancelButtonTitle:@"OK" 
-                                           otherButtonTitles:nil] autorelease];
-    [alert show];
-    
-    [self showViewIsLoading:NO];
-    
-    
-    DLog("There was an error in sharing/n");    
 }
 
 - (void)connectionWasStoppedWithTag:(void*)userdata 
