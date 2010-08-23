@@ -903,13 +903,13 @@ static JRSessionData* singleton = nil;
 - (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user
 {
     DLog(@"");
-    NSDictionary *jsonDict = [activity dictionaryForObject];
-
+    NSDictionary *activityDictionary = [activity dictionaryForObject];
+    
 //    DLog(@"_activity retain count: %d", [_activity retainCount]);
 //    DLog(@"jsonDict retain count: %d", [jsonDict retainCount]);
     
-    NSString *content = [[jsonDict objectForKey:@"activity"] JSONRepresentation];                          
-    NSString *device_token = user.device_token;
+    NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONRepresentation];                          
+    NSString *deviceToken = user.device_token;
     
 //    DLog(@"content retain count: %d", [content retainCount]);    
 //    DLog(@"device_token retain count: %d", [device_token retainCount]);
@@ -917,8 +917,9 @@ static JRSessionData* singleton = nil;
 //    DLog(@"json: %@", content);
     
     NSMutableData* body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"device_token=%@", device_token] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&activity=%@", content] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:@"https://rpxnow.com/api/v2/activity?"]] retain];
     
