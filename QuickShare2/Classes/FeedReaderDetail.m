@@ -161,6 +161,7 @@
         [activity.media addObject:image];
     }
     
+    [[[FeedReader feedReader] jrAuthenticate] setCustomNavigationController:self.navigationController];
     [[[FeedReader feedReader] jrAuthenticate] showPublishingDialogWithActivity:activity];
 }
 

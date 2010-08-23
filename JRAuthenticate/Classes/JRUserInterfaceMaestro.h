@@ -52,9 +52,11 @@
 - (void)showAuthenticationDialog;
 - (void)showPublishingDialogWithActivity;
 
+- (void)authenticationRestarted;
 - (void)authenticationCompleted;
 - (void)authenticationFailed;
 - (void)authenticationCanceled;
+- (void)publishingRestarted;
 - (void)publishingCompleted;
 - (void)publishingCanceled;
 - (void)publishingFailed;

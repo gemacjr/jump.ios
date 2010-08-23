@@ -97,7 +97,7 @@
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 									  target:sessionData//[self navigationController].parentViewController
-                                      action:@selector(authenticationDidCancel:)] autorelease];// @selector(cancelButtonPressed:)] autorelease];
+                                      action:@selector(authenticationDidRestart:)] autorelease];// @selector(cancelButtonPressed:)] autorelease];
 
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -181,7 +181,7 @@
         
         if (![payload respondsToSelector:@selector(JSONValue)]) { /* TODO: Error */}
         
-		NSDictionary *payloadDict = [[payload JSONValue] retain];
+        NSDictionary *payloadDict = [[payload JSONValue] retain];
 		
 		if(!payloadDict) {  /* TODO: Error */ }
 		
@@ -302,13 +302,17 @@
 	DLog(@"");
 	DLog(@"error message: %@", [error localizedDescription]); 
     
-    [self stopProgress];
-    
-	if (!userStopped)
-		[sessionData authenticationDidFailWithError:error];
-	userStopped = NO;
-	
-	[self stopProgress];
+    if (error.code != NSURLErrorCancelled) /* Error code -999 */
+    {
+        // TODO: Why is stopProgress in here twice?  Which one needs to stay?
+        [self stopProgress];
+        
+        if (!userStopped)
+            [sessionData authenticationDidFailWithError:error];
+        userStopped = NO;
+        
+        [self stopProgress];
+    }
 }
 
 - (void)webViewWithUrl:(NSURL*)url

@@ -31,6 +31,7 @@
 	UITabBar *myTabBar;
     
     BOOL ready;
+    BOOL justAuthenticated;
     
 	UILabel		*title_label;
 	JRInfoBar	*infoBar;

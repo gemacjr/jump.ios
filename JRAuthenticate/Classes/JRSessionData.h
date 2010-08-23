@@ -114,6 +114,7 @@ typedef enum
 @end
 
 @protocol JRSessionDelegate <NSObject>
+- (void)authenticationDidRestart;
 - (void)authenticationDidCancel;
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider;
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
@@ -123,6 +124,7 @@ typedef enum
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
 - (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
+- (void)publishingDidRestart;
 - (void)publishingDidCancel;
 - (void)publishingDidComplete;
 - (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider;

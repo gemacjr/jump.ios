@@ -232,6 +232,11 @@ static JRAuthenticate* singletonJRAuth = nil;
 //	jrModalNavController = nil;	    
 //}
 
+- (void)authenticationDidRestart
+{
+    [interfaceMaestro authenticationRestarted];
+}
+
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
 {
 	DLog(@"");
@@ -310,6 +315,11 @@ static JRAuthenticate* singletonJRAuth = nil;
 - (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider
 {
     
+}
+
+- (void)publishingDidRestart
+{
+    [interfaceMaestro publishingRestarted];
 }
 
 - (void)publishingDidCancel 

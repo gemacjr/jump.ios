@@ -65,10 +65,10 @@
 	{
         provider_name = [[NSString alloc] initWithFormat:@"%@", _provider_name];
         
-        if ([dictionary objectForKey:@"photo"] == kCFNull)
+        if ([dictionary objectForKey:@"photo"] != kCFNull)
             photo = [[dictionary objectForKey:@"photo"] retain];
 
-        if ([dictionary objectForKey:@"preferred_username"] == kCFNull)
+        if ([dictionary objectForKey:@"preferred_username"] != kCFNull)
             preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];
         
         device_token = [[dictionary objectForKey:@"device_token"] retain];
@@ -1468,11 +1468,36 @@ static JRSessionData* singleton = nil;
     social = NO;    
 }
 
-
 - (void)publishingDidComplete:(id)sender
 {
     DLog(@"");
     [self publishingDidComplete];
+}
+
+- (void)publishingDidRestart:(id)sender
+{    
+    DLog(@"");
+    @synchronized (delegates)
+    {
+        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+        for (id<JRSessionDelegate> delegate in delegatesCopy) 
+        {
+            [delegate publishingDidRestart];//ForProvider:nil];
+        }
+    }    
+}
+
+- (void)authenticationDidRestart:(id)sender
+{
+    DLog(@"");
+    @synchronized (delegates)
+    {
+        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+        for (id<JRSessionDelegate> delegate in delegatesCopy) 
+        {
+            [delegate authenticationDidRestart];//ForProvider:nil];
+        }
+    }        
 }
 
 

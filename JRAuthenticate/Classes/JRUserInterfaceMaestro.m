@@ -5,9 +5,16 @@
 //  Created by lilli on 8/5/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
+#define DEBUG
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 #import "JRUserInterfaceMaestro.h"
-
 
 @implementation JRUserInterfaceMaestro
 @synthesize navigationController;
@@ -76,6 +83,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)setUpViewControllers
 {
+    DLog(@"");
     myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController" 
                                                                           bundle:[NSBundle mainBundle]];
     
@@ -109,6 +117,8 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)tearDownViewControllers
 {
+    DLog(@"");
+
     [delegates removeAllObjects];
     [delegates release];
     delegates = nil;
@@ -125,13 +135,12 @@ static JRUserInterfaceMaestro* singleton = nil;
     
     [jrModalNavController release];
 	jrModalNavController = nil;	   
-    
-    
 }
 
 
 - (void)setUpSocialPublishing
 {
+    DLog(@"");
     [sessionData setSocial:YES];
     
     if (myPublishActivityController)
@@ -140,6 +149,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)tearDownSocialPublishing
 {
+    DLog(@"");
     [sessionData setSocial:NO];
     
     if (myPublishActivityController)
@@ -148,6 +158,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)loadModalNavigationControllerWithViewController:(UIViewController*)controller
 {
+    DLog(@"");
     if (!jrModalNavController)
 		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:controller];
 	
@@ -170,6 +181,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)loadCustomNavigationControllerWithViewController:(UIViewController*)controller
 {
+    DLog(@"");
     if (!viewControllerToPopTo)
         viewControllerToPopTo = [[navigationController topViewController] retain];
 
@@ -187,13 +199,13 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)showAuthenticationDialog
 {
+    DLog(@"");
     [self setUpViewControllers];
 
     if (navigationController && [navigationController isViewLoaded])
         [self loadCustomNavigationControllerWithViewController:myProvidersController];
     else
         [self loadModalNavigationControllerWithViewController:myProvidersController];
-    
     
 //	if (!jrModalNavController)
 //		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:myProvidersController];
@@ -211,6 +223,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)showPublishingDialogWithActivity
 {   
+    DLog(@"");
     [self setUpViewControllers];	
     [self setUpSocialPublishing];
     
@@ -218,7 +231,6 @@ static JRUserInterfaceMaestro* singleton = nil;
         [self loadCustomNavigationControllerWithViewController:myPublishActivityController];
     else
         [self loadModalNavigationControllerWithViewController:myPublishActivityController];
-         
          
 //    if (!jrModalNavController)
 //		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:myPublishActivityController];
@@ -236,22 +248,13 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)unloadModalNavigationControllerWithTransitionStyle:(UIModalTransitionStyle)style
 {
-    if ([sessionData social])
-        [self tearDownSocialPublishing];
-    
-    for (id<JRUserInterfaceDelegate> delegate in delegates) 
-        [delegate userInterfaceWillClose];
-    
+    DLog(@"");
     [jrModalNavController dismissModalNavigationController:style];   
-
-    for (id<JRUserInterfaceDelegate> delegate in delegates) 
-        [delegate userInterfaceDidClose];
-    
-    [self tearDownViewControllers];
 }
 
 - (void)unloadCustomNavigationController
 {
+    DLog(@"");
     [navigationController popToViewController:viewControllerToPopTo animated:YES];
 
     [viewControllerToPopTo release];
@@ -260,40 +263,90 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)unloadUserInterfaceWithTransitionStyle:(UIModalTransitionStyle)style
 {
+    DLog(@"");
+    if ([sessionData social])
+        [self tearDownSocialPublishing];
+    
+    for (id<JRUserInterfaceDelegate> delegate in delegates) 
+        [delegate userInterfaceWillClose];
+    
     if (navigationController && [navigationController isViewLoaded])
         [self unloadCustomNavigationController];
     else
         [self unloadModalNavigationControllerWithTransitionStyle:style];
+    
+    for (id<JRUserInterfaceDelegate> delegate in delegates) 
+        [delegate userInterfaceDidClose];
+    
+    [self tearDownViewControllers];
+}
+
+- (void)popToOriginalRootViewController
+{
+    DLog(@"");
+    UIViewController *originalRootViewController = nil;
+    
+    if ([sessionData social])
+        originalRootViewController = myPublishActivityController;
+    else
+        originalRootViewController = myProvidersController;
+    
+    if (navigationController && [navigationController isViewLoaded])
+        [navigationController popToViewController:originalRootViewController animated:YES];
+    else
+        [jrModalNavController.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)authenticationRestarted
+{
+    DLog(@"");
+    [self popToOriginalRootViewController];    
 }
 
 - (void)authenticationCompleted
 {
+    DLog(@"");
     if (![sessionData social])
         [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
+    else
+        [self popToOriginalRootViewController];
 }
 
 - (void)authenticationFailed
 {
-    [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
+    DLog(@"");
+    [self popToOriginalRootViewController];
+//    [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
 - (void)authenticationCanceled 
 {	
+    DLog(@"");
     [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];
+}
+
+- (void)publishingRestarted
+{
+    DLog(@"");
+    [self popToOriginalRootViewController];   
 }
 
 - (void)publishingCompleted 
 { 
+    DLog(@"");
     [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];       
 }
 
 - (void)publishingCanceled
 {
+    DLog(@"");
 	[self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];   
 }
 
 - (void)publishingFailed 
 { 
+    DLog(@"");
+//  [self popToOriginalRootViewController];
 // 	[self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:YES];       
 }
 @end

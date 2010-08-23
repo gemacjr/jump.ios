@@ -322,6 +322,9 @@ Please try again later."
     [myJustShareButton setHidden:!loggedIn];
     [myConnectAndShareButton setHidden:loggedIn];
     
+//    [mySharedLabel setHidden:loggedIn];
+//    [mySharedCheckMark setHidden:loggedIn];
+    
     [myProfilePic setHidden:!loggedIn];
     [myUserName setHidden:!loggedIn];
     [mySettingsButton setHidden:!loggedIn];
@@ -527,10 +530,13 @@ Please try again later."
 {
     DLog(@"");
     
+    [sessionData setCurrentProvider:selectedProvider];
     [self showViewIsLoading:YES];
     
     if (!loggedInUser)
     {
+        justAuthenticated = YES;
+        
         /* If the selected provider requires input from the user, go to the user landing view.
          Or if the user started on the user landing page, went back to the list of providers, then selected 
          the same provider as their last-used provider, go back to the user landing view. */
@@ -697,6 +703,7 @@ Please try again later."
             [loggedInUser release];
             loggedInUser = nil;
             [self showUserAsLoggedIn:NO];
+            [self showActivityAsShared:NO];
             break;
         default:
             break;
@@ -786,7 +793,7 @@ Please try again later."
 	[tag release];	
     
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-                                                     message:@"There was an error while sharing this activity: %@"
+                                                     message:@"There was an error while sharing this activity."
                                                     delegate:nil
                                            cancelButtonTitle:@"OK" 
                                            otherButtonTitles:nil] autorelease];
@@ -804,12 +811,14 @@ Please try again later."
     [(NSString*)userdata release];
 }
 
-- (void)authenticationDidCancel { DLog(@""); }
+- (void)authenticationDidRestart { DLog(@""); } 
+- (void)authenticationDidCancel { DLog(@""); justAuthenticated = NO; }
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider 
 {
     DLog(@"");
     
-    [[self navigationController] popToRootViewControllerAnimated:YES];
+    // TODO: Will this work with the custom view controller?!?!?!
+    //[[self navigationController] popToRootViewControllerAnimated:YES];
     
     myLoadingLabel.text = @"Sharing...";
     
@@ -826,7 +835,7 @@ Please try again later."
     else 
     {  
         UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-                                                         message:@"There was an error while sharing this activity: %@"
+                                                         message:@"There was an error while sharing this activity."
                                                         delegate:nil
                                                cancelButtonTitle:@"OK" 
                                                otherButtonTitles:nil] autorelease];
@@ -835,7 +844,7 @@ Please try again later."
     }
 }
 
-- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
+- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); justAuthenticated = NO; }
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider { DLog(@""); }
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 
@@ -869,6 +878,7 @@ Please try again later."
     [self showViewIsLoading:NO];
     [self showActivityAsShared:YES];
     
+    justAuthenticated = NO;
     // TODO: Move this to somewhere more logical -- hack for now    
     //    [sessionData setSocial:NO];
     //    [sessionData removeDelegate:self];
@@ -895,18 +905,25 @@ Please try again later."
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
             closeDialog = YES;
+            break;
         case JRPublishErrorDuplicateTwitter:
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Twitter does not allow duplicate status updates."];
             closeDialog = NO;
+            break;
         case JRPublishErrorLinkedInCharacterExceded:
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Status was too long."];
             closeDialog = NO;
+            break;
         case JRPublishErrorMissingApiKey:
+            errorMessage = [NSString stringWithFormat:
+                            @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
             reauthenticate = YES;
             break;
         case JRPublishErrorInvalidOauthToken:
+            errorMessage = [NSString stringWithFormat:
+                            @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
             reauthenticate = YES;
             break;
         default:
@@ -916,17 +933,26 @@ Please try again later."
             break;
     }    
 
-    if (reauthenticate)
+    /* OK, if this gets called right after authentication succeeds, then the navigation controller won't be done
+       animating back to this view.  If this view isn't loaded yet, and we call shareButtonPressed, then the library
+       will end up trying to push the webview controller onto the navigation controller while the navigation controller 
+       is still trying to pop the webview.  This creates craziness, hence we check for [self isViewLoaded].
+       Also, this prevents an infinite loop of reauthing-failed publishing-reauthing-failed publishing.
+       So, only try and reauthenticate is the publishing activity view is already loaded, which will only happen if we didn't
+       JUST try and authorize, or if sharing took longer than the time it takes to pop the view controller. */
+    if (reauthenticate && !justAuthenticated)
     {
         [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
         [loggedInUser release];
         loggedInUser = nil;
         
         [self showUserAsLoggedIn:NO];
-        
         [self shareButtonPressed:nil];
+
         return;
     }
+    
+    justAuthenticated = NO;
     
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
                                                      message:errorMessage
