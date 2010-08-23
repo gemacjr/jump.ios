@@ -314,7 +314,7 @@ Please try again later."
 	self.navigationItem.rightBarButtonItem = doneButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
 }
 
 - (void)showUserAsLoggedIn:(BOOL)loggedIn
@@ -326,6 +326,8 @@ Please try again later."
     
 //    [mySharedLabel setHidden:loggedIn];
 //    [mySharedCheckMark setHidden:loggedIn];
+    
+    [myTriangleIcon setFrame:CGRectMake(loggedIn ? 230 : 151, 0, 18, 18)];
     
     [myProfilePic setHidden:!loggedIn];
     [myUserName setHidden:!loggedIn];
@@ -370,11 +372,14 @@ Please try again later."
     else
         [myConnectAndShareButton setHidden:shared];
     
+    [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ? 230 : 151), 0, 18, 18)];
+
+    
     UIBarButtonItem *barButton;
     if (shared)
     {
         barButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close" 
-                                                      style:UIBarButtonItemStyleBordered 
+                                                      style:UIBarButtonItemStyleDone 
                                                      target:sessionData 
                                                      action:@selector(publishingDidComplete:)] autorelease];
     }
@@ -586,10 +591,12 @@ Please try again later."
 									target:self
 									action:@selector(doneButtonPressed:)] autorelease];
     
+    
+    
 	self.navigationItem.rightBarButtonItem = doneButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered; 
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone; 
 }
 
 - (void)keyboardDidShow:(NSNotification *)notif
@@ -663,7 +670,7 @@ Please try again later."
 	self.navigationItem.rightBarButtonItem = doneButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;    
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;    
     
     return YES;
 }
