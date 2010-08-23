@@ -995,6 +995,7 @@ static JRSessionData* singleton = nil;
             }
             if ([[response_dict objectForKey:@"stat"] isEqualToString:@"ok"])
             {
+                [self saveLastUsedSocialProvider];
                 @synchronized (delegates)
                 {
                     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];

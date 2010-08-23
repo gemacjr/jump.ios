@@ -54,7 +54,7 @@
 	
 	if (self = [super initWithFrame:frame]) 
 	{
-        //style = NO;
+        style = NO;
 		hidesPoweredBy = style;
 		y_origin_hidden = self.frame.origin.y + self.frame.size.height;
 		
