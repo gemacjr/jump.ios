@@ -555,7 +555,7 @@ Please try again later."
 {   
     DLog(@"");
     myUserName.text = user.preferred_username;
-    [myUserName setFrame:CGRectMake(65, 10, 80, 37)];
+//    [myUserName setFrame:CGRectMake(65, 10, 80, 37)];
     
     if (user.photo)
         [self fetchProfilePicFromUrl:user.photo atProviderIndex:index];    
@@ -618,7 +618,7 @@ Please try again later."
                                                   myUserContentBoundingBox.frame.size.width, 
                                                   160)];//myUserContentBoundingBox.frame.size.height + 65)];
     [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            175,//myMediaContentView.frame.origin.y + 65, 
+                                            180,//myMediaContentView.frame.origin.y + 65, 
                                             myMediaContentView.frame.size.width, 
                                             myMediaContentView.frame.size.height)];
     
@@ -657,7 +657,7 @@ Please try again later."
                                                   myUserContentBoundingBox.frame.size.width, 
                                                   100)];//myUserContentBoundingBox.frame.size.height - 65)];
     [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            115,//myMediaContentView.frame.origin.y - 65, 
+                                            120,//myMediaContentView.frame.origin.y - 65, 
                                             myMediaContentView.frame.size.width, 
                                             myMediaContentView.frame.size.height)];    
     [UIView commitAnimations];
@@ -720,6 +720,11 @@ Please try again later."
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     DLog(@"");
+    
+    if (myUserContentTextView.text.length == 0)
+    {
+        myUserContentTextView.text = activity.action;
+    }
 //    [UIView beginAnimations:@"editing" context:nil];
 //    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
 //                                               myUserContentTextView.frame.origin.y, 
@@ -805,6 +810,7 @@ Please try again later."
     else
     {
         [button setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+        button.imageView.contentMode = UIViewContentModeScaleAspectFill;
         button.backgroundColor = [UIColor whiteColor];
     }
     
@@ -946,7 +952,7 @@ Please try again later."
     {
         case JRPublishFailedError:
             errorMessage = [NSString stringWithFormat:
-                            @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
+                            @"There was an error while sharing this activity."];//: %@", (error) ? [error localizedDescription] : @""];
 //            closeDialog = YES;
             break;
         case JRPublishErrorDuplicateTwitter:
@@ -961,17 +967,17 @@ Please try again later."
             break;
         case JRPublishErrorMissingApiKey:
             errorMessage = [NSString stringWithFormat:
-                            @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
+                            @"There was an error while sharing this activity."];//: %@", (error) ? [error localizedDescription] : @""];
             reauthenticate = YES;
             break;
         case JRPublishErrorInvalidOauthToken:
             errorMessage = [NSString stringWithFormat:
-                            @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
+                            @"There was an error while sharing this activity."];//]]: %@", (error) ? [error localizedDescription] : @""];
             reauthenticate = YES;
             break;
         default:
             errorMessage = [NSString stringWithFormat:
-                            @"There was an error while sharing this activity: %@", (error) ? [error localizedDescription] : @""];
+                            @"There was an error while sharing this activity."];//: %@", (error) ? [error localizedDescription] : @""];
 //            closeDialog = YES;
             break;
     }    
@@ -997,7 +1003,7 @@ Please try again later."
     
     justAuthenticated = NO;
     
-    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error"
                                                      message:errorMessage
                                                     delegate:nil
                                            cancelButtonTitle:@"OK" 

@@ -65,7 +65,7 @@
     
     story = [[FeedReader feedReader].selectedStory retain];
 
-    self.title = [NSString stringWithString:story.title];
+    self.title = @"Article";//[NSString stringWithString:story.title];
     
     NSString *webViewContent = [NSString stringWithFormat:
                                     @"<html>                                    \
@@ -123,15 +123,15 @@
 //    webview.backgroundColor = [UIColor colorWithRed:(201/255) green:(234/255) blue:(237/255) alpha:1.0];
 
     
-//    UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
-//                                                                     style:UIBarButtonItemStyleBordered 
-//                                                                    target:self
-//                                                                    action:@selector(shareButtonPressed:)] autorelease];
-//									
-//	self.navigationItem.rightBarButtonItem = shareButton;
-//	self.navigationItem.rightBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+    UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
+                                                                     style:UIBarButtonItemStyleBordered 
+                                                                    target:self
+                                                                    action:@selector(shareButtonPressed:)] autorelease];
+									
+	self.navigationItem.rightBarButtonItem = shareButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
+	
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -172,7 +172,7 @@
 - (IBAction)shareButtonPressed:(id)sender
 {
     JRActivityObject *activity = [[[JRActivityObject alloc] 
-                                  initWithAction:[NSString stringWithFormat:@"wants to share an article from the %@ rss feed.", story.feed.title]
+                                  initWithAction:[NSString stringWithFormat:@"shared an article from the Janrain Blog."]
                                   andUrl:story.link] autorelease];
     
     activity.title = story.title;

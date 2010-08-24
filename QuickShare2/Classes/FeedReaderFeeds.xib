@@ -76,6 +76,10 @@
 						<int key="NSvFlags">300</int>
 						<string key="NSFrame">{{20, 278}, {280, 41}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
+						<object class="NSColor" key="IBUIBackgroundColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MSAxIDEgMAA</bytes>
+						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -85,7 +89,6 @@
 							<double key="NSSize">24</double>
 							<int key="NSfFlags">16</int>
 						</object>
-						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">Janrain Blog</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="52834995">
 							<int key="NSColorSpace">3</int>
@@ -97,11 +100,15 @@
 						</object>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC40MDAwMDAwMDYgMC40MDAwMDAwMDYgMC40MDAwMDAwMDYAA</bytes>
+							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
 						<object class="NSColor" key="IBUINormalTitleShadowColor" id="880174698">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
+						</object>
+						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">dark_blue_button_280x40.png</string>
 						</object>
 					</object>
 					<object class="IBUILabel" id="744887935">
@@ -625,11 +632,13 @@
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>Default.png</string>
+				<string>dark_blue_button_280x40.png</string>
 				<string>janrain_logo.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{320, 460}</string>
+				<string>{280, 40}</string>
 				<string>{240, 80}</string>
 			</object>
 		</object>

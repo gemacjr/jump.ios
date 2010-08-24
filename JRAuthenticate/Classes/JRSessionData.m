@@ -65,8 +65,8 @@
 	{
         provider_name = [[NSString alloc] initWithFormat:@"%@", _provider_name];
         
-//        if ([dictionary objectForKey:@"photo"] != kCFNull)
-//            photo = [[dictionary objectForKey:@"photo"] retain];
+        if ([dictionary objectForKey:@"photo"] != kCFNull)
+            photo = [[dictionary objectForKey:@"photo"] retain];
 
         if ([dictionary objectForKey:@"preferred_username"] != kCFNull)
             preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];

@@ -108,14 +108,14 @@
     NSInteger topCrop;
     
     if (image.size.width < 144)
-        leftCrop = ((image.size.width - 72) / 2);
+        leftCrop = 10;//((image.size.width - 72) / 2);
     else
-        leftCrop = ((image.size.width - 72) / 2) - 36;
+        leftCrop = 10;//((image.size.width - 72) / 2) - 36;
 
-    if (image.size.height < 288)
-        topCrop = ((image.size.height - 72) / 2);
+    if (image.size.height < 180)
+        topCrop = ((image.size.height - 72) / 4);//2);
     else
-        topCrop = ((image.size.height - 72) / 2) - 36;
+        topCrop = ((image.size.height - 72) / 4) - 18;//2) - 36;
     
     CGRect croppedRect = CGRectMake(leftCrop, topCrop, 72, 72);
     

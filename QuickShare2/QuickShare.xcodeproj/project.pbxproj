@@ -104,6 +104,7 @@
 		9FED499F12241C37004684F2 /* jrauth_wordpress_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED495D12241C37004684F2 /* jrauth_wordpress_icon.png */; };
 		9FED49A012241C37004684F2 /* jrauth_yahoo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED495E12241C37004684F2 /* jrauth_yahoo_icon.png */; };
 		9FED49FA1224234D004684F2 /* profilepic_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED49F91224234D004684F2 /* profilepic_placeholder.png */; };
+		9FED4C3B1224411C004684F2 /* dark_blue_button_280x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED4C3A1224411C004684F2 /* dark_blue_button_280x40.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +237,7 @@
 		9FED495D12241C37004684F2 /* jrauth_wordpress_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_wordpress_icon.png; path = ../JRAuthenticate/Resources/assets/provider_icons/jrauth_wordpress_icon.png; sourceTree = SOURCE_ROOT; };
 		9FED495E12241C37004684F2 /* jrauth_yahoo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = jrauth_yahoo_icon.png; path = ../JRAuthenticate/Resources/assets/provider_icons/jrauth_yahoo_icon.png; sourceTree = SOURCE_ROOT; };
 		9FED49F91224234D004684F2 /* profilepic_placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profilepic_placeholder.png; sourceTree = "<group>"; };
+		9FED4C3A1224411C004684F2 /* dark_blue_button_280x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dark_blue_button_280x40.png; path = Resources/dark_blue_button_280x40.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,15 +312,15 @@
 				9FED48F612241BCC004684F2 /* cell_background.png */,
 				9FED48F712241BCC004684F2 /* Default.png */,
 				9FED48F812241BCC004684F2 /* favicon.png */,
-				9FED48F912241BCC004684F2 /* FeedReaderSummary.xib */,
 				9FED48FA12241BCC004684F2 /* icon_iphone.png */,
 				9FED48FB12241BCC004684F2 /* icon_iphone4.png */,
 				9FED48FC12241BCC004684F2 /* icon_itunes.png */,
 				9FED48FD12241BCC004684F2 /* janrain_logo.png */,
-				9FED48FE12241BCC004684F2 /* MainWindow.xib */,
 				9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */,
 				9F8AC6271210C21E004DB52A /* share_button.png */,
+				9FED48FE12241BCC004684F2 /* MainWindow.xib */,
 				9F87D85312145FDE00FF7E2C /* FeedReaderFeeds.xib */,
+				9FED48F912241BCC004684F2 /* FeedReaderSummary.xib */,
 				9F8AC60F1210BD4E004DB52A /* FeedReaderDetail.xib */,
 				9F87DF461219A97600FF7E2C /* FeedReaderWebView.xib */,
 				8D1107310486CEB800E47090 /* Quick_Share-Info.plist */,
@@ -366,6 +368,7 @@
 		9FED491612241C36004684F2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9FED4C3A1224411C004684F2 /* dark_blue_button_280x40.png */,
 				9FED491B12241C37004684F2 /* assets */,
 				9FED491712241C37004684F2 /* JRProvidersController.xib */,
 				9FED491812241C37004684F2 /* JRUserLandingController.xib */,
@@ -378,10 +381,10 @@
 		9FED491B12241C37004684F2 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				9FED492912241C37004684F2 /* buttons_etc */,
 				9FED494D12241C37004684F2 /* provider_icons */,
 				9FED493B12241C37004684F2 /* provider_logos */,
 				9FED491C12241C37004684F2 /* provider_logos_share */,
-				9FED492912241C37004684F2 /* buttons_etc */,
 				9FED493512241C37004684F2 /* provider_icons_greyscale */,
 			);
 			name = assets;
@@ -635,6 +638,7 @@
 				9FED499F12241C37004684F2 /* jrauth_wordpress_icon.png in Resources */,
 				9FED49A012241C37004684F2 /* jrauth_yahoo_icon.png in Resources */,
 				9FED49FA1224234D004684F2 /* profilepic_placeholder.png in Resources */,
+				9FED4C3B1224411C004684F2 /* dark_blue_button_280x40.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
