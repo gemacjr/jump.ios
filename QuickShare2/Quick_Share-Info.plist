@@ -4,7 +4,9 @@
 <dict>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string></string>
+		<string>icon_iphone.png</string>
+		<string>icon_iphone4.png</string>
+		<string>icon_itunes.png</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
@@ -15,7 +17,7 @@
 	<key>CFBundleIconFile</key>
 	<string>icon_iphone.png</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>janrain.authenticate.example</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

@@ -56,6 +56,7 @@
     
     BOOL ready;
     BOOL justAuthenticated;
+    BOOL sharing;
     
 	UILabel		*title_label;
 	JRInfoBar	*infoBar;

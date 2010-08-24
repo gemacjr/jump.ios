@@ -436,10 +436,10 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 - (void)downloadFeedStories
 {   
     NSError *error = nil;
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
-    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfFile:path
-                                                                   encoding:NSUTF8StringEncoding
-                                                                      error:&error] autorelease];
+    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];//[[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
+    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
+                                                                  encoding:NSUTF8StringEncoding
+                                                                     error:&error] autorelease];
     NSDictionary *janrain_blog_dictionary = [janrain_blog_json JSONValue];  
 
     if (!janrain_blog_dictionary)

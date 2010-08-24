@@ -185,7 +185,7 @@
     DLog(@"");
 	[super viewDidAppear:animated];
 
-    if (ready)
+    if (ready && !sharing   )
         [self showViewIsLoading:NO];
 }
 
@@ -574,6 +574,8 @@ Please try again later."
 {
     DLog(@"");
 
+    sharing = YES;
+    
     if (myUserContentTextView.text && hasEditedBefore)
         activity.user_generated_content = myUserContentTextView.text;
 
@@ -859,14 +861,11 @@ Please try again later."
     [(NSString*)userdata release];
 }
 
-- (void)authenticationDidRestart { DLog(@""); } 
-- (void)authenticationDidCancel { DLog(@""); justAuthenticated = NO; }
+- (void)authenticationDidRestart { DLog(@""); sharing = NO; } 
+- (void)authenticationDidCancel { DLog(@""); sharing = NO; justAuthenticated = NO; }
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider 
 {
     DLog(@"");
-    
-    // TODO: Will this work with the custom view controller?!?!?!
-    //[[self navigationController] popToRootViewControllerAnimated:YES];
     
     myLoadingLabel.text = @"Sharing...";
     
@@ -889,10 +888,11 @@ Please try again later."
                                                otherButtonTitles:nil] autorelease];
         [alert show];
         [self showViewIsLoading:NO];
+        sharing = NO;
     }
 }
 
-- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); justAuthenticated = NO; }
+- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); justAuthenticated = NO; sharing = NO; }
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider { DLog(@""); }
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 
@@ -926,6 +926,7 @@ Please try again later."
     [self showViewIsLoading:NO];
     [self showActivityAsShared:YES];
     
+    sharing = NO;
     justAuthenticated = NO;
     // TODO: Move this to somewhere more logical -- hack for now    
     //    [sessionData setSocial:NO];
@@ -934,9 +935,9 @@ Please try again later."
 
 - (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider { }
 
-- (void)publishingDidRestart { }
-- (void)publishingDidCancel { DLog(@""); }
-- (void)publishingDidComplete { DLog(@""); }
+- (void)publishingDidRestart { sharing = NO; }
+- (void)publishingDidCancel { DLog(@""); sharing = NO; }
+- (void)publishingDidComplete { DLog(@""); sharing = NO; }
 - (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error
@@ -1001,6 +1002,7 @@ Please try again later."
         return;
     }
     
+    sharing = NO;
     justAuthenticated = NO;
     
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error"

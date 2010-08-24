@@ -93,6 +93,10 @@
 	if (!infoBar)
 	{
 		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+        
+        if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
+            [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, myWebView.frame.origin.y, myWebView.frame.size.width, myWebView.frame.size.height - 74)];
+
 		[self.view addSubview:infoBar];
 	}
 	[infoBar fadeIn];
