@@ -96,15 +96,15 @@
 //    webview.backgroundColor = [UIColor colorWithRed:(201/255) green:(234/255) blue:(237/255) alpha:1.0];
 
     
-    UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
-                                                                     style:UIBarButtonItemStyleBordered 
-                                                                    target:self
-                                                                    action:@selector(shareButtonPressed:)] autorelease];
-									
-	self.navigationItem.rightBarButtonItem = shareButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+//    UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
+//                                                                     style:UIBarButtonItemStyleBordered 
+//                                                                    target:self
+//                                                                    action:@selector(shareButtonPressed:)] autorelease];
+//									
+//	self.navigationItem.rightBarButtonItem = shareButton;
+//	self.navigationItem.rightBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -142,14 +142,14 @@
 {
 }
 
-- (void)shareButtonPressed:(id)sender
+- (IBAction)shareButtonPressed:(id)sender
 {
     JRActivityObject *activity = [[[JRActivityObject alloc] 
                                   initWithAction:[NSString stringWithFormat:@"wants to share an article from the %@ rss feed.", story.feed.title]
                                   andUrl:story.link] autorelease];
     
     activity.title = story.title;
-    activity.description = [story.plainText substringToIndex:100];
+    activity.description = story.plainText;
     
     if ([story.storyImages count] > 0)
     {

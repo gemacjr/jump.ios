@@ -12,9 +12,11 @@
 @interface FeedReaderFeeds : UIViewController 
 {
     IBOutlet UIButton *feedButton;
+    IBOutlet UIButton *janrainLink;
+    
     FeedReaderSummary *summaryViewController;
-//    IBOutlet UITextField *feedAdder;
 }
 
 - (IBAction)janrainBlogSelected:(id)sender;
+- (IBAction)janrainLinkClicked:(id)sender;
 @end

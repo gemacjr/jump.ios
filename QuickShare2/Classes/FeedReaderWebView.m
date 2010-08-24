@@ -26,11 +26,49 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-
-    [webview loadRequest:urlRequest];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
+    [webview loadRequest:urlRequest];    
+}
 
+- (void)startProgress
+{ 
+	UIApplication* app = [UIApplication sharedApplication]; 
+	app.networkActivityIndicatorVisible = YES;
+}
+
+- (void)stopProgress
+{
+    UIApplication* app = [UIApplication sharedApplication]; 
+    app.networkActivityIndicatorVisible = NO;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView 
+{ 
+	[self startProgress];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView 
+{
+    [self stopProgress];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error 
+{
+    [self stopProgress];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [webview loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
+    
+}
 
 /*
 // Override to allow orientations other than the default portrait orientation.

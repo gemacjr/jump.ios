@@ -24,7 +24,7 @@
 - (void)showActivityAsShared:(BOOL)shared;
 - (void)showViewIsLoading:(BOOL)loading;
 - (void)loadActivityToView;
-- (void)setImageView:(UIImageView*)imageView toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading;
+- (void)setButtonImage:(UIButton*)imageView toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading;
 - (void)shareActivity;
 - (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user atProviderIndex:(NSUInteger)index;
 @end
@@ -51,6 +51,14 @@
     
     [super viewDidLoad];
 
+    colorsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+                        [UIColor colorWithRed:0.2314 green:0.3490 blue:0.5961 alpha:0.2], @"facebook",
+                        [UIColor colorWithRed:0.2078 green:0.8039 blue:1.0000 alpha:0.2], @"twitter",
+                        [UIColor colorWithRed:0.3961 green:0.0000 blue:0.3961 alpha:0.2], @"yahoo",
+                        [UIColor colorWithRed:0.0000 green:0.3529 blue:0.5294 alpha:0.2], @"linkedin",
+                        [UIColor colorWithRed:0.1059 green:0.2431 blue:0.5569 alpha:0.2], @"myspace",
+                        [UIColor colorWithRed:0.2471 green:0.3961 blue:0.8549 alpha:0.2], @"google", nil];
+                        
 	sessionData = [JRSessionData jrSessionData];
 	activity = [sessionData activity];
     
@@ -263,6 +271,12 @@ Please try again later."
     selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
     [sessionData setCurrentProvider:selectedProvider];
     
+    myShareToView.backgroundColor = [colorsDictionary objectForKey:selectedProvider.name];
+    [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_long.png", selectedProvider.name]]
+                                       forState:UIControlStateNormal];
+    [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_short.png", selectedProvider.name]]
+                                 forState:UIControlStateNormal];
+    
     loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
     
     activity.user_generated_content = myUserContentTextView.text;
@@ -448,7 +462,7 @@ Please try again later."
         JRMediaObject *media = [_activity.media objectAtIndex:0];
         if ([media isKindOfClass:[JRImageMediaObject class]])
         {
-            [self setImageView:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
+            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
 
             NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
@@ -487,7 +501,7 @@ Please try again later."
 - (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl atProviderIndex:(NSUInteger)index
 {
     DLog(@"");
-    [self setImageView:myProfilePic toData:nil andSetLoading:myProfilePicActivityIndicator toLoading:YES];
+    [self setButtonImage:myProfilePic toData:nil andSetLoading:myProfilePicActivityIndicator toLoading:YES];
     
     NSURL        *url = [NSURL URLWithString:profilePicUrl];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
@@ -504,10 +518,10 @@ Please try again later."
     return nil;
 }
 
-- (void)setProfilePicToDefaultPic:(UIImageView*)imageView atProviderIndex:(NSUInteger)index
+- (void)setProfilePicToDefaultPic:(UIButton*)button atProviderIndex:(NSUInteger)index
 {
-    imageView.image = nil;
-    imageView.backgroundColor = [UIColor darkGrayColor];
+    [button setImage:[UIImage imageNamed:@"profilepic_placeholder.png"] forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor clearColor];
     [myProfilePicActivityIndicator stopAnimating];
 }
 
@@ -647,6 +661,7 @@ Please try again later."
         hasEditedBefore = YES;
     }
     
+    [self showActivityAsShared:NO];
     
 //    [UIView beginAnimations:@"editing" context:nil];
 //    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
@@ -751,21 +766,23 @@ Please try again later."
 	[tag release];	
 }
 
-- (void)setImageView:(UIImageView*)imageView toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
+- (void)setButtonImage:(UIButton*)button toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
 {
     DLog(@"");
     DLog(@"data retain count: %d", [data retainCount]);    
     
     if (!data)
     {
-        imageView.image = nil;
-        imageView.backgroundColor = [UIColor darkGrayColor];
+        [button setImage:nil forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor darkGrayColor];
     }
     else
     {
-        imageView.image = [UIImage imageWithData:data];
-        imageView.backgroundColor = [UIColor whiteColor];
+        [button setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor whiteColor];
     }
+    
+    button.alpha = 1.0;
     
     if (loading)
         [actIndicator startAnimating];
@@ -786,11 +803,11 @@ Please try again later."
     
     if ([tag isEqualToString:@"getThumbnail"])
     {
-        [self setImageView:myMediaThumbnailView toData:payload andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+        [self setButtonImage:myMediaThumbnailView toData:payload andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
     }
     else if ([tag isEqualToString:[NSString stringWithFormat:@"getProfilePic_%d", [myTabBar selectedItem].tag]])
     {
-        [self setImageView:myProfilePic toData:payload andSetLoading:myProfilePicActivityIndicator toLoading:NO];
+        [self setButtonImage:myProfilePic toData:payload andSetLoading:myProfilePicActivityIndicator toLoading:NO];
     }
 
 	[tag release];	    

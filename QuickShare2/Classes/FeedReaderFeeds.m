@@ -45,6 +45,8 @@
         [feedButton setEnabled:NO];
     else
         [feedButton setEnabled:YES];
+    
+    janrainLink.titleLabel.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
 }
 
 
@@ -67,6 +69,14 @@
     
     [self.navigationController pushViewController:summaryViewController animated:YES];
 }
+
+- (IBAction)janrainLinkClicked:(id)sender
+{
+	NSURL *url = [NSURL URLWithString:@"http://www.janrain.com"];
+	if (![[UIApplication sharedApplication] openURL:url])	
+		NSLog(@"%@%@",@"Failed to open url:",[url description]);
+}
+
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

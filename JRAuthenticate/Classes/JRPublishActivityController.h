@@ -20,13 +20,10 @@
 {
 	JRSessionData	*sessionData;
 
-//    NSArray         *providers;
-
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;
     
-//    NSMutableArray *authenticatedProviders;
-    
+    NSDictionary *colorsDictionary;
     
 	IBOutlet UITabBar *myTabBar;
     
@@ -54,14 +51,14 @@
     IBOutlet UIView                  *myMediaViewBackgroundMiddle;
     IBOutlet UIImageView             *myMediaViewBackgroundTop;
     IBOutlet UIImageView             *myMediaViewBackgroundBottom;
-    IBOutlet UIImageView             *myMediaThumbnailView;
+    IBOutlet UIButton                *myMediaThumbnailView;
     IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
     IBOutlet UILabel                 *myTitleLabel;
     IBOutlet UILabel                 *myDescriptionLabel;
     
     IBOutlet UIView                  *myShareToView;
     IBOutlet UIImageView             *myTriangleIcon;
-    IBOutlet UIImageView             *myProfilePic;
+    IBOutlet UIButton                *myProfilePic;
     IBOutlet UIActivityIndicatorView *myProfilePicActivityIndicator;
     IBOutlet UILabel                 *myUserName;
     IBOutlet UIButton                *myConnectAndShareButton;
@@ -77,49 +74,10 @@
     UIBarItem *shareButton;
     
     BOOL hasEditedBefore;
-    
-//    UIBarButtonItem *editButton;
-//    UIBarButtonItem *doneButton;
-    
-//    UIButton *hideKeyboardButton;
 }
-
-//@property (nonatomic, retain) IBOutlet UITabBar    *myTabBar;
-//
-//@property (nonatomic, retain) IBOutlet UILabel                  *myLoadingLabel;
-//@property (nonatomic, retain) IBOutlet UIActivityIndicatorView  *myLoadingActivitySpinner;
-//@property (nonatomic, retain) IBOutlet UIView                   *myLoadingGrayView;
-//
-//
-//@property (nonatomic, retain) IBOutlet UITextView  *myUserContentTextView;
-//@property (nonatomic, retain) IBOutlet UIButton    *myUserContentBoundingBox;
-//
-//@property (nonatomic, retain) IBOutlet UIImageView *myProviderIcon;
-//@property (nonatomic, retain) IBOutlet UILabel     *myPoweredByLabel;
-//     
-//@property (nonatomic, retain) IBOutlet UIView      *myMediaContentView;
-//@property (nonatomic, retain) IBOutlet UIView      *myMediaViewBackgroundMiddle;
-//@property (nonatomic, retain) IBOutlet UIImageView *myMediaViewBackgroundTop;
-//@property (nonatomic, retain) IBOutlet UIImageView *myMediaViewBackgroundBottom;
-//@property (nonatomic, retain) IBOutlet UIImageView *myMediaThumbnailView;
-//@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
-//@property (nonatomic, retain) IBOutlet UILabel     *myTitleLabel;
-//@property (nonatomic, retain) IBOutlet UILabel     *myDescriptionLabel;
-//    
-//@property (nonatomic, retain) IBOutlet UIView      *myShareToView;
-//@property (nonatomic, retain) IBOutlet UIImageView *myTriangleIcon;
-//@property (nonatomic, retain) IBOutlet UIImageView *myProfilePic;
-//@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myProfilePicActivityIndicator;
-//@property (nonatomic, retain) IBOutlet UILabel     *myUserName;
-//@property (nonatomic, retain) IBOutlet UIButton    *myConnectAndShareButton;
-//@property (nonatomic, retain) IBOutlet UIButton    *myJustShareButton;
-//@property (nonatomic, retain) IBOutlet UIImageView *mySharedCheckMark;
-//@property (nonatomic, retain) IBOutlet UILabel     *mySharedLabel;
-
 
 @property (nonatomic, retain) IBOutlet UIToolbar *keyboardToolbar;
 @property (nonatomic, retain) IBOutlet UIBarItem *shareButton;
-//@property (nonatomic, retain) IBOutlet UIBarItem *doneButton;
 
 - (IBAction)settingsButtonPressed:(id)sender;
 - (IBAction)shareButtonPressed:(id)sender; 
