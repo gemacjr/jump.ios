@@ -55,7 +55,7 @@
     [super viewDidLoad];
 
     FeedReader *reader = [FeedReader feedReader];
-    self.title = @"Feeds";
+    self.title = @"Home";
     
     UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
     titleLabel.backgroundColor = [UIColor clearColor];

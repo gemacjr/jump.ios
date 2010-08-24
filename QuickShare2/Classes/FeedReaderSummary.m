@@ -62,10 +62,20 @@
 
     [super viewWillAppear:animated];
 
-    self.title = @"Janrain Blog";
+    self.title = @"Blog";
+    
+    UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+    titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    titleLabel.textAlignment = UITextAlignmentCenter;
+    titleLabel.textColor = [UIColor whiteColor];
+    
+    self.navigationItem.titleView = titleLabel;
+    
+    titleLabel.text = NSLocalizedString(@"Janrain Blog", @"");    
     
     myTable.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0];
-//  myTable.separatorColor = [UIColor clearColor];
     [myTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     myTable.sectionFooterHeight = 0.0;
     myTable.sectionHeaderHeight = 10.0;
