@@ -16,7 +16,6 @@
 		9F3F36D3121C64EF00EFAF68 /* janrain_blog.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */; };
 		9F87D85412145FDE00FF7E2C /* FeedReaderFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */; };
 		9F87D85512145FDE00FF7E2C /* FeedReaderFeeds.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F87D85312145FDE00FF7E2C /* FeedReaderFeeds.xib */; };
-		9F87DC091214C05200FF7E2C /* ContentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87DC081214C05200FF7E2C /* ContentParser.m */; };
 		9F87DF471219A97600FF7E2C /* FeedReaderWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */; };
 		9F87DF481219A97600FF7E2C /* FeedReaderWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F87DF461219A97600FF7E2C /* FeedReaderWebView.xib */; };
 		9F87E5BC121A0EDF00FF7E2C /* libJRAuthenticate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F87E528121A0B4300FF7E2C /* libJRAuthenticate.a */; };
@@ -140,8 +139,6 @@
 		9F87D85112145FDE00FF7E2C /* FeedReaderFeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderFeeds.h; sourceTree = "<group>"; };
 		9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderFeeds.m; sourceTree = "<group>"; };
 		9F87D85312145FDE00FF7E2C /* FeedReaderFeeds.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderFeeds.xib; path = Classes/FeedReaderFeeds.xib; sourceTree = "<group>"; };
-		9F87DC071214C05200FF7E2C /* ContentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentParser.h; sourceTree = "<group>"; };
-		9F87DC081214C05200FF7E2C /* ContentParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentParser.m; sourceTree = "<group>"; };
 		9F87DF441219A97600FF7E2C /* FeedReaderWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderWebView.h; sourceTree = "<group>"; };
 		9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderWebView.m; sourceTree = "<group>"; };
 		9F87DF461219A97600FF7E2C /* FeedReaderWebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderWebView.xib; path = Classes/FeedReaderWebView.xib; sourceTree = "<group>"; };
@@ -270,8 +267,6 @@
 				9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */,
 				9F87D85112145FDE00FF7E2C /* FeedReaderFeeds.h */,
 				9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */,
-				9F87DC071214C05200FF7E2C /* ContentParser.h */,
-				9F87DC081214C05200FF7E2C /* ContentParser.m */,
 				9F87DF441219A97600FF7E2C /* FeedReaderWebView.h */,
 				9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */,
 			);
@@ -656,7 +651,6 @@
 				9F8AC6101210BD4E004DB52A /* FeedReaderDetail.m in Sources */,
 				9FD54A111213726800E11512 /* FeedReader.m in Sources */,
 				9F87D85412145FDE00FF7E2C /* FeedReaderFeeds.m in Sources */,
-				9F87DC091214C05200FF7E2C /* ContentParser.m in Sources */,
 				9F87DF471219A97600FF7E2C /* FeedReaderWebView.m in Sources */,
 				9F87E698121A12B000FF7E2C /* NSObject+SBJSON.m in Sources */,
 				9F87E699121A12B000FF7E2C /* NSString+SBJSON.m in Sources */,
