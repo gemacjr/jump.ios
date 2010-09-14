@@ -54,13 +54,15 @@
 	
 	if (self = [super initWithFrame:frame]) 
 	{
-        style = NO;
-		hidesPoweredBy = style;
+        /* Uncomment to force Janrain attribution in sample app. 
+           Note: Changing this to style = YES; violates Janrain's Terms of Service. */
+        //style = NO; 
+		
+        hidesPoweredBy = style;
 		y_origin_hidden = self.frame.origin.y + self.frame.size.height;
 		
 		if (hidesPoweredBy)
 			[self setFrame:CGRectMake(self.frame.origin.x, y_origin_hidden, self.frame.size.width, self.frame.size.height)];
-				
 		
 		barImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
 		barImage.image = [UIImage imageNamed:@"bottom_bar.png"];
@@ -71,6 +73,7 @@
 		poweredByLabel.textColor = [UIColor whiteColor];
 		poweredByLabel.textAlignment = UITextAlignmentRight;
 		
+        // TODO: Localize this string
 		if (style == JRInfoBarStyleShowPoweredBy)
 			poweredByLabel.text = @"Powered by Janrain";
 		else
@@ -128,8 +131,10 @@
 - (void)getInfo
 {
     DLog(@"");
-
-	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 0.1.02"
+    
+    // TODO: Figure out how to load the version dynamically from Info.plist
+    // TODO: Localize these strings
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 2.01"
 														 delegate:self
 												cancelButtonTitle:@"OK"  
 										   destructiveButtonTitle:nil

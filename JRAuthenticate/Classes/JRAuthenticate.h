@@ -105,7 +105,6 @@
 @interface JRAuthenticate : NSObject </*JRConnectionManagerDelegate,*/ JRSessionDelegate>
 {
     JRUserInterfaceMaestro *interfaceMaestro;
-//	JRModalNavigationController *jrModalNavController;
 	JRSessionData	*sessionData;
 	NSMutableArray	*delegates;
 }

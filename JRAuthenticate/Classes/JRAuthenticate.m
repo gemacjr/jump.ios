@@ -59,6 +59,7 @@ static JRAuthenticate* singletonJRAuth = nil;
     return [[self jrAuthenticate] retain];
 }
 
+// TODO: Change this to accept the baseUrl instead of the appId to save time in initialization
 - (JRAuthenticate*)initWithAppID:(NSString*)appId 
 					 andTokenUrl:(NSString*)tokenUrl 
 						delegate:(id<JRAuthenticateDelegate>)delegate
@@ -71,20 +72,15 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		singletonJRAuth = self;
 		
-        // TODO: Do we need to retain the delegate or does initWithObjects do that for me?
         // TODO: Add a way to add delegates, or receive notifications automatically
-		delegates = [[NSMutableArray alloc] initWithObjects:[delegate retain], nil];
+		delegates = [[NSMutableArray alloc] initWithObjects:delegate, nil];
 		
         sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
         interfaceMaestro = [JRUserInterfaceMaestro jrUserInterfaceMaestroWithSessionData:sessionData];
-        
-//        jrModalNavController = [[JRModalNavigationController alloc] init];
-	}	
+    }	
 	
 	return self;
 }
-
-
 
 + (JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
 							   andTokenUrl:(NSString*)tokenUrl
@@ -126,20 +122,20 @@ static JRAuthenticate* singletonJRAuth = nil;
     return self;
 }
 
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    DLog(@"");
-//	if (jrModalNavController) 
-//		[jrModalNavController dismissModalNavigationController:NO];	
-//}
-
 - (void)showJRAuthenticateDialog
 {
     DLog(@"");
+    
+    /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
+     /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
+        configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
+        librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
+        if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
+            // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
             [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
             [sessionData reconfigure];
             [sessionData.error release];
@@ -148,27 +144,22 @@ static JRAuthenticate* singletonJRAuth = nil;
     }
 
     [interfaceMaestro showAuthenticationDialog];
-// 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
-//	if (!window) 
-//	{
-//		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
-//	}
-//	
-//	if (!jrModalNavController)
-//		jrModalNavController = [[JRModalNavigationController alloc] init];
-//	
-//	[window addSubview:jrModalNavController.view];
-//	
-//	[jrModalNavController presentModalNavigationControllerForAuthentication];
 }
 
 - (void)showAuthenticationDialog
 {
     DLog(@"");
+    
+    /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
+     /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
+        configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
+        librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
+        if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
+            // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
             [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
             [sessionData reconfigure];
             [sessionData.error release];
@@ -177,49 +168,30 @@ static JRAuthenticate* singletonJRAuth = nil;
     }
     
     [interfaceMaestro showAuthenticationDialog];
-    
-//    UIWindow* window = [UIApplication sharedApplication].keyWindow;
-//	if (!window) 
-//	{
-//		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
-//	}
-//
-//	if (!jrModalNavController)
-//		jrModalNavController = [[JRModalNavigationController alloc] init];
-//	
-//	[window addSubview:jrModalNavController.view];
-//	
-//	[jrModalNavController presentModalNavigationControllerForAuthentication];
 }
 
 - (void)showPublishingDialogWithActivity:(JRActivityObject*)activity
 {
     DLog(@"");
 
+    /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
+     /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
+        configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
+        librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
+        if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
+            // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
             [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
             [sessionData reconfigure];
             [sessionData.error release];
             return;
         }
     }
-    
-//	UIWindow* window = [UIApplication sharedApplication].keyWindow;
-//	if (!window) 
-//	{
-//		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
-//	}
-//	
-//    if (!jrModalNavController)
-//		jrModalNavController = [[JRModalNavigationController alloc] init];
-//	
-//	[window addSubview:jrModalNavController.view];
 
 	[sessionData setActivity:activity];
-//	[jrModalNavController presentModalNavigationControllerForPublishingActivity];
     
     [interfaceMaestro showPublishingDialogWithActivity];
 }
@@ -248,8 +220,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 
 	[interfaceMaestro authenticationCompleted];
-//    if (![sessionData social])
-//        [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
 }
 
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider
@@ -270,7 +240,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 
 	[interfaceMaestro authenticationFailed];
-//	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
 
@@ -292,7 +261,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
     
     [interfaceMaestro authenticationCanceled];
-//	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
 //- (void)authenticationDidCancelForProvider:(NSString*)provider
@@ -331,10 +299,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 
 	[interfaceMaestro publishingCanceled];
-//	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];   
-//  	[jrModalNavController release];
-//	jrModalNavController = nil;	
-//    [self unloadModalViewController];
 }
 
 - (void)publishingDidComplete
@@ -355,7 +319,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}
 
     [interfaceMaestro authenticationCanceled];
-//  [self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCrossDissolve];//[jrModalNavController dismissModalNavigationController:YES];
 }
 
 - (void)cancelAuthenticationWithError:(NSError*)error
@@ -368,7 +331,6 @@ static JRAuthenticate* singletonJRAuth = nil;
 	}	
 
 	[interfaceMaestro authenticationCanceled];
-//	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
 }
 
 //- (void)unloadModalViewController
@@ -411,14 +373,17 @@ static JRAuthenticate* singletonJRAuth = nil;
 //    [interfaceMaestro popCustomNavigationControllerToViewController:viewController];
 }
 
+// TODO: What are the pros/cons of making this class pseudo-singleton?  That is, what if I make it a singleton
+// object after it's instantiated with the correct baseUrl/tokenUrl/etc., but give users the ability to dealloc
+// it if they want to free up the memory.  If freed, all subsequent messages will just be sent to a nil instance
+// until reinstantiated.
 - (void)dealloc 
 {
 	DLog(@"");
 
 	if (singletonJRAuth == self)
 		singletonJRAuth = nil;
-	
-//	[jrModalNavController release];
+
 	[delegates release];
 		
 	[super dealloc];
