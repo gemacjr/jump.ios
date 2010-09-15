@@ -36,7 +36,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "ContentParser.h"
-#import "JRAuthenticate.h"
+#import "JREngage.h"
 #import "FeedReaderDetail.h"
 
 @class FeedReaderDetail;
