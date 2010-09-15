@@ -26,7 +26,7 @@ cat <<EOF >> $DOXYFILE
 PROJECT_NAME           = $FULL_PRODUCT_NAME
 PROJECT_NUMBER         = $VERSION
 OUTPUT_DIRECTORY       = $DOCSET
-INPUT                  = $SOURCE_ROOT/Source
+INPUT                  = $SOURCE_ROOT/Classes
 FILE_PATTERNS          = *.h *.m
 
 HIDE_UNDOC_MEMBERS     = YES
@@ -38,6 +38,7 @@ INLINE_INHERITED_MEMB  = YES
 SHOW_FILES             = NO
 SHOW_INCLUDE_FILES     = NO
 GENERATE_LATEX         = NO
+SEARCHENGINE           = NO
 GENERATE_HTML          = YES
 GENERATE_DOCSET        = YES
 DOCSET_FEEDNAME        = "$PROJECT.framework API Documentation"
