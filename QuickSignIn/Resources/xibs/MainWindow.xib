@@ -186,7 +186,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIApplication</string>
 					<string>UIResponder</string>
-					<string>QSIRootViewController</string>
+					<string>RootViewController</string>
 					<string>{{288, -4}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{525, 346}, {320, 480}}</string>
@@ -249,7 +249,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">QSIRootViewController</string>
+					<string key="className">RootViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>

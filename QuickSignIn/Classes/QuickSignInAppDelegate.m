@@ -33,7 +33,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#import "QSIAppDelegate.h"
+#import "QuickSignInAppDelegate.h"
 #import "QSIRootViewController.h"
 
 @implementation QuickSignInAppDelegate

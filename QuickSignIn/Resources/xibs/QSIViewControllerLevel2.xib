@@ -285,7 +285,7 @@
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>QSIViewControllerLevel2</string>
+					<string>ViewControllerLevel2</string>
 					<string>UIResponder</string>
 					<string>{{461, 123}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -319,7 +319,7 @@
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">QSIViewControllerLevel2</string>
+					<string key="className">ViewControllerLevel2</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">signOutButtonPressed:</string>
