@@ -27,25 +27,25 @@
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 
  
- File:	 DemoViewControllerLevel1.h
+ File:	 QSIViewControllerLevel1.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
 #import <UIKit/UIKit.h>
-#import "DemoUserModel.h"
-#import "DemoViewControllerLevel2.h"
+#import "QSIUserModel.h"
+#import "QSIViewControllerLevel2.h"
 
-@interface DemoViewControllerLevel1 : UIViewController <UINavigationBarDelegate, 
+@interface ViewControllerLevel1 : UIViewController <UINavigationBarDelegate, 
 														UITableViewDelegate, UITableViewDataSource, 
-														DemoUserModelDelegate>
+														UserModelDelegate>
 {
 	UITableView		*myTableView;
 	UIBarButtonItem *myToolBarButton;
 	UILabel			*myNotSignedInLabel;
 	
-	DemoViewControllerLevel2 *level2ViewController;
+	ViewControllerLevel2 *level2ViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView		*myTableView;

@@ -27,7 +27,7 @@
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 
  
- File:   DemoUserModel.h
+ File:   QSIUserModel.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -38,14 +38,14 @@
 
 #define LILLI
 
-@protocol DemoUserModelDelegate <NSObject>
+@protocol UserModelDelegate <NSObject>
 - (void)didFailToSignIn:(NSError*)error;
 - (void)didReceiveToken;
 - (void)userDidSignIn;
 - (void)userDidSignOut;
 @end
 
-@interface DemoUserModel : NSObject <JRAuthenticateDelegate>
+@interface UserModel : NSObject <JRAuthenticateDelegate>
 {
 	/* Instance of the JRAuthenticate library */
 	JRAuthenticate *jrAuthenticate;
@@ -64,8 +64,8 @@
 	   Model is signing in a user. */
 	BOOL loadingUserData;
 
-	/* A place to store the specific profile a user selects in the DemoViewControllerLevel1
-	   to load in DemoViewControllerLevel2. */
+	/* A place to store the specific profile a user selects in the ViewControllerLevel1
+	   to load in ViewControllerLevel2. */
 	NSDictionary	*selectedUser;
 	
 	/* This unsigned int holds a snapshot of the max size reached by the 
@@ -76,9 +76,9 @@
 	   to profiles. */
 	NSUInteger historyCountSnapShot;
 	
-	/* Delegates for the DemoUserModelDelegate protocol. */
-	id<DemoUserModelDelegate> signInDelegate;
-	id<DemoUserModelDelegate> signOutDelegate;
+	/* Delegates for the UserModelDelegate protocol. */
+	id<UserModelDelegate> signInDelegate;
+	id<UserModelDelegate> signOutDelegate;
 }
 
 @property (readonly) BOOL loadingUserData;
@@ -103,10 +103,10 @@
 - (void)removeUserFromHistory:(int)index;
 
 /* Functions to initiate signing in/out of a user. */
-- (void)startSignUserIn:(id<DemoUserModelDelegate>)interestedPartySignIn 
-		   afterSignOut:(id<DemoUserModelDelegate>)interestedPartySignOut;
-- (void)startSignUserIn:(id<DemoUserModelDelegate>)interestedParty;
-- (void)startSignUserOut:(id<DemoUserModelDelegate>)interestedParty;
+- (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn 
+		   afterSignOut:(id<UserModelDelegate>)interestedPartySignOut;
+- (void)startSignUserIn:(id<UserModelDelegate>)interestedParty;
+- (void)startSignUserOut:(id<UserModelDelegate>)interestedParty;
 
 
 - (void)setNavigationController:(UINavigationController*)navigationController;
@@ -115,7 +115,7 @@
 
 
 /* Returns singleton instance of class. */
-+ (DemoUserModel*)getDemoUserModel;
++ (UserModel*)getUserModel;
 
 /* Misc functions that nicely format profile data. */
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile;

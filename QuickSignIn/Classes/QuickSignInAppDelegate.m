@@ -27,16 +27,16 @@
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  
- File:	 DemoAppDelegate.m
+ File:	 QuickSignInAppDelegate.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#import "DemoAppDelegate.h"
-#import "DemoRootViewController.h"
+#import "QSIAppDelegate.h"
+#import "QSIRootViewController.h"
 
-@implementation DemoAppDelegate
+@implementation QuickSignInAppDelegate
 
 @synthesize window;
 @synthesize viewController;

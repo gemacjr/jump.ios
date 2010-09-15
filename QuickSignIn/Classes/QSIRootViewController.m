@@ -27,15 +27,15 @@
 	 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 	 
  
- File:	 DemoRootViewController.m
+ File:	 QSIRootViewController.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#import "DemoRootViewController.h"
+#import "QSIRootViewController.h"
 
-@implementation DemoRootViewController
+@implementation RootViewController
 @synthesize signInButton;	
 @synthesize linkButton;
 
@@ -84,14 +84,14 @@
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 #endif
 	
-	level1ViewController = [[DemoViewControllerLevel1 alloc] 
-							initWithNibName:@"DemoViewControllerLevel1" 
+	level1ViewController = [[ViewControllerLevel1 alloc] 
+							initWithNibName:@"QSIViewControllerLevel1" 
 							bundle:[NSBundle mainBundle]];
     
-//    [[DemoUserModel getDemoUserModel] setNavigationController:[self navigationController]];
+//    [[UserModel getUserModel] setNavigationController:[self navigationController]];
 	
 	/* Check to see if a user is already logged in, and, if so, wait half a second then drill down a level. */
-	if ([[DemoUserModel getDemoUserModel] currentUser]) 
+	if ([[UserModel getUserModel] currentUser]) 
 		[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
 }
 
@@ -138,7 +138,7 @@
 	[[self navigationController] pushViewController:level1ViewController animated:YES]; 	
 	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySwitchAccounts:) userInfo:nil repeats:NO];
 #else
-	[[DemoUserModel getDemoUserModel] startSignUserIn:level1ViewController];
+	[[UserModel getUserModel] startSignUserIn:level1ViewController];
 	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
 #endif
 }

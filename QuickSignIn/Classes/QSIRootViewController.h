@@ -28,7 +28,7 @@
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 
  
- File:	 DemoRootViewController.h
+ File:	 QSIRootViewController.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -36,15 +36,15 @@
 
 
 #import <UIKit/UIKit.h>
-#import "DemoViewControllerLevel1.h"
-#import "DemoUserModel.h"
+#import "QSIViewControllerLevel1.h"
+#import "QSIUserModel.h"
 
-@interface DemoRootViewController : UIViewController
+@interface RootViewController : UIViewController
 {
 	UIButton *signInButton;
 	UIButton *linkButton;
 	
-	DemoViewControllerLevel1 *level1ViewController;
+	ViewControllerLevel1 *level1ViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *signInButton;

@@ -27,16 +27,16 @@
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 
  
- File:	 DemoViewControllerLevel2.m
+ File:	 QSIViewControllerLevel2.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#import "DemoViewControllerLevel2.h"
+#import "QSIViewControllerLevel2.h"
 
 
-@implementation DemoViewControllerLevel2
+@implementation ViewControllerLevel2
 @synthesize myTableView;
 @synthesize myToolBarButton;
 
@@ -60,18 +60,18 @@
 {
 	[super viewWillAppear:animated];
 	
-	selectedUser = [[[DemoUserModel getDemoUserModel] selectedUser] retain];
+	selectedUser = [[[UserModel getUserModel] selectedUser] retain];
 	NSString* identifier = [selectedUser objectForKey:@"identifier"];
 	
-	selectedUsersProfile = [[[[[DemoUserModel getDemoUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
+	selectedUsersProfile = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
 	profileEntriesArray = [[selectedUsersProfile allKeys] retain];
 
-	self.title = [DemoUserModel getDisplayNameFromProfile:selectedUsersProfile];
+	self.title = [UserModel getDisplayNameFromProfile:selectedUsersProfile];
 	
 	myTableView.backgroundColor = [UIColor clearColor];	
 	
 #ifdef LILLI
-	if ([[DemoUserModel getDemoUserModel] currentUser])
+	if ([[UserModel getUserModel] currentUser])
 		[myToolBarButton setEnabled:YES];
 	else
 		[myToolBarButton setEnabled:NO];
@@ -203,9 +203,9 @@
 			NSString* subtitle = nil;
 			
 			if ([cellTitle isEqualToString:@"name"])
-				subtitle = [DemoUserModel getDisplayNameFromProfile:selectedUsersProfile];
+				subtitle = [UserModel getDisplayNameFromProfile:selectedUsersProfile];
 			else if ([cellTitle isEqualToString:@"address"])
-				subtitle = [DemoUserModel getAddressFromProfile:selectedUsersProfile];
+				subtitle = [UserModel getAddressFromProfile:selectedUsersProfile];
 			else
 				subtitle = [NSString stringWithFormat:@"%@", [selectedUsersProfile objectForKey:cellTitle]];
 	
@@ -226,7 +226,7 @@
 
 - (IBAction)signOutButtonPressed:(id)sender
 {
-	[[DemoUserModel getDemoUserModel] startSignUserOut:nil];
+	[[UserModel getUserModel] startSignUserOut:nil];
 	[[self navigationController] popToRootViewControllerAnimated:YES];
 }
 

@@ -27,17 +27,17 @@
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 
 
- File:	 DemoViewControllerLevel2.h
+ File:	 QSIViewControllerLevel2.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
 #import <UIKit/UIKit.h>
-#import "DemoUserModel.h"
+#import "QSIUserModel.h"
 
 
-@interface DemoViewControllerLevel2 : UIViewController <UINavigationBarDelegate, 
+@interface ViewControllerLevel2 : UIViewController <UINavigationBarDelegate, 
 														UITableViewDelegate, UITableViewDataSource>
 {
 	UITableView		*myTableView;

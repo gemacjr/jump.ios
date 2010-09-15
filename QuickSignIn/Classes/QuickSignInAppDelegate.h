@@ -27,7 +27,7 @@
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 
- File:	 DemoAppDelegate.h 
+ File:	 AppDelegate.h 
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -35,9 +35,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class DemoRootViewController;
+@class RootViewController;
 
-@interface DemoAppDelegate : NSObject <UIApplicationDelegate> {
+@interface QuickSignInAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
 	UINavigationController *viewController;
 }

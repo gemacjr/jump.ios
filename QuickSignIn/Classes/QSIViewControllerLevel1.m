@@ -27,16 +27,16 @@ Copyright (c) 2010, Janrain, Inc.
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 
 
- File:	 DemoViewControllerLevel1.m 
+ File:	 QSIViewControllerLevel1.m 
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#import "DemoViewControllerLevel1.h"
+#import "QSIViewControllerLevel1.h"
 
 // TODO: I subclassed UITableViewCell, but later learned that I should have just customized 
-// the layout in tableView: cellForRowAtIndexPath: like I did in DemoViewControllerLevel2.m
+// the layout in tableView: cellForRowAtIndexPath: like I did in QSIViewControllerLevel2.m
 @interface UITableViewCellSignInHistory : UITableViewCell 
 {
 	UIImageView *icon;
@@ -68,7 +68,7 @@ Copyright (c) 2010, Janrain, Inc.
 @end
 
 
-@implementation DemoViewControllerLevel1
+@implementation ViewControllerLevel1
 @synthesize myTableView;
 @synthesize myToolBarButton;
 @synthesize myNotSignedInLabel;
@@ -89,8 +89,8 @@ Copyright (c) 2010, Janrain, Inc.
 {
     [super viewDidLoad];
 	
-	level2ViewController = [[DemoViewControllerLevel2 alloc] 
-							initWithNibName:@"DemoViewControllerLevel2" 
+	level2ViewController = [[ViewControllerLevel2 alloc] 
+							initWithNibName:@"QSIViewControllerLevel2" 
 							bundle:[NSBundle mainBundle]];
 	
 }
@@ -104,7 +104,7 @@ Copyright (c) 2010, Janrain, Inc.
 	myTableView.backgroundColor = [UIColor clearColor];
 	
 	UIBarButtonItem *editButton = nil;
-	if ([[[DemoUserModel getDemoUserModel] signinHistory] count])
+	if ([[[UserModel getUserModel] signinHistory] count])
 	{
 		editButton = [[[UIBarButtonItem alloc] 
 					    initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
@@ -134,14 +134,14 @@ Copyright (c) 2010, Janrain, Inc.
 
 	self.navigationItem.hidesBackButton = YES;
 	
-	if ([[DemoUserModel getDemoUserModel] loadingUserData])
+	if ([[UserModel getUserModel] loadingUserData])
 		myNotSignedInLabel.text = @"Completing Sign In...";
 	else
 		myNotSignedInLabel.text = @"You are not currently signed in.";
 
 	myTableView.tableHeaderView = myNotSignedInLabel;
 
-	if (![[DemoUserModel getDemoUserModel] currentUser])
+	if (![[UserModel getUserModel] currentUser])
 	{
 		myToolBarButton.title = @"Home";
 		myTableView.tableHeaderView.alpha = 1.0;
@@ -197,12 +197,12 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)delaySignIn:(NSTimer*)theTimer
 {
-	[[DemoUserModel getDemoUserModel] startSignUserIn:self];	
+	[[UserModel getUserModel] startSignUserIn:self];	
 }
 
 - (void)delaySignOut:(NSTimer*)theTimer
 {
-	[[DemoUserModel getDemoUserModel] startSignUserOut:self];	
+	[[UserModel getUserModel] startSignUserOut:self];	
 }
 
 
@@ -213,17 +213,17 @@ Copyright (c) 2010, Janrain, Inc.
 	myNotSignedInLabel.text = @"Completing Sign In...";
 	
 #ifdef LILLI	
-	if ([[DemoUserModel getDemoUserModel] currentUser])
+	if ([[UserModel getUserModel] currentUser])
 	{
-		[[DemoUserModel getDemoUserModel] startSignUserOut:self];
+		[[UserModel getUserModel] startSignUserOut:self];
 		[NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
 	}
 	else
 	{
-		[[DemoUserModel getDemoUserModel] startSignUserIn:self];	
+		[[UserModel getUserModel] startSignUserIn:self];	
 	}
 #else
-	[[DemoUserModel getDemoUserModel] startSignUserOut:self];
+	[[UserModel getUserModel] startSignUserOut:self];
 	[NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
 #endif
 }
@@ -231,10 +231,10 @@ Copyright (c) 2010, Janrain, Inc.
 - (IBAction)signOutButtonPressed:(id)sender
 {
 #ifdef LILLI	
-	if ([[DemoUserModel getDemoUserModel] currentUser])
+	if ([[UserModel getUserModel] currentUser])
 	{
 		myNotSignedInLabel.text = @"You are not currently signed in.";
-		[[DemoUserModel getDemoUserModel] startSignUserOut:self];
+		[[UserModel getUserModel] startSignUserOut:self];
 	}	
 	else
 	{
@@ -326,9 +326,9 @@ Copyright (c) 2010, Janrain, Inc.
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
 {
 	if (section == 0)
-		return ([[DemoUserModel getDemoUserModel] currentUser]) ? @"Currently Signed In As" : nil;
+		return ([[UserModel getUserModel] currentUser]) ? @"Currently Signed In As" : nil;
 	else 
-		return ([[[DemoUserModel getDemoUserModel] signinHistory] count]) ? @"Previously Signed In As" : nil;
+		return ([[[UserModel getUserModel] signinHistory] count]) ? @"Previously Signed In As" : nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -347,15 +347,15 @@ Copyright (c) 2010, Janrain, Inc.
 	switch (section)
 	{
 		case 0:
-			printf("rows in section 0: %d\n", [[DemoUserModel getDemoUserModel] currentUser] ? 1 : 0);
-			if ([[DemoUserModel getDemoUserModel] currentUser])
+			printf("rows in section 0: %d\n", [[UserModel getUserModel] currentUser] ? 1 : 0);
+			if ([[UserModel getUserModel] currentUser])
 				return 1;
 			else 
 				return 0;
 			break;
 		case 1:
-			printf("rows in section 1: %d\n", [[[DemoUserModel getDemoUserModel] signinHistory] count]);
-			return [[[DemoUserModel getDemoUserModel] signinHistory] count];
+			printf("rows in section 1: %d\n", [[[UserModel getUserModel] signinHistory] count]);
+			return [[[UserModel getUserModel] signinHistory] count];
 			break;
 		default:
 			return 0;
@@ -375,14 +375,14 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	
 	NSDictionary *userForCell = (indexPath.section == 0) ? 
-									[[DemoUserModel getDemoUserModel] currentUser] : 
-									[[[DemoUserModel getDemoUserModel] signinHistory] objectAtIndex:indexPath.row];
+									[[UserModel getUserModel] currentUser] : 
+									[[[UserModel getUserModel] signinHistory] objectAtIndex:indexPath.row];
 
 	NSString *identifier = [userForCell objectForKey:@"identifier"];
-	NSDictionary* userProfile = [[[[DemoUserModel getDemoUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"];
+	NSDictionary* userProfile = [[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"];
 	
 	
-	NSString* displayName = [DemoUserModel getDisplayNameFromProfile:userProfile];
+	NSString* displayName = [UserModel getDisplayNameFromProfile:userProfile];
 	NSString* subtitle = [userForCell objectForKey:@"timestamp"];
 	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", [userForCell objectForKey:@"provider"]];
 	
@@ -397,7 +397,7 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	DemoUserModel *model = [DemoUserModel getDemoUserModel];
+	UserModel *model = [UserModel getUserModel];
 	
 	if (indexPath.section == 0)
 		[model setSelectedUser:[model currentUser]];
@@ -426,12 +426,12 @@ Copyright (c) 2010, Janrain, Inc.
 	if (editingStyle == UITableViewCellEditingStyleDelete)
 	{
 		/* Remove this profile from the Model's saved history. */ 
-		[[DemoUserModel getDemoUserModel] removeUserFromHistory:indexPath.row];
+		[[UserModel getUserModel] removeUserFromHistory:indexPath.row];
 			
 		/* If that profile was the last one in the list of previous users... */
-		if (![[[DemoUserModel getDemoUserModel] signinHistory] count])
+		if (![[[UserModel getUserModel] signinHistory] count])
 		{
-			if (![[DemoUserModel getDemoUserModel] currentUser]) 
+			if (![[UserModel getUserModel] currentUser]) 
 			{
 				[[self navigationController] popViewControllerAnimated:YES];
 			}

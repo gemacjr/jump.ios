@@ -66,7 +66,7 @@
 							<string key="IBUITitle">Item</string>
 						</object>
 						<reference key="IBUIParentViewController" ref="689356029"/>
-						<string key="IBUINibName">DemoRootViewController</string>
+						<string key="IBUINibName">QSIRootViewController</string>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 					</object>
 				</object>
@@ -186,7 +186,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIApplication</string>
 					<string>UIResponder</string>
-					<string>DemoRootViewController</string>
+					<string>QSIRootViewController</string>
 					<string>{{288, -4}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{525, 346}, {320, 480}}</string>
@@ -194,7 +194,7 @@
 					<string>{{331, 63}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>DemoAppDelegate</string>
+					<string>QuickSignInAppDelegate</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
@@ -220,7 +220,7 @@
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">DemoAppDelegate</string>
+					<string key="className">QuickSignInAppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -237,11 +237,11 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/DemoAppDelegate.h</string>
+						<string key="minorKey">Classes/QuickSignInAppDelegate.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">DemoAppDelegate</string>
+					<string key="className">QuickSignInAppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
@@ -249,7 +249,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">DemoRootViewController</string>
+					<string key="className">QSIRootViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -283,7 +283,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/DemoRootViewController.h</string>
+						<string key="minorKey">Classes/QSIRootViewController.h</string>
 					</object>
 				</object>
 			</object>
@@ -544,7 +544,7 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">Demo.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">QuickSignIn.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<string key="IBCocoaTouchPluginVersion">3.1</string>
 	</data>

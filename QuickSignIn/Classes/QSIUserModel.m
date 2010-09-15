@@ -26,28 +26,28 @@
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  
- File:	 DemoUserModel.m
+ File:	 QSIUserModel.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#import "DemoUserModel.h"
+#import "QSIUserModel.h"
 
-@interface DemoUserModel ()
+@interface UserModel ()
 - (void)loadSignedInUser;
 - (void)finishSignUserIn:(NSDictionary *)user;
 - (void)finishSignUserOut;
 @end
 
 
-@implementation DemoUserModel
+@implementation UserModel
 @synthesize currentUser;
 @synthesize selectedUser;
 @synthesize loadingUserData;
 
-/* Singleton instance of DemoUserModel */
-static DemoUserModel* singleton = nil;
+/* Singleton instance of UserModel */
+static UserModel* singleton = nil;
 
 /* To use the JRAuthenticate library, you must first sign up for an account and create
    an application on http://rpxnow.com.  You must also have a web server that can host
@@ -71,7 +71,7 @@ otherwise, this happens automatically.													*/
 static NSString *appId = @"appcfamhnpkagijaeinl";
 static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
-- (DemoUserModel*)init
+- (UserModel*)init
 {
 	if (self = [super init])
 	{
@@ -97,7 +97,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
 
 /* Return the singleton instance of this class. */
-+ (DemoUserModel*)getDemoUserModel
++ (UserModel*)getUserModel
 {
     if (singleton == nil) {
         singleton = [[super allocWithZone:NULL] init];
@@ -108,7 +108,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [[self getDemoUserModel] retain];
+    return [[self getUserModel] retain];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -364,7 +364,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
 	
 	/* Get the display name */
-	displayName = [[DemoUserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
+	displayName = [[UserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
 	
 	/* Store the current user's profile dictionary in the dictionary of users, 
 	   using the identifier as the key, and then save the dictionary of users */
@@ -461,7 +461,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[prefs setInteger:historyCountSnapShot forKey:@"historyCount"];
 }
 
-- (void)startSignUserIn:(id<DemoUserModelDelegate>)interestedParty
+- (void)startSignUserIn:(id<UserModelDelegate>)interestedParty
 {
 	loadingUserData = YES;
 	signInDelegate = [interestedParty retain]; 
@@ -470,13 +470,13 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[jrAuthenticate showJRAuthenticateDialog];	
 }
 
-- (void)startSignUserIn:(id<DemoUserModelDelegate>)interestedPartySignIn afterSignOut:(id<DemoUserModelDelegate>)interestedPartySignOut
+- (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn afterSignOut:(id<UserModelDelegate>)interestedPartySignOut
 {
 	signOutDelegate = [interestedPartySignOut retain]; 
 	[self startSignUserIn:interestedPartySignIn];
 }
 
-- (void)startSignUserOut:(id<DemoUserModelDelegate>)interestedParty
+- (void)startSignUserOut:(id<UserModelDelegate>)interestedParty
 {
 	signOutDelegate = [interestedParty retain];
 	
