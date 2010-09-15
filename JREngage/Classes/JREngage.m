@@ -7,13 +7,13 @@
  are permitted provided that the following conditions are met:
  
  * Redistributions of source code must retain the above copyright notice, this
-	 list of conditions and the following disclaimer. 
+ list of conditions and the following disclaimer. 
  * Redistributions in binary form must reproduce the above copyright notice, 
-	 this list of conditions and the following disclaimer in the documentation and/or
-	 other materials provided with the distribution. 
+ this list of conditions and the following disclaimer in the documentation and/or
+ other materials provided with the distribution. 
  * Neither the name of the Janrain, Inc. nor the names of its
-	 contributors may be used to endorse or promote products derived from this
-	 software without specific prior written permission.
+ contributors may be used to endorse or promote products derived from this
+ software without specific prior written permission.
  
  
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
@@ -30,10 +30,10 @@
  File:	 JRAuthenticate.m 
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#import "JRAuthenticate.h"
+#import "JREngage.h"
 
 // TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
 // TODO: Take this out of the production app
@@ -129,10 +129,10 @@ static JRAuthenticate* singletonJRAuth = nil;
     /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
-     /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
-        configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
-        librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
-        if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
+        /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
+         configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
+         librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
+         if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
             // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
@@ -142,7 +142,7 @@ static JRAuthenticate* singletonJRAuth = nil;
             return;
         }
     }
-
+    
     [interfaceMaestro showAuthenticationDialog];
 }
 
@@ -153,10 +153,10 @@ static JRAuthenticate* singletonJRAuth = nil;
     /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
-     /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
-        configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
-        librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
-        if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
+        /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
+         configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
+         librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
+         if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
             // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
@@ -173,14 +173,14 @@ static JRAuthenticate* singletonJRAuth = nil;
 - (void)showPublishingDialogWithActivity:(JRActivityObject*)activity
 {
     DLog(@"");
-
+    
     /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
-     /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
-        configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
-        librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
-        if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
+        /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
+         configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
+         librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
+         if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
             // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
@@ -190,7 +190,7 @@ static JRAuthenticate* singletonJRAuth = nil;
             return;
         }
     }
-
+    
 	[sessionData setActivity:activity];
     
     [interfaceMaestro showPublishingDialogWithActivity];
@@ -218,7 +218,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		[delegate jrAuthenticate:self didReceiveToken:token forProvider:provider];
 	}
-
+    
 	[interfaceMaestro authenticationCompleted];
 }
 
@@ -238,7 +238,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		[delegate jrAuthenticate:self didFailWithError:error forProvider:provider];
 	}
-
+    
 	[interfaceMaestro authenticationFailed];
 }
 
@@ -297,7 +297,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 	{
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
 	}
-
+    
 	[interfaceMaestro publishingCanceled];
 }
 
@@ -312,24 +312,24 @@ static JRAuthenticate* singletonJRAuth = nil;
 - (void)cancelAuthentication
 {	
 	DLog(@"");
-
+    
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
 		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
 	}
-
+    
     [interfaceMaestro authenticationCanceled];
 }
 
 - (void)cancelAuthenticationWithError:(NSError*)error
 {
 	DLog(@"");
-
+    
 	for (id<JRAuthenticateDelegate> delegate in delegates) 
 	{
         [delegate jrAuthenticate:self didFailWithError:error forProvider:nil];
 	}	
-
+    
 	[interfaceMaestro authenticationCanceled];
 }
 
@@ -370,7 +370,7 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController
 {
-//    [interfaceMaestro popCustomNavigationControllerToViewController:viewController];
+    //    [interfaceMaestro popCustomNavigationControllerToViewController:viewController];
 }
 
 // TODO: What are the pros/cons of making this class pseudo-singleton?  That is, what if I make it a singleton
@@ -380,12 +380,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 - (void)dealloc 
 {
 	DLog(@"");
-
+    
 	if (singletonJRAuth == self)
 		singletonJRAuth = nil;
-
+    
 	[delegates release];
-		
+    
 	[super dealloc];
 }
 

@@ -112,8 +112,17 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)setUpViewControllers
 {
     DLog(@"");
+    
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *mbPath = [mainBundle bundlePath];
+    NSString *jePath = [mbPath stringByAppendingPathComponent:@"JREngage.bundle"];
+    NSBundle *jeBundle = [NSBundle bundleWithPath:jePath];
+    
     myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController" 
-                                                                          bundle:[NSBundle mainBundle]];
+                                                                          bundle:mainBundle];//jePath];//jeBundle];
+                                   //[NSBundle bundleWithPath:[[NSBundle mainBundle] bundlePath]]];//[[[NSBundle mainBundle] bundlePath] 
+                                                                        //stringByAppendingPathComponent:@"JREngage.bundle"]]];
+                                   //[NSBundle bundleWithPath:@"/Users/lillialexis/iPhone/engage.iphone/src/JREngage.bundle/"]];// mainBundle]];
     
     myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController"
                                                                             bundle:[NSBundle mainBundle]];

@@ -34,7 +34,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "JRAuthenticate.h"
+#import "JREngage.h"
 #import "JRInfoBar.h"
 
 @class JRAuthenticate;

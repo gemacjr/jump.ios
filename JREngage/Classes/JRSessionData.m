@@ -307,6 +307,18 @@ static JRSessionData* singleton = nil;
 
 	if (self = [super init]) 
 	{
+
+        NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"JREngage.bundle"];//[[[NSFileManager defaultManager] currentDirectoryPath]
+                         // stringByAppendingPathComponent: path];
+        
+        DLog(@"current directory path: %@", path);
+
+        NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:error];
+        for (NSString *item in contents)
+        {
+            DLog(@"item: %@", item);
+        }
+        
         singleton = self;
         
         delegates = [[NSMutableArray alloc] initWithObjects:[_delegate retain], nil];
@@ -476,9 +488,9 @@ static JRSessionData* singleton = nil;
                               message, NSLocalizedDescriptionKey,
                               severity, @"severity", nil];
     
-    return [[[NSError alloc] initWithDomain:@"JRAuthenticate"
+    return [[NSError alloc] initWithDomain:@"JRAuthenticate"
                                       code:code
-                                  userInfo:userInfo] autorelease];
+                                  userInfo:userInfo];
 }
 
 - (NSURL*)startUrl

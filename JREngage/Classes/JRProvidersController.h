@@ -35,7 +35,7 @@
 
 #import <UIKit/UIKit.h>
 //#import "JRUserInterfaceMaestro.h"
-#import "JRAuthenticate.h"
+#import "JREngage.h"
 #import "JRInfoBar.h"
 
 @class JRAuthenticate;

@@ -33,7 +33,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "JRAuthenticate.h"
+#import "JREngage.h"
 #import "JRInfoBar.h"
 
 @protocol JRConnectionManagerDelegate;
