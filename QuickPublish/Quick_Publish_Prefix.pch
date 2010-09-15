@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'Quick Share' target in the 'Quick Share' project
+// Prefix header for all source files of the 'Quick Publish' target in the 'Quick Publish' project
 //
 #import <Availability.h>
 

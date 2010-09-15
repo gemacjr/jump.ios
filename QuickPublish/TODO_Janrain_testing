@@ -1,0 +1,61 @@
+feedreaderfeeds:
+use new default.png from gabe (drop box)
+lower janrain logo
+make link open webpage
+adjust label/button locations to be same as quick sign in
+change font to helvetica
+get dark blue button from gabe for janrain blog
+
+
+feedreadersummary:
+left align date in summary view
+lighten gray background in summary view (#eeeeee?)
+fix picture issue
+change dark blue in title text to the janrain dark blue
+make width of description text 3-5 px smaller
+
+feedreaderdetail
+make date and title not bold
+make title dark blue
+try dark gray font for body (#333333 or #666666)
+light gray for date (#999999)
+add author?
+add style to body and override for title and date so list items look good
+change link color
+The share button isn't very obvious. What about adding the bottom toolbar on that view only, to put the share button there?
+
+publish
+textview scroll region is extending below round box surrounding it
+fix truncation of activity description and layout of activity title label
+fix layout of user name label
+make triangle move over when signed in
+when share view first appears, and there are no configured providers, "sign out" and "shared" labels aren't hidden, and "connect and share" button should be disabled
+clicking "no available providers crashed the app"
+
+
+
+
+dark blue button 280x38-41ish
+280x140 picture saying video not available
+generic picture when profile pic not available
+connect & share/just share buttons in provider colors
+provider colors
+provider greyscale icons
+ipad icon
+iphone icon
+icons for facebook/twitter/etc apps
+
+ 
+myspace/yahoo/facebook flakiness
+make current error messages more meaningful
+add error messages to sample app when config/auth/sharing fail
+don't close sharing on auth error
+look into myspace error [then subsequent crash <- fixed]
+not remembering twitter as last logged in
+facebook and linkedin are asking for apikey... invalid device token?
+add parameter to shorten url to rpx.me
+signout user on this error: {"err":{"msg":"Facebook Error: Invalid OAuth 2.0 Access Token","code":4},"stat":"fail"}
+and this error: {"err":"msg"
+LinkedIn name not being set when profile pic is null
+when trying to publish, and internet disconnects, app hangs in "sharing" mode because notification doesn't come from session data to publish controller
+appropriate error for no internet connection

@@ -27,17 +27,17 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  
- File:	 Quick_ShareAppDelegate.m 
+ File:	 Quick_PublishAppDelegate.m 
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-#import "Quick_ShareAppDelegate.h"
+#import "Quick_PublishAppDelegate.h"
 #import "FeedReaderDetail.h"
 
 
-@implementation Quick_ShareAppDelegate
+@implementation Quick_PublishAppDelegate
 
 @synthesize window;
 @synthesize navigationController;
