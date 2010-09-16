@@ -42,16 +42,16 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-
+/* Added a category to NSString including a function to correctly escape the JRActivityObject
+   members so that there are no errors when sending the json structure to rpxnow's publish_activity api */
 @interface NSString (NSString_URL_ESCAPING)
 - (NSString*)URLEscaped;
 @end
 
-
+// TODO: Test for all characters that might blow up the publish_activity api call
 @implementation NSString (NSString_URL_ESCAPING)
 - (NSString*)URLEscaped
 {
-//    NSString *str = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *str = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2f"];
     str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
     str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
@@ -61,31 +61,13 @@
 }
 @end
 
-
-//@interface NSCFString (NSString_URL_ESCAPING)
-//- (NSString*)URLEscaped;
-//@end
-//
-//
-//@implementation NSCFString (NSString_URL_ESCAPING)
-//- (NSString*)URLEscaped
-//{
-//    //    NSString *str = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    NSString *str = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2f"];
-//    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
-//    
-//    return str;
-//}
-//@end
-
+// TODO: Are there any keywords/directives that I should add to correctly use
+// JRMediaObject as an abstract base class?
 @protocol JRMediaObjectProtocol
 - (NSDictionary*)dictionaryForObject;
 @end
 
-//@interface JRMediaObject () <JRMediaObjectProtocol>
-//@end
-
-
+// TODO: Is this really needed anymore?
 @implementation JRMediaObject 
 - (id)init
 {
@@ -93,26 +75,23 @@
 }
 @end
 
+// TODO: Figure out the correct way to inherit the dictionaryForObject function 
+// from the base class while keeping the declaration in the implementation file (.m)
 @interface JRImageMediaObject () <JRMediaObjectProtocol>
-@property (retain) NSString *tag;
 //- (NSDictionary*)dictionaryForObject;
 @end
 
 @interface JRMp3MediaObject () <JRMediaObjectProtocol>
-//- (NSDictionary*)dictionaryForObject;
 @end
 
 @interface JRFlashMediaObject () <JRMediaObjectProtocol>
 @property (retain) NSString *tag;
-//- (NSDictionary*)dictionaryForObject;
 @end
-
 
 @implementation JRImageMediaObject 
 @synthesize src;
 @synthesize href;
 @synthesize preview;
-@synthesize tag;
 
 - (id)initWithSrc:(NSString*)_src andHref:(NSString*)_href
 {
@@ -154,7 +133,6 @@
 @synthesize expanded_width;
 @synthesize expanded_height;
 @synthesize preview;
-@synthesize tag;
 
 - (id)initWithSwfsrc:(NSString*)_swfsrc andImgsrc:(NSString*)_imgsrc
 {
@@ -207,6 +185,7 @@
 @synthesize title;
 @synthesize artist;
 @synthesize album;
+
 - (id)initWithsrc:(NSString*)_src
 {
     if (!_src)
@@ -241,46 +220,6 @@
     return dict;
 }
 @end
-
-
-//@interface JRPhotoObject ()
-//- (NSDictionary*)dictionaryForObject;
-//@end
-//
-//@implementation JRPhotoObject 
-//@synthesize path;
-//@synthesize album;
-//
-//- (id)initWithPath:(NSString *)_path andAlbum:(NSString*)_album;
-//{
-//    // TODO: Make sure the path points to a real picture, as well
-//    if (!_path)
-//    {
-//        [self release];
-//        return nil;
-//    }
-//    
-//    if (self = [super init])
-//    {
-//        path = _path;
-//        album = _album;
-//    }
-//    
-//    return self;
-//}
-//
-//- (NSDictionary*)dictionaryForObject
-//{
-//    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys: 
-//                                  @"attachment", @"photo", 
-//                                  [path URLEscaped], @"source", nil] autorelease];
-//    
-//    if (album)
-//        [dict setValue:[album URLEscaped] forKey:@"album"];
-//    
-//    return dict;
-//}
-//@end
 
 
 @interface JRActionLink ()
@@ -323,7 +262,6 @@
 @synthesize title;				
 @synthesize description;
 @synthesize properties;
-
 @dynamic action_links; 					
 @dynamic media;
 
@@ -344,6 +282,11 @@
 	return self;
 }
 
+/* This function filters the given array, _media, and only keeps the objects that 
+   directly inherit from the base class JRMediaObject (JRImageMediaObject, etc.).
+   What it doesn't test for is if a user creates a new object that directly inherits 
+   JRMediaObject and passes that in.  If they do that, don't know why, worst case is
+   that the app will crash.                                                          */
 - (void)setMedia:(NSMutableArray *)_media
 {
     media = [[NSMutableArray arrayWithArray:
@@ -353,12 +296,15 @@
 
 - (NSMutableArray*)media
 {
+    // TODO: Need to release?
     if (!media)
         media = [[NSMutableArray alloc] initWithCapacity:1];
     
     return media;
 }
 
+/* This function filters the given array, _action_links, and only keeps the objects that 
+   have the class name JRActionLinks                                                     */
 - (void)setAction_links:(NSMutableArray *)_action_links
 {
     action_links = [[NSMutableArray arrayWithArray:
@@ -368,14 +314,17 @@
 
 - (NSMutableArray*)action_links
 {
+    // TODO: Need to release?
     if (!action_links)
         action_links = [[NSMutableArray alloc] initWithCapacity:1];
 
     return action_links;
 }
 
-- (void)validateActivity//ForDelegate:(id<JRActivityValidatorDelegate>)delegate
-{    
+/* Some pre-processing of the activity object, mostly the media array, to deal with 
+   anything icky before sending it to rpxnow's publish_activity api                 */
+- (void)validateActivity
+{
     if ([media count] > 0)
     {
         NSArray *images = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
@@ -386,132 +335,49 @@
         DLog(@"songs count : %d", [songs count]);
         DLog(@"videos count: %d", [videos count]);
         
-        // If we have images and either songs or videos or both
+        /* If we have images and either songs or videos or both */
         if ([images count] && ([songs count] || [videos count]))
         {
             DLog(@"([images count] && ([songs count] || [videos count]))");
-            
-            // Set Warning
-            //            ActivityValidationWarning *warning = [self setError:@"" 
-            //                                                       withCode:JRMoreThanOnKindOfMediaInActivityWarning 
-            //                                                    andSeverity:JRWarningSeverityActivityValidationHasWarnings];
-            
-            // Only using images, songs or video will be ignored
-            // Keep only images
+                        
+            /* Then we only use the images; The songs or videos will be ignored */
             [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
         }
+        /* If we don't have images, but we have both songs and videos */
         else if ([songs count] && [videos count])
         {
             DLog(@"([songs count] && [videos count])");
-            // Set Warning
-            // Only using songs (or videos - whatever Facebook says)
-            // Keep only songs
+
+            /* Then we only use the songs; The videos will be ignored */
             [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
         }
-        
-        //        if ([images count])
-        //        {
-        //            DLog(@"([images count])");
-        //            
-        //            // TODO: Determine if you can send more than 4 or 5 pictures
-        ////            if ([images count] > 5)
-        ////            {
-        ////                DLog(@"([images count] > 5)");
-        ////                // Set warning
-        ////                // Only using first 5 images
-        ////                // Set media to only first 5
-        ////                while ([media count] > 5)
-        ////                    [media removeLastObject];
-        ////                //[media removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:{5, [images count]}]];
-        ////            }
-        ////            else
-        ////            {
-        ////                // Set media to images ... or it already is ...
-        ////            }
-        //            
-        //            NSUInteger index = 0;
-        //            for (JRImageMediaObject *image in media)
-        //            {
-        //                NSURL        *_url = [NSURL URLWithString:image.src];
-        //                NSURLRequest *request = [[NSURLRequest alloc] initWithURL:_url];
-        //                NSString     *tag = [NSString stringWithFormat:@"fetchImageThumbnail_%d", index++];
-        //
-        ////                image.tag = tag;
-        //                
-        //                if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
-        //                {
-        //                    DLog("(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
-        //                    // Set warning
-        //                }
-        //                
-        //                [request release];            
-        //            }   
-        //        }
-        //        else 
-        if ([songs count])
+        /* Otherwise, we only have videos... */
+      
+// Facebook says you can only use 5 pictures, but testing didn't throw an error, even though
+// it did throw errors when using more than one song or video. Just leaving this for now...
+//        if ([images count] && [images count] > 5)
+//        {
+//            while ([media count] > 5)
+//                [media removeLastObject];
+//        }
+//        else 
+        if ([songs count] && [songs count] > 1)
         {
-            DLog(@"([songs count])");
-            if ([songs count] > 1)
-            {
-                DLog(@"([songs count] > 1)");
-                // Set warning
-                // Only using first song
-                // Set media to only first song
-                while ([media count] > 1)
-                    [media removeLastObject];
-            }
-            else
-            {
-                // Set media to songs ... or it already is ...
-            }
-            
-            //            JRMp3MediaObject *song = [media objectAtIndex:0];            
-            //            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])
-            //            {
-            //                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:song.src]] autorelease]])");
-            //                // Set error
-            //            }
+            while ([media count] > 1)
+                [media removeLastObject];
         }
-        else if ([videos count])
+        else if ([videos count] && [images count] > 1)
         {
-            DLog(@"([videos count)]");
-            if ([videos count] > 1)
-            {            
-                DLog(@"([videos count] > 1)");
-                // Set warning
-                // Only using first video
-                // Set media to only first video
-                while ([media count] > 1)
-                    [media removeLastObject];
-            }
-            else
-            {
-                // Set media to songs ... or it already is ...
-            }
-            
-            //            JRFlashMediaObject *video = [media objectAtIndex:0];            
-            //            if (![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])
-            //            {
-            //                DLog(@"(![NSURLConnection canHandleRequest:[[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:video.swfsrc]] autorelease]])");
-            //                // Set error
-            //            }
-            //
-            //            NSURL        *_url = [[NSURL URLWithString:video.imgsrc] autorelease];
-            //            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:_url] autorelease];
-            //            NSString     *tag = @"fetchVideoPreview";
-            
-            //            video.tag = tag;
-            
-            //            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
-            //            {
-            //                DLog(@"(![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])");
-            //                // Set error
-            //            }
-            
+            while ([media count] > 1)
+                [media removeLastObject];
         }
     }
 }
 
+// TODO: Is there a better way of doing this, like by using NSCoders to do the encoding?
+/* This function goes through all of the fields of the activity object and turns the object into 
+   an NSDictionary of string values and keys so that it can be converted into json by the json
+   library.  It also validates the objects and escapes icky characters in the process. */
 - (NSDictionary*)dictionaryForObject
 {
     [self validateActivity];
@@ -555,63 +421,11 @@
         [dict setValue:arr forKey:@"media"];
     }
     
-//    if (attachment)
-//        [dict setValue:[attachment dictionaryForObject] forKey:@"attachment"];
-    
+    // TODO: You still have written any code to handle all the different possibilities
+    // that could go here, and this might end up crashing.  Find out if it does and fix this.
     if ([properties count])
         [dict setValue:properties forKey:@"properties"];
     
     return [NSDictionary dictionaryWithObject:dict forKey:@"activity"];
 }
-
-//- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andSeverity:(NSString*)severity
-//{
-//    DLog(@"");
-//    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-//                               message, NSLocalizedDescriptionKey,
-//                               severity, @"severity", nil];
-//    
-//    return [[NSError alloc] initWithDomain:@"JRAuthenticate"
-//                                      code:code
-//                                  userInfo:userInfo] ;
-//}
-
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
-
-- (void)setPreview:(NSData*)preview forObject:(JRMediaObject*)mediaObject
-{
-//    if ([mediaObject performSelector:setPreviewImage])
-//        [mediaObject setPreviewImage:[UIImage imageWithData:preview]];         
-}
-
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
-{
-    NSString *tag = (NSString*)userdata;
-    
-    if ([tag hasPrefix:@"fetchImagePreview"])
-    {
-        NSArray *imageArr = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"tag = %@", tag]];
-        
-        if ([imageArr count] != 1)
-        {
-            DLog(@"uh oh!");
-        }
-        else
-        {    
-            [self setPreview:payload forObject:[imageArr objectAtIndex:0]];
-        }
-
-    }
-    else if ([tag hasPrefix:@"fetchVideoPreview"])
-    {
-        
-    }
-
-
-
-}
-
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata { }
-
-- (void)connectionWasStoppedWithTag:(void*)userdata { }
 @end

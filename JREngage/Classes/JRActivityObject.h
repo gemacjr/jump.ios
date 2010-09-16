@@ -297,7 +297,9 @@ typedef enum
     
    /**
     * A string containing user-supplied content, such as a comment or the first paragraph of an article 
-    * that the user wrote. Note that some providers (Twitter in particular) may truncate this value.
+    * that the user wrote. 
+    * 
+    * \note Some providers (Twitter in particular) may truncate this value.
     * */
     NSString *user_generated_content;    
 
@@ -318,11 +320,12 @@ typedef enum
     * An action link is a link a user can use to take action on an activity update on the provider.
     * (E.g., "Take this quiz", "http://example.com/quiz/12345/take")
     * 
-    * \note Any objects added to this array that are not of type /c JRActionLink will be ignored.
+    * \note Any objects added to this array that are not of type \c JRActionLink will be ignored.
     * */
     NSMutableArray *action_links;
     
-   /* An array of objects with base class \c JRMediaObject (i.e., \c JRImageMediaObject, 
+   /**
+    * An array of objects with base class \c JRMediaObject (i.e., \c JRImageMediaObject, 
     * \c JRFlashMediaObject, \c JRMp3MediaObject). 
     * 
     * To publish attached media objects with your activity, create the preferred
@@ -388,8 +391,6 @@ typedef enum
  *
  * @return
  *   An \c NSDictionary of \c NSString objects representing the \c JRActivityObject.
- *   If the JRActivityObject was improperly populated (e.g., if the action_links array 
- *   contains objects that aren't of type \c JRActionLink), these objects will be filtered out.
  *
  * \note This function should not be used directly.  It is intended only for use by the
  * JREngage library.
