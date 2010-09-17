@@ -282,7 +282,7 @@ typedef enum
  * \sa For more information of Janrain Engage's activity api, see @link https://rpxnow.com/docs#api_activity
  * the activity section of our API Documentation. @endlink
  * */
-@interface JRActivityObject : NSObject <JRConnectionManagerDelegate>
+@interface JRActivityObject : NSObject 
 {
    /**
     * A string describing what the user did, written in the third person (e.g., 

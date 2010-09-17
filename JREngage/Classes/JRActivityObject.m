@@ -85,7 +85,6 @@
 @end
 
 @interface JRFlashMediaObject () <JRMediaObjectProtocol>
-@property (retain) NSString *tag;
 @end
 
 @implementation JRImageMediaObject 

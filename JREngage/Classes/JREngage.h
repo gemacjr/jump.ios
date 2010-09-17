@@ -34,20 +34,17 @@
 
 
 #import <Foundation/Foundation.h>
-//#import "JSON.h"
-//#import "JRConnectionManager.h"
 #import "JRSessionData.h"
 #import "JRActivityObject.h"
 #import "JRUserInterfaceMaestro.h"
-//#import "JRModalNavigationController.h"
 
 #define SOCIAL_PUBLISHING
 
-@class JRAuthenticate;
+@class JREngage;
 @class JRUserInterfaceMaestro;
 //@class JRModalNavigationController;
 
-@protocol JRAuthenticateDelegate <NSObject>
+@protocol JREngageDelegate <NSObject>
 @optional
 /**
  * These messages are both sent to any JRAuthenticateDelegates after the library has received the
@@ -59,9 +56,13 @@
  * completed automatically, and you won't need the token for anything.  As tokens are only valid for
  * a small amount of time, do not persist this value.
  */
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider;
+//- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider;
+- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider;
 
 @required
+
+- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
+
 /**
  * This message is sent to any JRAuthenticateDelegates after the library has posted the token to the token URL
  * and received a response from the token URL.  This event completes authentication and the response is passed 
@@ -69,30 +70,39 @@
  * of the token URL and application, but should contain any information required by the application, such as the 
  * user's profile, session cookies, etc.
  */
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider;
+//- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider;
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
 
 /**
  * The following messages are sent when authentication failed (not canceled) for any reason. 
  */
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+//- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+//- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
 /**
  * This message is sent if the authorization was canceled for any reason other than an error.  For example, 
  * the user hits the "Cancel" button, or any class (including the JRAuthenticate delegate) calls the 
  * cancelAuthentication message.
  */
-- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth;
+//- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth;
 //- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString*)provider;
+- (void)jrAuthenticationDidNotComplete;
 
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didPublishingActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider;
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivityDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+//- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didPublishingActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
+//- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider;
+//- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivityDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
+- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider;
+- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
-- (void)jrAuthenticateDidNotCompletePublishing:(JRAuthenticate*)jrAuth;
-- (void)jrAuthenticateDidCompletePublishing:(JRAuthenticate*)jrAuth;
+//- (void)jrAuthenticateDidNotCompletePublishing:(JRAuthenticate*)jrAuth;
+//- (void)jrAuthenticateDidCompletePublishing:(JRAuthenticate*)jrAuth;
+- (void)jrSocialDidNotCompletePublishing;
+- (void)jrSocialDidCompletePublishing;
 @end
 
 /**
@@ -102,7 +112,7 @@
  * application's 20-character application ID.  You must also implement a token URL on a 
  * web application to complete authentication.
  */
-@interface JRAuthenticate : NSObject </*JRConnectionManagerDelegate,*/ JRSessionDelegate>
+@interface JREngage : NSObject </*JRConnectionManagerDelegate,*/ JRSessionDelegate>
 {
     JRUserInterfaceMaestro *interfaceMaestro;
 	JRSessionData	*sessionData;
@@ -113,7 +123,7 @@
  * Once an instance of the JRAuthenticate library is created, this will return 
  * that instance.  Otherwise, it will return nil.
  */
-+ (JRAuthenticate*)jrAuthenticate;
++ (JREngage*)jrEngage;
 
 /**
  * Use this function to create an instance of the JRAuthenticate library.
@@ -125,24 +135,29 @@
  *              calling the makeCallToTokenUrl message described below.
  *    delegate: This is the class that implements the JRAuthenticateDelegate protocol.
  */
-+ (JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
-							   andTokenUrl:(NSString*)tokenUrl
-								  delegate:(id<JRAuthenticateDelegate>)delegate;
++ (JREngage*)jrEngageWithAppID:(NSString*)appId 
+                   andTokenUrl:(NSString*)tokenUrl
+                      delegate:(id<JREngageDelegate>)delegate;
+
+
+- (void)addDelegate:(id<JREngageDelegate>)delegate;
+- (void)removeDelegate:(id<JREngageDelegate>)delegate;
 
 
 /**
  * Use this function to begin authentication.  The JRAuthenticate library will 
  * pop up a modal dialog and take the user through the sign-in process.
  */
-- (void)showJRAuthenticateDialog;
-- (void)showAuthenticationDialog;
-- (void)showPublishingDialogWithActivity:(JRActivityObject*)activity;
+//- (void)showJRAuthenticateDialog;
+//- (void)showAuthenticationDialog;
+//- (void)showPublishingDialogWithActivity:(JRActivityObject*)activity;
 //- (void)unloadModalViewController;
+- (void)showAuthenticationDialog;
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
 
 
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 - (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;
-
 
 
 /**
@@ -156,8 +171,9 @@
 /**
  * Use these functions if you need to cancel authentication for any reason.
  */
+//- (void)cancelAuthenticationWithError:(NSError*)error;
 - (void)cancelAuthentication;
-- (void)cancelAuthenticationWithError:(NSError*)error;
+- (void)cancelPublishing;
 
 /**
  * Use this function if you need to post the token to a token URL that is 
@@ -165,5 +181,6 @@
  * use a token URL when initiating the library.
  */
 //- (void)makeCallToTokenUrl:(NSString*)tokenURL WithToken:(NSString *)token;
-- (void)makeCallToTokenUrl:(NSString*)tokenURL withToken:(NSString *)token;
+//- (void)makeCallToTokenUrl:(NSString*)tokenURL withToken:(NSString *)token;
+- (void)updateTokenUrl:(NSString*)newTokenUrl;
 @end

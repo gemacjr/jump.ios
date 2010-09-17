@@ -45,10 +45,10 @@
 - (void)userDidSignOut;
 @end
 
-@interface UserModel : NSObject <JRAuthenticateDelegate>
+@interface UserModel : NSObject <JREngageDelegate>
 {
 	/* Instance of the JRAuthenticate library */
-	JRAuthenticate *jrAuthenticate;
+	JREngage *jrEngage;
 	
 	/* Singleton instance of the NSUserDefaults class */
 	NSUserDefaults *prefs;

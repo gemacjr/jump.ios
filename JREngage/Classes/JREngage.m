@@ -46,23 +46,23 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-@implementation JRAuthenticate
+@implementation JREngage
 
-static JRAuthenticate* singletonJRAuth = nil;
-+ (JRAuthenticate*)jrAuthenticate 
+static JREngage* singletonJREngage = nil;
++ (JREngage*)jrEngage
 {
-	return singletonJRAuth;
+	return singletonJREngage;
 }
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [[self jrAuthenticate] retain];
+    return [[self jrEngage] retain];
 }
 
 // TODO: Change this to accept the baseUrl instead of the appId to save time in initialization
-- (JRAuthenticate*)initWithAppID:(NSString*)appId 
-					 andTokenUrl:(NSString*)tokenUrl 
-						delegate:(id<JRAuthenticateDelegate>)delegate
+- (JREngage*)initWithAppID:(NSString*)appId 
+               andTokenUrl:(NSString*)tokenUrl 
+                  delegate:(id<JREngageDelegate>)delegate
 {
 	DLog(@"");
     DLog(@"appID:    %@", appId);
@@ -70,7 +70,7 @@ static JRAuthenticate* singletonJRAuth = nil;
     
 	if (self = [super init])
 	{
-		singletonJRAuth = self;
+		singletonJREngage = self;
 		
         // TODO: Add a way to add delegates, or receive notifications automatically
 		delegates = [[NSMutableArray alloc] initWithObjects:delegate, nil];
@@ -82,12 +82,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 	return self;
 }
 
-+ (JRAuthenticate*)jrAuthenticateWithAppID:(NSString*)appId 
-							   andTokenUrl:(NSString*)tokenUrl
-								  delegate:(id<JRAuthenticateDelegate>)delegate
++ (JREngage*)jrEngageWithAppID:(NSString*)appId 
+                   andTokenUrl:(NSString*)tokenUrl
+                      delegate:(id<JREngageDelegate>)delegate
 {
-	if(singletonJRAuth)
-		return singletonJRAuth;
+	if(singletonJREngage)
+		return singletonJREngage;
 	
 	if (appId == nil)
 		return nil;
@@ -122,29 +122,39 @@ static JRAuthenticate* singletonJRAuth = nil;
     return self;
 }
 
-- (void)showJRAuthenticateDialog
+- (void)addDelegate:(id<JREngageDelegate>)delegate
 {
-    DLog(@"");
-    
-    /* If there was error configuring the library, sessionData.error will not be null. */
-    if (sessionData.error)
-    {
-        /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
-         configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
-         librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
-         if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
-        if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
-        {
-            // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
-            [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
-            [sessionData reconfigure];
-            [sessionData.error release];
-            return;
-        }
-    }
-    
-    [interfaceMaestro showAuthenticationDialog];
+    // TODO: Implement me!
 }
+
+- (void)removeDelegate:(id<JREngageDelegate>)delegate
+{
+    // TODO: Implement me!    
+}
+
+//- (void)showJRAuthenticateDialog
+//{
+//    DLog(@"");
+//    
+//    /* If there was error configuring the library, sessionData.error will not be null. */
+//    if (sessionData.error)
+//    {
+//        /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
+//         configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
+//         librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
+//         if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
+//        if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
+//        {
+//            // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
+//            [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
+//            [sessionData reconfigure];
+//            [sessionData.error release];
+//            return;
+//        }
+//    }
+//    
+//    [interfaceMaestro showAuthenticationDialog];
+//}
 
 - (void)showAuthenticationDialog
 {
@@ -159,8 +169,7 @@ static JRAuthenticate* singletonJRAuth = nil;
          if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
-            // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
-            [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
+            [self engageDidFailWithError:sessionData.error];
             [sessionData reconfigure];
             [sessionData.error release];
             return;
@@ -170,7 +179,7 @@ static JRAuthenticate* singletonJRAuth = nil;
     [interfaceMaestro showAuthenticationDialog];
 }
 
-- (void)showPublishingDialogWithActivity:(JRActivityObject*)activity
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
 {
     DLog(@"");
     
@@ -183,8 +192,7 @@ static JRAuthenticate* singletonJRAuth = nil;
          if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
-            // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
-            [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
+            [self engageDidFailWithError:sessionData.error];
             [sessionData reconfigure];
             [sessionData.error release];
             return;
@@ -209,34 +217,44 @@ static JRAuthenticate* singletonJRAuth = nil;
     [interfaceMaestro authenticationRestarted];
 }
 
+- (void)engageDidFailWithError:(NSError*)error
+{
+    for (id<JREngageDelegate> delegate in delegates) 
+	{
+		[delegate jrEngageDialogDidFailToShowWithError:error];
+	}
+    
+	[interfaceMaestro authenticationFailed];
+}
+
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
 {
 	DLog(@"");
     DLog(@"token: %@", token);
 	
-	for (id<JRAuthenticateDelegate> delegate in delegates) 
+	for (id<JREngageDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticate:self didReceiveToken:token forProvider:provider];
+		[delegate jrAuthenticationReceivedAuthenticationTokenForProvider:provider];
 	}
     
 	[interfaceMaestro authenticationCompleted];
 }
 
-- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider
+- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
 {
     DLog(@"");
-    for (id<JRAuthenticateDelegate> delegate in delegates) 
+    for (id<JREngageDelegate> delegate in delegates) 
     {
-        [delegate jrAuthenticate:self didReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
+        [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
     }    
 }
 
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	DLog(@"");
-    for (id<JRAuthenticateDelegate> delegate in delegates) 
+    for (id<JREngageDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticate:self didFailWithError:error forProvider:provider];
+		[delegate jrAuthenticationDidFailWithError:error forProvider:provider];
 	}
     
 	[interfaceMaestro authenticationFailed];
@@ -246,18 +264,18 @@ static JRAuthenticate* singletonJRAuth = nil;
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     DLog(@"");
-    for (id<JRAuthenticateDelegate> delegate in delegates) 
+    for (id<JREngageDelegate> delegate in delegates) 
     {
-        [delegate jrAuthenticate:self callToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
+        [delegate jrAuthenticationCallToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
     }
 }
 
 - (void)authenticationDidCancel
 {
 	DLog(@"");
-    for (id<JRAuthenticateDelegate> delegate in delegates) 
+    for (id<JREngageDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
+		[delegate jrAuthenticationDidNotComplete];
 	}
     
     [interfaceMaestro authenticationCanceled];
@@ -293,9 +311,9 @@ static JRAuthenticate* singletonJRAuth = nil;
 - (void)publishingDidCancel 
 { 
 	DLog(@"");
-    for (id<JRAuthenticateDelegate> delegate in delegates) 
+    for (id<JREngageDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
+		[delegate jrSocialDidNotCompletePublishing];
 	}
     
 	[interfaceMaestro publishingCanceled];
@@ -303,6 +321,12 @@ static JRAuthenticate* singletonJRAuth = nil;
 
 - (void)publishingDidComplete
 {
+	DLog(@"");
+    for (id<JREngageDelegate> delegate in delegates) 
+	{
+		[delegate jrSocialDidCompletePublishing];
+	}
+    
     [interfaceMaestro publishingCompleted];
 }
 
@@ -313,21 +337,26 @@ static JRAuthenticate* singletonJRAuth = nil;
 {	
 	DLog(@"");
     
-	for (id<JRAuthenticateDelegate> delegate in delegates) 
+	for (id<JREngageDelegate> delegate in delegates) 
 	{
-		[delegate jrAuthenticateDidNotCompleteAuthentication:self];
+		[delegate jrAuthenticationDidNotComplete];
 	}
     
     [interfaceMaestro authenticationCanceled];
+}
+
+- (void)cancelPublishing
+{
+    // TODO: Implement me!
 }
 
 - (void)cancelAuthenticationWithError:(NSError*)error
 {
 	DLog(@"");
     
-	for (id<JRAuthenticateDelegate> delegate in delegates) 
+	for (id<JREngageDelegate> delegate in delegates) 
 	{
-        [delegate jrAuthenticate:self didFailWithError:error forProvider:nil];
+        [delegate jrAuthenticationDidFailWithError:error forProvider:nil];
 	}	
     
 	[interfaceMaestro authenticationCanceled];
@@ -349,6 +378,11 @@ static JRAuthenticate* singletonJRAuth = nil;
 	DLog(@"tokenURL: %@", tokenUrl);
     
 	[sessionData makeCallToTokenUrl:tokenUrl withToken:token forProvider:nil];
+}
+
+- (void)updateTokenUrl:(NSString*)newTokenUrl
+{
+    // TODO: Implement me!
 }
 
 - (void)signoutUserForProvider:(NSString*)provider
@@ -381,8 +415,8 @@ static JRAuthenticate* singletonJRAuth = nil;
 {
 	DLog(@"");
     
-	if (singletonJRAuth == self)
-		singletonJRAuth = nil;
+	if (singletonJREngage == self)
+		singletonJREngage = nil;
     
 	[delegates release];
     

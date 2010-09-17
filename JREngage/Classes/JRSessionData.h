@@ -122,7 +122,7 @@ typedef enum
 - (void)authenticationDidCancel;
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider;
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
-- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider;
+- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;

@@ -189,8 +189,8 @@
     }
     
     [FeedReader feedReader].feedReaderDetail = self;
-    [[[FeedReader feedReader] jrAuthenticate] setCustomNavigationController:self.navigationController];
-    [[[FeedReader feedReader] jrAuthenticate] showPublishingDialogWithActivity:activity];
+    [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
+    [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity];
 }
 
 - (void)authenticationFailed:(NSError*)error

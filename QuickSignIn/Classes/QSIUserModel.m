@@ -76,7 +76,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	if (self = [super init])
 	{
 		/* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
-		jrAuthenticate = [[JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
+		jrEngage = [[JREngage jrEngageWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
 		
         prefs = [[NSUserDefaults standardUserDefaults] retain];
 		
@@ -199,12 +199,12 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 
 - (void)setNavigationController:(UINavigationController*)navigationController
 {
-    [jrAuthenticate setCustomNavigationController:navigationController];
+    [jrEngage setCustomNavigationController:navigationController];
 }
 
 - (void)setViewControllerToPopTo:(UIViewController*)viewController
 {
-    [jrAuthenticate setCustomNavigationControllerShouldPopToViewController:viewController];
+    [jrEngage setCustomNavigationControllerShouldPopToViewController:viewController];
 }
 
 
@@ -467,7 +467,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	signInDelegate = [interestedParty retain]; 
 
 	/* Launch the JRAuthenticate Library. */
-	[jrAuthenticate showJRAuthenticateDialog];	
+	[jrEngage showAuthenticationDialog];	
 }
 
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn afterSignOut:(id<UserModelDelegate>)interestedPartySignOut
@@ -483,11 +483,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[self finishSignUserOut];	
 }
 
-
-
-- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString*)provider { }
-
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider
+- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider
 {
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = YES;
@@ -496,19 +492,21 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[signInDelegate didReceiveToken];
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenUrl:(NSString*)tokenUrl 
-                                                    withPayload:(NSString*)tokenUrlPayload 
-                                                    forProvider:(NSString*)provider
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl 
+                             withPayload:(NSData*)tokenUrlPayload 
+                             forProvider:(NSString*)provider
 {
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
 	
-	NSRange found = [tokenUrlPayload rangeOfString:@"{"];
+    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
+    
+	NSRange found = [payload rangeOfString:@"{"];
 	
 	if (found.length == 0)// Then there was an error
 		return; // TODO: Manage error
 	
-	NSString *userStr = [tokenUrlPayload substringFromIndex:found.location];
+	NSString *userStr = [payload substringFromIndex:found.location];
 	NSDictionary* user = [userStr JSONValue];
 	
 	if(!user) // Then there was an error
@@ -517,19 +515,19 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[self finishSignUserIn:user];
 }
 
-- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth
+- (void)jrAuthenticationDidNotComplete
 {
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:nil];
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString*)provider
+- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:error];
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
+- (void)jrAuthenticationCallToTokenUrl:(NSString*)_tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:error];

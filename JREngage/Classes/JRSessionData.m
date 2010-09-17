@@ -946,7 +946,31 @@ static JRSessionData* singleton = nil;
     [request release];    
 }
 
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
+{
+    NSObject* tag = (NSObject*)userdata;
+    [payload retain];
+
+    if ([tag isKindOfClass:[NSDictionary class]])
+    {
+        if ([(NSDictionary*)tag objectForKey:@"tokenUrl"])
+        {
+            @synchronized (delegates)
+            {
+                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+                for (id<JRSessionDelegate> delegate in delegatesCopy) 
+                {
+                    [delegate authenticateDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
+                                               withPayload:payload 
+                                               forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
+                }
+            }
+        }
+    }
+    
+	[payload release];
+	[tag release];	
+}
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
@@ -1078,22 +1102,22 @@ static JRSessionData* singleton = nil;
             }
         }
     }
-    else if ([tag isKindOfClass:[NSDictionary class]])
-    {
-        if ([(NSDictionary*)tag objectForKey:@"tokenUrl"])
-        {
-            @synchronized (delegates)
-            {
-                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                {
-                    [delegate authenticateDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-                                               withPayload:payload 
-                                               forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
-                }
-            }
-        }
-    }
+//    else if ([tag isKindOfClass:[NSDictionary class]])
+//    {
+//        if ([(NSDictionary*)tag objectForKey:@"tokenUrl"])
+//        {
+//            @synchronized (delegates)
+//            {
+//                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+//                for (id<JRSessionDelegate> delegate in delegatesCopy) 
+//                {
+//                    [delegate authenticateDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
+//                                               withPayload:payload 
+//                                               forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
+//                }
+//            }
+//        }
+//    }
     
 	[payload release];
 	[tag release];	
@@ -1273,7 +1297,7 @@ static JRSessionData* singleton = nil;
     // TODO: Test that this works with a nil provider
 	NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl", providerName, @"providerName", nil] retain];
     
-	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
 	{
 		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL" 
                                                              forKey:NSLocalizedDescriptionKey];

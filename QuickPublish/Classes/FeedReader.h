@@ -102,14 +102,14 @@
 @property (readonly) NSMutableArray *stories;
 @end
 
-@interface FeedReader : NSObject <JRAuthenticateDelegate>
+@interface FeedReader : NSObject <JREngageDelegate>
 {
 //    NSMutableArray *allStories;
     
     Feed *feed;
     Story *selectedStory;
     
-    JRAuthenticate *jrAuthenticate;
+    JREngage *jrEngage;
     
     FeedReaderDetail *feedReaderDetail;
 }
@@ -117,7 +117,7 @@
 @property (retain)   FeedReaderDetail *feedReaderDetail;
 @property (readonly) NSMutableArray *allStories;
 @property (retain)   Story *selectedStory;
-@property (readonly) JRAuthenticate *jrAuthenticate;
+@property (readonly) JREngage *jrEngage;
 
 //+ (FeedReader*)initFeedReader;
 + (FeedReader*)feedReader;

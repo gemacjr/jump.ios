@@ -352,7 +352,7 @@
 
 @implementation FeedReader
 @synthesize selectedStory;
-@synthesize jrAuthenticate;
+@synthesize jrEngage;
 @synthesize feedReaderDetail;
 
 static FeedReader* singleton = nil;
@@ -408,7 +408,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
         
 //        allStories = [[NSMutableArray alloc] initWithCapacity:25];//[feeds count]*20];
         
-        jrAuthenticate = [JRAuthenticate jrAuthenticateWithAppID:appId andTokenUrl:tokenUrl delegate:self];
+        jrEngage = [JREngage jrEngageWithAppID:appId andTokenUrl:tokenUrl delegate:self];
         
         [self downloadFeedStories];
 	}
@@ -480,22 +480,21 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
     return feed.stories;
 }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didFailWithError:(NSError*)error forProvider:(NSString *)provider 
+- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString *)provider 
 {
     [feedReaderDetail authenticationFailed:error];
 }
+- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider { }
 
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token { }
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReceiveToken:(NSString*)token forProvider:(NSString*)provider { }
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didReachTokenUrl:(NSString*)_tokenUrl
-		   withPayload:(NSString*)tokenUrlPayload
-           forProvider:(NSString *)provider { }
-- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth { }
-- (void)jrAuthenticateDidNotCompleteAuthentication:(JRAuthenticate*)jrAuth forProvider:(NSString *)provider { }
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth callToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString *)provider { }
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth didPublishingActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }
-- (void)jrAuthenticate:(JRAuthenticate*)jrAuth publishingActivityDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
-- (void)jrAuthenticateDidNotCompletePublishing:(JRAuthenticate*)jrAuth { }
-- (void)jrAuthenticateDidCompletePublishing:(JRAuthenticate*)jrAuth  { }
+- (void)jrEngageDialogDidFailToShow { }
+
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
+- (void)jrAuthenticationCallToTokenUrl:(NSString*)_tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+- (void)jrAuthenticationDidNotComplete { }
+
+- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
+- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }
+- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+- (void)jrSocialDidNotCompletePublishing { }
+- (void)jrSocialDidCompletePublishing { }
 @end
