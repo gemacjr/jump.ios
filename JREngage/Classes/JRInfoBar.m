@@ -145,7 +145,7 @@
 
 - (void)startProgress
 {
-    DLog(@"");
+//    DLog(@"");
 
 	[spinner startAnimating];
 
@@ -168,7 +168,7 @@
 
 - (void)stopProgress
 {
-    DLog(@"");
+//    DLog(@"");
 
 	[spinner stopAnimating];
 	

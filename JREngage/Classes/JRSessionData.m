@@ -235,7 +235,8 @@
 @interface JRSessionData()
 - (NSError*)startGetBaseUrl;
 - (NSError*)startGetConfiguredProviders;
-- (NSError*)finishGetConfiguredProviders:(NSString*)dataStr;
+//- (NSError*)finishGetConfiguredProviders:(NSString*)dataStr;
+- (NSError*)startGetConfiguration;
 - (void)loadLastUsedBasicProvider;
 - (void)loadLastUsedSocialProvider;
 @end
@@ -375,6 +376,7 @@ static JRSessionData* singleton = nil;
         
         // TODO: Do we want to call this every time?  What if these values change while a user is trying to authenticate?
         error = [self startGetBaseUrl];
+        //error = [self startGetConfiguration];
 	}
 	return self;
 }
@@ -438,7 +440,7 @@ static JRSessionData* singleton = nil;
 
 - (NSString*)baseUrl
 {
-    DLog(@"");
+//    DLog(@"");
     @synchronized (configurationSemaphore)
     {
         return baseUrl;
@@ -524,8 +526,8 @@ static JRSessionData* singleton = nil;
         str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
                          baseUrl, 
                          currentProvider.url,
-                         oid, 
-                         ((forceReauth) ? @"force_reauth=true&" : @""),
+                         oid, // TODO: Always force reauth for social because there isn't a "force reauth" button
+                         ((forceReauth) ? @"force_reauth=true&" : @""), // available and sometimes cookies take over?
                          (([currentProvider.name isEqualToString:@"facebook"]) ? 
                           @"ext_perm=publish_stream&" : @"")];
     else
@@ -745,6 +747,158 @@ static JRSessionData* singleton = nil;
     return nil;
 }
 
+- (NSError*)startGetConfiguration
+{	
+    DLog(@"");
+#define STAGING
+#ifdef STAGING
+	NSString *urlString = [NSString stringWithFormat:
+                           @"http://rpxstaging.com/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
+                           @"kcemlogaanidnljknmbj"];
+    tokenUrl = nil;
+#else
+	NSString *urlString = [NSString stringWithFormat:
+                           @"http://rpxnow.com/jsapi/v3/base_url?appId=%@&skipXdReceiver=true", 
+                           appId];
+#endif
+    
+    DLog(@"url: %@", urlString);
+	
+	NSURL *url = [NSURL URLWithString:urlString];
+	
+	if(!url)
+		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
+                     withCode:JRUrlError 
+                  andSeverity:JRErrorSeverityConfigurationFailed];
+    
+	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
+	
+	NSString *tag = [[NSString alloc] initWithFormat:@"getConfiguration"];
+	
+	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
+                     withCode:JRUrlError 
+                  andSeverity:JRErrorSeverityConfigurationFailed];
+    
+    return nil;
+}
+
+
+- (NSError*)finishGetConfiguration:(NSString*)dataStr
+{
+	DLog(@"");
+    
+    if (![dataStr respondsToSelector:@selector(JSONValue)])
+        return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                     withCode:JRJsonError
+                  andSeverity:JRErrorSeverityConfigurationFailed];
+	
+	NSDictionary *jsonDict = [dataStr JSONValue];
+    
+    DLog(@"dataStr retain count: %d", [dataStr retainCount]);
+    DLog(@"jsonDict retain count: %d", [jsonDict retainCount]);
+	
+	if(!jsonDict)
+		return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                     withCode:JRJsonError
+                  andSeverity:JRErrorSeverityConfigurationFailed];
+	
+    // TODO: Error check this
+    if (![[jsonDict objectForKey:@"baseurl"] isEqualToString:baseUrl])
+        baseUrl = [[[jsonDict objectForKey:@"baseurl"] 
+                    stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] retain];
+        
+    [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"JRBaseUrl"];
+    
+	NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
+    
+    DLog(@"providerInfo retain count: %d", [providerInfo retainCount]);
+    
+    BOOL reloadConfiguration = YES;//NO;
+    
+// TODO: Rewrite to use e-tag to compare new data with cached data in case anything changes
+//    for (NSString *name in [providerInfo allKeys])
+//    {
+//        if (![allProviders objectForKey:name]) 
+//        {
+//            reloadConfiguration = YES;
+//            break;
+//        }
+//    }
+    
+    if (reloadConfiguration)
+    {
+        @synchronized (configurationSemaphore)
+        {
+            allProviders = [[NSMutableDictionary alloc] initWithCapacity:[[providerInfo allKeys] count]];
+            
+            for (NSString *name in [providerInfo allKeys])
+            {
+                DLog(@"name retain count: %d", [name retainCount]);
+                if (name)
+                {
+                    NSDictionary *dictionary = [providerInfo objectForKey:name];
+                    
+                    DLog(@"dataStr retain count: %d", [dictionary retainCount]);
+                    
+                    JRProvider *provider = [[[JRProvider alloc] initWithName:name
+                                                               andDictionary:dictionary] autorelease];
+                    
+                    [allProviders setObject:provider forKey:name];
+                    
+                    DLog(@"provider retain count: %d", [provider retainCount]);
+                    DLog(@"provider members retain count: %d", [provider.friendlyName retainCount]);
+                }
+            }
+            
+            basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
+            
+            if (!allProviders || !basicProviders)
+                return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                             withCode:JRConfigurationInformationError
+                          andSeverity:JRErrorSeverityConfigurationFailed];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
+                                                      forKey:@"JRAllProviders"];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
+                                                      forKey:@"JRBasicProviders"];
+            
+#ifdef SOCIAL_PUBLISHING	    
+            //socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+            
+            NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
+                                                                                                   copyItems:YES] autorelease];
+            [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
+            socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
+            
+            if (!socialProviders)		
+                return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                             withCode:JRConfigurationInformationError
+                          andSeverity:JRErrorSeverityConfigurationInformationMissing];
+            
+#endif
+            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
+                                                      forKey:@"JRSocialProviders"];
+            
+            if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
+                hidePoweredBy = YES;
+            else
+                hidePoweredBy = NO;
+            
+            [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"JRHidePoweredBy"];
+        }
+    }
+    
+    
+#ifdef SOCIAL_PUBLISHING	
+	[self loadLastUsedSocialProvider];
+#endif
+    
+    [self loadLastUsedBasicProvider];
+    
+    return nil;
+}
+
 - (void)loadLastUsedSocialProvider
 {
 	DLog(@"");
@@ -771,7 +925,9 @@ static JRSessionData* singleton = nil;
 	if ([strArr count] <= 1)
 		return @"Welcome, user!";
 	
-	return [[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+	return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] 
+            stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+            stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
 
@@ -1010,7 +1166,20 @@ static JRSessionData* singleton = nil;
                            andSeverity:JRErrorSeverityConfigurationFailed];
             }        
         }
-        else if ([(NSString*)tag isEqualToString:@"shareThis"])
+        else if ([(NSString*)tag isEqualToString:@"getConfiguration"])
+        {
+            if ([payload rangeOfString:@"\"provider_info\":{"].length != 0)
+            {
+                error = [self finishGetConfiguration:payload];
+            }
+            else // There was an error...
+            {
+                error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                              withCode:JRConfigurationInformationError
+                           andSeverity:JRErrorSeverityConfigurationFailed];
+            }
+        }
+        else if ([(NSString*)tag isEqualToString:@"shareThis"]) // TODO: Change "shareThis" to something better
         {
             NSDictionary *response_dict = [payload JSONValue];
             
@@ -1137,6 +1306,12 @@ static JRSessionData* singleton = nil;
                        andSeverity:JRErrorSeverityConfigurationFailed];
         }
         else if ([(NSString*)tag isEqualToString:@"getConfiguredProviders"])
+        {
+            error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                          withCode:JRConfigurationInformationError
+                       andSeverity:JRErrorSeverityConfigurationFailed];
+        }
+        else if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {
             error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                           withCode:JRConfigurationInformationError
@@ -1350,7 +1525,11 @@ static JRSessionData* singleton = nil;
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy) 
         {
+#ifdef STAGING
             [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
+#else
+            [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"profile"] forProvider:currentProvider.name];
+#endif
         }
     }
     

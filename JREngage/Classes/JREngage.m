@@ -227,6 +227,7 @@ static JREngage* singletonJREngage = nil;
 	[interfaceMaestro authenticationFailed];
 }
 
+
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
 {
 	DLog(@"");
@@ -239,6 +240,17 @@ static JREngage* singletonJREngage = nil;
     
 	[interfaceMaestro authenticationCompleted];
 }
+
+- (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider
+{
+	for (id<JREngageDelegate> delegate in delegates) 
+	{
+        [delegate jrAuthenticationDidSucceedForUser:profile forProvider:provider];
+	}
+    
+	[interfaceMaestro authenticationCompleted];
+}
+
 
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
 {

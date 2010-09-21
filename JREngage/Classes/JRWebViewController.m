@@ -118,6 +118,7 @@
     
     if (!sessionData.currentProvider)
     {
+        // TODO: Rewrite error
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"TODO REWRITE ERROR!! Authentication failed."
                                                              forKey:NSLocalizedDescriptionKey];
         NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
@@ -146,7 +147,7 @@
 
 - (void)startProgress
 { 
-	DLog(@"");
+//	DLog(@"");
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = YES;
 	[infoBar startProgress];
@@ -154,7 +155,7 @@
 
 - (void)stopProgress
 {
-	DLog(@"");
+//	DLog(@"");
 	if ([JRConnectionManager openConnections] == 0)
 	{
 		UIApplication* app = [UIApplication sharedApplication]; 
@@ -267,9 +268,9 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 												 navigationType:(UIWebViewNavigationType)navigationType 
 {	
-	DLog(@"");
+//	DLog(@"");
 	DLog(@"request: %@", [[request URL] absoluteString]);
-	DLog(@"navigation type: %d", navigationType);
+//	DLog(@"navigation type: %d", navigationType);
 	
 	NSString *thatURL = [NSString stringWithFormat:@"%@/signin/device", [sessionData baseUrl]];
 	

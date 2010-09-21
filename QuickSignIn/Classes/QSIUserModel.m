@@ -492,6 +492,30 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[signInDelegate didReceiveToken];
 }
 
+- (void)jrAuthenticationDidSucceedForUser:(NSDictionary *)profile forProvider:(NSString *)provider
+{
+	UIApplication* app = [UIApplication sharedApplication]; 
+	app.networkActivityIndicatorVisible = NO;
+	
+//    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
+    
+//	NSRange found = [payload rangeOfString:@"{"];
+//	
+//	if (found.length == 0)// Then there was an error
+//		return; // TODO: Manage error
+	
+//	NSString *userStr = [payload substringFromIndex:found.location];
+//	NSDictionary* user = [userStr JSONValue];
+	
+    currentProvider = [[NSString stringWithString:provider] retain];
+	[signInDelegate didReceiveToken];
+    
+	if(!profile) // Then there was an error
+		return; // TODO: Manage error
+	
+	[self finishSignUserIn:profile];
+}
+
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl 
                              withPayload:(NSData*)tokenUrlPayload 
                              forProvider:(NSString*)provider
