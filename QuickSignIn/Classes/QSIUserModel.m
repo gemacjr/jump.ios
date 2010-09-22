@@ -76,7 +76,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	if (self = [super init])
 	{
 		/* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
-		jrEngage = [[JREngage jrEngageWithAppID:appId andTokenUrl:tokenUrl delegate:self] retain];
+		jrEngage = [[JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self] retain];
 		
         prefs = [[NSUserDefaults standardUserDefaults] retain];
 		
@@ -361,8 +361,8 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 		[self finishSignUserOut];
 	
 	/* Get the identifier and normalize it (remove html escapes) */
-//	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
-	identifier = [[[[user objectForKey:@"auth_info"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
+	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
+//	identifier = [[[[user objectForKey:@"auth_info"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
 	
 	/* Get the display name */
 	displayName = [[UserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];

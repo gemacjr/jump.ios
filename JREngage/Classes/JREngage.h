@@ -70,6 +70,16 @@
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
 
 @optional
+/**
+ * Sent if the authorization was canceled for any reason other than an error.  For example, 
+ * the user hits the "Cancel" button, any class (e.g., the JREngage delegate) calls the cancelAuthentication
+ * message, or if configuration of the library taking more than about 16 seconds (rare) to download.
+ **/
+- (void)jrAuthenticationDidNotComplete;
+
+/**
+ * Deprecated
+ **/
 - (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider;
 
 /**
@@ -102,6 +112,22 @@
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
 
 /**
+ * Sent when authentication failed and could not be recovered by the library.
+ *
+ * @param $error
+ *   The error that occurred during authentication.
+ *
+ * @param $provider
+ *   The name of the provider on which the user tried to authenticate.  For a list of possible strings, 
+ *   please see the List of Providers
+ *
+ * \note
+ * This message is not sent if authentication was canceled.  To be notified of a canceled authentication, 
+ * see jrAuthenticationDidNotComplete.
+ **/
+- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+
+/**
  * Sent after JREngage has successfully posted the token to the serverAuthenticationUrl, containing the body of the
  * response from the server.
  *
@@ -119,22 +145,6 @@
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
 /**
- * Sent when authentication failed and could not be recovered by the library.
- *
- * @param $error
- *   The error that occurred during authentication.
- *
- * @param $provider
- *   The name of the provider on which the user tried to authenticate.  For a list of possible strings, 
- *   please see the List of Providers
- *
- * \note
- * This message is not sent if authentication was canceled.  To be notified of a canceled authentication, 
- * see jrAuthenticationDidNotComplete.
- **/
-- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
-
-/**
  * Sent when the call to the token URL has failed. 
  *
  * @param $serverAuthenticationUrl
@@ -149,12 +159,20 @@
  **/
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
+
 /**
- * Sent if the authorization was canceled for any reason other than an error.  For example, 
- * the user hits the "Cancel" button, or any class (including the JREngage delegate) calls the 
- * cancelAuthentication message.
+ * Sent if social publishing was canceled for any reason other than an error.  For example, 
+ * the user hits the "Cancel" button, any class (e.g., the JREngage delegate) calls the cancelPublishing
+ * message, or if configuration of the library taking more than about 16 seconds (rare) to download.
  **/
-- (void)jrAuthenticationDidNotComplete;
+- (void)jrSocialDidNotCompletePublishing;
+
+/**
+ * Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing is complete.  
+ * You can receive multiple - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider
+ * messages before the dialog is closed and publishing is complete.
+ **/
+- (void)jrSocialDidCompletePublishing;
 
 /**
  * Sent after the user successfully shares an activity on the given provider.
@@ -168,17 +186,17 @@
  **/
 - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
-/**
- * Sent when publishing an activity failed and could not be recovered by the library.
- *
- * @param $activity
- *   The activity the user was trying to share
- *
- * @param $provider
- *   The name of the provider on which the user attempted to publish the activity.  For a list of possible strings, 
- *   please see the List of Providers
- **/
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider;
+///**
+// * Sent when publishing an activity failed and could not be recovered by the library.
+// *
+// * @param $activity
+// *   The activity the user was trying to share
+// *
+// * @param $provider
+// *   The name of the provider on which the user attempted to publish the activity.  For a list of possible strings, 
+// *   please see the List of Providers
+// **/
+//- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider;
 
 /**
  * Sent when publishing an activity failed and could not be recovered by the library.
@@ -195,19 +213,6 @@
  **/
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
-/**
- * Sent if social publishing was canceled for any reason other than an error.  For example, 
- * the user hits the "Cancel" button, or any class (including the JREngage delegate) calls the 
- * cancelPublishing message.
- **/
-- (void)jrSocialDidNotCompletePublishing;
-
-/**
- * Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing is complete.  
- * You can receive multiple - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider
- * messages before the dialog is closed and publishing is complete.
- **/
-- (void)jrSocialDidCompletePublishing;
 @end
 
 /**

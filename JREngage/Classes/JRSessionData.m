@@ -735,7 +735,8 @@ static JRSessionData* singleton = nil;
 - (NSError*)startGetConfiguration
 {	
     DLog(@"");
-#define STAGING
+
+//#define STAGING
 #ifdef STAGING
 	NSString *urlString = [NSString stringWithFormat:
                            @"http://rpxstaging.com/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
@@ -1056,18 +1057,13 @@ static JRSessionData* singleton = nil;
 - (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user
 {
     DLog(@"");
+    // TODO: Check errors here!
     NSDictionary *activityDictionary = [activity dictionaryForObject];
     
-//    DLog(@"_activity retain count: %d", [_activity retainCount]);
-//    DLog(@"jsonDict retain count: %d", [jsonDict retainCount]);
     
     NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONRepresentation];                          
     NSString *deviceToken = user.device_token;
     
-//    DLog(@"content retain count: %d", [content retainCount]);    
-//    DLog(@"device_token retain count: %d", [device_token retainCount]);
-//    
-//    DLog(@"json: %@", content);
     
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -1096,16 +1092,14 @@ static JRSessionData* singleton = nil;
     {
         if ([(NSDictionary*)tag objectForKey:@"tokenUrl"])
         {
-            @synchronized (delegates)
+            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+            for (id<JRSessionDelegate> delegate in delegatesCopy) 
             {
-                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                {
-                    [delegate authenticateDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-                                               withPayload:payload 
-                                               forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
-                }
+                [delegate authenticateDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
+                                           withPayload:payload 
+                                           forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
             }
+           
         }
     }
     
@@ -1170,29 +1164,24 @@ static JRSessionData* singleton = nil;
             
             if (!response_dict)
             {
-                @synchronized (delegates)
+                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+                for (id<JRSessionDelegate> delegate in delegatesCopy) 
                 {
-                    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                    for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                    {
-                        [delegate publishingActivity:activity
-                                    didFailWithError:[self setError:[payload retain] 
-                                                           withCode:JRPublishFailedError 
-                                                        andSeverity:JRErrorSeverityPublishFailed]];
-                        
-                    }
+                    [delegate publishingActivity:activity
+                                didFailWithError:[self setError:[payload retain] 
+                                                       withCode:JRPublishFailedError 
+                                                    andSeverity:JRErrorSeverityPublishFailed]
+                                     forProvider:[currentProvider name]];
+                    
                 }
             }
             if ([[response_dict objectForKey:@"stat"] isEqualToString:@"ok"])
             {
                 [self saveLastUsedSocialProvider];
-                @synchronized (delegates)
+                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+                for (id<JRSessionDelegate> delegate in delegatesCopy) 
                 {
-                    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                    for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                    {
-                        [delegate publishingActivityDidSucceed:activity forProvider:currentProvider.name];
-                    }
+                    [delegate publishingActivityDidSucceed:activity forProvider:currentProvider.name];
                 }
             }
             else
@@ -1243,35 +1232,17 @@ static JRSessionData* singleton = nil;
                     }
                 }
                 
-                @synchronized (delegates)
+                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+                for (id<JRSessionDelegate> delegate in delegatesCopy) 
                 {
-                    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                    for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                    {
-                        [delegate publishingActivity:activity
-                                    didFailWithError:publishError];
-                                     
-                    }
+                    [delegate publishingActivity:activity
+                                didFailWithError:publishError
+                                     forProvider:[currentProvider name]];
+                                 
                 }
             }
         }
     }
-//    else if ([tag isKindOfClass:[NSDictionary class]])
-//    {
-//        if ([(NSDictionary*)tag objectForKey:@"tokenUrl"])
-//        {
-//            @synchronized (delegates)
-//            {
-//                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-//                for (id<JRSessionDelegate> delegate in delegatesCopy) 
-//                {
-//                    [delegate authenticateDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-//                                               withPayload:payload 
-//                                               forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
-//                }
-//            }
-//        }
-//    }
     
 	[payload release];
 	[tag release];	
@@ -1308,7 +1279,8 @@ static JRSessionData* singleton = nil;
             for (id<JRSessionDelegate> delegate in delegatesCopy) 
             {
                 [delegate publishingActivity:activity
-                            didFailWithError:_error];
+                            didFailWithError:_error
+                                 forProvider:[currentProvider name]];
                 
             }            
         }
@@ -1317,15 +1289,12 @@ static JRSessionData* singleton = nil;
     {
         if ([(NSDictionary*)tag objectForKey:@"tokenUrl"])
         {
-            @synchronized (delegates)
+            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+            for (id<JRSessionDelegate> delegate in delegatesCopy) 
             {
-                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                {
-                    [delegate authenticateCallToTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-                                        didFailWithError:_error 
-                                             forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
-                }
+                [delegate authenticateCallToTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
+                                    didFailWithError:_error 
+                                         forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
             }
         }
     }
@@ -1339,9 +1308,10 @@ static JRSessionData* singleton = nil;
     [(NSString*)userdata release];
 }
 
-- (BOOL)gatheringInfo
+- (BOOL)weShouldBeFirstResponder
 {
     DLog(@"");
+    
     /* If we're authenticating with a provider for social publishing, then don't worry about the return experience
      * for basic authentication. */
     if (social)
@@ -1392,55 +1362,6 @@ static JRSessionData* singleton = nil;
     returningBasicProvider = nil;
 }
 
-//- (void)setReturningBasicProviderToNewBasicProvider:(JRProvider*)provider
-//{
-//	DLog(@"");
-//    
-//	[returningBasicProvider release];
-//	returningBasicProvider = [provider retain];
-//}
-//
-//- (void)setCurrentBasicProviderToReturningProvider
-//{
-//	DLog(@"");
-//    isSocial = NO;
-//	currentProvider = currentBasicProvider = [returningBasicProvider retain];
-//}
-//
-//- (void)setBasicProvider:(JRProvider*)provider
-//{
-//	DLog(@"provider: %@", provider);
-//
-//	if (![currentBasicProvider isEqualToProvider:provider])
-//	{	
-//		[currentBasicProvider release];
-//		
-//		if ([returningBasicProvider isEqualToProvider:provider])
-//			[self setCurrentBasicProviderToReturningProvider];
-//		else
-//			currentBasicProvider = [provider retain];
-//	}
-//
-//    isSocial = NO;
-//    currentProvider = currentBasicProvider;
-//}
-//
-//
-//- (void)setSocialProvider:(JRProvider*)provider
-//{
-//	DLog(@"provider: %@", provider);
-//    
-//	if (![currentSocialProvider isEqualToProvider:provider])
-//	{	
-//		[currentSocialProvider release];
-//		
-//        currentSocialProvider = [provider retain];
-//    }
-//    
-//    isSocial = YES;
-//    currentProvider = currentSocialProvider;
-//}
-
 - (void)makeCallToTokenUrl:(NSString*)_tokenUrl withToken:(NSString *)token forProvider:(NSString*)providerName
 {
 	DLog(@"");
@@ -1464,13 +1385,10 @@ static JRSessionData* singleton = nil;
         NSError *new_error = [NSError errorWithDomain:@"JRAuthenticate"
                                              code:100
                                          userInfo:userInfo];
-		@synchronized (delegates)
+        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+        for (id<JRSessionDelegate> delegate in delegatesCopy) 
         {
-            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-            for (id<JRSessionDelegate> delegate in delegatesCopy) 
-            {
-                [delegate authenticateCallToTokenUrl:_tokenUrl didFailWithError:new_error forProvider:providerName];
-            }
+            [delegate authenticateCallToTokenUrl:_tokenUrl didFailWithError:new_error forProvider:providerName];
         }
 	}
 	
@@ -1480,10 +1398,10 @@ static JRSessionData* singleton = nil;
 - (void)makeCallToTokenUrlWithToken:(NSString*)token
 {
 	DLog(@"");
-    [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:currentProvider.name];
+    [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:[currentProvider name]];//currentProvider.name];
 }	
 
-- (void)authenticationDidCompleteWithPayload:(NSDictionary*)payloadDict// forProvider:(JRProvider*)provider
+- (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict
 {  
     DLog(@"");
     NSDictionary *goodies = [payloadDict objectForKey:@"rpx_result"];
@@ -1492,6 +1410,7 @@ static JRSessionData* singleton = nil;
     JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
                                                                     forProviderNamed:currentProvider.name] autorelease];    
     
+    // QTS: Do we need to synchronize this object??
     @synchronized (authenticatedUsersByProvider)
     {
         [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
@@ -1505,18 +1424,15 @@ static JRSessionData* singleton = nil;
     if ([[self socialProviders] containsObject:currentProvider.name])
         [self saveLastUsedSocialProvider];
     
-    @synchronized (delegates)
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
 #ifdef STAGING
-//            [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"profile"] forProvider:currentProvider.name];
-            [delegate authenticationDidCompleteForUser:goodies forProvider:currentProvider.name];
+//      [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"profile"] forProvider:currentProvider.name];
+        [delegate authenticationDidCompleteForUser:goodies forProvider:currentProvider.name];
 #else
-            [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
+        [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
 #endif
-        }
     }
     
 	if (tokenUrl)
@@ -1526,25 +1442,7 @@ static JRSessionData* singleton = nil;
     currentProvider = nil;
 }
 
-//- (void)authenticationDidCompleteWithToken:(NSString*)token
-//{	
-//    DLog(@"");
-//
-//    for (id<JRSessionDelegate> delegate in delegatesCopy) 
-//    {
-//        [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
-//    }
-//}
-//
-//- (void)authenticationDidCompleteWithAuthenticationToken:(NSString*)authenticationToken andDeviceToken:(NSString*)deviceToken
-//{
-//	DLog(@"");
-//    [self saveLastUsedSocialProvider:deviceToken];
-//    
-//    [self authenticationDidCompleteWithToken:authenticationToken];
-//}
-
-- (void)authenticationDidFailWithError:(NSError*)_error
+- (void)triggerAuthenticationDidFailWithError:(NSError*)_error
 {
     DLog(@"");
     [currentProvider release];
@@ -1557,17 +1455,14 @@ static JRSessionData* singleton = nil;
     returningSocialProvider = nil;
     
     DLog(@"");
-    @synchronized (delegates)
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
-            [delegate authenticationDidFailWithError:_error forProvider:currentProvider.name];
-        }
+        [delegate authenticationDidFailWithError:_error forProvider:currentProvider.name];
     }
 }
 
-- (void)authenticationDidCancel
+- (void)triggerAuthenticationDidCancel
 {
     DLog(@"");
     [currentProvider release];
@@ -1580,127 +1475,121 @@ static JRSessionData* singleton = nil;
     //    returningSocialProvider = nil;
     
     DLog(@"");
-    @synchronized (delegates)
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
-            [delegate authenticationDidCancel];//ForProvider:nil];
-        }
+        [delegate authenticationDidCancel];//ForProvider:nil];
     }
 }
 
-- (void)authenticationDidCancel:(id)sender
+- (void)triggerAuthenticationDidCancel:(id)sender
 {
     DLog(@"");
-    [self authenticationDidCancel];
+    [self triggerAuthenticationDidCancel];
 }
 
-- (void)authenticationDidCancelWithError
+- (void)triggerAuthenticationDidTimeOutConfiguration
 {
     DLog(@"");
     [currentProvider release];
     currentProvider = nil;
     
-    @synchronized (delegates)
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
-            [delegate authenticationDidCancel];//ForProvider:nil];
-        }
+        [delegate authenticationDidCancel];//ForProvider:nil];
     }
+
 }
 
-- (void)publishingDidCancel
+- (void)triggerPublishingDidCancel
 {
     DLog(@"");
     [currentProvider release];
     currentProvider = nil;
     
-    @synchronized (delegates)
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
-            [delegate publishingDidCancel];
-        }
+        [delegate publishingDidCancel];
     }
     
     social = NO;
 }
 
-- (void)publishingDidCancel:(id)sender
+- (void)triggerPublishingDidCancel:(id)sender
 {
     DLog(@"");
-    [self publishingDidCancel];
+    [self triggerPublishingDidCancel];
 }
 
-- (void)publishingDidCancelWithError
+- (void)triggerPublishingDidTimeOutConfiguration
 {
     [currentProvider release];
     currentProvider = nil;
     
-    @synchronized (delegates)
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
-            [delegate publishingDidCancel];
-        }
-    }    
+        [delegate publishingDidCancel];
+    }
 
     social = NO;
 }
 
-- (void)publishingDidComplete
+- (void)triggerPublishingDidComplete
 {
     DLog(@"");
     [currentProvider release];
     currentProvider = nil;
     
-    @synchronized (delegates)
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
-            [delegate publishingDidComplete];
-        }
+        [delegate publishingDidComplete];
     }
     
     social = NO;    
 }
 
-- (void)publishingDidComplete:(id)sender
+- (void)triggerPublishingDidComplete:(id)sender
 {
     DLog(@"");
-    [self publishingDidComplete];
+    [self triggerPublishingDidComplete];
 }
 
-- (void)publishingDidRestart:(id)sender
+- (void)triggerPublishingDidFailWithError:(NSError*)_error
+{
+    DLog(@"");
+
+    // TODO: When will this ever be called and what do we do when it happens?
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
+    {
+        [delegate publishingActivity:activity didFailWithError:_error forProvider:currentProvider.name];
+    }
+}
+
+- (void)triggerPublishingDidRestart:(id)sender
 {    
     DLog(@"");
-    @synchronized (delegates)
+    
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
-            [delegate publishingDidRestart];//ForProvider:nil];
-        }
-    }    
+        [delegate publishingDidRestart];//ForProvider:nil];
+    }
 }
 
-- (void)authenticationDidRestart:(id)sender
+- (void)triggerAuthenticationDidRestart:(id)sender
 {
     DLog(@"");
-    @synchronized (delegates)
+
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
-            [delegate authenticationDidRestart];//ForProvider:nil];
-        }
-    }        
+        [delegate authenticationDidRestart];//ForProvider:nil];
+    }
 }
 
 

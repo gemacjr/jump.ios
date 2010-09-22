@@ -82,7 +82,7 @@ static JREngage* singletonJREngage = nil;
 	return self;
 }
 
-+ (JREngage*)jrEngageWithAppID:(NSString*)appId 
++ (JREngage*)jrEngageWithAppId:(NSString*)appId 
                    andTokenUrl:(NSString*)tokenUrl
                       delegate:(id<JREngageDelegate>)delegate
 {
@@ -130,6 +130,16 @@ static JREngage* singletonJREngage = nil;
 - (void)removeDelegate:(id<JREngageDelegate>)delegate
 {
     // TODO: Implement me!    
+}
+
+- (void)engageDidFailWithError:(NSError*)error
+{
+    for (id<JREngageDelegate> delegate in delegates) 
+	{
+		[delegate jrEngageDialogDidFailToShowWithError:error];
+	}
+    
+	[interfaceMaestro authenticationFailed];
 }
 
 - (void)showAuthenticationDialog
@@ -185,14 +195,17 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro authenticationRestarted];
 }
 
-- (void)engageDidFailWithError:(NSError*)error
+- (void)authenticationDidCancel
 {
+	DLog(@"");
+
+    // TODO: Copy delegate array after adding function bodies for addDelegate and removeDelegate
     for (id<JREngageDelegate> delegate in delegates) 
 	{
-		[delegate jrEngageDialogDidFailToShowWithError:error];
+		[delegate jrAuthenticationDidNotComplete];
 	}
     
-	[interfaceMaestro authenticationFailed];
+    [interfaceMaestro authenticationCanceled];
 }
 
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
@@ -218,17 +231,6 @@ static JREngage* singletonJREngage = nil;
 	[interfaceMaestro authenticationCompleted];
 }
 
-- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
-{
-    DLog(@"");
-
-    // TODO: Copy delegate array after adding function bodies for addDelegate and removeDelegate
-    for (id<JREngageDelegate> delegate in delegates) 
-    {
-        [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
-    }    
-}
-
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	DLog(@"");
@@ -240,6 +242,16 @@ static JREngage* singletonJREngage = nil;
 	[interfaceMaestro authenticationFailed];
 }
 
+- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
+{
+    DLog(@"");
+
+    for (id<JREngageDelegate> delegate in delegates) 
+    {
+        [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
+    }    
+}
+
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     DLog(@"");
@@ -247,27 +259,6 @@ static JREngage* singletonJREngage = nil;
     {
         [delegate jrAuthenticationCallToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
     }
-}
-
-- (void)authenticationDidCancel
-{
-	DLog(@"");
-    for (id<JREngageDelegate> delegate in delegates) 
-	{
-		[delegate jrAuthenticationDidNotComplete];
-	}
-    
-    [interfaceMaestro authenticationCanceled];
-}
-
-- (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider
-{
-    // TODO: Implement me!!! (maybe?)
-}
-
-- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider
-{
-    // TODO: Implement me!!! (maybe?)    
 }
 
 - (void)publishingDidRestart
@@ -278,6 +269,7 @@ static JREngage* singletonJREngage = nil;
 - (void)publishingDidCancel 
 { 
 	DLog(@"");
+    
     for (id<JREngageDelegate> delegate in delegates) 
 	{
 		[delegate jrSocialDidNotCompletePublishing];
@@ -289,6 +281,7 @@ static JREngage* singletonJREngage = nil;
 - (void)publishingDidComplete
 {
 	DLog(@"");
+
     for (id<JREngageDelegate> delegate in delegates) 
 	{
 		[delegate jrSocialDidCompletePublishing];
@@ -297,37 +290,60 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro publishingCompleted];
 }
 
-// TODO, figure out method flow for publishingDidFail
-- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
-- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error { }
+- (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider
+{
+    DLog(@"");
+    
+    for (id<JREngageDelegate> delegate in delegates) 
+	{
+		[delegate jrSocialDidPublishActivity:activity forProvider:provider];
+	}
+}
+
+- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider
+{
+    DLog(@"");
+    
+    for (id<JREngageDelegate> delegate in delegates) 
+	{
+		[delegate jrSocialPublishingActivity:activity didFailWithError:error forProvider:provider];
+	}    
+}
+
+//- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider
+//- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
+//- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error { }
+
+- (void)setCustomNavigationController:(UINavigationController*)navigationController
+{
+    [interfaceMaestro pushToCustomNavigationController:navigationController];
+}
+
+- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController
+{
+    //    [interfaceMaestro popCustomNavigationControllerToViewController:viewController];
+}
+
+- (void)signoutUserForProvider:(NSString*)provider
+{
+    DLog(@"");
+    [sessionData forgetAuthenticatedUserForProvider:provider];
+}
+
+- (void)signoutUserForAllProviders
+{
+    DLog(@"");
+    [sessionData forgetAllAuthenticatedUsers];
+}
 
 - (void)cancelAuthentication
 {	
-	DLog(@"");
-    
-	for (id<JREngageDelegate> delegate in delegates) 
-	{
-		[delegate jrAuthenticationDidNotComplete];
-	}
-    
-    [interfaceMaestro authenticationCanceled];
+    [sessionData triggerAuthenticationDidCancel];
 }
 
 - (void)cancelPublishing
 {
-    // TODO: Implement me!
-}
-
-- (void)cancelAuthenticationWithError:(NSError*)error
-{
-	DLog(@"");
-    
-	for (id<JREngageDelegate> delegate in delegates) 
-	{
-        [delegate jrAuthenticationDidFailWithError:error forProvider:nil];
-	}	
-    
-	[interfaceMaestro authenticationCanceled];
+    [sessionData triggerPublishingDidCancel];
 }
 
 - (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
@@ -344,27 +360,6 @@ static JREngage* singletonJREngage = nil;
     // TODO: Implement me!
 }
 
-- (void)signoutUserForProvider:(NSString*)provider
-{
-    DLog(@"");
-    [sessionData forgetAuthenticatedUserForProvider:provider];
-}
-
-- (void)signoutUserForAllProviders
-{
-    DLog(@"");
-    [sessionData forgetAllAuthenticatedUsers];
-}
-
-- (void)setCustomNavigationController:(UINavigationController*)navigationController
-{
-    [interfaceMaestro pushToCustomNavigationController:navigationController];
-}
-
-- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController
-{
-    //    [interfaceMaestro popCustomNavigationControllerToViewController:viewController];
-}
 
 // TODO: What are the pros/cons of making this class pseudo-singleton?  That is, what if I make it a singleton
 // object after it's instantiated with the correct baseUrl/tokenUrl/etc., but give users the ability to dealloc

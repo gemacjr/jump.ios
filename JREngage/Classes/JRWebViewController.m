@@ -125,7 +125,7 @@
                                              code:100
                                          userInfo:userInfo];
         
-        [sessionData authenticationDidFailWithError:error];        
+        [sessionData triggerAuthenticationDidFailWithError:error];        
         
         return;
     }    
@@ -189,7 +189,7 @@
 		
 		if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"stat"] isEqualToString:@"ok"])
 		{
-            [sessionData authenticationDidCompleteWithPayload:payloadDict];
+            [sessionData triggerAuthenticationDidCompleteWithPayload:payloadDict];
 		}
 		else 
 		{
@@ -221,7 +221,7 @@
 													 code:100
 												 userInfo:userInfo];
 				
-				[sessionData authenticationDidFailWithError:error];
+				[sessionData triggerAuthenticationDidFailWithError:error];
 			}
 			else
 			{
@@ -231,7 +231,7 @@
 													 code:100
 												 userInfo:userInfo];
 				
-				[sessionData authenticationDidFailWithError:error];
+				[sessionData triggerAuthenticationDidFailWithError:error];
 			}
 		}
 	}
@@ -249,7 +249,7 @@
     
 	if ([tag isEqualToString:@"rpx_result"])
 	{
-		[sessionData authenticationDidFailWithError:error];
+		[sessionData triggerAuthenticationDidFailWithError:error];
 	}
 	
 	[tag release];	
@@ -306,7 +306,7 @@
         [self stopProgress];
         
         if (!userStopped)
-            [sessionData authenticationDidFailWithError:error];
+            [sessionData triggerAuthenticationDidFailWithError:error];
         userStopped = NO;
         
         [self stopProgress];

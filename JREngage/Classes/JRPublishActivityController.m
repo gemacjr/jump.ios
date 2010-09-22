@@ -192,7 +192,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     DLog(@"");
-    [sessionData publishingDidCancelWithError];
+    [sessionData triggerPublishingDidTimeOutConfiguration];
 }
 
 /* If the user calls the library before the session data object is done initializing - 
@@ -840,7 +840,7 @@ Please try again later."
 }
 
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); justAuthenticated = NO; sharing = NO; }
-- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSString*)tokenUrlPayload forProvider:(NSString*)provider { DLog(@""); }
+- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { DLog(@""); }
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 
 
@@ -880,14 +880,15 @@ Please try again later."
     //    [sessionData removeDelegate:self];
 }
 
-- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider { }
+//- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider { }
 
 - (void)publishingDidRestart { sharing = NO; }
 - (void)publishingDidCancel { DLog(@""); sharing = NO; }
 - (void)publishingDidComplete { DLog(@""); sharing = NO; }
-- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+//- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 
-- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error
+//- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error
+- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     DLog(@"");
     NSString *errorMessage = nil;

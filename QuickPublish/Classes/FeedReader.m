@@ -408,7 +408,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
         
 //        allStories = [[NSMutableArray alloc] initWithCapacity:25];//[feeds count]*20];
         
-        jrEngage = [JREngage jrEngageWithAppID:appId andTokenUrl:tokenUrl delegate:self];
+        jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
         
         [self downloadFeedStories];
 	}

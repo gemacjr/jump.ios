@@ -259,7 +259,7 @@
                                              code:100
                                          userInfo:userInfo];
         
-        [sessionData authenticationDidFailWithError:error];        
+        [sessionData triggerAuthenticationDidFailWithError:error];        
 
         return;
     }
@@ -313,7 +313,7 @@
 	NSIndexPath *indexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
 	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:indexPath];
 	
-	if ([sessionData gatheringInfo])
+	if ([sessionData weShouldBeFirstResponder])
 		[cell.textField becomeFirstResponder];
 }
 

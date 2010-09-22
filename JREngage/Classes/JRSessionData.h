@@ -118,22 +118,28 @@ typedef enum
 @end
 
 @protocol JRSessionDelegate <NSObject>
+@optional
 - (void)authenticationDidRestart;
 - (void)authenticationDidCancel;
+
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider;
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-
-- (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
-- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
 - (void)publishingDidRestart;
 - (void)publishingDidCancel;
 - (void)publishingDidComplete;
-- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
-- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error;
+
+- (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
+
+- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+
+//- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider;
+//- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+//- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error;
 @end
 
 @class JRActivityObject;
@@ -219,15 +225,10 @@ typedef enum
 
 - (void)setReturningBasicProviderToNil;
 
-//- (void)setReturningBasicProviderToNewBasicProvider:(JRProvider*)provider;
-//- (void)setCurrentBasicProviderToReturningProvider;
-//
-//- (void)setBasicProvider:(JRProvider*)provider;
-//- (void)setSocialProvider:(JRProvider*)provider;
-	
-- (BOOL)gatheringInfo;
+- (BOOL)weShouldBeFirstResponder;
 
 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider;
+
 - (void)forgetAuthenticatedUserForProvider:(NSString*)provider;
 - (void)forgetAllAuthenticatedUsers;
 
@@ -235,12 +236,16 @@ typedef enum
 
 - (void)makeCallToTokenUrl:(NSString*)tokenURL withToken:(NSString*)token forProvider:(NSString*)provider;
 
-- (void)authenticationDidCancel;
-- (void)authenticationDidCancel:(id)sender;
-- (void)authenticationDidCompleteWithPayload:(NSDictionary*)payloadDict;// forProvider:(JRProvider*)provider;
-- (void)authenticationDidFailWithError:(NSError*)_error;
-- (void)publishingDidCancel;
-- (void)publishingDidCancel:(id)sender;
-- (void)authenticationDidCancelWithError;
-- (void)publishingDidCancelWithError;
+- (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict;
+- (void)triggerAuthenticationDidTimeOutConfiguration;
+- (void)triggerAuthenticationDidCancel;
+- (void)triggerAuthenticationDidCancel:(id)sender;
+- (void)triggerAuthenticationDidFailWithError:(NSError*)_error;
+
+- (void)triggerPublishingDidCancel;
+- (void)triggerPublishingDidCancel:(id)sender;
+- (void)triggerPublishingDidTimeOutConfiguration;
+- (void)triggerPublishingDidFailWithError:(NSError*)_error;
+
 @end
+

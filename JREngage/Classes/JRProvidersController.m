@@ -197,7 +197,8 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [sessionData authenticationDidCancelWithError];
+    // TODO: Add an error to this function
+    [sessionData triggerAuthenticationDidTimeOutConfiguration];
 }
 
 /* If the user calls the library before the session data object is done initializing - 
