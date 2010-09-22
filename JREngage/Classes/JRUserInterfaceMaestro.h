@@ -41,11 +41,6 @@
 #import "JRWebViewController.h"
 #import "JRPublishActivityController.h"
 
-//@protocol JRUserInterfaceDelegate <NSObject>
-//- (void)userInterfaceWillClose;
-//- (void)userInterfaceDidClose;
-//@end
-
 @class JRSessionData;
 @class JRModalNavigationController;
 @class JRProvidersController;
@@ -74,7 +69,6 @@
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
 
 - (void)pushToCustomNavigationController:(UINavigationController*)_navigationController;
-//- (void)popCustomNavigationControllerToViewController:(UIViewController*)_viewController;
 
 - (void)showAuthenticationDialog;
 - (void)showPublishingDialogWithActivity;
