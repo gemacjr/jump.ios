@@ -48,11 +48,6 @@
 @implementation JRModalNavigationController
 
 @synthesize navigationController;
-//@synthesize socialNavigationController;
-
-//@synthesize myUserLandingController;
-//@synthesize myWebViewController;
-//@synthesize myPublishActivityController;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -64,22 +59,8 @@
 }
 */
 
-//- (JRModalNavigationController*)initWithSessionData:(JRSessionData*)data
-//{
-//	DLog(@"");
-//	
-//	if (self = [super init])
-//	{
-//		shouldRestore = NO;
-//		sessionData = [data retain];
-//	}
-//	
-//	return self;
-//}
-
 - (id)initWithRootViewController:(UIViewController*)controller
 {
-//	UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	if (controller == nil)
 	{
 		[self release];
@@ -94,12 +75,6 @@
     }
 	        
     return self;
-    
-//    shouldUnloadSubviews = NO;
-    
-//    [view setHidden:YES];
-//	[self setView:view];
-//    [view release];
 }
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
@@ -109,40 +84,6 @@
 
 	UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	DLog(@"view retain count: %d", [view retainCount]);
-    
-//	if (!navigationController)
-//	{
-//		navigationController    = [[UINavigationController alloc] 
-//                                   initWithRootViewController:
-//                                   [[[JRProvidersController alloc] 
-//                                     initWithNibName:@"JRProvidersController" 
-//                                     bundle:[NSBundle mainBundle]] autorelease]];
-//
-//		navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-//	}
-//	
-//	myUserLandingController     = [[JRUserLandingController alloc]
-//                                   initWithNibName:@"JRUserLandingController"
-//                                   bundle:[NSBundle mainBundle]];
-//	
-//	myWebViewController         = [[JRWebViewController alloc]
-//                                   initWithNibName:@"JRWebViewController"
-//                                   bundle:[NSBundle mainBundle]];
-//	
-//	myPublishActivityController = [[JRPublishActivityController alloc]
-//                                   initWithNibName:@"JRPublishActivityController"
-//                                   bundle:[NSBundle mainBundle]];
-//
-//    if (!socialNavigationController)
-//    {
-//        socialNavigationController = [[UINavigationController alloc]
-//                                      initWithRootViewController:
-//                                      [[[JRPublishActivityController alloc]
-//                                        initWithNibName:@"JRPublishActivityController"
-//                                        bundle:[NSBundle mainBundle]] autorelease]];
-//
-//		socialNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-//    }          
     
     shouldUnloadSubviews = NO;
     
@@ -164,7 +105,7 @@
 }
 
 
-- (void)presentModalNavigationControllerForPublishingActivity//:(JRActivityObject*)_activity
+- (void)presentModalNavigationControllerForPublishingActivity
 {
 	DLog(@"");
 	DLog(@"view retain count: %d", [self.view retainCount]);
@@ -172,7 +113,6 @@
 	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
 	[self presentModalViewController:navigationController animated:YES];
-//	[self presentModalViewController:socialNavigationController animated:YES];
 }
 
 - (void)presentModalNavigationControllerForAuthentication
@@ -198,17 +138,9 @@
 	if (shouldUnloadSubviews)
     {
         [self.view removeFromSuperview];
-		[self release];//[[JRAuthenticate jrAuthenticate] unloadModalViewController];	
+		[self release];
     }    
 }
-
-//- (void)cancelButtonPressed:(id)sender
-//{
-//	DLog(@"");
-//	[[JRSessionData jrSessionData] authenticationDidCancel];
-//	[self dismissModalNavigationController:NO];
-//	[self restore:NO];
-//}
 
 - (void)dismissModalNavigationController:(UIModalTransitionStyle)style
 {
@@ -219,20 +151,6 @@
     navigationController.modalTransitionStyle = style;
     [self.view setHidden:NO];
     [self dismissModalViewControllerAnimated:YES];
-    
-//	if (successfullyAuthed)
-//	{
-//		shouldUnloadSubviews = YES;
-//		navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-//		[self.view setHidden:NO];
-//		[self dismissModalViewControllerAnimated:YES];
-//	}
-//	else 
-//	{
-//		navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-//		[self dismissModalViewControllerAnimated:YES];
-//		[self.view removeFromSuperview];
-//	}
 }
 
 
@@ -260,7 +178,6 @@
 {
 	DLog(@"");
     [super viewDidDisappear:animated];
-//    [self release];
 }
 
 - (void)viewDidUnload {
@@ -275,11 +192,7 @@
     
 	DLog(@"view retain count: %d", [self.view retainCount]);
     [navigationController release];
-//    [socialNavigationController release];
-//	[myUserLandingController release];
-//	[myWebViewController release];
-//	[myPublishActivityController release];
-    
+
 	[super dealloc];
 }
 

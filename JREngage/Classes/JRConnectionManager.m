@@ -182,8 +182,9 @@ static JRConnectionManager* singleton = nil;
 	}	
 }
 
-/* Hmmmm... now that I've set up a full singleton instance of this class, will this ever be called?
-   Leaving it here in case I want to make this not a singleton, so that my library isn't eating memory. */
+/* Hmmmm... now that I've set up a full singleton instance of this class, will this ever be called? (No.)
+   Leaving it here in case I want to make this not a singleton, so that my library isn't eating memory
+   and I don't have to rewrite it. */
 - (void)dealloc
 {
 	DLog(@"");
