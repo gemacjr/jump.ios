@@ -126,8 +126,8 @@
         
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:sessionData//[self navigationController].parentViewController
-                                      action:@selector(authenticationDidCancel:)] autorelease];// @selector(cancelButtonPressed:)] autorelease];
+									  target:sessionData
+                                      action:@selector(authenticationDidCancel:)] autorelease];
 
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -150,51 +150,6 @@
 			infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:JRInfoBarStyleShowPoweredBy];
 		[self.view addSubview:infoBar];
 	}
-
-//    [myActivitySpinner startAnimating];
-//    [myActivitySpinner setHidden:NO];
-//    [myLoadingLabel setHidden:NO];
-    
-    
-//    if ([sessionData configurationComplete] || ([[sessionData basicProviders] count] > 0))
-//    {
-//        //providers = [sessionData.basicProviders retain];
-//    
-//        /* Check the session data to see if there's information on the last provider the user logged in with. */
-//        if (sessionData.returningBasicProvider && !sessionData.currentProvider)
-//        {
-//            DLog(@"and there was a returning provider");
-//            //[sessionData setCurrentBasicProviderToReturningProvider];
-//            [sessionData setCurrentProvider:sessionData.returningBasicProvider];
-//            
-//            /* If so, go straight to the returning provider screen. */
-//            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
-//                                                   animated:YES]; 
-////            [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-////                                                   animated:NO]; 
-//        }
-//    
-//        /* Load the table with the list of providers. */
-//        [myTableView reloadData];    
-//		[infoBar fadeIn];
-//    }
-//    else
-//    {
-//       DLog(@"prov count = %d", [[sessionData basicProviders] count]);
-//	
-//        /* If the user calls the library before the session data object is done initializing - 
-//           because either the requests for the base URL or provider list haven't returned - 
-//           display the "Loading Providers" label and activity spinner. 
-//           sessionData = nil when the call to get the base URL hasn't returned
-//           [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-//        [myActivitySpinner setHidden:NO];
-//        [myLoadingLabel setHidden:NO];
-//        
-//        [myActivitySpinner startAnimating];
-//        
-//        /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
-//        timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
-//    }
 }
 
 
@@ -209,28 +164,12 @@
 	{
 		DLog(@"view controller: %@", [vc description]);
 	}
-    
-    
-    
-    
+        
     if ([sessionData configurationComplete] || ([[sessionData basicProviders] count] > 0))
     {
-        //providers = [sessionData.basicProviders retain];
-        
         [myActivitySpinner stopAnimating];
         [myActivitySpinner setHidden:YES];
         [myLoadingLabel setHidden:YES];
-         
-//        /* Check the session data to see if there's information on the last provider the user logged in with. */
-//        if (sessionData.returningBasicProvider && !sessionData.currentProvider)
-//        {
-//            DLog(@"and there was a returning provider");
-//            [sessionData setCurrentProvider:sessionData.returningBasicProvider];
-//            
-//            /* If so, go straight to the returning provider screen. */
-//            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
-//                                                   animated:YES]; 
-//        }
         
         /* Load the table with the list of providers. */
         [myTableView reloadData];    
@@ -259,7 +198,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [sessionData authenticationDidCancelWithError];
-//	[(JRModalNavigationController*)[self navigationController].parentViewController dismissModalNavigationController:NO];	
 }
 
 /* If the user calls the library before the session data object is done initializing - 
@@ -282,25 +220,7 @@
         [myActivitySpinner stopAnimating];
 		[myActivitySpinner setHidden:YES];
 		[myLoadingLabel setHidden:YES];
-		
-        
-        
-        
-//        if (sessionData.returningBasicProvider && !sessionData.currentProvider)
-//        {
-//            DLog(@"and there was a returning provider");
-//            //[sessionData setCurrentBasicProviderToReturningProvider];
-//            [sessionData setCurrentProvider:sessionData.returningBasicProvider];
-//            
-//            /* If so, go straight to the returning provider screen. */
-//            [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
-//                                                   animated:YES]; 
-//        }
-        
-        
-        
-        
-        
+		       
 		[myTableView reloadData];
 	
 		return;
@@ -419,7 +339,6 @@ Please try again later."
 	
 	/* Let sessionData know which provider the user selected */
 	JRProvider *provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
-//    [sessionData setBasicProvider:provider];
     [sessionData setCurrentProvider:provider];
 
     DLog(@"cell for %@ was selected", provider);
@@ -431,16 +350,12 @@ Please try again later."
     {	
         [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                animated:YES]; 
-//        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myUserLandingController
-//                                               animated:YES]; 
     }
     /* Otherwise, go straight to the web view. */
     else
     {
         [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myWebViewController
                                                animated:YES]; 
-//        [[self navigationController] pushViewController:((JRModalNavigationController*)[self navigationController].parentViewController).myWebViewController
-//                                               animated:YES]; 
     }
     
     [provider release];

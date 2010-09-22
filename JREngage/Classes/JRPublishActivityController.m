@@ -240,7 +240,6 @@ Please try again later."
 
 		[alert show];
         
-        //[timer release];
         timer = nil;
 		
         return;
@@ -328,9 +327,8 @@ Please try again later."
     [myUserContentTextView resignFirstResponder];
 
     if (myUserContentTextView.text.length > 0)
-        [myUserContentTextView scrollRangeToVisible:NSMakeRange(0, 1)];//NSRangeFromString(myUserContentTextView.text)];
-    //    [myUserContentTextView scrollRectToVisible:CGRectMake(0, 0, 300, 125) animated:YES];
-	
+        [myUserContentTextView scrollRangeToVisible:NSMakeRange(0, 1)];
+
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
 									target:self
@@ -373,32 +371,6 @@ Please try again later."
     [myUserName setHidden:!loggedIn];
     [mySettingsButton setHidden:!loggedIn];
     [UIView commitAnimations];
-    
-    
-//    [UIView setAnimationDuration:2];
-//    if (loggedIn)
-//    {
-//        [myConnectAndShareButton setFrame:CGRectMake(165,//myConnectAndShareButton.frame.origin.x,// + 155,
-//                                                     myConnectAndShareButton.frame.origin.y, 
-//                                                     145,//myConnectAndShareButton.frame.size.width, 
-//                                                     myConnectAndShareButton.frame.size.height)];
-//        [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:@"blue_button_145x37.png"] forState:UIControlStateNormal];
-//        [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:@"blue_button_145x37.png"] forState:UIControlStateSelected];
-//        [myConnectAndShareButton setTitle:@"Share" forState:UIControlStateNormal];
-//        [myConnectAndShareButton setTitle:@"Share" forState:UIControlStateSelected];
-//    }
-//    else
-//    {
-//        [UIView setAnimationRepeatAutoreverses:YES];
-//        [myConnectAndShareButton setFrame:CGRectMake(10,//myConnectAndShareButton.frame.origin.x,// - 155,
-//                                                     myConnectAndShareButton.frame.origin.y, 
-//                                                     300,//myConnectAndShareButton.frame.size.width,
-//                                                     myConnectAndShareButton.frame.size.height)];
-//        [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:@"blue_button_300x37.png"] forState:UIControlStateNormal];
-//        [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:@"blue_button_300x37.png"] forState:UIControlStateSelected];
-//        [myConnectAndShareButton setTitle:@"Connect and Share" forState:UIControlStateNormal];
-//        [myConnectAndShareButton setTitle:@"Connect and Share" forState:UIControlStateSelected];
-//    } 
 }
 
 - (void)showActivityAsShared:(BOOL)shared
@@ -467,20 +439,9 @@ Please try again later."
     else
         myUserContentTextView.text = _activity.user_generated_content;
     
-//    NSInteger mediaOffset = 53;
-    
     if ((ready) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider.name]))
     {
         [myMediaContentView setHidden:NO];
-        
-//        [myTitleLabel setFrame:CGRectMake(63, //myTitleLabel.frame.origin.x + mediaOffset, 
-//                                          myTitleLabel.frame.origin.y,
-//                                          227, //myTitleLabel.frame.size.width - mediaOffset, 
-//                                          myTitleLabel.frame.size.height)];
-//        [myDescriptionLabel setFrame:CGRectMake(63, //myDescriptionLabel.frame.origin.x + mediaOffset, 
-//                                                myDescriptionLabel.frame.origin.y,
-//                                                227, //myDescriptionLabel.frame.size.width - mediaOffset, 
-//                                                myDescriptionLabel.frame.size.height)];        
         
         myTitleLabel.text = _activity.title;
         myDescriptionLabel.text = _activity.description;
@@ -502,19 +463,6 @@ Please try again later."
     else 
     {
         [myMediaContentView setHidden:YES];
-//        [myMediaContentView setHidden:NO];
-//        
-//        [myTitleLabel setFrame:CGRectMake(10, //myTitleLabel.frame.origin.x - mediaOffset, 
-//                                          myTitleLabel.frame.origin.y,
-//                                          280, //myTitleLabel.frame.size.width + mediaOffset, 
-//                                          myTitleLabel.frame.size.height)];
-//        [myDescriptionLabel setFrame:CGRectMake(10, //myDescriptionLabel.frame.origin.x - mediaOffset, 
-//                                                myDescriptionLabel.frame.origin.y,
-//                                                280, //myDescriptionLabel.frame.size.width + mediaOffset, 
-//                                                myDescriptionLabel.frame.size.height)];
-//        
-//        myTitleLabel.text = activity.title;
-//        myDescriptionLabel.text = activity.description;
     }
 }
 
@@ -944,7 +892,6 @@ Please try again later."
 {
     DLog(@"");
     NSString *errorMessage = nil;
-//    BOOL closeDialog = NO;
     BOOL reauthenticate = NO;
 
     [self showViewIsLoading:NO];
@@ -953,33 +900,29 @@ Please try again later."
     {
         case JRPublishFailedError:
             errorMessage = [NSString stringWithFormat:
-                            @"There was an error while sharing this activity."];//: %@", (error) ? [error localizedDescription] : @""];
-//            closeDialog = YES;
+                            @"There was an error while sharing this activity."];
             break;
         case JRPublishErrorDuplicateTwitter:
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Twitter does not allow duplicate status updates."];
-//            closeDialog = NO;
             break;
         case JRPublishErrorLinkedInCharacterExceded:
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Status was too long."];
-//            closeDialog = NO;
             break;
         case JRPublishErrorMissingApiKey:
             errorMessage = [NSString stringWithFormat:
-                            @"There was an error while sharing this activity."];//: %@", (error) ? [error localizedDescription] : @""];
+                            @"There was an error while sharing this activity."];
             reauthenticate = YES;
             break;
         case JRPublishErrorInvalidOauthToken:
             errorMessage = [NSString stringWithFormat:
-                            @"There was an error while sharing this activity."];//]]: %@", (error) ? [error localizedDescription] : @""];
+                            @"There was an error while sharing this activity."];
             reauthenticate = YES;
             break;
         default:
             errorMessage = [NSString stringWithFormat:
-                            @"There was an error while sharing this activity."];//: %@", (error) ? [error localizedDescription] : @""];
-//            closeDialog = YES;
+                            @"There was an error while sharing this activity."];
             break;
     }    
 
@@ -1013,15 +956,6 @@ Please try again later."
     [alert show];
     
 }
-
-
-
-//- (IBAction)doneButtonPressed:(id)sender
-//{
-//    DLog(@"");
-//    //    [hideKeyboardButton removeFromSuperview];
-//    [myUserContentTextView resignFirstResponder];    
-//}
 
 /*
 // Override to allow orientations other than the default portrait orientation.

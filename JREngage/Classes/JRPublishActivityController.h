@@ -36,9 +36,6 @@
 #import <UIKit/UIKit.h>
 #import "JREngage.h"
 #import "JRInfoBar.h"
-//#import "JRUserInterfaceMaestro.h"
-
-//@protocol JRUserInterfaceDelegate;
 
 @interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITextViewDelegate, 
                                                            UITabBarDelegate, JRSessionDelegate,

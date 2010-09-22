@@ -34,7 +34,6 @@
 
 
 #import <UIKit/UIKit.h>
-//#import "JRUserInterfaceMaestro.h"
 #import "JREngage.h"
 #import "JRInfoBar.h"
 
@@ -42,16 +41,11 @@
 @class JRSessionData;
 @class JRUserInterfaceMaestro;
 
-//@protocol JRUserInterfaceDelegate;
-
-
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
 														UITableViewDataSource, UIAlertViewDelegate,
                                                         JRUserInterfaceDelegate> 
 {
 	JRSessionData	*sessionData;
-    
-//  NSArray *providers;
     
 	UITableView		*myTableView;
 	
