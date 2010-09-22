@@ -59,11 +59,12 @@ static JREngage* singletonJREngage = nil;
     return [[self jrEngage] retain];
 }
 
-// TODO: Change this to accept the baseUrl instead of the appId to save time in initialization
+// TODO: Check in on changing tokenUrl to serverAuthenticationUrl
 - (JREngage*)initWithAppID:(NSString*)appId 
                andTokenUrl:(NSString*)tokenUrl 
                   delegate:(id<JREngageDelegate>)delegate
 {
+    // TODO: Fix all the DLogs and ALogs
 	DLog(@"");
     DLog(@"appID:    %@", appId);
 	DLog(@"tokenURL: %@", tokenUrl);
@@ -72,7 +73,6 @@ static JREngage* singletonJREngage = nil;
 	{
 		singletonJREngage = self;
 		
-        // TODO: Add a way to add delegates, or receive notifications automatically
 		delegates = [[NSMutableArray alloc] initWithObjects:delegate, nil];
 		
         sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
@@ -132,30 +132,6 @@ static JREngage* singletonJREngage = nil;
     // TODO: Implement me!    
 }
 
-//- (void)showJRAuthenticateDialog
-//{
-//    DLog(@"");
-//    
-//    /* If there was error configuring the library, sessionData.error will not be null. */
-//    if (sessionData.error)
-//    {
-//        /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
-//         configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
-//         librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
-//         if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
-//        if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
-//        {
-//            // TODO: This should really be changed to configurationDidFailWithError, as it could happen for auth and publishing.
-//            [self authenticationDidFailWithError:[sessionData.error retain] forProvider:nil];
-//            [sessionData reconfigure];
-//            [sessionData.error release];
-//            return;
-//        }
-//    }
-//    
-//    [interfaceMaestro showAuthenticationDialog];
-//}
-
 - (void)showAuthenticationDialog
 {
     DLog(@"");
@@ -204,14 +180,6 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro showPublishingDialogWithActivity];
 }
 
-//- (void)unloadModalViewControllerWithTransitionStyle:(UIModalTransitionStyle)style
-//{
-//	DLog(@"");
-//    [jrModalNavController dismissModalNavigationController:style];   
-//  	[jrModalNavController release];
-//	jrModalNavController = nil;	    
-//}
-
 - (void)authenticationDidRestart
 {
     [interfaceMaestro authenticationRestarted];
@@ -226,7 +194,6 @@ static JREngage* singletonJREngage = nil;
     
 	[interfaceMaestro authenticationFailed];
 }
-
 
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
 {
@@ -251,10 +218,11 @@ static JREngage* singletonJREngage = nil;
 	[interfaceMaestro authenticationCompleted];
 }
 
-
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
 {
     DLog(@"");
+
+    // TODO: Copy delegate array after adding function bodies for addDelegate and removeDelegate
     for (id<JREngageDelegate> delegate in delegates) 
     {
         [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
@@ -271,7 +239,6 @@ static JREngage* singletonJREngage = nil;
     
 	[interfaceMaestro authenticationFailed];
 }
-
 
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
@@ -293,26 +260,14 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro authenticationCanceled];
 }
 
-//- (void)authenticationDidCancelForProvider:(NSString*)provider
-//{
-//	DLog(@"");
-//    for (id<JRAuthenticateDelegate> delegate in delegates) 
-//	{
-//		[delegate jrAuthenticateDidNotCompleteAuthentication:self forProvider:(NSString*)provider];
-//	}
-//
-//	[interfaceMaestro authenticationCanceled];
-////	[self unloadModalViewControllerWithTransitionStyle:UIModalTransitionStyleCoverVertical];//[jrModalNavController dismissModalNavigationController:NO];
-//}
-
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider
 {
-    
+    // TODO: Implement me!!! (maybe?)
 }
 
 - (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider
 {
-    
+    // TODO: Implement me!!! (maybe?)    
 }
 
 - (void)publishingDidRestart
@@ -342,6 +297,7 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro publishingCompleted];
 }
 
+// TODO, figure out method flow for publishingDidFail
 - (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error { }
 
@@ -373,15 +329,6 @@ static JREngage* singletonJREngage = nil;
     
 	[interfaceMaestro authenticationCanceled];
 }
-
-//- (void)unloadModalViewController
-//{
-//	DLog(@"");
-//
-//	[[jrModalNavController view] removeFromSuperview];
-//	[jrModalNavController release];
-//	jrModalNavController = nil;	
-//}
 
 - (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
 {
@@ -423,6 +370,7 @@ static JREngage* singletonJREngage = nil;
 // object after it's instantiated with the correct baseUrl/tokenUrl/etc., but give users the ability to dealloc
 // it if they want to free up the memory.  If freed, all subsequent messages will just be sent to a nil instance
 // until reinstantiated.
+// ANSWER: Minimal memory... should just use regular singleton paradigm
 - (void)dealloc 
 {
 	DLog(@"");
