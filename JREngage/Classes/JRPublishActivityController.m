@@ -201,9 +201,11 @@
  until the provider list is loaded or we time out. */
 - (void)checkSessionDataAndProviders:(NSTimer*)theTimer
 {
-	static NSTimeInterval interval = 0.125;
+	static NSTimeInterval interval = 0.5;
 	interval = interval + 0.5;
 	
+    timer = nil;
+
 	DLog(@"prov count = %d", [[sessionData socialProviders] count]);
 	DLog(@"interval = %f", interval);
 	      
@@ -239,9 +241,6 @@ Please try again later."
 											   otherButtonTitles:nil] autorelease];
 
 		[alert show];
-        
-        timer = nil;
-		
         return;
 	}
 	

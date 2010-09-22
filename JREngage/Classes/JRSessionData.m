@@ -243,28 +243,25 @@
 
 @implementation JRSessionData
 @synthesize configurationComplete;
-
-//@synthesize allProviders;
-//@synthesize basicProviders;
-//@synthesize socialProviders;
-
 @synthesize currentProvider;
 @synthesize returningBasicProvider;
 @synthesize returningSocialProvider;
 
 @synthesize activity;
 
-//@synthesize baseUrl;
 @synthesize tokenUrl;
 @synthesize forceReauth;
 
 @synthesize social;
 @synthesize error;
 
-//@synthesize hidePoweredBy;
 @synthesize customView;
 @synthesize customProvider;
 
+- (JRProvider*)returningBasicProvider
+{
+    return nil;
+}
 
 static JRSessionData* singleton = nil;
 + (JRSessionData*)jrSessionData
@@ -308,18 +305,6 @@ static JRSessionData* singleton = nil;
 
 	if (self = [super init]) 
 	{
-
-        NSString *path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"JREngage.bundle"];//[[[NSFileManager defaultManager] currentDirectoryPath]
-                         // stringByAppendingPathComponent: path];
-        
-        DLog(@"current directory path: %@", path);
-
-        NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:error];
-        for (NSString *item in contents)
-        {
-            DLog(@"item: %@", item);
-        }
-        
         singleton = self;
         
         delegates = [[NSMutableArray alloc] initWithObjects:[_delegate retain], nil];
@@ -500,7 +485,7 @@ static JRSessionData* singleton = nil;
 	DLog(@"");
     
 	NSMutableString *oid;
-	
+
     if (!currentProvider)
         return nil;
     
@@ -524,10 +509,10 @@ static JRSessionData* singleton = nil;
 #ifdef SOCIAL_PUBLISHING
     if (social)
         str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
-                         baseUrl, 
-                         currentProvider.url,
-                         oid, // TODO: Always force reauth for social because there isn't a "force reauth" button
-                         ((forceReauth) ? @"force_reauth=true&" : @""), // available and sometimes cookies take over?
+                         baseUrl,               /* Always force reauth for social because with the social publishing flow, the user is never taken to    */
+                         currentProvider.url,   /* the "Welcome back" screen, and therefore could never click the "switch Providers" button. Also,       */
+                         oid,                   /* signing out of a social provider could happen at any time, like on previous launches, and that        */
+                         @"force_reauth=true&", /* should always prompt a force_reauth. Assume we always want to force reauth when logging in for social */
                          (([currentProvider.name isEqualToString:@"facebook"]) ? 
                           @"ext_perm=publish_stream&" : @"")];
     else
@@ -1526,9 +1511,10 @@ static JRSessionData* singleton = nil;
         for (id<JRSessionDelegate> delegate in delegatesCopy) 
         {
 #ifdef STAGING
-            [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
+//            [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"profile"] forProvider:currentProvider.name];
+            [delegate authenticationDidCompleteForUser:goodies forProvider:currentProvider.name];
 #else
-            [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"profile"] forProvider:currentProvider.name];
+            [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
 #endif
         }
     }

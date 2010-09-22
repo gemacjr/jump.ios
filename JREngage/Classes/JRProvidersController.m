@@ -210,6 +210,8 @@
     static NSTimeInterval interval = 0.5;
 	interval = interval + 0.5;
 	
+    timer = nil;
+    
 	DLog(@"prov count = %d", [[sessionData basicProviders] count]);
 	DLog(@"interval = %f", interval);
     

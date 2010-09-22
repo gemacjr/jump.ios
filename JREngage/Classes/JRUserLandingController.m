@@ -288,8 +288,8 @@
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:sessionData//[self navigationController].parentViewController
-                                      action:@selector(authenticationDidRestart:)] autorelease];// @selector(cancelButtonPressed:)] autorelease];
+									  target:sessionData
+                                      action:@selector(authenticationDidRestart:)] autorelease];
 
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -356,17 +356,6 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex { }
 
-
-//- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString
-//{
-//	NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
-//	
-//	if ([strArr count] <= 1)
-//		return @"Welcome, user!";
-//	
-//	return [[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] stringByReplacingOccurrencesOfString:@"+" withString:@" "];
-//}
-
 #pragma mark Table view methods
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -377,7 +366,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
-
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -449,10 +437,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-    // Navigation logic may go here. Create and push another view controller.
-	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
-	// [self.navigationController pushViewController:anotherViewController];
-	// [anotherViewController release];
 }
 
 /*

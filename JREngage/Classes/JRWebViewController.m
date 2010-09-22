@@ -82,8 +82,8 @@
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:sessionData//[self navigationController].parentViewController
-                                      action:@selector(authenticationDidRestart:)] autorelease];// @selector(cancelButtonPressed:)] autorelease];
+									  target:sessionData
+                                      action:@selector(authenticationDidRestart:)] autorelease];
 
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -164,7 +164,6 @@
 	
 	keepProgress = NO;
 	[infoBar stopProgress];
-//    [myWebView stopLoading];
 }
 	
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
@@ -175,7 +174,6 @@
 	[self stopProgress];
 	
 	NSString* tag = [(NSString*)userdata retain];
-//	[payload retain];
 	
 	DLog(@"payload: %@", payload);
 	DLog(@"tag:     %@", tag);
@@ -191,7 +189,7 @@
 		
 		if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"stat"] isEqualToString:@"ok"])
 		{
-            [sessionData authenticationDidCompleteWithPayload:payloadDict];// forProvider:sessionData.currentProvider];
+            [sessionData authenticationDidCompleteWithPayload:payloadDict];
 		}
 		else 
 		{
@@ -238,9 +236,7 @@
 		}
 	}
 
-//	[payload release];
 	[tag release];	
-
 }
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
@@ -268,9 +264,7 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 												 navigationType:(UIWebViewNavigationType)navigationType 
 {	
-//	DLog(@"");
 	DLog(@"request: %@", [[request URL] absoluteString]);
-//	DLog(@"navigation type: %d", navigationType);
 	
 	NSString *thatURL = [NSString stringWithFormat:@"%@/signin/device", [sessionData baseUrl]];
 	

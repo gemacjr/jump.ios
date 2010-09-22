@@ -361,7 +361,8 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 		[self finishSignUserOut];
 	
 	/* Get the identifier and normalize it (remove html escapes) */
-	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
+//	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
+	identifier = [[[[user objectForKey:@"auth_info"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
 	
 	/* Get the display name */
 	displayName = [[UserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];

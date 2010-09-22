@@ -254,6 +254,7 @@
 }
 @end
 
+
 @implementation JRActivityObject
 @synthesize action;  							
 @synthesize url;
