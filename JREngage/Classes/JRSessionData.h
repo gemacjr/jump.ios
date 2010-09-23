@@ -237,11 +237,13 @@ typedef enum
 - (void)makeCallToTokenUrl:(NSString*)tokenURL withToken:(NSString*)token forProvider:(NSString*)provider;
 
 - (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict;
-- (void)triggerAuthenticationDidTimeOutConfiguration;
+- (void)triggerAuthenticationDidStartOver:(id)sender;
 - (void)triggerAuthenticationDidCancel;
 - (void)triggerAuthenticationDidCancel:(id)sender;
+- (void)triggerAuthenticationDidTimeOutConfiguration;
 - (void)triggerAuthenticationDidFailWithError:(NSError*)_error;
 
+- (void)triggerPublishingDidStartOver:(id)sender;
 - (void)triggerPublishingDidCancel;
 - (void)triggerPublishingDidCancel:(id)sender;
 - (void)triggerPublishingDidTimeOutConfiguration;

@@ -484,6 +484,12 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[self finishSignUserOut];	
 }
 
+- (void)jrEngageDialogDidFailToShowWithError:(NSError *)error
+{
+	loadingUserData = NO;
+	[signInDelegate didFailToSignIn:YES];
+}
+
 - (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider
 {
 	UIApplication* app = [UIApplication sharedApplication]; 
@@ -543,19 +549,19 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 - (void)jrAuthenticationDidNotComplete
 {
 	loadingUserData = NO;
-	[signInDelegate didFailToSignIn:nil];
+	[signInDelegate didFailToSignIn:NO];
 }
 
 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	loadingUserData = NO;
-	[signInDelegate didFailToSignIn:error];
+	[signInDelegate didFailToSignIn:NO];
 }
 
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)_tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	loadingUserData = NO;
-	[signInDelegate didFailToSignIn:error];
+	[signInDelegate didFailToSignIn:YES];
 }
 
 - (void)dealloc 

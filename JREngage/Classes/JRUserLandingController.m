@@ -289,13 +289,16 @@
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 									  target:sessionData
-                                      action:@selector(authenticationDidRestart:)] autorelease];
+                                      action:@selector(triggerAuthenticationDidStartOver:)] autorelease];
 
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
+    self.navigationItem.backBarButtonItem.target = sessionData;
+    self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
+    
 	[myTableView reloadData];
 }
 
@@ -313,7 +316,8 @@
 	NSIndexPath *indexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
 	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:indexPath];
 	
-	if ([sessionData weShouldBeFirstResponder])
+    /* Only make the cell's text field the first responder (and show the keyboard) in certain situations */
+	if ([sessionData weShouldBeFirstResponder] && !cell.textField.text)
 		[cell.textField becomeFirstResponder];
 }
 

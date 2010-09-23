@@ -287,12 +287,12 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)didReceiveToken { }
 
 
-- (void)didFailToSignIn:(NSError*)error
+- (void)didFailToSignIn:(BOOL)showMessage
 {
-	if (error)
+	if (showMessage)
 	{
 		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
-														 message:@"An error occurred while attempting to sign you in.  Please try again later."
+														 message:@"An error occurred while attempting to sign you in.  Please try again."
 														delegate:self
 											   cancelButtonTitle:@"OK"
 											   otherButtonTitles:nil] autorelease];

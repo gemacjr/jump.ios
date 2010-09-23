@@ -258,11 +258,6 @@
 @synthesize customView;
 @synthesize customProvider;
 
-- (JRProvider*)returningBasicProvider
-{
-    return nil;
-}
-
 static JRSessionData* singleton = nil;
 + (JRSessionData*)jrSessionData
 {
@@ -1171,7 +1166,7 @@ static JRSessionData* singleton = nil;
                                 didFailWithError:[self setError:[payload retain] 
                                                        withCode:JRPublishFailedError 
                                                     andSeverity:JRErrorSeverityPublishFailed]
-                                     forProvider:[currentProvider name]];
+                                     forProvider:currentProvider.name];
                     
                 }
             }
@@ -1237,7 +1232,7 @@ static JRSessionData* singleton = nil;
                 {
                     [delegate publishingActivity:activity
                                 didFailWithError:publishError
-                                     forProvider:[currentProvider name]];
+                                     forProvider:currentProvider.name];
                                  
                 }
             }
@@ -1280,7 +1275,7 @@ static JRSessionData* singleton = nil;
             {
                 [delegate publishingActivity:activity
                             didFailWithError:_error
-                                 forProvider:[currentProvider name]];
+                                 forProvider:currentProvider.name];
                 
             }            
         }
@@ -1570,7 +1565,7 @@ static JRSessionData* singleton = nil;
     }
 }
 
-- (void)triggerPublishingDidRestart:(id)sender
+- (void)triggerPublishingDidStartOver:(id)sender
 {    
     DLog(@"");
     
@@ -1581,7 +1576,7 @@ static JRSessionData* singleton = nil;
     }
 }
 
-- (void)triggerAuthenticationDidRestart:(id)sender
+- (void)triggerAuthenticationDidStartOver:(id)sender
 {
     DLog(@"");
 

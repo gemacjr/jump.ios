@@ -190,8 +190,7 @@ static JRUserInterfaceMaestro* singleton = nil;
         [sessionData setCurrentProvider:sessionData.returningBasicProvider];
         [jrModalNavController.navigationController pushViewController:myUserLandingController animated:NO];
     }
-
-    
+   
 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
 	if (!window) 
 	{
@@ -297,6 +296,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)authenticationRestarted
 {
     DLog(@"");
+    
     [self popToOriginalRootViewController];    
 }
 

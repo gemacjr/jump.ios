@@ -82,14 +82,17 @@
 	
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:sessionData
-                                      action:@selector(authenticationDidRestart:)] autorelease];
+									  target:self
+                                      action:@selector(cancelButtonPressed:)] autorelease];
 
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 	
+    self.navigationItem.backBarButtonItem.target = sessionData;
+    self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
+    
 	if (!infoBar)
 	{
 		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
@@ -100,10 +103,7 @@
 		[self.view addSubview:infoBar];
 	}
 	[infoBar fadeIn];
-
-	userStopped = NO;
 }
-
 
 - (void)viewDidAppear:(BOOL)animated 
 {
@@ -115,6 +115,11 @@
 	{
 		DLog(@"view controller: %@", [vc description]);
 	}
+
+ /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
+    or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
+    back button until told otherwise. */
+	userHitTheBackButton = YES;
     
     if (!sessionData.currentProvider)
     {
@@ -134,6 +139,11 @@
 	[myWebView becomeFirstResponder];
 }
 
+- (void)cancelButtonPressed:(id)sender
+{
+    userHitTheBackButton = NO;
+    [sessionData triggerAuthenticationDidStartOver:sender];
+}
 
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -189,11 +199,12 @@
 		
 		if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"stat"] isEqualToString:@"ok"])
 		{
+            userHitTheBackButton = NO; /* Because authentication completed successfully. */
             [sessionData triggerAuthenticationDidCompleteWithPayload:payloadDict];
 		}
 		else 
 		{
-			if ([[payloadDict objectForKey:@"error"] isEqualToString:@"Discovery failed for the OpenID you entered"])
+			if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"] isEqualToString:@"Discovery failed for the OpenID you entered"])
 			{
 				NSString *message = nil;
 				if (sessionData.currentProvider.requiresInput)
@@ -201,19 +212,41 @@
 				else
 					message = @"There was a problem authenticating with this provider. Please try again.";
 				
-				DLog(@"Discovery failed for the OpenID you entered.\n%@", message);
+				DLog(@"Discovery failed for the OpenID you entered: %@", message);
 				
 				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Invalid Input"
 																 message:message
 																delegate:self
 													   cancelButtonTitle:@"OK" 
 													   otherButtonTitles:nil] autorelease];
-				
+
+                userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
 				[[self navigationController] popViewControllerAnimated:YES];
 
 				[alert show];
 			}
-			else if ([[payloadDict objectForKey:@"error"] isEqualToString:@"Please enter your OpenID"])
+            else if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"] isEqualToString:@"The URL you entered does not appear to be an OpenID"])
+			{
+				NSString *message = nil;
+				if (sessionData.currentProvider.requiresInput)
+					message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.", sessionData.currentProvider.shortText];
+				else
+					message = @"There was a problem authenticating with this provider. Please try again.";
+				
+				DLog(@"The URL you entered does not appear to be an OpenID: %@", message);
+				
+				UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Invalid Input"
+																 message:message
+																delegate:self
+													   cancelButtonTitle:@"OK" 
+													   otherButtonTitles:nil] autorelease];
+                
+                userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
+				[[self navigationController] popViewControllerAnimated:YES];
+                
+				[alert show];
+			}
+			else if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"] isEqualToString:@"Please enter your OpenID"])
 			{
 				NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Authentication failed: %@", payload]
 																	 forKey:NSLocalizedDescriptionKey];
@@ -221,6 +254,7 @@
 													 code:100
 												 userInfo:userInfo];
 				
+                userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
 				[sessionData triggerAuthenticationDidFailWithError:error];
 			}
 			else
@@ -231,6 +265,14 @@
 													 code:100
 												 userInfo:userInfo];
 				
+                UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
+                                                                 message:@"An error occurred while attempting to sign you in.  Please try again."
+                                                                delegate:self
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles:nil] autorelease];
+                [alert show];
+                
+                userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
 				[sessionData triggerAuthenticationDidFailWithError:error];
 			}
 		}
@@ -249,6 +291,7 @@
     
 	if ([tag isEqualToString:@"rpx_result"])
 	{
+        userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
 		[sessionData triggerAuthenticationDidFailWithError:error];
 	}
 	
@@ -302,12 +345,12 @@
     
     if (error.code != NSURLErrorCancelled) /* Error code -999 */
     {
-        // TODO: Why is stopProgress in here twice?  Which one needs to stay?
-        [self stopProgress];
-        
-        if (!userStopped)
-            [sessionData triggerAuthenticationDidFailWithError:error];
-        userStopped = NO;
+//        if (!userCanceledAuthentication)
+//            [sessionData triggerAuthenticationDidFailWithError:error];
+//        else
+//            [sessionData triggerAuthenticationDidStartOver:nil];
+//
+//        userCanceledAuthentication = YES;
         
         [self stopProgress];
     }
@@ -330,8 +373,24 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	DLog(@"");
-	
-	userStopped = YES;
+
+ /* The webview disappears when authentication completes successfully or fails or if the user cancels by hitting
+    the "back" button or the "cancel" button.  We don't know when a user hits the back button, but we do 
+    know when all the other events occur, so we keep track of those events by changing the "userHitTheBackButton" 
+    variable to "NO".
+ 
+    If the view is disappearing because the user hit the cancel button, we already to send sessionData the 
+    triggerAuthenticationDidStartOver event.  What we need to do it send the triggerAuthenticationDidStartOver 
+    message if we're popping to the publishActivity controller (i.e., if we're publishing an activity), so that 
+    the publishActivity controller gets the message from sessionData, and can hide the grayed-out activity indicator
+    view.  
+ 
+    If the userHitTheBackButton variable is set to "YES" and we're publishing an activity ([sessionData social] is "YES"),
+    send the triggerAuthenticationDidStartOver message.  Otherwise, hitting the back button should just pop back 
+    to the last controller, the providers or userLanding controller (i.e., behave normally) */
+    if (userHitTheBackButton && [sessionData social])
+        [sessionData triggerAuthenticationDidStartOver:nil];
+    
 	[myWebView stopLoading];
 	[myWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
 	

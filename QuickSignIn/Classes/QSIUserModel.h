@@ -39,7 +39,7 @@
 #define LILLI
 
 @protocol UserModelDelegate <NSObject>
-- (void)didFailToSignIn:(NSError*)error;
+- (void)didFailToSignIn:(BOOL)showMessage;
 - (void)didReceiveToken;
 - (void)userDidSignIn;
 - (void)userDidSignOut;

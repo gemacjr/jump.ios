@@ -185,7 +185,7 @@
     DLog(@"");
 	[super viewDidAppear:animated];
 
-    if (ready && !sharing   )
+    if (ready && !sharing)
         [self showViewIsLoading:NO];
 }
 
@@ -392,13 +392,13 @@ Please try again later."
         barButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close" 
                                                       style:UIBarButtonItemStyleDone 
                                                      target:sessionData 
-                                                     action:@selector(publishingDidComplete:)] autorelease];
+                                                     action:@selector(triggerPublishingDidComplete:)] autorelease];
     }
     else
     {
         barButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                    target:sessionData
-                                                                   action:@selector(publishingDidCancel:)] autorelease];   
+                                                                   action:@selector(triggerPublishingDidCancel:)] autorelease];   
         self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
     }
 
