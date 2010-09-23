@@ -355,8 +355,8 @@ static JRSessionData* singleton = nil;
         }
         
         // TODO: Do we want to call this every time?  What if these values change while a user is trying to authenticate?
-        error = [self startGetBaseUrl];
-        //error = [self startGetConfiguration];
+        //error = [self startGetBaseUrl];
+        error = [self startGetConfiguration];
 	}
 	return self;
 }
@@ -731,7 +731,7 @@ static JRSessionData* singleton = nil;
 {	
     DLog(@"");
 
-//#define STAGING
+#define STAGING
 #ifdef STAGING
 	NSString *urlString = [NSString stringWithFormat:
                            @"http://rpxstaging.com/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
@@ -1424,7 +1424,7 @@ static JRSessionData* singleton = nil;
     {
 #ifdef STAGING
 //      [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"profile"] forProvider:currentProvider.name];
-        [delegate authenticationDidCompleteForUser:goodies forProvider:currentProvider.name];
+        [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"auth_info"] forProvider:currentProvider.name];
 #else
         [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
 #endif

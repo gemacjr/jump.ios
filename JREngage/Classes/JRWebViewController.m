@@ -390,7 +390,7 @@
     to the last controller, the providers or userLanding controller (i.e., behave normally) */
     if (userHitTheBackButton && [sessionData social])
         [sessionData triggerAuthenticationDidStartOver:nil];
-    
+ 
 	[myWebView stopLoading];
 	[myWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
 	
