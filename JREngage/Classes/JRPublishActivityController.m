@@ -904,9 +904,6 @@ Please try again later."
     
     sharing = NO;
     justAuthenticated = NO;
-    // TODO: Move this to somewhere more logical -- hack for now    
-    //    [sessionData setSocial:NO];
-    //    [sessionData removeDelegate:self];
 }
 
 //- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider { }

@@ -222,6 +222,7 @@
 {
 	DLog(@"");
 		
+    // TODO: You're missing half the instance variables in this dealloc method
 	[name release];
 	[welcomeString release];
 	[userInput release];
@@ -401,64 +402,45 @@ static JRSessionData* singleton = nil;
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate
 {
 	DLog(@"");
-    @synchronized (delegates)
-    {
-        [delegates addObject:_delegate];
-    }
+    [delegates addObject:_delegate];
 }
 
 - (void)removeDelegate:(id<JRSessionDelegate>)_delegate
 {
 	DLog(@"");
-    @synchronized (delegates)
-    {
-        [delegates removeObject:_delegate];
-    }
+    [delegates removeObject:_delegate];
 }
 
+// QTS: Do we need these?
+// ATS: We might need to add logic to these getters that prevent the view controllers
+// from calling the cached lists before or during updates. Leave them for now.
 - (NSString*)baseUrl
 {
-//    DLog(@"");
-    @synchronized (configurationSemaphore)
-    {
-        return baseUrl;
-    }
+    return baseUrl;
 }
 
 - (NSDictionary*)allProviders
 {
     DLog(@"");
-    @synchronized (configurationSemaphore)
-    {
-        return allProviders;
-    }
+    return allProviders;
 }
 
 - (NSArray*)basicProviders
 {
     DLog(@"");
-    @synchronized (configurationSemaphore)
-    {
-        return basicProviders;
-    }
+    return basicProviders;
 }
 
 - (NSArray*)socialProviders
 {
     DLog(@"");
-    @synchronized (configurationSemaphore)
-    {
-        return socialProviders;
-    }
+    return socialProviders;
 }
 
 - (BOOL)hidePoweredBy
 {
     DLog(@"");
-    @synchronized (configurationSemaphore)
-    {
-        return hidePoweredBy;
-    }
+    return hidePoweredBy;
 }
 
 - (NSError*)setError:(NSString*)message withCode:(NSInteger)code andSeverity:(NSString*)severity
@@ -580,13 +562,10 @@ static JRSessionData* singleton = nil;
     if (![str isEqualToString:baseUrl]) 
     {
         // TODO: Do we need to notify the library that this changed?
-        @synchronized (configurationSemaphore)
-        {
-            [baseUrl release];
-            baseUrl = [[NSString stringWithString:str] retain];
+        [baseUrl release];
+        baseUrl = [[NSString stringWithString:str] retain];
             
-            [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"JRBaseUrl"];
-        }
+        [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"JRBaseUrl"];
     }
     
     return [self startGetConfiguredProviders];
@@ -654,65 +633,62 @@ static JRSessionData* singleton = nil;
     
     if (reloadConfiguration)
     {
-        @synchronized (configurationSemaphore)
-        {
-            allProviders = [[NSMutableDictionary alloc] initWithCapacity:[[providerInfo allKeys] count]];
-            
-            for (NSString *name in [providerInfo allKeys])
-            {
-                DLog(@"name retain count: %d", [name retainCount]);
-                if (name)
-                {
-                    NSDictionary *dictionary = [providerInfo objectForKey:name];
-                    
-                    DLog(@"dataStr retain count: %d", [dictionary retainCount]);
-
-                    JRProvider *provider = [[[JRProvider alloc] initWithName:name
-                                                              andDictionary:dictionary] autorelease];
-                    
-                    [allProviders setObject:provider forKey:name];
-                    
-                    DLog(@"provider retain count: %d", [provider retainCount]);
-                    DLog(@"provider members retain count: %d", [provider.friendlyName retainCount]);
-                }
-            }
-            
-            basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
-
-            if (!allProviders || !basicProviders)
-                return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                             withCode:JRConfigurationInformationError
-                          andSeverity:JRErrorSeverityConfigurationFailed];
-            
-            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
-                                                      forKey:@"JRAllProviders"];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
-                                                      forKey:@"JRBasicProviders"];
-            
-#ifdef SOCIAL_PUBLISHING	    
-            //socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
-
-            NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
-                                                                                                   copyItems:YES] autorelease];
-            [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
-            socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
-            
-            if (!socialProviders)		
-                return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                                                withCode:JRConfigurationInformationError
-                                             andSeverity:JRErrorSeverityConfigurationInformationMissing];
-            
-#endif
-            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
-                                                      forKey:@"JRSocialProviders"];
-            
-            if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
-                hidePoweredBy = YES;
-            else
-                hidePoweredBy = NO;
+        allProviders = [[NSMutableDictionary alloc] initWithCapacity:[[providerInfo allKeys] count]];
         
-            [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"JRHidePoweredBy"];
+        for (NSString *name in [providerInfo allKeys])
+        {
+            DLog(@"name retain count: %d", [name retainCount]);
+            if (name)
+            {
+                NSDictionary *dictionary = [providerInfo objectForKey:name];
+                
+                DLog(@"dataStr retain count: %d", [dictionary retainCount]);
+
+                JRProvider *provider = [[[JRProvider alloc] initWithName:name
+                                                          andDictionary:dictionary] autorelease];
+                
+                [allProviders setObject:provider forKey:name];
+                
+                DLog(@"provider retain count: %d", [provider retainCount]);
+                DLog(@"provider members retain count: %d", [provider.friendlyName retainCount]);
+            }
         }
+        
+        basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
+
+        if (!allProviders || !basicProviders)
+            return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                         withCode:JRConfigurationInformationError
+                      andSeverity:JRErrorSeverityConfigurationFailed];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
+                                                  forKey:@"JRAllProviders"];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
+                                                  forKey:@"JRBasicProviders"];
+        
+#ifdef SOCIAL_PUBLISHING	    
+        //socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+
+        NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
+                                                                                               copyItems:YES] autorelease];
+        [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
+        socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
+        
+        if (!socialProviders)		
+            return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                                            withCode:JRConfigurationInformationError
+                                         andSeverity:JRErrorSeverityConfigurationInformationMissing];
+        
+#endif
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
+                                                  forKey:@"JRSocialProviders"];
+        
+        if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
+            hidePoweredBy = YES;
+        else
+            hidePoweredBy = NO;
+    
+        [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"JRHidePoweredBy"];
     }
 
 
@@ -807,65 +783,62 @@ static JRSessionData* singleton = nil;
     
     if (reloadConfiguration)
     {
-        @synchronized (configurationSemaphore)
+        allProviders = [[NSMutableDictionary alloc] initWithCapacity:[[providerInfo allKeys] count]];
+        
+        for (NSString *name in [providerInfo allKeys])
         {
-            allProviders = [[NSMutableDictionary alloc] initWithCapacity:[[providerInfo allKeys] count]];
-            
-            for (NSString *name in [providerInfo allKeys])
+            DLog(@"name retain count: %d", [name retainCount]);
+            if (name)
             {
-                DLog(@"name retain count: %d", [name retainCount]);
-                if (name)
-                {
-                    NSDictionary *dictionary = [providerInfo objectForKey:name];
-                    
-                    DLog(@"dataStr retain count: %d", [dictionary retainCount]);
-                    
-                    JRProvider *provider = [[[JRProvider alloc] initWithName:name
-                                                               andDictionary:dictionary] autorelease];
-                    
-                    [allProviders setObject:provider forKey:name];
-                    
-                    DLog(@"provider retain count: %d", [provider retainCount]);
-                    DLog(@"provider members retain count: %d", [provider.friendlyName retainCount]);
-                }
+                NSDictionary *dictionary = [providerInfo objectForKey:name];
+                
+                DLog(@"dataStr retain count: %d", [dictionary retainCount]);
+                
+                JRProvider *provider = [[[JRProvider alloc] initWithName:name
+                                                           andDictionary:dictionary] autorelease];
+                
+                [allProviders setObject:provider forKey:name];
+                
+                DLog(@"provider retain count: %d", [provider retainCount]);
+                DLog(@"provider members retain count: %d", [provider.friendlyName retainCount]);
             }
-            
-            basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
-            
-            if (!allProviders || !basicProviders)
-                return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                             withCode:JRConfigurationInformationError
-                          andSeverity:JRErrorSeverityConfigurationFailed];
-            
-            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
-                                                      forKey:@"JRAllProviders"];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
-                                                      forKey:@"JRBasicProviders"];
-            
-#ifdef SOCIAL_PUBLISHING	    
-            //socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
-            
-            NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
-                                                                                                   copyItems:YES] autorelease];
-            [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
-            socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
-            
-            if (!socialProviders)		
-                return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                             withCode:JRConfigurationInformationError
-                          andSeverity:JRErrorSeverityConfigurationInformationMissing];
-            
-#endif
-            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
-                                                      forKey:@"JRSocialProviders"];
-            
-            if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
-                hidePoweredBy = YES;
-            else
-                hidePoweredBy = NO;
-            
-            [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"JRHidePoweredBy"];
         }
+        
+        basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
+        
+        if (!allProviders || !basicProviders)
+            return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                         withCode:JRConfigurationInformationError
+                      andSeverity:JRErrorSeverityConfigurationFailed];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
+                                                  forKey:@"JRAllProviders"];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
+                                                  forKey:@"JRBasicProviders"];
+        
+#ifdef SOCIAL_PUBLISHING	    
+        //socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+        
+        NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
+                                                                                               copyItems:YES] autorelease];
+        [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
+        socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
+        
+        if (!socialProviders)		
+            return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                         withCode:JRConfigurationInformationError
+                      andSeverity:JRErrorSeverityConfigurationInformationMissing];
+        
+#endif
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
+                                                  forKey:@"JRSocialProviders"];
+        
+        if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
+            hidePoweredBy = YES;
+        else
+            hidePoweredBy = NO;
+        
+        [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"JRHidePoweredBy"];
     }
     
     
@@ -1018,33 +991,24 @@ static JRSessionData* singleton = nil;
 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider
 {
     DLog(@"");
-    @synchronized (authenticatedUsersByProvider)
-    {
-        return [authenticatedUsersByProvider objectForKey:provider.name];
-    }
+    return [authenticatedUsersByProvider objectForKey:provider.name];
 }
 
 
 - (void)forgetAuthenticatedUserForProvider:(NSString*)provider
 {
     DLog(@"");
-    @synchronized (authenticatedUsersByProvider)
-    {
-        [authenticatedUsersByProvider removeObjectForKey:provider];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
-                                                  forKey:@"JRAuthenticatedUsersByProvider"];
-    }
+    [authenticatedUsersByProvider removeObjectForKey:provider];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
+                                              forKey:@"JRAuthenticatedUsersByProvider"];
 }
 
 - (void)forgetAllAuthenticatedUsers
 {
     DLog(@"");
-    @synchronized (authenticatedUsersByProvider)
-    {
-        [authenticatedUsersByProvider removeAllObjects];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
-                                                  forKey:@"JRAuthenticatedUsersByProvider"];
-    }
+    [authenticatedUsersByProvider removeAllObjects];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
+                                              forKey:@"JRAuthenticatedUsersByProvider"];
 }
 
 - (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user
@@ -1408,12 +1372,12 @@ static JRSessionData* singleton = nil;
                                                                     forProviderNamed:currentProvider.name] autorelease];    
     
     // QTS: Do we need to synchronize this object??
-    @synchronized (authenticatedUsersByProvider)
-    {
+    //@synchronized (authenticatedUsersByProvider)
+    //{
         [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                                   forKey:@"JRAuthenticatedUsersByProvider"];
-    }
+    //}
     
     if ([[self basicProviders] containsObject:currentProvider.name])
         [self saveLastUsedBasicProvider];
@@ -1559,7 +1523,7 @@ static JRSessionData* singleton = nil;
 {
     DLog(@"");
 
-    // TODO: When will this ever be called and what do we do when it happens?
+    // QTS: When will this ever be called and what do we do when it happens?
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
