@@ -869,8 +869,8 @@ Please try again later."
 }
 
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); justAuthenticated = NO; sharing = NO; }
-- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { DLog(@""); }
-- (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
+- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { DLog(@""); }
+- (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 
 
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
@@ -906,14 +906,11 @@ Please try again later."
     justAuthenticated = NO;
 }
 
-//- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider { }
 
 - (void)publishingDidRestart { sharing = NO; }
 - (void)publishingDidCancel { DLog(@""); sharing = NO; }
 - (void)publishingDidComplete { DLog(@""); sharing = NO; }
-//- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 
-//- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     DLog(@"");

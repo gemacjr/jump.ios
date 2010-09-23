@@ -460,7 +460,7 @@ static JRSessionData* singleton = nil;
 	DLog(@"");
     
 	NSMutableString *oid;
-
+    
     if (!currentProvider)
         return nil;
     
@@ -479,31 +479,31 @@ static JRSessionData* singleton = nil;
 	{
 		oid = [NSMutableString stringWithString:@""];
 	}
-
+    
     NSString *str = nil;
 #ifdef SOCIAL_PUBLISHING
     if (social)
         str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
-                         baseUrl,               /* Always force reauth for social because with the social publishing flow, the user is never taken to    */
-                         currentProvider.url,   /* the "Welcome back" screen, and therefore could never click the "switch Providers" button. Also,       */
-                         oid,                   /* signing out of a social provider could happen at any time, like on previous launches, and that        */
-                         @"force_reauth=true&", /* should always prompt a force_reauth. Assume we always want to force reauth when logging in for social */
-                         (([currentProvider.name isEqualToString:@"facebook"]) ? 
-                          @"ext_perm=publish_stream&" : @"")];
+               baseUrl,               /* Always force reauth for social because with the social publishing flow, the user is never taken to    */
+               currentProvider.url,   /* the "Welcome back" screen, and therefore could never click the "switch Providers" button. Also,       */
+               oid,                   /* signing out of a social provider could happen at any time, like on previous launches, and that        */
+               @"force_reauth=true&", /* should always prompt a force_reauth. Assume we always want to force reauth when logging in for social */
+               (([currentProvider.name isEqualToString:@"facebook"]) ? 
+                @"ext_perm=publish_stream&" : @"")];
     else
         str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
-                         baseUrl, 
-                         currentProvider.url,
-                         oid, 
-                         ((forceReauth) ? @"force_reauth=true&" : @"")];
+               baseUrl, 
+               currentProvider.url,
+               oid, 
+               ((forceReauth) ? @"force_reauth=true&" : @"")];
 #else
-        str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
-                         baseUrl, 
-                         currentProvider.url,
-                         oid, 
-                         ((forceReauth) ? @"force_reauth=true&" : @"")];    
+    str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
+           baseUrl, 
+           currentProvider.url,
+           oid, 
+           ((forceReauth) ? @"force_reauth=true&" : @"")];    
 #endif
-
+    
 	forceReauth = NO;
 	
 	DLog(@"startURL: %@", str);
@@ -522,7 +522,7 @@ static JRSessionData* singleton = nil;
                            @"http://rpxnow.com/jsapi/v3/base_url?appId=%@&skipXdReceiver=true", 
                            appId];
 #endif
-
+    
     DLog(@"url: %@", urlString);
 	
 	NSURL *url = [NSURL URLWithString:urlString];
@@ -540,7 +540,7 @@ static JRSessionData* singleton = nil;
 		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
                      withCode:JRUrlError 
                   andSeverity:JRErrorSeverityConfigurationFailed];
-
+    
     return nil;
 }
 
@@ -554,7 +554,7 @@ static JRSessionData* singleton = nil;
 		return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                      withCode:JRDataParsingError
                   andSeverity:JRErrorSeverityConfigurationFailed];
-
+    
 	NSString *str = [arr objectAtIndex:1];
 	str = [str stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
     
@@ -564,7 +564,7 @@ static JRSessionData* singleton = nil;
         // TODO: Do we need to notify the library that this changed?
         [baseUrl release];
         baseUrl = [[NSString stringWithString:str] retain];
-            
+        
         [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"JRBaseUrl"];
     }
     
@@ -575,7 +575,7 @@ static JRSessionData* singleton = nil;
 - (NSError*)startGetConfiguredProviders
 {
 	DLog(@"");
-
+    
 	NSString *urlString = [baseUrl stringByAppendingString:@"/openid/iphone_config"];
 	
 	NSURL *url = [NSURL URLWithString:urlString];
@@ -593,7 +593,7 @@ static JRSessionData* singleton = nil;
 		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
                      withCode:JRUrlError 
                   andSeverity:JRErrorSeverityConfigurationFailed];
-  
+    
     return nil;
 }
 
@@ -617,7 +617,7 @@ static JRSessionData* singleton = nil;
                   andSeverity:JRErrorSeverityConfigurationFailed];
 	
 	NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
-
+    
     DLog(@"providerInfo retain count: %d", [providerInfo retainCount]);
     
     BOOL reloadConfiguration = NO;
@@ -643,9 +643,9 @@ static JRSessionData* singleton = nil;
                 NSDictionary *dictionary = [providerInfo objectForKey:name];
                 
                 DLog(@"dataStr retain count: %d", [dictionary retainCount]);
-
+                
                 JRProvider *provider = [[[JRProvider alloc] initWithName:name
-                                                          andDictionary:dictionary] autorelease];
+                                                           andDictionary:dictionary] autorelease];
                 
                 [allProviders setObject:provider forKey:name];
                 
@@ -655,7 +655,7 @@ static JRSessionData* singleton = nil;
         }
         
         basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
-
+        
         if (!allProviders || !basicProviders)
             return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                          withCode:JRConfigurationInformationError
@@ -668,7 +668,7 @@ static JRSessionData* singleton = nil;
         
 #ifdef SOCIAL_PUBLISHING	    
         //socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
-
+        
         NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
                                                                                                copyItems:YES] autorelease];
         [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
@@ -676,8 +676,8 @@ static JRSessionData* singleton = nil;
         
         if (!socialProviders)		
             return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                                            withCode:JRConfigurationInformationError
-                                         andSeverity:JRErrorSeverityConfigurationInformationMissing];
+                         withCode:JRConfigurationInformationError
+                      andSeverity:JRErrorSeverityConfigurationInformationMissing];
         
 #endif
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
@@ -687,11 +687,11 @@ static JRSessionData* singleton = nil;
             hidePoweredBy = YES;
         else
             hidePoweredBy = NO;
-    
+        
         [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"JRHidePoweredBy"];
     }
-
-
+    
+    
 #ifdef SOCIAL_PUBLISHING	
 	[self loadLastUsedSocialProvider];
 #endif
@@ -704,8 +704,8 @@ static JRSessionData* singleton = nil;
 - (NSError*)startGetConfiguration
 {	
     DLog(@"");
-
-//#define STAGING
+    
+    //#define STAGING
 #ifdef STAGING
 	NSString *urlString = [NSString stringWithFormat:
                            @"http://rpxstaging.com/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
@@ -762,7 +762,7 @@ static JRSessionData* singleton = nil;
     if (![[jsonDict objectForKey:@"baseurl"] isEqualToString:baseUrl])
         baseUrl = [[[jsonDict objectForKey:@"baseurl"] 
                     stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] retain];
-        
+    
     [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"JRBaseUrl"];
     
 	NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
@@ -771,15 +771,15 @@ static JRSessionData* singleton = nil;
     
     BOOL reloadConfiguration = YES;//NO;
     
-// TODO: Rewrite to use e-tag to compare new data with cached data in case anything changes
-//    for (NSString *name in [providerInfo allKeys])
-//    {
-//        if (![allProviders objectForKey:name]) 
-//        {
-//            reloadConfiguration = YES;
-//            break;
-//        }
-//    }
+    // TODO: Rewrite to use e-tag to compare new data with cached data in case anything changes
+    //    for (NSString *name in [providerInfo allKeys])
+    //    {
+    //        if (![allProviders objectForKey:name]) 
+    //        {
+    //            reloadConfiguration = YES;
+    //            break;
+    //        }
+    //    }
     
     if (reloadConfiguration)
     {
@@ -878,7 +878,7 @@ static JRSessionData* singleton = nil;
 		return @"Welcome, user!";
 	
 	return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] 
-            stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+             stringByReplacingOccurrencesOfString:@"+" withString:@" "]
             stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
@@ -927,7 +927,7 @@ static JRSessionData* singleton = nil;
 			returningBasicProvider.userInput = userInput;
 	}
     
-      configurationComplete = YES;  
+    configurationComplete = YES;  
 }
 
 - (void)saveLastUsedBasicProvider
@@ -978,7 +978,7 @@ static JRSessionData* singleton = nil;
 			   @"FALSE", NSHTTPCookieDiscard,
 			   date, NSHTTPCookieExpires, nil]];
 	[cookieStore setCookie:cookie];
-	    
+    
 	for (NSHTTPCookie *savedCookie in cookies) 
 	{
 		if ([savedCookie.name isEqualToString:@"welcome_info"])
@@ -1020,7 +1020,7 @@ static JRSessionData* singleton = nil;
     
     NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONRepresentation];                          
     NSString *deviceToken = user.device_token;
-        
+    
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -1048,7 +1048,7 @@ static JRSessionData* singleton = nil;
 {
     NSObject* tag = (NSObject*)userdata;
     [payload retain];
-
+    
     if ([tag isKindOfClass:[NSDictionary class]])
     {
         if ([(NSDictionary*)tag objectForKey:@"tokenUrl"])
@@ -1056,11 +1056,12 @@ static JRSessionData* singleton = nil;
             NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
             for (id<JRSessionDelegate> delegate in delegatesCopy) 
             {
-                [delegate authenticateDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-                                           withPayload:payload 
-                                           forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
+                if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withPayload:forProvider:)])
+                    [delegate authenticationDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
+                                               withPayload:payload 
+                                               forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
             }
-           
+            
         }
     }
     
@@ -1076,7 +1077,7 @@ static JRSessionData* singleton = nil;
 	[payload retain];
 	
 	DLog(@"payload: %@", payload);
-
+    
     if ([tag isKindOfClass:[NSString class]])
     {   	
         DLog(@"tag:     %@", tag);
@@ -1128,11 +1129,12 @@ static JRSessionData* singleton = nil;
                 NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
                 for (id<JRSessionDelegate> delegate in delegatesCopy) 
                 {
-                    [delegate publishingActivity:activity
-                                didFailWithError:[self setError:[payload retain] 
-                                                       withCode:JRPublishFailedError 
-                                                    andSeverity:JRErrorSeverityPublishFailed]
-                                     forProvider:currentProvider.name];
+                    if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
+                        [delegate publishingActivity:activity
+                                    didFailWithError:[self setError:[payload retain] 
+                                                           withCode:JRPublishFailedError 
+                                                        andSeverity:JRErrorSeverityPublishFailed]
+                                         forProvider:currentProvider.name];
                     
                 }
             }
@@ -1142,7 +1144,8 @@ static JRSessionData* singleton = nil;
                 NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
                 for (id<JRSessionDelegate> delegate in delegatesCopy) 
                 {
-                    [delegate publishingActivityDidSucceed:activity forProvider:currentProvider.name];
+                    if ([delegate respondsToSelector:@selector(publishingActivityDidSucceed:forProvider:)])
+                        [delegate publishingActivityDidSucceed:activity forProvider:currentProvider.name];
                 }
             }
             else
@@ -1161,7 +1164,7 @@ static JRSessionData* singleton = nil;
                     int code;
                     if (!CFNumberGetValue([error_dict objectForKey:@"code"], kCFNumberSInt32Type, &code))
                         code = 1000;
-                        
+                    
                     switch (code)
                     {
                         case 0: /* "Missing parameter: apiKey" */
@@ -1196,10 +1199,11 @@ static JRSessionData* singleton = nil;
                 NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
                 for (id<JRSessionDelegate> delegate in delegatesCopy) 
                 {
-                    [delegate publishingActivity:activity
-                                didFailWithError:publishError
-                                     forProvider:currentProvider.name];
-                                 
+                    if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
+                        [delegate publishingActivity:activity
+                                    didFailWithError:publishError
+                                         forProvider:currentProvider.name];
+                    
                 }
             }
         }
@@ -1213,7 +1217,7 @@ static JRSessionData* singleton = nil;
 {
     DLog(@"");
     NSObject* tag = (NSObject*)userdata;
-
+    
     if ([tag isKindOfClass:[NSString class]])
     {   
         if ([(NSString*)tag isEqualToString:@"getBaseURL"])
@@ -1239,9 +1243,10 @@ static JRSessionData* singleton = nil;
             NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
             for (id<JRSessionDelegate> delegate in delegatesCopy) 
             {
-                [delegate publishingActivity:activity
-                            didFailWithError:_error
-                                 forProvider:currentProvider.name];
+                if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
+                    [delegate publishingActivity:activity
+                                didFailWithError:_error
+                                     forProvider:currentProvider.name];
                 
             }            
         }
@@ -1253,9 +1258,10 @@ static JRSessionData* singleton = nil;
             NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
             for (id<JRSessionDelegate> delegate in delegatesCopy) 
             {
-                [delegate authenticateCallToTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-                                    didFailWithError:_error 
-                                         forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
+                if ([delegate respondsToSelector:@selector(authenticationCallToTokenUrl:didFailWithError:forProvider:)])
+                    [delegate authenticationCallToTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
+                                        didFailWithError:_error 
+                                             forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
             }
         }
     }
@@ -1344,12 +1350,13 @@ static JRSessionData* singleton = nil;
 		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL" 
                                                              forKey:NSLocalizedDescriptionKey];
         NSError *new_error = [NSError errorWithDomain:@"JRAuthenticate"
-                                             code:100
-                                         userInfo:userInfo];
+                                                 code:100
+                                             userInfo:userInfo];
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy) 
         {
-            [delegate authenticateCallToTokenUrl:_tokenUrl didFailWithError:new_error forProvider:providerName];
+            if ([delegate respondsToSelector:@selector(authenticationCallToTokenUrl:didFailWithError:forProvider:)])
+                [delegate authenticationCallToTokenUrl:_tokenUrl didFailWithError:new_error forProvider:providerName];
         }
 	}
 	
@@ -1374,14 +1381,14 @@ static JRSessionData* singleton = nil;
     // QTS: Do we need to synchronize this object??
     //@synchronized (authenticatedUsersByProvider)
     //{
-        [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
-                                                  forKey:@"JRAuthenticatedUsersByProvider"];
+    [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
+                                              forKey:@"JRAuthenticatedUsersByProvider"];
     //}
     
     if ([[self basicProviders] containsObject:currentProvider.name])
         [self saveLastUsedBasicProvider];
-        
+    
     if ([[self socialProviders] containsObject:currentProvider.name])
         [self saveLastUsedSocialProvider];
     
@@ -1389,10 +1396,12 @@ static JRSessionData* singleton = nil;
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
 #ifdef STAGING
-//      [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"profile"] forProvider:currentProvider.name];
-        [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"auth_info"] forProvider:currentProvider.name];
+        //      [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"profile"] forProvider:currentProvider.name];
+        if ([delegate respondsToSelector:@selector(authenticationDidCompleteForUser:forProvider:)])
+            [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"auth_info"] forProvider:currentProvider.name];
 #else
-        [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
+        if ([delegate respondsToSelector:@selector(authenticationDidCompleteWithToken:forProvider:)])
+            [delegate authenticationDidCompleteWithToken:token forProvider:currentProvider.name];
 #endif
     }
     
@@ -1419,7 +1428,8 @@ static JRSessionData* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        [delegate authenticationDidFailWithError:_error forProvider:currentProvider.name];
+        if ([delegate respondsToSelector:@selector(authenticationDidFailWithError:forProvider:)])
+            [delegate authenticationDidFailWithError:_error forProvider:currentProvider.name];
     }
 }
 
@@ -1439,7 +1449,8 @@ static JRSessionData* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        [delegate authenticationDidCancel];//ForProvider:nil];
+        if ([delegate respondsToSelector:@selector(authenticationDidCancel)])
+            [delegate authenticationDidCancel];
     }
 }
 
@@ -1458,9 +1469,10 @@ static JRSessionData* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        [delegate authenticationDidCancel];//ForProvider:nil];
+        if ([delegate respondsToSelector:@selector(authenticationDidCancel)])
+            [delegate authenticationDidCancel];
     }
-
+    
 }
 
 - (void)triggerPublishingDidCancel
@@ -1472,7 +1484,8 @@ static JRSessionData* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        [delegate publishingDidCancel];
+        if ([delegate respondsToSelector:@selector(publishingDidCancel)])
+            [delegate publishingDidCancel];
     }
     
     social = NO;
@@ -1492,9 +1505,10 @@ static JRSessionData* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        [delegate publishingDidCancel];
+        if ([delegate respondsToSelector:@selector(publishingDidCancel)])
+            [delegate publishingDidCancel];
     }
-
+    
     social = NO;
 }
 
@@ -1507,7 +1521,8 @@ static JRSessionData* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        [delegate publishingDidComplete];
+        if ([delegate respondsToSelector:@selector(publishingDidComplete)])
+            [delegate publishingDidComplete];
     }
     
     social = NO;    
@@ -1522,12 +1537,13 @@ static JRSessionData* singleton = nil;
 - (void)triggerPublishingDidFailWithError:(NSError*)_error
 {
     DLog(@"");
-
+    
     // QTS: When will this ever be called and what do we do when it happens?
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        [delegate publishingActivity:activity didFailWithError:_error forProvider:currentProvider.name];
+        if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
+            [delegate publishingActivity:activity didFailWithError:_error forProvider:currentProvider.name];
     }
 }
 
@@ -1538,18 +1554,20 @@ static JRSessionData* singleton = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        [delegate publishingDidRestart];//ForProvider:nil];
+        if ([delegate respondsToSelector:@selector(publishingDidRestart)])
+            [delegate publishingDidRestart];
     }
 }
 
 - (void)triggerAuthenticationDidStartOver:(id)sender
 {
     DLog(@"");
-
+    
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
-        [delegate authenticationDidRestart];//ForProvider:nil];
+        if ([delegate respondsToSelector:@selector(authenticationDidRestart)])
+            [delegate authenticationDidRestart];
     }
 }
 

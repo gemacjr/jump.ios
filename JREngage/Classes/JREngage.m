@@ -197,7 +197,7 @@ static JREngage* singletonJREngage = nil;
 {
 	DLog(@"");
     
-    // TODO: Copy delegate array after adding function bodies for addDelegate and removeDelegate
+    // TODO:Copy delegate array after adding function bodies for addDelegate and removeDelegate
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
@@ -211,7 +211,7 @@ static JREngage* singletonJREngage = nil;
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
 {
 	DLog(@"");
-    DLog(@"token: %@", token);
+    DLog(@"token:%@", token);
 	
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
@@ -228,7 +228,7 @@ static JREngage* singletonJREngage = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
-        if ([delegate respondsToSelector:@selector(jrAuthenticationDidSucceedForUser: forProvider:)])
+        if ([delegate respondsToSelector:@selector(jrAuthenticationDidSucceedForUser:forProvider:)])
             [delegate jrAuthenticationDidSucceedForUser:profile forProvider:provider];
 	}
     
@@ -242,32 +242,32 @@ static JREngage* singletonJREngage = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
-        if ([delegate respondsToSelector:@selector(jrAuthenticationDidFailWithError: forProvider:)])
+        if ([delegate respondsToSelector:@selector(jrAuthenticationDidFailWithError:forProvider:)])
             [delegate jrAuthenticationDidFailWithError:error forProvider:provider];
 	}
     
 	[interfaceMaestro authenticationFailed];
 }
 
-- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
+- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
 {
     DLog(@"");
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
     {
-        if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl: withPayload: forProvider:)])
+        if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withPayload:forProvider:)])
             [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
     }    
 }
 
-- (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
+- (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     DLog(@"");
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
     {
-        if ([delegate respondsToSelector:@selector(jrAuthenticationCallToTokenUrl: didFailWithError: forProvider:)])
+        if ([delegate respondsToSelector:@selector(jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:)])
             [delegate jrAuthenticationCallToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
     }
 }
@@ -312,7 +312,7 @@ static JREngage* singletonJREngage = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
-		if ([delegate respondsToSelector:@selector(jrSocialDidPublishActivity: forProvider:)])
+		if ([delegate respondsToSelector:@selector(jrSocialDidPublishActivity:forProvider:)])
             [delegate jrSocialDidPublishActivity:activity forProvider:provider];
 	}
 }
@@ -324,7 +324,7 @@ static JREngage* singletonJREngage = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
-		if ([delegate respondsToSelector:@selector(jrSocialPublishingActivity: didFailWithError: forProvider:)])
+		if ([delegate respondsToSelector:@selector(jrSocialPublishingActivity:didFailWithError:forProvider:)])
             [delegate jrSocialPublishingActivity:activity didFailWithError:error forProvider:provider];
 	}    
 }
@@ -334,7 +334,7 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro pushToCustomNavigationController:navigationController];
 }
 
-// TODO: Figure out if we need the method setCustomNavigationControllerShouldPopToViewController
+// TODO:Figure out if we need the method setCustomNavigationControllerShouldPopToViewController
 // and implement it if we do
 - (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController
 {
@@ -363,27 +363,27 @@ static JREngage* singletonJREngage = nil;
     [sessionData triggerPublishingDidCancel];
 }
 
-// TODO: Rework token url flow and if we need makeCallToTokenUrl in engage API
+// TODO:Rework token url flow and if we need makeCallToTokenUrl in engage API
 - (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
 {
 	DLog(@"");
-    DLog(@"token:    %@", token);
-	DLog(@"tokenURL: %@", tokenUrl);
+    DLog(@"token:   %@", token);
+	DLog(@"tokenURL:%@", tokenUrl);
     
 	[sessionData makeCallToTokenUrl:tokenUrl withToken:token forProvider:nil];
 }
 
 - (void)updateTokenUrl:(NSString*)newTokenUrl
 {
-    // TODO: Implement me!
+    // TODO:Implement me!
 }
 
-// QTS: What are the pros/cons of making this class pseudo-singleton?  That is, what if I make it a singleton
+// QTS:What are the pros/cons of making this class pseudo-singleton?  That is, what if I make it a singleton
 // object after it's instantiated with the correct baseUrl/tokenUrl/etc., but give users the ability to dealloc
 // it if they want to free up the memory.  If freed, all subsequent messages will just be sent to a nil instance
 // until reinstantiated.
-// ANSWER: Minimal memory... should just use regular singleton paradigm
-// TODO: Remove deallocs from singletons that don't need them
+// ANSWER:Minimal memory... should just use regular singleton paradigm
+// TODO:Remove deallocs from singletons that don't need them
 - (void)dealloc 
 {
 	DLog(@"");

@@ -12,6 +12,27 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		9F5908D1116F9316006955EF /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F5908D0116F9316006955EF /* Entitlements.plist */; };
+		9F63D0D2124C1A2F00A21A59 /* JREngage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9F63D0A9124C1A2F00A21A59 /* JREngage.bundle */; };
+		9F63D0D3124C1A2F00A21A59 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0AD124C1A2F00A21A59 /* NSObject+SBJSON.m */; };
+		9F63D0D4124C1A2F00A21A59 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0AF124C1A2F00A21A59 /* NSString+SBJSON.m */; };
+		9F63D0D5124C1A2F00A21A59 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0B1124C1A2F00A21A59 /* SBJsonBase.m */; };
+		9F63D0D6124C1A2F00A21A59 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0B3124C1A2F00A21A59 /* SBJsonParser.m */; };
+		9F63D0D7124C1A2F00A21A59 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0B5124C1A2F00A21A59 /* SBJsonWriter.m */; };
+		9F63D0D8124C1A2F00A21A59 /* JRActivityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0B8124C1A2F00A21A59 /* JRActivityObject.m */; };
+		9F63D0D9124C1A2F00A21A59 /* JRConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0BA124C1A2F00A21A59 /* JRConnectionManager.m */; };
+		9F63D0DA124C1A2F00A21A59 /* JREngage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0BC124C1A2F00A21A59 /* JREngage.m */; };
+		9F63D0DB124C1A2F00A21A59 /* JRInfoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0BE124C1A2F00A21A59 /* JRInfoBar.m */; };
+		9F63D0DC124C1A2F00A21A59 /* JRModalNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0C0124C1A2F00A21A59 /* JRModalNavigationController.m */; };
+		9F63D0DD124C1A2F00A21A59 /* JRProvidersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0C2124C1A2F00A21A59 /* JRProvidersController.m */; };
+		9F63D0DE124C1A2F00A21A59 /* JRPublishActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0C4124C1A2F00A21A59 /* JRPublishActivityController.m */; };
+		9F63D0DF124C1A2F00A21A59 /* JRSessionData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0C6124C1A2F00A21A59 /* JRSessionData.m */; };
+		9F63D0E0124C1A2F00A21A59 /* JRUserInterfaceMaestro.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0C8124C1A2F00A21A59 /* JRUserInterfaceMaestro.m */; };
+		9F63D0E1124C1A2F00A21A59 /* JRUserLandingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0CA124C1A2F00A21A59 /* JRUserLandingController.m */; };
+		9F63D0E2124C1A2F00A21A59 /* JRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F63D0CC124C1A2F00A21A59 /* JRWebViewController.m */; };
+		9F63D0E3124C1A2F00A21A59 /* JRProvidersController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F63D0CE124C1A2F00A21A59 /* JRProvidersController.xib */; };
+		9F63D0E4124C1A2F00A21A59 /* JRPublishActivityController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F63D0CF124C1A2F00A21A59 /* JRPublishActivityController.xib */; };
+		9F63D0E5124C1A2F00A21A59 /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F63D0D0124C1A2F00A21A59 /* JRUserLandingController.xib */; };
+		9F63D0E6124C1A2F00A21A59 /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F63D0D1124C1A2F00A21A59 /* JRWebViewController.xib */; };
 		9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */; };
 		9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */; };
 		9FB40A3412414DC500FDDA7B /* QSIViewControllerLevel1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2D12414DC500FDDA7B /* QSIViewControllerLevel1.m */; };
@@ -27,27 +48,6 @@
 		9FB40A4A12414DEE00FDDA7B /* QSIViewControllerLevel1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40A4112414DEE00FDDA7B /* QSIViewControllerLevel1.xib */; };
 		9FB40A4B12414DEE00FDDA7B /* QSIViewControllerLevel2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40A4212414DEE00FDDA7B /* QSIViewControllerLevel2.xib */; };
 		9FB40A4D12414DFC00FDDA7B /* Quick_Sign_In-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40A4C12414DFC00FDDA7B /* Quick_Sign_In-Info.plist */; };
-		9FB40B2412418A0D00FDDA7B /* JREngage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40AFB12418A0D00FDDA7B /* JREngage.bundle */; };
-		9FB40B2512418A0D00FDDA7B /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40AFF12418A0D00FDDA7B /* NSObject+SBJSON.m */; };
-		9FB40B2612418A0D00FDDA7B /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B0112418A0D00FDDA7B /* NSString+SBJSON.m */; };
-		9FB40B2712418A0D00FDDA7B /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B0312418A0D00FDDA7B /* SBJsonBase.m */; };
-		9FB40B2812418A0D00FDDA7B /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B0512418A0D00FDDA7B /* SBJsonParser.m */; };
-		9FB40B2912418A0D00FDDA7B /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B0712418A0D00FDDA7B /* SBJsonWriter.m */; };
-		9FB40B2A12418A0D00FDDA7B /* JRActivityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B0A12418A0D00FDDA7B /* JRActivityObject.m */; };
-		9FB40B2B12418A0D00FDDA7B /* JRConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B0C12418A0D00FDDA7B /* JRConnectionManager.m */; };
-		9FB40B2C12418A0D00FDDA7B /* JREngage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B0E12418A0D00FDDA7B /* JREngage.m */; };
-		9FB40B2D12418A0D00FDDA7B /* JRInfoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B1012418A0D00FDDA7B /* JRInfoBar.m */; };
-		9FB40B2E12418A0D00FDDA7B /* JRModalNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B1212418A0D00FDDA7B /* JRModalNavigationController.m */; };
-		9FB40B2F12418A0D00FDDA7B /* JRProvidersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B1412418A0D00FDDA7B /* JRProvidersController.m */; };
-		9FB40B3012418A0D00FDDA7B /* JRPublishActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B1612418A0D00FDDA7B /* JRPublishActivityController.m */; };
-		9FB40B3112418A0D00FDDA7B /* JRSessionData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B1812418A0D00FDDA7B /* JRSessionData.m */; };
-		9FB40B3212418A0D00FDDA7B /* JRUserInterfaceMaestro.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B1A12418A0D00FDDA7B /* JRUserInterfaceMaestro.m */; };
-		9FB40B3312418A0D00FDDA7B /* JRUserLandingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B1C12418A0D00FDDA7B /* JRUserLandingController.m */; };
-		9FB40B3412418A0D00FDDA7B /* JRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40B1E12418A0D00FDDA7B /* JRWebViewController.m */; };
-		9FB40B3512418A0D00FDDA7B /* JRProvidersController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40B2012418A0D00FDDA7B /* JRProvidersController.xib */; };
-		9FB40B3612418A0D00FDDA7B /* JRPublishActivityController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40B2112418A0D00FDDA7B /* JRPublishActivityController.xib */; };
-		9FB40B3712418A0D00FDDA7B /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40B2212418A0D00FDDA7B /* JRUserLandingController.xib */; };
-		9FB40B3812418A0D00FDDA7B /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40B2312418A0D00FDDA7B /* JRWebViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +57,44 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9F5908D0116F9316006955EF /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		9F63D0A9124C1A2F00A21A59 /* JREngage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = JREngage.bundle; path = ../JREngage/JREngage.bundle; sourceTree = SOURCE_ROOT; };
+		9F63D0AB124C1A2F00A21A59 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		9F63D0AC124C1A2F00A21A59 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		9F63D0AD124C1A2F00A21A59 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		9F63D0AE124C1A2F00A21A59 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		9F63D0AF124C1A2F00A21A59 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		9F63D0B0124C1A2F00A21A59 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		9F63D0B1124C1A2F00A21A59 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		9F63D0B2124C1A2F00A21A59 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		9F63D0B3124C1A2F00A21A59 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		9F63D0B4124C1A2F00A21A59 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		9F63D0B5124C1A2F00A21A59 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		9F63D0B7124C1A2F00A21A59 /* JRActivityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActivityObject.h; sourceTree = "<group>"; };
+		9F63D0B8124C1A2F00A21A59 /* JRActivityObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRActivityObject.m; sourceTree = "<group>"; };
+		9F63D0B9124C1A2F00A21A59 /* JRConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRConnectionManager.h; sourceTree = "<group>"; };
+		9F63D0BA124C1A2F00A21A59 /* JRConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRConnectionManager.m; sourceTree = "<group>"; };
+		9F63D0BB124C1A2F00A21A59 /* JREngage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngage.h; sourceTree = "<group>"; };
+		9F63D0BC124C1A2F00A21A59 /* JREngage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngage.m; sourceTree = "<group>"; };
+		9F63D0BD124C1A2F00A21A59 /* JRInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRInfoBar.h; sourceTree = "<group>"; };
+		9F63D0BE124C1A2F00A21A59 /* JRInfoBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRInfoBar.m; sourceTree = "<group>"; };
+		9F63D0BF124C1A2F00A21A59 /* JRModalNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRModalNavigationController.h; sourceTree = "<group>"; };
+		9F63D0C0124C1A2F00A21A59 /* JRModalNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRModalNavigationController.m; sourceTree = "<group>"; };
+		9F63D0C1124C1A2F00A21A59 /* JRProvidersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRProvidersController.h; sourceTree = "<group>"; };
+		9F63D0C2124C1A2F00A21A59 /* JRProvidersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRProvidersController.m; sourceTree = "<group>"; };
+		9F63D0C3124C1A2F00A21A59 /* JRPublishActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRPublishActivityController.h; sourceTree = "<group>"; };
+		9F63D0C4124C1A2F00A21A59 /* JRPublishActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRPublishActivityController.m; sourceTree = "<group>"; };
+		9F63D0C5124C1A2F00A21A59 /* JRSessionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSessionData.h; sourceTree = "<group>"; };
+		9F63D0C6124C1A2F00A21A59 /* JRSessionData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSessionData.m; sourceTree = "<group>"; };
+		9F63D0C7124C1A2F00A21A59 /* JRUserInterfaceMaestro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRUserInterfaceMaestro.h; sourceTree = "<group>"; };
+		9F63D0C8124C1A2F00A21A59 /* JRUserInterfaceMaestro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRUserInterfaceMaestro.m; sourceTree = "<group>"; };
+		9F63D0C9124C1A2F00A21A59 /* JRUserLandingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRUserLandingController.h; sourceTree = "<group>"; };
+		9F63D0CA124C1A2F00A21A59 /* JRUserLandingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRUserLandingController.m; sourceTree = "<group>"; };
+		9F63D0CB124C1A2F00A21A59 /* JRWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRWebViewController.h; sourceTree = "<group>"; };
+		9F63D0CC124C1A2F00A21A59 /* JRWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRWebViewController.m; sourceTree = "<group>"; };
+		9F63D0CE124C1A2F00A21A59 /* JRProvidersController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRProvidersController.xib; path = ../JREngage/Resources/JRProvidersController.xib; sourceTree = SOURCE_ROOT; };
+		9F63D0CF124C1A2F00A21A59 /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRPublishActivityController.xib; path = ../JREngage/Resources/JRPublishActivityController.xib; sourceTree = SOURCE_ROOT; };
+		9F63D0D0124C1A2F00A21A59 /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRUserLandingController.xib; path = ../JREngage/Resources/JRUserLandingController.xib; sourceTree = SOURCE_ROOT; };
+		9F63D0D1124C1A2F00A21A59 /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRWebViewController.xib; path = ../JREngage/Resources/JRWebViewController.xib; sourceTree = SOURCE_ROOT; };
 		9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIRootViewController.h; sourceTree = "<group>"; };
 		9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIRootViewController.m; sourceTree = "<group>"; };
 		9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIUserModel.h; sourceTree = "<group>"; };
@@ -78,44 +116,6 @@
 		9FB40A4112414DEE00FDDA7B /* QSIViewControllerLevel1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIViewControllerLevel1.xib; sourceTree = "<group>"; };
 		9FB40A4212414DEE00FDDA7B /* QSIViewControllerLevel2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIViewControllerLevel2.xib; sourceTree = "<group>"; };
 		9FB40A4C12414DFC00FDDA7B /* Quick_Sign_In-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quick_Sign_In-Info.plist"; sourceTree = "<group>"; };
-		9FB40AFB12418A0D00FDDA7B /* JREngage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = JREngage.bundle; path = ../../engage.iphone/JREngage/JREngage.bundle; sourceTree = SOURCE_ROOT; };
-		9FB40AFD12418A0D00FDDA7B /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
-		9FB40AFE12418A0D00FDDA7B /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
-		9FB40AFF12418A0D00FDDA7B /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
-		9FB40B0012418A0D00FDDA7B /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
-		9FB40B0112418A0D00FDDA7B /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
-		9FB40B0212418A0D00FDDA7B /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
-		9FB40B0312418A0D00FDDA7B /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
-		9FB40B0412418A0D00FDDA7B /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		9FB40B0512418A0D00FDDA7B /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
-		9FB40B0612418A0D00FDDA7B /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
-		9FB40B0712418A0D00FDDA7B /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		9FB40B0912418A0D00FDDA7B /* JRActivityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActivityObject.h; sourceTree = "<group>"; };
-		9FB40B0A12418A0D00FDDA7B /* JRActivityObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRActivityObject.m; sourceTree = "<group>"; };
-		9FB40B0B12418A0D00FDDA7B /* JRConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRConnectionManager.h; sourceTree = "<group>"; };
-		9FB40B0C12418A0D00FDDA7B /* JRConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRConnectionManager.m; sourceTree = "<group>"; };
-		9FB40B0D12418A0D00FDDA7B /* JREngage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREngage.h; sourceTree = "<group>"; };
-		9FB40B0E12418A0D00FDDA7B /* JREngage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngage.m; sourceTree = "<group>"; };
-		9FB40B0F12418A0D00FDDA7B /* JRInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRInfoBar.h; sourceTree = "<group>"; };
-		9FB40B1012418A0D00FDDA7B /* JRInfoBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRInfoBar.m; sourceTree = "<group>"; };
-		9FB40B1112418A0D00FDDA7B /* JRModalNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRModalNavigationController.h; sourceTree = "<group>"; };
-		9FB40B1212418A0D00FDDA7B /* JRModalNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRModalNavigationController.m; sourceTree = "<group>"; };
-		9FB40B1312418A0D00FDDA7B /* JRProvidersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRProvidersController.h; sourceTree = "<group>"; };
-		9FB40B1412418A0D00FDDA7B /* JRProvidersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRProvidersController.m; sourceTree = "<group>"; };
-		9FB40B1512418A0D00FDDA7B /* JRPublishActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRPublishActivityController.h; sourceTree = "<group>"; };
-		9FB40B1612418A0D00FDDA7B /* JRPublishActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRPublishActivityController.m; sourceTree = "<group>"; };
-		9FB40B1712418A0D00FDDA7B /* JRSessionData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSessionData.h; sourceTree = "<group>"; };
-		9FB40B1812418A0D00FDDA7B /* JRSessionData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSessionData.m; sourceTree = "<group>"; };
-		9FB40B1912418A0D00FDDA7B /* JRUserInterfaceMaestro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRUserInterfaceMaestro.h; sourceTree = "<group>"; };
-		9FB40B1A12418A0D00FDDA7B /* JRUserInterfaceMaestro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRUserInterfaceMaestro.m; sourceTree = "<group>"; };
-		9FB40B1B12418A0D00FDDA7B /* JRUserLandingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRUserLandingController.h; sourceTree = "<group>"; };
-		9FB40B1C12418A0D00FDDA7B /* JRUserLandingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRUserLandingController.m; sourceTree = "<group>"; };
-		9FB40B1D12418A0D00FDDA7B /* JRWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRWebViewController.h; sourceTree = "<group>"; };
-		9FB40B1E12418A0D00FDDA7B /* JRWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRWebViewController.m; sourceTree = "<group>"; };
-		9FB40B2012418A0D00FDDA7B /* JRProvidersController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRProvidersController.xib; path = ../../engage.iphone/JREngage/Resources/JRProvidersController.xib; sourceTree = SOURCE_ROOT; };
-		9FB40B2112418A0D00FDDA7B /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRPublishActivityController.xib; path = ../../engage.iphone/JREngage/Resources/JRPublishActivityController.xib; sourceTree = SOURCE_ROOT; };
-		9FB40B2212418A0D00FDDA7B /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRUserLandingController.xib; path = ../../engage.iphone/JREngage/Resources/JRUserLandingController.xib; sourceTree = SOURCE_ROOT; };
-		9FB40B2312418A0D00FDDA7B /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRWebViewController.xib; path = ../../engage.iphone/JREngage/Resources/JRWebViewController.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,7 +160,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				9FB40AFA12418A0D00FDDA7B /* JREngage */,
+				9F63D0A8124C1A2F00A21A59 /* JREngage */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -200,6 +200,77 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9F63D0A8124C1A2F00A21A59 /* JREngage */ = {
+			isa = PBXGroup;
+			children = (
+				9F63D0CD124C1A2F00A21A59 /* Resources */,
+				9F63D0A9124C1A2F00A21A59 /* JREngage.bundle */,
+				9F63D0AA124C1A2F00A21A59 /* JSON */,
+				9F63D0B6124C1A2F00A21A59 /* classes */,
+			);
+			name = JREngage;
+			sourceTree = "<group>";
+		};
+		9F63D0AA124C1A2F00A21A59 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				9F63D0AB124C1A2F00A21A59 /* JSON.h */,
+				9F63D0AC124C1A2F00A21A59 /* NSObject+SBJSON.h */,
+				9F63D0AD124C1A2F00A21A59 /* NSObject+SBJSON.m */,
+				9F63D0AE124C1A2F00A21A59 /* NSString+SBJSON.h */,
+				9F63D0AF124C1A2F00A21A59 /* NSString+SBJSON.m */,
+				9F63D0B0124C1A2F00A21A59 /* SBJsonBase.h */,
+				9F63D0B1124C1A2F00A21A59 /* SBJsonBase.m */,
+				9F63D0B2124C1A2F00A21A59 /* SBJsonParser.h */,
+				9F63D0B3124C1A2F00A21A59 /* SBJsonParser.m */,
+				9F63D0B4124C1A2F00A21A59 /* SBJsonWriter.h */,
+				9F63D0B5124C1A2F00A21A59 /* SBJsonWriter.m */,
+			);
+			name = JSON;
+			path = ../JREngage/JSON;
+			sourceTree = SOURCE_ROOT;
+		};
+		9F63D0B6124C1A2F00A21A59 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				9F63D0B7124C1A2F00A21A59 /* JRActivityObject.h */,
+				9F63D0B8124C1A2F00A21A59 /* JRActivityObject.m */,
+				9F63D0B9124C1A2F00A21A59 /* JRConnectionManager.h */,
+				9F63D0BA124C1A2F00A21A59 /* JRConnectionManager.m */,
+				9F63D0BB124C1A2F00A21A59 /* JREngage.h */,
+				9F63D0BC124C1A2F00A21A59 /* JREngage.m */,
+				9F63D0BD124C1A2F00A21A59 /* JRInfoBar.h */,
+				9F63D0BE124C1A2F00A21A59 /* JRInfoBar.m */,
+				9F63D0BF124C1A2F00A21A59 /* JRModalNavigationController.h */,
+				9F63D0C0124C1A2F00A21A59 /* JRModalNavigationController.m */,
+				9F63D0C1124C1A2F00A21A59 /* JRProvidersController.h */,
+				9F63D0C2124C1A2F00A21A59 /* JRProvidersController.m */,
+				9F63D0C3124C1A2F00A21A59 /* JRPublishActivityController.h */,
+				9F63D0C4124C1A2F00A21A59 /* JRPublishActivityController.m */,
+				9F63D0C5124C1A2F00A21A59 /* JRSessionData.h */,
+				9F63D0C6124C1A2F00A21A59 /* JRSessionData.m */,
+				9F63D0C7124C1A2F00A21A59 /* JRUserInterfaceMaestro.h */,
+				9F63D0C8124C1A2F00A21A59 /* JRUserInterfaceMaestro.m */,
+				9F63D0C9124C1A2F00A21A59 /* JRUserLandingController.h */,
+				9F63D0CA124C1A2F00A21A59 /* JRUserLandingController.m */,
+				9F63D0CB124C1A2F00A21A59 /* JRWebViewController.h */,
+				9F63D0CC124C1A2F00A21A59 /* JRWebViewController.m */,
+			);
+			name = classes;
+			path = ../JREngage/classes;
+			sourceTree = SOURCE_ROOT;
+		};
+		9F63D0CD124C1A2F00A21A59 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9F63D0CE124C1A2F00A21A59 /* JRProvidersController.xib */,
+				9F63D0CF124C1A2F00A21A59 /* JRPublishActivityController.xib */,
+				9F63D0D0124C1A2F00A21A59 /* JRUserLandingController.xib */,
+				9F63D0D1124C1A2F00A21A59 /* JRWebViewController.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		9FB40A3812414DEE00FDDA7B /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,77 +294,6 @@
 			);
 			name = xibs;
 			path = Resources/xibs;
-			sourceTree = "<group>";
-		};
-		9FB40AFA12418A0D00FDDA7B /* JREngage */ = {
-			isa = PBXGroup;
-			children = (
-				9FB40B1F12418A0D00FDDA7B /* Resources */,
-				9FB40AFB12418A0D00FDDA7B /* JREngage.bundle */,
-				9FB40AFC12418A0D00FDDA7B /* JSON */,
-				9FB40B0812418A0D00FDDA7B /* classes */,
-			);
-			name = JREngage;
-			sourceTree = "<group>";
-		};
-		9FB40AFC12418A0D00FDDA7B /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				9FB40AFD12418A0D00FDDA7B /* JSON.h */,
-				9FB40AFE12418A0D00FDDA7B /* NSObject+SBJSON.h */,
-				9FB40AFF12418A0D00FDDA7B /* NSObject+SBJSON.m */,
-				9FB40B0012418A0D00FDDA7B /* NSString+SBJSON.h */,
-				9FB40B0112418A0D00FDDA7B /* NSString+SBJSON.m */,
-				9FB40B0212418A0D00FDDA7B /* SBJsonBase.h */,
-				9FB40B0312418A0D00FDDA7B /* SBJsonBase.m */,
-				9FB40B0412418A0D00FDDA7B /* SBJsonParser.h */,
-				9FB40B0512418A0D00FDDA7B /* SBJsonParser.m */,
-				9FB40B0612418A0D00FDDA7B /* SBJsonWriter.h */,
-				9FB40B0712418A0D00FDDA7B /* SBJsonWriter.m */,
-			);
-			name = JSON;
-			path = ../../engage.iphone/JREngage/JSON;
-			sourceTree = SOURCE_ROOT;
-		};
-		9FB40B0812418A0D00FDDA7B /* classes */ = {
-			isa = PBXGroup;
-			children = (
-				9FB40B0912418A0D00FDDA7B /* JRActivityObject.h */,
-				9FB40B0A12418A0D00FDDA7B /* JRActivityObject.m */,
-				9FB40B0B12418A0D00FDDA7B /* JRConnectionManager.h */,
-				9FB40B0C12418A0D00FDDA7B /* JRConnectionManager.m */,
-				9FB40B0D12418A0D00FDDA7B /* JREngage.h */,
-				9FB40B0E12418A0D00FDDA7B /* JREngage.m */,
-				9FB40B0F12418A0D00FDDA7B /* JRInfoBar.h */,
-				9FB40B1012418A0D00FDDA7B /* JRInfoBar.m */,
-				9FB40B1112418A0D00FDDA7B /* JRModalNavigationController.h */,
-				9FB40B1212418A0D00FDDA7B /* JRModalNavigationController.m */,
-				9FB40B1312418A0D00FDDA7B /* JRProvidersController.h */,
-				9FB40B1412418A0D00FDDA7B /* JRProvidersController.m */,
-				9FB40B1512418A0D00FDDA7B /* JRPublishActivityController.h */,
-				9FB40B1612418A0D00FDDA7B /* JRPublishActivityController.m */,
-				9FB40B1712418A0D00FDDA7B /* JRSessionData.h */,
-				9FB40B1812418A0D00FDDA7B /* JRSessionData.m */,
-				9FB40B1912418A0D00FDDA7B /* JRUserInterfaceMaestro.h */,
-				9FB40B1A12418A0D00FDDA7B /* JRUserInterfaceMaestro.m */,
-				9FB40B1B12418A0D00FDDA7B /* JRUserLandingController.h */,
-				9FB40B1C12418A0D00FDDA7B /* JRUserLandingController.m */,
-				9FB40B1D12418A0D00FDDA7B /* JRWebViewController.h */,
-				9FB40B1E12418A0D00FDDA7B /* JRWebViewController.m */,
-			);
-			name = classes;
-			path = ../../engage.iphone/JREngage/classes;
-			sourceTree = SOURCE_ROOT;
-		};
-		9FB40B1F12418A0D00FDDA7B /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				9FB40B2012418A0D00FDDA7B /* JRProvidersController.xib */,
-				9FB40B2112418A0D00FDDA7B /* JRPublishActivityController.xib */,
-				9FB40B2212418A0D00FDDA7B /* JRUserLandingController.xib */,
-				9FB40B2312418A0D00FDDA7B /* JRWebViewController.xib */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -359,11 +359,11 @@
 				9FB40A4A12414DEE00FDDA7B /* QSIViewControllerLevel1.xib in Resources */,
 				9FB40A4B12414DEE00FDDA7B /* QSIViewControllerLevel2.xib in Resources */,
 				9FB40A4D12414DFC00FDDA7B /* Quick_Sign_In-Info.plist in Resources */,
-				9FB40B2412418A0D00FDDA7B /* JREngage.bundle in Resources */,
-				9FB40B3512418A0D00FDDA7B /* JRProvidersController.xib in Resources */,
-				9FB40B3612418A0D00FDDA7B /* JRPublishActivityController.xib in Resources */,
-				9FB40B3712418A0D00FDDA7B /* JRUserLandingController.xib in Resources */,
-				9FB40B3812418A0D00FDDA7B /* JRWebViewController.xib in Resources */,
+				9F63D0D2124C1A2F00A21A59 /* JREngage.bundle in Resources */,
+				9F63D0E3124C1A2F00A21A59 /* JRProvidersController.xib in Resources */,
+				9F63D0E4124C1A2F00A21A59 /* JRPublishActivityController.xib in Resources */,
+				9F63D0E5124C1A2F00A21A59 /* JRUserLandingController.xib in Resources */,
+				9F63D0E6124C1A2F00A21A59 /* JRWebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,22 +396,22 @@
 				9FB40A3412414DC500FDDA7B /* QSIViewControllerLevel1.m in Sources */,
 				9FB40A3512414DC500FDDA7B /* QSIViewControllerLevel2.m in Sources */,
 				9FB40A3612414DC500FDDA7B /* QuickSignInAppDelegate.m in Sources */,
-				9FB40B2512418A0D00FDDA7B /* NSObject+SBJSON.m in Sources */,
-				9FB40B2612418A0D00FDDA7B /* NSString+SBJSON.m in Sources */,
-				9FB40B2712418A0D00FDDA7B /* SBJsonBase.m in Sources */,
-				9FB40B2812418A0D00FDDA7B /* SBJsonParser.m in Sources */,
-				9FB40B2912418A0D00FDDA7B /* SBJsonWriter.m in Sources */,
-				9FB40B2A12418A0D00FDDA7B /* JRActivityObject.m in Sources */,
-				9FB40B2B12418A0D00FDDA7B /* JRConnectionManager.m in Sources */,
-				9FB40B2C12418A0D00FDDA7B /* JREngage.m in Sources */,
-				9FB40B2D12418A0D00FDDA7B /* JRInfoBar.m in Sources */,
-				9FB40B2E12418A0D00FDDA7B /* JRModalNavigationController.m in Sources */,
-				9FB40B2F12418A0D00FDDA7B /* JRProvidersController.m in Sources */,
-				9FB40B3012418A0D00FDDA7B /* JRPublishActivityController.m in Sources */,
-				9FB40B3112418A0D00FDDA7B /* JRSessionData.m in Sources */,
-				9FB40B3212418A0D00FDDA7B /* JRUserInterfaceMaestro.m in Sources */,
-				9FB40B3312418A0D00FDDA7B /* JRUserLandingController.m in Sources */,
-				9FB40B3412418A0D00FDDA7B /* JRWebViewController.m in Sources */,
+				9F63D0D3124C1A2F00A21A59 /* NSObject+SBJSON.m in Sources */,
+				9F63D0D4124C1A2F00A21A59 /* NSString+SBJSON.m in Sources */,
+				9F63D0D5124C1A2F00A21A59 /* SBJsonBase.m in Sources */,
+				9F63D0D6124C1A2F00A21A59 /* SBJsonParser.m in Sources */,
+				9F63D0D7124C1A2F00A21A59 /* SBJsonWriter.m in Sources */,
+				9F63D0D8124C1A2F00A21A59 /* JRActivityObject.m in Sources */,
+				9F63D0D9124C1A2F00A21A59 /* JRConnectionManager.m in Sources */,
+				9F63D0DA124C1A2F00A21A59 /* JREngage.m in Sources */,
+				9F63D0DB124C1A2F00A21A59 /* JRInfoBar.m in Sources */,
+				9F63D0DC124C1A2F00A21A59 /* JRModalNavigationController.m in Sources */,
+				9F63D0DD124C1A2F00A21A59 /* JRProvidersController.m in Sources */,
+				9F63D0DE124C1A2F00A21A59 /* JRPublishActivityController.m in Sources */,
+				9F63D0DF124C1A2F00A21A59 /* JRSessionData.m in Sources */,
+				9F63D0E0124C1A2F00A21A59 /* JRUserInterfaceMaestro.m in Sources */,
+				9F63D0E1124C1A2F00A21A59 /* JRUserLandingController.m in Sources */,
+				9F63D0E2124C1A2F00A21A59 /* JRWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,7 +432,7 @@
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
 				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-v",
@@ -440,9 +440,9 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "80A706E7-69B2-450A-86EA-BF6A187E6263";
-				SDKROOT = iphonesimulator4.0;
+				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -458,7 +458,7 @@
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
 				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-v",
@@ -466,9 +466,9 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F454B76-32EB-4DB7-97BC-EA11298BC5E9";
-				SDKROOT = iphoneos3.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
+				SDKROOT = iphoneos4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};
@@ -509,7 +509,7 @@
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
 				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-v",
@@ -517,7 +517,7 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C77F6446-B0C3-459A-862E-B6508C468BF8";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};

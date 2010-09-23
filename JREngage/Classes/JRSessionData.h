@@ -126,8 +126,8 @@ typedef enum
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
-- (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
-- (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+- (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
 - (void)publishingDidRestart;
 - (void)publishingDidCancel;
@@ -136,10 +136,6 @@ typedef enum
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-
-//- (void)publishingActivityDidFail:(JRActivityObject*)activity forProvider:(NSString*)provider;
-//- (void)publishingDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
-//- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error;
 @end
 
 @class JRActivityObject;
