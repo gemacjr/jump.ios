@@ -482,19 +482,19 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 
 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString *)provider 
 {
-    [feedReaderDetail authenticationFailed:error];
+//    [feedReaderDetail authenticationFailed:error];
 }
-- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider { }
 
-- (void)jrEngageDialogDidFailToShow { }
+- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error { }
 
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
-- (void)jrAuthenticationCallToTokenUrl:(NSString*)_tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
-- (void)jrAuthenticationDidNotComplete { }
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)profile forProvider:(NSString*)provider { }
-- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
-- (void)jrSocialDidNotCompletePublishing { }
-- (void)jrSocialDidCompletePublishing { }
+//- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider { }
+//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
+//- (void)jrAuthenticationCallToTokenUrl:(NSString*)_tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+//- (void)jrAuthenticationDidNotComplete { }
+//- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)profile forProvider:(NSString*)provider { }
+//- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
+//- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }
+//- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+//- (void)jrSocialDidNotCompletePublishing { }
+//- (void)jrSocialDidCompletePublishing { }
 @end

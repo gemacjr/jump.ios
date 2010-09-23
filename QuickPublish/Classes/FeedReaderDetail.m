@@ -193,15 +193,15 @@
     [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity];
 }
 
-- (void)authenticationFailed:(NSError*)error
-{
-    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign in failed"
-                                                     message:@"There seems to have been a problem authenticating.  Please try again."
-                                                    delegate:nil
-                                           cancelButtonTitle:@"OK" 
-                                           otherButtonTitles:nil] autorelease];
-    [alert show];    
-}
+//- (void)authenticationFailed:(NSError*)error
+//{
+//    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign in failed"
+//                                                     message:@"There seems to have been a problem authenticating.  Please try again."
+//                                                    delegate:nil
+//                                           cancelButtonTitle:@"OK" 
+//                                           otherButtonTitles:nil] autorelease];
+//    [alert show];    
+//}
 
 /*
 // Override to allow orientations other than the default portrait orientation.

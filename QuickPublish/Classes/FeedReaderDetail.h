@@ -45,25 +45,7 @@
     
     FeedReaderWebView *feedReaderWebview;
     IBOutlet UIWebView *webview;
-    
-//    IBOutlet UILabel *title;
-//    IBOutlet UITextView *description;
-//    IBOutlet UIImageView *media;
-//    IBOutlet UIScrollView *scrollView;
-//    IBOutlet UIView       *contentView;
-//    
-//    
-//    IBOutlet UILabel *storyTitle;
-//    IBOutlet UILabel *storyDate;
-//    IBOutlet UIWebView *storyContent;
-    
-//    IBOutlet UILabel *storySection1;
-//    IBOutlet UILabel *storySection2;
-//    IBOutlet UILabel *storySection3;
-//    IBOutlet UIImageView *storyThumbnail;
-    
 }
-
 - (IBAction)shareButtonPressed:(id)sender;
-- (void)authenticationFailed:(NSError*)error;
+//- (void)authenticationFailed:(NSError*)error;
 @end
