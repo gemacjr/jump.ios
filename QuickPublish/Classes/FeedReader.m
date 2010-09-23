@@ -491,7 +491,7 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)_tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 - (void)jrAuthenticationDidNotComplete { }
-
+- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)profile forProvider:(NSString*)provider { }
 - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { }

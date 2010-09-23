@@ -1058,14 +1058,18 @@ static JRSessionData* singleton = nil;
     
     NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONRepresentation];                          
     NSString *deviceToken = user.device_token;
-    
-    
+        
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
+#ifdef STAGING
+    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
+                                     [NSURL URLWithString:@"https://rpxstaging.com/api/v2/activity?"]] retain];
+#else
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:@"https://rpxnow.com/api/v2/activity?"]] retain];
+#endif
     
     DLog("Share activity request: %@ and body: %s", [[request URL] absoluteString], body.bytes);
     [request setHTTPMethod:@"POST"];

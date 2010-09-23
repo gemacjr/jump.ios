@@ -61,30 +61,39 @@
 }
 @end
 
-// TODO: Are there any keywords/directives that I should add to correctly use
-// JRMediaObject as an abstract base class?
-@protocol JRMediaObjectProtocol
+// TODO: Are we using this?
+//typedef enum
+//{
+//    JRMediaTypeImage = 1,
+//    JRMediaTypeFlash,
+//    JRMediaTypeMp3
+//} JRMediaType;
+
+// TODO: Should these NSObject categories/function be in the implementation file?
+/* Added the CFAdditions category to NSObject to filter objects in our media array based on their base class (JRMediaObject) */
+@interface NSObject (CFAdditions)
+- (NSString*)cf_baseClassName;
+- (NSString*)cf_className;
+@end
+
+/* Added these functions to the NSObject object to filter objects in our media array based on their base class (JRMediaObject) */
+@implementation NSObject (CFAdditions)
+- (NSString *) cf_baseClassName { return NSStringFromClass([self superclass]); }
+- (NSString *) cf_className { return NSStringFromClass([self class]); }
+@end
+
+@protocol JRMediaObjectDelegate <NSObject>
 - (NSDictionary*)dictionaryForObject;
 @end
 
-// TODO: Is this really needed anymore?
 @implementation JRMediaObject 
-- (id)init
-{
-    return [super init];
-}
 @end
 
-// TODO: Figure out the correct way to inherit the dictionaryForObject function 
-// from the base class while keeping the declaration in the implementation file (.m)
-@interface JRImageMediaObject () <JRMediaObjectProtocol>
-//- (NSDictionary*)dictionaryForObject;
+@interface JRImageMediaObject () <JRMediaObjectDelegate>
 @end
-
-@interface JRMp3MediaObject () <JRMediaObjectProtocol>
+@interface JRMp3MediaObject () <JRMediaObjectDelegate>
 @end
-
-@interface JRFlashMediaObject () <JRMediaObjectProtocol>
+@interface JRFlashMediaObject () <JRMediaObjectDelegate>
 @end
 
 @implementation JRImageMediaObject 
@@ -353,7 +362,7 @@
         }
         /* Otherwise, we only have videos... */
       
-// Facebook says you can only use 5 pictures, but testing didn't throw an error, even though
+// NTS: Facebook says you can only use 5 pictures, but testing didn't throw an error, even though
 // it did throw errors when using more than one song or video. Just leaving this for now...
 //        if ([images count] && [images count] > 5)
 //        {
@@ -374,7 +383,7 @@
     }
 }
 
-// TODO: Is there a better way of doing this, like by using NSCoders to do the encoding?
+// QTS: Is there a better way of doing this, like by using NSCoders to do the encoding?
 /* This function goes through all of the fields of the activity object and turns the object into 
    an NSDictionary of string values and keys so that it can be converted into json by the json
    library.  It also validates the objects and escapes icky characters in the process. */
@@ -413,7 +422,7 @@
         
         NSMutableArray *arr = [[[NSMutableArray alloc] initWithCapacity:[media count]] autorelease];
         
-        for (JRMediaObject *item in media)
+        for (id<JRMediaObjectDelegate> item in media)
         {
             [arr addObject:[item dictionaryForObject]];
         }
@@ -424,7 +433,7 @@
     // TODO: You still have written any code to handle all the different possibilities
     // that could go here, and this might end up crashing.  Find out if it does and fix this.
     if ([properties count])
-        [dict setValue:properties forKey:@"properties"];
+        [dict setObject:properties forKey:@"properties"];
     
     return [NSDictionary dictionaryWithObject:dict forKey:@"activity"];
 }

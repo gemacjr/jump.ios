@@ -430,7 +430,7 @@
 				GCC_PREFIX_HEADER = Quick_Publish_Prefix.pch;
 				INFOPLIST_FILE = "Quick_Publish-Info.plist";
 				PRODUCT_NAME = "Quick Publish";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphonesimulator3.2;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;

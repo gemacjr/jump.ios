@@ -47,34 +47,11 @@
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
 
-// TODO: Are we using this?
-typedef enum
-{
-    JRMediaTypeImage = 1,
-    JRMediaTypeFlash,
-    JRMediaTypeMp3
-} JRMediaType;
-
-// TODO: Should these NSObject categories/function be in the implementation file?
-/* Added the CFAdditions category to NSObject to filter objects in our media array based on their base class (JRMediaObject) */
-@interface NSObject (CFAdditions)
-- (NSString*)cf_baseClassName;
-- (NSString*)cf_className;
-@end
-
-/* Added these functions to the NSObject object to filter objects in our media array based on their base class (JRMediaObject) */
-@implementation NSObject (CFAdditions)
-- (NSString *) cf_baseClassName { return NSStringFromClass([self superclass]); }
-- (NSString *) cf_className { return NSStringFromClass([self class]); }
-@end
-
-
 /**
  * Base class for \c JRImageMediaObject, \c JRFlashMediaObject, and \c JRMp3MediaObject.
- * */
+ **/
 @interface JRMediaObject : NSObject { }
 @end
-
 
 /**
  * \brief 

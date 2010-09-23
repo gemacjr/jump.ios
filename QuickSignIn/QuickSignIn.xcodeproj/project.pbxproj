@@ -328,6 +328,12 @@
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "QuickSignIn" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -434,7 +440,7 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "80A706E7-69B2-450A-86EA-BF6A187E6263";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphonesimulator4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../JRAuthenticate/**";
 			};

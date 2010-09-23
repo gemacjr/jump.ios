@@ -839,6 +839,35 @@ Please try again later."
     }
 }
 
+- (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider
+{
+    DLog(@"");
+    
+    myLoadingLabel.text = @"Sharing...";
+    
+    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
+    
+    if (loggedInUser)
+    {
+        [self showViewIsLoading:YES];
+        [self loadUserNameAndProfilePicForUser:loggedInUser atProviderIndex:[myTabBar selectedItem].tag];
+        [self showUserAsLoggedIn:YES];
+        
+        [self shareActivity];
+    }
+    else 
+    {  
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+                                                         message:@"There was an error while sharing this activity."
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK" 
+                                               otherButtonTitles:nil] autorelease];
+        [alert show];
+        [self showViewIsLoading:NO];
+        sharing = NO;
+    }    
+}
+
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); justAuthenticated = NO; sharing = NO; }
 - (void)authenticateDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { DLog(@""); }
 - (void)authenticateCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
