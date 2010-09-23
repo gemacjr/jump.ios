@@ -157,7 +157,7 @@
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 									  target:sessionData
-									  action:@selector(publishingDidCancel:)] autorelease];
+									  action:@selector(triggerPublishingDidCancel:)] autorelease];
 	
 	self.navigationItem.leftBarButtonItem = cancelButton;
 	self.navigationItem.leftBarButtonItem.enabled = YES;
