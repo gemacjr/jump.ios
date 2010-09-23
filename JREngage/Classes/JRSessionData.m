@@ -55,6 +55,7 @@
 {
 	DLog(@"");
   
+    // QTS: How do I check this without getting the warning??
     if (dictionary == nil || _provider_name == nil || [dictionary objectForKey:@"device_token"] == (CFStringRef*)kCFNull)
 	{
 		[self release];
@@ -63,7 +64,7 @@
 	
 	if (self = [super init]) 
 	{
-        provider_name = [[NSString alloc] initWithFormat:@"%@", _provider_name];
+        provider_name = [_provider_name retain];
         
         if ([dictionary objectForKey:@"photo"] != kCFNull)
             photo = [[dictionary objectForKey:@"photo"] retain];
@@ -73,17 +74,11 @@
         
         device_token = [[dictionary objectForKey:@"device_token"] retain];
     }
-	
-//    DLog(@"JRAuthenticatedUser retain count:      %d", [self retainCount]);
-//    DLog(@"    JRAuthenticatedUser provider_name: %d", [self.provider_name retainCount]);
-//    DLog(@"    JRAuthenticatedUser photo:         %d", [self.photo retainCount]);
-//    DLog(@"    JRAuthenticatedUser username:      %d", [self.preferred_username retainCount]);
-//    DLog(@"    JRAuthenticatedUser device_token:  %d", [self.device_token retainCount]);
-    
+
 	return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)coder;
+- (void)encodeWithCoder:(NSCoder *)coder
 {
 	DLog(@"");
    
@@ -93,7 +88,7 @@
     [coder encodeObject:device_token forKey:@"device_token"];
 }
 
-- (id)initWithCoder:(NSCoder *)coder;
+- (id)initWithCoder:(NSCoder *)coder
 {
 	DLog(@"");
   
@@ -106,15 +101,18 @@
         device_token = [[coder decodeObjectForKey:@"device_token"] retain];
     }   
 
-//    DLog(@"JRAuthenticatedUser retain count:      %d", [self retainCount]);
-//    DLog(@"    JRAuthenticatedUser provider_name: %d", [self.provider_name retainCount]);
-//    DLog(@"    JRAuthenticatedUser photo:         %d", [self.photo retainCount]);
-//    DLog(@"    JRAuthenticatedUser username:      %d", [self.preferred_username retainCount]);
-//    DLog(@"    JRAuthenticatedUser device_token:  %d", [self.device_token retainCount]);
-    
     return self;
 }
 
+- (void)dealloc
+{
+    [provider_name release];
+    [photo release];
+    [preferred_username release];
+    [device_token release];
+    
+    [super dealloc];
+}
 @end
 
 
@@ -174,7 +172,7 @@
 	return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)coder;
+- (void)encodeWithCoder:(NSCoder *)coder
 {
 	DLog(@"");
     
@@ -189,7 +187,7 @@
     [coder encodeBool:requiresInput forKey:@"requiresInput"];
 }
 
-- (id)initWithCoder:(NSCoder *)coder;
+- (id)initWithCoder:(NSCoder *)coder
 {
 	DLog(@"");
 
@@ -355,8 +353,8 @@ static JRSessionData* singleton = nil;
         }
         
         // TODO: Do we want to call this every time?  What if these values change while a user is trying to authenticate?
-        //error = [self startGetBaseUrl];
-        error = [self startGetConfiguration];
+        error = [self startGetBaseUrl];
+        //error = [self startGetConfiguration];
 	}
 	return self;
 }
@@ -731,7 +729,7 @@ static JRSessionData* singleton = nil;
 {	
     DLog(@"");
 
-#define STAGING
+//#define STAGING
 #ifdef STAGING
 	NSString *urlString = [NSString stringWithFormat:
                            @"http://rpxstaging.com/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
