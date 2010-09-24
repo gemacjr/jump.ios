@@ -330,8 +330,6 @@ static JRSessionData* singleton = nil;
 		appId = _appId;
         tokenUrl = _tokenUrl;
         
-        configurationSemaphore = [[NSObject alloc] init];
-        
         NSData *archivedUsers = [[NSUserDefaults standardUserDefaults] objectForKey:@"JRAuthenticatedUsersByProvider"];
         if (archivedUsers != nil)
         {

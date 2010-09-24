@@ -158,7 +158,7 @@ typedef enum
 	
     JRActivityObject *activity;
     
-	NSURL *startUrlForCurrentProvider;
+//	NSURL *startUrlForCurrentProvider;
     
     NSString *tokenUrl;
 	NSString *baseUrl;
@@ -183,7 +183,7 @@ typedef enum
 
 @property (retain)   JRActivityObject *activity;
 
-@property (readonly) NSURL *startUrlForCurrentProvider;
+//@property (readonly) NSURL *startUrlForCurrentProvider;
 
 @property (readonly) NSString *tokenUrl;
 @property (readonly) NSString *baseUrl;
@@ -202,6 +202,7 @@ typedef enum
 - (void)removeDelegate:(id<JRSessionDelegate>)_delegate;
 
 - (void)tryToReconfigureLibrary;
+- (NSURL*)startUrlForCurrentProvider;
 
 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;
 - (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index;
@@ -231,6 +232,5 @@ typedef enum
 - (void)triggerPublishingDidCancel:(id)sender;
 - (void)triggerPublishingDidTimeOutConfiguration;
 - (void)triggerPublishingDidFailWithError:(NSError*)_error;
-
 @end
 

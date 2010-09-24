@@ -77,6 +77,7 @@
     
     [super viewDidLoad];
 
+    // TODO: Add the colorsDictionary to the iphone_config API call so it can be loaded dynamically
     colorsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                         [UIColor colorWithRed:0.2314 green:0.3490 blue:0.5961 alpha:0.2], @"facebook",
                         [UIColor colorWithRed:0.2078 green:0.8039 blue:1.0000 alpha:0.2], @"twitter",
@@ -86,7 +87,9 @@
                         [UIColor colorWithRed:0.2471 green:0.3961 blue:0.8549 alpha:0.2], @"google", nil];
                         
 	sessionData = [JRSessionData jrSessionData];
-	activity = [sessionData activity];
+	
+    // TODO: When do we ever check if activity is null and what do we do when it is?
+    activity = [sessionData activity];
     
     [self loadActivityToView];
     
@@ -104,12 +107,13 @@
 	}
 	else 
 	{
-        ready = YES;
+        weAreReady = YES;
         [self addProvidersToTabBar];
 	}
     
     DLog(@"prov count = %d", [[sessionData socialProviders] count]);
 	
+    // QTS: Why did I set this to nil??
 	title_label = nil;
 }
 
@@ -119,25 +123,28 @@
     
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(keyboardDidShow:) 
-                                                 name:UIKeyboardDidShowNotification 
-                                               object:nil];
+    // QTS: Can all of this go in the viewDidLoad method?  Or by keeping it here, are we
+    // ensuring that if anything changes, it will be re-set?
     
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(keyboardWillShow:) 
-                                                 name:UIKeyboardWillShowNotification 
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(keyboardDidHide:) 
-                                                 name:UIKeyboardDidHideNotification 
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(keyboardWillHide:) 
-                                                 name:UIKeyboardWillHideNotification 
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self 
+//                                             selector:@selector(keyboardDidShow:) 
+//                                                 name:UIKeyboardDidShowNotification 
+//                                               object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self 
+//                                             selector:@selector(keyboardWillShow:) 
+//                                                 name:UIKeyboardWillShowNotification 
+//                                               object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self 
+//                                             selector:@selector(keyboardDidHide:) 
+//                                                 name:UIKeyboardDidHideNotification 
+//                                               object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self 
+//                                             selector:@selector(keyboardWillHide:) 
+//                                                 name:UIKeyboardWillHideNotification 
+//                                               object:nil];
     
  	self.title = @"Share";
 	
@@ -151,6 +158,7 @@
 		title_label.textColor = [UIColor whiteColor];
 	}
 
+    // QTS: Why is the same as the view's title?
 	title_label.text = @"Share";
 	self.navigationItem.titleView = title_label;
     
@@ -174,9 +182,10 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
+    // QTS: Am I still using this?
     [keyboardToolbar setFrame:CGRectMake(0, 416, 320, 44)];
 
-    if (ready)
+    if (weAreReady)
         [self loadActivityToView];
 }
 
@@ -185,7 +194,7 @@
     DLog(@"");
 	[super viewDidAppear:animated];
 
-    if (ready && !sharing)
+    if (weAreReady && !weAreCurrentlyPostingSomething)
         [self showViewIsLoading:NO];
 }
 
@@ -212,7 +221,7 @@
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([sessionData configurationComplete] || ([[sessionData socialProviders] count] > 0))
 	{
-        ready = YES;
+        weAreReady = YES;
         
         [self showViewIsLoading:NO];
 		
@@ -247,80 +256,6 @@ Please try again later."
 	timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 }
 
-- (void)addProvidersToTabBar
-{
-    DLog(@"");
-    NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:[[sessionData socialProviders] count]];
-    NSInteger indexOfLastUsedProvider = 0;
-    
-    for (int i = 0; i < [[sessionData socialProviders] count]; i++)
-    {
-        JRProvider *provider = [[sessionData getSocialProviderAtIndex:i] retain];
-        
-        if (!provider)
-            break;
-        
-        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];
-        UITabBarItem *providerTab = [[[UITabBarItem alloc] initWithTitle:provider.friendlyName 
-                                                                   image:[UIImage imageNamed:imagePath]
-                                                                     tag:[providerTabArr count]] autorelease];
-        
-        [providerTabArr insertObject:providerTab atIndex:[providerTabArr count]];
-        
-        if ([provider isEqualToProvider:[sessionData returningSocialProvider]])
-            indexOfLastUsedProvider = i;
-        
-        [provider release];
-    }
-    
-    [myTabBar setItems:providerTabArr animated:YES];
-    
-    // TODO: Make this be the provider most commonly used
-    // TODO: Do we need both of these?
-    if ([providerTabArr count])
-    {
-        myTabBar.selectedItem = [providerTabArr objectAtIndex:indexOfLastUsedProvider];
-        [self tabBar:myTabBar didSelectItem:[providerTabArr objectAtIndex:indexOfLastUsedProvider]];
-    }
-    
-    [providerTabArr release];
-}
-
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
-{
-    DLog(@"");
-    [selectedProvider release];
-    [loggedInUser release];
-    
-    selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
-    [sessionData setCurrentProvider:selectedProvider];
-    
-    myShareToView.backgroundColor = [colorsDictionary objectForKey:selectedProvider.name];
-    [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_long.png", selectedProvider.name]]
-                                       forState:UIControlStateNormal];
-    [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_short.png", selectedProvider.name]]
-                                 forState:UIControlStateNormal];
-    
-    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
-    
-    activity.user_generated_content = myUserContentTextView.text;
-    
-    if (loggedInUser)
-    {
-        [self showUserAsLoggedIn:YES];
-        [self loadUserNameAndProfilePicForUser:loggedInUser atProviderIndex:item.tag];
-    }
-    else
-    {
-        [self showUserAsLoggedIn:NO];
-    }
-    
-    myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider.name]];
-    
-    [self loadActivityToView];
-    [self showActivityAsShared:NO];
-}
-
 - (void)doneButtonPressed:(id)sender
 {
     [myUserContentTextView resignFirstResponder];
@@ -328,20 +263,148 @@ Please try again later."
     if (myUserContentTextView.text.length > 0)
         [myUserContentTextView scrollRangeToVisible:NSMakeRange(0, 1)];
 
-    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
-									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-									target:self
-									action:@selector(editButtonPressed:)] autorelease];
-    
-	self.navigationItem.rightBarButtonItem = editButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;	
+//    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
+//									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+//									target:self
+//									action:@selector(editButtonPressed:)] autorelease];
+//    
+//	self.navigationItem.rightBarButtonItem = editButton;
+//	self.navigationItem.rightBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;	
 }
 
 - (void)editButtonPressed:(id)sender
 {
     [myUserContentTextView becomeFirstResponder];
+    
+//    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
+//									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+//									target:self
+//									action:@selector(doneButtonPressed:)] autorelease];
+//    
+//	self.navigationItem.rightBarButtonItem = doneButton;
+//	self.navigationItem.rightBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+}
+
+//- (void)keyboardWillShow:(NSNotification *)notif
+//{
+//    DLog(@"");
+//    [UIView beginAnimations:@"editing" context:nil];
+//    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
+//                                               myUserContentTextView.frame.origin.y, 
+//                                               myUserContentTextView.frame.size.width, 
+//                                               160)];//myUserContentTextView.frame.size.height + 55)];
+//    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
+//                                                  myUserContentBoundingBox.frame.origin.y, 
+//                                                  myUserContentBoundingBox.frame.size.width, 
+//                                                  160)];//myUserContentBoundingBox.frame.size.height + 65)];
+//    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+//                                            180,//myMediaContentView.frame.origin.y + 65, 
+//                                            myMediaContentView.frame.size.width, 
+//                                            myMediaContentView.frame.size.height)];
+//    
+//    //myUserContentTextView.frame.size.height = myUserContentTextView.frame.size.height + 40;
+//    //myMediaContentView.frame.origin.y = myMediaContentView.frame.origin.y + 40;
+//    [UIView commitAnimations];
+//    
+//    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
+//									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+//									target:self
+//									action:@selector(doneButtonPressed:)] autorelease];
+//    
+//	self.navigationItem.rightBarButtonItem = doneButton;
+//	self.navigationItem.rightBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone; 
+//}
+//
+//- (void)keyboardDidShow:(NSNotification *)notif
+//{
+//    
+//}
+//
+//- (void)keyboardWillHide:(NSNotification *)notif
+//{
+//    DLog(@"");
+//    [UIView beginAnimations:@"editing" context:nil];
+//    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,    
+//                                               myUserContentTextView.frame.origin.y, 
+//                                               myUserContentTextView.frame.size.width, 
+//                                               94)];//myUserContentTextView.frame.size.height - 55)];
+//    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
+//                                                  myUserContentBoundingBox.frame.origin.y, 
+//                                                  myUserContentBoundingBox.frame.size.width, 
+//                                                  100)];//myUserContentBoundingBox.frame.size.height - 65)];
+//    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+//                                            120,//myMediaContentView.frame.origin.y - 65, 
+//                                            myMediaContentView.frame.size.width, 
+//                                            myMediaContentView.frame.size.height)];    
+//    [UIView commitAnimations];
+//    
+//    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
+//									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+//									target:self
+//									action:@selector(editButtonPressed:)] autorelease];
+//    
+//	self.navigationItem.rightBarButtonItem = editButton;
+//	self.navigationItem.rightBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;    
+//}
+//
+//- (void)keyboardDidHide:(NSNotification *)notif
+//{
+//    //    [keyboardToolbar setHidden:YES];
+//}
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    DLog(@"");
+    if (!hasEditedUserContentForActivityAlready)
+    {
+        myUserContentTextView.text = @"";
+        hasEditedUserContentForActivityAlready = YES;
+    }
+    
+    [self showActivityAsShared:NO];
+    
+    // FROM KEYBOARD MESSAGES
+    [UIView beginAnimations:@"editing" context:nil];
+    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
+                                               myUserContentTextView.frame.origin.y, 
+                                               myUserContentTextView.frame.size.width, 
+                                               160)];//myUserContentTextView.frame.size.height + 55)];
+    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
+                                                  myUserContentBoundingBox.frame.origin.y, 
+                                                  myUserContentBoundingBox.frame.size.width, 
+                                                  160)];//myUserContentBoundingBox.frame.size.height + 65)];
+    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+                                            180,//myMediaContentView.frame.origin.y + 65, 
+                                            myMediaContentView.frame.size.width, 
+                                            myMediaContentView.frame.size.height)];
+    
+    //myUserContentTextView.frame.size.height = myUserContentTextView.frame.size.height + 40;
+    //myMediaContentView.frame.origin.y = myMediaContentView.frame.origin.y + 40;
+    [UIView commitAnimations];
+    // END FROM KEYBOARD MESSAGES    
+    
+    
+    //    [UIView beginAnimations:@"editing" context:nil];
+    //    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
+    //                                               myUserContentTextView.frame.origin.y, 
+    //                                               myUserContentTextView.frame.size.width, 
+    //                                               myUserContentTextView.frame.size.height + 40)];
+    //    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+    //                                            myMediaContentView.frame.origin.y + 40, 
+    //                                            myMediaContentView.frame.size.width, 
+    //                                            myMediaContentView.frame.size.height)];
+    
+    //myUserContentTextView.frame.size.height = myUserContentTextView.frame.size.height + 40;
+    //myMediaContentView.frame.origin.y = myMediaContentView.frame.origin.y + 40;
+    //    [UIView commitAnimations];
     
     UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -351,7 +414,74 @@ Please try again later."
 	self.navigationItem.rightBarButtonItem = doneButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;    
+    
+    return YES;
+}
+
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    DLog(@"");
+    
+    if (myUserContentTextView.text.length == 0)
+    {
+        myUserContentTextView.text = activity.action;
+    }
+    //    [UIView beginAnimations:@"editing" context:nil];
+    //    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
+    //                                               myUserContentTextView.frame.origin.y, 
+    //                                               myUserContentTextView.frame.size.width, 
+    //                                               myUserContentTextView.frame.size.height - 40)];
+    //    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+    //                                            myMediaContentView.frame.origin.y - 40, 
+    //                                            myMediaContentView.frame.size.width, 
+    //                                            myMediaContentView.frame.size.height)];    
+    //    [UIView commitAnimations];
+    
+    // FROM KEYBOARD MESSAGES
+    [UIView beginAnimations:@"editing" context:nil];
+    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,    
+                                               myUserContentTextView.frame.origin.y, 
+                                               myUserContentTextView.frame.size.width, 
+                                               94)];//myUserContentTextView.frame.size.height - 55)];
+    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
+                                                  myUserContentBoundingBox.frame.origin.y, 
+                                                  myUserContentBoundingBox.frame.size.width, 
+                                                  100)];//myUserContentBoundingBox.frame.size.height - 65)];
+    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+                                            120,//myMediaContentView.frame.origin.y - 65, 
+                                            myMediaContentView.frame.size.width, 
+                                            myMediaContentView.frame.size.height)];    
+    [UIView commitAnimations];
+    // END FROM KEYBOARD MESSAGES    
+    
+    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
+									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+									target:self
+									action:@selector(editButtonPressed:)] autorelease];
+    
+	self.navigationItem.rightBarButtonItem = editButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
+	
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;    
+    
+    return YES;
+}
+
+
+- (void)showViewIsLoading:(BOOL)loading
+{
+    DLog(@"");
+    UIApplication* app = [UIApplication sharedApplication]; 
+    app.networkActivityIndicatorVisible = loading;
+    
+    [myLoadingGrayView setHidden:!loading];
+    
+    if (loading)
+        [myLoadingActivitySpinner startAnimating];
+    else
+        [myLoadingActivitySpinner stopAnimating];    
 }
 
 - (void)showUserAsLoggedIn:(BOOL)loggedIn
@@ -385,7 +515,6 @@ Please try again later."
     
     [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ? 230 : 151), 0, 18, 18)];
 
-    
     UIBarButtonItem *barButton;
     if (shared)
     {
@@ -406,39 +535,96 @@ Please try again later."
 	self.navigationItem.leftBarButtonItem.enabled = YES;	
 }
 
+- (void)logUserOutForProvider:(NSString*)provider
+{
+    [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
+    [cachedProfilePics removeObjectForKey:selectedProvider.name];
+    [loggedInUser release];
+    loggedInUser = nil;    
+    
+    [self showUserAsLoggedIn:NO];
+    [self showActivityAsShared:NO];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 0:
+            [self logUserOutForProvider:selectedProvider.name];
+
+            break;
+        default:
+            break;
+    }
+}
+
+- (IBAction)settingsButtonPressed:(id)sender
+{
+    DLog(@"");
+    
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
+                                                                   @"You are currently signed in to %@%@. Would you like to sign out?",
+                                                                   selectedProvider.friendlyName, 
+                                                                   (loggedInUser.preferred_username) ? 
+                                                                   [NSString stringWithFormat:@" as %@", loggedInUser.preferred_username] : @""]
+														 delegate:self
+												cancelButtonTitle:@"Cancel"  
+										   destructiveButtonTitle:@"OK"
+												otherButtonTitles:nil] autorelease];
+	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+	[action showInView:self.view];
+}
+
+- (void)setButtonImage:(UIButton*)button toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
+{
+    DLog(@"");
+    DLog(@"data retain count: %d", [data retainCount]);    
+    
+    if (!data)
+    {
+        [button setImage:nil forState:UIControlStateNormal];
+        button.backgroundColor = [UIColor darkGrayColor];
+    }
+    else
+    {
+        [button setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
+        button.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        button.backgroundColor = [UIColor whiteColor];
+    }
+    
+    // QTS: Would this ever be anything but?
+    button.alpha = 1.0;
+    
+    if (loading)
+        [actIndicator startAnimating];
+    else
+        [actIndicator stopAnimating];
+    
+    DLog(@"data retain count: %d", [data retainCount]);
+}
+
 - (BOOL)providerCanShareMedia:(NSString*)provider
 {
     DLog(@"");
+    
+    // TODO: Add providerCanShareMedia to the iphone_config API call so it can be loaded dynamically
     if ([provider isEqualToString:@"facebook"])
-         return YES;
-         
+        return YES;
+    
     return NO;
-}
-
-- (void)showViewIsLoading:(BOOL)loading
-{
-    DLog(@"");
-    UIApplication* app = [UIApplication sharedApplication]; 
-    app.networkActivityIndicatorVisible = loading;
-    
-    [myLoadingGrayView setHidden:!loading];
-    
-    if (loading)
-        [myLoadingActivitySpinner startAnimating];
-    else
-        [myLoadingActivitySpinner stopAnimating];    
 }
 
 - (void)loadActivityToView:(JRActivityObject*)_activity
 {
     DLog(@"");
     
-    if (!hasEditedBefore) 
+    if (!hasEditedUserContentForActivityAlready) 
         myUserContentTextView.text = _activity.action;
     else
         myUserContentTextView.text = _activity.user_generated_content;
     
-    if ((ready) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider.name]))
+    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider.name]))
     {
         [myMediaContentView setHidden:NO];
         
@@ -449,7 +635,7 @@ Please try again later."
         if ([media isKindOfClass:[JRImageMediaObject class]])
         {
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
-
+            
             NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
             NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
@@ -465,73 +651,144 @@ Please try again later."
     }
 }
 
-
 - (void)loadActivityToView
 {
     [self loadActivityToView:activity];
 }
 
-- (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl atProviderIndex:(NSUInteger)index
+- (void)setProfilePicToDefaultPic
+{
+    [myProfilePic setImage:[UIImage imageNamed:@"profilepic_placeholder.png"] forState:UIControlStateNormal];
+    myProfilePic.backgroundColor = [UIColor clearColor];
+    [myProfilePicActivityIndicator stopAnimating];
+}
+
+- (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl forProvider:(NSString*)providerName
 {
     DLog(@"");
     [self setButtonImage:myProfilePic toData:nil andSetLoading:myProfilePicActivityIndicator toLoading:YES];
     
     NSURL        *url = [NSURL URLWithString:profilePicUrl];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSString     *tag = [[NSString alloc] initWithFormat:@"getProfilePic_%u", index];
+    NSString     *tag = [providerName retain];
     
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO];
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+        [self setProfilePicToDefaultPic];
     
     [request release];
 }
 
-- (UIImage*)getCachedImageForUser:(JRAuthenticatedUser*)user
-{
-    // TODO: Implement this!!
-    return nil;
-}
-
-- (void)setProfilePicToDefaultPic:(UIButton*)button atProviderIndex:(NSUInteger)index
-{
-    [button setImage:[UIImage imageNamed:@"profilepic_placeholder.png"] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor clearColor];
-    [myProfilePicActivityIndicator stopAnimating];
-}
-
-- (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user atProviderIndex:(NSUInteger)index
+- (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user forProvider:(NSString*)providerName
 {   
     DLog(@"");
     myUserName.text = user.preferred_username;
-//    [myUserName setFrame:CGRectMake(65, 10, 80, 37)];
     
-    if (user.photo)
-        [self fetchProfilePicFromUrl:user.photo atProviderIndex:index];    
+    NSData  *cachedProfilePic = [cachedProfilePics objectForKey:providerName];
+    
+    if (cachedProfilePic)
+        [self setButtonImage:myProfilePic toData:cachedProfilePic andSetLoading:myProfilePicActivityIndicator toLoading:NO];
+    else if (user.photo)
+        [self fetchProfilePicFromUrl:user.photo forProvider:providerName];
     else
-        [self setProfilePicToDefaultPic:myProfilePic atProviderIndex:index];
+        [self setProfilePicToDefaultPic];
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    DLog(@"");
+    [selectedProvider release];
+    [loggedInUser release];
+    
+    selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
+    [sessionData setCurrentProvider:selectedProvider];
+    
+    myShareToView.backgroundColor = [colorsDictionary objectForKey:selectedProvider.name];
+    [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_long.png", selectedProvider.name]]
+                                       forState:UIControlStateNormal];
+    [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_short.png", selectedProvider.name]]
+                                 forState:UIControlStateNormal];
+    myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider.name]];
+    
+    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
+    
+    activity.user_generated_content = myUserContentTextView.text;
+    
+    if (loggedInUser)
+    {
+        [self showUserAsLoggedIn:YES];
+        [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:selectedProvider.name];
+    }
+    else
+    {
+        [self showUserAsLoggedIn:NO];
+    }
+    
+    [self loadActivityToView];
+    [self showActivityAsShared:NO];
+}
+
+- (void)addProvidersToTabBar
+{
+    DLog(@"");
+    NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:[[sessionData socialProviders] count]];
+    NSInteger indexOfLastUsedProvider = 0;
+    
+    for (int i = 0; i < [[sessionData socialProviders] count]; i++)
+    {
+        JRProvider *provider = [[sessionData getSocialProviderAtIndex:i] retain];
+        
+        if (!provider)
+            break;
+        
+        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];
+        UITabBarItem *providerTab = [[[UITabBarItem alloc] initWithTitle:provider.friendlyName 
+                                                                   image:[UIImage imageNamed:imagePath]
+                                                                     tag:[providerTabArr count]] autorelease];
+        
+        [providerTabArr insertObject:providerTab atIndex:[providerTabArr count]];
+        
+        if ([provider isEqualToProvider:[sessionData returningSocialProvider]])
+            indexOfLastUsedProvider = i;
+        
+        [provider release];
+    }
+    
+    cachedProfilePics = [[NSMutableDictionary alloc] initWithCapacity:[[sessionData socialProviders] count]];
+    [myTabBar setItems:providerTabArr animated:YES];
+    
+    // TODO: Make this be the provider most commonly used
+    // TODO: Do we need both of these?
+    if ([providerTabArr count])
+    {
+        myTabBar.selectedItem = [providerTabArr objectAtIndex:indexOfLastUsedProvider];
+        [self tabBar:myTabBar didSelectItem:[providerTabArr objectAtIndex:indexOfLastUsedProvider]];
+    }
+    
+    [providerTabArr release];
 }
 
 - (void)shareActivity
 {
     DLog(@"");
-        
+    
     [sessionData shareActivity:activity forUser:loggedInUser];
 }
 
 - (IBAction)shareButtonPressed:(id)sender
 {
     DLog(@"");
-
-    sharing = YES;
     
-    if (myUserContentTextView.text && hasEditedBefore)
+    weAreCurrentlyPostingSomething = YES;
+    
+    if (myUserContentTextView.text && hasEditedUserContentForActivityAlready)
         activity.user_generated_content = myUserContentTextView.text;
-
+    
     [sessionData setCurrentProvider:selectedProvider];
     [self showViewIsLoading:YES];
     
     if (!loggedInUser)
     {
-        justAuthenticated = YES;
+        weHaveJustAuthenticated = YES;
         
         /* If the selected provider requires input from the user, go to the user landing view.
          Or if the user started on the user landing page, went back to the list of providers, then selected 
@@ -554,223 +811,9 @@ Please try again later."
     }
 }
 
-- (void)keyboardWillShow:(NSNotification *)notif
-{
-    DLog(@"");
-    [UIView beginAnimations:@"editing" context:nil];
-    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
-                                               myUserContentTextView.frame.origin.y, 
-                                               myUserContentTextView.frame.size.width, 
-                                               160)];//myUserContentTextView.frame.size.height + 55)];
-    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
-                                                  myUserContentBoundingBox.frame.origin.y, 
-                                                  myUserContentBoundingBox.frame.size.width, 
-                                                  160)];//myUserContentBoundingBox.frame.size.height + 65)];
-    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            180,//myMediaContentView.frame.origin.y + 65, 
-                                            myMediaContentView.frame.size.width, 
-                                            myMediaContentView.frame.size.height)];
-    
-    //myUserContentTextView.frame.size.height = myUserContentTextView.frame.size.height + 40;
-    //myMediaContentView.frame.origin.y = myMediaContentView.frame.origin.y + 40;
-    [UIView commitAnimations];
-    
-    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
-									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-									target:self
-									action:@selector(doneButtonPressed:)] autorelease];
-    
-    
-    
-	self.navigationItem.rightBarButtonItem = doneButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone; 
-}
-
-- (void)keyboardDidShow:(NSNotification *)notif
-{
-    
-}
-
-- (void)keyboardWillHide:(NSNotification *)notif
-{
-    DLog(@"");
-    [UIView beginAnimations:@"editing" context:nil];
-    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,    
-                                               myUserContentTextView.frame.origin.y, 
-                                               myUserContentTextView.frame.size.width, 
-                                               94)];//myUserContentTextView.frame.size.height - 55)];
-    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
-                                                  myUserContentBoundingBox.frame.origin.y, 
-                                                  myUserContentBoundingBox.frame.size.width, 
-                                                  100)];//myUserContentBoundingBox.frame.size.height - 65)];
-    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            120,//myMediaContentView.frame.origin.y - 65, 
-                                            myMediaContentView.frame.size.width, 
-                                            myMediaContentView.frame.size.height)];    
-    [UIView commitAnimations];
-    
-    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
-									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-									target:self
-									action:@selector(editButtonPressed:)] autorelease];
-    
-	self.navigationItem.rightBarButtonItem = editButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;    
-}
-
-- (void)keyboardDidHide:(NSNotification *)notif
-{
-//    [keyboardToolbar setHidden:YES];
-}
-
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-    DLog(@"");
-    if (!hasEditedBefore)
-    {
-        myUserContentTextView.text = @"";
-        hasEditedBefore = YES;
-    }
-    
-    [self showActivityAsShared:NO];
-    
-//    [UIView beginAnimations:@"editing" context:nil];
-//    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
-//                                               myUserContentTextView.frame.origin.y, 
-//                                               myUserContentTextView.frame.size.width, 
-//                                               myUserContentTextView.frame.size.height + 40)];
-//    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-//                                            myMediaContentView.frame.origin.y + 40, 
-//                                            myMediaContentView.frame.size.width, 
-//                                            myMediaContentView.frame.size.height)];
-
-    //myUserContentTextView.frame.size.height = myUserContentTextView.frame.size.height + 40;
-    //myMediaContentView.frame.origin.y = myMediaContentView.frame.origin.y + 40;
-    //    [UIView commitAnimations];
-
-    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
-									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-									target:self
-									action:@selector(doneButtonPressed:)] autorelease];
-    
-	self.navigationItem.rightBarButtonItem = doneButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;    
-    
-    return YES;
-}
-
-
-- (BOOL)textViewShouldEndEditing:(UITextView *)textView
-{
-    DLog(@"");
-    
-    if (myUserContentTextView.text.length == 0)
-    {
-        myUserContentTextView.text = activity.action;
-    }
-//    [UIView beginAnimations:@"editing" context:nil];
-//    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
-//                                               myUserContentTextView.frame.origin.y, 
-//                                               myUserContentTextView.frame.size.width, 
-//                                               myUserContentTextView.frame.size.height - 40)];
-//    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-//                                            myMediaContentView.frame.origin.y - 40, 
-//                                            myMediaContentView.frame.size.width, 
-//                                            myMediaContentView.frame.size.height)];    
-//    [UIView commitAnimations];
-    
-    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
-									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-									target:self
-									action:@selector(editButtonPressed:)] autorelease];
-    
-	self.navigationItem.rightBarButtonItem = editButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;    
-    
-    return YES;
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    switch (buttonIndex)
-    {
-        case 0:
-            [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
-            [loggedInUser release];
-            loggedInUser = nil;
-            [self showUserAsLoggedIn:NO];
-            [self showActivityAsShared:NO];
-            break;
-        default:
-            break;
-    }
-}
-
-
-- (IBAction)settingsButtonPressed:(id)sender
-{
-    DLog(@"");
-    
-	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
-                                                                   @"You are currently signed in to %@%@. Would you like to sign out?",
-                                                                   selectedProvider.friendlyName, 
-                                                                   (loggedInUser.preferred_username) ? 
-                                                                   [NSString stringWithFormat:@" as %@", loggedInUser.preferred_username] : @""]
-														 delegate:self
-												cancelButtonTitle:@"Cancel"  
-										   destructiveButtonTitle:@"OK"
-												otherButtonTitles:nil] autorelease];
-	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	[action showInView:self.view];
-}
-
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
-    DLog(@"");
-    NSString* tag = (NSString*)userdata; 
-	[payload retain];
-	
-	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
-	DLog(@"payload (retain count: %d): %@", [payload retainCount], payload);
-	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
-    
-    
-	[tag release];	
-}
-
-- (void)setButtonImage:(UIButton*)button toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
-{
-    DLog(@"");
-    DLog(@"data retain count: %d", [data retainCount]);    
-    
-    if (!data)
-    {
-        [button setImage:nil forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor darkGrayColor];
-    }
-    else
-    {
-        [button setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-        button.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        button.backgroundColor = [UIColor whiteColor];
-    }
-    
-    button.alpha = 1.0;
-    
-    if (loading)
-        [actIndicator startAnimating];
-    else
-        [actIndicator stopAnimating];
-    
-    DLog(@"data retain count: %d", [data retainCount]);
+    [(NSString*)userdata release];	
 }
 
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
@@ -778,38 +821,65 @@ Please try again later."
     DLog(@"");
     NSString* tag = (NSString*)userdata; 
 	
-	DLog(@"request (retain count: %d): %@", [request retainCount], [[request URL] absoluteString]);
-	DLog(@"tag     (retain count: %d): %@", [tag retainCount], tag);
-    DLog(@"data retain count: %d", [payload retainCount]);
-    
     if ([tag isEqualToString:@"getThumbnail"])
     {
         [self setButtonImage:myMediaThumbnailView toData:payload andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
     }
-    else if ([tag isEqualToString:[NSString stringWithFormat:@"getProfilePic_%d", [myTabBar selectedItem].tag]])
+    else 
     {
-        [self setButtonImage:myProfilePic toData:payload andSetLoading:myProfilePicActivityIndicator toLoading:NO];
+        if ([tag isEqualToString:selectedProvider.name])
+        {
+            [self setButtonImage:myProfilePic toData:payload andSetLoading:myProfilePicActivityIndicator toLoading:NO];
+        }
+
+        [cachedProfilePics setValue:payload forKey:tag];
     }
 
 	[tag release];	    
-    DLog(@"data retain count: %d", [payload retainCount]);
 }
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
-    DLog(@"");
-    NSString* tag = (NSString*)userdata;
-	[tag release];	
+    NSString* tag = (NSString*)userdata; 
+	
+    if ([tag isEqualToString:@"getThumbnail"])
+    {
+        [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+    }
+    else 
+    {
+        if ([tag isEqualToString:selectedProvider.name])
+        {
+            [self setProfilePicToDefaultPic];
+        }
+    }
+    
+	[tag release];	        
 }
 
 - (void)connectionWasStoppedWithTag:(void*)userdata 
 {
-	DLog(@"");
     [(NSString*)userdata release];
 }
 
-- (void)authenticationDidRestart { DLog(@""); sharing = NO; } 
-- (void)authenticationDidCancel { DLog(@""); sharing = NO; justAuthenticated = NO; }
+- (void)authenticationDidRestart 
+{
+    weAreCurrentlyPostingSomething = NO; 
+    weHaveJustAuthenticated = NO; 
+}
+
+- (void)authenticationDidCancel 
+{
+    weAreCurrentlyPostingSomething = NO; 
+    weHaveJustAuthenticated = NO; 
+}
+
+- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider 
+{
+    weHaveJustAuthenticated = NO; 
+    weAreCurrentlyPostingSomething = NO; 
+}
+
 - (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider 
 {
     DLog(@"");
@@ -818,10 +888,11 @@ Please try again later."
     
     loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
     
+    // QTS: Would we ever expect this to not be the case?
     if (loggedInUser)
     {
         [self showViewIsLoading:YES];
-        [self loadUserNameAndProfilePicForUser:loggedInUser atProviderIndex:[myTabBar selectedItem].tag];
+        [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:provider];
         [self showUserAsLoggedIn:YES];
         
         [self shareActivity];
@@ -835,7 +906,8 @@ Please try again later."
                                                otherButtonTitles:nil] autorelease];
         [alert show];
         [self showViewIsLoading:NO];
-        sharing = NO;
+        weAreCurrentlyPostingSomething = NO;
+        weHaveJustAuthenticated = NO; 
     }
 }
 
@@ -847,6 +919,7 @@ Please try again later."
     
     loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
     
+    // QTS: Would we ever expect this to not be the case?
     if (loggedInUser)
     {
         [self showViewIsLoading:YES];
@@ -864,16 +937,12 @@ Please try again later."
                                                otherButtonTitles:nil] autorelease];
         [alert show];
         [self showViewIsLoading:NO];
-        sharing = NO;
+        weAreCurrentlyPostingSomething = NO;
+        weHaveJustAuthenticated = NO; 
     }    
 }
 
-- (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); justAuthenticated = NO; sharing = NO; }
-- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { DLog(@""); }
-- (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
-
-
-- (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
+- (void)publishingActivityDidSucceed:(JRActivityObject*)_activity forProvider:(NSString*)provider;
 {
     DLog(@"");
     
@@ -902,16 +971,15 @@ Please try again later."
     [self showViewIsLoading:NO];
     [self showActivityAsShared:YES];
     
-    sharing = NO;
-    justAuthenticated = NO;
+    weAreCurrentlyPostingSomething = NO;
+    weHaveJustAuthenticated = NO; 
 }
 
+- (void)publishingDidRestart { weAreCurrentlyPostingSomething = NO; }
+- (void)publishingDidCancel { weAreCurrentlyPostingSomething = NO; }
+- (void)publishingDidComplete { weAreCurrentlyPostingSomething = NO; }
 
-- (void)publishingDidRestart { sharing = NO; }
-- (void)publishingDidCancel { DLog(@""); sharing = NO; }
-- (void)publishingDidComplete { DLog(@""); sharing = NO; }
-
-- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider
+- (void)publishingActivity:(JRActivityObject*)_activity didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     DLog(@"");
     NSString *errorMessage = nil;
@@ -956,28 +1024,23 @@ Please try again later."
        Also, this prevents an infinite loop of reauthing-failed publishing-reauthing-failed publishing.
        So, only try and reauthenticate is the publishing activity view is already loaded, which will only happen if we didn't
        JUST try and authorize, or if sharing took longer than the time it takes to pop the view controller. */
-    if (reauthenticate && !justAuthenticated)
+    if (reauthenticate && !weHaveJustAuthenticated)
     {
-        [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
-        [loggedInUser release];
-        loggedInUser = nil;
-        
-        [self showUserAsLoggedIn:NO];
+        [self logUserOutForProvider:provider];
         [self shareButtonPressed:nil];
-
+        
         return;
     }
     
-    sharing = NO;
-    justAuthenticated = NO;
+    weAreCurrentlyPostingSomething = NO;
+    weHaveJustAuthenticated = NO; 
     
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error"
                                                      message:errorMessage
                                                     delegate:nil
                                            cancelButtonTitle:@"OK" 
                                            otherButtonTitles:nil] autorelease];
-    [alert show];
-    
+    [alert show];    
 }
 
 /*

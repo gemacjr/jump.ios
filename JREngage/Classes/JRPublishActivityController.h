@@ -51,9 +51,9 @@
     
 	IBOutlet UITabBar *myTabBar;
     
-    BOOL ready;
-    BOOL justAuthenticated;
-    BOOL sharing;
+    BOOL weAreReady;
+    BOOL weHaveJustAuthenticated;
+    BOOL weAreCurrentlyPostingSomething;
     
 	UILabel		*title_label;
 	JRInfoBar	*infoBar;
@@ -95,10 +95,12 @@
     NSData *thumbnailData;
     NSData *profilePicData;
     
+    NSMutableDictionary *cachedProfilePics;
+    
     UIToolbar *keyboardToolbar;
     UIBarItem *shareButton;
     
-    BOOL hasEditedBefore;
+    BOOL hasEditedUserContentForActivityAlready;
 }
 
 @property (nonatomic, retain) IBOutlet UIToolbar *keyboardToolbar;
