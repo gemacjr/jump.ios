@@ -364,18 +364,18 @@ static JREngage* singletonJREngage = nil;
 }
 
 // TODO:Rework token url flow and if we need makeCallToTokenUrl in engage API
-- (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
-{
-	DLog(@"");
-    DLog(@"token:   %@", token);
-	DLog(@"tokenURL:%@", tokenUrl);
-    
-	[sessionData makeCallToTokenUrl:tokenUrl withToken:token forProvider:nil];
-}
+//- (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
+//{
+//	DLog(@"");
+//    DLog(@"token:   %@", token);
+//	DLog(@"tokenURL:%@", tokenUrl);
+//    
+//	[sessionData makeCallToTokenUrl:tokenUrl withToken:token forProvider:nil];
+//}
 
 - (void)updateTokenUrl:(NSString*)newTokenUrl
 {
-    // TODO:Implement me!
+    [sessionData setTokenUrl:newTokenUrl];
 }
 
 // QTS:What are the pros/cons of making this class pseudo-singleton?  That is, what if I make it a singleton

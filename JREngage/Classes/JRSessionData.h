@@ -185,7 +185,7 @@ typedef enum
 
 //@property (readonly) NSURL *startUrlForCurrentProvider;
 
-@property (readonly) NSString *tokenUrl;
+@property (retain)   NSString *tokenUrl;
 @property (readonly) NSString *baseUrl;
 
 @property (assign)   BOOL forceReauth;

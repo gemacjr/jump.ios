@@ -778,7 +778,6 @@ static JRSessionData* singleton = nil;
             stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
-
 - (void)loadLastUsedBasicProvider
 {
     DLog(@"");
@@ -1080,8 +1079,7 @@ static JRSessionData* singleton = nil;
 	[request setHTTPMethod:@"POST"];
 	[request setHTTPBody:body];
 	
-    // TODO: Test that calling the token url works with a nil provider
-	NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl", providerName, @"providerName", nil] retain];
+    NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl", providerName, @"providerName", nil] retain];
     
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
 	{
@@ -1100,12 +1098,12 @@ static JRSessionData* singleton = nil;
 	
 	[request release];
 }
-
-- (void)makeCallToTokenUrlWithToken:(NSString*)token
-{
-	DLog(@"");
-    [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:currentProvider.name];
-}	
+//
+//- (void)makeCallToTokenUrlWithToken:(NSString*)token
+//{
+//	DLog(@"");
+//    [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:currentProvider.name];
+//}	
 
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
 {
