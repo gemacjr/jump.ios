@@ -73,7 +73,7 @@
 		poweredByLabel.textColor = [UIColor whiteColor];
 		poweredByLabel.textAlignment = UITextAlignmentRight;
 		
-        // TODO: Localize this string
+        // TODO: Localize this string (and all others, of course)
 		if (style == JRInfoBarStyleShowPoweredBy)
 			poweredByLabel.text = @"Powered by Janrain";
 		else

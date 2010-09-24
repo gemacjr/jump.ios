@@ -46,19 +46,13 @@
 
 @interface JRPublishActivityController ()
 - (void)addProvidersToTabBar;
-- (void)showUserAsLoggedIn:(BOOL)loggedIn;
 - (void)showActivityAsShared:(BOOL)shared;
 - (void)showViewIsLoading:(BOOL)loading;
 - (void)loadActivityToView;
-- (void)setButtonImage:(UIButton*)imageView toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading;
-- (void)shareActivity;
-- (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user atProviderIndex:(NSUInteger)index;
+- (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user forProvider:(NSString*)providerName;
 @end
 
-
 @implementation JRPublishActivityController
-@synthesize keyboardToolbar;
-@synthesize shareButton;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -111,8 +105,6 @@
         [self addProvidersToTabBar];
 	}
     
-    DLog(@"prov count = %d", [[sessionData socialProviders] count]);
-	
     // QTS: Why did I set this to nil??
 	title_label = nil;
 }
@@ -161,9 +153,7 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
-    // QTS: Am I still using this?
-    [keyboardToolbar setFrame:CGRectMake(0, 416, 320, 44)];
-
+   // QTS: Am I doing this twice?
     if (weAreReady)
         [self loadActivityToView];
 }
@@ -193,9 +183,6 @@
 	interval = interval + 0.5;
 	
     timer = nil;
-
-	DLog(@"prov count = %d", [[sessionData socialProviders] count]);
-	DLog(@"interval = %f", interval);
 	      
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([sessionData configurationComplete] || ([[sessionData socialProviders] count] > 0))
@@ -251,6 +238,9 @@ Please try again later."
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     DLog(@"");
+    
+ /* If the user hasn't entered their own content already, then clear the text view.
+    Otherwise, just leave what they've already written. */
     if (!hasEditedUserContentForActivityAlready)
     {
         myUserContentTextView.text = @"";
@@ -291,7 +281,9 @@ Please try again later."
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     DLog(@"");
-    
+
+ /* If the user started to enter something, but didn't end up keeping anything, set
+    the text back to what the activity's action was. */
     if (myUserContentTextView.text.length == 0)
     {
         myUserContentTextView.text = activity.action;
@@ -325,6 +317,7 @@ Please try again later."
     return YES;
 }
 
+/* That is, cover the view with a transparent gray box and a large white activity indicator. */
 - (void)showViewIsLoading:(BOOL)loading
 {
     DLog(@"");
@@ -350,7 +343,7 @@ Please try again later."
     
     [myProfilePic setHidden:!loggedIn];
     [myUserName setHidden:!loggedIn];
-    [mySettingsButton setHidden:!loggedIn];
+    [mySignOutButton setHidden:!loggedIn];
     [UIView commitAnimations];
 }
 
@@ -404,14 +397,13 @@ Please try again later."
     {
         case 0:
             [self logUserOutForProvider:selectedProvider.name];
-
             break;
         default:
             break;
     }
 }
 
-- (IBAction)settingsButtonPressed:(id)sender
+- (IBAction)signOutButtonPressed:(id)sender
 {
     DLog(@"");
     
@@ -445,9 +437,6 @@ Please try again later."
         button.backgroundColor = [UIColor whiteColor];
     }
     
-    // QTS: Would this ever be anything but?
-    button.alpha = 1.0;
-    
     if (loading)
         [actIndicator startAnimating];
     else
@@ -456,11 +445,11 @@ Please try again later."
     DLog(@"data retain count: %d", [data retainCount]);
 }
 
+// TODO: Add providerCanShareMedia to the iphone_config API call so it can be loaded dynamically
 - (BOOL)providerCanShareMedia:(NSString*)provider
 {
     DLog(@"");
     
-    // TODO: Add providerCanShareMedia to the iphone_config API call so it can be loaded dynamically
     if ([provider isEqualToString:@"facebook"])
         return YES;
     
@@ -492,8 +481,9 @@ Please try again later."
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
             NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
             
-            [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO];
-            
+            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+                [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+                
             [request release];            
         }   
     }
@@ -503,6 +493,10 @@ Please try again later."
     }
 }
 
+/* Not the best way to do this, but if this function is called, it calls loadActivityToView: with just 
+   the current activity instance variable.  If, like in the case where the view is closing, we 
+   want to load an empty activity, loadActivityToView: can be called directly with _activity=nil.
+   Maybe it's because I thought calling an instance method with an instance variable was redundant or something... */
 - (void)loadActivityToView
 {
     [self loadActivityToView:activity];
@@ -535,7 +529,7 @@ Please try again later."
     DLog(@"");
     myUserName.text = user.preferred_username;
     
-    NSData  *cachedProfilePic = [cachedProfilePics objectForKey:providerName];
+    NSData *cachedProfilePic = [cachedProfilePics objectForKey:providerName];
     
     if (cachedProfilePic)
         [self setButtonImage:myProfilePic toData:cachedProfilePic andSetLoading:myProfilePicActivityIndicator toLoading:NO];
@@ -608,8 +602,8 @@ Please try again later."
     cachedProfilePics = [[NSMutableDictionary alloc] initWithCapacity:[[sessionData socialProviders] count]];
     [myTabBar setItems:providerTabArr animated:YES];
     
-    // TODO: Make this be the provider most commonly used
-    // TODO: Do we need both of these?
+    // QTS: Should we make the default selected social provider be the provider most commonly used
+    // QTS: Do we need both of the following statements
     if ([providerTabArr count])
     {
         myTabBar.selectedItem = [providerTabArr objectAtIndex:indexOfLastUsedProvider];
@@ -640,17 +634,19 @@ Please try again later."
     
     if (!loggedInUser)
     {
+     /* Set weHaveJustAuthenticated to YES, so that when this view returns (for whatever reason... successful auth
+    `   user canceled, etc), the view will know that we just went through the authentication process. */
         weHaveJustAuthenticated = YES;
         
-        /* If the selected provider requires input from the user, go to the user landing view.
-         Or if the user started on the user landing page, went back to the list of providers, then selected 
-         the same provider as their last-used provider, go back to the user landing view. */
+     /* If the selected provider requires input from the user, go to the user landing view. Or if 
+        the user started on the user landing page, went back to the list of providers, then selected 
+        the same provider as their last-used provider, go back to the user landing view. */
         if (selectedProvider.requiresInput)
         {	
             [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                    animated:YES]; 
         }
-        /* Otherwise, go straight to the web view. */
+     /* Otherwise, go straight to the web view. */
         else
         {
             [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myWebViewController
@@ -775,7 +771,7 @@ Please try again later."
     if (loggedInUser)
     {
         [self showViewIsLoading:YES];
-        [self loadUserNameAndProfilePicForUser:loggedInUser atProviderIndex:[myTabBar selectedItem].tag];
+        [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:provider];
         [self showUserAsLoggedIn:YES];
         
         [self shareActivity];
@@ -798,26 +794,12 @@ Please try again later."
 {
     DLog(@"");
     
-//    NSMutableArray *remainingProviders = [[NSMutableArray alloc] initWithCapacity:5];
-//    NSMutableString *remainingProviderNames = [[NSMutableString alloc] initWithFormat:@""];
-//
-//    for (NSString* remainingProviderName in sessionData.socialProviders)
-//    {
-//        JRProvider *remainingProvider = [sessionData.allProviders objectForKey:remainingProviderName];
-//        if ([sessionData authenticatedUserForProvider:remainingProvider] && ![remainingProvider.name isEqualToString:provider])
-//        {
-//            [remainingProviders addObject:remainingProvider];
-//            [remainingProviderNames appendFormat:@"%@, ", remainingProvider.friendlyName];
-//        }
-//    }
-    
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
                                                      message:[NSString stringWithFormat:
-                                                              @"You have successfully shared this activity."]// on %@.\nWould you like to share it on %@ as well?", 
-                                                                //provider, remainingProviderNames]
-                                                    delegate:nil//self
+                                                              @"You have successfully shared this activity."]
+                                                    delegate:nil
                                            cancelButtonTitle:@"OK" 
-                                           otherButtonTitles:nil] autorelease];//@"No thanks", nil] autorelease];
+                                           otherButtonTitles:nil] autorelease];
     [alert show];
     
     [self showViewIsLoading:NO];
@@ -938,7 +920,7 @@ Please try again later."
     DLog(@"");
     [self showViewIsLoading:NO];
     
-    // TODO: Verify that this won't cause issues if set and the dialog closes for various reasons
+    // TODO: Verify that invalidating the timer won't cause issues if set and the dialog closes for various reasons
     [timer invalidate];
     
     [self loadActivityToView:nil];

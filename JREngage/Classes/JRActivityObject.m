@@ -61,15 +61,6 @@
 }
 @end
 
-// TODO: Are we using this?
-//typedef enum
-//{
-//    JRMediaTypeImage = 1,
-//    JRMediaTypeFlash,
-//    JRMediaTypeMp3
-//} JRMediaType;
-
-// TODO: Should these NSObject categories/function be in the implementation file?
 /* Added the CFAdditions category to NSObject to filter objects in our media array based on their base class (JRMediaObject) */
 @interface NSObject (CFAdditions)
 - (NSString*)cf_baseClassName;

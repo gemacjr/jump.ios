@@ -368,15 +368,14 @@ static JRSessionData* singleton = nil;
         baseUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"JRBaseUrl"];
         hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:@"JRHidePoweredBy"];
                 
-        // TODO: These are going to get called twice if we call them at the end of the configuration calls. Figure out
-        // the most optimal solution for this...
+        // TODO: The loadLastUsed...Provider methods are going to get called twice if we call them at the end 
+        // of the configuration calls and in the constructor. Figure out the most optimal solution for this...
         if (baseUrl && allProviders)
         {
             [self loadLastUsedBasicProvider];
             [self loadLastUsedSocialProvider];
         }
         
-        // TODO: Do we want to call this every time?  What if these values change while a user is trying to authenticate?
         error = [self startGetBaseUrl];
         //error = [self startGetConfiguration];
 	}
@@ -398,7 +397,7 @@ static JRSessionData* singleton = nil;
 {
     DLog(@"");
     error = [self startGetBaseUrl];
-//    error = [self startGetConfiguration];
+    //error = [self startGetConfiguration];
 }
 
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate
@@ -477,7 +476,6 @@ static JRSessionData* singleton = nil;
     /* If the baseUrl that we pulled out of the standardUserDefaults is different than the one we just received from the server */
     if (![str isEqualToString:baseUrl]) 
     {
-        // TODO: Do we need to notify the library that this changed?
         [baseUrl release];
         baseUrl = [[NSString stringWithString:str] retain];
         
@@ -674,7 +672,7 @@ static JRSessionData* singleton = nil;
                      withCode:JRJsonError
                   andSeverity:JRErrorSeverityConfigurationFailed];
 	
-    // TODO: Error check this
+    // TODO: Error check this (getting the new config stuff out of the new config api call)
     if (![[jsonDict objectForKey:@"baseurl"] isEqualToString:baseUrl])
         baseUrl = [[[jsonDict objectForKey:@"baseurl"] 
                     stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] retain];
@@ -687,7 +685,7 @@ static JRSessionData* singleton = nil;
     
     BOOL reloadConfiguration = YES;//NO;
     
-    // TODO: Rewrite to use e-tag to compare new data with cached data in case anything changes
+    // TODO: Rewrite all of the configuration stuff to use e-tag to compare new data with cached data in case anything changes
     //    for (NSString *name in [providerInfo allKeys])
     //    {
     //        if (![allProviders objectForKey:name]) 
@@ -1040,10 +1038,9 @@ static JRSessionData* singleton = nil;
 - (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user
 {
     DLog(@"");
-    // TODO: Check errors here!
+    // TODO: Better error checking in sessionData's share activity bit
     NSDictionary *activityDictionary = [activity dictionaryForObject];
-    
-    
+        
     NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONRepresentation];                          
     NSString *deviceToken = user.device_token;
     
@@ -1063,7 +1060,7 @@ static JRSessionData* singleton = nil;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
     
-    NSString* tag = [[NSString stringWithString:@"shareThis"] retain];
+    NSString* tag = [[NSString stringWithString:@"shareActivity"] retain];
     
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
     
@@ -1083,7 +1080,7 @@ static JRSessionData* singleton = nil;
 	[request setHTTPMethod:@"POST"];
 	[request setHTTPBody:body];
 	
-    // TODO: Test that this works with a nil provider
+    // TODO: Test that calling the token url works with a nil provider
 	NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl", providerName, @"providerName", nil] retain];
     
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
@@ -1107,7 +1104,7 @@ static JRSessionData* singleton = nil;
 - (void)makeCallToTokenUrlWithToken:(NSString*)token
 {
 	DLog(@"");
-    [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:[currentProvider name]];//currentProvider.name];
+    [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:currentProvider.name];
 }	
 
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
@@ -1186,7 +1183,7 @@ static JRSessionData* singleton = nil;
                            andSeverity:JRErrorSeverityConfigurationFailed];
             }
         }
-        else if ([(NSString*)tag isEqualToString:@"shareThis"]) // TODO: Change "shareThis" to something better
+        else if ([(NSString*)tag isEqualToString:@"shareActivity"])
         {
             NSDictionary *response_dict = [payload JSONValue];
             
@@ -1304,7 +1301,7 @@ static JRSessionData* singleton = nil;
                           withCode:JRConfigurationInformationError
                        andSeverity:JRErrorSeverityConfigurationFailed];
         }
-        else if ([(NSString*)tag isEqualToString:@"shareThis"])
+        else if ([(NSString*)tag isEqualToString:@"shareActivity"])
         {
             NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
             for (id<JRSessionDelegate> delegate in delegatesCopy) 

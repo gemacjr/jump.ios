@@ -69,7 +69,7 @@
  * */
 @interface JRImageMediaObject : JRMediaObject
 {
-    // TODO: Place doxygen comments on instance variables or public properties?
+    // QTS: Place doxygen comments on instance variables or public properties?
     NSString *src;  /**< The photo's URL */
     NSString *href; /**< The URL where a user should be taken if he or she clicks the photo. */
     

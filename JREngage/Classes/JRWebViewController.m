@@ -123,7 +123,7 @@
     
     if (!sessionData.currentProvider)
     {
-        // TODO: Rewrite error
+        // TODO: Rewrite error all the sloppy errors you created
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"TODO REWRITE ERROR!! Authentication failed."
                                                              forKey:NSLocalizedDescriptionKey];
         NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
@@ -344,14 +344,7 @@
 	DLog(@"error message: %@", [error localizedDescription]); 
     
     if (error.code != NSURLErrorCancelled) /* Error code -999 */
-    {
-//        if (!userCanceledAuthentication)
-//            [sessionData triggerAuthenticationDidFailWithError:error];
-//        else
-//            [sessionData triggerAuthenticationDidStartOver:nil];
-//
-//        userCanceledAuthentication = YES;
-        
+    {       
         [self stopProgress];
     }
 }

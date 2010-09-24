@@ -76,6 +76,8 @@
 @synthesize bigSignInButton;
 @synthesize forgetUserButton;
 
+// TODO: Move all this crap into the tableView: cellForRow... function and don't subclass 
+// UITableViewCell now that you figured out how to do this forever ago
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 											  targetForSelector:(id)targetForSelector
 {
@@ -401,7 +403,7 @@
 	{
 		DLog(@"current provider requires input");
 		
-        // TODO: Now that I'm using JRProvider *s, do I need to do this step, or will these just be the same object?
+        // QTS: Now that I'm using JRProvider objects, do I need to do this step, or will these just be the same object?
 		if ([sessionData.currentProvider isEqualToProvider:sessionData.returningBasicProvider])
 			[sessionData.currentProvider setUserInput:[NSString stringWithString:sessionData.returningBasicProvider.userInput]];
 		else
@@ -478,35 +480,6 @@
     return YES;
 }
 */
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-//	TODO: Get this working
-//	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
-//	
-//	if (range.location == 0 && string.length == 0)
-//	{
-//		[cell.signInButton setEnabled:NO];
-//		[cell.bigSignInButton setEnabled:NO];
-//	}
-//	if (range.location == 0 && string.length != 0)
-//	{
-//		[cell.signInButton setEnabled:YES];
-//		[cell.bigSignInButton setEnabled:YES];
-//	}
-	
-	return YES;
-}
-
-- (BOOL)textFieldShouldClear:(UITextField *)textField
-{
-//	TODO: Get this working
-//	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:0];
-//	[cell.signInButton setEnabled:NO];
-//	[cell.bigSignInButton setEnabled:NO];
-	
-	return YES;
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

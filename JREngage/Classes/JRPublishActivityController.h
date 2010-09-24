@@ -47,19 +47,18 @@
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;
     
-    NSDictionary *colorsDictionary;
-    
-	IBOutlet UITabBar *myTabBar;
-    
+    JRActivityObject *activity;
+
     BOOL weAreReady;
     BOOL weHaveJustAuthenticated;
     BOOL weAreCurrentlyPostingSomething;
+    BOOL hasEditedUserContentForActivityAlready;
     
-	UILabel		*title_label;
-	JRInfoBar	*infoBar;
+    NSDictionary *colorsDictionary;
+    UILabel		 *title_label;
     
-    JRActivityObject *activity;
-    
+	IBOutlet UITabBar *myTabBar;
+    	    
     /* Activity Spinner and Label displayed while the list of configured providers is empty */
     NSTimer *timer;
     IBOutlet UILabel					*myLoadingLabel;
@@ -90,23 +89,11 @@
     IBOutlet UIButton                *myJustShareButton;
     IBOutlet UIImageView             *mySharedCheckMark;
     IBOutlet UILabel                 *mySharedLabel;
-    IBOutlet UIButton                *mySettingsButton;
-    
-    NSData *thumbnailData;
-    NSData *profilePicData;
+    IBOutlet UIButton                *mySignOutButton;
     
     NSMutableDictionary *cachedProfilePics;
-    
-    UIToolbar *keyboardToolbar;
-    UIBarItem *shareButton;
-    
-    BOOL hasEditedUserContentForActivityAlready;
 }
-
-@property (nonatomic, retain) IBOutlet UIToolbar *keyboardToolbar;
-@property (nonatomic, retain) IBOutlet UIBarItem *shareButton;
-
-- (IBAction)settingsButtonPressed:(id)sender;
+- (IBAction)signOutButtonPressed:(id)sender;
 - (IBAction)shareButtonPressed:(id)sender; 
 - (IBAction)doneButtonPressed:(id)sender; 
 - (IBAction)editButtonPressed:(id)sender; 

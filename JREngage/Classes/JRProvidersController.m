@@ -158,13 +158,6 @@
 	DLog(@"");
 	[super viewDidAppear:animated];
 	
-	// TODO: Only compile in debug version
-	NSArray *vcs = [self navigationController].viewControllers;
-	for (NSObject *vc in vcs)
-	{
-		DLog(@"view controller: %@", [vc description]);
-	}
-        
     if ([sessionData configurationComplete] || ([[sessionData basicProviders] count] > 0))
     {
         [myActivitySpinner stopAnimating];
@@ -197,7 +190,6 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    // TODO: Add an error to this function
     [sessionData triggerAuthenticationDidTimeOutConfiguration];
 }
 
@@ -267,7 +259,7 @@ Please try again later."
 }
 
 /* Footer makes room for info bar.  If info bar is removed, remove the footer as well. */
-// TODO: Or do we keep it here because the info bar pops up when loading?
+// QTS: Or do we keep it here because the info bar pops up when loading?
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
 	UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)] autorelease];
@@ -315,19 +307,8 @@ Please try again later."
 	
 	DLog(@"cell for %@", provider.name);
 
-#if __IPHONE_3_0
 	cell.textLabel.text = provider.friendlyName;
-#else
-	cell.text = provider.friendlyName;
-#endif
-
-#if __IPHONE_3_0
-	// TODO: Add error handling in the case that the icon can't be loaded. (Like moving the textLabel over?)
-	// Shouldn't happen, but just in case.
 	cell.imageView.image = [UIImage imageNamed:imagePath];
-#else
-	cell.image = [UIImage imageNamed:imagePath];
-#endif
 
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		
