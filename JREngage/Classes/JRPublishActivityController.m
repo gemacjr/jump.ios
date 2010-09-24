@@ -125,27 +125,6 @@
     
     // QTS: Can all of this go in the viewDidLoad method?  Or by keeping it here, are we
     // ensuring that if anything changes, it will be re-set?
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self 
-//                                             selector:@selector(keyboardDidShow:) 
-//                                                 name:UIKeyboardDidShowNotification 
-//                                               object:nil];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self 
-//                                             selector:@selector(keyboardWillShow:) 
-//                                                 name:UIKeyboardWillShowNotification 
-//                                               object:nil];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self 
-//                                             selector:@selector(keyboardDidHide:) 
-//                                                 name:UIKeyboardDidHideNotification 
-//                                               object:nil];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self 
-//                                             selector:@selector(keyboardWillHide:) 
-//                                                 name:UIKeyboardWillHideNotification 
-//                                               object:nil];
-    
  	self.title = @"Share";
 	
 	if (!title_label)
@@ -262,103 +241,12 @@ Please try again later."
 
     if (myUserContentTextView.text.length > 0)
         [myUserContentTextView scrollRangeToVisible:NSMakeRange(0, 1)];
-
-//    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
-//									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-//									target:self
-//									action:@selector(editButtonPressed:)] autorelease];
-//    
-//	self.navigationItem.rightBarButtonItem = editButton;
-//	self.navigationItem.rightBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;	
 }
 
 - (void)editButtonPressed:(id)sender
 {
     [myUserContentTextView becomeFirstResponder];
-    
-//    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
-//									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-//									target:self
-//									action:@selector(doneButtonPressed:)] autorelease];
-//    
-//	self.navigationItem.rightBarButtonItem = doneButton;
-//	self.navigationItem.rightBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
 }
-
-//- (void)keyboardWillShow:(NSNotification *)notif
-//{
-//    DLog(@"");
-//    [UIView beginAnimations:@"editing" context:nil];
-//    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
-//                                               myUserContentTextView.frame.origin.y, 
-//                                               myUserContentTextView.frame.size.width, 
-//                                               160)];//myUserContentTextView.frame.size.height + 55)];
-//    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
-//                                                  myUserContentBoundingBox.frame.origin.y, 
-//                                                  myUserContentBoundingBox.frame.size.width, 
-//                                                  160)];//myUserContentBoundingBox.frame.size.height + 65)];
-//    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-//                                            180,//myMediaContentView.frame.origin.y + 65, 
-//                                            myMediaContentView.frame.size.width, 
-//                                            myMediaContentView.frame.size.height)];
-//    
-//    //myUserContentTextView.frame.size.height = myUserContentTextView.frame.size.height + 40;
-//    //myMediaContentView.frame.origin.y = myMediaContentView.frame.origin.y + 40;
-//    [UIView commitAnimations];
-//    
-//    UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
-//									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-//									target:self
-//									action:@selector(doneButtonPressed:)] autorelease];
-//    
-//	self.navigationItem.rightBarButtonItem = doneButton;
-//	self.navigationItem.rightBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone; 
-//}
-//
-//- (void)keyboardDidShow:(NSNotification *)notif
-//{
-//    
-//}
-//
-//- (void)keyboardWillHide:(NSNotification *)notif
-//{
-//    DLog(@"");
-//    [UIView beginAnimations:@"editing" context:nil];
-//    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,    
-//                                               myUserContentTextView.frame.origin.y, 
-//                                               myUserContentTextView.frame.size.width, 
-//                                               94)];//myUserContentTextView.frame.size.height - 55)];
-//    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
-//                                                  myUserContentBoundingBox.frame.origin.y, 
-//                                                  myUserContentBoundingBox.frame.size.width, 
-//                                                  100)];//myUserContentBoundingBox.frame.size.height - 65)];
-//    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-//                                            120,//myMediaContentView.frame.origin.y - 65, 
-//                                            myMediaContentView.frame.size.width, 
-//                                            myMediaContentView.frame.size.height)];    
-//    [UIView commitAnimations];
-//    
-//    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
-//									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-//									target:self
-//									action:@selector(editButtonPressed:)] autorelease];
-//    
-//	self.navigationItem.rightBarButtonItem = editButton;
-//	self.navigationItem.rightBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;    
-//}
-//
-//- (void)keyboardDidHide:(NSNotification *)notif
-//{
-//    //    [keyboardToolbar setHidden:YES];
-//}
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
@@ -371,40 +259,21 @@ Please try again later."
     
     [self showActivityAsShared:NO];
     
-    // FROM KEYBOARD MESSAGES
     [UIView beginAnimations:@"editing" context:nil];
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
                                                myUserContentTextView.frame.origin.y, 
                                                myUserContentTextView.frame.size.width, 
-                                               160)];//myUserContentTextView.frame.size.height + 55)];
+                                               160)];
     [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
                                                   myUserContentBoundingBox.frame.origin.y, 
                                                   myUserContentBoundingBox.frame.size.width, 
-                                                  160)];//myUserContentBoundingBox.frame.size.height + 65)];
+                                                  160)];
     [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            180,//myMediaContentView.frame.origin.y + 65, 
+                                            180,
                                             myMediaContentView.frame.size.width, 
                                             myMediaContentView.frame.size.height)];
     
-    //myUserContentTextView.frame.size.height = myUserContentTextView.frame.size.height + 40;
-    //myMediaContentView.frame.origin.y = myMediaContentView.frame.origin.y + 40;
     [UIView commitAnimations];
-    // END FROM KEYBOARD MESSAGES    
-    
-    
-    //    [UIView beginAnimations:@"editing" context:nil];
-    //    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
-    //                                               myUserContentTextView.frame.origin.y, 
-    //                                               myUserContentTextView.frame.size.width, 
-    //                                               myUserContentTextView.frame.size.height + 40)];
-    //    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-    //                                            myMediaContentView.frame.origin.y + 40, 
-    //                                            myMediaContentView.frame.size.width, 
-    //                                            myMediaContentView.frame.size.height)];
-    
-    //myUserContentTextView.frame.size.height = myUserContentTextView.frame.size.height + 40;
-    //myMediaContentView.frame.origin.y = myMediaContentView.frame.origin.y + 40;
-    //    [UIView commitAnimations];
     
     UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -419,7 +288,6 @@ Please try again later."
     return YES;
 }
 
-
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     DLog(@"");
@@ -428,33 +296,21 @@ Please try again later."
     {
         myUserContentTextView.text = activity.action;
     }
-    //    [UIView beginAnimations:@"editing" context:nil];
-    //    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
-    //                                               myUserContentTextView.frame.origin.y, 
-    //                                               myUserContentTextView.frame.size.width, 
-    //                                               myUserContentTextView.frame.size.height - 40)];
-    //    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-    //                                            myMediaContentView.frame.origin.y - 40, 
-    //                                            myMediaContentView.frame.size.width, 
-    //                                            myMediaContentView.frame.size.height)];    
-    //    [UIView commitAnimations];
-    
-    // FROM KEYBOARD MESSAGES
+
     [UIView beginAnimations:@"editing" context:nil];
     [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,    
                                                myUserContentTextView.frame.origin.y, 
                                                myUserContentTextView.frame.size.width, 
-                                               94)];//myUserContentTextView.frame.size.height - 55)];
+                                               94)];
     [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
                                                   myUserContentBoundingBox.frame.origin.y, 
                                                   myUserContentBoundingBox.frame.size.width, 
-                                                  100)];//myUserContentBoundingBox.frame.size.height - 65)];
+                                                  100)];
     [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            120,//myMediaContentView.frame.origin.y - 65, 
+                                            120,
                                             myMediaContentView.frame.size.width, 
                                             myMediaContentView.frame.size.height)];    
     [UIView commitAnimations];
-    // END FROM KEYBOARD MESSAGES    
     
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
@@ -468,7 +324,6 @@ Please try again later."
     
     return YES;
 }
-
 
 - (void)showViewIsLoading:(BOOL)loading
 {
@@ -490,9 +345,6 @@ Please try again later."
 
     [myJustShareButton setHidden:!loggedIn];
     [myConnectAndShareButton setHidden:loggedIn];
-    
-//    [mySharedLabel setHidden:loggedIn];
-//    [mySharedCheckMark setHidden:loggedIn];
     
     [myTriangleIcon setFrame:CGRectMake(loggedIn ? 230 : 151, 0, 18, 18)];
     
@@ -1103,5 +955,4 @@ Please try again later."
     
     [super dealloc];
 }
-
 @end
