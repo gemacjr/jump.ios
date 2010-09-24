@@ -135,7 +135,7 @@
         return;
     }    
     
-	[self webViewWithUrl:[sessionData startUrl]];
+	[self webViewWithUrl:[sessionData startUrlForCurrentProvider]];
 	[myWebView becomeFirstResponder];
 }
 

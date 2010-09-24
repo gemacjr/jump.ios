@@ -234,28 +234,21 @@
 @interface JRSessionData()
 - (NSError*)startGetBaseUrl;
 - (NSError*)startGetConfiguredProviders;
-//- (NSError*)finishGetConfiguredProviders:(NSString*)dataStr;
 - (NSError*)startGetConfiguration;
 - (void)loadLastUsedBasicProvider;
 - (void)loadLastUsedSocialProvider;
 @end
 
 @implementation JRSessionData
-@synthesize configurationComplete;
 @synthesize currentProvider;
 @synthesize returningBasicProvider;
 @synthesize returningSocialProvider;
-
 @synthesize activity;
-
 @synthesize tokenUrl;
 @synthesize forceReauth;
-
 @synthesize social;
+@synthesize configurationComplete;
 @synthesize error;
-
-@synthesize customView;
-@synthesize customProvider;
 
 static JRSessionData* singleton = nil;
 + (JRSessionData*)jrSessionData
@@ -291,6 +284,38 @@ static JRSessionData* singleton = nil;
 - (id)autorelease
 {
     return self;
+}
+
+// QTS: Do we need these?
+// ATS: We might need to add logic to these getters that prevent the view controllers
+// from calling the cached lists before or during updates. Leave them for now.
+- (NSString*)baseUrl
+{
+    return baseUrl;
+}
+
+- (NSDictionary*)allProviders
+{
+    DLog(@"");
+    return allProviders;
+}
+
+- (NSArray*)basicProviders
+{
+    DLog(@"");
+    return basicProviders;
+}
+
+- (NSArray*)socialProviders
+{
+    DLog(@"");
+    return socialProviders;
+}
+
+- (BOOL)hidePoweredBy
+{
+    DLog(@"");
+    return hidePoweredBy;
 }
 
 - (id)initWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
@@ -371,32 +396,11 @@ static JRSessionData* singleton = nil;
 	return [[super allocWithZone:nil] initWithAppId:_appId tokenUrl:_tokenUrl andDelegate:_delegate];
 }	
 
-- (void)dealloc 
-{
-	DLog(@"");
-	
-	@synchronized (configurationSemaphore)
-    {
-        [allProviders release];
-        [basicProviders release];
-        
-        [currentProvider release];
-        [returningBasicProvider release];
-        [returningSocialProvider release];
-        
-        [baseUrl release];
-    }
-
-    [error release];
-	[delegates release];
-	
-	[super dealloc];
-}
-
-- (void)reconfigure
+- (void)tryToReconfigureLibrary
 {
     DLog(@"");
     error = [self startGetBaseUrl];
+//    error = [self startGetConfiguration];
 }
 
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate
@@ -411,37 +415,6 @@ static JRSessionData* singleton = nil;
     [delegates removeObject:_delegate];
 }
 
-// QTS: Do we need these?
-// ATS: We might need to add logic to these getters that prevent the view controllers
-// from calling the cached lists before or during updates. Leave them for now.
-- (NSString*)baseUrl
-{
-    return baseUrl;
-}
-
-- (NSDictionary*)allProviders
-{
-    DLog(@"");
-    return allProviders;
-}
-
-- (NSArray*)basicProviders
-{
-    DLog(@"");
-    return basicProviders;
-}
-
-- (NSArray*)socialProviders
-{
-    DLog(@"");
-    return socialProviders;
-}
-
-- (BOOL)hidePoweredBy
-{
-    DLog(@"");
-    return hidePoweredBy;
-}
 
 - (NSError*)setError:(NSString*)message withCode:(NSInteger)code andSeverity:(NSString*)severity
 {
@@ -453,61 +426,6 @@ static JRSessionData* singleton = nil;
     return [[NSError alloc] initWithDomain:@"JRAuthenticate"
                                       code:code
                                   userInfo:userInfo];
-}
-
-- (NSURL*)startUrl
-{
-	DLog(@"");
-    
-	NSMutableString *oid;
-    
-    if (!currentProvider)
-        return nil;
-    
-	if (currentProvider.openIdentifier)
-	{
-		oid = [NSMutableString stringWithFormat:@"openid_identifier=%@&", currentProvider.openIdentifier];
-		
-		if(currentProvider.requiresInput)
-			[oid replaceOccurrencesOfString:@"%@" 
-								 withString:[currentProvider.userInput
-											 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] 
-									options:NSLiteralSearch 
-									  range:NSMakeRange(0, [oid length])];
-	}
-	else 
-	{
-		oid = [NSMutableString stringWithString:@""];
-	}
-    
-    NSString *str = nil;
-#ifdef SOCIAL_PUBLISHING
-    if (social)
-        str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
-               baseUrl,               /* Always force reauth for social because with the social publishing flow, the user is never taken to    */
-               currentProvider.url,   /* the "Welcome back" screen, and therefore could never click the "switch Providers" button. Also,       */
-               oid,                   /* signing out of a social provider could happen at any time, like on previous launches, and that        */
-               @"force_reauth=true&", /* should always prompt a force_reauth. Assume we always want to force reauth when logging in for social */
-               (([currentProvider.name isEqualToString:@"facebook"]) ? 
-                @"ext_perm=publish_stream&" : @"")];
-    else
-        str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
-               baseUrl, 
-               currentProvider.url,
-               oid, 
-               ((forceReauth) ? @"force_reauth=true&" : @"")];
-#else
-    str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
-           baseUrl, 
-           currentProvider.url,
-           oid, 
-           ((forceReauth) ? @"force_reauth=true&" : @"")];    
-#endif
-    
-	forceReauth = NO;
-	
-	DLog(@"startURL: %@", str);
-	return [NSURL URLWithString:str];
 }
 
 - (NSError*)startGetBaseUrl
@@ -851,24 +769,6 @@ static JRSessionData* singleton = nil;
     return nil;
 }
 
-- (void)loadLastUsedSocialProvider
-{
-	DLog(@"");
-    NSString *savedProvider = [[NSUserDefaults standardUserDefaults] stringForKey:@"lastUsedSocialProvider"];
-    
-    if (savedProvider)
-        returningSocialProvider = [[allProviders objectForKey:savedProvider] retain];
-}
-
-- (void)saveLastUsedSocialProvider
-{
-	DLog(@"");
-    [returningSocialProvider release];
-    returningSocialProvider = [currentProvider retain];
-    
-    [[NSUserDefaults standardUserDefaults] setValue:returningSocialProvider.name forKey:@"lastUsedSocialProvider"];
-}
-
 - (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString
 {
 	DLog(@"");
@@ -930,6 +830,15 @@ static JRSessionData* singleton = nil;
     configurationComplete = YES;  
 }
 
+- (void)loadLastUsedSocialProvider
+{
+	DLog(@"");
+    NSString *savedProvider = [[NSUserDefaults standardUserDefaults] stringForKey:@"lastUsedSocialProvider"];
+    
+    if (savedProvider)
+        returningSocialProvider = [[allProviders objectForKey:savedProvider] retain];
+}
+
 - (void)saveLastUsedBasicProvider
 {
     DLog(@"");
@@ -988,6 +897,88 @@ static JRSessionData* singleton = nil;
 	}	    
 }
 
+- (void)saveLastUsedSocialProvider
+{
+	DLog(@"");
+    [returningSocialProvider release];
+    returningSocialProvider = [currentProvider retain];
+    
+    [[NSUserDefaults standardUserDefaults] setValue:returningSocialProvider.name forKey:@"lastUsedSocialProvider"];
+}
+
+- (NSURL*)startUrlForCurrentProvider
+
+{
+	DLog(@"");
+    
+	NSMutableString *oid;
+    
+    if (!currentProvider)
+        return nil;
+    
+	if (currentProvider.openIdentifier)
+	{
+		oid = [NSMutableString stringWithFormat:@"openid_identifier=%@&", currentProvider.openIdentifier];
+		
+		if(currentProvider.requiresInput)
+			[oid replaceOccurrencesOfString:@"%@" 
+								 withString:[currentProvider.userInput
+											 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] 
+									options:NSLiteralSearch 
+									  range:NSMakeRange(0, [oid length])];
+	}
+	else 
+	{
+		oid = [NSMutableString stringWithString:@""];
+	}
+    
+    NSString *str = nil;
+#ifdef SOCIAL_PUBLISHING
+    if (social)
+        str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
+               baseUrl,               /* Always force reauth for social because with the social publishing flow, the user is never taken to    */
+               currentProvider.url,   /* the "Welcome back" screen, and therefore could never click the "switch Providers" button. Also,       */
+               oid,                   /* signing out of a social provider could happen at any time, like on previous launches, and that        */
+               @"force_reauth=true&", /* should always prompt a force_reauth. Assume we always want to force reauth when logging in for social */
+               (([currentProvider.name isEqualToString:@"facebook"]) ? 
+                @"ext_perm=publish_stream&" : @"")];
+    else
+        str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
+               baseUrl, 
+               currentProvider.url,
+               oid, 
+               ((forceReauth) ? @"force_reauth=true&" : @"")];
+#else
+    str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
+           baseUrl, 
+           currentProvider.url,
+           oid, 
+           ((forceReauth) ? @"force_reauth=true&" : @"")];    
+#endif
+    
+	forceReauth = NO;
+	
+	DLog(@"startURL: %@", str);
+	return [NSURL URLWithString:str];
+}
+
+- (BOOL)weShouldBeFirstResponder
+{
+    DLog(@"");
+    
+    /* If we're authenticating with a provider for social publishing, then don't worry about the return experience
+     * for basic authentication. */
+    if (social)
+        return currentProvider.requiresInput;
+    
+    /* If we're authenticating with a basic provider, then we don't need to gather infomation if we're displaying 
+     * return screen. */
+    if ([currentProvider isEqualToProvider:returningBasicProvider])
+        return NO;
+    
+    return currentProvider.requiresInput;
+}
+
 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider
 {
     DLog(@"");
@@ -1009,6 +1000,43 @@ static JRSessionData* singleton = nil;
     [authenticatedUsersByProvider removeAllObjects];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                               forKey:@"JRAuthenticatedUsersByProvider"];
+}
+
+- (JRProvider*)getProviderAtIndex:(NSUInteger)index fromArray:(NSArray*)array
+{
+    DLog(@"");
+    if (index < [array count])
+    {
+        return [allProviders objectForKey:[array objectAtIndex:index]];
+    }
+    
+    return nil;
+}
+
+- (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index
+{
+    DLog(@"");
+    return [self getProviderAtIndex:index fromArray:[self basicProviders]];
+}
+
+- (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index
+{
+    DLog(@"");
+    return [self getProviderAtIndex:index fromArray:[self socialProviders]];
+}
+
+- (void)setCurrentProvider:(JRProvider*)provider
+{
+    DLog(@"");
+    [currentProvider release];
+    currentProvider = [provider retain];    
+}
+
+- (void)setReturningBasicProviderToNil;
+{
+    DLog(@"");
+    [returningBasicProvider release];
+    returningBasicProvider = nil;
 }
 
 - (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user
@@ -1044,6 +1072,46 @@ static JRSessionData* singleton = nil;
     [request release];    
 }
 
+- (void)makeCallToTokenUrl:(NSString*)_tokenUrl withToken:(NSString *)token forProvider:(NSString*)providerName
+{
+	DLog(@"");
+    DLog(@"token:    %@", token);
+	DLog(@"tokenURL: %@", _tokenUrl);
+	
+	NSMutableData* body = [NSMutableData data];
+	[body appendData:[[NSString stringWithFormat:@"token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
+	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_tokenUrl]] retain];
+	
+	[request setHTTPMethod:@"POST"];
+	[request setHTTPBody:body];
+	
+    // TODO: Test that this works with a nil provider
+	NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl", providerName, @"providerName", nil] retain];
+    
+	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+	{
+		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL" 
+                                                             forKey:NSLocalizedDescriptionKey];
+        NSError *new_error = [NSError errorWithDomain:@"JRAuthenticate"
+                                                 code:100
+                                             userInfo:userInfo];
+        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+        for (id<JRSessionDelegate> delegate in delegatesCopy) 
+        {
+            if ([delegate respondsToSelector:@selector(authenticationCallToTokenUrl:didFailWithError:forProvider:)])
+                [delegate authenticationCallToTokenUrl:_tokenUrl didFailWithError:new_error forProvider:providerName];
+        }
+	}
+	
+	[request release];
+}
+
+- (void)makeCallToTokenUrlWithToken:(NSString*)token
+{
+	DLog(@"");
+    [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:[currentProvider name]];//currentProvider.name];
+}	
+
 - (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
 {
     NSObject* tag = (NSObject*)userdata;
@@ -1058,8 +1126,8 @@ static JRSessionData* singleton = nil;
             {
                 if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withPayload:forProvider:)])
                     [delegate authenticationDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-                                               withPayload:payload 
-                                               forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
+                                                 withPayload:payload 
+                                                 forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
             }
             
         }
@@ -1260,8 +1328,8 @@ static JRSessionData* singleton = nil;
             {
                 if ([delegate respondsToSelector:@selector(authenticationCallToTokenUrl:didFailWithError:forProvider:)])
                     [delegate authenticationCallToTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-                                        didFailWithError:_error 
-                                             forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
+                                          didFailWithError:_error 
+                                               forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
             }
         }
     }
@@ -1274,100 +1342,6 @@ static JRSessionData* singleton = nil;
     DLog(@"");
     [(NSString*)userdata release];
 }
-
-- (BOOL)weShouldBeFirstResponder
-{
-    DLog(@"");
-    
-    /* If we're authenticating with a provider for social publishing, then don't worry about the return experience
-     * for basic authentication. */
-    if (social)
-        return currentProvider.requiresInput;
-    
-    /* If we're authenticating with a basic provider, then we don't need to gather infomation if we're displaying 
-     * return screen. */
-    if ([currentProvider isEqualToProvider:returningBasicProvider])
-        return NO;
-    
-    return currentProvider.requiresInput;
-}
-
-- (JRProvider*)getProviderAtIndex:(NSUInteger)index fromArray:(NSArray*)array
-{
-    DLog(@"");
-    if (index < [array count])
-    {
-        return [allProviders objectForKey:[array objectAtIndex:index]];
-    }
-    
-    return nil;
-}
-
-- (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index
-{
-    DLog(@"");
-    return [self getProviderAtIndex:index fromArray:[self basicProviders]];
-}
-
-- (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index
-{
-    DLog(@"");
-    return [self getProviderAtIndex:index fromArray:[self socialProviders]];
-}
-
-- (void)setCurrentProvider:(JRProvider*)provider
-{
-    DLog(@"");
-    [currentProvider release];
-    currentProvider = [provider retain];    
-}
-
-- (void)setReturningBasicProviderToNil;
-{
-    DLog(@"");
-    [returningBasicProvider release];
-    returningBasicProvider = nil;
-}
-
-- (void)makeCallToTokenUrl:(NSString*)_tokenUrl withToken:(NSString *)token forProvider:(NSString*)providerName
-{
-	DLog(@"");
-    DLog(@"token:    %@", token);
-	DLog(@"tokenURL: %@", _tokenUrl);
-	
-	NSMutableData* body = [NSMutableData data];
-	[body appendData:[[NSString stringWithFormat:@"token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
-	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_tokenUrl]] retain];
-	
-	[request setHTTPMethod:@"POST"];
-	[request setHTTPBody:body];
-	
-    // TODO: Test that this works with a nil provider
-	NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl", providerName, @"providerName", nil] retain];
-    
-	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
-	{
-		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL" 
-                                                             forKey:NSLocalizedDescriptionKey];
-        NSError *new_error = [NSError errorWithDomain:@"JRAuthenticate"
-                                                 code:100
-                                             userInfo:userInfo];
-        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-        for (id<JRSessionDelegate> delegate in delegatesCopy) 
-        {
-            if ([delegate respondsToSelector:@selector(authenticationCallToTokenUrl:didFailWithError:forProvider:)])
-                [delegate authenticationCallToTokenUrl:_tokenUrl didFailWithError:new_error forProvider:providerName];
-        }
-	}
-	
-	[request release];
-}
-
-- (void)makeCallToTokenUrlWithToken:(NSString*)token
-{
-	DLog(@"");
-    [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:[currentProvider name]];//currentProvider.name];
-}	
 
 - (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict
 {  
@@ -1570,6 +1544,4 @@ static JRSessionData* singleton = nil;
             [delegate authenticationDidRestart];
     }
 }
-
-
 @end

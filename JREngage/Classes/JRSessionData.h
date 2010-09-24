@@ -145,47 +145,34 @@ typedef enum
 	NSMutableArray	*delegates;
 	    
 	JRProvider *currentProvider;
-	JRProvider *returningProvider;	
 	JRProvider *returningBasicProvider;	
     JRProvider *returningSocialProvider;
-
-    JRProvider *currentSocialProvider;
     
-    /* allProviders is an array of JRProviders, where each JRProvider containing the information
-     specific to that provider. basicProviders and socialProviders are arrays of NSStrings, each
-     string being the primary key for a provider.  The arrays are in the order specified by the rp. */
+/*  allProviders is a dictionary of JRProviders, where each JRProvider contains the information specific
+    to that provider. basicProviders and socialProviders are arrays of NSStrings, each string being
+    the primary key in allProviders for that provider.  The arrays are in the order specified by the rp. */
 	NSMutableDictionary *allProviders;
 	NSArray             *basicProviders;
     NSArray             *socialProviders;
-    
     NSMutableDictionary *authenticatedUsersByProvider;
 	
     JRActivityObject *activity;
     
-	BOOL hidePoweredBy;
-    UIView *customView;
-    NSDictionary *customProvider;
-	
-	NSURL	 *startUrl;
-    BOOL      social;
+	NSURL *startUrlForCurrentProvider;
     
     NSString *tokenUrl;
 	NSString *baseUrl;
     NSString *appId;
 	
-	// TODO: What is the behavior of this (i.e., how does it affect social publishing?)
-    //       when selected during a basic authentication call?
+	// QTS: What is the behavior of this (i.e., how does it affect social publishing?)
+    //      when selected during a basic authentication call?
     BOOL forceReauth;
+	BOOL hidePoweredBy;
+    BOOL social;
 
     BOOL configurationComplete;
     NSError  *error;
-    
-    NSObject *configurationSemaphore;
 }
-
-@property (readonly) BOOL configurationComplete;
-@property (readonly) NSError *error;
-
 @property (retain)   JRProvider *currentProvider;
 @property (readonly) JRProvider *returningBasicProvider;
 @property (readonly) JRProvider *returningSocialProvider;
@@ -194,19 +181,19 @@ typedef enum
 @property (readonly) NSArray             *basicProviders;
 @property (readonly) NSArray             *socialProviders;
 
-@property (retain) JRActivityObject *activity;
+@property (retain)   JRActivityObject *activity;
 
-@property (readonly) BOOL hidePoweredBy;
-@property (readonly) UIView       *customView;
-@property (readonly) NSDictionary *customProvider;
+@property (readonly) NSURL *startUrlForCurrentProvider;
 
 @property (readonly) NSString *tokenUrl;
-@property (readonly) NSURL    *startUrl;
 @property (readonly) NSString *baseUrl;
 
-@property (assign) BOOL forceReauth;
-@property (assign) BOOL social;
+@property (assign)   BOOL forceReauth;
+@property (readonly) BOOL hidePoweredBy;
+@property (assign)   BOOL social;
 
+@property (readonly) BOOL configurationComplete;
+@property (readonly) NSError *error;
 
 + (JRSessionData*)jrSessionData;
 + (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate;
@@ -214,7 +201,7 @@ typedef enum
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate;
 - (void)removeDelegate:(id<JRSessionDelegate>)_delegate;
 
-- (void)reconfigure;
+- (void)tryToReconfigureLibrary;
 
 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;
 - (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index;

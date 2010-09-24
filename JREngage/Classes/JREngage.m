@@ -154,7 +154,7 @@ static JREngage* singletonJREngage = nil;
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
             [self engageDidFailWithError:sessionData.error];
-            [sessionData reconfigure];
+            [sessionData tryToReconfigureLibrary];
             [sessionData.error release];
             return;
         }
@@ -177,7 +177,7 @@ static JREngage* singletonJREngage = nil;
         if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
         {
             [self engageDidFailWithError:sessionData.error];
-            [sessionData reconfigure];
+            [sessionData tryToReconfigureLibrary];
             [sessionData.error release];
             return;
         }
