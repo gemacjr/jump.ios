@@ -76,7 +76,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	if (self = [super init])
 	{
 		/* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
-		jrEngage = [[JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self] retain];
+		jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
 		
         prefs = [[NSUserDefaults standardUserDefaults] retain];
 		

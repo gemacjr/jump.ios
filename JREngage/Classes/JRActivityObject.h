@@ -35,14 +35,13 @@
 
 /**
  * @file
- * \brief
- * Interface for creating and populating activities that you wish to publish.
+ * \brief Interface for creating and populating activities that you wish to publish.
  * 
  * Interface for creating and populating activities that you wish to publish
  * to your user's social networks.  Create an activity object, fill in the 
  * object's fields, and pass the object to the JREngage library when you
  * are ready to share.
- * */
+ **/
 
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
@@ -54,8 +53,7 @@
 @end
 
 /**
- * \brief 
- * Image object to be included in a post to a user's stream. 
+ * \brief Image object to be included in a post to a user's stream. 
  *
  * Create an image media object, fill in the object's fields, and add the object
  * the JRActivity's media array.  How the images get presented and whether or 
@@ -66,7 +64,7 @@
  *
  * \sa Format and rules are identical to those described on the @link http://developers.facebook.com/docs/guides/attachments 
  * Facebook Developer page on Attachments. @endlink
- * */
+ **/
 @interface JRImageMediaObject : JRMediaObject
 {
     // QTS: Place doxygen comments on instance variables or public properties?
@@ -82,23 +80,22 @@
 /**
  * Returns a \c JRImageMediaObject initialized with the given src and href.
  *
- * @param $_src
+ * @param _src
  *   The photo's URL.  This value cannot be \c nil.
  *
- * @param $_href
+ * @param _href
  *   The URL where a user should be taken if he or she clicks the photo.  This value cannot be \c nil.
  *
  * @return
  *   A \c JRImageMediaObject initialized with the given \e src and \e href.  If either
  *   \c _src or \c _href are nil, returns \c nil.
- * */
+ **/
 - (id)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
 @end
 
 
 /**
- * \brief 
- * Flash object to be included in a post to a user's stream. 
+ * \brief Flash object to be included in a post to a user's stream. 
  *
  * Create an flash media object, fill in the object's fields, and add the object
  * the JRActivity's media array.  How the flash videos get presented and whether or 
@@ -118,7 +115,7 @@
  *
  * \sa Format and rules are identical to those described on the @link http://developers.facebook.com/docs/guides/attachments 
  * Facebook Developer page on Attachments. @endlink
- * */
+ **/
 @interface JRFlashMediaObject : JRMediaObject
 {
     NSString *swfsrc;           /**< The URL of the Flash object to be rendered */
@@ -141,23 +138,22 @@
 /**
  * Returns a \c JRFlashMediaObject initialized with the given swfsrc and imgsrc.
  *
- * @param $_swfsrc
+ * @param _swfsrc
  *   The URL of the Flash object to be rendered.  This value cannot be \c nil.
  *
- * @param $_imgsrc
+ * @param _imgsrc
  *   The URL of an photo that should be displayed in place of the flash object.  This value cannot be \c nil.
  *
  * @return
  *   A \c JRFlashMediaObject initialized with the given \e swfsrc and \e imgsrc.  If either
  *   \c _swfsrc or \c _imgsrc are nil, returns \c nil.
- * */
+ **/
 - (id)initWithSwfsrc:(NSString *)_swfsrc andImgsrc:(NSString *)_imgsrc;
 @end
 
 
 /**
- * \brief 
- * Mp3 object to be included in a post to a user's stream. 
+ * \brief Mp3 object to be included in a post to a user's stream. 
  *
  * Create an mp3 media object, fill in the object's fields, and add the object
  * the JRActivity's media array.  How the mp3s get presented and whether or 
@@ -171,7 +167,7 @@
  *
  * \sa Format and rules are identical to those described on the @link http://developers.facebook.com/docs/guides/attachments 
  * Facebook Developer page on Attachments. @endlink
- * */
+ **/
 @interface JRMp3MediaObject : JRMediaObject
 {
     NSString *src;      /**< The URL of the MP3 file to be rendered */
@@ -187,20 +183,19 @@
 /**
  * Returns a \c JRMp3MediaObject initialized with the given src.
  *
- * @param $_src
+ * @param _src
  *   The URL of the MP3 file to be rendered.  This value cannot be \c nil.
  *
  * @return
  *   A \c JRMp3MediaObject initialized with the given \e src.  If 
  *   \c _src is nil, returns \c nil.
- * */
+ **/
 - (id)initWithsrc:(NSString *)_src;
 @end
 
 
 /**
- * \brief 
- * A link a user can use to take action on an activity update on the provider.
+ * \brief A link a user can use to take action on an activity update on the provider.
  *
  * Create an action link object, fill in the object's fields, and add the object
  * the JRActivity's action_links array.
@@ -208,7 +203,7 @@
  * Each action link must contain a link, \c href, and some \c text, describing what action
  * will happen if someone clicks the link. 
  * (E.g., "Rate this quiz result", "http://example.com/quiz/12345/result/6789/rate")
- * */
+ **/
 @interface JRActionLink : NSObject
 {
     NSString *text; /**< The text describing the link */
@@ -220,23 +215,22 @@
 /**
  * Returns a \c JRActionLink initialized with the given text and href.
  *
- * @param $_text
+ * @param _text
  *   The text describing the link.  This value cannot be \c nil.
  *
- * @param $_imgsrc
+ * @param _imgsrc
  *   A link a user can use to take action on an activity update on the provider.  This value cannot be \c nil.
  *
  * @return
  *   A \c JRActionLink initialized with the given \e text and \e href.  If either
  *   \c _text or \c _href are nil, returns \c nil.
- * */
+ **/
 - (id)initWithText:(NSString *)_text andHref:(NSString *)_href;
 @end
 
 
 /**
- * \brief
- * An activity object you create, populate, and post to the user's activity stream. 
+ * \brief An activity object you create, populate, and post to the user's activity stream. 
  *
  * Create an activity object, fill in the object's fields, and pass the object to
  * the JREngage library when you are ready to publish. Currently supported providers are:
@@ -258,18 +252,18 @@
  * 
  * \sa For more information of Janrain Engage's activity api, see @link https://rpxnow.com/docs#api_activity
  * the activity section of our API Documentation. @endlink
- * */
+ **/
 @interface JRActivityObject : NSObject 
 {
    /**
     * A string describing what the user did, written in the third person (e.g., 
     * "wrote a restaurant review", "posted a comment", "took a quiz")
-    * */
+    **/
     NSString *action;  					
     
    /**
     * The URL of the resource being mentioned in the activity update 
-    * */
+    **/
     NSString *url;
     
    /**
@@ -277,19 +271,19 @@
     * that the user wrote. 
     * 
     * \note Some providers (Twitter in particular) may truncate this value.
-    * */
+    **/
     NSString *user_generated_content;    
 
    /**
     * The title of the resource being mentioned in the activity update. 
     * No length restriction on the status is imposed by Janrain Engage, 
     * however Yahoo truncates this value to 256 characters. 
-    * */
+    **/
     NSString *title;                     
     
    /**
     * A description of the resource mentioned in the activity update
-    * */
+    **/
     NSString *description;
     
    /**
@@ -298,7 +292,7 @@
     * (E.g., "Take this quiz", "http://example.com/quiz/12345/take")
     * 
     * \note Any objects added to this array that are not of type \c JRActionLink will be ignored.
-    * */
+    **/
     NSMutableArray *action_links;
     
    /**
@@ -319,7 +313,7 @@
     * 
     * \sa Media object format and rules are identical to those described on the @link http://developers.facebook.com/docs/guides/attachments 
     * Facebook Developer page on Attachments. @endlink
-    * */   
+    **/   
     NSMutableArray *media;
 
    /**
@@ -335,7 +329,7 @@
     *           "href": "http://en.wikipedia.org/wiki/Portland,_Oregon"
     *       }
     *   }
-    * */
+    **/
     NSMutableDictionary *properties;
 }
 
@@ -351,16 +345,16 @@
 /**
  * Returns a \c JRActivityObject initialized with the given action and url.
  *
- * @param $_action
+ * @param _action
  *   A string describing what the user did, written in the third person.  This value cannot be \c nil.
  *
- * @param $_url
+ * @param _url
  *   The URL of the resource being mentioned in the activity update.  This value cannot be \c nil.
  *
  * @return
  *   A \c JRActionObject initialized with the given \e action and \e url.  If either
  *   \c _action or \c _url are nil, returns \c nil.
- * */
+ **/
 - (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
 
 /**
@@ -371,6 +365,6 @@
  *
  * \note This function should not be used directly.  It is intended only for use by the
  * JREngage library.
- * */
+ **/
 - (NSDictionary*)dictionaryForObject;
 @end

@@ -32,6 +32,29 @@
  Date:	 Tuesday, June 1, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+/**
+ * @mainpage Janrain Engage for the iPhone, version 2
+ *
+ * Janrain Engage for iPhone makes it easy to include third party authentication and 
+ * social publishing in your iPhone app.  This Objective-C library includes the same key
+ * features as our web version.  With a few lines of code, you can authenticate your
+ * users with their accounts on Google, Yahoo!, Facebook, etc., and they can immediately 
+ * publish their activities to multiple social networks, including Facebook, Twitter, LinkedIn, 
+ * MySpace and Yahoo, through one simple interface.
+ * 
+ * Before you begin, you need to have created a Janrain Engage application, which you can
+ * do on @link http://rpxnow.com @endlink.
+ *
+ * For an overview of how the library works and how you can take advantage of the library's
+ * features, please see the "Overview" section of our documentation.
+ * 
+ * To begin using the library, please see the "Quick Start Guide".
+ * 
+ * For more detailed documentation of the library's API, you can use the "JREngage API"
+ * documentation.
+ **/
+
+
 
 #import <Foundation/Foundation.h>
 #import "JRSessionData.h"
