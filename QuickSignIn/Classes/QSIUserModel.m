@@ -490,14 +490,14 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[signInDelegate didFailToSignIn:YES];
 }
 
-- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider
-{
-	UIApplication* app = [UIApplication sharedApplication]; 
-	app.networkActivityIndicatorVisible = YES;
-
-	currentProvider = [[NSString stringWithString:provider] retain];
-	[signInDelegate didReceiveToken];
-}
+//- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider
+//{
+//	UIApplication* app = [UIApplication sharedApplication]; 
+//	app.networkActivityIndicatorVisible = YES;
+//
+//	currentProvider = [[NSString stringWithString:provider] retain];
+//	[signInDelegate didReceiveToken];
+//}
 
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary *)profile forProvider:(NSString *)provider
 {
@@ -523,28 +523,28 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[self finishSignUserIn:profile];
 }
 
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl 
-                             withPayload:(NSData*)tokenUrlPayload 
-                             forProvider:(NSString*)provider
-{
-	UIApplication* app = [UIApplication sharedApplication]; 
-	app.networkActivityIndicatorVisible = NO;
-	
-    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
-    
-	NSRange found = [payload rangeOfString:@"{"];
-	
-	if (found.length == 0)// Then there was an error
-		return; // TODO: Manage error
-	
-	NSString *userStr = [payload substringFromIndex:found.location];
-	NSDictionary* user = [userStr JSONValue];
-	
-	if(!user) // Then there was an error
-		return; // TODO: Manage error
-	
-	[self finishSignUserIn:user];
-}
+//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl 
+//                             withPayload:(NSData*)tokenUrlPayload 
+//                             forProvider:(NSString*)provider
+//{
+//	UIApplication* app = [UIApplication sharedApplication]; 
+//	app.networkActivityIndicatorVisible = NO;
+//	
+//    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
+//    
+//	NSRange found = [payload rangeOfString:@"{"];
+//	
+//	if (found.length == 0)// Then there was an error
+//		return; // TODO: Manage error
+//	
+//	NSString *userStr = [payload substringFromIndex:found.location];
+//	NSDictionary* user = [userStr JSONValue];
+//	
+//	if(!user) // Then there was an error
+//		return; // TODO: Manage error
+//	
+//	[self finishSignUserIn:user];
+//}
 
 - (void)jrAuthenticationDidNotComplete
 {

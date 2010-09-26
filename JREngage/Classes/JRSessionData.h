@@ -46,7 +46,12 @@ typedef enum
     JRJsonError,    
     JRConfigurationInformationError,
     JRSessionDataFinishGetProvidersError    
-} JRSessionConfigurationError;
+} JREngageConfigurationError;
+
+typedef enum
+{
+    JRAuthenticationFailedError = 200
+} JREngageAuthenticationError;
 
 typedef enum
 {
@@ -55,8 +60,9 @@ typedef enum
     JRPublishErrorInvalidOauthToken,
     JRPublishErrorDuplicateTwitter,
     JRPublishErrorLinkedInCharacterExceded,
-} JRSessionPublishActivityError;
+} JREngageSocialPublishingError;
 
+// QTS: Do we really need this anymore?
 #define JRErrorSeverityNoNetworkConnection              @"noNetwork"
 #define JRErrorSeverityMinor                            @"minor"
 #define JRErrorSeverityMajor                            @"major"
@@ -66,6 +72,8 @@ typedef enum
 #define JRErrorSeverityPublishFailed                    @"publishFailed"
 #define JRErrorSeverityPublishNeedsReauthentication     @"publishNeedsReauthentication"
 #define JRErrorSeverityPublishInvalidActivity           @"publishInvalidActivity"
+
+
 
 @protocol JRUserInterfaceDelegate <NSObject>
 - (void)userInterfaceWillClose;

@@ -171,7 +171,6 @@
 
 - (IBAction)shareButtonPressed:(id)sender
 {
-    // QTS: What happens if someone passes in a straight (static) string, and not an NSString object?
     JRActivityObject *activity = [[[JRActivityObject alloc] 
                                   initWithAction:@"shared an article from the Janrain Blog."
                                   andUrl:story.link] autorelease];

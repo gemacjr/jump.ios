@@ -480,12 +480,20 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
     return feed.stories;
 }
 
-- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString *)provider 
-{
-//    [feedReaderDetail authenticationFailed:error];
-}
+//- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString *)provider 
+//{
+////    [feedReaderDetail authenticationFailed:error];
+//}
 
-- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error { }
+- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error 
+{
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sharing Failed"
+                                                     message:@"An error occurred while attempting to share this article.  Please try again."
+                                                    delegate:self
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];
+}
 
 //- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider { }
 //- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }

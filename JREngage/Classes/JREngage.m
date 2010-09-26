@@ -137,7 +137,7 @@ static JREngage* singletonJREngage = nil;
 		[delegate jrEngageDialogDidFailToShowWithError:error];
 	}
     
-	[interfaceMaestro authenticationFailed];
+//	[interfaceMaestro authenticationFailed];
 }
 
 - (void)showAuthenticationDialog
@@ -155,7 +155,7 @@ static JREngage* singletonJREngage = nil;
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
-            [sessionData.error release];
+//            [sessionData.error release];
             return;
         }
     }
@@ -178,7 +178,7 @@ static JREngage* singletonJREngage = nil;
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
-            [sessionData.error release];
+//            [sessionData.error release];
             return;
         }
     }

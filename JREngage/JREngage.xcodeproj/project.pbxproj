@@ -167,28 +167,28 @@
 		9FED5117124020C2004684F2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9FED5118124020C2004684F2 /* JRActivityObject.h */,
-				9FED5119124020C2004684F2 /* JRActivityObject.m */,
 				9FED511A124020C2004684F2 /* JRConnectionManager.h */,
 				9FED511B124020C2004684F2 /* JRConnectionManager.m */,
 				9FED511C124020C2004684F2 /* JREngage.h */,
 				9FED511D124020C2004684F2 /* JREngage.m */,
-				9FED511E124020C2004684F2 /* JRInfoBar.h */,
-				9FED511F124020C2004684F2 /* JRInfoBar.m */,
+				9FED5126124020C2004684F2 /* JRSessionData.h */,
+				9FED5127124020C2004684F2 /* JRSessionData.m */,
+				9FED5118124020C2004684F2 /* JRActivityObject.h */,
+				9FED5119124020C2004684F2 /* JRActivityObject.m */,
+				9FED5128124020C2004684F2 /* JRUserInterfaceMaestro.h */,
+				9FED5129124020C2004684F2 /* JRUserInterfaceMaestro.m */,
 				9FED5120124020C2004684F2 /* JRModalNavigationController.h */,
 				9FED5121124020C2004684F2 /* JRModalNavigationController.m */,
 				9FED5122124020C2004684F2 /* JRProvidersController.h */,
 				9FED5123124020C2004684F2 /* JRProvidersController.m */,
 				9FED5124124020C2004684F2 /* JRPublishActivityController.h */,
 				9FED5125124020C2004684F2 /* JRPublishActivityController.m */,
-				9FED5126124020C2004684F2 /* JRSessionData.h */,
-				9FED5127124020C2004684F2 /* JRSessionData.m */,
-				9FED5128124020C2004684F2 /* JRUserInterfaceMaestro.h */,
-				9FED5129124020C2004684F2 /* JRUserInterfaceMaestro.m */,
 				9FED512A124020C2004684F2 /* JRUserLandingController.h */,
 				9FED512B124020C2004684F2 /* JRUserLandingController.m */,
 				9FED512C124020C2004684F2 /* JRWebViewController.h */,
 				9FED512D124020C2004684F2 /* JRWebViewController.m */,
+				9FED511E124020C2004684F2 /* JRInfoBar.h */,
+				9FED511F124020C2004684F2 /* JRInfoBar.m */,
 			);
 			name = Classes;
 			path = classes;
