@@ -477,9 +477,6 @@ static JRSessionData* singleton = nil;
 	
 	NSDictionary *jsonDict = [dataStr JSONValue];
     
-    DLog(@"dataStr retain count: %d", [dataStr retainCount]);
-    DLog(@"jsonDict retain count: %d", [jsonDict retainCount]);
-	
 	if(!jsonDict)
 		return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                      withCode:JRJsonError
@@ -493,8 +490,6 @@ static JRSessionData* singleton = nil;
     [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"jrBaseUrl"];
     
 	NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
-    
-    DLog(@"providerInfo retain count: %d", [providerInfo retainCount]);
     
     BOOL reloadConfiguration = YES;//NO;
     
@@ -514,20 +509,14 @@ static JRSessionData* singleton = nil;
         
         for (NSString *name in [providerInfo allKeys])
         {
-            DLog(@"name retain count: %d", [name retainCount]);
             if (name)
             {
                 NSDictionary *dictionary = [providerInfo objectForKey:name];
-                
-                DLog(@"dataStr retain count: %d", [dictionary retainCount]);
                 
                 JRProvider *provider = [[[JRProvider alloc] initWithName:name
                                                            andDictionary:dictionary] autorelease];
                 
                 [allProviders setObject:provider forKey:name];
-                
-                DLog(@"provider retain count: %d", [provider retainCount]);
-                DLog(@"provider members retain count: %d", [provider.friendlyName retainCount]);
             }
         }
         

@@ -120,6 +120,7 @@
 		[signInButton setFrame:CGRectMake(165, 128, 135, 38)];
 		
 		[signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_135x38.png"] forState:UIControlStateNormal];
+//		[signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button.png"] forState:UIControlStateNormal];
 		signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 		[signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
 		[signInButton setTitleColor:[UIColor blackColor] 
