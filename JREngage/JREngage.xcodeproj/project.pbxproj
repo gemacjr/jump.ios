@@ -46,11 +46,11 @@
 
 /* Begin PBXFileReference section */
 		9F63D526124FEAC400A21A59 /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
+		9F63D8A1125113EC00A21A59 /* JREngage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JREngage.bundle; sourceTree = "<group>"; };
 		9FB408A112413B7D00FDDA7B /* JRProvidersController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRProvidersController.xib; path = Resources/JRProvidersController.xib; sourceTree = "<group>"; };
 		9FB408A212413B7D00FDDA7B /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRPublishActivityController.xib; path = Resources/JRPublishActivityController.xib; sourceTree = "<group>"; };
 		9FB408A312413B7D00FDDA7B /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRUserLandingController.xib; path = Resources/JRUserLandingController.xib; sourceTree = "<group>"; };
 		9FB408A412413B7D00FDDA7B /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRWebViewController.xib; path = Resources/JRWebViewController.xib; sourceTree = "<group>"; };
-		9FED509F12401DCB004684F2 /* JREngage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JREngage.bundle; sourceTree = "<group>"; };
 		9FED50AF12401DE1004684F2 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9FED50B012401DE1004684F2 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		9FED50B112401DE1004684F2 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 		08FB77AEFE84172EC02AAC07 /* JREngage */ = {
 			isa = PBXGroup;
 			children = (
-				9FED509F12401DCB004684F2 /* JREngage.bundle */,
+				9F63D8A1125113EC00A21A59 /* JREngage.bundle */,
 				9FED50AE12401DE1004684F2 /* JSON */,
 				9FED5117124020C2004684F2 /* Classes */,
 				9FED53D1124044CD004684F2 /* Resources */,
