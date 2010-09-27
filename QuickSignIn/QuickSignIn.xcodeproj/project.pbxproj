@@ -33,7 +33,6 @@
 		9F63D5EC125104BE00A21A59 /* JRPublishActivityController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F63D5D6125104BE00A21A59 /* JRPublishActivityController.xib */; };
 		9F63D5ED125104BE00A21A59 /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F63D5D7125104BE00A21A59 /* JRUserLandingController.xib */; };
 		9F63D5EE125104BE00A21A59 /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F63D5D8125104BE00A21A59 /* JRWebViewController.xib */; };
-		9F63D5EF125104BE00A21A59 /* scratch in Resources */ = {isa = PBXBuildFile; fileRef = 9F63D5D9125104BE00A21A59 /* scratch */; };
 		9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */; };
 		9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */; };
 		9FB40A3412414DC500FDDA7B /* QSIViewControllerLevel1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2D12414DC500FDDA7B /* QSIViewControllerLevel1.m */; };
@@ -96,7 +95,6 @@
 		9F63D5D6125104BE00A21A59 /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRPublishActivityController.xib; path = ../JREngage/Resources/JRPublishActivityController.xib; sourceTree = SOURCE_ROOT; };
 		9F63D5D7125104BE00A21A59 /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRUserLandingController.xib; path = ../JREngage/Resources/JRUserLandingController.xib; sourceTree = SOURCE_ROOT; };
 		9F63D5D8125104BE00A21A59 /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRWebViewController.xib; path = ../JREngage/Resources/JRWebViewController.xib; sourceTree = SOURCE_ROOT; };
-		9F63D5D9125104BE00A21A59 /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scratch; path = ../JREngage/scratch; sourceTree = SOURCE_ROOT; };
 		9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIRootViewController.h; sourceTree = "<group>"; };
 		9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIRootViewController.m; sourceTree = "<group>"; };
 		9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIUserModel.h; sourceTree = "<group>"; };
@@ -208,7 +206,6 @@
 				9F63D5D4125104BE00A21A59 /* Resources */,
 				9F63D5B0125104BE00A21A59 /* JREngage.bundle */,
 				9F63D5B1125104BE00A21A59 /* JSON */,
-				9F63D5D9125104BE00A21A59 /* scratch */,
 				9F63D5BD125104BE00A21A59 /* classes */,
 			);
 			name = JREngage;
@@ -367,7 +364,6 @@
 				9F63D5EC125104BE00A21A59 /* JRPublishActivityController.xib in Resources */,
 				9F63D5ED125104BE00A21A59 /* JRUserLandingController.xib in Resources */,
 				9F63D5EE125104BE00A21A59 /* JRWebViewController.xib in Resources */,
-				9F63D5EF125104BE00A21A59 /* scratch in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
