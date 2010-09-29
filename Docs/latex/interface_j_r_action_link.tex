@@ -1,0 +1,69 @@
+\hypertarget{interface_j_r_action_link}{
+\section{JRActionLink Class Reference}
+\label{interface_j_r_action_link}\index{JRActionLink@{JRActionLink}}
+}
+
+
+A link a user can use to take action on an activity update on the provider.  
+
+
+
+
+{\ttfamily \#import $<$JRActivityObject.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+(id) -\/ \hyperlink{interface_j_r_action_link_ae1f056641fd3302efbf23d89452553a5}{initWithText:andHref:}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+NSString $\ast$ \hyperlink{interface_j_r_action_link_a062c02005f1c35e651ffbcab51c50b21}{text}
+\item 
+NSString $\ast$ \hyperlink{interface_j_r_action_link_a45489781731e5965e20fa66af0bd3072}{href}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A link a user can use to take action on an activity update on the provider. Create an action link object, fill in the object's fields, and add the object the JRActivity's action\_\-links array.
+
+Each action link must contain a link, {\ttfamily href}, and some {\ttfamily text}, describing what action will happen if someone clicks the link. (E.g., \char`\"{}Rate this quiz result\char`\"{}, \char`\"{}http://example.com/quiz/12345/result/6789/rate\char`\"{}) 
+
+\subsection{Member Function Documentation}
+\hypertarget{interface_j_r_action_link_ae1f056641fd3302efbf23d89452553a5}{
+\index{JRActionLink@{JRActionLink}!initWithText:andHref:@{initWithText:andHref:}}
+\index{initWithText:andHref:@{initWithText:andHref:}!JRActionLink@{JRActionLink}}
+\subsubsection[{initWithText:andHref:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (id) initWithText: 
+\begin{DoxyParamCaption}
+\item[{dummy(NSString $\ast$)}]{ \_\-text}
+\item[{andHref:(NSString $\ast$)}]{ \_\-href}
+\end{DoxyParamCaption}
+}}
+\label{interface_j_r_action_link_ae1f056641fd3302efbf23d89452553a5}
+Returns a {\ttfamily \hyperlink{interface_j_r_action_link}{JRActionLink}} initialized with the given text and href.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em \_\-text}]The text describing the link. This value cannot be {\ttfamily nil}.\item[{\em \_\-imgsrc}]A link a user can use to take action on an activity update on the provider. This value cannot be {\ttfamily nil}.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A {\ttfamily \hyperlink{interface_j_r_action_link}{JRActionLink}} initialized with the given {\itshape text\/} and {\itshape href\/}. If either {\ttfamily \_\-text} or {\ttfamily \_\-href} are nil, returns {\ttfamily nil}. 
+\end{DoxyReturn}
+
+
+\subsection{Properties}
+\hypertarget{interface_j_r_action_link_a062c02005f1c35e651ffbcab51c50b21}{
+\index{JRActionLink@{JRActionLink}!text@{text}}
+\index{text@{text}!JRActionLink@{JRActionLink}}
+\subsubsection[{text}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSString $\ast$) text\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, retain\mbox{]}}}}
+\label{interface_j_r_action_link_a062c02005f1c35e651ffbcab51c50b21}
+The text describing the link \hypertarget{interface_j_r_action_link_a45489781731e5965e20fa66af0bd3072}{
+\index{JRActionLink@{JRActionLink}!href@{href}}
+\index{href@{href}!JRActionLink@{JRActionLink}}
+\subsubsection[{href}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSString $\ast$) href\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, retain\mbox{]}}}}
+\label{interface_j_r_action_link_a45489781731e5965e20fa66af0bd3072}
+A link a user can use to take action on an activity update on the provider 
+
+The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
+\item 
+/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/\hyperlink{_j_r_activity_object_8h}{JRActivityObject.h}\end{DoxyCompactItemize}
