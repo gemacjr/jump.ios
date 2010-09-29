@@ -118,7 +118,7 @@
  * server's token URL.
  **/
 @protocol JREngageDelegate <NSObject>
-@required
+@optional
 
 /** 
  * \name Configuration 
@@ -138,7 +138,7 @@
  **/
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
 /*@}*/
-@optional
+
 /** 
  * \name Authentication
  * Messages sent  by JREngage during authentication

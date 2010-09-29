@@ -348,7 +348,7 @@
     *   -# flash
     *   -# mp3
     *
-    * Also, any ojects added to this array that are not of type \c JRMediaObject will be ignored.
+    * Also, any objects added to this array that are not of type \c JRMediaObject will be ignored.
     * 
     *
     * \sa Media object format and rules are identical to those described on the 
