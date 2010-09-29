@@ -232,8 +232,6 @@
 @end
 
 @interface JRSessionData()
-- (NSError*)startGetBaseUrl;
-- (NSError*)startGetConfiguredProviders;
 - (NSError*)startGetConfiguration;
 - (void)loadLastUsedBasicProvider;
 - (void)loadLastUsedSocialProvider;
@@ -818,15 +816,9 @@ static JRSessionData* singleton = nil;
     
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
 	{
-		NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"Problem initializing connection to Token URL" 
-                                                             forKey:NSLocalizedDescriptionKey];
-        NSError *new_error = [NSError errorWithDomain:@"JRAuthenticate"
-                                                 code:100
-                                             userInfo:userInfo];
-        
         NSError *_error = [self setError:@"Problem initializing the connection to the token url"
-                                withCode:JRAuthenticationFailedError 
-                             andSeverity:JRErrorSeverityPublishFailed];
+                                withCode:JRAuthenticationFailedError
+                             andSeverity:JRErrorSeverityAuthenticationFailed];
         
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy) 

@@ -481,6 +481,10 @@
     return YES;
 }
 */
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range 
+replacementString:(NSString *)string { return NO; }
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField { return YES; }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
