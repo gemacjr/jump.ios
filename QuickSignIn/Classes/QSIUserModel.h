@@ -110,8 +110,6 @@
 
 
 - (void)setNavigationController:(UINavigationController*)navigationController;
-- (void)setViewControllerToPopTo:(UIViewController*)viewController;
-
 
 
 /* Returns singleton instance of class. */

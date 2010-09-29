@@ -103,7 +103,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#a18377ffb55f821587e6d38b3489692e8">addDelegate:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#ab3f12ac148ea0f6df4d7ff7789cc7c94">removeDelegate:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Show the JREngage Library</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpf9e79eb521c10019ba1736bc57a0355e"></a> Methods that initiate authentication and social publishing with <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpf9e79eb521c10019ba1736bc57a0355e"></a> <a class="anchor" id="showMethods"></a></p>
+<p>Methods that initiate authentication and social publishing with <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> </p>
 </div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#a01ecdff491f91543e18f33d0e565b046">showAuthenticationDialog</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#afca7b5ab9a57edc1a460aaec882207c4">showSocialPublishingDialogWithActivity:</a></td></tr>
@@ -187,7 +188,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Initializes and returns the shared instance of the <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library</p>
+<p><a class="anchor" id="engageWithAppId"></a> Initializes and returns the shared instance of the <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>appId</em>&nbsp;</td><td>This is your 20-character application ID. You can find this on your application's Dashboard on <a href="http://rpxnow.com">http://rpxnow.com</a>. This value cannot be <code>nil</code>.</td></tr>
@@ -264,6 +265,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p><a class="anchor" id="showAuthDialog"></a></p>
 <p>Use this function to begin authentication. The <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library will pop up a modal dialog and take the user through the sign-in process. </p>
 
 </div>
@@ -283,6 +285,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p><a class="anchor" id="showPubDialog"></a></p>
 <p>Use this function to begin social publishing. The <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library will pop up a modal dialog and take the user through the sign-in process, if necessary, and share the given <code><a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a></code>.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -414,6 +417,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p><a class="anchor" id="updateTokenUrl"></a></p>
 <p>Use this function to specify a different tokenUrl than the one you initiated the library with </p>
 
 </div>
@@ -428,10 +432,7 @@ Static Public Member Functions</h2></td></tr>
 
 
 		</div> 
-			
-		<hr class="footer"/><address class="footer"><small>
-		Generated on Wed Sep 29 2010 13:30:02 for JREngage by&nbsp;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1</small></address>
-		
+
 		<!-- footer -->
 		<div id="ft">
 			<div class="padder">

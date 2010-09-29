@@ -665,21 +665,21 @@ static JRSessionData* singleton = nil;
     NSString *str = nil;
 #ifdef SOCIAL_PUBLISHING
     if (social)
-        str = [NSString stringWithFormat:@"%@%@?%@%@%@device=iphone", 
+        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_two&device=iphone", 
                baseUrl,               /* Always force reauth for social because with the social publishing flow, the user is never taken to    */
                currentProvider.url,   /* the "Welcome back" screen, and therefore could never click the "switch Providers" button. Also,       */
                oid,                   /* signing out of a social provider could happen at any time, like on previous launches, and that        */
                @"force_reauth=true&", /* should always prompt a force_reauth. Assume we always want to force reauth when logging in for social */
                (([currentProvider.name isEqualToString:@"facebook"]) ? 
-                @"ext_perm=publish_stream&" : @"")];
+                @"ext_perm=publish_stream,offline_access&" : @"")];
     else
-        str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
+        str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
                baseUrl, 
                currentProvider.url,
                oid, 
                ((forceReauth) ? @"force_reauth=true&" : @"")];
 #else
-    str = [NSString stringWithFormat:@"%@%@?%@%@device=iphone", 
+    str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
            baseUrl, 
            currentProvider.url,
            oid, 

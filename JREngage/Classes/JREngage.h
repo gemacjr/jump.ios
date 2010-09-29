@@ -153,6 +153,8 @@
 - (void)jrAuthenticationDidNotComplete;
 
 /**
+ * \anchor authDidSucceed
+ *
  * Tells the delegate that the user has successfully authenticated with the given provider, passing to
  * the delegate an \c NSDictionary object with the user's profile data
  *
@@ -324,6 +326,7 @@
 + (JREngage*)jrEngage;
 
 /**
+ * \anchor engageWithAppId
  * Initializes and returns the shared instance of the JREngage library
  *
  * @param appId
@@ -370,6 +373,7 @@
 - (void)removeDelegate:(id<JREngageDelegate>)delegate;
 /*@}*/
 
+/** \anchor showMethods **/
 /** 
  * \name Show the JREngage Library
  * Methods that initiate authentication and social publishing with JREngage
@@ -377,12 +381,16 @@
 /*@{*/
 
 /**
+ * \anchor showAuthDialog
+ *
  * Use this function to begin authentication.  The JREngage library will 
  * pop up a modal dialog and take the user through the sign-in process.
  **/
 - (void)showAuthenticationDialog;
 
 /**
+ * \anchor showPubDialog
+ *
  * Use this function to begin social publishing.  The JREngage library will 
  * pop up a modal dialog and take the user through the sign-in process, if necessary,
  * and share the given \c JRActivityObject.
@@ -463,6 +471,8 @@
 /*@{*/
 
 /** 
+ * \anchor updateTokenUrl
+ *
  * Use this function to specify a different tokenUrl than the one you 
  * initiated the library with
  **/

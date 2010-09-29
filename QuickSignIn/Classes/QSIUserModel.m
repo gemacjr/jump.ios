@@ -196,17 +196,10 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	return addr;
 }
 
-
 - (void)setNavigationController:(UINavigationController*)navigationController
 {
     [jrEngage setCustomNavigationController:navigationController];
 }
-
-- (void)setViewControllerToPopTo:(UIViewController*)viewController
-{
-    [jrEngage setCustomNavigationControllerShouldPopToViewController:viewController];
-}
-
 
 /* Returns the sign-in history as an ordered array of sessions, store as dictionaries.
    Each session's dictionary contains the identifier, display name, provider, and timestamp 

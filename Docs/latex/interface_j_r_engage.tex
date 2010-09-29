@@ -27,7 +27,11 @@ Inherits JRSessionDelegate-\/p.
 \end{Indent}
 \begin{Indent}{\bf Show the JREngage Library}\par
 {\em \label{_amgrpf9e79eb521c10019ba1736bc57a0355e}
- Methods that initiate authentication and social publishing with \hyperlink{interface_j_r_engage}{JREngage} }\begin{DoxyCompactItemize}
+ \label{interface_j_r_engage_showMethods}
+\hypertarget{interface_j_r_engage_showMethods}{}
+
+
+Methods that initiate authentication and social publishing with \hyperlink{interface_j_r_engage}{JREngage} }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a01ecdff491f91543e18f33d0e565b046}{showAuthenticationDialog}
 \item 
@@ -112,7 +116,9 @@ The instance of the \hyperlink{interface_j_r_engage}{JREngage} library once it h
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_a36c199d6384893b1bf42712771af1e8b}
-Initializes and returns the shared instance of the \hyperlink{interface_j_r_engage}{JREngage} library
+\label{interface_j_r_engage_engageWithAppId}
+\hypertarget{interface_j_r_engage_engageWithAppId}{}
+ Initializes and returns the shared instance of the \hyperlink{interface_j_r_engage}{JREngage} library
 
 
 \begin{DoxyParams}{Parameters}
@@ -157,6 +163,10 @@ Remove a \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} from the \
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_a01ecdff491f91543e18f33d0e565b046}
+\label{interface_j_r_engage_showAuthDialog}
+\hypertarget{interface_j_r_engage_showAuthDialog}{}
+
+
 Use this function to begin authentication. The \hyperlink{interface_j_r_engage}{JREngage} library will pop up a modal dialog and take the user through the sign-\/in process. \hypertarget{interface_j_r_engage_afca7b5ab9a57edc1a460aaec882207c4}{
 \index{JREngage@{JREngage}!showSocialPublishingDialogWithActivity:@{showSocialPublishingDialogWithActivity:}}
 \index{showSocialPublishingDialogWithActivity:@{showSocialPublishingDialogWithActivity:}!JREngage@{JREngage}}
@@ -166,6 +176,10 @@ Use this function to begin authentication. The \hyperlink{interface_j_r_engage}{
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_afca7b5ab9a57edc1a460aaec882207c4}
+\label{interface_j_r_engage_showPubDialog}
+\hypertarget{interface_j_r_engage_showPubDialog}{}
+
+
 Use this function to begin social publishing. The \hyperlink{interface_j_r_engage}{JREngage} library will pop up a modal dialog and take the user through the sign-\/in process, if necessary, and share the given {\ttfamily \hyperlink{interface_j_r_activity_object}{JRActivityObject}}.
 
 
@@ -243,6 +257,10 @@ Use this functions if you need to cancel publishing for any reason. \hypertarget
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_ac0fb45ee43767dfdea0057bb93000db6}
+\label{interface_j_r_engage_updateTokenUrl}
+\hypertarget{interface_j_r_engage_updateTokenUrl}{}
+
+
 Use this function to specify a different tokenUrl than the one you initiated the library with 
 
 The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}

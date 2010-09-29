@@ -134,7 +134,8 @@ static JREngage* singletonJREngage = nil;
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
-		[delegate jrEngageDialogDidFailToShowWithError:error];
+		if ([delegate respondsToSelector:@selector(jrEngageDialogDidFailToShowWithError:)])
+            [delegate jrEngageDialogDidFailToShowWithError:error];
 	}
     
 //	[interfaceMaestro authenticationFailed];
@@ -208,20 +209,20 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro authenticationCanceled];
 }
 
-- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
-{
-	DLog(@"");
-    DLog(@"token:%@", token);
-	
-    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
-	{
-        if ([delegate respondsToSelector:@selector(jrAuthenticationReceivedAuthenticationTokenForProvider:)])
-            [delegate jrAuthenticationReceivedAuthenticationTokenForProvider:provider];
-	}
-    
-	[interfaceMaestro authenticationCompleted];
-}
+//- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
+//{
+//	DLog(@"");
+//    DLog(@"token:%@", token);
+//	
+//    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+//    for (id<JREngageDelegate> delegate in delegatesCopy) 
+//	{
+//        if ([delegate respondsToSelector:@selector(jrAuthenticationReceivedAuthenticationTokenForProvider:)])
+//            [delegate jrAuthenticationReceivedAuthenticationTokenForProvider:provider];
+//	}
+//    
+//	[interfaceMaestro authenticationCompleted];
+//}
 
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider
 {
