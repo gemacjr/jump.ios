@@ -47,6 +47,7 @@
 #import "JRConnectionManager.h"
 
 /**
+ * \internal 
  * Base class for \c JRImageMediaObject, \c JRFlashMediaObject, and \c JRMp3MediaObject.
  **/
 @interface JRMediaObject : NSObject { }
@@ -255,6 +256,12 @@
  **/
 @interface JRActivityObject : NSObject 
 {
+    /** 
+     * \name Instance Variables
+     * TODO!!
+     **/
+    /*@{*/
+    
    /**
     * A string describing what the user did, written in the third person (e.g., 
     * "wrote a restaurant review", "posted a comment", "took a quiz")
@@ -331,8 +338,14 @@
     *   }
     **/
     NSMutableDictionary *properties;
+    /*@}*/
 }
 
+/** 
+ * \name Properties
+ * TODO!!
+ **/
+/*@{*/
 @property (readonly) NSString *action;  							
 @property (readonly) NSString *url;
 @property (retain) NSString *user_generated_content;
@@ -341,6 +354,13 @@
 @property (retain) NSMutableArray *action_links; 					
 @property (retain) NSMutableArray *media;
 @property (retain) NSMutableDictionary *properties;
+/*@}*/
+
+/** 
+ * \name Methods
+ * Add/remove objects that implement the JREngageDelegate protocol
+ **/
+/*@{*/
 
 /**
  * Returns a \c JRActivityObject initialized with the given action and url.
@@ -356,8 +376,10 @@
  *   \c _action or \c _url are nil, returns \c nil.
  **/
 - (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
+/*@}*/
 
 /**
+ * \internal
  * Returns an \c NSDictionary representing the \c JRActivityObject.
  *
  * @return
