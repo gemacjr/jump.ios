@@ -26,18 +26,16 @@ Inherits JRMediaObject.
 NSString $\ast$ \hyperlink{interface_j_r_image_media_object_aad75823f9189dfca758bc4d4712c3621}{src}
 \item 
 NSString $\ast$ \hyperlink{interface_j_r_image_media_object_a95642c3f4bc97a112a3ab32beef46f66}{href}
-\item 
-UIImage $\ast$ \hyperlink{interface_j_r_image_media_object_adffd5bbca7eb9c92e720b821022aca88}{preview}
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Image object to be included in a post to a user's stream. Create an image media object, fill in the object's fields, and add the object the JRActivity's media array. How the images get presented and whether or not they are used, depend on the provider.
+Image object to be included in a post to a user's stream. Create an image media object, fill in the object's fields, and add the object to the \hyperlink{interface_j_r_activity_object_a2e4ff78f83d0f353f8e0c17ed48ce0ab}{JRActivityObject::media} array in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. How the images get presented and whether or not they are used, depend on the provider.
 
-Each image must contain a src URL, which maps to the photo's URL, and an href URL, which maps to the URL where a user should be taken if he or she clicks the photo.
+Each image must contain a {\itshape src\/} URL, which maps to the photo's URL, and an {\itshape href\/} URL, which maps to the URL where a user should be taken if he or she clicks the photo.
 
 \begin{DoxySeeAlso}{See also}
-Format and rules are identical to those described on the \hyperlink{}{Facebook Developer page on Attachments. } 
+Format and rules are identical to those described on the \href{http://developers.facebook.com/docs/guides/attachments}{\tt Facebook Developer page on Attachments}. 
 \end{DoxySeeAlso}
 
 
@@ -58,7 +56,7 @@ Returns a {\ttfamily \hyperlink{interface_j_r_image_media_object}{JRImageMediaOb
 \begin{DoxyParams}{Parameters}
 \item[{\em \_\-src}]The photo's URL. This value cannot be {\ttfamily nil}.\item[{\em \_\-href}]The URL where a user should be taken if he or she clicks the photo. This value cannot be {\ttfamily nil}.\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A {\ttfamily \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject}} initialized with the given {\itshape src\/} and {\itshape href\/}. If either {\ttfamily \_\-src} or {\ttfamily \_\-href} are nil, returns {\ttfamily nil}. 
+A \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject} initialized with the given src and href. If either {\ttfamily \_\-src} or {\ttfamily \_\-href} are {\itshape nil\/}, returns {\ttfamily nil}. 
 \end{DoxyReturn}
 
 
@@ -73,12 +71,7 @@ The photo's URL \hypertarget{interface_j_r_image_media_object_a95642c3f4bc97a112
 \index{href@{href}!JRImageMediaObject@{JRImageMediaObject}}
 \subsubsection[{href}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSString $\ast$) href\hspace{0.3cm}{\ttfamily  \mbox{[}read, assign\mbox{]}}}}
 \label{interface_j_r_image_media_object_a95642c3f4bc97a112a3ab32beef46f66}
-The URL where a user should be taken if he or she clicks the photo. \hypertarget{interface_j_r_image_media_object_adffd5bbca7eb9c92e720b821022aca88}{
-\index{JRImageMediaObject@{JRImageMediaObject}!preview@{preview}}
-\index{preview@{preview}!JRImageMediaObject@{JRImageMediaObject}}
-\subsubsection[{preview}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (UIImage $\ast$) preview\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, retain\mbox{]}}}}
-\label{interface_j_r_image_media_object_adffd5bbca7eb9c92e720b821022aca88}
-Contains the downloaded preview of the image for display in the publish activity dialog 
+The URL where a user should be taken if he or she clicks the photo. 
 
 The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
 \item 

@@ -66,6 +66,7 @@
   <div class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -103,9 +104,20 @@ Properties</h2></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>A link a user can use to take action on an activity update on the provider. </p>
-<p>Create an action link object, fill in the object's fields, and add the object the JRActivity's action_links array.</p>
-<p>Each action link must contain a link, <code>href</code>, and some <code>text</code>, describing what action will happen if someone clicks the link. (E.g., "Rate this quiz result", "http://example.com/quiz/12345/result/6789/rate") </p>
-<hr/><h2>Member Function Documentation</h2>
+<p>Create an action link object, fill in the object's fields, and add the object the <a class="el" href="interface_j_r_activity_object.html#aa5c629e1c3b8306b2532ab647f7f6ec5">JRActivityObject::action_links</a> array of your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
+<p>Each action link must contain a link, <em>href</em>, and some <em>text</em>, describing what action will happen if someone clicks the link. Example: </p>
+<div class="fragment"><pre class="fragment"> action_links: 
+ [
+   {
+     &quot;text&quot;: &quot;Rate this quiz result&quot;,
+     &quot;href&quot;: &quot;http://example.com/quiz/12345/result/6789/rate&quot;
+   },
+   {
+     &quot;text&quot;: &quot;Take this quiz&quot;,
+     &quot;href&quot;: &quot;http://example.com/quiz/12345/take&quot;
+   }
+ ]
+</pre></div> <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="ae1f056641fd3302efbf23d89452553a5"></a><!-- doxytag: member="JRActionLink::initWithText:andHref:" ref="ae1f056641fd3302efbf23d89452553a5" args="(NSString *_text,[andHref] NSString *_href)" -->
 <div class="memitem">
 <div class="memproto">
@@ -138,7 +150,7 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <code><a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a></code> initialized with the given <em>text</em> and <em>href</em>. If either <code>_text</code> or <code>_href</code> are nil, returns <code>nil</code>. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> initialized with the given text and href. If either <code>_text</code> or <code>_href</code> are <em>nil</em>, returns <code>nil</code>. </dd></dl>
 
 </div>
 </div>
@@ -182,7 +194,7 @@ Properties</h2></td></tr>
 		</div> 
 			
 		<hr class="footer"/><address class="footer"><small>
-		Generated on Tue Sep 28 2010 21:40:51 for JREngage by&nbsp;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1</small></address>
+		Generated on Wed Sep 29 2010 12:52:35 for JREngage by&nbsp;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1</small></address>
 		
 		<!-- footer -->
 		<div id="ft">

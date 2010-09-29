@@ -341,13 +341,13 @@ static JREngage* singletonJREngage = nil;
     //    [interfaceMaestro popCustomNavigationControllerToViewController:viewController];
 }
 
-- (void)signoutUserForProvider:(NSString*)provider
+- (void)signoutUserForSocialProvider:(NSString*)provider
 {
     DLog(@"");
     [sessionData forgetAuthenticatedUserForProvider:provider];
 }
 
-- (void)signoutUserForAllProviders
+- (void)signoutUserForAllSocialProviders
 {
     DLog(@"");
     [sessionData forgetAllAuthenticatedUsers];

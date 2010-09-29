@@ -66,6 +66,7 @@
   <div class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -78,6 +79,8 @@
   </div>
 </div>
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <h1>JRActivityObject Class Reference</h1>  </div>
 </div>
@@ -92,14 +95,11 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td colspan="2"><div class="groupHeader">Methods</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp20c51b5f4e9aeb5334c90ff072e6f928"></a> Add/remove objects that implement the <a class="el" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> protocol </p>
-</div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_activity_object.html#a61195dc95162d1136d41af3a5f15fe2d">initWithAction:andUrl:</a></td></tr>
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
-<tr><td colspan="2"><div class="groupHeader">Instance Variables</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp60270701794504daf453a85aafd5f637"></a> TODO!! </p>
+<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpd41d8cd98f00b204e9800998ecf8427e"></a> The various properties of the <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a> that you can configure </p>
 </div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_activity_object.html#ac7f87878433a7d69fc5c8677fc317d6a">action</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_activity_object.html#a113d240b8b15e625fb0005fbffd00c17">url</a></td></tr>
@@ -123,11 +123,11 @@ Properties</h2></td></tr>
 <p>Janrain Engage will make a best effort to use all of the fields submitted in the activity request, but note that how they get presented (and which ones are used) ultimately depends on the provider.</p>
 <p>This API will work if and only if:</p>
 <ul>
-<li>Your Janrain Engage application has been configured to authenticate using the user's provider</li>
+<li>Your Janrain Engage application has been configured with the given provider</li>
 <li>The user has already authenticated and has given consent to publish activity</li>
 </ul>
 <p>Otherwise, you will be given an error response indicating what was wrong. Detailed error responses will also be given if the activity parameter does not meet the formatting requirements described below.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd>For more information of Janrain Engage's activity api, see <a class="el" href="">the activity section of our API Documentation. </a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>For more information of Janrain Engage's activity api, see <a href="https://rpxnow.com/docs#api_activity">the activity section</a> of our API Documentation. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a61195dc95162d1136d41af3a5f15fe2d"></a><!-- doxytag: member="JRActivityObject::initWithAction:andUrl:" ref="a61195dc95162d1136d41af3a5f15fe2d" args="(NSString *_action,[andUrl] NSString *_url)" -->
 <div class="memitem">
@@ -161,7 +161,7 @@ Properties</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <code>JRActionObject</code> initialized with the given <em>action</em> and <em>url</em>. If either <code>_action</code> or <code>_url</code> are nil, returns <code>nil</code>. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a> initialized with the given action and url. If either <code>_action</code> or <code>_url</code> are <em>nil</em>, returns <code>nil</code>. </dd></dl>
 
 </div>
 </div>
@@ -219,7 +219,8 @@ Properties</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>The title of the resource being mentioned in the activity update. No length restriction on the status is imposed by Janrain Engage, however Yahoo truncates this value to 256 characters. </p>
+<p>The title of the resource being mentioned in the activity update.</p>
+<dl class="note"><dt><b>Note:</b></dt><dd>No length restriction on the status is imposed by Janrain Engage, however Yahoo truncates this value to 256 characters. </dd></dl>
 
 </div>
 </div>
@@ -247,8 +248,19 @@ Properties</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>An array of <code><a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a></code> objects, each having two attributes: text and href. An action link is a link a user can use to take action on an activity update on the provider. (E.g., "Take this quiz", "http://example.com/quiz/12345/take")</p>
-<dl class="note"><dt><b>Note:</b></dt><dd>Any objects added to this array that are not of type <code><a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a></code> will be ignored. </dd></dl>
+<p>An array of <code><a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a></code> objects, each having two attributes: text and href. An action link is a link a user can use to take action on an activity update on the provider Example: </p>
+<div class="fragment"><pre class="fragment"> <a class="code" href="interface_j_r_activity_object.html#aa5c629e1c3b8306b2532ab647f7f6ec5">action_links</a>: 
+ [
+   {
+     &quot;text&quot;: &quot;Rate this quiz result&quot;,
+     &quot;href&quot;: &quot;http://example.com/quiz/12345/result/6789/rate&quot;
+   },
+   {
+     &quot;text&quot;: &quot;Take this quiz&quot;,
+     &quot;href&quot;: &quot;http://example.com/quiz/12345/take&quot;
+   }
+ ]
+</pre></div><dl class="note"><dt><b>Note:</b></dt><dd>Any objects added to this array that are not of type <code><a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a></code> will be ignored. </dd></dl>
 
 </div>
 </div>
@@ -262,15 +274,16 @@ Properties</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>An array of objects with base class <code>JRMediaObject</code> (i.e., <code><a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a></code>, <code><a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a></code>, <code><a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a></code>).</p>
+<p>An array of objects with base class <code>JRMediaObject</code> (i.e., <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a>, <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a>, <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a>).</p>
 <p>To publish attached media objects with your activity, create the preferred object, populate the object's fields, then add the object to the <code>media</code> array. You can attach pictures, videos, and mp3s to your activity, although how the media objects get presented and whether or not they are used, depend on the provider.</p>
-<dl class="note"><dt><b>Note:</b></dt><dd>If you include more than one media type in the array, <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> will choose only one of these types, in this order:<ol type="1">
+<p>If you include more than one media type in the array, <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> will choose only one of these types, in this order:</p>
+<ol type="1">
 <li>image</li>
 <li>flash</li>
-<li>mp3 Also, any ojects added to this array that are not of type /c <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> will be ignored.</li>
+<li>mp3</li>
 </ol>
-</dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd>Media object format and rules are identical to those described on the <a class="el" href="">Facebook Developer page on Attachments. </a> </dd></dl>
+<p>Also, any ojects added to this array that are not of type <code>JRMediaObject</code> will be ignored.</p>
+<dl class="see"><dt><b>See also:</b></dt><dd>Media object format and rules are identical to those described on the <a href="http://developers.facebook.com/docs/guides/attachments">Facebook Developer page on Attachments</a>. </dd></dl>
 
 </div>
 </div>
@@ -284,8 +297,17 @@ Properties</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>An object with attributes describing properties of the update. An attribute value can be a string or an object with two attributes, text and href. Example: properties: { "Time": "05:00", "Location": { "text": "Portland", "href": "http://en.wikipedia.org/wiki/Portland,_Oregon" } } </p>
-
+<p>An object with attributes describing properties of the update. An attribute value can be a string or an object with two attributes, text and href. Example: </p>
+<div class="fragment"><pre class="fragment">   <a class="code" href="interface_j_r_activity_object.html#a1acf84854d275510685a1f2066061c4e">properties</a>: 
+   {
+       <span class="stringliteral">&quot;Time&quot;</span>: <span class="stringliteral">&quot;05:00&quot;</span>,
+       <span class="stringliteral">&quot;Location&quot;</span>: 
+       {
+           <span class="stringliteral">&quot;text&quot;</span>: <span class="stringliteral">&quot;Portland&quot;</span>,
+           <span class="stringliteral">&quot;href&quot;</span>: <span class="stringliteral">&quot;http://en.wikipedia.org/wiki/Portland,_Oregon&quot;</span>
+       }
+   }
+</pre></div> 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
@@ -299,7 +321,7 @@ Properties</h2></td></tr>
 		</div> 
 			
 		<hr class="footer"/><address class="footer"><small>
-		Generated on Tue Sep 28 2010 21:40:51 for JREngage by&nbsp;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1</small></address>
+		Generated on Wed Sep 29 2010 12:52:35 for JREngage by&nbsp;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1</small></address>
 		
 		<!-- footer -->
 		<div id="ft">

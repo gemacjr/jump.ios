@@ -66,6 +66,7 @@
   <div class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -108,73 +109,81 @@
 <a name="l00032"></a>00032 <span class="comment"> Date:   Tuesday, June 1, 2010</span>
 <a name="l00033"></a>00033 <span class="comment"> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */</span>
 <a name="l00034"></a>00034 
-<a name="l00060"></a>00060 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
-<a name="l00061"></a>00061 <span class="preprocessor">#import &quot;JRSessionData.h&quot;</span>
-<a name="l00062"></a>00062 <span class="preprocessor">#import &quot;<a class="code" href="_j_r_activity_object_8h.html" title="Interface for creating and populating activities that you wish to publish.">JRActivityObject.h</a>&quot;</span>
-<a name="l00063"></a>00063 <span class="preprocessor">#import &quot;JRUserInterfaceMaestro.h&quot;</span>
-<a name="l00064"></a>00064 
-<a name="l00065"></a>00065 <span class="preprocessor">#define SOCIAL_PUBLISHING</span>
-<a name="l00066"></a>00066 <span class="preprocessor"></span>
-<a name="l00067"></a>00067 <span class="keyword">@class</span> <a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>;
-<a name="l00068"></a>00068 <span class="keyword">@class</span> JRUserInterfaceMaestro;
-<a name="l00069"></a>00069 
-<a name="l00081"></a><a class="code" href="protocol_j_r_engage_delegate-p.html">00081</a> <span class="keyword">@protocol </span><a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> &lt;NSObject&gt;
-<a name="l00082"></a>00082 <span class="keyword">@required</span>
-<a name="l00083"></a>00083 
-<a name="l00089"></a>00089 
-<a name="l00100"></a>00100 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
-<a name="l00102"></a>00102 <span class="keyword">@optional</span>
+<a name="l00099"></a>00099 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
+<a name="l00100"></a>00100 <span class="preprocessor">#import &quot;JRSessionData.h&quot;</span>
+<a name="l00101"></a>00101 <span class="preprocessor">#import &quot;<a class="code" href="_j_r_activity_object_8h.html" title="Interface for creating and populating activities that you wish to publish.">JRActivityObject.h</a>&quot;</span>
+<a name="l00102"></a>00102 <span class="preprocessor">#import &quot;JRUserInterfaceMaestro.h&quot;</span>
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="preprocessor">#define SOCIAL_PUBLISHING</span>
+<a name="l00105"></a>00105 <span class="preprocessor"></span>
+<a name="l00106"></a>00106 <span class="keyword">@class</span> <a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>;
+<a name="l00107"></a>00107 <span class="keyword">@class</span> JRUserInterfaceMaestro;
 <a name="l00108"></a>00108 
-<a name="l00114"></a>00114 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a4eaa6a5961e175b8275c6b06034afea7">jrAuthenticationDidNotComplete</a>;
-<a name="l00115"></a>00115 
-<a name="l00143"></a>00143 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
-<a name="l00144"></a>00144 
-<a name="l00159"></a>00159 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00160"></a>00160 
-<a name="l00176"></a>00176 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
-<a name="l00177"></a>00177 
-<a name="l00191"></a>00191 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00199"></a>00199 
-<a name="l00205"></a>00205 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a733007b584bd916932ccafe44c3c678d">jrSocialDidNotCompletePublishing</a>;
-<a name="l00206"></a>00206 
-<a name="l00212"></a>00212 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#ae90fea5db002559f6cf4e481080e0bfb">jrSocialDidCompletePublishing</a>;
-<a name="l00213"></a>00213 
-<a name="l00224"></a>00224 - (void)jrSocialDidPublishActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity forProvider:(NSString*)provider;
-<a name="l00225"></a>00225 
-<a name="l00239"></a>00239 - (void)jrSocialPublishingActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00241"></a>00241 <span class="keyword">@end</span>
+<a name="l00120"></a><a class="code" href="protocol_j_r_engage_delegate-p.html">00120</a> <span class="keyword">@protocol </span><a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> &lt;NSObject&gt;
+<a name="l00121"></a>00121 <span class="keyword">@required</span>
+<a name="l00122"></a>00122 
+<a name="l00128"></a>00128 
+<a name="l00139"></a>00139 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
+<a name="l00141"></a>00141 <span class="keyword">@optional</span>
+<a name="l00147"></a>00147 
+<a name="l00153"></a>00153 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a4eaa6a5961e175b8275c6b06034afea7">jrAuthenticationDidNotComplete</a>;
+<a name="l00154"></a>00154 
+<a name="l00187"></a>00187 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
+<a name="l00188"></a>00188 
+<a name="l00203"></a>00203 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00204"></a>00204 
+<a name="l00219"></a>00219 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+<a name="l00220"></a>00220 
+<a name="l00234"></a>00234 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 <a name="l00242"></a>00242 
-<a name="l00267"></a><a class="code" href="interface_j_r_engage.html">00267</a> <span class="keyword">@interface </span><a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> : NSObject &lt;<span class="comment">/*JRConnectionManagerDelegate,*/</span> JRSessionDelegate&gt;
-<a name="l00268"></a>00268 {
-<a name="l00269"></a>00269     JRUserInterfaceMaestro *interfaceMaestro;   <span class="comment">/*&lt; \internal Class that handles customizations to the library&#39;s UI */</span>
-<a name="l00270"></a>00270         JRSessionData   *sessionData;               <span class="comment">/*&lt; \internal Holds configuration and state for the JREngage library */</span>
-<a name="l00271"></a>00271         NSMutableArray  *delegates;                 <span class="comment">/*&lt; \internal Array of JREngageDelegate objects */</span>
-<a name="l00272"></a>00272 }
-<a name="l00273"></a>00273 
-<a name="l00280"></a>00280 + (<a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngage;
-<a name="l00281"></a>00281 
-<a name="l00302"></a>00302 + (<a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngageWithAppId:(NSString*)appId 
-<a name="l00303"></a>00303                    andTokenUrl:(NSString*)tokenUrl
-<a name="l00304"></a>00304                       delegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
-<a name="l00305"></a>00305 
-<a name="l00311"></a>00311 
-<a name="l00318"></a>00318 - (void)addDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
-<a name="l00319"></a>00319 
-<a name="l00326"></a>00326 - (void)removeDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
-<a name="l00338"></a>00338 - (void)showAuthenticationDialog;
-<a name="l00339"></a>00339 
-<a name="l00348"></a>00348 - (void)showSocialPublishingDialogWithActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity;
-<a name="l00363"></a>00363 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
-<a name="l00364"></a>00364 
-<a name="l00368"></a>00368 - (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;
-<a name="l00383"></a>00383 - (void)signoutUserForProvider:(NSString*)provider;
+<a name="l00248"></a>00248 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a733007b584bd916932ccafe44c3c678d">jrSocialDidNotCompletePublishing</a>;
+<a name="l00249"></a>00249 
+<a name="l00255"></a>00255 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#ae90fea5db002559f6cf4e481080e0bfb">jrSocialDidCompletePublishing</a>;
+<a name="l00256"></a>00256 
+<a name="l00268"></a>00268 - (void)jrSocialDidPublishActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity forProvider:(NSString*)provider;
+<a name="l00269"></a>00269 
+<a name="l00283"></a>00283 - (void)jrSocialPublishingActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00285"></a>00285 <span class="keyword">@end</span>
+<a name="l00286"></a>00286 
+<a name="l00311"></a><a class="code" href="interface_j_r_engage.html">00311</a> <span class="keyword">@interface </span><a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> : NSObject &lt;JRSessionDelegate&gt;
+<a name="l00312"></a>00312 {
+<a name="l00313"></a>00313     JRUserInterfaceMaestro *interfaceMaestro;   <span class="comment">/*&lt; \internal Class that handles customizations to the library&#39;s UI */</span>
+<a name="l00314"></a>00314         JRSessionData   *sessionData;               <span class="comment">/*&lt; \internal Holds configuration and state for the JREngage library */</span>
+<a name="l00315"></a>00315         NSMutableArray  *delegates;                 <span class="comment">/*&lt; \internal Array of JREngageDelegate objects */</span>
+<a name="l00316"></a>00316 }
+<a name="l00317"></a>00317 
+<a name="l00324"></a>00324 + (<a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngage;
+<a name="l00325"></a>00325 
+<a name="l00346"></a>00346 + (<a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngageWithAppId:(NSString*)appId 
+<a name="l00347"></a>00347                    andTokenUrl:(NSString*)tokenUrl
+<a name="l00348"></a>00348                       delegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
+<a name="l00349"></a>00349 
+<a name="l00355"></a>00355 
+<a name="l00362"></a>00362 - (void)addDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
+<a name="l00363"></a>00363 
+<a name="l00370"></a>00370 - (void)removeDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
+<a name="l00378"></a>00378 
+<a name="l00383"></a>00383 - (void)showAuthenticationDialog;
 <a name="l00384"></a>00384 
-<a name="l00388"></a>00388 - (void)signoutUserForAllProviders;
-<a name="l00399"></a>00399 - (void)cancelAuthentication;
-<a name="l00400"></a>00400 
-<a name="l00404"></a>00404 - (void)cancelPublishing;
-<a name="l00416"></a>00416 - (void)updateTokenUrl:(NSString*)newTokenUrl;
-<a name="l00418"></a>00418 <span class="keyword">@end</span>
+<a name="l00393"></a>00393 - (void)showSocialPublishingDialogWithActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity;
+<a name="l00401"></a>00401 
+<a name="l00409"></a>00409 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
+<a name="l00410"></a>00410 
+<a name="l00412"></a>00412 <span class="comment">// * May not use...</span>
+<a name="l00413"></a>00413 <span class="comment">// **/</span>
+<a name="l00414"></a>00414 <span class="comment">//- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;</span>
+<a name="l00416"></a>00416 <span class="comment"></span>
+<a name="l00422"></a>00422 
+<a name="l00432"></a>00432 - (void)signoutUserForSocialProvider:(NSString*)provider;
+<a name="l00433"></a>00433 
+<a name="l00439"></a>00439 - (void)signoutUserForAllSocialProviders;
+<a name="l00447"></a>00447 
+<a name="l00451"></a>00451 - (void)cancelAuthentication;
+<a name="l00452"></a>00452 
+<a name="l00456"></a>00456 - (void)cancelPublishing;
+<a name="l00464"></a>00464 
+<a name="l00469"></a>00469 - (void)updateTokenUrl:(NSString*)newTokenUrl;
+<a name="l00471"></a>00471 <span class="keyword">@end</span>
 </pre></div></div>
 </div>
 
@@ -184,7 +193,7 @@
 		</div> 
 			
 		<hr class="footer"/><address class="footer"><small>
-		Generated on Tue Sep 28 2010 21:40:51 for JREngage by&nbsp;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1</small></address>
+		Generated on Wed Sep 29 2010 12:52:35 for JREngage by&nbsp;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1</small></address>
 		
 		<!-- footer -->
 		<div id="ft">

@@ -55,7 +55,46 @@
  * the <a href="http://rpxnow.com/docs/jrengage_api">"JREngage API"</a> documentation.
  **/
 
-
+/**
+ * \page Providers
+ * \section basicProviders List of Providers
+ *
+ * Here is a list of possible strings that the argument (NSString*)provider can be
+ * when used in the authentication methods:
+ *   - "aol"
+ *   - "blogger"
+ *   - "facebook"
+ *   - "flickr"
+ *   - "google"
+ *   - "hyves"
+ *   - "linkedin"
+ *   - "live_id"
+ *   - "livejournal"
+ *   - "myopenid"
+ *   - "myspace"
+ *   - "netlog"
+ *   - "openid"
+ *   - "twitter"
+ *   - "verisign"
+ *   - "wordpress"
+ *   - "yahoo" 
+ *
+ * \note As your Engage application is limited by the number of providers it may use, 
+ * you may only see a subset of this list.
+ *
+ * \section socialProviders List of Social Providers
+ *
+ * Here is a list of possible strings that the argument (NSString*)provider can be
+ * when used in the social publishing methods:
+ *   - "facebook"
+ *   - "linkedin"
+ *   - "myspace"
+ *   - "twitter"
+ *   - "yahoo" 
+ *
+ * \note As your Engage application is limited by the number of providers it may use, 
+ * you may only see a subset of this list.
+ **/
 
 #import <Foundation/Foundation.h>
 #import "JRSessionData.h"
@@ -83,15 +122,15 @@
 
 /** 
  * \name Configuration 
- * Messages sent to implementors of the JREngageDelegate Protocol during dialog launch/configuration
+ * Messages sent by JREngage during dialog launch/configuration
  **/
 /*@{*/
 
 /**
- * Sent if the application tries to show a JREngage dialog, and JREngage failed to configure.
+ * Sent if the application tries to show a JREngage dialog, and JREngage failed to configure
  *
  * @param error
- *   The error that occurred during configuration.
+ *   The error that occurred during configuration
  *
  * \note
  * This message is only sent if your application tries to show a JREngage dialog, not when the error
@@ -102,14 +141,14 @@
 @optional
 /** 
  * \name Authentication
- * Messages sent to implementors of the JREngageDelegate Protocol during authentication
+ * Messages sent  by JREngage during authentication
  **/
 /*@{*/
 
 /**
  * Sent if the authorization was canceled for any reason other than an error.  For example, 
  * the user hits the "Cancel" button, any class (e.g., the JREngage delegate) calls the cancelAuthentication
- * message, or if configuration of the library taking more than about 16 seconds (rare) to download.
+ * message, or if configuration of the library is taking more than about 16 seconds (rare) to download.
  **/
 - (void)jrAuthenticationDidNotComplete;
 
@@ -117,40 +156,45 @@
  * Tells the delegate that the user has successfully authenticated with the given provider, passing to
  * the delegate an \c NSDictionary object with the user's profile data
  *
- * @param profile
- *   An \c NSDictionary containing all the information Janrain Engage knows about the user logging into your application
+ * @param auth_info
+ *   An \c NSDictionary of fields containing all the information Janrain Engage knows about the user 
+ *   logging into your application.  Includes the field "profile" which contains the user's profile information
  *
  *   The structure of the dictionary (represented here in json) should look something like the 
  *   following:
  * \code
- "profile": 
+ "auth_info":
  {
-   "displayName": "brian",
-   "preferredUsername": "brian",
-   "url": "http:\/\/brian.myopenid.com\/",
-   "providerName": "Other",
-   "identifier": "http:\/\/brian.myopenid.com\/"
+   "profile": 
+   {
+     "displayName": "brian",
+     "preferredUsername": "brian",
+     "url": "http:\/\/brian.myopenid.com\/",
+     "providerName": "Other",
+     "identifier": "http:\/\/brian.myopenid.com\/"
+   }
  }
  * \endcode
  *
- * For a full description of the dictionary and its fields, 
- * please see the @link https://rpxnow.com/docs#api_auth_info Janrain Engage API. @endlink
- *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings, 
- *   please see the List of Providers
- * */
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
+ *   please see the \ref basicProviders "List of Providers"
+ *
+ * \sa For a full description of the dictionary and its fields, 
+ * please see the <a href="https://rpxnow.com/docs#api_auth_info_response">auth_info response</a> 
+ * section of the Janrain Engage API documentation.
+ **/
+- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
 
 /**
- * Sent when authentication failed and could not be recovered by the library.
+ * Sent when authentication failed and could not be recovered by the library
  *
  * @param error
- *   The error that occurred during authentication.
+ *   The error that occurred during authentication
  *
  * @param provider
  *   The name of the provider on which the user tried to authenticate.  For a list of possible strings, 
- *   please see the List of Providers
+ *   please see the \ref basicProviders "List of Providers"
  *
  * \note
  * This message is not sent if authentication was canceled.  To be notified of a canceled authentication, 
@@ -159,26 +203,25 @@
 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
 /**
- * Sent after JREngage has successfully posted the token to the serverAuthenticationUrl, containing the body of the
- * response from the server.
+ * Sent after JREngage has successfully posted the token to your application's token_url, containing 
+ * the body of the response from the server
  *
- * @param serverAuthenticationUrl
+ * @param tokenUrl
  *   The URL on the server where the token was posted and server-side authentication was completed
  *
- * @param serverResponsePayload
+ * @param tokenUrlPayload
  *   The response from the server
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings, 
- *   please see the List of Providers
- *
+ *   please see the \ref basicProviders "List of Providers"
  **/
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
 /**
- * Sent when the call to the token URL has failed. 
+ * Sent when the call to the token URL has failed
  *
- * @param serverAuthenticationUrl
+ * @param tokenUrl
  *   The URL on the server where the token was posted and server-side authentication was completed
  *
  * @param error
@@ -186,45 +229,46 @@
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings, 
- *   please see the List of Providers
+ *   please see the \ref basicProviders "List of Providers"
  **/
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
 
 /** 
  * \name SocialPublishing
- * Messages sent to implementors of the JREngageDelegate Protocol during social publishing
+ * Messages sent by JREngage during social publishing
  **/
 /*@{*/
 
 /**
  * Sent if social publishing was canceled for any reason other than an error.  For example, 
  * the user hits the "Cancel" button, any class (e.g., the JREngage delegate) calls the cancelPublishing
- * message, or if configuration of the library taking more than about 16 seconds (rare) to download.
+ * message, or if configuration of the library is taking more than about 16 seconds (rare) to download.
  **/
 - (void)jrSocialDidNotCompletePublishing;
 
 /**
- * Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing is complete.  
- * You can receive multiple - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider
+ * Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing 
+ * is complete. You can receive multiple \ref didPublish "- (void)jrSocialDidPublishActivity:forProvider:" 
  * messages before the dialog is closed and publishing is complete.
  **/
 - (void)jrSocialDidCompletePublishing;
 
 /**
- * Sent after the user successfully shares an activity on the given provider.
+ * \anchor didPublish
+ * Sent after the user successfully shares an activity on the given provider
  *
  * @param activity
  *   The shared activity
  *
  * @param provider
  *   The name of the provider on which the user published the activity.  For a list of possible strings, 
- *   please see the List of Providers
+ *   please see the \ref socialProviders "List of Social Providers"
  **/
 - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
 /**
- * Sent when publishing an activity failed and could not be recovered by the library.
+ * Sent when publishing an activity failed and could not be recovered by the library
  *
  * @param activity
  *   The activity the user was trying to share
@@ -234,7 +278,7 @@
  *
  * @param provider
  *   The name of the provider on which the user attempted to publish the activity.  For a list of possible strings, 
- *   please see the List of Providers
+ *   please see the \ref socialProviders "List of Social Providers"
  **/
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
@@ -249,7 +293,7 @@
  * allow them to publish activities to their social networks.
  * 
  * If you wish to include 3rd-Party Authentication and Social Publishing in your iPhone 
- * application, you can use the JREngage class to acheive this.  Prior to using the JREngage
+ * application, you can use the JREngage class to achieve this.  Prior to using the JREngage
  * library, you must already have an application on <a href="http://rpxnow.com">http://rpxnow.com</a>.
  * This is all that is required for basic authentication, although some providers may require extra
  * configuration (which can be done through your application's <a href="http://rpxnow.com/relying_parties">Dashboard</a>
@@ -264,7 +308,7 @@
  * completed server-side authentication was required. This is no longer the case, although you can optionally implement 
  * the token url if you wish to continue authentication on your server.
  **/
-@interface JREngage : NSObject </*JRConnectionManagerDelegate,*/ JRSessionDelegate>
+@interface JREngage : NSObject <JRSessionDelegate>
 {
     JRUserInterfaceMaestro *interfaceMaestro;   /*< \internal Class that handles customizations to the library's UI */
 	JRSessionData	*sessionData;               /*< \internal Holds configuration and state for the JREngage library */
@@ -280,13 +324,13 @@
 + (JREngage*)jrEngage;
 
 /**
- * Initializes and returns the shared instance of the JREngage library.
+ * Initializes and returns the shared instance of the JREngage library
  *
  * @param appId
  *   This is your 20-character application ID.  You can find this on your application's Dashboard
- *   on @link http://rpxnow.com rpxnow.com. @endlink  This value cannot be \c nil.
+ *   on <a href="http://rpxnow.com">http://rpxnow.com</a>.  This value cannot be \c nil.
  *    
- * @param serverAuthenticationUrl
+ * @param tokenUrl
  *   The url on your server where you wish to complete authentication.  If provided, 
  *   the JREngage library will post the user's authentication token to this url where it can
  *   used for further authentication and processing.  When complete, the library will pass the 
@@ -297,7 +341,7 @@
  *
  * @return
  *   The shared instance of the \c JREngage object initialized with the given
- *   \c appId, \c serverAuthenticationUrl, and \c delegate.  If the given \c appId is nil, returns \c nil.
+ *   \c appId, \c tokenUrl, and \c delegate.  If the given \c appId is nil, returns \c nil.
  **/
 + (JREngage*)jrEngageWithAppId:(NSString*)appId 
                    andTokenUrl:(NSString*)tokenUrl
@@ -313,7 +357,7 @@
  * Add a JREngageDelegate to the JREngage library
  *
  * @param delegate
- *   The delegate object that implements the JREngageDelegate protocol.
+ *   The object that implements the JREngageDelegate protocol
  **/
 - (void)addDelegate:(id<JREngageDelegate>)delegate;
 
@@ -321,16 +365,17 @@
  * Remove a JREngageDelegate from the JREngage library
  *
  * @param delegate
- *   The delegate object that implements the JREngageDelegate protocol. 
+ *   The object that implements the JREngageDelegate protocol
  **/
 - (void)removeDelegate:(id<JREngageDelegate>)delegate;
 /*@}*/
 
 /** 
  * \name Show the JREngage Library
- * Messages sent to implementors of the JREngageDelegate Protocol during dialog launch/configuration
+ * Methods that initiate authentication and social publishing with JREngage
  **/
 /*@{*/
+
 /**
  * Use this function to begin authentication.  The JREngage library will 
  * pop up a modal dialog and take the user through the sign-in process.
@@ -350,9 +395,10 @@
 
 /** 
  * \name Interface Configuration
- * Configure User Interface Behavior for the JREngage Library 
+ * Methods used to customize the library's user interface
  **/
 /*@{*/
+
 /**
  * If you want to push the JREngage dialogs on your own navigation controller, pass
  * the \c UINavigationController to the JREngage library before calling \c showAuthenticationDialog
@@ -362,37 +408,43 @@
  **/
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
-/**
- * May not use...
- **/
-- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;
-/*@}*/
+///**
+// * May not use...
+// **/
+//- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;
+///*@}*/
 
 /** 
  * \name User Management
- * Messages sent to implementors of the JREngageDelegate Protocol during dialog launch/configuration
+ * Methods that manage authenticated users remembered by the library
  **/
 /*@{*/
+
 /**
  * Tell JREngage to forget that a user is already signed in with the given provider
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings, 
- *   please see the List of Providers
+ *   please see the \ref socialProviders "List of Social Providers"
+ * 
+ * \note: The library only remembers users who have signed in through the social publishing interface
  **/
-- (void)signoutUserForProvider:(NSString*)provider;
+- (void)signoutUserForSocialProvider:(NSString*)provider;
 
 /**
- * Tell JREngage to forget that a user is signed in with all providers
+ * Tell JREngage to forget that a user is signed in with all \ref socialProviders "Social Providers"
+ * 
+ * \note: The library only remembers users who have signed in through the social publishing interface
  **/
-- (void)signoutUserForAllProviders;
+- (void)signoutUserForAllSocialProviders;
 /*@}*/
 
 /** 
  * \name Cancel
- * Messages sent to implementors of the JREngageDelegate Protocol during dialog launch/configuration
+ * Methods to cancel authentication and social publishing
  **/
 /*@{*/
+
 /**
  * Use this functions if you need to cancel authentication for any reason.
  **/
@@ -406,11 +458,12 @@
 
 /** 
  * \name Server-side Authentication
- * Messages sent to implementors of the JREngageDelegate Protocol during dialog launch/configuration
+ * Methods to reconfigure server-side authentication
  **/
 /*@{*/
+
 /** 
- * Use this function to specify a different serverAuthenticationUrl than the one you 
+ * Use this function to specify a different tokenUrl than the one you 
  * initiated the library with
  **/
 - (void)updateTokenUrl:(NSString*)newTokenUrl;

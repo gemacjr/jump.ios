@@ -14,18 +14,18 @@ The \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol is ado
 \subsection*{Public Member Functions}
 \begin{Indent}{\bf Configuration}\par
 {\em \label{_amgrp254f642527b45bc260048e30704edb39}
- Messages sent to implementors of the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} Protocol during dialog launch/configuration }\begin{DoxyCompactItemize}
+ Messages sent by \hyperlink{interface_j_r_engage}{JREngage} during dialog launch/configuration }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_af46f7ef0c7a5767dc0ab705871d570ac}{jrEngageDialogDidFailToShowWithError:}
 \end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}{\bf Authentication}\par
 {\em \label{_amgrpc75f7811d70d17dbcd88e9d03752cbed}
- Messages sent to implementors of the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} Protocol during authentication }\begin{DoxyCompactItemize}
+ Messages sent by \hyperlink{interface_j_r_engage}{JREngage} during authentication }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_a4eaa6a5961e175b8275c6b06034afea7}{jrAuthenticationDidNotComplete}
 \item 
-(void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_a4f7d0494498c551c858cdeb640b86eae}{jrAuthenticationDidSucceedForUser:forProvider:}
+(void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_a6ac183348ebc0e858e8aad0682b5e1cd}{jrAuthenticationDidSucceedForUser:forProvider:}
 \item 
 (void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_ac16b7db45fd324d597260dc8579b3a22}{jrAuthenticationDidFailWithError:forProvider:}
 \item 
@@ -36,7 +36,7 @@ The \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol is ado
 \end{Indent}
 \begin{Indent}{\bf SocialPublishing}\par
 {\em \label{_amgrpeb046f03f7c48654b2974e7c81bd7f9b}
- Messages sent to implementors of the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} Protocol during social publishing }\begin{DoxyCompactItemize}
+ Messages sent by \hyperlink{interface_j_r_engage}{JREngage} during social publishing }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_a733007b584bd916932ccafe44c3c678d}{jrSocialDidNotCompletePublishing}
 \item 
@@ -62,11 +62,11 @@ The \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol is ado
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_af46f7ef0c7a5767dc0ab705871d570ac}
-Sent if the application tries to show a \hyperlink{interface_j_r_engage}{JREngage} dialog, and \hyperlink{interface_j_r_engage}{JREngage} failed to configure.
+Sent if the application tries to show a \hyperlink{interface_j_r_engage}{JREngage} dialog, and \hyperlink{interface_j_r_engage}{JREngage} failed to configure
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em error}]The error that occurred during configuration.\end{DoxyParams}
+\item[{\em error}]The error that occurred during configuration\end{DoxyParams}
 \begin{DoxyNote}{Note}
 This message is only sent if your application tries to show a \hyperlink{interface_j_r_engage}{JREngage} dialog, not when the error occurs, since your application may preemptively configure \hyperlink{interface_j_r_engage}{JREngage}, but never actually use it. 
 \end{DoxyNote}
@@ -79,39 +79,43 @@ This message is only sent if your application tries to show a \hyperlink{interfa
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_a4eaa6a5961e175b8275c6b06034afea7}
-Sent if the authorization was canceled for any reason other than an error. For example, the user hits the \char`\"{}Cancel\char`\"{} button, any class (e.g., the \hyperlink{interface_j_r_engage}{JREngage} delegate) calls the cancelAuthentication message, or if configuration of the library taking more than about 16 seconds (rare) to download. \hypertarget{protocol_j_r_engage_delegate-p_a4f7d0494498c551c858cdeb640b86eae}{
+Sent if the authorization was canceled for any reason other than an error. For example, the user hits the \char`\"{}Cancel\char`\"{} button, any class (e.g., the \hyperlink{interface_j_r_engage}{JREngage} delegate) calls the cancelAuthentication message, or if configuration of the library is taking more than about 16 seconds (rare) to download. \hypertarget{protocol_j_r_engage_delegate-p_a6ac183348ebc0e858e8aad0682b5e1cd}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationDidSucceedForUser:forProvider:@{jrAuthenticationDidSucceedForUser:forProvider:}}
 \index{jrAuthenticationDidSucceedForUser:forProvider:@{jrAuthenticationDidSucceedForUser:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
 \subsubsection[{jrAuthenticationDidSucceedForUser:forProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) jrAuthenticationDidSucceedForUser: 
 \begin{DoxyParamCaption}
-\item[{dummy(NSDictionary $\ast$)}]{ profile}
+\item[{dummy(NSDictionary $\ast$)}]{ auth\_\-info}
 \item[{forProvider:(NSString $\ast$)}]{ provider}
 \end{DoxyParamCaption}
 }}
-\label{protocol_j_r_engage_delegate-p_a4f7d0494498c551c858cdeb640b86eae}
+\label{protocol_j_r_engage_delegate-p_a6ac183348ebc0e858e8aad0682b5e1cd}
 Tells the delegate that the user has successfully authenticated with the given provider, passing to the delegate an {\ttfamily NSDictionary} object with the user's profile data
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em profile}]An {\ttfamily NSDictionary} containing all the information Janrain Engage knows about the user logging into your application\end{DoxyParams}
+\item[{\em auth\_\-info}]An {\ttfamily NSDictionary} of fields containing all the information Janrain Engage knows about the user logging into your application. Includes the field \char`\"{}profile\char`\"{} which contains the user's profile information\end{DoxyParams}
 The structure of the dictionary (represented here in json) should look something like the following: 
 \begin{DoxyCode}
- "profile": 
+ "auth_info":
  {
-   "displayName": "brian",
-   "preferredUsername": "brian",
-   "url": "http:\/\/brian.myopenid.com\/",
-   "providerName": "Other",
-   "identifier": "http:\/\/brian.myopenid.com\/"
+   "profile": 
+   {
+     "displayName": "brian",
+     "preferredUsername": "brian",
+     "url": "http:\/\/brian.myopenid.com\/",
+     "providerName": "Other",
+     "identifier": "http:\/\/brian.myopenid.com\/"
+   }
  }
 \end{DoxyCode}
 
 
-For a full description of the dictionary and its fields, please see the \hyperlink{}{Janrain Engage API. }
-
 
 \begin{DoxyParams}{Parameters}
-\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the List of Providers \end{DoxyParams}
+\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers}\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+For a full description of the dictionary and its fields, please see the \href{https://rpxnow.com/docs#api_auth_info_response}{\tt auth\_\-info response} section of the Janrain Engage API documentation. 
+\end{DoxySeeAlso}
 \hypertarget{protocol_j_r_engage_delegate-p_ac16b7db45fd324d597260dc8579b3a22}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationDidFailWithError:forProvider:@{jrAuthenticationDidFailWithError:forProvider:}}
 \index{jrAuthenticationDidFailWithError:forProvider:@{jrAuthenticationDidFailWithError:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
@@ -122,11 +126,11 @@ For a full description of the dictionary and its fields, please see the \hyperli
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_ac16b7db45fd324d597260dc8579b3a22}
-Sent when authentication failed and could not be recovered by the library.
+Sent when authentication failed and could not be recovered by the library
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em error}]The error that occurred during authentication.\item[{\em provider}]The name of the provider on which the user tried to authenticate. For a list of possible strings, please see the List of Providers\end{DoxyParams}
+\item[{\em error}]The error that occurred during authentication\item[{\em provider}]The name of the provider on which the user tried to authenticate. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers}\end{DoxyParams}
 \begin{DoxyNote}{Note}
 This message is not sent if authentication was canceled. To be notified of a canceled authentication, see jrAuthenticationDidNotComplete. 
 \end{DoxyNote}
@@ -141,11 +145,11 @@ This message is not sent if authentication was canceled. To be notified of a can
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_abfafec7eed95008f7b7052d962f8f6fa}
-Sent after \hyperlink{interface_j_r_engage}{JREngage} has successfully posted the token to the serverAuthenticationUrl, containing the body of the response from the server.
+Sent after \hyperlink{interface_j_r_engage}{JREngage} has successfully posted the token to your application's token\_\-url, containing the body of the response from the server
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em serverAuthenticationUrl}]The URL on the server where the token was posted and server-\/side authentication was completed\item[{\em serverResponsePayload}]The response from the server\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the List of Providers \end{DoxyParams}
+\item[{\em tokenUrl}]The URL on the server where the token was posted and server-\/side authentication was completed\item[{\em tokenUrlPayload}]The response from the server\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers} \end{DoxyParams}
 \hypertarget{protocol_j_r_engage_delegate-p_a670eab0f76e79ba90a246a2f3e4dfe04}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:@{jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:}}
 \index{jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:@{jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
@@ -157,11 +161,11 @@ Sent after \hyperlink{interface_j_r_engage}{JREngage} has successfully posted th
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_a670eab0f76e79ba90a246a2f3e4dfe04}
-Sent when the call to the token URL has failed.
+Sent when the call to the token URL has failed
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em serverAuthenticationUrl}]The URL on the server where the token was posted and server-\/side authentication was completed\item[{\em error}]The error that occurred during server-\/side authentication\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the List of Providers \end{DoxyParams}
+\item[{\em tokenUrl}]The URL on the server where the token was posted and server-\/side authentication was completed\item[{\em error}]The error that occurred during server-\/side authentication\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers} \end{DoxyParams}
 \hypertarget{protocol_j_r_engage_delegate-p_a733007b584bd916932ccafe44c3c678d}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrSocialDidNotCompletePublishing@{jrSocialDidNotCompletePublishing}}
 \index{jrSocialDidNotCompletePublishing@{jrSocialDidNotCompletePublishing}!JREngageDelegate-p@{JREngageDelegate-\/p}}
@@ -171,7 +175,7 @@ Sent when the call to the token URL has failed.
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_a733007b584bd916932ccafe44c3c678d}
-Sent if social publishing was canceled for any reason other than an error. For example, the user hits the \char`\"{}Cancel\char`\"{} button, any class (e.g., the \hyperlink{interface_j_r_engage}{JREngage} delegate) calls the cancelPublishing message, or if configuration of the library taking more than about 16 seconds (rare) to download. \hypertarget{protocol_j_r_engage_delegate-p_ae90fea5db002559f6cf4e481080e0bfb}{
+Sent if social publishing was canceled for any reason other than an error. For example, the user hits the \char`\"{}Cancel\char`\"{} button, any class (e.g., the \hyperlink{interface_j_r_engage}{JREngage} delegate) calls the cancelPublishing message, or if configuration of the library is taking more than about 16 seconds (rare) to download. \hypertarget{protocol_j_r_engage_delegate-p_ae90fea5db002559f6cf4e481080e0bfb}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrSocialDidCompletePublishing@{jrSocialDidCompletePublishing}}
 \index{jrSocialDidCompletePublishing@{jrSocialDidCompletePublishing}!JREngageDelegate-p@{JREngageDelegate-\/p}}
 \subsubsection[{jrSocialDidCompletePublishing}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) jrSocialDidCompletePublishing 
@@ -180,7 +184,7 @@ Sent if social publishing was canceled for any reason other than an error. For e
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_ae90fea5db002559f6cf4e481080e0bfb}
-Sent after the social publishing dialog is closed (e.g., the user hits the \char`\"{}Close\char`\"{} button) and publishing is complete. You can receive multiple -\/ (void)jrSocialDidPublishActivity:(JRActivityObject$\ast$)activity forProvider:(NSString$\ast$)provider messages before the dialog is closed and publishing is complete. \hypertarget{protocol_j_r_engage_delegate-p_a4c3fd988961c22202786b400ddd889cc}{
+Sent after the social publishing dialog is closed (e.g., the user hits the \char`\"{}Close\char`\"{} button) and publishing is complete. You can receive multiple \hyperlink{protocol_j_r_engage_delegate-p_didPublish}{-\/ (void)jrSocialDidPublishActivity:forProvider:} messages before the dialog is closed and publishing is complete. \hypertarget{protocol_j_r_engage_delegate-p_a4c3fd988961c22202786b400ddd889cc}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrSocialDidPublishActivity:forProvider:@{jrSocialDidPublishActivity:forProvider:}}
 \index{jrSocialDidPublishActivity:forProvider:@{jrSocialDidPublishActivity:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
 \subsubsection[{jrSocialDidPublishActivity:forProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) jrSocialDidPublishActivity: 
@@ -190,11 +194,13 @@ Sent after the social publishing dialog is closed (e.g., the user hits the \char
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_a4c3fd988961c22202786b400ddd889cc}
-Sent after the user successfully shares an activity on the given provider.
+\label{protocol_j_r_engage_delegate-p_didPublish}
+\hypertarget{protocol_j_r_engage_delegate-p_didPublish}{}
+ Sent after the user successfully shares an activity on the given provider
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em activity}]The shared activity\item[{\em provider}]The name of the provider on which the user published the activity. For a list of possible strings, please see the List of Providers \end{DoxyParams}
+\item[{\em activity}]The shared activity\item[{\em provider}]The name of the provider on which the user published the activity. For a list of possible strings, please see the \hyperlink{_providers_socialProviders}{List of Social Providers} \end{DoxyParams}
 \hypertarget{protocol_j_r_engage_delegate-p_af6564add3b2fdbed2efbb118ddcf26ed}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrSocialPublishingActivity:didFailWithError:forProvider:@{jrSocialPublishingActivity:didFailWithError:forProvider:}}
 \index{jrSocialPublishingActivity:didFailWithError:forProvider:@{jrSocialPublishingActivity:didFailWithError:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
@@ -206,11 +212,11 @@ Sent after the user successfully shares an activity on the given provider.
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_af6564add3b2fdbed2efbb118ddcf26ed}
-Sent when publishing an activity failed and could not be recovered by the library.
+Sent when publishing an activity failed and could not be recovered by the library
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em activity}]The activity the user was trying to share\item[{\em error}]The error that occurred during publishing\item[{\em provider}]The name of the provider on which the user attempted to publish the activity. For a list of possible strings, please see the List of Providers \end{DoxyParams}
+\item[{\em activity}]The activity the user was trying to share\item[{\em error}]The error that occurred during publishing\item[{\em provider}]The name of the provider on which the user attempted to publish the activity. For a list of possible strings, please see the \hyperlink{_providers_socialProviders}{List of Social Providers} \end{DoxyParams}
 
 
 The documentation for this protocol was generated from the following file:\begin{DoxyCompactItemize}

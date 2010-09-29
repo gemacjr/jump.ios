@@ -12,17 +12,14 @@ An activity object you create, populate, and post to the user's activity stream.
 {\ttfamily \#import $<$JRActivityObject.h$>$}
 
 \subsection*{Public Member Functions}
-\begin{Indent}{\bf Methods}\par
-{\em \label{_amgrp20c51b5f4e9aeb5334c90ff072e6f928}
- Add/remove objects that implement the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol }\begin{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
 \item 
 (id) -\/ \hyperlink{interface_j_r_activity_object_a61195dc95162d1136d41af3a5f15fe2d}{initWithAction:andUrl:}
 \end{DoxyCompactItemize}
-\end{Indent}
 \subsection*{Properties}
-\begin{Indent}{\bf Instance Variables}\par
-{\em \label{_amgrp60270701794504daf453a85aafd5f637}
- TODO!! }\begin{DoxyCompactItemize}
+\begin{Indent}{\bf }\par
+{\em \label{_amgrpd41d8cd98f00b204e9800998ecf8427e}
+ The various properties of the \hyperlink{interface_j_r_activity_object}{JRActivityObject} that you can configure }\begin{DoxyCompactItemize}
 \item 
 NSString $\ast$ \hyperlink{interface_j_r_activity_object_ac7f87878433a7d69fc5c8677fc317d6a}{action}
 \item 
@@ -57,14 +54,14 @@ Janrain Engage will make a best effort to use all of the fields submitted in the
 
 This API will work if and only if:
 \begin{DoxyItemize}
-\item Your Janrain Engage application has been configured to authenticate using the user's provider
+\item Your Janrain Engage application has been configured with the given provider
 \item The user has already authenticated and has given consent to publish activity
 \end{DoxyItemize}
 
 Otherwise, you will be given an error response indicating what was wrong. Detailed error responses will also be given if the activity parameter does not meet the formatting requirements described below.
 
 \begin{DoxySeeAlso}{See also}
-For more information of Janrain Engage's activity api, see \hyperlink{}{the activity section of our API Documentation. } 
+For more information of Janrain Engage's activity api, see \href{https://rpxnow.com/docs#api_activity}{\tt the activity section} of our API Documentation. 
 \end{DoxySeeAlso}
 
 
@@ -85,7 +82,7 @@ Returns a {\ttfamily \hyperlink{interface_j_r_activity_object}{JRActivityObject}
 \begin{DoxyParams}{Parameters}
 \item[{\em \_\-action}]A string describing what the user did, written in the third person. This value cannot be {\ttfamily nil}.\item[{\em \_\-url}]The URL of the resource being mentioned in the activity update. This value cannot be {\ttfamily nil}.\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A {\ttfamily JRActionObject} initialized with the given {\itshape action\/} and {\itshape url\/}. If either {\ttfamily \_\-action} or {\ttfamily \_\-url} are nil, returns {\ttfamily nil}. 
+A \hyperlink{interface_j_r_activity_object}{JRActivityObject} initialized with the given action and url. If either {\ttfamily \_\-action} or {\ttfamily \_\-url} are {\itshape nil\/}, returns {\ttfamily nil}. 
 \end{DoxyReturn}
 
 
@@ -115,7 +112,12 @@ Some providers (Twitter in particular) may truncate this value.
 \index{title@{title}!JRActivityObject@{JRActivityObject}}
 \subsubsection[{title}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSString $\ast$) title\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, retain\mbox{]}}}}
 \label{interface_j_r_activity_object_ae64ba976e73c3926a04c46ba0aeba583}
-The title of the resource being mentioned in the activity update. No length restriction on the status is imposed by Janrain Engage, however Yahoo truncates this value to 256 characters. \hypertarget{interface_j_r_activity_object_a35d4fcb4e1aaa9d6325333228104604f}{
+The title of the resource being mentioned in the activity update.
+
+\begin{DoxyNote}{Note}
+No length restriction on the status is imposed by Janrain Engage, however Yahoo truncates this value to 256 characters. 
+\end{DoxyNote}
+\hypertarget{interface_j_r_activity_object_a35d4fcb4e1aaa9d6325333228104604f}{
 \index{JRActivityObject@{JRActivityObject}!description@{description}}
 \index{description@{description}!JRActivityObject@{JRActivityObject}}
 \subsubsection[{description}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSString $\ast$) description\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, retain\mbox{]}}}}
@@ -125,7 +127,21 @@ A description of the resource mentioned in the activity update \hypertarget{inte
 \index{action\_\-links@{action\_\-links}!JRActivityObject@{JRActivityObject}}
 \subsubsection[{action\_\-links}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSMutableArray $\ast$) action\_\-links\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, retain\mbox{]}}}}
 \label{interface_j_r_activity_object_aa5c629e1c3b8306b2532ab647f7f6ec5}
-An array of {\ttfamily \hyperlink{interface_j_r_action_link}{JRActionLink}} objects, each having two attributes: text and href. An action link is a link a user can use to take action on an activity update on the provider. (E.g., \char`\"{}Take this quiz\char`\"{}, \char`\"{}http://example.com/quiz/12345/take\char`\"{})
+An array of {\ttfamily \hyperlink{interface_j_r_action_link}{JRActionLink}} objects, each having two attributes: text and href. An action link is a link a user can use to take action on an activity update on the provider Example: 
+\begin{DoxyCode}
+ action_links: 
+ [
+   {
+     "text": "Rate this quiz result",
+     "href": "http://example.com/quiz/12345/result/6789/rate"
+   },
+   {
+     "text": "Take this quiz",
+     "href": "http://example.com/quiz/12345/take"
+   }
+ ]
+\end{DoxyCode}
+
 
 \begin{DoxyNote}{Note}
 Any objects added to this array that are not of type {\ttfamily \hyperlink{interface_j_r_action_link}{JRActionLink}} will be ignored. 
@@ -135,27 +151,40 @@ Any objects added to this array that are not of type {\ttfamily \hyperlink{inter
 \index{media@{media}!JRActivityObject@{JRActivityObject}}
 \subsubsection[{media}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSMutableArray $\ast$) media\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, retain\mbox{]}}}}
 \label{interface_j_r_activity_object_a2e4ff78f83d0f353f8e0c17ed48ce0ab}
-An array of objects with base class {\ttfamily JRMediaObject} (i.e., {\ttfamily \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject}}, {\ttfamily \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject}}, {\ttfamily \hyperlink{interface_j_r_mp3_media_object}{JRMp3MediaObject}}).
+An array of objects with base class {\ttfamily JRMediaObject} (i.e., \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject}, \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject}, \hyperlink{interface_j_r_mp3_media_object}{JRMp3MediaObject}).
 
 To publish attached media objects with your activity, create the preferred object, populate the object's fields, then add the object to the {\ttfamily media} array. You can attach pictures, videos, and mp3s to your activity, although how the media objects get presented and whether or not they are used, depend on the provider.
 
-\begin{DoxyNote}{Note}
 If you include more than one media type in the array, \hyperlink{interface_j_r_engage}{JREngage} will choose only one of these types, in this order:
 \begin{DoxyEnumerate}
 \item image
 \item flash
-\item mp3 Also, any ojects added to this array that are not of type /c \hyperlink{interface_j_r_action_link}{JRActionLink} will be ignored.
+\item mp3
 \end{DoxyEnumerate}
-\end{DoxyNote}
+
+Also, any ojects added to this array that are not of type {\ttfamily JRMediaObject} will be ignored.
+
 \begin{DoxySeeAlso}{See also}
-Media object format and rules are identical to those described on the \hyperlink{}{Facebook Developer page on Attachments. } 
+Media object format and rules are identical to those described on the \href{http://developers.facebook.com/docs/guides/attachments}{\tt Facebook Developer page on Attachments}. 
 \end{DoxySeeAlso}
 \hypertarget{interface_j_r_activity_object_a1acf84854d275510685a1f2066061c4e}{
 \index{JRActivityObject@{JRActivityObject}!properties@{properties}}
 \index{properties@{properties}!JRActivityObject@{JRActivityObject}}
 \subsubsection[{properties}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSMutableDictionary $\ast$) properties\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, retain\mbox{]}}}}
 \label{interface_j_r_activity_object_a1acf84854d275510685a1f2066061c4e}
-An object with attributes describing properties of the update. An attribute value can be a string or an object with two attributes, text and href. Example: properties: \{ \char`\"{}Time\char`\"{}: \char`\"{}05:00\char`\"{}, \char`\"{}Location\char`\"{}: \{ \char`\"{}text\char`\"{}: \char`\"{}Portland\char`\"{}, \char`\"{}href\char`\"{}: \char`\"{}http://en.wikipedia.org/wiki/Portland,\_\-Oregon\char`\"{} \} \} 
+An object with attributes describing properties of the update. An attribute value can be a string or an object with two attributes, text and href. Example: 
+\begin{DoxyCode}
+   properties: 
+   {
+       "Time": "05:00",
+       "Location": 
+       {
+           "text": "Portland",
+           "href": "http://en.wikipedia.org/wiki/Portland,_Oregon"
+       }
+   }
+\end{DoxyCode}
+ 
 
 The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
 \item 

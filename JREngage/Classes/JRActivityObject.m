@@ -185,7 +185,7 @@
 @synthesize artist;
 @synthesize album;
 
-- (id)initWithsrc:(NSString*)_src
+- (id)initWithSrc:(NSString*)_src
 {
     if (!_src)
     {

@@ -26,9 +26,23 @@ NSString $\ast$ \hyperlink{interface_j_r_action_link_a45489781731e5965e20fa66af0
 
 
 \subsection{Detailed Description}
-A link a user can use to take action on an activity update on the provider. Create an action link object, fill in the object's fields, and add the object the JRActivity's action\_\-links array.
+A link a user can use to take action on an activity update on the provider. Create an action link object, fill in the object's fields, and add the object the \hyperlink{interface_j_r_activity_object_aa5c629e1c3b8306b2532ab647f7f6ec5}{JRActivityObject::action\_\-links} array of your \hyperlink{interface_j_r_activity_object}{JRActivityObject}.
 
-Each action link must contain a link, {\ttfamily href}, and some {\ttfamily text}, describing what action will happen if someone clicks the link. (E.g., \char`\"{}Rate this quiz result\char`\"{}, \char`\"{}http://example.com/quiz/12345/result/6789/rate\char`\"{}) 
+Each action link must contain a link, {\itshape href\/}, and some {\itshape text\/}, describing what action will happen if someone clicks the link. Example: 
+\begin{DoxyCode}
+ action_links: 
+ [
+   {
+     "text": "Rate this quiz result",
+     "href": "http://example.com/quiz/12345/result/6789/rate"
+   },
+   {
+     "text": "Take this quiz",
+     "href": "http://example.com/quiz/12345/take"
+   }
+ ]
+\end{DoxyCode}
+ 
 
 \subsection{Member Function Documentation}
 \hypertarget{interface_j_r_action_link_ae1f056641fd3302efbf23d89452553a5}{
@@ -47,7 +61,7 @@ Returns a {\ttfamily \hyperlink{interface_j_r_action_link}{JRActionLink}} initia
 \begin{DoxyParams}{Parameters}
 \item[{\em \_\-text}]The text describing the link. This value cannot be {\ttfamily nil}.\item[{\em \_\-imgsrc}]A link a user can use to take action on an activity update on the provider. This value cannot be {\ttfamily nil}.\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A {\ttfamily \hyperlink{interface_j_r_action_link}{JRActionLink}} initialized with the given {\itshape text\/} and {\itshape href\/}. If either {\ttfamily \_\-text} or {\ttfamily \_\-href} are nil, returns {\ttfamily nil}. 
+A \hyperlink{interface_j_r_action_link}{JRActionLink} initialized with the given text and href. If either {\ttfamily \_\-text} or {\ttfamily \_\-href} are {\itshape nil\/}, returns {\ttfamily nil}. 
 \end{DoxyReturn}
 
 

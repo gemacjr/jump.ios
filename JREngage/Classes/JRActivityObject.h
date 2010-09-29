@@ -48,7 +48,7 @@
 
 /**
  * \internal 
- * Base class for \c JRImageMediaObject, \c JRFlashMediaObject, and \c JRMp3MediaObject.
+ * Base class for JRImageMediaObject, JRFlashMediaObject, and JRMp3MediaObject.
  **/
 @interface JRMediaObject : NSObject { }
 @end
@@ -56,15 +56,16 @@
 /**
  * \brief Image object to be included in a post to a user's stream. 
  *
- * Create an image media object, fill in the object's fields, and add the object
- * the JRActivity's media array.  How the images get presented and whether or 
- * not they are used, depend on the provider.
+ * Create an image media object, fill in the object's fields, and add the object to the 
+ * JRActivityObject#media array in your JRActivityObject.  How the images get presented 
+ * and whether or not they are used, depend on the provider.
  *
- * Each image must contain a src URL, which maps to the photo's URL, and an 
- * href URL, which maps to the URL where a user should be taken if he or she clicks the photo.
+ * Each image must contain a \e src URL, which maps to the photo's URL, and an 
+ * \e href URL, which maps to the URL where a user should be taken if he or she clicks the photo.
  *
- * \sa Format and rules are identical to those described on the @link http://developers.facebook.com/docs/guides/attachments 
- * Facebook Developer page on Attachments. @endlink
+ * \sa Format and rules are identical to those described on the 
+ * <a href="http://developers.facebook.com/docs/guides/attachments"> 
+ * Facebook Developer page on Attachments</a>.
  **/
 @interface JRImageMediaObject : JRMediaObject
 {
@@ -72,7 +73,7 @@
     NSString *src;  /**< The photo's URL */
     NSString *href; /**< The URL where a user should be taken if he or she clicks the photo. */
     
-    UIImage  *preview; /**< Contains the downloaded preview of the image for display in the publish activity dialog */
+    UIImage  *preview; /**< \internal Contains the downloaded preview of the image for display in the publish activity dialog */
 }
 @property (readonly) NSString *src;
 @property (readonly) NSString *href;
@@ -88,8 +89,8 @@
  *   The URL where a user should be taken if he or she clicks the photo.  This value cannot be \c nil.
  *
  * @return
- *   A \c JRImageMediaObject initialized with the given \e src and \e href.  If either
- *   \c _src or \c _href are nil, returns \c nil.
+ *   A JRImageMediaObject initialized with the given src and href.  If either
+ *   \c _src or \c _href are \e nil, returns \c nil.
  **/
 - (id)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
 @end
@@ -98,24 +99,25 @@
 /**
  * \brief Flash object to be included in a post to a user's stream. 
  *
- * Create an flash media object, fill in the object's fields, and add the object
- * the JRActivity's media array.  How the flash videos get presented and whether or 
- * not they are used, depend on the provider.
+ * Create an flash media object, fill in the object's fields, and add the object to the 
+ * JRActivityObject#media array in your JRActivityObject.  How the flash videos get presented 
+ * and whether or not they are used, depend on the provider.
  *
- * Each video must contain a swfsrc url, which is the URL of the Flash object to be rendered,
- * and an imgsrc, which is the URL of an photo that should be displayed in place of the 
+ * Each video must contain a \e swfsrc url, which is the URL of the Flash object to be rendered,
+ * and an \e imgsrc, which is the URL of an photo that should be displayed in place of the 
  * flash object until the user clicks to prompt the flash object to play.  Flash object
- * has two optional fields, \c width and \c height, which can be used to override the 
+ * has two optional fields, \e width and \e height, which can be used to override the 
  * default choices when displaying the video in the provider's stream (e.g., Facebook's stream).
- * It also has two optional fields, \c expanded_width and \c expanded_height, to specify 
+ * It also has two optional fields, \e expanded_width and \e expanded_height, to specify 
  * the width and height of flash object will resize to, on the provider's stream,
  * once the user clicks on it.
  *
- * \note You can only include one \c JRFlashMediaObject in the media array.  Any others
+ * \note You can only include one JRFlashMediaObject in the media array.  Any others
  * will be ignored.
  *
- * \sa Format and rules are identical to those described on the @link http://developers.facebook.com/docs/guides/attachments 
- * Facebook Developer page on Attachments. @endlink
+ * \sa Format and rules are identical to those described on the 
+ * <a href="http://developers.facebook.com/docs/guides/attachments"> 
+ * Facebook Developer page on Attachments</a>.
  **/
 @interface JRFlashMediaObject : JRMediaObject
 {
@@ -126,7 +128,7 @@
     NSUInteger expanded_width;  /**< Width the video will resize to once the user clicks it */
     NSUInteger expanded_height; /**< Height the video will resize to once the user clicks it */
     
-    UIImage *preview;           /**< Contains the downloaded preview of the image for display in the publish activity dialog */
+    UIImage *preview;           /**< \internal Contains the downloaded preview of the image for display in the publish activity dialog */
 }
 @property (readonly) NSString *swfsrc;
 @property (readonly) NSString *imgsrc;
@@ -137,7 +139,7 @@
 @property (retain) UIImage *preview;
 
 /**
- * Returns a \c JRFlashMediaObject initialized with the given swfsrc and imgsrc.
+ * Returns a JRFlashMediaObject initialized with the given swfsrc and imgsrc.
  *
  * @param _swfsrc
  *   The URL of the Flash object to be rendered.  This value cannot be \c nil.
@@ -146,8 +148,8 @@
  *   The URL of an photo that should be displayed in place of the flash object.  This value cannot be \c nil.
  *
  * @return
- *   A \c JRFlashMediaObject initialized with the given \e swfsrc and \e imgsrc.  If either
- *   \c _swfsrc or \c _imgsrc are nil, returns \c nil.
+ *   A JRFlashMediaObject initialized with the given swfsrc and imgsrc.  If either
+ *   \c _swfsrc or \c _imgsrc are \e nil, returns \c nil.
  **/
 - (id)initWithSwfsrc:(NSString *)_swfsrc andImgsrc:(NSString *)_imgsrc;
 @end
@@ -156,18 +158,19 @@
 /**
  * \brief Mp3 object to be included in a post to a user's stream. 
  *
- * Create an mp3 media object, fill in the object's fields, and add the object
- * the JRActivity's media array.  How the mp3s get presented and whether or 
- * not they are used, depend on the provider.
+ * Create an mp3 media object, fill in the object's fields, and add the object to the 
+ * JRActivityObject#media array in your JRActivityObject.  How the mp3s get presented 
+ * and whether or not they are used, depend on the provider.
  *
- * Each mp3 must contain a src url, which is the URL of the MP3 file to be rendered. 
- * The mp3 can also include a title, artist, and album.
+ * Each mp3 must contain a \e src url, which is the URL of the MP3 file to be rendered. 
+ * The mp3 can also include a \e title, \e artist, and \e album.
  *
- * \note You can only include one \c JRMp3MediaObject in the media array.  Any others
+ * \note You can only include one JRMp3MediaObject in the media array.  Any others
  * will be ignored.
  *
- * \sa Format and rules are identical to those described on the @link http://developers.facebook.com/docs/guides/attachments 
- * Facebook Developer page on Attachments. @endlink
+ * \sa Format and rules are identical to those described on the 
+ * <a href="http://developers.facebook.com/docs/guides/attachments"> 
+ * Facebook Developer page on Attachments</a>.
  **/
 @interface JRMp3MediaObject : JRMediaObject
 {
@@ -188,10 +191,10 @@
  *   The URL of the MP3 file to be rendered.  This value cannot be \c nil.
  *
  * @return
- *   A \c JRMp3MediaObject initialized with the given \e src.  If 
- *   \c _src is nil, returns \c nil.
+ *   A JRMp3MediaObject initialized with the given src.  If 
+ *   \c _src is \e nil, returns \c nil.
  **/
-- (id)initWithsrc:(NSString *)_src;
+- (id)initWithSrc:(NSString *)_src;
 @end
 
 
@@ -199,11 +202,25 @@
  * \brief A link a user can use to take action on an activity update on the provider.
  *
  * Create an action link object, fill in the object's fields, and add the object
- * the JRActivity's action_links array.
+ * the JRActivityObject#action_links array of your JRActivityObject.
  *
- * Each action link must contain a link, \c href, and some \c text, describing what action
+ * Each action link must contain a link, \e href, and some \e text, describing what action
  * will happen if someone clicks the link. 
- * (E.g., "Rate this quiz result", "http://example.com/quiz/12345/result/6789/rate")
+ * Example:
+ * \code
+ * action_links: 
+ * [
+ *   {
+ *     "text": "Rate this quiz result",
+ *     "href": "http://example.com/quiz/12345/result/6789/rate"
+ *   },
+ *   {
+ *     "text": "Take this quiz",
+ *     "href": "http://example.com/quiz/12345/take"
+ *   }
+ * ]
+ * \endcode
+ * 
  **/
 @interface JRActionLink : NSObject
 {
@@ -223,8 +240,8 @@
  *   A link a user can use to take action on an activity update on the provider.  This value cannot be \c nil.
  *
  * @return
- *   A \c JRActionLink initialized with the given \e text and \e href.  If either
- *   \c _text or \c _href are nil, returns \c nil.
+ *   A JRActionLink initialized with the given text and href.  If either
+ *   \c _text or \c _href are \e nil, returns \c nil.
  **/
 - (id)initWithText:(NSString *)_text andHref:(NSString *)_href;
 @end
@@ -245,20 +262,20 @@
  * but note that how they get presented (and which ones are used) ultimately depends on the provider.
  *
  * This API will work if and only if:
- *   - Your Janrain Engage application has been configured to authenticate using the user's provider
+ *   - Your Janrain Engage application has been configured with the given provider
  *   - The user has already authenticated and has given consent to publish activity
  * 
  * Otherwise, you will be given an error response indicating what was wrong. Detailed error responses will 
  * also be given if the activity parameter does not meet the formatting requirements described below. 
  * 
- * \sa For more information of Janrain Engage's activity api, see @link https://rpxnow.com/docs#api_activity
- * the activity section of our API Documentation. @endlink
+ * \sa For more information of Janrain Engage's activity api, see <a href="https://rpxnow.com/docs#api_activity">
+ * the activity section</a> of our API Documentation.
  **/
 @interface JRActivityObject : NSObject 
 {
     /** 
-     * \name Instance Variables
-     * TODO!!
+     * \name
+     * The various properties of the JRActivityObject that you can configure
      **/
     /*@{*/
     
@@ -283,7 +300,8 @@
 
    /**
     * The title of the resource being mentioned in the activity update. 
-    * No length restriction on the status is imposed by Janrain Engage, 
+    *
+    * \note No length restriction on the status is imposed by Janrain Engage, 
     * however Yahoo truncates this value to 256 characters. 
     **/
     NSString *title;                     
@@ -295,31 +313,46 @@
     
    /**
     * An array of \c JRActionLink objects, each having two attributes: text and href. 
-    * An action link is a link a user can use to take action on an activity update on the provider.
-    * (E.g., "Take this quiz", "http://example.com/quiz/12345/take")
+    * An action link is a link a user can use to take action on an activity update on the provider
+    * Example:
+    * \code
+    * action_links: 
+    * [
+    *   {
+    *     "text": "Rate this quiz result",
+    *     "href": "http://example.com/quiz/12345/result/6789/rate"
+    *   },
+    *   {
+    *     "text": "Take this quiz",
+    *     "href": "http://example.com/quiz/12345/take"
+    *   }
+    * ]
+    * \endcode
     * 
     * \note Any objects added to this array that are not of type \c JRActionLink will be ignored.
     **/
     NSMutableArray *action_links;
     
    /**
-    * An array of objects with base class \c JRMediaObject (i.e., \c JRImageMediaObject, 
-    * \c JRFlashMediaObject, \c JRMp3MediaObject). 
+    * An array of objects with base class \c JRMediaObject (i.e., JRImageMediaObject, 
+    * JRFlashMediaObject, JRMp3MediaObject). 
     * 
     * To publish attached media objects with your activity, create the preferred
     * object, populate the object's fields, then add the object to the \c media array.
     * You can attach pictures, videos, and mp3s to your activity, although how the
     * media objects get presented and whether or not they are used, depend on the provider.
     *
-    * \note If you include more than one media type in the array, JREngage will 
+    * If you include more than one media type in the array, JREngage will 
     * choose only one of these types, in this order:
     *   -# image
     *   -# flash
     *   -# mp3
-    * Also, any ojects added to this array that are not of type /c JRActionLink will be ignored.
+    *
+    * Also, any ojects added to this array that are not of type \c JRMediaObject will be ignored.
     * 
-    * \sa Media object format and rules are identical to those described on the @link http://developers.facebook.com/docs/guides/attachments 
-    * Facebook Developer page on Attachments. @endlink
+    *
+    * \sa Media object format and rules are identical to those described on the 
+    * <a href="http://developers.facebook.com/docs/guides/attachments"> Facebook Developer page on Attachments</a>.
     **/   
     NSMutableArray *media;
 
@@ -327,6 +360,7 @@
     * An object with attributes describing properties of the update. An attribute value can be 
     * a string or an object with two attributes, text and href. 
     * Example:
+    * \code
     *   properties: 
     *   {
     *       "Time": "05:00",
@@ -336,16 +370,12 @@
     *           "href": "http://en.wikipedia.org/wiki/Portland,_Oregon"
     *       }
     *   }
+    * \endcode
     **/
     NSMutableDictionary *properties;
     /*@}*/
 }
 
-/** 
- * \name Properties
- * TODO!!
- **/
-/*@{*/
 @property (readonly) NSString *action;  							
 @property (readonly) NSString *url;
 @property (retain) NSString *user_generated_content;
@@ -354,13 +384,6 @@
 @property (retain) NSMutableArray *action_links; 					
 @property (retain) NSMutableArray *media;
 @property (retain) NSMutableDictionary *properties;
-/*@}*/
-
-/** 
- * \name Methods
- * Add/remove objects that implement the JREngageDelegate protocol
- **/
-/*@{*/
 
 /**
  * Returns a \c JRActivityObject initialized with the given action and url.
@@ -372,18 +395,17 @@
  *   The URL of the resource being mentioned in the activity update.  This value cannot be \c nil.
  *
  * @return
- *   A \c JRActionObject initialized with the given \e action and \e url.  If either
- *   \c _action or \c _url are nil, returns \c nil.
+ *   A JRActivityObject initialized with the given action and url.  If either
+ *   \c _action or \c _url are \e nil, returns \c nil.
  **/
 - (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
-/*@}*/
 
 /**
  * \internal
- * Returns an \c NSDictionary representing the \c JRActivityObject.
+ * Returns an NSDictionary representing the JRActivityObject.
  *
  * @return
- *   An \c NSDictionary of \c NSString objects representing the \c JRActivityObject.
+ *   An NSDictionary of NSString objects representing the JRActivityObject.
  *
  * \note This function should not be used directly.  It is intended only for use by the
  * JREngage library.

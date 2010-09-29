@@ -34,21 +34,19 @@ NSUInteger \hyperlink{interface_j_r_flash_media_object_a0689e19fdf6cb9d3911878a9
 NSUInteger \hyperlink{interface_j_r_flash_media_object_a9c380d0410afa60d99442f4ab84b517c}{expanded\_\-width}
 \item 
 NSUInteger \hyperlink{interface_j_r_flash_media_object_ae390a89405d768f2fcc63c24a8271503}{expanded\_\-height}
-\item 
-UIImage $\ast$ \hyperlink{interface_j_r_flash_media_object_ac2969bd0da7e91ffa99758dcccb26efb}{preview}
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Flash object to be included in a post to a user's stream. Create an flash media object, fill in the object's fields, and add the object the JRActivity's media array. How the flash videos get presented and whether or not they are used, depend on the provider.
+Flash object to be included in a post to a user's stream. Create an flash media object, fill in the object's fields, and add the object to the \hyperlink{interface_j_r_activity_object_a2e4ff78f83d0f353f8e0c17ed48ce0ab}{JRActivityObject::media} array in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. How the flash videos get presented and whether or not they are used, depend on the provider.
 
-Each video must contain a swfsrc url, which is the URL of the Flash object to be rendered, and an imgsrc, which is the URL of an photo that should be displayed in place of the flash object until the user clicks to prompt the flash object to play. Flash object has two optional fields, {\ttfamily width} and {\ttfamily height}, which can be used to override the default choices when displaying the video in the provider's stream (e.g., Facebook's stream). It also has two optional fields, {\ttfamily expanded\_\-width} and {\ttfamily expanded\_\-height}, to specify the width and height of flash object will resize to, on the provider's stream, once the user clicks on it.
+Each video must contain a {\itshape swfsrc\/} url, which is the URL of the Flash object to be rendered, and an {\itshape imgsrc\/}, which is the URL of an photo that should be displayed in place of the flash object until the user clicks to prompt the flash object to play. Flash object has two optional fields, {\itshape width\/} and {\itshape height\/}, which can be used to override the default choices when displaying the video in the provider's stream (e.g., Facebook's stream). It also has two optional fields, {\itshape expanded\_\-width\/} and {\itshape expanded\_\-height\/}, to specify the width and height of flash object will resize to, on the provider's stream, once the user clicks on it.
 
 \begin{DoxyNote}{Note}
-You can only include one {\ttfamily \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject}} in the media array. Any others will be ignored.
+You can only include one \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject} in the media array. Any others will be ignored.
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-Format and rules are identical to those described on the \hyperlink{}{Facebook Developer page on Attachments. } 
+Format and rules are identical to those described on the \href{http://developers.facebook.com/docs/guides/attachments}{\tt Facebook Developer page on Attachments}. 
 \end{DoxySeeAlso}
 
 
@@ -63,13 +61,13 @@ Format and rules are identical to those described on the \hyperlink{}{Facebook D
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_flash_media_object_aed4ac7b682373f36379eb81dea041513}
-Returns a {\ttfamily \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject}} initialized with the given swfsrc and imgsrc.
+Returns a \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject} initialized with the given swfsrc and imgsrc.
 
 
 \begin{DoxyParams}{Parameters}
 \item[{\em \_\-swfsrc}]The URL of the Flash object to be rendered. This value cannot be {\ttfamily nil}.\item[{\em \_\-imgsrc}]The URL of an photo that should be displayed in place of the flash object. This value cannot be {\ttfamily nil}.\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A {\ttfamily \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject}} initialized with the given {\itshape swfsrc\/} and {\itshape imgsrc\/}. If either {\ttfamily \_\-swfsrc} or {\ttfamily \_\-imgsrc} are nil, returns {\ttfamily nil}. 
+A \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject} initialized with the given swfsrc and imgsrc. If either {\ttfamily \_\-swfsrc} or {\ttfamily \_\-imgsrc} are {\itshape nil\/}, returns {\ttfamily nil}. 
 \end{DoxyReturn}
 
 
@@ -104,12 +102,7 @@ Width the video will resize to once the user clicks it \hypertarget{interface_j_
 \index{expanded\_\-height@{expanded\_\-height}!JRFlashMediaObject@{JRFlashMediaObject}}
 \subsubsection[{expanded\_\-height}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSUInteger) expanded\_\-height\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, assign\mbox{]}}}}
 \label{interface_j_r_flash_media_object_ae390a89405d768f2fcc63c24a8271503}
-Height the video will resize to once the user clicks it \hypertarget{interface_j_r_flash_media_object_ac2969bd0da7e91ffa99758dcccb26efb}{
-\index{JRFlashMediaObject@{JRFlashMediaObject}!preview@{preview}}
-\index{preview@{preview}!JRFlashMediaObject@{JRFlashMediaObject}}
-\subsubsection[{preview}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (UIImage $\ast$) preview\hspace{0.3cm}{\ttfamily  \mbox{[}read, write, retain\mbox{]}}}}
-\label{interface_j_r_flash_media_object_ac2969bd0da7e91ffa99758dcccb26efb}
-Contains the downloaded preview of the image for display in the publish activity dialog 
+Height the video will resize to once the user clicks it 
 
 The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
 \item 

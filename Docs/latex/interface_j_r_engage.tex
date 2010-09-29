@@ -27,7 +27,7 @@ Inherits JRSessionDelegate-\/p.
 \end{Indent}
 \begin{Indent}{\bf Show the JREngage Library}\par
 {\em \label{_amgrpf9e79eb521c10019ba1736bc57a0355e}
- Messages sent to implementors of the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} Protocol during dialog launch/configuration }\begin{DoxyCompactItemize}
+ Methods that initiate authentication and social publishing with \hyperlink{interface_j_r_engage}{JREngage} }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a01ecdff491f91543e18f33d0e565b046}{showAuthenticationDialog}
 \item 
@@ -36,25 +36,25 @@ Inherits JRSessionDelegate-\/p.
 \end{Indent}
 \begin{Indent}{\bf Interface Configuration}\par
 {\em \label{_amgrp00fa0273ca94dfb558ecec1aea8440b2}
- Configure User Interface Behavior for the \hyperlink{interface_j_r_engage}{JREngage} Library }\begin{DoxyCompactItemize}
+ Methods used to customize the library's user interface }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}{setCustomNavigationController:}
-\item 
-(void) -\/ \hyperlink{interface_j_r_engage_aab4958af5f9b2903e795519caf0af4eb}{setCustomNavigationControllerShouldPopToViewController:}
 \end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}{\bf User Management}\par
 {\em \label{_amgrp92726ab5faeb2cb9208eaac9af0346bd}
- Messages sent to implementors of the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} Protocol during dialog launch/configuration }\begin{DoxyCompactItemize}
+$\ast$/
+
+Methods that manage authenticated users remembered by the library }\begin{DoxyCompactItemize}
 \item 
-(void) -\/ \hyperlink{interface_j_r_engage_af1448791663265d3b739041983fbae92}{signoutUserForProvider:}
+(void) -\/ \hyperlink{interface_j_r_engage_aede9ed92d80f14d85e59a982da3150fc}{signoutUserForSocialProvider:}
 \item 
-(void) -\/ \hyperlink{interface_j_r_engage_a56060e8d5fe94e4bf06ff3edf27af5ee}{signoutUserForAllProviders}
+(void) -\/ \hyperlink{interface_j_r_engage_a1f4e27ed5dbc05892fd7bc2255d2afa8}{signoutUserForAllSocialProviders}
 \end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}{\bf Cancel}\par
 {\em \label{_amgrpea4788705e6873b424c65e91c2846b19}
- Messages sent to implementors of the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} Protocol during dialog launch/configuration }\begin{DoxyCompactItemize}
+ Methods to cancel authentication and social publishing }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a17b67c9bb98230fb7d59f8c35a20662b}{cancelAuthentication}
 \item 
@@ -63,7 +63,7 @@ Inherits JRSessionDelegate-\/p.
 \end{Indent}
 \begin{Indent}{\bf Server-\/side Authentication}\par
 {\em \label{_amgrp1fc6cae7bdf84f91a0bad45f5891f15e}
- Messages sent to implementors of the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} Protocol during dialog launch/configuration }\begin{DoxyCompactItemize}
+ Methods to reconfigure server-\/side authentication }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_ac0fb45ee43767dfdea0057bb93000db6}{updateTokenUrl:}
 \end{DoxyCompactItemize}
@@ -80,7 +80,7 @@ Inherits JRSessionDelegate-\/p.
 \subsection{Detailed Description}
 Main API for interacting with the Janrain Engage for iPhone library. Use the \hyperlink{interface_j_r_engage}{JREngage} object to authenticate a user with your application and allow them to publish activities to their social networks.
 
-If you wish to include 3rd-\/Party Authentication and Social Publishing in your iPhone application, you can use the \hyperlink{interface_j_r_engage}{JREngage} class to acheive this. Prior to using the \hyperlink{interface_j_r_engage}{JREngage} library, you must already have an application on \href{http://rpxnow.com}{\tt http://rpxnow.com}. This is all that is required for basic authentication, although some providers may require extra configuration (which can be done through your application's \href{http://rpxnow.com/relying_parties}{\tt Dashboard} For social publishing, you will need to configure your rpxnow application with the desired providers.
+If you wish to include 3rd-\/Party Authentication and Social Publishing in your iPhone application, you can use the \hyperlink{interface_j_r_engage}{JREngage} class to achieve this. Prior to using the \hyperlink{interface_j_r_engage}{JREngage} library, you must already have an application on \href{http://rpxnow.com}{\tt http://rpxnow.com}. This is all that is required for basic authentication, although some providers may require extra configuration (which can be done through your application's \href{http://rpxnow.com/relying_parties}{\tt Dashboard} For social publishing, you will need to configure your rpxnow application with the desired providers.
 
 If desired, you can optionally implement server-\/side authentication$\ast$. When provided, the \hyperlink{interface_j_r_engage}{JREngage} library can post the user's authentication token to a url on your server: the token url. Your server can complete authentication, access more of JREngage's API, log the authentication, etc. and the server's response will be passed back through to your iPhone application.
 
@@ -112,13 +112,13 @@ The instance of the \hyperlink{interface_j_r_engage}{JREngage} library once it h
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_a36c199d6384893b1bf42712771af1e8b}
-Initializes and returns the shared instance of the \hyperlink{interface_j_r_engage}{JREngage} library.
+Initializes and returns the shared instance of the \hyperlink{interface_j_r_engage}{JREngage} library
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em appId}]This is your 20-\/character application ID. You can find this on your application's Dashboard on \hyperlink{}{rpxnow.com. } This value cannot be {\ttfamily nil}.\item[{\em serverAuthenticationUrl}]The url on your server where you wish to complete authentication. If provided, the \hyperlink{interface_j_r_engage}{JREngage} library will post the user's authentication token to this url where it can used for further authentication and processing. When complete, the library will pass the server's response back to the your application.\item[{\em delegate}]The delegate object that implements the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol.\end{DoxyParams}
+\item[{\em appId}]This is your 20-\/character application ID. You can find this on your application's Dashboard on \href{http://rpxnow.com}{\tt http://rpxnow.com}. This value cannot be {\ttfamily nil}.\item[{\em tokenUrl}]The url on your server where you wish to complete authentication. If provided, the \hyperlink{interface_j_r_engage}{JREngage} library will post the user's authentication token to this url where it can used for further authentication and processing. When complete, the library will pass the server's response back to the your application.\item[{\em delegate}]The delegate object that implements the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol.\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-The shared instance of the {\ttfamily \hyperlink{interface_j_r_engage}{JREngage}} object initialized with the given {\ttfamily appId}, {\ttfamily serverAuthenticationUrl}, and {\ttfamily delegate}. If the given {\ttfamily appId} is nil, returns {\ttfamily nil}. 
+The shared instance of the {\ttfamily \hyperlink{interface_j_r_engage}{JREngage}} object initialized with the given {\ttfamily appId}, {\ttfamily tokenUrl}, and {\ttfamily delegate}. If the given {\ttfamily appId} is nil, returns {\ttfamily nil}. 
 \end{DoxyReturn}
 \hypertarget{interface_j_r_engage_a18377ffb55f821587e6d38b3489692e8}{
 \index{JREngage@{JREngage}!addDelegate:@{addDelegate:}}
@@ -133,7 +133,7 @@ Add a \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} to the \hyper
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em delegate}]The delegate object that implements the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol. \end{DoxyParams}
+\item[{\em delegate}]The object that implements the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol \end{DoxyParams}
 \hypertarget{interface_j_r_engage_ab3f12ac148ea0f6df4d7ff7789cc7c94}{
 \index{JREngage@{JREngage}!removeDelegate:@{removeDelegate:}}
 \index{removeDelegate:@{removeDelegate:}!JREngage@{JREngage}}
@@ -147,7 +147,7 @@ Remove a \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} from the \
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em delegate}]The delegate object that implements the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol. \end{DoxyParams}
+\item[{\em delegate}]The object that implements the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol \end{DoxyParams}
 \hypertarget{interface_j_r_engage_a01ecdff491f91543e18f33d0e565b046}{
 \index{JREngage@{JREngage}!showAuthenticationDialog@{showAuthenticationDialog}}
 \index{showAuthenticationDialog@{showAuthenticationDialog}!JREngage@{JREngage}}
@@ -185,39 +185,38 @@ If you want to push the \hyperlink{interface_j_r_engage}{JREngage} dialogs on yo
 
 \begin{DoxyParams}{Parameters}
 \item[{\em navigationController}]Your application's navigation controller \end{DoxyParams}
-\hypertarget{interface_j_r_engage_aab4958af5f9b2903e795519caf0af4eb}{
-\index{JREngage@{JREngage}!setCustomNavigationControllerShouldPopToViewController:@{setCustomNavigationControllerShouldPopToViewController:}}
-\index{setCustomNavigationControllerShouldPopToViewController:@{setCustomNavigationControllerShouldPopToViewController:}!JREngage@{JREngage}}
-\subsubsection[{setCustomNavigationControllerShouldPopToViewController:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) setCustomNavigationControllerShouldPopToViewController: 
-\begin{DoxyParamCaption}
-\item[{dummy(UIViewController$\ast$)}]{ viewController}
-\end{DoxyParamCaption}
-}}
-\label{interface_j_r_engage_aab4958af5f9b2903e795519caf0af4eb}
-May not use... \hypertarget{interface_j_r_engage_af1448791663265d3b739041983fbae92}{
-\index{JREngage@{JREngage}!signoutUserForProvider:@{signoutUserForProvider:}}
-\index{signoutUserForProvider:@{signoutUserForProvider:}!JREngage@{JREngage}}
-\subsubsection[{signoutUserForProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) signoutUserForProvider: 
+\hypertarget{interface_j_r_engage_aede9ed92d80f14d85e59a982da3150fc}{
+\index{JREngage@{JREngage}!signoutUserForSocialProvider:@{signoutUserForSocialProvider:}}
+\index{signoutUserForSocialProvider:@{signoutUserForSocialProvider:}!JREngage@{JREngage}}
+\subsubsection[{signoutUserForSocialProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) signoutUserForSocialProvider: 
 \begin{DoxyParamCaption}
 \item[{dummy(NSString$\ast$)}]{ provider}
 \end{DoxyParamCaption}
 }}
-\label{interface_j_r_engage_af1448791663265d3b739041983fbae92}
+\label{interface_j_r_engage_aede9ed92d80f14d85e59a982da3150fc}
 Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is already signed in with the given provider
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the List of Providers \end{DoxyParams}
-\hypertarget{interface_j_r_engage_a56060e8d5fe94e4bf06ff3edf27af5ee}{
-\index{JREngage@{JREngage}!signoutUserForAllProviders@{signoutUserForAllProviders}}
-\index{signoutUserForAllProviders@{signoutUserForAllProviders}!JREngage@{JREngage}}
-\subsubsection[{signoutUserForAllProviders}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) signoutUserForAllProviders 
+\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_socialProviders}{List of Social Providers}\end{DoxyParams}
+\begin{DoxyNote}{Note}
+: The library only remembers users who have signed in through the social publishing interface 
+\end{DoxyNote}
+\hypertarget{interface_j_r_engage_a1f4e27ed5dbc05892fd7bc2255d2afa8}{
+\index{JREngage@{JREngage}!signoutUserForAllSocialProviders@{signoutUserForAllSocialProviders}}
+\index{signoutUserForAllSocialProviders@{signoutUserForAllSocialProviders}!JREngage@{JREngage}}
+\subsubsection[{signoutUserForAllSocialProviders}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) signoutUserForAllSocialProviders 
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
 }}
-\label{interface_j_r_engage_a56060e8d5fe94e4bf06ff3edf27af5ee}
-Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is signed in with all providers \hypertarget{interface_j_r_engage_a17b67c9bb98230fb7d59f8c35a20662b}{
+\label{interface_j_r_engage_a1f4e27ed5dbc05892fd7bc2255d2afa8}
+Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is signed in with all \hyperlink{_providers_socialProviders}{Social Providers}
+
+\begin{DoxyNote}{Note}
+: The library only remembers users who have signed in through the social publishing interface 
+\end{DoxyNote}
+\hypertarget{interface_j_r_engage_a17b67c9bb98230fb7d59f8c35a20662b}{
 \index{JREngage@{JREngage}!cancelAuthentication@{cancelAuthentication}}
 \index{cancelAuthentication@{cancelAuthentication}!JREngage@{JREngage}}
 \subsubsection[{cancelAuthentication}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) cancelAuthentication 
@@ -244,7 +243,7 @@ Use this functions if you need to cancel publishing for any reason. \hypertarget
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_ac0fb45ee43767dfdea0057bb93000db6}
-Use this function to specify a different serverAuthenticationUrl than the one you initiated the library with 
+Use this function to specify a different tokenUrl than the one you initiated the library with 
 
 The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
 \item 
