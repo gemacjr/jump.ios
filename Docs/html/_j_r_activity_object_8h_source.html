@@ -112,106 +112,106 @@
 <a name="l00046"></a>00046 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
 <a name="l00047"></a>00047 <span class="preprocessor">#import &quot;JRConnectionManager.h&quot;</span>
 <a name="l00048"></a>00048 
-<a name="l00052"></a><a class="code" href="interface_j_r_media_object.html">00052</a> <span class="keyword">@interface </span><a class="code" href="interface_j_r_media_object.html">JRMediaObject</a> : NSObject { }
-<a name="l00053"></a>00053 <span class="keyword">@end</span>
-<a name="l00054"></a>00054 
-<a name="l00068"></a><a class="code" href="interface_j_r_image_media_object.html">00068</a> <span class="keyword">@interface </span><a class="code" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&amp;#39;s stream.">JRImageMediaObject</a> : <a class="code" href="interface_j_r_media_object.html">JRMediaObject</a>
-<a name="l00069"></a>00069 {
-<a name="l00070"></a>00070     <span class="comment">// QTS: Place doxygen comments on instance variables or public properties?</span>
-<a name="l00071"></a><a class="code" href="interface_j_r_image_media_object.html#aad75823f9189dfca758bc4d4712c3621">00071</a>     NSString *src;  
-<a name="l00072"></a><a class="code" href="interface_j_r_image_media_object.html#a95642c3f4bc97a112a3ab32beef46f66">00072</a>     NSString *href; 
-<a name="l00074"></a><a class="code" href="interface_j_r_image_media_object.html#adffd5bbca7eb9c92e720b821022aca88">00074</a>     UIImage  *preview; 
-<a name="l00075"></a>00075 }
-<a name="l00076"></a>00076 @property (readonly) NSString *src;
-<a name="l00077"></a>00077 @property (readonly) NSString *href;
-<a name="l00078"></a>00078 @property (retain) UIImage *preview;
-<a name="l00079"></a>00079 
-<a name="l00093"></a>00093 - (<span class="keywordtype">id</span>)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
-<a name="l00094"></a>00094 @end
-<a name="l00095"></a>00095 
+<a name="l00053"></a>00053 <span class="keyword">@interface </span>JRMediaObject : NSObject { }
+<a name="l00054"></a>00054 <span class="keyword">@end</span>
+<a name="l00055"></a>00055 
+<a name="l00069"></a><a class="code" href="interface_j_r_image_media_object.html">00069</a> <span class="keyword">@interface </span><a class="code" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&amp;#39;s stream.">JRImageMediaObject</a> : JRMediaObject
+<a name="l00070"></a>00070 {
+<a name="l00071"></a>00071     <span class="comment">// QTS: Place doxygen comments on instance variables or public properties?</span>
+<a name="l00072"></a><a class="code" href="interface_j_r_image_media_object.html#aad75823f9189dfca758bc4d4712c3621">00072</a>     NSString *src;  
+<a name="l00073"></a><a class="code" href="interface_j_r_image_media_object.html#a95642c3f4bc97a112a3ab32beef46f66">00073</a>     NSString *href; 
+<a name="l00075"></a><a class="code" href="interface_j_r_image_media_object.html#adffd5bbca7eb9c92e720b821022aca88">00075</a>     UIImage  *preview; 
+<a name="l00076"></a>00076 }
+<a name="l00077"></a>00077 @property (readonly) NSString *src;
+<a name="l00078"></a>00078 @property (readonly) NSString *href;
+<a name="l00079"></a>00079 @property (retain) UIImage *preview;
+<a name="l00080"></a>00080 
+<a name="l00094"></a>00094 - (<span class="keywordtype">id</span>)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
+<a name="l00095"></a>00095 @end
 <a name="l00096"></a>00096 
-<a name="l00119"></a><a class="code" href="interface_j_r_flash_media_object.html">00119</a> @interface <a class="code" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&amp;#39;s stream.">JRFlashMediaObject</a> : <a class="code" href="interface_j_r_media_object.html">JRMediaObject</a>
-<a name="l00120"></a>00120 {
-<a name="l00121"></a><a class="code" href="interface_j_r_flash_media_object.html#a5a79b3d8071ac0286b3ee60e9e0138d0">00121</a>     NSString *swfsrc;           
-<a name="l00122"></a><a class="code" href="interface_j_r_flash_media_object.html#a5a26cacd216012b37900445a8161ac56">00122</a>     NSString *imgsrc;           
-<a name="l00123"></a><a class="code" href="interface_j_r_flash_media_object.html#aaeb77e697438b7aa6e44f52bea0ed9c2">00123</a>     NSUInteger width;           
-<a name="l00124"></a><a class="code" href="interface_j_r_flash_media_object.html#a0689e19fdf6cb9d3911878a95d6ebcc9">00124</a>     NSUInteger height;          
-<a name="l00125"></a><a class="code" href="interface_j_r_flash_media_object.html#a9c380d0410afa60d99442f4ab84b517c">00125</a>     NSUInteger expanded_width;  
-<a name="l00126"></a><a class="code" href="interface_j_r_flash_media_object.html#ae390a89405d768f2fcc63c24a8271503">00126</a>     NSUInteger expanded_height; 
-<a name="l00128"></a><a class="code" href="interface_j_r_flash_media_object.html#ac2969bd0da7e91ffa99758dcccb26efb">00128</a>     UIImage *preview;           
-<a name="l00129"></a>00129 }
-<a name="l00130"></a>00130 @property (readonly) NSString *swfsrc;
-<a name="l00131"></a>00131 @property (readonly) NSString *imgsrc;
-<a name="l00132"></a>00132 @property NSUInteger width;             
-<a name="l00133"></a>00133 @property NSUInteger height;
-<a name="l00134"></a>00134 @property NSUInteger expanded_width;
-<a name="l00135"></a>00135 @property NSUInteger expanded_height;
-<a name="l00136"></a>00136 @property (retain) UIImage *preview;
-<a name="l00137"></a>00137 
-<a name="l00151"></a>00151 - (<span class="keywordtype">id</span>)initWithSwfsrc:(NSString *)_swfsrc andImgsrc:(NSString *)_imgsrc;
-<a name="l00152"></a>00152 @end
-<a name="l00153"></a>00153 
+<a name="l00097"></a>00097 
+<a name="l00120"></a><a class="code" href="interface_j_r_flash_media_object.html">00120</a> @interface <a class="code" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&amp;#39;s stream.">JRFlashMediaObject</a> : JRMediaObject
+<a name="l00121"></a>00121 {
+<a name="l00122"></a><a class="code" href="interface_j_r_flash_media_object.html#a5a79b3d8071ac0286b3ee60e9e0138d0">00122</a>     NSString *swfsrc;           
+<a name="l00123"></a><a class="code" href="interface_j_r_flash_media_object.html#a5a26cacd216012b37900445a8161ac56">00123</a>     NSString *imgsrc;           
+<a name="l00124"></a><a class="code" href="interface_j_r_flash_media_object.html#aaeb77e697438b7aa6e44f52bea0ed9c2">00124</a>     NSUInteger width;           
+<a name="l00125"></a><a class="code" href="interface_j_r_flash_media_object.html#a0689e19fdf6cb9d3911878a95d6ebcc9">00125</a>     NSUInteger height;          
+<a name="l00126"></a><a class="code" href="interface_j_r_flash_media_object.html#a9c380d0410afa60d99442f4ab84b517c">00126</a>     NSUInteger expanded_width;  
+<a name="l00127"></a><a class="code" href="interface_j_r_flash_media_object.html#ae390a89405d768f2fcc63c24a8271503">00127</a>     NSUInteger expanded_height; 
+<a name="l00129"></a><a class="code" href="interface_j_r_flash_media_object.html#ac2969bd0da7e91ffa99758dcccb26efb">00129</a>     UIImage *preview;           
+<a name="l00130"></a>00130 }
+<a name="l00131"></a>00131 @property (readonly) NSString *swfsrc;
+<a name="l00132"></a>00132 @property (readonly) NSString *imgsrc;
+<a name="l00133"></a>00133 @property NSUInteger width;             
+<a name="l00134"></a>00134 @property NSUInteger height;
+<a name="l00135"></a>00135 @property NSUInteger expanded_width;
+<a name="l00136"></a>00136 @property NSUInteger expanded_height;
+<a name="l00137"></a>00137 @property (retain) UIImage *preview;
+<a name="l00138"></a>00138 
+<a name="l00152"></a>00152 - (<span class="keywordtype">id</span>)initWithSwfsrc:(NSString *)_swfsrc andImgsrc:(NSString *)_imgsrc;
+<a name="l00153"></a>00153 @end
 <a name="l00154"></a>00154 
-<a name="l00171"></a><a class="code" href="interface_j_r_mp3_media_object.html">00171</a> @interface <a class="code" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&amp;#39;s stream.">JRMp3MediaObject</a> : <a class="code" href="interface_j_r_media_object.html">JRMediaObject</a>
-<a name="l00172"></a>00172 {
-<a name="l00173"></a><a class="code" href="interface_j_r_mp3_media_object.html#ae6ae676c1841834aba74a2c5d11cb54c">00173</a>     NSString *src;      
-<a name="l00174"></a><a class="code" href="interface_j_r_mp3_media_object.html#accd252e22f704fd4b314217317f0b5cb">00174</a>     NSString *title;    
-<a name="l00175"></a><a class="code" href="interface_j_r_mp3_media_object.html#aa164b3ecc14b03d36f5093d3d4d7f5b1">00175</a>     NSString *artist;   
-<a name="l00176"></a><a class="code" href="interface_j_r_mp3_media_object.html#adefc6578183aa09a492b229696f581df">00176</a>     NSString *album;    
-<a name="l00177"></a>00177 }
-<a name="l00178"></a>00178 @property (readonly) NSString *src;
-<a name="l00179"></a>00179 @property (retain) NSString *title;
-<a name="l00180"></a>00180 @property (retain) NSString *artist;
-<a name="l00181"></a>00181 @property (retain) NSString *album;
-<a name="l00182"></a>00182 
-<a name="l00193"></a>00193 - (<span class="keywordtype">id</span>)initWithsrc:(NSString *)_src;
-<a name="l00194"></a>00194 @end
-<a name="l00195"></a>00195 
+<a name="l00155"></a>00155 
+<a name="l00172"></a><a class="code" href="interface_j_r_mp3_media_object.html">00172</a> @interface <a class="code" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&amp;#39;s stream.">JRMp3MediaObject</a> : JRMediaObject
+<a name="l00173"></a>00173 {
+<a name="l00174"></a><a class="code" href="interface_j_r_mp3_media_object.html#ae6ae676c1841834aba74a2c5d11cb54c">00174</a>     NSString *src;      
+<a name="l00175"></a><a class="code" href="interface_j_r_mp3_media_object.html#accd252e22f704fd4b314217317f0b5cb">00175</a>     NSString *title;    
+<a name="l00176"></a><a class="code" href="interface_j_r_mp3_media_object.html#aa164b3ecc14b03d36f5093d3d4d7f5b1">00176</a>     NSString *artist;   
+<a name="l00177"></a><a class="code" href="interface_j_r_mp3_media_object.html#adefc6578183aa09a492b229696f581df">00177</a>     NSString *album;    
+<a name="l00178"></a>00178 }
+<a name="l00179"></a>00179 @property (readonly) NSString *src;
+<a name="l00180"></a>00180 @property (retain) NSString *title;
+<a name="l00181"></a>00181 @property (retain) NSString *artist;
+<a name="l00182"></a>00182 @property (retain) NSString *album;
+<a name="l00183"></a>00183 
+<a name="l00194"></a>00194 - (<span class="keywordtype">id</span>)initWithsrc:(NSString *)_src;
+<a name="l00195"></a>00195 @end
 <a name="l00196"></a>00196 
-<a name="l00207"></a><a class="code" href="interface_j_r_action_link.html">00207</a> @interface <a class="code" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> : NSObject
-<a name="l00208"></a>00208 {
-<a name="l00209"></a><a class="code" href="interface_j_r_action_link.html#a062c02005f1c35e651ffbcab51c50b21">00209</a>     NSString *text; 
-<a name="l00210"></a><a class="code" href="interface_j_r_action_link.html#a45489781731e5965e20fa66af0bd3072">00210</a>     NSString *href; 
-<a name="l00211"></a>00211 }
-<a name="l00212"></a>00212 @property (retain) NSString *text;
-<a name="l00213"></a>00213 @property (retain) NSString *href;
-<a name="l00214"></a>00214 
-<a name="l00228"></a>00228 - (<span class="keywordtype">id</span>)initWithText:(NSString *)_text andHref:(NSString *)_href;
-<a name="l00229"></a>00229 @end
-<a name="l00230"></a>00230 
+<a name="l00197"></a>00197 
+<a name="l00208"></a><a class="code" href="interface_j_r_action_link.html">00208</a> @interface <a class="code" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> : NSObject
+<a name="l00209"></a>00209 {
+<a name="l00210"></a><a class="code" href="interface_j_r_action_link.html#a062c02005f1c35e651ffbcab51c50b21">00210</a>     NSString *text; 
+<a name="l00211"></a><a class="code" href="interface_j_r_action_link.html#a45489781731e5965e20fa66af0bd3072">00211</a>     NSString *href; 
+<a name="l00212"></a>00212 }
+<a name="l00213"></a>00213 @property (retain) NSString *text;
+<a name="l00214"></a>00214 @property (retain) NSString *href;
+<a name="l00215"></a>00215 
+<a name="l00229"></a>00229 - (<span class="keywordtype">id</span>)initWithText:(NSString *)_text andHref:(NSString *)_href;
+<a name="l00230"></a>00230 @end
 <a name="l00231"></a>00231 
-<a name="l00256"></a><a class="code" href="interface_j_r_activity_object.html">00256</a> @interface <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> : NSObject 
-<a name="l00257"></a>00257 {
-<a name="l00263"></a>00263     
-<a name="l00268"></a><a class="code" href="interface_j_r_activity_object.html#ac7f87878433a7d69fc5c8677fc317d6a">00268</a>     NSString *action;                                   
-<a name="l00269"></a>00269     
-<a name="l00273"></a><a class="code" href="interface_j_r_activity_object.html#a113d240b8b15e625fb0005fbffd00c17">00273</a>     NSString *url;
-<a name="l00274"></a>00274     
-<a name="l00281"></a><a class="code" href="interface_j_r_activity_object.html#a965d03730324bcda4374450ad648505b">00281</a>     NSString *user_generated_content;    
-<a name="l00282"></a>00282 
-<a name="l00288"></a><a class="code" href="interface_j_r_activity_object.html#ae64ba976e73c3926a04c46ba0aeba583">00288</a>     NSString *title;                     
-<a name="l00289"></a>00289     
-<a name="l00293"></a><a class="code" href="interface_j_r_activity_object.html#a35d4fcb4e1aaa9d6325333228104604f">00293</a>     NSString *description;
-<a name="l00294"></a>00294     
-<a name="l00302"></a><a class="code" href="interface_j_r_activity_object.html#aa5c629e1c3b8306b2532ab647f7f6ec5">00302</a>     NSMutableArray *action_links;
-<a name="l00303"></a>00303     
-<a name="l00323"></a><a class="code" href="interface_j_r_activity_object.html#a2e4ff78f83d0f353f8e0c17ed48ce0ab">00323</a>     NSMutableArray *media;
-<a name="l00324"></a>00324 
-<a name="l00339"></a><a class="code" href="interface_j_r_activity_object.html#a1acf84854d275510685a1f2066061c4e">00339</a>     NSMutableDictionary *properties;
-<a name="l00341"></a>00341 }
-<a name="l00342"></a>00342 
-<a name="l00348"></a>00348 @property (readonly) NSString *action;                                                          
-<a name="l00349"></a>00349 @property (readonly) NSString *url;
-<a name="l00350"></a>00350 @property (retain) NSString *user_generated_content;
-<a name="l00351"></a>00351 @property (retain) NSString *title;                             
-<a name="l00352"></a>00352 @property (retain) NSString *description;
-<a name="l00353"></a>00353 @property (retain) NSMutableArray *action_links;                                        
-<a name="l00354"></a>00354 @property (retain) NSMutableArray *media;
-<a name="l00355"></a>00355 @property (retain) NSMutableDictionary *properties;
-<a name="l00363"></a>00363 
-<a name="l00377"></a>00377 - (<span class="keywordtype">id</span>)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
-<a name="l00390"></a>00390 - (NSDictionary*)dictionaryForObject;
-<a name="l00391"></a>00391 @end
+<a name="l00232"></a>00232 
+<a name="l00257"></a><a class="code" href="interface_j_r_activity_object.html">00257</a> @interface <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> : NSObject 
+<a name="l00258"></a>00258 {
+<a name="l00264"></a>00264     
+<a name="l00269"></a><a class="code" href="interface_j_r_activity_object.html#ac7f87878433a7d69fc5c8677fc317d6a">00269</a>     NSString *action;                                   
+<a name="l00270"></a>00270     
+<a name="l00274"></a><a class="code" href="interface_j_r_activity_object.html#a113d240b8b15e625fb0005fbffd00c17">00274</a>     NSString *url;
+<a name="l00275"></a>00275     
+<a name="l00282"></a><a class="code" href="interface_j_r_activity_object.html#a965d03730324bcda4374450ad648505b">00282</a>     NSString *user_generated_content;    
+<a name="l00283"></a>00283 
+<a name="l00289"></a><a class="code" href="interface_j_r_activity_object.html#ae64ba976e73c3926a04c46ba0aeba583">00289</a>     NSString *title;                     
+<a name="l00290"></a>00290     
+<a name="l00294"></a><a class="code" href="interface_j_r_activity_object.html#a35d4fcb4e1aaa9d6325333228104604f">00294</a>     NSString *description;
+<a name="l00295"></a>00295     
+<a name="l00303"></a><a class="code" href="interface_j_r_activity_object.html#aa5c629e1c3b8306b2532ab647f7f6ec5">00303</a>     NSMutableArray *action_links;
+<a name="l00304"></a>00304     
+<a name="l00324"></a><a class="code" href="interface_j_r_activity_object.html#a2e4ff78f83d0f353f8e0c17ed48ce0ab">00324</a>     NSMutableArray *media;
+<a name="l00325"></a>00325 
+<a name="l00340"></a><a class="code" href="interface_j_r_activity_object.html#a1acf84854d275510685a1f2066061c4e">00340</a>     NSMutableDictionary *properties;
+<a name="l00342"></a>00342 }
+<a name="l00343"></a>00343 
+<a name="l00349"></a>00349 @property (readonly) NSString *action;                                                          
+<a name="l00350"></a>00350 @property (readonly) NSString *url;
+<a name="l00351"></a>00351 @property (retain) NSString *user_generated_content;
+<a name="l00352"></a>00352 @property (retain) NSString *title;                             
+<a name="l00353"></a>00353 @property (retain) NSString *description;
+<a name="l00354"></a>00354 @property (retain) NSMutableArray *action_links;                                        
+<a name="l00355"></a>00355 @property (retain) NSMutableArray *media;
+<a name="l00356"></a>00356 @property (retain) NSMutableDictionary *properties;
+<a name="l00364"></a>00364 
+<a name="l00378"></a>00378 - (<span class="keywordtype">id</span>)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
+<a name="l00391"></a>00391 - (NSDictionary*)dictionaryForObject;
+<a name="l00392"></a>00392 @end
 </pre></div></div>
 </div>
 
@@ -221,7 +221,7 @@
 		</div> 
 			
 		<hr class="footer"/><address class="footer"><small>
-		Generated on Tue Sep 28 2010 21:19:13 for JREngage by&nbsp;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1</small></address>
+		Generated on Tue Sep 28 2010 21:40:51 for JREngage by&nbsp;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.1</small></address>
 		
 		<!-- footer -->
 		<div id="ft">
