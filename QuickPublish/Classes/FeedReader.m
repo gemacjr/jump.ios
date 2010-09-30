@@ -362,8 +362,8 @@ static FeedReader* singleton = nil;
     return self;
 }
 
-static NSString *appId = @"jmofealgobmlbeaalcgp";
-static NSString *tokenUrl = @"http://jrengage-for-iphone.appspot.com/login";
+//static NSString *appId = @"jmofealgobmlbeaalcgp";
+//static NSString *tokenUrl = @"http://jrengage-for-iphone.appspot.com/login";
 
 - (id)init
 {

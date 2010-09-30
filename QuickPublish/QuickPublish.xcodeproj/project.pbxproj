@@ -124,6 +124,7 @@
 		28C286DF0D94DF7D0034E888 /* FeedReaderSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderSummary.h; sourceTree = "<group>"; };
 		28C286E00D94DF7D0034E888 /* FeedReaderSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderSummary.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9F08792A12550437008AD40D /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = janrain_blog.json; sourceTree = "<group>"; };
 		9F63DB8F12511CDC00A21A59 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9F63DB9012511CDC00A21A59 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -280,6 +281,7 @@
 				9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */,
 				9F87DF441219A97600FF7E2C /* FeedReaderWebView.h */,
 				9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */,
+				9F08792A12550437008AD40D /* Strings.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";

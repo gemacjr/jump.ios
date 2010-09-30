@@ -35,6 +35,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JREngage.h"
+#import "Strings.h"
 
 #define LILLI
 

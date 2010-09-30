@@ -37,6 +37,7 @@
 #import <UIKit/UIKit.h>
 #import "JREngage.h"
 #import "FeedReaderDetail.h"
+#import "Strings.h"
 
 @class FeedReaderDetail;
 @interface StoryImage : NSObject <JRConnectionManagerDelegate>
