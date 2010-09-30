@@ -486,7 +486,7 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
 	
-    currentProvider = [[NSString stringWithString:auth_info] retain];
+    currentProvider = [[NSString stringWithString:provider] retain];
 	[signInDelegate didReceiveToken];
     
 	if(!auth_info) // Then there was an error
