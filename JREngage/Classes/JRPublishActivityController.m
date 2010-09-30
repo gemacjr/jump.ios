@@ -83,7 +83,7 @@
 	sessionData = [JRSessionData jrSessionData];
 	
     // TODO: When do we ever check if activity is null and what do we do when it is?
-    activity = [sessionData activity];
+    activity = [[sessionData activity] retain];
     
     [self loadActivityToView];
     
@@ -934,6 +934,38 @@ Please try again later."
 - (void)dealloc
 {
     DLog(@"");
+ 
+    [selectedProvider release];
+    [loggedInUser release];
+    [activity release];
+    [colorsDictionary release];
+    [myTabBar release];
+    [myLoadingLabel release];
+    [myLoadingActivitySpinner release]; 
+    [myLoadingGrayView release];
+    [myUserContentTextView release];
+    [myUserContentBoundingBox release];
+    [myProviderIcon release];
+    [myPoweredByLabel release];
+    [myMediaContentView release];
+    [myMediaViewBackgroundMiddle release];
+    [myMediaViewBackgroundTop release];
+    [myMediaViewBackgroundBottom release];
+    [myMediaThumbnailView release];
+    [myMediaThumbnailActivityIndicator release];
+    [myTitleLabel release];
+    [myDescriptionLabel release];
+    [myShareToView release];
+    [myTriangleIcon release];
+    [myProfilePic release];
+    [myProfilePicActivityIndicator release];
+    [myUserName release];
+    [myConnectAndShareButton release];
+    [myJustShareButton release];
+    [mySharedCheckMark release];
+    [mySharedLabel release];
+    [mySignOutButton release];
+    [cachedProfilePics release];
     
     [super dealloc];
 }
