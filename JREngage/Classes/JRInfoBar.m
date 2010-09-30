@@ -132,9 +132,9 @@
 {
     DLog(@"");
     
-    // TODO: Figure out how to load the version dynamically from Info.plist
+    // TODO: Figure out how to load the version dynamically from Info.plist or something
     // TODO: Localize these strings
-	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Authenticate Library\nVersion 2.01"
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Engage Library\nVersion 2.0.0"
 														 delegate:self
 												cancelButtonTitle:@"OK"  
 										   destructiveButtonTitle:nil
