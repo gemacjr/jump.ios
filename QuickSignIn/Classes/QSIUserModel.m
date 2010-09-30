@@ -95,7 +95,6 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	return self;	
 }
 
-
 /* Return the singleton instance of this class. */
 + (UserModel*)getUserModel
 {
@@ -355,7 +354,6 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	
 	/* Get the identifier and normalize it (remove html escapes) */
 	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
-//	identifier = [[[[user objectForKey:@"auth_info"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
 	
 	/* Get the display name */
 	displayName = [[UserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
@@ -483,37 +481,18 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	[signInDelegate didFailToSignIn:YES];
 }
 
-//- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider
-//{
-//	UIApplication* app = [UIApplication sharedApplication]; 
-//	app.networkActivityIndicatorVisible = YES;
-//
-//	currentProvider = [[NSString stringWithString:provider] retain];
-//	[signInDelegate didReceiveToken];
-//}
-
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary *)profile forProvider:(NSString *)provider
+- (void)jrAuthenticationDidSucceedForUser:(NSDictionary *)auth_info forProvider:(NSString *)provider
 {
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
 	
-//    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
-    
-//	NSRange found = [payload rangeOfString:@"{"];
-//	
-//	if (found.length == 0)// Then there was an error
-//		return; // TODO: Manage error
-	
-//	NSString *userStr = [payload substringFromIndex:found.location];
-//	NSDictionary* user = [userStr JSONValue];
-	
-    currentProvider = [[NSString stringWithString:provider] retain];
+    currentProvider = [[NSString stringWithString:auth_info] retain];
 	[signInDelegate didReceiveToken];
     
-	if(!profile) // Then there was an error
+	if(!auth_info) // Then there was an error
 		return; // TODO: Manage error
 	
-	[self finishSignUserIn:profile];
+	[self finishSignUserIn:auth_info];
 }
 
 //- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl 
@@ -567,5 +546,4 @@ static NSString *tokenUrl = @"http://jrauthenticate.appspot.com/login";
 	
 	[super dealloc];
 }
-
 @end

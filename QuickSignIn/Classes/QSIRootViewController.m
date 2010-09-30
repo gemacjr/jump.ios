@@ -72,7 +72,6 @@
 	
 	self.navigationItem.leftBarButtonItem = spacerButton;
 	self.navigationItem.leftBarButtonItem.enabled = YES;
-//	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
 	
 	UIBarButtonItem *viewHistoryButton = [[[UIBarButtonItem alloc] 
 										   initWithTitle:@"View Profiles" 

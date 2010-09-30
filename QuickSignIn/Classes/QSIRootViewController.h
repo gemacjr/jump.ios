@@ -33,8 +33,6 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-
 #import <UIKit/UIKit.h>
 #import "QSIViewControllerLevel1.h"
 #import "QSIUserModel.h"
