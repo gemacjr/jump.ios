@@ -531,13 +531,9 @@ static JRSessionData* singleton = nil;
                                                   forKey:@"jrBasicProviders"];
         
 #ifdef SOCIAL_PUBLISHING	    
-        //socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+        socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
         
-        NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
-                                                                                               copyItems:YES] autorelease];
-        [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
-        socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
-        
+        /* yippie, yahoo! */
         if (!socialProviders)		
             return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                          withCode:JRConfigurationInformationError
