@@ -65,7 +65,7 @@
     
     story = [[FeedReader feedReader].selectedStory retain];
 
-    self.title = @"Article";//[NSString stringWithString:story.title];
+    self.title = @"Article";
     
     NSString *webViewContent = [NSString stringWithFormat:
                                     @"<html>                                    \
@@ -120,8 +120,6 @@
                                 story.description];
 
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
-//    webview.backgroundColor = [UIColor colorWithRed:(201/255) green:(234/255) blue:(237/255) alpha:1.0];
-
     
     UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
                                                                      style:UIBarButtonItemStyleBordered 
@@ -157,17 +155,11 @@
     return YES;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView 
-{ 
-}
+- (void)webViewDidStartLoad:(UIWebView *)webView { }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView 
-{
-}
+- (void)webViewDidFinishLoad:(UIWebView *)webView { }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error 
-{
-}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error { }
 
 - (IBAction)shareButtonPressed:(id)sender
 {
@@ -192,16 +184,6 @@
     [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
     [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity];
 }
-
-//- (void)authenticationFailed:(NSError*)error
-//{
-//    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign in failed"
-//                                                     message:@"There seems to have been a problem authenticating.  Please try again."
-//                                                    delegate:nil
-//                                           cancelButtonTitle:@"OK" 
-//                                           otherButtonTitles:nil] autorelease];
-//    [alert show];    
-//}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -232,7 +214,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-
 - (void)dealloc 
 {
     [story release];
@@ -241,6 +222,4 @@
     
     [super dealloc];
 }
-
-
 @end

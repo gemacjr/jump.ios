@@ -40,8 +40,6 @@
 {
 	IBOutlet UITableView *myTable;
     
-//	UIActivityIndicatorView *activityIndicator;
-
     FeedReaderDetail *detailViewController;
     FeedReader *reader;
     

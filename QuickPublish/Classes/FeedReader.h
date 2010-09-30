@@ -35,7 +35,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-//#import "ContentParser.h"
 #import "JREngage.h"
 #import "FeedReaderDetail.h"
 
@@ -44,7 +43,7 @@
 {
     NSString *alt;		/* Specifies an alternate text for an image (e.g., x) */
 	NSString *src;		/* (URL) Specifies the URL of an image (e.g., x) */
-	CGFloat *height;		/* p(ixels) pecifies the height of an image (e.g., x) */
+	CGFloat *height;	/* p(ixels) pecifies the height of an image (e.g., x) */
 	CGFloat *width;		/* (pixels) Specifies the width of an image (e.g., x) */
     
     UIImage *image;
@@ -103,9 +102,7 @@
 @end
 
 @interface FeedReader : NSObject <JREngageDelegate>
-{
-//    NSMutableArray *allStories;
-    
+{    
     Feed *feed;
     Story *selectedStory;
     
@@ -119,6 +116,5 @@
 @property (retain)   Story *selectedStory;
 @property (readonly) JREngage *jrEngage;
 
-//+ (FeedReader*)initFeedReader;
 + (FeedReader*)feedReader;
 @end

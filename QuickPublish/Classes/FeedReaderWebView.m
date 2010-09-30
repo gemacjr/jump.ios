@@ -117,7 +117,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-
 - (void)dealloc 
 {
     [urlRequest release];

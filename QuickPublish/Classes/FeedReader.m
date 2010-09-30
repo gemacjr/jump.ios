@@ -55,8 +55,6 @@
 
 @interface StoryImage ()
 - (void)setAlt:(NSString*)_alt;
-//- (void)setHeight:(CGFloat)_height;
-//- (void)setWidth:(CGFloat)_width;
 - (void)downloadImage;
 @end
 
@@ -79,14 +77,6 @@
     if ([super init])
     {
         src = [_src retain];
-        
-//        NSURL *url = [NSURL URLWithString:src];
-//        
-//        if(!url)
-//            return self;
-//        
-//        NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
-//        [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:nil stringEncodeData:NO];
     }
     
     return self;
@@ -121,16 +111,6 @@
 	[alt release];
 	alt = [_alt retain];
 }
-
-//- (void)setHeight:(CGFloat)_height
-//{
-//	height = _height;
-//}
-//
-//- (void)setWidth:(CGFloat)_width
-//{
-//	width = _width;
-//}
 
 - (void)dealloc
 {
@@ -229,10 +209,6 @@
 {
     if (!storyImages)
         storyImages = [[NSMutableArray alloc] initWithCapacity:1];
-
-    DLog(@"storyImages:\t\t\t%@", _storyImage);
-
-//    _storyImage = [_storyImage stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
     if (![_storyImage hasPrefix:@"http"])
     {
@@ -394,20 +370,6 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 	if (self = [super init]) 
 	{
         singleton = self;
-        
-//        NSData *archivedFeeds = [[NSUserDefaults standardUserDefaults] objectForKey:@"archivedFeeds"];
-//        if (archivedFeeds != nil)
-//        {
-//            NSDictionary *unarchivedFeeds = [NSKeyedUnarchiver unarchiveObjectWithData:archivedFeeds];
-//            if (unarchivedFeeds != nil)
-//                feeds = [[NSMutableDictionary alloc] initWithDictionary:unarchivedFeeds];
-//        }
-//        
-//        if (!feeds)
-//            feeds = [[NSMutableDictionary alloc] initWithCapacity:1];
-        
-//        allStories = [[NSMutableArray alloc] initWithCapacity:25];//[feeds count]*20];
-        
         jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
         
         [self downloadFeedStories];
@@ -424,19 +386,10 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
 	return [[super allocWithZone:nil] init];
 }
 
-//+ (FeedReader*)initFeedReader
-//{
-//	if(singleton)
-//		return singleton;
-//    
-//	return [[super allocWithZone:nil] init];
-//}	
-
-
 - (void)downloadFeedStories
 {   
     NSError *error = nil;
-    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];//[[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
+    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
     NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
                                                                   encoding:NSUTF8StringEncoding
                                                                      error:&error] autorelease];
@@ -480,11 +433,6 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
     return feed.stories;
 }
 
-//- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString *)provider 
-//{
-////    [feedReaderDetail authenticationFailed:error];
-//}
-
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error 
 {
 	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sharing Failed"
@@ -495,14 +443,15 @@ static NSString *tokenUrl = @"http://social-tester.appspot.com/login";
     [alert show];
 }
 
-//- (void)jrAuthenticationReceivedAuthenticationTokenForProvider:(NSString*)provider { }
-//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
-//- (void)jrAuthenticationCallToTokenUrl:(NSString*)_tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+/* Entire JREngageDelegate protocol */
+//- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error { }
 //- (void)jrAuthenticationDidNotComplete { }
-//- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)profile forProvider:(NSString*)provider { }
-//- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
-//- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailForProvider:(NSString*)provider { }
-//- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+//- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider { }
+//- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
+//- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 //- (void)jrSocialDidNotCompletePublishing { }
 //- (void)jrSocialDidCompletePublishing { }
+//- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
+//- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 @end

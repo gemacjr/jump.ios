@@ -76,7 +76,6 @@
     janrainLink.titleLabel.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
 }
 
-
 /*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -104,7 +103,6 @@
 		NSLog(@"%@%@",@"Failed to open url:",[url description]);
 }
 
-
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -118,12 +116,9 @@
     // e.g. self.myOutlet = nil;
 }
 
-
 - (void)dealloc 
 {
     [feedButton release];
     [super dealloc];
 }
-
-
 @end

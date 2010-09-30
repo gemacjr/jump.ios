@@ -47,5 +47,4 @@
     IBOutlet UIWebView *webview;
 }
 - (IBAction)shareButtonPressed:(id)sender;
-//- (void)authenticationFailed:(NSError*)error;
 @end

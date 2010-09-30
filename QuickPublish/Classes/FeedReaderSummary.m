@@ -39,12 +39,11 @@
 
 @implementation FeedReaderSummary
 
-
 #pragma mark -
 #pragma mark View lifecycle
 
-
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
 
     reader = [FeedReader feedReader];
@@ -53,8 +52,6 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-
-
 
 - (void)viewWillAppear:(BOOL)animated 
 {
@@ -232,10 +229,9 @@
             UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(8 + imageWidth, 25, 268 - imageWidth, 36)] autorelease];
             documentDescription.font = [UIFont systemFontOfSize:14.0];
             documentDescription.textColor = [UIColor darkGrayColor];
-//            documentDescription.lineBreakMode = UILineBreakModeWordWrap;
             documentDescription.numberOfLines = 2;
             documentDescription.backgroundColor = [UIColor clearColor];
-            documentDescription.text = story.plainText;//story.description;
+            documentDescription.text = story.plainText;
             
             UILabel *documentDate = [[[UILabel alloc] initWithFrame:CGRectMake(8 + imageWidth, 63, 268 - imageWidth, 13)] autorelease];
             documentDate.font = [UIFont systemFontOfSize:11.0];
@@ -382,8 +378,6 @@
 - (void)dealloc 
 {
     [myTable release];
-    
-//	[activityIndicator release];
     
     [detailViewController release];
     [stories release];
