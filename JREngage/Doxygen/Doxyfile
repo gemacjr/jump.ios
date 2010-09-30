@@ -38,7 +38,7 @@ PROJECT_NUMBER         =
 # If a relative path is entered, it will be relative to the location 
 # where doxygen was started. If left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = /Users/lillialexis/iPhone/engage.iphone/Docs
+OUTPUT_DIRECTORY       = ../../Docs
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create 
 # 4096 sub-directories (in 2 levels) under the output directory of each output 
@@ -528,7 +528,7 @@ FILE_VERSION_FILTER    =
 # You can optionally specify a file name after the option, if omitted 
 # DoxygenLayout.xml will be used as the name of the layout file.
 
-LAYOUT_FILE            = /Users/lillialexis/iPhone/engage.iphone/JREngage/Doxygen/DoxygenLayout.xml
+LAYOUT_FILE            = ../../JREngage/Doxygen/DoxygenLayout.xml
 
 #---------------------------------------------------------------------------
 # configuration options related to warning and progress messages
@@ -590,7 +590,7 @@ WARN_LOGFILE           =
 # directories like "/usr/src/myproject". Separate the files or directories 
 # with spaces.
 
-INPUT                  = /Users/lillialexis/iPhone/engage.iphone/JREngage
+INPUT                  = ../../JREngage
 
 # This tag can be used to specify the character encoding of the source files 
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is 
@@ -649,18 +649,18 @@ RECURSIVE              = YES
 # excluded from the INPUT source files. This way you can easily exclude a 
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/JSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSObject+SBJSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSObject+SBJSON.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSString+SBJSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSString+SBJSON.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonBase.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonBase.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonParser.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonParser.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonWriter.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonWriter.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/JSON.h
+EXCLUDE                = ../../JREngage/JSON/JSON.h \
+                         ../../JREngage/JSON/NSObject+SBJSON.h \
+                         ../../JREngage/JSON/NSObject+SBJSON.m \
+                         ../../JREngage/JSON/NSString+SBJSON.h \
+                         ../../JREngage/JSON/NSString+SBJSON.m \
+                         ../../JREngage/JSON/SBJsonBase.h \
+                         ../../JREngage/JSON/SBJsonBase.m \
+                         ../../JREngage/JSON/SBJsonParser.h \
+                         ../../JREngage/JSON/SBJsonParser.m \
+                         ../../JREngage/JSON/SBJsonWriter.h \
+                         ../../JREngage/JSON/SBJsonWriter.m \
+                         ../../JREngage/JSON/JSON.h
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
 # directories that are symbolic links (a Unix filesystem feature) are excluded 
@@ -838,13 +838,13 @@ HTML_FILE_EXTENSION    = .html
 # each generated HTML page. If it is left blank doxygen will generate a 
 # standard header.
 
-HTML_HEADER            = /Users/lillialexis/iPhone/engage.iphone/JREngage/Doxygen/header.html
+HTML_HEADER            = ../../JREngage/Doxygen/header.html
 
 # The HTML_FOOTER tag can be used to specify a personal HTML footer for 
 # each generated HTML page. If it is left blank doxygen will generate a 
 # standard footer.
 
-HTML_FOOTER            = /Users/lillialexis/iPhone/engage.iphone/JREngage/Doxygen/footer.html
+HTML_FOOTER            = ../../JREngage/Doxygen/footer.html
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading 
 # style sheet that is used by each HTML page. It can be used to 
@@ -853,7 +853,7 @@ HTML_FOOTER            = /Users/lillialexis/iPhone/engage.iphone/JREngage/Doxyge
 # the style sheet file to the HTML output directory, so don't put your own 
 # stylesheet in the HTML output directory as well, or it will be erased!
 
-HTML_STYLESHEET        = /Users/lillialexis/iPhone/engage.iphone/JREngage/Doxygen/customdoxygen.css
+HTML_STYLESHEET        = ../../JREngage/Doxygen/customdoxygen.css
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. 
 # Doxygen will adjust the colors in the stylesheet and background images 
