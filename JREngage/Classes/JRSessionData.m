@@ -222,11 +222,15 @@
 {
 	DLog(@"");
 		
-    // TODO: You're missing half the instance variables in this dealloc method
-	[name release];
-	[welcomeString release];
-	[userInput release];
-	
+    [name release];
+    [friendlyName release];
+    [placeholderText release];
+    [shortText release];
+    [openIdentifier release];
+    [url release];	
+    [userInput release];
+    [welcomeString release];
+
 	[super dealloc];
 }
 @end

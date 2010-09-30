@@ -122,6 +122,15 @@
              [src URLEscaped], @"src", 
              [href URLEscaped], @"href", nil] autorelease];
 }
+
+- (void)dealloc
+{
+	[src release]; 
+	[href release];
+    [preview release];
+	
+	[super dealloc];
+}
 @end
 
 @implementation JRFlashMediaObject 
@@ -177,6 +186,15 @@
     
     return dict;
 }
+
+- (void)dealloc
+{
+	[swfsrc release];          
+	[imgsrc release];          
+	[preview release];          
+
+	[super dealloc];
+}
 @end
 
 @implementation JRMp3MediaObject 
@@ -218,6 +236,16 @@
     
     return dict;
 }
+
+- (void)dealloc
+{
+	[src release];     
+	[title release];   
+	[artist release];  
+	[album release];   
+	
+	[super dealloc];
+}
 @end
 
 
@@ -251,6 +279,14 @@
     return [[[NSDictionary alloc] initWithObjectsAndKeys:
              [text URLEscaped], @"text",
              [href URLEscaped], @"href", nil] autorelease];
+}
+
+- (void)dealloc
+{
+	[text release]; 
+	[href release]; 
+
+	[super dealloc];
 }
 @end
 
@@ -427,5 +463,19 @@
         [dict setObject:properties forKey:@"properties"];
     
     return [NSDictionary dictionaryWithObject:dict forKey:@"activity"];
+}
+
+- (void)dealloc
+{
+	[action release];  							
+	[url release];
+	[user_generated_content release];
+	[title release];				
+	[description release];
+	[action_links release]; 					
+	[media release];
+	[properties release];	
+
+	[super dealloc];
 }
 @end

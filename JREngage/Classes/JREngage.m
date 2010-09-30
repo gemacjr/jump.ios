@@ -378,23 +378,4 @@ static JREngage* singletonJREngage = nil;
 {
     [sessionData setTokenUrl:newTokenUrl];
 }
-
-// QTS:What are the pros/cons of making this class pseudo-singleton?  That is, what if I make it a singleton
-// object after it's instantiated with the correct baseUrl/tokenUrl/etc., but give users the ability to dealloc
-// it if they want to free up the memory.  If freed, all subsequent messages will just be sent to a nil instance
-// until reinstantiated.
-// ANSWER:Minimal memory... should just use regular singleton paradigm
-// TODO:Remove deallocs from singletons that don't need them
-- (void)dealloc 
-{
-	DLog(@"");
-    
-	if (singletonJREngage == self)
-		singletonJREngage = nil;
-    
-	[delegates release];
-    
-	[super dealloc];
-}
-
 @end

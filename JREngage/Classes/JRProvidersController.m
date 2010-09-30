@@ -386,8 +386,6 @@ Please try again later."
 {
 	DLog(@"");
 
-	[sessionData release];
-
 	[myTableView release];
 	[myLoadingLabel release];
 	[myActivitySpinner release];
