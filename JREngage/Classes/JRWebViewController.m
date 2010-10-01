@@ -64,6 +64,18 @@
 }
 */
 
+- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
+{
+    DLog(@"");
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                              message, NSLocalizedDescriptionKey,
+                              type, @"type", nil];
+    
+    return [[NSError alloc] initWithDomain:@"JREngage"
+                                      code:code
+                                  userInfo:userInfo];
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
@@ -98,7 +110,7 @@
 		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
-            [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, myWebView.frame.origin.y, myWebView.frame.size.width, myWebView.frame.size.height - 74)];
+            [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, myWebView.frame.origin.y, myWebView.frame.size.width, myWebView.frame.size.height - 30)];
 
 		[self.view addSubview:infoBar];
 	}
@@ -123,12 +135,9 @@
     
     if (!sessionData.currentProvider)
     {
-        // TODO: Rewrite error all the sloppy errors you created
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"TODO REWRITE ERROR!! Authentication failed."
-                                                             forKey:NSLocalizedDescriptionKey];
-        NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
-                                             code:100
-                                         userInfo:userInfo];
+        NSError *error = [[self setError:@"There was an error authenticating with the selected provider."
+                                withCode:JRAuthenticationFailedError
+                                 andType:JRErrorTypeAuthenticationFailed] autorelease];
         
         [sessionData triggerAuthenticationDidFailWithError:error];        
         
@@ -144,14 +153,6 @@
     userHitTheBackButton = NO;
     [sessionData triggerAuthenticationDidStartOver:sender];
 }
-
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    // return (interfaceOrientation == UIInterfaceOrientationPortrait);
-	return YES;
-}
-
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex { }
 
@@ -248,23 +249,19 @@
 			}
 			else if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"] isEqualToString:@"Please enter your OpenID"])
 			{
-				NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Authentication failed: %@", payload]
-																	 forKey:NSLocalizedDescriptionKey];
-				NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
-													 code:100
-												 userInfo:userInfo];
-				
+				NSError *error = [[self setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
+                                        withCode:JRAuthenticationFailedError
+                                         andType:JRErrorTypeAuthenticationFailed] autorelease];
+                
                 userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
 				[sessionData triggerAuthenticationDidFailWithError:error];
 			}
 			else
 			{
-				NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Authentication failed: %@", payload]
-																	 forKey:NSLocalizedDescriptionKey];
-				NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
-													 code:100
-												 userInfo:userInfo];
-				
+				NSError *error = [[self setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
+                                        withCode:JRAuthenticationFailedError
+                                         andType:JRErrorTypeAuthenticationFailed] autorelease];
+                
                 UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
                                                                  message:@"An error occurred while attempting to sign you in.  Please try again."
                                                                 delegate:self
@@ -354,6 +351,13 @@
 	DLog(@"");
 	NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	[myWebView loadRequest:request];
+}
+
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations
+    // return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	return YES;
 }
 
 - (void)didReceiveMemoryWarning {

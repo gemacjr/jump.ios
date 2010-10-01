@@ -152,7 +152,7 @@ static JREngage* singletonJREngage = nil;
          configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
          librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
          if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
-        if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
+        if ([[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
@@ -175,7 +175,7 @@ static JREngage* singletonJREngage = nil;
          configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
          librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
          if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
-        if ([[[sessionData.error userInfo] objectForKey:@"severity"] isEqualToString:JRErrorSeverityConfigurationFailed])
+        if ([[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];

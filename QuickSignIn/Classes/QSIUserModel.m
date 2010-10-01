@@ -49,7 +49,7 @@
 /* Singleton instance of UserModel */
 static UserModel* singleton = nil;
 
-/* To use the JRAuthenticate library, you must first sign up for an account and create
+/* To use the JREngage library, you must first sign up for an account and create
    an application on http://rpxnow.com.  You must also have a web server that can host
    your token URL.  Your token URL contains your Engage Application's 40-character key and 
    makes the auth_info post to the Engage server.  You can have more than one token URL, 

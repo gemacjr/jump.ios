@@ -321,11 +321,18 @@ Please try again later."
 - (void)showViewIsLoading:(BOOL)loading
 {
     DLog(@"");
+    
+    /* Don't let the user edit or cancel while the activity is being shared */
+    self.navigationItem.leftBarButtonItem.enabled = !loading;
+    self.navigationItem.rightBarButtonItem.enabled = !loading;
+    
     UIApplication* app = [UIApplication sharedApplication]; 
     app.networkActivityIndicatorVisible = loading;
     
+    /* Gray/un-gray out the window */
     [myLoadingGrayView setHidden:!loading];
     
+    /* and start/stop the activity spinner */
     if (loading)
         [myLoadingActivitySpinner startAnimating];
     else

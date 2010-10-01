@@ -36,43 +36,43 @@
 #import "JSON.h"
 #import "JRConnectionManager.h"
 #import "JRActivityObject.h"
+#import "JRError.h"
 
 #define SOCIAL_PUBLISHING
-
-typedef enum
-{
-	JRUrlError = 100,
-    JRDataParsingError,
-    JRJsonError,    
-    JRConfigurationInformationError,
-    JRSessionDataFinishGetProvidersError    
-} JREngageConfigurationError;
-
-typedef enum
-{
-    JRAuthenticationFailedError = 200
-} JREngageAuthenticationError;
-
-typedef enum
-{
-    JRPublishFailedError = 200,
-    JRPublishErrorMissingApiKey,
-    JRPublishErrorInvalidOauthToken,
-    JRPublishErrorDuplicateTwitter,
-    JRPublishErrorLinkedInCharacterExceded,
-} JREngageSocialPublishingError;
-
-// QTS: Do we really need this anymore?
-#define JRErrorSeverityNoNetworkConnection              @"noNetwork"
-#define JRErrorSeverityMinor                            @"minor"
-#define JRErrorSeverityMajor                            @"major"
-#define JRErrorSeverityConfigurationFailed              @"configurationFailed"
-#define JRErrorSeverityConfigurationInformationMissing  @"missingInformation"
-#define JRErrorSeverityAuthenticationFailed             @"authenticationFailed"
-#define JRErrorSeverityPublishFailed                    @"publishFailed"
-#define JRErrorSeverityPublishNeedsReauthentication     @"publishNeedsReauthentication"
-#define JRErrorSeverityPublishInvalidActivity           @"publishInvalidActivity"
-
+//
+//typedef enum
+//{
+//	JRUrlError = 100,
+//    JRDataParsingError,
+//    JRJsonError,    
+//    JRConfigurationInformationError,
+//    JRSessionDataFinishGetProvidersError    
+//} JREngageConfigurationError;
+//
+//typedef enum
+//{
+//    JRAuthenticationFailedError = 200
+//} JREngageAuthenticationError;
+//
+//typedef enum
+//{
+//    JRPublishFailedError = 200,
+//    JRPublishErrorMissingApiKey,
+//    JRPublishErrorInvalidOauthToken,
+//    JRPublishErrorDuplicateTwitter,
+//    JRPublishErrorLinkedInCharacterExceded,
+//} JREngageSocialPublishingError;
+//
+//// QTS: Do we really need this anymore?
+//#define JRErrorSeverityNoNetworkConnection              @"noNetwork"
+//#define JRErrorSeverityMinor                            @"minor"
+//#define JRErrorSeverityMajor                            @"major"
+//#define JRErrorSeverityConfigurationFailed              @"configurationFailed"
+//#define JRErrorSeverityConfigurationInformationMissing  @"missingInformation"
+//#define JRErrorSeverityAuthenticationFailed             @"authenticationFailed"
+//#define JRErrorSeverityPublishFailed                    @"publishFailed"
+//#define JRErrorSeverityPublishNeedsReauthentication     @"publishNeedsReauthentication"
+//#define JRErrorSeverityPublishInvalidActivity           @"publishInvalidActivity"
 
 
 @protocol JRUserInterfaceDelegate <NSObject>

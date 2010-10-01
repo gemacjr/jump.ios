@@ -417,13 +417,12 @@ static JRSessionData* singleton = nil;
     [delegates removeObject:_delegate];
 }
 
-
-- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andSeverity:(NSString*)severity
+- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
 {
     DLog(@"");
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                               message, NSLocalizedDescriptionKey,
-                              severity, @"severity", nil];
+                              type, @"type", nil];
     
     return [[NSError alloc] initWithDomain:@"JREngage"
                                       code:code
@@ -453,16 +452,16 @@ static JRSessionData* singleton = nil;
 	if(!url)
 		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
                      withCode:JRUrlError 
-                  andSeverity:JRErrorSeverityConfigurationFailed];
+                      andType:JRErrorTypeConfigurationFailed];
     
-	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
+	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
 	
 	NSString *tag = [[NSString alloc] initWithFormat:@"getConfiguration"];
 	
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
 		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
                      withCode:JRUrlError 
-                  andSeverity:JRErrorSeverityConfigurationFailed];
+                      andType:JRErrorTypeConfigurationFailed];
     
     return nil;
 }
@@ -475,14 +474,14 @@ static JRSessionData* singleton = nil;
     if (![dataStr respondsToSelector:@selector(JSONValue)])
         return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                      withCode:JRJsonError
-                  andSeverity:JRErrorSeverityConfigurationFailed];
+                      andType:JRErrorTypeConfigurationFailed];
 	
 	NSDictionary *jsonDict = [dataStr JSONValue];
     
 	if(!jsonDict)
 		return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                      withCode:JRJsonError
-                  andSeverity:JRErrorSeverityConfigurationFailed];
+                      andType:JRErrorTypeConfigurationFailed];
 	
     // TODO: Error check this (getting the new config stuff out of the new config api call)
     if (![[jsonDict objectForKey:@"baseurl"] isEqualToString:baseUrl])
@@ -527,7 +526,7 @@ static JRSessionData* singleton = nil;
         if (!allProviders || !basicProviders)
             return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                          withCode:JRConfigurationInformationError
-                      andSeverity:JRErrorSeverityConfigurationFailed];
+                          andType:JRErrorTypeConfigurationFailed];
         
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
                                                   forKey:@"jrAllProviders"];
@@ -541,7 +540,7 @@ static JRSessionData* singleton = nil;
         if (!socialProviders)		
             return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                          withCode:JRConfigurationInformationError
-                      andSeverity:JRErrorSeverityConfigurationInformationMissing];
+                          andType:JRErrorTypeConfigurationInformationMissing];
         
 #endif
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
@@ -574,8 +573,8 @@ static JRSessionData* singleton = nil;
 		return @"Welcome, user!";
 	
 	return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] 
-             stringByReplacingOccurrencesOfString:@"+" withString:@" "]
-            stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+              stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+              stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (void)loadLastUsedSocialProvider
@@ -818,7 +817,7 @@ static JRSessionData* singleton = nil;
 	{
         NSError *_error = [self setError:@"Problem initializing the connection to the token url"
                                 withCode:JRAuthenticationFailedError
-                             andSeverity:JRErrorSeverityAuthenticationFailed];
+                                 andType:JRErrorTypeAuthenticationFailed];
         
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy) 
@@ -879,7 +878,7 @@ static JRSessionData* singleton = nil;
             {
                 error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                               withCode:JRConfigurationInformationError
-                           andSeverity:JRErrorSeverityConfigurationFailed];
+                               andType:JRErrorTypeConfigurationFailed];
             }
         }
         else if ([(NSString*)tag isEqualToString:@"shareActivity"])
@@ -895,7 +894,7 @@ static JRSessionData* singleton = nil;
                         [delegate publishingActivity:activity
                                     didFailWithError:[self setError:[payload retain] 
                                                            withCode:JRPublishFailedError 
-                                                        andSeverity:JRErrorSeverityPublishFailed]
+                                                            andType:JRErrorTypePublishFailed]
                                          forProvider:currentProvider.name];
                     
                 }
@@ -919,7 +918,7 @@ static JRSessionData* singleton = nil;
                 {
                     publishError = [self setError:@"There was a problem publishing this activity" 
                                          withCode:JRPublishFailedError 
-                                      andSeverity:JRErrorSeverityPublishFailed];
+                                          andType:JRErrorTypePublishFailed];
                 }
                 else 
                 {
@@ -932,28 +931,28 @@ static JRSessionData* singleton = nil;
                         case 0: /* "Missing parameter: apiKey" */
                             publishError = [self setError:[error_dict objectForKey:@"msg"] 
                                                  withCode:JRPublishErrorMissingApiKey
-                                              andSeverity:JRErrorSeverityPublishNeedsReauthentication];
+                                                  andType:JRErrorTypePublishNeedsReauthentication];
                             break;
                         case 4: /* "Facebook Error: Invalid OAuth 2.0 Access Token" */
                             publishError = [self setError:[error_dict objectForKey:@"msg"] 
                                                  withCode:JRPublishErrorInvalidOauthToken 
-                                              andSeverity:JRErrorSeverityPublishNeedsReauthentication];
+                                                  andType:JRErrorTypePublishNeedsReauthentication];
                             break;
                         case 100: // TODO LinkedIn character limit error
                             publishError = [self setError:[error_dict objectForKey:@"msg"] 
                                                  withCode:JRPublishErrorLinkedInCharacterExceded
-                                              andSeverity:JRErrorSeverityPublishInvalidActivity];
+                                                  andType:JRErrorTypePublishInvalidActivity];
                             break;
                         case 6: // TODO Twitter duplicate error
                             publishError = [self setError:[error_dict objectForKey:@"msg"] 
                                                  withCode:JRPublishErrorDuplicateTwitter
-                                              andSeverity:JRErrorSeverityPublishInvalidActivity];
+                                                  andType:JRErrorTypePublishInvalidActivity];
                             break;
                         case 1000: /* Extracting code failed; Fall through. */
                         default: // TODO Other errors (find them)
                             publishError = [self setError:@"There was a problem publishing this activity" 
                                                  withCode:JRPublishFailedError 
-                                              andSeverity:JRErrorSeverityPublishFailed];
+                                                  andType:JRErrorTypePublishFailed];
                             break;
                     }
                 }
@@ -986,7 +985,7 @@ static JRSessionData* singleton = nil;
         {
             error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                           withCode:JRConfigurationInformationError
-                       andSeverity:JRErrorSeverityConfigurationFailed];
+                           andType:JRErrorTypeConfigurationFailed];
         }
         else if ([(NSString*)tag isEqualToString:@"shareActivity"])
         {

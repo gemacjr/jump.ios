@@ -52,7 +52,7 @@
  * To begin using the library, please see the <a href="http://rpxnow.com/docs/iphone_v2#quick">"Quick Start Guide"</a>.
  * 
  * For more detailed documentation of the library's API, you can use 
- * the <a href="http://rpxnow.com/docs/iphone_api">"JREngage API"</a> documentation.
+ * the <a href="http://rpxnow.com/docs/iphone_api/index.html">"JREngage API"</a> documentation.
  **/
 
 /**

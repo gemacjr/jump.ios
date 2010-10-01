@@ -229,6 +229,17 @@
 }
 */
 
+- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
+{
+    DLog(@"");
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                              message, NSLocalizedDescriptionKey,
+                              type, @"type", nil];
+    
+    return [[NSError alloc] initWithDomain:@"JREngage"
+                                      code:code
+                                  userInfo:userInfo];
+}
 
 - (void)viewDidLoad 
 {
@@ -256,11 +267,9 @@
 
     if (!sessionData.currentProvider)
     {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"TODO REWRITE ERROR!! Authentication failed."
-                                                             forKey:NSLocalizedDescriptionKey];
-        NSError *error = [NSError errorWithDomain:@"JRAuthenticate"
-                                             code:100
-                                         userInfo:userInfo];
+        NSError *error = [[self setError:@"There was an error authenticating with the selected provider."
+                                withCode:JRAuthenticationFailedError
+                                 andType:JRErrorTypeAuthenticationFailed] autorelease];
         
         [sessionData triggerAuthenticationDidFailWithError:error];        
 
@@ -482,7 +491,7 @@
 }
 */
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range 
-replacementString:(NSString *)string { return NO; }
+replacementString:(NSString *)string { return YES; }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField { return YES; }
 

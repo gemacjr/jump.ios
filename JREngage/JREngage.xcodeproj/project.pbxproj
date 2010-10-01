@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F08797112553B44008AD40D /* JRError.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F08797012553B44008AD40D /* JRError.h */; };
 		9FED50BA12401DE1004684F2 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED50AF12401DE1004684F2 /* JSON.h */; };
 		9FED50BB12401DE1004684F2 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED50B012401DE1004684F2 /* NSObject+SBJSON.h */; };
 		9FED50BC12401DE1004684F2 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FED50B112401DE1004684F2 /* NSObject+SBJSON.m */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F08797012553B44008AD40D /* JRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRError.h; sourceTree = "<group>"; };
 		9F63D526124FEAC400A21A59 /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
 		9F63DA7B12511B3E00A21A59 /* black_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_button.png; sourceTree = "<group>"; };
 		9F63DA7C12511B3E00A21A59 /* blue_button_135x38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_button_135x38.png; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				9FED512D124020C2004684F2 /* JRWebViewController.m */,
 				9FED511E124020C2004684F2 /* JRInfoBar.h */,
 				9FED511F124020C2004684F2 /* JRInfoBar.m */,
+				9F08797012553B44008AD40D /* JRError.h */,
 			);
 			name = Classes;
 			path = classes;
@@ -403,6 +406,7 @@
 				9FED513E124020C2004684F2 /* JRUserInterfaceMaestro.h in Headers */,
 				9FED5140124020C2004684F2 /* JRUserLandingController.h in Headers */,
 				9FED5142124020C2004684F2 /* JRWebViewController.h in Headers */,
+				9F08797112553B44008AD40D /* JRError.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
