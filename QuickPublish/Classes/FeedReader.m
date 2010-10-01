@@ -388,6 +388,9 @@ static FeedReader* singleton = nil;
 
 - (void)downloadFeedStories
 {   
+    UIApplication* app = [UIApplication sharedApplication]; 
+    app.networkActivityIndicatorVisible = YES;
+
     NSError *error = nil;
     NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
     NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
@@ -426,6 +429,8 @@ static FeedReader* singleton = nil;
         
         [feed.stories addObject:story];
     }
+    
+    app.networkActivityIndicatorVisible = NO;
 }
 
 - (NSArray*)allStories

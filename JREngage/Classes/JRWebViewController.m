@@ -370,7 +370,14 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	DLog(@"");
-
+    
+	[myWebView stopLoading];
+	
+	[JRConnectionManager stopConnectionsForDelegate:self];
+	[self stopProgress];
+	
+	[infoBar fadeOut];
+	
  /* The webview disappears when authentication completes successfully or fails or if the user cancels by hitting
     the "back" button or the "cancel" button.  We don't know when a user hits the back button, but we do 
     know when all the other events occur, so we keep track of those events by changing the "userHitTheBackButton" 
@@ -387,20 +394,16 @@
     to the last controller, the providers or userLanding controller (i.e., behave normally) */
     if (userHitTheBackButton && [sessionData social])
         [sessionData triggerAuthenticationDidStartOver:nil];
- 
-	[myWebView stopLoading];
-	[myWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
-	
-	[JRConnectionManager stopConnectionsForDelegate:self];
-	[self stopProgress];
-	
-	[infoBar fadeOut];
-	[super viewWillDisappear:animated];	
+
+    [super viewWillDisappear:animated];	
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
 	DLog(@"");
+    
+    [myWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
+
 	[super viewDidDisappear:animated];
 }
 

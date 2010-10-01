@@ -1121,7 +1121,18 @@ static JRSessionData* singleton = nil;
         if ([delegate respondsToSelector:@selector(authenticationDidCancel)])
             [delegate authenticationDidCancel];
     }
+}
+
+- (void)triggerAuthenticationDidStartOver:(id)sender
+{
+    DLog(@"");
     
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
+    {
+        if ([delegate respondsToSelector:@selector(authenticationDidRestart)])
+            [delegate authenticationDidRestart];
+    }
 }
 
 - (void)triggerPublishingDidCancel
@@ -1205,18 +1216,6 @@ static JRSessionData* singleton = nil;
     {
         if ([delegate respondsToSelector:@selector(publishingDidRestart)])
             [delegate publishingDidRestart];
-    }
-}
-
-- (void)triggerAuthenticationDidStartOver:(id)sender
-{
-    DLog(@"");
-    
-    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    for (id<JRSessionDelegate> delegate in delegatesCopy) 
-    {
-        if ([delegate respondsToSelector:@selector(authenticationDidRestart)])
-            [delegate authenticationDidRestart];
     }
 }
 @end
