@@ -342,6 +342,23 @@ static JREngage* singletonJREngage = nil;
     //    [interfaceMaestro popCustomNavigationControllerToViewController:viewController];
 }
 
+- (NSDictionary*)getUserForProvider:(NSString*)provider
+{
+    return [[sessionData authenticatedUserForProvider:provider] auth_info];
+}
+
+- (void)signoutUserForProvider:(NSString*)provider
+{
+    DLog(@"");
+    [sessionData forgetAuthenticatedUserForProvider:provider];    
+}
+
+- (void)signoutUserForAllProviders
+{
+    DLog(@"");
+    [sessionData forgetAllAuthenticatedUsers];    
+}
+
 - (void)signoutUserForSocialProvider:(NSString*)provider
 {
     DLog(@"");

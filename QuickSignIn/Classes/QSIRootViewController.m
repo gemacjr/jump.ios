@@ -169,6 +169,8 @@
 
 - (void)dealloc 
 {
+    [signInButton release];
+    [linkButton release];
 	[level1ViewController release];
 	
 	[super dealloc];

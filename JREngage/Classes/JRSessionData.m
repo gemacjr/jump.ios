@@ -45,10 +45,24 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+//#define STAGING
+//#define LOCAL
+#ifdef STAGING
+static NSString * const serverUrl = @"https://rpxstaging.com";
+#else
+#ifdef LOCAL 
+static NSString * const serverUrl = @"http://lillialexis.janrain.com:8080";
+#else
+static NSString * const serverUrl = @"https://rpxnow.com";
+#endif
+#endif
+
+
 @implementation JRAuthenticatedUser
 @synthesize photo;
 @synthesize preferred_username;
 @synthesize device_token;
+@synthesize auth_info;
 @synthesize provider_name;
 
 - (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name
@@ -72,6 +86,8 @@
         if ([dictionary objectForKey:@"preferred_username"] != kCFNull)
             preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];
         
+        auth_info = [[dictionary objectForKey:@"auth_info"] retain];
+        
         device_token = [[dictionary objectForKey:@"device_token"] retain];
     }
 
@@ -86,6 +102,7 @@
     [coder encodeObject:photo forKey:@"photo"];
     [coder encodeObject:preferred_username forKey:@"preferred_username"];
     [coder encodeObject:device_token forKey:@"device_token"];
+    [coder encodeObject:auth_info forKey:@"auth_info"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -99,6 +116,7 @@
         photo = [[coder decodeObjectForKey:@"photo"] retain];
         preferred_username = [[coder decodeObjectForKey:@"preferred_username"] retain];
         device_token = [[coder decodeObjectForKey:@"device_token"] retain];
+        auth_info = [[coder decodeObjectForKey:@"auth_info"] retain];
     }   
 
     return self;
@@ -110,6 +128,7 @@
     [photo release];
     [preferred_username release];
     [device_token release];
+    [auth_info release];
     
     [super dealloc];
 }
@@ -332,6 +351,8 @@ static JRSessionData* singleton = nil;
 		appId = _appId;
         tokenUrl = _tokenUrl;
         
+        /* First, we load all of the cached data (the list of providers*/
+        
         NSData *archivedUsers = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrAuthenticatedUsersByProvider"];
         if (archivedUsers != nil)
         {
@@ -441,8 +462,8 @@ static JRSessionData* singleton = nil;
 //    tokenUrl = nil;
 //#else
 	NSString *urlString = [NSString stringWithFormat:
-                           @"http://rpxnow.com/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
-                           appId];
+                           @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
+                           serverUrl, appId];
 //#endif
     
     DLog(@"url: %@", urlString);
@@ -534,7 +555,13 @@ static JRSessionData* singleton = nil;
                                                   forKey:@"jrBasicProviders"];
         
 #ifdef SOCIAL_PUBLISHING	    
-        socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+//        socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+        
+        
+        NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
+                                                                                               copyItems:YES] autorelease];
+        [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
+        socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
         
         /* yippie, yahoo! */
         if (!socialProviders)		
@@ -779,13 +806,18 @@ static JRSessionData* singleton = nil;
     [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
-#ifdef STAGING
+
+//#ifdef STAGING
+//    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
+//                                     [NSURL URLWithString:@"https://rpxstaging.com/api/v2/activity?"]] retain];
+//#else ifdef LOCAL 
+//    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
+//                                     [NSURL URLWithString:@"http://lillialexis.janrain.com:8080/api/v2/activity?"]] retain];
+//#else
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
-                                     [NSURL URLWithString:@"https://rpxstaging.com/api/v2/activity?"]] retain];
-#else
-    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
-                                     [NSURL URLWithString:@"https://rpxnow.com/api/v2/activity?"]] retain];
-#endif
+                                     [NSURL URLWithString:
+                                      [NSString stringWithFormat:@"%@/api/v2/activity?", serverUrl]]] retain];
+//#endif
     
     DLog("Share activity request: %@ and body: %s", [[request URL] absoluteString], body.bytes);
     [request setHTTPMethod:@"POST"];

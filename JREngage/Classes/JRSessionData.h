@@ -87,11 +87,14 @@
     NSString *preferred_username;
     NSString *device_token;
     
+    NSDictionary *auth_info;
+    
     NSString *provider_name;
 }
 @property (readonly) NSString *photo;
 @property (readonly) NSString *preferred_username;
 @property (readonly) NSString *device_token;
+@property (readonly) NSDictionary *auth_info;
 @property (readonly) NSString *provider_name;
 - (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name;
 @end

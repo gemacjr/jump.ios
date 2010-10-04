@@ -91,6 +91,7 @@
 
 - (IBAction)janrainBlogSelected:(id)sender
 {
+    [summaryViewController release];
     summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary" bundle:[NSBundle mainBundle]];
     
     [self.navigationController pushViewController:summaryViewController animated:YES];
@@ -118,7 +119,10 @@
 
 - (void)dealloc 
 {
+    [janrainLink release];
+    [summaryViewController release];    
     [feedButton release];
+    
     [super dealloc];
 }
 @end

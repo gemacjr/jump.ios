@@ -429,6 +429,11 @@
 /*@{*/
 
 /**
+ *
+ **/
+- (NSDictionary*)getUserForProvider:(NSString*)provider;
+
+/**
  * Tell JREngage to forget that a user is already signed in with the given provider
  *
  * @param provider
@@ -445,6 +450,20 @@
  * \note: The library only remembers users who have signed in through the social publishing interface
  **/
 - (void)signoutUserForAllSocialProviders;
+
+/**
+ * Tell JREngage to forget that a user is already signed in with the given provider
+ *
+ * @param provider
+ *   The name of the provider on which the user authenticated.  For a list of possible strings, 
+ *   please see the \ref basicProviders "List of Providers"
+ **/
+- (void)signoutUserForProvider:(NSString*)provider;
+
+/**
+ * Tell JREngage to forget that a user is signed in with all \ref basicProviders "Providers"
+ **/
+- (void)signoutUserForAllProviders;
 /*@}*/
 
 /** 

@@ -535,15 +535,4 @@ otherwise, this happens automatically.													*/
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:YES];
 }
-
-- (void)dealloc 
-{	
-	[currentUser release];	
-	[currentProvider release];
-	[displayName release];
-	[identifier release];
-	[selectedUser release];
-	
-	[super dealloc];
-}
 @end

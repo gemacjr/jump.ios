@@ -119,7 +119,9 @@
 
 - (void)dealloc 
 {
+    [webview release];
     [urlRequest release];
+    
     [super dealloc];
 }
 

@@ -168,7 +168,11 @@
                                   andUrl:story.link] autorelease];
     
     activity.title = story.title;
-    activity.description = story.plainText;
+    
+    
+    
+    activity.description = [story.plainText substringToIndex:
+                            ((story.plainText.length < 140) ? story.plainText.length : 140)];
     
     if ([story.storyImages count] > 0)
     {

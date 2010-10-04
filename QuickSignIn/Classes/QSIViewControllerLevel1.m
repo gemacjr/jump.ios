@@ -473,6 +473,10 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)dealloc 
 {	
+    
+    [myTableView release];
+    [myToolBarButton release];
+    [myNotSignedInLabel release];
 	[level2ViewController release];	
 	
 	[super dealloc];

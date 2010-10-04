@@ -244,6 +244,8 @@
 
 - (void)dealloc 
 {
+    [myTableView release];
+    [myToolBarButton release];
 	[selectedUser release];
 	[selectedUsersProfile release];
 	[profileEntriesArray release];
