@@ -348,7 +348,7 @@ static JREngage* singletonJREngage = nil;
 
 - (NSDictionary*)getUserForProvider:(NSString*)provider
 {
-    return [[sessionData authenticatedUserForProvider:provider] auth_info];
+    return [[sessionData authenticatedUserForProviderNamed:provider] auth_info];
 }
 
 - (void)signoutUserForProvider:(NSString*)provider

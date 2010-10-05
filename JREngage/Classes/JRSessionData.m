@@ -269,8 +269,6 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 @synthesize tokenUrl;
 @synthesize forceReauth;
 @synthesize social;
-//@synthesize dialogIsShowing;
-//@synthesize configurationComplete;
 @synthesize error;
 
 static JRSessionData* singleton = nil;
@@ -341,6 +339,11 @@ static JRSessionData* singleton = nil;
     return hidePoweredBy;
 }
 
+- (BOOL)dialogIsShowing
+{
+    return dialogIsShowing;
+}
+
 - (void)setDialogIsShowing:(BOOL)isShowing
 {/* If we found out that the configuration changed while a dialog was showing, we saved it until the dialog wasn't showing
     since the dialogs dynamically load our data. Now that the dialog isn't showing, load the saved configuration information. */
@@ -406,17 +409,7 @@ static JRSessionData* singleton = nil;
                 
         [self loadLastUsedBasicProvider];
         [self loadLastUsedSocialProvider];
-        
-//        // TODO: The loadLastUsed...Provider methods are going to get called twice if we call them at the end 
-//        // of the configuration calls and in the constructor. Figure out the most optimal solution for this...
-//        if (baseUrl && allProviders)
-//        {
-//            [self loadLastUsedSocialProvider];
-//            [self loadLastUsedBasicProvider];
-//        }
-        
-        //error = [self startGetBaseUrl];
-        
+                
         /* As this information may have changed, we're going to ask rpx for this information anyway */
         error = [self startGetConfiguration];
 	}
@@ -442,7 +435,6 @@ static JRSessionData* singleton = nil;
     error = nil;
     
     error = [self startGetConfiguration];
-    //error = [self startGetBaseUrl];
 }
 
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate
@@ -515,7 +507,6 @@ static JRSessionData* singleton = nil;
                       andType:JRErrorTypeConfigurationFailed];
     
     
-    // TODO: Error check this (getting the new config stuff out of the new config api call)
     /* If the baseUrl has changed, get the new baseUrl */
     if (![[jsonDict objectForKey:@"baseurl"] isEqualToString:baseUrl])
         baseUrl = [[[jsonDict objectForKey:@"baseurl"] 
@@ -545,12 +536,9 @@ static JRSessionData* singleton = nil;
     basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
     
     /* Get the ordered list of social providers */
-    //      socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+    socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+    
     /* yippie, yahoo! */
-    NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
-                                                                                           copyItems:YES] autorelease];
-    [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
-    socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
     
     /* Then save our stuff */
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
@@ -641,8 +629,6 @@ static JRSessionData* singleton = nil;
     NSData *archivedProvider = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrLastUsedBasicProvider"];
     if (archivedProvider != nil)
         returningBasicProvider = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedProvider] retain];
-    
-//    configurationComplete = YES;  
 }
 
 - (void)saveLastUsedSocialProvider
@@ -760,6 +746,11 @@ static JRSessionData* singleton = nil;
     return [authenticatedUsersByProvider objectForKey:provider.name];
 }
 
+- (JRAuthenticatedUser*)authenticatedUserForProviderNamed:(NSString*)provider;
+{
+    DLog(@"");
+    return [authenticatedUsersByProvider objectForKey:provider];
+}
 
 - (void)forgetAuthenticatedUserForProvider:(NSString*)provider
 {
@@ -875,7 +866,6 @@ static JRSessionData* singleton = nil;
 	[request release];
 }
 
-//- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
     NSObject* tag = (NSObject*)userdata;
@@ -887,7 +877,7 @@ static JRSessionData* singleton = nil;
         {
             NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
             for (id<JRSessionDelegate> delegate in delegatesCopy) 
-            {   // TODO: Add delegate message that passes the full response headers as well
+            {   
                 if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withPayload:forProvider:)])
                     [delegate authenticationDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
                                                 withResponse:fullResponse
@@ -909,18 +899,9 @@ static JRSessionData* singleton = nil;
             {
                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)fullResponse;
 
-                NSDictionary* dict = nil;
                 if ([httpResponse respondsToSelector:@selector(allHeaderFields)]) 
-                    dict = [httpResponse allHeaderFields];
-                
-                NSString* etag = [dict objectForKey:@"Etag"];
-                
-                DLog(@"etag:    %@", etag);
-                DLog(@"headers: %@", dict);
-                
-                    
-                    error = [self finishGetConfiguration:payloadString withEtag
-                                                        :[[httpResponse allHeaderFields] objectForKey:@"Etag"]];
+                    error = [self finishGetConfiguration:payloadString 
+                                                withEtag:[[httpResponse allHeaderFields] objectForKey:@"Etag"]];
             }
             else // There was an error...
             {

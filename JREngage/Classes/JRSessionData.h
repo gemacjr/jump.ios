@@ -228,6 +228,7 @@
 - (BOOL)weShouldBeFirstResponder;
 
 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider;
+- (JRAuthenticatedUser*)authenticatedUserForProviderNamed:(NSString*)provider;
 
 - (void)forgetAuthenticatedUserForProvider:(NSString*)provider;
 - (void)forgetAllAuthenticatedUsers;
