@@ -1095,13 +1095,9 @@ static JRSessionData* singleton = nil;
     JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
                                                                     forProviderNamed:currentProvider.name] autorelease];    
     
-    // QTS: Do we need to synchronize this object??
-    //@synchronized (authenticatedUsersByProvider)
-    //{
     [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                               forKey:@"jrAuthenticatedUsersByProvider"];
-    //}
     
     if ([[self basicProviders] containsObject:currentProvider.name])
         [self saveLastUsedBasicProvider];

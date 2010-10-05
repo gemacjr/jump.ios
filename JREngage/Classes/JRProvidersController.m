@@ -88,8 +88,6 @@
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		jrAuth = [JRAuthenticate jrAuthenticate];
-		[jrAuth retain];
     }
     return self;
 }
@@ -158,7 +156,7 @@
 	DLog(@"");
 	[super viewDidAppear:animated];
 	
-    if (/*[sessionData configurationComplete] ||*/([[sessionData basicProviders] count] > 0))
+    if ([[sessionData basicProviders] count] > 0)
     {
         [myActivitySpinner stopAnimating];
         [myActivitySpinner setHidden:YES];
@@ -209,7 +207,7 @@
 	DLog(@"interval = %f", interval);
     
     /* If we have our list of providers, stop the progress indicators and load the table. */
-	if (/*[sessionData configurationComplete] ||*/([[sessionData basicProviders] count] > 0))
+	if ([[sessionData basicProviders] count] > 0)
 	{
 		
         [myActivitySpinner stopAnimating];

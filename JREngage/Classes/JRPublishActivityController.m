@@ -92,7 +92,7 @@
      display the "Loading Providers" label and activity spinner. 
      sessionData = nil when the call to get the base URL hasn't returned
      [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-	if (/*![sessionData configurationComplete] ||*/!([[sessionData socialProviders] count] > 0))
+	if ([[sessionData socialProviders] count] > 0)
 	{
         [self showViewIsLoading:YES];
 		
@@ -185,7 +185,7 @@
     timer = nil;
 	      
     /* If we have our list of providers, stop the progress indicators and load the table. */
-	if (/*[sessionData configurationComplete] ||*/([[sessionData socialProviders] count] > 0))
+	if ([[sessionData socialProviders] count] > 0)
 	{
         weAreReady = YES;
         

@@ -50,11 +50,7 @@
 {
 	NSURLRequest	*request;
 	NSMutableData	*response;
-    
     NSURLResponse   *fullResponse;
-//    NSMutableDictionary *responseHeaders;
-	
-//    BOOL encodeData;
   
     BOOL returnFullResponse;
     
@@ -65,8 +61,6 @@
 
 @property (retain) NSURLRequest		*request;
 @property (retain) NSMutableData	*response;
-//@property (readonly) NSMutableDictionary *responseHeaders;
-//@property (readonly) BOOL encodeData;
 @property (retain) NSURLResponse *fullResponse;
 @property (readonly) BOOL returnFullResponse;
 @property (readonly) void *tag;
@@ -79,7 +73,6 @@
 @synthesize response;
 @synthesize fullResponse;
 @synthesize returnFullResponse;
-//@synthesize encodeData;
 @synthesize tag;
 @synthesize delegate;
 
@@ -87,8 +80,6 @@
           forDelegate:(id<JRConnectionManagerDelegate>)_delegate 
    returnFullResponse:(BOOL)_returnFullResponse
               withTag:(void*)userdata 
-//       encodeResponse:(BOOL)_encode
-//        returnHeaders:(BOOL)_headers
 {
 	DLog(@"");
 	
@@ -97,10 +88,7 @@
 		request  = [_request retain];
 		response = nil;
         fullResponse = nil;
-//        if (_headers)
-//            responseHeaders = [[NSMutableDictionary alloc] initWithCapacity:1];
-	
-//        encodeData = _encode;
+
         returnFullResponse = _returnFullResponse;
         
 		delegate = [_delegate retain];
@@ -233,8 +221,6 @@ static JRConnectionManager* singleton = nil;
                         forDelegate:(id<JRConnectionManagerDelegate>)delegate 
                  returnFullResponse:(BOOL)returnFullResponse
                             withTag:(void*)userdata 
-//                  stringEncodeData:(BOOL)stringEncode
-//                   andReturnHeaders:(BOOL)returnHeaders
 {
     DLog(@"request: %@", [[request URL] absoluteString]);
     
@@ -253,8 +239,6 @@ static JRConnectionManager* singleton = nil;
                                                                  forDelegate:delegate 
                                                           returnFullResponse:returnFullResponse
                                                                      withTag:userdata];
-//                                                              encodeResponse:stringEncode
-//                                                               returnHeaders:returnHeaders];	
 	CFDictionaryAddValue(connectionBuffers,
 						 connection,
 						 connectionData);
@@ -274,7 +258,7 @@ static JRConnectionManager* singleton = nil;
                         forDelegate:(id<JRConnectionManagerDelegate>)delegate 
                             withTag:(void*)userdata
 {
-    return [JRConnectionManager createConnectionFromRequest:request forDelegate:delegate returnFullResponse:NO withTag:userdata];// stringEncodeData:YES];
+    return [JRConnectionManager createConnectionFromRequest:request forDelegate:delegate returnFullResponse:NO withTag:userdata];
 }
 
 + (void)stopConnectionsForDelegate:(id<JRConnectionManagerDelegate>)delegate
@@ -324,8 +308,6 @@ static JRConnectionManager* singleton = nil;
 
     if ([connectionData returnFullResponse])
         connectionData.fullResponse = response;
-    
-//    [(ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection) setResponse:[[[NSMutableData alloc] init] autorelease]];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection 
@@ -352,7 +334,6 @@ static JRConnectionManager* singleton = nil;
     }
     else
     {
-//        - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata;
         if ([delegate respondsToSelector:@selector(connectionDidFinishLoadingWithFullResponse:unencodedPayload:request:andTag:)])
             [delegate connectionDidFinishLoadingWithFullResponse:fullResponse unencodedPayload:responseBody request:request andTag:userdata];
     }
