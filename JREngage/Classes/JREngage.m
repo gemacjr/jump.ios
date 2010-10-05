@@ -185,7 +185,7 @@ static JREngage* singletonJREngage = nil;
     }
     
 	[sessionData setActivity:activity];
-    
+
     [interfaceMaestro showPublishingDialogWithActivity];
 }
 
@@ -250,7 +250,8 @@ static JREngage* singletonJREngage = nil;
 	[interfaceMaestro authenticationFailed];
 }
 
-- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
+//- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
+- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 {
     DLog(@"");
     
@@ -259,6 +260,9 @@ static JREngage* singletonJREngage = nil;
     {
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withPayload:forProvider:)])
             [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
+    
+        if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:)])
+            [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withResponse:response andPayload:tokenUrlPayload forProvider:provider];
     }    
 }
 

@@ -37,12 +37,15 @@
 #import <UIKit/UIKit.h>
 
 @protocol JRConnectionManagerDelegate <NSObject>
-
+@optional
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata;
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata;
+- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata;
+
+//- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata;
+//- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request headers:(NSDictionary)headers andTag:(void*)userdata;
+//- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request headers:(NSDictionary)headers andTag:(void*)userdata;
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata;
 - (void)connectionWasStoppedWithTag:(void*)userdata;
-
 @end
 
 @interface JRConnectionManager : NSObject 
@@ -52,8 +55,21 @@
 
 @property CFMutableDictionaryRef connectionBuffers;
 
-+ (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata;
-+ (bool)createConnectionFromRequest:(NSURLRequest*)request forDelegate:(id<JRConnectionManagerDelegate>)delegate withTag:(void*)userdata stringEncodeData:(BOOL)stringEncode;
++ (bool)createConnectionFromRequest:(NSURLRequest*)request 
+                        forDelegate:(id<JRConnectionManagerDelegate>)delegate 
+                            withTag:(void*)userdata;
+
++ (bool)createConnectionFromRequest:(NSURLRequest*)request 
+                        forDelegate:(id<JRConnectionManagerDelegate>)delegate 
+                 returnFullResponse:(BOOL)returnFullResponse
+                            withTag:(void*)userdata;
+
+//+ (bool)createConnectionFromRequest:(NSURLRequest*)request 
+//                        forDelegate:(id<JRConnectionManagerDelegate>)delegate 
+//                            withTag:(void*)userdata 
+//                   stringEncodeData:(BOOL)stringEncode
+//                   andReturnHeaders:(BOOL)returnHeaders;
+
 + (void)stopConnectionsForDelegate:(id<JRConnectionManagerDelegate>)delegate;
 
 + (NSUInteger)openConnections;

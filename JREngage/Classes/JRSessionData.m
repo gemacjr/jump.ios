@@ -256,6 +256,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 
 @interface JRSessionData()
 - (NSError*)startGetConfiguration;
+- (NSError*)finishGetConfiguration:(NSString *)dataStr;
 - (void)loadLastUsedBasicProvider;
 - (void)loadLastUsedSocialProvider;
 @end
@@ -268,7 +269,8 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 @synthesize tokenUrl;
 @synthesize forceReauth;
 @synthesize social;
-@synthesize configurationComplete;
+//@synthesize dialogIsShowing;
+//@synthesize configurationComplete;
 @synthesize error;
 
 static JRSessionData* singleton = nil;
@@ -339,6 +341,15 @@ static JRSessionData* singleton = nil;
     return hidePoweredBy;
 }
 
+- (void)setDialogIsShowing:(BOOL)isShowing
+{/* If we found out that the configuration changed while a dialog was showing, we saved it until the dialog wasn't showing
+    since the dialogs dynamically load our data. Now that the dialog isn't showing, load the saved configuration information. */
+    if (!isShowing && savedConfigurationBlock)
+        error = [self finishGetConfiguration:savedConfigurationBlock];
+
+    dialogIsShowing = isShowing;
+}
+
 - (id)initWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
 {
 	DLog(@"");
@@ -351,8 +362,9 @@ static JRSessionData* singleton = nil;
 		appId = _appId;
         tokenUrl = _tokenUrl;
         
-        /* First, we load all of the cached data (the list of providers*/
+        /* First, we load all of the cached data (the list of providers, saved users, base url, etc.) */
         
+        /* Load the dictionary of authenticated users */
         NSData *archivedUsers = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrAuthenticatedUsersByProvider"];
         if (archivedUsers != nil)
         {
@@ -361,9 +373,11 @@ static JRSessionData* singleton = nil;
                 authenticatedUsersByProvider = [[NSMutableDictionary alloc] initWithDictionary:unarchivedUsers];
         }
         
+        /* And if there weren't any saved users, init the dictionary */
         if (!authenticatedUsersByProvider)
             authenticatedUsersByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
 
+        /* Load the list of all providers */
         NSData *archivedProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrAllProviders"];
         if (archivedProviders != nil)
         {
@@ -372,36 +386,41 @@ static JRSessionData* singleton = nil;
                 allProviders = [[NSMutableDictionary alloc] initWithDictionary:unarchivedProviders];
         }
         
+        /* Load the list of basic providers */
         NSData *archivedBasicProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrBasicProviders"];
         if (archivedBasicProviders != nil)
         {
             basicProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedBasicProviders] retain];
-//            if (unarchivedBasicProviders != nil)
-//                basicProviders = [[NSArray alloc] initWithArray:unarchivedBasicProviders];
         }
         
+        /* Load the list of social providers */
         NSData *archivedSocialProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrSocialProviders"];
         if (archivedSocialProviders != nil)
         {
             socialProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders] retain];
-//            if (unarchivedSocialProviders != nil)
-//                socialProviders = [[NSArray alloc] initWithArray:unarchivedSocialProviders];
         }
 
+        /* Load the base url and whether or not we need to hide the tagline */
         baseUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrBaseUrl"];
         hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:@"jrHidePoweredBy"];
                 
-        // TODO: The loadLastUsed...Provider methods are going to get called twice if we call them at the end 
-        // of the configuration calls and in the constructor. Figure out the most optimal solution for this...
-        if (baseUrl && allProviders)
-        {
-            [self loadLastUsedSocialProvider];
-            [self loadLastUsedBasicProvider];
-        }
+        [self loadLastUsedBasicProvider];
+        [self loadLastUsedSocialProvider];
+        
+//        // TODO: The loadLastUsed...Provider methods are going to get called twice if we call them at the end 
+//        // of the configuration calls and in the constructor. Figure out the most optimal solution for this...
+//        if (baseUrl && allProviders)
+//        {
+//            [self loadLastUsedSocialProvider];
+//            [self loadLastUsedBasicProvider];
+//        }
         
         //error = [self startGetBaseUrl];
+        
+        /* As this information may have changed, we're going to ask rpx for this information anyway */
         error = [self startGetConfiguration];
 	}
+    
 	return self;
 }
 
@@ -454,17 +473,9 @@ static JRSessionData* singleton = nil;
 {	
     DLog(@"");
     
-//#define STAGING
-//#ifdef STAGING
-//	NSString *urlString = [NSString stringWithFormat:
-//                           @"http://rpxstaging.com/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
-//                           @"kcemlogaanidnljknmbj"];
-//    tokenUrl = nil;
-//#else
 	NSString *urlString = [NSString stringWithFormat:
                            @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
                            serverUrl, appId];
-//#endif
     
     DLog(@"url: %@", urlString);
 	
@@ -479,7 +490,7 @@ static JRSessionData* singleton = nil;
 	
 	NSString *tag = [[NSString alloc] initWithFormat:@"getConfiguration"];
 	
-	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
 		return [self setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
                      withCode:JRUrlError 
                       andType:JRErrorTypeConfigurationFailed];
@@ -487,106 +498,116 @@ static JRSessionData* singleton = nil;
     return nil;
 }
 
-
 - (NSError*)finishGetConfiguration:(NSString*)dataStr
 {
-	DLog(@"");
-    
+    /* Make sure that the returned string can be parsed as json (which there should be no reason that this wouldn't happen) */
     if (![dataStr respondsToSelector:@selector(JSONValue)])
         return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                      withCode:JRJsonError
                       andType:JRErrorTypeConfigurationFailed];
-	
-	NSDictionary *jsonDict = [dataStr JSONValue];
     
-	if(!jsonDict)
-		return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+    NSDictionary *jsonDict = [dataStr JSONValue];
+    
+    /* Double-check the return value */
+    if(!jsonDict)
+        return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                      withCode:JRJsonError
                       andType:JRErrorTypeConfigurationFailed];
-	
+    
+    
     // TODO: Error check this (getting the new config stuff out of the new config api call)
+    /* If the baseUrl has changed, get the new baseUrl */
     if (![[jsonDict objectForKey:@"baseurl"] isEqualToString:baseUrl])
         baseUrl = [[[jsonDict objectForKey:@"baseurl"] 
                     stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] retain];
     
+    /* Then save it */
     [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"jrBaseUrl"];
     
-	NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
+    /* Get the providers out of the provider_info section.  These are most likely to have changed. */
+    NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
+    allProviders = [[NSMutableDictionary alloc] initWithCapacity:[[providerInfo allKeys] count]];
     
-    BOOL reloadConfiguration = YES;//NO;
-    
-    // TODO: Rewrite all of the configuration stuff to use e-tag to compare new data with cached data in case anything changes
-    //    for (NSString *name in [providerInfo allKeys])
-    //    {
-    //        if (![allProviders objectForKey:name]) 
-    //        {
-    //            reloadConfiguration = YES;
-    //            break;
-    //        }
-    //    }
-    
-    if (reloadConfiguration)
-    {
-        allProviders = [[NSMutableDictionary alloc] initWithCapacity:[[providerInfo allKeys] count]];
+    /* For each provider... */
+    for (NSString *name in [providerInfo allKeys])
+    {   /* Get its dictionary, */
+        NSDictionary *dictionary = [providerInfo objectForKey:name];
         
-        for (NSString *name in [providerInfo allKeys])
-        {
-            if (name)
-            {
-                NSDictionary *dictionary = [providerInfo objectForKey:name];
-                
-                JRProvider *provider = [[[JRProvider alloc] initWithName:name
-                                                           andDictionary:dictionary] autorelease];
-                
-                [allProviders setObject:provider forKey:name];
-            }
-        }
+        /* use this to create a provider object, */
+        JRProvider *provider = [[[JRProvider alloc] initWithName:name
+                                                   andDictionary:dictionary] autorelease];
         
-        basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
-        
-        if (!allProviders || !basicProviders)
-            return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                         withCode:JRConfigurationInformationError
-                          andType:JRErrorTypeConfigurationFailed];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
-                                                  forKey:@"jrAllProviders"];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
-                                                  forKey:@"jrBasicProviders"];
-        
-#ifdef SOCIAL_PUBLISHING	    
-//        socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
-        
-        
-        NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
-                                                                                               copyItems:YES] autorelease];
-        [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
-        socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
-        
-        /* yippie, yahoo! */
-        if (!socialProviders)		
-            return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                         withCode:JRConfigurationInformationError
-                          andType:JRErrorTypeConfigurationInformationMissing];
-        
-#endif
-        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
-                                                  forKey:@"JRSocialProviders"];
-        
-        if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
-            hidePoweredBy = YES;
-        else
-            hidePoweredBy = NO;
-        
-        [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"jrHidePoweredBy"];
+        /* and add the object to our dictionary of providers. */
+        [allProviders setObject:provider forKey:name];
     }
     
+    /* Get the ordered list of basic providers */
+    basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
     
-#ifdef SOCIAL_PUBLISHING	
-	[self loadLastUsedSocialProvider];
-#endif
+    /* Get the ordered list of social providers */
+    //      socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
+    /* yippie, yahoo! */
+    NSMutableArray *temporaryArrayForTestingShouldBeRemoved = [[[NSMutableArray alloc] initWithArray:[jsonDict objectForKey:@"social_providers"]
+                                                                                           copyItems:YES] autorelease];
+    [temporaryArrayForTestingShouldBeRemoved addObject:@"yahoo"];
+    socialProviders = [[NSArray arrayWithArray:temporaryArrayForTestingShouldBeRemoved] retain];
     
-    [self loadLastUsedBasicProvider];
+    /* Then save our stuff */
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
+                                              forKey:@"jrAllProviders"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
+                                              forKey:@"jrBasicProviders"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
+                                              forKey:@"jrSocialProviders"];
+    
+    /* Figure out if we need to hide the tag line */
+    if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
+        hidePoweredBy = YES;
+    else
+        hidePoweredBy = NO;
+    
+    /* And finally, save that too */
+    [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"jrHidePoweredBy"];
+    
+    /* Once we know that everything is parsed and saved correctly, save the new etag */
+    [[NSUserDefaults standardUserDefaults] setValue:newEtag forKey:@"jrConfigurationEtag"];
+   
+    /* The release our saved configuration information */
+    [savedConfigurationBlock release];
+    [newEtag release];
+    
+    savedConfigurationBlock = nil;
+    newEtag = nil;
+    
+    return nil;
+}
+
+- (NSError*)finishGetConfiguration:(NSString*)dataStr withEtag:(NSString*)etag
+{
+	DLog(@"");
+    NSString *oldEtag = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrConfigurationEtag"];
+    
+ /* If the configuration for this rp has changed, the etag will have changed, and we need to update 
+    our current configuration information. */
+    if (![oldEtag isEqualToString:etag]) 
+    {
+        newEtag = [etag retain];
+    
+     /* We can only update all of our data if the UI isn't currently using that information.  Otherwise, 
+        the library may crash/behave inconsistently.  If a dialog isn't showing, go ahead and update
+        that information.  Or, in the case where a dialog is showing but there isn't any data that it could
+        be using (that is, the lists of basic and social providers are nil), go ahead and update it too.
+        The dialogs won't try and do anything until we're done updating the lists. */
+        if (!dialogIsShowing || (!basicProviders && !socialProviders))
+            return [self finishGetConfiguration:dataStr];
+        
+     /* Otherwise, we have to save all this information for later.  The UserInterfaceMaestro sends a 
+        signal to sessionData when the dialog closes (by setting the boolean dialogIsShowing to "NO".
+        In the setter function, sessionData checks to see if there's anything stored in the
+        savedConfigurationBlock, and updates it then. */
+        savedConfigurationBlock = [dataStr retain];
+    }
     
     return nil;
 }
@@ -621,7 +642,7 @@ static JRSessionData* singleton = nil;
     if (archivedProvider != nil)
         returningBasicProvider = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedProvider] retain];
     
-    configurationComplete = YES;  
+//    configurationComplete = YES;  
 }
 
 - (void)saveLastUsedSocialProvider
@@ -807,17 +828,9 @@ static JRSessionData* singleton = nil;
     [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
 
-//#ifdef STAGING
-//    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
-//                                     [NSURL URLWithString:@"https://rpxstaging.com/api/v2/activity?"]] retain];
-//#else ifdef LOCAL 
-//    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
-//                                     [NSURL URLWithString:@"http://lillialexis.janrain.com:8080/api/v2/activity?"]] retain];
-//#else
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
                                       [NSString stringWithFormat:@"%@/api/v2/activity?", serverUrl]]] retain];
-//#endif
     
     DLog("Share activity request: %@ and body: %s", [[request URL] absoluteString], body.bytes);
     [request setHTTPMethod:@"POST"];
@@ -845,7 +858,7 @@ static JRSessionData* singleton = nil;
 	
     NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl", providerName, @"providerName", nil] retain];
     
-	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])// stringEncodeData:NO])
 	{
         NSError *_error = [self setError:@"Problem initializing the connection to the token url"
                                 withCode:JRAuthenticationFailedError
@@ -862,7 +875,8 @@ static JRSessionData* singleton = nil;
 	[request release];
 }
 
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
+//- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
+- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
     NSObject* tag = (NSObject*)userdata;
     [payload retain];
@@ -873,13 +887,47 @@ static JRSessionData* singleton = nil;
         {
             NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
             for (id<JRSessionDelegate> delegate in delegatesCopy) 
-            {
+            {   // TODO: Add delegate message that passes the full response headers as well
                 if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withPayload:forProvider:)])
                     [delegate authenticationDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-                                                 withPayload:payload 
+                                                withResponse:fullResponse
+                                                  andPayload:payload 
                                                  forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
             }
             
+        }
+    }
+    else if ([tag isKindOfClass:[NSString class]])
+    {   	
+        DLog(@"tag:     %@", tag);
+        
+        if ([(NSString*)tag isEqualToString:@"getConfiguration"])
+        {
+            NSString *payloadString = [[[NSString alloc] initWithData:payload encoding:NSASCIIStringEncoding] autorelease];
+            
+            if ([payloadString rangeOfString:@"\"provider_info\":{"].length != 0)
+            {
+                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)fullResponse;
+
+                NSDictionary* dict = nil;
+                if ([httpResponse respondsToSelector:@selector(allHeaderFields)]) 
+                    dict = [httpResponse allHeaderFields];
+                
+                NSString* etag = [dict objectForKey:@"Etag"];
+                
+                DLog(@"etag:    %@", etag);
+                DLog(@"headers: %@", dict);
+                
+                    
+                    error = [self finishGetConfiguration:payloadString withEtag
+                                                        :[[httpResponse allHeaderFields] objectForKey:@"Etag"]];
+            }
+            else // There was an error...
+            {
+                error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                              withCode:JRConfigurationInformationError
+                               andType:JRErrorTypeConfigurationFailed];
+            }
         }
     }
     
@@ -900,20 +948,21 @@ static JRSessionData* singleton = nil;
     {   	
         DLog(@"tag:     %@", tag);
 
-        if ([(NSString*)tag isEqualToString:@"getConfiguration"])
-        {
-            if ([payload rangeOfString:@"\"provider_info\":{"].length != 0)
-            {
-                error = [self finishGetConfiguration:payload];
-            }
-            else // There was an error...
-            {
-                error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                              withCode:JRConfigurationInformationError
-                               andType:JRErrorTypeConfigurationFailed];
-            }
-        }
-        else if ([(NSString*)tag isEqualToString:@"shareActivity"])
+//        if ([(NSString*)tag isEqualToString:@"getConfiguration"])
+//        {
+//            if ([payload rangeOfString:@"\"provider_info\":{"].length != 0)
+//            {
+//                error = [self finishGetConfiguration:payload];
+//            }
+//            else // There was an error...
+//            {
+//                error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+//                              withCode:JRConfigurationInformationError
+//                               andType:JRErrorTypeConfigurationFailed];
+//            }
+//        }
+//        else 
+        if ([(NSString*)tag isEqualToString:@"shareActivity"])
         {
             NSDictionary *response_dict = [payload JSONValue];
             

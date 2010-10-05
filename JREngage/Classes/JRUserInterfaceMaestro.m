@@ -130,6 +130,7 @@ static JRUserInterfaceMaestro* singleton = nil;
                  myWebViewController, 
                  myPublishActivityController, nil];
     
+    sessionData.dialogIsShowing = YES;
 }
 
 - (void)pushToCustomNavigationController:(UINavigationController*)_navigationController
@@ -158,6 +159,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     
     [jrModalNavController release];
 	jrModalNavController = nil;	   
+    
+    sessionData.dialogIsShowing = NO;
 }
 
 

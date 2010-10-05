@@ -79,6 +79,7 @@
 @property (readonly) NSString *href;
 @property (retain) UIImage *preview;
 
+/*@{*/
 /**
  * Returns a \c JRImageMediaObject initialized with the given src and href.
  *
@@ -93,6 +94,9 @@
  *   \c _src or \c _href are \e nil, returns \c nil.
  **/
 - (id)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
+
++ (id)imageMediaObjectWithSrc:(NSString*)_src andHref:(NSString*)_href;
+/*@}*/
 @end
 
 
@@ -138,6 +142,7 @@
 @property NSUInteger expanded_height;
 @property (retain) UIImage *preview;
 
+/*@{*/
 /**
  * Returns a JRFlashMediaObject initialized with the given swfsrc and imgsrc.
  *
@@ -152,6 +157,9 @@
  *   \c _swfsrc or \c _imgsrc are \e nil, returns \c nil.
  **/
 - (id)initWithSwfsrc:(NSString *)_swfsrc andImgsrc:(NSString *)_imgsrc;
+
++ (id)flashMediaObjectWithSwfsrc:(NSString*)_swfsrc andImgsrc:(NSString*)_imgsrc;
+/*@}*/
 @end
 
 
@@ -184,6 +192,7 @@
 @property (retain) NSString *artist;
 @property (retain) NSString *album;
 
+/*@{*/
 /**
  * Returns a \c JRMp3MediaObject initialized with the given src.
  *
@@ -195,6 +204,9 @@
  *   \c _src is \e nil, returns \c nil.
  **/
 - (id)initWithSrc:(NSString *)_src;
+
++ (id)mp3MediaObjectWithSrc:(NSString*)_src;
+/*@}*/
 @end
 
 
@@ -230,6 +242,7 @@
 @property (retain) NSString *text;
 @property (retain) NSString *href;
 
+/*@{*/
 /**
  * Returns a \c JRActionLink initialized with the given text and href.
  *
@@ -244,6 +257,9 @@
  *   \c _text or \c _href are \e nil, returns \c nil.
  **/
 - (id)initWithText:(NSString *)_text andHref:(NSString *)_href;
+
++ (id)actionLinkWithText:(NSString*)_text andHref:(NSString*)_href;
+/*@}*/
 @end
 
 

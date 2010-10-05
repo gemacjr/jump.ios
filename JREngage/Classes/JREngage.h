@@ -221,6 +221,25 @@
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
 /**
+ * Sent after JREngage has successfully posted the token to your application's token_url, containing 
+ * the headers and body of the response from the server
+ *
+ * @param tokenUrl
+ *   The URL on the server where the token was posted and server-side authentication was completed
+ *
+ * @param reponse
+ *   The final NSURLResponse returned from the server
+ *
+ * @param tokenUrlPayload
+ *   The response from the server
+ *
+ * @param provider
+ *   The name of the provider on which the user authenticated.  For a list of possible strings, 
+ *   please see the \ref basicProviders "List of Providers"
+ **/
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+
+/**
  * Sent when the call to the token URL has failed
  *
  * @param tokenUrl

@@ -82,7 +82,8 @@
     return self;
 }
 
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
+//- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata 
+- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
     image = [[UIImage imageWithData:payload] retain];
     
@@ -103,7 +104,7 @@
         return;
     
     NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:nil stringEncodeData:NO];    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:nil];// stringEncodeData:NO];    
 }
 
 - (void)setAlt:(NSString*)_alt

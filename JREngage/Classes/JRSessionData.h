@@ -137,7 +137,7 @@
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
-- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 - (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
 - (void)publishingDidRestart;
@@ -167,6 +167,9 @@
     NSArray             *socialProviders;
     NSMutableDictionary *authenticatedUsersByProvider;
 	
+    NSString *savedConfigurationBlock;
+    NSString *newEtag;
+    
     JRActivityObject *activity;
     
 //	NSURL *startUrlForCurrentProvider;
@@ -181,7 +184,8 @@
 	BOOL hidePoweredBy;
     BOOL social;
 
-    BOOL configurationComplete;
+    BOOL dialogIsShowing;
+//    BOOL configurationComplete;
     NSError  *error;
 }
 @property (retain)   JRProvider *currentProvider;
@@ -203,7 +207,8 @@
 @property (readonly) BOOL hidePoweredBy;
 @property (assign)   BOOL social;
 
-@property (readonly) BOOL configurationComplete;
+@property BOOL dialogIsShowing;
+//@property (readonly) BOOL configurationComplete;
 @property (readonly) NSError *error;
 
 + (JRSessionData*)jrSessionData;

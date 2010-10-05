@@ -109,6 +109,14 @@
     return self;
 }
 
++ (id)imageMediaObjectWithSrc:(NSString*)_src andHref:(NSString*)_href
+{
+    if (!_src || !_href)
+        return nil;
+    
+    return [[[JRImageMediaObject alloc] initWithSrc:_src andHref:_href] autorelease];    
+}
+
 - (void)setPreviewImage:(UIImage*)image
 {
     [preview release];
@@ -157,6 +165,14 @@
     }
     
     return self;
+}
+
++ (id)flashMediaObjectWithSwfsrc:(NSString*)_swfsrc andImgsrc:(NSString*)_imgsrc
+{
+    if (!_swfsrc || !_imgsrc)
+        return nil;
+    
+    return [[[JRFlashMediaObject alloc] initWithSwfsrc:_swfsrc andImgsrc:_imgsrc] autorelease];
 }
 
 - (void)setPreviewImage:(UIImage*)image
@@ -219,6 +235,14 @@
     return self;
 }
 
++ (id)mp3MediaObjectWithSrc:(NSString*)_src
+{
+    if (!_src)
+        return nil;
+    
+    return [[[JRMp3MediaObject alloc] initWithSrc:_src] autorelease];
+}
+
 - (NSDictionary*)dictionaryForObject
 {
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys: 
@@ -272,6 +296,14 @@
     }
     
     return self;
+}
+
++ (id)actionLinkWithText:(NSString*)_text andHref:(NSString*)_href
+{
+    if (!_text || !_href)
+        return nil;
+    
+    return [[[JRActionLink alloc] initWithText:_text andHref:_href] autorelease];
 }
 
 - (NSDictionary*)dictionaryForObject
@@ -332,9 +364,8 @@
 
 - (NSMutableArray*)media
 {
-    // TODO: Need to release?
-    if (!media)
-        media = [[NSMutableArray alloc] initWithCapacity:1];
+//    if (!media)
+//        media = [[NSMutableArray alloc] initWithCapacity:1];
     
     return media;
 }
@@ -350,9 +381,8 @@
 
 - (NSMutableArray*)action_links
 {
-    // TODO: Need to release?
-    if (!action_links)
-        action_links = [[NSMutableArray alloc] initWithCapacity:1];
+//    if (!action_links)
+//        action_links = [[NSMutableArray alloc] initWithCapacity:1];
 
     return action_links;
 }

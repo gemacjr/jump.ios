@@ -92,7 +92,7 @@
      display the "Loading Providers" label and activity spinner. 
      sessionData = nil when the call to get the base URL hasn't returned
      [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-	if (![sessionData configurationComplete] || !([[sessionData socialProviders] count] > 0))
+	if (/*![sessionData configurationComplete] ||*/!([[sessionData socialProviders] count] > 0))
 	{
         [self showViewIsLoading:YES];
 		
@@ -185,7 +185,7 @@
     timer = nil;
 	      
     /* If we have our list of providers, stop the progress indicators and load the table. */
-	if ([sessionData configurationComplete] || ([[sessionData socialProviders] count] > 0))
+	if (/*[sessionData configurationComplete] ||*/([[sessionData socialProviders] count] > 0))
 	{
         weAreReady = YES;
         
@@ -488,7 +488,7 @@ Please try again later."
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
             NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
             
-            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])// stringEncodeData:NO])
                 [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
                 
             [request release];            
@@ -525,7 +525,7 @@ Please try again later."
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     NSString     *tag = [providerName retain];
     
-    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag stringEncodeData:NO])
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])// stringEncodeData:NO])
         [self setProfilePicToDefaultPic];
     
     [request release];
@@ -671,7 +671,8 @@ Please try again later."
     [(NSString*)userdata release];	
 }
 
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+//- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
     DLog(@"");
     NSString* tag = (NSString*)userdata; 
