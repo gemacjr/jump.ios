@@ -177,6 +177,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     DLog(@"");
     [sessionData setSocial:NO];
+    [sessionData setActivity:nil];
     
     if (myPublishActivityController)
         [sessionData removeDelegate:myPublishActivityController];

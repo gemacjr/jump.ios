@@ -233,7 +233,7 @@
 - (void)forgetAuthenticatedUserForProvider:(NSString*)provider;
 - (void)forgetAllAuthenticatedUsers;
 
-- (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user;
+- (void)shareActivityForUser:(JRAuthenticatedUser*)user;
 
 - (void)makeCallToTokenUrl:(NSString*)tokenURL withToken:(NSString*)token forProvider:(NSString*)provider;
 

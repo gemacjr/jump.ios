@@ -805,7 +805,7 @@ static JRSessionData* singleton = nil;
     returningBasicProvider = nil;
 }
 
-- (void)shareActivity:(JRActivityObject*)_activity forUser:(JRAuthenticatedUser*)user
+- (void)shareActivityForUser:(JRAuthenticatedUser*)user
 {
     DLog(@"");
     // TODO: Better error checking in sessionData's share activity bit

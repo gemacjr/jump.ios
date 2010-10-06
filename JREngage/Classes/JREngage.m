@@ -129,6 +129,18 @@ static JREngage* singletonJREngage = nil;
     [delegates removeObject:delegate];
 }
 
+- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
+{
+    DLog(@"");
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                              message, NSLocalizedDescriptionKey,
+                              type, @"type", nil];
+    
+    return [[NSError alloc] initWithDomain:@"JREngage"
+                                      code:code
+                                  userInfo:userInfo];
+}
+
 - (void)engageDidFailWithError:(NSError*)error
 {
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
@@ -156,7 +168,7 @@ static JREngage* singletonJREngage = nil;
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
-//            [sessionData.error release];
+
             return;
         }
     }
@@ -179,9 +191,16 @@ static JREngage* singletonJREngage = nil;
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
-//            [sessionData.error release];
+
             return;
         }
+    }
+    
+    if (!activity)
+    {
+        [self engageDidFailWithError:[self setError:@"Activity object can't be nil" 
+                                           withCode:JRPublishErrorAcivityNil 
+                                            andType:JRErrorTypePublishFailed]];
     }
     
 	[sessionData setActivity:activity];
@@ -250,7 +269,6 @@ static JREngage* singletonJREngage = nil;
 	[interfaceMaestro authenticationFailed];
 }
 
-//- (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
 - (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 {
     DLog(@"");

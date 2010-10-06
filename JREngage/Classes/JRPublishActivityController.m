@@ -81,8 +81,6 @@
                         [UIColor colorWithRed:0.2471 green:0.3961 blue:0.8549 alpha:0.2], @"google", nil];
                         
 	sessionData = [JRSessionData jrSessionData];
-	
-    // TODO: When do we ever check if activity is null and what do we do when it is?
     activity = [[sessionData activity] retain];
     
     [self loadActivityToView];
@@ -624,7 +622,7 @@ Please try again later."
 {
     DLog(@"");
     
-    [sessionData shareActivity:activity forUser:loggedInUser];
+    [sessionData shareActivityForUser:loggedInUser];
 }
 
 - (IBAction)shareButtonPressed:(id)sender
@@ -671,7 +669,6 @@ Please try again later."
     [(NSString*)userdata release];	
 }
 
-//- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
     DLog(@"");
