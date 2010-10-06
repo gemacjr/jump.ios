@@ -127,14 +127,17 @@
 /*@{*/
 
 /**
- * Sent if the application tries to show a JREngage dialog, and JREngage failed to configure
+ * Sent if the application tries to show a JREngage dialog, and JREngage failed to show.  May
+ * occur if the JREngage library failed to configure, or if the activity object was nil, etc.
  *
  * @param error
  *   The error that occurred during configuration
  *
  * \note
- * This message is only sent if your application tries to show a JREngage dialog, not when the error
- * occurs, since your application may preemptively configure JREngage, but never actually use it.
+ * This message is only sent if your application tries to show a JREngage dialog, and not necessarily 
+ * when an error occurs, if, say, the error occurred during the library's configuration.  The raison d'etre 
+ * is based on the possibility that your application may preemptively configure JREngage, but never actually 
+ * use it.  If that is the case, then you won't get any error.
  **/
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
 /*@}*/
