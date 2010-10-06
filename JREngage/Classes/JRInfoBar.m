@@ -132,8 +132,6 @@
 {
     DLog(@"");
     
-    // TODO: Localize these strings
-
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
                                [[[NSBundle mainBundle] resourcePath] 
                                 stringByAppendingPathComponent:@"/JREngage-Info.plist"]];

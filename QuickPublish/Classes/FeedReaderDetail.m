@@ -181,7 +181,7 @@
         JRImageMediaObject *image = [[[JRImageMediaObject alloc] initWithSrc:storyImage.src andHref:story.feed.link] autorelease];
         [image setPreview:storyImage.image];
     
-        [activity.media addObject:image];
+        activity.media = [NSArray arrayWithObject:image];
     }
     
     [FeedReader feedReader].feedReaderDetail = self;

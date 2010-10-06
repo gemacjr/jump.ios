@@ -83,6 +83,12 @@
 	sessionData = [JRSessionData jrSessionData];
     activity = [[sessionData activity] retain];
     
+    if ([sessionData hidePoweredBy])
+    {
+        [myPoweredByLabel setHidden:YES];
+        [myInfoButton setHidden:YES];
+    }
+    
     [self loadActivityToView];
     
 	/* If the user calls the library before the session data object is done initializing - 
@@ -664,6 +670,29 @@ Please try again later."
     }
 }
 
+- (IBAction)infoButtonPressed:(id)sender
+{
+    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
+                               [[[NSBundle mainBundle] resourcePath] 
+                                stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
+    
+    NSString *version = [infoPlist objectForKey:@"CFBundleShortVersionString"];
+    
+    /* So long as I always number the versions v#.#.#, this will always trim the leading 'v', leaving just the numbers.
+     Also, if my script accidentally adds a trailing '\n', this gets trimmed too. */
+    version = [[version stringByTrimmingCharactersInSet:[NSCharacterSet lowercaseLetterCharacterSet]]
+               stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
+                                                                   @"Janrain Engage for iPhone Library\nVersion %@\nwww.janrain.com", version]
+														 delegate:nil
+												cancelButtonTitle:@"OK"  
+										   destructiveButtonTitle:nil
+												otherButtonTitles:nil] autorelease];
+	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+	[action showFromTabBar:myTabBar];
+}
+
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
     [(NSString*)userdata release];	
@@ -951,6 +980,7 @@ Please try again later."
     [myUserContentTextView release];
     [myUserContentBoundingBox release];
     [myProviderIcon release];
+    [myInfoButton release];
     [myPoweredByLabel release];
     [myMediaContentView release];
     [myMediaViewBackgroundMiddle release];

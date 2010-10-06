@@ -69,6 +69,7 @@
     IBOutlet UIButton    *myUserContentBoundingBox;
     
     IBOutlet UIImageView *myProviderIcon;
+    IBOutlet UIButton    *myInfoButton;
     IBOutlet UILabel     *myPoweredByLabel;
     
     IBOutlet UIView                  *myMediaContentView;
@@ -97,4 +98,5 @@
 - (IBAction)shareButtonPressed:(id)sender; 
 - (IBAction)doneButtonPressed:(id)sender; 
 - (IBAction)editButtonPressed:(id)sender; 
+- (IBAction)infoButtonPressed:(id)sender;
 @end
