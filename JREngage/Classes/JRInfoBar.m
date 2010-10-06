@@ -132,9 +132,21 @@
 {
     DLog(@"");
     
-    // TODO: Figure out how to load the version dynamically from Info.plist or something
     // TODO: Localize these strings
-	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Janrain Engage Library\nVersion 2.0.0"
+
+    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
+                               [[[NSBundle mainBundle] resourcePath] 
+                                stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
+
+    NSString *version = [infoPlist objectForKey:@"CFBundleShortVersionString"];
+    
+ /* So long as I always number the versions v#.#.#, this will always trim the leading 'v', leaving just the numbers.
+    Also, if my script accidentally adds a trailing '\n', this gets trimmed too. */
+    version = [[version stringByTrimmingCharactersInSet:[NSCharacterSet lowercaseLetterCharacterSet]]
+                        stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
+                                                                   @"Janrain Engage for iPhone Library\nVersion %@\nwww.janrain.com", version]
 														 delegate:self
 												cancelButtonTitle:@"OK"  
 										   destructiveButtonTitle:nil

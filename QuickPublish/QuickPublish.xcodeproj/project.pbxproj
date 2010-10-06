@@ -99,7 +99,6 @@
 		9F87DF471219A97600FF7E2C /* FeedReaderWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */; };
 		9F8AC6101210BD4E004DB52A /* FeedReaderDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */; };
 		9FB409421241429300FDDA7B /* Quick_PublishAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */; };
-		9FB409461241430500FDDA7B /* Quick_Publish-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FB409451241430500FDDA7B /* Quick_Publish-Info.plist */; };
 		9FB409561241435400FDDA7B /* FeedReaderDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB409531241435400FDDA7B /* FeedReaderDetail.xib */; };
 		9FB409571241435400FDDA7B /* FeedReaderFeeds.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB409541241435400FDDA7B /* FeedReaderFeeds.xib */; };
 		9FB409581241435400FDDA7B /* FeedReaderWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB409551241435400FDDA7B /* FeedReaderWebView.xib */; };
@@ -604,7 +603,6 @@
 				9FED490512241BCC004684F2 /* icon_itunes.png in Resources */,
 				9FED490612241BCC004684F2 /* janrain_logo.png in Resources */,
 				9FED490712241BCC004684F2 /* MainWindow.xib in Resources */,
-				9FB409461241430500FDDA7B /* Quick_Publish-Info.plist in Resources */,
 				9FB409561241435400FDDA7B /* FeedReaderDetail.xib in Resources */,
 				9FB409571241435400FDDA7B /* FeedReaderFeeds.xib in Resources */,
 				9FB409581241435400FDDA7B /* FeedReaderWebView.xib in Resources */,

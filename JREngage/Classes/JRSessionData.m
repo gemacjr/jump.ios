@@ -405,7 +405,7 @@ static JRSessionData* singleton = nil;
 
         /* Load the base url and whether or not we need to hide the tagline */
         baseUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrBaseUrl"];
-        hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:@"jrHidePoweredBy"];
+        hidePoweredBy = NO;//[[NSUserDefaults standardUserDefaults] boolForKey:@"jrHidePoweredBy"];
                 
         [self loadLastUsedBasicProvider];
         [self loadLastUsedSocialProvider];

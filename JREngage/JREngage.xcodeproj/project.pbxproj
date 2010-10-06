@@ -47,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		9F08797012553B44008AD40D /* JRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRError.h; sourceTree = "<group>"; };
+		9F0880B8125BFB07008AD40D /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JREngage-Info.plist"; sourceTree = "<group>"; };
 		9F63D526124FEAC400A21A59 /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
 		9F63DA7B12511B3E00A21A59 /* black_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_button.png; sourceTree = "<group>"; };
 		9F63DA7C12511B3E00A21A59 /* blue_button_135x38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_button_135x38.png; sourceTree = "<group>"; };
@@ -377,6 +378,7 @@
 				9FB408A212413B7D00FDDA7B /* JRPublishActivityController.xib */,
 				9FB408A312413B7D00FDDA7B /* JRUserLandingController.xib */,
 				9FB408A412413B7D00FDDA7B /* JRWebViewController.xib */,
+				9F0880B8125BFB07008AD40D /* JREngage-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
