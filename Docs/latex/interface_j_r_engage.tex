@@ -15,49 +15,63 @@ Main API for interacting with the Janrain Engage for iPhone library.
 
 Inherits JRSessionDelegate-\/p.
 
+\subsection*{Static Public Member Functions}
+\begin{Indent}{\bf Get the JREngage Instance}\par
+{\em \label{_amgrp1563bd99b5767462283658c6804d90b3}
+ Methods that initialize and return the shared \hyperlink{interface_j_r_engage}{JREngage} instance }\begin{DoxyCompactItemize}
+\item 
+(\hyperlink{interface_j_r_engage}{JREngage} $\ast$) + \hyperlink{interface_j_r_engage_adb6bf3a6869d83f2bfce0783f128d9e6}{jrEngage}
+\item 
+(\hyperlink{interface_j_r_engage}{JREngage} $\ast$) + \hyperlink{interface_j_r_engage_a36c199d6384893b1bf42712771af1e8b}{jrEngageWithAppId:andTokenUrl:delegate:}
+\end{DoxyCompactItemize}
+\end{Indent}
 \subsection*{Public Member Functions}
-\begin{Indent}{\bf Configure Delegates}\par
-{\em \label{_amgrp3140c41a20ac51608ddd4bec38533a8f}
- Add/remove objects that implement the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol }\begin{DoxyCompactItemize}
+\begin{Indent}{\bf Manage the Delegates}\par
+{\em \label{_amgrpf6bb425cb9b7388d33e37d551db6b02e}
+ Add/remove delegates that implement the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a18377ffb55f821587e6d38b3489692e8}{addDelegate:}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_ab3f12ac148ea0f6df4d7ff7789cc7c94}{removeDelegate:}
 \end{DoxyCompactItemize}
 \end{Indent}
-\begin{Indent}{\bf Show the JREngage Library}\par
-{\em \label{_amgrpf9e79eb521c10019ba1736bc57a0355e}
+\begin{Indent}{\bf Show the JREngage Dialogs}\par
+{\em \label{_amgrp345603279e1df04f4a3678e78089b7be}
  \label{interface_j_r_engage_showMethods}
 \hypertarget{interface_j_r_engage_showMethods}{}
 
 
-Methods that initiate authentication and social publishing with \hyperlink{interface_j_r_engage}{JREngage} }\begin{DoxyCompactItemize}
+Methods that display JREngage's dialogs to initiate authentication and social publishing }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a01ecdff491f91543e18f33d0e565b046}{showAuthenticationDialog}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_afca7b5ab9a57edc1a460aaec882207c4}{showSocialPublishingDialogWithActivity:}
 \end{DoxyCompactItemize}
 \end{Indent}
-\begin{Indent}{\bf Interface Configuration}\par
-{\em \label{_amgrp00fa0273ca94dfb558ecec1aea8440b2}
- Methods used to customize the library's user interface }\begin{DoxyCompactItemize}
+\begin{Indent}{\bf Configure the User Interface}\par
+{\em \label{_amgrp94e7ef441fcaa606cadd8cfd8b428e50}
+ Methods used to customize the JREngage's user interface }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}{setCustomNavigationController:}
 \end{DoxyCompactItemize}
 \end{Indent}
-\begin{Indent}{\bf User Management}\par
-{\em \label{_amgrp92726ab5faeb2cb9208eaac9af0346bd}
-$\ast$/
-
-Methods that manage authenticated users remembered by the library }\begin{DoxyCompactItemize}
+\begin{Indent}{\bf Management Authenticated Users}\par
+{\em \label{_amgrp4247d2361fbfb57c620ed69782a50c95}
+ Methods that manage authenticated users remembered by the library }\begin{DoxyCompactItemize}
+\item 
+(NSDictionary $\ast$) -\/ \hyperlink{interface_j_r_engage_a5da20d7a5a1022db057819dc3b771192}{getUserForProvider:}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_aede9ed92d80f14d85e59a982da3150fc}{signoutUserForSocialProvider:}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a1f4e27ed5dbc05892fd7bc2255d2afa8}{signoutUserForAllSocialProviders}
+\item 
+(void) -\/ \hyperlink{interface_j_r_engage_af1448791663265d3b739041983fbae92}{signoutUserForProvider:}
+\item 
+(void) -\/ \hyperlink{interface_j_r_engage_a56060e8d5fe94e4bf06ff3edf27af5ee}{signoutUserForAllProviders}
 \end{DoxyCompactItemize}
 \end{Indent}
-\begin{Indent}{\bf Cancel}\par
-{\em \label{_amgrpea4788705e6873b424c65e91c2846b19}
+\begin{Indent}{\bf Cancel the JREngage Dialogs}\par
+{\em \label{_amgrpd07ee85d05cc5dd13dd0e31682479a39}
  Methods to cancel authentication and social publishing }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a17b67c9bb98230fb7d59f8c35a20662b}{cancelAuthentication}
@@ -72,13 +86,6 @@ Methods that manage authenticated users remembered by the library }\begin{DoxyCo
 (void) -\/ \hyperlink{interface_j_r_engage_ac0fb45ee43767dfdea0057bb93000db6}{updateTokenUrl:}
 \end{DoxyCompactItemize}
 \end{Indent}
-\subsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-(\hyperlink{interface_j_r_engage}{JREngage} $\ast$) + \hyperlink{interface_j_r_engage_adb6bf3a6869d83f2bfce0783f128d9e6}{jrEngage}
-\item 
-(\hyperlink{interface_j_r_engage}{JREngage} $\ast$) + \hyperlink{interface_j_r_engage_a36c199d6384893b1bf42712771af1e8b}{jrEngageWithAppId:andTokenUrl:delegate:}
-\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -199,6 +206,42 @@ If you want to push the \hyperlink{interface_j_r_engage}{JREngage} dialogs on yo
 
 \begin{DoxyParams}{Parameters}
 \item[{\em navigationController}]Your application's navigation controller \end{DoxyParams}
+\hypertarget{interface_j_r_engage_a5da20d7a5a1022db057819dc3b771192}{
+\index{JREngage@{JREngage}!getUserForProvider:@{getUserForProvider:}}
+\index{getUserForProvider:@{getUserForProvider:}!JREngage@{JREngage}}
+\subsubsection[{getUserForProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSDictionary $\ast$) getUserForProvider: 
+\begin{DoxyParamCaption}
+\item[{dummy(NSString$\ast$)}]{ provider}
+\end{DoxyParamCaption}
+}}
+\label{interface_j_r_engage_a5da20d7a5a1022db057819dc3b771192}
+Returns an {\ttfamily NSDictionary} of fields containing all the information Janrain Engage knows about the user that logged into your application with the given provider.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers}\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An {\ttfamily NSDictionary} of fields containing all the information Janrain Engage knows about the user that logged into your application with the given provider. Includes the field \char`\"{}profile\char`\"{} which contains the user's profile information
+\end{DoxyReturn}
+The structure of the dictionary (represented here in json) should look something like the following: 
+\begin{DoxyCode}
+ "auth_info":
+ {
+   "profile": 
+   {
+     "displayName": "brian",
+     "preferredUsername": "brian",
+     "url": "http:\/\/brian.myopenid.com\/",
+     "providerName": "Other",
+     "identifier": "http:\/\/brian.myopenid.com\/"
+   }
+ }
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See also}
+For a full description of the dictionary and its fields, please see the \href{https://rpxnow.com/docs#api_auth_info_response}{\tt auth\_\-info response} section of the Janrain Engage API documentation. 
+\end{DoxySeeAlso}
 \hypertarget{interface_j_r_engage_aede9ed92d80f14d85e59a982da3150fc}{
 \index{JREngage@{JREngage}!signoutUserForSocialProvider:@{signoutUserForSocialProvider:}}
 \index{signoutUserForSocialProvider:@{signoutUserForSocialProvider:}!JREngage@{JREngage}}
@@ -213,9 +256,12 @@ Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is already
 
 \begin{DoxyParams}{Parameters}
 \item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_socialProviders}{List of Social Providers}\end{DoxyParams}
-\begin{DoxyNote}{Note}
-: The library only remembers users who have signed in through the social publishing interface 
-\end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+This function may become deprecated in the future.
+\end{DoxyWarning}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_j_r_engage_signoutProvider}{-\/ (void)signoutUserForProvider:(NSString$\ast$)provider} 
+\end{DoxySeeAlso}
 \hypertarget{interface_j_r_engage_a1f4e27ed5dbc05892fd7bc2255d2afa8}{
 \index{JREngage@{JREngage}!signoutUserForAllSocialProviders@{signoutUserForAllSocialProviders}}
 \index{signoutUserForAllSocialProviders@{signoutUserForAllSocialProviders}!JREngage@{JREngage}}
@@ -227,10 +273,44 @@ Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is already
 \label{interface_j_r_engage_a1f4e27ed5dbc05892fd7bc2255d2afa8}
 Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is signed in with all \hyperlink{_providers_socialProviders}{Social Providers}
 
-\begin{DoxyNote}{Note}
-: The library only remembers users who have signed in through the social publishing interface 
-\end{DoxyNote}
-\hypertarget{interface_j_r_engage_a17b67c9bb98230fb7d59f8c35a20662b}{
+\begin{DoxyWarning}{Warning}
+This function may become deprecated in the future.
+\end{DoxyWarning}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_j_r_engage_signoutAll}{-\/ (void)signoutUserForAllProviders} 
+\end{DoxySeeAlso}
+\hypertarget{interface_j_r_engage_af1448791663265d3b739041983fbae92}{
+\index{JREngage@{JREngage}!signoutUserForProvider:@{signoutUserForProvider:}}
+\index{signoutUserForProvider:@{signoutUserForProvider:}!JREngage@{JREngage}}
+\subsubsection[{signoutUserForProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) signoutUserForProvider: 
+\begin{DoxyParamCaption}
+\item[{dummy(NSString$\ast$)}]{ provider}
+\end{DoxyParamCaption}
+}}
+\label{interface_j_r_engage_af1448791663265d3b739041983fbae92}
+\label{interface_j_r_engage_signoutProvider}
+\hypertarget{interface_j_r_engage_signoutProvider}{}
+
+
+Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is already signed in with the given provider
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers} \end{DoxyParams}
+\hypertarget{interface_j_r_engage_a56060e8d5fe94e4bf06ff3edf27af5ee}{
+\index{JREngage@{JREngage}!signoutUserForAllProviders@{signoutUserForAllProviders}}
+\index{signoutUserForAllProviders@{signoutUserForAllProviders}!JREngage@{JREngage}}
+\subsubsection[{signoutUserForAllProviders}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) signoutUserForAllProviders 
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+}}
+\label{interface_j_r_engage_a56060e8d5fe94e4bf06ff3edf27af5ee}
+\label{interface_j_r_engage_signoutAll}
+\hypertarget{interface_j_r_engage_signoutAll}{}
+
+
+Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is signed in with all \hyperlink{_providers_basicProviders}{Providers} \hypertarget{interface_j_r_engage_a17b67c9bb98230fb7d59f8c35a20662b}{
 \index{JREngage@{JREngage}!cancelAuthentication@{cancelAuthentication}}
 \index{cancelAuthentication@{cancelAuthentication}!JREngage@{JREngage}}
 \subsubsection[{cancelAuthentication}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) cancelAuthentication 
@@ -265,5 +345,5 @@ Use this function to specify a different tokenUrl than the one you initiated the
 
 The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
 \item 
-/home/ivan/LILLI\_\-IS\_\-SO\_\-AWESOME/engage.iphone/JREngage/Classes/JREngage.h\item 
-/home/ivan/LILLI\_\-IS\_\-SO\_\-AWESOME/engage.iphone/JREngage/Classes/JREngage.m\end{DoxyCompactItemize}
+/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/JREngage.h\item 
+/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/JREngage.m\end{DoxyCompactItemize}

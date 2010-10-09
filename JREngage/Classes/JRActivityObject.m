@@ -350,6 +350,14 @@
 	return self;
 }
 
++ (id)activityObjectWithAction:(NSString*)_action andUrl:(NSString*)_url
+{
+    if (!_action || !_url)
+            return nil;
+        
+    return [[[JRActivityObject alloc] initWithAction:_action andUrl:_url] autorelease];
+}
+
 /* This function filters the given array, _media, and only keeps the objects that 
    directly inherit from the base class JRMediaObject (JRImageMediaObject, etc.).
    What it doesn't test for is if a user creates a new object that directly inherits 

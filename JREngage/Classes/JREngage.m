@@ -393,6 +393,12 @@ static JREngage* singletonJREngage = nil;
     [sessionData forgetAllAuthenticatedUsers];
 }
 
+- (void)alwaysForceReauthentication:(BOOL)force
+{
+    DLog(@"");
+    [sessionData setAlwaysForceReauth:force];
+}
+
 - (void)cancelAuthentication
 {	
     [sessionData triggerAuthenticationDidCancel];

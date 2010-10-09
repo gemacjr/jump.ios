@@ -111,7 +111,8 @@
     
     NSString *openIdentifier;
 	NSString *url;	
-	
+	BOOL      forceReauth;
+    
     NSString *userInput;
 	NSString *welcomeString;
 }
@@ -121,11 +122,13 @@
 @property (readonly) NSString *shortText;
 @property (readonly) NSString *placeholderText;
 @property (readonly) BOOL      requiresInput;
+@property            BOOL      forceReauth;
 @property (retain)   NSString *userInput;
 @property (retain)   NSString *welcomeString;
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary;
 - (BOOL)isEqualToProvider:(JRProvider*)provider;
+- (BOOL)isEqualToReturningProvider:(NSString*)returningProvider;
 @end
 
 @protocol JRSessionDelegate <NSObject>
@@ -156,8 +159,10 @@
 	NSMutableArray	*delegates;
 	    
 	JRProvider *currentProvider;
-	JRProvider *returningBasicProvider;	
-    JRProvider *returningSocialProvider;
+	NSString   *returningBasicProvider;	
+    NSString   *returningSocialProvider;
+//	JRProvider *returningBasicProvider;	
+//  JRProvider *returningSocialProvider;
     
 /*  allProviders is a dictionary of JRProviders, where each JRProvider contains the information specific
     to that provider. basicProviders and socialProviders are arrays of NSStrings, each string being
@@ -180,6 +185,7 @@
 	
 	// QTS: What is the behavior of this (i.e., how does it affect social publishing?)
     //      when selected during a basic authentication call?
+    BOOL alwaysForceReauth;
     BOOL forceReauth;
 	BOOL hidePoweredBy;
     BOOL social;
@@ -189,8 +195,10 @@
     NSError  *error;
 }
 @property (retain)   JRProvider *currentProvider;
-@property (readonly) JRProvider *returningBasicProvider;
-@property (readonly) JRProvider *returningSocialProvider;
+@property (readonly) NSString   *returningBasicProvider;
+@property (readonly) NSString   *returningSocialProvider;
+//@property (readonly) JRProvider *returningBasicProvider;
+//@property (readonly) JRProvider *returningSocialProvider;
 
 @property (readonly) NSMutableDictionary *allProviders;
 @property (readonly) NSArray             *basicProviders;
@@ -203,6 +211,7 @@
 @property (retain)   NSString *tokenUrl;
 @property (readonly) NSString *baseUrl;
 
+@property            BOOL alwaysForceReauth;
 @property (assign)   BOOL forceReauth;
 @property (readonly) BOOL hidePoweredBy;
 @property (assign)   BOOL social;
@@ -222,7 +231,7 @@
 
 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;
 - (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index;
-
+- (JRProvider*)getProviderNamed:(NSString*)name;
 - (void)setReturningBasicProviderToNil;
 
 - (BOOL)weShouldBeFirstResponder;

@@ -15,17 +15,20 @@ Image object to be included in a post to a user's stream.
 
 Inherits JRMediaObject.
 
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-(id) -\/ \hyperlink{interface_j_r_image_media_object_a8a15f579b784dbdcdaeea9dc1da56cb3}{initWithSrc:andHref:}
-\end{DoxyCompactItemize}
 \subsection*{Properties}
 \begin{DoxyCompactItemize}
 \item 
 NSString $\ast$ \hyperlink{interface_j_r_image_media_object_aad75823f9189dfca758bc4d4712c3621}{src}
 \item 
 NSString $\ast$ \hyperlink{interface_j_r_image_media_object_a95642c3f4bc97a112a3ab32beef46f66}{href}
+\end{DoxyCompactItemize}
+\subsection*{Constructors}
+\label{_amgrp559a25fdb98a7d1fd1c3771ac568d5e9}
+ \begin{DoxyCompactItemize}
+\item 
+(id) -\/ \hyperlink{interface_j_r_image_media_object_a8a15f579b784dbdcdaeea9dc1da56cb3}{initWithSrc:andHref:}
+\item 
+(id) + \hyperlink{interface_j_r_image_media_object_af1e6318b91ab6cda8eba464767b2c81d}{imageMediaObjectWithSrc:andHref:}
 \end{DoxyCompactItemize}
 
 
@@ -58,6 +61,24 @@ Returns a {\ttfamily \hyperlink{interface_j_r_image_media_object}{JRImageMediaOb
 \begin{DoxyReturn}{Returns}
 A \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject} initialized with the given src and href. If either {\ttfamily \_\-src} or {\ttfamily \_\-href} are {\itshape nil\/}, returns {\ttfamily nil}. 
 \end{DoxyReturn}
+\hypertarget{interface_j_r_image_media_object_af1e6318b91ab6cda8eba464767b2c81d}{
+\index{JRImageMediaObject@{JRImageMediaObject}!imageMediaObjectWithSrc:andHref:@{imageMediaObjectWithSrc:andHref:}}
+\index{imageMediaObjectWithSrc:andHref:@{imageMediaObjectWithSrc:andHref:}!JRImageMediaObject@{JRImageMediaObject}}
+\subsubsection[{imageMediaObjectWithSrc:andHref:}]{\setlength{\rightskip}{0pt plus 5cm}+ (id) imageMediaObjectWithSrc: 
+\begin{DoxyParamCaption}
+\item[{dummy(NSString $\ast$)}]{ \_\-src}
+\item[{andHref:(NSString $\ast$)}]{ \_\-href}
+\end{DoxyParamCaption}
+}}
+\label{interface_j_r_image_media_object_af1e6318b91ab6cda8eba464767b2c81d}
+Returns a {\ttfamily \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject}} initialized with the given src and href.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em \_\-src}]The photo's URL. This value cannot be {\ttfamily nil}.\item[{\em \_\-href}]The URL where a user should be taken if he or she clicks the photo. This value cannot be {\ttfamily nil}.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject} initialized with the given src and href. If either {\ttfamily \_\-src} or {\ttfamily \_\-href} are {\itshape nil\/}, returns {\ttfamily nil}. 
+\end{DoxyReturn}
 
 
 \subsection{Properties}
@@ -75,4 +96,4 @@ The URL where a user should be taken if he or she clicks the photo.
 
 The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
 \item 
-/home/ivan/LILLI\_\-IS\_\-SO\_\-AWESOME/engage.iphone/JREngage/Classes/\hyperlink{_j_r_activity_object_8h}{JRActivityObject.h}\end{DoxyCompactItemize}
+/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/\hyperlink{_j_r_activity_object_8h}{JRActivityObject.h}\end{DoxyCompactItemize}

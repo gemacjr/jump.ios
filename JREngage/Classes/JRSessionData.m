@@ -149,8 +149,18 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 @synthesize url;
 @synthesize requiresInput;
 @synthesize shortText;
-@synthesize userInput;
-@synthesize welcomeString;
+//@synthesize userInput;
+//@synthesize welcomeString;
+
+- (void)loadDynamicVariables
+{
+    if (self = [super init])
+    {
+        userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%UserInput", name]];
+        welcomeString = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@WelcomeString", name]];
+        forceReauth   = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jr%@ForceReauth", name]];
+    }
+}
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary
 {
@@ -186,6 +196,8 @@ static NSString * const serverUrl = @"https://rpxnow.com";
         {
             shortText = @"";
         }
+        
+        [self loadDynamicVariables];
     }
 	
 	return self;
@@ -201,9 +213,9 @@ static NSString * const serverUrl = @"https://rpxnow.com";
     [coder encodeObject:shortText forKey:@"shortText"];
     [coder encodeObject:openIdentifier forKey:@"openIdentifier"];
     [coder encodeObject:url forKey:@"url"];
-    [coder encodeObject:userInput forKey:@"userInput"];
-    [coder encodeObject:welcomeString forKey:@"welcomeString"];
-    [coder encodeBool:requiresInput forKey:@"requiresInput"];
+//    [coder encodeObject:userInput forKey:@"userInput"];
+//    [coder encodeObject:welcomeString forKey:@"welcomeString"];
+    [coder encodeBool:requiresInput forKey:@"requiresInput"];    
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -219,10 +231,14 @@ static NSString * const serverUrl = @"https://rpxnow.com";
         shortText =       [[coder decodeObjectForKey:@"shortText"] retain];
         openIdentifier =  [[coder decodeObjectForKey:@"openIdentifier"] retain];
         url =             [[coder decodeObjectForKey:@"url"] retain];
-        userInput =       [[coder decodeObjectForKey:@"userInput"] retain];
-        welcomeString =   [[coder decodeObjectForKey:@"welcomeString"] retain];
+//        userInput =       [[coder decodeObjectForKey:@"userInput"] retain];
+//        welcomeString =   [[coder decodeObjectForKey:@"welcomeString"] retain];
         requiresInput =    [coder decodeBoolForKey:@"requiresInput"];
+        
+        //forceReauth = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jr%@ForceReauth", name]];
     }   
+    
+    [self loadDynamicVariables];
     
     return self;
 }
@@ -235,6 +251,52 @@ static NSString * const serverUrl = @"https://rpxnow.com";
         return YES;
     
     return NO;
+}
+
+- (BOOL)isEqualToReturningProvider:(NSString*)returningProvider
+{
+  	DLog(@"");
+    
+    if ([self.name isEqualToString:returningProvider])
+        return YES;
+    
+    return NO;
+}
+
+- (NSString*)welcomeString
+{
+    return welcomeString;
+}
+
+- (void)setWelcomeString:(NSString *)_welcomeString
+{
+    welcomeString = _welcomeString;
+    
+    [[NSUserDefaults standardUserDefaults] setValue:welcomeString forKey:[NSString stringWithFormat:@"jr%@WelcomeString", self.name]];
+}
+
+- (NSString*)userInput
+{
+    return userInput;
+}
+
+- (void)setUserInput:(NSString *)_userInput
+{
+    userInput = _userInput;
+    
+    [[NSUserDefaults standardUserDefaults] setValue:userInput forKey:[NSString stringWithFormat:@"jr%@UserInput", self.name]];
+}
+
+- (BOOL)forceReauth
+{
+    return forceReauth;
+}
+
+- (void)setForceReauth:(BOOL)_forceReauth
+{
+    forceReauth = _forceReauth;
+    
+    [[NSUserDefaults standardUserDefaults] setBool:forceReauth forKey:[NSString stringWithFormat:@"jr%@ForceReauth", self.name]];
 }
 
 - (void)dealloc
@@ -267,6 +329,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 @synthesize returningSocialProvider;
 @synthesize activity;
 @synthesize tokenUrl;
+@synthesize alwaysForceReauth;
 @synthesize forceReauth;
 @synthesize social;
 @synthesize error;
@@ -331,6 +394,15 @@ static JRSessionData* singleton = nil;
 {
     DLog(@"");
     return socialProviders;
+}
+
+//- (JRProvider*)returningBasicProvider
+- (NSString*)returningBasicProvider
+{
+    if (alwaysForceReauth)
+        return nil;
+    
+    return returningBasicProvider;
 }
 
 - (BOOL)hidePoweredBy
@@ -527,8 +599,15 @@ static JRSessionData* singleton = nil;
         /* use this to create a provider object, */
         JRProvider *provider = [[[JRProvider alloc] initWithName:name
                                                    andDictionary:dictionary] autorelease];
+
+//        /* check if this is our returning provider and, if it is, extract the cached welcome string or user input that we saved, */
+//        if ([provider isEqualToProvider:returningBasicProvider])
+//        {
+//            provider.welcomeString = returningBasicProvider.welcomeString;
+//            provider.userInput = returningBasicProvider.userInput;
+//        }
         
-        /* and add the object to our dictionary of providers. */
+        /* and finally add the object to our dictionary of providers. */
         [allProviders setObject:provider forKey:name];
     }
     
@@ -617,37 +696,44 @@ static JRSessionData* singleton = nil;
 {
 	DLog(@"");
 
-    NSData *archivedProvider = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrLastUsedSocialProvider"];
-    if (archivedProvider != nil)
-        returningSocialProvider = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedProvider] retain];
+    returningSocialProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrLastUsedSocialProvider"] retain];
+//    NSData *archivedProvider = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrLastUsedSocialProvider"];
+//    if (archivedProvider != nil)
+//        returningSocialProvider = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedProvider] retain];
 }
 
 - (void)loadLastUsedBasicProvider
 {
     DLog(@"");
 
-    NSData *archivedProvider = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrLastUsedBasicProvider"];
-    if (archivedProvider != nil)
-        returningBasicProvider = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedProvider] retain];
+    returningBasicProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrLastUsedBasicProvider"] retain];
+//    NSData *archivedProvider = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrLastUsedBasicProvider"];
+//    if (archivedProvider != nil)
+//        returningBasicProvider = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedProvider] retain];
+//
+//    if (returningBasicProvider)
+//    {    
+//        JRProvider* provider = [allProviders objectForKey:returningBasicProvider.name];
+//        provider.welcomeString = returningBasicProvider.welcomeString;
+//        provider.userInput = returningBasicProvider.userInput;
+//    }
 }
 
 - (void)saveLastUsedSocialProvider
 {
 	DLog(@"");
     
-    [returningSocialProvider release];
-    returningSocialProvider = [currentProvider retain];
+//    [returningSocialProvider release];
+//    returningSocialProvider = [currentProvider retain];
+    [returningSocialProvider release], returningSocialProvider = [currentProvider.name retain];
 
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:returningSocialProvider] 
+    [[NSUserDefaults standardUserDefaults] setObject:returningSocialProvider//[NSKeyedArchiver archivedDataWithRootObject:returningSocialProvider] 
                                               forKey:@"jrLastUsedSocialProvider"];
 }
 
 - (void)saveLastUsedBasicProvider
 {
     DLog(@"");
-    
-    [returningBasicProvider release];
-    returningBasicProvider = [currentProvider retain];
 
     // TODO: See about re-adding cookie code that manually sets the last used provider and see 
     // if that means using rpx to log into site through Safari browser will also remember the user/provider
@@ -659,16 +745,20 @@ static JRSessionData* singleton = nil;
 	{
 		if ([savedCookie.name isEqualToString:@"welcome_info"])
 		{
-			[returningBasicProvider setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
+//			[returningBasicProvider setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
+			[currentProvider setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
 		}
 	}	    
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:returningBasicProvider] 
+    //    [returningBasicProvider release];
+    //    returningBasicProvider = [currentProvider retain];
+    [returningBasicProvider release], returningBasicProvider = [currentProvider.name retain];
+
+    [[NSUserDefaults standardUserDefaults] setObject:returningBasicProvider//[NSKeyedArchiver archivedDataWithRootObject:returningBasicProvider] 
                                               forKey:@"jrLastUsedBasicProvider"];
 }
 
 - (NSURL*)startUrlForCurrentProvider
-
 {
 	DLog(@"");
     
@@ -694,30 +784,35 @@ static JRSessionData* singleton = nil;
 	}
     
     NSString *str = nil;
+    
+ //   BOOL foo = alwaysForceReauth + currentProvider.forceReauth;
+    
 #ifdef SOCIAL_PUBLISHING
-    if (social)
-        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_two&device=iphone", 
-               baseUrl,               /* Always force reauth for social because with the social publishing flow, the user is never taken to    */
-               currentProvider.url,   /* the "Welcome back" screen, and therefore could never click the "switch Providers" button. Also,       */
-               oid,                   /* signing out of a social provider could happen at any time, like on previous launches, and that        */
-               @"force_reauth=true&", /* should always prompt a force_reauth. Assume we always want to force reauth when logging in for social */
-               (([currentProvider.name isEqualToString:@"facebook"]) ? 
-                @"ext_perm=publish_stream,offline_access&" : @"")];
-    else
+//    if (social)
+//        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_two&device=iphone", 
+//               baseUrl,               /* Always force reauth for social because with the social publishing flow, the user is never taken to    */
+//               currentProvider.url,   /* the "Welcome back" screen, and therefore could never click the "switch Providers" button. Also,       */
+//               oid,                   /* signing out of a social provider could happen at any time, like on previous launches, and that        */
+//               @"force_reauth=true&", /* should always prompt a force_reauth. Assume we always want to force reauth when logging in for social */
+//               (([currentProvider.name isEqualToString:@"facebook"]) ? 
+//                @"ext_perm=publish_stream,offline_access&" : @"")];
+//    else
         str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
                baseUrl, 
                currentProvider.url,
                oid, 
-               ((forceReauth) ? @"force_reauth=true&" : @"")];
+               ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @""),
+               (([currentProvider.name isEqualToString:@"facebook"]) ? 
+                @"ext_perm=publish_stream,offline_access&" : @"")];
 #else
     str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
            baseUrl, 
            currentProvider.url,
            oid, 
-           ((forceReauth) ? @"force_reauth=true&" : @"")];    
+           ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @"")];    
 #endif
     
-	forceReauth = NO;
+	currentProvider.forceReauth = NO;
 	
 	DLog(@"startURL: %@", str);
 	return [NSURL URLWithString:str];
@@ -734,7 +829,7 @@ static JRSessionData* singleton = nil;
     
     /* If we're authenticating with a basic provider, then we don't need to gather infomation if we're displaying 
      * return screen. */
-    if ([currentProvider isEqualToProvider:returningBasicProvider])
+    if ([currentProvider isEqualToReturningProvider:returningBasicProvider])
         return NO;
     
     return currentProvider.requiresInput;
@@ -755,6 +850,10 @@ static JRSessionData* singleton = nil;
 - (void)forgetAuthenticatedUserForProvider:(NSString*)provider
 {
     DLog(@"");
+    
+    JRProvider* p = [allProviders objectForKey:provider];
+    p.forceReauth = YES;
+    
     [authenticatedUsersByProvider removeObjectForKey:provider];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                               forKey:@"jrAuthenticatedUsersByProvider"];
@@ -763,6 +862,13 @@ static JRSessionData* singleton = nil;
 - (void)forgetAllAuthenticatedUsers
 {
     DLog(@"");
+    
+    for (NSString *provider in [allProviders allKeys])
+    {
+        JRProvider *p = [allProviders objectForKey:provider];
+        p.forceReauth = YES;
+    }
+    
     [authenticatedUsersByProvider removeAllObjects];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                               forKey:@"jrAuthenticatedUsersByProvider"];
@@ -791,12 +897,17 @@ static JRSessionData* singleton = nil;
     return [self getProviderAtIndex:index fromArray:[self socialProviders]];
 }
 
-- (void)setCurrentProvider:(JRProvider*)provider
+- (JRProvider*)getProviderNamed:(NSString*)name
 {
-    DLog(@"");
-    [currentProvider release];
-    currentProvider = [provider retain];    
+    return [allProviders objectForKey:name];
 }
+
+//- (void)setCurrentProvider:(JRProvider*)provider
+//{
+//    DLog(@"");
+//    [currentProvider release];
+//    currentProvider = [provider retain];    
+//}
 
 - (void)setReturningBasicProviderToNil;
 {
@@ -894,6 +1005,8 @@ static JRSessionData* singleton = nil;
         if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {
             NSString *payloadString = [[[NSString alloc] initWithData:payload encoding:NSASCIIStringEncoding] autorelease];
+            
+            DLog(@"payload: %@", payloadString);
             
             if ([payloadString rangeOfString:@"\"provider_info\":{"].length != 0)
             {

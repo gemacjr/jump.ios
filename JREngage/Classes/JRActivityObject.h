@@ -79,6 +79,9 @@
 @property (readonly) NSString *href;
 @property (retain) UIImage *preview;
 
+/** 
+ * \name Constructors
+ **/
 /*@{*/
 /**
  * Returns a \c JRImageMediaObject initialized with the given src and href.
@@ -94,7 +97,6 @@
  *   \c _src or \c _href are \e nil, returns \c nil.
  **/
 - (id)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
-
 + (id)imageMediaObjectWithSrc:(NSString*)_src andHref:(NSString*)_href;
 /*@}*/
 @end
@@ -142,6 +144,9 @@
 @property NSUInteger expanded_height;
 @property (retain) UIImage *preview;
 
+/** 
+ * \name Constructors
+ **/
 /*@{*/
 /**
  * Returns a JRFlashMediaObject initialized with the given swfsrc and imgsrc.
@@ -192,6 +197,9 @@
 @property (retain) NSString *artist;
 @property (retain) NSString *album;
 
+/** 
+ * \name Constructors
+ **/
 /*@{*/
 /**
  * Returns a \c JRMp3MediaObject initialized with the given src.
@@ -242,6 +250,9 @@
 @property (retain) NSString *text;
 @property (retain) NSString *href;
 
+/** 
+ * \name Constructors
+ **/
 /*@{*/
 /**
  * Returns a \c JRActionLink initialized with the given text and href.
@@ -401,6 +412,10 @@
 @property (retain) NSMutableArray *media;
 @property (retain) NSMutableDictionary *properties;
 
+/** 
+ * \name Constructors
+ **/
+/*@{*/
 /**
  * Returns a \c JRActivityObject initialized with the given action and url.
  *
@@ -415,6 +430,9 @@
  *   \c _action or \c _url are \e nil, returns \c nil.
  **/
 - (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
+
++ (id)activityObjectWithAction:(NSString*)_action andUrl:(NSString*)_url;
+/*@}*/
 
 /**
  * \internal

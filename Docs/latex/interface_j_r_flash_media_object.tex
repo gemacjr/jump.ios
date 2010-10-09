@@ -15,11 +15,6 @@ Flash object to be included in a post to a user's stream.
 
 Inherits JRMediaObject.
 
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-(id) -\/ \hyperlink{interface_j_r_flash_media_object_aed4ac7b682373f36379eb81dea041513}{initWithSwfsrc:andImgsrc:}
-\end{DoxyCompactItemize}
 \subsection*{Properties}
 \begin{DoxyCompactItemize}
 \item 
@@ -34,6 +29,14 @@ NSUInteger \hyperlink{interface_j_r_flash_media_object_a0689e19fdf6cb9d3911878a9
 NSUInteger \hyperlink{interface_j_r_flash_media_object_a9c380d0410afa60d99442f4ab84b517c}{expanded\_\-width}
 \item 
 NSUInteger \hyperlink{interface_j_r_flash_media_object_ae390a89405d768f2fcc63c24a8271503}{expanded\_\-height}
+\end{DoxyCompactItemize}
+\subsection*{Constructors}
+\label{_amgrp559a25fdb98a7d1fd1c3771ac568d5e9}
+ \begin{DoxyCompactItemize}
+\item 
+(id) -\/ \hyperlink{interface_j_r_flash_media_object_aed4ac7b682373f36379eb81dea041513}{initWithSwfsrc:andImgsrc:}
+\item 
+(id) + \hyperlink{interface_j_r_flash_media_object_ab7f138fd781dd5cf40f1fc3d96b68edf}{flashMediaObjectWithSwfsrc:andImgsrc:}
 \end{DoxyCompactItemize}
 
 
@@ -61,6 +64,24 @@ Format and rules are identical to those described on the \href{http://developers
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_flash_media_object_aed4ac7b682373f36379eb81dea041513}
+Returns a \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject} initialized with the given swfsrc and imgsrc.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em \_\-swfsrc}]The URL of the Flash object to be rendered. This value cannot be {\ttfamily nil}.\item[{\em \_\-imgsrc}]The URL of an photo that should be displayed in place of the flash object. This value cannot be {\ttfamily nil}.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject} initialized with the given swfsrc and imgsrc. If either {\ttfamily \_\-swfsrc} or {\ttfamily \_\-imgsrc} are {\itshape nil\/}, returns {\ttfamily nil}. 
+\end{DoxyReturn}
+\hypertarget{interface_j_r_flash_media_object_ab7f138fd781dd5cf40f1fc3d96b68edf}{
+\index{JRFlashMediaObject@{JRFlashMediaObject}!flashMediaObjectWithSwfsrc:andImgsrc:@{flashMediaObjectWithSwfsrc:andImgsrc:}}
+\index{flashMediaObjectWithSwfsrc:andImgsrc:@{flashMediaObjectWithSwfsrc:andImgsrc:}!JRFlashMediaObject@{JRFlashMediaObject}}
+\subsubsection[{flashMediaObjectWithSwfsrc:andImgsrc:}]{\setlength{\rightskip}{0pt plus 5cm}+ (id) flashMediaObjectWithSwfsrc: 
+\begin{DoxyParamCaption}
+\item[{dummy(NSString $\ast$)}]{ \_\-swfsrc}
+\item[{andImgsrc:(NSString $\ast$)}]{ \_\-imgsrc}
+\end{DoxyParamCaption}
+}}
+\label{interface_j_r_flash_media_object_ab7f138fd781dd5cf40f1fc3d96b68edf}
 Returns a \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject} initialized with the given swfsrc and imgsrc.
 
 
@@ -106,4 +127,4 @@ Height the video will resize to once the user clicks it
 
 The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
 \item 
-/home/ivan/LILLI\_\-IS\_\-SO\_\-AWESOME/engage.iphone/JREngage/Classes/\hyperlink{_j_r_activity_object_8h}{JRActivityObject.h}\end{DoxyCompactItemize}
+/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/\hyperlink{_j_r_activity_object_8h}{JRActivityObject.h}\end{DoxyCompactItemize}

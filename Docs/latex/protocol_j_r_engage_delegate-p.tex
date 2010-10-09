@@ -31,6 +31,8 @@ The \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol is ado
 \item 
 (void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_abfafec7eed95008f7b7052d962f8f6fa}{jrAuthenticationDidReachTokenUrl:withPayload:forProvider:}
 \item 
+(void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_a2cbed662f784706d2db038e1cb9ba3fd}{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:}
+\item 
 (void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_a670eab0f76e79ba90a246a2f3e4dfe04}{jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:}
 \end{DoxyCompactItemize}
 \end{Indent}
@@ -62,13 +64,13 @@ The \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol is ado
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_af46f7ef0c7a5767dc0ab705871d570ac}
-Sent if the application tries to show a \hyperlink{interface_j_r_engage}{JREngage} dialog, and \hyperlink{interface_j_r_engage}{JREngage} failed to configure
+Sent if the application tries to show a \hyperlink{interface_j_r_engage}{JREngage} dialog, and \hyperlink{interface_j_r_engage}{JREngage} failed to show. May occur if the \hyperlink{interface_j_r_engage}{JREngage} library failed to configure, or if the activity object was nil, etc.
 
 
 \begin{DoxyParams}{Parameters}
 \item[{\em error}]The error that occurred during configuration\end{DoxyParams}
 \begin{DoxyNote}{Note}
-This message is only sent if your application tries to show a \hyperlink{interface_j_r_engage}{JREngage} dialog, not when the error occurs, since your application may preemptively configure \hyperlink{interface_j_r_engage}{JREngage}, but never actually use it. 
+This message is only sent if your application tries to show a \hyperlink{interface_j_r_engage}{JREngage} dialog, and not necessarily when an error occurs, if, say, the error occurred during the library's configuration. The raison d'etre is based on the possibility that your application may preemptively configure \hyperlink{interface_j_r_engage}{JREngage}, but never actually use it. If that is the case, then you won't get any error. 
 \end{DoxyNote}
 \hypertarget{protocol_j_r_engage_delegate-p_a4eaa6a5961e175b8275c6b06034afea7}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationDidNotComplete@{jrAuthenticationDidNotComplete}}
@@ -153,7 +155,34 @@ Sent after \hyperlink{interface_j_r_engage}{JREngage} has successfully posted th
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em tokenUrl}]The URL on the server where the token was posted and server-\/side authentication was completed\item[{\em tokenUrlPayload}]The response from the server\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers} \end{DoxyParams}
+\item[{\em tokenUrl}]The URL on the server where the token was posted and server-\/side authentication was completed\item[{\em tokenUrlPayload}]The response from the server\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers}\end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+This function may become deprecated in the future.
+\end{DoxyWarning}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{protocol_j_r_engage_delegate-p_tokenUrlReached}{-\/ (void)jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:} 
+\end{DoxySeeAlso}
+\hypertarget{protocol_j_r_engage_delegate-p_a2cbed662f784706d2db038e1cb9ba3fd}{
+\index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:@{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:}}
+\index{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:@{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
+\subsubsection[{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) jrAuthenticationDidReachTokenUrl: 
+\begin{DoxyParamCaption}
+\item[{dummy(NSString $\ast$)}]{ tokenUrl}
+\item[{withResponse:(NSURLResponse $\ast$)}]{ response}
+\item[{andPayload:(NSData $\ast$)}]{ tokenUrlPayload}
+\item[{forProvider:(NSString $\ast$)}]{ provider}
+\end{DoxyParamCaption}
+}}
+\label{protocol_j_r_engage_delegate-p_a2cbed662f784706d2db038e1cb9ba3fd}
+\label{protocol_j_r_engage_delegate-p_tokenUrlReached}
+\hypertarget{protocol_j_r_engage_delegate-p_tokenUrlReached}{}
+
+
+Sent after \hyperlink{interface_j_r_engage}{JREngage} has successfully posted the token to your application's token\_\-url, containing the headers and body of the response from the server
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em tokenUrl}]The URL on the server where the token was posted and server-\/side authentication was completed\item[{\em response}]The final NSURLResponse returned from the server\item[{\em tokenUrlPayload}]The response from the server\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers} \end{DoxyParams}
 \hypertarget{protocol_j_r_engage_delegate-p_a670eab0f76e79ba90a246a2f3e4dfe04}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:@{jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:}}
 \index{jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:@{jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
@@ -225,4 +254,4 @@ Sent when publishing an activity failed and could not be recovered by the librar
 
 The documentation for this protocol was generated from the following file:\begin{DoxyCompactItemize}
 \item 
-/home/ivan/LILLI\_\-IS\_\-SO\_\-AWESOME/engage.iphone/JREngage/Classes/JREngage.h\end{DoxyCompactItemize}
+/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/JREngage.h\end{DoxyCompactItemize}

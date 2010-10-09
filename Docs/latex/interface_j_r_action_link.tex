@@ -11,17 +11,20 @@ A link a user can use to take action on an activity update on the provider.
 
 {\ttfamily \#import $<$JRActivityObject.h$>$}
 
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-(id) -\/ \hyperlink{interface_j_r_action_link_ae1f056641fd3302efbf23d89452553a5}{initWithText:andHref:}
-\end{DoxyCompactItemize}
 \subsection*{Properties}
 \begin{DoxyCompactItemize}
 \item 
 NSString $\ast$ \hyperlink{interface_j_r_action_link_a062c02005f1c35e651ffbcab51c50b21}{text}
 \item 
 NSString $\ast$ \hyperlink{interface_j_r_action_link_a45489781731e5965e20fa66af0bd3072}{href}
+\end{DoxyCompactItemize}
+\subsection*{Constructors}
+\label{_amgrp559a25fdb98a7d1fd1c3771ac568d5e9}
+ \begin{DoxyCompactItemize}
+\item 
+(id) -\/ \hyperlink{interface_j_r_action_link_ae1f056641fd3302efbf23d89452553a5}{initWithText:andHref:}
+\item 
+(id) + \hyperlink{interface_j_r_action_link_a210a41749ddf22e6ce0a7b797fac2f3f}{actionLinkWithText:andHref:}
 \end{DoxyCompactItemize}
 
 
@@ -63,6 +66,24 @@ Returns a {\ttfamily \hyperlink{interface_j_r_action_link}{JRActionLink}} initia
 \begin{DoxyReturn}{Returns}
 A \hyperlink{interface_j_r_action_link}{JRActionLink} initialized with the given text and href. If either {\ttfamily \_\-text} or {\ttfamily \_\-href} are {\itshape nil\/}, returns {\ttfamily nil}. 
 \end{DoxyReturn}
+\hypertarget{interface_j_r_action_link_a210a41749ddf22e6ce0a7b797fac2f3f}{
+\index{JRActionLink@{JRActionLink}!actionLinkWithText:andHref:@{actionLinkWithText:andHref:}}
+\index{actionLinkWithText:andHref:@{actionLinkWithText:andHref:}!JRActionLink@{JRActionLink}}
+\subsubsection[{actionLinkWithText:andHref:}]{\setlength{\rightskip}{0pt plus 5cm}+ (id) actionLinkWithText: 
+\begin{DoxyParamCaption}
+\item[{dummy(NSString $\ast$)}]{ \_\-text}
+\item[{andHref:(NSString $\ast$)}]{ \_\-href}
+\end{DoxyParamCaption}
+}}
+\label{interface_j_r_action_link_a210a41749ddf22e6ce0a7b797fac2f3f}
+Returns a {\ttfamily \hyperlink{interface_j_r_action_link}{JRActionLink}} initialized with the given text and href.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em \_\-text}]The text describing the link. This value cannot be {\ttfamily nil}.\item[{\em \_\-imgsrc}]A link a user can use to take action on an activity update on the provider. This value cannot be {\ttfamily nil}.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \hyperlink{interface_j_r_action_link}{JRActionLink} initialized with the given text and href. If either {\ttfamily \_\-text} or {\ttfamily \_\-href} are {\itshape nil\/}, returns {\ttfamily nil}. 
+\end{DoxyReturn}
 
 
 \subsection{Properties}
@@ -80,4 +101,4 @@ A link a user can use to take action on an activity update on the provider
 
 The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
 \item 
-/home/ivan/LILLI\_\-IS\_\-SO\_\-AWESOME/engage.iphone/JREngage/Classes/\hyperlink{_j_r_activity_object_8h}{JRActivityObject.h}\end{DoxyCompactItemize}
+/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/\hyperlink{_j_r_activity_object_8h}{JRActivityObject.h}\end{DoxyCompactItemize}

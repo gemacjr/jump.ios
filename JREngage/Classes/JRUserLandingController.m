@@ -408,21 +408,26 @@
 	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_logo.png", sessionData.currentProvider.name];
 	cell.logo.image = [UIImage imageNamed:imagePath];
 	
-    /* If the provider requires input, we need to enable the textField, and set the text/placeholder text to the apropriate string */
+ /* If the provider requires input, we need to enable the textField, and set the text/placeholder text to the apropriate string */
 	if (sessionData.currentProvider.requiresInput)
 	{
 		DLog(@"current provider requires input");
 		
-        // QTS: Now that I'm using JRProvider objects, do I need to do this step, or will these just be the same object?
-		if ([sessionData.currentProvider isEqualToProvider:sessionData.returningBasicProvider])
-			[sessionData.currentProvider setUserInput:[NSString stringWithString:sessionData.returningBasicProvider.userInput]];
-		else
-			[cell.bigSignInButton setHidden:NO];
+//        if ([sessionData.currentProvider isEqualToReturningProvider:sessionData.returningBasicProvider])
+//			[sessionData.currentProvider setUserInput:sessionData.currentProvider.userInput];//[NSString stringWithString:sessionData.returningBasicProvider.userInput]];
+//		else
+//			[cell.bigSignInButton setHidden:NO];
 				
 		if (sessionData.currentProvider.userInput)
+        {
 			cell.textField.text = [NSString stringWithString:sessionData.currentProvider.userInput];
-		else
-			cell.textField.text = nil;
+			[cell.bigSignInButton setHidden:YES];
+		}
+        else
+		{	
+            cell.textField.text = nil;
+			[cell.bigSignInButton setHidden:NO];
+        }
 		
 		cell.textField.placeholder = [NSString stringWithString:sessionData.currentProvider.placeholderText];
 		
@@ -550,10 +555,12 @@ replacementString:(NSString *)string { return YES; }
     /* This should work, because this button will only be visible during the return experience of a basic provider */
 //	[sessionData setBasicProvider:nil];
 //	[sessionData setReturningBasicProviderToNewBasicProvider:nil];
+    sessionData.currentProvider.forceReauth = YES;
+    
     [sessionData setCurrentProvider:nil];
     [sessionData setReturningBasicProviderToNil];
     
-    sessionData.forceReauth = YES;
+    //sessionData.forceReauth = YES;
 		
 	[[self navigationController] popViewControllerAnimated:YES];
 }

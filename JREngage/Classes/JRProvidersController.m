@@ -288,7 +288,6 @@ Please try again later."
 - (UITableViewCell *)tableView:(UITableView *)tableView 
 		 cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    DLog(@"");
     UITableViewCellProviders *cell = 
 	(UITableViewCellProviders*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
 	
@@ -302,8 +301,6 @@ Please try again later."
         return cell;
 	
     NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider.name];
-	
-	DLog(@"cell for %@", provider.name);
 
 	cell.textLabel.text = provider.friendlyName;
 	cell.imageView.image = [UIImage imageNamed:imagePath];
@@ -328,7 +325,7 @@ Please try again later."
     /* If the selected provider requires input from the user, go to the user landing view.
        Or if the user started on the user landing page, went back to the list of providers, then selected 
        the same provider as their last-used provider, go back to the user landing view. */
-    if (provider.requiresInput || [provider isEqualToProvider:sessionData.returningBasicProvider]) 
+    if (provider.requiresInput || [provider isEqualToReturningProvider:sessionData.returningBasicProvider]) 
     {	
         [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                animated:YES]; 

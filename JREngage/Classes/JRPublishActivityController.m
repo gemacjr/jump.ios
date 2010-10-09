@@ -492,7 +492,7 @@ Please try again later."
             NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
             NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
             
-            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])// stringEncodeData:NO])
+            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
                 [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
                 
             [request release];            
@@ -604,7 +604,7 @@ Please try again later."
         
         [providerTabArr insertObject:providerTab atIndex:[providerTabArr count]];
         
-        if ([provider isEqualToProvider:[sessionData returningSocialProvider]])
+        if ([provider isEqualToReturningProvider:[sessionData returningSocialProvider]])
             indexOfLastUsedProvider = i;
         
         [provider release];

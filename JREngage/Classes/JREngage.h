@@ -220,17 +220,23 @@
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings, 
  *   please see the \ref basicProviders "List of Providers"
+ * 
+ * \warning This function may become deprecated in the future.
+ *
+ * \sa \ref tokenUrlReached "- (void)jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:"
  **/
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
 /**
+ * \anchor tokenUrlReached
+ *
  * Sent after JREngage has successfully posted the token to your application's token_url, containing 
  * the headers and body of the response from the server
  *
  * @param tokenUrl
  *   The URL on the server where the token was posted and server-side authentication was completed
  *
- * @param reponse
+ * @param response
  *   The final NSURLResponse returned from the server
  *
  * @param tokenUrlPayload
@@ -339,6 +345,12 @@
 	NSMutableArray	*delegates;                 /*< \internal Array of JREngageDelegate objects */
 }
 
+/** 
+ * \name Get the JREngage Instance
+ * Methods that initialize and return the shared JREngage instance
+ **/
+/*@{*/
+
 /**
  * Shared instance of the JREngage library
  * 
@@ -371,10 +383,11 @@
 + (JREngage*)jrEngageWithAppId:(NSString*)appId 
                    andTokenUrl:(NSString*)tokenUrl
                       delegate:(id<JREngageDelegate>)delegate;
+/*@}*/
 
 /** 
- * \name Configure Delegates
- * Add/remove objects that implement the JREngageDelegate protocol
+ * \name Manage the Delegates
+ * Add/remove delegates that implement the JREngageDelegate protocol
  **/
 /*@{*/
 
@@ -397,8 +410,8 @@
 
 /** \anchor showMethods **/
 /** 
- * \name Show the JREngage Library
- * Methods that initiate authentication and social publishing with JREngage
+ * \name Show the JREngage Dialogs
+ * Methods that display JREngage's dialogs to initiate authentication and social publishing
  **/
 /*@{*/
 
@@ -424,8 +437,8 @@
 /*@}*/
 
 /** 
- * \name Interface Configuration
- * Methods used to customize the library's user interface
+ * \name Configure the User Interface
+ * Methods used to customize the JREngage's user interface
  **/
 /*@{*/
 
@@ -438,20 +451,51 @@
  **/
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
-///**
-// * May not use...
-// **/
+/*
+ * May not use...
+ */
 //- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;
-///*@}*/
+
+/*@}*/
 
 /** 
- * \name User Management
+ * \name Management Authenticated Users
  * Methods that manage authenticated users remembered by the library
  **/
 /*@{*/
 
 /**
+ * Returns an \c NSDictionary of fields containing all the information Janrain Engage knows about 
+ * the user that logged into your application with the given provider.
  *
+ * @param provider
+ *   The name of the provider on which the user authenticated.  For a list of possible strings, 
+ *   please see the \ref basicProviders "List of Providers"
+ *
+ * @return 
+ *   An \c NSDictionary of fields containing all the information Janrain Engage knows about the user that 
+ *   logged into your application with the given provider. Includes the field "profile" which contains
+ *   the user's profile information
+ *
+ *   The structure of the dictionary (represented here in json) should look something like the 
+ *   following:
+ * \code
+ "auth_info":
+ {
+   "profile": 
+   {
+     "displayName": "brian",
+     "preferredUsername": "brian",
+     "url": "http:\/\/brian.myopenid.com\/",
+     "providerName": "Other",
+     "identifier": "http:\/\/brian.myopenid.com\/"
+   }
+ }
+ * \endcode
+ *
+ * \sa For a full description of the dictionary and its fields, 
+ * please see the <a href="https://rpxnow.com/docs#api_auth_info_response">auth_info response</a> 
+ * section of the Janrain Engage API documentation.
  **/
 - (NSDictionary*)getUserForProvider:(NSString*)provider;
 
@@ -462,18 +506,24 @@
  *   The name of the provider on which the user authenticated.  For a list of possible strings, 
  *   please see the \ref socialProviders "List of Social Providers"
  * 
- * \note: The library only remembers users who have signed in through the social publishing interface
+ * \warning This function may become deprecated in the future.
+ *
+ * \sa \ref signoutProvider "- (void)signoutUserForProvider:(NSString*)provider"
  **/
 - (void)signoutUserForSocialProvider:(NSString*)provider;
 
 /**
  * Tell JREngage to forget that a user is signed in with all \ref socialProviders "Social Providers"
  * 
- * \note: The library only remembers users who have signed in through the social publishing interface
+ * \warning This function may become deprecated in the future.
+ *
+ * \sa \ref signoutAll "- (void)signoutUserForAllProviders"
  **/
 - (void)signoutUserForAllSocialProviders;
 
 /**
+ * \anchor signoutProvider
+ *
  * Tell JREngage to forget that a user is already signed in with the given provider
  *
  * @param provider
@@ -483,13 +533,20 @@
 - (void)signoutUserForProvider:(NSString*)provider;
 
 /**
+ * \anchor signoutAll
+ *
  * Tell JREngage to forget that a user is signed in with all \ref basicProviders "Providers"
  **/
 - (void)signoutUserForAllProviders;
+
+/**
+ *
+ **/
+- (void)alwaysForceReauthentication:(BOOL)force;
 /*@}*/
 
 /** 
- * \name Cancel
+ * \name Cancel the JREngage Dialogs
  * Methods to cancel authentication and social publishing
  **/
 /*@{*/

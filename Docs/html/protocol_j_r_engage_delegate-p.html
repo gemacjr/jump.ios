@@ -44,6 +44,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#a6ac183348ebc0e858e8aad0682b5e1cd">jrAuthenticationDidSucceedForUser:forProvider:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#ac16b7db45fd324d597260dc8579b3a22">jrAuthenticationDidFailWithError:forProvider:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#abfafec7eed95008f7b7052d962f8f6fa">jrAuthenticationDidReachTokenUrl:withPayload:forProvider:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#a2cbed662f784706d2db038e1cb9ba3fd">jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#a670eab0f76e79ba90a246a2f3e4dfe04">jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">SocialPublishing</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpeb046f03f7c48654b2974e7c81bd7f9b"></a> Messages sent by <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> during social publishing </p>
@@ -72,14 +73,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Sent if the application tries to show a <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> dialog, and <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> failed to configure</p>
+<p>Sent if the application tries to show a <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> dialog, and <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> failed to show. May occur if the <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library failed to configure, or if the activity object was nil, etc.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>error</em>&nbsp;</td><td>The error that occurred during configuration</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="note"><dt><b>Note:</b></dt><dd>This message is only sent if your application tries to show a <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> dialog, not when the error occurs, since your application may preemptively configure <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>, but never actually use it. </dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>This message is only sent if your application tries to show a <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> dialog, and not necessarily when an error occurs, if, say, the error occurred during the library's configuration. The raison d'etre is based on the possibility that your application may preemptively configure <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>, but never actually use it. If that is the case, then you won't get any error. </dd></dl>
 
 </div>
 </div>
@@ -225,6 +226,58 @@ Public Member Functions</h2></td></tr>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>tokenUrl</em>&nbsp;</td><td>The URL on the server where the token was posted and server-side authentication was completed</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>tokenUrlPayload</em>&nbsp;</td><td>The response from the server</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="warning"><dt><b>Warning:</b></dt><dd>This function may become deprecated in the future.</dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="protocol_j_r_engage_delegate-p.html#tokenUrlReached">- (void)jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2cbed662f784706d2db038e1cb9ba3fd"></a><!-- doxytag: member="JREngageDelegate&#45;p::jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:" ref="a2cbed662f784706d2db038e1cb9ba3fd" args="(NSString *tokenUrl,[withResponse] NSURLResponse *response,[andPayload] NSData *tokenUrlPayload,[forProvider] NSString *provider)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">- (void) jrAuthenticationDidReachTokenUrl: </td>
+          <td></td>
+          <td class="paramtype">(NSString *)&nbsp;</td>
+          <td class="paramname"> <em>tokenUrl</em></td>
+        </tr>
+        <tr>
+          <td class="paramkey">withResponse:</td>
+          <td></td>
+          <td class="paramtype">(NSURLResponse *)&nbsp;</td>
+          <td class="paramname"> <em>response</em></td>
+        </tr>
+        <tr>
+          <td class="paramkey">andPayload:</td>
+          <td></td>
+          <td class="paramtype">(NSData *)&nbsp;</td>
+          <td class="paramname"> <em>tokenUrlPayload</em></td>
+        </tr>
+        <tr>
+          <td class="paramkey">forProvider:</td>
+          <td></td>
+          <td class="paramtype">(NSString *)&nbsp;</td>
+          <td class="paramname"> <em>provider</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p><a class="anchor" id="tokenUrlReached"></a></p>
+<p>Sent after <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> has successfully posted the token to your application's token_url, containing the headers and body of the response from the server</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>tokenUrl</em>&nbsp;</td><td>The URL on the server where the token was posted and server-side authentication was completed</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>response</em>&nbsp;</td><td>The final NSURLResponse returned from the server</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>tokenUrlPayload</em>&nbsp;</td><td>The response from the server</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a> </td></tr>
   </table>
@@ -389,7 +442,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this protocol was generated from the following file:<ul>
-<li>/home/ivan/LILLI_IS_SO_AWESOME/engage.iphone/JREngage/Classes/<a class="el" href="_j_r_engage_8h_source.html">JREngage.h</a></li>
+<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/<a class="el" href="_j_r_engage_8h_source.html">JREngage.h</a></li>
 </ul>
 </div>
 <!-- doxygen footer -->

@@ -15,11 +15,6 @@ Mp3 object to be included in a post to a user's stream.
 
 Inherits JRMediaObject.
 
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-(id) -\/ \hyperlink{interface_j_r_mp3_media_object_a15eba85b9094d28d8d9bc6b9625ee55c}{initWithSrc:}
-\end{DoxyCompactItemize}
 \subsection*{Properties}
 \begin{DoxyCompactItemize}
 \item 
@@ -30,6 +25,14 @@ NSString $\ast$ \hyperlink{interface_j_r_mp3_media_object_accd252e22f704fd4b3142
 NSString $\ast$ \hyperlink{interface_j_r_mp3_media_object_aa164b3ecc14b03d36f5093d3d4d7f5b1}{artist}
 \item 
 NSString $\ast$ \hyperlink{interface_j_r_mp3_media_object_adefc6578183aa09a492b229696f581df}{album}
+\end{DoxyCompactItemize}
+\subsection*{Constructors}
+\label{_amgrp559a25fdb98a7d1fd1c3771ac568d5e9}
+ \begin{DoxyCompactItemize}
+\item 
+(id) -\/ \hyperlink{interface_j_r_mp3_media_object_a15eba85b9094d28d8d9bc6b9625ee55c}{initWithSrc:}
+\item 
+(id) + \hyperlink{interface_j_r_mp3_media_object_ab8788e64a6d5b868e1b0689d55d68246}{mp3MediaObjectWithSrc:}
 \end{DoxyCompactItemize}
 
 
@@ -56,6 +59,23 @@ Format and rules are identical to those described on the \href{http://developers
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_mp3_media_object_a15eba85b9094d28d8d9bc6b9625ee55c}
+Returns a {\ttfamily \hyperlink{interface_j_r_mp3_media_object}{JRMp3MediaObject}} initialized with the given src.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em \_\-src}]The URL of the MP3 file to be rendered. This value cannot be {\ttfamily nil}.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \hyperlink{interface_j_r_mp3_media_object}{JRMp3MediaObject} initialized with the given src. If {\ttfamily \_\-src} is {\itshape nil\/}, returns {\ttfamily nil}. 
+\end{DoxyReturn}
+\hypertarget{interface_j_r_mp3_media_object_ab8788e64a6d5b868e1b0689d55d68246}{
+\index{JRMp3MediaObject@{JRMp3MediaObject}!mp3MediaObjectWithSrc:@{mp3MediaObjectWithSrc:}}
+\index{mp3MediaObjectWithSrc:@{mp3MediaObjectWithSrc:}!JRMp3MediaObject@{JRMp3MediaObject}}
+\subsubsection[{mp3MediaObjectWithSrc:}]{\setlength{\rightskip}{0pt plus 5cm}+ (id) mp3MediaObjectWithSrc: 
+\begin{DoxyParamCaption}
+\item[{dummy(NSString $\ast$)}]{ \_\-src}
+\end{DoxyParamCaption}
+}}
+\label{interface_j_r_mp3_media_object_ab8788e64a6d5b868e1b0689d55d68246}
 Returns a {\ttfamily \hyperlink{interface_j_r_mp3_media_object}{JRMp3MediaObject}} initialized with the given src.
 
 
@@ -91,4 +111,4 @@ The album
 
 The documentation for this class was generated from the following file:\begin{DoxyCompactItemize}
 \item 
-/home/ivan/LILLI\_\-IS\_\-SO\_\-AWESOME/engage.iphone/JREngage/Classes/\hyperlink{_j_r_activity_object_8h}{JRActivityObject.h}\end{DoxyCompactItemize}
+/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/\hyperlink{_j_r_activity_object_8h}{JRActivityObject.h}\end{DoxyCompactItemize}

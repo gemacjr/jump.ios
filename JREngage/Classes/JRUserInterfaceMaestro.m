@@ -191,7 +191,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 	
     if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData social])
     {   
-        [sessionData setCurrentProvider:sessionData.returningBasicProvider];
+        [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
         [jrModalNavController.navigationController pushViewController:myUserLandingController animated:NO];
     }
    
@@ -213,7 +213,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 
     if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData social])
     {   
-        [sessionData setCurrentProvider:sessionData.returningBasicProvider];
+        [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
         [navigationController pushViewController:controller animated:NO];
         [navigationController pushViewController:myUserLandingController animated:YES];
     }

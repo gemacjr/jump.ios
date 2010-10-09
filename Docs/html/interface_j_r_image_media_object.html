@@ -20,7 +20,6 @@
 </div>
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#properties">Properties</a>  </div>
   <div class="headertitle">
 <h1>JRImageMediaObject Class Reference</h1>  </div>
@@ -36,13 +35,16 @@
 
 <p><a href="class_j_r_image_media_object-members.html">List of all members.</a></p>
 <table class="memberdecls">
-<tr><td colspan="2"><h2><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_image_media_object.html#a8a15f579b784dbdcdaeea9dc1da56cb3">initWithSrc:andHref:</a></td></tr>
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_image_media_object.html#aad75823f9189dfca758bc4d4712c3621">src</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_image_media_object.html#a95642c3f4bc97a112a3ab32beef46f66">href</a></td></tr>
+<tr><td colspan="2"><h2><a name="member-group"></a>
+Constructors</h2></td></tr>
+<tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
+<br/><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_image_media_object.html#a8a15f579b784dbdcdaeea9dc1da56cb3">initWithSrc:andHref:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <a class="el" href="interface_j_r_image_media_object.html#af1e6318b91ab6cda8eba464767b2c81d">imageMediaObjectWithSrc:andHref:</a></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Image object to be included in a post to a user's stream. </p>
@@ -56,6 +58,42 @@ Properties</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">- (id) initWithSrc: </td>
+          <td></td>
+          <td class="paramtype">(NSString *)&nbsp;</td>
+          <td class="paramname"> <em>_src</em></td>
+        </tr>
+        <tr>
+          <td class="paramkey">andHref:</td>
+          <td></td>
+          <td class="paramtype">(NSString *)&nbsp;</td>
+          <td class="paramname"> <em>_href</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Returns a <code><a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a></code> initialized with the given src and href.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>_src</em>&nbsp;</td><td>The photo's URL. This value cannot be <code>nil</code>.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_href</em>&nbsp;</td><td>The URL where a user should be taken if he or she clicks the photo. This value cannot be <code>nil</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a> initialized with the given src and href. If either <code>_src</code> or <code>_href</code> are <em>nil</em>, returns <code>nil</code>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af1e6318b91ab6cda8eba464767b2c81d"></a><!-- doxytag: member="JRImageMediaObject::imageMediaObjectWithSrc:andHref:" ref="af1e6318b91ab6cda8eba464767b2c81d" args="(NSString *_src,[andHref] NSString *_href)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">+ (id) imageMediaObjectWithSrc: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
           <td class="paramname"> <em>_src</em></td>
@@ -116,7 +154,7 @@ Properties</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/ivan/LILLI_IS_SO_AWESOME/engage.iphone/JREngage/Classes/<a class="el" href="_j_r_activity_object_8h_source.html">JRActivityObject.h</a></li>
+<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/<a class="el" href="_j_r_activity_object_8h_source.html">JRActivityObject.h</a></li>
 </ul>
 </div>
 <!-- doxygen footer -->
