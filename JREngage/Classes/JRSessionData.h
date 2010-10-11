@@ -239,7 +239,7 @@
 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider;
 - (JRAuthenticatedUser*)authenticatedUserForProviderNamed:(NSString*)provider;
 
-- (void)forgetAuthenticatedUserForProvider:(NSString*)provider;
+- (void)forgetAuthenticatedUserForProvider:(NSString*)providerName;
 - (void)forgetAllAuthenticatedUsers;
 
 - (void)shareActivityForUser:(JRAuthenticatedUser*)user;

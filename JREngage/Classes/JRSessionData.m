@@ -134,8 +134,6 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 }
 @end
 
-
-
 @interface JRProvider ()
 @property (readonly) NSString *openIdentifier;
 @property (readonly) NSString *url;
@@ -758,6 +756,18 @@ static JRSessionData* singleton = nil;
                                               forKey:@"jrLastUsedBasicProvider"];
 }
 
+
+- (void)deleteFacebookCookies
+{
+    NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray* facebookCookies = [cookies cookiesForURL:[NSURL URLWithString:@"http://login.facebook.com"]];
+    
+    for (NSHTTPCookie* cookie in facebookCookies) 
+    {    
+        [cookies deleteCookie:cookie];
+    }
+}
+
 - (NSURL*)startUrlForCurrentProvider
 {
 	DLog(@"");
@@ -785,7 +795,9 @@ static JRSessionData* singleton = nil;
     
     NSString *str = nil;
     
- //   BOOL foo = alwaysForceReauth + currentProvider.forceReauth;
+    if ([currentProvider.name isEqualToString:@"facebook"])
+        if (alwaysForceReauth || currentProvider.forceReauth)
+            [self deleteFacebookCookies];
     
 #ifdef SOCIAL_PUBLISHING
 //    if (social)
@@ -847,12 +859,14 @@ static JRSessionData* singleton = nil;
     return [authenticatedUsersByProvider objectForKey:provider];
 }
 
-- (void)forgetAuthenticatedUserForProvider:(NSString*)provider
+- (void)forgetAuthenticatedUserForProvider:(NSString*)providerName
 {
     DLog(@"");
     
-    JRProvider* p = [allProviders objectForKey:provider];
-    p.forceReauth = YES;
+    JRProvider* provider = [allProviders objectForKey:providerName];
+    provider.forceReauth = YES;
+    
+    
     
     [authenticatedUsersByProvider removeObjectForKey:provider];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
