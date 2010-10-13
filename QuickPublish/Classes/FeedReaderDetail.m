@@ -119,6 +119,7 @@
                                 story.pubDate,
                                 story.description];
 
+    [webview setAllowsInlineMediaPlayback:YES];
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
     
     UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
@@ -172,7 +173,7 @@
     
     
     activity.description = [story.plainText substringToIndex:
-                            ((story.plainText.length < 140) ? story.plainText.length : 140)];
+                            ((story.plainText.length < 160) ? story.plainText.length : 160)];
     
     if ([story.storyImages count] > 0)
     {

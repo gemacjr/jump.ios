@@ -172,7 +172,8 @@
 - (void)setTitle:(NSString*)_title
 {
 	[title release];
-	title = [_title retain];
+	title = [[[_title stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"]
+                      stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
     DLog(@"title:\t\t\t%@", title);
 }
 
@@ -203,7 +204,7 @@
 - (void)setPlainText:(NSString*)_plainText
 {
     [plainText release];
-    plainText = [_plainText retain];
+    plainText = [[_plainText stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
 }
 
 - (void)addStoryImage:(NSString*)_storyImage
@@ -393,10 +394,14 @@ static FeedReader* singleton = nil;
     app.networkActivityIndicatorVisible = YES;
 
     NSError *error = nil;
-    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
-    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
-                                                                  encoding:NSUTF8StringEncoding
-                                                                     error:&error] autorelease];
+    //    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
+    //    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
+    //                                                                  encoding:NSUTF8StringEncoding
+    //                                                                     error:&error] autorelease];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
+    NSString *janrain_blog_json = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+
     NSDictionary *janrain_blog_dictionary = [janrain_blog_json JSONValue];  
 
     if (!janrain_blog_dictionary)
