@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9F08797112553B44008AD40D /* JRError.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F08797012553B44008AD40D /* JRError.h */; };
+		9F088BDF126684EF008AD40D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F088BDE126684EF008AD40D /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9FED50BA12401DE1004684F2 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED50AF12401DE1004684F2 /* JSON.h */; };
 		9FED50BB12401DE1004684F2 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED50B012401DE1004684F2 /* NSObject+SBJSON.h */; };
 		9FED50BC12401DE1004684F2 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FED50B112401DE1004684F2 /* NSObject+SBJSON.m */; };
@@ -48,6 +49,7 @@
 /* Begin PBXFileReference section */
 		9F08797012553B44008AD40D /* JRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRError.h; sourceTree = "<group>"; };
 		9F0880B8125BFB07008AD40D /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JREngage-Info.plist"; sourceTree = "<group>"; };
+		9F088BDE126684EF008AD40D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9F63D526124FEAC400A21A59 /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
 		9F63DA7B12511B3E00A21A59 /* black_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_button.png; sourceTree = "<group>"; };
 		9F63DA7C12511B3E00A21A59 /* blue_button_135x38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_button_135x38.png; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+				9F088BDF126684EF008AD40D /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +190,7 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9F088BDE126684EF008AD40D /* MessageUI.framework */,
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
 			);
 			name = Frameworks;

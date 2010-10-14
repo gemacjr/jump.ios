@@ -37,10 +37,14 @@
 #import "JREngage.h"
 #import "JRInfoBar.h"
 
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
+
 @interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITextViewDelegate, 
                                                            UITabBarDelegate, JRSessionDelegate,
                                                            JRConnectionManagerDelegate, JRUserInterfaceDelegate,
-                                                           UIActionSheetDelegate>
+                                                           UIActionSheetDelegate,
+                                                           MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 {
 	JRSessionData	*sessionData;
 
@@ -53,6 +57,7 @@
     BOOL weHaveJustAuthenticated;
     BOOL weAreCurrentlyPostingSomething;
     BOOL hasEditedUserContentForActivityAlready;
+    BOOL userIsAttemptingToSignOut;
     
     NSDictionary *colorsDictionary;
     UILabel		 *title_label;

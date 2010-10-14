@@ -31,7 +31,7 @@
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#define MAIL 1
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>

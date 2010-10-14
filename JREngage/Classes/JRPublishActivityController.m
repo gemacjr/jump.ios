@@ -402,21 +402,75 @@ Please try again later."
     [self showActivityAsShared:NO];
 }
 
+- (void)sendEmail
+{
+#ifdef MAIL
+    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    
+    picker.mailComposeDelegate = self;
+    
+    [picker setSubject:@"Hello from California!"];
+    
+    // Set up recipients
+    NSArray *toRecipients = [NSArray arrayWithObject:@"first@example.com"]; 
+    NSArray *ccRecipients = [NSArray arrayWithObjects:@"second@example.com", @"third@example.com", nil]; 
+    NSArray *bccRecipients = [NSArray arrayWithObject:@"fourth@example.com"]; 
+    
+    [picker setToRecipients:toRecipients];
+    [picker setCcRecipients:ccRecipients];  
+    [picker setBccRecipients:bccRecipients];
+    
+    // Attach an image to the email    
+//    NSString *path = [[NSBundle mainBundle] pathForResource:@"rainy" ofType:@"png"];
+//    NSData *myData = [NSData dataWithContentsOfFile:path];
+//    [picker addAttachmentData:myData mimeType:@"image/png" fileName:@"rainy"];
+    
+    // Fill out the email body text
+    
+    NSString *emailBody = @"It is raining in sunny California!";
+    
+    [picker setMessageBody:emailBody isHTML:NO];
+    [self presentModalViewController:picker animated:YES];
+    
+    [picker release];
+#endif
+}
+
+- (void)sendSMS
+{
+    MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+    picker.messageComposeDelegate = self;
+    
+    [self presentModalViewController:picker animated:YES];
+    
+    [picker release];   
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch (buttonIndex)
     {
         case 0:
-            [self logUserOutForProvider:selectedProvider.name];
+            if (userIsAttemptingToSignOut)
+                [self logUserOutForProvider:selectedProvider.name];
+            else
+                [self sendEmail];
+            break;
+        case 1:
+            [self sendSMS];
             break;
         default:
             break;
     }
+    
+    userIsAttemptingToSignOut = NO;
 }
 
 - (IBAction)signOutButtonPressed:(id)sender
 {
     DLog(@"");
+    
+    userIsAttemptingToSignOut = YES;
     
 	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
                                                                    @"You are currently signed in to %@%@. Would you like to sign out?",
@@ -428,7 +482,8 @@ Please try again later."
 										   destructiveButtonTitle:@"OK"
 												otherButtonTitles:nil] autorelease];
 	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	[action showInView:self.view];
+    [action showFromTabBar:myTabBar];
+//	[action showInView:self.view];
 }
 
 - (void)setButtonImage:(UIButton*)button toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
@@ -553,42 +608,81 @@ Please try again later."
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     DLog(@"");
-    [selectedProvider release];
-    [loggedInUser release];
     
-    selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
-    [sessionData setCurrentProvider:selectedProvider];
-    
-    myShareToView.backgroundColor = [colorsDictionary objectForKey:selectedProvider.name];
-    [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_long.png", selectedProvider.name]]
-                                       forState:UIControlStateNormal];
-    [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_short.png", selectedProvider.name]]
-                                 forState:UIControlStateNormal];
-    myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider.name]];
-    
-    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
-    
-    activity.user_generated_content = myUserContentTextView.text;
-    
-    if (loggedInUser)
+    if (item.tag == [[sessionData socialProviders] count])
     {
-        [self showUserAsLoggedIn:YES];
-        [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:selectedProvider.name];
+        UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Share with Email or SMS"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"  
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Email", @"SMS", nil] autorelease];
+        action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        [action showFromTabBar:myTabBar];
     }
     else
-    {
-        [self showUserAsLoggedIn:NO];
+    {        
+        [selectedProvider release];
+        [loggedInUser release];
+        
+        selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
+        [sessionData setCurrentProvider:selectedProvider];
+        
+        myShareToView.backgroundColor = [colorsDictionary objectForKey:selectedProvider.name];
+        [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_long.png", selectedProvider.name]]
+                                           forState:UIControlStateNormal];
+        [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_short.png", selectedProvider.name]]
+                                     forState:UIControlStateNormal];
+        myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider.name]];
+        
+        loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
+        
+        activity.user_generated_content = myUserContentTextView.text;
+        
+        if (loggedInUser)
+        {
+            [self showUserAsLoggedIn:YES];
+            [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:selectedProvider.name];
+        }
+        else
+        {
+            [self showUserAsLoggedIn:NO];
+        }
+        
+        [self loadActivityToView];
+        [self showActivityAsShared:NO];
     }
+}
+
+- (BOOL)canSendMailAndSMS
+{
+    return YES;
     
-    [self loadActivityToView];
-    [self showActivityAsShared:NO];
+    Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+    Class messageClass = (NSClassFromString(@"MFMessageComposeViewController"));
+    
+    // TODO: Also check for activity email/text fields
+    if (mailClass && messageClass)
+        if ([mailClass canSendMail] && [messageClass canSendText]) 
+            return YES;
+    
+    return NO;
 }
 
 - (void)addProvidersToTabBar
 {
     DLog(@"");
-    NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:[[sessionData socialProviders] count]];
+    
+    NSInteger numberOfTabs = [[sessionData socialProviders] count];
     NSInteger indexOfLastUsedProvider = 0;
+    BOOL canSendEmailAndText = NO;
+    
+    if ([self canSendMailAndSMS]) 
+    {
+        numberOfTabs++;
+        canSendEmailAndText = YES;
+    }
+    
+    NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:numberOfTabs];//[[sessionData socialProviders] count]];
     
     for (int i = 0; i < [[sessionData socialProviders] count]; i++)
     {
@@ -608,6 +702,12 @@ Please try again later."
             indexOfLastUsedProvider = i;
         
         [provider release];
+    }
+    
+    if (canSendEmailAndText)
+    {
+        UITabBarItem *emailTab = [[[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:[providerTabArr count]] autorelease];
+        [providerTabArr insertObject:emailTab atIndex:[providerTabArr count]];
     }
     
     cachedProfilePics = [[NSMutableDictionary alloc] initWithCapacity:[[sessionData socialProviders] count]];
