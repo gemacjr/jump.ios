@@ -343,6 +343,20 @@
     if (error.code != NSURLErrorCancelled) /* Error code -999 */
     {       
         [self stopProgress];
+        
+        NSError *_error = [[self setError:[NSString stringWithFormat:@"Authentication failed: %@", [error localizedDescription]]
+                                withCode:JRAuthenticationFailedError
+                                 andType:JRErrorTypeAuthenticationFailed] autorelease];
+        
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
+                                                         message:@"An error occurred while attempting to sign you in.  Please try again."
+                                                        delegate:self
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil] autorelease];
+        [alert show];
+        
+        userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
+        [sessionData triggerAuthenticationDidFailWithError:_error];
     }
 }
 

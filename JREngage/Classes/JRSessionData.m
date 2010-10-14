@@ -152,12 +152,12 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 
 - (void)loadDynamicVariables
 {
-    if (self = [super init])
-    {
-        userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%UserInput", name]];
+//    if (self = [super init])
+//    {
+        userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@UserInput", name]];
         welcomeString = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@WelcomeString", name]];
         forceReauth   = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jr%@ForceReauth", name]];
-    }
+//    }
 }
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary
@@ -562,6 +562,8 @@ static JRSessionData* singleton = nil;
 
 - (NSError*)finishGetConfiguration:(NSString*)dataStr
 {
+    DLog(@"");
+    
     /* Make sure that the returned string can be parsed as json (which there should be no reason that this wouldn't happen) */
     if (![dataStr respondsToSelector:@selector(JSONValue)])
         return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
