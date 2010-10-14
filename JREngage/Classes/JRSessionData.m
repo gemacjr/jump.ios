@@ -799,6 +799,7 @@ static JRSessionData* singleton = nil;
         if (alwaysForceReauth || currentProvider.forceReauth)
             [self deleteFacebookCookies];
     
+#define SOCIAL_PUBLISHING
 #ifdef SOCIAL_PUBLISHING
 //    if (social)
 //        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_two&device=iphone", 
@@ -809,7 +810,7 @@ static JRSessionData* singleton = nil;
 //               (([currentProvider.name isEqualToString:@"facebook"]) ? 
 //                @"ext_perm=publish_stream,offline_access&" : @"")];
 //    else
-        str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
+        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_two&device=iphone", 
                baseUrl, 
                currentProvider.url,
                oid, 
@@ -817,11 +818,11 @@ static JRSessionData* singleton = nil;
                (([currentProvider.name isEqualToString:@"facebook"]) ? 
                 @"ext_perm=publish_stream,offline_access&" : @"")];
 #else
-    str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
-           baseUrl, 
-           currentProvider.url,
-           oid, 
-           ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @"")];    
+//    str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
+//           baseUrl, 
+//           currentProvider.url,
+//           oid, 
+//           ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @"")];    
 #endif
     
 	currentProvider.forceReauth = NO;
@@ -866,9 +867,7 @@ static JRSessionData* singleton = nil;
     JRProvider* provider = [allProviders objectForKey:providerName];
     provider.forceReauth = YES;
     
-    
-    
-    [authenticatedUsersByProvider removeObjectForKey:provider];
+    [authenticatedUsersByProvider removeObjectForKey:providerName];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                               forKey:@"jrAuthenticatedUsersByProvider"];
 }
