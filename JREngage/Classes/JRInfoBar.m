@@ -54,10 +54,6 @@
 	
 	if (self = [super initWithFrame:frame]) 
 	{
-        /* Uncomment to force Janrain attribution in sample app. 
-           Note: Changing this to style = YES; violates Janrain's Terms of Service. */
-        //style = NO; 
-		
         hidesPoweredBy = style;
 		y_origin_hidden = self.frame.origin.y + self.frame.size.height;
 		
