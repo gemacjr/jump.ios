@@ -52,6 +52,7 @@
 	
 	BOOL keepProgress;
 	BOOL userHitTheBackButton;
+    BOOL connectionDataAlreadyDownloadedThis;
 }
 
 @property (nonatomic, retain) IBOutlet UIWebView *myWebView;

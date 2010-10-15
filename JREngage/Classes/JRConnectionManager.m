@@ -36,7 +36,7 @@
 #import "JRConnectionManager.h"
 
 // TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -361,6 +361,36 @@ static JRConnectionManager* singleton = nil;
 	[self stopActivity];
 }
 
+- (BOOL)thisIsThatStupidWindowsLiveResponse:(NSURLResponse*)redirectResponse
+{
+    if ([[[redirectResponse URL] absoluteString] hasPrefix:@"http://consent.live.com/Delegation.aspx?"])
+        return YES;
+    
+    return NO;
+}
+
+- (NSURLRequest*)aCopyOfTheRequestWithANonCrashingUserAgent:(NSURLRequest*)request
+{
+    NSMutableURLRequest* new_request = [[[NSMutableURLRequest alloc] initWithURL:[request URL]] autorelease];
+    
+    [new_request setAllHTTPHeaderFields:[request allHTTPHeaderFields]];
+    [new_request setHTTPMethod:[request HTTPMethod]];
+    [new_request setHTTPBody:[request HTTPBody]];
+    [new_request setHTTPBodyStream:[request HTTPBodyStream]];
+    [new_request setNetworkServiceType:[request networkServiceType]];
+    [new_request setCachePolicy:[request cachePolicy]];
+    [new_request setTimeoutInterval:[request timeoutInterval]];
+    [new_request setHTTPShouldUsePipelining:[request HTTPShouldUsePipelining]];
+    [new_request setHTTPShouldHandleCookies:[request HTTPShouldHandleCookies]];
+    
+    [new_request setValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.4) Gecko/20100527 Firefox/3.6.4 GTB7.1"
+       forHTTPHeaderField:@"User-Agent"];
+    
+    DLog(@"willSendNewRequest: %@", [[new_request URL] absoluteString]);
+    
+    return new_request;
+}
+
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request 
 														  redirectResponse:(NSURLResponse *)redirectResponse
 {
@@ -372,6 +402,9 @@ static JRConnectionManager* singleton = nil;
     if ([connectionData returnFullResponse])
         connectionData.fullResponse = redirectResponse;    
 	
+    if ([self thisIsThatStupidWindowsLiveResponse:redirectResponse])
+         return [self aCopyOfTheRequestWithANonCrashingUserAgent:request];
+    
 	return request;
 }
 
