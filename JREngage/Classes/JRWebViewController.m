@@ -332,9 +332,6 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 												 navigationType:(UIWebViewNavigationType)navigationType 
 {	
-	if ([self webviewShouldntLoadRequestDueToTheWindowsLiveFix:request])
-        return WEBVIEW_SHOULDNT_LOAD;
-    
     DLog(@"request: %@", [[request URL] absoluteString]);
 	
 	NSString *thatURL = [NSString stringWithFormat:@"%@/signin/device", [sessionData baseUrl]];
@@ -350,6 +347,9 @@
 		return NO;
 	}
 
+	if ([self webviewShouldntLoadRequestDueToTheWindowsLiveFix:request])
+        return WEBVIEW_SHOULDNT_LOAD;
+    
 	return YES;
 }
 

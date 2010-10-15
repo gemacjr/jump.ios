@@ -758,13 +758,24 @@ static JRSessionData* singleton = nil;
                                               forKey:@"jrLastUsedBasicProvider"];
 }
 
-
 - (void)deleteFacebookCookies
 {
     NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray* facebookCookies = [cookies cookiesForURL:[NSURL URLWithString:@"http://login.facebook.com"]];
     
     for (NSHTTPCookie* cookie in facebookCookies) 
+    {    
+        [cookies deleteCookie:cookie];
+    }
+}
+
+
+- (void)deleteLiveCookies
+{
+    NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray* liveCookies = [cookies cookiesForURL:[NSURL URLWithString:@"http://live.com"]];
+    
+    for (NSHTTPCookie* cookie in liveCookies) 
     {    
         [cookies deleteCookie:cookie];
     }
@@ -800,6 +811,10 @@ static JRSessionData* singleton = nil;
     if ([currentProvider.name isEqualToString:@"facebook"])
         if (alwaysForceReauth || currentProvider.forceReauth)
             [self deleteFacebookCookies];
+    
+    if ([currentProvider.name isEqualToString:@"live_id"])
+        if (alwaysForceReauth || currentProvider.forceReauth)
+            [self deleteLiveCookies];
     
 #define SOCIAL_PUBLISHING
 #ifdef SOCIAL_PUBLISHING
