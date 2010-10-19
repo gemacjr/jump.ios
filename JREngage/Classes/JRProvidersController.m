@@ -149,7 +149,7 @@
             [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
                                              myTableView.frame.origin.y, 
                                              myTableView.frame.size.width, 
-                                             myTableView.frame.size.height - 30)];
+                                             myTableView.frame.size.height - 27)];
         
 		[self.view addSubview:infoBar];
 	}
