@@ -140,12 +140,17 @@
 	placeholderItem.width = 85;
 	self.navigationItem.leftBarButtonItem = placeholderItem;
 	
+    
 	if (!infoBar)
 	{
-		if (!sessionData || [sessionData hidePoweredBy])
-			infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:JRInfoBarStyleHidePoweredBy];
-		else
-			infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:JRInfoBarStyleShowPoweredBy];
+		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+        
+        if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
+            [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
+                                             myTableView.frame.origin.y, 
+                                             myTableView.frame.size.width, 
+                                             myTableView.frame.size.height - 30)];
+        
 		[self.view addSubview:infoBar];
 	}
 }

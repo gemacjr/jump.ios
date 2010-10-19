@@ -1232,6 +1232,13 @@ static JRSessionData* singleton = nil;
 - (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict
 {  
     DLog(@"");
+    
+ /* This value will be nil if authentication was canceled after the user authenticated in the
+    webview, but before the authentication call was completed, like in the case where the calling
+    application issues the cancelAuthentication command. */
+    if (!currentProvider)
+        return;
+    
     NSDictionary *goodies = [payloadDict objectForKey:@"rpx_result"];
     NSString *token = [goodies objectForKey:@"token"];
     
