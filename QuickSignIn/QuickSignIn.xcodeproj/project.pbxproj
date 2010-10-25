@@ -95,6 +95,8 @@
 		9F0881F4125CFB3E008AD40D /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F0881A0125CFB3E008AD40D /* JRWebViewController.xib */; };
 		9F0881F5125CFB3E008AD40D /* JREngage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F0881A1125CFB3E008AD40D /* JREngage-Info.plist */; };
 		9F0881F6125CFB3E008AD40D /* scratch in Resources */ = {isa = PBXBuildFile; fileRef = 9F0881A2125CFB3E008AD40D /* scratch */; };
+		9F08940F12761E36008AD40D /* jrauth_paypal_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F08940E12761E36008AD40D /* jrauth_paypal_icon.png */; };
+		9F08941112761E46008AD40D /* jrauth_paypal_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F08941012761E46008AD40D /* jrauth_paypal_logo.png */; };
 		9F5908D1116F9316006955EF /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F5908D0116F9316006955EF /* Entitlements.plist */; };
 		9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */; };
 		9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */; };
@@ -221,6 +223,8 @@
 		9F0881A0125CFB3E008AD40D /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRWebViewController.xib; path = ../JREngage/Resources/JRWebViewController.xib; sourceTree = SOURCE_ROOT; };
 		9F0881A1125CFB3E008AD40D /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "JREngage-Info.plist"; path = "../JREngage/JREngage-Info.plist"; sourceTree = SOURCE_ROOT; };
 		9F0881A2125CFB3E008AD40D /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scratch; path = ../JREngage/scratch; sourceTree = SOURCE_ROOT; };
+		9F08940E12761E36008AD40D /* jrauth_paypal_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_paypal_icon.png; sourceTree = "<group>"; };
+		9F08941012761E46008AD40D /* jrauth_paypal_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_paypal_logo.png; sourceTree = "<group>"; };
 		9F5908D0116F9316006955EF /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIRootViewController.h; sourceTree = "<group>"; };
 		9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIRootViewController.m; sourceTree = "<group>"; };
@@ -436,6 +440,7 @@
 		9F088166125CFB3E008AD40D /* provider_icons */ = {
 			isa = PBXGroup;
 			children = (
+				9F08940E12761E36008AD40D /* jrauth_paypal_icon.png */,
 				9F088167125CFB3E008AD40D /* jrauth_aol_icon.png */,
 				9F088168125CFB3E008AD40D /* jrauth_blogger_icon.png */,
 				9F088169125CFB3E008AD40D /* jrauth_facebook_icon.png */,
@@ -472,6 +477,7 @@
 		9F08817E125CFB3E008AD40D /* provider_logos */ = {
 			isa = PBXGroup;
 			children = (
+				9F08941012761E46008AD40D /* jrauth_paypal_logo.png */,
 				9F08817F125CFB3E008AD40D /* jrauth_aol_logo.png */,
 				9F088180125CFB3E008AD40D /* jrauth_blogger_logo.png */,
 				9F088181125CFB3E008AD40D /* jrauth_facebook_logo.png */,
@@ -667,6 +673,8 @@
 				9F0881F4125CFB3E008AD40D /* JRWebViewController.xib in Resources */,
 				9F0881F5125CFB3E008AD40D /* JREngage-Info.plist in Resources */,
 				9F0881F6125CFB3E008AD40D /* scratch in Resources */,
+				9F08940F12761E36008AD40D /* jrauth_paypal_icon.png in Resources */,
+				9F08941112761E46008AD40D /* jrauth_paypal_logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

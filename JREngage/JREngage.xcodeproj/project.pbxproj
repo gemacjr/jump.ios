@@ -48,6 +48,8 @@
 /* Begin PBXFileReference section */
 		9F08797012553B44008AD40D /* JRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRError.h; sourceTree = "<group>"; };
 		9F0880B8125BFB07008AD40D /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JREngage-Info.plist"; sourceTree = "<group>"; };
+		9F0893FC12761DDE008AD40D /* jrauth_paypal_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_paypal_icon.png; sourceTree = "<group>"; };
+		9F0893FD12761DE7008AD40D /* jrauth_paypal_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_paypal_logo.png; sourceTree = "<group>"; };
 		9F63D526124FEAC400A21A59 /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
 		9F63DA7B12511B3E00A21A59 /* black_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_button.png; sourceTree = "<group>"; };
 		9F63DA7C12511B3E00A21A59 /* blue_button_135x38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_button_135x38.png; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 		9F63DA8612511B3E00A21A59 /* provider_icons */ = {
 			isa = PBXGroup;
 			children = (
+				9F0893FC12761DDE008AD40D /* jrauth_paypal_icon.png */,
 				9F63DA8712511B3E00A21A59 /* jrauth_aol_icon.png */,
 				9F63DA8812511B3E00A21A59 /* jrauth_blogger_icon.png */,
 				9F63DA8912511B3E00A21A59 /* jrauth_facebook_icon.png */,
@@ -281,6 +284,7 @@
 		9F63DA9E12511B3E00A21A59 /* provider_logos */ = {
 			isa = PBXGroup;
 			children = (
+				9F0893FD12761DE7008AD40D /* jrauth_paypal_logo.png */,
 				9F63DA9F12511B3E00A21A59 /* jrauth_aol_logo.png */,
 				9F63DAA012511B3E00A21A59 /* jrauth_blogger_logo.png */,
 				9F63DAA112511B3E00A21A59 /* jrauth_facebook_logo.png */,
