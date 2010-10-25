@@ -147,18 +147,12 @@ static JRUserInterfaceMaestro* singleton = nil;
     [delegates release];
     delegates = nil;
     
-    [myProvidersController release];
-    [myUserLandingController release];
-    [myWebViewController release];
-    [myPublishActivityController release];
+    [myProvidersController release],        myProvidersController = nil;
+    [myUserLandingController release],      myUserLandingController = nil;
+    [myWebViewController release],          myWebViewController = nil;
+    [myPublishActivityController release],  myPublishActivityController = nil;    
     
-    myProvidersController = nil;
-    myUserLandingController = nil;
-    myWebViewController = nil;
-    myPublishActivityController = nil;    
-    
-    [jrModalNavController release];
-	jrModalNavController = nil;	   
+    [jrModalNavController release],	jrModalNavController = nil;	   
     
     sessionData.dialogIsShowing = NO;
 }

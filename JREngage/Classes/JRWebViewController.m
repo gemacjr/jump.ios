@@ -185,13 +185,12 @@
 	[self stopProgress];
 	
 	NSString* tag = [(NSString*)userdata retain];
-	
-	DLog(@"payload: %@", payload);
-	DLog(@"tag:     %@", tag);
-		
+			
 	if ([tag isEqualToString:@"rpx_result"])
 	{
-        
+    	DLog(@"payload: %@", payload);
+        DLog(@"tag:     %@", tag);
+    
         if (![payload respondsToSelector:@selector(JSONValue)]) { /* TODO: Error */}
         
         NSDictionary *payloadDict = [payload JSONValue];
@@ -274,6 +273,11 @@
 			}
 		}
 	}
+    else if ([tag isEqualToString:@"request"])
+    {
+        connectionDataAlreadyDownloadedThis = YES;
+        [myWebView loadHTMLString:payload baseURL:[request URL]];
+    }
 
 	[tag release];	
 }
@@ -291,7 +295,12 @@
         userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
 		[sessionData triggerAuthenticationDidFailWithError:error];
 	}
-	
+	else if ([tag isEqualToString:@"request"])
+	{
+        userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
+		[sessionData triggerAuthenticationDidFailWithError:error];
+	}
+    
 	[tag release];	
 }
 
@@ -301,10 +310,29 @@
 	[(NSString*)userdata release];
 }
 
+#define SKIP_THIS_WORK_AROUND 0
+#define WEBVIEW_SHOULDNT_LOAD 0
+- (BOOL)webviewShouldntLoadRequestDueToTheWindowsLiveFix:(NSURLRequest*)request
+{
+    if (![[sessionData currentProvider].name isEqualToString:@"live_id"]) 
+        return SKIP_THIS_WORK_AROUND;
+    
+    if (connectionDataAlreadyDownloadedThis)
+    {
+        connectionDataAlreadyDownloadedThis = NO;
+        return SKIP_THIS_WORK_AROUND;
+    }
+    
+    DLog("Sending request to connection manager: %@", request);
+    
+	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[NSString stringWithString:@"request"]];
+    return YES;
+}
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 												 navigationType:(UIWebViewNavigationType)navigationType 
 {	
-	DLog(@"request: %@", [[request URL] absoluteString]);
+    DLog(@"request: %@", [[request URL] absoluteString]);
 	
 	NSString *thatURL = [NSString stringWithFormat:@"%@/signin/device", [sessionData baseUrl]];
 	
@@ -319,6 +347,9 @@
 		return NO;
 	}
 
+	if ([self webviewShouldntLoadRequestDueToTheWindowsLiveFix:request])
+        return WEBVIEW_SHOULDNT_LOAD;
+    
 	return YES;
 }
 
@@ -343,6 +374,20 @@
     if (error.code != NSURLErrorCancelled) /* Error code -999 */
     {       
         [self stopProgress];
+        
+        NSError *_error = [[self setError:[NSString stringWithFormat:@"Authentication failed: %@", [error localizedDescription]]
+                                withCode:JRAuthenticationFailedError
+                                 andType:JRErrorTypeAuthenticationFailed] autorelease];
+        
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
+                                                         message:@"An error occurred while attempting to sign you in.  Please try again."
+                                                        delegate:self
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil] autorelease];
+        [alert show];
+        
+        userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
+        [sessionData triggerAuthenticationDidFailWithError:_error];
     }
 }
 

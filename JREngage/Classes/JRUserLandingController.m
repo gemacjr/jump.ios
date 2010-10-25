@@ -420,6 +420,7 @@
 				
 		if (sessionData.currentProvider.userInput)
         {
+            [cell.textField resignFirstResponder];
 			cell.textField.text = [NSString stringWithString:sessionData.currentProvider.userInput];
 			[cell.bigSignInButton setHidden:YES];
 		}

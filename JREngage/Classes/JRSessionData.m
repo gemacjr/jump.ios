@@ -152,12 +152,12 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 
 - (void)loadDynamicVariables
 {
-    if (self = [super init])
-    {
-        userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%UserInput", name]];
+//    if (self = [super init])
+//    {
+        userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@UserInput", name]];
         welcomeString = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@WelcomeString", name]];
         forceReauth   = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jr%@ForceReauth", name]];
-    }
+//    }
 }
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary
@@ -562,6 +562,8 @@ static JRSessionData* singleton = nil;
 
 - (NSError*)finishGetConfiguration:(NSString*)dataStr
 {
+    DLog(@"");
+    
     /* Make sure that the returned string can be parsed as json (which there should be no reason that this wouldn't happen) */
     if (![dataStr respondsToSelector:@selector(JSONValue)])
         return [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
@@ -756,13 +758,24 @@ static JRSessionData* singleton = nil;
                                               forKey:@"jrLastUsedBasicProvider"];
 }
 
-
 - (void)deleteFacebookCookies
 {
     NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray* facebookCookies = [cookies cookiesForURL:[NSURL URLWithString:@"http://login.facebook.com"]];
     
     for (NSHTTPCookie* cookie in facebookCookies) 
+    {    
+        [cookies deleteCookie:cookie];
+    }
+}
+
+
+- (void)deleteLiveCookies
+{
+    NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray* liveCookies = [cookies cookiesForURL:[NSURL URLWithString:@"http://live.com"]];
+    
+    for (NSHTTPCookie* cookie in liveCookies) 
     {    
         [cookies deleteCookie:cookie];
     }
@@ -799,6 +812,11 @@ static JRSessionData* singleton = nil;
         if (alwaysForceReauth || currentProvider.forceReauth)
             [self deleteFacebookCookies];
     
+    if ([currentProvider.name isEqualToString:@"live_id"])
+        if (alwaysForceReauth || currentProvider.forceReauth)
+            [self deleteLiveCookies];
+    
+#define SOCIAL_PUBLISHING
 #ifdef SOCIAL_PUBLISHING
 //    if (social)
 //        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_two&device=iphone", 
@@ -809,7 +827,7 @@ static JRSessionData* singleton = nil;
 //               (([currentProvider.name isEqualToString:@"facebook"]) ? 
 //                @"ext_perm=publish_stream,offline_access&" : @"")];
 //    else
-        str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
+        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_two&device=iphone", 
                baseUrl, 
                currentProvider.url,
                oid, 
@@ -817,11 +835,11 @@ static JRSessionData* singleton = nil;
                (([currentProvider.name isEqualToString:@"facebook"]) ? 
                 @"ext_perm=publish_stream,offline_access&" : @"")];
 #else
-    str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
-           baseUrl, 
-           currentProvider.url,
-           oid, 
-           ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @"")];    
+//    str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
+//           baseUrl, 
+//           currentProvider.url,
+//           oid, 
+//           ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @"")];    
 #endif
     
 	currentProvider.forceReauth = NO;
@@ -866,9 +884,7 @@ static JRSessionData* singleton = nil;
     JRProvider* provider = [allProviders objectForKey:providerName];
     provider.forceReauth = YES;
     
-    
-    
-    [authenticatedUsersByProvider removeObjectForKey:provider];
+    [authenticatedUsersByProvider removeObjectForKey:providerName];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                               forKey:@"jrAuthenticatedUsersByProvider"];
 }
@@ -1216,6 +1232,13 @@ static JRSessionData* singleton = nil;
 - (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict
 {  
     DLog(@"");
+    
+ /* This value will be nil if authentication was canceled after the user authenticated in the
+    webview, but before the authentication call was completed, like in the case where the calling
+    application issues the cancelAuthentication command. */
+    if (!currentProvider)
+        return;
+    
     NSDictionary *goodies = [payloadDict objectForKey:@"rpx_result"];
     NSString *token = [goodies objectForKey:@"token"];
     
