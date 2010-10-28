@@ -402,9 +402,11 @@ Please try again later."
     [self showActivityAsShared:NO];
 }
 
+//#define MAIL
 - (void)sendEmail
 {
-#ifdef MAIL
+#ifdef _OBJC_CLASS_$_MFMailComposeViewController//MAIL
+    fdfadasfdasf
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     
     picker.mailComposeDelegate = self;
@@ -438,12 +440,14 @@ Please try again later."
 
 - (void)sendSMS
 {
+#ifdef MAIL
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
     
     [self presentModalViewController:picker animated:YES];
     
     [picker release];   
+#endif
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -36,7 +36,7 @@
 #import "JRSessionData.h"
 
 // TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -594,7 +594,7 @@ static JRSessionData* singleton = nil;
     /* For each provider... */
     for (NSString *name in [providerInfo allKeys])
     {   /* Get its dictionary, */
-        NSDictionary *dictionary = [providerInfo objectForKey:name];
+            NSDictionary *dictionary = [providerInfo objectForKey:name];
         
         /* use this to create a provider object, */
         JRProvider *provider = [[[JRProvider alloc] initWithName:name
