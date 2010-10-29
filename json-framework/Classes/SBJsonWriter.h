@@ -77,15 +77,23 @@
 @property BOOL sortKeys;
 
 /**
- @brief Return JSON representation (or fragment) for the given object.
+ @brief Return JSON representation for the given object.
  
  Returns a string containing JSON representation of the passed in value, or nil on error.
  If nil is returned and @p error is not NULL, @p *error can be interrogated to find the cause of the error.
  
- @param value any instance that can be represented as a JSON fragment
- 
+ @param value any instance that can be represented as JSON text.
  */
 - (NSString*)stringWithObject:(id)value;
+
+/**
+ @brief Return JSON representation for the given object.
+ 
+ Returns an NSData object containing JSON represented as UTF8 text, or nil on error.
+ 
+ @param value any instance that can be represented as JSON text.
+ */
+- (NSData*)dataWithObject:(id)value;
 
 /**
  @brief Return JSON representation (or fragment) for the given object.
@@ -101,27 +109,3 @@
 
 
 @end
-
-/**
- @brief Allows generation of JSON for otherwise unsupported classes.
- 
- If you have a custom class that you want to create a JSON representation for you can implement
- this method in your class. It should return a representation of your object defined
- in terms of objects that can be translated into JSON. For example, a Person
- object might implement it like this:
- 
- @code
- - (id)proxyForJson {
-    return [NSDictionary dictionaryWithObjectsAndKeys:
-        name, @"name",
-        phone, @"phone",
-        email, @"email",
-        nil];
- }
- @endcode
- 
- */
-@interface NSObject (SBProxyForJson)
-- (id)proxyForJson;
-@end
-

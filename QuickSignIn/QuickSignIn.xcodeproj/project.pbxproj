@@ -574,6 +574,7 @@
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "QuickSignIn" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -743,7 +744,7 @@
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
 				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-v",
@@ -751,7 +752,7 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "80A706E7-69B2-450A-86EA-BF6A187E6263";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphonesimulator4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -769,7 +770,7 @@
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
 				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-v",
@@ -811,7 +812,6 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
@@ -820,7 +820,7 @@
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
 				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-v",

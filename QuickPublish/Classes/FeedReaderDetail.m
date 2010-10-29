@@ -119,7 +119,7 @@
                                 story.pubDate,
                                 story.description];
 
-    [webview setAllowsInlineMediaPlayback:YES];
+ // [webview setAllowsInlineMediaPlayback:YES];
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
     
     UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 

@@ -161,8 +161,6 @@
 	JRProvider *currentProvider;
 	NSString   *returningBasicProvider;	
     NSString   *returningSocialProvider;
-//	JRProvider *returningBasicProvider;	
-//  JRProvider *returningSocialProvider;
     
 /*  allProviders is a dictionary of JRProviders, where each JRProvider contains the information specific
     to that provider. basicProviders and socialProviders are arrays of NSStrings, each string being
@@ -177,8 +175,6 @@
     
     JRActivityObject *activity;
     
-//	NSURL *startUrlForCurrentProvider;
-    
     NSString *tokenUrl;
 	NSString *baseUrl;
     NSString *appId;
@@ -191,22 +187,17 @@
     BOOL social;
 
     BOOL dialogIsShowing;
-//    BOOL configurationComplete;
     NSError  *error;
 }
 @property (retain)   JRProvider *currentProvider;
 @property (readonly) NSString   *returningBasicProvider;
 @property (readonly) NSString   *returningSocialProvider;
-//@property (readonly) JRProvider *returningBasicProvider;
-//@property (readonly) JRProvider *returningSocialProvider;
 
 @property (readonly) NSMutableDictionary *allProviders;
 @property (readonly) NSArray             *basicProviders;
 @property (readonly) NSArray             *socialProviders;
 
 @property (retain)   JRActivityObject *activity;
-
-//@property (readonly) NSURL *startUrlForCurrentProvider;
 
 @property (retain)   NSString *tokenUrl;
 @property (readonly) NSString *baseUrl;
@@ -217,7 +208,6 @@
 @property (assign)   BOOL social;
 
 @property BOOL dialogIsShowing;
-//@property (readonly) BOOL configurationComplete;
 @property (readonly) NSError *error;
 
 + (JRSessionData*)jrSessionData;

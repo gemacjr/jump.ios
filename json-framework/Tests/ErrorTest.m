@@ -31,10 +31,10 @@
 #import <JSON/JSON.h>
 
 #define assertErrorContains(e, s) \
-    STAssertTrue([[e localizedDescription] hasPrefix:s], @"%@", [e userInfo])
+    STAssertTrue([[e localizedDescription] rangeOfString:s].location != NSNotFound, @"%@", [e userInfo])
 
 #define assertUnderlyingErrorContains(e, s) \
-    STAssertTrue([[[[e userInfo] objectForKey:NSUnderlyingErrorKey] localizedDescription] hasPrefix:s], @"%@", [e userInfo])
+    STAssertTrue([[[[e userInfo] objectForKey:NSUnderlyingErrorKey] localizedDescription] rangeOfString:s].location != NSNotFound, @"%@", [e userInfo])
 
 #define assertUnderlyingErrorContains2(e, s) \
     STAssertTrue([[[[[[e userInfo] objectForKey:NSUnderlyingErrorKey] userInfo] objectForKey:NSUnderlyingErrorKey] localizedDescription] hasPrefix:s], @"%@", [e userInfo])
@@ -58,10 +58,10 @@
                      [NSDictionary dictionary],
                      nil];
     
-    for (int i = 0; i < [keys count]; i++) {
+    for (id key in keys) {
         NSError *error = nil;
-        NSDictionary *object = [NSDictionary dictionaryWithObject:@"1" forKey:[keys objectAtIndex:i]];
-        STAssertNil([writer stringWithObject:object error:&error], nil);
+        NSDictionary *object = [NSDictionary dictionaryWithObject:@"1" forKey:key];
+        STAssertEqualObjects([writer stringWithObject:object error:&error], nil, nil);
         STAssertNotNil(error, nil);
     }
 }

@@ -86,7 +86,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
         if ([dictionary objectForKey:@"preferred_username"] != kCFNull)
             preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];
         
-        auth_info = [[dictionary objectForKey:@"auth_info"] retain];
+//        auth_info = [[dictionary objectForKey:@"auth_info"] retain];
         
         device_token = [[dictionary objectForKey:@"device_token"] retain];
     }
@@ -147,17 +147,12 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 @synthesize url;
 @synthesize requiresInput;
 @synthesize shortText;
-//@synthesize userInput;
-//@synthesize welcomeString;
 
 - (void)loadDynamicVariables
 {
-//    if (self = [super init])
-//    {
-        userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@UserInput", name]];
-        welcomeString = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@WelcomeString", name]];
-        forceReauth   = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jr%@ForceReauth", name]];
-//    }
+    userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@UserInput", name]];
+    welcomeString = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@WelcomeString", name]];
+    forceReauth   = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jr%@ForceReauth", name]];
 }
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary
@@ -211,8 +206,6 @@ static NSString * const serverUrl = @"https://rpxnow.com";
     [coder encodeObject:shortText forKey:@"shortText"];
     [coder encodeObject:openIdentifier forKey:@"openIdentifier"];
     [coder encodeObject:url forKey:@"url"];
-//    [coder encodeObject:userInput forKey:@"userInput"];
-//    [coder encodeObject:welcomeString forKey:@"welcomeString"];
     [coder encodeBool:requiresInput forKey:@"requiresInput"];    
 }
 
@@ -229,11 +222,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
         shortText =       [[coder decodeObjectForKey:@"shortText"] retain];
         openIdentifier =  [[coder decodeObjectForKey:@"openIdentifier"] retain];
         url =             [[coder decodeObjectForKey:@"url"] retain];
-//        userInput =       [[coder decodeObjectForKey:@"userInput"] retain];
-//        welcomeString =   [[coder decodeObjectForKey:@"welcomeString"] retain];
         requiresInput =    [coder decodeBoolForKey:@"requiresInput"];
-        
-        //forceReauth = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jr%@ForceReauth", name]];
     }   
     
     [self loadDynamicVariables];
@@ -599,13 +588,6 @@ static JRSessionData* singleton = nil;
         /* use this to create a provider object, */
         JRProvider *provider = [[[JRProvider alloc] initWithName:name
                                                    andDictionary:dictionary] autorelease];
-
-//        /* check if this is our returning provider and, if it is, extract the cached welcome string or user input that we saved, */
-//        if ([provider isEqualToProvider:returningBasicProvider])
-//        {
-//            provider.welcomeString = returningBasicProvider.welcomeString;
-//            provider.userInput = returningBasicProvider.userInput;
-//        }
         
         /* and finally add the object to our dictionary of providers. */
         [allProviders setObject:provider forKey:name];
@@ -697,9 +679,6 @@ static JRSessionData* singleton = nil;
 	DLog(@"");
 
     returningSocialProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrLastUsedSocialProvider"] retain];
-//    NSData *archivedProvider = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrLastUsedSocialProvider"];
-//    if (archivedProvider != nil)
-//        returningSocialProvider = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedProvider] retain];
 }
 
 - (void)loadLastUsedBasicProvider
@@ -707,27 +686,15 @@ static JRSessionData* singleton = nil;
     DLog(@"");
 
     returningBasicProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrLastUsedBasicProvider"] retain];
-//    NSData *archivedProvider = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrLastUsedBasicProvider"];
-//    if (archivedProvider != nil)
-//        returningBasicProvider = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedProvider] retain];
-//
-//    if (returningBasicProvider)
-//    {    
-//        JRProvider* provider = [allProviders objectForKey:returningBasicProvider.name];
-//        provider.welcomeString = returningBasicProvider.welcomeString;
-//        provider.userInput = returningBasicProvider.userInput;
-//    }
 }
 
 - (void)saveLastUsedSocialProvider
 {
 	DLog(@"");
     
-//    [returningSocialProvider release];
-//    returningSocialProvider = [currentProvider retain];
     [returningSocialProvider release], returningSocialProvider = [currentProvider.name retain];
 
-    [[NSUserDefaults standardUserDefaults] setObject:returningSocialProvider//[NSKeyedArchiver archivedDataWithRootObject:returningSocialProvider] 
+    [[NSUserDefaults standardUserDefaults] setObject:returningSocialProvider
                                               forKey:@"jrLastUsedSocialProvider"];
 }
 
@@ -745,16 +712,13 @@ static JRSessionData* singleton = nil;
 	{
 		if ([savedCookie.name isEqualToString:@"welcome_info"])
 		{
-//			[returningBasicProvider setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
 			[currentProvider setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
 		}
 	}	    
     
-    //    [returningBasicProvider release];
-    //    returningBasicProvider = [currentProvider retain];
     [returningBasicProvider release], returningBasicProvider = [currentProvider.name retain];
 
-    [[NSUserDefaults standardUserDefaults] setObject:returningBasicProvider//[NSKeyedArchiver archivedDataWithRootObject:returningBasicProvider] 
+    [[NSUserDefaults standardUserDefaults] setObject:returningBasicProvider
                                               forKey:@"jrLastUsedBasicProvider"];
 }
 
@@ -1299,10 +1263,6 @@ static JRSessionData* singleton = nil;
     [returningBasicProvider release];
     returningBasicProvider = nil;
     
-    //    [returningSocialProvider release];
-    //    returningSocialProvider = nil;
-    
-    DLog(@"");
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
