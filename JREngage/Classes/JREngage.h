@@ -149,7 +149,7 @@
 /*@{*/
 
 /**
- * Sent if the authorization was canceled for any reason other than an error.  For example, 
+ * Sent if the authentication was canceled for any reason other than an error.  For example, 
  * the user hits the "Cancel" button, any class (e.g., the JREngage delegate) calls the cancelAuthentication
  * message, or if configuration of the library is taking more than about 16 seconds (rare) to download.
  **/

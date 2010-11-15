@@ -765,7 +765,7 @@ static JRSessionData* singleton = nil;
 									options:NSLiteralSearch 
 									  range:NSMakeRange(0, [oid length])];
 	}
-	else 
+	else
 	{
 		oid = [NSMutableString stringWithString:@""];
 	}
@@ -791,7 +791,7 @@ static JRSessionData* singleton = nil;
 //               (([currentProvider.name isEqualToString:@"facebook"]) ? 
 //                @"ext_perm=publish_stream,offline_access&" : @"")];
 //    else
-        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_two&device=iphone", 
+        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_2&device=iphone&extended=true", 
                baseUrl, 
                currentProvider.url,
                oid, 
