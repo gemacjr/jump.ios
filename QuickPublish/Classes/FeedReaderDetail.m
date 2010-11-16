@@ -144,8 +144,15 @@
     if (navigationType == UIWebViewNavigationTypeLinkClicked)
     {
         if (!feedReaderWebview)
-            feedReaderWebview = [[FeedReaderWebView alloc] initWithNibName:@"FeedReaderWebView" bundle:[NSBundle mainBundle]];
-
+        {
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                feedReaderWebview = [[FeedReaderWebView alloc] initWithNibName:@"FeedReaderWebView-iPad" 
+                                                                        bundle:[NSBundle mainBundle]];
+            else
+                feedReaderWebview = [[FeedReaderWebView alloc] initWithNibName:@"FeedReaderWebView" 
+                                                                        bundle:[NSBundle mainBundle]];
+        }
+        
         [feedReaderWebview setUrlRequest:request];
         
         [[self navigationController] pushViewController:feedReaderWebview animated:YES];

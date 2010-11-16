@@ -354,8 +354,14 @@
     reader.selectedStory = [stories objectAtIndex:indexPath.section];
 
     if (!detailViewController)
-        detailViewController = [[FeedReaderDetail alloc] initWithNibName:@"FeedReaderDetail" bundle:[NSBundle mainBundle]];
-
+    {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            detailViewController = [[FeedReaderDetail alloc] initWithNibName:@"FeedReaderDetail-iPad" 
+                                                                      bundle:[NSBundle mainBundle]];
+        else
+            detailViewController = [[FeedReaderDetail alloc] initWithNibName:@"FeedReaderDetail" 
+                                                                      bundle:[NSBundle mainBundle]];
+    }
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
