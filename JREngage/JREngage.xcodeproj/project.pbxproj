@@ -46,6 +46,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F01A5DB12934D2400AD6899 /* JRProvidersController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRProvidersController-iPad.xib"; sourceTree = "<group>"; };
+		9F01A5DC12934D2400AD6899 /* JRPublishActivityController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRPublishActivityController-iPad.xib"; sourceTree = "<group>"; };
+		9F01A5DD12934D2400AD6899 /* JRUserLandingController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRUserLandingController-iPad.xib"; sourceTree = "<group>"; };
+		9F01A5DE12934D2400AD6899 /* JRWebViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRWebViewController-iPad.xib"; sourceTree = "<group>"; };
 		9F08797012553B44008AD40D /* JRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRError.h; sourceTree = "<group>"; };
 		9F0880B8125BFB07008AD40D /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JREngage-Info.plist"; sourceTree = "<group>"; };
 		9F0893FC12761DDE008AD40D /* jrauth_paypal_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_paypal_icon.png; sourceTree = "<group>"; };
@@ -199,6 +203,7 @@
 			children = (
 				9FED50AE12401DE1004684F2 /* JSON */,
 				9FED5117124020C2004684F2 /* Classes */,
+				9F01A5DA12934D2400AD6899 /* Resources-iPad */,
 				9FED53D1124044CD004684F2 /* Resources */,
 				9F63D526124FEAC400A21A59 /* scratch */,
 			);
@@ -211,6 +216,17 @@
 				AA747D9E0F9514B9006C5449 /* JREngage_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		9F01A5DA12934D2400AD6899 /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				9F01A5DB12934D2400AD6899 /* JRProvidersController-iPad.xib */,
+				9F01A5DC12934D2400AD6899 /* JRPublishActivityController-iPad.xib */,
+				9F01A5DD12934D2400AD6899 /* JRUserLandingController-iPad.xib */,
+				9F01A5DE12934D2400AD6899 /* JRWebViewController-iPad.xib */,
+			);
+			path = "Resources-iPad";
 			sourceTree = "<group>";
 		};
 		9F63DA7912511B3E00A21A59 /* images */ = {

@@ -112,18 +112,34 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)setUpViewControllers
 {
     DLog(@"");
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController-iPad" 
+                                                                              bundle:[NSBundle mainBundle]];
     
-    myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController" 
-                                                                          bundle:[NSBundle mainBundle]];
-    
-    myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController"
-                                                                            bundle:[NSBundle mainBundle]];
-    
-    myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController"
-                                                                        bundle:[NSBundle mainBundle]];
-    
-    myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController"
+        myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController-iPad"
                                                                                 bundle:[NSBundle mainBundle]];
+        
+        myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController-iPad"
+                                                                            bundle:[NSBundle mainBundle]];
+        
+        myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController-iPad"
+                                                                                    bundle:[NSBundle mainBundle]];
+    }
+    else
+    {
+        myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController" 
+                                                                              bundle:[NSBundle mainBundle]];
+        
+        myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController"
+                                                                                bundle:[NSBundle mainBundle]];
+        
+        myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController"
+                                                                            bundle:[NSBundle mainBundle]];
+        
+        myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController"
+                                                                                    bundle:[NSBundle mainBundle]];
+    }
     
     delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController, 
                  myUserLandingController, 
