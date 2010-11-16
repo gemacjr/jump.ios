@@ -12,6 +12,8 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28C286E10D94DF7D0034E888 /* FeedReaderSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* FeedReaderSummary.m */; };
+		9F01A58D1293135300AD6899 /* FeedReaderFeeds-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A58C1293135300AD6899 /* FeedReaderFeeds-iPad.xib */; };
+		9F01A58F1293141100AD6899 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A58E1293141100AD6899 /* MainWindow-iPad.xib */; };
 		9F088306125D0766008AD40D /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F08829A125D0765008AD40D /* NSObject+SBJSON.m */; };
 		9F088307125D0766008AD40D /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F08829C125D0765008AD40D /* NSString+SBJSON.m */; };
 		9F088308125D0766008AD40D /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F08829E125D0766008AD40D /* SBJsonBase.m */; };
@@ -125,6 +127,8 @@
 		28C286DF0D94DF7D0034E888 /* FeedReaderSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderSummary.h; sourceTree = "<group>"; };
 		28C286E00D94DF7D0034E888 /* FeedReaderSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderSummary.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9F01A58C1293135300AD6899 /* FeedReaderFeeds-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "FeedReaderFeeds-iPad.xib"; path = "Resources-iPad/FeedReaderFeeds-iPad.xib"; sourceTree = "<group>"; };
+		9F01A58E1293141100AD6899 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		9F08792A12550437008AD40D /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		9F088298125D0765008AD40D /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9F088299125D0765008AD40D /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -305,6 +309,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				9F01A5711293118C00AD6899 /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -339,6 +344,15 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9F01A5711293118C00AD6899 /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				9F01A58C1293135300AD6899 /* FeedReaderFeeds-iPad.xib */,
+				9F01A58E1293141100AD6899 /* MainWindow-iPad.xib */,
+			);
+			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
 		9F088296125D0765008AD40D /* JREngage */ = {
@@ -684,6 +698,8 @@
 				9F088357125D0766008AD40D /* JRWebViewController.xib in Resources */,
 				9F088358125D0766008AD40D /* JREngage-Info.plist in Resources */,
 				9F088359125D0766008AD40D /* scratch in Resources */,
+				9F01A58D1293135300AD6899 /* FeedReaderFeeds-iPad.xib in Resources */,
+				9F01A58F1293141100AD6899 /* MainWindow-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -727,6 +743,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lilli Szafranski (QWMWM2H3HW)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -738,7 +755,7 @@
 				PRODUCT_NAME = "Quick Publish";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "80A706E7-69B2-450A-86EA-BF6A187E6263";
 				SDKROOT = iphoneos4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -747,6 +764,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Quick_Publish_Prefix.pch;
@@ -754,6 +772,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = "Quick Publish";
 				SDKROOT = iphoneos4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -777,6 +796,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -786,6 +806,7 @@
 				PRODUCT_NAME = "Quick Publish";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "20843F31-CFDF-4704-A3BF-8912BE1C4392";
 				SDKROOT = iphoneos4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
 			};
