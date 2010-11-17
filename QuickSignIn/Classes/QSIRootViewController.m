@@ -83,9 +83,12 @@
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 #endif
 	
-	level1ViewController = [[ViewControllerLevel1 alloc] 
-							initWithNibName:@"QSIViewControllerLevel1" 
-							bundle:[NSBundle mainBundle]];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        level1ViewController = [[ViewControllerLevel1 alloc] initWithNibName:@"QSIViewControllerLevel1-iPad" 
+                                                                      bundle:[NSBundle mainBundle]];
+    else
+        level1ViewController = [[ViewControllerLevel1 alloc] initWithNibName:@"QSIViewControllerLevel1" 
+                                                                      bundle:[NSBundle mainBundle]];
     
 //    [[UserModel getUserModel] setNavigationController:[self navigationController]];
 	
