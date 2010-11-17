@@ -469,7 +469,8 @@ static JRSessionData* singleton = nil;
         NSData *archivedSocialProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrSocialProviders"];
         if (archivedSocialProviders != nil)
         {
-            socialProviders = [[NSArray alloc] initWithObjects:@"yahoo", nil];//[[NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders] retain];
+            //[[NSArray alloc] initWithObjects:@"yahoo", nil];//
+            socialProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders] retain];
         }
 
         /* Load the base url and whether or not we need to hide the tagline */
@@ -818,8 +819,8 @@ static JRSessionData* singleton = nil;
                currentProvider.url,
                oid, 
                ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @""),
-               (([currentProvider.name isEqualToString:@"facebook"]) ? 
-                @"ext_perm=publish_stream,offline_access&" : @"")];
+               (currentProvider.extPerm) ? currentProvider.extPerm : @""];//(([currentProvider.name isEqualToString:@"facebook"]) ? 
+                                                                          // @"ext_perm=publish_stream,offline_access&" : @"")];
 #else
 //    str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
 //           baseUrl, 
