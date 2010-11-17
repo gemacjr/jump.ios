@@ -12,11 +12,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28C286E10D94DF7D0034E888 /* FeedReaderSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* FeedReaderSummary.m */; };
-		9F01A58D1293135300AD6899 /* FeedReaderFeeds-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A58C1293135300AD6899 /* FeedReaderFeeds-iPad.xib */; };
-		9F01A58F1293141100AD6899 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A58E1293141100AD6899 /* MainWindow-iPad.xib */; };
-		9F01A5AB12931C2700AD6899 /* FeedReaderSummary-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A5AA12931C2700AD6899 /* FeedReaderSummary-iPad.xib */; };
-		9F01A5AE1293200D00AD6899 /* FeedReaderDetail-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A5AD1293200D00AD6899 /* FeedReaderDetail-iPad.xib */; };
-		9F01A5B21293217900AD6899 /* FeedReaderWebView-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A5B11293217900AD6899 /* FeedReaderWebView-iPad.xib */; };
 		9F01A66012934F9400AD6899 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F01A5ED12934F9400AD6899 /* NSObject+SBJSON.m */; };
 		9F01A66112934F9400AD6899 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F01A5EF12934F9400AD6899 /* NSString+SBJSON.m */; };
 		9F01A66212934F9400AD6899 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F01A5F112934F9400AD6899 /* SBJsonBase.m */; };
@@ -107,25 +102,30 @@
 		9F01A6B712934F9400AD6899 /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A65D12934F9400AD6899 /* JRWebViewController.xib */; };
 		9F01A6B812934F9400AD6899 /* JREngage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A65E12934F9400AD6899 /* JREngage-Info.plist */; };
 		9F01A6B912934F9400AD6899 /* scratch in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A65F12934F9400AD6899 /* scratch */; };
+		9F01A8A41294506100AD6899 /* FeedReaderDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A8991294506100AD6899 /* FeedReaderDetail.xib */; };
+		9F01A8A51294506100AD6899 /* FeedReaderFeeds.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A89A1294506100AD6899 /* FeedReaderFeeds.xib */; };
+		9F01A8A61294506100AD6899 /* FeedReaderSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A89B1294506100AD6899 /* FeedReaderSummary.xib */; };
+		9F01A8A71294506100AD6899 /* FeedReaderWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A89C1294506100AD6899 /* FeedReaderWebView.xib */; };
+		9F01A8A81294506100AD6899 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A89D1294506100AD6899 /* MainWindow.xib */; };
+		9F01A8A91294506100AD6899 /* FeedReaderDetail-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A89F1294506100AD6899 /* FeedReaderDetail-iPad.xib */; };
+		9F01A8AA1294506100AD6899 /* FeedReaderFeeds-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A8A01294506100AD6899 /* FeedReaderFeeds-iPad.xib */; };
+		9F01A8AB1294506100AD6899 /* FeedReaderSummary-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A8A11294506100AD6899 /* FeedReaderSummary-iPad.xib */; };
+		9F01A8AC1294506100AD6899 /* FeedReaderWebView-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A8A21294506100AD6899 /* FeedReaderWebView-iPad.xib */; };
+		9F01A8AD1294506100AD6899 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A8A31294506100AD6899 /* MainWindow-iPad.xib */; };
 		9F3F36D3121C64EF00EFAF68 /* janrain_blog.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */; };
 		9F87D85412145FDE00FF7E2C /* FeedReaderFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */; };
 		9F87DF471219A97600FF7E2C /* FeedReaderWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */; };
 		9F8AC6101210BD4E004DB52A /* FeedReaderDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */; };
 		9FB409421241429300FDDA7B /* Quick_PublishAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */; };
-		9FB409561241435400FDDA7B /* FeedReaderDetail.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB409531241435400FDDA7B /* FeedReaderDetail.xib */; };
-		9FB409571241435400FDDA7B /* FeedReaderFeeds.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB409541241435400FDDA7B /* FeedReaderFeeds.xib */; };
-		9FB409581241435400FDDA7B /* FeedReaderWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB409551241435400FDDA7B /* FeedReaderWebView.xib */; };
 		9FB4095A1241435E00FDDA7B /* dark_blue_button_280x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FB409591241435E00FDDA7B /* dark_blue_button_280x40.png */; };
 		9FD54A111213726800E11512 /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD54A101213726800E11512 /* FeedReader.m */; };
 		9FED48FF12241BCC004684F2 /* cell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED48F612241BCC004684F2 /* cell_background.png */; };
 		9FED490012241BCC004684F2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED48F712241BCC004684F2 /* Default.png */; };
 		9FED490112241BCC004684F2 /* favicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED48F812241BCC004684F2 /* favicon.png */; };
-		9FED490212241BCC004684F2 /* FeedReaderSummary.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FED48F912241BCC004684F2 /* FeedReaderSummary.xib */; };
 		9FED490312241BCC004684F2 /* icon_iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED48FA12241BCC004684F2 /* icon_iphone.png */; };
 		9FED490412241BCC004684F2 /* icon_iphone4.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED48FB12241BCC004684F2 /* icon_iphone4.png */; };
 		9FED490512241BCC004684F2 /* icon_itunes.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED48FC12241BCC004684F2 /* icon_itunes.png */; };
 		9FED490612241BCC004684F2 /* janrain_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FED48FD12241BCC004684F2 /* janrain_logo.png */; };
-		9FED490712241BCC004684F2 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FED48FE12241BCC004684F2 /* MainWindow.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,11 +136,6 @@
 		28C286DF0D94DF7D0034E888 /* FeedReaderSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderSummary.h; sourceTree = "<group>"; };
 		28C286E00D94DF7D0034E888 /* FeedReaderSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderSummary.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9F01A58C1293135300AD6899 /* FeedReaderFeeds-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "FeedReaderFeeds-iPad.xib"; path = "Resources-iPad/FeedReaderFeeds-iPad.xib"; sourceTree = "<group>"; };
-		9F01A58E1293141100AD6899 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
-		9F01A5AA12931C2700AD6899 /* FeedReaderSummary-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "FeedReaderSummary-iPad.xib"; path = "Resources-iPad/FeedReaderSummary-iPad.xib"; sourceTree = "<group>"; };
-		9F01A5AD1293200D00AD6899 /* FeedReaderDetail-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "FeedReaderDetail-iPad.xib"; path = "Resources-iPad/FeedReaderDetail-iPad.xib"; sourceTree = "<group>"; };
-		9F01A5B11293217900AD6899 /* FeedReaderWebView-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "FeedReaderWebView-iPad.xib"; path = "Resources-iPad/FeedReaderWebView-iPad.xib"; sourceTree = "<group>"; };
 		9F01A5EB12934F9400AD6899 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9F01A5EC12934F9400AD6899 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		9F01A5ED12934F9400AD6899 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -249,6 +244,16 @@
 		9F01A65D12934F9400AD6899 /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRWebViewController.xib; path = ../JREngage/Resources/JRWebViewController.xib; sourceTree = SOURCE_ROOT; };
 		9F01A65E12934F9400AD6899 /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "JREngage-Info.plist"; path = "../JREngage/JREngage-Info.plist"; sourceTree = SOURCE_ROOT; };
 		9F01A65F12934F9400AD6899 /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scratch; path = ../JREngage/scratch; sourceTree = SOURCE_ROOT; };
+		9F01A8991294506100AD6899 /* FeedReaderDetail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedReaderDetail.xib; sourceTree = "<group>"; };
+		9F01A89A1294506100AD6899 /* FeedReaderFeeds.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedReaderFeeds.xib; sourceTree = "<group>"; };
+		9F01A89B1294506100AD6899 /* FeedReaderSummary.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedReaderSummary.xib; sourceTree = "<group>"; };
+		9F01A89C1294506100AD6899 /* FeedReaderWebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedReaderWebView.xib; sourceTree = "<group>"; };
+		9F01A89D1294506100AD6899 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		9F01A89F1294506100AD6899 /* FeedReaderDetail-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "FeedReaderDetail-iPad.xib"; sourceTree = "<group>"; };
+		9F01A8A01294506100AD6899 /* FeedReaderFeeds-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "FeedReaderFeeds-iPad.xib"; sourceTree = "<group>"; };
+		9F01A8A11294506100AD6899 /* FeedReaderSummary-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "FeedReaderSummary-iPad.xib"; sourceTree = "<group>"; };
+		9F01A8A21294506100AD6899 /* FeedReaderWebView-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "FeedReaderWebView-iPad.xib"; sourceTree = "<group>"; };
+		9F01A8A31294506100AD6899 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		9F08792A12550437008AD40D /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = janrain_blog.json; sourceTree = "<group>"; };
 		9F87D85112145FDE00FF7E2C /* FeedReaderFeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderFeeds.h; sourceTree = "<group>"; };
@@ -261,21 +266,16 @@
 		9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quick_PublishAppDelegate.m; sourceTree = "<group>"; };
 		9FB40944124142AA00FDDA7B /* Quick_Publish_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_Publish_Prefix.pch; sourceTree = "<group>"; };
 		9FB409451241430500FDDA7B /* Quick_Publish-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quick_Publish-Info.plist"; sourceTree = "<group>"; };
-		9FB409531241435400FDDA7B /* FeedReaderDetail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderDetail.xib; path = Resources/FeedReaderDetail.xib; sourceTree = "<group>"; };
-		9FB409541241435400FDDA7B /* FeedReaderFeeds.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderFeeds.xib; path = Resources/FeedReaderFeeds.xib; sourceTree = "<group>"; };
-		9FB409551241435400FDDA7B /* FeedReaderWebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderWebView.xib; path = Resources/FeedReaderWebView.xib; sourceTree = "<group>"; };
 		9FB409591241435E00FDDA7B /* dark_blue_button_280x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dark_blue_button_280x40.png; path = Resources/dark_blue_button_280x40.png; sourceTree = "<group>"; };
 		9FD54A0F1213726800E11512 /* FeedReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReader.h; sourceTree = "<group>"; };
 		9FD54A101213726800E11512 /* FeedReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReader.m; sourceTree = "<group>"; };
 		9FED48F612241BCC004684F2 /* cell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cell_background.png; path = Resources/cell_background.png; sourceTree = "<group>"; };
 		9FED48F712241BCC004684F2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		9FED48F812241BCC004684F2 /* favicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = favicon.png; path = Resources/favicon.png; sourceTree = "<group>"; };
-		9FED48F912241BCC004684F2 /* FeedReaderSummary.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderSummary.xib; path = Resources/FeedReaderSummary.xib; sourceTree = "<group>"; };
 		9FED48FA12241BCC004684F2 /* icon_iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_iphone.png; path = Resources/icon_iphone.png; sourceTree = "<group>"; };
 		9FED48FB12241BCC004684F2 /* icon_iphone4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_iphone4.png; path = Resources/icon_iphone4.png; sourceTree = "<group>"; };
 		9FED48FC12241BCC004684F2 /* icon_itunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_itunes.png; path = Resources/icon_itunes.png; sourceTree = "<group>"; };
 		9FED48FD12241BCC004684F2 /* janrain_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = janrain_logo.png; path = Resources/janrain_logo.png; sourceTree = "<group>"; };
-		9FED48FE12241BCC004684F2 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = Resources/MainWindow.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -327,12 +327,8 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				9F01A5711293118C00AD6899 /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				9F01A5AA12931C2700AD6899 /* FeedReaderSummary-iPad.xib */,
-				9F01A5AD1293200D00AD6899 /* FeedReaderDetail-iPad.xib */,
-				9F01A5B11293217900AD6899 /* FeedReaderWebView-iPad.xib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -349,7 +345,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9FB409481241432100FDDA7B /* xibs */,
+				9F01A8981294506100AD6899 /* xibs */,
+				9F01A89E1294506100AD6899 /* xibs-ipad */,
 				9FB409471241431200FDDA7B /* images */,
 				9FB409451241430500FDDA7B /* Quick_Publish-Info.plist */,
 				9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */,
@@ -365,15 +362,6 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9F01A5711293118C00AD6899 /* Resources-iPad */ = {
-			isa = PBXGroup;
-			children = (
-				9F01A58C1293135300AD6899 /* FeedReaderFeeds-iPad.xib */,
-				9F01A58E1293141100AD6899 /* MainWindow-iPad.xib */,
-			);
-			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
 		9F01A5E912934F9400AD6899 /* JREngage */ = {
@@ -575,6 +563,32 @@
 			path = provider_logos_share;
 			sourceTree = "<group>";
 		};
+		9F01A8981294506100AD6899 /* xibs */ = {
+			isa = PBXGroup;
+			children = (
+				9F01A8991294506100AD6899 /* FeedReaderDetail.xib */,
+				9F01A89A1294506100AD6899 /* FeedReaderFeeds.xib */,
+				9F01A89B1294506100AD6899 /* FeedReaderSummary.xib */,
+				9F01A89C1294506100AD6899 /* FeedReaderWebView.xib */,
+				9F01A89D1294506100AD6899 /* MainWindow.xib */,
+			);
+			name = xibs;
+			path = Resources/xibs;
+			sourceTree = "<group>";
+		};
+		9F01A89E1294506100AD6899 /* xibs-ipad */ = {
+			isa = PBXGroup;
+			children = (
+				9F01A89F1294506100AD6899 /* FeedReaderDetail-iPad.xib */,
+				9F01A8A01294506100AD6899 /* FeedReaderFeeds-iPad.xib */,
+				9F01A8A11294506100AD6899 /* FeedReaderSummary-iPad.xib */,
+				9F01A8A21294506100AD6899 /* FeedReaderWebView-iPad.xib */,
+				9F01A8A31294506100AD6899 /* MainWindow-iPad.xib */,
+			);
+			name = "xibs-ipad";
+			path = "Resources/xibs-ipad";
+			sourceTree = "<group>";
+		};
 		9FB409471241431200FDDA7B /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -588,18 +602,6 @@
 				9FED48FD12241BCC004684F2 /* janrain_logo.png */,
 			);
 			name = images;
-			sourceTree = "<group>";
-		};
-		9FB409481241432100FDDA7B /* xibs */ = {
-			isa = PBXGroup;
-			children = (
-				9FB409531241435400FDDA7B /* FeedReaderDetail.xib */,
-				9FB409541241435400FDDA7B /* FeedReaderFeeds.xib */,
-				9FB409551241435400FDDA7B /* FeedReaderWebView.xib */,
-				9FED48FE12241BCC004684F2 /* MainWindow.xib */,
-				9FED48F912241BCC004684F2 /* FeedReaderSummary.xib */,
-			);
-			name = xibs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -656,21 +658,11 @@
 				9FED48FF12241BCC004684F2 /* cell_background.png in Resources */,
 				9FED490012241BCC004684F2 /* Default.png in Resources */,
 				9FED490112241BCC004684F2 /* favicon.png in Resources */,
-				9FED490212241BCC004684F2 /* FeedReaderSummary.xib in Resources */,
 				9FED490312241BCC004684F2 /* icon_iphone.png in Resources */,
 				9FED490412241BCC004684F2 /* icon_iphone4.png in Resources */,
 				9FED490512241BCC004684F2 /* icon_itunes.png in Resources */,
 				9FED490612241BCC004684F2 /* janrain_logo.png in Resources */,
-				9FED490712241BCC004684F2 /* MainWindow.xib in Resources */,
-				9FB409561241435400FDDA7B /* FeedReaderDetail.xib in Resources */,
-				9FB409571241435400FDDA7B /* FeedReaderFeeds.xib in Resources */,
-				9FB409581241435400FDDA7B /* FeedReaderWebView.xib in Resources */,
 				9FB4095A1241435E00FDDA7B /* dark_blue_button_280x40.png in Resources */,
-				9F01A58D1293135300AD6899 /* FeedReaderFeeds-iPad.xib in Resources */,
-				9F01A58F1293141100AD6899 /* MainWindow-iPad.xib in Resources */,
-				9F01A5AB12931C2700AD6899 /* FeedReaderSummary-iPad.xib in Resources */,
-				9F01A5AE1293200D00AD6899 /* FeedReaderDetail-iPad.xib in Resources */,
-				9F01A5B21293217900AD6899 /* FeedReaderWebView-iPad.xib in Resources */,
 				9F01A67012934F9400AD6899 /* JRProvidersController-iPad.xib in Resources */,
 				9F01A67112934F9400AD6899 /* JRPublishActivityController-iPad.xib in Resources */,
 				9F01A67212934F9400AD6899 /* JRUserLandingController-iPad.xib in Resources */,
@@ -745,6 +737,16 @@
 				9F01A6B712934F9400AD6899 /* JRWebViewController.xib in Resources */,
 				9F01A6B812934F9400AD6899 /* JREngage-Info.plist in Resources */,
 				9F01A6B912934F9400AD6899 /* scratch in Resources */,
+				9F01A8A41294506100AD6899 /* FeedReaderDetail.xib in Resources */,
+				9F01A8A51294506100AD6899 /* FeedReaderFeeds.xib in Resources */,
+				9F01A8A61294506100AD6899 /* FeedReaderSummary.xib in Resources */,
+				9F01A8A71294506100AD6899 /* FeedReaderWebView.xib in Resources */,
+				9F01A8A81294506100AD6899 /* MainWindow.xib in Resources */,
+				9F01A8A91294506100AD6899 /* FeedReaderDetail-iPad.xib in Resources */,
+				9F01A8AA1294506100AD6899 /* FeedReaderFeeds-iPad.xib in Resources */,
+				9F01A8AB1294506100AD6899 /* FeedReaderSummary-iPad.xib in Resources */,
+				9F01A8AC1294506100AD6899 /* FeedReaderWebView-iPad.xib in Resources */,
+				9F01A8AD1294506100AD6899 /* MainWindow-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
