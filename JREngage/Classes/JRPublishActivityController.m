@@ -96,7 +96,7 @@
      display the "Loading Providers" label and activity spinner. 
      sessionData = nil when the call to get the base URL hasn't returned
      [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-	if ([[sessionData socialProviders] count] > 0)
+	if ([[sessionData socialProviders] count] == 0)
 	{
         [self showViewIsLoading:YES];
 		
