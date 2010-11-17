@@ -46,10 +46,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9F01A5DB12934D2400AD6899 /* JRProvidersController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRProvidersController-iPad.xib"; sourceTree = "<group>"; };
-		9F01A5DC12934D2400AD6899 /* JRPublishActivityController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRPublishActivityController-iPad.xib"; sourceTree = "<group>"; };
-		9F01A5DD12934D2400AD6899 /* JRUserLandingController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRUserLandingController-iPad.xib"; sourceTree = "<group>"; };
-		9F01A5DE12934D2400AD6899 /* JRWebViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRWebViewController-iPad.xib"; sourceTree = "<group>"; };
+		9F01A8B01294512600AD6899 /* JRProvidersController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRProvidersController.xib; sourceTree = "<group>"; };
+		9F01A8B11294512600AD6899 /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRPublishActivityController.xib; sourceTree = "<group>"; };
+		9F01A8B21294512600AD6899 /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRUserLandingController.xib; sourceTree = "<group>"; };
+		9F01A8B31294512600AD6899 /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRWebViewController.xib; sourceTree = "<group>"; };
+		9F01A8B51294512600AD6899 /* JRProvidersController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRProvidersController-iPad.xib"; sourceTree = "<group>"; };
+		9F01A8B61294512600AD6899 /* JRPublishActivityController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRPublishActivityController-iPad.xib"; sourceTree = "<group>"; };
+		9F01A8B71294512600AD6899 /* JRUserLandingController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRUserLandingController-iPad.xib"; sourceTree = "<group>"; };
+		9F01A8B81294512600AD6899 /* JRWebViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRWebViewController-iPad.xib"; sourceTree = "<group>"; };
 		9F08797012553B44008AD40D /* JRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRError.h; sourceTree = "<group>"; };
 		9F0880B8125BFB07008AD40D /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JREngage-Info.plist"; sourceTree = "<group>"; };
 		9F0893FC12761DDE008AD40D /* jrauth_paypal_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_paypal_icon.png; sourceTree = "<group>"; };
@@ -117,10 +121,6 @@
 		9F63DABA12511B3E00A21A59 /* jrauth_twitter_short.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_twitter_short.png; sourceTree = "<group>"; };
 		9F63DABB12511B3E00A21A59 /* jrauth_yahoo_long.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_yahoo_long.png; sourceTree = "<group>"; };
 		9F63DABC12511B3E00A21A59 /* jrauth_yahoo_short.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_yahoo_short.png; sourceTree = "<group>"; };
-		9FB408A112413B7D00FDDA7B /* JRProvidersController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRProvidersController.xib; path = Resources/JRProvidersController.xib; sourceTree = "<group>"; };
-		9FB408A212413B7D00FDDA7B /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRPublishActivityController.xib; path = Resources/JRPublishActivityController.xib; sourceTree = "<group>"; };
-		9FB408A312413B7D00FDDA7B /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRUserLandingController.xib; path = Resources/JRUserLandingController.xib; sourceTree = "<group>"; };
-		9FB408A412413B7D00FDDA7B /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = JRWebViewController.xib; path = Resources/JRWebViewController.xib; sourceTree = "<group>"; };
 		9FED50AF12401DE1004684F2 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9FED50B012401DE1004684F2 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		9FED50B112401DE1004684F2 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -203,7 +203,6 @@
 			children = (
 				9FED50AE12401DE1004684F2 /* JSON */,
 				9FED5117124020C2004684F2 /* Classes */,
-				9F01A5DA12934D2400AD6899 /* Resources-iPad */,
 				9FED53D1124044CD004684F2 /* Resources */,
 				9F63D526124FEAC400A21A59 /* scratch */,
 			);
@@ -218,15 +217,28 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
-		9F01A5DA12934D2400AD6899 /* Resources-iPad */ = {
+		9F01A8AF1294512600AD6899 /* xibs */ = {
 			isa = PBXGroup;
 			children = (
-				9F01A5DB12934D2400AD6899 /* JRProvidersController-iPad.xib */,
-				9F01A5DC12934D2400AD6899 /* JRPublishActivityController-iPad.xib */,
-				9F01A5DD12934D2400AD6899 /* JRUserLandingController-iPad.xib */,
-				9F01A5DE12934D2400AD6899 /* JRWebViewController-iPad.xib */,
+				9F01A8B01294512600AD6899 /* JRProvidersController.xib */,
+				9F01A8B11294512600AD6899 /* JRPublishActivityController.xib */,
+				9F01A8B21294512600AD6899 /* JRUserLandingController.xib */,
+				9F01A8B31294512600AD6899 /* JRWebViewController.xib */,
 			);
-			path = "Resources-iPad";
+			name = xibs;
+			path = Resources/xibs;
+			sourceTree = "<group>";
+		};
+		9F01A8B41294512600AD6899 /* xibs-ipad */ = {
+			isa = PBXGroup;
+			children = (
+				9F01A8B51294512600AD6899 /* JRProvidersController-iPad.xib */,
+				9F01A8B61294512600AD6899 /* JRPublishActivityController-iPad.xib */,
+				9F01A8B71294512600AD6899 /* JRUserLandingController-iPad.xib */,
+				9F01A8B81294512600AD6899 /* JRWebViewController-iPad.xib */,
+			);
+			name = "xibs-ipad";
+			path = "Resources/xibs-ipad";
 			sourceTree = "<group>";
 		};
 		9F63DA7912511B3E00A21A59 /* images */ = {
@@ -393,11 +405,9 @@
 		9FED53D1124044CD004684F2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9F01A8AF1294512600AD6899 /* xibs */,
+				9F01A8B41294512600AD6899 /* xibs-ipad */,
 				9F63DA7912511B3E00A21A59 /* images */,
-				9FB408A112413B7D00FDDA7B /* JRProvidersController.xib */,
-				9FB408A212413B7D00FDDA7B /* JRPublishActivityController.xib */,
-				9FB408A312413B7D00FDDA7B /* JRUserLandingController.xib */,
-				9FB408A412413B7D00FDDA7B /* JRWebViewController.xib */,
 				9F0880B8125BFB07008AD40D /* JREngage-Info.plist */,
 			);
 			name = Resources;
