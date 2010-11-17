@@ -101,6 +101,12 @@
 		9F01A98F1294514400AD6899 /* jrauth_yahoo_short.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A9351294514400AD6899 /* jrauth_yahoo_short.png */; };
 		9F01A9901294514400AD6899 /* JREngage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A9361294514400AD6899 /* JREngage-Info.plist */; };
 		9F01A9911294514400AD6899 /* scratch in Resources */ = {isa = PBXBuildFile; fileRef = 9F01A9371294514400AD6899 /* scratch */; };
+		9F01AA691294526600AD6899 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA651294526600AD6899 /* MainWindow-iPad.xib */; };
+		9F01AA6A1294526600AD6899 /* QSIRootViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA661294526600AD6899 /* QSIRootViewController-iPad.xib */; };
+		9F01AA6B1294526600AD6899 /* QSIViewControllerLevel1-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA671294526600AD6899 /* QSIViewControllerLevel1-iPad.xib */; };
+		9F01AA6C1294526600AD6899 /* QSIViewControllerLevel2-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA681294526600AD6899 /* QSIViewControllerLevel2-iPad.xib */; };
+		9F01AAA212945A0200AD6899 /* background-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AAA112945A0200AD6899 /* background-ipad.png */; };
+		9F01AAA412945A1800AD6899 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AAA312945A1800AD6899 /* background.png */; };
 		9F5908D1116F9316006955EF /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F5908D0116F9316006955EF /* Entitlements.plist */; };
 		9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */; };
 		9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */; };
@@ -232,6 +238,12 @@
 		9F01A9351294514400AD6899 /* jrauth_yahoo_short.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_yahoo_short.png; sourceTree = "<group>"; };
 		9F01A9361294514400AD6899 /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "JREngage-Info.plist"; path = "../JREngage/JREngage-Info.plist"; sourceTree = SOURCE_ROOT; };
 		9F01A9371294514400AD6899 /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scratch; path = ../JREngage/scratch; sourceTree = SOURCE_ROOT; };
+		9F01AA651294526600AD6899 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		9F01AA661294526600AD6899 /* QSIRootViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIRootViewController-iPad.xib"; sourceTree = "<group>"; };
+		9F01AA671294526600AD6899 /* QSIViewControllerLevel1-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIViewControllerLevel1-iPad.xib"; sourceTree = "<group>"; };
+		9F01AA681294526600AD6899 /* QSIViewControllerLevel2-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIViewControllerLevel2-iPad.xib"; sourceTree = "<group>"; };
+		9F01AAA112945A0200AD6899 /* background-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-ipad.png"; sourceTree = "<group>"; };
+		9F01AAA312945A1800AD6899 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		9F08794F125505F9008AD40D /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		9F5908D0116F9316006955EF /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIRootViewController.h; sourceTree = "<group>"; };
@@ -323,7 +335,9 @@
 			isa = PBXGroup;
 			children = (
 				9FB40A3812414DEE00FDDA7B /* images */,
+				9F01AA9F1294599A00AD6899 /* images-ipad */,
 				9FB40A3E12414DEE00FDDA7B /* xibs */,
+				9F01AA641294526600AD6899 /* xibs-ipad */,
 				9F5908D0116F9316006955EF /* Entitlements.plist */,
 				9FB40A4C12414DFC00FDDA7B /* Quick_Sign_In-Info.plist */,
 			);
@@ -548,9 +562,31 @@
 			path = provider_logos_share;
 			sourceTree = "<group>";
 		};
+		9F01AA641294526600AD6899 /* xibs-ipad */ = {
+			isa = PBXGroup;
+			children = (
+				9F01AA651294526600AD6899 /* MainWindow-iPad.xib */,
+				9F01AA661294526600AD6899 /* QSIRootViewController-iPad.xib */,
+				9F01AA671294526600AD6899 /* QSIViewControllerLevel1-iPad.xib */,
+				9F01AA681294526600AD6899 /* QSIViewControllerLevel2-iPad.xib */,
+			);
+			name = "xibs-ipad";
+			path = "Resources/xibs-ipad";
+			sourceTree = "<group>";
+		};
+		9F01AA9F1294599A00AD6899 /* images-ipad */ = {
+			isa = PBXGroup;
+			children = (
+				9F01AAA112945A0200AD6899 /* background-ipad.png */,
+			);
+			name = "images-ipad";
+			path = "Resources/images-ipad";
+			sourceTree = "<group>";
+		};
 		9FB40A3812414DEE00FDDA7B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				9F01AAA312945A1800AD6899 /* background.png */,
 				9FB40A3912414DEE00FDDA7B /* Default.png */,
 				9FB40A3A12414DEE00FDDA7B /* icon.png */,
 				9FB40A3B12414DEE00FDDA7B /* icon_big.png */,
@@ -710,6 +746,12 @@
 				9F01A98F1294514400AD6899 /* jrauth_yahoo_short.png in Resources */,
 				9F01A9901294514400AD6899 /* JREngage-Info.plist in Resources */,
 				9F01A9911294514400AD6899 /* scratch in Resources */,
+				9F01AA691294526600AD6899 /* MainWindow-iPad.xib in Resources */,
+				9F01AA6A1294526600AD6899 /* QSIRootViewController-iPad.xib in Resources */,
+				9F01AA6B1294526600AD6899 /* QSIViewControllerLevel1-iPad.xib in Resources */,
+				9F01AA6C1294526600AD6899 /* QSIViewControllerLevel2-iPad.xib in Resources */,
+				9F01AAA212945A0200AD6899 /* background-ipad.png in Resources */,
+				9F01AAA412945A1800AD6899 /* background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -769,6 +811,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lilli Szafranski (QWMWM2H3HW)";
 				COPY_PHASE_STRIP = NO;
@@ -786,8 +829,8 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "80A706E7-69B2-450A-86EA-BF6A187E6263";
-				SDKROOT = iphonesimulator4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				SDKROOT = iphoneos4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -797,6 +840,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
 				COPY_PHASE_STRIP = YES;
@@ -813,7 +857,7 @@
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F454B76-32EB-4DB7-97BC-EA11298BC5E9";
 				SDKROOT = iphoneos4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
@@ -846,6 +890,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
@@ -863,7 +908,7 @@
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C77F6446-B0C3-459A-862E-B6508C468BF8";
 				SDKROOT = iphoneos4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Distribution;
