@@ -96,7 +96,7 @@
      display the "Loading Providers" label and activity spinner. 
      sessionData = nil when the call to get the base URL hasn't returned
      [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-	if ([[sessionData socialProviders] count] > 0)
+	if ([[sessionData socialProviders] count] == 0)
 	{
         [self showViewIsLoading:YES];
 		
@@ -559,7 +559,13 @@ Please try again later."
     selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
     [sessionData setCurrentProvider:selectedProvider];
     
-    myShareToView.backgroundColor = [colorsDictionary objectForKey:selectedProvider.name];
+    NSArray *colorArray = [selectedProvider.socialPublishingProperties objectForKey:@"color_values"];
+    if ([colorArray count] == 4)
+        myShareToView.backgroundColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
+                                                        green:[[colorArray objectAtIndex:1] doubleValue] 
+                                                         blue:[[colorArray objectAtIndex:2] doubleValue]
+                                                        alpha:0.2];//[colorsDictionary objectForKey:selectedProvider.name];
+
     [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_long.png", selectedProvider.name]]
                                        forState:UIControlStateNormal];
     [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_short.png", selectedProvider.name]]

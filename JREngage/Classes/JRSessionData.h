@@ -111,10 +111,13 @@
     
     NSString *openIdentifier;
 	NSString *url;	
+    NSString *extPerm;
 	BOOL      forceReauth;
     
     NSString *userInput;
 	NSString *welcomeString;
+    
+    NSDictionary *socialPublishingProperties;
 }
 
 @property (readonly) NSString *name;
@@ -125,6 +128,7 @@
 @property            BOOL      forceReauth;
 @property (retain)   NSString *userInput;
 @property (retain)   NSString *welcomeString;
+@property (readonly) NSDictionary *socialPublishingProperties;
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary;
 - (BOOL)isEqualToProvider:(JRProvider*)provider;
@@ -172,6 +176,7 @@
 	
     NSString *savedConfigurationBlock;
     NSString *newEtag;
+    NSString *gitCommit;
     
     JRActivityObject *activity;
     

@@ -45,7 +45,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-//#define STAGING
+#define STAGING
 //#define LOCAL
 #ifdef STAGING
 static NSString * const serverUrl = @"https://rpxstaging.com";
@@ -147,6 +147,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 @synthesize url;
 @synthesize requiresInput;
 @synthesize shortText;
+@synthesize socialPublishingProperties;
 
 - (void)loadDynamicVariables
 {
@@ -173,6 +174,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
         placeholderText = [[_dictionary objectForKey:@"input_prompt"] retain];
         openIdentifier = [[_dictionary objectForKey:@"openid_identifier"] retain];
         url = [[_dictionary objectForKey:@"url"] retain]; 
+        extPerm = [[_dictionary objectForKey:@"extended_permissions"] retain];
 
         if ([[_dictionary objectForKey:@"requires_input"] isEqualToString:@"YES"])
             requiresInput = YES;
@@ -190,6 +192,8 @@ static NSString * const serverUrl = @"https://rpxnow.com";
             shortText = @"";
         }
         
+        socialPublishingProperties = [[_dictionary objectForKey:@"social_sharing_properties"] retain];
+        
         [self loadDynamicVariables];
     }
 	
@@ -206,7 +210,9 @@ static NSString * const serverUrl = @"https://rpxnow.com";
     [coder encodeObject:shortText forKey:@"shortText"];
     [coder encodeObject:openIdentifier forKey:@"openIdentifier"];
     [coder encodeObject:url forKey:@"url"];
+    [coder encodeObject:extPerm forKey:@"extPerm"];
     [coder encodeBool:requiresInput forKey:@"requiresInput"];    
+    [coder encodeObject:socialPublishingProperties forKey:@"socialPublishingProperties"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -222,7 +228,9 @@ static NSString * const serverUrl = @"https://rpxnow.com";
         shortText =       [[coder decodeObjectForKey:@"shortText"] retain];
         openIdentifier =  [[coder decodeObjectForKey:@"openIdentifier"] retain];
         url =             [[coder decodeObjectForKey:@"url"] retain];
+        extPerm =         [[coder decodeObjectForKey:@"extPerm"] retain];
         requiresInput =    [coder decodeBoolForKey:@"requiresInput"];
+        socialPublishingProperties = [[coder decodeObjectForKey:@"socialPublishingProperties"] retain];
     }   
     
     [self loadDynamicVariables];
@@ -298,7 +306,9 @@ static NSString * const serverUrl = @"https://rpxnow.com";
     [url release];	
     [userInput release];
     [welcomeString release];
-
+    [extPerm release];
+    [socialPublishingProperties release];
+    
 	[super dealloc];
 }
 @end
@@ -459,7 +469,7 @@ static JRSessionData* singleton = nil;
         NSData *archivedSocialProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrSocialProviders"];
         if (archivedSocialProviders != nil)
         {
-            socialProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders] retain];
+            socialProviders = [[NSArray alloc] initWithObjects:@"yahoo", nil];//[[NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders] retain];
         }
 
         /* Load the base url and whether or not we need to hide the tagline */
@@ -621,6 +631,8 @@ static JRSessionData* singleton = nil;
     
     /* Once we know that everything is parsed and saved correctly, save the new etag */
     [[NSUserDefaults standardUserDefaults] setValue:newEtag forKey:@"jrConfigurationEtag"];
+    
+    [[NSUserDefaults standardUserDefaults] setValue:gitCommit forKey:@"jrEngageCommit"];
    
     /* The release our saved configuration information */
     [savedConfigurationBlock release];
@@ -635,13 +647,23 @@ static JRSessionData* singleton = nil;
 - (NSError*)finishGetConfiguration:(NSString*)dataStr withEtag:(NSString*)etag
 {
 	DLog(@"");
+    
+    
+    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
+                               [[[NSBundle mainBundle] resourcePath] 
+                                stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
+    
+    NSString *currentCommit = [infoPlist objectForKey:@"Git Commit"];
+    NSString *savedCommit = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrEngageCommit"];
+    
     NSString *oldEtag = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrConfigurationEtag"];
     
  /* If the configuration for this rp has changed, the etag will have changed, and we need to update 
     our current configuration information. */
-    if (![oldEtag isEqualToString:etag]) 
+    if (![oldEtag isEqualToString:etag] || ![currentCommit isEqualToString:savedCommit]) 
     {
         newEtag = [etag retain];
+        gitCommit = [currentCommit retain];
     
      /* We can only update all of our data if the UI isn't currently using that information.  Otherwise, 
         the library may crash/behave inconsistently.  If a dialog isn't showing, go ahead and update
