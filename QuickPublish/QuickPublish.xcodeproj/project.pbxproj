@@ -128,6 +128,7 @@
 		9F87DF471219A97600FF7E2C /* FeedReaderWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */; };
 		9F8AC6101210BD4E004DB52A /* FeedReaderDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */; };
 		9FB409421241429300FDDA7B /* Quick_PublishAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */; };
+		9FD162851295EB770002BFEC /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD162841295EB770002BFEC /* Default-Portrait.png */; };
 		9FD54A111213726800E11512 /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD54A101213726800E11512 /* FeedReader.m */; };
 /* End PBXBuildFile section */
 
@@ -280,6 +281,7 @@
 		9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quick_PublishAppDelegate.m; sourceTree = "<group>"; };
 		9FB40944124142AA00FDDA7B /* Quick_Publish_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_Publish_Prefix.pch; sourceTree = "<group>"; };
 		9FB409451241430500FDDA7B /* Quick_Publish-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quick_Publish-Info.plist"; sourceTree = "<group>"; };
+		9FD162841295EB770002BFEC /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		9FD54A0F1213726800E11512 /* FeedReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReader.h; sourceTree = "<group>"; };
 		9FD54A101213726800E11512 /* FeedReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -626,6 +628,7 @@
 		9F01AA941294597C00AD6899 /* images-ipad */ = {
 			isa = PBXGroup;
 			children = (
+				9FD162841295EB770002BFEC /* Default-Portrait.png */,
 				9F01AAA512945A3100AD6899 /* background-ipad.png */,
 			);
 			name = "images-ipad";
@@ -778,6 +781,7 @@
 				9F01AA9D1294597C00AD6899 /* icon_itunes.png in Resources */,
 				9F01AA9E1294597C00AD6899 /* janrain_logo.png in Resources */,
 				9F01AAA612945A3100AD6899 /* background-ipad.png in Resources */,
+				9FD162851295EB770002BFEC /* Default-Portrait.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,7 +835,7 @@
 				INFOPLIST_FILE = "Quick_Publish-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = "Quick Publish";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "80A706E7-69B2-450A-86EA-BF6A187E6263";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0E6495F6-EDD0-4C3B-B1D0-F7F4D7E8B8EA";
 				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";

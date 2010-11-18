@@ -122,6 +122,7 @@
 		9FB40A4912414DEE00FDDA7B /* QSIRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40A4012414DEE00FDDA7B /* QSIRootViewController.xib */; };
 		9FB40A4A12414DEE00FDDA7B /* QSIViewControllerLevel1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40A4112414DEE00FDDA7B /* QSIViewControllerLevel1.xib */; };
 		9FB40A4B12414DEE00FDDA7B /* QSIViewControllerLevel2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40A4212414DEE00FDDA7B /* QSIViewControllerLevel2.xib */; };
+		9FD162791295EB3B0002BFEC /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD162781295EB3B0002BFEC /* Default-Portrait.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -267,6 +268,7 @@
 		9FB40A4112414DEE00FDDA7B /* QSIViewControllerLevel1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIViewControllerLevel1.xib; sourceTree = "<group>"; };
 		9FB40A4212414DEE00FDDA7B /* QSIViewControllerLevel2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIViewControllerLevel2.xib; sourceTree = "<group>"; };
 		9FB40A4C12414DFC00FDDA7B /* Quick_Sign_In-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quick_Sign_In-Info.plist"; sourceTree = "<group>"; };
+		9FD162781295EB3B0002BFEC /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -577,6 +579,7 @@
 		9F01AA9F1294599A00AD6899 /* images-ipad */ = {
 			isa = PBXGroup;
 			children = (
+				9FD162781295EB3B0002BFEC /* Default-Portrait.png */,
 				9F01AAA112945A0200AD6899 /* background-ipad.png */,
 			);
 			name = "images-ipad";
@@ -752,6 +755,7 @@
 				9F01AA6C1294526600AD6899 /* QSIViewControllerLevel2-iPad.xib in Resources */,
 				9F01AAA212945A0200AD6899 /* background-ipad.png in Resources */,
 				9F01AAA412945A1800AD6899 /* background.png in Resources */,
+				9FD162791295EB3B0002BFEC /* Default-Portrait.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,7 +832,7 @@
 					"$(OBJC_LIBRARY)",
 				);
 				PRODUCT_NAME = "Quick Sign-In";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "80A706E7-69B2-450A-86EA-BF6A187E6263";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0E6495F6-EDD0-4C3B-B1D0-F7F4D7E8B8EA";
 				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";

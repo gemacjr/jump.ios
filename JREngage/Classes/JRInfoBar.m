@@ -118,20 +118,26 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	[UIView beginAnimations:@"fade" context:nil];
-	[UIView setAnimationDuration:0.2];
-	[UIView	setAnimationDelay:0.0];
-	self.alpha = 0.8;
-	[UIView commitAnimations];
+	if (!iPad)
+    {   
+        [UIView beginAnimations:@"fade" context:nil];
+        [UIView setAnimationDuration:0.2];
+        [UIView	setAnimationDelay:0.0];
+        self.alpha = 0.8;
+        [UIView commitAnimations];
+    }
 }
 
 - (void)willPresentActionSheet:(UIActionSheet *)actionSheet
 {
-	[UIView beginAnimations:@"fade" context:nil];
-	[UIView setAnimationDuration:0.2];
-	[UIView	setAnimationDelay:0.0];
-	self.alpha = 0.0;
-	[UIView commitAnimations];
+    if (!iPad)
+    {
+        [UIView beginAnimations:@"fade" context:nil];
+        [UIView setAnimationDuration:0.2];
+        [UIView	setAnimationDelay:0.0];
+        self.alpha = 0.0;
+        [UIView commitAnimations];
+    }
 }
 
 - (void)getInfo

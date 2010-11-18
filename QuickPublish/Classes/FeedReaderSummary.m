@@ -229,18 +229,18 @@
 
             UILabel *documentTitle = [[[UILabel alloc] initWithFrame:CGRectMake(iPadMult * 8, 
                                                                                 iPadMult * 6, 
-                                                                                iPadMult * 284, 
+                                                                                iPadMult * 284 + ((iPadMult - 1) * 40), 
                                                                                 iPadMult * 16)] autorelease];
-            documentTitle.font = [UIFont boldSystemFontOfSize:iPadMult * 15.0];
+            documentTitle.font = [UIFont boldSystemFontOfSize:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 28 : 15.0];
             documentTitle.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
             documentTitle.backgroundColor = [UIColor clearColor];
             documentTitle.text = story.title;
             
             UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(iPadMult * (8 + imageWidth),
                                                                                       iPadMult *  25,
-                                                                                      iPadMult * (268 - imageWidth), 
+                                                                                      iPadMult * (268 - imageWidth) + ((iPadMult - 1) * 40), 
                                                                                       iPadMult *  36)] autorelease];
-            documentDescription.font = [UIFont systemFontOfSize:iPadMult * 14.0];
+            documentDescription.font = [UIFont systemFontOfSize:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 24 : 14.0];
             documentDescription.textColor = [UIColor darkGrayColor];
             documentDescription.numberOfLines = 2;
             documentDescription.backgroundColor = [UIColor clearColor];
@@ -311,7 +311,7 @@
             {
                 [documentImage setHidden:YES];
                 [spinner stopAnimating];
-                [documentDescription setFrame:CGRectMake(iPadMult * 8, iPadMult * 25, iPadMult * 268, iPadMult * 36)];
+                [documentDescription setFrame:CGRectMake(iPadMult * 8, iPadMult * 25, iPadMult * 268 + ((iPadMult - 1) * 40), iPadMult * 36)];
                 [documentDate setFrame:CGRectMake(iPadMult * 8, iPadMult * 63, iPadMult * 268, iPadMult * 13)];
             }
             
