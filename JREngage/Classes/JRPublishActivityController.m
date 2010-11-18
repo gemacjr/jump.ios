@@ -157,6 +157,9 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        myUserContentTextView.font = [UIFont systemFontOfSize:28];
+    
    // QTS: Am I doing this twice?
     if (weAreReady)
         [self loadActivityToView];
