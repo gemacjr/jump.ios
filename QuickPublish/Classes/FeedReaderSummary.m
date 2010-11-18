@@ -149,10 +149,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == [stories count])
-        return 40;
-    
-    return 80;
+//    if (indexPath.section == [stories count])
+//        return 40;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return 160;
+    else
+        return 80;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -167,6 +169,7 @@
     Story *story = [stories objectAtIndex:indexPath.section];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    NSInteger iPadMult = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 2 : 1;
     
     if (cell == nil) 
     {
@@ -175,10 +178,14 @@
         if (indexPath.section < [stories count])
         {
             NSInteger imageWidth = 42; 
-            UIImageView *documentImage = [[[UIImageView alloc] initWithFrame:CGRectMake(8, 27, imageWidth - 6, 36)] autorelease];
+
+            UIImageView *documentImage = [[[UIImageView alloc] initWithFrame:CGRectMake(iPadMult * 8,
+                                                                                        iPadMult * 27,
+                                                                                        iPadMult * (imageWidth - 6),
+                                                                                        iPadMult * 36)] autorelease];
             UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] 
                                                  initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
-            [spinner setFrame:CGRectMake(18, 37, 16, 16)];
+            [spinner setFrame:CGRectMake(iPadMult * 18, iPadMult * 37, 16, 16)];
             
             documentImage.backgroundColor = [UIColor grayColor];
             documentImage.clipsToBounds = YES;
@@ -220,21 +227,30 @@
                 imageWidth = 0;
             }
 
-            UILabel *documentTitle = [[[UILabel alloc] initWithFrame:CGRectMake(8, 6, 284, 16)] autorelease];
-            documentTitle.font = [UIFont boldSystemFontOfSize:15.0];
+            UILabel *documentTitle = [[[UILabel alloc] initWithFrame:CGRectMake(iPadMult * 8, 
+                                                                                iPadMult * 6, 
+                                                                                iPadMult * 284, 
+                                                                                iPadMult * 16)] autorelease];
+            documentTitle.font = [UIFont boldSystemFontOfSize:iPadMult * 15.0];
             documentTitle.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
             documentTitle.backgroundColor = [UIColor clearColor];
             documentTitle.text = story.title;
             
-            UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(8 + imageWidth, 25, 268 - imageWidth, 36)] autorelease];
-            documentDescription.font = [UIFont systemFontOfSize:14.0];
+            UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(iPadMult * (8 + imageWidth),
+                                                                                      iPadMult *  25,
+                                                                                      iPadMult * (268 - imageWidth), 
+                                                                                      iPadMult *  36)] autorelease];
+            documentDescription.font = [UIFont systemFontOfSize:iPadMult * 14.0];
             documentDescription.textColor = [UIColor darkGrayColor];
             documentDescription.numberOfLines = 2;
             documentDescription.backgroundColor = [UIColor clearColor];
             documentDescription.text = story.plainText;
             
-            UILabel *documentDate = [[[UILabel alloc] initWithFrame:CGRectMake(8 + imageWidth, 63, 268 - imageWidth, 13)] autorelease];
-            documentDate.font = [UIFont systemFontOfSize:11.0];
+            UILabel *documentDate = [[[UILabel alloc] initWithFrame:CGRectMake(iPadMult * (8 + imageWidth),
+                                                                               iPadMult *  63,
+                                                                               iPadMult * (268 - imageWidth),
+                                                                               iPadMult *  13)] autorelease];
+            documentDate.font = [UIFont systemFontOfSize:iPadMult * 11.0];
             documentDate.textColor = [UIColor darkGrayColor];
             documentDate.textAlignment = UITextAlignmentLeft;
             documentDate.backgroundColor = [UIColor clearColor];
@@ -295,8 +311,8 @@
             {
                 [documentImage setHidden:YES];
                 [spinner stopAnimating];
-                [documentDescription setFrame:CGRectMake(8, 25, 268, 36)];
-                [documentDate setFrame:CGRectMake(8, 63, 268, 13)];
+                [documentDescription setFrame:CGRectMake(iPadMult * 8, iPadMult * 25, iPadMult * 268, iPadMult * 36)];
+                [documentDate setFrame:CGRectMake(iPadMult * 8, iPadMult * 63, iPadMult * 268, iPadMult * 13)];
             }
             
         }

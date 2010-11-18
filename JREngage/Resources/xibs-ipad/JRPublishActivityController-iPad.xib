@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="30"/>
+			<integer value="50"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -166,7 +166,7 @@
 													<object class="IBUILabel" id="990139313">
 														<reference key="NSNextResponder" ref="486154963"/>
 														<int key="NSvFlags">292</int>
-														<string key="NSFrame">{{123, -4}, {605, 29}}</string>
+														<string key="NSFrame">{{123, -4}, {595, 43}}</string>
 														<reference key="NSSuperview" ref="486154963"/>
 														<bool key="IBUIOpaque">NO</bool>
 														<bool key="IBUIClipsSubviews">YES</bool>
@@ -176,7 +176,7 @@
 														<string key="IBUIText">Title</string>
 														<object class="NSFont" key="IBUIFont">
 															<string key="NSName">Helvetica-Bold</string>
-															<double key="NSSize">24</double>
+															<double key="NSSize">30</double>
 															<int key="NSfFlags">16</int>
 														</object>
 														<object class="NSColor" key="IBUITextColor">
@@ -185,12 +185,14 @@
 														</object>
 														<nil key="IBUIHighlightedColor"/>
 														<int key="IBUIBaselineAdjustment">1</int>
+														<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 														<float key="IBUIMinimumFontSize">12</float>
+														<int key="IBUILineBreakMode">5</int>
 													</object>
 													<object class="IBUILabel" id="862018976">
 														<reference key="NSNextResponder" ref="486154963"/>
 														<int key="NSvFlags">292</int>
-														<string key="NSFrame">{{123, 24}, {605, 150}}</string>
+														<string key="NSFrame">{{123, 24}, {595, 150}}</string>
 														<reference key="NSSuperview" ref="486154963"/>
 														<bool key="IBUIOpaque">NO</bool>
 														<bool key="IBUIClipsSubviews">YES</bool>
@@ -198,9 +200,9 @@
 														<bool key="IBUIUserInteractionEnabled">NO</bool>
 														<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 														<string key="IBUIText">Description</string>
-														<object class="NSFont" key="IBUIFont">
+														<object class="NSFont" key="IBUIFont" id="564668829">
 															<string key="NSName">Helvetica</string>
-															<double key="NSSize">18</double>
+															<double key="NSSize">24</double>
 															<int key="NSfFlags">16</int>
 														</object>
 														<object class="NSColor" key="IBUITextColor">
@@ -245,7 +247,7 @@
 							<object class="IBUILabel" id="652392699">
 								<reference key="NSNextResponder" ref="607984093"/>
 								<int key="NSvFlags">268</int>
-								<string key="NSFrame">{{29, 798}, {107, 21}}</string>
+								<string key="NSFrame">{{32, 780}, {321, 43}}</string>
 								<reference key="NSSuperview" ref="607984093"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -255,7 +257,7 @@
 								<string key="IBUIText">Powered by Janrain</string>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica-Oblique</string>
-									<double key="NSSize">12</double>
+									<double key="NSSize">30</double>
 									<int key="NSfFlags">16</int>
 								</object>
 								<object class="NSColor" key="IBUITextColor">
@@ -269,7 +271,7 @@
 							<object class="IBUIButton" id="603137531">
 								<reference key="NSNextResponder" ref="607984093"/>
 								<int key="NSvFlags">268</int>
-								<string key="NSFrame">{{7, 797}, {18, 19}}</string>
+								<string key="NSFrame">{{10, 787}, {18, 19}}</string>
 								<reference key="NSSuperview" ref="607984093"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<float key="IBUIAlpha">0.30000001192092896</float>
@@ -289,7 +291,7 @@
 							<object class="IBUIImageView" id="492533119">
 								<reference key="NSNextResponder" ref="607984093"/>
 								<int key="NSvFlags">265</int>
-								<string key="NSFrame">{{725, 791}, {23, 23}}</string>
+								<string key="NSFrame">{{698, 764}, {50, 50}}</string>
 								<reference key="NSSuperview" ref="607984093"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -302,7 +304,7 @@
 									<object class="IBUIButton" id="445558987">
 										<reference key="NSNextResponder" ref="723048711"/>
 										<int key="NSvFlags">-2147483356</int>
-										<string key="NSFrame">{{116, 91}, {80, 33}}</string>
+										<string key="NSFrame">{{116, 91}, {100, 33}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<float key="IBUIAlpha">0.30000001192092896</float>
@@ -310,7 +312,7 @@
 										<int key="IBUIContentVerticalAlignment">0</int>
 										<object class="NSFont" key="IBUIFont">
 											<string key="NSName">Helvetica</string>
-											<double key="NSSize">12</double>
+											<double key="NSSize">18</double>
 											<int key="NSfFlags">16</int>
 										</object>
 										<string key="IBUINormalTitle">sign out</string>
@@ -402,11 +404,7 @@
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<string key="IBUIText">User Name</string>
-										<object class="NSFont" key="IBUIFont">
-											<string key="NSName">Helvetica</string>
-											<double key="NSSize">24</double>
-											<int key="NSfFlags">16</int>
-										</object>
+										<reference key="IBUIFont" ref="564668829"/>
 										<object class="NSColor" key="IBUITextColor" id="491269863">
 											<int key="NSColorSpace">1</int>
 											<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -1119,7 +1117,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>JRPublishActivityController</string>
 					<string>UIResponder</string>
-					<string>{{172, 46}, {820, 710}}</string>
+					<string>{{233, 4}, {783, 752}}</string>
 					<object class="NSMutableDictionary">
 						<string key="NS.key.0">IBCocoaTouchFramework</string>
 						<integer value="0" key="NS.object.0"/>
@@ -1548,7 +1546,7 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../JREngage.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../../JREngage.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<bool key="EncodedWithXMLCoder">YES</bool>
