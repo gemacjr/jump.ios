@@ -54,39 +54,49 @@
 	
 	if (self = [super initWithFrame:frame]) 
 	{
-        hidesPoweredBy = style;
-		y_origin_hidden = self.frame.origin.y + self.frame.size.height;
-		
+        int width = self.frame.size.width;
+		int height = self.frame.size.height;
+
+        iPad = style / 2;
+        hidesPoweredBy = style % 2;
+        y_origin_hidden = self.frame.origin.y + height;
+        
 		if (hidesPoweredBy)
-			[self setFrame:CGRectMake(self.frame.origin.x, y_origin_hidden, self.frame.size.width, self.frame.size.height)];
+			[self setFrame:CGRectMake(self.frame.origin.x, y_origin_hidden, width, height)];
 		
-		barImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+		barImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 		barImage.image = [UIImage imageNamed:@"bottom_bar.png"];
 
-		poweredByLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 0, 130, 30)];
+		poweredByLabel = [[UILabel alloc] initWithFrame:CGRectMake(width/2, 0, width/2 - 30, height)];
 		poweredByLabel.backgroundColor = [UIColor clearColor];
-		poweredByLabel.font = [UIFont italicSystemFontOfSize:13.0];
+		poweredByLabel.font = [UIFont italicSystemFontOfSize:(iPad) ? 30.0 : 13.0];
 		poweredByLabel.textColor = [UIColor whiteColor];
 		poweredByLabel.textAlignment = UITextAlignmentRight;
 		
         // TODO: Localize this string (and all others, of course)
-		if (style == JRInfoBarStyleShowPoweredBy)
-			poweredByLabel.text = @"Powered by Janrain";
-		else
-			poweredByLabel.text = @"";
+        poweredByLabel.text = (hidesPoweredBy) ? @"" : @"Powered by Janrain";
 		
 		infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-		infoButton.frame = CGRectMake(300, 7, 15, 15);
+		infoButton.frame = CGRectMake(width - 20, 7, 15, 15);
 		[infoButton addTarget:self
 					   action:@selector(getInfo) 
 			 forControlEvents:UIControlEventTouchUpInside];
 		
-		spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(5, 5, 20, 20)];
-		spinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+		if (iPad)
+            spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(15, 15, 42, 42)];
+        else
+            spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(5, 5, 20, 20)];
+        
+
+		spinner.activityIndicatorViewStyle = (iPad) ? UIActivityIndicatorViewStyleWhiteLarge : UIActivityIndicatorViewStyleWhite;
 		
-		loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(33, 0, 130, 30)];
+		if (iPad)
+            loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 0, 300, height)];
+        else
+            loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(33, 0, 130, 30)];
+
 		loadingLabel.backgroundColor = [UIColor clearColor];
-		loadingLabel.font = [UIFont systemFontOfSize:13.0];
+		loadingLabel.font = [UIFont systemFontOfSize:(iPad) ? 30.0 : 13.0];
 		loadingLabel.textColor = [UIColor whiteColor];
 		loadingLabel.textAlignment = UITextAlignmentLeft;
 		loadingLabel.text = @"Loading...";

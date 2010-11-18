@@ -150,15 +150,18 @@
 	self.navigationItem.leftBarButtonItem = placeholderItem;
 	
     // TODO: Instead of removing the infoBar for iPad, fix it!
-	if (!infoBar && (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad))
+	if (!infoBar)
 	{
-		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+        else
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
             [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
                                              myTableView.frame.origin.y, 
                                              myTableView.frame.size.width, 
-                                             myTableView.frame.size.height - 27)];
+                                             myTableView.frame.size.height - infoBar.frame.size.height)];
         
 		[self.view addSubview:infoBar];
 	}

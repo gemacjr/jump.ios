@@ -293,8 +293,12 @@
 	
 	if (!infoBar)
 	{
-		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
-		[self.view addSubview:infoBar];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+        else
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+
+        [self.view addSubview:infoBar];
 	}
 	[infoBar fadeIn];	
 	
@@ -385,7 +389,10 @@
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 176;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return 386;
+    else
+        return 176;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -412,9 +419,14 @@ enum
     if (cell)
         return (UIImageView*)[cell.contentView viewWithTag:LOGO_TAG];
     
-    UIImageView *logo = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 280, 63)];// autorelease];
+    UIImageView *logo;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        logo = [[UIImageView alloc] initWithFrame:CGRectMake(60, 40, 558, 125)];// autorelease];
+    else
+        logo = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 280, 63)];// autorelease];
+
     logo.tag = LOGO_TAG;
-  
+
     return logo;
 }
 
@@ -422,14 +434,22 @@ enum
 {     
     if (cell)
         return (UILabel*)[cell.contentView viewWithTag:WELCOME_LABEL_TAG];
+
+    UILabel *welcomeLabel;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 195, 558, 50)];// autorelease];
+    else
+        welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)];// autorelease];
+
+    welcomeLabel.font = [UIFont boldSystemFontOfSize:
+                         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                         ? 36.0 : 20.0];
     
-    UILabel *welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 90, 280, 25)];// autorelease];
     welcomeLabel.adjustsFontSizeToFitWidth = YES;
-    welcomeLabel.font = [UIFont boldSystemFontOfSize:20];
     welcomeLabel.textColor = [UIColor blackColor];
     welcomeLabel.backgroundColor = [UIColor clearColor];
     welcomeLabel.textAlignment = UITextAlignmentLeft;
-
+    
     welcomeLabel.tag = WELCOME_LABEL_TAG;
 
     return welcomeLabel;
@@ -440,10 +460,19 @@ enum
     if (cell)
         return (UITextField*)[cell.contentView viewWithTag:TEXT_FIELD_TAG];
     
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 83, 280, 35)]; //autorelease];
+    UITextField *textField;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        textField = [[UITextField alloc] initWithFrame:CGRectMake(60, 185, 558, 70)]; //autorelease];
+    else
+        textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 83, 280, 35)]; //autorelease];
+
+    textField.font = [UIFont systemFontOfSize:
+                      (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                      ? 30.0 : 15.0];
+    
+    
     textField.adjustsFontSizeToFitWidth = YES;
     textField.textColor = [UIColor blackColor];
-    textField.font = [UIFont systemFontOfSize:15.0];
     textField.backgroundColor = [UIColor clearColor];
     textField.borderStyle = UITextBorderStyleRoundedRect;
     textField.textAlignment = UITextAlignmentLeft;
@@ -470,11 +499,14 @@ enum
         return (UIButton*)[cell.contentView viewWithTag:SIGN_IN_BUTTON_TAG];
     
     UIButton *signInButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [signInButton setFrame:CGRectMake(165, 128, 135, 38)];
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [signInButton setFrame:CGRectMake(367, 275, 251, 71)];
+    else
+        [signInButton setFrame:CGRectMake(155, 128, 135, 38)];
 
     [signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_135x38.png"] forState:UIControlStateNormal];
-    //		[signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button.png"] forState:UIControlStateNormal];
-    signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+    
     [signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
     [signInButton setTitleColor:[UIColor whiteColor] 
                        forState:UIControlStateNormal];
@@ -486,7 +518,13 @@ enum
                        forState:UIControlStateSelected];	
     [signInButton setTitleShadowColor:[UIColor grayColor]
                              forState:UIControlStateSelected];	
+
     [signInButton setReversesTitleShadowWhenHighlighted:YES];
+
+    signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:
+                                    (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                                                                ? 36.0 : 20.0];
+    
 
     [signInButton addTarget:self
                      action:@selector(signInButtonTouchUpInside:) 
@@ -503,10 +541,14 @@ enum
         return (UIButton*)[cell.contentView viewWithTag:BACK_TO_PROVIDERS_BUTTON_TAG];
     
     UIButton *backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backToProvidersButton setFrame:CGRectMake(20, 128, 135, 38)];
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [backToProvidersButton setFrame:CGRectMake(60, 275, 251, 71)];
+    else
+        [backToProvidersButton setFrame:CGRectMake(10, 128, 135, 38)];
 
     [backToProvidersButton setBackgroundImage:[UIImage imageNamed:@"black_button.png"] forState:UIControlStateNormal];
-    backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
+
     [backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateNormal];
     [backToProvidersButton setTitleColor:[UIColor whiteColor] 
                                 forState:UIControlStateNormal];
@@ -520,6 +562,9 @@ enum
                                       forState:UIControlStateSelected];
     [backToProvidersButton setReversesTitleShadowWhenHighlighted:YES];
 
+    backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize:
+                                             (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                                             ? 28.0 : 14.0];
 
     [backToProvidersButton addTarget:self
                               action:@selector(backToProvidersTouchUpInside) 
@@ -535,10 +580,14 @@ enum
         return (UIButton*)[cell.contentView viewWithTag:BIG_SIGN_IN_BUTTON_TAG];
     
     UIButton *bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [bigSignInButton setFrame:CGRectMake(20, 128, 280, 38)];
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [bigSignInButton setFrame:CGRectMake(60, 275, 558, 71)];
+    else
+        [bigSignInButton setFrame:CGRectMake(10, 128, 280, 38)];
 
     [bigSignInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_280x38.png"] forState:UIControlStateNormal];
-    bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+    
     [bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
     [bigSignInButton setTitleColor:[UIColor whiteColor] 
                           forState:UIControlStateNormal];
@@ -552,6 +601,10 @@ enum
                                 forState:UIControlStateSelected];	
     [bigSignInButton setReversesTitleShadowWhenHighlighted:YES];
 
+    bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:
+                                       (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                                       ? 36.0 : 20.0];
+    
     [bigSignInButton addTarget:self
                         action:@selector(signInButtonTouchUpInside:) 
               forControlEvents:UIControlEventTouchUpInside];
@@ -584,7 +637,8 @@ enum
 		[cell.contentView addSubview:[self getBigSignInButton:nil]];
 		
         cell.backgroundColor = [UIColor whiteColor];
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+      
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_logo.png", sessionData.currentProvider.name];
@@ -635,7 +689,7 @@ enum
 		
 		DLog(@"welcomeMsg: %@", sessionData.currentProvider.welcomeString);
 	}
-
+    
     return cell;
 }
 
