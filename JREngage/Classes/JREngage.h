@@ -149,7 +149,7 @@
 /*@{*/
 
 /**
- * Sent if the authorization was canceled for any reason other than an error.  For example, 
+ * Sent if the authentication was canceled for any reason other than an error.  For example, 
  * the user hits the "Cancel" button, any class (e.g., the JREngage delegate) calls the cancelAuthentication
  * message, or if configuration of the library is taking more than about 16 seconds (rare) to download.
  **/
@@ -463,41 +463,6 @@
  * Methods that manage authenticated users remembered by the library
  **/
 /*@{*/
-
-/**
- * Returns an \c NSDictionary of fields containing all the information Janrain Engage knows about 
- * the user that logged into your application with the given provider.
- *
- * @param provider
- *   The name of the provider on which the user authenticated.  For a list of possible strings, 
- *   please see the \ref basicProviders "List of Providers"
- *
- * @return 
- *   An \c NSDictionary of fields containing all the information Janrain Engage knows about the user that 
- *   logged into your application with the given provider. Includes the field "profile" which contains
- *   the user's profile information
- *
- *   The structure of the dictionary (represented here in json) should look something like the 
- *   following:
- * \code
- "auth_info":
- {
-   "profile": 
-   {
-     "displayName": "brian",
-     "preferredUsername": "brian",
-     "url": "http:\/\/brian.myopenid.com\/",
-     "providerName": "Other",
-     "identifier": "http:\/\/brian.myopenid.com\/"
-   }
- }
- * \endcode
- *
- * \sa For a full description of the dictionary and its fields, 
- * please see the <a href="https://rpxnow.com/docs#api_auth_info_response">auth_info response</a> 
- * section of the Janrain Engage API documentation.
- **/
-- (NSDictionary*)getUserForProvider:(NSString*)provider;
 
 /**
  * Tell JREngage to forget that a user is already signed in with the given provider

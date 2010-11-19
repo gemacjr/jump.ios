@@ -89,10 +89,12 @@ Copyright (c) 2010, Janrain, Inc.
 {
     [super viewDidLoad];
 	
-	level2ViewController = [[ViewControllerLevel2 alloc] 
-							initWithNibName:@"QSIViewControllerLevel2" 
-							bundle:[NSBundle mainBundle]];
-	
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        level2ViewController = [[ViewControllerLevel2 alloc] initWithNibName:@"QSIViewControllerLevel2-iPad" 
+                                                                      bundle:[NSBundle mainBundle]];
+    else
+        level2ViewController = [[ViewControllerLevel2 alloc] initWithNibName:@"QSIViewControllerLevel2" 
+                                                                      bundle:[NSBundle mainBundle]];	
 }
 
 - (void)viewWillAppear:(BOOL)animated

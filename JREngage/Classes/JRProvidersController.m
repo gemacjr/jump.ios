@@ -48,22 +48,22 @@
 
 @interface UITableViewCellProviders : UITableViewCell 
 {
-	UIImageView *icon;
+//	UIImageView *icon;
 }
 
-@property (nonatomic, retain) UIImageView *icon;
+//@property (nonatomic, retain) UIImageView *icon;
 
 @end
 
 @implementation UITableViewCellProviders
 
-@synthesize icon;
+//@synthesize icon;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
 	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
 	{
-		[self addSubview:icon];
+//		[self addSubview:icon];
 	}
 	
 	return self;
@@ -73,8 +73,17 @@
 {
 	[super layoutSubviews];
 
-	self.imageView.frame = CGRectMake(10, 10, 30, 30);
-	self.textLabel.frame = CGRectMake(50, 15, 100, 22);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        self.imageView.frame = CGRectMake(15, 15, 70, 70);
+        self.textLabel.frame = CGRectMake(100, 22, 300, 60);
+        self.textLabel.font = [UIFont systemFontOfSize:36];
+    }
+    else
+    {	
+        self.imageView.frame = CGRectMake(10, 10, 30, 30);
+        self.textLabel.frame = CGRectMake(50, 15, 100, 22);
+    }
 }
 @end
 
@@ -140,16 +149,19 @@
 	placeholderItem.width = 85;
 	self.navigationItem.leftBarButtonItem = placeholderItem;
 	
-    
+    // TODO: Instead of removing the infoBar for iPad, fix it!
 	if (!infoBar)
 	{
-		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+        else
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
             [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
                                              myTableView.frame.origin.y, 
                                              myTableView.frame.size.width, 
-                                             myTableView.frame.size.height - 27)];
+                                             myTableView.frame.size.height - infoBar.frame.size.height)];
         
 		[self.view addSubview:infoBar];
 	}
@@ -263,6 +275,7 @@ Please try again later."
 
 /* Footer makes room for info bar.  If info bar is removed, remove the footer as well. */
 // QTS: Or do we keep it here because the info bar pops up when loading?
+// QTS: Do we need this or does setting the heightForFooterInSection acheive this?
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
 	UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)] autorelease];
@@ -271,12 +284,18 @@ Please try again later."
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-	return 37;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return 37;
+    else
+        return 37;
 }
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 50;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return 100;
+    else
+        return 50;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -294,7 +313,7 @@ Please try again later."
 		 cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     UITableViewCellProviders *cell = 
-	(UITableViewCellProviders*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
+        (UITableViewCellProviders*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
 	
 	if (cell == nil)
 		cell = [[[UITableViewCellProviders alloc] 
@@ -309,8 +328,8 @@ Please try again later."
 
 	cell.textLabel.text = provider.friendlyName;
 	cell.imageView.image = [UIImage imageNamed:imagePath];
-
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		
     [cell layoutSubviews];
 	return cell;

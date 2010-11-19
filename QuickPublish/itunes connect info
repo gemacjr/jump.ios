@@ -16,3 +16,12 @@ copyright: 2010, Janrain, Inc.
 Contact Email Address: support@janrain.com
 Support URL: https://rpxnow.com/contact
 App URL (optional): https://rpxnow.com/ 
+
+Friday, October 29th:
+Added new versions of iPhone applications to iTunes Connect store:
+Version: 2.0.1
+Includes: Bug fixes, the ability to remain logged in, and more meaningful content returned from the Janrain Engage servers.
+Now compiled with 
+	Base SDK: iOS Device 4.0 SDK 
+	iOS Deployment Target: iOS 3.0
+	Targeted Device Family: iPhone

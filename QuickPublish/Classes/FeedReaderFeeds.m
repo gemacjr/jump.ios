@@ -91,8 +91,16 @@
 
 - (IBAction)janrainBlogSelected:(id)sender
 {
+    //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    
     [summaryViewController release];
-    summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary" bundle:[NSBundle mainBundle]];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary-iPad" 
+                                                                    bundle:[NSBundle mainBundle]];
+    else
+        summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary" 
+                                                                    bundle:[NSBundle mainBundle]];
     
     [self.navigationController pushViewController:summaryViewController animated:YES];
 }

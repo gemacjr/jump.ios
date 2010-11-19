@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleShortVersionString</key>
-	<string>v2.0.1</string>
+	<string>v2.0.2</string>
+	<key>Git Commit</key>
+	<string>01e12c6a7d7828d27e251a1d0cc8d4dcd73b4eeb</string>
 </dict>
 </plist>

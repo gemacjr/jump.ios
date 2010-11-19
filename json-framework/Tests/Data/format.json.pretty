@@ -2,13 +2,15 @@
   "one",
   2,
   {
-    "bar" : [
+    "bar": [
       1,
       2,
-      []
+      [
+      ]
     ],
-    "foo" : null,
-    "quux" : true
+    "foo": null,
+    "quux": true
   },
-  {}
+  {
+  }
 ]

@@ -111,20 +111,25 @@
     
     NSString *openIdentifier;
 	NSString *url;	
+    NSString *extPerm;
 	BOOL      forceReauth;
     
     NSString *userInput;
 	NSString *welcomeString;
+    
+    NSDictionary *socialPublishingProperties;
 }
 
 @property (readonly) NSString *name;
 @property (readonly) NSString *friendlyName;
 @property (readonly) NSString *shortText;
 @property (readonly) NSString *placeholderText;
+@property (readonly) NSString *extPerm;
 @property (readonly) BOOL      requiresInput;
 @property            BOOL      forceReauth;
 @property (retain)   NSString *userInput;
 @property (retain)   NSString *welcomeString;
+@property (readonly) NSDictionary *socialPublishingProperties;
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary;
 - (BOOL)isEqualToProvider:(JRProvider*)provider;
@@ -161,8 +166,6 @@
 	JRProvider *currentProvider;
 	NSString   *returningBasicProvider;	
     NSString   *returningSocialProvider;
-//	JRProvider *returningBasicProvider;	
-//  JRProvider *returningSocialProvider;
     
 /*  allProviders is a dictionary of JRProviders, where each JRProvider contains the information specific
     to that provider. basicProviders and socialProviders are arrays of NSStrings, each string being
@@ -174,10 +177,9 @@
 	
     NSString *savedConfigurationBlock;
     NSString *newEtag;
+    NSString *gitCommit;
     
     JRActivityObject *activity;
-    
-//	NSURL *startUrlForCurrentProvider;
     
     NSString *tokenUrl;
 	NSString *baseUrl;
@@ -191,22 +193,17 @@
     BOOL social;
 
     BOOL dialogIsShowing;
-//    BOOL configurationComplete;
     NSError  *error;
 }
 @property (retain)   JRProvider *currentProvider;
 @property (readonly) NSString   *returningBasicProvider;
 @property (readonly) NSString   *returningSocialProvider;
-//@property (readonly) JRProvider *returningBasicProvider;
-//@property (readonly) JRProvider *returningSocialProvider;
 
 @property (readonly) NSMutableDictionary *allProviders;
 @property (readonly) NSArray             *basicProviders;
 @property (readonly) NSArray             *socialProviders;
 
 @property (retain)   JRActivityObject *activity;
-
-//@property (readonly) NSURL *startUrlForCurrentProvider;
 
 @property (retain)   NSString *tokenUrl;
 @property (readonly) NSString *baseUrl;
@@ -217,7 +214,6 @@
 @property (assign)   BOOL social;
 
 @property BOOL dialogIsShowing;
-//@property (readonly) BOOL configurationComplete;
 @property (readonly) NSError *error;
 
 + (JRSessionData*)jrSessionData;

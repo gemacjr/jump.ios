@@ -160,10 +160,15 @@ static JREngage* singletonJREngage = nil;
     /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
-        /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
-         configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
-         librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
-         if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
+        
+     /* Since configuration should happen long before the user attempts to use the library and because the user may not
+        attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
+        is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
+        a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
+        user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
+        This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
+        resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
+        
         if ([[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
         {
             [self engageDidFailWithError:sessionData.error];
@@ -183,10 +188,15 @@ static JREngage* singletonJREngage = nil;
     /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
-        /* If there was an error, send a message to the delegates, release the error, then attemp to restart the 
-         configuration.  If, for example, the error was temporary (network issues, etc.) reattempting to configure the 
-         librabry could end successfully.  Since configuration may happen before the user attempts to use the library, 
-         if the user attempts to use the library at all, we only try to reconfigure when the library is needed. */
+        
+     /* Since configuration should happen long before the user attempts to use the library and because the user may not
+        attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
+        is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
+        a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
+        user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
+        This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
+        resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
+        
         if ([[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
         {
             [self engageDidFailWithError:sessionData.error];

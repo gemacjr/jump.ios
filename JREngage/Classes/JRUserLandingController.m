@@ -45,172 +45,172 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 
-@interface UITableViewUserLandingCell : UITableViewCell 
-{
-	UIImageView	*logo;
-	UILabel		*welcomeLabel;
-	UITextField *textField;
-	UIButton	*signInButton;
-	UIButton	*backToProvidersButton;
-	UIButton	*bigSignInButton;
-	UIButton	*forgetUserButton;
-}
-
-@property (retain) 	UIImageView	*logo;
-@property (retain) 	UILabel		*welcomeLabel;
-@property (retain) 	UITextField *textField;
-@property (retain) 	UIButton	*signInButton;
-@property (retain) 	UIButton	*backToProvidersButton;
-@property (retain) 	UIButton	*bigSignInButton;
-@property (retain) 	UIButton	*forgetUserButton;
-
-@end
-
-@implementation UITableViewUserLandingCell
-
-@synthesize logo;
-@synthesize welcomeLabel;
-@synthesize textField;
-@synthesize signInButton;
-@synthesize backToProvidersButton;
-@synthesize bigSignInButton;
-@synthesize forgetUserButton;
-
-// TODO: Move all this crap into the tableView: cellForRow... function and don't subclass 
-// UITableViewCell now that you figured out how to do this forever ago
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-											  targetForSelector:(id)targetForSelector
-{
-	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
-	{
-		logo = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 280, 63)];
-		[self addSubview:logo];
-				
-		welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 90, 280, 25)];
-		welcomeLabel.adjustsFontSizeToFitWidth = YES;
-		welcomeLabel.font = [UIFont boldSystemFontOfSize:20];
-		welcomeLabel.textColor = [UIColor blackColor];
-		welcomeLabel.backgroundColor = [UIColor clearColor];
-		welcomeLabel.textAlignment = UITextAlignmentLeft;
-		[self addSubview:welcomeLabel];	
-						
-		textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 83, 280, 35)];
-		textField.adjustsFontSizeToFitWidth = YES;
-		textField.textColor = [UIColor blackColor];
-		textField.font = [UIFont systemFontOfSize:15.0];
-		textField.backgroundColor = [UIColor clearColor];
-		textField.borderStyle = UITextBorderStyleRoundedRect;
-		textField.textAlignment = UITextAlignmentLeft;
-		textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-		textField.clearsOnBeginEditing = YES;
-		textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-		textField.autocorrectionType = UITextAutocorrectionTypeNo;
-		textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-		textField.keyboardType = UIKeyboardTypeURL;
-		textField.returnKeyType = UIReturnKeyDone;
-		textField.enablesReturnKeyAutomatically = YES;
-		
-		textField.delegate = targetForSelector;
-		
-		[textField setHidden:YES];
-		[self addSubview:textField];
-				
-		
-		signInButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		[signInButton setFrame:CGRectMake(165, 128, 135, 38)];
-		
-		[signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_135x38.png"] forState:UIControlStateNormal];
-//		[signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button.png"] forState:UIControlStateNormal];
-		signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-		[signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
-		[signInButton setTitleColor:[UIColor whiteColor] 
-						   forState:UIControlStateNormal];
-		[signInButton setTitleShadowColor:[UIColor grayColor]
-								 forState:UIControlStateNormal];
-
-		[signInButton setTitle:@"Sign In" forState:UIControlStateSelected];
-		[signInButton setTitleColor:[UIColor whiteColor] 
-						   forState:UIControlStateSelected];	
-		[signInButton setTitleShadowColor:[UIColor grayColor]
-								 forState:UIControlStateSelected];	
-		[signInButton setReversesTitleShadowWhenHighlighted:YES];
-		
-		[signInButton addTarget:targetForSelector
-						 action:@selector(signInButtonTouchUpInside:) 
-			   forControlEvents:UIControlEventTouchUpInside];
-
-		[self addSubview:signInButton];
-				
-		
-		backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		[backToProvidersButton setFrame:CGRectMake(20, 128, 135, 38)];
-		
-		[backToProvidersButton setBackgroundImage:[UIImage imageNamed:@"black_button.png"] forState:UIControlStateNormal];
-		backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
-		[backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateNormal];
-		[backToProvidersButton setTitleColor:[UIColor whiteColor] 
-									forState:UIControlStateNormal];
-		[backToProvidersButton setTitleShadowColor:[UIColor grayColor]
-										  forState:UIControlStateNormal];
-		
-		[backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateSelected];
-		[backToProvidersButton setTitleColor:[UIColor whiteColor] 
-									forState:UIControlStateSelected];
-		[backToProvidersButton setTitleShadowColor:[UIColor grayColor]
-										  forState:UIControlStateSelected];
-		[backToProvidersButton setReversesTitleShadowWhenHighlighted:YES];
-		
-
-		[backToProvidersButton addTarget:targetForSelector
-								  action:@selector(backToProvidersTouchUpInside) 
-						forControlEvents:UIControlEventTouchUpInside];	
-		[self addSubview:backToProvidersButton];
-		
-		bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		[bigSignInButton setFrame:CGRectMake(20, 128, 280, 38)];
-		
-		[bigSignInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_280x38.png"] forState:UIControlStateNormal];
-		bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-		[bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
-		[bigSignInButton setTitleColor:[UIColor whiteColor] 
-						   forState:UIControlStateNormal];
-		[bigSignInButton setTitleShadowColor:[UIColor grayColor]
-								 forState:UIControlStateNormal];
-		
-		[bigSignInButton setTitle:@"Sign In" forState:UIControlStateSelected];
-		[bigSignInButton setTitleColor:[UIColor whiteColor] 
-						   forState:UIControlStateSelected];	
-		[bigSignInButton setTitleShadowColor:[UIColor grayColor]
-								 forState:UIControlStateSelected];	
-		[bigSignInButton setReversesTitleShadowWhenHighlighted:YES];
-		
-        [bigSignInButton addTarget:targetForSelector
-						 action:@selector(signInButtonTouchUpInside:) 
-			   forControlEvents:UIControlEventTouchUpInside];
-		
-		[bigSignInButton setHidden:YES];
-		[self addSubview:bigSignInButton];
-		
-		self.selectionStyle = UITableViewCellSelectionStyleNone;
-	}
-	
-	return self;
-}	
-
-- (void)dealloc
-{
-	DLog(@"");
-
-	[logo release];
-	[welcomeLabel release];
-	[textField release];
-	[signInButton release];
-	[backToProvidersButton release];
-	[bigSignInButton release];
-
-	[super dealloc];
-}
-@end
+//@interface UITableViewUserLandingCell : UITableViewCell 
+//{
+//	UIImageView	*logo;
+//	UILabel		*welcomeLabel;
+//	UITextField *textField;
+//	UIButton	*signInButton;
+//	UIButton	*backToProvidersButton;
+//	UIButton	*bigSignInButton;
+//	UIButton	*forgetUserButton;
+//}
+//
+//@property (retain) 	UIImageView	*logo;
+//@property (retain) 	UILabel		*welcomeLabel;
+//@property (retain) 	UITextField *textField;
+//@property (retain) 	UIButton	*signInButton;
+//@property (retain) 	UIButton	*backToProvidersButton;
+//@property (retain) 	UIButton	*bigSignInButton;
+//@property (retain) 	UIButton	*forgetUserButton;
+//
+//@end
+//
+//@implementation UITableViewUserLandingCell
+//
+//@synthesize logo;
+//@synthesize welcomeLabel;
+//@synthesize textField;
+//@synthesize signInButton;
+//@synthesize backToProvidersButton;
+//@synthesize bigSignInButton;
+//@synthesize forgetUserButton;
+//
+//// TODO: Move all this crap into the tableView: cellForRow... function and don't subclass 
+//// UITableViewCell now that you figured out how to do this forever ago
+//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+//											  targetForSelector:(id)targetForSelector
+//{
+//	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
+//	{
+//		logo = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 280, 63)];
+//		[self addSubview:logo];
+//				
+//		welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 90, 280, 25)];
+//		welcomeLabel.adjustsFontSizeToFitWidth = YES;
+//		welcomeLabel.font = [UIFont boldSystemFontOfSize:20];
+//		welcomeLabel.textColor = [UIColor blackColor];
+//		welcomeLabel.backgroundColor = [UIColor clearColor];
+//		welcomeLabel.textAlignment = UITextAlignmentLeft;
+//		[self addSubview:welcomeLabel];	
+//						
+//		textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 83, 280, 35)];
+//		textField.adjustsFontSizeToFitWidth = YES;
+//		textField.textColor = [UIColor blackColor];
+//		textField.font = [UIFont systemFontOfSize:15.0];
+//		textField.backgroundColor = [UIColor clearColor];
+//		textField.borderStyle = UITextBorderStyleRoundedRect;
+//		textField.textAlignment = UITextAlignmentLeft;
+//		textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+//		textField.clearsOnBeginEditing = YES;
+//		textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+//		textField.autocorrectionType = UITextAutocorrectionTypeNo;
+//		textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+//		textField.keyboardType = UIKeyboardTypeURL;
+//		textField.returnKeyType = UIReturnKeyDone;
+//		textField.enablesReturnKeyAutomatically = YES;
+//		
+//		textField.delegate = targetForSelector;
+//		
+//		[textField setHidden:YES];
+//		[self addSubview:textField];
+//				
+//		
+//		signInButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//		[signInButton setFrame:CGRectMake(165, 128, 135, 38)];
+//		
+//		[signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_135x38.png"] forState:UIControlStateNormal];
+////		[signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button.png"] forState:UIControlStateNormal];
+//		signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+//		[signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
+//		[signInButton setTitleColor:[UIColor whiteColor] 
+//						   forState:UIControlStateNormal];
+//		[signInButton setTitleShadowColor:[UIColor grayColor]
+//								 forState:UIControlStateNormal];
+//
+//		[signInButton setTitle:@"Sign In" forState:UIControlStateSelected];
+//		[signInButton setTitleColor:[UIColor whiteColor] 
+//						   forState:UIControlStateSelected];	
+//		[signInButton setTitleShadowColor:[UIColor grayColor]
+//								 forState:UIControlStateSelected];	
+//		[signInButton setReversesTitleShadowWhenHighlighted:YES];
+//		
+//		[signInButton addTarget:targetForSelector
+//						 action:@selector(signInButtonTouchUpInside:) 
+//			   forControlEvents:UIControlEventTouchUpInside];
+//
+//		[self addSubview:signInButton];
+//				
+//		
+//		backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//		[backToProvidersButton setFrame:CGRectMake(20, 128, 135, 38)];
+//		
+//		[backToProvidersButton setBackgroundImage:[UIImage imageNamed:@"black_button.png"] forState:UIControlStateNormal];
+//		backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
+//		[backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateNormal];
+//		[backToProvidersButton setTitleColor:[UIColor whiteColor] 
+//									forState:UIControlStateNormal];
+//		[backToProvidersButton setTitleShadowColor:[UIColor grayColor]
+//										  forState:UIControlStateNormal];
+//		
+//		[backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateSelected];
+//		[backToProvidersButton setTitleColor:[UIColor whiteColor] 
+//									forState:UIControlStateSelected];
+//		[backToProvidersButton setTitleShadowColor:[UIColor grayColor]
+//										  forState:UIControlStateSelected];
+//		[backToProvidersButton setReversesTitleShadowWhenHighlighted:YES];
+//		
+//
+//		[backToProvidersButton addTarget:targetForSelector
+//								  action:@selector(backToProvidersTouchUpInside) 
+//						forControlEvents:UIControlEventTouchUpInside];	
+//		[self addSubview:backToProvidersButton];
+//		
+//		bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//		[bigSignInButton setFrame:CGRectMake(20, 128, 280, 38)];
+//		
+//		[bigSignInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_280x38.png"] forState:UIControlStateNormal];
+//		bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+//		[bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
+//		[bigSignInButton setTitleColor:[UIColor whiteColor] 
+//						   forState:UIControlStateNormal];
+//		[bigSignInButton setTitleShadowColor:[UIColor grayColor]
+//								 forState:UIControlStateNormal];
+//		
+//		[bigSignInButton setTitle:@"Sign In" forState:UIControlStateSelected];
+//		[bigSignInButton setTitleColor:[UIColor whiteColor] 
+//						   forState:UIControlStateSelected];	
+//		[bigSignInButton setTitleShadowColor:[UIColor grayColor]
+//								 forState:UIControlStateSelected];	
+//		[bigSignInButton setReversesTitleShadowWhenHighlighted:YES];
+//		
+//        [bigSignInButton addTarget:targetForSelector
+//						 action:@selector(signInButtonTouchUpInside:) 
+//			   forControlEvents:UIControlEventTouchUpInside];
+//		
+//		[bigSignInButton setHidden:YES];
+//		[self addSubview:bigSignInButton];
+//		
+//		self.selectionStyle = UITableViewCellSelectionStyleNone;
+//	}
+//	
+//	return self;
+//}	
+//
+//- (void)dealloc
+//{
+//	DLog(@"");
+//
+//	[logo release];
+//	[welcomeLabel release];
+//	[textField release];
+//	[signInButton release];
+//	[backToProvidersButton release];
+//	[bigSignInButton release];
+//
+//	[super dealloc];
+//}
+//@end
 
 @interface JRUserLandingController ()
 - (NSString*)customTitle;
@@ -293,8 +293,12 @@
 	
 	if (!infoBar)
 	{
-		infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
-		[self.view addSubview:infoBar];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+        else
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+
+        [self.view addSubview:infoBar];
 	}
 	[infoBar fadeIn];	
 	
@@ -325,12 +329,21 @@
 		DLog(@"view controller: %@", [vc description]);
 	}
 	
+//	NSIndexPath *indexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
+//	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:indexPath];
+//	
+//    /* Only make the cell's text field the first responder (and show the keyboard) in certain situations */
+//	if ([sessionData weShouldBeFirstResponder] && !cell.textField.text)
+//		[cell.textField becomeFirstResponder];
+
 	NSIndexPath *indexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
-	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[myTableView cellForRowAtIndexPath:indexPath];
-	
+	UITableViewCell *cell = (UITableViewCell*)[myTableView cellForRowAtIndexPath:indexPath];
+	UITextField *textField = [self getTextField:cell];
+    
     /* Only make the cell's text field the first responder (and show the keyboard) in certain situations */
-	if ([sessionData weShouldBeFirstResponder] && !cell.textField.text)
-		[cell.textField becomeFirstResponder];
+	if ([sessionData weShouldBeFirstResponder] && !textField.text)
+		[textField becomeFirstResponder];
+    
 }
 
 
@@ -376,7 +389,10 @@
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 176;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return 386;
+    else
+        return 176;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -388,70 +404,292 @@
     return 1;
 }
 
+enum
+{
+    LOGO_TAG = 1,
+    WELCOME_LABEL_TAG,
+    TEXT_FIELD_TAG,
+    SIGN_IN_BUTTON_TAG,
+    BACK_TO_PROVIDERS_BUTTON_TAG,
+    BIG_SIGN_IN_BUTTON_TAG
+};
+
+- (UIImageView*)getLogo:(UITableViewCell*)cell
+{
+    if (cell)
+        return (UIImageView*)[cell.contentView viewWithTag:LOGO_TAG];
+    
+    UIImageView *logo;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        logo = [[UIImageView alloc] initWithFrame:CGRectMake(60, 40, 558, 125)];// autorelease];
+    else
+        logo = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 280, 63)];// autorelease];
+
+    logo.tag = LOGO_TAG;
+
+    return logo;
+}
+
+- (UILabel*)getWelcomeLabel:(UITableViewCell*)cell 
+{     
+    if (cell)
+        return (UILabel*)[cell.contentView viewWithTag:WELCOME_LABEL_TAG];
+
+    UILabel *welcomeLabel;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 195, 558, 50)];// autorelease];
+    else
+        welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)];// autorelease];
+
+    welcomeLabel.font = [UIFont boldSystemFontOfSize:
+                         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                         ? 36.0 : 20.0];
+    
+    welcomeLabel.adjustsFontSizeToFitWidth = YES;
+    welcomeLabel.textColor = [UIColor blackColor];
+    welcomeLabel.backgroundColor = [UIColor clearColor];
+    welcomeLabel.textAlignment = UITextAlignmentLeft;
+    
+    welcomeLabel.tag = WELCOME_LABEL_TAG;
+
+    return welcomeLabel;
+}
+
+- (UITextField*)getTextField:(UITableViewCell*)cell 
+{
+    if (cell)
+        return (UITextField*)[cell.contentView viewWithTag:TEXT_FIELD_TAG];
+    
+    UITextField *textField;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        textField = [[UITextField alloc] initWithFrame:CGRectMake(60, 185, 558, 70)]; //autorelease];
+    else
+        textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 83, 280, 35)]; //autorelease];
+
+    textField.font = [UIFont systemFontOfSize:
+                      (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                      ? 30.0 : 15.0];
+    
+    
+    textField.adjustsFontSizeToFitWidth = YES;
+    textField.textColor = [UIColor blackColor];
+    textField.backgroundColor = [UIColor clearColor];
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.textAlignment = UITextAlignmentLeft;
+    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    textField.clearsOnBeginEditing = YES;
+    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    textField.autocorrectionType = UITextAutocorrectionTypeNo;
+    textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    textField.keyboardType = UIKeyboardTypeURL;
+    textField.returnKeyType = UIReturnKeyDone;
+    textField.enablesReturnKeyAutomatically = YES;
+
+    textField.delegate = self;
+
+    [textField setHidden:YES];  
+        
+    textField.tag = TEXT_FIELD_TAG;
+    return textField;
+}
+
+- (UIButton*)getSignInButton:(UITableViewCell*)cell 
+{     
+    if (cell)         
+        return (UIButton*)[cell.contentView viewWithTag:SIGN_IN_BUTTON_TAG];
+    
+    UIButton *signInButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [signInButton setFrame:CGRectMake(367, 275, 251, 71)];
+    else
+        [signInButton setFrame:CGRectMake(155, 128, 135, 38)];
+
+    [signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_135x38.png"] forState:UIControlStateNormal];
+    
+    [signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
+    [signInButton setTitleColor:[UIColor whiteColor] 
+                       forState:UIControlStateNormal];
+    [signInButton setTitleShadowColor:[UIColor grayColor]
+                             forState:UIControlStateNormal];
+
+    [signInButton setTitle:@"Sign In" forState:UIControlStateSelected];
+    [signInButton setTitleColor:[UIColor whiteColor] 
+                       forState:UIControlStateSelected];	
+    [signInButton setTitleShadowColor:[UIColor grayColor]
+                             forState:UIControlStateSelected];	
+
+    [signInButton setReversesTitleShadowWhenHighlighted:YES];
+
+    signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:
+                                    (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                                                                ? 36.0 : 20.0];
+    
+
+    [signInButton addTarget:self
+                     action:@selector(signInButtonTouchUpInside:) 
+           forControlEvents:UIControlEventTouchUpInside];
+
+    signInButton.tag = SIGN_IN_BUTTON_TAG;
+    
+    return signInButton;
+}
+
+- (UIButton*)getBackToProvidersButton:(UITableViewCell*)cell 
+{
+    if (cell)
+        return (UIButton*)[cell.contentView viewWithTag:BACK_TO_PROVIDERS_BUTTON_TAG];
+    
+    UIButton *backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [backToProvidersButton setFrame:CGRectMake(60, 275, 251, 71)];
+    else
+        [backToProvidersButton setFrame:CGRectMake(10, 128, 135, 38)];
+
+    [backToProvidersButton setBackgroundImage:[UIImage imageNamed:@"black_button.png"] forState:UIControlStateNormal];
+
+    [backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateNormal];
+    [backToProvidersButton setTitleColor:[UIColor whiteColor] 
+                                forState:UIControlStateNormal];
+    [backToProvidersButton setTitleShadowColor:[UIColor grayColor]
+                                      forState:UIControlStateNormal];
+
+    [backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateSelected];
+    [backToProvidersButton setTitleColor:[UIColor whiteColor] 
+                                forState:UIControlStateSelected];
+    [backToProvidersButton setTitleShadowColor:[UIColor grayColor]
+                                      forState:UIControlStateSelected];
+    [backToProvidersButton setReversesTitleShadowWhenHighlighted:YES];
+
+    backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize:
+                                             (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                                             ? 28.0 : 14.0];
+
+    [backToProvidersButton addTarget:self
+                              action:@selector(backToProvidersTouchUpInside) 
+                    forControlEvents:UIControlEventTouchUpInside];	
+
+    backToProvidersButton.tag = BACK_TO_PROVIDERS_BUTTON_TAG;
+    return backToProvidersButton;
+}
+
+- (UIButton*)getBigSignInButton:(UITableViewCell*)cell 
+{
+    if (cell)         
+        return (UIButton*)[cell.contentView viewWithTag:BIG_SIGN_IN_BUTTON_TAG];
+    
+    UIButton *bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [bigSignInButton setFrame:CGRectMake(60, 275, 558, 71)];
+    else
+        [bigSignInButton setFrame:CGRectMake(10, 128, 280, 38)];
+
+    [bigSignInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_280x38.png"] forState:UIControlStateNormal];
+    
+    [bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
+    [bigSignInButton setTitleColor:[UIColor whiteColor] 
+                          forState:UIControlStateNormal];
+    [bigSignInButton setTitleShadowColor:[UIColor grayColor]
+                                forState:UIControlStateNormal];
+
+    [bigSignInButton setTitle:@"Sign In" forState:UIControlStateSelected];
+    [bigSignInButton setTitleColor:[UIColor whiteColor] 
+                          forState:UIControlStateSelected];	
+    [bigSignInButton setTitleShadowColor:[UIColor grayColor]
+                                forState:UIControlStateSelected];	
+    [bigSignInButton setReversesTitleShadowWhenHighlighted:YES];
+
+    bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:
+                                       (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                                       ? 36.0 : 20.0];
+    
+    [bigSignInButton addTarget:self
+                        action:@selector(signInButtonTouchUpInside:) 
+              forControlEvents:UIControlEventTouchUpInside];
+
+    [bigSignInButton setHidden:YES];
+
+    bigSignInButton.tag = BIG_SIGN_IN_BUTTON_TAG;
+    return bigSignInButton;
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     DLog(@"");
     DLog(@"cell for %@", sessionData.currentProvider.name);   
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewUserLandingCell *cell = 
-	(UITableViewUserLandingCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-	if (cell == nil) {
-        cell = [[[UITableViewUserLandingCell alloc] 
-				 initWithStyle:UITableViewCellStyleDefault 
-				 reuseIdentifier:CellIdentifier
-				 targetForSelector:self] autorelease];
+
+	UITableViewCell *cell = 
+        [tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
+	
+	if (cell == nil)
+	{
+		cell = [[UITableViewCell alloc] 
+                initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cachedCell"];// autorelease];
+        
+		[cell.contentView addSubview:[self getLogo:nil]];
+        [cell.contentView addSubview:[self getWelcomeLabel:nil]];	
+        [cell.contentView addSubview:[self getTextField:nil]];
+        [cell.contentView addSubview:[self getSignInButton:nil]];
+        [cell.contentView addSubview:[self getBackToProvidersButton:nil]];
+		[cell.contentView addSubview:[self getBigSignInButton:nil]];
+		
+        cell.backgroundColor = [UIColor whiteColor];
+      
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_logo.png", sessionData.currentProvider.name];
-	cell.logo.image = [UIImage imageNamed:imagePath];
-	
+    NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_logo.png", sessionData.currentProvider.name];
+	[self getLogo:cell].image = [UIImage imageNamed:imagePath];
+
+    UITextField *textField = [self getTextField:cell];
+    UIButton    *bigSignInButton = [self getBigSignInButton:cell];
+    UILabel     *welcomeLabel = [self getWelcomeLabel:cell];
+    
  /* If the provider requires input, we need to enable the textField, and set the text/placeholder text to the apropriate string */
 	if (sessionData.currentProvider.requiresInput)
 	{
 		DLog(@"current provider requires input");
 		
-//        if ([sessionData.currentProvider isEqualToReturningProvider:sessionData.returningBasicProvider])
+//      if ([sessionData.currentProvider isEqualToReturningProvider:sessionData.returningBasicProvider])
 //			[sessionData.currentProvider setUserInput:sessionData.currentProvider.userInput];//[NSString stringWithString:sessionData.returningBasicProvider.userInput]];
 //		else
 //			[cell.bigSignInButton setHidden:NO];
 				
 		if (sessionData.currentProvider.userInput)
         {
-            [cell.textField resignFirstResponder];
-			cell.textField.text = [NSString stringWithString:sessionData.currentProvider.userInput];
-			[cell.bigSignInButton setHidden:YES];
+            [textField resignFirstResponder];
+			textField.text = [NSString stringWithString:sessionData.currentProvider.userInput];
+			[bigSignInButton setHidden:YES];
 		}
         else
 		{	
-            cell.textField.text = nil;
-			[cell.bigSignInButton setHidden:NO];
+            textField.text = nil;
+			[bigSignInButton setHidden:NO];
         }
 		
-		cell.textField.placeholder = [NSString stringWithString:sessionData.currentProvider.placeholderText];
+		textField.placeholder = [NSString stringWithString:sessionData.currentProvider.placeholderText];
 		
-		[cell.textField setHidden:NO];
-		[cell.textField setEnabled:YES];
-		[cell.welcomeLabel setHidden:YES];
-		[cell.forgetUserButton setHidden:YES];
+		[textField setHidden:NO];
+		[textField setEnabled:YES];
+		[welcomeLabel setHidden:YES];
 	}
 	else /* If the provider doesn't require input, then we are here because this is the return experience screen and only for basic providers */
 	{
 		DLog(@"current provider does not require input");
 		
-		[cell.textField setHidden:YES];
-		[cell.textField setEnabled:NO];
-		[cell.welcomeLabel setHidden:NO];
-		[cell.bigSignInButton setHidden:YES];
+		[textField setHidden:YES];
+		[textField setEnabled:NO];
+		[welcomeLabel setHidden:NO];
+		[bigSignInButton setHidden:YES];
 
-//		welcomeMsg = [self getWelcomeMessageFromCookieString:sessionData.returningBasicProvider.welcomeString];
-		cell.welcomeLabel.text = sessionData.currentProvider.welcomeString;//welcomeMsg;
+		welcomeLabel.text = sessionData.currentProvider.welcomeString;
 		
-		DLog(@"welcomeMsg: %@", sessionData.currentProvider.welcomeString);//welcomeMsg);
+		DLog(@"welcomeMsg: %@", sessionData.currentProvider.welcomeString);
 	}
-
+    
     return cell;
 }
 
@@ -569,8 +807,9 @@ replacementString:(NSString *)string { return YES; }
 - (void)signInButtonTouchUpInside:(UIButton*)button
 {
 	DLog(@"");
-	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[button superview];
-	UITextField *textField = cell.textField;
+//	UITableViewUserLandingCell* cell = (UITableViewUserLandingCell*)[button superview];
+	UITableViewCell* cell = (UITableViewCell*)[[button superview] superview];
+	UITextField *textField = [self getTextField:cell];//cell.textField;
 
 	[self callWebView:textField];
 }

@@ -66,8 +66,62 @@
     story = [[FeedReader feedReader].selectedStory retain];
 
     self.title = @"Article";
+    NSString *webViewContent;
     
-    NSString *webViewContent = [NSString stringWithFormat:
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        webViewContent = [NSString stringWithFormat:
+                                    @"<html>                                    \
+                                        <head>                                  \
+                                            <style type=\"text/css\">           \
+                                                                                \
+                                                body                            \
+                                                {                               \
+                                                    width:740px;                \
+                                                    font-family:\"Helvetica\";  \
+                                                    color:#333333;              \
+                                                    font-size:28px;             \
+                                                    padding:0px;                \
+                                                    margin:10px;                \
+                                                }                               \
+                                                                                \
+                                                div.title                       \
+                                                {                               \
+                                                    font-size:32px;             \
+                                                    color:#074764;              \
+                                                }                               \
+                                                                                \
+                                                div.date                        \
+                                                {                               \
+                                                    font-size:24px;             \
+                                                    color:#999999;              \
+                                                }                               \
+                                                                                \
+                                                p                               \
+                                                {                               \
+                                                    color:#333333;              \
+                                                    font-size:28px;             \
+                                                }                               \
+                                                                                \
+                                                a:link    { color:#009DDC; }    \
+                                                a:visited { color:#074764; }    \
+                                                a:active  { color:#7AC143; }    \
+                                                                                \
+                                            </style>                            \
+                                        </head>                                 \
+                                                                                \
+                                        <body>                                  \
+                                            <div class=\"main\">                \
+                                                <div class=\"title\">%@</div>   \
+                                                <div class=\"date\">%@</div>    \
+                                                %@                              \
+                                            </div>                              \
+                                        </body>                                 \
+                                    </html>", 
+                                story.title,
+                                story.pubDate,
+                                story.description];
+    else
+        webViewContent = [NSString stringWithFormat:
                                     @"<html>                                    \
                                         <head>                                  \
                                             <style type=\"text/css\">           \
@@ -104,7 +158,7 @@
                                                 a:visited { color:#074764; }    \
                                                 a:active  { color:#7AC143; }    \
                                                                                 \
-                                            </style>                            \
+                                        </style>                                \
                                         </head>                                 \
                                                                                 \
                                         <body>                                  \
@@ -118,8 +172,8 @@
                                 story.title,
                                 story.pubDate,
                                 story.description];
-
-    [webview setAllowsInlineMediaPlayback:YES];
+    
+ // [webview setAllowsInlineMediaPlayback:YES];
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
     
     UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
@@ -144,8 +198,15 @@
     if (navigationType == UIWebViewNavigationTypeLinkClicked)
     {
         if (!feedReaderWebview)
-            feedReaderWebview = [[FeedReaderWebView alloc] initWithNibName:@"FeedReaderWebView" bundle:[NSBundle mainBundle]];
-
+        {
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                feedReaderWebview = [[FeedReaderWebView alloc] initWithNibName:@"FeedReaderWebView-iPad" 
+                                                                        bundle:[NSBundle mainBundle]];
+            else
+                feedReaderWebview = [[FeedReaderWebView alloc] initWithNibName:@"FeedReaderWebView" 
+                                                                        bundle:[NSBundle mainBundle]];
+        }
+        
         [feedReaderWebview setUrlRequest:request];
         
         [[self navigationController] pushViewController:feedReaderWebview animated:YES];
