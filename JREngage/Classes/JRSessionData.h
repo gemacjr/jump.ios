@@ -124,6 +124,7 @@
 @property (readonly) NSString *friendlyName;
 @property (readonly) NSString *shortText;
 @property (readonly) NSString *placeholderText;
+@property (readonly) NSString *extPerm;
 @property (readonly) BOOL      requiresInput;
 @property            BOOL      forceReauth;
 @property (retain)   NSString *userInput;

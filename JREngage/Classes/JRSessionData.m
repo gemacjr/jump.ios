@@ -45,7 +45,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-#define STAGING
+//#define STAGING
 //#define LOCAL
 #ifdef STAGING
 static NSString * const serverUrl = @"https://rpxstaging.com";
@@ -148,6 +148,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 @synthesize requiresInput;
 @synthesize shortText;
 @synthesize socialPublishingProperties;
+@synthesize extPerm;
 
 - (void)loadDynamicVariables
 {
