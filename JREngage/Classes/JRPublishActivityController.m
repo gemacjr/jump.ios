@@ -157,6 +157,9 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        myUserContentTextView.font = [UIFont systemFontOfSize:28];
+    
    // QTS: Am I doing this twice?
     if (weAreReady)
         [self loadActivityToView];
@@ -253,21 +256,23 @@ Please try again later."
     
     [self showActivityAsShared:NO];
     
-    [UIView beginAnimations:@"editing" context:nil];
-    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
-                                               myUserContentTextView.frame.origin.y, 
-                                               myUserContentTextView.frame.size.width, 
-                                               160)];
-    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
-                                                  myUserContentBoundingBox.frame.origin.y, 
-                                                  myUserContentBoundingBox.frame.size.width, 
-                                                  160)];
-    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            180,
-                                            myMediaContentView.frame.size.width, 
-                                            myMediaContentView.frame.size.height)];
-    
-    [UIView commitAnimations];
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+    {   
+        [UIView beginAnimations:@"editing" context:nil];
+        [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
+                                                   myUserContentTextView.frame.origin.y, 
+                                                   myUserContentTextView.frame.size.width, 
+                                                   160)];
+        [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
+                                                      myUserContentBoundingBox.frame.origin.y, 
+                                                      myUserContentBoundingBox.frame.size.width, 
+                                                      160)];
+        [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+                                                180,
+                                                myMediaContentView.frame.size.width, 
+                                                myMediaContentView.frame.size.height)];
+        [UIView commitAnimations];
+    }
     
     UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -293,20 +298,23 @@ Please try again later."
         myUserContentTextView.text = activity.action;
     }
 
-    [UIView beginAnimations:@"editing" context:nil];
-    [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,    
-                                               myUserContentTextView.frame.origin.y, 
-                                               myUserContentTextView.frame.size.width, 
-                                               94)];
-    [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
-                                                  myUserContentBoundingBox.frame.origin.y, 
-                                                  myUserContentBoundingBox.frame.size.width, 
-                                                  100)];
-    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
-                                            120,
-                                            myMediaContentView.frame.size.width, 
-                                            myMediaContentView.frame.size.height)];    
-    [UIView commitAnimations];
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+    {   
+        [UIView beginAnimations:@"editing" context:nil];
+        [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,    
+                                                   myUserContentTextView.frame.origin.y, 
+                                                   myUserContentTextView.frame.size.width, 
+                                                   94)];
+        [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x, 
+                                                      myUserContentBoundingBox.frame.origin.y, 
+                                                      myUserContentBoundingBox.frame.size.width, 
+                                                      100)];
+        [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 
+                                                120,
+                                                myMediaContentView.frame.size.width, 
+                                                myMediaContentView.frame.size.height)];    
+        [UIView commitAnimations];
+    }   
     
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit

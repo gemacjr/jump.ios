@@ -37,7 +37,8 @@
 typedef enum
 {
 	JRInfoBarStyleShowPoweredBy = 0,
-	JRInfoBarStyleHidePoweredBy
+	JRInfoBarStyleHidePoweredBy,
+    JRInfoBarStyleiPad
 } JRInfoBarStyle;
 
 @interface JRInfoBar : UIView <UIActionSheetDelegate>
@@ -49,6 +50,7 @@ typedef enum
 	UIButton		*infoButton;
 	
 	BOOL hidesPoweredBy;
+    BOOL iPad;
 	NSInteger y_origin_hidden;
 }
 

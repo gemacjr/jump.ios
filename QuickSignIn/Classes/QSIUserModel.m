@@ -223,7 +223,7 @@ otherwise, this happens automatically.													*/
 	   go through the array one time, pull out all the identifiers, and add them to an NSMutableSet.
 	   When finished, the NSSet will contain only the *unique* identifiers, which should be far fewer than
 	   the size of the sign-in history array. */
-	NSMutableSet *uniqueIDS = [[NSMutableSet alloc] initWithCapacity:[historyArr count]];
+	NSMutableSet *uniqueIDS = [[[NSMutableSet alloc] initWithCapacity:[historyArr count]] autorelease];
 	
 	/* Don't forget the current user. */
 	if (currentUser)

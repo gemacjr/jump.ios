@@ -37,12 +37,12 @@
 #import "JREngage.h"
 #import "JRInfoBar.h"
 
-@class JRAuthenticate;
+//@class JRAuthenticate;
 @class JRWebViewController;
 @class JRSessionData;
 
 @interface JRUserLandingController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
-														UITableViewDataSource, UIAlertViewDelegate> 
+														UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate> 
 {
 	JRSessionData	*sessionData;
 	
