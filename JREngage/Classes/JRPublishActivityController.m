@@ -410,11 +410,13 @@ Please try again later."
     [self showActivityAsShared:NO];
 }
 
+
+#if objc_class_name_JRPublishActivityController//_MailAccountClass// _OBJC_CLASS_$_Message//_OBJC_CLASS_$_MFMailComposeViewController//MFMailComposeViewController
+
 //#define MAIL
 - (void)sendEmail
-{
-#ifdef _OBJC_CLASS_$_MFMailComposeViewController//MAIL
-    fdfadasfdasf
+{//#ifdef _OBJC_CLASS_$_MFMailComposeViewController//MAIL
+    dffasfsa
     MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
     
     picker.mailComposeDelegate = self;
@@ -443,8 +445,8 @@ Please try again later."
     [self presentModalViewController:picker animated:YES];
     
     [picker release];
-#endif
 }
+#endif
 
 - (void)sendSMS
 {
