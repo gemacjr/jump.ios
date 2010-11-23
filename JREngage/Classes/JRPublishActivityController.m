@@ -54,6 +54,7 @@
 
 @implementation JRPublishActivityController
 
+
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -410,53 +411,35 @@ Please try again later."
     [self showActivityAsShared:NO];
 }
 
-
-#if objc_class_name_JRPublishActivityController//_MailAccountClass// _OBJC_CLASS_$_Message//_OBJC_CLASS_$_MFMailComposeViewController//MFMailComposeViewController
-
-//#define MAIL
 - (void)sendEmail
-{//#ifdef _OBJC_CLASS_$_MFMailComposeViewController//MAIL
-    dffasfsa
-    MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+{
+#if EMAIL_SUPPORT
+    MFMailComposeViewController *email = [[[MFMailComposeViewController alloc] init] autorelease];
     
-    picker.mailComposeDelegate = self;
+    email.mailComposeDelegate = self;
     
-    [picker setSubject:@"Hello from California!"];
+    [email setSubject:activity.email.subject];
+    [email setMessageBody:activity.email.messageBody isHTML:activity.email.isHtml];
     
-    // Set up recipients
-    NSArray *toRecipients = [NSArray arrayWithObject:@"first@example.com"]; 
-    NSArray *ccRecipients = [NSArray arrayWithObjects:@"second@example.com", @"third@example.com", nil]; 
-    NSArray *bccRecipients = [NSArray arrayWithObject:@"fourth@example.com"]; 
-    
-    [picker setToRecipients:toRecipients];
-    [picker setCcRecipients:ccRecipients];  
-    [picker setBccRecipients:bccRecipients];
-    
-    // Attach an image to the email    
+// Attach an image to the email    
 //    NSString *path = [[NSBundle mainBundle] pathForResource:@"rainy" ofType:@"png"];
 //    NSData *myData = [NSData dataWithContentsOfFile:path];
 //    [picker addAttachmentData:myData mimeType:@"image/png" fileName:@"rainy"];
-    
-    // Fill out the email body text
-    
-    NSString *emailBody = @"It is raining in sunny California!";
-    
-    [picker setMessageBody:emailBody isHTML:NO];
-    [self presentModalViewController:picker animated:YES];
-    
-    [picker release];
-}
+        
+    [self presentModalViewController:email animated:YES];
 #endif
+}
 
 - (void)sendSMS
 {
-#ifdef MAIL
-    MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
-    picker.messageComposeDelegate = self;
+#if EMAIL_SUPPORT
+    MFMessageComposeViewController *sms = [[[MFMessageComposeViewController alloc] init] autorelease];
+
+    sms.messageComposeDelegate = self;
+    sms.body = activity.sms;
     
-    [self presentModalViewController:picker animated:YES];
+    [self presentModalViewController:sms animated:YES];
     
-    [picker release];   
 #endif
 }
 
@@ -623,23 +606,41 @@ Please try again later."
 {
     DLog(@"");
     
+#if EMAIL_SUPPORT
     if (item.tag == [[sessionData socialProviders] count])
     {
-        UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:@"Share with Email or SMS"
-                                                             delegate:self
-                                                    cancelButtonTitle:@"Cancel"  
-                                               destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Email", @"SMS", nil] autorelease];
-        action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        [action showFromTabBar:myTabBar];
+        UIActionSheet *action;
+        switch (emailOrSms)
+        {
+            case EMAIL_ONLY:
+                [self sendEmail];
+                break;
+            case SMS_ONLY:
+                [self sendSMS];
+                break;
+            case EMAIL_AND_SMS:
+                action = [[[UIActionSheet alloc] initWithTitle:@"Share with Email or SMS"
+                                                      delegate:self
+                                             cancelButtonTitle:@"Cancel"  
+                                        destructiveButtonTitle:nil
+                                             otherButtonTitles:@"Email", @"SMS", nil] autorelease];
+                action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+                [action showFromTabBar:myTabBar];
+                break;
+            default:
+                break;
+        }
     }
     else
+#endif
     {        
         [selectedProvider release];
         [loggedInUser release];
         
         selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
         [sessionData setCurrentProvider:selectedProvider];
+        
+        selectedTab = item.tag;
         
         NSArray *colorArray = [selectedProvider.socialPublishingProperties objectForKey:@"color_values"];
         if ([colorArray count] == 4)
@@ -673,19 +674,32 @@ Please try again later."
     }
 }
 
-- (BOOL)canSendMailAndSMS
+- (BOOL)canSendMailOrSMS
 {
-    return YES;
+//    return YES;
+#if EMAIL_SUPPORT
+#else
+    return NO;
+#endif
     
     Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
     Class messageClass = (NSClassFromString(@"MFMessageComposeViewController"));
     
-    // TODO: Also check for activity email/text fields
-    if (mailClass && messageClass)
-        if ([mailClass canSendMail] && [messageClass canSendText]) 
-            return YES;
+ /* Check if the activity has an email object, sms string, or both and if we can send either or both.
+    If so, emailOrSms will be 0, 1, 2, or 3, accordingly. */
+    if (activity.email && [mailClass canSendMail])  /* Add 1. */
+        emailOrSms += EMAIL;
+    if (activity.sms && [messageClass canSendText]) /* Add 2. */
+        emailOrSms += SMS;
+  
+    return emailOrSms;
     
-    return NO;
+//    if (mailClass && messageClass) // TODO: Should these be "ors" or "ands"??
+//        if ([mailClass canSendMail] && [messageClass canSendText]) 
+//            if (emailOrSms > NEITHER)
+//                return YES;
+//    
+//    return NO;
 }
 
 - (void)addProvidersToTabBar
@@ -694,13 +708,10 @@ Please try again later."
     
     NSInteger numberOfTabs = [[sessionData socialProviders] count];
     NSInteger indexOfLastUsedProvider = 0;
-    BOOL canSendEmailAndText = NO;
-    
-    if ([self canSendMailAndSMS]) 
-    {
+    BOOL canSendEmailAndText = [self canSendMailOrSMS];
+
+    if (canSendEmailAndText) 
         numberOfTabs++;
-        canSendEmailAndText = YES;
-    }
     
     NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:numberOfTabs];//[[sessionData socialProviders] count]];
     
@@ -726,7 +737,18 @@ Please try again later."
     
     if (canSendEmailAndText)
     {
-        UITabBarItem *emailTab = [[[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:[providerTabArr count]] autorelease];
+
+        NSString *simpleStrArray[6] = { @"Email", @"Sms", @"Email/SMS", @"email", @"sms", @"email_sms" };
+
+        UITabBarItem *emailTab =  [[[UITabBarItem alloc] initWithTitle:simpleStrArray[((int)emailOrSms - 1)] 
+                                                                 image:[UIImage imageNamed:[NSString stringWithFormat:@"jr%@.png", simpleStrArray[((int)emailOrSms +2)]]]
+                                                                   tag:[providerTabArr count]] autorelease];
+        
+//        NSArray *simpleStrArray = [NSArray arrayWithObjects:@"Email", @"Sms", @"Email/SMS", @"email", @"sms", "email_sms", nil];
+//        UITabBarItem *emailTab =  [[[UITabBarItem alloc] initWithTitle:[simpleStrArray objectAtIndex:((int)emailsOrSms - 1)] 
+//                                                                 image:[UIImage imageNamed:[NSString stringWithFormat:@"jr%@.png", [simpleStrArray objectAtIndex:((int)emailsOrSms +2)]]]
+//                                                                   tag:[providerTabArr count]] autorelease];
+//        [[[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:[providerTabArr count]] autorelease];
         [providerTabArr insertObject:emailTab atIndex:[providerTabArr count]];
     }
     
@@ -739,6 +761,7 @@ Please try again later."
     {
         myTabBar.selectedItem = [providerTabArr objectAtIndex:indexOfLastUsedProvider];
         [self tabBar:myTabBar didSelectItem:[providerTabArr objectAtIndex:indexOfLastUsedProvider]];
+        selectedTab = indexOfLastUsedProvider;
     }
     
     [providerTabArr release];
@@ -1029,6 +1052,74 @@ Please try again later."
                                            cancelButtonTitle:@"OK" 
                                            otherButtonTitles:nil] autorelease];
     [alert show];    
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error 
+{
+    UIAlertView *alert;
+    switch (result)
+    {
+//        case MFMailComposeResultCancelled:
+//            break;
+//        case MFMailComposeResultSaved:
+//            break;
+        case MFMailComposeResultSent:
+            alert = [[[UIAlertView alloc] initWithTitle:@"Success"
+                                                message:@"You have successfully sent this email."
+                                               delegate:nil
+                                      cancelButtonTitle:@"OK" 
+                                      otherButtonTitles:nil] autorelease];
+            [alert show];    
+            break;
+        case MFMailComposeResultFailed:
+            alert = [[[UIAlertView alloc] initWithTitle:@"Error"
+                                                message:@"Could not send email.  Please try again later."
+                                               delegate:nil
+                                      cancelButtonTitle:@"OK" 
+                                      otherButtonTitles:nil] autorelease];
+            [alert show];    
+            break;
+        default:
+            break;
+    }
+
+    myTabBar.selectedItem = [myTabBar.items objectAtIndex:selectedTab];
+    [self tabBar:myTabBar didSelectItem:[myTabBar.items objectAtIndex:selectedTab]];
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result 
+{
+    UIAlertView *alert;
+    switch (result)
+    {
+//        case MessageComposeResultCancelled:
+//            break;
+        case MessageComposeResultSent:
+            alert = [[[UIAlertView alloc] initWithTitle:@"Success"
+                                                message:@"You have successfully sent this text."
+                                               delegate:nil
+                                      cancelButtonTitle:@"OK" 
+                                      otherButtonTitles:nil] autorelease];
+            [alert show];    
+            break;
+        case MessageComposeResultFailed:
+            alert = [[[UIAlertView alloc] initWithTitle:@"Error"
+                                                message:@"Could not send text.  Please try again later."
+                                               delegate:nil
+                                      cancelButtonTitle:@"OK" 
+                                      otherButtonTitles:nil] autorelease];
+            [alert show];    
+            break;
+        default:
+            break;
+    }
+
+    myTabBar.selectedItem = [myTabBar.items objectAtIndex:selectedTab];
+    [self tabBar:myTabBar didSelectItem:[myTabBar.items objectAtIndex:selectedTab]];
+    
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 /*

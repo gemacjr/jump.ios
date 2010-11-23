@@ -275,6 +275,47 @@
 
 
 /**
+ * \brief Email object
+ *
+ * Create an email object with the required fields.
+ **/
+@interface JREmailObject : NSObject
+{
+    NSString *subject;      /**< The desired subject */
+    NSString *messageBody;  /**< The desired message body */
+    BOOL      isHtml;       /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text */
+}
+@property (retain) NSString *subject;
+@property (retain) NSString *messageBody;
+@property          BOOL      isHtml;
+
+/** 
+ * \name Constructors
+ **/
+/*@{*/
+/**
+ * Returns a \c JREmailObject initialized with the given subject and message body.
+ *
+ * @param _subject
+ *   The text describing the link.  This value cannot be \c nil.
+ *
+ * @param _messageBody
+ *   A link a user can use to take action on an activity update on the provider.  This value cannot be \c nil.
+ *
+ * @param _isHtml
+ *   YES if the message body contains HTML content or NO if it contains plain text.
+ *
+ * @return
+ *   A JREmailObject initialized with the given subject and message body.
+ **/
+- (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml;
+
++ (id)emailObjectSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml;
+/*@}*/
+@end
+
+
+/**
  * \brief An activity object you create, populate, and post to the user's activity stream. 
  *
  * Create an activity object, fill in the object's fields, and pass the object to
@@ -400,6 +441,19 @@
     * \endcode
     **/
     NSMutableDictionary *properties;
+    
+   /**
+    * An object containing the subject and message body of an email, if the user wishes to
+    * share via email.
+    **/
+    JREmailObject *email;
+
+   /**
+    * An object containing the subject and message body of an email, if the user wishes to
+    * share via email.
+    **/
+    NSString *sms;
+    
     /*@}*/
 }
 
@@ -411,6 +465,8 @@
 @property (retain) NSMutableArray *action_links; 					
 @property (retain) NSMutableArray *media;
 @property (retain) NSMutableDictionary *properties;
+@property (retain) JREmailObject *email;
+@property (retain) NSString *sms;
 
 /** 
  * \name Constructors

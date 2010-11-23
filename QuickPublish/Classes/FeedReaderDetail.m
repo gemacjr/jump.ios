@@ -246,6 +246,9 @@
         activity.media = [NSArray arrayWithObject:image];
     }
     
+    activity.email = [JREmailObject emailObjectSubject:@"hello" andMessageBody:@"yo" isHtml:NO];
+    activity.sms = @"yo";
+    
     [FeedReader feedReader].feedReaderDetail = self;
     [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
     [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity];

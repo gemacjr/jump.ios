@@ -322,6 +322,29 @@
 }
 @end
 
+@implementation JREmailObject
+@synthesize subject;
+@synthesize messageBody;
+@synthesize isHtml;
+
+- (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml
+{   
+    if (self = [super init])
+    {
+        subject     = [_subject retain];
+        messageBody = [_messageBody retain];
+        isHtml      = _isHtml;
+    }
+
+    return self;
+}
+
++ (id)emailObjectSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml
+{
+    return [[[JREmailObject alloc] initWithSubject:_subject andMessageBody:_messageBody isHtml:_isHtml] autorelease];
+}
+@end
+
 
 @implementation JRActivityObject
 @synthesize action;  							
@@ -330,6 +353,8 @@
 @synthesize title;				
 @synthesize description;
 @synthesize properties;
+@synthesize email;
+@synthesize sms;
 @dynamic action_links; 					
 @dynamic media;
 
@@ -513,6 +538,8 @@
 	[action_links release]; 					
 	[media release];
 	[properties release];	
+    [email release];
+    [sms release];
 
 	[super dealloc];
 }

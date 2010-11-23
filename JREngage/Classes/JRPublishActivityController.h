@@ -35,10 +35,22 @@
 
 #import <UIKit/UIKit.h>
 #import "JREngage.h"
-#import "JRInfoBar.h"
+#import "JREngage-config.h"
+//#import "JRInfoBar.h"
+
 
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
+
+typedef enum
+{
+    NEITHER = 0,
+    EMAIL_ONLY,
+    SMS_ONLY,
+    EMAIL_AND_SMS
+} EmailOrSms;
+#define EMAIL 1
+#define SMS 2
 
 @interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITextViewDelegate, 
                                                            UITabBarDelegate, JRSessionDelegate,
@@ -52,6 +64,9 @@
     JRAuthenticatedUser *loggedInUser;
     
     JRActivityObject *activity;
+    
+    EmailOrSms emailOrSms;
+    int selectedTab;
 
     BOOL weAreReady;
     BOOL weHaveJustAuthenticated;
