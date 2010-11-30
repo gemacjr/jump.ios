@@ -314,60 +314,10 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 }
 @end
 
-//typedef struct
-//{
-//    JRActivityObject *activity;
-//    NSArray          *emailUrls;
-//    NSArray          *smsUrls;
-//    NSString         *emailMessage;
-//    NSString         *smsMessage;
-//} JRActivityUrlShorteningBundle;
-//
-//JRActivityUrlShorteningBundle* createActivityUrlShorteningBundle (JRActivityObject *activity)
-//{
-//    JRActivityUrlShorteningBundle *bundle;
-//    
-//    if (bundle = (JRActivityUrlShorteningBundle *) malloc (sizeof (JRActivityUrlShorteningBundle)))
-//        return nil;
-//    
-//    memset (&bundle, nil, sizeof (JRActivityUrlShorteningBundle));
-//    
-//    bundle->activity     = [activity retain];
-// 
-//    if (activity.email.messageBody)
-//    {
-//        bundle->emailUrls    = [activity.email.urls retain];
-//        bundle->emailMessage = [[NSString stringWithString:activity.email.messageBody] retain];        
-//    }
-//    
-//    if (activity.sms.message)
-//    {
-//        bundle->smsUrls      = [activity.sms.urls retain];
-//        bundle->smsMessage   = [[NSString stringWithString:activity.sms.message] retain];
-//    }
-//    
-//    return bundle;
-//}
-//
-//void destroyActivityUrlShorteningBundle (JRActivityUrlShorteningBundle *bundle)
-//{
-//    if (!bundle)
-//        return;
-//    
-//    [bundle->activity     release];
-//    [bundle->emailUrls    release];    
-//    [bundle->smsUrls      release];    
-//    [bundle->emailMessage release];
-//    [bundle->smsMessage   release];
-//    
-//    free (bundle);
-//    bundle = nil;
-//}
-
-
 @interface JRSessionData()
 - (NSError*)startGetConfiguration;
 - (NSError*)finishGetConfiguration:(NSString *)dataStr;
+- (void)startGetShortenedUrlsForActivity:(JRActivityObject *)_activity;
 - (void)loadLastUsedBasicProvider;
 - (void)loadLastUsedSocialProvider;
 @end
@@ -376,7 +326,6 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 @synthesize currentProvider;
 @synthesize returningBasicProvider;
 @synthesize returningSocialProvider;
-//@synthesize activity;
 @synthesize tokenUrl;
 @synthesize alwaysForceReauth;
 @synthesize forceReauth;
@@ -445,7 +394,6 @@ static JRSessionData* singleton = nil;
     return socialProviders;
 }
 
-//- (JRProvider*)returningBasicProvider
 - (NSString*)returningBasicProvider
 {
     if (alwaysForceReauth)
@@ -473,59 +421,15 @@ static JRSessionData* singleton = nil;
 
     dialogIsShowing = isShowing;
 }
-//
-//- (NSString*)substituteUrls:(NSArray*)urls inMessage:(NSString*)message
-//{
-//    if (!message)
-//        return nil;
-//    
-//    NSArray *components = [message componentsSeparatedByString:@"@url@"];
-//    
-//    
-//    message = [NSString stringWithString:message];
-//    
-//    for (NSString *url in urls)
-//    {
-////        message = [message string
-//    }
-//}
-
-- (NSSet*)intersectionOfArray:(NSArray*)arr1 withArray:(NSArray*)arr2
-{
-    NSSet *set = [NSSet setWithArray:arr1];
-    set = [set setByAddingObjectsFromArray:arr2];
-    
-    return set;
-}
 
 - (void)setActivity:(JRActivityObject *)_activity
 {
     activity = [_activity retain];
-    
-//    JRActivityUrlShorteningBundle *bundle = createActivityUrlShorteningBundle (activity);
-//    NSSet *set = [self intersectionOfArray:activity.email.urls withArray:activity.sms.urls];
 
-    NSDictionary *set = [NSDictionary dictionaryWithObjectsAndKeys:activity.email.urls, @"email", activity.sms.urls, @"sms", nil];
-    NSString *urlString = @"http://example.com";
-//    [NSString stringWithFormat:
-//                           @"%@/getShortenedUrls/urls=%@",//openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
-//                           serverUrl, [set JSONRepresentation]];//appId];
+    if (!activity)
+        return;
     
-    DLog(@"url: %@", urlString);
-	
-	NSURL *url = [NSURL URLWithString:urlString];
-	
-	if(!url)
-		return;
-    
-	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-	
-	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[activity retain]];
-    
-    //activity.email.messageBody = [self substituteUrls:bundle->emailUrls inMessage:bundle->emailMessage];
-//    activity.sms.message = [self substituteUrls:bundle->smsUrls inMessage:bundle->smsMessage];
-//    
-//    [self startGetShortenedUrls:bundle];
+    [self startGetShortenedUrlsForActivity:activity];
 }
 
 - (JRActivityObject*)activity
@@ -867,7 +771,6 @@ static JRSessionData* singleton = nil;
     }
 }
 
-
 - (void)deleteLiveCookies
 {
     NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
@@ -1044,37 +947,97 @@ static JRSessionData* singleton = nil;
     returningBasicProvider = nil;
 }
 
-- (void)substituteUrlsInActivity:(JRActivityObject*)_activity withShortenedUrls:(NSString*)_urls
+- (void)finishShareActivity:(JRActivityObject*)_activity forProvider:(NSString*)providerName withResponse:(NSString*)response
 {
-    NSString *urls = [NSString stringWithString:
-            @"{ \
-                \"urls\": \
-                { \
-                    \"email\":{\"foo.com\":\"rpx.me/1\",\"bar.com\":\"rpx.me/2\"}, \
-                    \"sms\":{\"gazook.com\":\"rpx.me/4\", \"foobar.com\":\"rpx.me/5\", \"barbaz.com\":\"rpx.me/6\"} \
-                }, \
-                \"stat\":\"ok\" \
-             }"];
+    NSDictionary *response_dict = [response JSONValue];
     
-    NSDictionary *emailUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"email"];
-    NSDictionary *smsUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"sms"];
-    
-    for (NSString *key in [emailUrls allKeys])
+    // TODO: The activity object should be getting passed as the tag (in the share activity connection), in case the instance variable
+    // changes before this call is returned (e.g., gets set to null), unless whatever action caused that also cancels the open connections.  
+    // This should get verified and fixed.
+    if (!response_dict)
     {
-        _activity.email.messageBody = [_activity.email.messageBody 
-                                       stringByReplacingOccurrencesOfString:key 
-                                       withString:[emailUrls objectForKey:key]];
+        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+        for (id<JRSessionDelegate> delegate in delegatesCopy) 
+        {
+            if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
+                [delegate publishingActivity:_activity
+                            didFailWithError:[self setError:[response retain] 
+                                                   withCode:JRPublishFailedError 
+                                                    andType:JRErrorTypePublishFailed]
+                                                forProvider:providerName];//currentProvider.name];
+            
+        }
     }
-    
-    for (NSString *key in [smsUrls allKeys])
+    if ([[response_dict objectForKey:@"stat"] isEqualToString:@"ok"])
     {
-        _activity.sms.message = [_activity.sms.message 
-                                 stringByReplacingOccurrencesOfString:key 
-                                 withString:[smsUrls objectForKey:key]];
+        [self saveLastUsedSocialProvider];
+        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+        for (id<JRSessionDelegate> delegate in delegatesCopy) 
+        {
+            if ([delegate respondsToSelector:@selector(publishingActivityDidSucceed:forProvider:)])
+                [delegate publishingActivityDidSucceed:_activity forProvider:providerName];//currentProvider.name];
+        }
+    }
+    else
+    {
+        NSDictionary *error_dict = [response_dict objectForKey:@"err"];
+        NSError *publishError = nil;
+        
+        if (!error_dict)
+        {
+            publishError = [self setError:@"There was a problem publishing this activity" 
+                                 withCode:JRPublishFailedError 
+                                  andType:JRErrorTypePublishFailed];
+        }
+        else 
+        {
+            int code;
+            if (!CFNumberGetValue([error_dict objectForKey:@"code"], kCFNumberSInt32Type, &code))
+                code = 1000;
+            
+            switch (code)
+            {
+                case 0: /* "Missing parameter: apiKey" */
+                    publishError = [self setError:[error_dict objectForKey:@"msg"] 
+                                         withCode:JRPublishErrorMissingApiKey
+                                          andType:JRErrorTypePublishNeedsReauthentication];
+                    break;
+                case 4: /* "Facebook Error: Invalid OAuth 2.0 Access Token" */
+                    publishError = [self setError:[error_dict objectForKey:@"msg"] 
+                                         withCode:JRPublishErrorInvalidOauthToken 
+                                          andType:JRErrorTypePublishNeedsReauthentication];
+                    break;
+                case 100: // TODO LinkedIn character limit error
+                    publishError = [self setError:[error_dict objectForKey:@"msg"] 
+                                         withCode:JRPublishErrorLinkedInCharacterExceded
+                                          andType:JRErrorTypePublishInvalidActivity];
+                    break;
+                case 6: // TODO Twitter duplicate error
+                    publishError = [self setError:[error_dict objectForKey:@"msg"] 
+                                         withCode:JRPublishErrorDuplicateTwitter
+                                          andType:JRErrorTypePublishInvalidActivity];
+                    break;
+                case 1000: /* Extracting code failed; Fall through. */
+                default: // TODO Other errors (find them)
+                    publishError = [self setError:@"There was a problem publishing this activity" 
+                                         withCode:JRPublishFailedError 
+                                          andType:JRErrorTypePublishFailed];
+                    break;
+            }
+        }
+        
+        NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+        for (id<JRSessionDelegate> delegate in delegatesCopy) 
+        {
+            if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
+                [delegate publishingActivity:_activity
+                            didFailWithError:publishError
+                                 forProvider:providerName];//currentProvider.name];
+        }
     }
 }
 
-- (void)shareActivityForUser:(JRAuthenticatedUser*)user
+- (void)startShareActivityForUser:(JRAuthenticatedUser*)user
 {
     DLog(@"");
     // TODO: Better error checking in sessionData's share activity bit
@@ -1096,14 +1059,83 @@ static JRSessionData* singleton = nil;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
     
-    NSString* tag = [[NSString stringWithString:@"shareActivity"] retain];
+    NSDictionary* tag = [[NSDictionary alloc] initWithObjectsAndKeys:activity, @"activity", 
+                                                                     currentProvider.name, @"providerName", 
+                                                                     @"shareActivity", @"action", nil];//[[NSString stringWithString:@"shareActivity"] retain];
     
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
     
     [request release];    
 }
 
-- (void)makeCallToTokenUrl:(NSString*)_tokenUrl withToken:(NSString *)token forProvider:(NSString*)providerName
+- (void)shareActivityForUser:(JRAuthenticatedUser*)user
+{
+    [self startShareActivityForUser:user];
+}
+
+- (void)finishGetShortenedUrlsForActivity:(JRActivityObject*)_activity withShortenedUrls:(NSString*)_urls
+{
+    NSString *urls = [NSString stringWithString:
+                      @"{ \
+                      \"urls\": \
+                      { \
+                      \"email\":{\"foo.com\":\"rpx.me/1\",\"bar.com\":\"rpx.me/2\"}, \
+                      \"sms\":{\"gazook.com\":\"rpx.me/4\", \"foobar.com\":\"rpx.me/5\", \"barbaz.com\":\"rpx.me/6\"} \
+                      }, \
+                      \"stat\":\"ok\" \
+                      }"];
+    
+    NSDictionary *emailUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"email"];
+    NSDictionary *smsUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"sms"];
+    
+    for (NSString *key in [emailUrls allKeys])
+    {
+        _activity.email.messageBody = [_activity.email.messageBody 
+                                       stringByReplacingOccurrencesOfString:key 
+                                       withString:[emailUrls objectForKey:key]];
+    }
+    
+    for (NSString *key in [smsUrls allKeys])
+    {
+        _activity.sms.message = [_activity.sms.message 
+                                 stringByReplacingOccurrencesOfString:key 
+                                 withString:[smsUrls objectForKey:key]];
+    }
+}
+
+- (void)startGetShortenedUrlsForActivity:(JRActivityObject*)_activity
+{
+    NSDictionary *set = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
+    NSString *urlString = @"http://example.com";
+    //    [NSString stringWithFormat:
+    //                           @"%@/getShortenedUrls/urls=%@",//openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
+    //                           serverUrl, [set JSONRepresentation]];//appId];
+    
+    DLog(@"url: %@", urlString);
+	
+	NSURL *url = [NSURL URLWithString:urlString];
+	
+	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+	NSDictionary *tag = [[NSDictionary alloc] initWithObjectsAndKeys:_activity, @"activity", @"shortenUrls", @"action", nil];
+    
+	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];    
+}
+
+- (void)finishMakeCallToTokenUrl:(NSString*)_tokenUrl withResponse:(NSURLResponse*)fullResponse 
+                      andPayload:(NSData*)payload forProvider:(NSString*)providerName
+{
+    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+    for (id<JRSessionDelegate> delegate in delegatesCopy) 
+    {   
+        if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withResponse:andPayload:forProvider:)])
+            [delegate authenticationDidReachTokenUrl:_tokenUrl 
+                                        withResponse:fullResponse
+                                          andPayload:payload 
+                                         forProvider:providerName];
+    }
+}
+
+- (void)startMakeCallToTokenUrl:(NSString*)_tokenUrl withToken:(NSString *)token forProvider:(NSString*)providerName
 {
 	DLog(@"");
     DLog(@"token:    %@", token);
@@ -1116,7 +1148,9 @@ static JRSessionData* singleton = nil;
 	[request setHTTPMethod:@"POST"];
 	[request setHTTPBody:body];
 	
-    NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl", providerName, @"providerName", nil] retain];
+    NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl", 
+                                                                    providerName, @"providerName", 
+                                                                    @"callTokenUrl", @"action", nil] retain];
     
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])// stringEncodeData:NO])
 	{
@@ -1142,18 +1176,15 @@ static JRSessionData* singleton = nil;
     
     if ([tag isKindOfClass:[NSDictionary class]])
     {
-        if ([(NSDictionary*)tag objectForKey:@"tokenUrl"])
+        NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
+        DLog(@"action:  %@", action);
+
+        if ([action isEqualToString:@"callTokenUrl"])//([(NSDictionary*)tag objectForKey:@"tokenUrl"])
         {
-            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-            for (id<JRSessionDelegate> delegate in delegatesCopy) 
-            {   
-                if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withPayload:forProvider:)])
-                    [delegate authenticationDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
-                                                withResponse:fullResponse
-                                                  andPayload:payload 
-                                                 forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
-            }
-            
+            [self finishMakeCallToTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"]
+                              withResponse:fullResponse 
+                                andPayload:payload 
+                               forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
         }
     }
     else if ([tag isKindOfClass:[NSString class]])
@@ -1196,115 +1227,22 @@ static JRSessionData* singleton = nil;
 	
 	DLog(@"payload: %@", payload);
     
-    if ([tag isKindOfClass:[NSString class]])
+    if ([tag isKindOfClass:[NSDictionary class]])
     {   	
-        DLog(@"tag:     %@", tag);
-
-//        if ([(NSString*)tag isEqualToString:@"getConfiguration"])
-//        {
-//            if ([payload rangeOfString:@"\"provider_info\":{"].length != 0)
-//            {
-//                error = [self finishGetConfiguration:payload];
-//            }
-//            else // There was an error...
-//            {
-//                error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-//                              withCode:JRConfigurationInformationError
-//                               andType:JRErrorTypeConfigurationFailed];
-//            }
-//        }
-//        else 
-        if ([(NSString*)tag isEqualToString:@"shareActivity"])
+        NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
+        DLog(@"action:  %@", action);
+        
+        if ([action isEqualToString:@"shareActivity"])
         {
-            NSDictionary *response_dict = [payload JSONValue];
-            
-            if (!response_dict)
-            {
-                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                {
-                    if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
-                        [delegate publishingActivity:activity
-                                    didFailWithError:[self setError:[payload retain] 
-                                                           withCode:JRPublishFailedError 
-                                                            andType:JRErrorTypePublishFailed]
-                                         forProvider:currentProvider.name];
-                    
-                }
-            }
-            if ([[response_dict objectForKey:@"stat"] isEqualToString:@"ok"])
-            {
-                [self saveLastUsedSocialProvider];
-                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                {
-                    if ([delegate respondsToSelector:@selector(publishingActivityDidSucceed:forProvider:)])
-                        [delegate publishingActivityDidSucceed:activity forProvider:currentProvider.name];
-                }
-            }
-            else
-            {
-                NSDictionary *error_dict = [response_dict objectForKey:@"err"];
-                NSError *publishError = nil;
-                
-                if (!error_dict)
-                {
-                    publishError = [self setError:@"There was a problem publishing this activity" 
-                                         withCode:JRPublishFailedError 
-                                          andType:JRErrorTypePublishFailed];
-                }
-                else 
-                {
-                    int code;
-                    if (!CFNumberGetValue([error_dict objectForKey:@"code"], kCFNumberSInt32Type, &code))
-                        code = 1000;
-                    
-                    switch (code)
-                    {
-                        case 0: /* "Missing parameter: apiKey" */
-                            publishError = [self setError:[error_dict objectForKey:@"msg"] 
-                                                 withCode:JRPublishErrorMissingApiKey
-                                                  andType:JRErrorTypePublishNeedsReauthentication];
-                            break;
-                        case 4: /* "Facebook Error: Invalid OAuth 2.0 Access Token" */
-                            publishError = [self setError:[error_dict objectForKey:@"msg"] 
-                                                 withCode:JRPublishErrorInvalidOauthToken 
-                                                  andType:JRErrorTypePublishNeedsReauthentication];
-                            break;
-                        case 100: // TODO LinkedIn character limit error
-                            publishError = [self setError:[error_dict objectForKey:@"msg"] 
-                                                 withCode:JRPublishErrorLinkedInCharacterExceded
-                                                  andType:JRErrorTypePublishInvalidActivity];
-                            break;
-                        case 6: // TODO Twitter duplicate error
-                            publishError = [self setError:[error_dict objectForKey:@"msg"] 
-                                                 withCode:JRPublishErrorDuplicateTwitter
-                                                  andType:JRErrorTypePublishInvalidActivity];
-                            break;
-                        case 1000: /* Extracting code failed; Fall through. */
-                        default: // TODO Other errors (find them)
-                            publishError = [self setError:@"There was a problem publishing this activity" 
-                                                 withCode:JRPublishFailedError 
-                                                  andType:JRErrorTypePublishFailed];
-                            break;
-                    }
-                }
-                
-                NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-                for (id<JRSessionDelegate> delegate in delegatesCopy) 
-                {
-                    if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
-                        [delegate publishingActivity:activity
-                                    didFailWithError:publishError
-                                         forProvider:currentProvider.name];
-                    
-                }
-            }
+            [self finishShareActivity:[(NSDictionary*)tag objectForKey:@"activity"] 
+                          forProvider:[(NSDictionary*)tag objectForKey:@"providerName"] 
+                         withResponse:payload];
         }
-    }
-    else if ([tag isKindOfClass:[JRActivityObject class]])
-    {
-        [self substituteUrlsInActivity:tag withShortenedUrls:payload];
+        else if ([action isEqualToString:@"shortenUrls"])
+        {
+            [self finishGetShortenedUrlsForActivity:[(NSDictionary*)tag objectForKey:@"activity"] 
+                                  withShortenedUrls:payload];            
+        }
     }
     
 	[payload release];
@@ -1324,22 +1262,25 @@ static JRSessionData* singleton = nil;
                           withCode:JRConfigurationInformationError
                            andType:JRErrorTypeConfigurationFailed];
         }
-        else if ([(NSString*)tag isEqualToString:@"shareActivity"])
-        {
-            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-            for (id<JRSessionDelegate> delegate in delegatesCopy) 
-            {
-                if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
-                    [delegate publishingActivity:activity
-                                didFailWithError:_error
-                                     forProvider:currentProvider.name];
-                
-            }            
-        }
+//        else if ([(NSString*)tag isEqualToString:@"shareActivity"])
+//        {
+//            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+//            for (id<JRSessionDelegate> delegate in delegatesCopy) 
+//            {
+//                if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
+//                    [delegate publishingActivity:activity
+//                                didFailWithError:_error
+//                                     forProvider:currentProvider.name];
+//                
+//            }            
+//        }
     }
     else if ([(NSDictionary*)tag isKindOfClass:[NSDictionary class]])
     {
-        if ([(NSDictionary*)tag objectForKey:@"tokenUrl"])
+        NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
+        DLog(@"action:  %@", action);
+
+        if ([action isEqualToString:@"callTokenUrl"])//([(NSDictionary*)tag objectForKey:@"tokenUrl"])
         {
             NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
             for (id<JRSessionDelegate> delegate in delegatesCopy) 
@@ -1350,6 +1291,26 @@ static JRSessionData* singleton = nil;
                                                forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
             }
         }
+        else if ([action isEqualToString:@"shareActivity"])
+        {
+            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+            for (id<JRSessionDelegate> delegate in delegatesCopy) 
+            {
+                if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
+                    [delegate publishingActivity:activity
+                                didFailWithError:_error
+                                     forProvider:currentProvider.name];
+                
+            }          
+        }
+        else if ([action isEqualToString:@"shortenUrls"])
+        {
+            // Do nothing for now...
+        }
+        else
+        {
+            // Do nothing for now...
+        }
     }
     
 	[tag release];	
@@ -1358,7 +1319,10 @@ static JRSessionData* singleton = nil;
 - (void)connectionWasStoppedWithTag:(void*)userdata 
 {
     DLog(@"");
-    [(NSString*)userdata release];
+    if ([(NSObject*)userdata isKindOfClass:[NSString class]])
+        [(NSString*)userdata release];
+    if ([(NSObject*)userdata isKindOfClass:[NSDictionary class]])
+        [(NSDictionary*)userdata release];
 }
 
 - (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict
@@ -1376,6 +1340,8 @@ static JRSessionData* singleton = nil;
     
     JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
                                                                     forProviderNamed:currentProvider.name] autorelease];    
+    
+    // TODO: Verify that the provider returned in the rpx_result is the same as the currentProvider
     
     [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
@@ -1395,7 +1361,7 @@ static JRSessionData* singleton = nil;
     }
     
 	if (tokenUrl)
-        [self makeCallToTokenUrl:tokenUrl withToken:token forProvider:currentProvider.name];
+        [self startMakeCallToTokenUrl:tokenUrl withToken:token forProvider:currentProvider.name];
     
     [currentProvider release];
     currentProvider = nil;
@@ -1553,5 +1519,35 @@ static JRSessionData* singleton = nil;
         if ([delegate respondsToSelector:@selector(publishingDidRestart)])
             [delegate publishingDidRestart];
     }
+}
+
+- (void)triggerEmailSharingDidComplete
+{
+//    NSString *urlString = [NSString stringWithFormat:
+//                           @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
+//                           serverUrl, appId];
+    
+    NSURL *url = [NSURL URLWithString:@"http://example.com"];//urlString];
+	    
+	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+	
+	NSString *tag = @"emailSuccess";//[[NSString alloc] initWithFormat:@"emailSuccess"];
+	
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
+}
+
+- (void)triggerSmsSharingDidComplete
+{
+    //    NSString *urlString = [NSString stringWithFormat:
+    //                           @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
+    //                           serverUrl, appId];
+    
+    NSURL *url = [NSURL URLWithString:@"http://example.com"];//urlString];
+    
+	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+	
+	NSString *tag = @"smsSuccess";//[[NSString alloc] initWithFormat:@"emailSuccess"];
+	
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];    
 }
 @end

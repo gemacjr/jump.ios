@@ -245,6 +245,7 @@
 		9F01AA681294526600AD6899 /* QSIViewControllerLevel2-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIViewControllerLevel2-iPad.xib"; sourceTree = "<group>"; };
 		9F01AAA112945A0200AD6899 /* background-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-ipad.png"; sourceTree = "<group>"; };
 		9F01AAA312945A1800AD6899 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		9F028C6C12A5936A00EDAD2C /* JREngage-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JREngage-config.h"; path = "../JREngage/JREngage-config.h"; sourceTree = SOURCE_ROOT; };
 		9F08794F125505F9008AD40D /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		9F5908D0116F9316006955EF /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIRootViewController.h; sourceTree = "<group>"; };
@@ -389,6 +390,7 @@
 		9F01A8CD1294514400AD6899 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				9F028C6C12A5936A00EDAD2C /* JREngage-config.h */,
 				9F01A8CE1294514400AD6899 /* JRConnectionManager.h */,
 				9F01A8CF1294514400AD6899 /* JRConnectionManager.m */,
 				9F01A8D01294514400AD6899 /* JREngage.h */,
