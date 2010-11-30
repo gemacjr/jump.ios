@@ -36,7 +36,7 @@
 #import "JRSessionData.h"
 
 // TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -314,6 +314,57 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 }
 @end
 
+//typedef struct
+//{
+//    JRActivityObject *activity;
+//    NSArray          *emailUrls;
+//    NSArray          *smsUrls;
+//    NSString         *emailMessage;
+//    NSString         *smsMessage;
+//} JRActivityUrlShorteningBundle;
+//
+//JRActivityUrlShorteningBundle* createActivityUrlShorteningBundle (JRActivityObject *activity)
+//{
+//    JRActivityUrlShorteningBundle *bundle;
+//    
+//    if (bundle = (JRActivityUrlShorteningBundle *) malloc (sizeof (JRActivityUrlShorteningBundle)))
+//        return nil;
+//    
+//    memset (&bundle, nil, sizeof (JRActivityUrlShorteningBundle));
+//    
+//    bundle->activity     = [activity retain];
+// 
+//    if (activity.email.messageBody)
+//    {
+//        bundle->emailUrls    = [activity.email.urls retain];
+//        bundle->emailMessage = [[NSString stringWithString:activity.email.messageBody] retain];        
+//    }
+//    
+//    if (activity.sms.message)
+//    {
+//        bundle->smsUrls      = [activity.sms.urls retain];
+//        bundle->smsMessage   = [[NSString stringWithString:activity.sms.message] retain];
+//    }
+//    
+//    return bundle;
+//}
+//
+//void destroyActivityUrlShorteningBundle (JRActivityUrlShorteningBundle *bundle)
+//{
+//    if (!bundle)
+//        return;
+//    
+//    [bundle->activity     release];
+//    [bundle->emailUrls    release];    
+//    [bundle->smsUrls      release];    
+//    [bundle->emailMessage release];
+//    [bundle->smsMessage   release];
+//    
+//    free (bundle);
+//    bundle = nil;
+//}
+
+
 @interface JRSessionData()
 - (NSError*)startGetConfiguration;
 - (NSError*)finishGetConfiguration:(NSString *)dataStr;
@@ -325,7 +376,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 @synthesize currentProvider;
 @synthesize returningBasicProvider;
 @synthesize returningSocialProvider;
-@synthesize activity;
+//@synthesize activity;
 @synthesize tokenUrl;
 @synthesize alwaysForceReauth;
 @synthesize forceReauth;
@@ -421,6 +472,65 @@ static JRSessionData* singleton = nil;
         error = [self finishGetConfiguration:savedConfigurationBlock];
 
     dialogIsShowing = isShowing;
+}
+//
+//- (NSString*)substituteUrls:(NSArray*)urls inMessage:(NSString*)message
+//{
+//    if (!message)
+//        return nil;
+//    
+//    NSArray *components = [message componentsSeparatedByString:@"@url@"];
+//    
+//    
+//    message = [NSString stringWithString:message];
+//    
+//    for (NSString *url in urls)
+//    {
+////        message = [message string
+//    }
+//}
+
+- (NSSet*)intersectionOfArray:(NSArray*)arr1 withArray:(NSArray*)arr2
+{
+    NSSet *set = [NSSet setWithArray:arr1];
+    set = [set setByAddingObjectsFromArray:arr2];
+    
+    return set;
+}
+
+- (void)setActivity:(JRActivityObject *)_activity
+{
+    activity = [_activity retain];
+    
+//    JRActivityUrlShorteningBundle *bundle = createActivityUrlShorteningBundle (activity);
+//    NSSet *set = [self intersectionOfArray:activity.email.urls withArray:activity.sms.urls];
+
+    NSDictionary *set = [NSDictionary dictionaryWithObjectsAndKeys:activity.email.urls, @"email", activity.sms.urls, @"sms", nil];
+    NSString *urlString = @"http://example.com";
+//    [NSString stringWithFormat:
+//                           @"%@/getShortenedUrls/urls=%@",//openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
+//                           serverUrl, [set JSONRepresentation]];//appId];
+    
+    DLog(@"url: %@", urlString);
+	
+	NSURL *url = [NSURL URLWithString:urlString];
+	
+	if(!url)
+		return;
+    
+	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+	
+	[JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[activity retain]];
+    
+    //activity.email.messageBody = [self substituteUrls:bundle->emailUrls inMessage:bundle->emailMessage];
+//    activity.sms.message = [self substituteUrls:bundle->smsUrls inMessage:bundle->smsMessage];
+//    
+//    [self startGetShortenedUrls:bundle];
+}
+
+- (JRActivityObject*)activity
+{
+    return activity;
 }
 
 - (id)initWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
@@ -934,6 +1044,36 @@ static JRSessionData* singleton = nil;
     returningBasicProvider = nil;
 }
 
+- (void)substituteUrlsInActivity:(JRActivityObject*)_activity withShortenedUrls:(NSString*)_urls
+{
+    NSString *urls = [NSString stringWithString:
+            @"{ \
+                \"urls\": \
+                { \
+                    \"email\":{\"foo.com\":\"rpx.me/1\",\"bar.com\":\"rpx.me/2\"}, \
+                    \"sms\":{\"gazook.com\":\"rpx.me/4\", \"foobar.com\":\"rpx.me/5\", \"barbaz.com\":\"rpx.me/6\"} \
+                }, \
+                \"stat\":\"ok\" \
+             }"];
+    
+    NSDictionary *emailUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"email"];
+    NSDictionary *smsUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"sms"];
+    
+    for (NSString *key in [emailUrls allKeys])
+    {
+        _activity.email.messageBody = [_activity.email.messageBody 
+                                       stringByReplacingOccurrencesOfString:key 
+                                       withString:[emailUrls objectForKey:key]];
+    }
+    
+    for (NSString *key in [smsUrls allKeys])
+    {
+        _activity.sms.message = [_activity.sms.message 
+                                 stringByReplacingOccurrencesOfString:key 
+                                 withString:[smsUrls objectForKey:key]];
+    }
+}
+
 - (void)shareActivityForUser:(JRAuthenticatedUser*)user
 {
     DLog(@"");
@@ -1161,6 +1301,10 @@ static JRSessionData* singleton = nil;
                 }
             }
         }
+    }
+    else if ([tag isKindOfClass:[JRActivityObject class]])
+    {
+        [self substituteUrlsInActivity:tag withShortenedUrls:payload];
     }
     
 	[payload release];

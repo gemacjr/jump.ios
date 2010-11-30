@@ -436,7 +436,7 @@ Please try again later."
     MFMessageComposeViewController *sms = [[[MFMessageComposeViewController alloc] init] autorelease];
 
     sms.messageComposeDelegate = self;
-    sms.body = activity.sms;
+    sms.body = activity.sms.message;
     
     [self presentModalViewController:sms animated:YES];
     

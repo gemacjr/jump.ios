@@ -393,13 +393,13 @@ static FeedReader* singleton = nil;
     app.networkActivityIndicatorVisible = YES;
 
     NSError *error = nil;
-    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
-    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
-                                                                  encoding:NSUTF8StringEncoding
-                                                                     error:&error] autorelease];
+//    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
+//    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
+//                                                                  encoding:NSUTF8StringEncoding
+//                                                                     error:&error] autorelease];
     
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
-//    NSString *janrain_blog_json = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
+    NSString *janrain_blog_json = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
 
     NSDictionary *janrain_blog_dictionary = [janrain_blog_json JSONValue];  
 

@@ -326,22 +326,56 @@
 @synthesize subject;
 @synthesize messageBody;
 @synthesize isHtml;
+@synthesize urls;
 
-- (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml
+- (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
 {   
     if (self = [super init])
     {
-        subject     = [_subject retain];
-        messageBody = [_messageBody retain];
+        if (_subject)
+            subject     = [[NSString stringWithString:_subject] retain];
+
+        if (_messageBody)
+            messageBody = [[NSString stringWithString:_messageBody] retain];
+
         isHtml      = _isHtml;
+        urls        = [[NSMutableArray arrayWithArray:
+                        [_urls filteredArrayUsingPredicate:
+                         [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([NSString class])]]] retain];//[_urls retain];
     }
 
     return self;
 }
 
-+ (id)emailObjectSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml
++ (id)emailObjectWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
 {
-    return [[[JREmailObject alloc] initWithSubject:_subject andMessageBody:_messageBody isHtml:_isHtml] autorelease];
+    return [[[JREmailObject alloc] initWithSubject:_subject andMessageBody:_messageBody isHtml:_isHtml andUrlsToBeShortened:_urls] autorelease];
+}
+@end
+
+
+@implementation JRSmsObject
+@synthesize message;
+@synthesize urls;
+
+- (id)initWithMessage:(NSString*)_message andUrlsToBeShortened:(NSArray*)_urls;
+{   
+    if (self = [super init])
+    {
+        if (_message)
+            message = [[NSString stringWithString:_message] retain];
+
+        urls    = [[NSMutableArray arrayWithArray:
+                    [_urls filteredArrayUsingPredicate:
+                     [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([NSString class])]]] retain];//[_urls retain];
+    }
+    
+    return self;
+}
+
++ (id)smsObjectWithMessage:(NSString *)_message andUrlsToBeShortened:(NSArray*)_urls;
+{
+    return [[[JRSmsObject alloc] initWithMessage:_message andUrlsToBeShortened:_urls] autorelease];
 }
 @end
 

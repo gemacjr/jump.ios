@@ -284,10 +284,12 @@
     NSString *subject;      /**< The desired subject */
     NSString *messageBody;  /**< The desired message body */
     BOOL      isHtml;       /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text */
+    NSArray  *urls;
 }
 @property (retain) NSString *subject;
 @property (retain) NSString *messageBody;
 @property          BOOL      isHtml;
+@property (retain) NSArray  *urls;
 
 /** 
  * \name Constructors
@@ -297,20 +299,69 @@
  * Returns a \c JREmailObject initialized with the given subject and message body.
  *
  * @param _subject
- *   The text describing the link.  This value cannot be \c nil.
+ *   The desired subject of the email.  The user can edit this value.
  *
  * @param _messageBody
- *   A link a user can use to take action on an activity update on the provider.  This value cannot be \c nil.
+ *   The desired message body of the email.  The message body can be in plain text or html, and if it is in html,
+ *   this should be indicated by the argument isHtml.  If you want to include urls that are shortened by to an http://rpx.me url, 
+ *   they should be added to the urls array, and the message body should contain the escape sequence @url@ where you want
+ *   the urls to be substituted in.  This value can be edited by the user.
  *
  * @param _isHtml
  *   YES if the message body contains HTML content or NO if it contains plain text.
  *
+ * @param _urls
+ *   The array of urls that JREngage will shorten to an http://rpx.me url, in the order you wish the urls to be substitued into the
+ *   message body, replacing the sequence @url@ in the order that the @urls@'s appear.
+ *
  * @return
  *   A JREmailObject initialized with the given subject and message body.
  **/
-- (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml;
+- (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
 
-+ (id)emailObjectSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml;
++ (id)emailObjectWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
+/*@}*/
+@end
+
+
+/**
+ * \brief Sms object
+ *
+ * Create an sms object with the required fields.
+ **/
+@interface JRSmsObject : NSObject
+{
+    NSString *message;  /**< The desired message */
+    NSArray  *urls;
+}
+@property (retain) NSString *message;
+@property (retain) NSArray  *urls;
+
+/** 
+ * \name Constructors
+ **/
+/*@{*/
+/**
+ * Returns a \c JRSmsObject initialized with the given message and URLs that you wish to be shortened to the http://rpx.me format.
+ *
+ * @param _message
+ *   The desired message of the sms.  If you want to include urls that are shortened by to an http://rpx.me url, 
+ *   they should be added to the urls array, and the message should contain the escape sequence @url@ where you want
+ *   the urls to be substituted in.  This value can be edited by the user.
+ *
+ * @param _isHtml
+ *   YES if the message body contains HTML content or NO if it contains plain text.
+ *
+ * @param _urls
+ *   The array of urls that JREngage will shorten to an http://rpx.me url, in the order you wish the urls to be substitued into the
+ *   message body, replacing the sequence @url@ in the order that the @urls@'s appear.
+ *
+ * @return
+ *   A JREmailObject initialized with the given subject and message body.
+ **/
+- (id)initWithMessage:(NSString*)_message andUrlsToBeShortened:(NSArray*)_urls;
+
++ (id)smsObjectWithMessage:(NSString *)_message andUrlsToBeShortened:(NSArray*)_urls;
 /*@}*/
 @end
 
@@ -449,10 +500,10 @@
     JREmailObject *email;
 
    /**
-    * An object containing the subject and message body of an email, if the user wishes to
-    * share via email.
+    * An object containing the message body of an sms, if the user wishes to
+    * share via sms.
     **/
-    NSString *sms;
+    JRSmsObject *sms;
     
     /*@}*/
 }
@@ -466,7 +517,7 @@
 @property (retain) NSMutableArray *media;
 @property (retain) NSMutableDictionary *properties;
 @property (retain) JREmailObject *email;
-@property (retain) NSString *sms;
+@property (retain) JRSmsObject *sms;
 
 /** 
  * \name Constructors

@@ -246,8 +246,12 @@
         activity.media = [NSArray arrayWithObject:image];
     }
     
-    activity.email = [JREmailObject emailObjectSubject:@"hello" andMessageBody:@"yo" isHtml:NO];
-    activity.sms = @"yo";
+    activity.email = [JREmailObject emailObjectWithSubject:@"hello" 
+                                            andMessageBody:@"blah blah blah foo.com blah blah bar.com"
+                                                    isHtml:NO
+                                      andUrlsToBeShortened:[NSArray arrayWithObjects:@"foo.com", @"bar.com", nil]];
+    activity.sms = [JRSmsObject smsObjectWithMessage:@"blah blah blah" andUrlsToBeShortened:nil];
+    
     
     [FeedReader feedReader].feedReaderDetail = self;
     [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
