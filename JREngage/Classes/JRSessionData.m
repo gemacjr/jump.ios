@@ -1244,6 +1244,22 @@ static JRSessionData* singleton = nil;
                                   withShortenedUrls:payload];            
         }
     }
+    else if ([tag isKindOfClass:[NSString class]])
+    {
+        if ([(NSString*)tag isEqualToString:@"emailSuccess"])
+        {
+            // Do nothing for now...
+        }
+        else if ([(NSString*)tag isEqualToString:@"smsSuccess"])
+        {
+            // Do nothing for now...
+        }
+        else
+        {
+            // Do nothing for now...
+        }
+        
+    }
     
 	[payload release];
 	[tag release];	
@@ -1262,18 +1278,18 @@ static JRSessionData* singleton = nil;
                           withCode:JRConfigurationInformationError
                            andType:JRErrorTypeConfigurationFailed];
         }
-//        else if ([(NSString*)tag isEqualToString:@"shareActivity"])
-//        {
-//            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-//            for (id<JRSessionDelegate> delegate in delegatesCopy) 
-//            {
-//                if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
-//                    [delegate publishingActivity:activity
-//                                didFailWithError:_error
-//                                     forProvider:currentProvider.name];
-//                
-//            }            
-//        }
+        else if ([(NSString*)tag isEqualToString:@"emailSuccess"])
+        {
+            // Do nothing for now...
+        }
+        else if ([(NSString*)tag isEqualToString:@"smsSuccess"])
+        {
+            // Do nothing for now...
+        }
+        else
+        {
+            // Do nothing for now...
+        }
     }
     else if ([(NSDictionary*)tag isKindOfClass:[NSDictionary class]])
     {
@@ -1533,7 +1549,7 @@ static JRSessionData* singleton = nil;
 	
 	NSString *tag = @"emailSuccess";//[[NSString alloc] initWithFormat:@"emailSuccess"];
 	
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[tag retain]];
 }
 
 - (void)triggerSmsSharingDidComplete
@@ -1548,6 +1564,6 @@ static JRSessionData* singleton = nil;
 	
 	NSString *tag = @"smsSuccess";//[[NSString alloc] initWithFormat:@"emailSuccess"];
 	
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[tag retain]];    
 }
 @end

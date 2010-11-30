@@ -1064,6 +1064,7 @@ Please try again later."
 //        case MFMailComposeResultSaved:
 //            break;
         case MFMailComposeResultSent:
+            [sessionData triggerEmailSharingDidComplete];
             alert = [[[UIAlertView alloc] initWithTitle:@"Success"
                                                 message:@"You have successfully sent this email."
                                                delegate:nil
@@ -1097,6 +1098,7 @@ Please try again later."
 //        case MessageComposeResultCancelled:
 //            break;
         case MessageComposeResultSent:
+            [sessionData triggerSmsSharingDidComplete];
             alert = [[[UIAlertView alloc] initWithTitle:@"Success"
                                                 message:@"You have successfully sent this text."
                                                delegate:nil

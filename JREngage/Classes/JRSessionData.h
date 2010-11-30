@@ -254,5 +254,8 @@
 - (void)triggerPublishingDidCancel:(id)sender;
 - (void)triggerPublishingDidTimeOutConfiguration;
 - (void)triggerPublishingDidFailWithError:(NSError*)_error;
+
+- (void)triggerEmailSharingDidComplete;
+- (void)triggerSmsSharingDidComplete;
 @end
 
