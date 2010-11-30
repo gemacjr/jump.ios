@@ -495,14 +495,14 @@ otherwise, this happens automatically.													*/
 	[self finishSignUserIn:auth_info];
 }
 
-//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl 
-//                             withPayload:(NSData*)tokenUrlPayload 
-//                             forProvider:(NSString*)provider
-//{
-//	UIApplication* app = [UIApplication sharedApplication]; 
-//	app.networkActivityIndicatorVisible = NO;
-//	
-//    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl 
+                             withPayload:(NSData*)tokenUrlPayload 
+                             forProvider:(NSString*)provider
+{
+	UIApplication* app = [UIApplication sharedApplication]; 
+	app.networkActivityIndicatorVisible = NO;
+	
+//  NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
 //    
 //	NSRange found = [payload rangeOfString:@"{"];
 //	
@@ -516,7 +516,7 @@ otherwise, this happens automatically.													*/
 //		return; // TODO: Manage error
 //	
 //	[self finishSignUserIn:user];
-//}
+}
 
 - (void)jrAuthenticationDidNotComplete
 {

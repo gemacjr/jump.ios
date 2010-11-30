@@ -983,7 +983,7 @@ static JRSessionData* singleton = nil;
             NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
             for (id<JRSessionDelegate> delegate in delegatesCopy) 
             {   
-                if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withPayload:forProvider:)])
+                if ([delegate respondsToSelector:@selector(authenticationDidReachTokenUrl:withResponse:andPayload:forProvider:)])
                     [delegate authenticationDidReachTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"] 
                                                 withResponse:fullResponse
                                                   andPayload:payload 
