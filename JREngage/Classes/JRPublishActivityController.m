@@ -72,6 +72,8 @@
     
     [super viewDidLoad];
 
+    alreadyShared = [[NSMutableSet alloc] initWithCapacity:4];
+    
     // TODO: Add the colorsDictionary to the iphone_config API call so it can be loaded dynamically
     colorsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                         [UIColor colorWithRed:0.2314 green:0.3490 blue:0.5961 alpha:0.2], @"facebook",
@@ -670,7 +672,7 @@ Please try again later."
         }
         
         [self loadActivityToView];
-        [self showActivityAsShared:NO];
+        [self showActivityAsShared:([alreadyShared containsObject:selectedProvider.name] ? YES : NO)];
     }
 }
 
@@ -979,6 +981,8 @@ Please try again later."
                                            otherButtonTitles:nil] autorelease];
     [alert show];
     
+    [alreadyShared addObject:provider];
+    
     [self showViewIsLoading:NO];
     [self showActivityAsShared:YES];
     
@@ -1214,6 +1218,7 @@ Please try again later."
     [mySharedLabel release];
     [mySignOutButton release];
     [cachedProfilePics release];
+    [alreadyShared release];
     
     [super dealloc];
 }

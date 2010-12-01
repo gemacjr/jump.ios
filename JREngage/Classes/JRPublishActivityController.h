@@ -113,6 +113,7 @@ typedef enum
     IBOutlet UIButton                *mySignOutButton;
     
     NSMutableDictionary *cachedProfilePics;
+    NSMutableSet        *alreadyShared;
 }
 - (IBAction)signOutButtonPressed:(id)sender;
 - (IBAction)shareButtonPressed:(id)sender; 
