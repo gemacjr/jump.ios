@@ -245,7 +245,8 @@
     
         activity.media = [NSArray arrayWithObject:image];
     }
-    
+
+    // TODO: Fix when ready
     activity.email = [JREmailObject emailObjectWithSubject:@"hello" 
                                             andMessageBody:@"blah blah blah foo.com blah blah bar.com"
                                                     isHtml:NO

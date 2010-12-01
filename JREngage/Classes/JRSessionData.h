@@ -194,6 +194,8 @@
 
     BOOL dialogIsShowing;
     NSError  *error;
+    
+    NSString *device;
 }
 @property (retain)   JRProvider *currentProvider;
 @property (readonly) NSString   *returningBasicProvider;

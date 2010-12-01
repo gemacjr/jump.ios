@@ -392,6 +392,7 @@ static FeedReader* singleton = nil;
     UIApplication* app = [UIApplication sharedApplication]; 
     app.networkActivityIndicatorVisible = YES;
 
+    // TODO: Fix when ready
     NSError *error = nil;
 //    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
 //    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path

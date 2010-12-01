@@ -57,6 +57,25 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 #endif
 #endif
 
+/* Added a category to NSString including a function to correctly escape any arguments sent to any of the 
+   Engage API calls */
+@interface NSString (NSString_URL_ESCAPING)
+- (NSString*)URLEscaped;
+@end
+
+// TODO: Test for all characters that might blow up the publish_activity api call
+@implementation NSString (NSString_URL_ESCAPING)
+- (NSString*)URLEscaped
+{
+    NSString *str = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2f"];
+    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
+    str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
+    str = [str stringByReplacingOccurrencesOfString:@"&" withString:@"%38"];
+    
+    return str;
+}
+@end
+
 
 @implementation JRAuthenticatedUser
 @synthesize photo;
@@ -449,6 +468,13 @@ static JRSessionData* singleton = nil;
 		appId = _appId;
         tokenUrl = _tokenUrl;
         
+        // TODO: Uncomment when ready
+        if (0)//(UI_USER_INTERFACE_IDIOM == UIUserInterfaceIdiomPad)
+            device = @"ipad";
+        else
+            device = @"iphone";
+
+        
         /* First, we load all of the cached data (the list of providers, saved users, base url, etc.) */
         
         /* Load the dictionary of authenticated users */
@@ -546,13 +572,30 @@ static JRSessionData* singleton = nil;
                                   userInfo:userInfo];
 }
 
+- (NSString*)appNameAndVersion
+{
+    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
+    NSString *name = [[[infoPlist objectForKey:@"CFBundleDisplayName"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
+    NSString *ident = [[[infoPlist objectForKey:@"CFBundleIdentifier"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
+    
+    infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
+                 [[[NSBundle mainBundle] resourcePath] 
+                  stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
+    
+    NSString *version = [[[infoPlist objectForKey:@"CFBundleShortVersionString"] 
+                          stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
+    
+    return [NSString stringWithFormat:@"&appName=%@.%@&version=%@_%@", name, ident, device, version];
+}
+
 - (NSError*)startGetConfiguration
 {	
     DLog(@"");
     
+    NSString *nameAndVersion = [self appNameAndVersion];
 	NSString *urlString = [NSString stringWithFormat:
-                           @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
-                           serverUrl, appId];
+                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true%@", 
+                           serverUrl, device, appId, nameAndVersion];
     
     DLog(@"url: %@", urlString);
 	
@@ -828,13 +871,14 @@ static JRSessionData* singleton = nil;
 //               (([currentProvider.name isEqualToString:@"facebook"]) ? 
 //                @"ext_perm=publish_stream,offline_access&" : @"")];
 //    else
-        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_2&device=iphone&extended=true", 
+        str = [NSString stringWithFormat:@"%@%@?%@%@%@device=%@&extended=true", 
                baseUrl, 
                currentProvider.url,
                oid, 
                ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @""),
-               (currentProvider.extPerm) ? currentProvider.extPerm : @""];//(([currentProvider.name isEqualToString:@"facebook"]) ? 
-                                                                          // @"ext_perm=publish_stream,offline_access&" : @"")];
+               (currentProvider.extPerm) ? currentProvider.extPerm : @"",
+               device];//(([currentProvider.name isEqualToString:@"facebook"]) ? 
+                       // @"ext_perm=publish_stream,offline_access&" : @"")];
 #else
 //    str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
 //           baseUrl, 
@@ -1050,6 +1094,7 @@ static JRSessionData* singleton = nil;
     [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
 
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -1075,6 +1120,7 @@ static JRSessionData* singleton = nil;
 
 - (void)finishGetShortenedUrlsForActivity:(JRActivityObject*)_activity withShortenedUrls:(NSString*)_urls
 {
+    // TODO: Fix when ready
     NSString *urls = [NSString stringWithString:
                       @"{ \
                       \"urls\": \
@@ -1105,6 +1151,7 @@ static JRSessionData* singleton = nil;
 
 - (void)startGetShortenedUrlsForActivity:(JRActivityObject*)_activity
 {
+    // TODO: Fix when ready
     NSDictionary *set = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
     NSString *urlString = @"http://example.com";
     //    [NSString stringWithFormat:
@@ -1539,9 +1586,10 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerEmailSharingDidComplete
 {
-//    NSString *urlString = [NSString stringWithFormat:
-//                           @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
-//                           serverUrl, appId];
+    // TODO: Fix when ready
+    //    NSString *urlString = [NSString stringWithFormat:
+    //                           @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
+    //                           serverUrl, appId];
     
     NSURL *url = [NSURL URLWithString:@"http://example.com"];//urlString];
 	    
@@ -1554,6 +1602,7 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerSmsSharingDidComplete
 {
+    // TODO: Fix when ready
     //    NSString *urlString = [NSString stringWithFormat:
     //                           @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
     //                           serverUrl, appId];
