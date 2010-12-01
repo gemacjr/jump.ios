@@ -34,6 +34,8 @@
 
 
 #import "JRSessionData.h"
+#import <Security/Security.h>
+
 
 // TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
 #define DEBUG
@@ -76,6 +78,20 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 }
 @end
 
+NSString* displayNameAndIdentifier()
+{
+//    return @"foobar";
+    
+    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
+    NSString *name = [infoPlist objectForKey:@"CFBundleDisplayName"];// stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
+    NSString *ident = [infoPlist objectForKey:@"CFBundleIdentifier"];// stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
+    
+    return [NSString stringWithFormat:@"%@.%@", name, ident];
+}
+
+
+
+#import "SFHFKeychainUtils.h"
 
 @implementation JRAuthenticatedUser
 @synthesize photo;
@@ -115,30 +131,68 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-	DLog(@"");
+	DLog(@"encoding: %@", provider_name);
    
     [coder encodeObject:provider_name forKey:@"provider_name"];
     [coder encodeObject:photo forKey:@"photo"];
     [coder encodeObject:preferred_username forKey:@"preferred_username"];
-    [coder encodeObject:device_token forKey:@"device_token"];
-    [coder encodeObject:auth_info forKey:@"auth_info"];
+    [coder encodeObject:nil forKey:@"device_token"];
+
+//    [coder encodeObject:device_token forKey:@"device_token"];
+//    [coder encodeObject:auth_info forKey:@"auth_info"];
+
+    NSError *error = nil;
+    [SFHFKeychainUtils storeUsername:provider_name 
+                         andPassword:device_token 
+                      forServiceName:[NSString stringWithFormat:@"device_tokens.janrain.%@.", displayNameAndIdentifier()] 
+                      updateExisting:YES 
+                               error:&error];
+
+    // TODO: Handle Keychain storage error
+    if (error)
+        DLog (@"Error storing device token in keychain: %@", [error localizedDescription]);
 }
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-	DLog(@"");
-  
-    self = [[JRAuthenticatedUser alloc] init];
+	self = [[JRAuthenticatedUser alloc] init];
     if (self != nil)
     {
-        provider_name = [[coder decodeObjectForKey:@"provider_key"] retain];
+        provider_name = [[coder decodeObjectForKey:@"provider_name"] retain];
+    
+        DLog(@"decoding: %@", provider_name);
+        
         photo = [[coder decodeObjectForKey:@"photo"] retain];
         preferred_username = [[coder decodeObjectForKey:@"preferred_username"] retain];
-        device_token = [[coder decodeObjectForKey:@"device_token"] retain];
-        auth_info = [[coder decodeObjectForKey:@"auth_info"] retain];
+
+        NSError *error = nil;
+        device_token = [[SFHFKeychainUtils getPasswordForUsername:provider_name
+                                                   andServiceName:[NSString stringWithFormat:@"device_tokens.janrain.%@.", displayNameAndIdentifier()] 
+                                                            error:&error] retain];
+        
+        if (error)
+            DLog (@"Error retrieving device token in keychain: %@", [error localizedDescription]);
+        
+        if (!device_token)
+            device_token = [[coder decodeObjectForKey:@"device_token"] retain];
+        
+        
+//        device_token = [[coder decodeObjectForKey:@"device_token"] retain];
+//        auth_info = [[coder decodeObjectForKey:@"auth_info"] retain];
     }   
 
     return self;
+}
+
+- (void)removeDeviceTokenFromKeychain
+{
+    NSError *error = nil;
+    [SFHFKeychainUtils deleteItemForUsername:provider_name
+                              andServiceName:[NSString stringWithFormat:@"device_tokens.janrain.%@.", displayNameAndIdentifier()] 
+                                       error:&error];
+    if (error)
+        DLog (@"Error deleting device token from keychain: %@", [error localizedDescription]);
+    
 }
 
 - (void)dealloc
@@ -288,6 +342,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
     welcomeString = _welcomeString;
     
     [[NSUserDefaults standardUserDefaults] setValue:welcomeString forKey:[NSString stringWithFormat:@"jr%@WelcomeString", self.name]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSString*)userInput
@@ -300,6 +355,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
     userInput = _userInput;
     
     [[NSUserDefaults standardUserDefaults] setValue:userInput forKey:[NSString stringWithFormat:@"jr%@UserInput", self.name]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (BOOL)forceReauth
@@ -312,6 +368,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
     forceReauth = _forceReauth;
     
     [[NSUserDefaults standardUserDefaults] setBool:forceReauth forKey:[NSString stringWithFormat:@"jr%@ForceReauth", self.name]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)dealloc
@@ -675,7 +732,6 @@ static JRSessionData* singleton = nil;
                                               forKey:@"jrAllProviders"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
                                               forKey:@"jrBasicProviders"];
-    
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
                                               forKey:@"jrSocialProviders"];
     
@@ -693,6 +749,8 @@ static JRSessionData* singleton = nil;
     
     [[NSUserDefaults standardUserDefaults] setValue:gitCommit forKey:@"jrEngageCommit"];
    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     /* The release our saved configuration information */
     [savedConfigurationBlock release];
     [newEtag release];
@@ -777,6 +835,7 @@ static JRSessionData* singleton = nil;
 
     [[NSUserDefaults standardUserDefaults] setObject:returningSocialProvider
                                               forKey:@"jrLastUsedSocialProvider"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)saveLastUsedBasicProvider
@@ -801,6 +860,7 @@ static JRSessionData* singleton = nil;
 
     [[NSUserDefaults standardUserDefaults] setObject:returningBasicProvider
                                               forKey:@"jrLastUsedBasicProvider"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)deleteFacebookCookies
@@ -932,6 +992,7 @@ static JRSessionData* singleton = nil;
     [authenticatedUsersByProvider removeObjectForKey:providerName];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                               forKey:@"jrAuthenticatedUsersByProvider"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)forgetAllAuthenticatedUsers
@@ -947,6 +1008,7 @@ static JRSessionData* singleton = nil;
     [authenticatedUsersByProvider removeAllObjects];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                               forKey:@"jrAuthenticatedUsersByProvider"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (JRProvider*)getProviderAtIndex:(NSUInteger)index fromArray:(NSArray*)array
@@ -1409,6 +1471,7 @@ static JRSessionData* singleton = nil;
     [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
                                               forKey:@"jrAuthenticatedUsersByProvider"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     if ([[self basicProviders] containsObject:currentProvider.name])
         [self saveLastUsedBasicProvider];

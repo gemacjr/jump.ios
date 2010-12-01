@@ -10,6 +10,10 @@
 		9F08797112553B44008AD40D /* JRError.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F08797012553B44008AD40D /* JRError.h */; };
 		9F088BDF126684EF008AD40D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F088BDE126684EF008AD40D /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9F486ADB129AF81A00A69FC7 /* JREngage-config.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F486ADA129AF81A00A69FC7 /* JREngage-config.h */; };
+		9FBE256D12A6F76700E1F93E /* SFHFKeychainUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FBE256B12A6F76700E1F93E /* SFHFKeychainUtils.h */; };
+		9FBE256E12A6F76700E1F93E /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE256C12A6F76700E1F93E /* SFHFKeychainUtils.m */; };
+		9FBE258A12A6FB2300E1F93E /* SBJsonStreamWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FBE258812A6FB2300E1F93E /* SBJsonStreamWriter.h */; };
+		9FBE258B12A6FB2300E1F93E /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE258912A6FB2300E1F93E /* SBJsonStreamWriter.m */; };
 		9FED50BA12401DE1004684F2 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED50AF12401DE1004684F2 /* JSON.h */; };
 		9FED50BB12401DE1004684F2 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED50B012401DE1004684F2 /* NSObject+SBJSON.h */; };
 		9FED50BC12401DE1004684F2 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FED50B112401DE1004684F2 /* NSObject+SBJSON.m */; };
@@ -125,6 +129,10 @@
 		9F63DABA12511B3E00A21A59 /* jrauth_twitter_short.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_twitter_short.png; sourceTree = "<group>"; };
 		9F63DABB12511B3E00A21A59 /* jrauth_yahoo_long.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_yahoo_long.png; sourceTree = "<group>"; };
 		9F63DABC12511B3E00A21A59 /* jrauth_yahoo_short.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jrauth_yahoo_short.png; sourceTree = "<group>"; };
+		9FBE256B12A6F76700E1F93E /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		9FBE256C12A6F76700E1F93E /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		9FBE258812A6FB2300E1F93E /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriter.h; path = "../json-framework/Classes/SBJsonStreamWriter.h"; sourceTree = SOURCE_ROOT; };
+		9FBE258912A6FB2300E1F93E /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamWriter.m; path = "../json-framework/Classes/SBJsonStreamWriter.m"; sourceTree = SOURCE_ROOT; };
 		9FED50AF12401DE1004684F2 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9FED50B012401DE1004684F2 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		9FED50B112401DE1004684F2 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -207,6 +215,7 @@
 		08FB77AEFE84172EC02AAC07 /* JREngage */ = {
 			isa = PBXGroup;
 			children = (
+				9FBE256A12A6F76700E1F93E /* Security */,
 				9FED50AE12401DE1004684F2 /* JSON */,
 				9FED5117124020C2004684F2 /* Classes */,
 				9FED53D1124044CD004684F2 /* Resources */,
@@ -359,6 +368,15 @@
 			path = provider_logos_share;
 			sourceTree = "<group>";
 		};
+		9FBE256A12A6F76700E1F93E /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				9FBE256B12A6F76700E1F93E /* SFHFKeychainUtils.h */,
+				9FBE256C12A6F76700E1F93E /* SFHFKeychainUtils.m */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
 		9FED50AE12401DE1004684F2 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +391,8 @@
 				9FED50B712401DE1004684F2 /* SBJsonParser.m */,
 				9FED50B812401DE1004684F2 /* SBJsonWriter.h */,
 				9FED50B912401DE1004684F2 /* SBJsonWriter.m */,
+				9FBE258812A6FB2300E1F93E /* SBJsonStreamWriter.h */,
+				9FBE258912A6FB2300E1F93E /* SBJsonStreamWriter.m */,
 			);
 			path = JSON;
 			sourceTree = "<group>";
@@ -447,6 +467,8 @@
 				9FED5142124020C2004684F2 /* JRWebViewController.h in Headers */,
 				9F08797112553B44008AD40D /* JRError.h in Headers */,
 				9F486ADB129AF81A00A69FC7 /* JREngage-config.h in Headers */,
+				9FBE256D12A6F76700E1F93E /* SFHFKeychainUtils.h in Headers */,
+				9FBE258A12A6FB2300E1F93E /* SBJsonStreamWriter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +538,8 @@
 				9FED513F124020C2004684F2 /* JRUserInterfaceMaestro.m in Sources */,
 				9FED5141124020C2004684F2 /* JRUserLandingController.m in Sources */,
 				9FED5143124020C2004684F2 /* JRWebViewController.m in Sources */,
+				9FBE256E12A6F76700E1F93E /* SFHFKeychainUtils.m in Sources */,
+				9FBE258B12A6FB2300E1F93E /* SBJsonStreamWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

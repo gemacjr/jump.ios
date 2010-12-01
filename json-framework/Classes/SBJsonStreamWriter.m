@@ -42,64 +42,67 @@
 - (void)write:(char const *)utf8 len:(NSUInteger)len;
 @end
 
-@interface SBJsonStreamWriterStateMachine : NSObject
+@interface SBJsonStreamWriterState : NSObject
+- (BOOL)isInvalidState:(SBJsonStreamWriter*)writer;
 - (void)appendSeparator:(SBJsonStreamWriter*)writer;
 - (BOOL)expectingKey:(SBJsonStreamWriter*)writer;
 - (void)transitionState:(SBJsonStreamWriter*)writer;
 - (void)appendWhitespace:(SBJsonStreamWriter*)writer;
 @end
 
-@interface ObjectOpenState : SBJsonStreamWriterStateMachine
+@interface SBJsonStreamWriterStateObjectStart : SBJsonStreamWriterState
 @end
 
-@interface ObjectKeyState : ObjectOpenState
+@interface SBJsonStreamWriterStateObjectKey : SBJsonStreamWriterStateObjectStart
 @end
 
-@interface ObjectValueState : SBJsonStreamWriterStateMachine
+@interface SBJsonStreamWriterStateObjectValue : SBJsonStreamWriterState
 @end
 
-@interface ArrayOpenState : SBJsonStreamWriterStateMachine
+@interface SBJsonStreamWriterStateArrayStart : SBJsonStreamWriterState
 @end
 
-@interface ArrayValueState : SBJsonStreamWriterStateMachine
+@interface SBJsonStreamWriterStateArrayValue : SBJsonStreamWriterState
 @end
 
-@interface StartState : SBJsonStreamWriterStateMachine
+@interface SBJsonStreamWriterStateStart : SBJsonStreamWriterState
 @end
 
-@interface CompleteState : SBJsonStreamWriterStateMachine
+@interface SBJsonStreamWriterStateComplete : SBJsonStreamWriterState
 @end
 
-@interface ErrorState : SBJsonStreamWriterStateMachine
+@interface SBJsonStreamWriterStateError : SBJsonStreamWriterState
 @end
 
 static NSMutableDictionary *stringCache;
 static NSDecimalNumber *notANumber;
 
 // States
-static StartState *openState;
-static CompleteState *closeState;
-static ErrorState *errorState;
-static ObjectOpenState *objectOpenState;
-static ObjectKeyState *objectKeyState;
-static ObjectValueState *objectValueState;
-static ArrayOpenState *arrayOpenState;
-static ArrayValueState *arrayValueState;
+static SBJsonStreamWriterStateStart *kSBJsonStreamWriterStateStart;
+static SBJsonStreamWriterStateComplete *kSBJsonStreamWriterStateComplete;
+static SBJsonStreamWriterStateError *kSBJsonStreamWriterStateError;
+static SBJsonStreamWriterStateObjectStart *kSBJsonStreamWriterStateObjectStart;
+static SBJsonStreamWriterStateObjectKey *kSBJsonStreamWriterStateObjectKey;
+static SBJsonStreamWriterStateObjectValue *kSBJsonStreamWriterStateObjectValue;
+static SBJsonStreamWriterStateArrayStart *kSBJsonStreamWriterStateArrayStart;
+static SBJsonStreamWriterStateArrayValue *kSBJsonStreamWriterStateArrayValue;
 
 
-@implementation SBJsonStreamWriterStateMachine
+@implementation SBJsonStreamWriterState
+- (BOOL)isInvalidState:(SBJsonStreamWriter*)writer { return NO; }
 - (void)appendSeparator:(SBJsonStreamWriter*)writer {}
 - (BOOL)expectingKey:(SBJsonStreamWriter*)writer { return NO; }
 - (void)transitionState:(SBJsonStreamWriter *)writer {}
 - (void)appendWhitespace:(SBJsonStreamWriter*)writer {
+	[writer write:"\n" len:1];
 	for (int i = 0; i < writer.depth; i++)
 	    [writer write:"  " len: 2];
 }
 @end
 
-@implementation ObjectOpenState
+@implementation SBJsonStreamWriterStateObjectStart
 - (void)transitionState:(SBJsonStreamWriter *)writer {
-	writer.states[writer.depth] = objectValueState;
+	writer.states[writer.depth] = kSBJsonStreamWriterStateObjectValue;
 }
 - (BOOL)expectingKey:(SBJsonStreamWriter *)writer {
 	writer.error = @"JSON object key must be string";
@@ -107,39 +110,39 @@ static ArrayValueState *arrayValueState;
 }
 @end
 
-@implementation ObjectKeyState
+@implementation SBJsonStreamWriterStateObjectKey
 - (void)appendSeparator:(SBJsonStreamWriter *)writer {
-	[writer write:",\n" len:writer.humanReadable ? 2 : 1];
+	[writer write:"," len:1];
 }
 @end
 
-@implementation ObjectValueState
+@implementation SBJsonStreamWriterStateObjectValue
 - (void)appendSeparator:(SBJsonStreamWriter *)writer {
 	[writer write:":" len:1];
 }
 - (void)transitionState:(SBJsonStreamWriter *)writer {
-	writer.states[writer.depth] = objectKeyState;
+	writer.states[writer.depth] = kSBJsonStreamWriterStateObjectKey;
 }
 - (void)appendWhitespace:(SBJsonStreamWriter *)writer {
 	[writer write:" " len:1];
 }
 @end
 
-@implementation ArrayOpenState
+@implementation SBJsonStreamWriterStateArrayStart
 - (void)transitionState:(SBJsonStreamWriter *)writer {
-	writer.states[writer.depth] = arrayValueState;
+	writer.states[writer.depth] = kSBJsonStreamWriterStateArrayValue;
 }
 @end
 
-@implementation ArrayValueState
+@implementation SBJsonStreamWriterStateArrayValue
 - (void)appendSeparator:(SBJsonStreamWriter *)writer {
-	[writer write:",\n" len:writer.humanReadable ? 2 : 1];
+	[writer write:"," len:1];
 }
 @end
 
-@implementation StartState
+@implementation SBJsonStreamWriterStateStart
 - (void)transitionState:(SBJsonStreamWriter *)writer {
-	writer.states[writer.depth] = closeState;
+	writer.states[writer.depth] = kSBJsonStreamWriterStateComplete;
 	[writer.stream close];
 }
 - (void)appendSeparator:(SBJsonStreamWriter *)writer {
@@ -147,17 +150,21 @@ static ArrayValueState *arrayValueState;
 }
 @end
 
-@implementation CompleteState
+@implementation SBJsonStreamWriterStateComplete
+- (BOOL)isInvalidState:(SBJsonStreamWriter*)writer {
+	writer.error = @"Stream is closed";
+	return YES;
+}
 @end
 
-@implementation ErrorState
+@implementation SBJsonStreamWriterStateError
 @end
 
 @implementation SBJsonStreamWriter
 
 @synthesize error;
 @dynamic depth;
-@synthesize maxDepth;
+@dynamic maxDepth;
 @synthesize states;
 @synthesize stream;
 @synthesize humanReadable;
@@ -167,14 +174,14 @@ static ArrayValueState *arrayValueState;
 	notANumber = [NSDecimalNumber notANumber];
 	stringCache = [NSMutableDictionary new];
 
-	openState = [StartState new];
-	closeState = [CompleteState new];
-	errorState = [ErrorState new];
-	objectOpenState = [ObjectOpenState new];
-	objectKeyState = [ObjectKeyState new];
-	objectValueState = [ObjectValueState new];
-	arrayOpenState = [ArrayOpenState new];
-	arrayValueState = [ArrayValueState new];
+	kSBJsonStreamWriterStateStart = [SBJsonStreamWriterStateStart new];
+	kSBJsonStreamWriterStateComplete = [SBJsonStreamWriterStateComplete new];
+	kSBJsonStreamWriterStateError = [SBJsonStreamWriterStateError new];
+	kSBJsonStreamWriterStateObjectStart = [SBJsonStreamWriterStateObjectStart new];
+	kSBJsonStreamWriterStateObjectKey = [SBJsonStreamWriterStateObjectKey new];
+	kSBJsonStreamWriterStateObjectValue = [SBJsonStreamWriterStateObjectValue new];
+	kSBJsonStreamWriterStateArrayStart = [SBJsonStreamWriterStateArrayStart new];
+	kSBJsonStreamWriterStateArrayValue = [SBJsonStreamWriterStateArrayValue new];
 }
 
 #pragma mark Housekeeping
@@ -184,9 +191,9 @@ static ArrayValueState *arrayValueState;
 	if (self) {
 		stream = [stream_ retain];
 		maxDepth = 512;
-		states = calloc(maxDepth, sizeof(SBJsonStreamWriterStateMachine*));
+		states = calloc(maxDepth, sizeof(SBJsonStreamWriterState*));
 		NSAssert(states, @"States not initialised");
-		states[0] = openState;
+		states[0] = kSBJsonStreamWriterStateStart;
 	}
 	return self;
 }
@@ -210,17 +217,17 @@ static ArrayValueState *arrayValueState;
 	
 	for (id k in keys) {
 		if (![k isKindOfClass:[NSString class]]) {
-			self.error = @"JSON object key must be string";
+			self.error = [NSString stringWithFormat:@"JSON object key must be string: %@", k];
 			return NO;
 		}
 
-		[self writeString:k];
+		if (![self writeString:k])
+			return NO;
 		if (![self writeValue:[dict objectForKey:k]])
 			return NO;
 	}
 	
-	[self writeObjectClose];
-	return YES;
+	return [self writeObjectClose];
 }
 
 - (BOOL)writeArray:(NSArray*)array {
@@ -229,68 +236,67 @@ static ArrayValueState *arrayValueState;
 	for (id v in array)
 		if (![self writeValue:v])
 			return NO;
-	[self writeArrayClose];
-	return YES;
+	return [self writeArrayClose];
 }
 
 
 - (BOOL)writeObjectOpen {
-	SBJsonStreamWriterStateMachine *s = states[depth];
+	SBJsonStreamWriterState *s = states[depth];
+	if ([s isInvalidState:self]) return NO;
 	if ([s expectingKey:self]) return NO;
 	[s appendSeparator:self];
-	if (humanReadable) [s appendWhitespace:self];
+	if (humanReadable && depth) [s appendWhitespace:self];
 	
 	if (maxDepth && ++depth > maxDepth) {
 		self.error = @"Nested too deep";
 		return NO;
 	}
 
-	states[depth] = objectOpenState;
-	[self write:"{\n" len:humanReadable ? 2 : 1];
+	states[depth] = kSBJsonStreamWriterStateObjectStart;
+	[self write:"{" len:1];
 	return YES;
 }
 
-- (void)writeObjectClose {
-	SBJsonStreamWriterStateMachine *state = states[depth--];
-	if (humanReadable) {
-		if ([state isKindOfClass:[ObjectKeyState class]])
-			[self write:"\n" len:1];
-		[state appendWhitespace:self];
-	}
+- (BOOL)writeObjectClose {
+	SBJsonStreamWriterState *state = states[depth--];
+	if ([state isInvalidState:self]) return NO;
+	if (humanReadable) [state appendWhitespace:self];
 	[self write:"}" len:1];
 	[states[depth] transitionState:self];
+	return YES;
 }
 
 - (BOOL)writeArrayOpen {
-	SBJsonStreamWriterStateMachine *s = states[depth];
+	SBJsonStreamWriterState *s = states[depth];
+	if ([s isInvalidState:self]) return NO;
 	if ([s expectingKey:self]) return NO;
 	[s appendSeparator:self];
-	if (humanReadable) [s appendWhitespace:self];
+	if (humanReadable && depth) [s appendWhitespace:self];
 	
 	if (maxDepth && ++depth > maxDepth) {
 		self.error = @"Nested too deep";
 		return NO;
 	}
 
-	states[depth] = arrayOpenState;
-	[self write:"[\n" len:humanReadable ? 2 : 1];
+	states[depth] = kSBJsonStreamWriterStateArrayStart;
+	[self write:"[" len:1];
 	return YES;
 }
 
-- (void)writeArrayClose {
-	SBJsonStreamWriterStateMachine *state = states[depth--];
-	if (humanReadable) {
-		if ([state isKindOfClass:[ArrayValueState class]])
-			[self write:"\n" len:1];
-		[state appendWhitespace:self];
-	}
+- (BOOL)writeArrayClose {
+	SBJsonStreamWriterState *state = states[depth--];
+	if ([state isInvalidState:self]) return NO;
+	if ([state expectingKey:self]) return NO;
+	if (humanReadable) [state appendWhitespace:self];
 	
 	[self write:"]" len:1];
 	[states[depth] transitionState:self];
+	return YES;
 }
 
 - (BOOL)writeNull {
-	SBJsonStreamWriterStateMachine *s = states[depth];
+	SBJsonStreamWriterState *s = states[depth];
+	if ([s isInvalidState:self]) return NO;
 	if ([s expectingKey:self]) return NO;
 	[s appendSeparator:self];
 	if (humanReadable) [s appendWhitespace:self];
@@ -301,7 +307,8 @@ static ArrayValueState *arrayValueState;
 }
 
 - (BOOL)writeBool:(BOOL)x {
-	SBJsonStreamWriterStateMachine *s = states[depth];
+	SBJsonStreamWriterState *s = states[depth];
+	if ([s isInvalidState:self]) return NO;
 	if ([s expectingKey:self]) return NO;
 	[s appendSeparator:self];
 	if (humanReadable) [s appendWhitespace:self];
@@ -382,8 +389,9 @@ static const char *strForChar(int c) {
 	return "FUTFUTFUT";
 }
 
-- (void)writeString:(NSString*)string {	
-	SBJsonStreamWriterStateMachine *s = states[depth];
+- (BOOL)writeString:(NSString*)string {	
+	SBJsonStreamWriterState *s = states[depth];
+	if ([s isInvalidState:self]) return NO;
 	[s appendSeparator:self];
 	if (humanReadable) [s appendWhitespace:self];
 	
@@ -391,19 +399,20 @@ static const char *strForChar(int c) {
 	if (data) {
 		[self write:[data bytes] len:[data length]];
 		[s transitionState:self];
-		return;
+		return YES;
 	}
 	
 	NSUInteger len = [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 	const char *utf8 = [string UTF8String];
 	NSUInteger written = 0, i = 0;
 		
-	data = [NSMutableData dataWithCapacity:len * 1.1];
+	data = [NSMutableData dataWithCapacity:len * 1.1f];
 	[data appendBytes:"\"" length:1];
 	
 	for (i = 0; i < len; i++) {
 		int c = utf8[i];
-		if (c >= 0 && c < 32 || c == '"' || c == '\\') {
+		BOOL isControlChar = c >= 0 && c < 32;
+		if (isControlChar || c == '"' || c == '\\') {
 			if (i - written)
 				[data appendBytes:utf8 + written length:i - written];
 			written = i + 1;
@@ -420,13 +429,15 @@ static const char *strForChar(int c) {
 	[self write:[data bytes] len:[data length]];
 	[stringCache setObject:data forKey:string];
 	[s transitionState:self];
+	return YES;
 }
 
 - (BOOL)writeNumber:(NSNumber*)number {
 	if ((CFBooleanRef)number == kCFBooleanTrue || (CFBooleanRef)number == kCFBooleanFalse)
 		return [self writeBool:[number boolValue]];
 	
-	SBJsonStreamWriterStateMachine *s = states[depth];
+	SBJsonStreamWriterState *s = states[depth];
+	if ([s isInvalidState:self]) return NO;
 	if ([s expectingKey:self]) return NO;
 	[s appendSeparator:self];
 	if (humanReadable) [s appendWhitespace:self];

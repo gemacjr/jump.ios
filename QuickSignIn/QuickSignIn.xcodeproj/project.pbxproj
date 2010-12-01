@@ -122,6 +122,9 @@
 		9FB40A4912414DEE00FDDA7B /* QSIRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40A4012414DEE00FDDA7B /* QSIRootViewController.xib */; };
 		9FB40A4A12414DEE00FDDA7B /* QSIViewControllerLevel1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40A4112414DEE00FDDA7B /* QSIViewControllerLevel1.xib */; };
 		9FB40A4B12414DEE00FDDA7B /* QSIViewControllerLevel2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB40A4212414DEE00FDDA7B /* QSIViewControllerLevel2.xib */; };
+		9FBE273612A713BE00E1F93E /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE273512A713BE00E1F93E /* SFHFKeychainUtils.m */; };
+		9FBE273912A713CE00E1F93E /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE273812A713CE00E1F93E /* SBJsonStreamWriter.m */; };
+		9FBE274412A713F600E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE274312A713F600E1F93E /* Security.framework */; };
 		9FD162791295EB3B0002BFEC /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD162781295EB3B0002BFEC /* Default-Portrait.png */; };
 /* End PBXBuildFile section */
 
@@ -269,6 +272,11 @@
 		9FB40A4112414DEE00FDDA7B /* QSIViewControllerLevel1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIViewControllerLevel1.xib; sourceTree = "<group>"; };
 		9FB40A4212414DEE00FDDA7B /* QSIViewControllerLevel2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIViewControllerLevel2.xib; sourceTree = "<group>"; };
 		9FB40A4C12414DFC00FDDA7B /* Quick_Sign_In-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quick_Sign_In-Info.plist"; sourceTree = "<group>"; };
+		9FBE273412A713BE00E1F93E /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		9FBE273512A713BE00E1F93E /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		9FBE273712A713CE00E1F93E /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriter.h; path = "../json-framework/Classes/SBJsonStreamWriter.h"; sourceTree = SOURCE_ROOT; };
+		9FBE273812A713CE00E1F93E /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamWriter.m; path = "../json-framework/Classes/SBJsonStreamWriter.m"; sourceTree = SOURCE_ROOT; };
+		9FBE274312A713F600E1F93E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9FD162781295EB3B0002BFEC /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -280,6 +288,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				9FBE274412A713F600E1F93E /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +362,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+				9FBE274312A713F600E1F93E /* Security.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -360,6 +370,7 @@
 		9F01A8C01294514400AD6899 /* JREngage */ = {
 			isa = PBXGroup;
 			children = (
+				9FBE273312A713BE00E1F93E /* Security */,
 				9F01A8E51294514400AD6899 /* Resources */,
 				9F01A8C11294514400AD6899 /* JSON */,
 				9F01A9371294514400AD6899 /* scratch */,
@@ -382,6 +393,8 @@
 				9F01A8CA1294514400AD6899 /* SBJsonParser.m */,
 				9F01A8CB1294514400AD6899 /* SBJsonWriter.h */,
 				9F01A8CC1294514400AD6899 /* SBJsonWriter.m */,
+				9FBE273712A713CE00E1F93E /* SBJsonStreamWriter.h */,
+				9FBE273812A713CE00E1F93E /* SBJsonStreamWriter.m */,
 			);
 			name = JSON;
 			path = ../JREngage/JSON;
@@ -614,6 +627,16 @@
 			path = Resources/xibs;
 			sourceTree = "<group>";
 		};
+		9FBE273312A713BE00E1F93E /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				9FBE273412A713BE00E1F93E /* SFHFKeychainUtils.h */,
+				9FBE273512A713BE00E1F93E /* SFHFKeychainUtils.m */,
+			);
+			name = Security;
+			path = ../JREngage/Security;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -806,6 +829,8 @@
 				9F01A9451294514400AD6899 /* JRUserLandingController.m in Sources */,
 				9F01A9461294514400AD6899 /* JRWebViewController.m in Sources */,
 				9F01A9471294514400AD6899 /* JRInfoBar.m in Sources */,
+				9FBE273612A713BE00E1F93E /* SFHFKeychainUtils.m in Sources */,
+				9FBE273912A713CE00E1F93E /* SBJsonStreamWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
