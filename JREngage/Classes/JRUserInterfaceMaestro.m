@@ -140,6 +140,8 @@ static JRUserInterfaceMaestro* singleton = nil;
         myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController"
                                                                                     bundle:[NSBundle mainBundle]];
     }
+
+    myProvidersController.title = @"Providers";
     
     delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController, 
                  myUserLandingController, 

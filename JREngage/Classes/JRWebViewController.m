@@ -92,15 +92,15 @@
     
 	self.title = [NSString stringWithFormat:@"%@", (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
 	
-	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:self
-                                      action:@selector(cancelButtonPressed:)] autorelease];
-
-	self.navigationItem.rightBarButtonItem = cancelButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+//	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+//									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+//									  target:self
+//                                      action:@selector(cancelButtonPressed:)] autorelease];
+//
+//	self.navigationItem.rightBarButtonItem = cancelButton;
+//	self.navigationItem.rightBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 	
     self.navigationItem.backBarButtonItem.target = sessionData;
     self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);

@@ -116,8 +116,6 @@
 	DLog(@"");
 	[super viewWillAppear:animated];
 	
-	self.title = @"Providers";
-
 	if (!titleLabel)
 	{
 		titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];

@@ -277,10 +277,10 @@
     }
     
 	self.title = [self customTitle];
-	
+
 	if (!label)
 	{
-		label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
+		label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 156, 44)] autorelease];
 		label.backgroundColor = [UIColor clearColor];
 		label.font = [UIFont boldSystemFontOfSize:20.0];
 		label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
@@ -302,15 +302,15 @@
 	}
 	[infoBar fadeIn];	
 	
-	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:sessionData
-                                      action:@selector(triggerAuthenticationDidStartOver:)] autorelease];
+//	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+//									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+//									  target:sessionData
+//                                      action:@selector(triggerAuthenticationDidStartOver:)] autorelease];
 
-	self.navigationItem.rightBarButtonItem = cancelButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+//	self.navigationItem.rightBarButtonItem = cancelButton;
+//	self.navigationItem.rightBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
     self.navigationItem.backBarButtonItem.target = sessionData;
     self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
