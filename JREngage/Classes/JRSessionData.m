@@ -48,7 +48,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 //#define STAGING
-//#define LOCAL
+#define LOCAL
 #ifdef STAGING
 static NSString * const serverUrl = @"https://rpxstaging.com";
 #else
@@ -648,10 +648,9 @@ static JRSessionData* singleton = nil;
 - (NSError*)startGetConfiguration
 {	
     DLog(@"");
-    
     NSString *nameAndVersion = [self appNameAndVersion];
 	NSString *urlString = [NSString stringWithFormat:
-                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true%@", 
+                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&skipXdReceiver=true%@", 
                            serverUrl, device, appId, nameAndVersion];
     
     DLog(@"url: %@", urlString);
