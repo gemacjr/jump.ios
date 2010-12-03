@@ -682,7 +682,7 @@ static JRSessionData* singleton = nil;
     NSMutableSet *iconsForProvider = [iconsStillNeeded objectForKey:provider];
     [iconsForProvider removeObject:pictureName];
     
-    if ([iconsForProvider count])
+    if ([iconsForProvider count] == 0)
     {
         [iconsStillNeeded removeObjectForKey:provider];
         [providersWithIcons addObject:provider];

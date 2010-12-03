@@ -110,7 +110,7 @@
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
         else
-            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
             [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, myWebView.frame.origin.y, myWebView.frame.size.width, myWebView.frame.size.height - 30)];
