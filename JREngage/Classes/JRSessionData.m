@@ -238,9 +238,9 @@ NSString* displayNameAndIdentifier()
 
 - (void)loadDynamicVariables
 {
-    userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@UserInput", name]];
-    welcomeString = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jr%@WelcomeString", name]];
-    forceReauth   = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jr%@ForceReauth", name]];
+    userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jrengage.provider.%@.userInput", name]];
+    welcomeString = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jrengage.provider.%@.welcomeString", name]];
+    forceReauth   = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jrengage.provider.%@.forceReauth", name]];
 }
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary
@@ -354,7 +354,7 @@ NSString* displayNameAndIdentifier()
 {
     welcomeString = _welcomeString;
     
-    [[NSUserDefaults standardUserDefaults] setValue:welcomeString forKey:[NSString stringWithFormat:@"jr%@WelcomeString", self.name]];
+    [[NSUserDefaults standardUserDefaults] setValue:welcomeString forKey:[NSString stringWithFormat:@"jrengage.provider.%@.welcomeString", self.name]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -367,7 +367,7 @@ NSString* displayNameAndIdentifier()
 {
     userInput = _userInput;
     
-    [[NSUserDefaults standardUserDefaults] setValue:userInput forKey:[NSString stringWithFormat:@"jr%@UserInput", self.name]];
+    [[NSUserDefaults standardUserDefaults] setValue:userInput forKey:[NSString stringWithFormat:@"jrengage.provider.%@.userInput", self.name]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -380,7 +380,7 @@ NSString* displayNameAndIdentifier()
 {
     forceReauth = _forceReauth;
     
-    [[NSUserDefaults standardUserDefaults] setBool:forceReauth forKey:[NSString stringWithFormat:@"jr%@ForceReauth", self.name]];
+    [[NSUserDefaults standardUserDefaults] setBool:forceReauth forKey:[NSString stringWithFormat:@"jrengage.provider.%@.forceReauth", self.name]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -543,12 +543,11 @@ static JRSessionData* singleton = nil;
             device = @"ipad";
         else
             device = @"iphone";
-
         
         /* First, we load all of the cached data (the list of providers, saved users, base url, etc.) */
         
         /* Load the dictionary of authenticated users */
-        NSData *archivedUsers = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrAuthenticatedUsersByProvider"];
+        NSData *archivedUsers = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.authenticatedUsersByProvider"];
         if (archivedUsers != nil)
         {
             NSDictionary *unarchivedUsers = [NSKeyedUnarchiver unarchiveObjectWithData:archivedUsers];
@@ -561,7 +560,7 @@ static JRSessionData* singleton = nil;
             authenticatedUsersByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
 
         /* Load the list of all providers */
-        NSData *archivedProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrAllProviders"];
+        NSData *archivedProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.allProviders"];
         if (archivedProviders != nil)
         {
             NSDictionary *unarchivedProviders = [NSKeyedUnarchiver unarchiveObjectWithData:archivedProviders];
@@ -569,23 +568,30 @@ static JRSessionData* singleton = nil;
                 allProviders = [[NSMutableDictionary alloc] initWithDictionary:unarchivedProviders];
         }
         
-        /* Load the list of basic providers */
-        NSData *archivedBasicProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrBasicProviders"];
-        if (archivedBasicProviders != nil)
-        {
-            basicProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedBasicProviders] retain];
-        }
-        
-        /* Load the list of social providers */
-        NSData *archivedSocialProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrSocialProviders"];
-        if (archivedSocialProviders != nil)
-        {
-            //[[NSArray alloc] initWithObjects:@"yahoo", nil];//
-            socialProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders] retain];
-        }
+//        /* Load the list of basic providers */
+//        NSData *archivedBasicProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.basicProviders"];
+//        if (archivedBasicProviders != nil)
+//        {
+//            basicProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedBasicProviders] retain];
+//        }
+//        
+//        /* Load the list of social providers */
+//        NSData *archivedSocialProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.socialProviders"];
+//        if (archivedSocialProviders != nil)
+//        {
+//            //[[NSArray alloc] initWithObjects:@"yahoo", nil];//
+//            socialProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders] retain];
+//        }
 
+        /* Load the list of basic providers */
+        basicProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.basicProviders"];
+  
+        /* Load the list of social providers */
+        socialProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.socialProviders"];
+        
         // QTS: Do we need to use a keyed unarchiver if it's just an array or dictionary of strings?
-        NSData *archivedIconsStillNeeded = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrIconsStillNeeded"];
+        // ATS: Because we're using an NSSet, then, yes, I think we do... (unless the NSSet is what's cauing this to be null?
+        NSData *archivedIconsStillNeeded = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.iconsStillNeeded"];
         if (archivedIconsStillNeeded != nil)
         {
             NSDictionary *unarchivedIconsStillNeeded = [NSKeyedUnarchiver unarchiveObjectWithData:archivedIconsStillNeeded];
@@ -593,17 +599,17 @@ static JRSessionData* singleton = nil;
                 iconsStillNeeded = [[NSMutableDictionary alloc] initWithDictionary:unarchivedIconsStillNeeded];
         }
 
-        NSData *archivedProvidersWithIcons = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrProvidersWithIcons"];
+        NSData *archivedProvidersWithIcons = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.providersWithIcons"];
         if (archivedProvidersWithIcons != nil)
         {
-            NSDictionary *unarchivedProvidersWithIcons = [NSKeyedUnarchiver unarchiveObjectWithData:archivedProvidersWithIcons];
+            NSSet *unarchivedProvidersWithIcons = [NSKeyedUnarchiver unarchiveObjectWithData:archivedProvidersWithIcons];
             if (unarchivedProvidersWithIcons != nil)
-                providersWithIcons = [[NSMutableDictionary alloc] initWithDictionary:unarchivedProvidersWithIcons];
+                providersWithIcons = [[NSMutableSet alloc] initWithSet:unarchivedProvidersWithIcons];
         }
         
         /* Load the base url and whether or not we need to hide the tagline */
-        baseUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrBaseUrl"];
-        hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:@"jrHidePoweredBy"];
+        baseUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrengage.sessionData.baseUrl"];
+        hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:@"jrengage.sessionData.hidePoweredBy"];
                 
         [self loadLastUsedBasicProvider];
         [self loadLastUsedSocialProvider];
@@ -611,13 +617,13 @@ static JRSessionData* singleton = nil;
         /* As this information may have changed, we're going to ask rpx for this information anyway */
         error = [self startGetConfiguration];
     
-//        NSString *imagePath = @"foo.jpg";
+//        NSString *imagePath = @"foo.png";
 //        
 //        if ([NSData dataWithContentsOfFile:imagePath])
 //            DLog ();
 //        
 //        if (![UIImage imageNamed:imagePath])
-//            [self startDownloadPicture:imagePath];
+//        [self startDownloadPicture:imagePath forProvider:@"foo"];
     }
     
 	return self;
@@ -683,9 +689,9 @@ static JRSessionData* singleton = nil;
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:iconsStillNeeded] 
-                                              forKey:@"jrIconsStillNeeded"];
+                                              forKey:@"jrengage.sessionData.iconsStillNeeded"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:providersWithIcons] 
-                                              forKey:@"jrProvidersWithIcons"];    
+                                              forKey:@"jrengage.sessionData.providersWithIcons"];    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -701,7 +707,7 @@ static JRSessionData* singleton = nil;
 	
 	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
 	
-    NSDictionary* tag = [[NSDictionary alloc] initWithObjectsAndKeys:picture, @"pictureName",
+    NSDictionary *tag = [[NSDictionary alloc] initWithObjectsAndKeys:picture, @"pictureName",
                                                                      provider, @"providerName",
                                                                      @"downloadPicture", @"action", nil];
     
@@ -718,14 +724,30 @@ static JRSessionData* singleton = nil;
             [self startDownloadPicture:icon forProvider:provider];
         }
     }
+
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:iconsStillNeeded] 
+                                              forKey:@"jrengage.sessionData.iconsStillNeeded"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:providersWithIcons] 
+                                              forKey:@"jrengage.sessionData.providersWithIcons"];    
+    [[NSUserDefaults standardUserDefaults] synchronize];    
 }
 
 - (void)checkForIcons:(NSString*[])icons forProvider:(NSString*)providerName
 {
+    /* If this provider's icons are already on the device, just return */
     if ([providersWithIcons containsObject:providerName])
         return;
     
-    NSMutableSet *iconsNeeded = [NSMutableSet setWithCapacity:3];
+ /* Otherwise, either the provider's icons need to be downloaded or this could be the first 
+    time we're checking for this (as in, the code that includes this bit was just updated).
+    If it's the first time, these saved lists will probably be nil, so init. */
+    if (!providersWithIcons)
+        providersWithIcons = [[NSMutableSet alloc] initWithCapacity:4];
+    
+    if (!iconsStillNeeded)
+        iconsStillNeeded = [[NSMutableDictionary alloc] initWithCapacity:4];
+    
+    NSMutableSet *iconsNeeded = [NSMutableSet setWithCapacity:4];
     
     int i = 0;
     while (icons[i])
@@ -815,7 +837,7 @@ static JRSessionData* singleton = nil;
                     stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] retain];
     
     /* Then save it */
-    [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"jrBaseUrl"];
+    [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"jrengage.sessionData.baseUrl"];
     
     /* Get the providers out of the provider_info section.  These are most likely to have changed. */
     NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
@@ -847,11 +869,14 @@ static JRSessionData* singleton = nil;
     
     /* Then save our stuff */
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
-                                              forKey:@"jrAllProviders"];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
-                                              forKey:@"jrBasicProviders"];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
-                                              forKey:@"jrSocialProviders"];
+                                              forKey:@"jrengage.sessionData.allProviders"];
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
+//                                              forKey:@"jrengage.sessionData.basicProviders"];
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
+//                                              forKey:@"jrengage.sessionData.socialProviders"];
+
+    [[NSUserDefaults standardUserDefaults] setObject:basicProviders forKey:@"jrengage.sessionData.basicProviders"];
+    [[NSUserDefaults standardUserDefaults] setObject:socialProviders forKey:@"jrengage.sessionData.socialProviders"];
     
     /* Figure out if we need to hide the tag line */
     if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
@@ -860,12 +885,12 @@ static JRSessionData* singleton = nil;
         hidePoweredBy = NO;
     
     /* And finally, save that too */
-    [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"jrHidePoweredBy"];
+    [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"jrengage.sessionData.hidePoweredBy"];
     
     /* Once we know that everything is parsed and saved correctly, save the new etag */
-    [[NSUserDefaults standardUserDefaults] setValue:newEtag forKey:@"jrConfigurationEtag"];
+    [[NSUserDefaults standardUserDefaults] setValue:newEtag forKey:@"jrengage.sessionData.configurationEtag"];
     
-    [[NSUserDefaults standardUserDefaults] setValue:gitCommit forKey:@"jrEngageCommit"];
+    [[NSUserDefaults standardUserDefaults] setValue:gitCommit forKey:@"jrengage.sessionData.engageCommit"];
    
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -885,30 +910,35 @@ static JRSessionData* singleton = nil;
 {
 	DLog(@"");
     
-    
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
                                [[[NSBundle mainBundle] resourcePath] 
                                 stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
     
-    NSString *currentCommit = [infoPlist objectForKey:@"Git Commit"];
-    NSString *savedCommit = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrEngageCommit"];
+    NSString *currentCommit = [infoPlist objectForKey:@"JREngage.GitCommit"];
+    NSString *savedCommit = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrengage.sessionData.engageCommit"];
     
-    NSString *oldEtag = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrConfigurationEtag"];
+    NSString *oldEtag = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrengage.sessionData.configurationEtag"];
     
- /* If the configuration for this rp has changed, the etag will have changed, and we need to update our current 
-    configuration information. Or, if the configuration code has changed, the savedCommit will be different than the 
-    currentCommit (set as a property in the JREngage-Info.plist), and we need to update our current configuration 
-    information.  Lastly, if we are testing changes in the configuration code, the currentCommit will be set to "1",
-    forcing this every time. */
-    if (![oldEtag isEqualToString:etag] || ![currentCommit isEqualToString:savedCommit] || currentCommit == 1) 
+ /* If the downloaded configuration for this RP has changed, the http://mobile_config... URL's etag will have changed, and we need 
+    to update our current configuration information.  Or, any time the JREngage library's code has been changed and committed, 
+    the JREngage.GitCommit property in the JREngage-Info.plist will have changed to reflect the current commit.  Since code changes 
+    may affect the objects that get synchronized, we need to update our current configuration information when this occurs as well.  
+    We test for both of these cases by saving the last etag and commit string, and comparing the saved value to the current value.  
+    Almost always, these will be the same, and we are safe using our cached configuration data.  Lastly, if we are testing changes 
+    in the synchronization code, we can temporarily set the currentCommit (JREngage.GitCommit) to "1", forcing library to reconfigure
+    itself every time. */
+    if (![oldEtag isEqualToString:etag] || ![currentCommit isEqualToString:savedCommit] || [currentCommit isEqualToString:@"1"]) 
     {
         newEtag = [etag retain];
         gitCommit = [currentCommit retain];
     
-     /* We can only update all of our data if the UI isn't currently using that information.  Otherwise, 
-        the library may crash/behave inconsistently.  If a dialog isn't showing, go ahead and update
-        that information.  Or, in the case where a dialog is showing but there isn't any data that it could
-        be using (that is, the lists of basic and social providers are nil), go ahead and update it too.
+     /* We can only update all of our data if the UI isn't currently using that information.  Otherwise, the library may 
+        crash/behave inconsistently.  If a dialog isn't showing, go ahead and update new configuration information.  
+
+        Or, in rare cases, there might not be any data at all (the lists of basic and social providers are nil), perhaps 
+        because this is the first time the library was used and the configuration information is still downloading. In these cases, 
+        the dialogs will display their view as greyed-out, with a spinning activity indicator and a loading message, as they wait 
+        for the lists of providers to download, so we can go ahead and update the configuration information here, too. 
         The dialogs won't try and do anything until we're done updating the lists. */
         if (!dialogIsShowing || (!basicProviders && !socialProviders))
             return [self finishGetConfiguration:dataStr];
@@ -944,14 +974,14 @@ static JRSessionData* singleton = nil;
 {
 	DLog(@"");
 
-    returningSocialProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrLastUsedSocialProvider"] retain];
+    returningSocialProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrengage.sessionData.lastUsedSocialProvider"] retain];
 }
 
 - (void)loadLastUsedBasicProvider
 {
     DLog(@"");
 
-    returningBasicProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrLastUsedBasicProvider"] retain];
+    returningBasicProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrengage.sessionData.lastUsedBasicProvider"] retain];
 }
 
 - (void)saveLastUsedSocialProvider
@@ -961,7 +991,7 @@ static JRSessionData* singleton = nil;
     [returningSocialProvider release], returningSocialProvider = [currentProvider.name retain];
 
     [[NSUserDefaults standardUserDefaults] setObject:returningSocialProvider
-                                              forKey:@"jrLastUsedSocialProvider"];
+                                              forKey:@"jrengage.sessionData.lastUsedSocialProvider"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -986,7 +1016,7 @@ static JRSessionData* singleton = nil;
     [returningBasicProvider release], returningBasicProvider = [currentProvider.name retain];
 
     [[NSUserDefaults standardUserDefaults] setObject:returningBasicProvider
-                                              forKey:@"jrLastUsedBasicProvider"];
+                                              forKey:@"jrengage.sessionData.lastUsedBasicProvider"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -1118,7 +1148,7 @@ static JRSessionData* singleton = nil;
     
     [authenticatedUsersByProvider removeObjectForKey:providerName];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
-                                              forKey:@"jrAuthenticatedUsersByProvider"];
+                                              forKey:@"jrengage.sessionData.authenticatedUsersByProvider"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -1134,7 +1164,7 @@ static JRSessionData* singleton = nil;
     
     [authenticatedUsersByProvider removeAllObjects];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
-                                              forKey:@"jrAuthenticatedUsersByProvider"];
+                                              forKey:@"jrengage.sessionData.authenticatedUsersByProvider"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -1407,7 +1437,14 @@ static JRSessionData* singleton = nil;
 
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
-    NSObject* tag = (NSObject*)userdata;
+    NSObject *tag = (NSObject*)userdata;
+//    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)fullResponse;
+
+    NSDictionary *headers;
+    if ([(NSHTTPURLResponse*)fullResponse respondsToSelector:@selector(allHeaderFields)]) 
+        headers = [(NSHTTPURLResponse*)fullResponse allHeaderFields];
+    
+    // QTS: We don't need to do this, do we??? >:-/
     [payload retain];
     
     if ([tag isKindOfClass:[NSDictionary class]])
@@ -1424,9 +1461,11 @@ static JRSessionData* singleton = nil;
         }
         if ([action isEqualToString:@"downloadPicture"])
         {
-            [self finishDownloadPicture:payload 
-                                  named:[(NSDictionary*)tag objectForKey:@"pictureName"]
-                            forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
+            // TODO: Later, make this more dynamic, and not fixed to just pngs.
+            if ([[fullResponse MIMEType] isEqualToString:@"image/png"])
+                [self finishDownloadPicture:payload 
+                                      named:[(NSDictionary*)tag objectForKey:@"pictureName"]
+                                forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
         }
     }
     else if ([tag isKindOfClass:[NSString class]])
@@ -1441,11 +1480,8 @@ static JRSessionData* singleton = nil;
             
             if ([payloadString rangeOfString:@"\"provider_info\":{"].length != 0)
             {
-                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)fullResponse;
-
-                if ([httpResponse respondsToSelector:@selector(allHeaderFields)]) 
-                    error = [self finishGetConfiguration:payloadString 
-                                                withEtag:[[httpResponse allHeaderFields] objectForKey:@"Etag"]];
+                error = [self finishGetConfiguration:payloadString 
+                                            withEtag:[headers objectForKey:@"Etag"]];
             }
             else // There was an error...
             {
@@ -1603,7 +1639,7 @@ static JRSessionData* singleton = nil;
     
     [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
-                                              forKey:@"jrAuthenticatedUsersByProvider"];
+                                              forKey:@"jrengage.sessionData.authenticatedUsersByProvider"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if ([[self basicProviders] containsObject:currentProvider.name])

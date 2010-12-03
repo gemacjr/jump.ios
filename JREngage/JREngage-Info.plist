@@ -4,7 +4,7 @@
 <dict>
 	<key>CFBundleShortVersionString</key>
 	<string>v2.0.2</string>
-	<key>Git Commit</key>
+	<key>JREngage.GitCommit</key>
 	<string>1</string>
 </dict>
 </plist>
