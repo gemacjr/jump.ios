@@ -59,6 +59,18 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 #endif
 #endif
 
+
+static NSString * const iconNames[3] = { @"jrauth_%@_icon.png", 
+                                         @"jrauth_%@_logo.png", nil};
+
+static NSString * const iconNamesSocial[6] = {  @"jrauth_%@_icon.png", 
+                                                @"jrauth_%@_logo.png", 
+                                                @"jrauth_%@_long.png",
+                                                @"jrauth_%@_short.png",
+                                                @"jrauth_%@_greyscale.png", nil};
+     
+
+
 /* Added a category to NSString including a function to correctly escape any arguments sent to any of the 
    Engage API calls */
 @interface NSString (NSString_URL_ESCAPING)
@@ -222,6 +234,7 @@ NSString* displayNameAndIdentifier()
 @synthesize shortText;
 @synthesize socialPublishingProperties;
 @synthesize extPerm;
+@synthesize iconsPresent;
 
 - (void)loadDynamicVariables
 {
@@ -571,6 +584,23 @@ static JRSessionData* singleton = nil;
             socialProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders] retain];
         }
 
+        // QTS: Do we need to use a keyed unarchiver if it's just an array or dictionary of strings?
+        NSData *archivedIconsStillNeeded = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrIconsStillNeeded"];
+        if (archivedIconsStillNeeded != nil)
+        {
+            NSDictionary *unarchivedIconsStillNeeded = [NSKeyedUnarchiver unarchiveObjectWithData:archivedIconsStillNeeded];
+            if (unarchivedIconsStillNeeded != nil)
+                iconsStillNeeded = [[NSMutableDictionary alloc] initWithDictionary:unarchivedIconsStillNeeded];
+        }
+
+        NSData *archivedProvidersWithIcons = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrProvidersWithIcons"];
+        if (archivedProvidersWithIcons != nil)
+        {
+            NSDictionary *unarchivedProvidersWithIcons = [NSKeyedUnarchiver unarchiveObjectWithData:archivedProvidersWithIcons];
+            if (unarchivedProvidersWithIcons != nil)
+                providersWithIcons = [[NSMutableDictionary alloc] initWithDictionary:unarchivedProvidersWithIcons];
+        }
+        
         /* Load the base url and whether or not we need to hide the tagline */
         baseUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrBaseUrl"];
         hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:@"jrHidePoweredBy"];
@@ -580,7 +610,15 @@ static JRSessionData* singleton = nil;
                 
         /* As this information may have changed, we're going to ask rpx for this information anyway */
         error = [self startGetConfiguration];
-	}
+    
+//        NSString *imagePath = @"foo.jpg";
+//        
+//        if ([NSData dataWithContentsOfFile:imagePath])
+//            DLog ();
+//        
+//        if (![UIImage imageNamed:imagePath])
+//            [self startDownloadPicture:imagePath];
+    }
     
 	return self;
 }
@@ -629,6 +667,84 @@ static JRSessionData* singleton = nil;
                                   userInfo:userInfo];
 }
 
+- (void)finishDownloadPicture:(NSData*)picture named:(NSString*)pictureName forProvider:(NSString*)provider
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *fullPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:pictureName];//[NSString stringWithFormat:@"%@", pictureName]];
+    [fileManager createFileAtPath:fullPath contents:picture attributes:nil];
+
+    NSMutableSet *iconsForProvider = [iconsStillNeeded objectForKey:provider];
+    [iconsForProvider removeObject:pictureName];
+    
+    if ([iconsForProvider count])
+    {
+        [iconsStillNeeded removeObjectForKey:provider];
+        [providersWithIcons addObject:provider];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:iconsStillNeeded] 
+                                              forKey:@"jrIconsStillNeeded"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:providersWithIcons] 
+                                              forKey:@"jrProvidersWithIcons"];    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)startDownloadPicture:(NSString*)picture forProvider:(NSString*)provider
+{
+	NSString *urlString = [NSString stringWithFormat:
+                           @"%@/cdn/images/mobile_icons/%@/%@", 
+                           serverUrl, device, picture];
+    
+    DLog(@"url: %@", urlString);
+	
+	NSURL *url = [NSURL URLWithString:urlString];
+	
+	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+	
+    NSDictionary* tag = [[NSDictionary alloc] initWithObjectsAndKeys:picture, @"pictureName",
+                                                                     provider, @"providerName",
+                                                                     @"downloadPicture", @"action", nil];
+    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag];    
+}
+
+- (void)downloadAnyIcons:(NSMutableDictionary*)neededIcons
+{
+    for (NSString *provider in [neededIcons allKeys])
+    {
+        NSMutableSet *icons = [neededIcons objectForKey:provider];
+        for (NSString *icon in [icons allObjects])
+        {
+            [self startDownloadPicture:icon forProvider:provider];
+        }
+    }
+}
+
+- (void)checkForIcons:(NSString*[])icons forProvider:(NSString*)providerName
+{
+    if ([providersWithIcons containsObject:providerName])
+        return;
+    
+    NSMutableSet *iconsNeeded = [NSMutableSet setWithCapacity:3];
+    
+    int i = 0;
+    while (icons[i])
+    {
+        if (![UIImage imageNamed:[NSString stringWithFormat:icons[i], providerName]])
+            [iconsNeeded addObject:[NSString stringWithFormat:icons[i], providerName]];
+        else
+            DLog ("Found icon: %@", [NSString stringWithFormat:icons[i], providerName]);
+        
+        i++;
+    }
+    
+    if ([iconsNeeded count])
+        [iconsStillNeeded setObject:iconsNeeded forKey:providerName];
+    else
+        [providersWithIcons addObject:providerName];
+}
+
+
 - (NSString*)appNameAndVersion
 {
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
@@ -642,7 +758,7 @@ static JRSessionData* singleton = nil;
     NSString *version = [[[infoPlist objectForKey:@"CFBundleShortVersionString"] 
                           stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
     
-    return [NSString stringWithFormat:@"&appName=%@.%@&version=%@_%@", name, ident, device, version];
+    return [NSString stringWithFormat:@"appName=%@.%@&version=%@_%@", name, ident, device, version];
 }
 
 - (NSError*)startGetConfiguration
@@ -650,7 +766,7 @@ static JRSessionData* singleton = nil;
     DLog(@"");
     NSString *nameAndVersion = [self appNameAndVersion];
 	NSString *urlString = [NSString stringWithFormat:
-                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&skipXdReceiver=true%@", 
+                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
                            serverUrl, device, appId, nameAndVersion];
     
     DLog(@"url: %@", urlString);
@@ -708,11 +824,14 @@ static JRSessionData* singleton = nil;
     /* For each provider... */
     for (NSString *name in [providerInfo allKeys])
     {   /* Get its dictionary, */
-            NSDictionary *dictionary = [providerInfo objectForKey:name];
+        NSDictionary *dictionary = [providerInfo objectForKey:name];
         
         /* use this to create a provider object, */
         JRProvider *provider = [[[JRProvider alloc] initWithName:name
                                                    andDictionary:dictionary] autorelease];
+        
+        /* make sure we have this provider's icons, */
+        [self checkForIcons:(([provider.socialPublishingProperties count]) ? iconNamesSocial : iconNames) forProvider:name];
         
         /* and finally add the object to our dictionary of providers. */
         [allProviders setObject:provider forKey:name];
@@ -750,6 +869,8 @@ static JRSessionData* singleton = nil;
    
     [[NSUserDefaults standardUserDefaults] synchronize];
     
+    [self downloadAnyIcons:iconsStillNeeded];
+    
     /* The release our saved configuration information */
     [savedConfigurationBlock release];
     [newEtag release];
@@ -774,9 +895,12 @@ static JRSessionData* singleton = nil;
     
     NSString *oldEtag = [[NSUserDefaults standardUserDefaults] stringForKey:@"jrConfigurationEtag"];
     
- /* If the configuration for this rp has changed, the etag will have changed, and we need to update 
-    our current configuration information. */
-    if (![oldEtag isEqualToString:etag] || ![currentCommit isEqualToString:savedCommit]) 
+ /* If the configuration for this rp has changed, the etag will have changed, and we need to update our current 
+    configuration information. Or, if the configuration code has changed, the savedCommit will be different than the 
+    currentCommit (set as a property in the JREngage-Info.plist), and we need to update our current configuration 
+    information.  Lastly, if we are testing changes in the configuration code, the currentCommit will be set to "1",
+    forcing this every time. */
+    if (![oldEtag isEqualToString:etag] || ![currentCommit isEqualToString:savedCommit] || currentCommit == 1) 
     {
         newEtag = [etag retain];
         gitCommit = [currentCommit retain];
@@ -795,7 +919,11 @@ static JRSessionData* singleton = nil;
         savedConfigurationBlock, and updates it then. */
         savedConfigurationBlock = [dataStr retain];
     }
-    
+    else
+    {
+        [self downloadAnyIcons:iconsStillNeeded];
+    }
+
     return nil;
 }
 
@@ -1293,6 +1421,12 @@ static JRSessionData* singleton = nil;
                               withResponse:fullResponse 
                                 andPayload:payload 
                                forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
+        }
+        if ([action isEqualToString:@"downloadPicture"])
+        {
+            [self finishDownloadPicture:payload 
+                                  named:[(NSDictionary*)tag objectForKey:@"pictureName"]
+                            forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
         }
     }
     else if ([tag isKindOfClass:[NSString class]])
