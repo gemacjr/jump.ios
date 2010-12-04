@@ -66,10 +66,9 @@
     story = [[FeedReader feedReader].selectedStory retain];
 
     self.title = @"Article";
-    NSString *webViewContent;
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        webViewContent = [NSString stringWithFormat:
+        webViewContent = [[NSString stringWithFormat:
                                     @"<html>                                    \
                                         <head>                                  \
                                             <style type=\"text/css\">           \
@@ -119,9 +118,9 @@
                                     </html>", 
                                 story.title,
                                 story.pubDate,
-                                story.description];
+                                story.description] retain];
     else
-        webViewContent = [NSString stringWithFormat:
+        webViewContent = [[NSString stringWithFormat:
                                     @"<html>                                    \
                                         <head>                                  \
                                             <style type=\"text/css\">           \
@@ -171,7 +170,7 @@
                                     </html>", 
                                 story.title,
                                 story.pubDate,
-                                story.description];
+                                story.description] retain];
     
  // [webview setAllowsInlineMediaPlayback:YES];
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
@@ -231,8 +230,6 @@
     
     activity.title = story.title;
     
-    
-    
     activity.description = [story.plainText substringToIndex:
                             ((story.plainText.length < 160) ? story.plainText.length : 160)];
     
@@ -246,12 +243,21 @@
         activity.media = [NSArray arrayWithObject:image];
     }
 
-    // TODO: Fix when ready
-    activity.email = [JREmailObject emailObjectWithSubject:@"hello" 
-                                            andMessageBody:@"blah blah blah foo.com blah blah bar.com"
-                                                    isHtml:NO
-                                      andUrlsToBeShortened:[NSArray arrayWithObjects:@"foo.com", @"bar.com", nil]];
-    activity.sms = [JRSmsObject smsObjectWithMessage:@"blah blah blah" andUrlsToBeShortened:nil];
+    activity.email = [JREmailObject emailObjectWithSubject:@"Check out this article from the Janrain Blog!" 
+                                            andMessageBody:[NSString stringWithFormat:
+                                                            @"I found this artical on Janrain's Blog and I thought you might be interested!<br /><br />%@", 
+                                                            webViewContent]
+                                                    isHtml:YES 
+                                      andUrlsToBeShortened:nil];
+    activity.sms = [JRSmsObject smsObjectWithMessage:[NSString stringWithFormat:@"Check out this article from the Janrain Blog!\n\n%@", story.link]
+                                andUrlsToBeShortened:nil];
+    
+//    TODO: Fix when ready
+//    activity.email = [JREmailObject emailObjectWithSubject:@"hello" 
+//                                            andMessageBody:@"blah blah blah foo.com blah blah bar.com"
+//                                                    isHtml:NO
+//                                      andUrlsToBeShortened:[NSArray arrayWithObjects:@"foo.com", @"bar.com", nil]];
+//    activity.sms = [JRSmsObject smsObjectWithMessage:@"blah blah blah" andUrlsToBeShortened:nil];
     
     
     [FeedReader feedReader].feedReaderDetail = self;

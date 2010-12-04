@@ -45,6 +45,7 @@
     
     FeedReaderWebView *feedReaderWebview;
     IBOutlet UIWebView *webview;
+    NSString *webViewContent;
 }
 - (IBAction)shareButtonPressed:(id)sender;
 @end
