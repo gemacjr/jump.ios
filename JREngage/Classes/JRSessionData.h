@@ -113,11 +113,13 @@
 	NSString *url;	
     NSString *extPerm;
 	BOOL      forceReauth;
+    BOOL      iconsPresent;
     
     NSString *userInput;
 	NSString *welcomeString;
     
     NSDictionary *socialPublishingProperties;
+
 }
 
 @property (readonly) NSString *name;
@@ -127,6 +129,7 @@
 @property (readonly) NSString *extPerm;
 @property (readonly) BOOL      requiresInput;
 @property            BOOL      forceReauth;
+@property            BOOL      iconsPresent;
 @property (retain)   NSString *userInput;
 @property (retain)   NSString *welcomeString;
 @property (readonly) NSDictionary *socialPublishingProperties;
@@ -178,6 +181,9 @@
     NSString *savedConfigurationBlock;
     NSString *newEtag;
     NSString *gitCommit;
+    
+    NSMutableSet        *providersWithIcons;
+    NSMutableDictionary *iconsStillNeeded;
     
     JRActivityObject *activity;
     
@@ -233,6 +239,7 @@
 - (void)setReturningBasicProviderToNil;
 
 - (BOOL)weShouldBeFirstResponder;
+- (void)downloadPicture:(NSString*)picture;// thenCallSelector:(@selector)selector;
 
 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider;
 - (JRAuthenticatedUser*)authenticatedUserForProviderNamed:(NSString*)provider;
