@@ -173,7 +173,7 @@
 	[title release];
 	title = [[[_title stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"]
                       stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
-    DLog(@"title:\t\t\t%@", title);
+//    DLog(@"title:\t\t\t%@", title);
 }
 
 - (void)setLink:(NSString*)_link
