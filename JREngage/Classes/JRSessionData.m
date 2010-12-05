@@ -59,6 +59,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 #endif
 #endif
 
+/* Lists of the standard names for providers' logo and icons */
 static NSString * const iconNames[3] = { @"jrauth_%@_icon.png", 
                                          @"jrauth_%@_logo.png", nil};
 
@@ -107,8 +108,7 @@ NSString* displayNameAndIdentifier()
 {
 	DLog(@"");
   
-    // QTS: How do I check this without getting the warning??
-    if (dictionary == nil || _provider_name == nil || [dictionary objectForKey:@"device_token"] == (CFStringRef*)kCFNull)
+    if (dictionary == nil || _provider_name == nil || (void*)[dictionary objectForKey:@"device_token"] == kCFNull)
 	{
 		[self release];
 		return nil;
@@ -118,10 +118,10 @@ NSString* displayNameAndIdentifier()
 	{
         provider_name = [_provider_name retain];
         
-        if ([dictionary objectForKey:@"photo"] != kCFNull)
+        if ((void*)[dictionary objectForKey:@"photo"] != kCFNull)
             photo = [[dictionary objectForKey:@"photo"] retain];
 
-        if ([dictionary objectForKey:@"preferred_username"] != kCFNull)
+        if ((void*)[dictionary objectForKey:@"preferred_username"] != kCFNull)
             preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];
         
         device_token = [[dictionary objectForKey:@"device_token"] retain];
