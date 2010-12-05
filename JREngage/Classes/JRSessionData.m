@@ -68,7 +68,6 @@ static NSString * const iconNamesSocial[6] = {  @"jrauth_%@_icon.png",
                                                 @"jrauth_%@_short.png",
                                                 @"jrauth_%@_greyscale.png", nil};
      
-
 /* Added a category to NSString including a function to correctly escape any arguments sent to any of the 
    Engage API calls */
 @interface NSString (NSString_URL_ESCAPING)
@@ -125,8 +124,6 @@ NSString* displayNameAndIdentifier()
         if ([dictionary objectForKey:@"preferred_username"] != kCFNull)
             preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];
         
-//        auth_info = [[dictionary objectForKey:@"auth_info"] retain];
-        
         device_token = [[dictionary objectForKey:@"device_token"] retain];
     }
 
@@ -141,9 +138,6 @@ NSString* displayNameAndIdentifier()
     [coder encodeObject:photo forKey:@"photo"];
     [coder encodeObject:preferred_username forKey:@"preferred_username"];
     [coder encodeObject:nil forKey:@"device_token"];
-
-//    [coder encodeObject:device_token forKey:@"device_token"];
-//    [coder encodeObject:auth_info forKey:@"auth_info"];
 
     NSError *error = nil;
     [SFHFKeychainUtils storeUsername:provider_name 
@@ -180,9 +174,6 @@ NSString* displayNameAndIdentifier()
         if (!device_token)
             device_token = [[coder decodeObjectForKey:@"device_token"] retain];
         
-        
-//        device_token = [[coder decodeObjectForKey:@"device_token"] retain];
-//        auth_info = [[coder decodeObjectForKey:@"auth_info"] retain];
     }   
 
     return self;
@@ -253,7 +244,7 @@ NSString* displayNameAndIdentifier()
         placeholderText = [[_dictionary objectForKey:@"input_prompt"] retain];
         openIdentifier = [[_dictionary objectForKey:@"openid_identifier"] retain];
         url = [[_dictionary objectForKey:@"url"] retain]; 
-        extPerm = [[_dictionary objectForKey:@"extended_permissions"] retain];
+        extPerm = [[_dictionary objectForKey:@"ext_perm"] retain];
 
         if ([[_dictionary objectForKey:@"requires_input"] isEqualToString:@"YES"])
             requiresInput = YES;
@@ -509,8 +500,9 @@ static JRSessionData* singleton = nil;
 
     if (!activity)
         return;
-    
-    [self startGetShortenedUrlsForActivity:activity];
+
+//    TODO: Fix when ready
+//    [self startGetShortenedUrlsForActivity:activity];
 }
 
 - (JRActivityObject*)activity
@@ -560,21 +552,6 @@ static JRSessionData* singleton = nil;
                 allProviders = [[NSMutableDictionary alloc] initWithDictionary:unarchivedProviders];
         }
         
-//        /* Load the list of basic providers */
-//        NSData *archivedBasicProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.basicProviders"];
-//        if (archivedBasicProviders != nil)
-//        {
-//            basicProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedBasicProviders] retain];
-//        }
-//        
-//        /* Load the list of social providers */
-//        NSData *archivedSocialProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.socialProviders"];
-//        if (archivedSocialProviders != nil)
-//        {
-//            //[[NSArray alloc] initWithObjects:@"yahoo", nil];//
-//            socialProviders = [[NSKeyedUnarchiver unarchiveObjectWithData:archivedSocialProviders] retain];
-//        }
-
         /* Load the list of basic providers */
         basicProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.basicProviders"];
   
@@ -608,14 +585,6 @@ static JRSessionData* singleton = nil;
                 
         /* As this information may have changed, we're going to ask rpx for this information anyway */
         error = [self startGetConfiguration];
-    
-//        NSString *imagePath = @"foo.png";
-//        
-//        if ([NSData dataWithContentsOfFile:imagePath])
-//            DLog ();
-//        
-//        if (![UIImage imageNamed:imagePath])
-//        [self startDownloadPicture:imagePath forProvider:@"foo"];
     }
     
 	return self;
@@ -668,7 +637,7 @@ static JRSessionData* singleton = nil;
 - (void)finishDownloadPicture:(NSData*)picture named:(NSString*)pictureName forProvider:(NSString*)provider
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *fullPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:pictureName];//[NSString stringWithFormat:@"%@", pictureName]];
+    NSString *fullPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:pictureName];
     [fileManager createFileAtPath:fullPath contents:picture attributes:nil];
 
     NSMutableSet *iconsForProvider = [iconsStillNeeded objectForKey:provider];
@@ -757,7 +726,6 @@ static JRSessionData* singleton = nil;
     else
         [providersWithIcons addObject:providerName];
 }
-
 
 - (NSString*)appNameAndVersion
 {
@@ -865,11 +833,6 @@ static JRSessionData* singleton = nil;
     /* Then save our stuff */
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
                                               forKey:@"jrengage.sessionData.allProviders"];
-//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:basicProviders] 
-//                                              forKey:@"jrengage.sessionData.basicProviders"];
-//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:socialProviders] 
-//                                              forKey:@"jrengage.sessionData.socialProviders"];
-
     [[NSUserDefaults standardUserDefaults] setObject:basicProviders forKey:@"jrengage.sessionData.basicProviders"];
     [[NSUserDefaults standardUserDefaults] setObject:socialProviders forKey:@"jrengage.sessionData.socialProviders"];
     
@@ -1074,29 +1037,14 @@ static JRSessionData* singleton = nil;
     
 #define SOCIAL_PUBLISHING
 #ifdef SOCIAL_PUBLISHING
-//    if (social)
-//        str = [NSString stringWithFormat:@"%@%@?%@%@%@version=iphone_two&device=iphone", 
-//               baseUrl,               /* Always force reauth for social because with the social publishing flow, the user is never taken to    */
-//               currentProvider.url,   /* the "Welcome back" screen, and therefore could never click the "switch Providers" button. Also,       */
-//               oid,                   /* signing out of a social provider could happen at any time, like on previous launches, and that        */
-//               @"force_reauth=true&", /* should always prompt a force_reauth. Assume we always want to force reauth when logging in for social */
-//               (([currentProvider.name isEqualToString:@"facebook"]) ? 
-//                @"ext_perm=publish_stream,offline_access&" : @"")];
-//    else
         str = [NSString stringWithFormat:@"%@%@?%@%@%@device=%@&extended=true", 
                baseUrl, 
                currentProvider.url,
                oid, 
                ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @""),
                (currentProvider.extPerm) ? currentProvider.extPerm : @"",
-               device];//(([currentProvider.name isEqualToString:@"facebook"]) ? 
-                       // @"ext_perm=publish_stream,offline_access&" : @"")];
+               device];
 #else
-//    str = [NSString stringWithFormat:@"%@%@?%@%@version=iphone_two&device=iphone", 
-//           baseUrl, 
-//           currentProvider.url,
-//           oid, 
-//           ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @"")];    
 #endif
     
 	currentProvider.forceReauth = NO;
@@ -1191,13 +1139,6 @@ static JRSessionData* singleton = nil;
     return [allProviders objectForKey:name];
 }
 
-//- (void)setCurrentProvider:(JRProvider*)provider
-//{
-//    DLog(@"");
-//    [currentProvider release];
-//    currentProvider = [provider retain];    
-//}
-
 - (void)setReturningBasicProviderToNil;
 {
     DLog(@"");
@@ -1222,8 +1163,7 @@ static JRSessionData* singleton = nil;
                             didFailWithError:[self setError:[response retain] 
                                                    withCode:JRPublishFailedError 
                                                     andType:JRErrorTypePublishFailed]
-                                                forProvider:providerName];//currentProvider.name];
-            
+                                                forProvider:providerName];
         }
     }
     if ([[response_dict objectForKey:@"stat"] isEqualToString:@"ok"])
@@ -1233,7 +1173,7 @@ static JRSessionData* singleton = nil;
         for (id<JRSessionDelegate> delegate in delegatesCopy) 
         {
             if ([delegate respondsToSelector:@selector(publishingActivityDidSucceed:forProvider:)])
-                [delegate publishingActivityDidSucceed:_activity forProvider:providerName];//currentProvider.name];
+                [delegate publishingActivityDidSucceed:_activity forProvider:providerName];
         }
     }
     else
@@ -1290,7 +1230,7 @@ static JRSessionData* singleton = nil;
             if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
                 [delegate publishingActivity:_activity
                             didFailWithError:publishError
-                                 forProvider:providerName];//currentProvider.name];
+                                 forProvider:providerName];
         }
     }
 }
@@ -1320,7 +1260,7 @@ static JRSessionData* singleton = nil;
     
     NSDictionary* tag = [[NSDictionary alloc] initWithObjectsAndKeys:activity, @"activity", 
                                                                      currentProvider.name, @"providerName", 
-                                                                     @"shareActivity", @"action", nil];//[[NSString stringWithString:@"shareActivity"] retain];
+                                                                     @"shareActivity", @"action", nil];
     
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
     
@@ -1369,8 +1309,8 @@ static JRSessionData* singleton = nil;
     // TODO: Fix when ready
     NSDictionary *set = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
     NSString *urlString = //@"http://example.com";
-                [NSString stringWithFormat:@"%@/openid/get_urls?urls=%@",//openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
-                                            serverUrl, [[set JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];//appId];
+                [NSString stringWithFormat:@"%@/openid/get_urls?urls=%@",
+                                            serverUrl, [[set JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     DLog(@"url: %@", urlString);
 	
@@ -1413,7 +1353,7 @@ static JRSessionData* singleton = nil;
                                                                     providerName, @"providerName", 
                                                                     @"callTokenUrl", @"action", nil] retain];
     
-	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])// stringEncodeData:NO])
+	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
 	{
         NSError *_error = [self setError:@"Problem initializing the connection to the token url"
                                 withCode:JRAuthenticationFailedError
@@ -1434,7 +1374,6 @@ static JRSessionData* singleton = nil;
 {
     DLog (@"");
     NSObject *tag = (NSObject*)userdata;
-//    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)fullResponse;
 
     NSDictionary *headers;
     if ([(NSHTTPURLResponse*)fullResponse respondsToSelector:@selector(allHeaderFields)]) 
@@ -1448,7 +1387,7 @@ static JRSessionData* singleton = nil;
         NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
         DLog(@"action:  %@", action);
 
-        if ([action isEqualToString:@"callTokenUrl"])//([(NSDictionary*)tag objectForKey:@"tokenUrl"])
+        if ([action isEqualToString:@"callTokenUrl"])
         {
             [self finishMakeCallToTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"]
                               withResponse:fullResponse 
@@ -1532,7 +1471,6 @@ static JRSessionData* singleton = nil;
         {
             // Do nothing for now...
         }
-        
     }
     
 	[payload release];
@@ -1570,7 +1508,7 @@ static JRSessionData* singleton = nil;
         NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
         DLog(@"action:  %@", action);
 
-        if ([action isEqualToString:@"callTokenUrl"])//([(NSDictionary*)tag objectForKey:@"tokenUrl"])
+        if ([action isEqualToString:@"callTokenUrl"])
         {
             NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
             for (id<JRSessionDelegate> delegate in delegatesCopy) 
@@ -1823,7 +1761,7 @@ static JRSessionData* singleton = nil;
 	    
 	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
 	
-	NSString *tag = @"emailSuccess";//[[NSString alloc] initWithFormat:@"emailSuccess"];
+	NSString *tag = @"emailSuccess";
 	
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[tag retain]];
 }
@@ -1839,7 +1777,7 @@ static JRSessionData* singleton = nil;
     
 	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
 	
-	NSString *tag = @"smsSuccess";//[[NSString alloc] initWithFormat:@"emailSuccess"];
+	NSString *tag = @"smsSuccess";
 	
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[tag retain]];    
 }
