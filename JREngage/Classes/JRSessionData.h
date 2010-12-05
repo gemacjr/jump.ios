@@ -34,6 +34,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JSON.h"
+#import "SFHFKeychainUtils.h"
 #import "JRConnectionManager.h"
 #import "JRActivityObject.h"
 #import "JRError.h"
@@ -74,12 +75,10 @@
 //#define JRErrorSeverityPublishNeedsReauthentication     @"publishNeedsReauthentication"
 //#define JRErrorSeverityPublishInvalidActivity           @"publishInvalidActivity"
 
-
 @protocol JRUserInterfaceDelegate <NSObject>
 - (void)userInterfaceWillClose;
 - (void)userInterfaceDidClose;
 @end
-
 
 @interface JRAuthenticatedUser : NSObject
 {
@@ -98,7 +97,6 @@
 @property (readonly) NSString *provider_name;
 - (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name;
 @end
-
 
 @interface JRProvider : NSObject
 {
@@ -239,7 +237,6 @@
 - (void)setReturningBasicProviderToNil;
 
 - (BOOL)weShouldBeFirstResponder;
-- (void)downloadPicture:(NSString*)picture;// thenCallSelector:(@selector)selector;
 
 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider;
 - (JRAuthenticatedUser*)authenticatedUserForProviderNamed:(NSString*)provider;
@@ -248,8 +245,6 @@
 - (void)forgetAllAuthenticatedUsers;
 
 - (void)shareActivityForUser:(JRAuthenticatedUser*)user;
-
-- (void)makeCallToTokenUrl:(NSString*)tokenURL withToken:(NSString*)token forProvider:(NSString*)provider;
 
 - (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict;
 - (void)triggerAuthenticationDidStartOver:(id)sender;

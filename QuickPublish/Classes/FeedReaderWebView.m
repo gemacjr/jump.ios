@@ -34,7 +34,6 @@
 
 #import "FeedReaderWebView.h"
 
-
 @implementation FeedReaderWebView
 @synthesize urlRequest;
 

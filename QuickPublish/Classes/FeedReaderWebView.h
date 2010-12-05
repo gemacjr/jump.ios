@@ -32,10 +32,7 @@
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-
 #import <UIKit/UIKit.h>
-
 
 @interface FeedReaderWebView : UIViewController 
 {

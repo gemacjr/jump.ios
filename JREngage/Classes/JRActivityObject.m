@@ -339,9 +339,10 @@
             messageBody = [[NSString stringWithString:_messageBody] retain];
 
         isHtml      = _isHtml;
-        urls        = [[NSMutableArray arrayWithArray:
-                        [_urls filteredArrayUsingPredicate:
-                         [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([NSString class])]]] retain];//[_urls retain];
+
+        // TODO: Fix this so that it filters for only string urls
+        urls        = [_urls retain];//[[_urls filteredArrayUsingPredicate:
+                                     //                       [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([NSString class])]] retain];//[_urls retain];
     }
 
     return self;
@@ -365,9 +366,9 @@
         if (_message)
             message = [[NSString stringWithString:_message] retain];
 
-        urls    = [[NSMutableArray arrayWithArray:
-                    [_urls filteredArrayUsingPredicate:
-                     [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([NSString class])]]] retain];//[_urls retain];
+        // TODO: Fix this so that it filters for only string urls
+        urls    = [_urls retain];//[[_urls filteredArrayUsingPredicate:
+                                 //                   [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([NSString class])]] retain];//[_urls retain];
     }
     
     return self;

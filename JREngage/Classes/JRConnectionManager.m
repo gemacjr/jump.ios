@@ -36,7 +36,7 @@
 #import "JRConnectionManager.h"
 
 // TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -324,15 +324,15 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data 
 {
-	DLog(@"");
+//	DLog(@"");
 	[[(ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection) response] appendData:data];
 }
 
 - (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response 
 {
-	DLog(@"");
-    DLog(@"MIMETYPE: %@", [response MIMEType]);
-    DLog(@"TEXT ENCODING: %@", [response textEncodingName]);
+//	DLog(@"");
+//    DLog(@"MIMETYPE: %@", [response MIMEType]);
+//    DLog(@"TEXT ENCODING: %@", [response textEncodingName]);
 
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 	

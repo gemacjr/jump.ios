@@ -47,8 +47,8 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-//#define STAGING
-#define LOCAL
+#define STAGING
+//#define LOCAL
 #ifdef STAGING
 static NSString * const serverUrl = @"https://rpxstaging.com";
 #else
@@ -59,7 +59,6 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 #endif
 #endif
 
-
 static NSString * const iconNames[3] = { @"jrauth_%@_icon.png", 
                                          @"jrauth_%@_logo.png", nil};
 
@@ -69,7 +68,6 @@ static NSString * const iconNamesSocial[6] = {  @"jrauth_%@_icon.png",
                                                 @"jrauth_%@_short.png",
                                                 @"jrauth_%@_greyscale.png", nil};
      
-
 
 /* Added a category to NSString including a function to correctly escape any arguments sent to any of the 
    Engage API calls */
@@ -92,18 +90,12 @@ static NSString * const iconNamesSocial[6] = {  @"jrauth_%@_icon.png",
 
 NSString* displayNameAndIdentifier()
 {
-//    return @"foobar";
-    
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
-    NSString *name = [infoPlist objectForKey:@"CFBundleDisplayName"];// stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
-    NSString *ident = [infoPlist objectForKey:@"CFBundleIdentifier"];// stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
+    NSString *name = [infoPlist objectForKey:@"CFBundleDisplayName"];
+    NSString *ident = [infoPlist objectForKey:@"CFBundleIdentifier"];
     
     return [NSString stringWithFormat:@"%@.%@", name, ident];
 }
-
-
-
-#import "SFHFKeychainUtils.h"
 
 @implementation JRAuthenticatedUser
 @synthesize photo;
@@ -788,8 +780,11 @@ static JRSessionData* singleton = nil;
     DLog(@"");
     NSString *nameAndVersion = [self appNameAndVersion];
 	NSString *urlString = [NSString stringWithFormat:
-                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
+                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true%@", 
                            serverUrl, device, appId, nameAndVersion];
+//	NSString *urlString = [NSString stringWithFormat:
+//                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
+//                           serverUrl, device, appId, nameAndVersion];
     
     DLog(@"url: %@", urlString);
 	
@@ -1337,18 +1332,19 @@ static JRSessionData* singleton = nil;
     [self startShareActivityForUser:user];
 }
 
-- (void)finishGetShortenedUrlsForActivity:(JRActivityObject*)_activity withShortenedUrls:(NSString*)_urls
+- (void)finishGetShortenedUrlsForActivity:(JRActivityObject*)_activity withShortenedUrls:(NSString*)urls
 {
     // TODO: Fix when ready
-    NSString *urls = [NSString stringWithString:
-                      @"{ \
-                      \"urls\": \
-                      { \
-                      \"email\":{\"foo.com\":\"rpx.me/1\",\"bar.com\":\"rpx.me/2\"}, \
-                      \"sms\":{\"gazook.com\":\"rpx.me/4\", \"foobar.com\":\"rpx.me/5\", \"barbaz.com\":\"rpx.me/6\"} \
-                      }, \
-                      \"stat\":\"ok\" \
-                      }"];
+//    NSString *urls = [NSString stringWithString:
+//                      @"{ \
+//                      \"urls\": \
+//                      { \
+//                      \"email\":{\"foo.com\":\"rpx.me/1\",\"bar.com\":\"rpx.me/2\"}, \
+//                      \"sms\":{\"gazook.com\":\"rpx.me/4\", \"foobar.com\":\"rpx.me/5\", \"barbaz.com\":\"rpx.me/6\"} \
+//                      }, \
+//                      \"stat\":\"ok\" \
+//                      }"];
+    DLog ("Shortened Urls: %@", urls);
     
     NSDictionary *emailUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"email"];
     NSDictionary *smsUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"sms"];
@@ -1372,10 +1368,9 @@ static JRSessionData* singleton = nil;
 {
     // TODO: Fix when ready
     NSDictionary *set = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
-    NSString *urlString = @"http://example.com";
-    //    [NSString stringWithFormat:
-    //                           @"%@/getShortenedUrls/urls=%@",//openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
-    //                           serverUrl, [set JSONRepresentation]];//appId];
+    NSString *urlString = //@"http://example.com";
+                [NSString stringWithFormat:@"%@/openid/get_urls?urls=%@",//openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
+                                            serverUrl, [[set JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];//appId];
     
     DLog(@"url: %@", urlString);
 	
@@ -1437,6 +1432,7 @@ static JRSessionData* singleton = nil;
 
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
+    DLog (@"");
     NSObject *tag = (NSObject*)userdata;
 //    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)fullResponse;
 

@@ -172,7 +172,6 @@
                                 story.pubDate,
                                 story.description] retain];
     
- // [webview setAllowsInlineMediaPlayback:YES];
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
     
     UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
@@ -244,13 +243,16 @@
     }
 
     activity.email = [JREmailObject emailObjectWithSubject:@"Check out this article from the Janrain Blog!" 
-                                            andMessageBody:[NSString stringWithFormat:
-                                                            @"I found this artical on Janrain's Blog and I thought you might be interested!<br /><br />%@", 
-                                                            webViewContent]
+                                            andMessageBody:[NSString stringWithFormat:@"<html/><body><br /> \
+                                                            I found this artical on Janrain's Blog, \
+                                                            and I thought you might be interested! \
+                                                            <br /><a href=\"%@\">Click here to read it.</a><br /> \
+                                                            <br /></body></html>%@", 
+                                                            story.link, webViewContent]
                                                     isHtml:YES 
-                                      andUrlsToBeShortened:nil];
+                                      andUrlsToBeShortened:[NSArray arrayWithObjects:story.link, nil]];
     activity.sms = [JRSmsObject smsObjectWithMessage:[NSString stringWithFormat:@"Check out this article from the Janrain Blog!\n\n%@", story.link]
-                                andUrlsToBeShortened:nil];
+                                andUrlsToBeShortened:[NSArray arrayWithObjects:story.link, nil]];
     
 //    TODO: Fix when ready
 //    activity.email = [JREmailObject emailObjectWithSubject:@"hello" 
