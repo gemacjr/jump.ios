@@ -106,6 +106,15 @@
 @class JREngage;
 @class JRUserInterfaceMaestro;
 
+@protocol JREngageCustomInterfaceDelegate <NSObject>
+@optional
+- (NSString*)titleForSectionHeaderAboveProviders;
+- (UIView*)viewForSectionHeaderAboveProviders;
+- (UITableViewCell*)cellForSectionAboveProviders;
+
+@end
+
+
 /**
  * \brief
  * The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and 
@@ -423,6 +432,15 @@
  **/
 - (void)showAuthenticationDialog;
 
+
+/**
+ * \anchor showAuthDialog
+ *
+ * Use this function to begin authentication.  The JREngage library will 
+ * pop up a modal dialog and take the user through the sign-in process.
+ **/
+- (void)showAuthenticationDialogWithCustomProperties:(NSDictionary*)properties andDelegate:id<JREngageCustomInterfaceDelegate>delegate;
+
 /**
  * \anchor showPubDialog
  *
@@ -451,6 +469,7 @@
  **/
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
+//- (void)setCustomViewsDelegate:
 /*
  * May not use...
  */
