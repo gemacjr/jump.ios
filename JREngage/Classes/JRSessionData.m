@@ -47,7 +47,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-#define STAGING
+//#define STAGING
 //#define LOCAL
 #ifdef STAGING
 static NSString * const serverUrl = @"https://rpxstaging.com";
@@ -1025,7 +1025,7 @@ static JRSessionData* singleton = nil;
 		oid = [NSMutableString stringWithString:@""];
 	}
     
-    NSString *str = nil;
+    NSString *str, *ext_perm = nil;
     
     if ([currentProvider.name isEqualToString:@"facebook"])
         if (alwaysForceReauth || currentProvider.forceReauth)
@@ -1035,6 +1035,11 @@ static JRSessionData* singleton = nil;
         if (alwaysForceReauth || currentProvider.forceReauth)
             [self deleteLiveCookies];
     
+    if (currentProvider.extPerm)
+        ext_perm = [NSString stringWithFormat:@"ext_perm=%@&", currentProvider.extPerm];
+    else
+        ext_perm = @"";
+    
 #define SOCIAL_PUBLISHING
 #ifdef SOCIAL_PUBLISHING
         str = [NSString stringWithFormat:@"%@%@?%@%@%@device=%@&extended=true", 
@@ -1042,7 +1047,7 @@ static JRSessionData* singleton = nil;
                currentProvider.url,
                oid, 
                ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @""),
-               (currentProvider.extPerm) ? currentProvider.extPerm : @"",
+               ext_perm,
                device];
 #else
 #endif
