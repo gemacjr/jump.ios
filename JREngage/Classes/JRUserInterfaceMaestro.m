@@ -235,6 +235,13 @@ static JRUserInterfaceMaestro* singleton = nil;
     }
 }
 
+
+- (void)showAuthenticationDialogWithCustomProperties:properties andDelegate:delegate
+{
+    
+}
+
+
 - (void)showAuthenticationDialog
 {
     DLog(@"");
