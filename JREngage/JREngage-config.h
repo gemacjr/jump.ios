@@ -33,17 +33,4 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define SOCIAL_SHARING 1
-#define EMAIL_SUPPORT  0
-
-#define kJRBackgroundViewForProvidersTable  @"bgv_providers"
-#define kJRBackgroundViewForUserLanding     @"bgv_userLanding"
-#define kJRBackgroundViewForWebView         @"bgv_webView"
-#define kJRBackgroundViewForSocialSharing   @"bgv_socialSharing"
-
-#define kJRTitleViewForProvidersTable       @"tv_providers"
-#define kJRTitleViewForUserLanding     @"tv_userLanding"
-#define kJRTitleViewForWebView         @"tv_webView"
-#define kJRTitleViewForSocialSharing   @"tv_socialSharing"
-
-#define kJRViewForSectionAboveProviders     @"section_above"
-#define kJRViewForSectionBelowProviders     @"section_below"
+#define EMAIL_SUPPORT  1
