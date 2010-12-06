@@ -103,8 +103,8 @@
     NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
     
     /* Load the custom background view, if there is one. */
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]] isKindOfClass:[UIView class]])
-        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]];
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundView, iPadSuffix]] isKindOfClass:[UIView class]])
+        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundView, iPadSuffix]];
     else /* Otherwise, set the background view to the provided color, if any. */
         if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
             if ([[customUI objectForKey:@"BackgroundColor"] count] == 4)
