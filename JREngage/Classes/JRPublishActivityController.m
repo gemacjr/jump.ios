@@ -73,15 +73,6 @@
     [super viewDidLoad];
 
     alreadyShared = [[NSMutableSet alloc] initWithCapacity:4];
-    
-//    // TODO: Add the colorsDictionary to the iphone_config API call so it can be loaded dynamically
-//    colorsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-//                        [UIColor colorWithRed:0.2314 green:0.3490 blue:0.5961 alpha:0.2], @"facebook",
-//                        [UIColor colorWithRed:0.2078 green:0.8039 blue:1.0000 alpha:0.2], @"twitter",
-//                        [UIColor colorWithRed:0.3961 green:0.0000 blue:0.3961 alpha:0.2], @"yahoo",
-//                        [UIColor colorWithRed:0.0000 green:0.3529 blue:0.5294 alpha:0.2], @"linkedin",
-//                        [UIColor colorWithRed:0.1059 green:0.2431 blue:0.5569 alpha:0.2], @"myspace",
-//                        [UIColor colorWithRed:0.2471 green:0.3961 blue:0.8549 alpha:0.2], @"google", nil];
                         
 	sessionData = [JRSessionData jrSessionData];
     activity = [[sessionData activity] retain];
@@ -91,39 +82,22 @@
     // ensuring that if anything changes, it will be re-set?
  	self.title = @"Share";
 	
-//	if (!titleView)
-//	{
-//        UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
-//		titleLabel.backgroundColor = [UIColor clearColor];
-//		titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-//		titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-//		titleLabel.textAlignment = UITextAlignmentCenter;
-//		titleLabel.textColor = [UIColor whiteColor];
-//        
-//		titleLabel.text = NSLocalizedString(@"Share", @"");
-//        titleView = (UIView*)titleLabel;
-//    }
-    
     NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
-    UIColor *tint = nil;
+    NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
     
-    // TODO: Better input validation
-    NSArray *tintArray = [customUI objectForKey:@"Tint"];
-    
-    if ([tintArray count] == 4)
-        tint = [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
-                               green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
-                                blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
-                               alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]];
-    
-    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRTitleViewForProvidersTable, iPadSuffix]];
-    
+    /* Load the custom background view, if there is one. */
     if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]])
         self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]];
-    else
-        self.myBackgroundView.backgroundColor = [UIColor colorWithCGColor:CGColorCreateCopyWithAlpha(tint.CGColor, 0.5)];
-    
-    [self.navigationController.navigationBar setTintColor:tint];            
+    else /* Otherwise, set the background view to the provided color, if any. */
+        if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
+            if ([[customUI objectForKey:@"BackgroundColor"] count] == 4)
+                self.myBackgroundView.backgroundColor = 
+                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+        
+    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRTitleViewForProvidersTable, iPadSuffix]];
     
     if (titleView)
         self.navigationItem.titleView = titleView;
@@ -188,48 +162,7 @@
     
     [super viewWillAppear:animated];
     
-//    // QTS: Can all of this go in the viewDidLoad method?  Or by keeping it here, are we
-//    // ensuring that if anything changes, it will be re-set?
-// 	self.title = @"Share";
-//	
-//	if (!title_label)
-//	{
-//		title_label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
-//		title_label.backgroundColor = [UIColor clearColor];
-//		title_label.font = [UIFont boldSystemFontOfSize:20.0];
-//		title_label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-//		title_label.textAlignment = UITextAlignmentCenter;
-//		title_label.textColor = [UIColor whiteColor];
-//	}
-//
-//    // QTS: Why is the same as the view's title?
-//	title_label.text = @"Share";
-//	self.navigationItem.titleView = title_label;
-//    
-//	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-//									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-//									  target:sessionData
-//									  action:@selector(triggerPublishingDidCancel:)] autorelease];
-//	
-//	self.navigationItem.leftBarButtonItem = cancelButton;
-//	self.navigationItem.leftBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
-//
-//    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
-//									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-//									target:self
-//									action:@selector(editButtonPressed:)] autorelease];
-//	
-//	self.navigationItem.rightBarButtonItem = editButton;
-//	self.navigationItem.rightBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-//
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//        myUserContentTextView.font = [UIFont systemFontOfSize:28];
-    
-   // QTS: Am I doing this twice?
+    // QTS: Am I doing this twice?
     if (weAreReady)
         [self loadActivityToView];
 }
@@ -649,7 +582,7 @@ Please try again later."
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     NSString     *tag = [providerName retain];
     
-    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])// stringEncodeData:NO])
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
         [self setProfilePicToDefaultPic];
     
     [request release];
@@ -715,7 +648,7 @@ Please try again later."
             myShareToView.backgroundColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
                                                             green:[[colorArray objectAtIndex:1] doubleValue] 
                                                              blue:[[colorArray objectAtIndex:2] doubleValue]
-                                                            alpha:0.2];//[colorsDictionary objectForKey:selectedProvider.name];
+                                                            alpha:0.2];
 
         [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_long.png", selectedProvider.name]]
                                            forState:UIControlStateNormal];
@@ -761,13 +694,6 @@ Please try again later."
         emailOrSms += SMS;
   
     return emailOrSms;
-    
-//    if (mailClass && messageClass) // TODO: Should these be "ors" or "ands"??
-//        if ([mailClass canSendMail] && [messageClass canSendText]) 
-//            if (emailOrSms > NEITHER)
-//                return YES;
-//    
-//    return NO;
 }
 
 - (void)addProvidersToTabBar
@@ -781,7 +707,7 @@ Please try again later."
     if (canSendEmailAndText) 
         numberOfTabs++;
     
-    NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:numberOfTabs];//[[sessionData socialProviders] count]];
+    NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:numberOfTabs];
     
     for (int i = 0; i < [[sessionData socialProviders] count]; i++)
     {
@@ -889,8 +815,8 @@ Please try again later."
     
     NSString *version = [infoPlist objectForKey:@"CFBundleShortVersionString"];
     
-    /* So long as I always number the versions v#.#.#, this will always trim the leading 'v', leaving just the numbers.
-     Also, if my script accidentally adds a trailing '\n', this gets trimmed too. */
+ /* So long as I always number the versions v#.#.#, this will always trim the leading 'v', leaving just the numbers.
+    Also, if my script accidentally adds a trailing '\n', this gets trimmed too. */
     version = [[version stringByTrimmingCharactersInSet:[NSCharacterSet lowercaseLetterCharacterSet]]
                stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
@@ -1098,13 +1024,13 @@ Please try again later."
             break;
     }    
 
-    /* OK, if this gets called right after authentication succeeds, then the navigation controller won't be done
-       animating back to this view.  If this view isn't loaded yet, and we call shareButtonPressed, then the library
-       will end up trying to push the webview controller onto the navigation controller while the navigation controller 
-       is still trying to pop the webview.  This creates craziness, hence we check for [self isViewLoaded].
-       Also, this prevents an infinite loop of reauthing-failed publishing-reauthing-failed publishing.
-       So, only try and reauthenticate is the publishing activity view is already loaded, which will only happen if we didn't
-       JUST try and authorize, or if sharing took longer than the time it takes to pop the view controller. */
+ /* OK, if this gets called right after authentication succeeds, then the navigation controller won't be done
+    animating back to this view.  If this view isn't loaded yet, and we call shareButtonPressed, then the library
+    will end up trying to push the webview controller onto the navigation controller while the navigation controller 
+    is still trying to pop the webview.  This creates craziness, hence we check for [self isViewLoaded].
+    Also, this prevents an infinite loop of reauthing-failed publishing-reauthing-failed publishing.
+    So, only try and reauthenticate is the publishing activity view is already loaded, which will only happen if we didn't
+    JUST try and authorize, or if sharing took longer than the time it takes to pop the view controller. */
     if (reauthenticate && !weHaveJustAuthenticated)
     {
         [self logUserOutForProvider:provider];
@@ -1255,7 +1181,10 @@ Please try again later."
     [selectedProvider release];
     [loggedInUser release];
     [activity release];
+    [customUI release];
     [colorsDictionary release];
+    [titleView release];
+    [myBackgroundView release];
     [myTabBar release];
     [myLoadingLabel release];
     [myLoadingActivitySpinner release]; 

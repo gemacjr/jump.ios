@@ -172,55 +172,7 @@
 {
 	DLog(@"");
 	[super viewWillAppear:animated];
-	
-//	if (!titleLabel)
-//	{
-//		titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
-//		titleLabel.backgroundColor = [UIColor clearColor];
-//		titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-//		titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-//		titleLabel.textAlignment = UITextAlignmentCenter;
-//		titleLabel.textColor = [UIColor whiteColor];
-//
-//		self.navigationItem.titleView = titleLabel;
-//	}	
-//    titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
-//        
-//	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-//									 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-//									  target:sessionData
-//                                      action:@selector(triggerAuthenticationDidCancel:)] autorelease];
-//
-//	self.navigationItem.rightBarButtonItem = cancelButton;
-//	self.navigationItem.rightBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-//	
-//	UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
-//										initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//										target:nil
-//										action:nil] autorelease];
-//
-//	placeholderItem.width = 85;
-//	self.navigationItem.leftBarButtonItem = placeholderItem;
-//	
-//	if (!infoBar)
-//	{
-//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
-//        else
-//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
-//        
-//        if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
-//            [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
-//                                             myTableView.frame.origin.y, 
-//                                             myTableView.frame.size.width, 
-//                                             myTableView.frame.size.height - infoBar.frame.size.height)];
-//        
-//		[self.view addSubview:infoBar];
-//	}
 }
-
 
 - (void)viewDidAppear:(BOOL)animated 
 {
@@ -457,7 +409,9 @@ Please try again later."
 - (void)dealloc 
 {
 	DLog(@"");
-
+    
+    [customUI release];
+    [myBackgroundView release];
 	[myTableView release];
 	[myLoadingLabel release];
 	[myActivitySpinner release];
