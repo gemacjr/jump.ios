@@ -61,8 +61,9 @@
 	JRUserLandingController     *myUserLandingController;
 	JRWebViewController         *myWebViewController;
     JRPublishActivityController *myPublishActivityController;
-    
-    NSMutableArray *setStatusBars;
+  
+    NSDictionary *customUI;
+//    NSMutableArray *setStatusBars;
 }
 
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
@@ -70,8 +71,8 @@
 
 - (void)pushToCustomNavigationController:(UINavigationController*)_navigationController;
 
-- (void)showAuthenticationDialog;
-- (void)showPublishingDialogWithActivity;
+- (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views;
+- (void)showPublishingDialogForActivityWithCustomViews:(NSDictionary*)views;
 
 - (void)authenticationRestarted;
 - (void)authenticationCompleted;

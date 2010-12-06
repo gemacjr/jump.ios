@@ -153,7 +153,7 @@ static JREngage* singletonJREngage = nil;
 //	[interfaceMaestro authenticationFailed];
 }
 
-- (void)showAuthenticationDialogWithCustomProperties:(NSDictionary*)properties andDelegate:id<JREngageCustomInterfaceDelegate>delegate
+- (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views// andDelegate:id<JREngageCustomInterfaceDelegate>delegate
 {
     DLog(@"");
     
@@ -178,7 +178,7 @@ static JREngage* singletonJREngage = nil;
         }
     }
     
-    [interfaceMaestro showAuthenticationDialogWithCustomProperties:properties andDelegate:delegate];    
+    [interfaceMaestro showAuthenticationDialogWithCustomViews:views];// andDelegate:delegate];    
 }
 
 - (void)showAuthenticationDialog
@@ -207,7 +207,7 @@ static JREngage* singletonJREngage = nil;
 //    }
 //    
 //    [interfaceMaestro showAuthenticationDialog];
-    [self showAuthenticationDialogWithCustomProperties:nil andDelegate:nil];
+    [self showAuthenticationDialogWithCustomViews:nil];// andDelegate:nil];
 }
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
@@ -244,7 +244,7 @@ static JREngage* singletonJREngage = nil;
     
 	[sessionData setActivity:activity];
 
-    [interfaceMaestro showPublishingDialogWithActivity];
+    [interfaceMaestro showPublishingDialogForActivityWithCustomViews:nil];
 }
 
 - (void)authenticationDidRestart

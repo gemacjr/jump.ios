@@ -434,12 +434,9 @@
 
 
 /**
- * \anchor showAuthDialog
- *
- * Use this function to begin authentication.  The JREngage library will 
- * pop up a modal dialog and take the user through the sign-in process.
+ * 
  **/
-- (void)showAuthenticationDialogWithCustomProperties:(NSDictionary*)properties andDelegate:id<JREngageCustomInterfaceDelegate>delegate;
+- (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views;// andDelegate:id<JREngageCustomInterfaceDelegate>delegate;
 
 /**
  * \anchor showPubDialog

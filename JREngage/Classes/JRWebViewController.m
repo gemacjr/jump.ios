@@ -49,20 +49,18 @@
 @end
 
 @implementation JRWebViewController
+@synthesize myBackgroundView;
 @synthesize myWebView;
 
-/*
-// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-		
-		delegates = [NSArray arrayByAddingObject:jrAuth];
-		// Custom initialization
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+{
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
+    {
+        customUI = [_customUI retain];
     }
+
     return self;
 }
-*/
 
 - (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
 {
@@ -83,24 +81,33 @@
 	[super viewDidLoad];
 	
 	sessionData = [JRSessionData jrSessionData];
-}
-
-- (void)viewWillAppear:(BOOL)animated 
-{
-	DLog(@"");
-    [super viewWillAppear:animated];
     
-	self.title = [NSString stringWithFormat:@"%@", (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
-	
-//	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-//									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-//									  target:self
-//                                      action:@selector(cancelButtonPressed:)] autorelease];
-//
-//	self.navigationItem.rightBarButtonItem = cancelButton;
-//	self.navigationItem.rightBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
+    
+    /* Load the custom background view, if there is one. */
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]])
+        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]];
+    else /* Otherwise, set the background view to the provided color, if any. */
+        if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
+            if ([[customUI objectForKey:@"BackgroundColor"] count] == 4)
+                self.myBackgroundView.backgroundColor = 
+                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+    
+    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRTitleViewForProvidersTable, iPadSuffix]];
+    
+    //	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+    //									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+    //									  target:self
+    //                                      action:@selector(cancelButtonPressed:)] autorelease];
+    //
+    //	self.navigationItem.rightBarButtonItem = cancelButton;
+    //	self.navigationItem.rightBarButtonItem.enabled = YES;
+    //	
+    //	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 	
     self.navigationItem.backBarButtonItem.target = sessionData;
     self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
@@ -112,12 +119,52 @@
         else
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
+        // TODO: This isn't going to work for iPad!!!
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
-            [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, myWebView.frame.origin.y, myWebView.frame.size.width, myWebView.frame.size.height - 30)];
-
+            [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, 
+                                           myWebView.frame.origin.y, 
+                                           myWebView.frame.size.width, 
+                                           myWebView.frame.size.height - infoBar.frame.size.height)];
+        
 		[self.view addSubview:infoBar];
 	}
-	[infoBar fadeIn];
+    
+	[infoBar fadeIn];    
+}
+
+- (void)viewWillAppear:(BOOL)animated 
+{
+	DLog(@"");
+    [super viewWillAppear:animated];
+    
+	self.title = [NSString stringWithFormat:@"%@", (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
+//	
+////	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+////									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+////									  target:self
+////                                      action:@selector(cancelButtonPressed:)] autorelease];
+////
+////	self.navigationItem.rightBarButtonItem = cancelButton;
+////	self.navigationItem.rightBarButtonItem.enabled = YES;
+////	
+////	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+//	
+//    self.navigationItem.backBarButtonItem.target = sessionData;
+//    self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
+//    
+//	if (!infoBar)
+//	{
+//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+//        else
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
+//        
+//        if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
+//            [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, myWebView.frame.origin.y, myWebView.frame.size.width, myWebView.frame.size.height - 30)];
+//
+//		[self.view addSubview:infoBar];
+//	}
+//	[infoBar fadeIn];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -125,11 +172,11 @@
 	DLog(@"");
 	[super viewDidAppear:animated];
 
-	NSArray *vcs = [self navigationController].viewControllers;
-	for (NSObject *vc in vcs)
-	{
-		DLog(@"view controller: %@", [vc description]);
-	}
+//	NSArray *vcs = [self navigationController].viewControllers;
+//	for (NSObject *vc in vcs)
+//	{
+//		DLog(@"view controller: %@", [vc description]);
+//	}
 
  /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
     or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the

@@ -218,16 +218,18 @@
 @end
 
 @implementation JRUserLandingController
+@synthesize myBackgroundView;
 @synthesize myTableView;
 
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+{
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
+    {
+        customUI = [_customUI retain];
     }
+    
     return self;
 }
-*/
 
 - (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
 {
@@ -248,7 +250,38 @@
 	
 	sessionData = [JRSessionData jrSessionData];
 	
-	label = nil;
+    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
+    
+    /* Load the custom background view, if there is one. */
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]])
+        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]];
+    else /* Otherwise, set the background view to the provided color, if any. */
+        if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
+            if ([[customUI objectForKey:@"BackgroundColor"] count] == 4)
+                self.myBackgroundView.backgroundColor = 
+                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+    
+    myTableView.backgroundColor = [UIColor clearColor];
+    
+    if (!infoBar)
+	{
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+        else
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+        
+        [self.view addSubview:infoBar];
+	}
+    
+    // TODO: Is this needed?  In webview but not providers...
+	[infoBar fadeIn];	
+	
+    self.navigationItem.backBarButtonItem.target = sessionData;
+    self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);    
 }
 
 - (NSString*)customTitle
@@ -278,30 +311,31 @@
     
 	self.title = [self customTitle];
 
-	if (!label)
+	if (!titleView)
 	{
-		label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 156, 44)] autorelease];
-		label.backgroundColor = [UIColor clearColor];
-		label.font = [UIFont boldSystemFontOfSize:20.0];
-		label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-		label.textAlignment = UITextAlignmentCenter;
-		label.textColor = [UIColor whiteColor];
-
-		self.navigationItem.titleView = label;
+        titleView = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 156, 44)] autorelease];
+		titleView.backgroundColor = [UIColor clearColor];
+		titleView.font = [UIFont boldSystemFontOfSize:20.0];
+		titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+		titleView.textAlignment = UITextAlignmentCenter;
+		titleView.textColor = [UIColor whiteColor];
 	}
-	label.text = [NSString stringWithString:sessionData.currentProvider.friendlyName];
-	
-	if (!infoBar)
-	{
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
-        else
-            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
 
-        [self.view addSubview:infoBar];
-	}
-	[infoBar fadeIn];	
+    titleView.text = [NSString stringWithString:sessionData.currentProvider.friendlyName];
+    self.navigationItem.titleView = titleView;
 	
+	
+//	if (!infoBar)
+//	{
+//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+//        else
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+//
+//        [self.view addSubview:infoBar];
+//	}
+//	[infoBar fadeIn];	
+//	
 //	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
 //									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 //									  target:sessionData
@@ -311,9 +345,9 @@
 //	self.navigationItem.rightBarButtonItem.enabled = YES;
 //	
 //	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-
-    self.navigationItem.backBarButtonItem.target = sessionData;
-    self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
+//
+//    self.navigationItem.backBarButtonItem.target = sessionData;
+//    self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
     
 	[myTableView reloadData];
 }
@@ -524,7 +558,6 @@ enum
     signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:
                                     (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                                                                 ? 36.0 : 20.0];
-    
 
     [signInButton addTarget:self
                      action:@selector(signInButtonTouchUpInside:) 
@@ -735,7 +768,7 @@ enum
 }
 */
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range 
-replacementString:(NSString *)string { return YES; }
+                                                       replacementString:(NSString *)string { return YES; }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField { return YES; }
 

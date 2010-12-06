@@ -74,8 +74,10 @@ typedef enum
     BOOL hasEditedUserContentForActivityAlready;
     BOOL userIsAttemptingToSignOut;
     
+    NSDictionary *customUI;
     NSDictionary *colorsDictionary;
-    UILabel		 *title_label;
+    UIView		 *titleView;
+    UIView       *myBackgroundView;
     
 	IBOutlet UITabBar *myTabBar;
     	    
@@ -115,6 +117,12 @@ typedef enum
     NSMutableDictionary *cachedProfilePics;
     NSMutableSet        *alreadyShared;
 }
+@property (nonatomic, retain) IBOutlet UIView *myBackgroundView;
+
+- (id)initWithNibName:(NSString*)nibNameOrNil 
+               bundle:(NSBundle*)nibBundleOrNil 
+          andCustomUI:(NSDictionary*)_customUI;
+
 - (IBAction)signOutButtonPressed:(id)sender;
 - (IBAction)shareButtonPressed:(id)sender; 
 - (IBAction)doneButtonPressed:(id)sender; 

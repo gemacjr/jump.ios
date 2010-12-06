@@ -46,10 +46,19 @@
 {
 	JRSessionData	*sessionData;
 	
+    NSDictionary *customUI;
+
+    UIView      *myBackgroundView;
 	UITableView	*myTableView;	
-	UILabel		*label;
+	UILabel		*titleView;
 	JRInfoBar	*infoBar;
 }
+@property (nonatomic, retain) IBOutlet UIView *myBackgroundView;
+@property (nonatomic, retain) IBOutlet UITableView *myTableView;
+
+- (id)initWithNibName:(NSString*)nibNameOrNil 
+               bundle:(NSBundle*)nibBundleOrNil 
+          andCustomUI:(NSDictionary*)_customUI;
 
 - (void)backToProvidersTouchUpInside;
 - (void)signInButtonTouchUpInside:(UIButton*)button;
@@ -58,6 +67,4 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 - (BOOL)textFieldShouldClear:(UITextField *)textField;
-
-@property (nonatomic, retain) IBOutlet UITableView *myTableView;
 @end

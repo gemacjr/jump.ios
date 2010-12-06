@@ -6,5 +6,22 @@
 	<string>v2.0.2</string>
 	<key>JREngage.GitCommit</key>
 	<string>1</string>
+	<key>JREngage.CustomUI</key>
+	<dict>
+		<key>NavigationBarTint</key>
+		<array>
+			<real>0.8</real>
+			<real>0.5</real>
+			<real>0.3</real>
+			<real>1.0</real>
+		</array>
+		<key>BackgroundColor</key>
+		<array>
+			<real>0.0</real>
+			<real>0.0</real>
+			<real>0.0</real>
+			<real>0.2</real>
+		</array>
+	</dict>
 </dict>
 </plist>

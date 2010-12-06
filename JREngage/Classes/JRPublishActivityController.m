@@ -53,17 +53,17 @@
 @end
 
 @implementation JRPublishActivityController
+@synthesize myBackgroundView;
 
-
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+{
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
+    {
+        customUI = [_customUI retain];
     }
+    
     return self;
 }
-*/
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
@@ -74,17 +74,83 @@
 
     alreadyShared = [[NSMutableSet alloc] initWithCapacity:4];
     
-    // TODO: Add the colorsDictionary to the iphone_config API call so it can be loaded dynamically
-    colorsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
-                        [UIColor colorWithRed:0.2314 green:0.3490 blue:0.5961 alpha:0.2], @"facebook",
-                        [UIColor colorWithRed:0.2078 green:0.8039 blue:1.0000 alpha:0.2], @"twitter",
-                        [UIColor colorWithRed:0.3961 green:0.0000 blue:0.3961 alpha:0.2], @"yahoo",
-                        [UIColor colorWithRed:0.0000 green:0.3529 blue:0.5294 alpha:0.2], @"linkedin",
-                        [UIColor colorWithRed:0.1059 green:0.2431 blue:0.5569 alpha:0.2], @"myspace",
-                        [UIColor colorWithRed:0.2471 green:0.3961 blue:0.8549 alpha:0.2], @"google", nil];
+//    // TODO: Add the colorsDictionary to the iphone_config API call so it can be loaded dynamically
+//    colorsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                        [UIColor colorWithRed:0.2314 green:0.3490 blue:0.5961 alpha:0.2], @"facebook",
+//                        [UIColor colorWithRed:0.2078 green:0.8039 blue:1.0000 alpha:0.2], @"twitter",
+//                        [UIColor colorWithRed:0.3961 green:0.0000 blue:0.3961 alpha:0.2], @"yahoo",
+//                        [UIColor colorWithRed:0.0000 green:0.3529 blue:0.5294 alpha:0.2], @"linkedin",
+//                        [UIColor colorWithRed:0.1059 green:0.2431 blue:0.5569 alpha:0.2], @"myspace",
+//                        [UIColor colorWithRed:0.2471 green:0.3961 blue:0.8549 alpha:0.2], @"google", nil];
                         
 	sessionData = [JRSessionData jrSessionData];
     activity = [[sessionData activity] retain];
+    
+    
+    // QTS: Can all of this go in the viewDidLoad method?  Or by keeping it here, are we
+    // ensuring that if anything changes, it will be re-set?
+ 	self.title = @"Share";
+	
+//	if (!titleView)
+//	{
+//        UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
+//		titleLabel.backgroundColor = [UIColor clearColor];
+//		titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+//		titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+//		titleLabel.textAlignment = UITextAlignmentCenter;
+//		titleLabel.textColor = [UIColor whiteColor];
+//        
+//		titleLabel.text = NSLocalizedString(@"Share", @"");
+//        titleView = (UIView*)titleLabel;
+//    }
+    
+    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    UIColor *tint = nil;
+    
+    // TODO: Better input validation
+    NSArray *tintArray = [customUI objectForKey:@"Tint"];
+    
+    if ([tintArray count] == 4)
+        tint = [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
+                               green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
+                                blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
+                               alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]];
+    
+    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRTitleViewForProvidersTable, iPadSuffix]];
+    
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]])
+        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]];
+    else
+        self.myBackgroundView.backgroundColor = [UIColor colorWithCGColor:CGColorCreateCopyWithAlpha(tint.CGColor, 0.5)];
+    
+    [self.navigationController.navigationBar setTintColor:tint];            
+    
+    if (titleView)
+        self.navigationItem.titleView = titleView;
+    
+	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+									  target:sessionData
+									  action:@selector(triggerPublishingDidCancel:)] autorelease];
+	
+	self.navigationItem.leftBarButtonItem = cancelButton;
+	self.navigationItem.leftBarButtonItem.enabled = YES;
+	
+	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+    
+    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
+									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+									target:self
+									action:@selector(editButtonPressed:)] autorelease];
+	
+	self.navigationItem.rightBarButtonItem = editButton;
+	self.navigationItem.rightBarButtonItem.enabled = YES;
+	
+	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        myUserContentTextView.font = [UIFont systemFontOfSize:28];
+        
     
     if ([sessionData hidePoweredBy])
     {
@@ -113,7 +179,7 @@
 	}
     
     // QTS: Why did I set this to nil??
-	title_label = nil;
+    //	title_label = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -122,46 +188,46 @@
     
     [super viewWillAppear:animated];
     
-    // QTS: Can all of this go in the viewDidLoad method?  Or by keeping it here, are we
-    // ensuring that if anything changes, it will be re-set?
- 	self.title = @"Share";
-	
-	if (!title_label)
-	{
-		title_label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
-		title_label.backgroundColor = [UIColor clearColor];
-		title_label.font = [UIFont boldSystemFontOfSize:20.0];
-		title_label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-		title_label.textAlignment = UITextAlignmentCenter;
-		title_label.textColor = [UIColor whiteColor];
-	}
-
-    // QTS: Why is the same as the view's title?
-	title_label.text = @"Share";
-	self.navigationItem.titleView = title_label;
-    
-	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:sessionData
-									  action:@selector(triggerPublishingDidCancel:)] autorelease];
-	
-	self.navigationItem.leftBarButtonItem = cancelButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
-	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
-
-    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
-									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-									target:self
-									action:@selector(editButtonPressed:)] autorelease];
-	
-	self.navigationItem.rightBarButtonItem = editButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        myUserContentTextView.font = [UIFont systemFontOfSize:28];
+//    // QTS: Can all of this go in the viewDidLoad method?  Or by keeping it here, are we
+//    // ensuring that if anything changes, it will be re-set?
+// 	self.title = @"Share";
+//	
+//	if (!title_label)
+//	{
+//		title_label = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
+//		title_label.backgroundColor = [UIColor clearColor];
+//		title_label.font = [UIFont boldSystemFontOfSize:20.0];
+//		title_label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+//		title_label.textAlignment = UITextAlignmentCenter;
+//		title_label.textColor = [UIColor whiteColor];
+//	}
+//
+//    // QTS: Why is the same as the view's title?
+//	title_label.text = @"Share";
+//	self.navigationItem.titleView = title_label;
+//    
+//	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+//									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+//									  target:sessionData
+//									  action:@selector(triggerPublishingDidCancel:)] autorelease];
+//	
+//	self.navigationItem.leftBarButtonItem = cancelButton;
+//	self.navigationItem.leftBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+//
+//    UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
+//									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+//									target:self
+//									action:@selector(editButtonPressed:)] autorelease];
+//	
+//	self.navigationItem.rightBarButtonItem = editButton;
+//	self.navigationItem.rightBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+//
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//        myUserContentTextView.font = [UIFont systemFontOfSize:28];
     
    // QTS: Am I doing this twice?
     if (weAreReady)

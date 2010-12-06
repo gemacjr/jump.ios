@@ -109,36 +109,82 @@ static JRUserInterfaceMaestro* singleton = nil;
 	return [[super allocWithZone:nil] initWithSessionData:_sessionData];
 }	
 
+- (void)pushToCustomNavigationController:(UINavigationController*)_navigationController
+{
+    [navigationController release];
+    navigationController = [_navigationController retain];
+}
+
+- (void)setUpCustomInterface:(NSDictionary*)views
+{
+    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
+                               [[[NSBundle mainBundle] resourcePath] 
+                                stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
+
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:([views count] + [infoPlist count])];
+
+    [dict addEntriesFromDictionary:[infoPlist objectForKey:@"JREngage.CustomUI"]];
+    [dict addEntriesFromDictionary:views];
+
+    customUI = [[NSDictionary alloc] initWithDictionary:dict];
+        
+    
+//    NSString *stringKeys[] = 
+//    {
+//        @"JREngage"
+//    };
+//    
+//    NSString *arrayKeys[] = 
+//    {
+//        
+//    };
+//    
+//    NSString *dictionaryKeys[] = 
+//    {
+//        
+//    };
+
+    
+}
+
 - (void)setUpViewControllers
 {
     DLog(@"");
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController-iPad" 
-                                                                              bundle:[NSBundle mainBundle]];
+                                                                              bundle:[NSBundle mainBundle]
+                                                                         andCustomUI:customUI];
     
         myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController-iPad"
-                                                                                bundle:[NSBundle mainBundle]];
+                                                                                bundle:[NSBundle mainBundle]
+                                                                           andCustomUI:customUI];
         
         myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController-iPad"
-                                                                            bundle:[NSBundle mainBundle]];
+                                                                            bundle:[NSBundle mainBundle]
+                                                                       andCustomUI:customUI];
         
         myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController-iPad"
-                                                                                    bundle:[NSBundle mainBundle]];
+                                                                                    bundle:[NSBundle mainBundle]
+                                                                               andCustomUI:customUI];
     }
     else
     {
         myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController" 
-                                                                              bundle:[NSBundle mainBundle]];
+                                                                              bundle:[NSBundle mainBundle]
+                                                                         andCustomUI:customUI];
         
         myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController"
-                                                                                bundle:[NSBundle mainBundle]];
+                                                                                bundle:[NSBundle mainBundle]
+                                                                           andCustomUI:customUI];
         
         myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController"
-                                                                            bundle:[NSBundle mainBundle]];
+                                                                            bundle:[NSBundle mainBundle]
+                                                                       andCustomUI:customUI];
         
         myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController"
-                                                                                    bundle:[NSBundle mainBundle]];
+                                                                                    bundle:[NSBundle mainBundle]
+                                                                               andCustomUI:customUI];
     }
 
     myProvidersController.title = @"Providers";
@@ -149,12 +195,6 @@ static JRUserInterfaceMaestro* singleton = nil;
                  myPublishActivityController, nil];
     
     sessionData.dialogIsShowing = YES;
-}
-
-- (void)pushToCustomNavigationController:(UINavigationController*)_navigationController
-{
-    [navigationController release];
-    navigationController = [_navigationController retain];
 }
 
 - (void)tearDownViewControllers
@@ -171,10 +211,11 @@ static JRUserInterfaceMaestro* singleton = nil;
     [myPublishActivityController release],  myPublishActivityController = nil;    
     
     [jrModalNavController release],	jrModalNavController = nil;	   
+
+    [customUI release], customUI = nil;
     
     sessionData.dialogIsShowing = NO;
 }
-
 
 - (void)setUpSocialPublishing
 {
@@ -195,12 +236,28 @@ static JRUserInterfaceMaestro* singleton = nil;
         [sessionData removeDelegate:myPublishActivityController];
 }
 
+- (void)tintBar
+{
+    NSArray *tintArray = [customUI objectForKey:@"NavigationBarTint"];
+    [jrModalNavController.navigationController.navigationBar setTintColor: 
+                [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
+                                green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
+                                 blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
+                                alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]]];
+}
+
 - (void)loadModalNavigationControllerWithViewController:(UIViewController*)controller
 {
     DLog(@"");
     if (!jrModalNavController)
 		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:controller];
 	
+//    jrModalNavController.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    if ([[customUI objectForKey:@"NavigationBarTint"] respondsToSelector:@selector(count)])
+        if ([[customUI objectForKey:@"NavigationBarTint"] count] == 4)
+            [self tintBar];
+    
     if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData social])
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
@@ -235,16 +292,11 @@ static JRUserInterfaceMaestro* singleton = nil;
     }
 }
 
-
-- (void)showAuthenticationDialogWithCustomProperties:properties andDelegate:delegate
-{
-    
-}
-
-
-- (void)showAuthenticationDialog
+//- (void)showAuthenticationDialog
+- (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views
 {
     DLog(@"");
+    [self setUpCustomInterface:views];
     [self setUpViewControllers];
 
     if (navigationController && [navigationController isViewLoaded])
@@ -253,9 +305,10 @@ static JRUserInterfaceMaestro* singleton = nil;
         [self loadModalNavigationControllerWithViewController:myProvidersController];
 }
 
-- (void)showPublishingDialogWithActivity
+- (void)showPublishingDialogForActivityWithCustomViews:(NSDictionary*)views
 {   
     DLog(@"");
+    [self setUpCustomInterface:views];
     [self setUpViewControllers];	
     [self setUpSocialPublishing];
     

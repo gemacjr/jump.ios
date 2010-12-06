@@ -46,25 +46,14 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-@interface UITableViewCellProviders : UITableViewCell 
-{
-//	UIImageView *icon;
-}
-
-//@property (nonatomic, retain) UIImageView *icon;
-
+@interface UITableViewCellProviders : UITableViewCell { }
 @end
 
 @implementation UITableViewCellProviders
 
-//@synthesize icon;
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
-	{
-//		[self addSubview:icon];
-	}
+	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) { }
 	
 	return self;
 }	
@@ -88,67 +77,81 @@
 @end
 
 @implementation JRProvidersController
-
+@synthesize myBackgroundView;
 @synthesize myTableView;
 @synthesize myLoadingLabel;
 @synthesize myActivitySpinner;
 
-/*
-// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
+    {
+        customUI = [_customUI retain];
     }
+
     return self;
 }
-*/
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
 	DLog(@"");
 	[super viewDidLoad];
-	sessionData = [JRSessionData jrSessionData];
-	titleLabel = nil;
-}
 
-- (void)viewWillAppear:(BOOL)animated 
-{
-	DLog(@"");
-	[super viewWillAppear:animated];
-	
-	if (!titleLabel)
+	sessionData = [JRSessionData jrSessionData];
+    
+    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
+    
+    /* Load the custom background view, if there is one. */
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]])
+        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]];
+    else /* Otherwise, set the background view to the provided color, if any. */
+        if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
+            if ([[customUI objectForKey:@"BackgroundColor"] count] == 4)
+                self.myBackgroundView.backgroundColor = 
+                    [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+                                    green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+                                     blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+                                    alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+
+    myTableView.backgroundColor = [UIColor clearColor];
+    
+    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRTitleViewForProvidersTable, iPadSuffix]];
+    
+    if (!titleView)
 	{
-		titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
+		UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
 		titleLabel.backgroundColor = [UIColor clearColor];
 		titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 		titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
 		titleLabel.textAlignment = UITextAlignmentCenter;
 		titleLabel.textColor = [UIColor whiteColor];
-
-		self.navigationItem.titleView = titleLabel;
-	}	
-    titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
         
+		titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
+        titleView = (UIView*)titleLabel;
+	}	
+    
+    self.navigationItem.titleView = titleView;
+    
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-									 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                      initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 									  target:sessionData
                                       action:@selector(triggerAuthenticationDidCancel:)] autorelease];
-
+    
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 	
 	UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
-										initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-										target:nil
-										action:nil] autorelease];
-
+                                         initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                         target:nil
+                                         action:nil] autorelease];
+    
 	placeholderItem.width = 85;
 	self.navigationItem.leftBarButtonItem = placeholderItem;
 	
-    // TODO: Instead of removing the infoBar for iPad, fix it!
-	if (!infoBar)
+    if (!infoBar)
 	{
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
@@ -163,6 +166,59 @@
         
 		[self.view addSubview:infoBar];
 	}
+}
+
+- (void)viewWillAppear:(BOOL)animated 
+{
+	DLog(@"");
+	[super viewWillAppear:animated];
+	
+//	if (!titleLabel)
+//	{
+//		titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
+//		titleLabel.backgroundColor = [UIColor clearColor];
+//		titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+//		titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+//		titleLabel.textAlignment = UITextAlignmentCenter;
+//		titleLabel.textColor = [UIColor whiteColor];
+//
+//		self.navigationItem.titleView = titleLabel;
+//	}	
+//    titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
+//        
+//	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+//									 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+//									  target:sessionData
+//                                      action:@selector(triggerAuthenticationDidCancel:)] autorelease];
+//
+//	self.navigationItem.rightBarButtonItem = cancelButton;
+//	self.navigationItem.rightBarButtonItem.enabled = YES;
+//	
+//	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+//	
+//	UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
+//										initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//										target:nil
+//										action:nil] autorelease];
+//
+//	placeholderItem.width = 85;
+//	self.navigationItem.leftBarButtonItem = placeholderItem;
+//	
+//	if (!infoBar)
+//	{
+//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+//        else
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
+//        
+//        if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
+//            [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
+//                                             myTableView.frame.origin.y, 
+//                                             myTableView.frame.size.width, 
+//                                             myTableView.frame.size.height - infoBar.frame.size.height)];
+//        
+//		[self.view addSubview:infoBar];
+//	}
 }
 
 
@@ -224,7 +280,6 @@
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([[sessionData basicProviders] count] > 0)
 	{
-		
         [myActivitySpinner stopAnimating];
 		[myActivitySpinner setHidden:YES];
 		[myLoadingLabel setHidden:YES];

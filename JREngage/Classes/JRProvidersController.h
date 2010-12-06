@@ -47,19 +47,24 @@
 {
 	JRSessionData	*sessionData;
     
-	UITableView		*myTableView;
+    UIView      *myBackgroundView;
+	UITableView	*myTableView;
 	
 	/* Activity Spinner and Label displayed while the list of configured providers is empty */
 	UILabel					*myLoadingLabel;
 	UIActivityIndicatorView *myActivitySpinner; 
 	NSTimer                 *timer;
     
-	UILabel		*titleLabel;
+	UIView		 *titleView;
 
+    NSDictionary *customUI;
+    
 	JRInfoBar	*infoBar;
 }
-
+@property (nonatomic, retain) IBOutlet UIView       *myBackgroundView;
 @property (nonatomic, retain) IBOutlet UITableView	*myTableView;
 @property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
+
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI;
 @end
