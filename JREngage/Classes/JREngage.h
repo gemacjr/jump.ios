@@ -106,13 +106,36 @@
 @class JREngage;
 @class JRUserInterfaceMaestro;
 
-@protocol JREngageCustomInterfaceDelegate <NSObject>
-@optional
-- (NSString*)titleForSectionHeaderAboveProviders;
-- (UIView*)viewForSectionHeaderAboveProviders;
-- (UITableViewCell*)cellForSectionAboveProviders;
+#define kJRProviderTableBackgroundView   @"ProviderTable.BackgroundView"
+#define kJRUserLandingBackgroundView     @"UserLanding.BackgroundView"
+#define kJRWebViewBackgroundView         @"WebView.BackgroundView"
+#define kJRSocialSharingBackgroundView   @"SocialSharing.BackgroundView"
 
-@end
+#define kJRProviderTableBackgroundView_iPad   @"ProviderTable.BackgroundView-iPad"
+#define kJRUserLandingBackgroundView_iPad     @"UserLanding.BackgroundView-iPad"
+#define kJRWebViewBackgroundView_iPad         @"WebView.BackgroundView-iPad"
+#define kJRSocialSharingBackgroundView_iPad   @"SocialSharing.BackgroundView-iPad"
+
+#define kJRProviderTableTitleView        @"ProviderTable.TitleView"
+#define kJRSocialSharingTitleView        @"SocialSharing.TitleView"
+#define kJRProviderTableTitleView_iPad   @"ProviderTable.TitleView-iPad"
+#define kJRSocialSharingTitleView_iPad   @"SocialSharing.TitleView-iPad"
+
+#define kJRProviderTableTitle   @"ProviderTable.Title"
+#define kJRSocialSharingTitle   @"SocialSharing.Title"
+
+#define kJRProviderTableHeaderView       @"ProviderTable.TableHeaderView"
+#define kJRProviderTableFooterView       @"ProviderTable.TableFooterView"
+#define kJRProviderTableHeaderView_iPad  @"ProviderTable.TableHeaderView-iPad"
+#define kJRProviderTableFooterView_iPad  @"ProviderTable.TableFooterView-iPad"
+
+#define kJRProviderTableSectionHeaderView       @"ProviderTable.SectionHeaderView"
+#define kJRProviderTableSectionFooterView       @"ProviderTable.SectionFooterView"
+#define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.SectionHeaderView-iPad"
+#define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.SectionFooterView-iPad"
+
+#define kJRProviderTableSectionHeaderTitle  @"ProviderTable.SectionHeaderTitle"
+#define kJRProviderTableSectionFooterTitle  @"ProviderTable.SectionFooterTitle"
 
 
 /**

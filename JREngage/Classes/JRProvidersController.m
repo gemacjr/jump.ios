@@ -103,7 +103,7 @@
     NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
     
     /* Load the custom background view, if there is one. */
-    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]])
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]] isKindOfClass:[UIView class]])
         self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]];
     else /* Otherwise, set the background view to the provided color, if any. */
         if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
@@ -116,7 +116,7 @@
 
     myTableView.backgroundColor = [UIColor clearColor];
     
-    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRTitleViewForProvidersTable, iPadSuffix]];
+    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableTitleView, iPadSuffix]];
     
     if (!titleView)
 	{
@@ -132,6 +132,12 @@
 	}	
     
     self.navigationItem.titleView = titleView;
+    
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableHeaderView, iPadSuffix]] isKindOfClass:[UIView class]])
+         myTableView.tableHeaderView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableHeaderView, iPadSuffix]];
+    
+     if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableFooterView, iPadSuffix]] isKindOfClass:[UIView class]])
+          myTableView.tableFooterView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableFooterView, iPadSuffix]];
     
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
                                       initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -278,22 +284,22 @@ Please try again later."
 	return YES;
 }
 
-/* Footer makes room for info bar.  If info bar is removed, remove the footer as well. */
-// QTS: Or do we keep it here because the info bar pops up when loading?
-// QTS: Do we need this or does setting the heightForFooterInSection acheive this?
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-	UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)] autorelease];
-	return view;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return 37;
-    else
-        return 37;
-}
+///* Footer makes room for info bar.  If info bar is removed, remove the footer as well. */
+//// QTS: Or do we keep it here because the info bar pops up when loading?
+//// QTS: Do we need this or does setting the heightForFooterInSection acheive this?
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+//{
+//	UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)] autorelease];
+//	return view;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//        return 37;
+//    else
+//        return 37;
+//}
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -308,14 +314,12 @@ Please try again later."
 	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView 
- numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	return [[sessionData basicProviders] count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView 
-		 cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     UITableViewCellProviders *cell = 
         (UITableViewCellProviders*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];

@@ -86,8 +86,8 @@
     NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
     
     /* Load the custom background view, if there is one. */
-    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]])
-        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRBackgroundViewForProvidersTable, iPadSuffix]];
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundView, iPadSuffix]])
+        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundView, iPadSuffix]];
     else /* Otherwise, set the background view to the provided color, if any. */
         if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
             if ([[customUI objectForKey:@"BackgroundColor"] count] == 4)
@@ -97,7 +97,7 @@
                                  blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
                                 alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
         
-    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRTitleViewForProvidersTable, iPadSuffix]];
+    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingTitleView, iPadSuffix]];
     
     if (titleView)
         self.navigationItem.titleView = titleView;
@@ -1183,7 +1183,6 @@ Please try again later."
     [activity release];
     [customUI release];
     [colorsDictionary release];
-    [titleView release];
     [myBackgroundView release];
     [myTabBar release];
     [myLoadingLabel release];
