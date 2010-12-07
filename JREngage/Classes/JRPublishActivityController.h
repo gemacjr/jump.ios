@@ -59,6 +59,8 @@ typedef enum
                                                            MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 {
 	JRSessionData	*sessionData;
+    
+    BOOL iPad;
 
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;

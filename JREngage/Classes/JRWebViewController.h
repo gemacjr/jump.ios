@@ -39,7 +39,6 @@
 @protocol JRConnectionManagerDelegate;
 
 @class JRModalNavigationController;
-@class JRAuthenticate;
 @class JRSessionData;
 
 @interface JRWebViewController : UIViewController <UINavigationBarDelegate, UIWebViewDelegate, JRConnectionManagerDelegate> 

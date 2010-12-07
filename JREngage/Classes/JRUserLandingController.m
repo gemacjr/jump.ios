@@ -58,6 +58,11 @@
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
     {
         customUI = [_customUI retain];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            iPad = YES;
+        else
+            iPad = NO;        
     }
     
     return self;
@@ -82,8 +87,8 @@
 	
 	sessionData = [JRSessionData jrSessionData];
 	
-    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRBackgroundColor];
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
+    NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColor];
     
     /* Load the custom background view, if there is one. */
     if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRUserLandingBackgroundImage, iPadSuffix]] isKindOfClass:[NSString class]])
@@ -102,7 +107,7 @@
     
     if (!infoBar)
 	{
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        if (iPad)
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
         else
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
@@ -221,7 +226,7 @@
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         return 386;
     else
         return 176;
@@ -252,10 +257,10 @@ enum
         return (UIImageView*)[cell.contentView viewWithTag:LOGO_TAG];
     
     UIImageView *logo;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        logo = [[UIImageView alloc] initWithFrame:CGRectMake(60, 40, 558, 125)];// autorelease];
+    if (iPad)
+        logo = [[[UIImageView alloc] initWithFrame:CGRectMake(60, 40, 558, 125)] autorelease];
     else
-        logo = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 280, 63)];// autorelease];
+        logo = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 280, 63)] autorelease];
 
     logo.tag = LOGO_TAG;
 
@@ -268,14 +273,12 @@ enum
         return (UILabel*)[cell.contentView viewWithTag:WELCOME_LABEL_TAG];
 
     UILabel *welcomeLabel;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 195, 558, 50)];// autorelease];
     else
         welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)];// autorelease];
 
-    welcomeLabel.font = [UIFont boldSystemFontOfSize:
-                         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                         ? 36.0 : 20.0];
+    welcomeLabel.font = [UIFont boldSystemFontOfSize: (iPad) ? 36.0 : 20.0];
     
     welcomeLabel.adjustsFontSizeToFitWidth = YES;
     welcomeLabel.textColor = [UIColor blackColor];
@@ -293,15 +296,12 @@ enum
         return (UITextField*)[cell.contentView viewWithTag:TEXT_FIELD_TAG];
     
     UITextField *textField;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         textField = [[UITextField alloc] initWithFrame:CGRectMake(60, 185, 558, 70)]; //autorelease];
     else
         textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 83, 280, 35)]; //autorelease];
 
-    textField.font = [UIFont systemFontOfSize:
-                      (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                      ? 30.0 : 15.0];
-    
+    textField.font = [UIFont systemFontOfSize: (iPad) ? 30.0 : 15.0];
     
     textField.adjustsFontSizeToFitWidth = YES;
     textField.textColor = [UIColor blackColor];
@@ -332,12 +332,15 @@ enum
     
     UIButton *signInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         [signInButton setFrame:CGRectMake(367, 275, 251, 71)];
     else
-        [signInButton setFrame:CGRectMake(155, 128, 135, 38)];
+        [signInButton setFrame:CGRectMake(155, 128, 135, 40)];
 
-    [signInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_135x38.png"] forState:UIControlStateNormal];
+    [signInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
+                                                          @"button_janrain_140x40%@.png", 
+                                                          (iPad) ? @"@2x" : @""]]//@"blue_button_135x38.png"] 
+                            forState:UIControlStateNormal];
     
     [signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
     [signInButton setTitleColor:[UIColor whiteColor] 
@@ -353,9 +356,7 @@ enum
 
     [signInButton setReversesTitleShadowWhenHighlighted:YES];
 
-    signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:
-                                    (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                                                                ? 36.0 : 20.0];
+    signInButton.titleLabel.font = [UIFont boldSystemFontOfSize: (iPad) ? 36.0 : 20.0];
 
     [signInButton addTarget:self
                      action:@selector(signInButtonTouchUpInside:) 
@@ -373,12 +374,15 @@ enum
     
     UIButton *backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         [backToProvidersButton setFrame:CGRectMake(60, 275, 251, 71)];
     else
-        [backToProvidersButton setFrame:CGRectMake(10, 128, 135, 38)];
+        [backToProvidersButton setFrame:CGRectMake(10, 128, 135, 40)];
 
-    [backToProvidersButton setBackgroundImage:[UIImage imageNamed:@"black_button.png"] forState:UIControlStateNormal];
+    [backToProvidersButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
+                                                                   @"button_janrain_140x40%@.png", 
+                                                                   (iPad) ? @"@2x" : @""]]//@"black_button.png"] 
+                                     forState:UIControlStateNormal];
 
     [backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateNormal];
     [backToProvidersButton setTitleColor:[UIColor whiteColor] 
@@ -393,9 +397,7 @@ enum
                                       forState:UIControlStateSelected];
     [backToProvidersButton setReversesTitleShadowWhenHighlighted:YES];
 
-    backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize:
-                                             (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                                             ? 28.0 : 14.0];
+    backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize: (iPad) ? 28.0 : 14.0];
 
     [backToProvidersButton addTarget:self
                               action:@selector(backToProvidersTouchUpInside) 
@@ -412,12 +414,15 @@ enum
     
     UIButton *bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        [bigSignInButton setFrame:CGRectMake(60, 275, 558, 71)];
+    if (iPad)
+        [bigSignInButton setFrame:CGRectMake(60, 275, 558, 76)];
     else
-        [bigSignInButton setFrame:CGRectMake(10, 128, 280, 38)];
+        [bigSignInButton setFrame:CGRectMake(10, 128, 280, 40)];
 
-    [bigSignInButton setBackgroundImage:[UIImage imageNamed:@"blue_button_280x38.png"] forState:UIControlStateNormal];
+    [bigSignInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
+                                                             @"button_janrain_280x40%@.png", 
+                                                             (iPad) ? @"@2x" : @""]]//@"blue_button_280x38.png"] 
+                               forState:UIControlStateNormal];
     
     [bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
     [bigSignInButton setTitleColor:[UIColor whiteColor] 
@@ -432,9 +437,7 @@ enum
                                 forState:UIControlStateSelected];	
     [bigSignInButton setReversesTitleShadowWhenHighlighted:YES];
 
-    bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:
-                                       (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                                       ? 36.0 : 20.0];
+    bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize: (iPad) ? 36.0 : 20.0];
     
     [bigSignInButton addTarget:self
                         action:@selector(signInButtonTouchUpInside:) 
@@ -472,7 +475,10 @@ enum
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_logo.png", sessionData.currentProvider.name];
+    NSString *imagePath = [NSString stringWithFormat:[NSString stringWithFormat:
+                                                      @"logo_%@_280x63%@.png", 
+                                                      sessionData.currentProvider.name,
+                                                      (/*iPad*/0) ? @"@2x" : @""]];//@"jrauth_%@_logo.png", sessionData.currentProvider.name];
 	[self getLogo:cell].image = [UIImage imageNamed:imagePath];
 
     UITextField *textField = [self getTextField:cell];

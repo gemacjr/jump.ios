@@ -18,14 +18,14 @@
 			<real>0.3</real>
 			<real>1</real>
 		</array>
-		<key>BackgroundColor</key>
+	-->
+		<key>Authentication.BackgroundColor</key>
 		<array>
 			<real>0</real>
 			<real>0</real>
 			<real>0</real>
 			<real>0.2</real>
 		</array>
-	-->
 	</dict>
 </dict>
 </plist>

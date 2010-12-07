@@ -45,6 +45,8 @@
 														UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate> 
 {
 	JRSessionData	*sessionData;
+    
+    BOOL iPad;
 	
     NSDictionary *customUI;
 

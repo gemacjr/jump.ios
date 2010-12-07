@@ -3,16 +3,16 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1024</int>
 		<string key="IBDocument.SystemVersion">10H574</string>
-		<string key="IBDocument.InterfaceBuilderVersion">804</string>
+		<string key="IBDocument.InterfaceBuilderVersion">823</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">123</string>
+			<string key="NS.object.0">132</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1"/>
+			<integer value="32"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -259,7 +259,7 @@
 							<object class="IBUILabel" id="652392699">
 								<reference key="NSNextResponder" ref="607984093"/>
 								<int key="NSvFlags">268</int>
-								<string key="NSFrame">{{29, 302}, {107, 21}}</string>
+								<string key="NSFrame">{{29, 300}, {107, 21}}</string>
 								<reference key="NSSuperview" ref="607984093"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -283,7 +283,7 @@
 							<object class="IBUIButton" id="603137531">
 								<reference key="NSNextResponder" ref="607984093"/>
 								<int key="NSvFlags">268</int>
-								<string key="NSFrame">{{7, 301}, {18, 19}}</string>
+								<string key="NSFrame">{{7, 299}, {18, 19}}</string>
 								<reference key="NSSuperview" ref="607984093"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<float key="IBUIAlpha">0.30000001192092896</float>
@@ -303,7 +303,7 @@
 							<object class="IBUIImageView" id="492533119">
 								<reference key="NSNextResponder" ref="607984093"/>
 								<int key="NSvFlags">265</int>
-								<string key="NSFrame">{{290, 295}, {23, 23}}</string>
+								<string key="NSFrame">{{290, 294}, {23, 23}}</string>
 								<reference key="NSSuperview" ref="607984093"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -316,7 +316,7 @@
 									<object class="IBUIButton" id="445558987">
 										<reference key="NSNextResponder" ref="723048711"/>
 										<int key="NSvFlags">-2147483356</int>
-										<string key="NSFrame">{{63, 38}, {80, 33}}</string>
+										<string key="NSFrame">{{63, 39}, {80, 33}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<float key="IBUIAlpha">0.30000001192092896</float>
@@ -361,7 +361,7 @@
 									<object class="IBUIButton" id="786748329">
 										<reference key="NSNextResponder" ref="723048711"/>
 										<int key="NSvFlags">-2147483355</int>
-										<string key="NSFrame">{{165, 24}, {145, 37}}</string>
+										<string key="NSFrame">{{165, 24}, {145, 40}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -384,7 +384,7 @@
 									<object class="IBUIButton" id="503985350">
 										<reference key="NSNextResponder" ref="723048711"/>
 										<int key="NSvFlags">293</int>
-										<string key="NSFrame">{{10, 24}, {300, 37}}</string>
+										<string key="NSFrame">{{10, 24}, {300, 40}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -397,13 +397,13 @@
 										<reference key="IBUINormalTitleShadowColor" ref="58732063"/>
 										<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">blue_button_300x37.png</string>
+											<string key="NSResourceName">button_janrain_280x40.png</string>
 										</object>
 									</object>
 									<object class="IBUILabel" id="439051074">
 										<reference key="NSNextResponder" ref="723048711"/>
 										<int key="NSvFlags">-2147483356</int>
-										<string key="NSFrame">{{63, 21}, {92, 23}}</string>
+										<string key="NSFrame">{{63, 20}, {92, 23}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -422,7 +422,7 @@
 									<object class="IBUILabel" id="463322340">
 										<reference key="NSNextResponder" ref="723048711"/>
 										<int key="NSvFlags">-2147483356</int>
-										<string key="NSFrame">{{232, 28}, {78, 29}}</string>
+										<string key="NSFrame">{{232, 30}, {78, 29}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -446,7 +446,7 @@
 									<object class="IBUIImageView" id="71136929">
 										<reference key="NSNextResponder" ref="723048711"/>
 										<int key="NSvFlags">-2147483356</int>
-										<string key="NSFrame">{{206, 32}, {20, 20}}</string>
+										<string key="NSFrame">{{206, 34}, {20, 20}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -468,7 +468,7 @@
 										</object>
 									</object>
 								</object>
-								<string key="NSFrame">{{0, 326}, {320, 85}}</string>
+								<string key="NSFrame">{{0, 323}, {320, 88}}</string>
 								<reference key="NSSuperview" ref="607984093"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
@@ -1143,7 +1143,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>JRPublishActivityController</string>
 					<string>UIResponder</string>
-					<string>{{566, 151}, {320, 480}}</string>
+					<string>{{331, 170}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1481,14 +1481,14 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../JREngage/classes/JRPublishActivityController.h</string>
+						<string key="minorKey">../engage.iphone/JREngage/classes/JRPublishActivityController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">../json-framework/Classes/NSObject+SBJSON.h</string>
+						<string key="minorKey">../engage.iphone/json-framework/Classes/NSObject+SBJSON.h</string>
 					</object>
 				</object>
 			</object>
@@ -1533,13 +1533,6 @@
 					<string key="className">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">Foundation.framework/Headers/NSNetServices.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">Foundation.framework/Headers/NSObject.h</string>
 					</object>
 				</object>
@@ -1547,21 +1540,7 @@
 					<string key="className">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">Foundation.framework/Headers/NSPort.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">Foundation.framework/Headers/NSRunLoop.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">Foundation.framework/Headers/NSStream.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1583,13 +1562,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">Foundation.framework/Headers/NSURLConnection.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">Foundation.framework/Headers/NSXMLParser.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1762,14 +1734,14 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../../../QuickSignIn/QuickSignIn.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../../../../library_tester/library_tester.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>blue_button_145x37.png</string>
-				<string>blue_button_300x37.png</string>
+				<string>button_janrain_280x40.png</string>
 				<string>check_mark.png</string>
 				<string>media_view_background_bottom.png</string>
 				<string>media_view_background_top.png</string>
@@ -1777,14 +1749,14 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{145, 37}</string>
-				<string>{300, 37}</string>
+				<string>{16, 16}</string>
+				<string>{280, 40}</string>
 				<string>{20, 20}</string>
 				<string>{300, 8}</string>
 				<string>{300, 8}</string>
 				<string>{18, 18}</string>
 			</object>
 		</object>
-		<string key="IBCocoaTouchPluginVersion">123</string>
+		<string key="IBCocoaTouchPluginVersion">132</string>
 	</data>
 </archive>

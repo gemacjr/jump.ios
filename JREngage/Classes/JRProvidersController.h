@@ -47,6 +47,8 @@
 {
 	JRSessionData	*sessionData;
     
+    BOOL iPad;
+    
     UIImageView *myBackgroundView;
 	UITableView	*myTableView;
 	

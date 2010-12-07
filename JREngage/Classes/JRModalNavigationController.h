@@ -34,8 +34,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class JRAuthenticate;
-
 @interface JRModalNavigationController : UIViewController 
 {
 	UINavigationController	*navigationController;

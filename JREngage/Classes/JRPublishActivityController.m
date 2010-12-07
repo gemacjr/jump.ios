@@ -60,6 +60,11 @@
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
     {
         customUI = [_customUI retain];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            iPad = YES;
+        else
+            iPad = NO;        
     }
     
     return self;
@@ -82,8 +87,8 @@
     else
         self.title = @"Share";
     
-    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRBackgroundColor];
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
+    NSArray *backgroundColor = [customUI objectForKey:kJRSocialSharingBackgroundColor];
     
     /* Load the custom background view, if there is one. */
     if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImage, iPadSuffix]] isKindOfClass:[NSString class]])
@@ -125,7 +130,7 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         myUserContentTextView.font = [UIFont systemFontOfSize:28];
         
     
@@ -145,8 +150,11 @@
 	if ([[sessionData socialProviders] count] == 0)
 	{
         [self showViewIsLoading:YES];
+
+        /* Since the method showViewIsLoading will disable the "Cancel" button, re-enable it in this case. */
+        self.navigationItem.leftBarButtonItem.enabled = YES;
 		
-		/* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
+        /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
 		timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 	}
 	else 
@@ -258,7 +266,7 @@ Please try again later."
     
     [self showActivityAsShared:NO];
     
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+    if (!iPad)
     {   
         [UIView beginAnimations:@"editing" context:nil];
         [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x, 
@@ -300,7 +308,7 @@ Please try again later."
         myUserContentTextView.text = activity.action;
     }
 
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+    if (!iPad)
     {   
         [UIView beginAnimations:@"editing" context:nil];
         [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,    
@@ -650,11 +658,21 @@ Please try again later."
                                                              blue:[[colorArray objectAtIndex:2] doubleValue]
                                                             alpha:0.2];
 
-        [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_long.png", selectedProvider.name]]
+        [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
+                                                                         @"button_%@_280x40%@.png", 
+                                                                         selectedProvider.name, 
+                                                                         (iPad) ? @"@2x" : @""]]//@"jrauth_%@_long.png", selectedProvider.name]]
                                            forState:UIControlStateNormal];
-        [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_short.png", selectedProvider.name]]
+        
+        [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
+                                                                   @"button_%@_140x40%@.png", 
+                                                                   selectedProvider.name, 
+                                                                   (iPad) ? @"@2x" : @""]]//@"jrauth_%@_short.png", selectedProvider.name]]
                                      forState:UIControlStateNormal];
-        myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"jrauth_%@_icon.png", selectedProvider.name]];
+        
+        myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_%@_30x30%@.png", 
+                                                    selectedProvider.name, 
+                                                    (iPad) ? @"@2x" : @"" ]];//@"jrauth_%@_icon.png", selectedProvider.name]];
         
         loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
         
@@ -716,7 +734,7 @@ Please try again later."
         if (!provider)
             break;
         
-        NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_greyscale.png", provider.name];
+        NSString *imagePath = [NSString stringWithFormat:@"icon_bw_%@_30x30%@.png", provider.name, (iPad) ? @"@2x" : @"" ];//@"jrauth_%@_greyscale.png", provider.name];
         UITabBarItem *providerTab = [[[UITabBarItem alloc] initWithTitle:provider.friendlyName 
                                                                    image:[UIImage imageNamed:imagePath]
                                                                      tag:[providerTabArr count]] autorelease];
@@ -732,10 +750,10 @@ Please try again later."
     if (canSendEmailAndText)
     {
 
-        NSString *simpleStrArray[6] = { @"Email", @"Sms", @"Email/SMS", @"email", @"sms", @"email_sms" };
+        NSString *simpleStrArray[6] = { @"Email", @"Sms", @"Email/SMS", @"mail", @"sms", @"mail_sms" };
 
         UITabBarItem *emailTab =  [[[UITabBarItem alloc] initWithTitle:simpleStrArray[((int)emailOrSms - 1)] 
-                                                                 image:[UIImage imageNamed:[NSString stringWithFormat:@"jr%@.png", simpleStrArray[((int)emailOrSms +2)]]]
+                                                                 image:[UIImage imageNamed:[NSString stringWithFormat:@"icon_bw_%@_30x30.png", simpleStrArray[((int)emailOrSms +2)]]]
                                                                    tag:[providerTabArr count]] autorelease];
         
 //        NSArray *simpleStrArray = [NSArray arrayWithObjects:@"Email", @"Sms", @"Email/SMS", @"email", @"sms", "email_sms", nil];

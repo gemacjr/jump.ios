@@ -87,6 +87,11 @@
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
     {
         customUI = [_customUI retain];
+
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            iPad = YES;
+        else
+            iPad = NO;
     }
 
     return self;
@@ -99,8 +104,8 @@
 
 	sessionData = [JRSessionData jrSessionData];
     
-    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRBackgroundColor];
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
+    NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColor];
     
     NSString *foo = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]];
     
@@ -162,7 +167,7 @@
 	
     if (!infoBar)
 	{
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        if (iPad)
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
         else
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
@@ -294,7 +299,7 @@ Please try again later."
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
 
     if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]])
         return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]]).frame.size.height;
@@ -306,7 +311,7 @@ Please try again later."
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
     return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]];
 }
 
@@ -317,7 +322,7 @@ Please try again later."
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
 
     if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
         return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]]).frame.size.height;
@@ -329,13 +334,13 @@ Please try again later."
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
     return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]];
 }
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         return 100;
     else
         return 50;
@@ -365,7 +370,7 @@ Please try again later."
     if (!provider)
         return cell;
 	
-    NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider.name];
+    NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30%@.png", provider.name, (iPad) ? @"@2x" : @"" ];//@"jrauth_%@_icon.png", provider.name];
 
 	cell.textLabel.text = provider.friendlyName;
 	cell.imageView.image = [UIImage imageNamed:imagePath];

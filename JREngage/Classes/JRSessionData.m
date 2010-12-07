@@ -59,6 +59,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 #endif
 #endif
 
+// TODO: Update these names!
 /* Lists of the standard names for providers' logo and icons */
 static NSString * const iconNames[3] = { @"jrauth_%@_icon.png", 
                                          @"jrauth_%@_logo.png", nil};

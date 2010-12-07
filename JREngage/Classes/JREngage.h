@@ -74,6 +74,7 @@
  *   - "myspace"
  *   - "netlog"
  *   - "openid"
+ *   - "paypal"
  *   - "twitter"
  *   - "verisign"
  *   - "wordpress"
@@ -106,7 +107,8 @@
 @class JREngage;
 @class JRUserInterfaceMaestro;
 
-#define kJRBackgroundColor  @"BackgroundColor"
+#define kJRAuthenticationBackgroundColor  @"Authentication.BackgroundColor"
+#define kJRSocialSharingBackgroundColor   @"SocialSharing.BackgroundColor"
 
 #define kJRProviderTableBackgroundImage   @"ProviderTable.BackgroundImage"
 #define kJRUserLandingBackgroundImage     @"UserLanding.BackgroundImage"
