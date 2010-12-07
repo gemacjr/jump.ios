@@ -100,7 +100,7 @@
 	sessionData = [JRSessionData jrSessionData];
     
     NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = nil;//[customUI objectForKey:kJRBackgroundColor];
+    NSArray *backgroundColor = [customUI objectForKey:kJRBackgroundColor];
     
     NSString *foo = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]];
     
