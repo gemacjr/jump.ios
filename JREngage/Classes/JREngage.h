@@ -106,15 +106,15 @@
 @class JREngage;
 @class JRUserInterfaceMaestro;
 
-#define kJRProviderTableBackgroundView   @"ProviderTable.BackgroundView"
-#define kJRUserLandingBackgroundView     @"UserLanding.BackgroundView"
-#define kJRWebViewBackgroundView         @"WebView.BackgroundView"
-#define kJRSocialSharingBackgroundView   @"SocialSharing.BackgroundView"
+#define kJRBackgroundColor  @"BackgroundColor"
 
-#define kJRProviderTableBackgroundView_iPad   @"ProviderTable.BackgroundView-iPad"
-#define kJRUserLandingBackgroundView_iPad     @"UserLanding.BackgroundView-iPad"
-#define kJRWebViewBackgroundView_iPad         @"WebView.BackgroundView-iPad"
-#define kJRSocialSharingBackgroundView_iPad   @"SocialSharing.BackgroundView-iPad"
+#define kJRProviderTableBackgroundImage   @"ProviderTable.BackgroundImage"
+#define kJRUserLandingBackgroundImage     @"UserLanding.BackgroundImage"
+#define kJRSocialSharingBackgroundImage   @"SocialSharing.BackgroundImage"
+
+#define kJRProviderTableBackgroundImage_iPad   @"ProviderTable.BackgroundImage-iPad"
+#define kJRUserLandingBackgroundImage_iPad     @"UserLanding.BackgroundImage-iPad"
+#define kJRSocialSharingBackgroundImage_iPad   @"SocialSharing.BackgroundImage-iPad"
 
 #define kJRProviderTableTitleView        @"ProviderTable.TitleView"
 #define kJRSocialSharingTitleView        @"SocialSharing.TitleView"
@@ -474,6 +474,12 @@
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
 /*@}*/
 
+/**
+ *
+ **/
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomViews:(NSDictionary*)views;
+/*@}*/
+
 /** 
  * \name Configure the User Interface
  * Methods used to customize the JREngage's user interface
@@ -489,7 +495,11 @@
  **/
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
-//- (void)setCustomViewsDelegate:
+/**
+ * 
+ **/
+- (void)setCustomViews:(NSDictionary*)views;
+
 /*
  * May not use...
  */

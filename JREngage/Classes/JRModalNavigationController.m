@@ -71,7 +71,8 @@
 	{
         navigationController = [[UINavigationController alloc] 
                                 initWithRootViewController:controller];    
-        navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;        
+        navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;   
+        navigationController.navigationBar.clipsToBounds = YES;
     }
 	        
     return self;

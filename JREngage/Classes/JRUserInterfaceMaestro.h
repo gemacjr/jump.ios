@@ -70,6 +70,7 @@
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
 
 - (void)pushToCustomNavigationController:(UINavigationController*)_navigationController;
+- (void)setCustomViews:(NSDictionary*)views;
 
 - (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views;
 - (void)showPublishingDialogForActivityWithCustomViews:(NSDictionary*)views;

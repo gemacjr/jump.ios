@@ -100,15 +100,18 @@
 	sessionData = [JRSessionData jrSessionData];
     
     NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
+    NSArray *backgroundColor = nil;//[customUI objectForKey:kJRBackgroundColor];
+    
+    NSString *foo = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]];
     
     /* Load the custom background view, if there is one. */
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundView, iPadSuffix]] isKindOfClass:[UIView class]])
-        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundView, iPadSuffix]];
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]] isKindOfClass:[NSString class]])
+        [myBackgroundView setImage:
+            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]]]];
     else /* Otherwise, set the background view to the provided color, if any. */
-        if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
-            if ([[customUI objectForKey:@"BackgroundColor"] count] == 4)
-                self.myBackgroundView.backgroundColor = 
+        if ([backgroundColor respondsToSelector:@selector(count)])
+            if ([backgroundColor count] == 4)
+                myBackgroundView.backgroundColor = 
                     [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
                                     green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
                                      blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
@@ -284,22 +287,51 @@ Please try again later."
 	return YES;
 }
 
-///* Footer makes room for info bar.  If info bar is removed, remove the footer as well. */
-//// QTS: Or do we keep it here because the info bar pops up when loading?
-//// QTS: Do we need this or does setting the heightForFooterInSection acheive this?
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-//{
-//	UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)] autorelease];
-//	return view;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-//{
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//        return 37;
-//    else
-//        return 37;
-//}
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [customUI objectForKey:kJRProviderTableSectionHeaderTitle];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]])
+        return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]]).frame.size.height;
+    else if ([customUI objectForKey:kJRProviderTableSectionHeaderTitle])
+        return 27;
+        
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return [customUI objectForKey:kJRProviderTableSectionFooterTitle];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
+        return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]]).frame.size.height;
+    else if ([customUI objectForKey:kJRProviderTableSectionFooterTitle])
+        return 27;
+
+    return 30;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
+    return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]];
+}
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

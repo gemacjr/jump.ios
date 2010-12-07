@@ -48,12 +48,12 @@
 	
     NSDictionary *customUI;
 
-    UIView      *myBackgroundView;
+    UIImageView *myBackgroundView;
 	UITableView	*myTableView;	
 	UILabel		*titleView;
 	JRInfoBar	*infoBar;
 }
-@property (nonatomic, retain) IBOutlet UIView *myBackgroundView;
+@property (nonatomic, retain) IBOutlet UIImageView *myBackgroundView;
 @property (nonatomic, retain) IBOutlet UITableView *myTableView;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil 

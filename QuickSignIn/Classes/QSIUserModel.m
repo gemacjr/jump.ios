@@ -453,6 +453,102 @@ otherwise, this happens automatically.													*/
 	[prefs setInteger:historyCountSnapShot forKey:@"historyCount"];
 }
 
+//enum views
+//{
+//    //    eJRProviderTableBackgroundView,
+//    //    eJRUserLandingBackgroundView,
+//    //    eJRProviderTableBackgroundView_iPad,
+//    //    eJRUserLandingBackgroundView_iPad,
+//    eJRProviderTableTitleView,
+//    eJRSocialSharingTitleView,
+//    eJRProviderTableTitleView_iPad,
+//    eJRSocialSharingTitleView_iPad,
+//    eJRProviderTableHeaderView,
+//    eJRProviderTableFooterView,
+//    eJRProviderTableHeaderView_iPad,
+//    eJRProviderTableFooterView_iPad,
+//    eJRProviderTableSectionHeaderView,
+//    eJRProviderTableSectionFooterView,
+//    eJRProviderTableSectionHeaderView_iPad,
+//    eJRProviderTableSectionFooterView_iPad
+//};
+//
+//- (UIView*)viewBuilder:(int)index
+//{
+//    UIView *view = nil;
+//    switch (index)
+//    {
+//            //        case eJRProviderTableBackgroundView: // providers background
+//            //            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+//            //            view.backgroundColor = [UIColor redColor];
+//            //            break;
+//            //        case eJRUserLandingBackgroundView: // user landing background
+//            //            view = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 300, 460)];
+//            //            view.backgroundColor = [UIColor blueColor];
+//            //            break;
+//            //        case eJRProviderTableBackgroundView_iPad: // providers background ipad
+//            //            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+//            //            view.backgroundColor = [UIColor redColor];
+//            //            break;
+//            //        case eJRUserLandingBackgroundView_iPad: // user landing background ipad
+//            //            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+//            //            view.backgroundColor = [UIColor blueColor];
+//            //            break;
+//        case eJRProviderTableTitleView: // providers title view
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+//            view.backgroundColor = [UIColor yellowColor];
+//            break;            
+//        case eJRSocialSharingTitleView: // social sharing title view
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+//            view.backgroundColor = [UIColor yellowColor];
+//            break;            
+//        case eJRProviderTableTitleView_iPad: // providers table header view
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 48)];
+//            view.backgroundColor = [UIColor orangeColor];
+//            break;            
+//        case eJRSocialSharingTitleView_iPad: // providers table footer view
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, 30)];
+//            view.backgroundColor = [UIColor purpleColor];
+//            break;            
+//        case eJRProviderTableHeaderView:
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 48)];
+//            view.backgroundColor = [UIColor cyanColor];
+//            break;            
+//        case eJRProviderTableFooterView:
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, 30)];
+//            view.backgroundColor = [UIColor magentaColor];
+//            break;            
+//        case eJRProviderTableHeaderView_iPad:
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 48)];
+//            view.backgroundColor = [UIColor cyanColor];
+//            break;            
+//        case eJRProviderTableFooterView_iPad:
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, 30)];
+//            view.backgroundColor = [UIColor magentaColor];
+//            break;            
+//        case eJRProviderTableSectionHeaderView:
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 48)];
+//            view.backgroundColor = [UIColor orangeColor];
+//            break;            
+//        case eJRProviderTableSectionFooterView:
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, 30)];
+//            view.backgroundColor = [UIColor purpleColor];
+//            break;            
+//        case eJRProviderTableSectionHeaderView_iPad:
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 48)];
+//            view.backgroundColor = [UIColor orangeColor];
+//            break;            
+//        case eJRProviderTableSectionFooterView_iPad:
+//            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, 30)];
+//            view.backgroundColor = [UIColor purpleColor];
+//            break;                        
+//        default:
+//            break;
+//    }
+//    
+//    return view;
+//}
+
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedParty
 {
 	loadingUserData = YES;
@@ -460,6 +556,29 @@ otherwise, this happens automatically.													*/
 
 	/* Launch the JRAuthenticate Library. */
 	[jrEngage showAuthenticationDialog];	
+//    [jrEngage showAuthenticationDialogWithCustomViews:[[NSDictionary alloc] initWithObjectsAndKeys:
+//                                                       @"Default.png", kJRProviderTableBackgroundImage,
+//                                                       @"Default.png", kJRUserLandingBackgroundImage,
+//                                                       @"sandwhich.jpg", kJRSocialSharingBackgroundImage,
+//                                                       @"Default-Portrait.png", kJRSocialSharingBackgroundImage_iPad,
+//                                                       @"Default-Portrait.png", kJRProviderTableBackgroundImage_iPad,
+//                                                       @"Default-Portrait.png", kJRUserLandingBackgroundImage_iPad,
+//                                                       [self viewBuilder:eJRProviderTableTitleView], kJRProviderTableTitleView,
+//                                                       [self viewBuilder:eJRSocialSharingTitleView], kJRSocialSharingTitleView,
+//                                                       [self viewBuilder:eJRProviderTableTitleView_iPad], kJRProviderTableTitleView_iPad,
+//                                                       [self viewBuilder:eJRSocialSharingTitleView_iPad], kJRSocialSharingTitleView_iPad,
+//                                                       [self viewBuilder:eJRProviderTableHeaderView], kJRProviderTableHeaderView,
+//                                                       [self viewBuilder:eJRProviderTableFooterView], kJRProviderTableFooterView,
+//                                                       [self viewBuilder:eJRProviderTableHeaderView_iPad], kJRProviderTableHeaderView_iPad,
+//                                                       [self viewBuilder:eJRProviderTableFooterView_iPad], kJRProviderTableFooterView_iPad,
+//                                                       [self viewBuilder:eJRProviderTableSectionHeaderView], kJRProviderTableSectionHeaderView,
+//                                                       [self viewBuilder:eJRProviderTableSectionFooterView], kJRProviderTableSectionFooterView,
+//                                                       [self viewBuilder:eJRProviderTableSectionHeaderView_iPad], kJRProviderTableSectionHeaderView_iPad,
+//                                                       [self viewBuilder:eJRProviderTableSectionFooterView_iPad], kJRProviderTableSectionFooterView_iPad,
+//                                                       @"foo", kJRProviderTableTitle,
+//                                                       @"bar", kJRSocialSharingTitle,
+//                                                       @"baz", kJRProviderTableSectionHeaderTitle,
+//                                                       @"gaz", kJRProviderTableSectionFooterTitle, nil]];
 }
 
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn afterSignOut:(id<UserModelDelegate>)interestedPartySignOut

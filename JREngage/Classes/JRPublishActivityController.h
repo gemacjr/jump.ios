@@ -77,7 +77,7 @@ typedef enum
     NSDictionary *customUI;
     NSDictionary *colorsDictionary;
     UIView		 *titleView;
-    UIView       *myBackgroundView;
+    UIImageView  *myBackgroundView;
     
 	IBOutlet UITabBar *myTabBar;
     	    
@@ -86,6 +86,8 @@ typedef enum
     IBOutlet UILabel					*myLoadingLabel;
     IBOutlet UIActivityIndicatorView    *myLoadingActivitySpinner; 
     IBOutlet UIView                     *myLoadingGrayView;
+    
+    IBOutlet UIView      *myContentView;
     
     IBOutlet UITextView  *myUserContentTextView;
     IBOutlet UIButton    *myUserContentBoundingBox;
@@ -117,7 +119,7 @@ typedef enum
     NSMutableDictionary *cachedProfilePics;
     NSMutableSet        *alreadyShared;
 }
-@property (nonatomic, retain) IBOutlet UIView *myBackgroundView;
+@property (nonatomic, retain) IBOutlet UIImageView *myBackgroundView;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil 
                bundle:(NSBundle*)nibBundleOrNil 

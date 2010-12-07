@@ -806,7 +806,7 @@ static JRSessionData* singleton = nil;
     DLog(@"");
     NSString *nameAndVersion = [self appNameAndVersion];
 	NSString *urlString = [NSString stringWithFormat:
-                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true%@", 
+                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true&%@", 
                            serverUrl, device, appId, nameAndVersion];
 //	NSString *urlString = [NSString stringWithFormat:
 //                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 

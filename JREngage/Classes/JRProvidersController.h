@@ -47,7 +47,7 @@
 {
 	JRSessionData	*sessionData;
     
-    UIView      *myBackgroundView;
+    UIImageView *myBackgroundView;
 	UITableView	*myTableView;
 	
 	/* Activity Spinner and Label displayed while the list of configured providers is empty */
@@ -61,7 +61,7 @@
     
 	JRInfoBar	*infoBar;
 }
-@property (nonatomic, retain) IBOutlet UIView       *myBackgroundView;
+@property (nonatomic, retain) IBOutlet UIImageView  *myBackgroundView;
 @property (nonatomic, retain) IBOutlet UITableView	*myTableView;
 @property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;

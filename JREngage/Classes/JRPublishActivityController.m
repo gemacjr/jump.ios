@@ -76,26 +76,29 @@
                         
 	sessionData = [JRSessionData jrSessionData];
     activity = [[sessionData activity] retain];
+
+    if ([[customUI objectForKey:kJRSocialSharingTitle] isKindOfClass:[NSString class]])
+        self.title = [customUI objectForKey:kJRSocialSharingTitle];
+    else
+        self.title = @"Share";
     
-    
-    // QTS: Can all of this go in the viewDidLoad method?  Or by keeping it here, are we
-    // ensuring that if anything changes, it will be re-set?
- 	self.title = @"Share";
-	
     NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
+    NSArray *backgroundColor = [customUI objectForKey:kJRBackgroundColor];
     
     /* Load the custom background view, if there is one. */
-    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundView, iPadSuffix]])
-        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundView, iPadSuffix]];
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImage, iPadSuffix]] isKindOfClass:[NSString class]])
+         [myBackgroundView setImage:
+            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImage, iPadSuffix]]]];
     else /* Otherwise, set the background view to the provided color, if any. */
-        if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
-            if ([[customUI objectForKey:@"BackgroundColor"] count] == 4)
-                self.myBackgroundView.backgroundColor = 
-                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+        if ([backgroundColor respondsToSelector:@selector(count)])
+            if ([backgroundColor count] == 4)
+                myBackgroundView.backgroundColor = 
+                    [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+                                    green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+                                     blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+                                    alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+        
+    myContentView.backgroundColor = [UIColor clearColor];
         
     titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingTitleView, iPadSuffix]];
     
@@ -151,9 +154,6 @@
         weAreReady = YES;
         [self addProvidersToTabBar];
 	}
-    
-    // QTS: Why did I set this to nil??
-    //	title_label = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated

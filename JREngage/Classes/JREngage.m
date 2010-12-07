@@ -210,7 +210,7 @@ static JREngage* singletonJREngage = nil;
     [self showAuthenticationDialogWithCustomViews:nil];// andDelegate:nil];
 }
 
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomViews:(NSDictionary*)views
 {
     DLog(@"");
     
@@ -218,19 +218,19 @@ static JREngage* singletonJREngage = nil;
     if (sessionData.error)
     {
         
-     /* Since configuration should happen long before the user attempts to use the library and because the user may not
-        attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
-        is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
-        a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
-        user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
-        This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
-        resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
+        /* Since configuration should happen long before the user attempts to use the library and because the user may not
+         attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
+         is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
+         a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
+         user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
+         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
+         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
         
         if ([[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
-
+            
             return;
         }
     }
@@ -243,8 +243,46 @@ static JREngage* singletonJREngage = nil;
     }
     
 	[sessionData setActivity:activity];
+    
+    [interfaceMaestro showPublishingDialogForActivityWithCustomViews:views];    
+}
 
-    [interfaceMaestro showPublishingDialogForActivityWithCustomViews:nil];
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+{
+//    DLog(@"");
+//    
+//    /* If there was error configuring the library, sessionData.error will not be null. */
+//    if (sessionData.error)
+//    {
+//        
+//     /* Since configuration should happen long before the user attempts to use the library and because the user may not
+//        attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
+//        is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
+//        a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
+//        user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
+//        This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
+//        resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
+//        
+//        if ([[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
+//        {
+//            [self engageDidFailWithError:sessionData.error];
+//            [sessionData tryToReconfigureLibrary];
+//
+//            return;
+//        }
+//    }
+//    
+//    if (!activity)
+//    {
+//        [self engageDidFailWithError:[self setError:@"Activity object can't be nil" 
+//                                           withCode:JRPublishErrorAcivityNil 
+//                                            andType:JRErrorTypePublishFailed]];
+//    }
+//    
+//	[sessionData setActivity:activity];
+//
+//    [interfaceMaestro showPublishingDialogForActivityWithCustomViews:nil];
+    [self showSocialPublishingDialogWithActivity:activity andCustomViews:nil];
 }
 
 - (void)authenticationDidRestart
@@ -394,6 +432,11 @@ static JREngage* singletonJREngage = nil;
 - (void)setCustomNavigationController:(UINavigationController*)navigationController
 {
     [interfaceMaestro pushToCustomNavigationController:navigationController];
+}
+
+- (void)setCustomViews:(NSDictionary*)views
+{
+    [interfaceMaestro setCustomViews:views];
 }
 
 // TODO:Figure out if we need the method setCustomNavigationControllerShouldPopToViewController

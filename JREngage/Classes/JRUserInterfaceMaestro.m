@@ -143,8 +143,11 @@ static JRUserInterfaceMaestro* singleton = nil;
 //    {
 //        
 //    };
+}
 
-    
+- (void)setCustomViews:(NSDictionary*)views
+{
+    [self setUpCustomInterface:views];
 }
 
 - (void)setUpViewControllers
@@ -187,7 +190,11 @@ static JRUserInterfaceMaestro* singleton = nil;
                                                                                andCustomUI:customUI];
     }
 
-    myProvidersController.title = @"Providers";
+    /* We do this here, because sometimes we pop straight to the user landing controller and we need the back-button's title to be correct */
+    if ([[customUI objectForKey:kJRProviderTableTitle] isKindOfClass:[NSString class]])
+        myProvidersController.title = [customUI objectForKey:kJRProviderTableTitle];
+    else
+        myProvidersController.title = @"Providers";
     
     delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController, 
                  myUserLandingController, 
@@ -252,8 +259,6 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (!jrModalNavController)
 		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:controller];
 	
-//    jrModalNavController.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    
     if ([[customUI objectForKey:@"NavigationBarTint"] respondsToSelector:@selector(count)])
         if ([[customUI objectForKey:@"NavigationBarTint"] count] == 4)
             [self tintBar];
