@@ -1853,33 +1853,57 @@ static JRSessionData* singleton = nil;
     }
 }
 
-- (void)triggerEmailSharingDidComplete
+- (void)startRecordActivitySharedBy:(NSString*)method
 {
-    // TODO: Fix when ready
+    NSMutableData* body = [NSMutableData data];
+    [body appendData:[[NSString stringWithFormat:@"device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&method=%@", method] dataUsingEncoding:NSUTF8StringEncoding]];
+    
     NSString *urlString = [NSString stringWithFormat:
                            @"%@/social/record_activity?device=%@&method=email", 
                            baseUrl, device];
+    
     NSURL *url = [NSURL URLWithString:urlString];//@"http://example.com"];//urlString];
-	    
-	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+                                   
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+    
+	NSString *tag = [NSString stringWithFormat:@"%@Success", method];
 	
-	NSString *tag = @"emailSuccess";
-	
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[tag retain]];
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:[tag retain]];    
+}
+
+- (void)triggerEmailSharingDidComplete
+{
+    // TODO: Fix when ready
+//    NSString *urlString = [NSString stringWithFormat:
+//                           @"%@/social/record_activity?device=%@&method=email", 
+//                           baseUrl, device];
+//    NSURL *url = [NSURL URLWithString:urlString];//@"http://example.com"];//urlString];
+//	    
+//	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+//	
+//	NSString *tag = @"emailSuccess";
+//	
+//    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[tag retain]];
+    [self startRecordActivitySharedBy:@"email"];
 }
 
 - (void)triggerSmsSharingDidComplete
 {
     // TODO: Fix when ready
-    NSString *urlString = [NSString stringWithFormat:
-                           @"%@/social/record_activity?device=%@&method=sms", 
-                           baseUrl, device];
-    NSURL *url = [NSURL URLWithString:urlString];//@"http://example.com"];//urlString];
-    
-	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-	
-	NSString *tag = @"smsSuccess";
-	
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[tag retain]];    
+//    NSString *urlString = [NSString stringWithFormat:
+//                           @"%@/social/record_activity?device=%@&method=sms", 
+//                           baseUrl, device];
+//    NSURL *url = [NSURL URLWithString:urlString];//@"http://example.com"];//urlString];
+//    
+//	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+//	
+//	NSString *tag = @"smsSuccess";
+//	
+//    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:[tag retain]];    
+    [self startRecordActivitySharedBy:@"sms"];
 }
 @end
