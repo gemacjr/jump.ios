@@ -59,17 +59,25 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 #endif
 #endif
 
-// TODO: Update these names!
+// TODO: Test dynamic download of icons with new icon names!!
 /* Lists of the standard names for providers' logo and icons */
-static NSString * const iconNames[3] = { @"jrauth_%@_icon.png", 
-                                         @"jrauth_%@_logo.png", nil};
+static NSString * const iconNames[5] = { @"icon_aol_30x30",
+                                         @"logo_facebook_280x63",
+                                         @"icon_aol_30x30@2x",
+                                         @"logo_facebook_280x63@2x", nil};
 
-static NSString * const iconNamesSocial[6] = {  @"jrauth_%@_icon.png", 
-                                                @"jrauth_%@_logo.png", 
-                                                @"jrauth_%@_long.png",
-                                                @"jrauth_%@_short.png",
-                                                @"jrauth_%@_greyscale.png", nil};
-     
+static NSString * const iconNamesSocial[6] = {  @"icon_aol_30x30",
+                                                @"logo_facebook_280x63",
+                                                @"icon_bw_facebook_30x30",
+                                                @"button_facebook_140x40",
+                                                @"button_facebook_280x40",
+                                                @"icon_aol_30x30@2x",
+                                                @"logo_facebook_280x63@2x",
+                                                @"icon_bw_facebook_30x30@2x",
+                                                @"button_facebook_140x40@2x",
+                                                @"button_facebook_280x40@2x", nil};
+
+
 /* Added a category to NSString including a function to correctly escape any arguments sent to any of the 
    Engage API calls */
 @interface NSString (NSString_URL_ESCAPING)
