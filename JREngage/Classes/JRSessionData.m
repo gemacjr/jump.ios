@@ -47,7 +47,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-//#define STAGING
+#define STAGING
 //#define LOCAL
 #ifdef STAGING
 static NSString * const serverUrl = @"https://rpxstaging.com";
@@ -545,7 +545,7 @@ static JRSessionData* singleton = nil;
         return;
 
 //    TODO: Fix when ready
-//    [self startGetShortenedUrlsForActivity:activity];
+    [self startGetShortenedUrlsForActivity:activity];
 }
 
 - (JRActivityObject*)activity
@@ -811,12 +811,12 @@ static JRSessionData* singleton = nil;
 {	
     DLog(@"");
     NSString *nameAndVersion = [self appNameAndVersion];
-	NSString *urlString = [NSString stringWithFormat:
-                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true&%@", 
-                           serverUrl, device, appId, nameAndVersion];
 //	NSString *urlString = [NSString stringWithFormat:
-//                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
+//                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true&%@", 
 //                           serverUrl, device, appId, nameAndVersion];
+	NSString *urlString = [NSString stringWithFormat:
+                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
+                           serverUrl, device, appId, nameAndVersion];
     
     DLog(@"url: %@", urlString);
 	
@@ -1380,6 +1380,14 @@ static JRSessionData* singleton = nil;
 //                      }"];
     DLog ("Shortened Urls: %@", urls);
     
+    NSDictionary *dict = [urls JSONValue];
+    
+    if (!dict) 
+        return;
+    
+    if ([dict objectForKey:@"err"])
+        return;
+    
     NSDictionary *emailUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"email"];
     NSDictionary *smsUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"sms"];
     
@@ -1404,7 +1412,7 @@ static JRSessionData* singleton = nil;
     NSDictionary *set = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
     NSString *urlString = //@"http://example.com";
                 [NSString stringWithFormat:@"%@/openid/get_urls?urls=%@",
-                                            serverUrl, [[set JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                                            baseUrl/*serverUrl*/, [[set JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     DLog(@"url: %@", urlString);
 	
