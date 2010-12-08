@@ -45,7 +45,7 @@ typedef enum
 {
 	UIActivityIndicatorView *spinner;
 	UILabel			*loadingLabel;
-	UIImageView		*barImage;	
+	UIView          *barBackground;	
 	UILabel			*poweredByLabel;
 	UIButton		*infoButton;
 	
