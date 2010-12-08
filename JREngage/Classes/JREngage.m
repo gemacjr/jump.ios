@@ -136,9 +136,9 @@ static JREngage* singletonJREngage = nil;
                               message, NSLocalizedDescriptionKey,
                               type, @"type", nil];
     
-    return [[NSError alloc] initWithDomain:@"JREngage"
-                                      code:code
-                                  userInfo:userInfo];
+    return [[[NSError alloc] initWithDomain:@"JREngage"
+                                       code:code
+                                   userInfo:userInfo] autorelease];
 }
 
 - (void)engageDidFailWithError:(NSError*)error

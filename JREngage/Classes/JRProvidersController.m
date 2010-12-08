@@ -107,8 +107,6 @@
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
     NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColor];
     
-    NSString *foo = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]];
-    
     /* Load the custom background view, if there is one. */
     if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]] isKindOfClass:[NSString class]])
         [myBackgroundView setImage:

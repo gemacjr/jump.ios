@@ -33,4 +33,4 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #define SOCIAL_SHARING 1
-#define EMAIL_SUPPORT  0
+#define EMAIL_SUPPORT  1

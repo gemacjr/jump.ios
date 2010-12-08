@@ -47,6 +47,7 @@
 @interface JRUserLandingController ()
 - (NSString*)customTitle;
 - (void)callWebView:(UITextField *)textField;
+- (UITextField*)getTextField:(UITableViewCell *)cell;
 @end
 
 @implementation JRUserLandingController
@@ -75,9 +76,9 @@
                               message, NSLocalizedDescriptionKey,
                               type, @"type", nil];
     
-    return [[NSError alloc] initWithDomain:@"JREngage"
-                                      code:code
-                                  userInfo:userInfo];
+    return [[[NSError alloc] initWithDomain:@"JREngage"
+                                       code:code
+                                   userInfo:userInfo] autorelease];
 }
 
 - (void)viewDidLoad 
@@ -138,9 +139,9 @@
 
     if (!sessionData.currentProvider)
     {
-        NSError *error = [[self setError:@"There was an error authenticating with the selected provider."
+        NSError *error = [self setError:@"There was an error authenticating with the selected provider."
                                 withCode:JRAuthenticationFailedError
-                                 andType:JRErrorTypeAuthenticationFailed] autorelease];
+                                 andType:JRErrorTypeAuthenticationFailed];
         
         [sessionData triggerAuthenticationDidFailWithError:error];        
 
@@ -274,9 +275,9 @@ enum
 
     UILabel *welcomeLabel;
     if (iPad)
-        welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 195, 558, 50)];// autorelease];
+        welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 195, 558, 50)] autorelease];
     else
-        welcomeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)];// autorelease];
+        welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)] autorelease];
 
     welcomeLabel.font = [UIFont boldSystemFontOfSize: (iPad) ? 36.0 : 20.0];
     
@@ -297,9 +298,9 @@ enum
     
     UITextField *textField;
     if (iPad)
-        textField = [[UITextField alloc] initWithFrame:CGRectMake(60, 185, 558, 70)]; //autorelease];
+        textField = [[[UITextField alloc] initWithFrame:CGRectMake(60, 185, 558, 70)] autorelease];
     else
-        textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 83, 280, 35)]; //autorelease];
+        textField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 83, 280, 35)] autorelease];
 
     textField.font = [UIFont systemFontOfSize: (iPad) ? 30.0 : 15.0];
     
@@ -475,10 +476,9 @@ enum
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    NSString *imagePath = [NSString stringWithFormat:[NSString stringWithFormat:
-                                                      @"logo_%@_280x63%@.png", 
-                                                      sessionData.currentProvider.name,
-                                                      (/*iPad*/0) ? @"@2x" : @""]];//@"jrauth_%@_logo.png", sessionData.currentProvider.name];
+    NSString *imagePath = [NSString stringWithFormat:@"logo_%@_280x63%@.png", 
+                                                     sessionData.currentProvider.name,
+                                                     (0/*iPad*/) ? @"@2x" : @""];//@"jrauth_%@_logo.png", sessionData.currentProvider.name];
 	[self getLogo:cell].image = [UIImage imageNamed:imagePath];
 
     UITextField *textField = [self getTextField:cell];

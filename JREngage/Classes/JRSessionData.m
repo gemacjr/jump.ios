@@ -63,20 +63,19 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 /* Lists of the standard names for providers' logo and icons */
 static NSString * const iconNames[5] = { @"icon_aol_30x30",
                                          @"logo_facebook_280x63",
-                                         @"icon_aol_30x30@2x",
-                                         @"logo_facebook_280x63@2x", nil};
+                                         @"icon_aol_30x30at2x",
+                                         @"logo_facebook_280x63at2x", nil };
 
-static NSString * const iconNamesSocial[6] = {  @"icon_aol_30x30",
+static NSString * const iconNamesSocial[11] = {  @"icon_aol_30x30",
                                                 @"logo_facebook_280x63",
                                                 @"icon_bw_facebook_30x30",
                                                 @"button_facebook_140x40",
                                                 @"button_facebook_280x40",
                                                 @"icon_aol_30x30@2x",
-                                                @"logo_facebook_280x63@2x",
-                                                @"icon_bw_facebook_30x30@2x",
-                                                @"button_facebook_140x40@2x",
-                                                @"button_facebook_280x40@2x", nil};
-
+                                                @"logo_facebook_280x63at2x",
+                                                @"icon_bw_facebook_30x30at2x",
+                                                @"button_facebook_140x40at2x",
+                                                @"button_facebook_280x40at2x", nil };
 
 /* Added a category to NSString including a function to correctly escape any arguments sent to any of the 
    Engage API calls */
@@ -433,8 +432,6 @@ void RLog (NSObject *object)
 - (NSError*)startGetConfiguration;
 - (NSError*)finishGetConfiguration:(NSString *)dataStr;
 - (void)startGetShortenedUrlsForActivity:(JRActivityObject *)_activity;
-- (void)loadLastUsedBasicProvider;
-- (void)loadLastUsedSocialProvider;
 @end
 
 @implementation JRSessionData
@@ -532,7 +529,7 @@ static JRSessionData* singleton = nil;
 {/* If we found out that the configuration changed while a dialog was showing, we saved it until the dialog wasn't showing
     since the dialogs dynamically load our data. Now that the dialog isn't showing, load the saved configuration information. */
     if (!isShowing && savedConfigurationBlock)
-        error = [self finishGetConfiguration:savedConfigurationBlock];
+        error = [[self finishGetConfiguration:savedConfigurationBlock] retain];
 
     dialogIsShowing = isShowing;
 }
@@ -651,7 +648,7 @@ static JRSessionData* singleton = nil;
 //        [self loadLastUsedSocialProvider];
                 
         /* As this information may have changed, we're going to ask rpx for this information anyway */
-        error = [self startGetConfiguration];
+        error = [[self startGetConfiguration] retain];
     }
     
 	return self;
@@ -674,7 +671,7 @@ static JRSessionData* singleton = nil;
     [error release];
     error = nil;
     
-    error = [self startGetConfiguration];
+    error = [[self startGetConfiguration] retain];
 }
 
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate
@@ -696,9 +693,9 @@ static JRSessionData* singleton = nil;
                               message, NSLocalizedDescriptionKey,
                               type, @"type", nil];
     
-    return [[NSError alloc] initWithDomain:@"JREngage"
-                                      code:code
-                                  userInfo:userInfo];
+    return [[[NSError alloc] initWithDomain:@"JREngage"
+                                       code:code
+                                   userInfo:userInfo] autorelease];
 }
 
 - (void)finishDownloadPicture:(NSData*)picture named:(NSString*)pictureName forProvider:(NSString*)provider
@@ -760,7 +757,7 @@ static JRSessionData* singleton = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];    
 }
 
-- (void)checkForIcons:(NSString*[])icons forProvider:(NSString*)providerName
+- (void)checkForIcons:(NSString**)icons forProvider:(NSString*)providerName
 {
     /* If this provider's icons are already on the device, just return */
     if ([providersWithIcons containsObject:providerName])
@@ -893,8 +890,9 @@ static JRSessionData* singleton = nil;
         JRProvider *provider = [[[JRProvider alloc] initWithName:name
                                                    andDictionary:dictionary] autorelease];
         
+        // TODO: Test this!!!
         /* make sure we have this provider's icons, */
-        [self checkForIcons:(([provider.socialPublishingProperties count]) ? iconNamesSocial : iconNames) forProvider:name];
+        [self checkForIcons:(([provider.socialPublishingProperties count]) ? &iconNamesSocial : &iconNames) forProvider:name];
         
         /* and finally add the object to our dictionary of providers. */
         [allProviders setObject:provider forKey:name];
@@ -1286,7 +1284,7 @@ static JRSessionData* singleton = nil;
         else 
         {
             int code;
-            if (!CFNumberGetValue([error_dict objectForKey:@"code"], kCFNumberSInt32Type, &code))
+            if (!CFNumberGetValue((void*)[error_dict objectForKey:@"code"], kCFNumberSInt32Type, &code))
                 code = 1000;
             
             switch (code)
@@ -1512,14 +1510,14 @@ static JRSessionData* singleton = nil;
             
             if ([payloadString rangeOfString:@"\"provider_info\":{"].length != 0)
             {
-                error = [self finishGetConfiguration:payloadString 
-                                            withEtag:[headers objectForKey:@"Etag"]];
+                error = [[self finishGetConfiguration:payloadString 
+                                             withEtag:[headers objectForKey:@"Etag"]] retain];
             }
             else // There was an error...
             {
-                error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                              withCode:JRConfigurationInformationError
-                               andType:JRErrorTypeConfigurationFailed];
+                error = [[self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                               withCode:JRConfigurationInformationError
+                                andType:JRErrorTypeConfigurationFailed] retain];
             }
         }
     }
@@ -1583,10 +1581,10 @@ static JRSessionData* singleton = nil;
     {   
         if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {
-            error = [self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                          withCode:JRConfigurationInformationError
-                           andType:JRErrorTypeConfigurationFailed];
-        }
+            error = [[self setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                           withCode:JRConfigurationInformationError
+                            andType:JRErrorTypeConfigurationFailed] retain];
+        }   
         else if ([(NSString*)tag isEqualToString:@"emailSuccess"])
         {
             // Do nothing for now...

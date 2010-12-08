@@ -227,17 +227,9 @@ static JRConnectionManager* singleton = nil;
 
 + (NSURLRequest*)aCopyOfTheRequestWithANonCrashingUserAgent:(NSURLRequest*)request
 {
-    NSMutableURLRequest* new_request = [request mutableCopyWithZone:nil];//[[[NSMutableURLRequest alloc] initWithURL:[request URL]] autorelease];
-    
-    //    [new_request setAllHTTPHeaderFields:[request allHTTPHeaderFields]];
-    //    [new_request setHTTPMethod:[request HTTPMethod]];
-    //    [new_request setHTTPBody:[request HTTPBody]];
-    //    [new_request setHTTPBodyStream:[request HTTPBodyStream]];
-    //    [new_request setNetworkServiceType:[request networkServiceType]];
-    //    [new_request setCachePolicy:[request cachePolicy]];
-    //    [new_request setTimeoutInterval:[request timeoutInterval]];
-    //    [new_request setHTTPShouldUsePipelining:[request HTTPShouldUsePipelining]];
-    //    [new_request setHTTPShouldHandleCookies:[request HTTPShouldHandleCookies]];
+    // TODO: Test this!!
+    // QTS: Am I calling this every time, and if so, will this mess up any user-agent detection?
+    NSMutableURLRequest* new_request = [request mutableCopyWithZone:nil];
     
     [new_request setValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.4) Gecko/20100527 Firefox/3.6.4 GTB7.1"
        forHTTPHeaderField:@"User-Agent"];
@@ -257,7 +249,7 @@ static JRConnectionManager* singleton = nil;
 	JRConnectionManager* connectionManager = [JRConnectionManager getJRConnectionManager];
 	CFMutableDictionaryRef connectionBuffers = connectionManager.connectionBuffers;
 
-	request = [JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request];
+	request = [[JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request] autorelease];
     
 	if (![NSURLConnection canHandleRequest:request])
 		return NO;
@@ -404,10 +396,7 @@ static JRConnectionManager* singleton = nil;
     if ([connectionData returnFullResponse])
         connectionData.fullResponse = redirectResponse;    
 	
-//    if ([self thisIsThatStupidWindowsLiveResponse:redirectResponse])
-         return [JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request];
-    
-//	return request;
+    return [[JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request] autorelease];
 }
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { DLog(@""); }
