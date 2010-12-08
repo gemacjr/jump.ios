@@ -228,9 +228,9 @@
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (iPad)
-        return 386;
+        return 391;
     else
-        return 176;
+        return 180;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -259,12 +259,12 @@ enum
     
     UIImageView *logo;
     if (iPad)
-        logo = [[[UIImageView alloc] initWithFrame:CGRectMake(60, 40, 558, 125)] autorelease];
+        logo = [[[UIImageView alloc] initWithFrame:CGRectMake(60, 40, 558, 130)] autorelease];
     else
-        logo = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 280, 63)] autorelease];
+        logo = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 280, 65)] autorelease];
 
     logo.tag = LOGO_TAG;
-
+    
     return logo;
 }
 
@@ -275,7 +275,7 @@ enum
 
     UILabel *welcomeLabel;
     if (iPad)
-        welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 195, 558, 50)] autorelease];
+        welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 200, 558, 50)] autorelease];
     else
         welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)] autorelease];
 
@@ -298,9 +298,9 @@ enum
     
     UITextField *textField;
     if (iPad)
-        textField = [[[UITextField alloc] initWithFrame:CGRectMake(60, 185, 558, 70)] autorelease];
+        textField = [[[UITextField alloc] initWithFrame:CGRectMake(60, 190, 558, 70)] autorelease];
     else
-        textField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 83, 280, 35)] autorelease];
+        textField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 85, 280, 35)] autorelease];
 
     textField.font = [UIFont systemFontOfSize: (iPad) ? 30.0 : 15.0];
     
@@ -334,9 +334,9 @@ enum
     UIButton *signInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     if (iPad)
-        [signInButton setFrame:CGRectMake(367, 275, 251, 71)];
+        [signInButton setFrame:CGRectMake(367, 280, 251, 71)];
     else
-        [signInButton setFrame:CGRectMake(155, 128, 135, 40)];
+        [signInButton setFrame:CGRectMake(155, 130, 135, 40)];
 
     [signInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                           @"button_janrain_140x40%@.png", 
@@ -376,9 +376,9 @@ enum
     UIButton *backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     if (iPad)
-        [backToProvidersButton setFrame:CGRectMake(60, 275, 251, 71)];
+        [backToProvidersButton setFrame:CGRectMake(60, 280, 251, 71)];
     else
-        [backToProvidersButton setFrame:CGRectMake(10, 128, 135, 40)];
+        [backToProvidersButton setFrame:CGRectMake(10, 130, 135, 40)];
 
     [backToProvidersButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                                    @"button_janrain_140x40%@.png", 
@@ -416,9 +416,9 @@ enum
     UIButton *bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     if (iPad)
-        [bigSignInButton setFrame:CGRectMake(60, 275, 558, 76)];
+        [bigSignInButton setFrame:CGRectMake(60, 280, 558, 76)];
     else
-        [bigSignInButton setFrame:CGRectMake(10, 128, 280, 40)];
+        [bigSignInButton setFrame:CGRectMake(10, 130, 280, 40)];
 
     [bigSignInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                              @"button_janrain_280x40%@.png", 
@@ -464,8 +464,8 @@ enum
 		cell = [[UITableViewCell alloc] 
                 initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cachedCell"];// autorelease];
         
-		[cell.contentView addSubview:[self getLogo:nil]];
-        [cell.contentView addSubview:[self getWelcomeLabel:nil]];	
+		[cell.contentView addSubview:[self getLogo:nil]];	
+        [cell.contentView addSubview:[self getWelcomeLabel:nil]];
         [cell.contentView addSubview:[self getTextField:nil]];
         [cell.contentView addSubview:[self getSignInButton:nil]];
         [cell.contentView addSubview:[self getBackToProvidersButton:nil]];
@@ -476,9 +476,9 @@ enum
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    NSString *imagePath = [NSString stringWithFormat:@"logo_%@_280x63%@.png", 
+    NSString *imagePath = [NSString stringWithFormat:@"logo_%@_280x65%@.png", 
                                                      sessionData.currentProvider.name,
-                                                     (0/*iPad*/) ? @"@2x" : @""];//@"jrauth_%@_logo.png", sessionData.currentProvider.name];
+                                                     (0) ? @"@2x" : @""];//@"jrauth_%@_logo.png", sessionData.currentProvider.name];
 	[self getLogo:cell].image = [UIImage imageNamed:imagePath];
 
     UITextField *textField = [self getTextField:cell];

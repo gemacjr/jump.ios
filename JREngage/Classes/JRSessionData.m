@@ -1856,11 +1856,10 @@ static JRSessionData* singleton = nil;
 - (void)triggerEmailSharingDidComplete
 {
     // TODO: Fix when ready
-    //    NSString *urlString = [NSString stringWithFormat:
-    //                           @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
-    //                           serverUrl, appId];
-    
-    NSURL *url = [NSURL URLWithString:@"http://example.com"];//urlString];
+    NSString *urlString = [NSString stringWithFormat:
+                           @"%@/social/record_activity?device=%@&method=email", 
+                           baseUrl, device];
+    NSURL *url = [NSURL URLWithString:urlString];//@"http://example.com"];//urlString];
 	    
 	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
 	
@@ -1872,11 +1871,10 @@ static JRSessionData* singleton = nil;
 - (void)triggerSmsSharingDidComplete
 {
     // TODO: Fix when ready
-    //    NSString *urlString = [NSString stringWithFormat:
-    //                           @"%@/openid/iphone_config_and_baseurl?appId=%@&skipXdReceiver=true", 
-    //                           serverUrl, appId];
-    
-    NSURL *url = [NSURL URLWithString:@"http://example.com"];//urlString];
+    NSString *urlString = [NSString stringWithFormat:
+                           @"%@/social/record_activity?device=%@&method=sms", 
+                           baseUrl, device];
+    NSURL *url = [NSURL URLWithString:urlString];//@"http://example.com"];//urlString];
     
 	NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
 	
