@@ -322,6 +322,18 @@
 }
 @end
 
+NSArray* filteredArrayOfValidUrls (NSArray *urls)
+{
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:[urls count]];
+                             
+    for (NSObject *url in urls)
+        if ([url isKindOfClass:[NSString class]])
+            if ([NSURLConnection canHandleRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]])
+                [array addObject:url];
+    
+    return array;
+}
+
 @implementation JREmailObject
 @synthesize subject;
 @synthesize messageBody;
@@ -333,16 +345,13 @@
     if (self = [super init])
     {
         if (_subject)
-            subject     = [[NSString stringWithString:_subject] retain];
+            subject = [[NSString stringWithString:_subject] retain];
 
         if (_messageBody)
             messageBody = [[NSString stringWithString:_messageBody] retain];
 
-        isHtml      = _isHtml;
-
-        // TODO: Fix this so that it filters for only string urls
-        urls        = [_urls retain];//[[_urls filteredArrayUsingPredicate:
-                                     //                       [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([NSString class])]] retain];//[_urls retain];
+        isHtml = _isHtml;
+        urls   = [filteredArrayOfValidUrls (_urls) retain];
     }
 
     return self;
@@ -366,9 +375,7 @@
         if (_message)
             message = [[NSString stringWithString:_message] retain];
 
-        // TODO: Fix this so that it filters for only string urls
-        urls    = [_urls retain];//[[_urls filteredArrayUsingPredicate:
-                                 //                   [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([NSString class])]] retain];//[_urls retain];
+        urls    =  [filteredArrayOfValidUrls (_urls) retain];
     }
     
     return self;
@@ -425,9 +432,10 @@
    that the app will crash.                                                          */
 - (void)setMedia:(NSMutableArray *)_media
 {
-    media = [[NSMutableArray arrayWithArray:
-              [_media filteredArrayUsingPredicate:
-               [NSPredicate predicateWithFormat:@"cf_baseClassName = %@", NSStringFromClass([JRMediaObject class])]]] retain];
+    [media release], media = [[NSMutableArray arrayWithArray:
+                               [_media filteredArrayUsingPredicate:
+                                [NSPredicate predicateWithFormat:
+                                 @"cf_baseClassName = %@", NSStringFromClass([JRMediaObject class])]]] retain];
 }
 
 - (NSMutableArray*)media
@@ -442,9 +450,10 @@
    have the class name JRActionLinks                                                     */
 - (void)setAction_links:(NSMutableArray *)_action_links
 {
-    action_links = [[NSMutableArray arrayWithArray:
-                     [_action_links filteredArrayUsingPredicate:
-                      [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRActionLink class])]]] retain];
+    [action_links release], action_links = [[NSMutableArray arrayWithArray:
+                                             [_action_links filteredArrayUsingPredicate:
+                                              [NSPredicate predicateWithFormat:
+                                               @"cf_className = %@", NSStringFromClass([JRActionLink class])]]] retain];
 }
 
 - (NSMutableArray*)action_links
@@ -555,8 +564,6 @@
         [dict setValue:arr forKey:@"media"];
     }
     
-    // TODO: You still have written any code to handle all the different possibilities
-    // that could go here, and this might end up crashing.  Find out if it does and fix this.
     if ([properties count])
         [dict setObject:properties forKey:@"properties"];
     
