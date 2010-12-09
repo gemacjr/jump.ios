@@ -993,7 +993,11 @@ static JRSessionData* singleton = nil;
         the dialogs will display their view as greyed-out, with a spinning activity indicator and a loading message, as they wait 
         for the lists of providers to download, so we can go ahead and update the configuration information here, too. 
         The dialogs won't try and do anything until we're done updating the lists. */
-        if (!dialogIsShowing || (!basicProviders && !socialProviders))
+        if (!dialogIsShowing)
+            return [self finishGetConfiguration:dataStr];
+        if ([basicProviders count] == 0 && !social)
+            return [self finishGetConfiguration:dataStr];
+        if ([socialProviders count] == 0 && social)
             return [self finishGetConfiguration:dataStr];
         
      /* Otherwise, we have to save all this information for later.  The UserInterfaceMaestro sends a 
