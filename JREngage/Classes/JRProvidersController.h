@@ -37,7 +37,6 @@
 #import "JREngage.h"
 #import "JRInfoBar.h"
 
-@class JRAuthenticate;
 @class JRSessionData;
 @class JRUserInterfaceMaestro;
 
@@ -49,6 +48,9 @@
     
     BOOL iPad;
     
+    NSDictionary *customUI;
+
+    UIView		*titleView;
     UIImageView *myBackgroundView;
 	UITableView	*myTableView;
 	
@@ -56,10 +58,6 @@
 	UILabel					*myLoadingLabel;
 	UIActivityIndicatorView *myActivitySpinner; 
 	NSTimer                 *timer;
-    
-	UIView		 *titleView;
-
-    NSDictionary *customUI;
     
 	JRInfoBar	*infoBar;
 }

@@ -35,9 +35,7 @@
 
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-
 #import "FeedReaderDetail.h"
-
 
 @implementation FeedReaderDetail
 
@@ -253,14 +251,6 @@
                                       andUrlsToBeShortened:[NSArray arrayWithObjects:story.link, nil]];
     activity.sms = [JRSmsObject smsObjectWithMessage:[NSString stringWithFormat:@"Check out this article from the Janrain Blog!\n\n%@", story.link]
                                 andUrlsToBeShortened:[NSArray arrayWithObjects:story.link, nil]];
-    
-//    TODO: Fix when ready
-//    activity.email = [JREmailObject emailObjectWithSubject:@"hello" 
-//                                            andMessageBody:@"blah blah blah foo.com blah blah bar.com"
-//                                                    isHtml:NO
-//                                      andUrlsToBeShortened:[NSArray arrayWithObjects:@"foo.com", @"bar.com", nil]];
-//    activity.sms = [JRSmsObject smsObjectWithMessage:@"blah blah blah" andUrlsToBeShortened:nil];
-    
     
     [FeedReader feedReader].feedReaderDetail = self;
     [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];

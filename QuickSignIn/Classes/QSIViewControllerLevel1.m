@@ -35,8 +35,6 @@ Copyright (c) 2010, Janrain, Inc.
 
 #import "QSIViewControllerLevel1.h"
 
-// TODO: I subclassed UITableViewCell, but later learned that I should have just customized 
-// the layout in tableView: cellForRowAtIndexPath: like I did in QSIViewControllerLevel2.m
 @interface UITableViewCellSignInHistory : UITableViewCell 
 {
 	UIImageView *icon;
@@ -321,7 +319,6 @@ Copyright (c) 2010, Janrain, Inc.
 {
 	return 30.0;
 }
-
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section { return nil; }
 

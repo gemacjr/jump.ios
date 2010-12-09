@@ -37,7 +37,6 @@
 #import "JREngage.h"
 #import "JRInfoBar.h"
 
-//@class JRAuthenticate;
 @class JRWebViewController;
 @class JRSessionData;
 

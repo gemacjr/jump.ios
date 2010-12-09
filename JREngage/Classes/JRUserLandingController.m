@@ -284,7 +284,6 @@ enum
     welcomeLabel.adjustsFontSizeToFitWidth = YES;
     welcomeLabel.textColor = [UIColor blackColor];
     welcomeLabel.backgroundColor = [UIColor clearColor];
-    welcomeLabel.textAlignment = UITextAlignmentLeft;
     
     welcomeLabel.tag = WELCOME_LABEL_TAG;
 
@@ -306,9 +305,7 @@ enum
     
     textField.adjustsFontSizeToFitWidth = YES;
     textField.textColor = [UIColor blackColor];
-    textField.backgroundColor = [UIColor clearColor];
     textField.borderStyle = UITextBorderStyleRoundedRect;
-    textField.textAlignment = UITextAlignmentLeft;
     textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     textField.clearsOnBeginEditing = YES;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -340,7 +337,7 @@ enum
 
     [signInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                           @"button_iosblue_135x40%@.png", 
-                                                          (iPad) ? @"@2x" : @""]]//@"blue_button_135x38.png"] 
+                                                          (iPad) ? @"@2x" : @""]]
                             forState:UIControlStateNormal];
     
     [signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
@@ -348,14 +345,6 @@ enum
                        forState:UIControlStateNormal];
     [signInButton setTitleShadowColor:[UIColor grayColor]
                              forState:UIControlStateNormal];
-
-    [signInButton setTitle:@"Sign In" forState:UIControlStateSelected];
-    [signInButton setTitleColor:[UIColor whiteColor] 
-                       forState:UIControlStateSelected];	
-    [signInButton setTitleShadowColor:[UIColor grayColor]
-                             forState:UIControlStateSelected];	
-
-    [signInButton setReversesTitleShadowWhenHighlighted:YES];
 
     signInButton.titleLabel.font = [UIFont boldSystemFontOfSize: (iPad) ? 36.0 : 20.0];
 
@@ -382,7 +371,7 @@ enum
 
     [backToProvidersButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                                    @"button_black_135x40%@.png", 
-                                                                   (iPad) ? @"@2x" : @""]]//@"black_button.png"] 
+                                                                   (iPad) ? @"@2x" : @""]]
                                      forState:UIControlStateNormal];
 
     [backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateNormal];
@@ -390,13 +379,6 @@ enum
                                 forState:UIControlStateNormal];
     [backToProvidersButton setTitleShadowColor:[UIColor grayColor]
                                       forState:UIControlStateNormal];
-
-    [backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateSelected];
-    [backToProvidersButton setTitleColor:[UIColor whiteColor] 
-                                forState:UIControlStateSelected];
-    [backToProvidersButton setTitleShadowColor:[UIColor grayColor]
-                                      forState:UIControlStateSelected];
-    [backToProvidersButton setReversesTitleShadowWhenHighlighted:YES];
 
     backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize: (iPad) ? 28.0 : 14.0];
 
@@ -422,7 +404,7 @@ enum
 
     [bigSignInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                              @"button_iosblue_280x40%@.png", 
-                                                             (iPad) ? @"@2x" : @""]]//@"blue_button_280x38.png"] 
+                                                             (iPad) ? @"@2x" : @""]]
                                forState:UIControlStateNormal];
     
     [bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
@@ -430,13 +412,6 @@ enum
                           forState:UIControlStateNormal];
     [bigSignInButton setTitleShadowColor:[UIColor grayColor]
                                 forState:UIControlStateNormal];
-
-    [bigSignInButton setTitle:@"Sign In" forState:UIControlStateSelected];
-    [bigSignInButton setTitleColor:[UIColor whiteColor] 
-                          forState:UIControlStateSelected];	
-    [bigSignInButton setTitleShadowColor:[UIColor grayColor]
-                                forState:UIControlStateSelected];	
-    [bigSignInButton setReversesTitleShadowWhenHighlighted:YES];
 
     bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize: (iPad) ? 36.0 : 20.0];
     
@@ -461,8 +436,8 @@ enum
 	
 	if (cell == nil)
 	{
-		cell = [[UITableViewCell alloc] 
-                initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cachedCell"];// autorelease];
+		cell = [[[UITableViewCell alloc] 
+                initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cachedCell"] autorelease];
         
 		[cell.contentView addSubview:[self getLogo:nil]];	
         [cell.contentView addSubview:[self getWelcomeLabel:nil]];
@@ -478,7 +453,7 @@ enum
     
     NSString *imagePath = [NSString stringWithFormat:@"logo_%@_280x65%@.png", 
                                                      sessionData.currentProvider.name,
-                                                     (0) ? @"@2x" : @""];//@"jrauth_%@_logo.png", sessionData.currentProvider.name];
+                                                     (0) ? @"@2x" : @""];
 	[self getLogo:cell].image = [UIImage imageNamed:imagePath];
 
     UITextField *textField = [self getTextField:cell];

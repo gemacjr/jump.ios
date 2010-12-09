@@ -32,22 +32,20 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import "QSIViewControllerLevel2.h"
-
 
 @implementation ViewControllerLevel2
 @synthesize myTableView;
 @synthesize myToolBarButton;
 
 /*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
- - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
- if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
- // Custom initialization
- }
- return self;
- }
+// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    // Custom initialization
+    }
+    return self;
+}
 */
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -132,14 +130,13 @@
 	}
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView 
 		 cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	static NSInteger keyLabelTag = 1;
 	static NSInteger valueLabelTag = 2;
 
-	UITableViewCellStyle style = (indexPath.section == 0) ? UITableViewCellStyleDefault : UITableViewCellStyleDefault;// UITableViewCellStyleSubtitle;
+	UITableViewCellStyle style = (indexPath.section == 0) ? UITableViewCellStyleDefault : UITableViewCellStyleDefault;
 	NSString *reuseIdentifier = (indexPath.section == 0) ? @"cachedCellSection0" : @"cachedCellSection1";
 
 	UITableViewCell *cell = 
@@ -166,7 +163,6 @@
 		
 		[cell.contentView addSubview:keyLabel];
 		[keyLabel release];
-		
 		
 		frame.origin.y += 16;
 		frame.size.height += 8;

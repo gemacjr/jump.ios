@@ -82,23 +82,6 @@
 	
 	sessionData = [JRSessionData jrSessionData];
     
-//    NSString *iPadSuffix = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"-iPad" : @"";
-//    NSArray *backgroundColor = [customUI objectForKey:@"BackgroundColor"];
-//    
-//    /* Load the custom background view, if there is one. */
-//    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRWebViewBackgroundView, iPadSuffix]])
-//        self.myBackgroundView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRWebViewBackgroundView, iPadSuffix]];
-//    else /* Otherwise, set the background view to the provided color, if any. */
-//        if ([[customUI objectForKey:@"BackgroundColor"] respondsToSelector:@selector(count)])
-//            if ([[customUI objectForKey:@"BackgroundColor"] count] == 4)
-//                self.myBackgroundView.backgroundColor = 
-//                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-//                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-//                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-//                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
-    
-//    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRTitleViewForProvidersTable, iPadSuffix]];
-    
     self.navigationItem.backBarButtonItem.target = sessionData;
     self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
     

@@ -421,7 +421,7 @@ void RLog (NSObject *object)
 }
 @end
 
-@interface JRSessionData (Private)
+@interface JRSessionData ()
 - (NSError*)startGetConfiguration;
 - (NSError*)finishGetConfiguration:(NSString *)dataStr;
 - (void)startGetShortenedUrlsForActivity:(JRActivityObject *)_activity;

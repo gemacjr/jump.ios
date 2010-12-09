@@ -139,7 +139,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView 
 {
-    return [stories count];// + 1;
+    return [stories count];
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section 
@@ -149,8 +149,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.section == [stories count])
-//        return 40;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         return 160;
     else
@@ -199,15 +197,15 @@
             [spinner setHidesWhenStopped:YES];
             [spinner startAnimating];
             
-            /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).  
-               If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
+         /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).  
+            If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
             BOOL imageAvailable = NO;
             for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
             {
                 StoryImage *storyImage = [story.storyImages objectAtIndex:i];
                 imageAvailable = YES;
                 
-                /* If an image has already downloaded, set the image and break. */
+             /* If an image has already downloaded, set the image and break. */
                 if (storyImage.image)
                 {
                     [spinner stopAnimating];
@@ -273,9 +271,6 @@
             [cell.contentView addSubview:documentDescription];
             [cell.contentView addSubview:documentDate];
             
-//           UIImageView *background = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cell_background.png"]] autorelease];
-//           cell.backgroundView = background;
-
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
@@ -294,7 +289,7 @@
                 StoryImage *storyImage = [story.storyImages objectAtIndex:i];
                 imageAvailable = YES;
                 
-                /* If an image has already downloaded, set the image and break. */
+             /* If an image has already downloaded, set the image and break. */
                 if (storyImage.image)
                 {
                     [spinner stopAnimating];

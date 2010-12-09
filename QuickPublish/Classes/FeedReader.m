@@ -103,7 +103,7 @@
         return;
     
     NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:nil];// stringEncodeData:NO];    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:nil];
 }
 
 - (void)setAlt:(NSString*)_alt
@@ -173,7 +173,6 @@
 	[title release];
 	title = [[[_title stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"]
                       stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
-//    DLog(@"title:\t\t\t%@", title);
 }
 
 - (void)setLink:(NSString*)_link

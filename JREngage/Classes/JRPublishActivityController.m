@@ -70,7 +70,6 @@
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
     DLog(@"");
@@ -142,11 +141,11 @@
     
     [self loadActivityToView];
     
-	/* If the user calls the library before the session data object is done initializing - 
-     because either the requests for the base URL or provider list haven't returned - 
-     display the "Loading Providers" label and activity spinner. 
-     sessionData = nil when the call to get the base URL hasn't returned
-     [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
+ /* If the user calls the library before the session data object is done initializing - 
+    because either the requests for the base URL or provider list haven't returned - 
+    display the "Loading Providers" label and activity spinner. 
+    sessionData = nil when the call to get the base URL hasn't returned
+    [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
 	if ([[sessionData socialProviders] count] == 0)
 	{
         [self showViewIsLoading:YES];
@@ -499,7 +498,6 @@ Please try again later."
 												otherButtonTitles:nil] autorelease];
 	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     [action showFromTabBar:myTabBar];
-//	[action showInView:self.view];
 }
 
 - (void)setButtonImage:(UIButton*)button toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
@@ -527,12 +525,11 @@ Please try again later."
     DLog(@"data retain count: %d", [data retainCount]);
 }
 
-// TODO: Add providerCanShareMedia to the iphone_config API call so it can be loaded dynamically
-- (BOOL)providerCanShareMedia:(NSString*)provider
+- (BOOL)providerCanShareMedia:(JRProvider*)provider
 {
     DLog(@"");
     
-    if ([provider isEqualToString:@"facebook"])
+    if ([[provider.socialPublishingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"])
         return YES;
     
     return NO;
@@ -547,7 +544,7 @@ Please try again later."
     else
         myUserContentTextView.text = _activity.user_generated_content;
     
-    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider.name]))
+    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
     {
         [myMediaContentView setHidden:NO];
         
@@ -671,18 +668,19 @@ Please try again later."
         [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                                          @"button_%@_280x40%@.png", 
                                                                          selectedProvider.name, 
-                                                                         (iPad) ? @"@2x" : @""]]//@"jrauth_%@_long.png", selectedProvider.name]]
+                                                                         (iPad) ? @"@2x" : @""]]
                                            forState:UIControlStateNormal];
         
         [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                                    @"button_%@_135x40%@.png", 
                                                                    selectedProvider.name, 
-                                                                   (iPad) ? @"@2x" : @""]]//@"jrauth_%@_short.png", selectedProvider.name]]
+                                                                   (iPad) ? @"@2x" : @""]]
                                      forState:UIControlStateNormal];
         
-        myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_%@_30x30%@.png", 
+        myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:
+                                                    @"icon_%@_30x30%@.png", 
                                                     selectedProvider.name, 
-                                                    (iPad) ? @"@2x" : @"" ]];//@"jrauth_%@_icon.png", selectedProvider.name]];
+                                                    (iPad) ? @"@2x" : @"" ]];
         
         loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
         
@@ -705,7 +703,6 @@ Please try again later."
 
 - (BOOL)canSendMailOrSMS
 {
-//    return YES;
 #if EMAIL_SUPPORT
 #else
     return NO;
@@ -744,7 +741,7 @@ Please try again later."
         if (!provider)
             break;
         
-        NSString *imagePath = [NSString stringWithFormat:@"icon_bw_%@_30x30%@.png", provider.name, (iPad) ? @"@2x" : @"" ];//@"jrauth_%@_greyscale.png", provider.name];
+        NSString *imagePath = [NSString stringWithFormat:@"icon_bw_%@_30x30.png", provider.name];//, (iPad) ? @"@2x" : @"" ];
         UITabBarItem *providerTab = [[[UITabBarItem alloc] initWithTitle:provider.friendlyName 
                                                                    image:[UIImage imageNamed:imagePath]
                                                                      tag:[providerTabArr count]] autorelease];
@@ -763,14 +760,12 @@ Please try again later."
         NSString *simpleStrArray[6] = { @"Email", @"Sms", @"Email/SMS", @"mail", @"sms", @"mail_sms" };
 
         UITabBarItem *emailTab =  [[[UITabBarItem alloc] initWithTitle:simpleStrArray[((int)emailOrSms - 1)] 
-                                                                 image:[UIImage imageNamed:[NSString stringWithFormat:@"icon_bw_%@_30x30.png", simpleStrArray[((int)emailOrSms +2)]]]
+                                                                 image:[UIImage imageNamed:
+                                                                        [NSString stringWithFormat:
+                                                                         @"icon_bw_%@_30x30.png", 
+                                                                         simpleStrArray[((int)emailOrSms +2)]]]
                                                                    tag:[providerTabArr count]] autorelease];
         
-//        NSArray *simpleStrArray = [NSArray arrayWithObjects:@"Email", @"Sms", @"Email/SMS", @"email", @"sms", "email_sms", nil];
-//        UITabBarItem *emailTab =  [[[UITabBarItem alloc] initWithTitle:[simpleStrArray objectAtIndex:((int)emailsOrSms - 1)] 
-//                                                                 image:[UIImage imageNamed:[NSString stringWithFormat:@"jr%@.png", [simpleStrArray objectAtIndex:((int)emailsOrSms +2)]]]
-//                                                                   tag:[providerTabArr count]] autorelease];
-//        [[[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:[providerTabArr count]] autorelease];
         [providerTabArr insertObject:emailTab atIndex:[providerTabArr count]];
     }
     
@@ -778,7 +773,6 @@ Please try again later."
     [myTabBar setItems:providerTabArr animated:YES];
     
     // QTS: Should we make the default selected social provider be the provider most commonly used
-    // QTS: Do we need both of the following statements
     if ([providerTabArr count])
     {
         myTabBar.selectedItem = [providerTabArr objectAtIndex:indexOfLastUsedProvider];
@@ -1189,18 +1183,13 @@ Please try again later."
 - (void)userInterfaceWillClose
 {
     DLog(@"");
+
     [self showViewIsLoading:NO];
-    
-    // TODO: Verify that invalidating the timer won't cause issues if set and the dialog closes for various reasons
     [timer invalidate];
-    
     [self loadActivityToView:nil];
 }
 
-- (void)userInterfaceDidClose
-{
-    
-}
+- (void)userInterfaceDidClose { }
 
 - (void)dealloc
 {

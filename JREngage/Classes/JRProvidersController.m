@@ -368,7 +368,7 @@ Please try again later."
     if (!provider)
         return cell;
 	
-    NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30%@.png", provider.name, (iPad) ? @"@2x" : @"" ];//@"jrauth_%@_icon.png", provider.name];
+    NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30%@.png", provider.name, (iPad) ? @"@2x" : @"" ];
 
 	cell.textLabel.text = provider.friendlyName;
 	cell.imageView.image = [UIImage imageNamed:imagePath];
@@ -440,10 +440,7 @@ Please try again later."
     [timer invalidate];
 }
      
-- (void)userInterfaceDidClose
-{
- 
-}
+- (void)userInterfaceDidClose { }
 
 - (void)dealloc 
 {
