@@ -68,7 +68,6 @@
 @end
 
 @implementation ConnectionData
-
 @synthesize request;
 @synthesize response;
 @synthesize fullResponse;
@@ -217,17 +216,16 @@ static JRConnectionManager* singleton = nil;
 	[super dealloc];
 }
 
-- (BOOL)thisIsThatStupidWindowsLiveResponse:(NSURLResponse*)redirectResponse
-{
-    if ([[[redirectResponse URL] absoluteString] hasPrefix:@"http://consent.live.com/Delegation.aspx?"])
-        return YES;
-    
-    return NO;
-}
+//- (BOOL)thisIsThatStupidWindowsLiveResponse:(NSURLResponse*)redirectResponse
+//{
+//    if ([[[redirectResponse URL] absoluteString] hasPrefix:@"http://consent.live.com/Delegation.aspx?"])
+//        return YES;
+//    
+//    return NO;
+//}
 
 + (NSURLRequest*)aCopyOfTheRequestWithANonCrashingUserAgent:(NSURLRequest*)request
 {
-    // TODO: Test this!!
     // QTS: Am I calling this every time, and if so, will this mess up any user-agent detection?
     NSMutableURLRequest* new_request = [request mutableCopyWithZone:nil];
     
@@ -323,8 +321,6 @@ static JRConnectionManager* singleton = nil;
 - (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response 
 {
 //	DLog(@"");
-//    DLog(@"MIMETYPE: %@", [response MIMEType]);
-//    DLog(@"TEXT ENCODING: %@", [response textEncodingName]);
 
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 	

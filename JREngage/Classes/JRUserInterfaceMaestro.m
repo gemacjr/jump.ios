@@ -44,12 +44,123 @@
 
 #import "JRUserInterfaceMaestro.h"
 
-@implementation JRUserInterfaceMaestro
+
+@interface JRModalNavigationController : UIViewController 
+{
+	UINavigationController	*navigationController;
+    
+	BOOL shouldUnloadSubviews;
+}
+@property (retain) UINavigationController *navigationController;
+
+- (id)initWithRootViewController:(UIViewController*)controller;
+
+- (void)presentModalNavigationControllerForAuthentication;
+- (void)presentModalNavigationControllerForPublishingActivity;
+- (void)dismissModalNavigationController:(UIModalTransitionStyle)style;
+@end
+
+@implementation JRModalNavigationController
 @synthesize navigationController;
+
+- (id)initWithRootViewController:(UIViewController*)controller
+{
+	if (controller == nil)
+	{
+		[self release];
+		return nil;
+	}
+	
+	if (self = [super init]) 
+	{
+        navigationController = [[UINavigationController alloc] 
+                                initWithRootViewController:controller];    
+        navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;   
+        navigationController.navigationBar.clipsToBounds = YES;
+    }
+    
+    return self;
+}
+
+- (void)loadView  
+{
+	UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+    
+    shouldUnloadSubviews = NO;
+    
+    [view setHidden:YES];
+	[self setView:view];
+    [view release];
+}
+
+- (void)viewDidLoad 
+{
+    [super viewDidLoad];
+    [self retain]; // QTS: Why am I retaining myself??
+}
+
+- (void)presentModalNavigationControllerForPublishingActivity
+{
+	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	[self presentModalViewController:navigationController animated:YES];
+}
+
+- (void)presentModalNavigationControllerForAuthentication
+{
+	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	[self presentModalViewController:navigationController animated:YES];
+}
+
+- (void)restore:(BOOL)animated
+{
+	[navigationController popToRootViewControllerAnimated:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated 
+{
+    [super viewDidAppear:animated];
+
+	if (shouldUnloadSubviews)
+    {
+        [self.view removeFromSuperview];
+		[self release];
+    }    
+}
+
+- (void)dismissModalNavigationController:(UIModalTransitionStyle)style
+{
+    shouldUnloadSubviews = YES;
+    navigationController.modalTransitionStyle = style;
+    [self.view setHidden:NO];
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
+	return YES;
+}
+
+- (void)dealloc 
+{
+    [navigationController release];
+    
+	[super dealloc];
+}
+@end
+
+
+@interface JRUserInterfaceMaestro ()
+@property (retain) UINavigationController	*customNavigationController;
+@property (retain) NSDictionary             *persistentCustomUI;
+@end
+
+@implementation JRUserInterfaceMaestro
 @synthesize myProvidersController;
 @synthesize myUserLandingController;
 @synthesize myWebViewController;
 @synthesize myPublishActivityController;
+@synthesize customNavigationController;
+@synthesize persistentCustomUI;
 
 static JRUserInterfaceMaestro* singleton = nil;
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro
@@ -111,43 +222,29 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)pushToCustomNavigationController:(UINavigationController*)_navigationController
 {
-    [navigationController release];
-    navigationController = [_navigationController retain];
+    self.customNavigationController = _navigationController;
+//    [navigationController release];
+//    navigationController = [_navigationController retain];
 }
 
-- (void)setUpCustomInterface:(NSDictionary*)views
+- (void)buildCustomInterface:(NSDictionary*)views
 {
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
                                [[[NSBundle mainBundle] resourcePath] 
                                 stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
 
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:([views count] + [infoPlist count])];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:([views count] + [infoPlist count] + [persistentCustomUI count])];
 
     [dict addEntriesFromDictionary:[infoPlist objectForKey:@"JREngage.CustomUI"]];
+    [dict addEntriesFromDictionary:persistentCustomUI];
     [dict addEntriesFromDictionary:views];
 
     customUI = [[NSDictionary alloc] initWithDictionary:dict];
-        
-    
-//    NSString *stringKeys[] = 
-//    {
-//        @"JREngage"
-//    };
-//    
-//    NSString *arrayKeys[] = 
-//    {
-//        
-//    };
-//    
-//    NSString *dictionaryKeys[] = 
-//    {
-//        
-//    };
 }
 
 - (void)setCustomViews:(NSDictionary*)views
 {
-    [self setUpCustomInterface:views];
+    self.persistentCustomUI = views;
 }
 
 - (void)setUpViewControllers
@@ -209,8 +306,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     DLog(@"");
 
     [delegates removeAllObjects];
-    [delegates release];
-    delegates = nil;
+    [delegates release], delegates = nil;
     
     [myProvidersController release],        myProvidersController = nil;
     [myUserLandingController release],      myUserLandingController = nil;
@@ -227,7 +323,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)setUpSocialPublishing
 {
     DLog(@"");
-    [sessionData setSocial:YES];
+    [sessionData setSocialSharing:YES];
     
     if (myPublishActivityController)
         [sessionData addDelegate:myPublishActivityController];
@@ -236,7 +332,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)tearDownSocialPublishing
 {
     DLog(@"");
-    [sessionData setSocial:NO];
+    [sessionData setSocialSharing:NO];
     [sessionData setActivity:nil];
     
     if (myPublishActivityController)
@@ -263,7 +359,7 @@ static JRUserInterfaceMaestro* singleton = nil;
         if ([[customUI objectForKey:@"NavigationBarTint"] count] == 4)
             [self tintBar];
     
-    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData social])
+    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
         [jrModalNavController.navigationController pushViewController:myUserLandingController animated:NO];
@@ -283,28 +379,27 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     DLog(@"");
     if (!viewControllerToPopTo)
-        viewControllerToPopTo = [[navigationController topViewController] retain];
+        viewControllerToPopTo = [[customNavigationController topViewController] retain];
 
-    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData social])
+    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
-        [navigationController pushViewController:controller animated:NO];
-        [navigationController pushViewController:myUserLandingController animated:YES];
+        [customNavigationController pushViewController:controller animated:NO];
+        [customNavigationController pushViewController:myUserLandingController animated:YES];
     }
     else
     {
-        [navigationController pushViewController:controller animated:YES];
+        [customNavigationController pushViewController:controller animated:YES];
     }
 }
 
-//- (void)showAuthenticationDialog
 - (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views
 {
     DLog(@"");
-    [self setUpCustomInterface:views];
+    [self buildCustomInterface:views];
     [self setUpViewControllers];
 
-    if (navigationController && [navigationController isViewLoaded])
+    if (customNavigationController && [customNavigationController isViewLoaded])
         [self loadCustomNavigationControllerWithViewController:myProvidersController];
     else
         [self loadModalNavigationControllerWithViewController:myProvidersController];
@@ -313,11 +408,11 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)showPublishingDialogForActivityWithCustomViews:(NSDictionary*)views
 {   
     DLog(@"");
-    [self setUpCustomInterface:views];
+    [self buildCustomInterface:views];
     [self setUpViewControllers];	
     [self setUpSocialPublishing];
     
-    if (navigationController && [navigationController isViewLoaded])
+    if (customNavigationController && [customNavigationController isViewLoaded])
         [self loadCustomNavigationControllerWithViewController:myPublishActivityController];
     else
         [self loadModalNavigationControllerWithViewController:myPublishActivityController];
@@ -332,7 +427,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)unloadCustomNavigationController
 {
     DLog(@"");
-    [navigationController popToViewController:viewControllerToPopTo animated:YES];
+    [customNavigationController popToViewController:viewControllerToPopTo animated:YES];
 
     [viewControllerToPopTo release];
     viewControllerToPopTo = nil;
@@ -341,13 +436,13 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)unloadUserInterfaceWithTransitionStyle:(UIModalTransitionStyle)style
 {
     DLog(@"");
-    if ([sessionData social])
+    if ([sessionData socialSharing])
         [self tearDownSocialPublishing];
     
     for (id<JRUserInterfaceDelegate> delegate in delegates) 
         [delegate userInterfaceWillClose];
     
-    if (navigationController && [navigationController isViewLoaded])
+    if (customNavigationController && [customNavigationController isViewLoaded])
         [self unloadCustomNavigationController];
     else
         [self unloadModalNavigationControllerWithTransitionStyle:style];
@@ -363,13 +458,13 @@ static JRUserInterfaceMaestro* singleton = nil;
     DLog(@"");
     UIViewController *originalRootViewController = nil;
     
-    if ([sessionData social])
+    if ([sessionData socialSharing])
         originalRootViewController = myPublishActivityController;
     else
         originalRootViewController = myProvidersController;
     
-    if (navigationController && [navigationController isViewLoaded])
-        [navigationController popToViewController:originalRootViewController animated:YES];
+    if (customNavigationController && [customNavigationController isViewLoaded])
+        [customNavigationController popToViewController:originalRootViewController animated:YES];
     else
         [jrModalNavController.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -384,7 +479,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)authenticationCompleted
 {
     DLog(@"");
-    if (![sessionData social])
+    if (![sessionData socialSharing])
         [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCrossDissolve];
     else
         [self popToOriginalRootViewController];
@@ -394,7 +489,6 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     DLog(@"");
     [self popToOriginalRootViewController];
-//    [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];
 }
 
 - (void)authenticationCanceled 

@@ -428,7 +428,7 @@ Please try again later."
     [self showActivityAsShared:NO];
 }
 
-- (NSString*)sendEmail
+- (void)sendEmail
 {
 #if EMAIL_SUPPORT
     MFMailComposeViewController *email = [[[MFMailComposeViewController alloc] init] autorelease];
@@ -445,7 +445,7 @@ Please try again later."
 #endif
 }
 
-- (NSString*)sendSMS
+- (void)sendSMS
 {
 #if EMAIL_SUPPORT
     MFMessageComposeViewController *sms = [[[MFMessageComposeViewController alloc] init] autorelease];

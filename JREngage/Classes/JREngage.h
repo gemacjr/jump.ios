@@ -102,10 +102,7 @@
 #import "JRActivityObject.h"
 #import "JRUserInterfaceMaestro.h"
 
-#define SOCIAL_PUBLISHING
-
-@class JREngage;
-@class JRUserInterfaceMaestro;
+//#define SOCIAL_PUBLISHING
 
 #define kJRAuthenticationBackgroundColor  @"Authentication.BackgroundColor"
 #define kJRSocialSharingBackgroundColor   @"SocialSharing.BackgroundColor"
@@ -139,6 +136,9 @@
 #define kJRProviderTableSectionHeaderTitle  @"ProviderTable.SectionHeaderTitle"
 #define kJRProviderTableSectionFooterTitle  @"ProviderTable.SectionFooterTitle"
 
+
+@class JREngage;
+@class JRUserInterfaceMaestro;
 
 /**
  * \brief
@@ -457,11 +457,10 @@
  **/
 - (void)showAuthenticationDialog;
 
-
 /**
  * 
  **/
-- (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views;// andDelegate:id<JREngageCustomInterfaceDelegate>delegate;
+- (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views;
 
 /**
  * \anchor showPubDialog
@@ -497,16 +496,11 @@
  **/
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
+// TODO: Rename
 /**
  * 
  **/
 - (void)setCustomViews:(NSDictionary*)views;
-
-/*
- * May not use...
- */
-//- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;
-
 /*@}*/
 
 /** 
@@ -515,6 +509,7 @@
  **/
 /*@{*/
 
+// TODO: Deprecate these for the release
 /**
  * Tell JREngage to forget that a user is already signed in with the given provider
  *
@@ -537,6 +532,7 @@
  **/
 - (void)signoutUserForAllSocialProviders;
 
+// TODO: Deprecate these for the release
 /**
  * \anchor signoutProvider
  *
@@ -558,6 +554,7 @@
 /**
  *
  **/
+// TODO: Test this...
 - (void)alwaysForceReauthentication:(BOOL)force;
 /*@}*/
 

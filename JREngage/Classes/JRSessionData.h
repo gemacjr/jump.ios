@@ -39,41 +39,7 @@
 #import "JRActivityObject.h"
 #import "JRError.h"
 
-#define SOCIAL_PUBLISHING
-//
-//typedef enum
-//{
-//	JRUrlError = 100,
-//    JRDataParsingError,
-//    JRJsonError,    
-//    JRConfigurationInformationError,
-//    JRSessionDataFinishGetProvidersError    
-//} JREngageConfigurationError;
-//
-//typedef enum
-//{
-//    JRAuthenticationFailedError = 200
-//} JREngageAuthenticationError;
-//
-//typedef enum
-//{
-//    JRPublishFailedError = 200,
-//    JRPublishErrorMissingApiKey,
-//    JRPublishErrorInvalidOauthToken,
-//    JRPublishErrorDuplicateTwitter,
-//    JRPublishErrorLinkedInCharacterExceded,
-//} JREngageSocialPublishingError;
-//
-//// QTS: Do we really need this anymore?
-//#define JRErrorSeverityNoNetworkConnection              @"noNetwork"
-//#define JRErrorSeverityMinor                            @"minor"
-//#define JRErrorSeverityMajor                            @"major"
-//#define JRErrorSeverityConfigurationFailed              @"configurationFailed"
-//#define JRErrorSeverityConfigurationInformationMissing  @"missingInformation"
-//#define JRErrorSeverityAuthenticationFailed             @"authenticationFailed"
-//#define JRErrorSeverityPublishFailed                    @"publishFailed"
-//#define JRErrorSeverityPublishNeedsReauthentication     @"publishNeedsReauthentication"
-//#define JRErrorSeverityPublishInvalidActivity           @"publishInvalidActivity"
+//#define SOCIAL_PUBLISHING
 
 @protocol JRUserInterfaceDelegate <NSObject>
 - (void)userInterfaceWillClose;
@@ -85,17 +51,12 @@
     NSString *photo;
     NSString *preferred_username;
     NSString *device_token;
-    
-    NSDictionary *auth_info;
-    
     NSString *provider_name;
 }
 @property (readonly) NSString *photo;
 @property (readonly) NSString *preferred_username;
 @property (readonly) NSString *device_token;
-@property (readonly) NSDictionary *auth_info;
 @property (readonly) NSString *provider_name;
-- (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name;
 @end
 
 @interface JRProvider : NSObject
@@ -109,14 +70,15 @@
     
     NSString *openIdentifier;
 	NSString *url;	
-    NSString *extPerm;
+//    NSString *extPerm;
 	BOOL      forceReauth;
-    BOOL      iconsPresent;
+//    BOOL      iconsPresent;
     
     NSString *userInput;
 	NSString *welcomeString;
     
     NSDictionary *socialPublishingProperties;
+    BOOL          social;
 
 }
 
@@ -124,16 +86,16 @@
 @property (readonly) NSString *friendlyName;
 @property (readonly) NSString *shortText;
 @property (readonly) NSString *placeholderText;
-@property (readonly) NSString *extPerm;
+//@property (readonly) NSString *extPerm;
 @property (readonly) BOOL      requiresInput;
 @property            BOOL      forceReauth;
-@property            BOOL      iconsPresent;
+//@property            BOOL      iconsPresent;
 @property (retain)   NSString *userInput;
 @property (retain)   NSString *welcomeString;
 @property (readonly) NSDictionary *socialPublishingProperties;
 
-- (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary;
-- (BOOL)isEqualToProvider:(JRProvider*)provider;
+//- (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary;
+//- (BOOL)isEqualToProvider:(JRProvider*)provider;
 - (BOOL)isEqualToReturningProvider:(NSString*)returningProvider;
 @end
 
@@ -168,38 +130,58 @@
 	NSString   *returningBasicProvider;	
     NSString   *returningSocialProvider;
     
-/*  allProviders is a dictionary of JRProviders, where each JRProvider contains the information specific
-    to that provider. basicProviders and socialProviders are arrays of NSStrings, each string being
-    the primary key in allProviders for that provider.  The arrays are in the order specified by the rp. */
+/*  allProviders is a dictionary of JRProviders, where each JRProvider contains the information specific to that 
+    provider. basicProviders and socialProviders are arrays of NSStrings, each string being the primary key in allProviders 
+    for that provider, representing the list of providers to be used in authentication and social publishing.  
+    The arrays are in the order configured by the RP on http://rpxnow.com. */
 	NSMutableDictionary *allProviders;
 	NSArray             *basicProviders;
     NSArray             *socialProviders;
     NSMutableDictionary *authenticatedUsersByProvider;
 	
+ /* These values are used by sessionData to determine if the cached configuration is dirty or not.  As both the code and
+    the configuration information (mostly regarding RP's chosen providers) will rarely change, the library caches the 
+    information so that it can use it immediately.  The http etag of the mobile_config_and_baseurl action indicates if the
+    downloaded configuration information has changes, and the git commit value stored in JREngage-info.plist indicates if
+    the code itself has changed. */
     NSString *savedConfigurationBlock;
     NSString *newEtag;
     NSString *gitCommit;
     
+ /* So that customers can add new providers without rereleasing their code, the library dynamically downloads any of the 
+    icons it may be missing.  Once the library knows that a provider has all of it's icons, it adds the provider's name
+    to the providersWithIcons set.  If a provider doesn't have its icons, the icon urls are added to the iconsStillNeeded 
+    dictionary with the provider as the key.  This dictionary is saved between launches, in case the downloading of the 
+    icons fails, is interrupted, etc. */
     NSMutableSet        *providersWithIcons;
     NSMutableDictionary *iconsStillNeeded;
     
+ /* The activity that the calling application is trying to share */
     JRActivityObject *activity;
     
+ /* Server and RP properties */
     NSString *tokenUrl;
 	NSString *baseUrl;
     NSString *appId;
+    NSString *device;
+
+	BOOL hidePoweredBy;
 	
 	// QTS: What is the behavior of this (i.e., how does it affect social publishing?)
     //      when selected during a basic authentication call?
     BOOL alwaysForceReauth;
     BOOL forceReauth;
-	BOOL hidePoweredBy;
-    BOOL social;
+    
+ /* TRUE if the library is currently sharing an activity */
+    BOOL socialSharing;
 
+ /* TRUE if either of the the library's dialogs are loaded */
     BOOL dialogIsShowing;
+    
+ /* Because configuration errors aren't reported until the calling application needs the library,
+    we save this event in an instance variable. */
     NSError  *error;
     
-    NSString *device;
 }
 @property (retain)   JRProvider *currentProvider;
 @property (readonly) NSString   *returningBasicProvider;
@@ -214,27 +196,27 @@
 @property (retain)   NSString *tokenUrl;
 @property (readonly) NSString *baseUrl;
 
-@property            BOOL alwaysForceReauth;
-@property (assign)   BOOL forceReauth;
 @property (readonly) BOOL hidePoweredBy;
-@property (assign)   BOOL social;
-
-@property BOOL dialogIsShowing;
+@property            BOOL alwaysForceReauth;
+@property            BOOL forceReauth;
+@property            BOOL socialSharing;
+@property            BOOL dialogIsShowing;
 @property (readonly) NSError *error;
 
 + (JRSessionData*)jrSessionData;
 + (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate;
 
+- (void)tryToReconfigureLibrary;
+
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate;
 - (void)removeDelegate:(id<JRSessionDelegate>)_delegate;
 
-- (void)tryToReconfigureLibrary;
 - (NSURL*)startUrlForCurrentProvider;
 
+- (void)setReturningBasicProviderToNil;
 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;
 - (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index;
 - (JRProvider*)getProviderNamed:(NSString*)name;
-- (void)setReturningBasicProviderToNil;
 
 - (BOOL)weShouldBeFirstResponder;
 

@@ -33,19 +33,19 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-
-@interface JRModalNavigationController : UIViewController 
-{
-	UINavigationController	*navigationController;
-    
-	BOOL shouldUnloadSubviews;
-}
-
-@property (retain) UINavigationController *navigationController;
-
-- (id)initWithRootViewController:(UIViewController*)controller;
-
-- (void)presentModalNavigationControllerForAuthentication;
-- (void)presentModalNavigationControllerForPublishingActivity;
-- (void)dismissModalNavigationController:(UIModalTransitionStyle)style;
-@end
+//
+//@interface JRModalNavigationController : UIViewController 
+//{
+//	UINavigationController	*navigationController;
+//    
+//	BOOL shouldUnloadSubviews;
+//}
+//
+//@property (retain) UINavigationController *navigationController;
+//
+//- (id)initWithRootViewController:(UIViewController*)controller;
+//
+//- (void)presentModalNavigationControllerForAuthentication;
+//- (void)presentModalNavigationControllerForPublishingActivity;
+//- (void)dismissModalNavigationController:(UIModalTransitionStyle)style;
+//@end

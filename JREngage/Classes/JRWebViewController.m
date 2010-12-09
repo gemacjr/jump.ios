@@ -441,7 +441,7 @@
     If the userHitTheBackButton variable is set to "YES" and we're publishing an activity ([sessionData social] is "YES"),
     send the triggerAuthenticationDidStartOver message.  Otherwise, hitting the back button should just pop back 
     to the last controller, the providers or userLanding controller (i.e., behave normally) */
-    if (userHitTheBackButton && [sessionData social])
+    if (userHitTheBackButton && [sessionData socialSharing])
         [sessionData triggerAuthenticationDidStartOver:nil];
 
     [super viewWillDisappear:animated];	

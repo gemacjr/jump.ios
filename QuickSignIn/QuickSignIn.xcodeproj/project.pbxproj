@@ -23,7 +23,6 @@
 		9F5213EB12AED46B0073ABAE /* JRSessionData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52134E12AED46B0073ABAE /* JRSessionData.m */; };
 		9F5213EC12AED46B0073ABAE /* JRActivityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52135012AED46B0073ABAE /* JRActivityObject.m */; };
 		9F5213ED12AED46B0073ABAE /* JRUserInterfaceMaestro.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52135212AED46B0073ABAE /* JRUserInterfaceMaestro.m */; };
-		9F5213EE12AED46B0073ABAE /* JRModalNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52135412AED46B0073ABAE /* JRModalNavigationController.m */; };
 		9F5213EF12AED46B0073ABAE /* JRProvidersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52135612AED46B0073ABAE /* JRProvidersController.m */; };
 		9F5213F012AED46B0073ABAE /* JRPublishActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52135812AED46B0073ABAE /* JRPublishActivityController.m */; };
 		9F5213F112AED46B0073ABAE /* JRUserLandingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52135A12AED46B0073ABAE /* JRUserLandingController.m */; };
@@ -230,8 +229,6 @@
 		9F52135012AED46B0073ABAE /* JRActivityObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRActivityObject.m; sourceTree = "<group>"; };
 		9F52135112AED46B0073ABAE /* JRUserInterfaceMaestro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRUserInterfaceMaestro.h; sourceTree = "<group>"; };
 		9F52135212AED46B0073ABAE /* JRUserInterfaceMaestro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRUserInterfaceMaestro.m; sourceTree = "<group>"; };
-		9F52135312AED46B0073ABAE /* JRModalNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRModalNavigationController.h; sourceTree = "<group>"; };
-		9F52135412AED46B0073ABAE /* JRModalNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRModalNavigationController.m; sourceTree = "<group>"; };
 		9F52135512AED46B0073ABAE /* JRProvidersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRProvidersController.h; sourceTree = "<group>"; };
 		9F52135612AED46B0073ABAE /* JRProvidersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRProvidersController.m; sourceTree = "<group>"; };
 		9F52135712AED46B0073ABAE /* JRPublishActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRPublishActivityController.h; sourceTree = "<group>"; };
@@ -500,7 +497,7 @@
 				9F52133712AED46B0073ABAE /* Security */,
 				9F52133A12AED46B0073ABAE /* JSON */,
 				9F5213E112AED46B0073ABAE /* scratch */,
-				9F52134812AED46B0073ABAE /* classes */,
+				9F52134812AED46B0073ABAE /* Classes */,
 			);
 			name = JREngage;
 			sourceTree = "<group>";
@@ -536,21 +533,19 @@
 			path = ../JREngage/JSON;
 			sourceTree = SOURCE_ROOT;
 		};
-		9F52134812AED46B0073ABAE /* classes */ = {
+		9F52134812AED46B0073ABAE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9F52134912AED46B0073ABAE /* JRConnectionManager.h */,
-				9F52134A12AED46B0073ABAE /* JRConnectionManager.m */,
 				9F52134B12AED46B0073ABAE /* JREngage.h */,
 				9F52134C12AED46B0073ABAE /* JREngage.m */,
+				9F52134912AED46B0073ABAE /* JRConnectionManager.h */,
+				9F52134A12AED46B0073ABAE /* JRConnectionManager.m */,
 				9F52134D12AED46B0073ABAE /* JRSessionData.h */,
 				9F52134E12AED46B0073ABAE /* JRSessionData.m */,
 				9F52134F12AED46B0073ABAE /* JRActivityObject.h */,
 				9F52135012AED46B0073ABAE /* JRActivityObject.m */,
 				9F52135112AED46B0073ABAE /* JRUserInterfaceMaestro.h */,
 				9F52135212AED46B0073ABAE /* JRUserInterfaceMaestro.m */,
-				9F52135312AED46B0073ABAE /* JRModalNavigationController.h */,
-				9F52135412AED46B0073ABAE /* JRModalNavigationController.m */,
 				9F52135512AED46B0073ABAE /* JRProvidersController.h */,
 				9F52135612AED46B0073ABAE /* JRProvidersController.m */,
 				9F52135712AED46B0073ABAE /* JRPublishActivityController.h */,
@@ -564,7 +559,7 @@
 				9F52135F12AED46B0073ABAE /* JRError.h */,
 				9F52136012AED46B0073ABAE /* JREngage-config.h */,
 			);
-			name = classes;
+			name = Classes;
 			path = ../JREngage/classes;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1148,7 +1143,6 @@
 				9F5213EB12AED46B0073ABAE /* JRSessionData.m in Sources */,
 				9F5213EC12AED46B0073ABAE /* JRActivityObject.m in Sources */,
 				9F5213ED12AED46B0073ABAE /* JRUserInterfaceMaestro.m in Sources */,
-				9F5213EE12AED46B0073ABAE /* JRModalNavigationController.m in Sources */,
 				9F5213EF12AED46B0073ABAE /* JRProvidersController.m in Sources */,
 				9F5213F012AED46B0073ABAE /* JRPublishActivityController.m in Sources */,
 				9F5213F112AED46B0073ABAE /* JRUserLandingController.m in Sources */,

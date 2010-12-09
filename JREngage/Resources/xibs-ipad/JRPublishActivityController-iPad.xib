@@ -503,6 +503,7 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
 						</object>
+						<int key="IBUIContentMode">1</int>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSMutableArray" key="IBUIItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>

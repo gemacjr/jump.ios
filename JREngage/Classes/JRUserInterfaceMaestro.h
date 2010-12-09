@@ -35,7 +35,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JRSessionData.h"
-#import "JRModalNavigationController.h"
+//#import "JRModalNavigationController.h"
 #import "JRProvidersController.h"
 #import "JRUserLandingController.h"
 #import "JRWebViewController.h"
@@ -54,7 +54,7 @@
 	JRSessionData	*sessionData;
 	NSMutableArray	*delegates;    
     
-    UINavigationController	*navigationController;
+    UINavigationController	*customNavigationController;
     UIViewController        *viewControllerToPopTo;
 
     JRProvidersController       *myProvidersController;
@@ -63,7 +63,7 @@
     JRPublishActivityController *myPublishActivityController;
   
     NSDictionary *customUI;
-//    NSMutableArray *setStatusBars;
+    NSDictionary *persistentCustomUI;
 }
 
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
@@ -83,7 +83,6 @@
 - (void)publishingCompleted;
 - (void)publishingCanceled;
 - (void)publishingFailed;
-@property (readonly) UINavigationController	*navigationController;
 
 @property (readonly) JRProvidersController       *myProvidersController;
 @property (readonly) JRUserLandingController     *myUserLandingController;

@@ -33,8 +33,6 @@
 		9FED5133124020C2004684F2 /* JREngage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FED511D124020C2004684F2 /* JREngage.m */; };
 		9FED5134124020C2004684F2 /* JRInfoBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED511E124020C2004684F2 /* JRInfoBar.h */; };
 		9FED5135124020C2004684F2 /* JRInfoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FED511F124020C2004684F2 /* JRInfoBar.m */; };
-		9FED5136124020C2004684F2 /* JRModalNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED5120124020C2004684F2 /* JRModalNavigationController.h */; };
-		9FED5137124020C2004684F2 /* JRModalNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FED5121124020C2004684F2 /* JRModalNavigationController.m */; };
 		9FED5138124020C2004684F2 /* JRProvidersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED5122124020C2004684F2 /* JRProvidersController.h */; };
 		9FED5139124020C2004684F2 /* JRProvidersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FED5123124020C2004684F2 /* JRProvidersController.m */; };
 		9FED513A124020C2004684F2 /* JRPublishActivityController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED5124124020C2004684F2 /* JRPublishActivityController.h */; };
@@ -222,8 +220,6 @@
 		9FED511D124020C2004684F2 /* JREngage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREngage.m; sourceTree = "<group>"; };
 		9FED511E124020C2004684F2 /* JRInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRInfoBar.h; sourceTree = "<group>"; };
 		9FED511F124020C2004684F2 /* JRInfoBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRInfoBar.m; sourceTree = "<group>"; };
-		9FED5120124020C2004684F2 /* JRModalNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRModalNavigationController.h; sourceTree = "<group>"; };
-		9FED5121124020C2004684F2 /* JRModalNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRModalNavigationController.m; sourceTree = "<group>"; };
 		9FED5122124020C2004684F2 /* JRProvidersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRProvidersController.h; sourceTree = "<group>"; };
 		9FED5123124020C2004684F2 /* JRProvidersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRProvidersController.m; sourceTree = "<group>"; };
 		9FED5124124020C2004684F2 /* JRPublishActivityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRPublishActivityController.h; sourceTree = "<group>"; };
@@ -588,18 +584,16 @@
 		9FED5117124020C2004684F2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9FED511A124020C2004684F2 /* JRConnectionManager.h */,
-				9FED511B124020C2004684F2 /* JRConnectionManager.m */,
 				9FED511C124020C2004684F2 /* JREngage.h */,
 				9FED511D124020C2004684F2 /* JREngage.m */,
-				9FED5126124020C2004684F2 /* JRSessionData.h */,
-				9FED5127124020C2004684F2 /* JRSessionData.m */,
 				9FED5118124020C2004684F2 /* JRActivityObject.h */,
 				9FED5119124020C2004684F2 /* JRActivityObject.m */,
+				9FED5126124020C2004684F2 /* JRSessionData.h */,
+				9FED5127124020C2004684F2 /* JRSessionData.m */,
+				9FED511A124020C2004684F2 /* JRConnectionManager.h */,
+				9FED511B124020C2004684F2 /* JRConnectionManager.m */,
 				9FED5128124020C2004684F2 /* JRUserInterfaceMaestro.h */,
 				9FED5129124020C2004684F2 /* JRUserInterfaceMaestro.m */,
-				9FED5120124020C2004684F2 /* JRModalNavigationController.h */,
-				9FED5121124020C2004684F2 /* JRModalNavigationController.m */,
 				9FED5122124020C2004684F2 /* JRProvidersController.h */,
 				9FED5123124020C2004684F2 /* JRProvidersController.m */,
 				9FED5124124020C2004684F2 /* JRPublishActivityController.h */,
@@ -647,7 +641,6 @@
 				9FED5130124020C2004684F2 /* JRConnectionManager.h in Headers */,
 				9FED5132124020C2004684F2 /* JREngage.h in Headers */,
 				9FED5134124020C2004684F2 /* JRInfoBar.h in Headers */,
-				9FED5136124020C2004684F2 /* JRModalNavigationController.h in Headers */,
 				9FED5138124020C2004684F2 /* JRProvidersController.h in Headers */,
 				9FED513A124020C2004684F2 /* JRPublishActivityController.h in Headers */,
 				9FED513C124020C2004684F2 /* JRSessionData.h in Headers */,
@@ -720,7 +713,6 @@
 				9FED5131124020C2004684F2 /* JRConnectionManager.m in Sources */,
 				9FED5133124020C2004684F2 /* JREngage.m in Sources */,
 				9FED5135124020C2004684F2 /* JRInfoBar.m in Sources */,
-				9FED5137124020C2004684F2 /* JRModalNavigationController.m in Sources */,
 				9FED5139124020C2004684F2 /* JRProvidersController.m in Sources */,
 				9FED513B124020C2004684F2 /* JRPublishActivityController.m in Sources */,
 				9FED513D124020C2004684F2 /* JRSessionData.m in Sources */,
