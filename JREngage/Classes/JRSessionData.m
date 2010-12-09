@@ -995,6 +995,48 @@ static JRSessionData* singleton = nil;
     return [allProviders objectForKey:name];
 }
 
+- (void)saveLastUsedSocialProvider:(NSString*)providerName
+{
+	DLog(@"");
+    
+    [returningSocialProvider release], returningSocialProvider = [providerName retain];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:returningSocialProvider
+                                              forKey:@"jrengage.sessionData.lastUsedSocialProvider"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveLastUsedBasicProvider:(NSString*)providerName
+{
+    DLog(@"");
+    
+    // TODO: See about re-adding cookie code that manually sets the last used provider and see 
+    // if that means using rpx to log into site through Safari browser will also remember the user/provider
+    
+    NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
+    
+	for (NSHTTPCookie *savedCookie in cookies) 
+	{
+		if ([savedCookie.name isEqualToString:@"welcome_info"])
+		{
+			[[self getProviderNamed:providerName] setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
+		}
+	}	    
+    
+    [returningBasicProvider release], returningBasicProvider = [providerName retain];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:returningBasicProvider
+                                              forKey:@"jrengage.sessionData.lastUsedBasicProvider"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setReturningBasicProviderToNil;
+{
+    DLog(@"");
+    [returningBasicProvider release];
+    returningBasicProvider = nil;
+}
 
 - (void)deleteFacebookCookies
 {
@@ -1128,7 +1170,7 @@ static JRSessionData* singleton = nil;
     }
     if ([[response_dict objectForKey:@"stat"] isEqualToString:@"ok"])
     {
-        [self saveLastUsedSocialProvider];
+        [self saveLastUsedSocialProvider:providerName];
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy) 
         {
@@ -1254,49 +1296,6 @@ static JRSessionData* singleton = nil;
 	return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] 
              stringByReplacingOccurrencesOfString:@"+" withString:@" "]
             stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-}
-
-- (void)saveLastUsedSocialProvider
-{
-	DLog(@"");
-    
-    [returningSocialProvider release], returningSocialProvider = [currentProvider.name retain];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:returningSocialProvider
-                                              forKey:@"jrengage.sessionData.lastUsedSocialProvider"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveLastUsedBasicProvider
-{
-    DLog(@"");
-    
-    // TODO: See about re-adding cookie code that manually sets the last used provider and see 
-    // if that means using rpx to log into site through Safari browser will also remember the user/provider
-    
-    NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
-    
-	for (NSHTTPCookie *savedCookie in cookies) 
-	{
-		if ([savedCookie.name isEqualToString:@"welcome_info"])
-		{
-			[currentProvider setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
-		}
-	}	    
-    
-    [returningBasicProvider release], returningBasicProvider = [currentProvider.name retain];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:returningBasicProvider
-                                              forKey:@"jrengage.sessionData.lastUsedBasicProvider"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)setReturningBasicProviderToNil;
-{
-    DLog(@"");
-    [returningBasicProvider release];
-    returningBasicProvider = nil;
 }
 
 - (void)startMakeCallToTokenUrl:(NSString*)_tokenUrl withToken:(NSString *)token forProvider:(NSString*)providerName
@@ -1567,10 +1566,10 @@ static JRSessionData* singleton = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if ([[self basicProviders] containsObject:currentProvider.name])
-        [self saveLastUsedBasicProvider];
+        [self saveLastUsedBasicProvider:currentProvider.name];
     
     if ([[self socialProviders] containsObject:currentProvider.name])
-        [self saveLastUsedSocialProvider];
+        [self saveLastUsedSocialProvider:currentProvider.name];
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
