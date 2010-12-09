@@ -47,7 +47,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-#define STAGING
+//#define STAGING
 //#define LOCAL
 #ifdef STAGING
 static NSString * const serverUrl = @"https://rpxstaging.com";
@@ -61,21 +61,21 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 
 // TODO: Test dynamic download of icons with new icon names!!
 /* Lists of the standard names for providers' logo and icons */
-static NSString * const iconNames[5] = { @"icon_aol_30x30",
-                                         @"logo_facebook_280x63",
-                                         @"icon_aol_30x30at2x",
-                                         @"logo_facebook_280x63at2x", nil };
+static NSString * const iconNames[5] = { @"icon_%@_30x30.png",
+                                         @"icon_%@_30x30@2x.png",
+                                         @"logo_%@_280x65.png",
+                                         @"logo_%@_280x65@2x.png", nil };
 
-static NSString * const iconNamesSocial[11] = {  @"icon_aol_30x30",
-                                                @"logo_facebook_280x63",
-                                                @"icon_bw_facebook_30x30",
-                                                @"button_facebook_140x40",
-                                                @"button_facebook_280x40",
-                                                @"icon_aol_30x30@2x",
-                                                @"logo_facebook_280x63at2x",
-                                                @"icon_bw_facebook_30x30at2x",
-                                                @"button_facebook_140x40at2x",
-                                                @"button_facebook_280x40at2x", nil };
+static NSString * const iconNamesSocial[11] = { @"icon_%@_30x30.png",
+                                                @"icon_%@_30x30@2x.png",
+                                                @"logo_%@_280x65.png",
+                                                @"logo_%@_280x65@2x.png",
+                                                @"icon_bw_%@_30x30.png",
+                                                @"icon_bw_%@_30x30@2x.png",
+                                                @"button_%@_135x40.png",
+                                                @"button_%@_135x40@2x.png",
+                                                @"button_%@_280x40.png",
+                                                @"button_%@_280x40@2x.png", nil };
 
 /* Added a category to NSString including a function to correctly escape any arguments sent to any of the 
    Engage API calls */
@@ -246,9 +246,9 @@ void RLog (NSObject *object)
    init... functions. */
 - (void)loadDynamicVariables
 {
-    userInput     = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jrengage.provider.%@.userInput", name]];
-    welcomeString = [[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jrengage.provider.%@.welcomeString", name]];
-    forceReauth   = [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jrengage.provider.%@.forceReauth", name]];
+    userInput     = [[[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jrengage.provider.%@.userInput", name]] retain];
+    welcomeString = [[[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jrengage.provider.%@.welcomeString", name]] retain];
+    forceReauth   =  [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jrengage.provider.%@.forceReauth", name]];
 }
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary
@@ -700,6 +700,8 @@ static JRSessionData* singleton = nil;
 
 - (void)finishDownloadPicture:(NSData*)picture named:(NSString*)pictureName forProvider:(NSString*)provider
 {
+    DLog (@"Downloaded %@ for %@", pictureName, provider);
+    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *fullPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:pictureName];
     [fileManager createFileAtPath:fullPath contents:picture attributes:nil];
@@ -741,6 +743,8 @@ static JRSessionData* singleton = nil;
 
 - (void)downloadAnyIcons:(NSMutableDictionary*)neededIcons
 {
+    DLog ("Icons still needed:\n%@", [iconsStillNeeded description]);
+    
     for (NSString *provider in [neededIcons allKeys])
     {
         NSMutableSet *icons = [neededIcons objectForKey:provider];
@@ -759,6 +763,9 @@ static JRSessionData* singleton = nil;
 
 - (void)checkForIcons:(NSString**)icons forProvider:(NSString*)providerName
 {
+    DLog ("Checking providersWithIcons for %@:\n%@", providerName, [providersWithIcons description]);
+    DLog ("Icons needed so far:\n%@", [iconsStillNeeded description]);
+    
     /* If this provider's icons are already on the device, just return */
     if ([providersWithIcons containsObject:providerName])
         return;
@@ -811,12 +818,12 @@ static JRSessionData* singleton = nil;
 {	
     DLog(@"");
     NSString *nameAndVersion = [self appNameAndVersion];
-//	NSString *urlString = [NSString stringWithFormat:
-//                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true&%@", 
-//                           serverUrl, device, appId, nameAndVersion];
 	NSString *urlString = [NSString stringWithFormat:
-                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
+                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true&%@", 
                            serverUrl, device, appId, nameAndVersion];
+//	NSString *urlString = [NSString stringWithFormat:
+//                           @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
+//                           serverUrl, device, appId, nameAndVersion];
     
     DLog(@"url: %@", urlString);
 	
@@ -857,7 +864,7 @@ static JRSessionData* singleton = nil;
                      withCode:JRJsonError
                       andType:JRErrorTypeConfigurationFailed];
     
-    RLog(baseUrl);
+    //RLog(baseUrl);
     
 //    /* If the baseUrl has changed, get the new baseUrl */
 //    if (![[jsonDict objectForKey:@"baseurl"] isEqualToString:baseUrl])
@@ -866,12 +873,12 @@ static JRSessionData* singleton = nil;
     baseUrl = [[[jsonDict objectForKey:@"baseurl"] 
                 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] retain];
 
-    RLog(baseUrl);
+    //RLog(baseUrl);
     
     /* Then save it */
     [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"jrengage.sessionData.baseUrl"];
 
-    RLog(allProviders);
+    //RLog(allProviders);
     
     /* Get the providers out of the provider_info section.  These are most likely to have changed. */
     NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
@@ -879,7 +886,7 @@ static JRSessionData* singleton = nil;
     [allProviders release];
     allProviders = [[NSMutableDictionary alloc] initWithCapacity:[[providerInfo allKeys] count]];
     
-    RLog(allProviders);
+    //RLog(allProviders);
     
     /* For each provider... */
     for (NSString *name in [providerInfo allKeys])
@@ -898,8 +905,8 @@ static JRSessionData* singleton = nil;
         [allProviders setObject:provider forKey:name];
     }
     
-    RLog(basicProviders);
-    RLog(socialProviders);
+    //RLog(basicProviders);
+    //RLog(socialProviders);
     
     [basicProviders release];
     [socialProviders release];
@@ -910,8 +917,8 @@ static JRSessionData* singleton = nil;
     /* Get the ordered list of social providers */
     socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
     
-    RLog(basicProviders);
-    RLog(socialProviders);
+    //RLog(basicProviders);
+    //RLog(socialProviders);
     
     /* yippie, yahoo! */
     
@@ -921,8 +928,8 @@ static JRSessionData* singleton = nil;
     [[NSUserDefaults standardUserDefaults] setObject:basicProviders forKey:@"jrengage.sessionData.basicProviders"];
     [[NSUserDefaults standardUserDefaults] setObject:socialProviders forKey:@"jrengage.sessionData.socialProviders"];
     
-    RLog(basicProviders);
-    RLog(socialProviders);
+    //RLog(basicProviders);
+    //RLog(socialProviders);
     
     /* Figure out if we need to hide the tag line */
     if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
@@ -1499,11 +1506,15 @@ static JRSessionData* singleton = nil;
         }
         if ([action isEqualToString:@"downloadPicture"])
         {
+            DLog (@"Picture download headers:\n%@", [headers description]);
+            
             // TODO: Later, make this more dynamic, and not fixed to just pngs.
             if ([[fullResponse MIMEType] isEqualToString:@"image/png"])
                 [self finishDownloadPicture:payload 
                                       named:[(NSDictionary*)tag objectForKey:@"pictureName"]
                                 forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
+            else
+                DLog ("Error downloading picture.");//: %@", [[[NSString alloc] initWithData:payload encoding:NSASCIIStringEncoding] autorelease]);
         }
     }
     else if ([tag isKindOfClass:[NSString class]])

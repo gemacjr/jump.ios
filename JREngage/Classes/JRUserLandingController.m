@@ -339,7 +339,7 @@ enum
         [signInButton setFrame:CGRectMake(155, 130, 135, 40)];
 
     [signInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                          @"button_janrain_140x40%@.png", 
+                                                          @"button_iosblue_135x40%@.png", 
                                                           (iPad) ? @"@2x" : @""]]//@"blue_button_135x38.png"] 
                             forState:UIControlStateNormal];
     
@@ -381,7 +381,7 @@ enum
         [backToProvidersButton setFrame:CGRectMake(10, 130, 135, 40)];
 
     [backToProvidersButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                                   @"button_janrain_140x40%@.png", 
+                                                                   @"button_black_135x40%@.png", 
                                                                    (iPad) ? @"@2x" : @""]]//@"black_button.png"] 
                                      forState:UIControlStateNormal];
 
@@ -421,7 +421,7 @@ enum
         [bigSignInButton setFrame:CGRectMake(10, 130, 280, 40)];
 
     [bigSignInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                             @"button_janrain_280x40%@.png", 
+                                                             @"button_iosblue_280x40%@.png", 
                                                              (iPad) ? @"@2x" : @""]]//@"blue_button_280x38.png"] 
                                forState:UIControlStateNormal];
     

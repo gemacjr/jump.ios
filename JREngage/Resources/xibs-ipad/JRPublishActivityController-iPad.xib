@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="32"/>
+			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -130,7 +130,7 @@
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 												<object class="NSCustomResource" key="IBUIImage">
 													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">media_view_background_top.png</string>
+													<string key="NSResourceName">media_view_background_top@2x.png</string>
 												</object>
 											</object>
 											<object class="IBUIImageView" id="972238080">
@@ -142,7 +142,7 @@
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 												<object class="NSCustomResource" key="IBUIImage">
 													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">media_view_background_bottom.png</string>
+													<string key="NSResourceName">media_view_background_bottom@2x.png</string>
 												</object>
 											</object>
 											<object class="IBUIView" id="486154963">
@@ -358,7 +358,7 @@
 									<object class="IBUIActivityIndicatorView" id="438495196">
 										<reference key="NSNextResponder" ref="723048711"/>
 										<int key="NSvFlags">-2147483356</int>
-										<string key="NSFrame">{{41, 50}, {37, 37}}</string>
+										<string key="NSFrame">{{41, 50.5}, {37, 37}}</string>
 										<reference key="NSSuperview" ref="723048711"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -384,7 +384,7 @@
 										<reference key="IBUINormalTitleShadowColor" ref="58732063"/>
 										<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">blue_button_145x37.png</string>
+											<string key="NSResourceName">button_janrain_135x40@2x.png</string>
 										</object>
 									</object>
 									<object class="IBUIButton" id="503985350">
@@ -471,7 +471,7 @@
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<object class="NSCustomResource" key="IBUIImage">
 											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">triangle_icon.png</string>
+											<string key="NSResourceName">triangle_icon@2x.png</string>
 										</object>
 									</object>
 								</object>
@@ -515,7 +515,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUILabel" id="924223768">
 								<reference key="NSNextResponder" ref="245951963"/>
-								<int key="NSvFlags">-2147483345</int>
+								<int key="NSvFlags">303</int>
 								<string key="NSFrame">{{0, 410}, {768, 57}}</string>
 								<reference key="NSSuperview" ref="245951963"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -526,7 +526,7 @@
 								<reference key="IBUIFont" ref="551440233"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC40MDAwMDAwMDYgMC40MDAwMDAwMDYgMC40MDAwMDAwMDYAA</bytes>
+									<bytes key="NSRGB">MC44MDAwMDAwMTE5IDAuODAwMDAwMDExOSAwLjgwMDAwMDAxMTkAA</bytes>
 								</object>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
@@ -547,10 +547,9 @@
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4yIDAuMiAwLjIAA</bytes>
+							<bytes key="NSRGB">MC4yIDAuMiAwLjIgMC42NQA</bytes>
 						</object>
 						<bool key="IBUIOpaque">NO</bool>
-						<float key="IBUIAlpha">0.5</float>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
 				</object>
@@ -1146,7 +1145,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>JRPublishActivityController</string>
 					<string>UIResponder</string>
-					<string>{{233, 4}, {783, 752}}</string>
+					<string>{{287, 4}, {783, 752}}</string>
 					<object class="NSMutableDictionary">
 						<string key="NS.key.0">IBCocoaTouchFramework</string>
 						<integer value="0" key="NS.object.0"/>
@@ -1747,21 +1746,21 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>blue_button_145x37.png</string>
+				<string>button_janrain_135x40@2x.png</string>
 				<string>button_janrain_280x40@2x.png</string>
 				<string>check_mark@2x.png</string>
-				<string>media_view_background_bottom.png</string>
-				<string>media_view_background_top.png</string>
-				<string>triangle_icon.png</string>
+				<string>media_view_background_bottom@2x.png</string>
+				<string>media_view_background_top@2x.png</string>
+				<string>triangle_icon@2x.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{145, 37}</string>
 				<string>{16, 16}</string>
 				<string>{16, 16}</string>
-				<string>{300, 8}</string>
-				<string>{300, 8}</string>
-				<string>{18, 18}</string>
+				<string>{16, 16}</string>
+				<string>{16, 16}</string>
+				<string>{16, 16}</string>
+				<string>{16, 16}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">132</string>

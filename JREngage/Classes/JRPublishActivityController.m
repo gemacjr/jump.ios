@@ -151,7 +151,10 @@
 	{
         [self showViewIsLoading:YES];
 
-        /* Since the method showViewIsLoading will disable the "Cancel" button, re-enable it in this case. */
+     /* Since the method showViewIsLoading will disable the "Cancel" button and reset the loading label to "Sharing,
+        change them to the preferred values for just this case. */
+        myLoadingLabel.font = [UIFont systemFontOfSize:(iPad) ? 48.0 : 18.0];
+        myLoadingLabel.text = NSLocalizedString(@"Loading providers. Please wait...", @"");
         self.navigationItem.leftBarButtonItem.enabled = YES;
 		
         /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
@@ -200,7 +203,9 @@
 	interval = interval + 0.5;
 	
     timer = nil;
-	      
+	    
+    DLog (@"Social Providers so far: %d", [[sessionData socialProviders] count]);
+    
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([[sessionData socialProviders] count] > 0)
 	{
@@ -344,6 +349,9 @@ Please try again later."
 {
     DLog(@"");
     
+    myLoadingLabel.font = [UIFont systemFontOfSize:(iPad) ? 56.0 : 24.0];
+    myLoadingLabel.text = NSLocalizedString(@"Sharing...", @"");
+    
     /* Don't let the user edit or cancel while the activity is being shared */
     self.navigationItem.leftBarButtonItem.enabled = !loading;
     self.navigationItem.rightBarButtonItem.enabled = !loading;
@@ -420,29 +428,30 @@ Please try again later."
     [self showActivityAsShared:NO];
 }
 
-- (void)sendEmail
+- (NSString*)sendEmail
 {
 #if EMAIL_SUPPORT
     MFMailComposeViewController *email = [[[MFMailComposeViewController alloc] init] autorelease];
-    
+  
+    if (!email)
+        return;
+
     email.mailComposeDelegate = self;
     
     [email setSubject:activity.email.subject];
     [email setMessageBody:activity.email.messageBody isHTML:activity.email.isHtml];
-    
-// Attach an image to the email    
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"rainy" ofType:@"png"];
-//    NSData *myData = [NSData dataWithContentsOfFile:path];
-//    [picker addAttachmentData:myData mimeType:@"image/png" fileName:@"rainy"];
-        
+  
     [self presentModalViewController:email animated:YES];
 #endif
 }
 
-- (void)sendSMS
+- (NSString*)sendSMS
 {
 #if EMAIL_SUPPORT
     MFMessageComposeViewController *sms = [[[MFMessageComposeViewController alloc] init] autorelease];
+
+    if (!sms)
+        return;
 
     sms.messageComposeDelegate = self;
     sms.body = activity.sms.message;
@@ -457,13 +466,14 @@ Please try again later."
     switch (buttonIndex)
     {
         case 0:
-            if (userIsAttemptingToSignOut)
-                [self logUserOutForProvider:selectedProvider.name];
-            else
+            if (!userIsAttemptingToSignOut)
                 [self sendEmail];
+            else
+                [self logUserOutForProvider:selectedProvider.name];
             break;
         case 1:
-            [self sendSMS];
+            if (!userIsAttemptingToSignOut)
+                [self sendSMS];
             break;
         default:
             break;
@@ -665,7 +675,7 @@ Please try again later."
                                            forState:UIControlStateNormal];
         
         [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                                   @"button_%@_140x40%@.png", 
+                                                                   @"button_%@_135x40%@.png", 
                                                                    selectedProvider.name, 
                                                                    (iPad) ? @"@2x" : @""]]//@"jrauth_%@_short.png", selectedProvider.name]]
                                      forState:UIControlStateNormal];
