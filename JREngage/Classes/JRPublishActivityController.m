@@ -429,7 +429,7 @@ Please try again later."
 
 - (void)sendEmail
 {
-#if EMAIL_SUPPORT
+#if JRENGAGE_INCLUDE_EMAIL_SMS
     MFMailComposeViewController *email = [[[MFMailComposeViewController alloc] init] autorelease];
   
     if (!email)
@@ -446,7 +446,7 @@ Please try again later."
 
 - (void)sendSMS
 {
-#if EMAIL_SUPPORT
+#if JRENGAGE_INCLUDE_EMAIL_SMS
     MFMessageComposeViewController *sms = [[[MFMessageComposeViewController alloc] init] autorelease];
 
     if (!sms)
@@ -622,7 +622,7 @@ Please try again later."
 {
     DLog(@"");
     
-#if EMAIL_SUPPORT
+#if JRENGAGE_INCLUDE_EMAIL_SMS
     if (item.tag == [[sessionData socialProviders] count])
     {
         UIActionSheet *action;
@@ -703,7 +703,7 @@ Please try again later."
 
 - (BOOL)canSendMailOrSMS
 {
-#if EMAIL_SUPPORT
+#if JRENGAGE_INCLUDE_EMAIL_SMS
 #else
     return NO;
 #endif

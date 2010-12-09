@@ -383,7 +383,10 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	NSString* displayName = [UserModel getDisplayNameFromProfile:userProfile];
 	NSString* subtitle = [userForCell objectForKey:@"timestamp"];
-	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", [userForCell objectForKey:@"provider"]];
+	NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30%@.png", 
+                           [userForCell objectForKey:@"provider"], 
+                            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"@2x" : @"" ];
+    [NSString stringWithFormat:@"jrauth_%@_icon.png", [userForCell objectForKey:@"provider"]];
 	
 	cell.textLabel.text = displayName;
 	cell.detailTextLabel.text = subtitle;

@@ -328,7 +328,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
                              
     for (NSObject *url in urls)
         if ([url isKindOfClass:[NSString class]])
-            if ([NSURLConnection canHandleRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]])
+            if ([NSURLConnection canHandleRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:(NSString*)url]]])
                 [array addObject:url];
     
     return array;

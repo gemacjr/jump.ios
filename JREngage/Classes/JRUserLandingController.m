@@ -69,17 +69,17 @@
     return self;
 }
 
-- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
-{
-    DLog(@"");
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                              message, NSLocalizedDescriptionKey,
-                              type, @"type", nil];
-    
-    return [[[NSError alloc] initWithDomain:@"JREngage"
-                                       code:code
-                                   userInfo:userInfo] autorelease];
-}
+//- (NSError*)setError:(NSString*)message withCode:(NSInteger)code// andType:(NSString*)type
+//{
+//    DLog(@"");
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+//                              message, NSLocalizedDescriptionKey,
+//                              type, @"type", nil];
+//    
+//    return [[[NSError alloc] initWithDomain:@"JREngage"
+//                                       code:code
+//                                   userInfo:userInfo] autorelease];
+//}
 
 - (void)viewDidLoad 
 {
@@ -139,9 +139,9 @@
 
     if (!sessionData.currentProvider)
     {
-        NSError *error = [self setError:@"There was an error authenticating with the selected provider."
-                                withCode:JRAuthenticationFailedError
-                                 andType:JRErrorTypeAuthenticationFailed];
+        NSError *error = [JRError setError:@"There was an error authenticating with the selected provider."
+                                  withCode:JRAuthenticationFailedError];
+                                 //andType:JRErrorTypeAuthenticationFailed];
         
         [sessionData triggerAuthenticationDidFailWithError:error];        
 

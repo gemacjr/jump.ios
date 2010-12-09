@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9F08797112553B44008AD40D /* JRError.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F08797012553B44008AD40D /* JRError.h */; };
 		9F088BDF126684EF008AD40D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F088BDE126684EF008AD40D /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9F486ADB129AF81A00A69FC7 /* JREngage-config.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F486ADA129AF81A00A69FC7 /* JREngage-config.h */; };
 		9FBE256D12A6F76700E1F93E /* SFHFKeychainUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FBE256B12A6F76700E1F93E /* SFHFKeychainUtils.h */; };
 		9FBE256E12A6F76700E1F93E /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE256C12A6F76700E1F93E /* SFHFKeychainUtils.m */; };
 		9FBE258A12A6FB2300E1F93E /* SBJsonStreamWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FBE258812A6FB2300E1F93E /* SBJsonStreamWriter.h */; };
@@ -58,10 +56,8 @@
 		9F01A8B61294512600AD6899 /* JRPublishActivityController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRPublishActivityController-iPad.xib"; sourceTree = "<group>"; };
 		9F01A8B71294512600AD6899 /* JRUserLandingController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRUserLandingController-iPad.xib"; sourceTree = "<group>"; };
 		9F01A8B81294512600AD6899 /* JRWebViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRWebViewController-iPad.xib"; sourceTree = "<group>"; };
-		9F08797012553B44008AD40D /* JRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRError.h; sourceTree = "<group>"; };
 		9F0880B8125BFB07008AD40D /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JREngage-Info.plist"; sourceTree = "<group>"; };
 		9F088BDE126684EF008AD40D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		9F486ADA129AF81A00A69FC7 /* JREngage-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JREngage-config.h"; sourceTree = SOURCE_ROOT; };
 		9F52236312B06BB80073ABAE /* button_black_135x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_black_135x40.png; sourceTree = "<group>"; };
 		9F52236412B06BB80073ABAE /* button_black_280x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_black_280x40.png; sourceTree = "<group>"; };
 		9F52236512B06BB80073ABAE /* button_facebook_135x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_facebook_135x40.png; sourceTree = "<group>"; };
@@ -604,8 +600,6 @@
 				9FED512D124020C2004684F2 /* JRWebViewController.m */,
 				9FED511E124020C2004684F2 /* JRInfoBar.h */,
 				9FED511F124020C2004684F2 /* JRInfoBar.m */,
-				9F08797012553B44008AD40D /* JRError.h */,
-				9F486ADA129AF81A00A69FC7 /* JREngage-config.h */,
 			);
 			name = Classes;
 			path = classes;
@@ -647,8 +641,6 @@
 				9FED513E124020C2004684F2 /* JRUserInterfaceMaestro.h in Headers */,
 				9FED5140124020C2004684F2 /* JRUserLandingController.h in Headers */,
 				9FED5142124020C2004684F2 /* JRWebViewController.h in Headers */,
-				9F08797112553B44008AD40D /* JRError.h in Headers */,
-				9F486ADB129AF81A00A69FC7 /* JREngage-config.h in Headers */,
 				9FBE256D12A6F76700E1F93E /* SFHFKeychainUtils.h in Headers */,
 				9FBE258A12A6FB2300E1F93E /* SBJsonStreamWriter.h in Headers */,
 			);

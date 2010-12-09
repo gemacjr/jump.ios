@@ -35,7 +35,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JREngage.h"
-#import "JREngage-config.h"
+//#import "JREngage-config.h"
 //#import "JRInfoBar.h"
 
 

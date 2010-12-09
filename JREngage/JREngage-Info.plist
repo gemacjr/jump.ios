@@ -6,7 +6,7 @@
 	<string>v2.0.2</string>
 	<key>JREngage.GitCommit</key>
 	<string>1</string>
-	<key>JREngage.CustomUI</key>
+	<key>JREngage.CustomInterface</key>
 	<dict>
 	<!--
 		<key>ProviderTable.BackgroundImage</key>
@@ -26,6 +26,8 @@
 			<real>0</real>
 			<real>0.2</real>
 		</array>
+		<key>ProviderTable.BackgroundImage</key>
+		<string>molson.jpg</string>
 	</dict>
 </dict>
 </plist>

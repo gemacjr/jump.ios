@@ -37,13 +37,47 @@
 #import "SFHFKeychainUtils.h"
 #import "JRConnectionManager.h"
 #import "JRActivityObject.h"
-#import "JRError.h"
-
-//#define SOCIAL_PUBLISHING
 
 @protocol JRUserInterfaceDelegate <NSObject>
 - (void)userInterfaceWillClose;
 - (void)userInterfaceDidClose;
+@end
+
+typedef enum
+{
+    ConfigurationError = 1,
+    AuthenticationError = 2,
+    SocialSharingError = 3,
+} JRErrorCategory;
+
+typedef enum
+{
+	JRUrlError = 100,
+    JRDataParsingError,
+    JRJsonError,    
+    JRConfigurationInformationError,
+    JRSessionDataFinishGetProvidersError    
+} JREngageConfigurationError;
+
+typedef enum
+{
+    JRAuthenticationFailedError = 200
+} JREngageAuthenticationError;
+
+typedef enum
+{
+    JRPublishFailedError = 300,
+    JRPublishErrorAcivityNil,
+    JRPublishErrorMissingApiKey,
+    JRPublishErrorInvalidOauthToken,
+    JRPublishErrorDuplicateTwitter,
+    JRPublishErrorLinkedInCharacterExceded,
+} JREngageSocialPublishingError;
+
+extern NSString * JREngageErrorDomain;
+
+@interface JRError : NSObject
++ (NSError*)setError:(NSString*)message withCode:(NSInteger)code;
 @end
 
 @interface JRAuthenticatedUser : NSObject

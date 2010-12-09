@@ -102,7 +102,9 @@
 #import "JRActivityObject.h"
 #import "JRUserInterfaceMaestro.h"
 
-//#define SOCIAL_PUBLISHING
+#define JRENGAGE_INCLUDE_EMAIL_SMS 1
+
+
 
 #define kJRAuthenticationBackgroundColor  @"Authentication.BackgroundColor"
 #define kJRSocialSharingBackgroundColor   @"SocialSharing.BackgroundColor"
@@ -460,7 +462,7 @@
 /**
  * 
  **/
-- (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views;
+- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
 
 /**
  * \anchor showPubDialog
@@ -478,7 +480,7 @@
 /**
  *
  **/
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomViews:(NSDictionary*)views;
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
 /*@}*/
 
 /** 
@@ -500,7 +502,7 @@
 /**
  * 
  **/
-- (void)setCustomViews:(NSDictionary*)views;
+- (void)setCustomInterface:(NSDictionary*)customizations;
 /*@}*/
 
 /** 

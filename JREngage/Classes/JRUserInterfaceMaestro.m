@@ -227,17 +227,17 @@ static JRUserInterfaceMaestro* singleton = nil;
 //    navigationController = [_navigationController retain];
 }
 
-- (void)buildCustomInterface:(NSDictionary*)views
+- (void)buildCustomInterface:(NSDictionary*)customizations
 {
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
                                [[[NSBundle mainBundle] resourcePath] 
                                 stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
 
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:([views count] + [infoPlist count] + [persistentCustomUI count])];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:([customizations count] + [infoPlist count] + [persistentCustomUI count])];
 
-    [dict addEntriesFromDictionary:[infoPlist objectForKey:@"JREngage.CustomUI"]];
+    [dict addEntriesFromDictionary:[infoPlist objectForKey:@"JREngage.CustomInterface"]];
     [dict addEntriesFromDictionary:persistentCustomUI];
-    [dict addEntriesFromDictionary:views];
+    [dict addEntriesFromDictionary:customizations];
 
     customUI = [[NSDictionary alloc] initWithDictionary:dict];
 }
@@ -393,10 +393,10 @@ static JRUserInterfaceMaestro* singleton = nil;
     }
 }
 
-- (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views
+- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
 {
     DLog(@"");
-    [self buildCustomInterface:views];
+    [self buildCustomInterface:customizations];
     [self setUpViewControllers];
 
     if (customNavigationController && [customNavigationController isViewLoaded])
@@ -405,10 +405,10 @@ static JRUserInterfaceMaestro* singleton = nil;
         [self loadModalNavigationControllerWithViewController:myProvidersController];
 }
 
-- (void)showPublishingDialogForActivityWithCustomViews:(NSDictionary*)views
+- (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations
 {   
     DLog(@"");
-    [self buildCustomInterface:views];
+    [self buildCustomInterface:customizations];
     [self setUpViewControllers];	
     [self setUpSocialPublishing];
     

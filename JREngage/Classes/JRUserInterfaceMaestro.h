@@ -72,8 +72,8 @@
 - (void)pushToCustomNavigationController:(UINavigationController*)_navigationController;
 - (void)setCustomViews:(NSDictionary*)views;
 
-- (void)showAuthenticationDialogWithCustomViews:(NSDictionary*)views;
-- (void)showPublishingDialogForActivityWithCustomViews:(NSDictionary*)views;
+- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+- (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;
 
 - (void)authenticationRestarted;
 - (void)authenticationCompleted;

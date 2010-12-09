@@ -33,6 +33,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
+
 typedef enum
 {
 	JRUrlError = 100,
@@ -58,14 +59,14 @@ typedef enum
 } JREngageSocialPublishingError;
 
 // QTS: Do we really need this anymore?
-#define JRErrorTypeNoNetworkConnection              @"noNetwork"
-#define JRErrorTypeMinor                            @"minor"
-#define JRErrorTypeMajor                            @"major"
-#define JRErrorTypeConfigurationFailed              @"configurationFailed"
-#define JRErrorTypeConfigurationInformationMissing  @"missingInformation"
-#define JRErrorTypeAuthenticationFailed             @"authenticationFailed"
-#define JRErrorTypePublishFailed                    @"publishFailed"
-#define JRErrorTypePublishNeedsReauthentication     @"publishNeedsReauthentication"
-#define JRErrorTypePublishInvalidActivity           @"publishInvalidActivity"
+//#define JRErrorTypeNoNetworkConnection              @"noNetwork"
+//#define JRErrorTypeMinor                            @"minor"
+//#define JRErrorTypeMajor                            @"major"
+//#define JRErrorTypeConfigurationFailed              @"configurationFailed"
+//#define JRErrorTypeConfigurationInformationMissing  @"missingInformation"
+//#define JRErrorTypeAuthenticationFailed             @"authenticationFailed"
+//#define JRErrorTypePublishFailed                    @"publishFailed"
+//#define JRErrorTypePublishNeedsReauthentication     @"publishNeedsReauthentication"
+//#define JRErrorTypePublishInvalidActivity           @"publishInvalidActivity"
 
 
