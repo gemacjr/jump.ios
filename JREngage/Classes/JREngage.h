@@ -509,7 +509,6 @@
  **/
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
-// TODO: Rename
 /**
  * 
  **/
@@ -567,7 +566,6 @@
 /**
  *
  **/
-// TODO: Test this...
 - (void)alwaysForceReauthentication:(BOOL)force;
 /*@}*/
 

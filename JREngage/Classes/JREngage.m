@@ -124,18 +124,6 @@ static JREngage* singletonJREngage = nil;
     [delegates removeObject:delegate];
 }
 
-//+ (NSError*)setError:(NSString*)message withCode:(NSInteger)code// andCategory:(NSString*)type
-//{
-//    ALog (@"Set Error: %@", message);
-//    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-//                              message, NSLocalizedDescriptionKey, nil];
-////                              type, @"type", nil];
-//    
-//    return [[[NSError alloc] initWithDomain:@"JREngage"
-//                                       code:code
-//                                   userInfo:userInfo] autorelease];
-//}
-
 - (void)engageDidFailWithError:(NSError*)error
 {
     ALog (@"JREngage failed to load with error: %@", [error localizedDescription]);

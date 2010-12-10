@@ -105,9 +105,7 @@ extern NSString * JREngageErrorDomain;
     
     NSString *openIdentifier;
 	NSString *url;	
-//    NSString *extPerm;
 	BOOL      forceReauth;
-//    BOOL      iconsPresent;
     
     NSString *userInput;
 	NSString *welcomeString;
@@ -121,16 +119,12 @@ extern NSString * JREngageErrorDomain;
 @property (readonly) NSString *friendlyName;
 @property (readonly) NSString *shortText;
 @property (readonly) NSString *placeholderText;
-//@property (readonly) NSString *extPerm;
 @property (readonly) BOOL      requiresInput;
 @property            BOOL      forceReauth;
-//@property            BOOL      iconsPresent;
 @property (retain)   NSString *userInput;
 @property (retain)   NSString *welcomeString;
 @property (readonly) NSDictionary *socialPublishingProperties;
 
-//- (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary;
-//- (BOOL)isEqualToProvider:(JRProvider*)provider;
 - (BOOL)isEqualToReturningProvider:(NSString*)returningProvider;
 @end
 

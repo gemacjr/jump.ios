@@ -45,6 +45,8 @@
 	UIBarButtonItem *myToolBarButton;
 	UILabel			*myNotSignedInLabel;
 	
+    BOOL iPad;
+    
 	ViewControllerLevel2 *level2ViewController;
 }
 

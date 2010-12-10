@@ -251,8 +251,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize shortText;
 @synthesize socialPublishingProperties;
 @synthesize social;
-//@synthesize extPerm;
-//@synthesize iconsPresent;
 
 - (NSString*)welcomeString
 {
@@ -333,7 +331,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         placeholderText = [[_dictionary objectForKey:@"input_prompt"] retain];
         openIdentifier = [[_dictionary objectForKey:@"openid_identifier"] retain];
         url = [[_dictionary objectForKey:@"url"] retain]; 
-//        extPerm = [[_dictionary objectForKey:@"ext_perm"] retain];
 
         if ([[_dictionary objectForKey:@"requires_input"] isEqualToString:@"YES"])
             requiresInput = YES;
@@ -372,7 +369,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [coder encodeObject:shortText forKey:@"shortText"];
     [coder encodeObject:openIdentifier forKey:@"openIdentifier"];
     [coder encodeObject:url forKey:@"url"];
-//    [coder encodeObject:extPerm forKey:@"extPerm"];
     [coder encodeBool:requiresInput forKey:@"requiresInput"];    
     [coder encodeObject:socialPublishingProperties forKey:@"socialPublishingProperties"];
 }
@@ -389,7 +385,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         shortText =       [[coder decodeObjectForKey:@"shortText"] retain];
         openIdentifier =  [[coder decodeObjectForKey:@"openIdentifier"] retain];
         url =             [[coder decodeObjectForKey:@"url"] retain];
-//        extPerm =         [[coder decodeObjectForKey:@"extPerm"] retain];
         requiresInput =    [coder decodeBoolForKey:@"requiresInput"];
         socialPublishingProperties = [[coder decodeObjectForKey:@"socialPublishingProperties"] retain];
     }   
@@ -399,16 +394,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     
     return self;
 }
-
-//- (BOOL)isEqualToProvider:(JRProvider*)provider
-//{
-//  	DLog (@"");
-//
-//    if ([self.name isEqualToString:provider.name])
-//        return YES;
-//    
-//    return NO;
-//}
 
 - (BOOL)isEqualToReturningProvider:(NSString*)returningProvider
 {
@@ -430,7 +415,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [url release];	
     [userInput release];
     [welcomeString release];
-//    [extPerm release];
     [socialPublishingProperties release];
     
 	[super dealloc];
@@ -526,7 +510,6 @@ static JRSessionData* singleton = nil;
     if (!activity)
         return;
 
-//    TODO: Fix when ready
     [self startGetShortenedUrlsForActivity:activity];
 }
 
@@ -748,9 +731,6 @@ static JRSessionData* singleton = nil;
 {	
 //    DLog (@"");
     NSString *nameAndVersion = [self appNameAndVersion];
-//	NSString *urlString = [NSString stringWithFormat:
-//                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true&%@", 
-//                           serverUrl, device, appId, nameAndVersion];
 	NSString *urlString = [NSString stringWithFormat:
                            @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
                            serverUrl, device, appId, nameAndVersion];
@@ -764,7 +744,6 @@ static JRSessionData* singleton = nil;
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
 		return [JRError setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
                         withCode:JRUrlError]; 
-    //andType:JRErrorTypeConfigurationFailed];
     
     return nil;
 }
@@ -777,7 +756,6 @@ static JRSessionData* singleton = nil;
     if (![dataStr respondsToSelector:@selector(JSONValue)])
         return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                         withCode:JRJsonError];
-                      //andType:JRErrorTypeConfigurationFailed];
     
     NSDictionary *jsonDict = [dataStr JSONValue];
     
@@ -785,7 +763,6 @@ static JRSessionData* singleton = nil;
     if(!jsonDict)
         return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                         withCode:JRJsonError];
-                      //andType:JRErrorTypeConfigurationFailed];
     
     [baseUrl release];
     baseUrl = [[[jsonDict objectForKey:@"baseurl"] 
@@ -1093,7 +1070,7 @@ static JRSessionData* singleton = nil;
 		oid = [NSMutableString stringWithString:@""];
 	}
     
-    NSString *str = nil;//, *ext_perm = nil;
+    NSString *str = nil;
     
     if ([currentProvider.name isEqualToString:@"facebook"])
         if (alwaysForceReauth || currentProvider.forceReauth)
@@ -1103,17 +1080,11 @@ static JRSessionData* singleton = nil;
         if (alwaysForceReauth || currentProvider.forceReauth)
             [self deleteLiveCookies];
     
-    //    if (currentProvider.extPerm)
-    //        ext_perm = [NSString stringWithFormat:@"ext_perm=%@&", currentProvider.extPerm];
-    //    else
-    //        ext_perm = @"";
-    
     str = [NSString stringWithFormat:@"%@%@?%@%@device=%@&extended=true", 
            baseUrl, 
            currentProvider.url,
            oid, 
            ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @""),
-           //ext_perm,
            device];
     
 	currentProvider.forceReauth = NO;
@@ -1176,7 +1147,6 @@ static JRSessionData* singleton = nil;
                 [delegate publishingActivity:_activity
                             didFailWithError:[JRError setError:[response retain] 
                                                       withCode:JRPublishFailedError]
-                                                    //andType:JRErrorTypePublishFailed]
                                  forProvider:providerName];
         }
     }
@@ -1199,7 +1169,6 @@ static JRSessionData* singleton = nil;
         {
             publishError = [JRError setError:@"There was a problem publishing this activity" 
                                     withCode:JRPublishFailedError];
-                                  //andType:JRErrorTypePublishFailed];
         }
         else 
         {
@@ -1212,28 +1181,23 @@ static JRSessionData* singleton = nil;
                 case 0: /* "Missing parameter: apiKey" */
                     publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
                                             withCode:JRPublishErrorMissingApiKey];
-                                          //andType:JRErrorTypePublishNeedsReauthentication];
                     break;
                 case 4: /* "Facebook Error: Invalid OAuth 2.0 Access Token" */
                     publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
                                             withCode:JRPublishErrorInvalidOauthToken];
-                                          //andType:JRErrorTypePublishNeedsReauthentication];
                     break;
                 case 100: // TODO LinkedIn character limit error
                     publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
                                             withCode:JRPublishErrorLinkedInCharacterExceded];
-                                          //andType:JRErrorTypePublishInvalidActivity];
                     break;
                 case 6: // TODO Twitter duplicate error
                     publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
                                             withCode:JRPublishErrorDuplicateTwitter];
-                                          //andType:JRErrorTypePublishInvalidActivity];
                     break;
                 case 1000: /* Extracting code failed; Fall through. */
                 default: // TODO Other errors (find them)
                     publishError = [JRError setError:@"There was a problem publishing this activity" 
                                             withCode:JRPublishFailedError];
-                                          //andType:JRErrorTypePublishFailed];
                     break;
             }
         }
@@ -1327,7 +1291,6 @@ static JRSessionData* singleton = nil;
 	{
         NSError *_error = [JRError setError:@"Problem initializing the connection to the token url"
                                    withCode:JRAuthenticationFailedError];
-                                 //andType:JRErrorTypeAuthenticationFailed];
         
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy) 
@@ -1406,7 +1369,6 @@ static JRSessionData* singleton = nil;
             {
                 error = [[JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                                  withCode:JRConfigurationInformationError] retain];
-                                //andType:JRErrorTypeConfigurationFailed] retain];
             }
         }
     }
@@ -1472,7 +1434,6 @@ static JRSessionData* singleton = nil;
         {
             error = [[JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
                               withCode:JRConfigurationInformationError] retain];
-                            //andType:JRErrorTypeConfigurationFailed] retain];
         }   
         else if ([(NSString*)tag isEqualToString:@"emailSuccess"])
         {
@@ -1760,14 +1721,12 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerEmailSharingDidComplete
 {
-    // TODO: Fix when ready
     DLog (@"");
     [self startRecordActivitySharedBy:@"email"];
 }
 
 - (void)triggerSmsSharingDidComplete
 {
-    // TODO: Fix when ready
     DLog (@"");
     [self startRecordActivitySharedBy:@"sms"];
 }

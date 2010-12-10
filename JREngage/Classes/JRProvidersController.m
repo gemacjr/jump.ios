@@ -167,11 +167,11 @@
         else
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
-        if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
-            [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
-                                             myTableView.frame.origin.y, 
-                                             myTableView.frame.size.width, 
-                                             myTableView.frame.size.height - infoBar.frame.size.height)];
+//        if (([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy) && !iPad)
+//            [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
+//                                             myTableView.frame.origin.y, 
+//                                             myTableView.frame.size.width, 
+//                                             myTableView.frame.size.height - infoBar.frame.size.height)];
         
 		[self.view addSubview:infoBar];
 	}
@@ -321,17 +321,22 @@ Please try again later."
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
 
     if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
-        return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]]).frame.size.height;
+        return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]]).frame.size.height +
+                infoBar.frame.size.height;
     else if ([customUI objectForKey:kJRProviderTableSectionFooterTitle])
-        return 27;
+        return 27 + infoBar.frame.size.height;
 
-    return 30;
+    return 30 + infoBar.frame.size.height;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]];
+    
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
+        return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]];
+    else
+        return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, myTableView.frame.size.width, infoBar.frame.size.height)] autorelease];
 }
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

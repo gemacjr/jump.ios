@@ -235,7 +235,6 @@
 			{
 				NSError *error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
                                           withCode:JRAuthenticationFailedError];
-                                        //andType:JRErrorTypeAuthenticationFailed];
                 
                 userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
 				[sessionData triggerAuthenticationDidFailWithError:error];
@@ -244,7 +243,6 @@
 			{
 				NSError *error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
                                           withCode:JRAuthenticationFailedError];
-                                        //andType:JRErrorTypeAuthenticationFailed];
                 
                 UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
                                                                  message:@"An error occurred while attempting to sign you in.  Please try again."
@@ -362,7 +360,6 @@
         
         NSError *_error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", [error localizedDescription]]
                                    withCode:JRAuthenticationFailedError];
-                                 //andType:JRErrorTypeAuthenticationFailed];
         
         UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
                                                          message:@"An error occurred while attempting to sign you in.  Please try again."

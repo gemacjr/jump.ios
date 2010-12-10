@@ -67,18 +67,6 @@
     return self;
 }
 
-//- (NSError*)setError:(NSString*)message withCode:(NSInteger)code// andType:(NSString*)type
-//{
-//    DLog(@"");
-//    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-//                              message, NSLocalizedDescriptionKey,
-//                              type, @"type", nil];
-//    
-//    return [[[NSError alloc] initWithDomain:@"JREngage"
-//                                       code:code
-//                                   userInfo:userInfo] autorelease];
-//}
-
 - (void)viewDidLoad 
 {
 	DLog(@"");
@@ -136,7 +124,6 @@
     {
         NSError *error = [JRError setError:@"There was an error authenticating with the selected provider."
                                   withCode:JRAuthenticationFailedError];
-                                 //andType:JRErrorTypeAuthenticationFailed];
         
         [sessionData triggerAuthenticationDidFailWithError:error];        
 
@@ -450,7 +437,7 @@ enum
     
     NSString *imagePath = [NSString stringWithFormat:@"logo_%@_280x65%@.png", 
                                                      sessionData.currentProvider.name,
-                                                     (0) ? @"@2x" : @""];
+                                                     (iPad) ? @"@2x" : @""];
 	[self getLogo:cell].image = [UIImage imageNamed:imagePath];
 
     UITextField *textField = [self getTextField:cell];
