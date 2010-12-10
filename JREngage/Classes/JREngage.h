@@ -102,8 +102,9 @@
 #import "JRActivityObject.h"
 #import "JRUserInterfaceMaestro.h"
 
+#ifndef OVERRIDE_INCLUDE_EMAIL_SMS
 #define JRENGAGE_INCLUDE_EMAIL_SMS 1
-
+#endif
 
 
 #define kJRAuthenticationBackgroundColor  @"Authentication.BackgroundColor"

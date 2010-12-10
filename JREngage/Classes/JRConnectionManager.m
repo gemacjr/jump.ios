@@ -35,8 +35,6 @@
 
 #import "JRConnectionManager.h"
 
-// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-//#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else

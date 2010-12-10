@@ -36,9 +36,6 @@
 #import "JRSessionData.h"
 #import <Security/Security.h>
 
-
-// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-//#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -47,7 +44,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-#define STAGING
+//#define STAGING
 //#define LOCAL
 #ifdef STAGING
 static NSString * const serverUrl = @"https://rpxstaging.com";
@@ -111,12 +108,11 @@ void RLog (NSObject *object)
 NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 @implementation JRError
-+ (NSError*)setError:(NSString*)message withCode:(NSInteger)code// andType:(NSString*)type
++ (NSError*)setError:(NSString*)message withCode:(NSInteger)code
 {
     ALog (@"An error occured (%d): %@", code, message);
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                               message, NSLocalizedDescriptionKey, nil];
-//                              type, @"type", nil];
     
     return [[[NSError alloc] initWithDomain:JREngageErrorDomain
                                        code:code
