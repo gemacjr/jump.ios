@@ -400,7 +400,7 @@ static FeedReader* singleton = nil;
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
     NSString *janrain_blog_json = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-
+    
     NSDictionary *janrain_blog_dictionary = [janrain_blog_json JSONValue];  
 
     if (!janrain_blog_dictionary)
