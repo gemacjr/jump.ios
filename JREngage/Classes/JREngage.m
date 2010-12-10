@@ -276,7 +276,7 @@ static JREngage* singletonJREngage = nil;
 
 - (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 {
-    ALog (@"Token URL reached for %@", provider);
+    ALog (@"Token URL reached for %@: %@", provider, tokenUrl);
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
@@ -291,7 +291,7 @@ static JREngage* singletonJREngage = nil;
 
 - (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
-    ALog (@"Token URL failed for %@", provider);
+    ALog (@"Token URL failed for %@: %@", provider, tokenUrl);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 

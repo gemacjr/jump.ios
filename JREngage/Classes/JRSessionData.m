@@ -38,7 +38,7 @@
 
 
 // TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -113,7 +113,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @implementation JRError
 + (NSError*)setError:(NSString*)message withCode:(NSInteger)code// andType:(NSString*)type
 {
-    DLog(@"");
+    ALog (@"An error occured (%d): %@", code, message);
     NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                               message, NSLocalizedDescriptionKey, nil];
 //                              type, @"type", nil];
@@ -133,7 +133,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize photo;
 @synthesize preferred_username;
 @synthesize device_token;
-//@synthesize auth_info;
 @synthesize provider_name;
 
 - (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name
@@ -161,7 +160,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-	DLog(@"encoding: %@", provider_name);
+	DLog (@"Encoding Authenticated User: %@", provider_name);
    
     [coder encodeObject:provider_name forKey:@"provider_name"];
     [coder encodeObject:photo forKey:@"photo"];
@@ -176,7 +175,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
                                error:&error];
 
     if (error)
-        DLog (@"Error storing device token in keychain: %@", [error localizedDescription]);
+        ALog (@"Error storing device token in keychain: %@", [error localizedDescription]);
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -190,7 +189,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     {
         provider_name = [[coder decodeObjectForKey:@"provider_name"] retain];
     
-        DLog(@"decoding: %@", provider_name);
+        DLog (@"Decoding Authenticated User: %@", provider_name);
         
         photo = [[coder decodeObjectForKey:@"photo"] retain];
         preferred_username = [[coder decodeObjectForKey:@"preferred_username"] retain];
@@ -201,7 +200,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
                                                             error:&error] retain];
         
         if (error)
-            DLog (@"Error retrieving device token in keychain: %@", [error localizedDescription]);
+            ALog (@"Error retrieving device token in keychain: %@", [error localizedDescription]);
         
         /* For backwards compatibility */
         if (!device_token)
@@ -219,7 +218,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
                               andServiceName:[NSString stringWithFormat:@"device_tokens.janrain.%@.", displayNameAndIdentifier()] 
                                        error:&error];
     if (error)
-        DLog (@"Error deleting device token from keychain: %@", [error localizedDescription]);
+        ALog (@"Error deleting device token from keychain: %@", [error localizedDescription]);
 }
 
 - (void)dealloc
@@ -232,7 +231,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [photo release];
     [preferred_username release];
     [device_token release];
-//    [auth_info release];
     
     [super dealloc];
 }
@@ -321,7 +319,9 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary
 {
-	if (_name == nil || _name.length == 0 || _dictionary == nil)
+	DLog (@"New Provider: %@", _name);
+    
+    if (_name == nil || _name.length == 0 || _dictionary == nil)
 	{
 		[self release];
 		return nil;
@@ -366,7 +366,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-	DLog(@"");
+	DLog (@"Encoding Provider: %@", name);
     
     [coder encodeObject:name forKey:@"name"];
     [coder encodeObject:friendlyName forKey:@"friendlyName"];
@@ -395,15 +395,16 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         requiresInput =    [coder decodeBoolForKey:@"requiresInput"];
         socialPublishingProperties = [[coder decodeObjectForKey:@"socialPublishingProperties"] retain];
     }   
-    
     [self loadDynamicVariables];
+    
+    DLog (@"Decoding Provider: %@", name);
     
     return self;
 }
 
 //- (BOOL)isEqualToProvider:(JRProvider*)provider
 //{
-//  	DLog(@"");
+//  	DLog (@"");
 //
 //    if ([self.name isEqualToString:provider.name])
 //        return YES;
@@ -421,7 +422,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)dealloc
 {
-	DLog(@"");
+	DLog (@"");
 		
     [name release];
     [friendlyName release];
@@ -538,7 +539,7 @@ static JRSessionData* singleton = nil;
 
 - (id)initWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
 {
-	DLog(@"");
+	DLog (@"");
 
 	if (self = [super init]) 
 	{
@@ -585,14 +586,22 @@ static JRSessionData* singleton = nil;
         socialProviders = [[[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.socialProviders"] retain];
         
         /* Load the list of icons that the library should re-attempt to download, in case previous attempts failed for whatever reason */
-        NSDictionary *tempIconsStillNeeded = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.iconsStillNeeded"];
-        if (tempIconsStillNeeded != nil)
-            iconsStillNeeded = [[NSMutableDictionary alloc] initWithDictionary:tempIconsStillNeeded];
+        NSData *archivedIconsStillNeeded = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.iconsStillNeeded"];
+        if (archivedIconsStillNeeded != nil)
+        {
+            NSDictionary *unarchivedIconsStillNeeded = [NSKeyedUnarchiver unarchiveObjectWithData:archivedIconsStillNeeded];
+            if (unarchivedIconsStillNeeded != nil)
+                iconsStillNeeded = [[NSMutableDictionary alloc] initWithDictionary:unarchivedIconsStillNeeded];
+        }
 
         /* Load the set of providers that already have all of their icons; checking this list is faster than checking for the icons themselves */
-        NSSet *tempProvidersWithIcons = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.providersWithIcons"];
-        if (tempProvidersWithIcons != nil)
-            providersWithIcons = [[NSMutableSet alloc] initWithSet:tempProvidersWithIcons];
+        NSData *archivedProvidersWithIcons = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.providersWithIcons"];
+        if (archivedProvidersWithIcons != nil)
+        {
+            NSSet *unarchivedProvidersWithIcons = [NSKeyedUnarchiver unarchiveObjectWithData:archivedProvidersWithIcons];
+            if (unarchivedProvidersWithIcons != nil)
+                providersWithIcons = [[NSMutableSet alloc] initWithSet:unarchivedProvidersWithIcons];
+        }
         
         /* Load the base url and whether or not we need to hide the tagline */
         baseUrl = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrengage.sessionData.baseUrl"] retain];
@@ -622,7 +631,7 @@ static JRSessionData* singleton = nil;
 
 - (void)tryToReconfigureLibrary
 {
-    DLog(@"");
+    ALog (@"Configuration error occurred. Trying to reconfigure the library.");
     [error release];
     error = nil;
     
@@ -646,8 +655,10 @@ static JRSessionData* singleton = nil;
         [providersWithIcons addObject:provider];
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:iconsStillNeeded forKey:@"jrengage.sessionData.iconsStillNeeded"];
-    [[NSUserDefaults standardUserDefaults] setObject:providersWithIcons forKey:@"jrengage.sessionData.providersWithIcons"];    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:iconsStillNeeded] 
+                                              forKey:@"jrengage.sessionData.iconsStillNeeded"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:providersWithIcons] 
+                                              forKey:@"jrengage.sessionData.providersWithIcons"];    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -657,7 +668,7 @@ static JRSessionData* singleton = nil;
                            @"%@/cdn/images/mobile_icons/%@/%@", 
                            serverUrl, device, picture];
     
-    DLog(@"url: %@", urlString);
+    DLog (@"Attempting to download icon for %@: %@", provider, urlString);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 	
@@ -671,7 +682,7 @@ static JRSessionData* singleton = nil;
 /* Download any icons that need to be downloaded */
 - (void)downloadAnyIcons:(NSMutableDictionary*)neededIcons
 {
-    DLog ("Icons still needed:\n%@", [iconsStillNeeded description]);
+    DLog ("Icons that are still needed:\n%@", [iconsStillNeeded description]);
     
     for (NSString *provider in [neededIcons allKeys])
     {
@@ -685,8 +696,8 @@ static JRSessionData* singleton = nil;
 
 - (void)checkForIcons:(NSString**)icons forProvider:(NSString*)providerName
 {
-    DLog ("Checking providersWithIcons for %@:\n%@", providerName, [providersWithIcons description]);
-    DLog ("Icons needed so far:\n%@", [iconsStillNeeded description]);
+//    DLog ("Checking providersWithIcons for %@:\n%@", providerName, [providersWithIcons description]);
+//    DLog ("Icons needed so far:\n%@", [iconsStillNeeded description]);
     
  /* If we've already found this provider's icons, they should be in this list; just return. */
     if ([providersWithIcons containsObject:providerName])
@@ -737,7 +748,7 @@ static JRSessionData* singleton = nil;
 
 - (NSError*)startGetConfiguration
 {	
-    DLog(@"");
+//    DLog (@"");
     NSString *nameAndVersion = [self appNameAndVersion];
 //	NSString *urlString = [NSString stringWithFormat:
 //                           @"%@/openid/%@_config_and_baseurl?appId=%@&skipXdReceiver=true&%@", 
@@ -746,7 +757,7 @@ static JRSessionData* singleton = nil;
                            @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
                            serverUrl, device, appId, nameAndVersion];
     
-    DLog(@"url: %@", urlString);
+    ALog (@"Getting configuration for RP: %@", urlString);
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 	
@@ -755,14 +766,14 @@ static JRSessionData* singleton = nil;
 	if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
 		return [JRError setError:@"There was a problem connecting to the Janrain server while configuring authentication." 
                         withCode:JRUrlError]; 
-                         //andType:JRErrorTypeConfigurationFailed];
+    //andType:JRErrorTypeConfigurationFailed];
     
     return nil;
 }
 
 - (NSError*)finishGetConfiguration:(NSString*)dataStr
 {
-    DLog(@"");
+    ALog (@"Configuration information needs to be updated.");
     
     /* Make sure that the returned string can be parsed as json (which there should be no reason that this wouldn't happen) */
     if (![dataStr respondsToSelector:@selector(JSONValue)])
@@ -808,8 +819,10 @@ static JRSessionData* singleton = nil;
     }
     
     /* Save these now, in case the downloading of the icons gets interrupted for any reason */
-    [[NSUserDefaults standardUserDefaults] setObject:iconsStillNeeded forKey:@"jrengage.sessionData.iconsStillNeeded"];
-    [[NSUserDefaults standardUserDefaults] setObject:providersWithIcons forKey:@"jrengage.sessionData.providersWithIcons"];    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:iconsStillNeeded] 
+                                              forKey:@"jrengage.sessionData.iconsStillNeeded"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:providersWithIcons] 
+                                              forKey:@"jrengage.sessionData.providersWithIcons"];    
     [[NSUserDefaults standardUserDefaults] synchronize];    
     
     [basicProviders release];
@@ -860,7 +873,7 @@ static JRSessionData* singleton = nil;
 
 - (NSError*)finishGetConfiguration:(NSString*)dataStr withEtag:(NSString*)etag
 {
-	DLog(@"");
+    ALog (@"Configuration information downloaded: %@", dataStr);
     
     NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
                                [[[NSBundle mainBundle] resourcePath] 
@@ -916,8 +929,6 @@ static JRSessionData* singleton = nil;
 
 - (BOOL)weShouldBeFirstResponder
 {
-    DLog(@"");
-    
     /* If we're authenticating with a provider for social publishing, then don't worry about the return experience
      * for basic authentication. */
     if (socialSharing)
@@ -933,19 +944,17 @@ static JRSessionData* singleton = nil;
 
 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider
 {
-    DLog(@"");
     return [authenticatedUsersByProvider objectForKey:provider.name];
 }
 
 - (JRAuthenticatedUser*)authenticatedUserForProviderNamed:(NSString*)provider;
 {
-    DLog(@"");
     return [authenticatedUsersByProvider objectForKey:provider];
 }
 
 - (void)forgetAuthenticatedUserForProvider:(NSString*)providerName
 {
-    DLog(@"");
+    DLog (@"");
     
  /* If you are explicitely signing out a user for a provider, you should explicitely force reauthentication. */
     JRProvider* provider = [allProviders objectForKey:providerName];
@@ -959,7 +968,7 @@ static JRSessionData* singleton = nil;
 
 - (void)forgetAllAuthenticatedUsers
 {
-    DLog(@"");
+    DLog (@"");
     
     for (NSString *providerName in [allProviders allKeys])
     {
@@ -975,7 +984,7 @@ static JRSessionData* singleton = nil;
 
 - (JRProvider*)getProviderAtIndex:(NSUInteger)index fromArray:(NSArray*)array
 {
-    DLog(@"");
+    DLog (@"");
     if (index < [array count])
     {
         return [allProviders objectForKey:[array objectAtIndex:index]];
@@ -986,13 +995,11 @@ static JRSessionData* singleton = nil;
 
 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index
 {
-    DLog(@"");
     return [self getProviderAtIndex:index fromArray:[self basicProviders]];
 }
 
 - (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index
 {
-    DLog(@"");
     return [self getProviderAtIndex:index fromArray:[self socialProviders]];
 }
 
@@ -1003,7 +1010,7 @@ static JRSessionData* singleton = nil;
 
 - (void)saveLastUsedSocialProvider:(NSString*)providerName
 {
-	DLog(@"");
+	DLog (@"Saving last used social provider: %@", providerName);
     
     [returningSocialProvider release], returningSocialProvider = [providerName retain];
     
@@ -1014,7 +1021,7 @@ static JRSessionData* singleton = nil;
 
 - (void)saveLastUsedBasicProvider:(NSString*)providerName
 {
-    DLog(@"");
+	DLog (@"Saving last used basic provider: %@", providerName);
     
     // TODO: See about re-adding cookie code that manually sets the last used provider and see 
     // if that means using rpx to log into site through Safari browser will also remember the user/provider
@@ -1039,7 +1046,6 @@ static JRSessionData* singleton = nil;
 
 - (void)setReturningBasicProviderToNil;
 {
-    DLog(@"");
     [returningBasicProvider release];
     returningBasicProvider = nil;
 }
@@ -1068,8 +1074,6 @@ static JRSessionData* singleton = nil;
 
 - (NSURL*)startUrlForCurrentProvider
 {
-	DLog(@"");
-    
 	NSMutableString *oid;
     
     if (!currentProvider)
@@ -1116,13 +1120,12 @@ static JRSessionData* singleton = nil;
     
 	currentProvider.forceReauth = NO;
 	
-	DLog(@"startURL: %@", str);
+	ALog (@"Starting authentication for %@:\n%@", currentProvider.name, str);
 	return [NSURL URLWithString:str];
 }
 
 - (void)startShareActivityForUser:(JRAuthenticatedUser*)user
 {
-    DLog(@"");
     // TODO: Better error checking in sessionData's share activity bit
     NSDictionary *activityDictionary = [activity dictionaryForObject];
     
@@ -1139,7 +1142,6 @@ static JRSessionData* singleton = nil;
                                      [NSURL URLWithString:
                                       [NSString stringWithFormat:@"%@/api/v2/activity?", serverUrl]]] retain];
     
-    DLog("Share activity request: %@ and body: %s", [[request URL] absoluteString], body.bytes);
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
     
@@ -1147,7 +1149,11 @@ static JRSessionData* singleton = nil;
                          currentProvider.name, @"providerName", 
                          @"shareActivity", @"action", nil];
     
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
+    ALog ("Sharing activity on %@:\n request=%@\nbody=%s", user.provider_name, [[request URL] absoluteString], body.bytes);
+    
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+        [self triggerPublishingDidFailWithError:[JRError setError:@"There was a problem connecting to the Janrain server to share this activity"
+                                                         withCode:JRPublishErrorBadConnection]]; 
     
     [request release];    
 }
@@ -1159,6 +1165,8 @@ static JRSessionData* singleton = nil;
 
 - (void)finishShareActivity:(JRActivityObject*)_activity forProvider:(NSString*)providerName withResponse:(NSString*)response
 {
+    ALog (@"Activity sharing response: %@", response);
+    
     NSDictionary *response_dict = [response JSONValue];
     
     if (!response_dict)
@@ -1245,13 +1253,12 @@ static JRSessionData* singleton = nil;
 
 - (void)startGetShortenedUrlsForActivity:(JRActivityObject*)_activity
 {
-    // TODO: Fix when ready
-    NSDictionary *set = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
-    NSString *urlString = //@"http://example.com";
-    [NSString stringWithFormat:@"%@/openid/get_urls?urls=%@",
-     baseUrl/*serverUrl*/, [[set JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSDictionary *urls = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
+
+    NSString *urlString = [NSString stringWithFormat:@"%@/openid/get_urls?urls=%@",
+                           baseUrl, [[urls JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
-    DLog(@"url: %@", urlString);
+    DLog (@"Getting shortened URLs: %@", urlString);
 	
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 	
@@ -1262,7 +1269,6 @@ static JRSessionData* singleton = nil;
 
 - (void)finishGetShortenedUrlsForActivity:(JRActivityObject*)_activity withShortenedUrls:(NSString*)urls
 {
-    // TODO: Fix when ready
     DLog ("Shortened Urls: %@", urls);
     
     NSDictionary *dict = [urls JSONValue];
@@ -1293,7 +1299,7 @@ static JRSessionData* singleton = nil;
 
 - (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString
 {
-	DLog(@"");
+	DLog (@"");
 	NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
 	
 	if ([strArr count] <= 1)
@@ -1306,10 +1312,8 @@ static JRSessionData* singleton = nil;
 
 - (void)startMakeCallToTokenUrl:(NSString*)_tokenUrl withToken:(NSString *)token forProvider:(NSString*)providerName
 {
-	DLog(@"");
-    DLog(@"token:    %@", token);
-	DLog(@"tokenURL: %@", _tokenUrl);
-	
+    ALog (@"Calling token URL for %@:\n%@", providerName, _tokenUrl);
+    
 	NSMutableData* body = [NSMutableData data];
 	[body appendData:[[NSString stringWithFormat:@"token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
 	NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_tokenUrl]] retain];
@@ -1354,7 +1358,6 @@ static JRSessionData* singleton = nil;
 
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
-    DLog (@"");
     NSObject *tag = (NSObject*)userdata;
 
     NSDictionary *headers = nil;
@@ -1368,7 +1371,7 @@ static JRSessionData* singleton = nil;
     if ([tag isKindOfClass:[NSDictionary class]])
     {
         NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
-        DLog(@"action:  %@", action);
+        //DLog (@"Connect did finish loading: %@", action);
 
         if ([action isEqualToString:@"callTokenUrl"])
         {
@@ -1379,26 +1382,22 @@ static JRSessionData* singleton = nil;
         }
         if ([action isEqualToString:@"downloadPicture"])
         {
-            DLog (@"Picture download headers:\n%@", [headers description]);
-            
             // TODO: Later, make this more dynamic, and not fixed to just pngs.
             if ([[fullResponse MIMEType] isEqualToString:@"image/png"])
                 [self finishDownloadPicture:payload 
                                       named:[(NSDictionary*)tag objectForKey:@"pictureName"]
                                 forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
             else
-                DLog ("Error downloading picture.");//: %@", [[[NSString alloc] initWithData:payload encoding:NSASCIIStringEncoding] autorelease]);
+                ALog ("Not able to download the picture: %@", [[request URL] absoluteString]);
         }
     }
     else if ([tag isKindOfClass:[NSString class]])
     {   	
-        DLog(@"tag:     %@", tag);
+        //DLog (@"Connect did finish loading: %@", tag);
         
         if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {
             NSString *payloadString = [[[NSString alloc] initWithData:payload encoding:NSASCIIStringEncoding] autorelease];
-            
-            DLog(@"payload: %@", payloadString);
             
             if ([payloadString rangeOfString:@"\"provider_info\":{"].length != 0)
             {
@@ -1420,17 +1419,14 @@ static JRSessionData* singleton = nil;
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
-	DLog(@"");
     NSObject* tag = (NSObject*)userdata;
     
 	[payload retain];
 	
-	DLog(@"payload: %@", payload);
-    
     if ([tag isKindOfClass:[NSDictionary class]])
     {   	
         NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
-        DLog(@"action:  %@", action);
+        DLog (@"Connect did finish loading: %@", action);
         
         if ([action isEqualToString:@"shareActivity"])
         {
@@ -1446,6 +1442,8 @@ static JRSessionData* singleton = nil;
     }
     else if ([tag isKindOfClass:[NSString class]])
     {
+        DLog (@"Connect did finish loading: %@", tag);
+
         if ([(NSString*)tag isEqualToString:@"emailSuccess"])
         {
             // Do nothing for now...
@@ -1466,11 +1464,12 @@ static JRSessionData* singleton = nil;
 
 - (void)connectionDidFailWithError:(NSError*)_error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
-    DLog(@"");
     NSObject* tag = (NSObject*)userdata;
     
     if ([tag isKindOfClass:[NSString class]])
     {   
+        ALog (@"Connection for %@ failed with error: %@", tag, [error localizedDescription]);
+
         if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {
             error = [[JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
@@ -1493,7 +1492,7 @@ static JRSessionData* singleton = nil;
     else if ([(NSDictionary*)tag isKindOfClass:[NSDictionary class]])
     {
         NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
-        DLog(@"action:  %@", action);
+        ALog (@"Connection for %@ failed with error: %@", action, [error localizedDescription]);
 
         if ([action isEqualToString:@"callTokenUrl"])
         {
@@ -1533,7 +1532,8 @@ static JRSessionData* singleton = nil;
 
 - (void)connectionWasStoppedWithTag:(void*)userdata 
 {
-    DLog(@"");
+    DLog (@"Connection was stopped.");
+    
     if ([(NSObject*)userdata isKindOfClass:[NSString class]])
         [(NSString*)userdata release];
     if ([(NSObject*)userdata isKindOfClass:[NSDictionary class]])
@@ -1552,9 +1552,7 @@ static JRSessionData* singleton = nil;
 }
 
 - (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict
-{  
-    DLog(@"");
-    
+{      
  /* This value will be nil if authentication was canceled after the user authenticated in the
     webview, but before the authentication call was completed, like in the case where the calling
     application issues the cancelAuthentication command. */
@@ -1562,7 +1560,9 @@ static JRSessionData* singleton = nil;
         return;
     
     NSDictionary *goodies = [payloadDict objectForKey:@"rpx_result"];
-    
+   
+    DLog (@"Authentication completed for user: %@", [goodies description]);
+
     JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
                                                                     forProviderNamed:currentProvider.name] autorelease];    
     
@@ -1594,7 +1594,6 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerAuthenticationDidFailWithError:(NSError*)_error
 {
-    DLog(@"");
     [currentProvider release];
     currentProvider = nil;
     
@@ -1604,7 +1603,6 @@ static JRSessionData* singleton = nil;
     [returningSocialProvider release];
     returningSocialProvider = nil;
     
-    DLog(@"");
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
@@ -1615,7 +1613,7 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerAuthenticationDidCancel
 {
-    DLog(@"");
+    DLog (@"");
     [currentProvider release];
     currentProvider = nil;
     
@@ -1632,13 +1630,12 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerAuthenticationDidCancel:(id)sender
 {
-    DLog(@"");
     [self triggerAuthenticationDidCancel];
 }
 
 - (void)triggerAuthenticationDidTimeOutConfiguration
 {
-    DLog(@"");
+    DLog (@"");
     [currentProvider release];
     currentProvider = nil;
     
@@ -1652,7 +1649,7 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerAuthenticationDidStartOver:(id)sender
 {
-    DLog(@"");
+    DLog (@"");
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
@@ -1664,7 +1661,7 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerPublishingDidCancel
 {
-    DLog(@"");
+    DLog (@"");
     [currentProvider release];
     currentProvider = nil;
     
@@ -1680,13 +1677,13 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerPublishingDidCancel:(id)sender
 {
-    DLog(@"");
     [self triggerPublishingDidCancel];
 }
 
 - (void)triggerPublishingDidTimeOutConfiguration
 {
-    [currentProvider release];
+    DLog (@"");
+   [currentProvider release];
     currentProvider = nil;
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
@@ -1701,7 +1698,6 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerPublishingDidComplete
 {
-    DLog(@"");
     [currentProvider release];
     currentProvider = nil;
     
@@ -1717,14 +1713,11 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerPublishingDidComplete:(id)sender
 {
-    DLog(@"");
     [self triggerPublishingDidComplete];
 }
 
 - (void)triggerPublishingDidFailWithError:(NSError*)_error
 {
-    DLog(@"");
-    
     // QTS: When will this ever be called and what do we do when it happens?
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
@@ -1736,7 +1729,7 @@ static JRSessionData* singleton = nil;
 
 - (void)triggerPublishingDidStartOver:(id)sender
 {    
-    DLog(@"");
+    DLog (@"");
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
@@ -1748,6 +1741,7 @@ static JRSessionData* singleton = nil;
 
 - (void)startRecordActivitySharedBy:(NSString*)method
 {
+    ALog (@"");
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&method=%@", method] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -1769,12 +1763,14 @@ static JRSessionData* singleton = nil;
 - (void)triggerEmailSharingDidComplete
 {
     // TODO: Fix when ready
+    DLog (@"");
     [self startRecordActivitySharedBy:@"email"];
 }
 
 - (void)triggerSmsSharingDidComplete
 {
     // TODO: Fix when ready
+    DLog (@"");
     [self startRecordActivitySharedBy:@"sms"];
 }
 @end

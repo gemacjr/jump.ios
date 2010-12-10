@@ -67,6 +67,7 @@ typedef enum
 typedef enum
 {
     JRPublishFailedError = 300,
+    JRPublishErrorBadConnection,
     JRPublishErrorAcivityNil,
     JRPublishErrorMissingApiKey,
     JRPublishErrorInvalidOauthToken,
