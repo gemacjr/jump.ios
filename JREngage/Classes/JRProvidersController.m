@@ -196,7 +196,7 @@
         
         /* Load the table with the list of providers. */
         [myTableView reloadData];    
-		[infoBar fadeIn];
+		//[infoBar fadeIn];
     }
     else
     {
@@ -215,8 +215,9 @@
         /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
         timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
     }
+    
+    [infoBar fadeIn];
 }
-
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

@@ -102,6 +102,16 @@
 #import "JRActivityObject.h"
 #import "JRUserInterfaceMaestro.h"
 
+/* Preprocessor directive that conditionally compiles the code that uses the weakly-linked MessageUI.Framework.
+ This framework is required if you want to include the ability to share activities with email or sms.  By default
+ the JRENGAGE_INCLUDE_EMAIL_SMS flag should always be set to "1", which can cause errors with the linker if the 
+ framework isn't included, but I figured most apps would want the email and sms sharing ability.  If you don't want
+ to add the MessageUI.Framework to one or more of your apps that use the JREngage library, you don't have to change
+ this value to "0" (which could cause merging issues if I make changes later).
+ 
+ Instead, if you want to override this setting, you need to add the preprocessor flag "OVERRIDE_INCLUDE_EMAIL_SMS"
+ to your target's GCC_PREPROCESSOR_DEFINITIONS build setting (also listed as "Preprocessor Macros" under the
+ "GCC 4.2 - Preprocessing" heading). */
 #ifndef OVERRIDE_INCLUDE_EMAIL_SMS
 #define JRENGAGE_INCLUDE_EMAIL_SMS 1
 #endif

@@ -156,7 +156,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-	DLog (@"Encoding Authenticated User: %@", provider_name);
+//	DLog (@"Encoding Authenticated User: %@", provider_name);
    
     [coder encodeObject:provider_name forKey:@"provider_name"];
     [coder encodeObject:photo forKey:@"photo"];
@@ -185,7 +185,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     {
         provider_name = [[coder decodeObjectForKey:@"provider_name"] retain];
     
-        DLog (@"Decoding Authenticated User: %@", provider_name);
+//        DLog (@"Decoding Authenticated User: %@", provider_name);
         
         photo = [[coder decodeObjectForKey:@"photo"] retain];
         preferred_username = [[coder decodeObjectForKey:@"preferred_username"] retain];
@@ -222,6 +222,8 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     // QTS: Are we ever going to be leaking these?  Assuming correct retain counting,
     // these should dealloc when the user is signed out.
     [self removeDeviceTokenFromKeychain];
+    
+    DLog (@"");
     
     [provider_name release];
     [photo release];
@@ -362,7 +364,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-	DLog (@"Encoding Provider: %@", name);
+//	DLog (@"Encoding Provider: %@", name);
     
     [coder encodeObject:name forKey:@"name"];
     [coder encodeObject:friendlyName forKey:@"friendlyName"];
@@ -393,7 +395,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     }   
     [self loadDynamicVariables];
     
-    DLog (@"Decoding Provider: %@", name);
+//    DLog (@"Decoding Provider: %@", name);
     
     return self;
 }
@@ -418,7 +420,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)dealloc
 {
-	DLog (@"");
+//	DLog (@"");
 		
     [name release];
     [friendlyName release];
@@ -980,7 +982,7 @@ static JRSessionData* singleton = nil;
 
 - (JRProvider*)getProviderAtIndex:(NSUInteger)index fromArray:(NSArray*)array
 {
-    DLog (@"");
+//    DLog (@"");
     if (index < [array count])
     {
         return [allProviders objectForKey:[array objectAtIndex:index]];
@@ -1402,8 +1404,8 @@ static JRSessionData* singleton = nil;
             }
             else // There was an error...
             {
-                error = [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                                 withCode:JRConfigurationInformationError];
+                error = [[JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+                                 withCode:JRConfigurationInformationError] retain];
                                 //andType:JRErrorTypeConfigurationFailed] retain];
             }
         }

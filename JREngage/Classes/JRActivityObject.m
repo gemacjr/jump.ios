@@ -474,14 +474,14 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
         NSArray *songs  = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
         NSArray *videos = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRFlashMediaObject class])]];
         
-        DLog(@"images count: %d", [images count]);
-        DLog(@"songs count : %d", [songs count]);
-        DLog(@"videos count: %d", [videos count]);
+//        DLog(@"images count: %d", [images count]);
+//        DLog(@"songs count : %d", [songs count]);
+//        DLog(@"videos count: %d", [videos count]);
         
         /* If we have images and either songs or videos or both */
         if ([images count] && ([songs count] || [videos count]))
         {
-            DLog(@"([images count] && ([songs count] || [videos count]))");
+//            DLog(@"([images count] && ([songs count] || [videos count]))");
                         
             /* Then we only use the images; The songs or videos will be ignored */
             [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
@@ -489,7 +489,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
         /* If we don't have images, but we have both songs and videos */
         else if ([songs count] && [videos count])
         {
-            DLog(@"([songs count] && [videos count])");
+//            DLog(@"([songs count] && [videos count])");
 
             /* Then we only use the songs; The videos will be ignored */
             [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
@@ -552,7 +552,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     
     if ([media count])
     {
-        DLog(@"[media count] = %d", [media count]);
+//        DLog(@"[media count] = %d", [media count]);
         
         NSMutableArray *arr = [[[NSMutableArray alloc] initWithCapacity:[media count]] autorelease];
         

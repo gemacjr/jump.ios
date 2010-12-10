@@ -98,8 +98,6 @@
         
 		[self.view addSubview:infoBar];
 	}
-    
-	[infoBar fadeIn];    
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -133,6 +131,8 @@
     
 	[self webViewWithUrl:[sessionData startUrlForCurrentProvider]];
 	[myWebView becomeFirstResponder];
+    
+	[infoBar fadeIn];    
 }
 
 - (void)cancelButtonPressed:(id)sender

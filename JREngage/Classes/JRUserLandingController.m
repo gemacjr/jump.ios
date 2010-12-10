@@ -114,9 +114,6 @@
         [self.view addSubview:infoBar];
 	}
     
-    // TODO: Is this needed?  In webview but not providers...
-	[infoBar fadeIn];	
-	
     self.navigationItem.backBarButtonItem.target = sessionData;
     self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);    
 }
@@ -182,6 +179,8 @@
     /* Only make the cell's text field the first responder (and show the keyboard) in certain situations */
 	if ([sessionData weShouldBeFirstResponder] && !textField.text)
 		[textField becomeFirstResponder];
+    
+	[infoBar fadeIn];	
 }
 
 // Override to allow orientations other than the default portrait orientation.
