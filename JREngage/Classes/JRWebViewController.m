@@ -34,8 +34,6 @@
 
 #import "JRWebViewController.h"
 
-// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -49,32 +47,30 @@
 @end
 
 @implementation JRWebViewController
+@synthesize myBackgroundView;
 @synthesize myWebView;
 
-/*
-// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		jrAuth = [[JRAuthenticate jrAuthenticate] retain];
-		
-		delegates = [NSArray arrayByAddingObject:jrAuth];
-		// Custom initialization
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+{
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
+    {
+        customUI = [_customUI retain];
     }
+
     return self;
 }
-*/
 
-- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
-{
-    DLog(@"");
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                              message, NSLocalizedDescriptionKey,
-                              type, @"type", nil];
-    
-    return [[NSError alloc] initWithDomain:@"JREngage"
-                                      code:code
-                                  userInfo:userInfo];
-}
+//- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
+//{
+//    DLog(@"");
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+//                              message, NSLocalizedDescriptionKey,
+//                              type, @"type", nil];
+//    
+//    return [[[NSError alloc] initWithDomain:@"JREngage"
+//                                       code:code
+//                                   userInfo:userInfo] autorelease];
+//}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
@@ -83,25 +79,7 @@
 	[super viewDidLoad];
 	
 	sessionData = [JRSessionData jrSessionData];
-}
-
-- (void)viewWillAppear:(BOOL)animated 
-{
-	DLog(@"");
-    [super viewWillAppear:animated];
     
-	self.title = [NSString stringWithFormat:@"%@", (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
-	
-	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:self
-                                      action:@selector(cancelButtonPressed:)] autorelease];
-
-	self.navigationItem.rightBarButtonItem = cancelButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-	
     self.navigationItem.backBarButtonItem.target = sessionData;
     self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
     
@@ -110,26 +88,30 @@
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
         else
-            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
-            [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, myWebView.frame.origin.y, myWebView.frame.size.width, myWebView.frame.size.height - 30)];
-
+            [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, 
+                                           myWebView.frame.origin.y, 
+                                           myWebView.frame.size.width, 
+                                           myWebView.frame.size.height - infoBar.frame.size.height)];
+        
 		[self.view addSubview:infoBar];
 	}
-	[infoBar fadeIn];
+}
+
+- (void)viewWillAppear:(BOOL)animated 
+{
+	DLog(@"");
+    [super viewWillAppear:animated];
+    
+	self.title = [NSString stringWithFormat:@"%@", (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
 {
 	DLog(@"");
 	[super viewDidAppear:animated];
-
-	NSArray *vcs = [self navigationController].viewControllers;
-	for (NSObject *vc in vcs)
-	{
-		DLog(@"view controller: %@", [vc description]);
-	}
 
  /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
     or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
@@ -138,9 +120,9 @@
     
     if (!sessionData.currentProvider)
     {
-        NSError *error = [[self setError:@"There was an error authenticating with the selected provider."
-                                withCode:JRAuthenticationFailedError
-                                 andType:JRErrorTypeAuthenticationFailed] autorelease];
+        NSError *error = [JRError setError:@"There was an error authenticating with the selected provider."
+                                  withCode:JRAuthenticationFailedError];
+                                //andType:JRErrorTypeAuthenticationFailed];
         
         [sessionData triggerAuthenticationDidFailWithError:error];        
         
@@ -149,6 +131,8 @@
     
 	[self webViewWithUrl:[sessionData startUrlForCurrentProvider]];
 	[myWebView becomeFirstResponder];
+    
+	[infoBar fadeIn];    
 }
 
 - (void)cancelButtonPressed:(id)sender
@@ -161,7 +145,6 @@
 
 - (void)startProgress
 { 
-//	DLog(@"");
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = YES;
 	[infoBar startProgress];
@@ -169,7 +152,6 @@
 
 - (void)stopProgress
 {
-//	DLog(@"");
 	if ([JRConnectionManager openConnections] == 0)
 	{
 		UIApplication* app = [UIApplication sharedApplication]; 
@@ -194,7 +176,7 @@
     	DLog(@"payload: %@", payload);
         DLog(@"tag:     %@", tag);
     
-        if (![payload respondsToSelector:@selector(JSONValue)]) { /* TODO: Error */}
+        if (![payload respondsToSelector:@selector(JSONValue)]) { /* TODO: Error */ }
         
         NSDictionary *payloadDict = [payload JSONValue];
 		
@@ -251,18 +233,16 @@
 			}
 			else if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"] isEqualToString:@"Please enter your OpenID"])
 			{
-				NSError *error = [[self setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
-                                        withCode:JRAuthenticationFailedError
-                                         andType:JRErrorTypeAuthenticationFailed] autorelease];
+				NSError *error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
+                                          withCode:JRAuthenticationFailedError];
                 
                 userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
 				[sessionData triggerAuthenticationDidFailWithError:error];
 			}
 			else
 			{
-				NSError *error = [[self setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
-                                        withCode:JRAuthenticationFailedError
-                                         andType:JRErrorTypeAuthenticationFailed] autorelease];
+				NSError *error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
+                                          withCode:JRAuthenticationFailedError];
                 
                 UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
                                                                  message:@"An error occurred while attempting to sign you in.  Please try again."
@@ -378,9 +358,8 @@
     {       
         [self stopProgress];
         
-        NSError *_error = [[self setError:[NSString stringWithFormat:@"Authentication failed: %@", [error localizedDescription]]
-                                withCode:JRAuthenticationFailedError
-                                 andType:JRErrorTypeAuthenticationFailed] autorelease];
+        NSError *_error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", [error localizedDescription]]
+                                   withCode:JRAuthenticationFailedError];
         
         UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
                                                          message:@"An error occurred while attempting to sign you in.  Please try again."
@@ -440,7 +419,7 @@
     If the userHitTheBackButton variable is set to "YES" and we're publishing an activity ([sessionData social] is "YES"),
     send the triggerAuthenticationDidStartOver message.  Otherwise, hitting the back button should just pop back 
     to the last controller, the providers or userLanding controller (i.e., behave normally) */
-    if (userHitTheBackButton && [sessionData social])
+    if (userHitTheBackButton && [sessionData socialSharing])
         [sessionData triggerAuthenticationDidStartOver:nil];
 
     [super viewWillDisappear:animated];	
@@ -468,8 +447,8 @@
 - (void)dealloc {
 	DLog(@"");
 	
-	[sessionData release];
-
+    [customUI release];
+    [myBackgroundView release];
 	[myWebView release];
 	[infoBar release];
 		

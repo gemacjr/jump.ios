@@ -35,7 +35,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JRSessionData.h"
-#import "JRModalNavigationController.h"
+//#import "JRModalNavigationController.h"
 #import "JRProvidersController.h"
 #import "JRUserLandingController.h"
 #import "JRWebViewController.h"
@@ -54,24 +54,26 @@
 	JRSessionData	*sessionData;
 	NSMutableArray	*delegates;    
     
-    UINavigationController	*navigationController;
+    UINavigationController	*customNavigationController;
     UIViewController        *viewControllerToPopTo;
 
     JRProvidersController       *myProvidersController;
 	JRUserLandingController     *myUserLandingController;
 	JRWebViewController         *myWebViewController;
     JRPublishActivityController *myPublishActivityController;
-    
-    NSMutableArray *setStatusBars;
+  
+    NSDictionary *customUI;
+    NSDictionary *persistentCustomUI;
 }
 
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
 
 - (void)pushToCustomNavigationController:(UINavigationController*)_navigationController;
+- (void)setCustomViews:(NSDictionary*)views;
 
-- (void)showAuthenticationDialog;
-- (void)showPublishingDialogWithActivity;
+- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+- (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;
 
 - (void)authenticationRestarted;
 - (void)authenticationCompleted;
@@ -81,7 +83,6 @@
 - (void)publishingCompleted;
 - (void)publishingCanceled;
 - (void)publishingFailed;
-@property (readonly) UINavigationController	*navigationController;
 
 @property (readonly) JRProvidersController       *myProvidersController;
 @property (readonly) JRUserLandingController     *myUserLandingController;

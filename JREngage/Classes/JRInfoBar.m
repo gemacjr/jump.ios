@@ -35,8 +35,6 @@
 
 #import "JRInfoBar.h"
 
-// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -64,8 +62,8 @@
 		if (hidesPoweredBy)
 			[self setFrame:CGRectMake(self.frame.origin.x, y_origin_hidden, width, height)];
 		
-		barImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-		barImage.image = [UIImage imageNamed:@"bottom_bar.png"];
+		barBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+		barBackground.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
 
 		poweredByLabel = [[UILabel alloc] initWithFrame:CGRectMake(width/2, 0, width/2 - 30, height)];
 		poweredByLabel.backgroundColor = [UIColor clearColor];
@@ -101,7 +99,7 @@
 		loadingLabel.textAlignment = UITextAlignmentLeft;
 		loadingLabel.text = @"Loading...";
 
-		[self addSubview:barImage];
+		[self addSubview:barBackground];
 		[self addSubview:poweredByLabel];
 		[self addSubview:infoButton];
 		[self addSubview:spinner];
@@ -254,7 +252,7 @@
 {
     DLog(@"");
 
-	[barImage release];
+	[barBackground release];
 	[poweredByLabel release];
 	[spinner release];
 	[loadingLabel release];

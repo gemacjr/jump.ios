@@ -74,6 +74,7 @@
  *   - "myspace"
  *   - "netlog"
  *   - "openid"
+ *   - "paypal"
  *   - "twitter"
  *   - "verisign"
  *   - "wordpress"
@@ -101,7 +102,53 @@
 #import "JRActivityObject.h"
 #import "JRUserInterfaceMaestro.h"
 
-#define SOCIAL_PUBLISHING
+/* Preprocessor directive that conditionally compiles the code that uses the weakly-linked MessageUI.Framework.
+ This framework is required if you want to include the ability to share activities with email or sms.  By default
+ the JRENGAGE_INCLUDE_EMAIL_SMS flag should always be set to "1", which can cause errors with the linker if the 
+ framework isn't included, but I figured most apps would want the email and sms sharing ability.  If you don't want
+ to add the MessageUI.Framework to one or more of your apps that use the JREngage library, you don't have to change
+ this value to "0" (which could cause merging issues if I make changes later).
+ 
+ Instead, if you want to override this setting, you need to add the preprocessor flag "OVERRIDE_INCLUDE_EMAIL_SMS"
+ to your target's GCC_PREPROCESSOR_DEFINITIONS build setting (also listed as "Preprocessor Macros" under the
+ "GCC 4.2 - Preprocessing" heading). */
+#ifndef OVERRIDE_INCLUDE_EMAIL_SMS
+#define JRENGAGE_INCLUDE_EMAIL_SMS 1
+#endif
+
+
+#define kJRAuthenticationBackgroundColor  @"Authentication.BackgroundColor"
+#define kJRSocialSharingBackgroundColor   @"SocialSharing.BackgroundColor"
+
+#define kJRProviderTableBackgroundImage   @"ProviderTable.BackgroundImage"
+#define kJRUserLandingBackgroundImage     @"UserLanding.BackgroundImage"
+#define kJRSocialSharingBackgroundImage   @"SocialSharing.BackgroundImage"
+
+#define kJRProviderTableBackgroundImage_iPad   @"ProviderTable.BackgroundImage-iPad"
+#define kJRUserLandingBackgroundImage_iPad     @"UserLanding.BackgroundImage-iPad"
+#define kJRSocialSharingBackgroundImage_iPad   @"SocialSharing.BackgroundImage-iPad"
+
+#define kJRProviderTableTitleView        @"ProviderTable.TitleView"
+#define kJRSocialSharingTitleView        @"SocialSharing.TitleView"
+#define kJRProviderTableTitleView_iPad   @"ProviderTable.TitleView-iPad"
+#define kJRSocialSharingTitleView_iPad   @"SocialSharing.TitleView-iPad"
+
+#define kJRProviderTableTitle   @"ProviderTable.Title"
+#define kJRSocialSharingTitle   @"SocialSharing.Title"
+
+#define kJRProviderTableHeaderView       @"ProviderTable.TableHeaderView"
+#define kJRProviderTableFooterView       @"ProviderTable.TableFooterView"
+#define kJRProviderTableHeaderView_iPad  @"ProviderTable.TableHeaderView-iPad"
+#define kJRProviderTableFooterView_iPad  @"ProviderTable.TableFooterView-iPad"
+
+#define kJRProviderTableSectionHeaderView       @"ProviderTable.SectionHeaderView"
+#define kJRProviderTableSectionFooterView       @"ProviderTable.SectionFooterView"
+#define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.SectionHeaderView-iPad"
+#define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.SectionFooterView-iPad"
+
+#define kJRProviderTableSectionHeaderTitle  @"ProviderTable.SectionHeaderTitle"
+#define kJRProviderTableSectionFooterTitle  @"ProviderTable.SectionFooterTitle"
+
 
 @class JREngage;
 @class JRUserInterfaceMaestro;
@@ -424,6 +471,11 @@
 - (void)showAuthenticationDialog;
 
 /**
+ * 
+ **/
+- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+
+/**
  * \anchor showPubDialog
  *
  * Use this function to begin social publishing.  The JREngage library will 
@@ -434,6 +486,12 @@
  *   The activity you wish to share
  **/
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
+/*@}*/
+
+/**
+ *
+ **/
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
 /*@}*/
 
 /** 
@@ -451,11 +509,10 @@
  **/
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
-/*
- * May not use...
- */
-//- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;
-
+/**
+ * 
+ **/
+- (void)setCustomInterface:(NSDictionary*)customizations;
 /*@}*/
 
 /** 
@@ -464,6 +521,7 @@
  **/
 /*@{*/
 
+// TODO: Deprecate these for the release
 /**
  * Tell JREngage to forget that a user is already signed in with the given provider
  *
@@ -486,6 +544,7 @@
  **/
 - (void)signoutUserForAllSocialProviders;
 
+// TODO: Deprecate these for the release
 /**
  * \anchor signoutProvider
  *

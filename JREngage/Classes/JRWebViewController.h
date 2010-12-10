@@ -39,21 +39,25 @@
 @protocol JRConnectionManagerDelegate;
 
 @class JRModalNavigationController;
-@class JRAuthenticate;
 @class JRSessionData;
 
 @interface JRWebViewController : UIViewController <UINavigationBarDelegate, UIWebViewDelegate, JRConnectionManagerDelegate> 
 {
 	JRSessionData	*sessionData;
 
+    NSDictionary *customUI;
+    
+    UIView      *myBackgroundView;
 	UIWebView	*myWebView;
-	UILabel		*label;
+	UIView		*titleView;
 	JRInfoBar	*infoBar;
 	
 	BOOL keepProgress;
 	BOOL userHitTheBackButton;
     BOOL connectionDataAlreadyDownloadedThis;
 }
-
+@property (nonatomic, retain) IBOutlet UIView *myBackgroundView;
 @property (nonatomic, retain) IBOutlet UIWebView *myWebView;
+
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI;
 @end

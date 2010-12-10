@@ -139,7 +139,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView 
 {
-    return [stories count];// + 1;
+    return [stories count];
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section 
@@ -149,8 +149,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.section == [stories count])
-//        return 40;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         return 160;
     else
@@ -169,7 +167,8 @@
     Story *story = [stories objectAtIndex:indexPath.section];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    NSInteger iPadMult = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 2 : 1;
+    BOOL iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? YES : NO;
+    NSInteger iPadMult = iPad ? 2 : 1;
     
     if (cell == nil) 
     {
@@ -183,9 +182,13 @@
                                                                                         iPadMult * 27,
                                                                                         iPadMult * (imageWidth - 6),
                                                                                         iPadMult * 36)] autorelease];
-            UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] 
-                                                 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
-            [spinner setFrame:CGRectMake(iPadMult * 18, iPadMult * 37, 16, 16)];
+
+            UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:
+                                                 (iPad) ? UIActivityIndicatorViewStyleWhiteLarge : UIActivityIndicatorViewStyleWhite] autorelease];
+            if (iPad)
+                [spinner setFrame:CGRectMake(34, 72, 37, 37)];
+            else                
+                [spinner setFrame:CGRectMake(18, 37, 16, 16)];
             
             documentImage.backgroundColor = [UIColor grayColor];
             documentImage.clipsToBounds = YES;
@@ -194,15 +197,15 @@
             [spinner setHidesWhenStopped:YES];
             [spinner startAnimating];
             
-            /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).  
-               If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
+         /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).  
+            If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
             BOOL imageAvailable = NO;
             for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
             {
                 StoryImage *storyImage = [story.storyImages objectAtIndex:i];
                 imageAvailable = YES;
                 
-                /* If an image has already downloaded, set the image and break. */
+             /* If an image has already downloaded, set the image and break. */
                 if (storyImage.image)
                 {
                     [spinner stopAnimating];
@@ -231,7 +234,7 @@
                                                                                 iPadMult * 6, 
                                                                                 iPadMult * 284 + ((iPadMult - 1) * 40), 
                                                                                 iPadMult * 16)] autorelease];
-            documentTitle.font = [UIFont boldSystemFontOfSize:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 28 : 15.0];
+            documentTitle.font = [UIFont boldSystemFontOfSize:(iPad) ? 28 : 15.0];
             documentTitle.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
             documentTitle.backgroundColor = [UIColor clearColor];
             documentTitle.text = story.title;
@@ -240,7 +243,7 @@
                                                                                       iPadMult *  25,
                                                                                       iPadMult * (268 - imageWidth) + ((iPadMult - 1) * 40), 
                                                                                       iPadMult *  36)] autorelease];
-            documentDescription.font = [UIFont systemFontOfSize:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 24 : 14.0];
+            documentDescription.font = [UIFont systemFontOfSize:(iPad) ? 24 : 14.0];
             documentDescription.textColor = [UIColor darkGrayColor];
             documentDescription.numberOfLines = 2;
             documentDescription.backgroundColor = [UIColor clearColor];
@@ -268,9 +271,6 @@
             [cell.contentView addSubview:documentDescription];
             [cell.contentView addSubview:documentDate];
             
-//           UIImageView *background = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cell_background.png"]] autorelease];
-//           cell.backgroundView = background;
-
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
@@ -289,7 +289,7 @@
                 StoryImage *storyImage = [story.storyImages objectAtIndex:i];
                 imageAvailable = YES;
                 
-                /* If an image has already downloaded, set the image and break. */
+             /* If an image has already downloaded, set the image and break. */
                 if (storyImage.image)
                 {
                     [spinner stopAnimating];

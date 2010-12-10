@@ -32,9 +32,7 @@
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import "FeedReaderFeeds.h"
-
 
 @implementation FeedReaderFeeds
 
@@ -47,7 +45,6 @@
     return self;
 }
 */
-
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
@@ -91,8 +88,6 @@
 
 - (IBAction)janrainBlogSelected:(id)sender
 {
-    //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    
     [summaryViewController release];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)

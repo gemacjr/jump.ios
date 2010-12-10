@@ -37,7 +37,6 @@
 #import "JREngage.h"
 #import "JRInfoBar.h"
 
-@class JRAuthenticate;
 @class JRSessionData;
 @class JRUserInterfaceMaestro;
 
@@ -47,19 +46,25 @@
 {
 	JRSessionData	*sessionData;
     
-	UITableView		*myTableView;
+    BOOL iPad;
+    
+    NSDictionary *customUI;
+
+    UIView		*titleView;
+    UIImageView *myBackgroundView;
+	UITableView	*myTableView;
 	
 	/* Activity Spinner and Label displayed while the list of configured providers is empty */
 	UILabel					*myLoadingLabel;
 	UIActivityIndicatorView *myActivitySpinner; 
 	NSTimer                 *timer;
     
-	UILabel		*titleLabel;
-
 	JRInfoBar	*infoBar;
 }
-
+@property (nonatomic, retain) IBOutlet UIImageView  *myBackgroundView;
 @property (nonatomic, retain) IBOutlet UITableView	*myTableView;
 @property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
+
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI;
 @end

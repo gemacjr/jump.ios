@@ -4,5 +4,33 @@
 <dict>
 	<key>CFBundleShortVersionString</key>
 	<string>v2.0.2</string>
+	<key>JREngage.GitCommit</key>
+	<string>1</string>
+	<key>JREngage.CustomInterface</key>
+	<dict>
+	<!--
+		<key>ProviderTable.BackgroundImage</key>
+		<string></string> 
+		<key>NavigationBarTint</key>
+		<array>
+			<real>0.8</real>
+			<real>0.5</real>
+			<real>0.3</real>
+			<real>1</real>
+		</array>
+	-->
+		<key>Authentication.BackgroundColor</key>
+		<array>
+			<real>0</real>
+			<real>0</real>
+			<real>0</real>
+			<real>0.2</real>
+		</array>
+		<key>ProviderTable.BackgroundImage</key>
+		<string>molson.jpg</string>
+	</dict>
 </dict>
 </plist>
+
+
+

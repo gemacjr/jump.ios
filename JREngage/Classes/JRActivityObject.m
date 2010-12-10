@@ -33,7 +33,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "JRActivityObject.h"
-#define DEBUG
+
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -322,6 +322,71 @@
 }
 @end
 
+NSArray* filteredArrayOfValidUrls (NSArray *urls)
+{
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:[urls count]];
+                             
+    for (NSObject *url in urls)
+        if ([url isKindOfClass:[NSString class]])
+            if ([NSURLConnection canHandleRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:(NSString*)url]]])
+                [array addObject:url];
+    
+    return array;
+}
+
+@implementation JREmailObject
+@synthesize subject;
+@synthesize messageBody;
+@synthesize isHtml;
+@synthesize urls;
+
+- (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
+{   
+    if (self = [super init])
+    {
+        if (_subject)
+            subject = [[NSString stringWithString:_subject] retain];
+
+        if (_messageBody)
+            messageBody = [[NSString stringWithString:_messageBody] retain];
+
+        isHtml = _isHtml;
+        urls   = [filteredArrayOfValidUrls (_urls) retain];
+    }
+
+    return self;
+}
+
++ (id)emailObjectWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
+{
+    return [[[JREmailObject alloc] initWithSubject:_subject andMessageBody:_messageBody isHtml:_isHtml andUrlsToBeShortened:_urls] autorelease];
+}
+@end
+
+
+@implementation JRSmsObject
+@synthesize message;
+@synthesize urls;
+
+- (id)initWithMessage:(NSString*)_message andUrlsToBeShortened:(NSArray*)_urls;
+{   
+    if (self = [super init])
+    {
+        if (_message)
+            message = [[NSString stringWithString:_message] retain];
+
+        urls    =  [filteredArrayOfValidUrls (_urls) retain];
+    }
+    
+    return self;
+}
+
++ (id)smsObjectWithMessage:(NSString *)_message andUrlsToBeShortened:(NSArray*)_urls;
+{
+    return [[[JRSmsObject alloc] initWithMessage:_message andUrlsToBeShortened:_urls] autorelease];
+}
+@end
+
 
 @implementation JRActivityObject
 @synthesize action;  							
@@ -330,6 +395,8 @@
 @synthesize title;				
 @synthesize description;
 @synthesize properties;
+@synthesize email;
+@synthesize sms;
 @dynamic action_links; 					
 @dynamic media;
 
@@ -365,9 +432,10 @@
    that the app will crash.                                                          */
 - (void)setMedia:(NSMutableArray *)_media
 {
-    media = [[NSMutableArray arrayWithArray:
-              [_media filteredArrayUsingPredicate:
-               [NSPredicate predicateWithFormat:@"cf_baseClassName = %@", NSStringFromClass([JRMediaObject class])]]] retain];
+    [media release], media = [[NSMutableArray arrayWithArray:
+                               [_media filteredArrayUsingPredicate:
+                                [NSPredicate predicateWithFormat:
+                                 @"cf_baseClassName = %@", NSStringFromClass([JRMediaObject class])]]] retain];
 }
 
 - (NSMutableArray*)media
@@ -382,9 +450,10 @@
    have the class name JRActionLinks                                                     */
 - (void)setAction_links:(NSMutableArray *)_action_links
 {
-    action_links = [[NSMutableArray arrayWithArray:
-                     [_action_links filteredArrayUsingPredicate:
-                      [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRActionLink class])]]] retain];
+    [action_links release], action_links = [[NSMutableArray arrayWithArray:
+                                             [_action_links filteredArrayUsingPredicate:
+                                              [NSPredicate predicateWithFormat:
+                                               @"cf_className = %@", NSStringFromClass([JRActionLink class])]]] retain];
 }
 
 - (NSMutableArray*)action_links
@@ -405,14 +474,14 @@
         NSArray *songs  = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
         NSArray *videos = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRFlashMediaObject class])]];
         
-        DLog(@"images count: %d", [images count]);
-        DLog(@"songs count : %d", [songs count]);
-        DLog(@"videos count: %d", [videos count]);
+//        DLog(@"images count: %d", [images count]);
+//        DLog(@"songs count : %d", [songs count]);
+//        DLog(@"videos count: %d", [videos count]);
         
         /* If we have images and either songs or videos or both */
         if ([images count] && ([songs count] || [videos count]))
         {
-            DLog(@"([images count] && ([songs count] || [videos count]))");
+//            DLog(@"([images count] && ([songs count] || [videos count]))");
                         
             /* Then we only use the images; The songs or videos will be ignored */
             [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
@@ -420,7 +489,7 @@
         /* If we don't have images, but we have both songs and videos */
         else if ([songs count] && [videos count])
         {
-            DLog(@"([songs count] && [videos count])");
+//            DLog(@"([songs count] && [videos count])");
 
             /* Then we only use the songs; The videos will be ignored */
             [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
@@ -483,7 +552,7 @@
     
     if ([media count])
     {
-        DLog(@"[media count] = %d", [media count]);
+//        DLog(@"[media count] = %d", [media count]);
         
         NSMutableArray *arr = [[[NSMutableArray alloc] initWithCapacity:[media count]] autorelease];
         
@@ -495,8 +564,6 @@
         [dict setValue:arr forKey:@"media"];
     }
     
-    // TODO: You still have written any code to handle all the different possibilities
-    // that could go here, and this might end up crashing.  Find out if it does and fix this.
     if ([properties count])
         [dict setObject:properties forKey:@"properties"];
     
@@ -513,6 +580,8 @@
 	[action_links release]; 					
 	[media release];
 	[properties release];	
+    [email release];
+    [sms release];
 
 	[super dealloc];
 }

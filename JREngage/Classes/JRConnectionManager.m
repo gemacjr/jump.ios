@@ -35,9 +35,7 @@
 
 #import "JRConnectionManager.h"
 
-// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-#define DEBUG
-#ifdef DEBUG
+#if DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
 #define DLog(...)
@@ -68,7 +66,6 @@
 @end
 
 @implementation ConnectionData
-
 @synthesize request;
 @synthesize response;
 @synthesize fullResponse;
@@ -81,7 +78,7 @@
    returnFullResponse:(BOOL)_returnFullResponse
               withTag:(void*)userdata 
 {
-	DLog(@"");
+//	DLog(@"");
 	
 	if (self = [super init]) 
 	{
@@ -101,7 +98,7 @@
 
 - (void)dealloc 
 {
-	DLog(@"");
+//	DLog(@"");
 	
 	[request release];
 	[response release];
@@ -195,7 +192,7 @@ static JRConnectionManager* singleton = nil;
    and I don't have to rewrite it. */
 - (void)dealloc
 {
-	DLog(@"");
+//	DLog(@"");
 	ConnectionData* connectionData = nil;
 	
 	for (NSURLConnection* connection in [(NSMutableDictionary*)connectionBuffers allKeys])
@@ -217,32 +214,15 @@ static JRConnectionManager* singleton = nil;
 	[super dealloc];
 }
 
-- (BOOL)thisIsThatStupidWindowsLiveResponse:(NSURLResponse*)redirectResponse
-{
-    if ([[[redirectResponse URL] absoluteString] hasPrefix:@"http://consent.live.com/Delegation.aspx?"])
-        return YES;
-    
-    return NO;
-}
-
 + (NSURLRequest*)aCopyOfTheRequestWithANonCrashingUserAgent:(NSURLRequest*)request
 {
-    NSMutableURLRequest* new_request = [request mutableCopyWithZone:nil];//[[[NSMutableURLRequest alloc] initWithURL:[request URL]] autorelease];
-    
-    //    [new_request setAllHTTPHeaderFields:[request allHTTPHeaderFields]];
-    //    [new_request setHTTPMethod:[request HTTPMethod]];
-    //    [new_request setHTTPBody:[request HTTPBody]];
-    //    [new_request setHTTPBodyStream:[request HTTPBodyStream]];
-    //    [new_request setNetworkServiceType:[request networkServiceType]];
-    //    [new_request setCachePolicy:[request cachePolicy]];
-    //    [new_request setTimeoutInterval:[request timeoutInterval]];
-    //    [new_request setHTTPShouldUsePipelining:[request HTTPShouldUsePipelining]];
-    //    [new_request setHTTPShouldHandleCookies:[request HTTPShouldHandleCookies]];
+    // QTS: Am I calling this every time, and if so, will this mess up any user-agent detection?
+    NSMutableURLRequest* new_request = [request mutableCopyWithZone:nil];
     
     [new_request setValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.4) Gecko/20100527 Firefox/3.6.4 GTB7.1"
        forHTTPHeaderField:@"User-Agent"];
     
-    DLog(@"willSendNewRequest: %@", [[new_request URL] absoluteString]);
+//    DLog(@"willSendNewRequest: %@", [[new_request URL] absoluteString]);
     
     return new_request;
 }
@@ -252,12 +232,12 @@ static JRConnectionManager* singleton = nil;
                  returnFullResponse:(BOOL)returnFullResponse
                             withTag:(void*)userdata 
 {
-    DLog(@"request: %@", [[request URL] absoluteString]);
+//    DLog(@"request: %@", [[request URL] absoluteString]);
     
 	JRConnectionManager* connectionManager = [JRConnectionManager getJRConnectionManager];
 	CFMutableDictionaryRef connectionBuffers = connectionManager.connectionBuffers;
 
-	request = [JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request];
+	request = [[JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request] autorelease];
     
 	if (![NSURLConnection canHandleRequest:request])
 		return NO;
@@ -295,7 +275,7 @@ static JRConnectionManager* singleton = nil;
 
 + (void)stopConnectionsForDelegate:(id<JRConnectionManagerDelegate>)delegate
 {
-	DLog(@"");
+//	DLog(@"");
 	
 	JRConnectionManager* connectionManager = [JRConnectionManager getJRConnectionManager];
 	CFMutableDictionaryRef connectionBuffers = connectionManager.connectionBuffers;
@@ -324,15 +304,13 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data 
 {
-	DLog(@"");
+//	DLog(@"");
 	[[(ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection) response] appendData:data];
 }
 
 - (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response 
 {
-	DLog(@"");
-    DLog(@"MIMETYPE: %@", [response MIMEType]);
-    DLog(@"TEXT ENCODING: %@", [response textEncodingName]);
+//	DLog(@"");
 
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 	
@@ -344,7 +322,7 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection 
 {
-	DLog(@"");
+//	DLog(@"");
 	ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 	
 	NSURLRequest *request = [connectionData request];
@@ -353,13 +331,13 @@ static JRConnectionManager* singleton = nil;
 	void* userdata = [connectionData tag];
 	id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
     
-    DLog(@"request: %@", [[request URL] absoluteString]);
+//    DLog(@"request: %@", [[request URL] absoluteString]);
 
     if ([connectionData fullResponse] == NO)
     {
         NSString *payload = [[[NSString alloc] initWithData:responseBody encoding:NSASCIIStringEncoding] autorelease];
         
-        DLog(@"payload: %@", payload);
+//        DLog(@"payload: %@", payload);
         
         if ([delegate respondsToSelector:@selector(connectionDidFinishLoadingWithPayload:request:andTag:)])
             [delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userdata];
@@ -396,18 +374,15 @@ static JRConnectionManager* singleton = nil;
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request 
 														  redirectResponse:(NSURLResponse *)redirectResponse
 {
-	DLog(@"willSendRequest:  %@", [[request URL] absoluteString]);
-	DLog(@"redirectResponse: %@", [[redirectResponse URL] absoluteString]);
+//	DLog(@"willSendRequest:  %@", [[request URL] absoluteString]);
+//	DLog(@"redirectResponse: %@", [[redirectResponse URL] absoluteString]);
     
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 	
     if ([connectionData returnFullResponse])
         connectionData.fullResponse = redirectResponse;    
 	
-//    if ([self thisIsThatStupidWindowsLiveResponse:redirectResponse])
-         return [JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request];
-    
-//	return request;
+    return [[JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request] autorelease];
 }
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { DLog(@""); }

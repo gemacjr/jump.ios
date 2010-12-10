@@ -37,7 +37,6 @@
 #import "JREngage.h"
 #import "JRInfoBar.h"
 
-//@class JRAuthenticate;
 @class JRWebViewController;
 @class JRSessionData;
 
@@ -45,11 +44,22 @@
 														UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate> 
 {
 	JRSessionData	*sessionData;
+    
+    BOOL iPad;
 	
+    NSDictionary *customUI;
+
+    UIImageView *myBackgroundView;
 	UITableView	*myTableView;	
-	UILabel		*label;
+	UILabel		*titleView;
 	JRInfoBar	*infoBar;
 }
+@property (nonatomic, retain) IBOutlet UIImageView *myBackgroundView;
+@property (nonatomic, retain) IBOutlet UITableView *myTableView;
+
+- (id)initWithNibName:(NSString*)nibNameOrNil 
+               bundle:(NSBundle*)nibBundleOrNil 
+          andCustomUI:(NSDictionary*)_customUI;
 
 - (void)backToProvidersTouchUpInside;
 - (void)signInButtonTouchUpInside:(UIButton*)button;
@@ -58,6 +68,4 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 - (BOOL)textFieldShouldClear:(UITextField *)textField;
-
-@property (nonatomic, retain) IBOutlet UITableView *myTableView;
 @end

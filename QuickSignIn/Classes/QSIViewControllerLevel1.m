@@ -35,8 +35,6 @@ Copyright (c) 2010, Janrain, Inc.
 
 #import "QSIViewControllerLevel1.h"
 
-// TODO: I subclassed UITableViewCell, but later learned that I should have just customized 
-// the layout in tableView: cellForRowAtIndexPath: like I did in QSIViewControllerLevel2.m
 @interface UITableViewCellSignInHistory : UITableViewCell 
 {
 	UIImageView *icon;
@@ -60,10 +58,22 @@ Copyright (c) 2010, Janrain, Inc.
 - (void) layoutSubviews 
 {
 	[super layoutSubviews];
-	
-	self.imageView.frame = CGRectMake(10, 10, 30, 30);
-	self.textLabel.frame = CGRectMake(50, 15, 100, 22);
-	self.detailTextLabel.frame = CGRectMake(160, 20, 100, 15);
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        self.imageView.frame = CGRectMake(30, 20, 60, 60);
+        self.textLabel.frame = CGRectMake(115, 15, 550, 35);
+        self.detailTextLabel.frame = CGRectMake(115, 60, 500, 25);
+        
+        self.textLabel.font = [UIFont systemFontOfSize:30];
+        self.detailTextLabel.font = [UIFont systemFontOfSize:20];
+    }
+    else
+    {
+        self.imageView.frame = CGRectMake(10, 10, 30, 30);
+        self.textLabel.frame = CGRectMake(50, 15, 100, 22);
+        self.detailTextLabel.frame = CGRectMake(160, 20, 100, 15);
+    }
 }
 @end
 
@@ -89,7 +99,11 @@ Copyright (c) 2010, Janrain, Inc.
 {
     [super viewDidLoad];
 	
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        iPad = YES;
+    
+    if (iPad)
         level2ViewController = [[ViewControllerLevel2 alloc] initWithNibName:@"QSIViewControllerLevel2-iPad" 
                                                                       bundle:[NSBundle mainBundle]];
     else
@@ -322,7 +336,6 @@ Copyright (c) 2010, Janrain, Inc.
 	return 30.0;
 }
 
-
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section { return nil; }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
@@ -335,7 +348,10 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 50;
+	if (iPad)
+        return 100;
+    
+    return 50;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -386,12 +402,21 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	NSString* displayName = [UserModel getDisplayNameFromProfile:userProfile];
 	NSString* subtitle = [userForCell objectForKey:@"timestamp"];
-	NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", [userForCell objectForKey:@"provider"]];
+	NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30%@.png", 
+                           [userForCell objectForKey:@"provider"], 
+                            (iPad) ? @"@2x" : @"" ];
+    [NSString stringWithFormat:@"jrauth_%@_icon.png", [userForCell objectForKey:@"provider"]];
 	
 	cell.textLabel.text = displayName;
 	cell.detailTextLabel.text = subtitle;
 	cell.imageView.image = [UIImage imageNamed:imagePath];
 	
+    if (iPad)
+    {
+        cell.textLabel.font = [UIFont systemFontOfSize:30];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:20];
+    }
+    
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
 	return cell;

@@ -35,9 +35,6 @@
 
 #import "JRProvidersController.h"
 
-// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-// TODO: Take this out of the production app
-#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -46,25 +43,14 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-@interface UITableViewCellProviders : UITableViewCell 
-{
-//	UIImageView *icon;
-}
-
-//@property (nonatomic, retain) UIImageView *icon;
-
+@interface UITableViewCellProviders : UITableViewCell { }
 @end
 
 @implementation UITableViewCellProviders
 
-//@synthesize icon;
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
-	{
-//		[self addSubview:icon];
-	}
+	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) { }
 	
 	return self;
 }	
@@ -88,85 +74,114 @@
 @end
 
 @implementation JRProvidersController
-
+@synthesize myBackgroundView;
 @synthesize myTableView;
 @synthesize myLoadingLabel;
 @synthesize myActivitySpinner;
 
-/*
-// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
+    {
+        customUI = [_customUI retain];
+
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            iPad = YES;
+        else
+            iPad = NO;
     }
+
     return self;
 }
-*/
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
 	DLog(@"");
 	[super viewDidLoad];
+
 	sessionData = [JRSessionData jrSessionData];
-	titleLabel = nil;
-}
+    
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
+    NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColor];
+    
+    /* Load the custom background view, if there is one. */
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]] isKindOfClass:[NSString class]])
+        [myBackgroundView setImage:
+            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]]]];
+    else /* Otherwise, set the background view to the provided color, if any. */
+        if ([backgroundColor respondsToSelector:@selector(count)])
+            if ([backgroundColor count] == 4)
+                myBackgroundView.backgroundColor = 
+                    [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+                                    green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+                                     blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+                                    alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
 
-- (void)viewWillAppear:(BOOL)animated 
-{
-	DLog(@"");
-	[super viewWillAppear:animated];
-	
-	self.title = @"Providers";
-
-	if (!titleLabel)
+    myTableView.backgroundColor = [UIColor clearColor];
+    
+    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableTitleView, iPadSuffix]];
+    
+    if (!titleView)
 	{
-		titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
+		UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
 		titleLabel.backgroundColor = [UIColor clearColor];
 		titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 		titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
 		titleLabel.textAlignment = UITextAlignmentCenter;
 		titleLabel.textColor = [UIColor whiteColor];
-
-		self.navigationItem.titleView = titleLabel;
-	}	
-    titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
         
+		titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
+        titleView = (UIView*)titleLabel;
+	}	
+    
+    self.navigationItem.titleView = titleView;
+    
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableHeaderView, iPadSuffix]] isKindOfClass:[UIView class]])
+         myTableView.tableHeaderView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableHeaderView, iPadSuffix]];
+    
+     if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableFooterView, iPadSuffix]] isKindOfClass:[UIView class]])
+          myTableView.tableFooterView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableFooterView, iPadSuffix]];
+    
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-									 initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                      initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 									  target:sessionData
                                       action:@selector(triggerAuthenticationDidCancel:)] autorelease];
-
+    
 	self.navigationItem.rightBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 	
 	UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
-										initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-										target:nil
-										action:nil] autorelease];
-
+                                         initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                         target:nil
+                                         action:nil] autorelease];
+    
 	placeholderItem.width = 85;
 	self.navigationItem.leftBarButtonItem = placeholderItem;
 	
-    // TODO: Instead of removing the infoBar for iPad, fix it!
-	if (!infoBar)
+    if (!infoBar)
 	{
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        if (iPad)
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
         else
-            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 388, 320, 30) andStyle:[sessionData hidePoweredBy]];
+            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
-        if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
-            [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
-                                             myTableView.frame.origin.y, 
-                                             myTableView.frame.size.width, 
-                                             myTableView.frame.size.height - infoBar.frame.size.height)];
+//        if (([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy) && !iPad)
+//            [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
+//                                             myTableView.frame.origin.y, 
+//                                             myTableView.frame.size.width, 
+//                                             myTableView.frame.size.height - infoBar.frame.size.height)];
         
 		[self.view addSubview:infoBar];
 	}
 }
 
+- (void)viewWillAppear:(BOOL)animated 
+{
+	DLog(@"");
+	[super viewWillAppear:animated];
+}
 
 - (void)viewDidAppear:(BOOL)animated 
 {
@@ -181,7 +196,7 @@
         
         /* Load the table with the list of providers. */
         [myTableView reloadData];    
-		[infoBar fadeIn];
+		//[infoBar fadeIn];
     }
     else
     {
@@ -200,8 +215,9 @@
         /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
         timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
     }
+    
+    [infoBar fadeIn];
 }
-
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -226,7 +242,6 @@
     /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([[sessionData basicProviders] count] > 0)
 	{
-		
         [myActivitySpinner stopAnimating];
 		[myActivitySpinner setHidden:YES];
 		[myLoadingLabel setHidden:YES];
@@ -273,26 +288,60 @@ Please try again later."
 	return YES;
 }
 
-/* Footer makes room for info bar.  If info bar is removed, remove the footer as well. */
-// QTS: Or do we keep it here because the info bar pops up when loading?
-// QTS: Do we need this or does setting the heightForFooterInSection acheive this?
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 37)] autorelease];
-	return view;
+    return [customUI objectForKey:kJRProviderTableSectionHeaderTitle];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
+
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]])
+        return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]]).frame.size.height;
+    else if ([customUI objectForKey:kJRProviderTableSectionHeaderTitle])
+        return 27;
+        
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
+    return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return [customUI objectForKey:kJRProviderTableSectionFooterTitle];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return 37;
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
+
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
+        return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]]).frame.size.height +
+                infoBar.frame.size.height;
+    else if ([customUI objectForKey:kJRProviderTableSectionFooterTitle])
+        return 27 + infoBar.frame.size.height;
+
+    return 30 + infoBar.frame.size.height;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
+    
+    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
+        return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]];
     else
-        return 37;
+        return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, myTableView.frame.size.width, infoBar.frame.size.height)] autorelease];
 }
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         return 100;
     else
         return 50;
@@ -303,14 +352,12 @@ Please try again later."
 	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView 
- numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	return [[sessionData basicProviders] count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView 
-		 cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     UITableViewCellProviders *cell = 
         (UITableViewCellProviders*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
@@ -324,7 +371,7 @@ Please try again later."
     if (!provider)
         return cell;
 	
-    NSString *imagePath = [NSString stringWithFormat:@"jrauth_%@_icon.png", provider.name];
+    NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30%@.png", provider.name, (iPad) ? @"@2x" : @"" ];
 
 	cell.textLabel.text = provider.friendlyName;
 	cell.imageView.image = [UIImage imageNamed:imagePath];
@@ -396,15 +443,14 @@ Please try again later."
     [timer invalidate];
 }
      
-- (void)userInterfaceDidClose
-{
- 
-}
+- (void)userInterfaceDidClose { }
 
 - (void)dealloc 
 {
 	DLog(@"");
-
+    
+    [customUI release];
+    [myBackgroundView release];
 	[myTableView release];
 	[myLoadingLabel release];
 	[myActivitySpinner release];

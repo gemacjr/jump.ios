@@ -103,7 +103,7 @@
         return;
     
     NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: url] autorelease];
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:nil];// stringEncodeData:NO];    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:nil];
 }
 
 - (void)setAlt:(NSString*)_alt
@@ -173,7 +173,6 @@
 	[title release];
 	title = [[[_title stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"]
                       stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
-    DLog(@"title:\t\t\t%@", title);
 }
 
 - (void)setLink:(NSString*)_link
@@ -392,15 +391,16 @@ static FeedReader* singleton = nil;
     UIApplication* app = [UIApplication sharedApplication]; 
     app.networkActivityIndicatorVisible = YES;
 
+    // TODO: Fix when ready
     NSError *error = nil;
-    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
-    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
-                                                                  encoding:NSUTF8StringEncoding
-                                                                     error:&error] autorelease];
+//    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
+//    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
+//                                                                  encoding:NSUTF8StringEncoding
+//                                                                     error:&error] autorelease];
     
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
-//    NSString *janrain_blog_json = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
+    NSString *janrain_blog_json = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    
     NSDictionary *janrain_blog_dictionary = [janrain_blog_json JSONValue];  
 
     if (!janrain_blog_dictionary)

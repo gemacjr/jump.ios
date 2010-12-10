@@ -34,9 +34,6 @@
 
 #import "JREngage.h"
 
-// TODO: Figure out why the -DDEBUG cflag isn't being set when Active Conf is set to debug
-// TODO: Take this out of the production app
-#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -62,9 +59,7 @@ static JREngage* singletonJREngage = nil;
                andTokenUrl:(NSString*)tokenUrl 
                   delegate:(id<JREngageDelegate>)delegate
 {
-	DLog(@"");
-    DLog(@"appID:    %@", appId);
-	DLog(@"tokenURL: %@", tokenUrl);
+    ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);
     
 	if (self = [super init])
 	{
@@ -129,35 +124,23 @@ static JREngage* singletonJREngage = nil;
     [delegates removeObject:delegate];
 }
 
-- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
-{
-    DLog(@"");
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                              message, NSLocalizedDescriptionKey,
-                              type, @"type", nil];
-    
-    return [[NSError alloc] initWithDomain:@"JREngage"
-                                      code:code
-                                  userInfo:userInfo];
-}
-
 - (void)engageDidFailWithError:(NSError*)error
 {
+    ALog (@"JREngage failed to load with error: %@", [error localizedDescription]);
+    
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
 		if ([delegate respondsToSelector:@selector(jrEngageDialogDidFailToShowWithError:)])
             [delegate jrEngageDialogDidFailToShowWithError:error];
 	}
-    
-//	[interfaceMaestro authenticationFailed];
 }
 
-- (void)showAuthenticationDialog
+- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
 {
-    DLog(@"");
+    ALog (@"");
     
-    /* If there was error configuring the library, sessionData.error will not be null. */
+ /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
         
@@ -167,29 +150,34 @@ static JREngage* singletonJREngage = nil;
         a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
         user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
-        resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
-        
-        if ([[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
+        resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */        
+
+        if (sessionData.error.code / 100 == ConfigurationError)//[[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
-
+            
             return;
         }
     }
     
-    [interfaceMaestro showAuthenticationDialog];
+    [interfaceMaestro showAuthenticationDialogWithCustomInterface:customizations];
 }
 
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+- (void)showAuthenticationDialog
 {
-    DLog(@"");
+    [self showAuthenticationDialogWithCustomInterface:nil];
+}
+
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
+{
+    ALog (@"");
     
-    /* If there was error configuring the library, sessionData.error will not be null. */
+ /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
         
-     /* Since configuration should happen long before the user attempts to use the library and because the user may not
+    /* Since configuration should happen long before the user attempts to use the library and because the user may not
         attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
         is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
         a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
@@ -197,37 +185,42 @@ static JREngage* singletonJREngage = nil;
         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
         
-        if ([[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
+        if (sessionData.error.code / 100 == ConfigurationError)//[[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
-
+            
             return;
         }
     }
     
     if (!activity)
     {
-        [self engageDidFailWithError:[self setError:@"Activity object can't be nil" 
-                                           withCode:JRPublishErrorAcivityNil 
-                                            andType:JRErrorTypePublishFailed]];
+        [self engageDidFailWithError:[JRError setError:@"Activity object can't be nil" 
+                                              withCode:JRPublishErrorAcivityNil]]; 
+                                            //andType:JRErrorTypePublishFailed]];
     }
     
 	[sessionData setActivity:activity];
+    
+    [interfaceMaestro showPublishingDialogForActivityWithCustomInterface:customizations];    
+}
 
-    [interfaceMaestro showPublishingDialogWithActivity];
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+{
+    [self showSocialPublishingDialogWithActivity:activity andCustomInterface:nil];
 }
 
 - (void)authenticationDidRestart
 {
+    DLog (@"");
     [interfaceMaestro authenticationRestarted];
 }
 
 - (void)authenticationDidCancel
 {
-	DLog(@"");
+	DLog (@"");
     
-    // TODO:Copy delegate array after adding function bodies for addDelegate and removeDelegate
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
@@ -238,23 +231,10 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro authenticationCanceled];
 }
 
-//- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
-//{
-//	DLog(@"");
-//    DLog(@"token:%@", token);
-//	
-//    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-//    for (id<JREngageDelegate> delegate in delegatesCopy) 
-//	{
-//        if ([delegate respondsToSelector:@selector(jrAuthenticationReceivedAuthenticationTokenForProvider:)])
-//            [delegate jrAuthenticationReceivedAuthenticationTokenForProvider:provider];
-//	}
-//    
-//	[interfaceMaestro authenticationCompleted];
-//}
-
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider
 {
+    ALog (@"Signing complete for %@", provider);
+    
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
@@ -267,7 +247,7 @@ static JREngage* singletonJREngage = nil;
 
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
-	DLog(@"");
+	ALog (@"Signing failed for %@", provider);
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
@@ -281,7 +261,7 @@ static JREngage* singletonJREngage = nil;
 
 - (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 {
-    DLog(@"");
+    ALog (@"Token URL reached for %@: %@", provider, tokenUrl);
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
@@ -296,7 +276,8 @@ static JREngage* singletonJREngage = nil;
 
 - (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
-    DLog(@"");
+    ALog (@"Token URL failed for %@: %@", provider, tokenUrl);
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
     {
@@ -307,6 +288,7 @@ static JREngage* singletonJREngage = nil;
 
 - (void)publishingDidRestart
 {
+    DLog (@"");
     [interfaceMaestro publishingRestarted];
 }
 
@@ -340,8 +322,8 @@ static JREngage* singletonJREngage = nil;
 
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider
 {
-    DLog(@"");
-    
+    ALog (@"Activity shared on %@", provider);
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
 	{
@@ -352,7 +334,7 @@ static JREngage* singletonJREngage = nil;
 
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
-    DLog(@"");
+    ALog (@"Sharing activity failed for %@", provider);
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JREngageDelegate> delegate in delegatesCopy) 
@@ -367,16 +349,9 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro pushToCustomNavigationController:navigationController];
 }
 
-// TODO:Figure out if we need the method setCustomNavigationControllerShouldPopToViewController
-// and implement it if we do
-- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController
+- (void)setCustomInterface:(NSDictionary*)customizations
 {
-    //    [interfaceMaestro popCustomNavigationControllerToViewController:viewController];
-}
-
-- (NSDictionary*)getUserForProvider:(NSString*)provider
-{
-    return [[sessionData authenticatedUserForProviderNamed:provider] auth_info];
+    [interfaceMaestro setCustomViews:customizations];
 }
 
 - (void)signoutUserForProvider:(NSString*)provider
@@ -411,26 +386,19 @@ static JREngage* singletonJREngage = nil;
 
 - (void)cancelAuthentication
 {	
+    DLog(@"");
     [sessionData triggerAuthenticationDidCancel];
 }
 
 - (void)cancelPublishing
 {
+    DLog(@"");
     [sessionData triggerPublishingDidCancel];
 }
 
-// TODO:Rework token url flow and if we need makeCallToTokenUrl in engage API
-//- (void)makeCallToTokenUrl:(NSString*)tokenUrl withToken:(NSString *)token
-//{
-//	DLog(@"");
-//    DLog(@"token:   %@", token);
-//	DLog(@"tokenURL:%@", tokenUrl);
-//    
-//	[sessionData makeCallToTokenUrl:tokenUrl withToken:token forProvider:nil];
-//}
-
 - (void)updateTokenUrl:(NSString*)newTokenUrl
 {
+    DLog(@"");
     [sessionData setTokenUrl:newTokenUrl];
 }
 @end
