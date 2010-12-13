@@ -31,7 +31,6 @@
 		9F52146512AED46B0073ABAE /* scratch in Resources */ = {isa = PBXBuildFile; fileRef = 9F5213E112AED46B0073ABAE /* scratch */; };
 		9F521EAD12B062940073ABAE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9912B062940073ABAE /* background.png */; };
 		9F521EAE12B062940073ABAE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9A12B062940073ABAE /* Default.png */; };
-		9F521EAF12B062940073ABAE /* favicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9B12B062940073ABAE /* favicon.png */; };
 		9F521EB012B062940073ABAE /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9C12B062940073ABAE /* icon.png */; };
 		9F521EB112B062940073ABAE /* icon_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9D12B062940073ABAE /* icon_big.png */; };
 		9F521EB212B062940073ABAE /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9E12B062940073ABAE /* icon_ipad.png */; };
@@ -243,7 +242,6 @@
 		9F5213E112AED46B0073ABAE /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scratch; path = ../JREngage/scratch; sourceTree = SOURCE_ROOT; };
 		9F521E9912B062940073ABAE /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		9F521E9A12B062940073ABAE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		9F521E9B12B062940073ABAE /* favicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favicon.png; sourceTree = "<group>"; };
 		9F521E9C12B062940073ABAE /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		9F521E9D12B062940073ABAE /* icon_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_big.png; sourceTree = "<group>"; };
 		9F521E9E12B062940073ABAE /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
@@ -577,7 +575,6 @@
 			children = (
 				9F521E9912B062940073ABAE /* background.png */,
 				9F521E9A12B062940073ABAE /* Default.png */,
-				9F521E9B12B062940073ABAE /* favicon.png */,
 				9F521E9C12B062940073ABAE /* icon.png */,
 				9F521E9D12B062940073ABAE /* icon_big.png */,
 				9F521E9E12B062940073ABAE /* icon_ipad.png */,
@@ -939,7 +936,6 @@
 				9F52146512AED46B0073ABAE /* scratch in Resources */,
 				9F521EAD12B062940073ABAE /* background.png in Resources */,
 				9F521EAE12B062940073ABAE /* Default.png in Resources */,
-				9F521EAF12B062940073ABAE /* favicon.png in Resources */,
 				9F521EB012B062940073ABAE /* icon.png in Resources */,
 				9F521EB112B062940073ABAE /* icon_big.png in Resources */,
 				9F521EB212B062940073ABAE /* icon_ipad.png in Resources */,

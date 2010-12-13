@@ -235,7 +235,6 @@
 		9F01AA921294597C00AD6899 /* icon_itunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_itunes.png; sourceTree = "<group>"; };
 		9F01AA931294597C00AD6899 /* janrain_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = janrain_logo.png; sourceTree = "<group>"; };
 		9F01AAA512945A3100AD6899 /* background-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-ipad.png"; sourceTree = "<group>"; };
-		9F08792A12550437008AD40D /* Strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = janrain_blog.json; sourceTree = "<group>"; };
 		9F52146B12AED47F0073ABAE /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		9F52146C12AED47F0073ABAE /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
@@ -467,7 +466,6 @@
 				9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */,
 				9F87DF441219A97600FF7E2C /* FeedReaderWebView.h */,
 				9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */,
-				9F08792A12550437008AD40D /* Strings.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
