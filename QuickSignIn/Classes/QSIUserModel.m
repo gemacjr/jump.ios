@@ -68,8 +68,9 @@ Instantiate the JRAuthenticate Library with your Engage Application's 20-charact
 (optional) token URL, which you create on your web site.  If you don't instantiate the 
 library with a token URL, you must make the call yourself after you receive the token,
 otherwise, this happens automatically.													*/
-//static NSString *appId = @"jmofealgobmlbeaalcgp";
-//static NSString *tokenUrl = @"http://jrengage-for-iphone.appspot.com/login";
+
+//static NSString *appId = @"<your_app_id>";
+//static NSString *tokenUrl = @"<your_token_url>";
 
 - (UserModel*)init
 {

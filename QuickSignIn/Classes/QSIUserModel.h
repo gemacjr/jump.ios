@@ -35,7 +35,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JREngage.h"
-#import "Strings.h"
+#import "QuickSignInAppDelegate.h"
 
 #define LILLI
 
