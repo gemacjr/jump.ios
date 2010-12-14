@@ -88,8 +88,10 @@
  *   - "openid"
  *   - "paypal"
  *   - "twitter"
- *   - "verisign"
+ *   - "verisign"  
+ *   \if wordpress_is_working 
  *   - "wordpress"
+ *   \endif
  *   - "yahoo" 
  *
  * \note As your Engage application is limited by the number of providers it may use, 
