@@ -136,6 +136,35 @@ static JREngage* singletonJREngage = nil;
 	}
 }
 
+- (void)showAuthenticationDialogWithForcedReauthenticationOnLastUsedProvider
+{
+    ALog (@"");
+    
+    /* If there was error configuring the library, sessionData.error will not be null. */
+    if (sessionData.error)
+    {
+        
+        /* Since configuration should happen long before the user attempts to use the library and because the user may not
+         attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
+         is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
+         a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
+         user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
+         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
+         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */        
+        
+        if (sessionData.error.code / 100 == ConfigurationError)//[[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
+        {
+            [self engageDidFailWithError:sessionData.error];
+            [sessionData tryToReconfigureLibrary];
+            
+            return;
+        }
+    }
+    
+    [interfaceMaestro showAuthenticationDialogWithForcedReauth];    
+}
+
+
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
 {
     ALog (@"");

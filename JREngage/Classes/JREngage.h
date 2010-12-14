@@ -739,6 +739,11 @@
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
 
 /**
+ *
+ **/
+- (void)showAuthenticationDialogWithForcedReauthenticationOnLastUsedProvider;
+
+/**
  * \anchor showPubDialog
  *
  * Use this function to begin social publishing.  The JREngage library will 
@@ -749,7 +754,6 @@
  *   The activity you wish to share
  **/
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
-/*@}*/
 
 /**
  * Use this function to begin social publishing.  The JREngage library will 

@@ -399,6 +399,16 @@ static JRUserInterfaceMaestro* singleton = nil;
     }
 }
 
+- (void)showAuthenticationDialogWithForcedReauth
+{
+    [self setUpViewControllers];
+    
+    if (customNavigationController && [customNavigationController isViewLoaded])
+        [self loadCustomNavigationControllerWithViewController:myProvidersController];
+    else
+        [self loadModalNavigationControllerWithViewController:myProvidersController];    
+}
+
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
 {
     DLog(@"");
