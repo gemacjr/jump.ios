@@ -45,6 +45,11 @@ Methods that display JREngage's dialogs to initiate authentication and social pu
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a01ecdff491f91543e18f33d0e565b046}{showAuthenticationDialog}
 \item 
+\hypertarget{interface_j_r_engage_ac8e1206be8608fbed548b7ec5f85e6e6}{
+(void) -\/ {\bfseries showAuthenticationDialogWithCustomInterface:}}
+\label{interface_j_r_engage_ac8e1206be8608fbed548b7ec5f85e6e6}
+
+\item 
 (void) -\/ \hyperlink{interface_j_r_engage_afca7b5ab9a57edc1a460aaec882207c4}{showSocialPublishingDialogWithActivity:}
 \end{DoxyCompactItemize}
 \end{Indent}
@@ -53,13 +58,16 @@ Methods that display JREngage's dialogs to initiate authentication and social pu
  Methods used to customize the JREngage's user interface }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}{setCustomNavigationController:}
+\item 
+\hypertarget{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}{
+(void) -\/ {\bfseries setCustomInterface:}}
+\label{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}
+
 \end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}{\bf Management Authenticated Users}\par
 {\em \label{_amgrp4247d2361fbfb57c620ed69782a50c95}
  Methods that manage authenticated users remembered by the library }\begin{DoxyCompactItemize}
-\item 
-(NSDictionary $\ast$) -\/ \hyperlink{interface_j_r_engage_a5da20d7a5a1022db057819dc3b771192}{getUserForProvider:}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_aede9ed92d80f14d85e59a982da3150fc}{signoutUserForSocialProvider:}
 \item 
@@ -68,6 +76,11 @@ Methods that display JREngage's dialogs to initiate authentication and social pu
 (void) -\/ \hyperlink{interface_j_r_engage_af1448791663265d3b739041983fbae92}{signoutUserForProvider:}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a56060e8d5fe94e4bf06ff3edf27af5ee}{signoutUserForAllProviders}
+\item 
+\hypertarget{interface_j_r_engage_a66dca1abdfd5103480f9a87f65923a68}{
+(void) -\/ {\bfseries alwaysForceReauthentication:}}
+\label{interface_j_r_engage_a66dca1abdfd5103480f9a87f65923a68}
+
 \end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}{\bf Cancel the JREngage Dialogs}\par
@@ -206,42 +219,6 @@ If you want to push the \hyperlink{interface_j_r_engage}{JREngage} dialogs on yo
 
 \begin{DoxyParams}{Parameters}
 \item[{\em navigationController}]Your application's navigation controller \end{DoxyParams}
-\hypertarget{interface_j_r_engage_a5da20d7a5a1022db057819dc3b771192}{
-\index{JREngage@{JREngage}!getUserForProvider:@{getUserForProvider:}}
-\index{getUserForProvider:@{getUserForProvider:}!JREngage@{JREngage}}
-\subsubsection[{getUserForProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (NSDictionary $\ast$) getUserForProvider: 
-\begin{DoxyParamCaption}
-\item[{dummy(NSString$\ast$)}]{ provider}
-\end{DoxyParamCaption}
-}}
-\label{interface_j_r_engage_a5da20d7a5a1022db057819dc3b771192}
-Returns an {\ttfamily NSDictionary} of fields containing all the information Janrain Engage knows about the user that logged into your application with the given provider.
-
-
-\begin{DoxyParams}{Parameters}
-\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers}\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-An {\ttfamily NSDictionary} of fields containing all the information Janrain Engage knows about the user that logged into your application with the given provider. Includes the field \char`\"{}profile\char`\"{} which contains the user's profile information
-\end{DoxyReturn}
-The structure of the dictionary (represented here in json) should look something like the following: 
-\begin{DoxyCode}
- "auth_info":
- {
-   "profile": 
-   {
-     "displayName": "brian",
-     "preferredUsername": "brian",
-     "url": "http:\/\/brian.myopenid.com\/",
-     "providerName": "Other",
-     "identifier": "http:\/\/brian.myopenid.com\/"
-   }
- }
-\end{DoxyCode}
-
-
-\begin{DoxySeeAlso}{See also}
-For a full description of the dictionary and its fields, please see the \href{https://rpxnow.com/docs#api_auth_info_response}{\tt auth\_\-info response} section of the Janrain Engage API documentation. 
-\end{DoxySeeAlso}
 \hypertarget{interface_j_r_engage_aede9ed92d80f14d85e59a982da3150fc}{
 \index{JREngage@{JREngage}!signoutUserForSocialProvider:@{signoutUserForSocialProvider:}}
 \index{signoutUserForSocialProvider:@{signoutUserForSocialProvider:}!JREngage@{JREngage}}

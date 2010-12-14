@@ -7,6 +7,7 @@
     <ul class="tablist">
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -54,32 +55,37 @@
 <a name="l00037"></a>00037 <span class="preprocessor">#import &quot;JREngage.h&quot;</span>
 <a name="l00038"></a>00038 <span class="preprocessor">#import &quot;JRInfoBar.h&quot;</span>
 <a name="l00039"></a>00039 
-<a name="l00040"></a>00040 <span class="keyword">@class</span> JRAuthenticate;
-<a name="l00041"></a>00041 <span class="keyword">@class</span> JRSessionData;
-<a name="l00042"></a>00042 <span class="keyword">@class</span> JRUserInterfaceMaestro;
-<a name="l00043"></a>00043 
-<a name="l00044"></a>00044 <span class="keyword">@interface </span>JRProvidersController : UIViewController &lt;UINavigationBarDelegate, UITableViewDelegate, 
-<a name="l00045"></a>00045                                                                                                                 UITableViewDataSource, UIAlertViewDelegate,
-<a name="l00046"></a>00046                                                         JRUserInterfaceDelegate&gt; 
-<a name="l00047"></a>00047 {
-<a name="l00048"></a>00048         JRSessionData   *sessionData;
-<a name="l00049"></a>00049     
-<a name="l00050"></a>00050         UITableView             *myTableView;
-<a name="l00051"></a>00051         
-<a name="l00052"></a>00052         <span class="comment">/* Activity Spinner and Label displayed while the list of configured providers is empty */</span>
-<a name="l00053"></a>00053         UILabel                                 *myLoadingLabel;
-<a name="l00054"></a>00054         UIActivityIndicatorView *myActivitySpinner; 
-<a name="l00055"></a>00055         NSTimer                 *timer;
-<a name="l00056"></a>00056     
-<a name="l00057"></a>00057         UILabel         *titleLabel;
-<a name="l00058"></a>00058 
-<a name="l00059"></a>00059         JRInfoBar       *infoBar;
-<a name="l00060"></a>00060 }
-<a name="l00061"></a>00061 
-<a name="l00062"></a>00062 @property (nonatomic, retain) IBOutlet UITableView      *myTableView;
-<a name="l00063"></a>00063 @property (nonatomic, retain) IBOutlet UILabel          *myLoadingLabel;
-<a name="l00064"></a>00064 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
-<a name="l00065"></a>00065 @end
+<a name="l00040"></a>00040 <span class="keyword">@class</span> JRSessionData;
+<a name="l00041"></a>00041 <span class="keyword">@class</span> JRUserInterfaceMaestro;
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 <span class="keyword">@interface </span>JRProvidersController : UIViewController &lt;UINavigationBarDelegate, UITableViewDelegate, 
+<a name="l00044"></a>00044                                                                                                                 UITableViewDataSource, UIAlertViewDelegate,
+<a name="l00045"></a>00045                                                         JRUserInterfaceDelegate&gt; 
+<a name="l00046"></a>00046 {
+<a name="l00047"></a>00047         JRSessionData   *sessionData;
+<a name="l00048"></a>00048     
+<a name="l00049"></a>00049     BOOL iPad;
+<a name="l00050"></a>00050     
+<a name="l00051"></a>00051     NSDictionary *customUI;
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053     UIView              *titleView;
+<a name="l00054"></a>00054     UIImageView *myBackgroundView;
+<a name="l00055"></a>00055         UITableView     *myTableView;
+<a name="l00056"></a>00056         
+<a name="l00057"></a>00057         <span class="comment">/* Activity Spinner and Label displayed while the list of configured providers is empty */</span>
+<a name="l00058"></a>00058         UILabel                                 *myLoadingLabel;
+<a name="l00059"></a>00059         UIActivityIndicatorView *myActivitySpinner; 
+<a name="l00060"></a>00060         NSTimer                 *timer;
+<a name="l00061"></a>00061     
+<a name="l00062"></a>00062         JRInfoBar       *infoBar;
+<a name="l00063"></a>00063 }
+<a name="l00064"></a>00064 @property (nonatomic, retain) IBOutlet UIImageView  *myBackgroundView;
+<a name="l00065"></a>00065 @property (nonatomic, retain) IBOutlet UITableView      *myTableView;
+<a name="l00066"></a>00066 @property (nonatomic, retain) IBOutlet UILabel          *myLoadingLabel;
+<a name="l00067"></a>00067 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069 - (<span class="keywordtype">id</span>)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI;
+<a name="l00070"></a>00070 @end
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

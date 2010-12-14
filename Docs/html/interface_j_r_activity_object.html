@@ -7,6 +7,7 @@
     <ul class="tablist">
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -19,8 +20,6 @@
   </div>
 </div>
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
   <div class="headertitle">
 <h1>JRActivityObject Class Reference</h1>  </div>
 </div>
@@ -33,9 +32,6 @@
 
 <p><a href="class_j_r_activity_object-members.html">List of all members.</a></p>
 <table class="memberdecls">
-<tr><td colspan="2"><h2><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_activity_object.html#a61195dc95162d1136d41af3a5f15fe2d">initWithAction:andUrl:</a></td></tr>
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
@@ -49,6 +45,15 @@ Properties</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSMutableArray *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_activity_object.html#aa5c629e1c3b8306b2532ab647f7f6ec5">action_links</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSMutableArray *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_activity_object.html#a2e4ff78f83d0f353f8e0c17ed48ce0ab">media</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSMutableDictionary *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_activity_object.html#a1acf84854d275510685a1f2066061c4e">properties</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_j_r_email_object.html">JREmailObject</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_activity_object.html#aa26818070a5987c70ef14700d6f6c72c">email</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_j_r_sms_object.html">JRSmsObject</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_activity_object.html#a7719b59135bd02dbd03d4b35b17cb0a0">sms</a></td></tr>
+<tr><td colspan="2"><h2><a name="member-group"></a>
+Constructors</h2></td></tr>
+<tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
+<br/><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_activity_object.html#a61195dc95162d1136d41af3a5f15fe2d">initWithAction:andUrl:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7bfe16e0799ff6c07548ef8aeb778a51"></a><!-- doxytag: member="JRActivityObject::activityObjectWithAction:andUrl:" ref="a7bfe16e0799ff6c07548ef8aeb778a51" args="(NSString *_action,[andUrl] NSString *_url)" -->
+(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>activityObjectWithAction:andUrl:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>An activity object you create, populate, and post to the user's activity stream. </p>
@@ -248,6 +253,34 @@ Properties</h2></td></tr>
        }
    }
 </pre></div> 
+</div>
+</div>
+<a class="anchor" id="aa26818070a5987c70ef14700d6f6c72c"></a><!-- doxytag: member="JRActivityObject::email" ref="aa26818070a5987c70ef14700d6f6c72c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">- (<a class="el" href="interface_j_r_email_object.html">JREmailObject</a> *) email<code> [read, write, retain]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>An object containing the subject and message body of an email, if the user wishes to share via email. </p>
+
+</div>
+</div>
+<a class="anchor" id="a7719b59135bd02dbd03d4b35b17cb0a0"></a><!-- doxytag: member="JRActivityObject::sms" ref="a7719b59135bd02dbd03d4b35b17cb0a0" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">- (<a class="el" href="interface_j_r_sms_object.html">JRSmsObject</a> *) sms<code> [read, write, retain]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>An object containing the message body of an sms, if the user wishes to share via sms. </p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

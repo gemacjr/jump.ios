@@ -81,18 +81,18 @@
 	sessionData = [JRSessionData jrSessionData];
     activity = [[sessionData activity] retain];
 
-    if ([[customUI objectForKey:kJRSocialSharingTitle] isKindOfClass:[NSString class]])
-        self.title = [customUI objectForKey:kJRSocialSharingTitle];
+    if ([[customUI objectForKey:kJRSocialSharingTitleString] isKindOfClass:[NSString class]])
+        self.title = [customUI objectForKey:kJRSocialSharingTitleString];
     else
         self.title = @"Share";
     
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRSocialSharingBackgroundColor];
+    NSArray *backgroundColor = [customUI objectForKey:kJRSocialSharingBackgroundColorRGBa];
     
     /* Load the custom background view, if there is one. */
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImage, iPadSuffix]] isKindOfClass:[NSString class]])
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
          [myBackgroundView setImage:
-            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImage, iPadSuffix]]]];
+            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]]]];
     else /* Otherwise, set the background view to the provided color, if any. */
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)

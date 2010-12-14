@@ -7,6 +7,7 @@
     <ul class="tablist">
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -52,19 +53,24 @@ Public Member Functions</h2></td></tr>
 <p>Methods that display JREngage's dialogs to initiate authentication and social publishing </p>
 </div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#a01ecdff491f91543e18f33d0e565b046">showAuthenticationDialog</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac8e1206be8608fbed548b7ec5f85e6e6"></a><!-- doxytag: member="JREngage::showAuthenticationDialogWithCustomInterface:" ref="ac8e1206be8608fbed548b7ec5f85e6e6" args="(NSDictionary *customizations)" -->
+(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <b>showAuthenticationDialogWithCustomInterface:</b></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#afca7b5ab9a57edc1a460aaec882207c4">showSocialPublishingDialogWithActivity:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Configure the User Interface</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp94e7ef441fcaa606cadd8cfd8b428e50"></a> Methods used to customize the JREngage's user interface </p>
 </div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#a6c704bbff377d20603e6b52bd0ae17f1">setCustomNavigationController:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab1757bbe9e83255b1b9128c630267fdf"></a><!-- doxytag: member="JREngage::setCustomInterface:" ref="ab1757bbe9e83255b1b9128c630267fdf" args="(NSDictionary *customizations)" -->
+(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <b>setCustomInterface:</b></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Management Authenticated Users</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp4247d2361fbfb57c620ed69782a50c95"></a> Methods that manage authenticated users remembered by the library </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(NSDictionary *)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#a5da20d7a5a1022db057819dc3b771192">getUserForProvider:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#aede9ed92d80f14d85e59a982da3150fc">signoutUserForSocialProvider:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#a1f4e27ed5dbc05892fd7bc2255d2afa8">signoutUserForAllSocialProviders</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#af1448791663265d3b739041983fbae92">signoutUserForProvider:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#a56060e8d5fe94e4bf06ff3edf27af5ee">signoutUserForAllProviders</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a66dca1abdfd5103480f9a87f65923a68"></a><!-- doxytag: member="JREngage::alwaysForceReauthentication:" ref="a66dca1abdfd5103480f9a87f65923a68" args="(BOOL force)" -->
+(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <b>alwaysForceReauthentication:</b></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Cancel the JREngage Dialogs</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpd07ee85d05cc5dd13dd0e31682479a39"></a> Methods to cancel authentication and social publishing </p>
 </div></td></tr>
@@ -261,45 +267,6 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a class="anchor" id="a5da20d7a5a1022db057819dc3b771192"></a><!-- doxytag: member="JREngage::getUserForProvider:" ref="a5da20d7a5a1022db057819dc3b771192" args="(NSString *provider)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">- (NSDictionary *) getUserForProvider: </td>
-          <td></td>
-          <td class="paramtype">(NSString*)&nbsp;</td>
-          <td class="paramname"> <em>provider</em></td>
-          <td>&nbsp;</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Returns an <code>NSDictionary</code> of fields containing all the information Janrain Engage knows about the user that logged into your application with the given provider.</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>An <code>NSDictionary</code> of fields containing all the information Janrain Engage knows about the user that logged into your application with the given provider. Includes the field "profile" which contains the user's profile information</dd></dl>
-<p>The structure of the dictionary (represented here in json) should look something like the following: </p>
-<div class="fragment"><pre class="fragment"> <span class="stringliteral">&quot;auth_info&quot;</span>:
- {
-   <span class="stringliteral">&quot;profile&quot;</span>: 
-   {
-     <span class="stringliteral">&quot;displayName&quot;</span>: <span class="stringliteral">&quot;brian&quot;</span>,
-     <span class="stringliteral">&quot;preferredUsername&quot;</span>: <span class="stringliteral">&quot;brian&quot;</span>,
-     <span class="stringliteral">&quot;url&quot;</span>: <span class="stringliteral">&quot;http:\/\/brian.myopenid.com\/&quot;</span>,
-     <span class="stringliteral">&quot;providerName&quot;</span>: <span class="stringliteral">&quot;Other&quot;</span>,
-     <span class="stringliteral">&quot;identifier&quot;</span>: <span class="stringliteral">&quot;http:\/\/brian.myopenid.com\/&quot;</span>
-   }
- }
-</pre></div><dl class="see"><dt><b>See also:</b></dt><dd>For a full description of the dictionary and its fields, please see the <a href="https://rpxnow.com/docs#api_auth_info_response">auth_info response</a> section of the Janrain Engage API documentation. </dd></dl>
 
 </div>
 </div>

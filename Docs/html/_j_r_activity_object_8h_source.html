@@ -7,6 +7,7 @@
     <ul class="tablist">
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -128,39 +129,79 @@
 <a name="l00274"></a>00274 @end
 <a name="l00275"></a>00275 
 <a name="l00276"></a>00276 
-<a name="l00301"></a><a class="code" href="interface_j_r_activity_object.html">00301</a> @interface <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> : NSObject 
-<a name="l00302"></a>00302 {
-<a name="l00308"></a>00308     
-<a name="l00313"></a><a class="code" href="interface_j_r_activity_object.html#ac7f87878433a7d69fc5c8677fc317d6a">00313</a>     NSString *action;                                   
-<a name="l00314"></a>00314     
-<a name="l00318"></a><a class="code" href="interface_j_r_activity_object.html#a113d240b8b15e625fb0005fbffd00c17">00318</a>     NSString *url;
-<a name="l00319"></a>00319     
-<a name="l00326"></a><a class="code" href="interface_j_r_activity_object.html#a965d03730324bcda4374450ad648505b">00326</a>     NSString *user_generated_content;    
-<a name="l00327"></a>00327 
-<a name="l00334"></a><a class="code" href="interface_j_r_activity_object.html#ae64ba976e73c3926a04c46ba0aeba583">00334</a>     NSString *title;                     
-<a name="l00335"></a>00335     
-<a name="l00339"></a><a class="code" href="interface_j_r_activity_object.html#a35d4fcb4e1aaa9d6325333228104604f">00339</a>     NSString *description;
-<a name="l00340"></a>00340     
-<a name="l00361"></a><a class="code" href="interface_j_r_activity_object.html#aa5c629e1c3b8306b2532ab647f7f6ec5">00361</a>     NSMutableArray *action_links;
-<a name="l00362"></a>00362     
-<a name="l00384"></a><a class="code" href="interface_j_r_activity_object.html#a2e4ff78f83d0f353f8e0c17ed48ce0ab">00384</a>     NSMutableArray *media;
-<a name="l00385"></a>00385 
-<a name="l00402"></a><a class="code" href="interface_j_r_activity_object.html#a1acf84854d275510685a1f2066061c4e">00402</a>     NSMutableDictionary *properties;
-<a name="l00404"></a>00404 }
-<a name="l00405"></a>00405 
-<a name="l00406"></a>00406 @property (readonly) NSString *action;                                                          
-<a name="l00407"></a>00407 @property (readonly) NSString *url;
-<a name="l00408"></a>00408 @property (retain) NSString *user_generated_content;
-<a name="l00409"></a>00409 @property (retain) NSString *title;                             
-<a name="l00410"></a>00410 @property (retain) NSString *description;
-<a name="l00411"></a>00411 @property (retain) NSMutableArray *action_links;                                        
-<a name="l00412"></a>00412 @property (retain) NSMutableArray *media;
-<a name="l00413"></a>00413 @property (retain) NSMutableDictionary *properties;
-<a name="l00414"></a>00414 
-<a name="l00428"></a>00428 - (<span class="keywordtype">id</span>)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
-<a name="l00429"></a>00429 
-<a name="l00440"></a>00440 - (NSDictionary*)dictionaryForObject;
-<a name="l00441"></a>00441 @end
+<a name="l00282"></a><a class="code" href="interface_j_r_email_object.html">00282</a> @interface <a class="code" href="interface_j_r_email_object.html" title="Email object.">JREmailObject</a> : NSObject
+<a name="l00283"></a>00283 {
+<a name="l00284"></a><a class="code" href="interface_j_r_email_object.html#a618a23c34ede4a4eb56ed6cf05d91b64">00284</a>     NSString *subject;      
+<a name="l00285"></a><a class="code" href="interface_j_r_email_object.html#ad0e6a07cb2aec3cf6eee75d2ace32e7d">00285</a>     NSString *messageBody;  
+<a name="l00286"></a><a class="code" href="interface_j_r_email_object.html#af372942f67fba5e93fb2b53f4ee8a3c5">00286</a>     BOOL      isHtml;       
+<a name="l00287"></a>00287     NSArray  *urls;
+<a name="l00288"></a>00288 }
+<a name="l00289"></a>00289 @property (retain) NSString *subject;
+<a name="l00290"></a>00290 @property (retain) NSString *messageBody;
+<a name="l00291"></a>00291 @property          BOOL      isHtml;
+<a name="l00292"></a>00292 @property (retain) NSArray  *urls;
+<a name="l00293"></a>00293 
+<a name="l00320"></a>00320 - (<span class="keywordtype">id</span>)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
+<a name="l00321"></a>00321 
+<a name="l00322"></a>00322 + (<span class="keywordtype">id</span>)emailObjectWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
+<a name="l00324"></a>00324 @end
+<a name="l00325"></a>00325 
+<a name="l00326"></a>00326 
+<a name="l00332"></a><a class="code" href="interface_j_r_sms_object.html">00332</a> @interface <a class="code" href="interface_j_r_sms_object.html" title="Sms object.">JRSmsObject</a> : NSObject
+<a name="l00333"></a>00333 {
+<a name="l00334"></a><a class="code" href="interface_j_r_sms_object.html#a6d74c049eba0e6ecfae0e25cffd77d6e">00334</a>     NSString *message;  
+<a name="l00335"></a>00335     NSArray  *urls;
+<a name="l00336"></a>00336 }
+<a name="l00337"></a>00337 @property (retain) NSString *message;
+<a name="l00338"></a>00338 @property (retain) NSArray  *urls;
+<a name="l00339"></a>00339 
+<a name="l00362"></a>00362 - (<span class="keywordtype">id</span>)initWithMessage:(NSString*)_message andUrlsToBeShortened:(NSArray*)_urls;
+<a name="l00363"></a>00363 
+<a name="l00364"></a>00364 + (<span class="keywordtype">id</span>)smsObjectWithMessage:(NSString *)_message andUrlsToBeShortened:(NSArray*)_urls;
+<a name="l00366"></a>00366 @end
+<a name="l00367"></a>00367 
+<a name="l00368"></a>00368 
+<a name="l00393"></a><a class="code" href="interface_j_r_activity_object.html">00393</a> @interface <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> : NSObject 
+<a name="l00394"></a>00394 {
+<a name="l00400"></a>00400     
+<a name="l00405"></a><a class="code" href="interface_j_r_activity_object.html#ac7f87878433a7d69fc5c8677fc317d6a">00405</a>     NSString *action;                                   
+<a name="l00406"></a>00406     
+<a name="l00410"></a><a class="code" href="interface_j_r_activity_object.html#a113d240b8b15e625fb0005fbffd00c17">00410</a>     NSString *url;
+<a name="l00411"></a>00411     
+<a name="l00418"></a><a class="code" href="interface_j_r_activity_object.html#a965d03730324bcda4374450ad648505b">00418</a>     NSString *user_generated_content;    
+<a name="l00419"></a>00419 
+<a name="l00426"></a><a class="code" href="interface_j_r_activity_object.html#ae64ba976e73c3926a04c46ba0aeba583">00426</a>     NSString *title;                     
+<a name="l00427"></a>00427     
+<a name="l00431"></a><a class="code" href="interface_j_r_activity_object.html#a35d4fcb4e1aaa9d6325333228104604f">00431</a>     NSString *description;
+<a name="l00432"></a>00432     
+<a name="l00453"></a><a class="code" href="interface_j_r_activity_object.html#aa5c629e1c3b8306b2532ab647f7f6ec5">00453</a>     NSMutableArray *action_links;
+<a name="l00454"></a>00454     
+<a name="l00476"></a><a class="code" href="interface_j_r_activity_object.html#a2e4ff78f83d0f353f8e0c17ed48ce0ab">00476</a>     NSMutableArray *media;
+<a name="l00477"></a>00477 
+<a name="l00494"></a><a class="code" href="interface_j_r_activity_object.html#a1acf84854d275510685a1f2066061c4e">00494</a>     NSMutableDictionary *properties;
+<a name="l00495"></a>00495     
+<a name="l00500"></a><a class="code" href="interface_j_r_activity_object.html#aa26818070a5987c70ef14700d6f6c72c">00500</a>     <a class="code" href="interface_j_r_email_object.html" title="Email object.">JREmailObject</a> *email;
+<a name="l00501"></a>00501 
+<a name="l00506"></a><a class="code" href="interface_j_r_activity_object.html#a7719b59135bd02dbd03d4b35b17cb0a0">00506</a>     <a class="code" href="interface_j_r_sms_object.html" title="Sms object.">JRSmsObject</a> *sms;
+<a name="l00507"></a>00507     
+<a name="l00509"></a>00509 }
+<a name="l00510"></a>00510 
+<a name="l00511"></a>00511 @property (readonly) NSString *action;                                                          
+<a name="l00512"></a>00512 @property (readonly) NSString *url;
+<a name="l00513"></a>00513 @property (retain) NSString *user_generated_content;
+<a name="l00514"></a>00514 @property (retain) NSString *title;                             
+<a name="l00515"></a>00515 @property (retain) NSString *description;
+<a name="l00516"></a>00516 @property (retain) NSMutableArray *action_links;                                        
+<a name="l00517"></a>00517 @property (retain) NSMutableArray *media;
+<a name="l00518"></a>00518 @property (retain) NSMutableDictionary *properties;
+<a name="l00519"></a>00519 @property (retain) <a class="code" href="interface_j_r_email_object.html" title="Email object.">JREmailObject</a> *email;
+<a name="l00520"></a>00520 @property (retain) <a class="code" href="interface_j_r_sms_object.html" title="Sms object.">JRSmsObject</a> *sms;
+<a name="l00521"></a>00521 
+<a name="l00539"></a>00539 - (<span class="keywordtype">id</span>)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
+<a name="l00540"></a>00540 
+<a name="l00541"></a>00541 + (<span class="keywordtype">id</span>)activityObjectWithAction:(NSString*)_action andUrl:(NSString*)_url;
+<a name="l00554"></a>00554 - (NSDictionary*)dictionaryForObject;
+<a name="l00555"></a>00555 @end
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

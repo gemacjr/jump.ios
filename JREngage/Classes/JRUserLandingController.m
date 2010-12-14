@@ -75,12 +75,12 @@
 	sessionData = [JRSessionData jrSessionData];
 	
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColor];
+    NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColorRGBa];
     
     /* Load the custom background view, if there is one. */
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRUserLandingBackgroundImage, iPadSuffix]] isKindOfClass:[NSString class]])
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRUserLandingBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
         [myBackgroundView setImage:
-            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRUserLandingBackgroundImage, iPadSuffix]]]]    ;
+            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRUserLandingBackgroundImageName, iPadSuffix]]]]    ;
     else /* Otherwise, set the background view to the provided color, if any. */
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)

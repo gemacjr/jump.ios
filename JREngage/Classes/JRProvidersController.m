@@ -102,12 +102,14 @@
 	sessionData = [JRSessionData jrSessionData];
     
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColor];
+    NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColorRGBa];
+    
+    // TODO: Reorder this to go w array -> color -> image
     
     /* Load the custom background view, if there is one. */
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]] isKindOfClass:[NSString class]])
+    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
         [myBackgroundView setImage:
-            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImage, iPadSuffix]]]];
+            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
     else /* Otherwise, set the background view to the provided color, if any. */
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)
@@ -290,7 +292,7 @@ Please try again later."
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [customUI objectForKey:kJRProviderTableSectionHeaderTitle];
+    return [customUI objectForKey:kJRProviderTableSectionHeaderTitleString];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -299,7 +301,7 @@ Please try again later."
 
     if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]])
         return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]]).frame.size.height;
-    else if ([customUI objectForKey:kJRProviderTableSectionHeaderTitle])
+    else if ([customUI objectForKey:kJRProviderTableSectionHeaderTitleString])
         return 27;
         
     return 0;
@@ -313,7 +315,7 @@ Please try again later."
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    return [customUI objectForKey:kJRProviderTableSectionFooterTitle];
+    return [customUI objectForKey:kJRProviderTableSectionFooterTitleString];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -323,7 +325,7 @@ Please try again later."
     if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
         return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]]).frame.size.height +
                 infoBar.frame.size.height;
-    else if ([customUI objectForKey:kJRProviderTableSectionFooterTitle])
+    else if ([customUI objectForKey:kJRProviderTableSectionFooterTitleString])
         return 27 + infoBar.frame.size.height;
 
     return 30 + infoBar.frame.size.height;

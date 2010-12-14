@@ -7,6 +7,7 @@
     <ul class="tablist">
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -52,7 +53,7 @@
 <a name="l00035"></a>00035 
 <a name="l00036"></a>00036 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
 <a name="l00037"></a>00037 <span class="preprocessor">#import &quot;JRSessionData.h&quot;</span>
-<a name="l00038"></a>00038 <span class="preprocessor">#import &quot;JRModalNavigationController.h&quot;</span>
+<a name="l00038"></a>00038 <span class="comment">//#import &quot;JRModalNavigationController.h&quot;</span>
 <a name="l00039"></a>00039 <span class="preprocessor">#import &quot;JRProvidersController.h&quot;</span>
 <a name="l00040"></a>00040 <span class="preprocessor">#import &quot;JRUserLandingController.h&quot;</span>
 <a name="l00041"></a>00041 <span class="preprocessor">#import &quot;JRWebViewController.h&quot;</span>
@@ -71,40 +72,41 @@
 <a name="l00054"></a>00054         JRSessionData   *sessionData;
 <a name="l00055"></a>00055         NSMutableArray  *delegates;    
 <a name="l00056"></a>00056     
-<a name="l00057"></a>00057     UINavigationController      *navigationController;
+<a name="l00057"></a>00057     UINavigationController      *customNavigationController;
 <a name="l00058"></a>00058     UIViewController        *viewControllerToPopTo;
 <a name="l00059"></a>00059 
 <a name="l00060"></a>00060     JRProvidersController       *myProvidersController;
 <a name="l00061"></a>00061         JRUserLandingController     *myUserLandingController;
 <a name="l00062"></a>00062         JRWebViewController         *myWebViewController;
 <a name="l00063"></a>00063     JRPublishActivityController *myPublishActivityController;
-<a name="l00064"></a>00064     
-<a name="l00065"></a>00065     NSMutableArray *setStatusBars;
-<a name="l00066"></a>00066 }
-<a name="l00067"></a>00067 
-<a name="l00068"></a>00068 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
-<a name="l00069"></a>00069 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
-<a name="l00070"></a>00070 
-<a name="l00071"></a>00071 - (void)pushToCustomNavigationController:(UINavigationController*)_navigationController;
-<a name="l00072"></a>00072 
-<a name="l00073"></a>00073 - (void)showAuthenticationDialog;
-<a name="l00074"></a>00074 - (void)showPublishingDialogWithActivity;
-<a name="l00075"></a>00075 
-<a name="l00076"></a>00076 - (void)authenticationRestarted;
-<a name="l00077"></a>00077 - (void)authenticationCompleted;
-<a name="l00078"></a>00078 - (void)authenticationFailed;
-<a name="l00079"></a>00079 - (void)authenticationCanceled;
-<a name="l00080"></a>00080 - (void)publishingRestarted;
-<a name="l00081"></a>00081 - (void)publishingCompleted;
-<a name="l00082"></a>00082 - (void)publishingCanceled;
-<a name="l00083"></a>00083 - (void)publishingFailed;
-<a name="l00084"></a>00084 @property (readonly) UINavigationController     *navigationController;
-<a name="l00085"></a>00085 
-<a name="l00086"></a>00086 @property (readonly) JRProvidersController       *myProvidersController;
-<a name="l00087"></a>00087 @property (readonly) JRUserLandingController     *myUserLandingController;
-<a name="l00088"></a>00088 @property (readonly) JRWebViewController         *myWebViewController;
-<a name="l00089"></a>00089 @property (readonly) JRPublishActivityController *myPublishActivityController;
-<a name="l00090"></a>00090 @end
+<a name="l00064"></a>00064   
+<a name="l00065"></a>00065     NSDictionary *customUI;
+<a name="l00066"></a>00066     NSDictionary *persistentCustomUI;
+<a name="l00067"></a>00067 }
+<a name="l00068"></a>00068 
+<a name="l00069"></a>00069 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
+<a name="l00070"></a>00070 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072 - (void)pushToCustomNavigationController:(UINavigationController*)_navigationController;
+<a name="l00073"></a>00073 - (void)setCustomViews:(NSDictionary*)views;
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+<a name="l00076"></a>00076 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;
+<a name="l00077"></a>00077 
+<a name="l00078"></a>00078 - (void)authenticationRestarted;
+<a name="l00079"></a>00079 - (void)authenticationCompleted;
+<a name="l00080"></a>00080 - (void)authenticationFailed;
+<a name="l00081"></a>00081 - (void)authenticationCanceled;
+<a name="l00082"></a>00082 - (void)publishingRestarted;
+<a name="l00083"></a>00083 - (void)publishingCompleted;
+<a name="l00084"></a>00084 - (void)publishingCanceled;
+<a name="l00085"></a>00085 - (void)publishingFailed;
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 @property (readonly) JRProvidersController       *myProvidersController;
+<a name="l00088"></a>00088 @property (readonly) JRUserLandingController     *myUserLandingController;
+<a name="l00089"></a>00089 @property (readonly) JRWebViewController         *myWebViewController;
+<a name="l00090"></a>00090 @property (readonly) JRPublishActivityController *myPublishActivityController;
+<a name="l00091"></a>00091 @end
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

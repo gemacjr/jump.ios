@@ -7,6 +7,7 @@
     <ul class="tablist">
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
       <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
     </ul>
   </div>
@@ -49,89 +50,166 @@
 <a name="l00032"></a>00032 <span class="comment"> Date:   Tuesday, June 1, 2010</span>
 <a name="l00033"></a>00033 <span class="comment"> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */</span>
 <a name="l00034"></a>00034 
-<a name="l00099"></a>00099 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
-<a name="l00100"></a>00100 <span class="preprocessor">#import &quot;JRSessionData.h&quot;</span>
-<a name="l00101"></a>00101 <span class="preprocessor">#import &quot;<a class="code" href="_j_r_activity_object_8h.html" title="Interface for creating and populating activities that you wish to publish.">JRActivityObject.h</a>&quot;</span>
-<a name="l00102"></a>00102 <span class="preprocessor">#import &quot;JRUserInterfaceMaestro.h&quot;</span>
-<a name="l00103"></a>00103 
-<a name="l00104"></a>00104 <span class="preprocessor">#define SOCIAL_PUBLISHING</span>
-<a name="l00105"></a>00105 <span class="preprocessor"></span>
-<a name="l00106"></a>00106 <span class="keyword">@class</span> <a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>;
-<a name="l00107"></a>00107 <span class="keyword">@class</span> JRUserInterfaceMaestro;
-<a name="l00108"></a>00108 
-<a name="l00120"></a><a class="code" href="protocol_j_r_engage_delegate-p.html">00120</a> <span class="keyword">@protocol </span><a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> &lt;NSObject&gt;
-<a name="l00121"></a>00121 <span class="keyword">@optional</span>
-<a name="l00122"></a>00122 
-<a name="l00128"></a>00128 
-<a name="l00142"></a>00142 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
-<a name="l00150"></a>00150 
-<a name="l00156"></a>00156 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a4eaa6a5961e175b8275c6b06034afea7">jrAuthenticationDidNotComplete</a>;
-<a name="l00157"></a>00157 
-<a name="l00192"></a>00192 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
-<a name="l00193"></a>00193 
-<a name="l00208"></a>00208 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00209"></a>00209 
-<a name="l00228"></a>00228 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
-<a name="l00229"></a>00229 
-<a name="l00249"></a>00249 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
-<a name="l00250"></a>00250 
-<a name="l00264"></a>00264 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00272"></a>00272 
-<a name="l00278"></a>00278 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a733007b584bd916932ccafe44c3c678d">jrSocialDidNotCompletePublishing</a>;
-<a name="l00279"></a>00279 
-<a name="l00285"></a>00285 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#ae90fea5db002559f6cf4e481080e0bfb">jrSocialDidCompletePublishing</a>;
-<a name="l00286"></a>00286 
-<a name="l00298"></a>00298 - (void)jrSocialDidPublishActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity forProvider:(NSString*)provider;
-<a name="l00299"></a>00299 
-<a name="l00313"></a>00313 - (void)jrSocialPublishingActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00315"></a>00315 <span class="keyword">@end</span>
-<a name="l00316"></a>00316 
-<a name="l00341"></a><a class="code" href="interface_j_r_engage.html">00341</a> <span class="keyword">@interface </span><a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> : NSObject &lt;JRSessionDelegate&gt;
-<a name="l00342"></a>00342 {
-<a name="l00343"></a>00343     JRUserInterfaceMaestro *interfaceMaestro;   <span class="comment">/*&lt; \internal Class that handles customizations to the library&#39;s UI */</span>
-<a name="l00344"></a>00344         JRSessionData   *sessionData;               <span class="comment">/*&lt; \internal Holds configuration and state for the JREngage library */</span>
-<a name="l00345"></a>00345         NSMutableArray  *delegates;                 <span class="comment">/*&lt; \internal Array of JREngageDelegate objects */</span>
-<a name="l00346"></a>00346 }
-<a name="l00347"></a>00347 
-<a name="l00353"></a>00353 
-<a name="l00360"></a>00360 + (<a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngage;
-<a name="l00361"></a>00361 
-<a name="l00383"></a>00383 + (<a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngageWithAppId:(NSString*)appId 
-<a name="l00384"></a>00384                    andTokenUrl:(NSString*)tokenUrl
-<a name="l00385"></a>00385                       delegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
-<a name="l00393"></a>00393 
-<a name="l00400"></a>00400 - (void)addDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
-<a name="l00401"></a>00401 
-<a name="l00408"></a>00408 - (void)removeDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
-<a name="l00417"></a>00417 
-<a name="l00424"></a>00424 - (void)showAuthenticationDialog;
-<a name="l00425"></a>00425 
-<a name="l00436"></a>00436 - (void)showSocialPublishingDialogWithActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity;
-<a name="l00444"></a>00444 
-<a name="l00452"></a>00452 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
-<a name="l00453"></a>00453 
-<a name="l00454"></a>00454 <span class="comment">/*</span>
-<a name="l00455"></a>00455 <span class="comment"> * May not use...</span>
-<a name="l00456"></a>00456 <span class="comment"> */</span>
-<a name="l00457"></a>00457 <span class="comment">//- (void)setCustomNavigationControllerShouldPopToViewController:(UIViewController*)viewController;</span>
-<a name="l00458"></a>00458 
-<a name="l00466"></a>00466 
-<a name="l00500"></a>00500 - (NSDictionary*)getUserForProvider:(NSString*)provider;
-<a name="l00501"></a>00501 
-<a name="l00513"></a>00513 - (void)signoutUserForSocialProvider:(NSString*)provider;
-<a name="l00514"></a>00514 
-<a name="l00522"></a>00522 - (void)signoutUserForAllSocialProviders;
-<a name="l00523"></a>00523 
-<a name="l00533"></a>00533 - (void)signoutUserForProvider:(NSString*)provider;
-<a name="l00534"></a>00534 
-<a name="l00540"></a>00540 - (void)signoutUserForAllProviders;
+<a name="l00113"></a>00113 <span class="comment">/* Preprocessor directive that conditionally compiles the code that uses the weakly-linked MessageUI.Framework.</span>
+<a name="l00114"></a>00114 <span class="comment"> This framework is required if you want to include the ability to share activities with email or sms.  By default</span>
+<a name="l00115"></a>00115 <span class="comment"> the JRENGAGE_INCLUDE_EMAIL_SMS flag should always be set to &quot;1&quot;, which can cause errors with the linker if the </span>
+<a name="l00116"></a>00116 <span class="comment"> framework isn&#39;t included, but I figured most apps would want the email and sms sharing ability.  If you don&#39;t want</span>
+<a name="l00117"></a>00117 <span class="comment"> to add the MessageUI.Framework to one or more of your apps that use the JREngage library, you don&#39;t have to change</span>
+<a name="l00118"></a>00118 <span class="comment"> this value to &quot;0&quot; (which could cause merging issues if I make changes later).</span>
+<a name="l00119"></a>00119 <span class="comment"> </span>
+<a name="l00120"></a>00120 <span class="comment"> Instead, if you want to override this setting, you need to add the preprocessor flag &quot;OVERRIDE_INCLUDE_EMAIL_SMS&quot;</span>
+<a name="l00121"></a>00121 <span class="comment"> to your target&#39;s GCC_PREPROCESSOR_DEFINITIONS build setting (also listed as &quot;Preprocessor Macros&quot; under the</span>
+<a name="l00122"></a>00122 <span class="comment"> &quot;GCC 4.2 - Preprocessing&quot; heading). */</span>
+<a name="l00123"></a>00123 <span class="preprocessor">#ifndef OVERRIDE_INCLUDE_EMAIL_SMS</span>
+<a name="l00124"></a>00124 <span class="preprocessor"></span><span class="preprocessor">#define JRENGAGE_INCLUDE_EMAIL_SMS 1</span>
+<a name="l00125"></a>00125 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00126"></a>00126 <span class="preprocessor"></span>
+<a name="l00167"></a>00167 
+<a name="l00173"></a><a class="code" href="group__custom_interface.html#ga7c7ed7dac155537c9bc14531c5cec3cb">00173</a> <span class="preprocessor">#define kJRNavigationBarTintColor  @&quot;NavigationBar.TintColor&quot;</span>
+<a name="l00174"></a>00174 <span class="preprocessor"></span>
+<a name="l00180"></a><a class="code" href="group__custom_interface.html#gabda4f66c5cde44bbeaa6a993f4793ac5">00180</a> <span class="preprocessor">#define kJRNavigationBarTintColorRGBa  @&quot;NavigationBar.TintColor.RGBa&quot;</span>
+<a name="l00181"></a>00181 <span class="preprocessor"></span>
+<a name="l00189"></a>00189 
+<a name="l00193"></a><a class="code" href="group__custom_interface.html#gacfe014997457d27386eff69eb731ce0f">00193</a> <span class="preprocessor">#define kJRAuthenticationBackgroundColor  @&quot;Authentication.Background.Color&quot;</span>
+<a name="l00194"></a>00194 <span class="preprocessor"></span>
+<a name="l00198"></a><a class="code" href="group__custom_interface.html#ga404751db179428ee64bbe2fda663efa6">00198</a> <span class="preprocessor">#define kJRSocialSharingBackgroundColor   @&quot;SocialSharing.Background.Color&quot;</span>
+<a name="l00199"></a>00199 <span class="preprocessor"></span>
+<a name="l00203"></a><a class="code" href="group__custom_interface.html#gae0c84a976949aa4eccecc123786efb3c">00203</a> <span class="preprocessor">#define kJRAuthenticationBackgroundColorRGBa  @&quot;Authentication.Background.Color.RGBa&quot;</span>
+<a name="l00204"></a>00204 <span class="preprocessor"></span>
+<a name="l00208"></a><a class="code" href="group__custom_interface.html#ga6554a101f0e2e9474a77262143dc528b">00208</a> <span class="preprocessor">#define kJRSocialSharingBackgroundColorRGBa   @&quot;SocialSharing.Background.Color.RGBa&quot;</span>
+<a name="l00209"></a>00209 <span class="preprocessor"></span>
+<a name="l00216"></a>00216 
+<a name="l00220"></a><a class="code" href="group__custom_interface.html#ga893fb6e20be0c6658e81a6a5d5c121f0">00220</a> <span class="preprocessor">#define kJRProviderTableBackgroundImageName   @&quot;ProviderTable.Background.Image.Name&quot;</span>
+<a name="l00221"></a>00221 <span class="preprocessor"></span>
+<a name="l00225"></a><a class="code" href="group__custom_interface.html#gadda3f945ba5012762eb92764b251b918">00225</a> <span class="preprocessor">#define kJRUserLandingBackgroundImageName     @&quot;UserLanding.Background.Image.Name&quot;</span>
+<a name="l00226"></a>00226 <span class="preprocessor"></span>
+<a name="l00230"></a><a class="code" href="group__custom_interface.html#gad2e00942af19ec9478ba58a491a8b8f2">00230</a> <span class="preprocessor">#define kJRSocialSharingBackgroundImageName   @&quot;SocialSharing.Background.Image.Name&quot;</span>
+<a name="l00231"></a>00231 <span class="preprocessor"></span>
+<a name="l00235"></a><a class="code" href="group__custom_interface.html#ga25b26cff96d8f174f3bdc040031466b7">00235</a> <span class="preprocessor">#define kJRProviderTableBackgroundImageName_iPad   @&quot;ProviderTable.Background.Image.Name-iPad&quot;</span>
+<a name="l00236"></a>00236 <span class="preprocessor"></span>
+<a name="l00240"></a><a class="code" href="group__custom_interface.html#ga52b4fb3801cf3fe6e5a294d9a4d1ff0a">00240</a> <span class="preprocessor">#define kJRUserLandingBackgroundImageName_iPad     @&quot;UserLanding.Background.Image.Name-iPad&quot;</span>
+<a name="l00241"></a>00241 <span class="preprocessor"></span>
+<a name="l00245"></a><a class="code" href="group__custom_interface.html#ga646cb35f3a7ec2835872ee6df2aceb76">00245</a> <span class="preprocessor">#define kJRSocialSharingBackgroundImageName_iPad   @&quot;SocialSharing.Background.Image.Name-iPad&quot;</span>
+<a name="l00246"></a>00246 <span class="preprocessor"></span>
+<a name="l00253"></a>00253 
+<a name="l00260"></a><a class="code" href="group__custom_interface.html#ga0bce97edf43c9cdf53cbcd1aa92c4798">00260</a> <span class="preprocessor">#define kJRProviderTableTitleView        @&quot;ProviderTable.Title.View&quot;</span>
+<a name="l00261"></a>00261 <span class="preprocessor"></span>
+<a name="l00268"></a><a class="code" href="group__custom_interface.html#ga524965cf426f0eb9de4bcb804528c7f7">00268</a> <span class="preprocessor">#define kJRSocialSharingTitleView        @&quot;SocialSharing.Title.View&quot;</span>
+<a name="l00269"></a>00269 <span class="preprocessor"></span>
+<a name="l00276"></a><a class="code" href="group__custom_interface.html#ga52c322e9fd2aa78cbd64d050f0fd5e41">00276</a> <span class="preprocessor">#define kJRProviderTableTitleView_iPad   @&quot;ProviderTable.Title.View-iPad&quot;</span>
+<a name="l00277"></a>00277 <span class="preprocessor"></span>
+<a name="l00284"></a><a class="code" href="group__custom_interface.html#ga2f88062cdd1fd38ad0e800d382450398">00284</a> <span class="preprocessor">#define kJRSocialSharingTitleView_iPad   @&quot;SocialSharing.Title.View-iPad&quot;</span>
+<a name="l00285"></a>00285 <span class="preprocessor"></span>
+<a name="l00292"></a>00292 
+<a name="l00300"></a><a class="code" href="group__custom_interface.html#gaf728e45125be9ca6fa515a39a77e7ce7">00300</a> <span class="preprocessor">#define kJRProviderTableTitleString   @&quot;ProviderTable.Title.String&quot;</span>
+<a name="l00301"></a>00301 <span class="preprocessor"></span>
+<a name="l00309"></a><a class="code" href="group__custom_interface.html#ga8fb89469dc5225bf0ea4d1faca6aa2ab">00309</a> <span class="preprocessor">#define kJRSocialSharingTitleString   @&quot;SocialSharing.Title.String&quot;</span>
+<a name="l00310"></a>00310 <span class="preprocessor"></span>
+<a name="l00317"></a>00317 
+<a name="l00321"></a><a class="code" href="group__custom_interface.html#ga1a0f39bfdb880fdd0b8b39cbec492b6f">00321</a> <span class="preprocessor">#define kJRProviderTableHeaderView       @&quot;ProviderTable.Table.Header.View&quot;</span>
+<a name="l00322"></a>00322 <span class="preprocessor"></span>
+<a name="l00326"></a><a class="code" href="group__custom_interface.html#ga2b5c9162dd7701a552147ae1607a3b4d">00326</a> <span class="preprocessor">#define kJRProviderTableFooterView       @&quot;ProviderTable.Table.Footer.View&quot;</span>
+<a name="l00327"></a>00327 <span class="preprocessor"></span>
+<a name="l00331"></a><a class="code" href="group__custom_interface.html#gafaf90a1aa537b105ebc2409ceacc652f">00331</a> <span class="preprocessor">#define kJRProviderTableHeaderView_iPad  @&quot;ProviderTable.Table.Header.View-iPad&quot;</span>
+<a name="l00332"></a>00332 <span class="preprocessor"></span>
+<a name="l00336"></a><a class="code" href="group__custom_interface.html#gaa23a63165d46433e2ec24ba44ef771da">00336</a> <span class="preprocessor">#define kJRProviderTableFooterView_iPad  @&quot;ProviderTable.Table.Footer.View-iPad&quot;</span>
+<a name="l00337"></a>00337 <span class="preprocessor"></span>
+<a name="l00344"></a>00344 
+<a name="l00350"></a><a class="code" href="group__custom_interface.html#gaaff8ebdd2b9badb1d0a019a71d47db46">00350</a> <span class="preprocessor">#define kJRProviderTableSectionHeaderView       @&quot;ProviderTable.Section.Header.View&quot;</span>
+<a name="l00351"></a>00351 <span class="preprocessor"></span>
+<a name="l00357"></a><a class="code" href="group__custom_interface.html#ga984c096e9258dea402a1c27ae8bb6c8f">00357</a> <span class="preprocessor">#define kJRProviderTableSectionFooterView       @&quot;ProviderTable.Section.Footer.View&quot;</span>
+<a name="l00358"></a>00358 <span class="preprocessor"></span>
+<a name="l00364"></a><a class="code" href="group__custom_interface.html#ga7dcb3488390fabe1f3a358fb5af1e42c">00364</a> <span class="preprocessor">#define kJRProviderTableSectionHeaderView_iPad  @&quot;ProviderTable.Section.Header.View-iPad&quot;</span>
+<a name="l00365"></a>00365 <span class="preprocessor"></span>
+<a name="l00371"></a><a class="code" href="group__custom_interface.html#gaa2196cc44d4e0dc4de9e98248c8a7e10">00371</a> <span class="preprocessor">#define kJRProviderTableSectionFooterView_iPad  @&quot;ProviderTable.Section.Footer.View-iPad&quot;</span>
+<a name="l00372"></a>00372 <span class="preprocessor"></span>
+<a name="l00379"></a>00379 
+<a name="l00386"></a><a class="code" href="group__custom_interface.html#ga667a6c955993ec24292875f319a7d763">00386</a> <span class="preprocessor">#define kJRProviderTableSectionHeaderTitleString  @&quot;ProviderTable.Section.Header.Title.String&quot;</span>
+<a name="l00387"></a>00387 <span class="preprocessor"></span>
+<a name="l00394"></a><a class="code" href="group__custom_interface.html#ga72e63105251e7d4d6a363e279c2bf775">00394</a> <span class="preprocessor">#define kJRProviderTableSectionFooterTitleString  @&quot;ProviderTable.Section.Footer.Title.String&quot;</span>
+<a name="l00395"></a>00395 <span class="preprocessor"></span>
+<a name="l00399"></a>00399 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
+<a name="l00400"></a>00400 <span class="preprocessor">#import &quot;JRSessionData.h&quot;</span>
+<a name="l00401"></a>00401 <span class="preprocessor">#import &quot;<a class="code" href="_j_r_activity_object_8h.html" title="Interface for creating and populating activities that you wish to publish.">JRActivityObject.h</a>&quot;</span>
+<a name="l00402"></a>00402 <span class="preprocessor">#import &quot;JRUserInterfaceMaestro.h&quot;</span>
+<a name="l00403"></a>00403 
+<a name="l00404"></a>00404 <span class="keyword">@class</span> <a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>;
+<a name="l00405"></a>00405 <span class="keyword">@class</span> JRUserInterfaceMaestro;
+<a name="l00406"></a>00406 
+<a name="l00418"></a><a class="code" href="protocol_j_r_engage_delegate-p.html">00418</a> <span class="keyword">@protocol </span><a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> &lt;NSObject&gt;
+<a name="l00419"></a>00419 <span class="keyword">@optional</span>
+<a name="l00420"></a>00420 
+<a name="l00426"></a>00426 
+<a name="l00440"></a>00440 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
+<a name="l00448"></a>00448 
+<a name="l00454"></a>00454 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a4eaa6a5961e175b8275c6b06034afea7">jrAuthenticationDidNotComplete</a>;
+<a name="l00455"></a>00455 
+<a name="l00490"></a>00490 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
+<a name="l00491"></a>00491 
+<a name="l00506"></a>00506 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00507"></a>00507 
+<a name="l00526"></a>00526 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+<a name="l00527"></a>00527 
+<a name="l00547"></a>00547 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 <a name="l00548"></a>00548 
-<a name="l00552"></a>00552 - (void)cancelAuthentication;
-<a name="l00553"></a>00553 
-<a name="l00557"></a>00557 - (void)cancelPublishing;
-<a name="l00565"></a>00565 
-<a name="l00572"></a>00572 - (void)updateTokenUrl:(NSString*)newTokenUrl;
-<a name="l00574"></a>00574 <span class="keyword">@end</span>
+<a name="l00562"></a>00562 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00570"></a>00570 
+<a name="l00576"></a>00576 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a733007b584bd916932ccafe44c3c678d">jrSocialDidNotCompletePublishing</a>;
+<a name="l00577"></a>00577 
+<a name="l00583"></a>00583 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#ae90fea5db002559f6cf4e481080e0bfb">jrSocialDidCompletePublishing</a>;
+<a name="l00584"></a>00584 
+<a name="l00596"></a>00596 - (void)jrSocialDidPublishActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity forProvider:(NSString*)provider;
+<a name="l00597"></a>00597 
+<a name="l00611"></a>00611 - (void)jrSocialPublishingActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00613"></a>00613 <span class="keyword">@end</span>
+<a name="l00614"></a>00614 
+<a name="l00639"></a><a class="code" href="interface_j_r_engage.html">00639</a> <span class="keyword">@interface </span><a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> : NSObject &lt;JRSessionDelegate&gt;
+<a name="l00640"></a>00640 {
+<a name="l00641"></a>00641     JRUserInterfaceMaestro *interfaceMaestro;   <span class="comment">/*&lt; \internal Class that handles customizations to the library&#39;s UI */</span>
+<a name="l00642"></a>00642         JRSessionData   *sessionData;               <span class="comment">/*&lt; \internal Holds configuration and state for the JREngage library */</span>
+<a name="l00643"></a>00643         NSMutableArray  *delegates;                 <span class="comment">/*&lt; \internal Array of JREngageDelegate objects */</span>
+<a name="l00644"></a>00644 }
+<a name="l00645"></a>00645 
+<a name="l00651"></a>00651 
+<a name="l00658"></a>00658 + (<a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngage;
+<a name="l00659"></a>00659 
+<a name="l00681"></a>00681 + (<a class="code" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngageWithAppId:(NSString*)appId 
+<a name="l00682"></a>00682                    andTokenUrl:(NSString*)tokenUrl
+<a name="l00683"></a>00683                       delegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
+<a name="l00691"></a>00691 
+<a name="l00698"></a>00698 - (void)addDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
+<a name="l00699"></a>00699 
+<a name="l00706"></a>00706 - (void)removeDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
+<a name="l00715"></a>00715 
+<a name="l00722"></a>00722 - (void)showAuthenticationDialog;
+<a name="l00723"></a>00723 
+<a name="l00727"></a>00727 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+<a name="l00728"></a>00728 
+<a name="l00739"></a>00739 - (void)showSocialPublishingDialogWithActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity;
+<a name="l00745"></a>00745 - (void)showSocialPublishingDialogWithActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity andCustomInterface:(NSDictionary*)customizations;
+<a name="l00753"></a>00753 
+<a name="l00761"></a>00761 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
+<a name="l00762"></a>00762 
+<a name="l00766"></a>00766 - (void)setCustomInterface:(NSDictionary*)customizations;
+<a name="l00774"></a>00774 
+<a name="l00775"></a>00775 <span class="comment">// TODO: Deprecate these for the release</span>
+<a name="l00787"></a>00787 <span class="comment"></span>- (void)signoutUserForSocialProvider:(NSString*)provider;
+<a name="l00788"></a>00788 
+<a name="l00796"></a>00796 - (void)signoutUserForAllSocialProviders;
+<a name="l00797"></a>00797 
+<a name="l00798"></a>00798 <span class="comment">// TODO: Deprecate these for the release</span>
+<a name="l00808"></a>00808 <span class="comment"></span>- (void)signoutUserForProvider:(NSString*)provider;
+<a name="l00809"></a>00809 
+<a name="l00815"></a>00815 - (void)signoutUserForAllProviders;
+<a name="l00816"></a>00816 
+<a name="l00820"></a>00820 - (void)alwaysForceReauthentication:(BOOL)force;
+<a name="l00828"></a>00828 
+<a name="l00832"></a>00832 - (void)cancelAuthentication;
+<a name="l00833"></a>00833 
+<a name="l00837"></a>00837 - (void)cancelPublishing;
+<a name="l00845"></a>00845 
+<a name="l00852"></a>00852 - (void)updateTokenUrl:(NSString*)newTokenUrl;
+<a name="l00854"></a>00854 <span class="keyword">@end</span>
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

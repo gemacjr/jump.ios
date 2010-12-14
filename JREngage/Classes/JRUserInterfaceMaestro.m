@@ -232,9 +232,11 @@ static JRUserInterfaceMaestro* singleton = nil;
                                [[[NSBundle mainBundle] resourcePath] 
                                 stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
 
+    // TODO: Doesn't need to be so big
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:([customizations count] + [infoPlist count] + [persistentCustomUI count])];
 
-    [dict addEntriesFromDictionary:[infoPlist objectForKey:@"JREngage.CustomInterface"]];
+    [dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"DefaultValues"]];
+    [dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"CustomValues"]];
     [dict addEntriesFromDictionary:persistentCustomUI];
     [dict addEntriesFromDictionary:customizations];
 
@@ -287,8 +289,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     }
 
     /* We do this here, because sometimes we pop straight to the user landing controller and we need the back-button's title to be correct */
-    if ([[customUI objectForKey:kJRProviderTableTitle] isKindOfClass:[NSString class]])
-        myProvidersController.title = [customUI objectForKey:kJRProviderTableTitle];
+    if ([[customUI objectForKey:kJRProviderTableTitleString] isKindOfClass:[NSString class]])
+        myProvidersController.title = [customUI objectForKey:kJRProviderTableTitleString];
     else
         myProvidersController.title = @"Providers";
     
@@ -340,12 +342,19 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)tintBar
 {
-    NSArray *tintArray = [customUI objectForKey:@"NavigationBarTint"];
-    [jrModalNavController.navigationController.navigationBar setTintColor: 
-                [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
-                                green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
-                                 blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
-                                alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]]];
+    NSArray *tintArray = [customUI objectForKey:kJRNavigationBarTintColorRGBa];
+    UIColor *tintColor = [customUI objectForKey:kJRNavigationBarTintColor];
+    
+    if (tintColor)
+        [jrModalNavController.navigationController.navigationBar setTintColor:tintColor];
+    else if (tintArray)
+        if ([tintArray respondsToSelector:@selector(count)])
+            if ([tintArray count] == 4)
+                [jrModalNavController.navigationController.navigationBar setTintColor: 
+                    [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
+                                    green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
+                                     blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
+                                    alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]]];
 }
 
 - (void)loadModalNavigationControllerWithViewController:(UIViewController*)controller
@@ -354,9 +363,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (!jrModalNavController)
 		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:controller];
 	
-    if ([[customUI objectForKey:@"NavigationBarTint"] respondsToSelector:@selector(count)])
-        if ([[customUI objectForKey:@"NavigationBarTint"] count] == 4)
-            [self tintBar];
+    [self tintBar];
     
     if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
     {   

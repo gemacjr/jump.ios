@@ -35,13 +35,25 @@
 /**
  * @mainpage Janrain Engage for the iPhone, version 2
  *
- * <a href="http://rpxnow.com/docs/iphone_v2">
- * Janrain Engage for iPhone</a> makes it easy to include third party authentication and 
+ * <a href="http://rpxnow.com/docs/iphone">
+ * Janrain Engage for iPhone SDK</a> makes it easy to include third party authentication and 
  * social publishing in your iPhone app.  This Objective-C library includes the same key
- * features as our web version.  With a few lines of code, you can authenticate your
- * users with their accounts on Google, Yahoo!, Facebook, etc., and they can immediately 
- * publish their activities to multiple social networks, including Facebook, Twitter, LinkedIn, 
- * MySpace and Yahoo, through one simple interface.
+ * features as our web version, as well as additional features created specifically for the mobile 
+ * platform. With as few as three lines of code, you can authenticate your users with their 
+ * accounts on Google, Yahoo!, Facebook, etc., and they can immediately publish their 
+ * activities to multiple social networks, including Facebook, Twitter, LinkedIn, MySpace,
+ * and Yahoo, through one simple interface.
+ *
+ * Beyond authentication and social sharing, the latest release of the Engage for iPhone SDK
+ * now allows mobile apps to:
+ *   - Share content, activities, game scores or invitations via Email or SMS
+ *   - Customize the login experience by displaying native and social login options on the same screen
+ *   - Track popularity and click through rates on various links included in the 
+ *     shared email message with automatic URL shortening for up to 5 URLs
+ *   - Provide an additional level of security with forced re-authentication when 
+ *     users are about to make a purchase or conduct a sensitive transaction
+ *   - Configure and maintain separate lists of providers for mobile and web apps
+ *   - Match the look and feel of the iPhone app with customizable background colors, images, and navigation bar tints
  * 
  * Before you begin, you need to have created a <a href="https://rpxnow.com/signup_createapp_plus">Janrain Engage application</a>,
  * which you can do on <a href="http://rpxnow.com">http://rpxnow.com</a>
@@ -49,7 +61,7 @@
  * For an overview of how the library works and how you can take advantage of the library's features, 
  * please see the <a href="http://rpxnow.com/docs/iphone_v2#user_experience">"Overview"</a> section of our documentation.
  * 
- * To begin using the library, please see the <a href="http://rpxnow.com/docs/iphone_v2#quick">"Quick Start Guide"</a>.
+ * To begin using the SDK, please see the <a href="http://rpxnow.com/docs/iphone_v2#quick">"Quick Start Guide"</a>.
  * 
  * For more detailed documentation of the library's API, you can use 
  * the <a href="http://rpxnow.com/docs/iphone_api/annotated.html">"JREngage API"</a> documentation.
@@ -97,10 +109,6 @@
  * you may only see a subset of this list.
  **/
 
-#import <Foundation/Foundation.h>
-#import "JRSessionData.h"
-#import "JRActivityObject.h"
-#import "JRUserInterfaceMaestro.h"
 
 /* Preprocessor directive that conditionally compiles the code that uses the weakly-linked MessageUI.Framework.
  This framework is required if you want to include the ability to share activities with email or sms.  By default
@@ -116,39 +124,282 @@
 #define JRENGAGE_INCLUDE_EMAIL_SMS 1
 #endif
 
+/**
+ * @defgroup customInterface Custom User Interface
+ * \brief Customize the user interface with your application's colors, images, native login, etc.
+ *
+ * \detail
+ * The Engage for iPhone SDK provides the ability to customize the look and feel of the user interface,
+ * as well as the ability to add your own native login experience, through the Custom Interface API.  
+ * You can set many of the interface defaults in the JREngage-Info.plist file and override these defaults
+ * programatically through any of the ...CustomInterface functions.  
+ *
+ * The SDK accepts a dictionaries of values, indexed by a pre-defined set of keys (below), 
+ * and uses these to set the properties of the library's user interface.
+ *
+ * First, the library loads the DefaultValues dictionary from the JREngage.CustomInterface section of the 
+ * JREngage-Info.plist file, and uses these values when configuring the library's user interface.
+ * Then, the library loads the CustomValues dictionary from the JREngage.CustomInterface section of the 
+ * JREngage-Info.plist file.  Any values specified in this section of the property list will override
+ * the corresponding default value specified in the DefaultValues section.  You should only makes changes
+ * to the CustomValues section*. TODO ADD FOOTNOTE
+ *
+ * To configure the SDK programatically (e.g., dynamically integrating your native login experience
+ * above or below the library's social logins), create an NSDictionary object, indexed by a pre-defined set of 
+ * keys (below) and pass this to the library through the  - (void)setCustomInterface:(NSDictionary*)customizations
+ * method.  Any values specified in this dictionary will override the corresponding values specified in the 
+ * JREngage-Info.plist. 
+ *
+ * You can also launch authentication and social sharing with a custom interface dictionary through 
+ * the - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations 
+ * or - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
+ * methods.  Any values passed into the show...Dialog methods will override the corresponding values passed into 
+ * the - (void)setCustomInterface:(NSDictionary*)customizations method.
+ *
+ * @{
+ **/
 
-#define kJRAuthenticationBackgroundColor  @"Authentication.BackgroundColor"
-#define kJRSocialSharingBackgroundColor   @"SocialSharing.BackgroundColor"
+/** 
+ * \name Navigation Bar Tint
+ * Key to specify the tint color of the library's navigation bar
+ **/
+/*@{*/
 
-#define kJRProviderTableBackgroundImage   @"ProviderTable.BackgroundImage"
-#define kJRUserLandingBackgroundImage     @"UserLanding.BackgroundImage"
-#define kJRSocialSharingBackgroundImage   @"SocialSharing.BackgroundImage"
+/**
+ * Key for a \c UIColor object to set as the tint color of the library's navigation bar
+ *
+ * \note If you push the library's dialogs onto your own navigation controller, setting this value will have no effect.
+ **/
+#define kJRNavigationBarTintColor  @"NavigationBar.TintColor"
 
-#define kJRProviderTableBackgroundImage_iPad   @"ProviderTable.BackgroundImage-iPad"
-#define kJRUserLandingBackgroundImage_iPad     @"UserLanding.BackgroundImage-iPad"
-#define kJRSocialSharingBackgroundImage_iPad   @"SocialSharing.BackgroundImage-iPad"
+/**
+ * Key for an \c NSArray of doubles to set as the RGBa tint values for color of the library's navigation bar
+ *
+ * \note If you push the library's dialogs onto your own navigation controller, setting this value will have no effect.
+ **/
+#define kJRNavigationBarTintColorRGBa  @"NavigationBar.TintColor.RGBa"
+/*@}*/
 
-#define kJRProviderTableTitleView        @"ProviderTable.TitleView"
-#define kJRSocialSharingTitleView        @"SocialSharing.TitleView"
-#define kJRProviderTableTitleView_iPad   @"ProviderTable.TitleView-iPad"
-#define kJRSocialSharingTitleView_iPad   @"SocialSharing.TitleView-iPad"
 
-#define kJRProviderTableTitle   @"ProviderTable.Title"
-#define kJRSocialSharingTitle   @"SocialSharing.Title"
+/** 
+ * \name Background Colors
+ * Keys to specify the background colors of the library's dialogs
+ **/
+/*@{*/
 
-#define kJRProviderTableHeaderView       @"ProviderTable.TableHeaderView"
-#define kJRProviderTableFooterView       @"ProviderTable.TableFooterView"
-#define kJRProviderTableHeaderView_iPad  @"ProviderTable.TableHeaderView-iPad"
-#define kJRProviderTableFooterView_iPad  @"ProviderTable.TableFooterView-iPad"
+/**
+ * Key for a \c UIColor object to set as the background color of the Providers Table and the User Landing screen.
+ **/
+#define kJRAuthenticationBackgroundColor  @"Authentication.Background.Color"
 
-#define kJRProviderTableSectionHeaderView       @"ProviderTable.SectionHeaderView"
-#define kJRProviderTableSectionFooterView       @"ProviderTable.SectionFooterView"
-#define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.SectionHeaderView-iPad"
-#define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.SectionFooterView-iPad"
+/**
+ * Key for a \c UIColor object to set as the background color of the Social Sharing screen.
+ **/
+#define kJRSocialSharingBackgroundColor   @"SocialSharing.Background.Color"
 
-#define kJRProviderTableSectionHeaderTitle  @"ProviderTable.SectionHeaderTitle"
-#define kJRProviderTableSectionFooterTitle  @"ProviderTable.SectionFooterTitle"
+/**
+ * Key for an \c NSArray of doubles to set as the RGBa values of the background color for the Providers Table and the User Landing screen.
+ **/
+#define kJRAuthenticationBackgroundColorRGBa  @"Authentication.Background.Color.RGBa"
 
+/**
+ * Key for an \c NSArray of doubles to set as the RGBa values of the background color for the Social Sharing screen.
+ **/
+#define kJRSocialSharingBackgroundColorRGBa   @"SocialSharing.Background.Color.RGBa"
+/*@}*/
+
+/** 
+ * \name Background Images
+ * Keys to specify the name of the images to be used as the background of the library's dialogs
+ **/
+/*@{*/
+
+/**
+ * Key for the \c NSString name of the image to be set as the background image of the Providers Table on the iPhone.
+ **/
+#define kJRProviderTableBackgroundImageName   @"ProviderTable.Background.Image.Name"
+
+/**
+ * Key for the \c NSString name of the image to be set as the background image of the User Landing screen on the iPhone.
+ **/
+#define kJRUserLandingBackgroundImageName     @"UserLanding.Background.Image.Name"
+
+/**
+ * Key for the \c NSString name of the image to be set as the background image of the Social Sharing screen on the iPhone.
+ **/
+#define kJRSocialSharingBackgroundImageName   @"SocialSharing.Background.Image.Name"
+
+/**
+ * Key for the \c NSString name of the image to be set as the background image of the Providers Table on the iPad.
+ **/
+#define kJRProviderTableBackgroundImageName_iPad   @"ProviderTable.Background.Image.Name-iPad"
+
+/**
+ * Key for the \c NSString name of the image to be set as the background image of the User Landing screen on the iPad.
+ **/
+#define kJRUserLandingBackgroundImageName_iPad     @"UserLanding.Background.Image.Name-iPad"
+
+/**
+ * Key for the \c NSString name of the image to be set as the background image of the Social Sharing screen on the iPad.
+ **/
+#define kJRSocialSharingBackgroundImageName_iPad   @"SocialSharing.Background.Image.Name-iPad"
+/*@}*/
+
+/** 
+ * \name Title Views
+ * Keys to specify the UIViews to be used as the title views of the library's dialogs
+ **/
+/*@{*/
+
+/**
+ * Key for the \c UIView object to be set as the title view of the Providers Table on the iPhone.
+ *
+ * \note If this value is set, it will override any string value set for kJRProviderTableTitleString,
+ * although the kJRProviderTableTitleString value will be used as the text on the back button.
+ **/
+#define kJRProviderTableTitleView        @"ProviderTable.Title.View"
+
+/**
+ * Key for the \c UIView object to be set as the title view of the Social Sharing screen on the iPhone.
+ *
+ * \note If this value is set, it will override any string value set for kJRSocialSharingTitleString,
+ * although the kJRSocialSharingTitleString value will be used as the text on the back button.
+ **/
+#define kJRSocialSharingTitleView        @"SocialSharing.Title.View"
+
+/**
+ * Key for the \c UIView object to be set as the title view of the Providers Table on the iPad.
+ *
+ * \note If this value is set, it will override any string value set for kJRProviderTableTitleString,
+ * although the kJRProviderTableTitleString value will be used as the text on the back button.
+ **/
+#define kJRProviderTableTitleView_iPad   @"ProviderTable.Title.View-iPad"
+
+/**
+ * Key for the \c UIView object to be set as the title view of the Social Sharing screen on the iPad.
+ *
+ * \note If this value is set, it will override any string value set for kJRSocialSharingTitleString,
+ * although the kJRSocialSharingTitleString value will be used as the text on the back button.
+ **/
+#define kJRSocialSharingTitleView_iPad   @"SocialSharing.Title.View-iPad"
+/*@}*/
+
+/** 
+ * \name Title Strings
+ * Keys to specify the NSString titles to be used as the titles of the library's dialogs
+ **/
+/*@{*/
+
+/**
+ * Key for the \c NSString title to be set as the title of the Providers Table.
+ * 
+ * \note If a UIView* is set for kJRProviderTableTitleView or kJRProviderTableTitleView_iPad are set, 
+ * this string will not appear as the title on the navigation bar.  It will only be used as the text on
+ * the back button.
+ **/
+#define kJRProviderTableTitleString   @"ProviderTable.Title.String"
+
+/**
+ * Key for the \c NSString title to be set as the title of the Social Sharing screen.
+ * 
+ * \note If a UIView* is set for kJRSocialSharingTitleView or kJRSocialSharingTitleView_iPad are set, 
+ * this string will not appear as the title on the navigation bar.  It will only be used as the text on
+ * the back button.
+ **/
+#define kJRSocialSharingTitleString   @"SocialSharing.Title.String"
+/*@}*/
+
+/** 
+ * \name Provider Table Header and Footer Views
+ * Keys to specify the UIViews to be used as the Provider Table's header and footer views
+ **/
+/*@{*/
+
+/**
+ * Key for the \c UIView object to be set as the header view of the Providers Table on the iPhone.
+ **/
+#define kJRProviderTableHeaderView       @"ProviderTable.Table.Header.View"
+
+/**
+ * Key for the \c UIView object to be set as the footer view of the Providers Table on the iPhone.
+ **/
+#define kJRProviderTableFooterView       @"ProviderTable.Table.Footer.View"
+
+/**
+ * Key for the \c UIView object to be set as the header view of the Providers Table on the iPad.
+ **/
+#define kJRProviderTableHeaderView_iPad  @"ProviderTable.Table.Header.View-iPad"
+
+/**
+ * Key for the \c UIView object to be set as the footer view of the Providers Table on the iPad.
+ **/
+#define kJRProviderTableFooterView_iPad  @"ProviderTable.Table.Footer.View-iPad"
+/*@}*/
+
+/** 
+ * \name Provider Table Section Header and Footer Views
+ * Keys to specify the UIViews to be used as the Provider Table's providers section header and footer views
+ **/
+/*@{*/
+
+/**
+ * Key for the \c UIView object to be set as the view of the providers section header in the Providers Table on the iPhone.
+ * 
+ * \note Setting this value overrides any string set as the kJRProviderTableSectionHeaderTitleString.
+ **/
+#define kJRProviderTableSectionHeaderView       @"ProviderTable.Section.Header.View"
+
+/**
+ * Key for the \c UIView object to be set as the view of the providers section footer in the Providers Table on the iPhone.
+ * 
+ * \note Setting this value overrides any string set as the kJRProviderTableSectionFooterTitleString.
+ **/
+#define kJRProviderTableSectionFooterView       @"ProviderTable.Section.Footer.View"
+
+/**
+ * Key for the \c UIView object to be set as the view of the providers section header in the Providers Table on the iPad.
+ * 
+ * \note Setting this value overrides any string set as the kJRProviderTableSectionHeaderTitleString.
+ **/
+#define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.Section.Header.View-iPad"
+
+/**
+ * Key for the \c UIView object to be set as the view of the providers section footer in the Providers Table on the iPad.
+ * 
+ * \note Setting this value overrides any string set as the kJRProviderTableSectionFooterTitleString.
+ **/
+#define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.Section.Footer.View-iPad"
+/*@}*/
+
+/** 
+ * \name Provider Table Section Header and Footer Views
+ * Keys to specify the UIViews to be used as the Provider Table's providers section header and footer views
+ **/
+/*@{*/
+
+/**
+ * Key for the \c NSString to be set as the title of the providers section header in the Providers Table.
+ * 
+ * \note If a UIView* is set for kJRProviderTableSectionHeaderView or kJRProviderTableSectionHeaderView_iPad are set, 
+ * this string will not be used.
+ **/
+#define kJRProviderTableSectionHeaderTitleString  @"ProviderTable.Section.Header.Title.String"
+
+/**
+ * Key for the \c NSString to be set as the title of the providers section footer in the Providers Table.
+ * 
+ * \note If a UIView* is set for kJRProviderTableSectionFooterView or kJRProviderTableSectionFooterView_iPad are set, 
+ * this string will not be used.
+ **/
+#define kJRProviderTableSectionFooterTitleString  @"ProviderTable.Section.Footer.Title.String"
+/*@}*/
+
+/** @} */
+
+#import <Foundation/Foundation.h>
+#import "JRSessionData.h"
+#import "JRActivityObject.h"
+#import "JRUserInterfaceMaestro.h"
 
 @class JREngage;
 @class JRUserInterfaceMaestro;
