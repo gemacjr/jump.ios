@@ -134,7 +134,7 @@
  * The Engage for iPhone SDK provides the ability to customize the look and feel of the user interface,
  * as well as the ability to add your own native login experience, through the Custom Interface API.  
  * You can set many of the interface defaults in the JREngage-Info.plist file and override these defaults
- * programatically through any of the ...CustomInterface functions.  
+ * programmatically through any of the ...CustomInterface functions.  
  *
  * The SDK accepts a dictionaries of values, indexed by a pre-defined set of keys (below), 
  * and uses these to set the properties of the library's user interface.
@@ -146,7 +146,7 @@
  * the corresponding default value specified in the DefaultValues section.  You should only makes changes
  * to the CustomValues section*. TODO ADD FOOTNOTE
  *
- * To configure the SDK programatically (e.g., dynamically integrating your native login experience
+ * To configure the SDK programmatically (e.g., dynamically integrating your native login experience
  * above or below the library's social logins), create an NSDictionary object, indexed by a pre-defined set of 
  * keys (below) and pass this to the library through the  - (void)setCustomInterface:(NSDictionary*)customizations
  * method.  Any values specified in this dictionary will override the corresponding values specified in the 
@@ -724,7 +724,17 @@
 - (void)showAuthenticationDialog;
 
 /**
- * 
+ * Use this function to begin authentication.  The JREngage library will 
+ * pop up a modal dialog, configured with the given custom interface, 
+ * and take the user through the sign-in process.
+ *
+ * @param customizations
+ *   A dictionary of objects and properties to be used by the library to customize 
+ *   the look and feel of the user interface and/or add a native login experience
+ *
+ * \note Any values specified in the \c customizations dictionary will override the 
+ * corresponding values specified in both the JREngage-Info.plist and the dictionary 
+ * passed into the - (void)setCustomInterface:(NSDictionary*)customizations method.
  **/
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
 
@@ -742,7 +752,21 @@
 /*@}*/
 
 /**
+ * Use this function to begin social publishing.  The JREngage library will 
+ * pop up a modal dialog, configured with the given custom interface, 
+ * take the user through the sign-in process, if necessary,
+ * and share the given \c JRActivityObject.
  *
+ * @param activity
+ *   The activity you wish to share
+ *
+ * @param customizations
+ *   A dictionary of objects and properties to be used by the library to customize 
+ *   the look and feel of the user interface and/or add a native login experience
+ *
+ * \note Any values specified in the \c customizations dictionary will override the 
+ * corresponding values specified in both the JREngage-Info.plist and the dictionary 
+ * passed into the - (void)setCustomInterface:(NSDictionary*)customizations method.
  **/
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
 /*@}*/
@@ -763,7 +787,16 @@
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
 /**
- * 
+ * Use this function if you want to customize the look and feel of the user interface or add 
+ * your own native login experience, by passing an NSDictionary object indexed by the set of pre-defined 
+ * custom interface keys.  TODO: Add link
+ *
+ * \note Any values specified in the \c customizations dictionary will override the 
+ * corresponding values specified in the JREngage-Info.plist. \n
+ * Any values specified in the \c customizations dictionary will be overridden the corresponding values specified in a 
+ * dictionary passed into the  - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations 
+ * or - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
+ * methods.  
  **/
 - (void)setCustomInterface:(NSDictionary*)customizations;
 /*@}*/
@@ -817,7 +850,11 @@
 - (void)signoutUserForAllProviders;
 
 /**
- *
+ * Use this function to toggle whether or not the library should force the user to reauthenticate for all providers
+ * 
+ * @param force
+ *   YES if the library should force reauthentication for all providers or NO if the library should
+ *   perform the default behavior
  **/
 - (void)alwaysForceReauthentication:(BOOL)force;
 /*@}*/
