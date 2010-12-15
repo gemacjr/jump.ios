@@ -749,7 +749,6 @@
  *   The activity you wish to share
  **/
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
-/*@}*/
 
 /**
  * Use this function to begin social publishing.  The JREngage library will 

@@ -4,7 +4,7 @@
 }
 
 
-Sms object.  
+Object containing the default message to be shared by sms.  
 
 
 
@@ -30,7 +30,15 @@ NSString $\ast$ \hyperlink{interface_j_r_sms_object_a6d74c049eba0e6ecfae0e25cffd
 
 
 \subsection{Detailed Description}
-Sms object. Create an sms object with the required fields. 
+Object containing the default message to be shared by sms. Create an sms object, fill in the message field, and add the object to the \hyperlink{interface_j_r_activity_object_a7719b59135bd02dbd03d4b35b17cb0a0}{JRActivityObject::sms} property in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. The given message string is supplied to the MFMessageComposeViewController class when the user wants to share your activity via sms.
+
+If your sms message contains URLs that you would like shortented to an \href{http://rpx.me}{\tt http://rpx.me} URL (with which you can track click-\/throughs), add the exact URL(s) to the {\ttfamily urls} array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your sms message.
+
+\begin{DoxyNote}{Note}
+If the user attempts to share the activity via sms before the call to shorten the URLs is returned, the sms will contain the original URLs and the click-\/throughs will not be tracked.\par
+ Once the MFMessageComposeViewController is displayed, the given message string can be modified by the user. 
+\end{DoxyNote}
+
 
 \subsection{Member Function Documentation}
 \hypertarget{interface_j_r_sms_object_a7669f3987b203f6235c5d6e9b0b81535}{
@@ -47,9 +55,9 @@ Returns a {\ttfamily \hyperlink{interface_j_r_sms_object}{JRSmsObject}} initiali
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em \_\-message}]The desired message of the sms. If you want to include urls that are shortened by to an \href{http://rpx.me}{\tt http://rpx.me} url, they should be added to the urls array, and the message should contain the escape sequence @ where you want the urls to be substituted in. This value can be edited by the user.\item[{\em \_\-isHtml}]YES if the message body contains HTML content or NO if it contains plain text.\item[{\em \_\-urls}]The array of urls that \hyperlink{interface_j_r_engage}{JREngage} will shorten to an \href{http://rpx.me}{\tt http://rpx.me} url, in the order you wish the urls to be substitued into the message body, replacing the sequence @ in the order that the @'s appear.\end{DoxyParams}
+\item[{\em \_\-message}]The desired message text of the sms. If you want to include urls that are shortened to an \href{http://rpx.me}{\tt http://rpx.me} url, they should be added to the {\ttfamily urls} array. Once the call to get the shortened URLs is completed, the library will replace all occurances of each url with its corresponding shortened url. This value can be edited by the user once the MFMessageComposeViewController is displayed.\item[{\em \_\-urls}]The array of urls that \hyperlink{interface_j_r_engage}{JREngage} will shorten to an \href{http://rpx.me}{\tt http://rpx.me} url. Once the call to get the shortened URLs is completed, the library will replace all occurances of each url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain.\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-A \hyperlink{interface_j_r_email_object}{JREmailObject} initialized with the given subject and message body. 
+A \hyperlink{interface_j_r_sms_object}{JRSmsObject} initialized with the given message text. 
 \end{DoxyReturn}
 
 

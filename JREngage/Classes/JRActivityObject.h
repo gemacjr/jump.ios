@@ -275,16 +275,30 @@
 
 
 /**
- * \brief Email object
+ * \brief Object containing content to be shared by email
  *
- * Create an email object with the required fields.
+ * Create an email object, fill in the fields, and add the object
+ * to the JRActivityObject#email property in your JRActivityObject.
+ * The given content is supplied to the MFMailComposeViewController 
+ * class when the user wants to share your activity via email. 
+ * 
+ * If your email message body contains URLs that you would like shortented 
+ * to an http://rpx.me URL (with which you can track click-throughs), add the 
+ * exact URL(s) to the \c urls array.  The library will contact the Engage
+ * servers to obtain shortened URLs and replace any instance of the url in
+ * your email body.
+ *
+ * \note If the user attempts to share the activity via email before the 
+ * call to shorten the URLs is returned, the email will contain the original 
+ * URLs and the click-throughs will not be tracked.\n Once the MFMailComposeViewController 
+ * is displayed, the given subject and body can be modified by the user.
  **/
 @interface JREmailObject : NSObject
 {
-    NSString *subject;      /**< The desired subject */
+    NSString *subject;      /**< The desired email subject */
     NSString *messageBody;  /**< The desired message body */
     BOOL      isHtml;       /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text */
-    NSArray  *urls;
+    NSArray  *urls;         /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked */
 }
 @property (retain) NSString *subject;
 @property (retain) NSString *messageBody;
@@ -299,20 +313,22 @@
  * Returns a \c JREmailObject initialized with the given subject and message body.
  *
  * @param _subject
- *   The desired subject of the email.  The user can edit this value.
+ *   The desired subject of the email.  The user can edit this value once the MFMailComposeViewController is displayed.
  *
  * @param _messageBody
  *   The desired message body of the email.  The message body can be in plain text or html, and if it is in html,
- *   this should be indicated by the argument isHtml.  If you want to include urls that are shortened by to an http://rpx.me url, 
- *   they should be added to the urls array, and the message body should contain the escape sequence @url@ where you want
- *   the urls to be substituted in.  This value can be edited by the user.
+ *   this should be indicated by the argument \c isHtml.  If you want to include urls that are shortened to an http://rpx.me url, 
+ *   they should be added to the \c urls array.  Once the call to get the shortened URLs is completed, the library will replace 
+ *   all occurances of each url with its corresponding shortened url.  This value can be edited by the user once the 
+ *   MFMailComposeViewController is displayed. 
  *
  * @param _isHtml
  *   YES if the message body contains HTML content or NO if it contains plain text.
  *
  * @param _urls
- *   The array of urls that JREngage will shorten to an http://rpx.me url, in the order you wish the urls to be substitued into the
- *   message body, replacing the sequence @url@ in the order that the @urls@'s appear.
+ *   The array of urls that JREngage will shorten to an http://rpx.me url. Once the call to get the shortened 
+ *   URLs is completed, the library will replace all occurances of each url with its corresponding shortened url.  
+ *   To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain.
  *
  * @return
  *   A JREmailObject initialized with the given subject and message body.
@@ -325,9 +341,23 @@
 
 
 /**
- * \brief Sms object
+ * \brief Object containing the default message to be shared by sms
  *
- * Create an sms object with the required fields.
+ * Create an sms object, fill in the message field, and add the object
+ * to the JRActivityObject#sms property in your JRActivityObject.
+ * The given message string is supplied to the MFMessageComposeViewController 
+ * class when the user wants to share your activity via sms. 
+ * 
+ * If your sms message contains URLs that you would like shortented 
+ * to an http://rpx.me URL (with which you can track click-throughs), add the 
+ * exact URL(s) to the \c urls array.  The library will contact the Engage
+ * servers to obtain shortened URLs and replace any instance of the url in
+ * your sms message.
+ *
+ * \note If the user attempts to share the activity via sms before the 
+ * call to shorten the URLs is returned, the sms will contain the original 
+ * URLs and the click-throughs will not be tracked.\n Once the MFMessageComposeViewController 
+ * is displayed, the given message string can be modified by the user.
  **/
 @interface JRSmsObject : NSObject
 {
@@ -341,23 +371,27 @@
  * \name Constructors
  **/
 /*@{*/
+
+/** 
+ * \name Constructors
+ **/
+/*@{*/
 /**
  * Returns a \c JRSmsObject initialized with the given message and URLs that you wish to be shortened to the http://rpx.me format.
  *
  * @param _message
- *   The desired message of the sms.  If you want to include urls that are shortened by to an http://rpx.me url, 
- *   they should be added to the urls array, and the message should contain the escape sequence @url@ where you want
- *   the urls to be substituted in.  This value can be edited by the user.
- *
- * @param _isHtml
- *   YES if the message body contains HTML content or NO if it contains plain text.
+ *   The desired message text of the sms.  If you want to include urls that are shortened to an http://rpx.me url, 
+ *   they should be added to the \c urls array.  Once the call to get the shortened URLs is completed, the library will replace 
+ *   all occurances of each url with its corresponding shortened url.  This value can be edited by the user once the 
+ *   MFMessageComposeViewController is displayed. 
  *
  * @param _urls
- *   The array of urls that JREngage will shorten to an http://rpx.me url, in the order you wish the urls to be substitued into the
- *   message body, replacing the sequence @url@ in the order that the @urls@'s appear.
+ *   The array of urls that JREngage will shorten to an http://rpx.me url. Once the call to get the shortened 
+ *   URLs is completed, the library will replace all occurances of each url with its corresponding shortened url.  
+ *   To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain.
  *
  * @return
- *   A JREmailObject initialized with the given subject and message body.
+ *   A JRSmsObject initialized with the given message text.
  **/
 - (id)initWithMessage:(NSString*)_message andUrlsToBeShortened:(NSArray*)_urls;
 
@@ -392,11 +426,11 @@
  **/
 @interface JRActivityObject : NSObject 
 {
-    /** 
-     * \name
-     * The various properties of the JRActivityObject that you can configure
-     **/
-    /*@{*/
+   /** 
+    * \name
+    * The various properties of the JRActivityObject that you can configure
+    **/
+   /*@{*/
     
    /**
     * A string describing what the user did, written in the third person (e.g., 
