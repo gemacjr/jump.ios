@@ -57,7 +57,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#afca7b5ab9a57edc1a460aaec882207c4">showSocialPublishingDialogWithActivity:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#af5c2aa40f5c45a22f369900d1bd81953">showSocialPublishingDialogWithActivity:andCustomInterface:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Configure the User Interface</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp94e7ef441fcaa606cadd8cfd8b428e50"></a> Methods used to customize the JREngage's user interface </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp94e7ef441fcaa606cadd8cfd8b428e50"></a> <a class="anchor" id="customInterface"></a></p>
+<p>Methods used to customize the JREngage's user interface </p>
 </div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#a6c704bbff377d20603e6b52bd0ae17f1">setCustomNavigationController:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#ab1757bbe9e83255b1b9128c630267fdf">setCustomInterface:</a></td></tr>
@@ -80,7 +81,6 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_engage.html#ac0fb45ee43767dfdea0057bb93000db6">updateTokenUrl:</a></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<p>Main API for interacting with the Janrain Engage for iPhone library. </p>
 <p>Use the <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> object to authenticate a user with your application and allow them to publish activities to their social networks.</p>
 <p>If you wish to include 3rd-Party Authentication and Social Publishing in your iPhone application, you can use the <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> class to achieve this. Prior to using the <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library, you must already have an application on <a href="http://rpxnow.com">http://rpxnow.com</a>. This is all that is required for basic authentication, although some providers may require extra configuration (which can be done through your application's <a href="http://rpxnow.com/relying_parties">Dashboard</a> For social publishing, you will need to configure your rpxnow application with the desired providers.</p>
 <p>If desired, you can optionally implement server-side authentication<span class="footnote">*</span>. When provided, the <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library can post the user's authentication token to a url on your server: the token url. Your server can complete authentication, access more of JREngage's API, log the authentication, etc. and the server's response will be passed back through to your iPhone application.</p>
@@ -232,6 +232,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p><a class="anchor" id="showAuthCustom"></a></p>
 <p>Use this function to begin authentication. The <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library will pop up a modal dialog, configured with the given custom interface, and take the user through the sign-in process.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -293,6 +294,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<p><a class="anchor" id="showPubCustom"></a></p>
 <p>Use this function to begin social publishing. The <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library will pop up a modal dialog, configured with the given custom interface, take the user through the sign-in process, if necessary, and share the given <code><a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a></code>.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -345,7 +347,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Use this function if you want to customize the look and feel of the user interface or add your own native login experience, by passing an NSDictionary object indexed by the set of pre-defined custom interface keys. TODO: Add link</p>
+<p><a class="anchor" id="setCustomUI"></a> Use this function if you want to customize the look and feel of the user interface or add your own native login experience, by passing an NSDictionary object indexed by the set of pre-defined custom interface keys. TODO: Add link</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>Any values specified in the <code>customizations</code> dictionary will override the corresponding values specified in the JREngage-Info.plist. <br/>
  Any values specified in the <code>customizations</code> dictionary will be overridden the corresponding values specified in a dictionary passed into the - (void)<a class="el" href="interface_j_r_engage.html#ac8e1206be8608fbed548b7ec5f85e6e6">showAuthenticationDialogWithCustomInterface:</a>customizations or - (void)<a class="el" href="interface_j_r_engage.html#afca7b5ab9a57edc1a460aaec882207c4">showSocialPublishingDialogWithActivity:</a>activity andCustomInterface:(NSDictionary*)customizations methods. </dd></dl>
 

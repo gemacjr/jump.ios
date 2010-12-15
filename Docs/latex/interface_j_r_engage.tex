@@ -54,7 +54,11 @@ Methods that display JREngage's dialogs to initiate authentication and social pu
 \end{Indent}
 \begin{Indent}{\bf Configure the User Interface}\par
 {\em \label{_amgrp94e7ef441fcaa606cadd8cfd8b428e50}
- Methods used to customize the JREngage's user interface }\begin{DoxyCompactItemize}
+ \label{interface_j_r_engage_customInterface}
+\hypertarget{interface_j_r_engage_customInterface}{}
+
+
+Methods used to customize the JREngage's user interface }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{interface_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}{setCustomNavigationController:}
 \item 
@@ -95,7 +99,7 @@ Methods that display JREngage's dialogs to initiate authentication and social pu
 
 
 \subsection{Detailed Description}
-Main API for interacting with the Janrain Engage for iPhone library. Use the \hyperlink{interface_j_r_engage}{JREngage} object to authenticate a user with your application and allow them to publish activities to their social networks.
+Use the \hyperlink{interface_j_r_engage}{JREngage} object to authenticate a user with your application and allow them to publish activities to their social networks.
 
 If you wish to include 3rd-\/Party Authentication and Social Publishing in your iPhone application, you can use the \hyperlink{interface_j_r_engage}{JREngage} class to achieve this. Prior to using the \hyperlink{interface_j_r_engage}{JREngage} library, you must already have an application on \href{http://rpxnow.com}{\tt http://rpxnow.com}. This is all that is required for basic authentication, although some providers may require extra configuration (which can be done through your application's \href{http://rpxnow.com/relying_parties}{\tt Dashboard} For social publishing, you will need to configure your rpxnow application with the desired providers.
 
@@ -189,6 +193,10 @@ Use this function to begin authentication. The \hyperlink{interface_j_r_engage}{
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_ac8e1206be8608fbed548b7ec5f85e6e6}
+\label{interface_j_r_engage_showAuthCustom}
+\hypertarget{interface_j_r_engage_showAuthCustom}{}
+
+
 Use this function to begin authentication. The \hyperlink{interface_j_r_engage}{JREngage} library will pop up a modal dialog, configured with the given custom interface, and take the user through the sign-\/in process.
 
 
@@ -225,6 +233,10 @@ Use this function to begin social publishing. The \hyperlink{interface_j_r_engag
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_af5c2aa40f5c45a22f369900d1bd81953}
+\label{interface_j_r_engage_showPubCustom}
+\hypertarget{interface_j_r_engage_showPubCustom}{}
+
+
 Use this function to begin social publishing. The \hyperlink{interface_j_r_engage}{JREngage} library will pop up a modal dialog, configured with the given custom interface, take the user through the sign-\/in process, if necessary, and share the given {\ttfamily \hyperlink{interface_j_r_activity_object}{JRActivityObject}}.
 
 
@@ -256,7 +268,9 @@ If you want to push the \hyperlink{interface_j_r_engage}{JREngage} dialogs on yo
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}
-Use this function if you want to customize the look and feel of the user interface or add your own native login experience, by passing an NSDictionary object indexed by the set of pre-\/defined custom interface keys. TODO: Add link
+\label{interface_j_r_engage_setCustomUI}
+\hypertarget{interface_j_r_engage_setCustomUI}{}
+ Use this function if you want to customize the look and feel of the user interface or add your own native login experience, by passing an NSDictionary object indexed by the set of pre-\/defined custom interface keys. TODO: Add link
 
 \begin{DoxyNote}{Note}
 Any values specified in the {\ttfamily customizations} dictionary will override the corresponding values specified in the JREngage-\/Info.plist. \par

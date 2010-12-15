@@ -59,9 +59,9 @@
  * which you can do on <a href="http://rpxnow.com">http://rpxnow.com</a>
  *
  * For an overview of how the library works and how you can take advantage of the library's features, 
- * please see the <a href="http://rpxnow.com/docs/iphone_v2#user_experience">"Overview"</a> section of our documentation.
+ * please see the <a href="http://rpxnow.com/docs/iphone#user_experience">"Overview"</a> section of our documentation.
  * 
- * To begin using the SDK, please see the <a href="http://rpxnow.com/docs/iphone_v2#quick">"Quick Start Guide"</a>.
+ * To begin using the SDK, please see the <a href="http://rpxnow.com/docs/iphone#quick">"Quick Start Guide"</a>.
  * 
  * For more detailed documentation of the library's API, you can use 
  * the <a href="http://rpxnow.com/docs/iphone_api/annotated.html">"JREngage API"</a> documentation.
@@ -131,12 +131,12 @@
  * \brief Customize the user interface with your application's colors, images, native login, etc.
  *
  * \detail
- * The Engage for iPhone SDK provides the ability to customize the look and feel of the user interface,
- * as well as the ability to add your own native login experience, through the Custom Interface API.  
+ * The Engage for iPhone SDK provides the ability to customize the look and feel of the user interface, as well as
+ * the ability to add your own native login experience, through the \ref customInterface "Custom Interface API".  
  * You can set many of the interface defaults in the JREngage-Info.plist file and override these defaults
- * programmatically through any of the ...CustomInterface functions.  
+ * programmatically through any of the \ref showMethods "...CustomInterface" functions.  
  *
- * The SDK accepts a dictionaries of values, indexed by a pre-defined set of keys (below), 
+ * The SDK accepts a dictionaries of values, indexed by a \ref customInterfaceKeys "pre-defined set of keys", 
  * and uses these to set the properties of the library's user interface.
  *
  * First, the library loads the DefaultValues dictionary from the JREngage.CustomInterface section of the 
@@ -144,40 +144,42 @@
  * Then, the library loads the CustomValues dictionary from the JREngage.CustomInterface section of the 
  * JREngage-Info.plist file.  Any values specified in this section of the property list will override
  * the corresponding default value specified in the DefaultValues section.  You should only makes changes
- * to the CustomValues section*. TODO ADD FOOTNOTE
+ * to the CustomValues section.
  *
- * To configure the SDK programmatically (e.g., dynamically integrating your native login experience
- * above or below the library's social logins), create an NSDictionary object, indexed by a pre-defined set of 
- * keys (below) and pass this to the library through the  - (void)setCustomInterface:(NSDictionary*)customizations
- * method.  Any values specified in this dictionary will override the corresponding values specified in the 
- * JREngage-Info.plist. 
+ * To configure the SDK programmatically (e.g., dynamically integrating your native login experience above or below the
+ * library's social logins), create an NSDictionary object, indexed by a \ref customInterfaceKeys "pre-defined set of keys"
+ * and pass this to the library through the JREngage#setCustomInterface: method.
+ * Any values specified in this dictionary will override the corresponding values specified in the JREngage-Info.plist. 
  *
- * You can also launch authentication and social sharing with a custom interface dictionary through 
- * the - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations 
- * or - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
- * methods.  Any values passed into the show...Dialog methods will override the corresponding values passed into 
- * the - (void)setCustomInterface:(NSDictionary*)customizations method.
+ * You can also launch authentication and social sharing with a custom interface dictionary through the
+ * JREngage#showAuthenticationDialogWithCustomInterface: or
+ * JREngage#showSocialPublishingDialogWithActivity:andCustomInterface:
+ * methods.  Any values passed into the \c show...Dialog methods will override the corresponding values passed into 
+ * the JREngage#setCustomInterface: method.
  *
  * @{
  **/
 
 /** 
+ * \anchor customInterfaceKeys
  * \name Navigation Bar Tint
- * Key to specify the tint color of the library's navigation bar
+ * \brief Keys to specify the tint color of the library's navigation bar
  **/
 /*@{*/
 
 /**
  * Key for a \c UIColor object to set as the tint color of the library's navigation bar
  *
- * \note If you push the library's dialogs onto your own navigation controller, setting this value will have no effect.
+ * \note If you push the library's dialogs onto your own navigation controller, using the 
+ * JREngage#setCustomNavigationController: method, setting this value will have no effect.
  **/
 #define kJRNavigationBarTintColor  @"NavigationBar.TintColor"
 
 /**
  * Key for an \c NSArray of doubles to set as the RGBa tint values for color of the library's navigation bar
  *
- * \note If you push the library's dialogs onto your own navigation controller, setting this value will have no effect.
+ * \note If you push the library's dialogs onto your own navigation controller, using the 
+ * JREngage#setCustomNavigationController: method, setting this value will have no effect.
  **/
 #define kJRNavigationBarTintColorRGBa  @"NavigationBar.TintColor.RGBa"
 /*@}*/
@@ -248,6 +250,8 @@
 /*@}*/
 
 /** 
+ * @anchor titleViews
+ *
  * \name Title Views
  * Keys to specify the UIViews to be used as the title views of the library's dialogs
  **/
@@ -256,37 +260,39 @@
 /**
  * Key for the \c UIView object to be set as the title view of the Providers Table on the iPhone.
  *
- * \note If this value is set, it will override any string value set for kJRProviderTableTitleString,
- * although the kJRProviderTableTitleString value will be used as the text on the back button.
+ * \note If this value is set, it will override any string value set for define #kJRProviderTableTitleString,
+ * although the define #kJRProviderTableTitleString value will be used as the text on the back button.
  **/
 #define kJRProviderTableTitleView        @"ProviderTable.Title.View"
 
 /**
  * Key for the \c UIView object to be set as the title view of the Social Sharing screen on the iPhone.
  *
- * \note If this value is set, it will override any string value set for kJRSocialSharingTitleString,
- * although the kJRSocialSharingTitleString value will be used as the text on the back button.
+ * \note If this value is set, it will override any string value set for define #kJRSocialSharingTitleString,
+ * although the define #kJRSocialSharingTitleString value will be used as the text on the back button.
  **/
 #define kJRSocialSharingTitleView        @"SocialSharing.Title.View"
 
 /**
  * Key for the \c UIView object to be set as the title view of the Providers Table on the iPad.
  *
- * \note If this value is set, it will override any string value set for kJRProviderTableTitleString,
- * although the kJRProviderTableTitleString value will be used as the text on the back button.
+ * \note If this value is set, it will override any string value set for define #kJRProviderTableTitleString,
+ * although the define #kJRProviderTableTitleString value will be used as the text on the back button.
  **/
 #define kJRProviderTableTitleView_iPad   @"ProviderTable.Title.View-iPad"
 
 /**
  * Key for the \c UIView object to be set as the title view of the Social Sharing screen on the iPad.
  *
- * \note If this value is set, it will override any string value set for kJRSocialSharingTitleString,
- * although the kJRSocialSharingTitleString value will be used as the text on the back button.
+ * \note If this value is set, it will override any string value set for define #kJRSocialSharingTitleString,
+ * although the define #kJRSocialSharingTitleString value will be used as the text on the back button.
  **/
 #define kJRSocialSharingTitleView_iPad   @"SocialSharing.Title.View-iPad"
 /*@}*/
 
 /** 
+ * @anchor titleStrings
+ *
  * \name Title Strings
  * Keys to specify the NSString titles to be used as the titles of the library's dialogs
  **/
@@ -295,18 +301,16 @@
 /**
  * Key for the \c NSString title to be set as the title of the Providers Table.
  * 
- * \note If a UIView* is set for kJRProviderTableTitleView or kJRProviderTableTitleView_iPad are set, 
- * this string will not appear as the title on the navigation bar.  It will only be used as the text on
- * the back button.
+ * \note If a UIView* is set for define #kJRProviderTableTitleView or define #kJRProviderTableTitleView_iPad
+ * are set, this string will not appear as the title on the navigation bar.  It will only be used as the text on the back button.
  **/
 #define kJRProviderTableTitleString   @"ProviderTable.Title.String"
 
 /**
  * Key for the \c NSString title to be set as the title of the Social Sharing screen.
  * 
- * \note If a UIView* is set for kJRSocialSharingTitleView or kJRSocialSharingTitleView_iPad are set, 
- * this string will not appear as the title on the navigation bar.  It will only be used as the text on
- * the back button.
+ * \note If a UIView* is set for define #kJRSocialSharingTitleView or define #kJRSocialSharingTitleView_iPad
+ * are set, this string will not appear as the title on the navigation bar.  It will only be used as the text on the back button.
  **/
 #define kJRSocialSharingTitleString   @"SocialSharing.Title.String"
 /*@}*/
@@ -339,6 +343,8 @@
 /*@}*/
 
 /** 
+ * @anchor tableSectionViews
+ *
  * \name Provider Table Section Header and Footer Views
  * Keys to specify the UIViews to be used as the Provider Table's providers section header and footer views
  **/
@@ -347,34 +353,36 @@
 /**
  * Key for the \c UIView object to be set as the view of the providers section header in the Providers Table on the iPhone.
  * 
- * \note Setting this value overrides any string set as the kJRProviderTableSectionHeaderTitleString.
+ * \note Setting this value overrides any string set as the define #kJRProviderTableSectionHeaderTitleString.
  **/
 #define kJRProviderTableSectionHeaderView       @"ProviderTable.Section.Header.View"
 
 /**
  * Key for the \c UIView object to be set as the view of the providers section footer in the Providers Table on the iPhone.
  * 
- * \note Setting this value overrides any string set as the kJRProviderTableSectionFooterTitleString.
+ * \note Setting this value overrides any string set as the define #kJRProviderTableSectionFooterTitleString.
  **/
 #define kJRProviderTableSectionFooterView       @"ProviderTable.Section.Footer.View"
 
 /**
  * Key for the \c UIView object to be set as the view of the providers section header in the Providers Table on the iPad.
  * 
- * \note Setting this value overrides any string set as the kJRProviderTableSectionHeaderTitleString.
+ * \note Setting this value overrides any string set as the define #kJRProviderTableSectionHeaderTitleString.
  **/
 #define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.Section.Header.View-iPad"
 
 /**
  * Key for the \c UIView object to be set as the view of the providers section footer in the Providers Table on the iPad.
  * 
- * \note Setting this value overrides any string set as the kJRProviderTableSectionFooterTitleString.
+ * \note Setting this value overrides any string set as the define #kJRProviderTableSectionFooterTitleString.
  **/
 #define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.Section.Footer.View-iPad"
 /*@}*/
 
 /** 
- * \name Provider Table Section Header and Footer Views
+ * @anchor tableSectionStrings
+ * 
+ * \name Provider Table Section Header and Footer Strings
  * Keys to specify the UIViews to be used as the Provider Table's providers section header and footer views
  **/
 /*@{*/
@@ -382,16 +390,16 @@
 /**
  * Key for the \c NSString to be set as the title of the providers section header in the Providers Table.
  * 
- * \note If a UIView* is set for kJRProviderTableSectionHeaderView or kJRProviderTableSectionHeaderView_iPad are set, 
- * this string will not be used.
+ * \note If a UIView* is set for define #kJRProviderTableSectionHeaderView or 
+ * define #kJRProviderTableSectionHeaderView_iPad  are set, this string will not be used.
  **/
 #define kJRProviderTableSectionHeaderTitleString  @"ProviderTable.Section.Header.Title.String"
 
 /**
  * Key for the \c NSString to be set as the title of the providers section footer in the Providers Table.
  * 
- * \note If a UIView* is set for kJRProviderTableSectionFooterView or kJRProviderTableSectionFooterView_iPad are set, 
- * this string will not be used.
+ * \note If a UIView* is set for define #kJRProviderTableSectionFooterView or
+ * define #kJRProviderTableSectionFooterView_iPad  are set, this string will not be used.
  **/
 #define kJRProviderTableSectionFooterTitleString  @"ProviderTable.Section.Footer.Title.String"
 /*@}*/
@@ -724,6 +732,8 @@
 - (void)showAuthenticationDialog;
 
 /**
+ * @anchor showAuthCustom
+ * 
  * Use this function to begin authentication.  The JREngage library will 
  * pop up a modal dialog, configured with the given custom interface, 
  * and take the user through the sign-in process.
@@ -751,6 +761,8 @@
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
 
 /**
+ * @anchor showPubCustom
+ * 
  * Use this function to begin social publishing.  The JREngage library will 
  * pop up a modal dialog, configured with the given custom interface, 
  * take the user through the sign-in process, if necessary,
@@ -770,6 +782,7 @@
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
 /*@}*/
 
+/** \anchor customInterface **/
 /** 
  * \name Configure the User Interface
  * Methods used to customize the JREngage's user interface
@@ -786,6 +799,7 @@
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
 /**
+ * \anchor setCustomUI
  * Use this function if you want to customize the look and feel of the user interface or add 
  * your own native login experience, by passing an NSDictionary object indexed by the set of pre-defined 
  * custom interface keys.  TODO: Add link

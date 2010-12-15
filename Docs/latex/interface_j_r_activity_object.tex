@@ -43,15 +43,12 @@ NSMutableDictionary $\ast$ \hyperlink{interface_j_r_activity_object_a1acf84854d2
 \item 
 (id) -\/ \hyperlink{interface_j_r_activity_object_a61195dc95162d1136d41af3a5f15fe2d}{initWithAction:andUrl:}
 \item 
-\hypertarget{interface_j_r_activity_object_a7bfe16e0799ff6c07548ef8aeb778a51}{
-(id) + {\bfseries activityObjectWithAction:andUrl:}}
-\label{interface_j_r_activity_object_a7bfe16e0799ff6c07548ef8aeb778a51}
-
+(id) + \hyperlink{interface_j_r_activity_object_a7bfe16e0799ff6c07548ef8aeb778a51}{activityObjectWithAction:andUrl:}
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-An activity object you create, populate, and post to the user's activity stream. Create an activity object, fill in the object's fields, and pass the object to the \hyperlink{interface_j_r_engage}{JREngage} library when you are ready to publish. Currently supported providers are:
+Create an activity object, fill in the object's fields, and pass the object to the \hyperlink{interface_j_r_engage}{JREngage} library when you are ready to publish. Currently supported providers are:
 \begin{DoxyItemize}
 \item Facebook
 \item LinkedIn
@@ -86,6 +83,24 @@ For more information of Janrain Engage's activity api, see \href{https://rpxnow.
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_activity_object_a61195dc95162d1136d41af3a5f15fe2d}
+Returns a {\ttfamily \hyperlink{interface_j_r_activity_object}{JRActivityObject}} initialized with the given action and url.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em \_\-action}]A string describing what the user did, written in the third person. This value cannot be {\ttfamily nil}.\item[{\em \_\-url}]The URL of the resource being mentioned in the activity update. This value cannot be {\ttfamily nil}.\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \hyperlink{interface_j_r_activity_object}{JRActivityObject} initialized with the given action and url. If either {\ttfamily \_\-action} or {\ttfamily \_\-url} are {\itshape nil\/}, returns {\ttfamily nil}. 
+\end{DoxyReturn}
+\hypertarget{interface_j_r_activity_object_a7bfe16e0799ff6c07548ef8aeb778a51}{
+\index{JRActivityObject@{JRActivityObject}!activityObjectWithAction:andUrl:@{activityObjectWithAction:andUrl:}}
+\index{activityObjectWithAction:andUrl:@{activityObjectWithAction:andUrl:}!JRActivityObject@{JRActivityObject}}
+\subsubsection[{activityObjectWithAction:andUrl:}]{\setlength{\rightskip}{0pt plus 5cm}+ (id) activityObjectWithAction: 
+\begin{DoxyParamCaption}
+\item[{dummy(NSString $\ast$)}]{ \_\-action}
+\item[{andUrl:(NSString $\ast$)}]{ \_\-url}
+\end{DoxyParamCaption}
+}}
+\label{interface_j_r_activity_object_a7bfe16e0799ff6c07548ef8aeb778a51}
 Returns a {\ttfamily \hyperlink{interface_j_r_activity_object}{JRActivityObject}} initialized with the given action and url.
 
 

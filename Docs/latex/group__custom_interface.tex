@@ -9,7 +9,11 @@ Customize the user interface with your application's colors, images, native logi
 
 \subsection*{Navigation Bar Tint}
 \label{_amgrpcbb064fcefe41751c8f91866832360e5}
- Key to specify the tint color of the library's navigation bar \begin{DoxyCompactItemize}
+Keys to specify the tint color of the library's navigation bar
+
+\label{group__custom_interface_customInterfaceKeys}
+\hypertarget{group__custom_interface_customInterfaceKeys}{}
+ \begin{DoxyCompactItemize}
 \item 
 \#define \hyperlink{group__custom_interface_ga7c7ed7dac155537c9bc14531c5cec3cb}{kJRNavigationBarTintColor}~@\char`\"{}NavigationBar.TintColor\char`\"{}
 \item 
@@ -45,7 +49,11 @@ Customize the user interface with your application's colors, images, native logi
 \end{DoxyCompactItemize}
 \subsection*{Title Views}
 \label{_amgrp3aa85b42b54fc9202c3d403d77360bef}
- Keys to specify the UIViews to be used as the title views of the library's dialogs \begin{DoxyCompactItemize}
+ \label{group__custom_interface_titleViews}
+\hypertarget{group__custom_interface_titleViews}{}
+
+
+Keys to specify the UIViews to be used as the title views of the library's dialogs \begin{DoxyCompactItemize}
 \item 
 \#define \hyperlink{group__custom_interface_ga0bce97edf43c9cdf53cbcd1aa92c4798}{kJRProviderTableTitleView}~@\char`\"{}ProviderTable.Title.View\char`\"{}
 \item 
@@ -57,7 +65,11 @@ Customize the user interface with your application's colors, images, native logi
 \end{DoxyCompactItemize}
 \subsection*{Title Strings}
 \label{_amgrp57383e7526d006c80c9394d9945c0a3b}
- Keys to specify the NSString titles to be used as the titles of the library's dialogs \begin{DoxyCompactItemize}
+ \label{group__custom_interface_titleStrings}
+\hypertarget{group__custom_interface_titleStrings}{}
+
+
+Keys to specify the NSString titles to be used as the titles of the library's dialogs \begin{DoxyCompactItemize}
 \item 
 \#define \hyperlink{group__custom_interface_gaf728e45125be9ca6fa515a39a77e7ce7}{kJRProviderTableTitleString}~@\char`\"{}ProviderTable.Title.String\char`\"{}
 \item 
@@ -77,7 +89,11 @@ Customize the user interface with your application's colors, images, native logi
 \end{DoxyCompactItemize}
 \subsection*{Provider Table Section Header and Footer Views}
 \label{_amgrp0087c3b750e6b14cf3b110df546a77d4}
- Keys to specify the UIViews to be used as the Provider Table's providers section header and footer views \begin{DoxyCompactItemize}
+ \label{group__custom_interface_tableSectionViews}
+\hypertarget{group__custom_interface_tableSectionViews}{}
+
+
+Keys to specify the UIViews to be used as the Provider Table's providers section header and footer views \begin{DoxyCompactItemize}
 \item 
 \#define \hyperlink{group__custom_interface_gaaff8ebdd2b9badb1d0a019a71d47db46}{kJRProviderTableSectionHeaderView}~@\char`\"{}ProviderTable.Section.Header.View\char`\"{}
 \item 
@@ -86,6 +102,14 @@ Customize the user interface with your application's colors, images, native logi
 \#define \hyperlink{group__custom_interface_ga7dcb3488390fabe1f3a358fb5af1e42c}{kJRProviderTableSectionHeaderView\_\-iPad}~@\char`\"{}ProviderTable.Section.Header.View-\/iPad\char`\"{}
 \item 
 \#define \hyperlink{group__custom_interface_gaa2196cc44d4e0dc4de9e98248c8a7e10}{kJRProviderTableSectionFooterView\_\-iPad}~@\char`\"{}ProviderTable.Section.Footer.View-\/iPad\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Provider Table Section Header and Footer Strings}
+\label{_amgrp04b2524ada266b7d80839ac3b6e6ae59}
+ \label{group__custom_interface_tableSectionStrings}
+\hypertarget{group__custom_interface_tableSectionStrings}{}
+
+
+Keys to specify the UIViews to be used as the Provider Table's providers section header and footer views \begin{DoxyCompactItemize}
 \item 
 \#define \hyperlink{group__custom_interface_ga667a6c955993ec24292875f319a7d763}{kJRProviderTableSectionHeaderTitleString}~@\char`\"{}ProviderTable.Section.Header.Title.String\char`\"{}
 \item 
@@ -94,15 +118,15 @@ Customize the user interface with your application's colors, images, native logi
 
 
 \subsection{Detailed Description}
-Customize the user interface with your application's colors, images, native login, etc. The Engage for iPhone SDK provides the ability to customize the look and feel of the user interface, as well as the ability to add your own native login experience, through the Custom Interface API. You can set many of the interface defaults in the JREngage-\/Info.plist file and override these defaults programmatically through any of the ...CustomInterface functions.
+The Engage for iPhone SDK provides the ability to customize the look and feel of the user interface, as well as the ability to add your own native login experience, through the \hyperlink{interface_j_r_engage_customInterface}{Custom Interface API}. You can set many of the interface defaults in the JREngage-\/Info.plist file and override these defaults programmatically through any of the \hyperlink{interface_j_r_engage_showMethods}{...CustomInterface} functions.
 
-The SDK accepts a dictionaries of values, indexed by a pre-\/defined set of keys (below), and uses these to set the properties of the library's user interface.
+The SDK accepts a dictionaries of values, indexed by a \hyperlink{group__custom_interface_customInterfaceKeys}{pre-\/defined set of keys}, and uses these to set the properties of the library's user interface.
 
-First, the library loads the DefaultValues dictionary from the JREngage.CustomInterface section of the JREngage-\/Info.plist file, and uses these values when configuring the library's user interface. Then, the library loads the CustomValues dictionary from the JREngage.CustomInterface section of the JREngage-\/Info.plist file. Any values specified in this section of the property list will override the corresponding default value specified in the DefaultValues section. You should only makes changes to the CustomValues section$\ast$. TODO ADD FOOTNOTE
+First, the library loads the DefaultValues dictionary from the JREngage.CustomInterface section of the JREngage-\/Info.plist file, and uses these values when configuring the library's user interface. Then, the library loads the CustomValues dictionary from the JREngage.CustomInterface section of the JREngage-\/Info.plist file. Any values specified in this section of the property list will override the corresponding default value specified in the DefaultValues section. You should only makes changes to the CustomValues section.
 
-To configure the SDK programmatically (e.g., dynamically integrating your native login experience above or below the library's social logins), create an NSDictionary object, indexed by a pre-\/defined set of keys (below) and pass this to the library through the -\/ (void)setCustomInterface:(NSDictionary$\ast$)customizations method. Any values specified in this dictionary will override the corresponding values specified in the JREngage-\/Info.plist.
+To configure the SDK programmatically (e.g., dynamically integrating your native login experience above or below the library's social logins), create an NSDictionary object, indexed by a \hyperlink{group__custom_interface_customInterfaceKeys}{pre-\/defined set of keys} and pass this to the library through the \hyperlink{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}{setCustomInterface: (JREngage)} method. Any values specified in this dictionary will override the corresponding values specified in the JREngage-\/Info.plist.
 
-You can also launch authentication and social sharing with a custom interface dictionary through the -\/ (void)showAuthenticationDialogWithCustomInterface:(NSDictionary$\ast$)customizations or -\/ (void)showSocialPublishingDialogWithActivity:(JRActivityObject$\ast$)activity andCustomInterface:(NSDictionary$\ast$)customizations methods. Any values passed into the show...Dialog methods will override the corresponding values passed into the -\/ (void)setCustomInterface:(NSDictionary$\ast$)customizations method. 
+You can also launch authentication and social sharing with a custom interface dictionary through the \hyperlink{interface_j_r_engage_ac8e1206be8608fbed548b7ec5f85e6e6}{showAuthenticationDialogWithCustomInterface: (JREngage)} or \hyperlink{interface_j_r_engage_af5c2aa40f5c45a22f369900d1bd81953}{showSocialPublishingDialogWithActivity:andCustomInterface: (JREngage)} methods. Any values passed into the {\ttfamily show}...Dialog methods will override the corresponding values passed into the \hyperlink{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}{setCustomInterface: (JREngage)} method. 
 
 \subsection{Define Documentation}
 \hypertarget{group__custom_interface_ga7c7ed7dac155537c9bc14531c5cec3cb}{
@@ -113,7 +137,7 @@ You can also launch authentication and social sharing with a custom interface di
 Key for a {\ttfamily UIColor} object to set as the tint color of the library's navigation bar
 
 \begin{DoxyNote}{Note}
-If you push the library's dialogs onto your own navigation controller, setting this value will have no effect. 
+If you push the library's dialogs onto your own navigation controller, using the \hyperlink{interface_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}{setCustomNavigationController: (JREngage)} method, setting this value will have no effect. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_gabda4f66c5cde44bbeaa6a993f4793ac5}{
 \index{customInterface@{customInterface}!kJRNavigationBarTintColorRGBa@{kJRNavigationBarTintColorRGBa}}
@@ -123,7 +147,7 @@ If you push the library's dialogs onto your own navigation controller, setting t
 Key for an {\ttfamily NSArray} of doubles to set as the RGBa tint values for color of the library's navigation bar
 
 \begin{DoxyNote}{Note}
-If you push the library's dialogs onto your own navigation controller, setting this value will have no effect. 
+If you push the library's dialogs onto your own navigation controller, using the \hyperlink{interface_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}{setCustomNavigationController: (JREngage)} method, setting this value will have no effect. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_gacfe014997457d27386eff69eb731ce0f}{
 \index{customInterface@{customInterface}!kJRAuthenticationBackgroundColor@{kJRAuthenticationBackgroundColor}}
@@ -183,7 +207,7 @@ Key for the {\ttfamily NSString} name of the image to be set as the background i
 Key for the {\ttfamily UIView} object to be set as the title view of the Providers Table on the iPhone.
 
 \begin{DoxyNote}{Note}
-If this value is set, it will override any string value set for kJRProviderTableTitleString, although the kJRProviderTableTitleString value will be used as the text on the back button. 
+If this value is set, it will override any string value set for define \hyperlink{group__custom_interface_gaf728e45125be9ca6fa515a39a77e7ce7}{kJRProviderTableTitleString}, although the define \hyperlink{group__custom_interface_gaf728e45125be9ca6fa515a39a77e7ce7}{kJRProviderTableTitleString} value will be used as the text on the back button. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_ga524965cf426f0eb9de4bcb804528c7f7}{
 \index{customInterface@{customInterface}!kJRSocialSharingTitleView@{kJRSocialSharingTitleView}}
@@ -193,7 +217,7 @@ If this value is set, it will override any string value set for kJRProviderTable
 Key for the {\ttfamily UIView} object to be set as the title view of the Social Sharing screen on the iPhone.
 
 \begin{DoxyNote}{Note}
-If this value is set, it will override any string value set for kJRSocialSharingTitleString, although the kJRSocialSharingTitleString value will be used as the text on the back button. 
+If this value is set, it will override any string value set for define \hyperlink{group__custom_interface_ga8fb89469dc5225bf0ea4d1faca6aa2ab}{kJRSocialSharingTitleString}, although the define \hyperlink{group__custom_interface_ga8fb89469dc5225bf0ea4d1faca6aa2ab}{kJRSocialSharingTitleString} value will be used as the text on the back button. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_ga52c322e9fd2aa78cbd64d050f0fd5e41}{
 \index{customInterface@{customInterface}!kJRProviderTableTitleView\_\-iPad@{kJRProviderTableTitleView\_\-iPad}}
@@ -203,7 +227,7 @@ If this value is set, it will override any string value set for kJRSocialSharing
 Key for the {\ttfamily UIView} object to be set as the title view of the Providers Table on the iPad.
 
 \begin{DoxyNote}{Note}
-If this value is set, it will override any string value set for kJRProviderTableTitleString, although the kJRProviderTableTitleString value will be used as the text on the back button. 
+If this value is set, it will override any string value set for define \hyperlink{group__custom_interface_gaf728e45125be9ca6fa515a39a77e7ce7}{kJRProviderTableTitleString}, although the define \hyperlink{group__custom_interface_gaf728e45125be9ca6fa515a39a77e7ce7}{kJRProviderTableTitleString} value will be used as the text on the back button. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_ga2f88062cdd1fd38ad0e800d382450398}{
 \index{customInterface@{customInterface}!kJRSocialSharingTitleView\_\-iPad@{kJRSocialSharingTitleView\_\-iPad}}
@@ -213,7 +237,7 @@ If this value is set, it will override any string value set for kJRProviderTable
 Key for the {\ttfamily UIView} object to be set as the title view of the Social Sharing screen on the iPad.
 
 \begin{DoxyNote}{Note}
-If this value is set, it will override any string value set for kJRSocialSharingTitleString, although the kJRSocialSharingTitleString value will be used as the text on the back button. 
+If this value is set, it will override any string value set for define \hyperlink{group__custom_interface_ga8fb89469dc5225bf0ea4d1faca6aa2ab}{kJRSocialSharingTitleString}, although the define \hyperlink{group__custom_interface_ga8fb89469dc5225bf0ea4d1faca6aa2ab}{kJRSocialSharingTitleString} value will be used as the text on the back button. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_gaf728e45125be9ca6fa515a39a77e7ce7}{
 \index{customInterface@{customInterface}!kJRProviderTableTitleString@{kJRProviderTableTitleString}}
@@ -223,7 +247,7 @@ If this value is set, it will override any string value set for kJRSocialSharing
 Key for the {\ttfamily NSString} title to be set as the title of the Providers Table.
 
 \begin{DoxyNote}{Note}
-If a UIView$\ast$ is set for kJRProviderTableTitleView or kJRProviderTableTitleView\_\-iPad are set, this string will not appear as the title on the navigation bar. It will only be used as the text on the back button. 
+If a UIView$\ast$ is set for define \hyperlink{group__custom_interface_ga0bce97edf43c9cdf53cbcd1aa92c4798}{kJRProviderTableTitleView} or define \hyperlink{group__custom_interface_ga52c322e9fd2aa78cbd64d050f0fd5e41}{kJRProviderTableTitleView\_\-iPad} are set, this string will not appear as the title on the navigation bar. It will only be used as the text on the back button. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_ga8fb89469dc5225bf0ea4d1faca6aa2ab}{
 \index{customInterface@{customInterface}!kJRSocialSharingTitleString@{kJRSocialSharingTitleString}}
@@ -233,7 +257,7 @@ If a UIView$\ast$ is set for kJRProviderTableTitleView or kJRProviderTableTitleV
 Key for the {\ttfamily NSString} title to be set as the title of the Social Sharing screen.
 
 \begin{DoxyNote}{Note}
-If a UIView$\ast$ is set for kJRSocialSharingTitleView or kJRSocialSharingTitleView\_\-iPad are set, this string will not appear as the title on the navigation bar. It will only be used as the text on the back button. 
+If a UIView$\ast$ is set for define \hyperlink{group__custom_interface_ga524965cf426f0eb9de4bcb804528c7f7}{kJRSocialSharingTitleView} or define \hyperlink{group__custom_interface_ga2f88062cdd1fd38ad0e800d382450398}{kJRSocialSharingTitleView\_\-iPad} are set, this string will not appear as the title on the navigation bar. It will only be used as the text on the back button. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_ga1a0f39bfdb880fdd0b8b39cbec492b6f}{
 \index{customInterface@{customInterface}!kJRProviderTableHeaderView@{kJRProviderTableHeaderView}}
@@ -263,7 +287,7 @@ Key for the {\ttfamily UIView} object to be set as the footer view of the Provid
 Key for the {\ttfamily UIView} object to be set as the view of the providers section header in the Providers Table on the iPhone.
 
 \begin{DoxyNote}{Note}
-Setting this value overrides any string set as the kJRProviderTableSectionHeaderTitleString. 
+Setting this value overrides any string set as the define \hyperlink{group__custom_interface_ga667a6c955993ec24292875f319a7d763}{kJRProviderTableSectionHeaderTitleString}. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_ga984c096e9258dea402a1c27ae8bb6c8f}{
 \index{customInterface@{customInterface}!kJRProviderTableSectionFooterView@{kJRProviderTableSectionFooterView}}
@@ -273,7 +297,7 @@ Setting this value overrides any string set as the kJRProviderTableSectionHeader
 Key for the {\ttfamily UIView} object to be set as the view of the providers section footer in the Providers Table on the iPhone.
 
 \begin{DoxyNote}{Note}
-Setting this value overrides any string set as the kJRProviderTableSectionFooterTitleString. 
+Setting this value overrides any string set as the define \hyperlink{group__custom_interface_ga72e63105251e7d4d6a363e279c2bf775}{kJRProviderTableSectionFooterTitleString}. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_ga7dcb3488390fabe1f3a358fb5af1e42c}{
 \index{customInterface@{customInterface}!kJRProviderTableSectionHeaderView\_\-iPad@{kJRProviderTableSectionHeaderView\_\-iPad}}
@@ -283,7 +307,7 @@ Setting this value overrides any string set as the kJRProviderTableSectionFooter
 Key for the {\ttfamily UIView} object to be set as the view of the providers section header in the Providers Table on the iPad.
 
 \begin{DoxyNote}{Note}
-Setting this value overrides any string set as the kJRProviderTableSectionHeaderTitleString. 
+Setting this value overrides any string set as the define \hyperlink{group__custom_interface_ga667a6c955993ec24292875f319a7d763}{kJRProviderTableSectionHeaderTitleString}. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_gaa2196cc44d4e0dc4de9e98248c8a7e10}{
 \index{customInterface@{customInterface}!kJRProviderTableSectionFooterView\_\-iPad@{kJRProviderTableSectionFooterView\_\-iPad}}
@@ -293,7 +317,7 @@ Setting this value overrides any string set as the kJRProviderTableSectionHeader
 Key for the {\ttfamily UIView} object to be set as the view of the providers section footer in the Providers Table on the iPad.
 
 \begin{DoxyNote}{Note}
-Setting this value overrides any string set as the kJRProviderTableSectionFooterTitleString. 
+Setting this value overrides any string set as the define \hyperlink{group__custom_interface_ga72e63105251e7d4d6a363e279c2bf775}{kJRProviderTableSectionFooterTitleString}. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_ga667a6c955993ec24292875f319a7d763}{
 \index{customInterface@{customInterface}!kJRProviderTableSectionHeaderTitleString@{kJRProviderTableSectionHeaderTitleString}}
@@ -303,7 +327,7 @@ Setting this value overrides any string set as the kJRProviderTableSectionFooter
 Key for the {\ttfamily NSString} to be set as the title of the providers section header in the Providers Table.
 
 \begin{DoxyNote}{Note}
-If a UIView$\ast$ is set for kJRProviderTableSectionHeaderView or kJRProviderTableSectionHeaderView\_\-iPad are set, this string will not be used. 
+If a UIView$\ast$ is set for define \hyperlink{group__custom_interface_gaaff8ebdd2b9badb1d0a019a71d47db46}{kJRProviderTableSectionHeaderView} or define \hyperlink{group__custom_interface_ga7dcb3488390fabe1f3a358fb5af1e42c}{kJRProviderTableSectionHeaderView\_\-iPad} are set, this string will not be used. 
 \end{DoxyNote}
 \hypertarget{group__custom_interface_ga72e63105251e7d4d6a363e279c2bf775}{
 \index{customInterface@{customInterface}!kJRProviderTableSectionFooterTitleString@{kJRProviderTableSectionFooterTitleString}}
@@ -313,5 +337,5 @@ If a UIView$\ast$ is set for kJRProviderTableSectionHeaderView or kJRProviderTab
 Key for the {\ttfamily NSString} to be set as the title of the providers section footer in the Providers Table.
 
 \begin{DoxyNote}{Note}
-If a UIView$\ast$ is set for kJRProviderTableSectionFooterView or kJRProviderTableSectionFooterView\_\-iPad are set, this string will not be used. 
+If a UIView$\ast$ is set for define \hyperlink{group__custom_interface_ga984c096e9258dea402a1c27ae8bb6c8f}{kJRProviderTableSectionFooterView} or define \hyperlink{group__custom_interface_gaa2196cc44d4e0dc4de9e98248c8a7e10}{kJRProviderTableSectionFooterView\_\-iPad} are set, this string will not be used. 
 \end{DoxyNote}

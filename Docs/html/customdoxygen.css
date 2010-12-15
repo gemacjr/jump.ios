@@ -166,7 +166,7 @@ div.ah {
 
 div.groupHeader {
 	margin-left: 16px;
-	margin-top: 12px;
+	margin-top: 22px;
 	margin-bottom: 6px;
 	font-weight: bold;
 }
@@ -428,7 +428,7 @@ table.memberdecls {
         border-bottom: 1px solid #999999; //#A8B8D9;      
         border-left: 1px solid #999999; //#A8B8D9;      
         border-right: 1px solid #999999; //#A8B8D9; 
-        padding: 2px 5px;
+        padding: 5px 5px 2px 5px;
         background-color: #FBFCFD;
         border-top-width: 0;
         /* firefox specific markup */
@@ -452,7 +452,7 @@ table.memberdecls {
 }
 
 .paramname {
-	color: #f58002; //#602020;
+	color: /*green*/ #4e9a44;// /*orange*/ #f58002; //#602020;
 	white-space: nowrap;
 }
 .paramname em {
@@ -734,4 +734,87 @@ div.headertitle
     background-repeat:repeat-x;
     color: #fff;
     text-shadow: none;
+}
+
+table.memberdecls td
+{
+	/*background-color: red;*/
+	padding: 0px;
+	margin: 0px;
+}
+
+table.memberdecls tr
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+div.contents h2
+{
+	margin-top: 25px;
+	margin-bottom: 8px;
+}
+
+table.memberdecls h2
+{
+	padding: 0px;
+	margin-bottom: 0px;
+	margin-top: 25px;
+}
+
+table.memberdecls p
+{
+	height: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+table.memberdecls br
+{
+	height: 0px;
+}
+
+div.groupText p
+{
+	height: 14px;
+	margin-bottom: 4px;
+}
+
+div.contents table
+{
+	margin-top: 5px;
+}
+
+tr.memlist
+{
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-top: 1px solid #074764; //#C4CFE5;
+}
+
+tr.memlist td
+{
+/*	padding: 0px; */
+	margin: 0px; 
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+	
+div.memdoc code
+{
+  color: #4e9a44;
+}
+
+table.memname
+{
+	margin: 0px;
+	margin-top: 5px;
+	line-height: auto;
+}
+
+table.memname td
+{
+	padding-top: 3px;
+	padding-bottom: 0px;
 }
