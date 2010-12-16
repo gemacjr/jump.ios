@@ -738,10 +738,10 @@
  **/
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
 
-/**
- *
- **/
-- (void)showAuthenticationDialogWithForcedReauthenticationOnLastUsedProvider;
+///**
+// *
+// **/
+//- (void)showAuthenticationDialogWithForcedReauthenticationOnLastUsedProvider;
 
 /**
  * \anchor showPubDialog
