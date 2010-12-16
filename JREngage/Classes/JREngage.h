@@ -68,8 +68,8 @@
  **/
 
 /**
- * \page Providers
- * \section basicProviders List of Providers
+ * @page Providers
+ * @section basicProviders List of Providers
  *
  * Here is a list of possible strings that the argument (NSString*)provider can be
  * when used in the authentication methods:
@@ -94,10 +94,10 @@
  *   \endif
  *   - "yahoo" 
  *
- * \note As your Engage application is limited by the number of providers it may use, 
+ * @note As your Engage application is limited by the number of providers it may use, 
  * you may only see a subset of this list.
  *
- * \section socialProviders List of Social Providers
+ * @section socialProviders List of Social Providers
  *
  * Here is a list of possible strings that the argument (NSString*)provider can be
  * when used in the social publishing methods:
@@ -107,7 +107,7 @@
  *   - "twitter"
  *   - "yahoo" 
  *
- * \note As your Engage application is limited by the number of providers it may use, 
+ * @note As your Engage application is limited by the number of providers it may use, 
  * you may only see a subset of this list.
  **/
 
@@ -127,10 +127,17 @@
 #endif
 
 /**
- * @defgroup customInterface Custom User Interface
- * \brief Customize the user interface with your application's colors, images, native login, etc.
+ * @file JREngage-Info.plist
  *
- * \detail
+ * Property list for the JREngage SDK
+ * @include JREngage-Info.plist
+ */
+
+/**
+ * @defgroup customInterface Custom User Interface
+ * @brief Customize the user interface with your application's colors, images, native login, etc.
+ *
+ * @detail
  * The Engage for iPhone SDK provides the ability to customize the look and feel of the user interface, as well as
  * the ability to add your own native login experience, through the \ref customInterface "Custom Interface API".  
  * You can set many of the interface defaults in the JREngage-Info.plist file and override these defaults
@@ -161,16 +168,16 @@
  **/
 
 /** 
- * \anchor customInterfaceKeys
- * \name Navigation Bar Tint
- * \brief Keys to specify the tint color of the library's navigation bar
+ * @anchor customInterfaceKeys
+ * @name Navigation Bar Tint
+ * @brief Keys to specify the tint color of the library's navigation bar
  **/
 /*@{*/
 
 /**
  * Key for a \c UIColor object to set as the tint color of the library's navigation bar
  *
- * \note If you push the library's dialogs onto your own navigation controller, using the 
+ * @note If you push the library's dialogs onto your own navigation controller, using the 
  * JREngage#setCustomNavigationController: method, setting this value will have no effect.
  **/
 #define kJRNavigationBarTintColor  @"NavigationBar.TintColor"
@@ -178,7 +185,7 @@
 /**
  * Key for an \c NSArray of doubles to set as the RGBa tint values for color of the library's navigation bar
  *
- * \note If you push the library's dialogs onto your own navigation controller, using the 
+ * @note If you push the library's dialogs onto your own navigation controller, using the 
  * JREngage#setCustomNavigationController: method, setting this value will have no effect.
  **/
 #define kJRNavigationBarTintColorRGBa  @"NavigationBar.TintColor.RGBa"
@@ -186,7 +193,7 @@
 
 
 /** 
- * \name Background Colors
+ * @name Background Colors
  * Keys to specify the background colors of the library's dialogs
  **/
 /*@{*/
@@ -213,7 +220,7 @@
 /*@}*/
 
 /** 
- * \name Background Images
+ * @name Background Images
  * Keys to specify the name of the images to be used as the background of the library's dialogs
  **/
 /*@{*/
@@ -252,7 +259,7 @@
 /** 
  * @anchor titleViews
  *
- * \name Title Views
+ * @name Title Views
  * Keys to specify the UIViews to be used as the title views of the library's dialogs
  **/
 /*@{*/
@@ -260,7 +267,7 @@
 /**
  * Key for the \c UIView object to be set as the title view of the Providers Table on the iPhone.
  *
- * \note If this value is set, it will override any string value set for define #kJRProviderTableTitleString,
+ * @note If this value is set, it will override any string value set for define #kJRProviderTableTitleString,
  * although the define #kJRProviderTableTitleString value will be used as the text on the back button.
  **/
 #define kJRProviderTableTitleView        @"ProviderTable.Title.View"
@@ -268,7 +275,7 @@
 /**
  * Key for the \c UIView object to be set as the title view of the Social Sharing screen on the iPhone.
  *
- * \note If this value is set, it will override any string value set for define #kJRSocialSharingTitleString,
+ * @note If this value is set, it will override any string value set for define #kJRSocialSharingTitleString,
  * although the define #kJRSocialSharingTitleString value will be used as the text on the back button.
  **/
 #define kJRSocialSharingTitleView        @"SocialSharing.Title.View"
@@ -276,7 +283,7 @@
 /**
  * Key for the \c UIView object to be set as the title view of the Providers Table on the iPad.
  *
- * \note If this value is set, it will override any string value set for define #kJRProviderTableTitleString,
+ * @note If this value is set, it will override any string value set for define #kJRProviderTableTitleString,
  * although the define #kJRProviderTableTitleString value will be used as the text on the back button.
  **/
 #define kJRProviderTableTitleView_iPad   @"ProviderTable.Title.View-iPad"
@@ -284,7 +291,7 @@
 /**
  * Key for the \c UIView object to be set as the title view of the Social Sharing screen on the iPad.
  *
- * \note If this value is set, it will override any string value set for define #kJRSocialSharingTitleString,
+ * @note If this value is set, it will override any string value set for define #kJRSocialSharingTitleString,
  * although the define #kJRSocialSharingTitleString value will be used as the text on the back button.
  **/
 #define kJRSocialSharingTitleView_iPad   @"SocialSharing.Title.View-iPad"
@@ -293,7 +300,7 @@
 /** 
  * @anchor titleStrings
  *
- * \name Title Strings
+ * @name Title Strings
  * Keys to specify the NSString titles to be used as the titles of the library's dialogs
  **/
 /*@{*/
@@ -301,7 +308,7 @@
 /**
  * Key for the \c NSString title to be set as the title of the Providers Table.
  * 
- * \note If a UIView* is set for define #kJRProviderTableTitleView or define #kJRProviderTableTitleView_iPad
+ * @note If a UIView* is set for define #kJRProviderTableTitleView or define #kJRProviderTableTitleView_iPad
  * are set, this string will not appear as the title on the navigation bar.  It will only be used as the text on the back button.
  **/
 #define kJRProviderTableTitleString   @"ProviderTable.Title.String"
@@ -309,14 +316,14 @@
 /**
  * Key for the \c NSString title to be set as the title of the Social Sharing screen.
  * 
- * \note If a UIView* is set for define #kJRSocialSharingTitleView or define #kJRSocialSharingTitleView_iPad
+ * @note If a UIView* is set for define #kJRSocialSharingTitleView or define #kJRSocialSharingTitleView_iPad
  * are set, this string will not appear as the title on the navigation bar.  It will only be used as the text on the back button.
  **/
 #define kJRSocialSharingTitleString   @"SocialSharing.Title.String"
 /*@}*/
 
 /** 
- * \name Provider Table Header and Footer Views
+ * @name Provider Table Header and Footer Views
  * Keys to specify the UIViews to be used as the Provider Table's header and footer views
  **/
 /*@{*/
@@ -345,7 +352,7 @@
 /** 
  * @anchor tableSectionViews
  *
- * \name Provider Table Section Header and Footer Views
+ * @name Provider Table Section Header and Footer Views
  * Keys to specify the UIViews to be used as the Provider Table's providers section header and footer views
  **/
 /*@{*/
@@ -353,28 +360,28 @@
 /**
  * Key for the \c UIView object to be set as the view of the providers section header in the Providers Table on the iPhone.
  * 
- * \note Setting this value overrides any string set as the define #kJRProviderTableSectionHeaderTitleString.
+ * @note Setting this value overrides any string set as the define #kJRProviderTableSectionHeaderTitleString.
  **/
 #define kJRProviderTableSectionHeaderView       @"ProviderTable.Section.Header.View"
 
 /**
  * Key for the \c UIView object to be set as the view of the providers section footer in the Providers Table on the iPhone.
  * 
- * \note Setting this value overrides any string set as the define #kJRProviderTableSectionFooterTitleString.
+ * @note Setting this value overrides any string set as the define #kJRProviderTableSectionFooterTitleString.
  **/
 #define kJRProviderTableSectionFooterView       @"ProviderTable.Section.Footer.View"
 
 /**
  * Key for the \c UIView object to be set as the view of the providers section header in the Providers Table on the iPad.
  * 
- * \note Setting this value overrides any string set as the define #kJRProviderTableSectionHeaderTitleString.
+ * @note Setting this value overrides any string set as the define #kJRProviderTableSectionHeaderTitleString.
  **/
 #define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.Section.Header.View-iPad"
 
 /**
  * Key for the \c UIView object to be set as the view of the providers section footer in the Providers Table on the iPad.
  * 
- * \note Setting this value overrides any string set as the define #kJRProviderTableSectionFooterTitleString.
+ * @note Setting this value overrides any string set as the define #kJRProviderTableSectionFooterTitleString.
  **/
 #define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.Section.Footer.View-iPad"
 /*@}*/
@@ -382,7 +389,7 @@
 /** 
  * @anchor tableSectionStrings
  * 
- * \name Provider Table Section Header and Footer Strings
+ * @name Provider Table Section Header and Footer Strings
  * Keys to specify the UIViews to be used as the Provider Table's providers section header and footer views
  **/
 /*@{*/
@@ -390,7 +397,7 @@
 /**
  * Key for the \c NSString to be set as the title of the providers section header in the Providers Table.
  * 
- * \note If a UIView* is set for define #kJRProviderTableSectionHeaderView or 
+ * @note If a UIView* is set for define #kJRProviderTableSectionHeaderView or 
  * define #kJRProviderTableSectionHeaderView_iPad  are set, this string will not be used.
  **/
 #define kJRProviderTableSectionHeaderTitleString  @"ProviderTable.Section.Header.Title.String"
@@ -398,7 +405,7 @@
 /**
  * Key for the \c NSString to be set as the title of the providers section footer in the Providers Table.
  * 
- * \note If a UIView* is set for define #kJRProviderTableSectionFooterView or
+ * @note If a UIView* is set for define #kJRProviderTableSectionFooterView or
  * define #kJRProviderTableSectionFooterView_iPad  are set, this string will not be used.
  **/
 #define kJRProviderTableSectionFooterTitleString  @"ProviderTable.Section.Footer.Title.String"
@@ -415,7 +422,7 @@
 @class JRUserInterfaceMaestro;
 
 /**
- * \brief
+ * @brief
  * The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and 
  * information about a user that authenticates with your application and publishes activities to their 
  * social networks.
@@ -429,7 +436,7 @@
 @optional
 
 /** 
- * \name Configuration 
+ * @name Configuration 
  * Messages sent by JREngage during dialog launch/configuration
  **/
 /*@{*/
@@ -441,7 +448,7 @@
  * @param error
  *   The error that occurred during configuration
  *
- * \note
+ * @note
  * This message is only sent if your application tries to show a JREngage dialog, and not necessarily 
  * when an error occurs, if, say, the error occurred during the library's configuration.  The raison d'etre 
  * is based on the possibility that your application may preemptively configure JREngage, but never actually 
@@ -451,7 +458,7 @@
 /*@}*/
 
 /** 
- * \name Authentication
+ * @name Authentication
  * Messages sent  by JREngage during authentication
  **/
 /*@{*/
@@ -464,7 +471,7 @@
 - (void)jrAuthenticationDidNotComplete;
 
 /**
- * \anchor authDidSucceed
+ * @anchor authDidSucceed
  *
  * Tells the delegate that the user has successfully authenticated with the given provider, passing to
  * the delegate an \c NSDictionary object with the user's profile data
@@ -475,25 +482,25 @@
  *
  *   The structure of the dictionary (represented here in json) should look something like the 
  *   following:
- * \code
+ * @code
  "auth_info":
  {
-   "profile": 
-   {
-     "displayName": "brian",
-     "preferredUsername": "brian",
-     "url": "http:\/\/brian.myopenid.com\/",
-     "providerName": "Other",
-     "identifier": "http:\/\/brian.myopenid.com\/"
-   }
+ "profile": 
+ {
+ "displayName": "brian",
+ "preferredUsername": "brian",
+ "url": "http:\/\/brian.myopenid.com\/",
+ "providerName": "Other",
+ "identifier": "http:\/\/brian.myopenid.com\/"
  }
- * \endcode
+ }
+ * @endcode
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings, 
  *   please see the \ref basicProviders "List of Providers"
  *
- * \sa For a full description of the dictionary and its fields, 
+ * @sa For a full description of the dictionary and its fields, 
  * please see the <a href="https://rpxnow.com/docs#api_auth_info_response">auth_info response</a> 
  * section of the Janrain Engage API documentation.
  **/
@@ -509,13 +516,15 @@
  *   The name of the provider on which the user tried to authenticate.  For a list of possible strings, 
  *   please see the \ref basicProviders "List of Providers"
  *
- * \note
+ * @note
  * This message is not sent if authentication was canceled.  To be notified of a canceled authentication, 
- * see jrAuthenticationDidNotComplete.
+ * see jrAuthenticationDidNotComplete().
  **/
 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
 /**
+ * @deprecated
+ *
  * Sent after JREngage has successfully posted the token to your application's token_url, containing 
  * the body of the response from the server
  *
@@ -529,14 +538,12 @@
  *   The name of the provider on which the user authenticated.  For a list of possible strings, 
  *   please see the \ref basicProviders "List of Providers"
  * 
- * \warning This function may become deprecated in the future.
- *
- * \sa \ref tokenUrlReached "- (void)jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:"
+ * @sa jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:()
  **/
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
 /**
- * \anchor tokenUrlReached
+ * @anchor tokenUrlReached
  *
  * Sent after JREngage has successfully posted the token to your application's token_url, containing 
  * the headers and body of the response from the server
@@ -573,7 +580,7 @@
 /*@}*/
 
 /** 
- * \name SocialPublishing
+ * @name SocialPublishing
  * Messages sent by JREngage during social publishing
  **/
 /*@{*/
@@ -587,13 +594,13 @@
 
 /**
  * Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing 
- * is complete. You can receive multiple \ref didPublish "- (void)jrSocialDidPublishActivity:forProvider:" 
+ * is complete. You can receive multiple jrSocialDidPublishActivity:forProvider:()
  * messages before the dialog is closed and publishing is complete.
  **/
 - (void)jrSocialDidCompletePublishing;
 
 /**
- * \anchor didPublish
+ * @anchor didPublish
  * Sent after the user successfully shares an activity on the given provider
  *
  * @param activity
@@ -623,10 +630,10 @@
 @end
 
 /**
- * \brief
+ * @brief
  * Main API for interacting with the Janrain Engage for iPhone library
  * 
- * \details
+ * @sa
  * Use the JREngage object to authenticate a user with your application and 
  * allow them to publish activities to their social networks.
  * 
@@ -654,7 +661,7 @@
 }
 
 /** 
- * \name Get the JREngage Instance
+ * @name Get the JREngage Instance
  * Methods that initialize and return the shared JREngage instance
  **/
 /*@{*/
@@ -668,7 +675,7 @@
 + (JREngage*)jrEngage;
 
 /**
- * \anchor engageWithAppId
+ * @anchor engageWithAppId
  * Initializes and returns the shared instance of the JREngage library
  *
  * @param appId
@@ -694,7 +701,7 @@
 /*@}*/
 
 /** 
- * \name Manage the Delegates
+ * @name Manage the Delegates
  * Add/remove delegates that implement the JREngageDelegate protocol
  **/
 /*@{*/
@@ -716,15 +723,15 @@
 - (void)removeDelegate:(id<JREngageDelegate>)delegate;
 /*@}*/
 
-/** \anchor showMethods **/
+/** @anchor showMethods **/
 /** 
- * \name Show the JREngage Dialogs
+ * @name Show the JREngage Dialogs
  * Methods that display JREngage's dialogs to initiate authentication and social publishing
  **/
 /*@{*/
 
 /**
- * \anchor showAuthDialog
+ * @anchor showAuthDialog
  *
  * Use this function to begin authentication.  The JREngage library will 
  * pop up a modal dialog and take the user through the sign-in process.
@@ -739,17 +746,19 @@
  * and take the user through the sign-in process.
  *
  * @param customizations
- *   A dictionary of objects and properties to be used by the library to customize 
- *   the look and feel of the user interface and/or add a native login experience
+ *   A dictionary of objects and properties, indexed by the set of 
+ *   \link customInterface pre-defined custom interface keys\endlink,
+ *   to be used by the library to customize the look and feel of the user 
+ *   interface and/or add a native login experience
  *
- * \note Any values specified in the \c customizations dictionary will override the 
+ * @note Any values specified in the \c customizations dictionary will override the 
  * corresponding values specified in both the JREngage-Info.plist and the dictionary 
- * passed into the - (void)setCustomInterface:(NSDictionary*)customizations method.
+ * passed into the setCustomInterface:(NSDictionary*) method.
  **/
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
 
 /**
- * \anchor showPubDialog
+ * @anchor showPubDialog
  *
  * Use this function to begin social publishing.  The JREngage library will 
  * pop up a modal dialog and take the user through the sign-in process, if necessary,
@@ -772,19 +781,21 @@
  *   The activity you wish to share
  *
  * @param customizations
- *   A dictionary of objects and properties to be used by the library to customize 
- *   the look and feel of the user interface and/or add a native login experience
+ *   A dictionary of objects and properties, indexed by the set of 
+ *   \link customInterface pre-defined custom interface keys\endlink,
+ *   to be used by the library to customize the look and feel of the user 
+ *   interface and/or add a native login experience
  *
- * \note Any values specified in the \c customizations dictionary will override the 
+ * @note Any values specified in the \c customizations dictionary will override the 
  * corresponding values specified in both the JREngage-Info.plist and the dictionary 
- * passed into the - (void)setCustomInterface:(NSDictionary*)customizations method.
+ * passed into the setCustomInterface:(NSDictionary*) method.
  **/
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
 /*@}*/
 
-/** \anchor customInterface **/
+/** @anchor customInterface **/
 /** 
- * \name Configure the User Interface
+ * @name Configure the User Interface
  * Methods used to customize the JREngage's user interface
  **/
 /*@{*/
@@ -799,53 +810,54 @@
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 
 /**
- * \anchor setCustomUI
+ * @anchor setCustomUI
  * Use this function if you want to customize the look and feel of the user interface or add 
- * your own native login experience, by passing an NSDictionary object indexed by the set of pre-defined 
- * custom interface keys.  TODO: Add link
+ * your own native login experience, by passing an NSDictionary object indexed by the set of 
+ * \link customInterface pre-defined custom interface keys\endlink.  
  *
- * \note Any values specified in the \c customizations dictionary will override the 
- * corresponding values specified in the JREngage-Info.plist. \n
- * Any values specified in the \c customizations dictionary will be overridden the corresponding values specified in a 
- * dictionary passed into the  - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations 
- * or - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
- * methods.  
+ * @param customizations
+ *   A dictionary of objects and properties, indexed by the set of 
+ *   \link customInterface pre-defined custom interface keys\endlink,
+ *   to be used by the library to customize the look and feel of the user 
+ *   interface and/or add a native login experience
+ *
+ * @note Any values specified in the \c customizations dictionary will override the 
+ * corresponding values specified in both the JREngage-Info.plist and the dictionary 
+ * passed into the setCustomInterface:(NSDictionary*) method.
  **/
 - (void)setCustomInterface:(NSDictionary*)customizations;
 /*@}*/
 
 /** 
- * \name Management Authenticated Users
+ * @name Management Authenticated Users
  * Methods that manage authenticated users remembered by the library
  **/
 /*@{*/
 
-// TODO: Deprecate these for the release
 /**
+ * @deprecated
+ *
  * Tell JREngage to forget that a user is already signed in with the given provider
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings, 
  *   please see the \ref socialProviders "List of Social Providers"
  * 
- * \warning This function may become deprecated in the future.
- *
- * \sa \ref signoutProvider "- (void)signoutUserForProvider:(NSString*)provider"
+ * @sa  signoutUserForProvider:()
  **/
 - (void)signoutUserForSocialProvider:(NSString*)provider;
 
 /**
+ * @deprecated
+ *
  * Tell JREngage to forget that a user is signed in with all \ref socialProviders "Social Providers"
  * 
- * \warning This function may become deprecated in the future.
- *
- * \sa \ref signoutAll "- (void)signoutUserForAllProviders"
+ * @sa signoutUserForAllProviders
  **/
 - (void)signoutUserForAllSocialProviders;
 
-// TODO: Deprecate these for the release
 /**
- * \anchor signoutProvider
+ * @anchor signoutProvider
  *
  * Tell JREngage to forget that a user is already signed in with the given provider
  *
@@ -856,7 +868,7 @@
 - (void)signoutUserForProvider:(NSString*)provider;
 
 /**
- * \anchor signoutAll
+ * @anchor signoutAll
  *
  * Tell JREngage to forget that a user is signed in with all \ref basicProviders "Providers"
  **/
@@ -873,7 +885,7 @@
 /*@}*/
 
 /** 
- * \name Cancel the JREngage Dialogs
+ * @name Cancel the JREngage Dialogs
  * Methods to cancel authentication and social publishing
  **/
 /*@{*/
@@ -890,13 +902,13 @@
 /*@}*/
 
 /** 
- * \name Server-side Authentication
+ * @name Server-side Authentication
  * Methods to reconfigure server-side authentication
  **/
 /*@{*/
 
 /** 
- * \anchor updateTokenUrl
+ * @anchor updateTokenUrl
  *
  * Use this function to specify a different tokenUrl than the one you 
  * initiated the library with
@@ -904,3 +916,4 @@
 - (void)updateTokenUrl:(NSString*)newTokenUrl;
 /*@}*/
 @end
+

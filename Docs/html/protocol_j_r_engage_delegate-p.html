@@ -137,14 +137,14 @@ Public Member Functions</h2></td></tr>
 <p>The structure of the dictionary (represented here in json) should look something like the following: </p>
 <div class="fragment"><pre class="fragment"> <span class="stringliteral">&quot;auth_info&quot;</span>:
  {
-   <span class="stringliteral">&quot;profile&quot;</span>: 
-   {
-     <span class="stringliteral">&quot;displayName&quot;</span>: <span class="stringliteral">&quot;brian&quot;</span>,
-     <span class="stringliteral">&quot;preferredUsername&quot;</span>: <span class="stringliteral">&quot;brian&quot;</span>,
-     <span class="stringliteral">&quot;url&quot;</span>: <span class="stringliteral">&quot;http:\/\/brian.myopenid.com\/&quot;</span>,
-     <span class="stringliteral">&quot;providerName&quot;</span>: <span class="stringliteral">&quot;Other&quot;</span>,
-     <span class="stringliteral">&quot;identifier&quot;</span>: <span class="stringliteral">&quot;http:\/\/brian.myopenid.com\/&quot;</span>
-   }
+ <span class="stringliteral">&quot;profile&quot;</span>: 
+ {
+ <span class="stringliteral">&quot;displayName&quot;</span>: <span class="stringliteral">&quot;brian&quot;</span>,
+ <span class="stringliteral">&quot;preferredUsername&quot;</span>: <span class="stringliteral">&quot;brian&quot;</span>,
+ <span class="stringliteral">&quot;url&quot;</span>: <span class="stringliteral">&quot;http:\/\/brian.myopenid.com\/&quot;</span>,
+ <span class="stringliteral">&quot;providerName&quot;</span>: <span class="stringliteral">&quot;Other&quot;</span>,
+ <span class="stringliteral">&quot;identifier&quot;</span>: <span class="stringliteral">&quot;http:\/\/brian.myopenid.com\/&quot;</span>
+ }
  }
 </pre></div><dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -188,7 +188,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="note"><dt><b>Note:</b></dt><dd>This message is not sent if authentication was canceled. To be notified of a canceled authentication, see jrAuthenticationDidNotComplete. </dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>This message is not sent if authentication was canceled. To be notified of a canceled authentication, see <a class="el" href="protocol_j_r_engage_delegate-p.html#a4eaa6a5961e175b8275c6b06034afea7">jrAuthenticationDidNotComplete</a>. </dd></dl>
 
 </div>
 </div>
@@ -222,6 +222,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd></dd></dl>
 <p>Sent after <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> has successfully posted the token to your application's token_url, containing the body of the response from the server</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -231,8 +232,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="warning"><dt><b>Warning:</b></dt><dd>This function may become deprecated in the future.</dd></dl>
-<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="protocol_j_r_engage_delegate-p.html#tokenUrlReached">- (void)jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:</a> </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd><a class="el" href="protocol_j_r_engage_delegate-p.html#a2cbed662f784706d2db038e1cb9ba3fd">- jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:</a> </dd></dl>
 
 </div>
 </div>
@@ -360,7 +360,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing is complete. You can receive multiple <a class="el" href="protocol_j_r_engage_delegate-p.html#didPublish">- (void)jrSocialDidPublishActivity:forProvider:</a> messages before the dialog is closed and publishing is complete. </p>
+<p>Sent after the social publishing dialog is closed (e.g., the user hits the "Close" button) and publishing is complete. You can receive multiple <a class="el" href="protocol_j_r_engage_delegate-p.html#a4c3fd988961c22202786b400ddd889cc">jrSocialDidPublishActivity:forProvider:</a> messages before the dialog is closed and publishing is complete. </p>
 
 </div>
 </div>

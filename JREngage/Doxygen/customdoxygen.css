@@ -818,3 +818,20 @@ table.memname td
 	padding-top: 3px;
 	padding-bottom: 0px;
 }
+
+td.memname
+{
+	text-align: right;
+}
+
+dl.note dd
+{
+	margin-left: 0px;
+	padding-bottom: 5px;
+}
+
+dl.return dd
+{
+	padding-top: 11px;
+	padding-bottom: 6px;
+}

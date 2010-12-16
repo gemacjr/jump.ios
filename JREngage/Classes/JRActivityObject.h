@@ -35,7 +35,7 @@
 
 /**
  * @file
- * \brief Interface for creating and populating activities that you wish to publish.
+ * @brief Interface for creating and populating activities that you wish to publish.
  * 
  * Interface for creating and populating activities that you wish to publish
  * to your user's social networks.  Create an activity object, fill in the 
@@ -47,14 +47,14 @@
 #import "JRConnectionManager.h"
 
 /**
- * \internal 
+ * @internal 
  * Base class for JRImageMediaObject, JRFlashMediaObject, and JRMp3MediaObject.
  **/
 @interface JRMediaObject : NSObject { }
 @end
 
 /**
- * \brief Image object to be included in a post to a user's stream. 
+ * @brief Image object to be included in a post to a user's stream. 
  *
  * Create an image media object, fill in the object's fields, and add the object to the 
  * JRActivityObject#media array in your JRActivityObject.  How the images get presented 
@@ -63,7 +63,7 @@
  * Each image must contain a \e src URL, which maps to the photo's URL, and an 
  * \e href URL, which maps to the URL where a user should be taken if he or she clicks the photo.
  *
- * \sa Format and rules are identical to those described on the 
+ * @sa Format and rules are identical to those described on the 
  * <a href="http://developers.facebook.com/docs/guides/attachments"> 
  * Facebook Developer page on Attachments</a>.
  **/
@@ -80,7 +80,7 @@
 @property (retain) UIImage *preview;
 
 /** 
- * \name Constructors
+ * @name Constructors
  **/
 /*@{*/
 /**
@@ -103,7 +103,7 @@
 
 
 /**
- * \brief Flash object to be included in a post to a user's stream. 
+ * @brief Flash object to be included in a post to a user's stream. 
  *
  * Create an flash media object, fill in the object's fields, and add the object to the 
  * JRActivityObject#media array in your JRActivityObject.  How the flash videos get presented 
@@ -118,10 +118,10 @@
  * the width and height of flash object will resize to, on the provider's stream,
  * once the user clicks on it.
  *
- * \note You can only include one JRFlashMediaObject in the media array.  Any others
+ * @note You can only include one JRFlashMediaObject in the media array.  Any others
  * will be ignored.
  *
- * \sa Format and rules are identical to those described on the 
+ * @sa Format and rules are identical to those described on the 
  * <a href="http://developers.facebook.com/docs/guides/attachments"> 
  * Facebook Developer page on Attachments</a>.
  **/
@@ -145,7 +145,7 @@
 @property (retain) UIImage *preview;
 
 /** 
- * \name Constructors
+ * @name Constructors
  **/
 /*@{*/
 /**
@@ -169,7 +169,7 @@
 
 
 /**
- * \brief Mp3 object to be included in a post to a user's stream. 
+ * @brief Mp3 object to be included in a post to a user's stream. 
  *
  * Create an mp3 media object, fill in the object's fields, and add the object to the 
  * JRActivityObject#media array in your JRActivityObject.  How the mp3s get presented 
@@ -178,10 +178,10 @@
  * Each mp3 must contain a \e src url, which is the URL of the MP3 file to be rendered. 
  * The mp3 can also include a \e title, \e artist, and \e album.
  *
- * \note You can only include one JRMp3MediaObject in the media array.  Any others
+ * @note You can only include one JRMp3MediaObject in the media array.  Any others
  * will be ignored.
  *
- * \sa Format and rules are identical to those described on the 
+ * * @ Format and rules are identical to those described on the 
  * <a href="http://developers.facebook.com/docs/guides/attachments"> 
  * Facebook Developer page on Attachments</a>.
  **/
@@ -198,7 +198,7 @@
 @property (retain) NSString *album;
 
 /** 
- * \name Constructors
+ * @name Constructors
  **/
 /*@{*/
 /**
@@ -219,7 +219,7 @@
 
 
 /**
- * \brief A link a user can use to take action on an activity update on the provider.
+ * @brief A link a user can use to take action on an activity update on the provider.
  *
  * Create an action link object, fill in the object's fields, and add the object
  * the JRActivityObject#action_links array of your JRActivityObject.
@@ -227,7 +227,7 @@
  * Each action link must contain a link, \e href, and some \e text, describing what action
  * will happen if someone clicks the link. 
  * Example:
- * \code
+ * @code
  * action_links: 
  * [
  *   {
@@ -239,7 +239,7 @@
  *     "href": "http://example.com/quiz/12345/take"
  *   }
  * ]
- * \endcode
+ * @endcode
  * 
  **/
 @interface JRActionLink : NSObject
@@ -251,7 +251,7 @@
 @property (retain) NSString *href;
 
 /** 
- * \name Constructors
+ * @name Constructors
  **/
 /*@{*/
 /**
@@ -275,7 +275,7 @@
 
 
 /**
- * \brief Object containing content to be shared by email
+ * @brief Object containing content to be shared by email
  *
  * Create an email object, fill in the fields, and add the object
  * to the JRActivityObject#email property in your JRActivityObject.
@@ -289,10 +289,10 @@
  * servers to obtain shortened URLs and replace any instance of the url in
  * your email body.
  *
- * \note If the user attempts to share the activity via email before the 
+ * @note If the user attempts to share the activity via email before the 
  * call to shorten the URLs is returned, the email will contain the original 
- * URLs and the click-throughs will not be tracked.\n Once the MFMailComposeViewController 
- * is displayed, the given subject and body can be modified by the user.
+ * URLs and the click-throughs will not be tracked. \n@note
+ * Once the MFMailComposeViewController is displayed, the given subject and body can be modified by the user.
  **/
 @interface JREmailObject : NSObject
 {
@@ -307,7 +307,7 @@
 @property (retain) NSArray  *urls;
 
 /** 
- * \name Constructors
+ * @name Constructors
  **/
 /*@{*/
 /**
@@ -343,7 +343,7 @@
 
 
 /**
- * \brief Object containing the default message to be shared by sms
+ * @brief Object containing the default message to be shared by sms
  *
  * Create an sms object, fill in the message field, and add the object
  * to the JRActivityObject#sms property in your JRActivityObject.
@@ -356,10 +356,10 @@
  * The library will contact the Engage servers to obtain shortened URLs and replace any 
  * instance of the url in your sms message.
  *
- * \note If the user attempts to share the activity via sms before the 
+ * @note If the user attempts to share the activity via sms before the 
  * call to shorten the URLs is returned, the sms will contain the original 
- * URLs and the click-throughs will not be tracked.\n Once the MFMessageComposeViewController 
- * is displayed, the given message string can be modified by the user.
+ * URLs and the click-throughs will not be tracked. \n
+ * Once the MFMessageComposeViewController is displayed, the given message string can be modified by the user.
  **/
 @interface JRSmsObject : NSObject
 {
@@ -370,12 +370,12 @@
 @property (retain) NSArray  *urls;
 
 /** 
- * \name Constructors
+ * @name Constructors
  **/
 /*@{*/
 
 /** 
- * \name Constructors
+ * @name Constructors
  **/
 /*@{*/
 /**
@@ -405,7 +405,7 @@
 
 
 /**
- * \brief An activity object you create, populate, and post to the user's activity stream. 
+ * @brief An activity object you create, populate, and post to the user's activity stream. 
  *
  * Create an activity object, fill in the object's fields, and pass the object to
  * the JREngage library when you are ready to publish. Currently supported providers are:
@@ -425,13 +425,13 @@
  * Otherwise, you will be given an error response indicating what was wrong. Detailed error responses will 
  * also be given if the activity parameter does not meet the formatting requirements described below. 
  * 
- * \sa For more information of Janrain Engage's activity api, see <a href="https://rpxnow.com/docs#api_activity">
+ * @sa For more information of Janrain Engage's activity api, see <a href="https://rpxnow.com/docs#api_activity">
  * the activity section</a> of our API Documentation.
  **/
 @interface JRActivityObject : NSObject 
 {
    /** 
-    * \name
+    * @name
     * The various properties of the JRActivityObject that you can configure
     **/
    /*@{*/
@@ -451,14 +451,14 @@
     * A string containing user-supplied content, such as a comment or the first paragraph of an article 
     * that the user wrote. 
     * 
-    * \note Some providers (Twitter in particular) may truncate this value.
+    * @note Some providers (Twitter in particular) may truncate this value.
     **/
     NSString *user_generated_content;    
 
    /**
     * The title of the resource being mentioned in the activity update. 
     *
-    * \note No length restriction on the status is imposed by Janrain Engage, 
+    * @note No length restriction on the status is imposed by Janrain Engage, 
     * however Yahoo truncates this value to 256 characters. 
     **/
     NSString *title;                     
@@ -472,7 +472,7 @@
     * An array of \c JRActionLink objects, each having two attributes: text and href. 
     * An action link is a link a user can use to take action on an activity update on the provider
     * Example:
-    * \code
+    * @code
     * action_links: 
     * [
     *   {
@@ -484,9 +484,9 @@
     *     "href": "http://example.com/quiz/12345/take"
     *   }
     * ]
-    * \endcode
+    * @endcode
     * 
-    * \note Any objects added to this array that are not of type \c JRActionLink will be ignored.
+    * @note Any objects added to this array that are not of type \c JRActionLink will be ignored.
     **/
     NSMutableArray *action_links;
     
@@ -508,7 +508,7 @@
     * Also, any objects added to this array that are not of type \c JRMediaObject will be ignored.
     * 
     *
-    * \sa Media object format and rules are identical to those described on the 
+    * @sa Media object format and rules are identical to those described on the 
     * <a href="http://developers.facebook.com/docs/guides/attachments"> Facebook Developer page on Attachments</a>.
     **/   
     NSMutableArray *media;
@@ -517,7 +517,7 @@
     * An object with attributes describing properties of the update. An attribute value can be 
     * a string or an object with two attributes, text and href. 
     * Example:
-    * \code
+    * @code
     *   properties: 
     *   {
     *       "Time": "05:00",
@@ -527,7 +527,7 @@
     *           "href": "http://en.wikipedia.org/wiki/Portland,_Oregon"
     *       }
     *   }
-    * \endcode
+    * @endcode
     **/
     NSMutableDictionary *properties;
     
@@ -558,7 +558,7 @@
 @property (retain) JRSmsObject *sms;
 
 /** 
- * \name Constructors
+ * @name Constructors
  **/
 /*@{*/
 /**
@@ -580,13 +580,13 @@
 /*@}*/
 
 /**
- * \internal
+ * @internal
  * Returns an NSDictionary representing the JRActivityObject.
  *
  * @return
  *   An NSDictionary of NSString objects representing the JRActivityObject.
  *
- * \note This function should not be used directly.  It is intended only for use by the
+ * @note This function should not be used directly.  It is intended only for use by the
  * JREngage library.
  **/
 - (NSDictionary*)dictionaryForObject;

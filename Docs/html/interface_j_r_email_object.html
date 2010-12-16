@@ -50,8 +50,10 @@ Constructors</h2></td></tr>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Create an email object, fill in the fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#aa26818070a5987c70ef14700d6f6c72c">JRActivityObject::email</a> property in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. The given content is supplied to the MFMailComposeViewController class when the user wants to share your activity via email.</p>
 <p>If your email message body contains URLs that you would like shortented to an <a href="http://rpxnow.com/docs/iphone#shortenUrls">http://rpx.me/</a> URL (with which you can track click-throughs), add the exact URL(s) to the <code>urls</code> array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your email body.</p>
-<dl class="note"><dt><b>Note:</b></dt><dd>If the user attempts to share the activity via email before the call to shorten the URLs is returned, the email will contain the original URLs and the click-throughs will not be tracked.<br/>
- Once the MFMailComposeViewController is displayed, the given subject and body can be modified by the user. </dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>If the user attempts to share the activity via email before the call to shorten the URLs is returned, the email will contain the original URLs and the click-throughs will not be tracked. <br/>
+</dd>
+<dd>
+Once the MFMailComposeViewController is displayed, the given subject and body can be modified by the user. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="aa911e84f7b1f7e8c4fd15009dbdc6783"></a><!-- doxytag: member="JREmailObject::initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:" ref="aa911e84f7b1f7e8c4fd15009dbdc6783" args="(NSString *_subject,[andMessageBody] NSString *_messageBody,[isHtml] BOOL _isHtml,[andUrlsToBeShortened] NSArray *_urls)" -->
 <div class="memitem">

@@ -38,8 +38,10 @@ Create an email object, fill in the fields, and add the object to the \hyperlink
 If your email message body contains URLs that you would like shortented to an \href{http://rpxnow.com/docs/iphone#shortenUrls}{\tt http://rpx.me/} URL (with which you can track click-\/throughs), add the exact URL(s) to the {\ttfamily urls} array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your email body.
 
 \begin{DoxyNote}{Note}
-If the user attempts to share the activity via email before the call to shorten the URLs is returned, the email will contain the original URLs and the click-\/throughs will not be tracked.\par
- Once the MFMailComposeViewController is displayed, the given subject and body can be modified by the user. 
+If the user attempts to share the activity via email before the call to shorten the URLs is returned, the email will contain the original URLs and the click-\/throughs will not be tracked. \par
+
+
+Once the MFMailComposeViewController is displayed, the given subject and body can be modified by the user. 
 \end{DoxyNote}
 
 

@@ -99,8 +99,9 @@ Methods used to customize the JREngage's user interface }\begin{DoxyCompactItemi
 
 
 \subsection{Detailed Description}
+\begin{DoxySeeAlso}{See also}
 Use the \hyperlink{interface_j_r_engage}{JREngage} object to authenticate a user with your application and allow them to publish activities to their social networks.
-
+\end{DoxySeeAlso}
 If you wish to include 3rd-\/Party Authentication and Social Publishing in your iPhone application, you can use the \hyperlink{interface_j_r_engage}{JREngage} class to achieve this. Prior to using the \hyperlink{interface_j_r_engage}{JREngage} library, you must already have an application on \href{http://rpxnow.com}{\tt http://rpxnow.com}. This is all that is required for basic authentication, although some providers may require extra configuration (which can be done through your application's \href{http://rpxnow.com/relying_parties}{\tt Dashboard} For social publishing, you will need to configure your rpxnow application with the desired providers.
 
 If desired, you can optionally implement server-\/side authentication$\ast$. When provided, the \hyperlink{interface_j_r_engage}{JREngage} library can post the user's authentication token to a url on your server: the token url. Your server can complete authentication, access more of JREngage's API, log the authentication, etc. and the server's response will be passed back through to your iPhone application.
@@ -201,9 +202,9 @@ Use this function to begin authentication. The \hyperlink{interface_j_r_engage}{
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em customizations}]A dictionary of objects and properties to be used by the library to customize the look and feel of the user interface and/or add a native login experience\end{DoxyParams}
+\item[{\em customizations}]A dictionary of objects and properties, indexed by the set of \hyperlink{group__custom_interface}{pre-\/defined custom interface keys}, to be used by the library to customize the look and feel of the user interface and/or add a native login experience\end{DoxyParams}
 \begin{DoxyNote}{Note}
-Any values specified in the {\ttfamily customizations} dictionary will override the corresponding values specified in both the JREngage-\/Info.plist and the dictionary passed into the -\/ (void)\hyperlink{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}{setCustomInterface:}customizations method. 
+Any values specified in the {\ttfamily customizations} dictionary will override the corresponding values specified in both the \hyperlink{_j_r_engage-_info_8plist}{JREngage-\/Info.plist} and the dictionary passed into the \hyperlink{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}{setCustomInterface:} method. 
 \end{DoxyNote}
 \hypertarget{interface_j_r_engage_afca7b5ab9a57edc1a460aaec882207c4}{
 \index{JREngage@{JREngage}!showSocialPublishingDialogWithActivity:@{showSocialPublishingDialogWithActivity:}}
@@ -241,9 +242,9 @@ Use this function to begin social publishing. The \hyperlink{interface_j_r_engag
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em activity}]The activity you wish to share\item[{\em customizations}]A dictionary of objects and properties to be used by the library to customize the look and feel of the user interface and/or add a native login experience\end{DoxyParams}
+\item[{\em activity}]The activity you wish to share\item[{\em customizations}]A dictionary of objects and properties, indexed by the set of \hyperlink{group__custom_interface}{pre-\/defined custom interface keys}, to be used by the library to customize the look and feel of the user interface and/or add a native login experience\end{DoxyParams}
 \begin{DoxyNote}{Note}
-Any values specified in the {\ttfamily customizations} dictionary will override the corresponding values specified in both the JREngage-\/Info.plist and the dictionary passed into the -\/ (void)\hyperlink{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}{setCustomInterface:}customizations method. 
+Any values specified in the {\ttfamily customizations} dictionary will override the corresponding values specified in both the \hyperlink{_j_r_engage-_info_8plist}{JREngage-\/Info.plist} and the dictionary passed into the \hyperlink{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}{setCustomInterface:} method. 
 \end{DoxyNote}
 \hypertarget{interface_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}{
 \index{JREngage@{JREngage}!setCustomNavigationController:@{setCustomNavigationController:}}
@@ -270,11 +271,13 @@ If you want to push the \hyperlink{interface_j_r_engage}{JREngage} dialogs on yo
 \label{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}
 \label{interface_j_r_engage_setCustomUI}
 \hypertarget{interface_j_r_engage_setCustomUI}{}
- Use this function if you want to customize the look and feel of the user interface or add your own native login experience, by passing an NSDictionary object indexed by the set of pre-\/defined custom interface keys. TODO: Add link
+ Use this function if you want to customize the look and feel of the user interface or add your own native login experience, by passing an NSDictionary object indexed by the set of \hyperlink{group__custom_interface}{pre-\/defined custom interface keys}.
 
+
+\begin{DoxyParams}{Parameters}
+\item[{\em customizations}]A dictionary of objects and properties, indexed by the set of \hyperlink{group__custom_interface}{pre-\/defined custom interface keys}, to be used by the library to customize the look and feel of the user interface and/or add a native login experience\end{DoxyParams}
 \begin{DoxyNote}{Note}
-Any values specified in the {\ttfamily customizations} dictionary will override the corresponding values specified in the JREngage-\/Info.plist. \par
- Any values specified in the {\ttfamily customizations} dictionary will be overridden the corresponding values specified in a dictionary passed into the -\/ (void)\hyperlink{interface_j_r_engage_ac8e1206be8608fbed548b7ec5f85e6e6}{showAuthenticationDialogWithCustomInterface:}customizations or -\/ (void)\hyperlink{interface_j_r_engage_afca7b5ab9a57edc1a460aaec882207c4}{showSocialPublishingDialogWithActivity:}activity andCustomInterface:(NSDictionary$\ast$)customizations methods. 
+Any values specified in the {\ttfamily customizations} dictionary will override the corresponding values specified in both the \hyperlink{_j_r_engage-_info_8plist}{JREngage-\/Info.plist} and the dictionary passed into the \hyperlink{interface_j_r_engage_ab1757bbe9e83255b1b9128c630267fdf}{setCustomInterface:} method. 
 \end{DoxyNote}
 \hypertarget{interface_j_r_engage_aede9ed92d80f14d85e59a982da3150fc}{
 \index{JREngage@{JREngage}!signoutUserForSocialProvider:@{signoutUserForSocialProvider:}}
@@ -285,16 +288,17 @@ Any values specified in the {\ttfamily customizations} dictionary will override 
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_aede9ed92d80f14d85e59a982da3150fc}
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000002}{Deprecated}]\end{Desc}
+
+
 Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is already signed in with the given provider
 
 
 \begin{DoxyParams}{Parameters}
 \item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_socialProviders}{List of Social Providers}\end{DoxyParams}
-\begin{DoxyWarning}{Warning}
-This function may become deprecated in the future.
-\end{DoxyWarning}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{interface_j_r_engage_signoutProvider}{-\/ (void)signoutUserForProvider:(NSString$\ast$)provider} 
+\hyperlink{interface_j_r_engage_af1448791663265d3b739041983fbae92}{-\/ signoutUserForProvider:} 
 \end{DoxySeeAlso}
 \hypertarget{interface_j_r_engage_a1f4e27ed5dbc05892fd7bc2255d2afa8}{
 \index{JREngage@{JREngage}!signoutUserForAllSocialProviders@{signoutUserForAllSocialProviders}}
@@ -305,13 +309,14 @@ This function may become deprecated in the future.
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_engage_a1f4e27ed5dbc05892fd7bc2255d2afa8}
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000003}{Deprecated}]\end{Desc}
+
+
 Tell \hyperlink{interface_j_r_engage}{JREngage} to forget that a user is signed in with all \hyperlink{_providers_socialProviders}{Social Providers}
 
-\begin{DoxyWarning}{Warning}
-This function may become deprecated in the future.
-\end{DoxyWarning}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{interface_j_r_engage_signoutAll}{-\/ (void)signoutUserForAllProviders} 
+\hyperlink{interface_j_r_engage_a56060e8d5fe94e4bf06ff3edf27af5ee}{-\/ signoutUserForAllProviders} 
 \end{DoxySeeAlso}
 \hypertarget{interface_j_r_engage_af1448791663265d3b739041983fbae92}{
 \index{JREngage@{JREngage}!signoutUserForProvider:@{signoutUserForProvider:}}
