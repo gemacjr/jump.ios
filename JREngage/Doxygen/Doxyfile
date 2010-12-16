@@ -74,7 +74,7 @@ BRIEF_MEMBER_DESC      = YES
 # Note: if both HIDE_UNDOC_MEMBERS and BRIEF_MEMBER_DESC are set to NO, the 
 # brief descriptions will be completely suppressed.
 
-REPEAT_BRIEF           = YES
+REPEAT_BRIEF           = NO
 
 # This tag implements a quasi-intelligent brief description abbreviator 
 # that is used to form the text in various listings. Each string 
@@ -649,24 +649,14 @@ RECURSIVE              = YES
 # excluded from the INPUT source files. This way you can easily exclude a 
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/JSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSObject+SBJSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSObject+SBJSON.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSString+SBJSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSString+SBJSON.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonBase.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonBase.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonParser.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonParser.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonWriter.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonWriter.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/JSON.h
+EXCLUDE                = ../../json-framework/Classes \
+                         ../../scifihifi-iphone/security
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
 # directories that are symbolic links (a Unix filesystem feature) are excluded 
 # from the input.
 
-EXCLUDE_SYMLINKS       = NO
+EXCLUDE_SYMLINKS       = YES
 
 # If the value of the INPUT tag contains directories, you can use the 
 # EXCLUDE_PATTERNS tag to specify one or more wildcard patterns to exclude 
@@ -911,27 +901,27 @@ HTML_DYNAMIC_SECTIONS  = NO
 # See http://developer.apple.com/tools/creatingdocsetswithdoxygen.html 
 # for more information.
 
-GENERATE_DOCSET        = NO
+GENERATE_DOCSET        = YES
 
 # When GENERATE_DOCSET tag is set to YES, this tag determines the name of the 
 # feed. A documentation feed provides an umbrella under which multiple 
 # documentation sets from a single provider (such as a company or product suite) 
 # can be grouped.
 
-DOCSET_FEEDNAME        = "Doxygen generated docs"
+DOCSET_FEEDNAME        = Janrain
 
 # When GENERATE_DOCSET tag is set to YES, this tag specifies a string that 
 # should uniquely identify the documentation set bundle. This should be a 
 # reverse domain-name style string, e.g. com.mycompany.MyDocSet. Doxygen 
 # will append .docset to the name.
 
-DOCSET_BUNDLE_ID       = org.doxygen.Project
+DOCSET_BUNDLE_ID       = com.janrain.JREngage
 
 # When GENERATE_PUBLISHER_ID tag specifies a string that should uniquely identify 
 # the documentation publisher. This should be a reverse domain-name style 
 # string, e.g. com.mycompany.MyDocSet.documentation.
 
-DOCSET_PUBLISHER_ID    = org.doxygen.Publisher
+DOCSET_PUBLISHER_ID    = com.janrain.JREngage.documentation
 
 # The GENERATE_PUBLISHER_NAME tag identifies the documentation publisher.
 
@@ -979,7 +969,7 @@ BINARY_TOC             = NO
 # The TOC_EXPAND flag can be set to YES to add extra items for group members 
 # to the contents of the HTML help documentation and to the tree view.
 
-TOC_EXPAND             = NO
+TOC_EXPAND             = YES
 
 # If the GENERATE_QHP tag is set to YES and both QHP_NAMESPACE and 
 # QHP_VIRTUAL_FOLDER are set, an additional index file will be generated 

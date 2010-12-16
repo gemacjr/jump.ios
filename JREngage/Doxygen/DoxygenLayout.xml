@@ -136,6 +136,7 @@
       <classes visible="yes" title=""/>
       <namespaces visible="yes" title=""/>
       <dirs visible="yes" title=""/>
+      <membergroups visible="yes"/>
       <nestedgroups visible="yes" title=""/>
       <files visible="yes" title=""/>
       <defines visible="yes" title=""/>
@@ -151,7 +152,6 @@
       <events title=""/>
       <properties title=""/>
       <friends title=""/>
-      <membergroups visible="yes"/>
     </memberdecl>
     <detaileddescription title=""/>
     <memberdef>
