@@ -33,7 +33,6 @@
 		9F01AA9D1294597C00AD6899 /* icon_itunes.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA921294597C00AD6899 /* icon_itunes.png */; };
 		9F01AA9E1294597C00AD6899 /* janrain_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA931294597C00AD6899 /* janrain_logo.png */; };
 		9F01AAA612945A3100AD6899 /* background-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AAA512945A3100AD6899 /* background-ipad.png */; };
-		9F3F36D3121C64EF00EFAF68 /* janrain_blog.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */; };
 		9F52151512AED47F0073ABAE /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52146C12AED47F0073ABAE /* SFHFKeychainUtils.m */; };
 		9F52151612AED47F0073ABAE /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52147012AED47F0073ABAE /* NSObject+SBJSON.m */; };
 		9F52151712AED47F0073ABAE /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52147212AED47F0073ABAE /* NSString+SBJSON.m */; };
@@ -235,7 +234,6 @@
 		9F01AA921294597C00AD6899 /* icon_itunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_itunes.png; sourceTree = "<group>"; };
 		9F01AA931294597C00AD6899 /* janrain_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = janrain_logo.png; sourceTree = "<group>"; };
 		9F01AAA512945A3100AD6899 /* background-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-ipad.png"; sourceTree = "<group>"; };
-		9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = janrain_blog.json; sourceTree = "<group>"; };
 		9F52146B12AED47F0073ABAE /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		9F52146C12AED47F0073ABAE /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		9F52146E12AED47F0073ABAE /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -509,7 +507,6 @@
 				9F01A8981294506100AD6899 /* xibs */,
 				9F01A89E1294506100AD6899 /* xibs-ipad */,
 				9FB409451241430500FDDA7B /* Quick_Publish-Info.plist */,
-				9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -969,7 +966,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F3F36D3121C64EF00EFAF68 /* janrain_blog.json in Resources */,
 				9F01A8A41294506100AD6899 /* FeedReaderDetail.xib in Resources */,
 				9F01A8A51294506100AD6899 /* FeedReaderFeeds.xib in Resources */,
 				9F01A8A61294506100AD6899 /* FeedReaderSummary.xib in Resources */,

@@ -358,7 +358,7 @@ Please try again later."
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	return 3;//[[sessionData basicProviders] count];
+	return [[sessionData basicProviders] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -372,8 +372,6 @@ Please try again later."
 	
 	JRProvider* provider = [sessionData getBasicProviderAtIndex:indexPath.row];
 
-    if (indexPath.row == 2) provider = [sessionData getBasicProviderAtIndex:3];
-    
     if (!provider)
         return cell;
 	
