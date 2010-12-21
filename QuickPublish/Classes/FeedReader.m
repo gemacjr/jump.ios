@@ -362,7 +362,7 @@ static FeedReader* singleton = nil;
     return self;
 }
 
-//static NSString *appId = @"<your_app_id>";
+static NSString *appId = @"pdjicmldlhebgeepdbdn";//@"<your_app_id>";
 //static NSString *tokenUrl = @"<your_token_url>";
 
 - (id)init
@@ -370,7 +370,7 @@ static FeedReader* singleton = nil;
 	if (self = [super init]) 
 	{
         singleton = self;
-        jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
+        jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:nil/*tokenUrl*/ delegate:self];
         
         [self downloadFeedStories];
 	}

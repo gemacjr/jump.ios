@@ -36,6 +36,7 @@
 #import <Foundation/Foundation.h>
 #import "JREngage.h"
 #import "QuickSignInAppDelegate.h"
+#import "QSIEmbeddedTableViewController.h"
 
 #define LILLI
 
@@ -51,6 +52,9 @@
 	/* Instance of the JRAuthenticate library */
 	JREngage *jrEngage;
 	
+    NSDictionary *customInterface;
+    UINavigationController *navigationController;
+    
 	/* Singleton instance of the NSUserDefaults class */
 	NSUserDefaults *prefs;
 	
@@ -85,6 +89,7 @@
 @property (readonly) BOOL loadingUserData;
 @property (readonly) NSDictionary *currentUser;
 @property (retain)	 NSDictionary *selectedUser;
+@property (retain)   UINavigationController *navigationController;
 
 /* This is a dictionary of dictionaries, where each dictionary represents the 
    full profile returned by the token URL on http://jrauthenticate.appspot.com/login.  
@@ -109,8 +114,10 @@
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedParty;
 - (void)startSignUserOut:(id<UserModelDelegate>)interestedParty;
 
+- (void)triggerAuthenticationDidCancel:(id)sender;
 
-- (void)setNavigationController:(UINavigationController*)navigationController;
+
+//- (void)setNavigationController:(UINavigationController*)navigationController;
 
 
 /* Returns singleton instance of class. */

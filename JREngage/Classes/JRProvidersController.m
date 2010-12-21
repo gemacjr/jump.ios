@@ -104,21 +104,23 @@
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
     NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColorRGBa];
     
-    // TODO: Reorder this to go w array -> color -> image
-    
     /* Load the custom background view, if there is one. */
     if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
         [myBackgroundView setImage:
-            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
-    else /* Otherwise, set the background view to the provided color, if any. */
+         [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
+
+    /* If there is a UIColor object set for the background color, use this */
+    if ([customUI objectForKey:kJRAuthenticationBackgroundColor])
+        myBackgroundView.backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColor];
+    else /* Otherwise, set the background view to the provided RGBa color, if any. */
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)
                 myBackgroundView.backgroundColor = 
-                    [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-                                    green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-                                     blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-                                    alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
-
+                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+    
     myTableView.backgroundColor = [UIColor clearColor];
     
     titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableTitleView, iPadSuffix]];
@@ -302,7 +304,7 @@ Please try again later."
     if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]])
         return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]]).frame.size.height;
     else if ([customUI objectForKey:kJRProviderTableSectionHeaderTitleString])
-        return 27;
+        return 35;
         
     return 0;
 }
@@ -326,7 +328,7 @@ Please try again later."
         return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]]).frame.size.height +
                 infoBar.frame.size.height;
     else if ([customUI objectForKey:kJRProviderTableSectionFooterTitleString])
-        return 27 + infoBar.frame.size.height;
+        return 30 + infoBar.frame.size.height;
 
     return 30 + infoBar.frame.size.height;
 }
@@ -356,7 +358,7 @@ Please try again later."
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	return [[sessionData basicProviders] count];
+	return 3;//[[sessionData basicProviders] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -370,6 +372,8 @@ Please try again later."
 	
 	JRProvider* provider = [sessionData getBasicProviderAtIndex:indexPath.row];
 
+    if (indexPath.row == 2) provider = [sessionData getBasicProviderAtIndex:3];
+    
     if (!provider)
         return cell;
 	

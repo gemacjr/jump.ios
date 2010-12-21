@@ -19,12 +19,13 @@
 			</array>
 			<key>Authentication.Background.Color.RGBa</key>
 			<array>
-				<real>0</real>
-				<real>0</real>
-				<real>0</real>
+				<real>0.102</real>
+				<real>0.33</real>
+				<real>0.48</real>
 				<real>0.2</real>
 			</array>
-			<!--key>SocialSharing.Background.Color.RGBa</key>
+<!--
+			<key>SocialSharing.Background.Color.RGBa</key>
 				<array>
 					<real>0</real>
 					<real>0</real>
@@ -50,10 +51,12 @@
 			<key>ProviderTable.Section.Footer.Title.String</key>
 			<string></string>
 			<key>ProviderTable.Section.Header.Title.String</key>
-			<string></string-->
+			<string></string>
+-->
 		</dict>
 		<key>CustomValues</key>
-		<dict><!--
+		<dict>
+<!--
 			<key>NavigationBar.TintColor.RGBa</key>
 			<array>
 				<real>0</real>
@@ -94,7 +97,8 @@
 			<key>ProviderTable.Section.Footer.Title.String</key>
 			<string></string>
 			<key>ProviderTable.Section.Header.Title.String</key>
-			<string></string> -->
+			<string></string> 
+-->
 		</dict>
 	</dict>
 </dict>
