@@ -1185,7 +1185,6 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0E6495F6-EDD0-4C3B-B1D0-F7F4D7E8B8EA";
-				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1213,7 +1212,6 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F454B76-32EB-4DB7-97BC-EA11298BC5E9";
-				SDKROOT = iphoneos4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1236,7 +1234,7 @@
 					"-ObjC",
 				);
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1288,7 +1286,7 @@
 					"-ObjC",
 				);
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1311,7 +1309,7 @@
 					"-ObjC",
 				);
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -362,7 +362,7 @@ static FeedReader* singleton = nil;
     return self;
 }
 
-static NSString *appId = @"pdjicmldlhebgeepdbdn";//@"<your_app_id>";
+//static NSString *appId = @"<your_app_id>";
 //static NSString *tokenUrl = @"<your_token_url>";
 
 - (id)init
