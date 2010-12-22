@@ -227,8 +227,9 @@
     
     activity.title = story.title;
     
+    NSInteger trunk = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 300 : 160;
     activity.description = [story.plainText substringToIndex:
-                            ((story.plainText.length < 160) ? story.plainText.length : 160)];
+                            ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
     
     if ([story.storyImages count] > 0)
     {

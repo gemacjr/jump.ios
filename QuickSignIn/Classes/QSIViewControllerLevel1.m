@@ -168,6 +168,7 @@ Copyright (c) 2010, Janrain, Inc.
 		myTableView.tableHeaderView.alpha = 0.0;
 	}		
 	
+    [self.view becomeFirstResponder];
 	[myTableView setEditing:NO animated:NO];
 	[myTableView reloadData];
 }	

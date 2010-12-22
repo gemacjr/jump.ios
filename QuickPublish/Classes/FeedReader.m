@@ -391,21 +391,28 @@ static FeedReader* singleton = nil;
     UIApplication* app = [UIApplication sharedApplication]; 
     app.networkActivityIndicatorVisible = YES;
 
-    // TODO: Fix when ready
     NSError *error = nil;
-//    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
-//    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
-//                                                                  encoding:NSUTF8StringEncoding
-//                                                                     error:&error] autorelease];
+    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
+    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
+                                                                  encoding:NSUTF8StringEncoding
+                                                                     error:&error] autorelease];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
-    NSString *janrain_blog_json = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+//    NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
+//    NSString *janrain_blog_json = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
     
     NSDictionary *janrain_blog_dictionary = [janrain_blog_json JSONValue];  
 
     if (!janrain_blog_dictionary)
-        return;
-    
+    {
+        NSString *pathStr = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
+        janrain_blog_json = [NSString stringWithContentsOfFile:pathStr encoding:NSUTF8StringEncoding error:&error];
+        
+        janrain_blog_dictionary = [janrain_blog_json JSONValue];  
+        
+        if (!janrain_blog_json)
+            return;
+    }
+        
     feed = [[Feed alloc] init];
     [feed setTitle:@"Janrain | Blog"];
     [feed setLink:@"http://www.janrain.com"];
