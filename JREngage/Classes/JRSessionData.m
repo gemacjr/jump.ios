@@ -530,8 +530,7 @@ static JRSessionData* singleton = nil;
 		appId = [_appId retain];
         tokenUrl = [_tokenUrl retain];
         
-        // TODO: Uncomment when ready
-        if (0)//(UI_USER_INTERFACE_IDIOM == UIUserInterfaceIdiomPad)
+        if (UI_USER_INTERFACE_IDIOM == UIUserInterfaceIdiomPad)
             device = @"ipad";
         else
             device = @"iphone";

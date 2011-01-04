@@ -98,15 +98,18 @@
     [self retain]; // QTS: Why am I retaining myself??
 }
 
-- (void)presentModalNavigationControllerForPublishingActivity
-{
-	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-	[self presentModalViewController:navigationController animated:YES];
-}
+//- (void)presentModalNavigationControllerForPublishingActivity
+//{
+//	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+//	[self presentModalViewController:navigationController animated:YES];
+//}
 
 - (void)presentModalNavigationControllerForAuthentication
 {
-	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;//UIModalTransitionStyleCoverVertical;
+    navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
 	[self presentModalViewController:navigationController animated:YES];
 }
 

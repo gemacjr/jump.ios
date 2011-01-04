@@ -84,7 +84,7 @@ class Login(webapp.RequestHandler):
 			# unique idenfifier that you use to sign the user in to your site
 			identifier = profile['identifier']
    
-   			# Create a user object and store it in your datastore
+			# Create a user object and store it in your datastore
 			userLogin = UserLogin()
 			userLogin.identifier = identifier
 			userLogin.put()
@@ -98,7 +98,7 @@ class Login(webapp.RequestHandler):
 			# Will expire in two weeks
 			cookie['sid']['expires'] = 14 * 24 * 60 * 60
 			cookie['sid']['path'] = "/"
-			cookie['sid']['domain'] = "jrauthenticate.appspot.com"
+			cookie['sid']['domain'] = "<YOUR_DOMAIN>"
 			
 			self.response.headers.add_header('Set-Cookie', cookie['sid'].OutputString())
 			self.response.out.write(response)

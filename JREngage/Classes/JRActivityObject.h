@@ -282,8 +282,8 @@
  * The given content is supplied to the MFMailComposeViewController 
  * class when the user wants to share your activity via email. 
  * 
- * If your email message body contains URLs that you would like shortented 
- * to an <a href="http://rpxnow.com/docs/iphone#shortenUrls">http://rpx.me/</a>
+ * If your email message body contains URLs that you would like shortened 
+ * to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
  * URL (with which you can track click-throughs), add the 
  * exact URL(s) to the \c urls array.  The library will contact the Engage
  * servers to obtain shortened URLs and replace any instance of the url in
@@ -299,9 +299,9 @@
     NSString *subject;      /**< The desired email subject */
     NSString *messageBody;  /**< The desired message body */
     BOOL      isHtml;       /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text */
-    NSArray  *urls;         /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked */
+    NSArray  *urls;         /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked @anchor emailUrls */
 }
-@property (retain) NSString *subject;
+@property (retain) NSString *subject;       
 @property (retain) NSString *messageBody;
 @property          BOOL      isHtml;
 @property (retain) NSArray  *urls;
@@ -319,17 +319,17 @@
  * @param _messageBody
  *   The desired message body of the email.  The message body can be in plain text or html, and if it is in html,
  *   this should be indicated by the argument \c isHtml.  If you want to include urls that are shortened
- *   to an <a href="http://rpxnow.com/docs/iphone#shortenUrls">http://rpx.me/</a> they should be added to the
+ *   to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> they should be added to the
  *   \c urls array.  Once the call to get the shortened URLs is completed, the library will replace 
- *   all occurances of each url with its corresponding shortened url.  This value can be edited by the user once the 
+ *   all occurrences of each url with its corresponding shortened url.  This value can be edited by the user once the 
  *   MFMailComposeViewController is displayed. 
  *
  * @param _isHtml
  *   YES if the message body contains HTML content or NO if it contains plain text.
  *
  * @param _urls
- *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shortenUrls">http://rpx.me/</a>
- *   Once the call to get the shortened URLs is completed, the library will replace all occurances of each url with its corresponding 
+ *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
+ *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding 
  *   shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain.
  *
  * @return
@@ -350,8 +350,8 @@
  * The given message string is supplied to the MFMessageComposeViewController 
  * class when the user wants to share your activity via sms. 
  * 
- * If your sms message contains URLs that you would like shortented 
- * to an <a href="http://rpxnow.com/docs/iphone#shortenUrls">http://rpx.me/</a>
+ * If your sms message contains URLs that you would like shortened 
+ * to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
  * (with which you can track click-throughs), add the exact URL(s) to the \c urls array.
  * The library will contact the Engage servers to obtain shortened URLs and replace any 
  * instance of the url in your sms message.
@@ -364,7 +364,7 @@
 @interface JRSmsObject : NSObject
 {
     NSString *message;  /**< The desired message */
-    NSArray  *urls;     /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked */
+    NSArray  *urls;     /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked  @anchor smsUrls*/
 }
 @property (retain) NSString *message;
 @property (retain) NSArray  *urls;
@@ -380,18 +380,18 @@
 /*@{*/
 /**
  * Returns a \c JRSmsObject initialized with the given message and URLs that you wish to be 
- * shortened to the <a href="http://rpxnow.com/docs/iphone#shortenUrls">http://rpx.me/</a> format.
+ * shortened to the <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> format.
  *
  * @param _message
  *   The desired message text of the sms.  If you want to include urls that are shortened to an 
- *   <a href="http://rpxnow.com/docs/iphone#shortenUrls">http://rpx.me/</a> url, they should be added 
+ *   <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url, they should be added 
  *   to the \c urls array.  Once the call to get the shortened URLs is completed, the library will replace 
- *   all occurances of each url with its corresponding shortened url.  This value can be edited by 
+ *   all occurrences of each url with its corresponding shortened url.  This value can be edited by 
  *   the user once the MFMessageComposeViewController is displayed. 
  *
  * @param _urls
- *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shortenUrls">http://rpx.me/</a> url.
- *   Once the call to get the shortened URLs is completed, the library will replace all occurances of each url with its corresponding
+ *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url.
+ *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding
  *   shortened url. To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain.
  *
  * @return
@@ -532,12 +532,16 @@
     NSMutableDictionary *properties;
     
    /**
+    * @anchor activityEmail
+    *
     * An object containing the subject and message body of an email, if the user wishes to
     * share via email.
     **/
     JREmailObject *email;
 
    /**
+    * @anchor activitySms
+    *
     * An object containing the message body of an sms, if the user wishes to
     * share via sms.
     **/
