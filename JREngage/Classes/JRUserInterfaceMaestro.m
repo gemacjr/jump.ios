@@ -55,7 +55,7 @@
 - (id)initWithRootViewController:(UIViewController*)controller;
 
 - (void)presentModalNavigationControllerForAuthentication;
-- (void)presentModalNavigationControllerForPublishingActivity;
+//- (void)presentModalNavigationControllerForPublishingActivity;
 - (void)dismissModalNavigationController:(UIModalTransitionStyle)style;
 @end
 
