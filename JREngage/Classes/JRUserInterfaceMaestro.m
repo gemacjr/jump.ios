@@ -43,46 +43,7 @@
 
 #import "JRUserInterfaceMaestro.h"
 
-//@protocol JRNavigationControllerDelegate <NSObject>
-//- (void)jrNavigationControllerDidDisappear;
-//@end
-//
-//@interface JRNavigationController : UINavigationController 
-//{
-//    id<JRNavigationControllerDelegate> delegate;
-//}
-//@property (retain) id<JRNavigationControllerDelegate> delegate;
-//@end
-//
-//@implementation JRNavigationController
-//@synthesize delegate;
-//
-//- (void)viewDidDisappear:(BOOL)animated
-//{
-//    [super viewDidDisappear:animated];
-// 
-//    [delegate jrNavigationControllerDidDisappear];
-//}
-//@end
-//
-//
-//@interface JRPopoverController : UIViewController
-//{ }
-//@end
-//
-//@implementation JRPopoverController
-//- (void)loadView
-//{
-//    UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 500)] autorelease];
-//    view.backgroundColor = [UIColor blueColor];
-//    
-//    self.contentSizeForViewInPopover = CGSizeMake(300, 500);
-//    
-//	[self setView:view];
-//}
-//@end
-
-@interface JRModalNavigationController : UIViewController <UIPopoverControllerDelegate>//<JRNavigationControllerDelegate>
+@interface JRModalNavigationController : UIViewController <UIPopoverControllerDelegate>
 {
 	UINavigationController *navigationController;
     UIPopoverController    *popoverController;
@@ -92,16 +53,8 @@
     NSDictionary *customInterface;
     
     CGRect popoverPresentationFrame;
-    
-//	BOOL shouldUnloadSubviews;
 }
 @property (retain) UINavigationController *navigationController;
-
-//- (id)initWithRootViewController:(UIViewController*)controller;
-
-- (void)presentModalNavigationControllerForAuthentication;
-//- (void)presentModalNavigationControllerForPublishingActivity;
-- (void)dismissModalNavigationController:(UIModalTransitionStyle)style;
 @end
 
 @implementation JRModalNavigationController
@@ -129,8 +82,7 @@
 
         if (!navigationController)
         {
-            navigationController = [[UINavigationController alloc] init];//WithRootViewController:controller];    
-        
+            navigationController = [[UINavigationController alloc] init];
             navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;   
             navigationController.navigationBar.clipsToBounds = YES;
         }
@@ -151,25 +103,8 @@
 {
 	DLog (@"");
     UIView *view = [[[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]] autorelease];
-//    view.backgroundColor = [UIColor redColor];
-    
-//    popoverOrigin = [[[UIView alloc] initWithFrame:CGRectMake(100, 100, 568, 100)] autorelease];
-//    popoverOrigin.backgroundColor = [UIColor greenColor];
-    
-//    shouldUnloadSubviews = NO;
-    
-//    [view setHidden:YES];
 	[self setView:view];
-    
-//    [view addSubview:popoverOrigin];
 }
-
-//- (void)viewDidLoad 
-//{
-//	DLog (@"");
-//    [super viewDidLoad];
-////    [self retain]; // QTS: Why am I retaining myself??
-//}
 
 //- (void)presentModalNavigationControllerForPublishingActivity
 //{
@@ -219,41 +154,14 @@
     navigationController.view.superview.center = self.view.center;
 }
 
-//- (void)restore:(BOOL)animated
-//{
-//	DLog (@"");
-//	[navigationController popToRootViewControllerAnimated:animated];
-//}
-
-//- (void)viewDidAppear:(BOOL)animated 
-//{
-//	DLog (@"");
-//    [super viewDidAppear:animated];
-//
-////	if (shouldUnloadSubviews)
-////    {
-////      [self.view removeFromSuperview];
-////		[self release];
-////    }    
-//}
-
 - (void)viewWillAppear:(BOOL)animated { DLog (@""); [super viewWillAppear:animated]; }
 - (void)viewDidAppear:(BOOL)animated { DLog (@""); [super viewDidAppear:animated]; }
 - (void)viewWillDisappear:(BOOL)animated { DLog (@""); [super viewWillDisappear:animated]; }
 - (void)viewDidDisappear:(BOOL)animated { DLog (@""); [super viewDidDisappear:animated]; }
 
-//- (void)jrNavigationControllerDidDisappear
-//{
-//  	DLog (@"");
-//    [self.view removeFromSuperview];
-////    [self release];    
-//}
-
 - (void)dismissModalNavigationController:(UIModalTransitionStyle)style
 {
 	DLog (@"");
-//    shouldUnloadSubviews = YES;
-//    [self.view setHidden:NO];
 
     if (popoverController)
     {
