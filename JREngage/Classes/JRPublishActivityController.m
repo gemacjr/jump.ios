@@ -55,11 +55,11 @@
 @implementation JRPublishActivityController
 @synthesize myBackgroundView;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
     {
-        customUI = [_customUI retain];
+        customInterface = [_customInterface retain];
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
@@ -81,18 +81,18 @@
 	sessionData = [JRSessionData jrSessionData];
     activity = [[sessionData activity] retain];
 
-    if ([[customUI objectForKey:kJRSocialSharingTitleString] isKindOfClass:[NSString class]])
-        self.title = [customUI objectForKey:kJRSocialSharingTitleString];
+    if ([[customInterface objectForKey:kJRSocialSharingTitleString] isKindOfClass:[NSString class]])
+        self.title = [customInterface objectForKey:kJRSocialSharingTitleString];
     else
         self.title = @"Share";
     
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRSocialSharingBackgroundColorRGBa];
+    NSArray *backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColorRGBa];
     
     /* Load the custom background view, if there is one. */
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
+    if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
          [myBackgroundView setImage:
-            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]]]];
+            [UIImage imageNamed:[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]]]];
     else /* Otherwise, set the background view to the provided color, if any. */
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)
@@ -104,7 +104,7 @@
         
     myContentView.backgroundColor = [UIColor clearColor];
         
-    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingTitleView, iPadSuffix]];
+    titleView = [customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingTitleView, iPadSuffix]];
     
     if (titleView)
         self.navigationItem.titleView = titleView;
@@ -1198,7 +1198,7 @@ Please try again later."
     [selectedProvider release];
     [loggedInUser release];
     [activity release];
-    [customUI release];
+    [customInterface release];
     [colorsDictionary release];
     [myBackgroundView release];
     [myTabBar release];

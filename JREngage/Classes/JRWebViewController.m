@@ -50,11 +50,11 @@
 @synthesize myBackgroundView;
 @synthesize myWebView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
     {
-        customUI = [_customUI retain];
+        customInterface = [_customInterface retain];
     }
 
     return self;
@@ -82,6 +82,9 @@
     
     self.navigationItem.backBarButtonItem.target = sessionData;
     self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
+    
+	self.contentSizeForViewInPopover = CGSizeMake(320, 416);
+
     
 	if (!infoBar)
 	{
@@ -447,7 +450,7 @@
 - (void)dealloc {
 	DLog(@"");
 	
-    [customUI release];
+    [customInterface release];
     [myBackgroundView release];
 	[myWebView release];
 	[infoBar release];

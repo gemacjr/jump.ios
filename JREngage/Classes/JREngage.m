@@ -349,6 +349,11 @@ static JREngage* singletonJREngage = nil;
     [interfaceMaestro pushToCustomNavigationController:navigationController];
 }
 
+- (void)setApplicationNavigationController:(UINavigationController*)navigationController
+{
+    [interfaceMaestro pushToCustomNavigationController:navigationController];
+}
+
 - (void)setCustomInterface:(NSDictionary*)customizations
 {
     [interfaceMaestro setCustomViews:customizations];

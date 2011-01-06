@@ -189,8 +189,25 @@
  * JREngage#setCustomNavigationController: method, setting this value will have no effect.
  **/
 #define kJRNavigationBarTintColorRGBa  @"NavigationBar.TintColor.RGBa"
+
+/**
+ * Key for your app's main UINavigationController on which to push the sign-in and sharing dialogs
+ */
+#define kJRApplicationNavigationController @"Application.NavigationController"
+
+/**
+ * Key for a UINavigationController, that you own but aren't currently using, to push the dialogs' views onto
+ * when embedded in a UIPopoverController or UIModalViewController (form sheet presentation) on the iPad
+ **/
+#define kJRModalDialogNavigationController @"ModalDialog.NavigationController" 
 /*@}*/
 
+/**
+ * Key for a UINavigationController, that you own but aren't currently using, to push the dialogs' views onto
+ * when embedded in a UIPopoverController or UIModalViewController (form sheet presentation) on the iPad
+ **/
+#define kJRModalDialogNavigationController_iPad @"ModalDialog.NavigationController-iPad" 
+/*@}*/
 
 /** 
  * @name Background Colors
@@ -409,6 +426,27 @@
  * define #kJRProviderTableSectionFooterView_iPad  are set, this string will not be used.
  **/
 #define kJRProviderTableSectionFooterTitleString  @"ProviderTable.Section.Footer.Title.String"
+/*@}*/
+
+/** 
+ * @anchor popover
+ * 
+ * @name Popover Frame
+ * Keys to specify the origin of the popover modal view on the iPad
+ **/
+/*@{*/
+
+/**
+ * Key specifying the \c NSValue of a \c CGRect representing the from of the control from 
+ * which the authentication and sharing dialogs originate if 
+ * using a modal popover view on the iPad.
+ *
+ * CGRect rect = CGRectMake(x,y,w,h);
+ * NSValue *rectValue = [NSValue valueWithCGRect:rect];
+ *
+ * CGRect rect = [someNSValue CGRectValue];
+ **/
+#define kJRPopoverPresentationFrameValue @"Popover.PresentationFrame.Value"
 /*@}*/
 
 /** @} */
@@ -802,12 +840,29 @@
 
 /**
  * If you want to push the JREngage dialogs on your own navigation controller, pass
- * the \c UINavigationController to the JREngage library before calling \c showAuthenticationDialog
+ * the \c UINavigationController to the JREngage library before calling any of the 
+ * \link showMethods show... methods\endlink.
  *
  * @param navigationController
  *   Your application's navigation controller
+ *
+ * @warning This function will be deprecated soon.  It does the exact same thing as 
+ * the function setCustomNavigationController:.  Please use this function instead.
  **/
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
+
+/**
+ * If you want to push the JREngage dialogs on your application's navigation controller, pass
+ * the \c UINavigationController to the JREngage library before calling any of the 
+ * \link showMethods show... methods\endlink.
+ *
+ * @param navigationController
+ *   Your application's navigation controller
+ *
+ * @note this function does the exact same thing as the function setCustomNavigationController:,
+ * which will be deprecated soon.  Please use this function.
+ **/
+- (void)setApplicationNavigationController:(UINavigationController*)navigationController;
 
 /**
  * @anchor setCustomUI

@@ -52,11 +52,11 @@
 @synthesize myBackgroundView;
 @synthesize myTableView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
     {
-        customUI = [_customUI retain];
+        customInterface = [_customInterface retain];
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
@@ -75,16 +75,16 @@
 	sessionData = [JRSessionData jrSessionData];
 	
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColorRGBa];
+    NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
     
     /* Load the custom background view, if there is one. */
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
+    if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
         [myBackgroundView setImage:
-         [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
+         [UIImage imageNamed:[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
     
     /* If there is a UIColor object set for the background color, use this */
-    if ([customUI objectForKey:kJRAuthenticationBackgroundColor])
-        myBackgroundView.backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColor];
+    if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
+        myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
     else /* Otherwise, set the background view to the provided RGBa color, if any. */
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)
@@ -95,7 +95,9 @@
                                 alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
     
     myTableView.backgroundColor = [UIColor clearColor];
-    
+
+    self.contentSizeForViewInPopover = CGSizeMake(320, 416);
+
     if (!infoBar)
 	{
         if (iPad)
@@ -611,7 +613,7 @@ enum
 {
 	DLog(@"");
 
-    [customUI release];
+    [customInterface release];
     [myBackgroundView release];
 	[sessionData release];
 	[infoBar release];

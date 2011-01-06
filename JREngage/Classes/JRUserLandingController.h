@@ -47,7 +47,7 @@
     
     BOOL iPad;
 	
-    NSDictionary *customUI;
+    NSDictionary *customInterface;
 
     UIImageView *myBackgroundView;
 	UITableView	*myTableView;	
@@ -59,7 +59,7 @@
 
 - (id)initWithNibName:(NSString*)nibNameOrNil 
                bundle:(NSBundle*)nibBundleOrNil 
-          andCustomUI:(NSDictionary*)_customUI;
+          andCustomInterface:(NSDictionary*)_customInterface;
 
 - (void)backToProvidersTouchUpInside;
 - (void)signInButtonTouchUpInside:(UIButton*)button;

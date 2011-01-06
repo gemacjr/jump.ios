@@ -61,8 +61,8 @@
 	JRWebViewController         *myWebViewController;
     JRPublishActivityController *myPublishActivityController;
   
-    NSDictionary *customUI;
-    NSDictionary *persistentCustomUI;
+    NSDictionary *customInterface;
+    NSDictionary *persistentcustomInterface;
 }
 
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;

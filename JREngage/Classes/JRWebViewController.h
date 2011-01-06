@@ -45,7 +45,7 @@
 {
 	JRSessionData	*sessionData;
 
-    NSDictionary *customUI;
+    NSDictionary *customInterface;
     
     UIView      *myBackgroundView;
 	UIWebView	*myWebView;
@@ -59,5 +59,5 @@
 @property (nonatomic, retain) IBOutlet UIView *myBackgroundView;
 @property (nonatomic, retain) IBOutlet UIWebView *myWebView;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI;
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 @end

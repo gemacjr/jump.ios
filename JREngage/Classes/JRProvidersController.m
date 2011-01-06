@@ -79,11 +79,11 @@
 @synthesize myLoadingLabel;
 @synthesize myActivitySpinner;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
     {
-        customUI = [_customUI retain];
+        customInterface = [_customInterface retain];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
@@ -102,16 +102,16 @@
 	sessionData = [JRSessionData jrSessionData];
     
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColorRGBa];
+    NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
     
     /* Load the custom background view, if there is one. */
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
+    if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
         [myBackgroundView setImage:
-         [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
+         [UIImage imageNamed:[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
 
     /* If there is a UIColor object set for the background color, use this */
-    if ([customUI objectForKey:kJRAuthenticationBackgroundColor])
-        myBackgroundView.backgroundColor = [customUI objectForKey:kJRAuthenticationBackgroundColor];
+    if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
+        myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
     else /* Otherwise, set the background view to the provided RGBa color, if any. */
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)
@@ -123,7 +123,7 @@
     
     myTableView.backgroundColor = [UIColor clearColor];
     
-    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableTitleView, iPadSuffix]];
+    titleView = [customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableTitleView, iPadSuffix]];
     
     if (!titleView)
 	{
@@ -140,11 +140,11 @@
     
     self.navigationItem.titleView = titleView;
     
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableHeaderView, iPadSuffix]] isKindOfClass:[UIView class]])
-         myTableView.tableHeaderView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableHeaderView, iPadSuffix]];
+    if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableHeaderView, iPadSuffix]] isKindOfClass:[UIView class]])
+         myTableView.tableHeaderView = [customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableHeaderView, iPadSuffix]];
     
-     if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableFooterView, iPadSuffix]] isKindOfClass:[UIView class]])
-          myTableView.tableFooterView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableFooterView, iPadSuffix]];
+     if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableFooterView, iPadSuffix]] isKindOfClass:[UIView class]])
+          myTableView.tableFooterView = [customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableFooterView, iPadSuffix]];
     
 	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
                                       initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
@@ -163,7 +163,9 @@
     
 	placeholderItem.width = 85;
 	self.navigationItem.leftBarButtonItem = placeholderItem;
-	
+
+	self.contentSizeForViewInPopover = CGSizeMake(320, 416);
+    
     if (!infoBar)
 	{
         if (iPad)
@@ -294,16 +296,16 @@ Please try again later."
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [customUI objectForKey:kJRProviderTableSectionHeaderTitleString];
+    return [customInterface objectForKey:kJRProviderTableSectionHeaderTitleString];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
 
-    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]])
-        return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]]).frame.size.height;
-    else if ([customUI objectForKey:kJRProviderTableSectionHeaderTitleString])
+    if ([customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]])
+        return ((UIView*)[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]]).frame.size.height;
+    else if ([customInterface objectForKey:kJRProviderTableSectionHeaderTitleString])
         return 35;
         
     return 0;
@@ -312,22 +314,22 @@ Please try again later."
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]];
+    return [customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionHeaderView, iPadSuffix]];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    return [customUI objectForKey:kJRProviderTableSectionFooterTitleString];
+    return [customInterface objectForKey:kJRProviderTableSectionFooterTitleString];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
 
-    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
-        return ((UIView*)[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]]).frame.size.height +
+    if ([customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
+        return ((UIView*)[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]]).frame.size.height +
                 infoBar.frame.size.height;
-    else if ([customUI objectForKey:kJRProviderTableSectionFooterTitleString])
+    else if ([customInterface objectForKey:kJRProviderTableSectionFooterTitleString])
         return 30 + infoBar.frame.size.height;
 
     return 30 + infoBar.frame.size.height;
@@ -337,8 +339,8 @@ Please try again later."
 {
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
     
-    if ([customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
-        return [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]];
+    if ([customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]])
+        return [customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableSectionFooterView, iPadSuffix]];
     else
         return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, myTableView.frame.size.width, infoBar.frame.size.height)] autorelease];
 }
@@ -453,7 +455,7 @@ Please try again later."
 {
 	DLog(@"");
     
-    [customUI release];
+    [customInterface release];
     [myBackgroundView release];
 	[myTableView release];
 	[myLoadingLabel release];
