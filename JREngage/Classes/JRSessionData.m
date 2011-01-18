@@ -46,13 +46,18 @@
 
 //#define STAGING
 //#define LOCAL
+//#define OLEG
 #ifdef STAGING
 static NSString * const serverUrl = @"https://rpxstaging.com";
 #else
 #ifdef LOCAL 
-static NSString * const serverUrl = @"http://lillialexis.janrain.com:8080";
+static NSString * const serverUrl = @"http://lilli.janrain.com:8080";
+#else
+#ifdef OLEG
+static NSString * const serverUrl = @"http://oleg.janrain.com:8080";
 #else
 static NSString * const serverUrl = @"https://rpxnow.com";
+#endif
 #endif
 #endif
 
@@ -72,24 +77,6 @@ static NSString * const iconNamesSocial[11] = { @"icon_%@_30x30.png",
                                                 @"button_%@_135x40@2x.png",
                                                 @"button_%@_280x40.png",
                                                 @"button_%@_280x40@2x.png", nil };
-
-/* Added a category to NSString including a function to correctly escape any arguments sent to any of the 
-   Engage API calls */
-@interface NSString (NSString_URL_ESCAPING)
-- (NSString*)URLEscaped;
-@end
-
-@implementation NSString (NSString_URL_ESCAPING)
-- (NSString*)URLEscaped
-{
-    NSString *str = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2f"];
-    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
-    str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
-    str = [str stringByReplacingOccurrencesOfString:@"&" withString:@"%38"];
-    
-    return str;
-}
-@end
 
 NSString* displayNameAndIdentifier()
 {
@@ -728,7 +715,6 @@ static JRSessionData* singleton = nil;
 
 - (NSError*)startGetConfiguration
 {	
-//    DLog (@"");
     NSString *nameAndVersion = [self appNameAndVersion];
 	NSString *urlString = [NSString stringWithFormat:
                            @"%@/openid/mobile_config_and_baseurl?device=%@&appId=%@&%@", 
@@ -958,7 +944,6 @@ static JRSessionData* singleton = nil;
 
 - (JRProvider*)getProviderAtIndex:(NSUInteger)index fromArray:(NSArray*)array
 {
-//    DLog (@"");
     if (index < [array count])
     {
         return [allProviders objectForKey:[array objectAtIndex:index]];
@@ -1097,9 +1082,11 @@ static JRSessionData* singleton = nil;
     // TODO: Better error checking in sessionData's share activity bit
     NSDictionary *activityDictionary = [activity dictionaryForObject];
     
+    DLog (@"activity dictionary: %@", [activityDictionary description]);
+    
     NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONRepresentation];                          
     NSString *deviceToken = user.device_token;
-    
+        
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
