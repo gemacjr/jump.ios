@@ -46,6 +46,12 @@
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
 
+/* Added a category to NSString including a function to correctly escape any arguments sent to 
+   Engage, so that there are no errors when sending a json structure to rpxnow's api */
+@interface NSString (NSString_URL_ESCAPING)
+- (NSString*)URLEscaped;
+@end
+
 /**
  * @internal 
  * Base class for JRImageMediaObject, JRFlashMediaObject, and JRMp3MediaObject.

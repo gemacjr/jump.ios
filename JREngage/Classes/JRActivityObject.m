@@ -42,20 +42,12 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-/* Added a category to NSString including a function to correctly escape the JRActivityObject
-   members so that there are no errors when sending the json structure to rpxnow's publish_activity api */
-@interface NSString (NSString_URL_ESCAPING)
-- (NSString*)URLEscaped;
-@end
-
-// TODO: Test for all characters that might blow up the publish_activity api call
 @implementation NSString (NSString_URL_ESCAPING)
 - (NSString*)URLEscaped
 {
-    NSString *str = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2f"];
+    NSString *str = [self stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
     str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
     str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
-    str = [str stringByReplacingOccurrencesOfString:@"&" withString:@"%38"];
     
     return str;
 }
