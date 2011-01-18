@@ -129,10 +129,9 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
     
-    if (iPad)
-        myUserContentTextView.font = [UIFont systemFontOfSize:28];
+//    if (iPad)
+//        myUserContentTextView.font = [UIFont systemFontOfSize:28];
         
-    
     if ([sessionData hidePoweredBy])
     {
         [myPoweredByLabel setHidden:YES];
@@ -152,7 +151,7 @@
 
      /* Since the method showViewIsLoading will disable the "Cancel" button and reset the loading label to "Sharing,
         change them to the preferred values for just this case. */
-        myLoadingLabel.font = [UIFont systemFontOfSize:(iPad) ? 48.0 : 18.0];
+        myLoadingLabel.font = [UIFont systemFontOfSize:(0/*iPad*/) ? 48.0 : 18.0];
         myLoadingLabel.text = NSLocalizedString(@"Loading providers. Please wait...", @"");
         self.navigationItem.leftBarButtonItem.enabled = YES;
 		
@@ -171,6 +170,8 @@
     DLog(@"");
     
     [super viewWillAppear:animated];
+    
+    self.contentSizeForViewInPopover = CGSizeMake(320, 416);
     
     // QTS: Am I doing this twice?
     if (weAreReady)
@@ -348,7 +349,7 @@ Please try again later."
 {
     DLog(@"");
     
-    myLoadingLabel.font = [UIFont systemFontOfSize:(iPad) ? 56.0 : 24.0];
+    myLoadingLabel.font = [UIFont systemFontOfSize:(0/*iPad*/) ? 56.0 : 24.0];
     myLoadingLabel.text = NSLocalizedString(@"Sharing...", @"");
     
     /* Don't let the user edit or cancel while the activity is being shared */
@@ -502,8 +503,10 @@ Please try again later."
 
 - (void)setButtonImage:(UIButton*)button toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
 {
-    DLog(@"");
-    DLog(@"data retain count: %d", [data retainCount]);    
+    DLog (@"");
+
+    if (!data && !loading)
+        DLog (@"Problem downloading image");
     
     if (!data)
     {
@@ -521,8 +524,6 @@ Please try again later."
         [actIndicator startAnimating];
     else
         [actIndicator stopAnimating];
-    
-    DLog(@"data retain count: %d", [data retainCount]);
 }
 
 - (BOOL)providerCanShareMedia:(JRProvider*)provider
@@ -554,16 +555,15 @@ Please try again later."
         JRMediaObject *media = [_activity.media objectAtIndex:0];
         if ([media isKindOfClass:[JRImageMediaObject class]])
         {
+            DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
             
             NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
-            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
             NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
             
             if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
                 [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
-                
-            [request release];            
         }   
     }
     else 
@@ -881,6 +881,7 @@ Please try again later."
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
+    DLog(@"");
     NSString* tag = (NSString*)userdata; 
 	
     if ([tag isEqualToString:@"getThumbnail"])

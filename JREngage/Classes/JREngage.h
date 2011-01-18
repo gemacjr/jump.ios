@@ -446,7 +446,9 @@
  *
  * CGRect rect = [someNSValue CGRectValue];
  **/
-#define kJRPopoverPresentationFrameValue @"Popover.PresentationFrame.Value"
+#define kJRPopoverPresentationFrameValue @"Popover.Presentation.Frame.Value"
+
+#define kJRPopoverPresentationBarButtonItem @"Popover.Presentation.BarButtonItem"
 /*@}*/
 
 /** @} */

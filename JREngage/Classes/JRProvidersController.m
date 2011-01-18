@@ -59,17 +59,17 @@
 {
 	[super layoutSubviews];
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        self.imageView.frame = CGRectMake(15, 15, 70, 70);
-        self.textLabel.frame = CGRectMake(100, 22, 300, 60);
-        self.textLabel.font = [UIFont systemFontOfSize:36];
-    }
-    else
-    {	
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//    {
+//        self.imageView.frame = CGRectMake(15, 15, 70, 70);
+//        self.textLabel.frame = CGRectMake(100, 22, 300, 60);
+//        self.textLabel.font = [UIFont systemFontOfSize:36];
+//    }
+//    else
+//    {	
         self.imageView.frame = CGRectMake(10, 10, 30, 30);
         self.textLabel.frame = CGRectMake(50, 15, 100, 22);
-    }
+//    }
 }
 @end
 
@@ -163,14 +163,12 @@
     
 	placeholderItem.width = 85;
 	self.navigationItem.leftBarButtonItem = placeholderItem;
-
-	self.contentSizeForViewInPopover = CGSizeMake(320, 416);
     
     if (!infoBar)
 	{
-        if (iPad)
-            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
-        else
+//        if (iPad)
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+//        else
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
 //        if (([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy) && !iPad)
@@ -194,6 +192,8 @@
 	DLog(@"");
 	[super viewDidAppear:animated];
 	
+	self.contentSizeForViewInPopover = CGSizeMake(320, 416);
+
     if ([[sessionData basicProviders] count] > 0)
     {
         [myActivitySpinner stopAnimating];
@@ -208,17 +208,17 @@
     {
         DLog(@"prov count = %d", [[sessionData basicProviders] count]);
         
-        /* If the user calls the library before the session data object is done initializing - 
-         because either the requests for the base URL or provider list haven't returned - 
-         display the "Loading Providers" label and activity spinner. 
-         sessionData = nil when the call to get the base URL hasn't returned
-         [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
+     /* If the user calls the library before the session data object is done initializing - 
+        because either the requests for the base URL or provider list haven't returned - 
+        display the "Loading Providers" label and activity spinner. 
+        sessionData = nil when the call to get the base URL hasn't returned
+        [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
         [myActivitySpinner setHidden:NO];
         [myLoadingLabel setHidden:NO];
         
         [myActivitySpinner startAnimating];
         
-        /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
+     /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
         timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
     }
     
@@ -245,7 +245,7 @@
 	DLog(@"prov count = %d", [[sessionData basicProviders] count]);
 	DLog(@"interval = %f", interval);
     
-    /* If we have our list of providers, stop the progress indicators and load the table. */
+ /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([[sessionData basicProviders] count] > 0)
 	{
         [myActivitySpinner stopAnimating];
@@ -257,7 +257,7 @@
 		return;
 	}
 	
-	/* Otherwise, keep polling until we've timed out. */
+ /* Otherwise, keep polling until we've timed out. */
 	if (interval >= 16.0)
 	{	
 		DLog(@"No Available Providers");
@@ -347,9 +347,9 @@ Please try again later."
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (iPad)
-        return 100;
-    else
+//    if (iPad)
+//        return 100;
+//    else
         return 50;
 }
 

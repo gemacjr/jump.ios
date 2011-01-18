@@ -43,6 +43,76 @@
 
 #import "JRUserInterfaceMaestro.h"
 
+@interface JRModalBorder : UIViewController 
+{
+    UINavigationController *navigationController;
+}
+@property (retain) UINavigationController *navigationController;
+- (id)initWithNavigationController:(UINavigationController*)_navigationController;
+@end
+
+@implementation JRModalBorder
+@synthesize navigationController;
+
+- (id)initWithNavigationController:(UINavigationController*)_navigationController
+{
+	if (_navigationController == nil)
+	{
+		[self release];
+		return nil;
+	}
+    
+	if (self = [super init]) 
+	{        
+        navigationController = [_navigationController retain];
+    }
+    
+    return self;
+}
+
+- (void)loadView
+{
+    UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 340, 480)] autorelease];
+    
+    UIImageView *border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_border.png"]] autorelease];
+    [border setFrame:CGRectMake(0, 0, 340, 480)];
+    [view addSubview:border];
+    
+    UIView *navView = [[[UIView alloc] initWithFrame:CGRectMake(10, 10, 320, 460)] autorelease];
+//    navView.clipsToBounds = YES;
+    [view addSubview:navView];
+    
+    [navigationController.view setFrame:CGRectMake(0, 0, 320, 460)];
+    [navView addSubview:navigationController.view];
+    
+//    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_top_left.png"]] autorelease];
+//    [border setFrame:CGRectMake(0, 0, 14, 14)];
+//    [view addSubview:border];
+//
+//    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_top_right.png"]] autorelease];
+//    [border setFrame:CGRectMake(326, 0, 14, 14)];
+//    [view addSubview:border];
+//    
+//    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_bottom_left.png"]] autorelease];
+//    [border setFrame:CGRectMake(0, 466, 14, 14)];
+//    [view addSubview:border];
+//    
+//    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_bottom_right.png"]] autorelease];
+//    [border setFrame:CGRectMake(326, 466, 14, 14)];
+//    [view addSubview:border];
+                        
+	[self setView:view];
+}
+
+- (void)dealloc
+{
+    [navigationController release], navigationController = nil;
+
+    [super dealloc];
+}
+@end
+
+
 @interface JRModalNavigationController : UIViewController <UIPopoverControllerDelegate>
 {
 	UINavigationController *navigationController;
@@ -89,10 +159,11 @@
 
         [navigationController pushViewController:controller animated:NO];
         
-        if (iPad && [customInterface objectForKey:kJRPopoverPresentationFrameValue])
+        if (iPad && 
+            ([customInterface objectForKey:kJRPopoverPresentationFrameValue] ||
+             [customInterface objectForKey:kJRPopoverPresentationBarButtonItem]))
         {
             popoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
-            popoverPresentationFrame = [[customInterface valueForKey:kJRPopoverPresentationFrameValue] CGRectValue];
         }
     }
     
@@ -103,7 +174,10 @@
 {
 	DLog (@"");
     UIView *view = [[[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]] autorelease];
-	[self setView:view];
+
+	view.backgroundColor = [UIColor redColor];
+    
+    [self setView:view];
 }
 
 //- (void)presentModalNavigationControllerForPublishingActivity
@@ -115,13 +189,13 @@
 
 - (void)delayPopover:(NSTimer*)theTimer
 {
-    [popoverController setPopoverContentSize:CGSizeMake(320, 480)];
-    navigationController.modalInPopover = YES;
-    
-    [popoverController presentPopoverFromRect:popoverPresentationFrame
-                                       inView:self.view 
-                     permittedArrowDirections:UIPopoverArrowDirectionAny 
-                                     animated:YES];
+//    [popoverController setPopoverContentSize:CGSizeMake(320, 480)];
+//    navigationController.modalInPopover = YES;
+//    
+//    [popoverController presentPopoverFromRect:popoverPresentationFrame
+//                                       inView:self.view 
+//                     permittedArrowDirections:UIPopoverArrowDirectionAny 
+//                                     animated:YES];
 }
 
 - (void)presentModalNavigationControllerForAuthentication
@@ -130,28 +204,69 @@
     
     if (popoverController && iPad) 
     {
-        [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayPopover:) userInfo:nil repeats:NO];
-//        [popoverController setPopoverContentSize:CGSizeMake(320, 480)];
-//        [popoverController presentPopoverFromRect:CGRectMake(50, 50, 768, 1024) 
-//                                           inView:self.view 
-//                         permittedArrowDirections:UIPopoverArrowDirectionAny 
-//                                         animated:YES];
+//        [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayPopover:) userInfo:nil repeats:NO];
+
+//        navigationController.modalInPopover = YES;
+        [popoverController setPopoverContentSize:CGSizeMake(320, 450)];        
+        
+        if ([customInterface objectForKey:kJRPopoverPresentationFrameValue])
+        {   
+            popoverPresentationFrame = [[customInterface valueForKey:kJRPopoverPresentationFrameValue] CGRectValue];
+            [popoverController presentPopoverFromRect:popoverPresentationFrame
+                                               inView:self.view 
+                             permittedArrowDirections:UIPopoverArrowDirectionAny 
+                                             animated:YES];
+        }
+        else
+        {
+            UIBarButtonItem *barButtonItem = [customInterface objectForKey:kJRPopoverPresentationBarButtonItem];
+            [popoverController presentPopoverFromBarButtonItem:barButtonItem
+                                      permittedArrowDirections:UIPopoverArrowDirectionAny 
+                                                      animated:YES];
+        }
+
         return;
     }
     
     if (iPad)
     {
+//        JRModalBorder *modal = [[[JRModalBorder alloc] initWithNavigationController:navigationController] autorelease];
+//        
+//        modal.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//        modal.modalPresentationStyle = UIModalPresentationFormSheet;
+//        
+//        [self presentModalViewController:modal animated:YES];
+//        
+//        modal.view.superview.frame = CGRectMake(0, 0, 340, 480);
+//        modal.view.superview.center = self.view.center;
+        
         navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        [self presentModalViewController:navigationController animated:YES];
+        
+        navigationController.view.superview.frame = CGRectMake(0, 0, 320, 460);
+        navigationController.view.superview.center = self.view.center;
     }
     else
     {
         navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentModalViewController:navigationController animated:YES];
     }
-
-	[self presentModalViewController:navigationController animated:YES];
-    navigationController.view.superview.frame = CGRectMake(0, 0, 320, 480);
-    navigationController.view.superview.center = self.view.center;
+    
+//    if (iPad)
+//    {
+//        navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+//    }
+//    else
+//    {
+//        navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    }
+//
+//    [self presentModalViewController:navigationController animated:YES];
+//    navigationController.view.superview.frame = CGRectMake(0, 0, 320, 480);
+//    navigationController.view.superview.center = self.view.center;
 }
 
 - (void)viewWillAppear:(BOOL)animated { DLog (@""); [super viewWillAppear:animated]; }
