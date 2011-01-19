@@ -11,6 +11,9 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		9F25B0CD12D24CD90083BB6A /* Quick Sign-In.app in Sources */ = {isa = PBXBuildFile; fileRef = 1D6058910D05DD3D006BFB54 /* Quick Sign-In.app */; };
+		9F30A5FF12BAF1DE00A30ADF /* QSIInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */; };
+		9F30A8E412BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */; };
 		9F5213E212AED46B0073ABAE /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52133912AED46B0073ABAE /* SFHFKeychainUtils.m */; };
 		9F5213E312AED46B0073ABAE /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52133D12AED46B0073ABAE /* NSObject+SBJSON.m */; };
 		9F5213E412AED46B0073ABAE /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52133F12AED46B0073ABAE /* NSString+SBJSON.m */; };
@@ -202,6 +205,9 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIInfoViewController.xib; sourceTree = "<group>"; };
+		9F30A8E212BC0C4B00A30ADF /* QSIEmbeddedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIEmbeddedTableViewController.h; sourceTree = "<group>"; };
+		9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIEmbeddedTableViewController.m; sourceTree = "<group>"; };
 		9F52133812AED46B0073ABAE /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		9F52133912AED46B0073ABAE /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		9F52133B12AED46B0073ABAE /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -431,16 +437,18 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */,
-				9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */,
+				9FB40A3012414DC500FDDA7B /* QuickSignInAppDelegate.h */,
+				9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */,
 				9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */,
 				9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */,
+				9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */,
+				9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */,
 				9FB40A2C12414DC500FDDA7B /* QSIViewControllerLevel1.h */,
 				9FB40A2D12414DC500FDDA7B /* QSIViewControllerLevel1.m */,
 				9FB40A2E12414DC500FDDA7B /* QSIViewControllerLevel2.h */,
 				9FB40A2F12414DC500FDDA7B /* QSIViewControllerLevel2.m */,
-				9FB40A3012414DC500FDDA7B /* QuickSignInAppDelegate.h */,
-				9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */,
+				9F30A8E212BC0C4B00A30ADF /* QSIEmbeddedTableViewController.h */,
+				9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -599,6 +607,7 @@
 				9F521EA512B062940073ABAE /* QSIRootViewController.xib */,
 				9F521EA612B062940073ABAE /* QSIViewControllerLevel1.xib */,
 				9F521EA712B062940073ABAE /* QSIViewControllerLevel2.xib */,
+				9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */,
 			);
 			path = xibs;
 			sourceTree = "<group>";
@@ -1093,6 +1102,7 @@
 				9F52273D12B06C040073ABAE /* music_note@2x.jpg in Resources */,
 				9F52273E12B06C040073ABAE /* profilepic_placeholder@2x.png in Resources */,
 				9F52273F12B06C040073ABAE /* triangle_icon@2x.png in Resources */,
+				9F30A5FF12BAF1DE00A30ADF /* QSIInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1119,6 +1129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F25B0CD12D24CD90083BB6A /* Quick Sign-In.app in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */,
 				9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */,
@@ -1142,6 +1153,7 @@
 				9F5213F112AED46B0073ABAE /* JRUserLandingController.m in Sources */,
 				9F5213F212AED46B0073ABAE /* JRWebViewController.m in Sources */,
 				9F5213F312AED46B0073ABAE /* JRInfoBar.m in Sources */,
+				9F30A8E412BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,7 +1187,7 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0E6495F6-EDD0-4C3B-B1D0-F7F4D7E8B8EA";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1203,7 +1215,7 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F454B76-32EB-4DB7-97BC-EA11298BC5E9";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1226,7 +1238,7 @@
 					"-ObjC",
 				);
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1255,7 +1267,7 @@
 				);
 				PRODUCT_NAME = "Quick Sign-In";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C77F6446-B0C3-459A-862E-B6508C468BF8";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1278,7 +1290,7 @@
 					"-ObjC",
 				);
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1301,7 +1313,7 @@
 					"-ObjC",
 				);
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos;
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -90,7 +90,7 @@
         level1ViewController = [[ViewControllerLevel1 alloc] initWithNibName:@"QSIViewControllerLevel1" 
                                                                       bundle:[NSBundle mainBundle]];
     
-//  [[UserModel getUserModel] setNavigationController:[self navigationController]];
+    [[UserModel getUserModel] setNavigationController:[self navigationController]];
 	
 	/* Check to see if a user is already logged in, and, if so, wait half a second then drill down a level. */
 	if ([[UserModel getUserModel] currentUser]) 

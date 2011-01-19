@@ -104,14 +104,14 @@ The structure of the dictionary (represented here in json) should look something
 \begin{DoxyCode}
  "auth_info":
  {
-   "profile": 
-   {
-     "displayName": "brian",
-     "preferredUsername": "brian",
-     "url": "http:\/\/brian.myopenid.com\/",
-     "providerName": "Other",
-     "identifier": "http:\/\/brian.myopenid.com\/"
-   }
+ "profile": 
+ {
+ "displayName": "brian",
+ "preferredUsername": "brian",
+ "url": "http:\/\/brian.myopenid.com\/",
+ "providerName": "Other",
+ "identifier": "http:\/\/brian.myopenid.com\/"
+ }
  }
 \end{DoxyCode}
 
@@ -138,7 +138,7 @@ Sent when authentication failed and could not be recovered by the library
 \begin{DoxyParams}{Parameters}
 \item[{\em error}]The error that occurred during authentication\item[{\em provider}]The name of the provider on which the user tried to authenticate. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers}\end{DoxyParams}
 \begin{DoxyNote}{Note}
-This message is not sent if authentication was canceled. To be notified of a canceled authentication, see jrAuthenticationDidNotComplete. 
+This message is not sent if authentication was canceled. To be notified of a canceled authentication, see \hyperlink{protocol_j_r_engage_delegate-p_a4eaa6a5961e175b8275c6b06034afea7}{jrAuthenticationDidNotComplete}. 
 \end{DoxyNote}
 \hypertarget{protocol_j_r_engage_delegate-p_abfafec7eed95008f7b7052d962f8f6fa}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationDidReachTokenUrl:withPayload:forProvider:@{jrAuthenticationDidReachTokenUrl:withPayload:forProvider:}}
@@ -151,16 +151,17 @@ This message is not sent if authentication was canceled. To be notified of a can
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_abfafec7eed95008f7b7052d962f8f6fa}
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000001}{Deprecated}]\end{Desc}
+
+
 Sent after \hyperlink{interface_j_r_engage}{JREngage} has successfully posted the token to your application's token\_\-url, containing the body of the response from the server
 
 
 \begin{DoxyParams}{Parameters}
 \item[{\em tokenUrl}]The URL on the server where the token was posted and server-\/side authentication was completed\item[{\em tokenUrlPayload}]The response from the server\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers}\end{DoxyParams}
-\begin{DoxyWarning}{Warning}
-This function may become deprecated in the future.
-\end{DoxyWarning}
 \begin{DoxySeeAlso}{See also}
-\hyperlink{protocol_j_r_engage_delegate-p_tokenUrlReached}{-\/ (void)jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:} 
+\hyperlink{protocol_j_r_engage_delegate-p_a2cbed662f784706d2db038e1cb9ba3fd}{-\/ jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:} 
 \end{DoxySeeAlso}
 \hypertarget{protocol_j_r_engage_delegate-p_a2cbed662f784706d2db038e1cb9ba3fd}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:@{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:}}
@@ -217,7 +218,7 @@ Sent if social publishing was canceled for any reason other than an error. For e
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_ae90fea5db002559f6cf4e481080e0bfb}
-Sent after the social publishing dialog is closed (e.g., the user hits the \char`\"{}Close\char`\"{} button) and publishing is complete. You can receive multiple \hyperlink{protocol_j_r_engage_delegate-p_didPublish}{-\/ (void)jrSocialDidPublishActivity:forProvider:} messages before the dialog is closed and publishing is complete. \hypertarget{protocol_j_r_engage_delegate-p_a4c3fd988961c22202786b400ddd889cc}{
+Sent after the social publishing dialog is closed (e.g., the user hits the \char`\"{}Close\char`\"{} button) and publishing is complete. You can receive multiple \hyperlink{protocol_j_r_engage_delegate-p_a4c3fd988961c22202786b400ddd889cc}{jrSocialDidPublishActivity:forProvider:} messages before the dialog is closed and publishing is complete. \hypertarget{protocol_j_r_engage_delegate-p_a4c3fd988961c22202786b400ddd889cc}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrSocialDidPublishActivity:forProvider:@{jrSocialDidPublishActivity:forProvider:}}
 \index{jrSocialDidPublishActivity:forProvider:@{jrSocialDidPublishActivity:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
 \subsubsection[{jrSocialDidPublishActivity:forProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) jrSocialDidPublishActivity: 

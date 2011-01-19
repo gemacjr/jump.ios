@@ -227,8 +227,9 @@
     
     activity.title = story.title;
     
+    NSInteger trunk = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 300 : 160;
     activity.description = [story.plainText substringToIndex:
-                            ((story.plainText.length < 160) ? story.plainText.length : 160)];
+                            ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
     
     if ([story.storyImages count] > 0)
     {
@@ -241,8 +242,8 @@
     }
 
     activity.email = [JREmailObject emailObjectWithSubject:@"Check out this article from the Janrain Blog!" 
-                                            andMessageBody:[NSString stringWithFormat:@"<html/><body><br /> \
-                                                            I found this artical on Janrain's Blog, \
+                                            andMessageBody:[NSString stringWithFormat:@"<html><body><br /> \
+                                                            I found this article on Janrain's Blog, \
                                                             and I thought you might be interested! \
                                                             <br /><a href=\"%@\">Click here to read it.</a><br /> \
                                                             <br /></body></html>%@", 

@@ -36,23 +36,6 @@
 #import "FeedReader.h"
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-@interface NSString (NSString_URL_ESCAPING)
-- (NSString*)URLEscaped;
-@end
-
-
-@implementation NSString (NSString_URL_ESCAPING)
-- (NSString*)URLEscaped
-{
-    NSString *str = [self stringByReplacingOccurrencesOfString:@"/" withString:@"%2f"];
-    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
-    str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
-    str = [str stringByReplacingOccurrencesOfString:@"&" withString:@"%38"];
-    
-    return str;
-}
-@end
-
 @interface StoryImage ()
 - (void)setAlt:(NSString*)_alt;
 - (void)downloadImage;
@@ -219,7 +202,7 @@
     
     [storyImages addObject:image];
     
-    /* Only download the first coupla images */
+ /* Only download the first coupla images */
     if ([storyImages count] <= 2)
         [image downloadImage];
 }
@@ -370,7 +353,7 @@ static FeedReader* singleton = nil;
 	if (self = [super init]) 
 	{
         singleton = self;
-        jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
+        jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:nil/*tokenUrl*/ delegate:self];
         
         [self downloadFeedStories];
 	}
@@ -391,21 +374,33 @@ static FeedReader* singleton = nil;
     UIApplication* app = [UIApplication sharedApplication]; 
     app.networkActivityIndicatorVisible = YES;
 
-    // TODO: Fix when ready
     NSError *error = nil;
-//    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.json"];
-//    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
-//                                                                  encoding:NSUTF8StringEncoding
-//                                                                     error:&error] autorelease];
+    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.txt"];
+    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
+                                                                  encoding:NSUTF8StringEncoding
+                                                                     error:&error] autorelease];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
-    NSString *janrain_blog_json = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    NSDictionary *janrain_blog_dictionary = nil;
     
-    NSDictionary *janrain_blog_dictionary = [janrain_blog_json JSONValue];  
-
+    if (!error)
+        janrain_blog_dictionary = [janrain_blog_json JSONValue];  
+    else
+        error = nil;
+    
     if (!janrain_blog_dictionary)
-        return;
-    
+    {
+        NSString *pathStr = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
+        janrain_blog_json = [NSString stringWithContentsOfFile:pathStr encoding:NSUTF8StringEncoding error:&error];
+        
+        if (error)
+            return;
+        
+        janrain_blog_dictionary = [janrain_blog_json JSONValue];  
+        
+        if (!janrain_blog_json)
+            return;
+    }
+        
     feed = [[Feed alloc] init];
     [feed setTitle:@"Janrain | Blog"];
     [feed setLink:@"http://www.janrain.com"];

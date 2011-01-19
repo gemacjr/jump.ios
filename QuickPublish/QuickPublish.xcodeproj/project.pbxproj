@@ -33,7 +33,7 @@
 		9F01AA9D1294597C00AD6899 /* icon_itunes.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA921294597C00AD6899 /* icon_itunes.png */; };
 		9F01AA9E1294597C00AD6899 /* janrain_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA931294597C00AD6899 /* janrain_logo.png */; };
 		9F01AAA612945A3100AD6899 /* background-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AAA512945A3100AD6899 /* background-ipad.png */; };
-		9F3F36D3121C64EF00EFAF68 /* janrain_blog.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */; };
+		9F25B07A12C2A9FF0083BB6A /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F25B07912C2A9FF0083BB6A /* icon_ipad.png */; };
 		9F52151512AED47F0073ABAE /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52146C12AED47F0073ABAE /* SFHFKeychainUtils.m */; };
 		9F52151612AED47F0073ABAE /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52147012AED47F0073ABAE /* NSObject+SBJSON.m */; };
 		9F52151712AED47F0073ABAE /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52147212AED47F0073ABAE /* NSString+SBJSON.m */; };
@@ -235,7 +235,7 @@
 		9F01AA921294597C00AD6899 /* icon_itunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_itunes.png; sourceTree = "<group>"; };
 		9F01AA931294597C00AD6899 /* janrain_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = janrain_logo.png; sourceTree = "<group>"; };
 		9F01AAA512945A3100AD6899 /* background-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-ipad.png"; sourceTree = "<group>"; };
-		9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = janrain_blog.json; sourceTree = "<group>"; };
+		9F25B07912C2A9FF0083BB6A /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
 		9F52146B12AED47F0073ABAE /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		9F52146C12AED47F0073ABAE /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		9F52146E12AED47F0073ABAE /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -509,7 +509,6 @@
 				9F01A8981294506100AD6899 /* xibs */,
 				9F01A89E1294506100AD6899 /* xibs-ipad */,
 				9FB409451241430500FDDA7B /* Quick_Publish-Info.plist */,
-				9F3F36D2121C64EF00EFAF68 /* janrain_blog.json */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -573,6 +572,7 @@
 		9F01AA941294597C00AD6899 /* images-ipad */ = {
 			isa = PBXGroup;
 			children = (
+				9F25B07912C2A9FF0083BB6A /* icon_ipad.png */,
 				9FD162841295EB770002BFEC /* Default-Portrait.png */,
 				9F01AAA512945A3100AD6899 /* background-ipad.png */,
 			);
@@ -969,7 +969,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F3F36D3121C64EF00EFAF68 /* janrain_blog.json in Resources */,
 				9F01A8A41294506100AD6899 /* FeedReaderDetail.xib in Resources */,
 				9F01A8A51294506100AD6899 /* FeedReaderFeeds.xib in Resources */,
 				9F01A8A61294506100AD6899 /* FeedReaderSummary.xib in Resources */,
@@ -1137,6 +1136,7 @@
 				9F522BCF12B0880C0073ABAE /* JRWebViewController-iPad.xib in Resources */,
 				9F522BD012B0880C0073ABAE /* JREngage-Info.plist in Resources */,
 				9F5234FD12B29F460073ABAE /* janrain_blog.json in Resources */,
+				9F25B07A12C2A9FF0083BB6A /* icon_ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1193,7 +1193,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = "Quick Publish";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0E6495F6-EDD0-4C3B-B1D0-F7F4D7E8B8EA";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1210,7 +1210,7 @@
 				INFOPLIST_FILE = "Quick_Publish-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = "Quick Publish";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
@@ -1227,7 +1227,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.0;
 			};
 			name = Distribution;
 		};
@@ -1244,7 +1243,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = "Quick Publish";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "20843F31-CFDF-4704-A3BF-8912BE1C4392";
-				SDKROOT = iphoneos4.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
@@ -1260,7 +1259,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
 		};
@@ -1274,7 +1272,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				SDKROOT = iphoneos4.0;
 			};
 			name = Release;
 		};

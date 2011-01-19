@@ -45,6 +45,7 @@
 @synthesize currentUser;
 @synthesize selectedUser;
 @synthesize loadingUserData;
+@synthesize navigationController;
 
 /* Singleton instance of UserModel */
 static UserModel* singleton = nil;
@@ -196,10 +197,10 @@ otherwise, this happens automatically.													*/
 	return addr;
 }
 
-- (void)setNavigationController:(UINavigationController*)navigationController
-{
-    [jrEngage setCustomNavigationController:navigationController];
-}
+//- (void)setNavigationController:(UINavigationController*)navigationController
+//{
+//    [jrEngage setCustomNavigationController:navigationController];
+//}
 
 /* Returns the sign-in history as an ordered array of sessions, store as dictionaries.
    Each session's dictionary contains the identifier, display name, provider, and timestamp 
@@ -456,9 +457,28 @@ otherwise, this happens automatically.													*/
 {
 	loadingUserData = YES;
 	signInDelegate = [interestedParty retain]; 
+    
+    if (NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
+    {       
+     /* EmbeddedTableViewController acts as the delegate and datasource of the embeddedTable, whose view will be added 
+        as a "subtable", as the provider table's header view. While they are two different tables, it will appear as if
+        they are different sections of the same table. */
+        EmbeddedTableViewController *embeddedTable = [[EmbeddedTableViewController alloc] init];
+        UIColor *janrainBlue = [UIColor colorWithRed:0.375 green:0.74 blue:0.9 alpha:0.2];
+        
+        if (!customInterface)
+            customInterface = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    embeddedTable.view, kJRProviderTableHeaderView,
+                               @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString, nil];
+                                    //janrainBlue, kJRAuthenticationBackgroundColor, nil];
+        
+        /* If you want your embeddedTable to control the navigationController, you must use your own. */
+        [jrEngage setCustomNavigationController:navigationController];
+        [jrEngage setCustomInterface:customInterface];	    
+    }
 
- /* Launch the JRAuthenticate Library. */
-	[jrEngage showAuthenticationDialog];	
+    /* Launch the JRAuthenticate Library. */
+    [jrEngage showAuthenticationDialog];
 }
 
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn afterSignOut:(id<UserModelDelegate>)interestedPartySignOut
@@ -472,6 +492,11 @@ otherwise, this happens automatically.													*/
 	signOutDelegate = [interestedParty retain];
 	
 	[self finishSignUserOut];	
+}
+
+- (void)triggerAuthenticationDidCancel:(id)sender
+{
+    [jrEngage authenticationDidCancel];
 }
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError *)error

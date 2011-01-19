@@ -16,6 +16,12 @@
         </Subnodes>
        </Node>
        <Node>
+        <Name>Deprecated List</Name>
+        <Path>deprecated.html</Path>
+        <Subnodes>
+        </Subnodes>
+       </Node>
+       <Node>
         <Name>Modules</Name>
         <Path>modules.html</Path>
         <Subnodes>
@@ -223,6 +229,10 @@
         <Name>File List</Name>
         <Path>files.html</Path>
         <Subnodes>
+         <Node>
+          <Name>/Users/lillialexis/iPhone/engage.iphone/JREngage/JREngage-Info.plist</Name>
+          <Path>_j_r_engage-_info_8plist.html</Path>
+         </Node>
          <Node>
           <Name>/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/JRActivityObject.h</Name>
           <Path>_j_r_activity_object_8h.html</Path>
