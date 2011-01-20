@@ -191,6 +191,8 @@
 		9F52273D12B06C040073ABAE /* music_note@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9F5226B712B06C040073ABAE /* music_note@2x.jpg */; };
 		9F52273E12B06C040073ABAE /* profilepic_placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F5226B812B06C040073ABAE /* profilepic_placeholder@2x.png */; };
 		9F52273F12B06C040073ABAE /* triangle_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F5226B912B06C040073ABAE /* triangle_icon@2x.png */; };
+		9F96D44B12E8B458002D06B4 /* janrain_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D44A12E8B458002D06B4 /* janrain_logo@2x.png */; };
+		9F96D44D12E8B462002D06B4 /* janrain_logo-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */; };
 		9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */; };
 		9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */; };
 		9FB40A3412414DC500FDDA7B /* QSIViewControllerLevel1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2D12414DC500FDDA7B /* QSIViewControllerLevel1.m */; };
@@ -405,6 +407,8 @@
 		9F5226B712B06C040073ABAE /* music_note@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "music_note@2x.jpg"; sourceTree = "<group>"; };
 		9F5226B812B06C040073ABAE /* profilepic_placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profilepic_placeholder@2x.png"; sourceTree = "<group>"; };
 		9F5226B912B06C040073ABAE /* triangle_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle_icon@2x.png"; sourceTree = "<group>"; };
+		9F96D44A12E8B458002D06B4 /* janrain_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "janrain_logo@2x.png"; sourceTree = "<group>"; };
+		9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "janrain_logo-ipad.png"; sourceTree = "<group>"; };
 		9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIRootViewController.h; sourceTree = "<group>"; };
 		9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIRootViewController.m; sourceTree = "<group>"; };
 		9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIUserModel.h; sourceTree = "<group>"; };
@@ -581,6 +585,7 @@
 		9F521E9812B062940073ABAE /* images */ = {
 			isa = PBXGroup;
 			children = (
+				9F96D44A12E8B458002D06B4 /* janrain_logo@2x.png */,
 				9F521E9912B062940073ABAE /* background.png */,
 				9F521E9A12B062940073ABAE /* Default.png */,
 				9F521E9C12B062940073ABAE /* icon.png */,
@@ -594,6 +599,7 @@
 		9F521EA012B062940073ABAE /* images-ipad */ = {
 			isa = PBXGroup;
 			children = (
+				9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */,
 				9F521EA112B062940073ABAE /* background-ipad.png */,
 				9F521EA212B062940073ABAE /* Default-Portrait.png */,
 			);
@@ -1103,6 +1109,8 @@
 				9F52273E12B06C040073ABAE /* profilepic_placeholder@2x.png in Resources */,
 				9F52273F12B06C040073ABAE /* triangle_icon@2x.png in Resources */,
 				9F30A5FF12BAF1DE00A30ADF /* QSIInfoViewController.xib in Resources */,
+				9F96D44B12E8B458002D06B4 /* janrain_logo@2x.png in Resources */,
+				9F96D44D12E8B462002D06B4 /* janrain_logo-ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

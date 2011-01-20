@@ -59,21 +59,21 @@ Copyright (c) 2010, Janrain, Inc.
 {
 	[super layoutSubviews];
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        self.imageView.frame = CGRectMake(30, 20, 60, 60);
-        self.textLabel.frame = CGRectMake(115, 15, 550, 35);
-        self.detailTextLabel.frame = CGRectMake(115, 60, 500, 25);
-        
-        self.textLabel.font = [UIFont systemFontOfSize:30];
-        self.detailTextLabel.font = [UIFont systemFontOfSize:20];
-    }
-    else
-    {
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//    {
+//        self.imageView.frame = CGRectMake(30, 20, 60, 60);
+//        self.textLabel.frame = CGRectMake(115, 15, 550, 35);
+//        self.detailTextLabel.frame = CGRectMake(115, 60, 500, 25);
+//        
+//        self.textLabel.font = [UIFont systemFontOfSize:30];
+//        self.detailTextLabel.font = [UIFont systemFontOfSize:20];
+//    }
+//    else
+//    {
         self.imageView.frame = CGRectMake(10, 10, 30, 30);
         self.textLabel.frame = CGRectMake(50, 15, 100, 22);
         self.detailTextLabel.frame = CGRectMake(160, 20, 100, 15);
-    }
+//    }
 }
 @end
 
@@ -229,7 +229,8 @@ Copyright (c) 2010, Janrain, Inc.
 {
 	myNotSignedInLabel.text = @"Completing Sign In...";
 	
-#ifdef LILLI	
+//#ifdef LILLI	
+
 	if ([[UserModel getUserModel] currentUser])
 	{
 		[[UserModel getUserModel] startSignUserOut:self];
@@ -239,15 +240,17 @@ Copyright (c) 2010, Janrain, Inc.
 	{
 		[[UserModel getUserModel] startSignUserIn:self];	
 	}
-#else
-	[[UserModel getUserModel] startSignUserOut:self];
-	[NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
-#endif
+
+//#else
+//	[[UserModel getUserModel] startSignUserOut:self];
+//	[NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
+//#endif
 }
 
 - (IBAction)signOutButtonPressed:(id)sender
 {
-#ifdef LILLI	
+//#ifdef LILLI	
+
 	if ([[UserModel getUserModel] currentUser])
 	{
 		myNotSignedInLabel.text = @"You are not currently signed in.";
@@ -257,10 +260,11 @@ Copyright (c) 2010, Janrain, Inc.
 	{
 		[[self navigationController] popToRootViewControllerAnimated:YES];
 	}
-#else
-	[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySignOut:) userInfo:nil repeats:NO];
-	[[self navigationController] popToRootViewControllerAnimated:YES];
-#endif
+    
+//#else
+//	[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySignOut:) userInfo:nil repeats:NO];
+//	[[self navigationController] popToRootViewControllerAnimated:YES];
+//#endif
 
 }
 
@@ -287,10 +291,21 @@ Copyright (c) 2010, Janrain, Inc.
 	NSIndexSet *set0 = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
 	NSIndexSet *set1 = [[[NSIndexSet alloc] initWithIndex:1] autorelease];
 	
-	[myTableView beginUpdates];
-	[myTableView reloadSections:set0 withRowAnimation:UITableViewRowAnimationFade];
-	[myTableView reloadSections:set1 withRowAnimation:UITableViewRowAnimationLeft];
-	[myTableView endUpdates];
+
+	if (iPad)
+    {
+        [myTableView beginUpdates];
+        [myTableView reloadSections:set0 withRowAnimation:UITableViewRowAnimationLeft];
+        [myTableView insertSections:set1 withRowAnimation:UITableViewRowAnimationLeft];
+        [myTableView endUpdates];        
+    }
+    else
+    {
+        [myTableView beginUpdates];
+        [myTableView reloadSections:set0 withRowAnimation:UITableViewRowAnimationFade];
+        [myTableView reloadSections:set1 withRowAnimation:UITableViewRowAnimationLeft];
+        [myTableView endUpdates];
+    }
 	
 	[UIView beginAnimations:@"fade" context:nil];
 	myToolBarButton.title = @"Home";
@@ -329,12 +344,18 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-	return 30.0;
+    if (section == 0 || section == 1)
+        return 30.0;
+    else
+        return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-	return 30.0;
+    if (section == 0)// || last section)
+        return 30.0;
+    else
+        return 0;
 }
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section { return nil; }
@@ -343,37 +364,43 @@ Copyright (c) 2010, Janrain, Inc.
 {
 	if (section == 0)
 		return ([[UserModel getUserModel] currentUser]) ? @"Currently Signed In As" : nil;
-	else 
+	else if (section == 1)
 		return ([[[UserModel getUserModel] signinHistory] count]) ? @"Previously Signed In As" : nil;
+    else
+        return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (iPad)
-        return 100;
+//	if (iPad)
+//        return 100;
     
     return 50;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-	return 2;
+    if (iPad)
+        return [[[UserModel getUserModel] signinHistory] count] + 1;
+    else
+        return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section 
 {
+    if (iPad)
+        return 1;
+    
 	switch (section)
 	{
 		case 0:
-			printf("rows in section 0: %d\n", [[UserModel getUserModel] currentUser] ? 1 : 0);
 			if ([[UserModel getUserModel] currentUser])
 				return 1;
 			else 
 				return 0;
 			break;
 		case 1:
-			printf("rows in section 1: %d\n", [[[UserModel getUserModel] signinHistory] count]);
 			return [[[UserModel getUserModel] signinHistory] count];
 			break;
 		default:
@@ -387,6 +414,8 @@ Copyright (c) 2010, Janrain, Inc.
 {
 	UITableViewCellSignInHistory *cell = 
 	(UITableViewCellSignInHistory*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
+
+    NSInteger userIndex = (iPad) ? (indexPath.section - 1) : indexPath.row;
 	
 	if (!cell || indexPath.section == 0) 
 		cell = [[[UITableViewCell alloc] 
@@ -395,7 +424,7 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	NSDictionary *userForCell = (indexPath.section == 0) ? 
 									[[UserModel getUserModel] currentUser] : 
-									[[[UserModel getUserModel] signinHistory] objectAtIndex:indexPath.row];
+									[[[UserModel getUserModel] signinHistory] objectAtIndex:userIndex];
 
 	NSString *identifier = [userForCell objectForKey:@"identifier"];
 	NSDictionary* userProfile = [[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"];
@@ -403,20 +432,19 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	NSString* displayName = [UserModel getDisplayNameFromProfile:userProfile];
 	NSString* subtitle = [userForCell objectForKey:@"timestamp"];
-	NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30%@.png", 
-                           [userForCell objectForKey:@"provider"], 
-                            (iPad) ? @"@2x" : @"" ];
-    [NSString stringWithFormat:@"jrauth_%@_icon.png", [userForCell objectForKey:@"provider"]];
+	NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30.png",//@"icon_%@_30x30%@.png", 
+                           [userForCell objectForKey:@"provider"]];//, 
+//                            (iPad) ? @"@2x" : @"" ];
 	
 	cell.textLabel.text = displayName;
 	cell.detailTextLabel.text = subtitle;
 	cell.imageView.image = [UIImage imageNamed:imagePath];
 	
-    if (iPad)
-    {
-        cell.textLabel.font = [UIFont systemFontOfSize:30];
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:20];
-    }
+//    if (iPad)
+//    {
+//        cell.textLabel.font = [UIFont systemFontOfSize:30];
+//        cell.detailTextLabel.font = [UIFont systemFontOfSize:20];
+//    }
     
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -426,11 +454,12 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UserModel *model = [UserModel getUserModel];
-	
+    NSInteger userIndex = (iPad) ? (indexPath.section - 1) : indexPath.row;
+
 	if (indexPath.section == 0)
 		[model setSelectedUser:[model currentUser]];
 	else
-		[model setSelectedUser:[[model signinHistory] objectAtIndex:indexPath.row]];
+		[model setSelectedUser:[[model signinHistory] objectAtIndex:userIndex]];
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	[[self navigationController] pushViewController:level2ViewController animated:YES];
@@ -450,13 +479,13 @@ Copyright (c) 2010, Janrain, Inc.
 											forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	CGFloat headerAlpha = myTableView.tableHeaderView.alpha;
-	
+    NSInteger userIndex = (iPad) ? (indexPath.section - 1) : indexPath.row;
+
 	if (editingStyle == UITableViewCellEditingStyleDelete)
-	{
-		/* Remove this profile from the Model's saved history. */ 
-		[[UserModel getUserModel] removeUserFromHistory:indexPath.row];
+	{/* Remove this profile from the Model's saved history. */ 
+		[[UserModel getUserModel] removeUserFromHistory:userIndex];
 			
-		/* If that profile was the last one in the list of previous users... */
+     /* If that profile was the last one in the list of previous users... */
 		if (![[[UserModel getUserModel] signinHistory] count])
 		{
 			if (![[UserModel getUserModel] currentUser]) 
@@ -480,7 +509,10 @@ Copyright (c) 2010, Janrain, Inc.
 		}
 		else
 		{
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];		
+			if (iPad)
+                [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationRight];
+            else
+                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];		
 		}
 		
 		myTableView.tableHeaderView.alpha = headerAlpha;

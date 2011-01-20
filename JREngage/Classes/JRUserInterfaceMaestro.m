@@ -176,7 +176,7 @@
 	DLog (@"");
     UIView *view = [[[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]] autorelease];
 
-	view.backgroundColor = [UIColor redColor];
+//	view.backgroundColor = [UIColor redColor];
     
     shouldUnloadSubviews = NO;
 

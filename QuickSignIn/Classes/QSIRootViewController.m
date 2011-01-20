@@ -60,30 +60,38 @@
 {
 	[super viewDidLoad];
 	
-	self.title = @"Quick Sign-In!";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        iPad = YES;
+    
+    self.title = @"Quick Sign-In!";
 
 	[self navigationController].navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
-#ifdef LILLI	
-	UIBarButtonItem *spacerButton = [[[UIBarButtonItem alloc]
-									  initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-									  target:nil
-									  action:nil] autorelease];
+//#ifdef LILLI	
+    
+    if (!iPad)
+    {
+        UIBarButtonItem *spacerButton = [[[UIBarButtonItem alloc]
+                                          initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                          target:nil
+                                          action:nil] autorelease];
+        
+        self.navigationItem.leftBarButtonItem = spacerButton;
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        
+        UIBarButtonItem *viewHistoryButton = [[[UIBarButtonItem alloc] 
+                                               initWithTitle:@"View Profiles" 
+                                               style:UIBarButtonItemStyleBordered
+                                               target:self
+                                               action:@selector(viewHistoryButtonPressed:)] autorelease];
+        
+        self.navigationItem.rightBarButtonItem = viewHistoryButton;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }
+    
+//#endif
 	
-	self.navigationItem.leftBarButtonItem = spacerButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
-	
-	UIBarButtonItem *viewHistoryButton = [[[UIBarButtonItem alloc] 
-										   initWithTitle:@"View Profiles" 
-										   style:UIBarButtonItemStyleBordered
-										   target:self
-										   action:@selector(viewHistoryButtonPressed:)] autorelease];
-	
-	self.navigationItem.rightBarButtonItem = viewHistoryButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-#endif
-	
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         level1ViewController = [[ViewControllerLevel1 alloc] initWithNibName:@"QSIViewControllerLevel1-iPad" 
                                                                       bundle:[NSBundle mainBundle]];
     else
@@ -136,19 +144,59 @@
 
 - (IBAction)signInButtonPressed:(id)sender 
 {
-#ifdef LILLI /* Drill down a level, then after half a second, sign the user in. */
-	[[self navigationController] pushViewController:level1ViewController animated:YES]; 	
-	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySwitchAccounts:) userInfo:nil repeats:NO];
-#else
-	[[UserModel getUserModel] startSignUserIn:level1ViewController];
-	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
-#endif
+//#ifdef LILLI 
+
+    if (!iPad)
+    {/* Drill down a level, then after half a second, sign the user in. */
+        [[self navigationController] pushViewController:level1ViewController animated:YES]; 	
+         [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySwitchAccounts:) userInfo:nil repeats:NO];
+    }
+    else
+    {
+        if ([[UserModel getUserModel] currentUser])
+        {
+            [[UserModel getUserModel] startSignUserOut:self];
+            [[UserModel getUserModel] startSignUserIn:self];	
+            //[NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
+        }
+        else
+        {
+            [[UserModel getUserModel] startSignUserIn:self];	
+        }        
+    }
+
+//#else
+//	[[UserModel getUserModel] startSignUserIn:level1ViewController];
+//	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
+//#endif
 }
 
 - (IBAction)viewHistoryButtonPressed:(id)sender
 {
 	[[self navigationController] pushViewController:level1ViewController animated:YES]; 
 }
+
+- (void)didFailToSignIn:(BOOL)showMessage 
+{
+	if (showMessage)
+	{
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
+														 message:@"An error occurred while attempting to sign you in.  Please try again."
+														delegate:self
+											   cancelButtonTitle:@"OK"
+											   otherButtonTitles:nil] autorelease];
+		[alert show];
+	}
+}
+
+- (void)userDidSignIn 
+{
+    [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
+}
+
+- (void)userDidSignOut { }
+- (void)didReceiveToken { }
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.

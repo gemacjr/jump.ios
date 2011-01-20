@@ -46,6 +46,7 @@
 @synthesize selectedUser;
 @synthesize loadingUserData;
 @synthesize navigationController;
+@synthesize iPad;
 
 /* Singleton instance of UserModel */
 static UserModel* singleton = nil;
@@ -89,7 +90,10 @@ otherwise, this happens automatically.													*/
 		displayName = nil;	
 
 		historyCountSnapShot = [prefs integerForKey:@"historyCount"];
-		
+
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            iPad = YES;
+        
      /* Load any session that was still logged in when the application closed. */
 		[self loadSignedInUser];
 	}

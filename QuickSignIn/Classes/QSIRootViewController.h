@@ -37,8 +37,10 @@
 #import "QSIViewControllerLevel1.h"
 #import "QSIUserModel.h"
 
-@interface RootViewController : UIViewController
+@interface RootViewController : UIViewController <UserModelDelegate>
 {
+    BOOL iPad;
+    
 	UIButton *signInButton;
 	UIButton *linkButton;
 	
