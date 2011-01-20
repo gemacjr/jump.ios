@@ -255,7 +255,11 @@
     
     [FeedReader feedReader].feedReaderDetail = self;
     [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
-    [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity];
+//    [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity];
+    
+    NSDictionary *custom = [NSDictionary dictionaryWithObjectsAndKeys:
+                            self.navigationItem.rightBarButtonItem, kJRPopoverPresentationBarButtonItem, nil];
+    [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity andCustomInterface:custom];    
 }
 
 /*

@@ -43,74 +43,74 @@
 
 #import "JRUserInterfaceMaestro.h"
 
-@interface JRModalBorder : UIViewController 
-{
-    UINavigationController *navigationController;
-}
-@property (retain) UINavigationController *navigationController;
-- (id)initWithNavigationController:(UINavigationController*)_navigationController;
-@end
-
-@implementation JRModalBorder
-@synthesize navigationController;
-
-- (id)initWithNavigationController:(UINavigationController*)_navigationController
-{
-	if (_navigationController == nil)
-	{
-		[self release];
-		return nil;
-	}
-    
-	if (self = [super init]) 
-	{        
-        navigationController = [_navigationController retain];
-    }
-    
-    return self;
-}
-
-- (void)loadView
-{
-    UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 340, 480)] autorelease];
-    
-    UIImageView *border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_border.png"]] autorelease];
-    [border setFrame:CGRectMake(0, 0, 340, 480)];
-    [view addSubview:border];
-    
-    UIView *navView = [[[UIView alloc] initWithFrame:CGRectMake(10, 10, 320, 460)] autorelease];
-//    navView.clipsToBounds = YES;
-    [view addSubview:navView];
-    
-    [navigationController.view setFrame:CGRectMake(0, 0, 320, 460)];
-    [navView addSubview:navigationController.view];
-    
-//    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_top_left.png"]] autorelease];
-//    [border setFrame:CGRectMake(0, 0, 14, 14)];
-//    [view addSubview:border];
+//@interface JRModalBorder : UIViewController 
+//{
+//    UINavigationController *navigationController;
+//}
+//@property (retain) UINavigationController *navigationController;
+//- (id)initWithNavigationController:(UINavigationController*)_navigationController;
+//@end
 //
-//    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_top_right.png"]] autorelease];
-//    [border setFrame:CGRectMake(326, 0, 14, 14)];
+//@implementation JRModalBorder
+//@synthesize navigationController;
+//
+//- (id)initWithNavigationController:(UINavigationController*)_navigationController
+//{
+//	if (_navigationController == nil)
+//	{
+//		[self release];
+//		return nil;
+//	}
+//    
+//	if (self = [super init]) 
+//	{        
+//        navigationController = [_navigationController retain];
+//    }
+//    
+//    return self;
+//}
+//
+//- (void)loadView
+//{
+//    UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 340, 480)] autorelease];
+//    
+//    UIImageView *border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_border.png"]] autorelease];
+//    [border setFrame:CGRectMake(0, 0, 340, 480)];
 //    [view addSubview:border];
 //    
-//    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_bottom_left.png"]] autorelease];
-//    [border setFrame:CGRectMake(0, 466, 14, 14)];
-//    [view addSubview:border];
+//    UIView *navView = [[[UIView alloc] initWithFrame:CGRectMake(10, 10, 320, 460)] autorelease];
+////    navView.clipsToBounds = YES;
+//    [view addSubview:navView];
 //    
-//    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_bottom_right.png"]] autorelease];
-//    [border setFrame:CGRectMake(326, 466, 14, 14)];
-//    [view addSubview:border];
-                        
-	[self setView:view];
-}
-
-- (void)dealloc
-{
-    [navigationController release], navigationController = nil;
-
-    [super dealloc];
-}
-@end
+//    [navigationController.view setFrame:CGRectMake(0, 0, 320, 460)];
+//    [navView addSubview:navigationController.view];
+//    
+////    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_top_left.png"]] autorelease];
+////    [border setFrame:CGRectMake(0, 0, 14, 14)];
+////    [view addSubview:border];
+////
+////    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_top_right.png"]] autorelease];
+////    [border setFrame:CGRectMake(326, 0, 14, 14)];
+////    [view addSubview:border];
+////    
+////    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_bottom_left.png"]] autorelease];
+////    [border setFrame:CGRectMake(0, 466, 14, 14)];
+////    [view addSubview:border];
+////    
+////    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_bottom_right.png"]] autorelease];
+////    [border setFrame:CGRectMake(326, 466, 14, 14)];
+////    [view addSubview:border];
+//                        
+//	[self setView:view];
+//}
+//
+//- (void)dealloc
+//{
+//    [navigationController release], navigationController = nil;
+//
+//    [super dealloc];
+//}
+//@end
 
 
 @interface JRModalNavigationController : UIViewController <UIPopoverControllerDelegate>
@@ -119,6 +119,7 @@
     UIPopoverController    *popoverController;
   
     BOOL iPad;
+	BOOL shouldUnloadSubviews;
     
     NSDictionary *customInterface;
     
@@ -177,6 +178,8 @@
 
 	view.backgroundColor = [UIColor redColor];
     
+    shouldUnloadSubviews = NO;
+
     [self setView:view];
 }
 
@@ -270,7 +273,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated { DLog (@""); [super viewWillAppear:animated]; }
-- (void)viewDidAppear:(BOOL)animated { DLog (@""); [super viewDidAppear:animated]; }
+- (void)viewDidAppear:(BOOL)animated 
+{
+    DLog (@""); 
+
+    if (shouldUnloadSubviews) { [self.view removeFromSuperview]; } 
+    
+    [super viewDidAppear:animated]; 
+}
 - (void)viewWillDisappear:(BOOL)animated { DLog (@""); [super viewWillDisappear:animated]; }
 - (void)viewDidDisappear:(BOOL)animated { DLog (@""); [super viewDidDisappear:animated]; }
 
@@ -287,6 +297,8 @@
         navigationController.modalTransitionStyle = style;
         [self dismissModalViewControllerAnimated:YES];
     }
+
+    shouldUnloadSubviews = YES;
 
     [self.view removeFromSuperview];
 }

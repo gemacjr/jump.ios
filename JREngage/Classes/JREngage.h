@@ -849,7 +849,7 @@
  *   Your application's navigation controller
  *
  * @warning This function will be deprecated soon.  It does the exact same thing as 
- * the function setCustomNavigationController:.  Please use this function instead.
+ * the function setCustomApplicationController:.  Please use this function instead.
  **/
 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 

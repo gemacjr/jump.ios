@@ -464,7 +464,7 @@ otherwise, this happens automatically.													*/
         as a "subtable", as the provider table's header view. While they are two different tables, it will appear as if
         they are different sections of the same table. */
         EmbeddedTableViewController *embeddedTable = [[EmbeddedTableViewController alloc] init];
-        UIColor *janrainBlue = [UIColor colorWithRed:0.375 green:0.74 blue:0.9 alpha:0.2];
+        //UIColor *janrainBlue = [UIColor colorWithRed:0.375 green:0.74 blue:0.9 alpha:0.2];
         
         if (!customInterface)
             customInterface = [[NSDictionary alloc] initWithObjectsAndKeys:
