@@ -35,6 +35,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JREngage.h"
+#import "JREngage+CustomInterface.h"
 #import "QuickSignInAppDelegate.h"
 #import "QSIEmbeddedTableViewController.h"
 

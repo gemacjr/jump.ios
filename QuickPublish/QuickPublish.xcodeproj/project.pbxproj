@@ -51,7 +51,6 @@
 		9F52152412AED47F0073ABAE /* JRUserLandingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52148D12AED47F0073ABAE /* JRUserLandingController.m */; };
 		9F52152512AED47F0073ABAE /* JRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52148F12AED47F0073ABAE /* JRWebViewController.m */; };
 		9F52152612AED47F0073ABAE /* JRInfoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52149112AED47F0073ABAE /* JRInfoBar.m */; };
-		9F52159812AED47F0073ABAE /* scratch in Resources */ = {isa = PBXBuildFile; fileRef = 9F52151412AED47F0073ABAE /* scratch */; };
 		9F522B4212B0880C0073ABAE /* button_black_135x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F522AA712B0880B0073ABAE /* button_black_135x40.png */; };
 		9F522B4312B0880C0073ABAE /* button_black_280x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F522AA812B0880B0073ABAE /* button_black_280x40.png */; };
 		9F522B4412B0880C0073ABAE /* button_facebook_135x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F522AA912B0880B0073ABAE /* button_facebook_135x40.png */; };
@@ -201,6 +200,7 @@
 		9F8AC6101210BD4E004DB52A /* FeedReaderDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */; };
 		9F96D45212E8B479002D06B4 /* janrain_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D45112E8B479002D06B4 /* janrain_logo@2x.png */; };
 		9F96D45412E8B482002D06B4 /* janrain_logo-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D45312E8B482002D06B4 /* janrain_logo-ipad.png */; };
+		9F96D69D12EA1690002D06B4 /* JREngage+CustomInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F96D69C12EA1690002D06B4 /* JREngage+CustomInterface.m */; };
 		9FB409421241429300FDDA7B /* Quick_PublishAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */; };
 		9FB87B2412DCE5D900AE8AFC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB87B2312DCE5D900AE8AFC /* CoreLocation.framework */; };
 		9FBE258512A6FAB500E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE258412A6FAB500E1F93E /* Security.framework */; };
@@ -274,9 +274,6 @@
 		9F52148F12AED47F0073ABAE /* JRWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRWebViewController.m; sourceTree = "<group>"; };
 		9F52149012AED47F0073ABAE /* JRInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRInfoBar.h; sourceTree = "<group>"; };
 		9F52149112AED47F0073ABAE /* JRInfoBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRInfoBar.m; sourceTree = "<group>"; };
-		9F52149212AED47F0073ABAE /* JRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRError.h; sourceTree = "<group>"; };
-		9F52149312AED47F0073ABAE /* JREngage-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JREngage-config.h"; path = "../JREngage/JREngage-config.h"; sourceTree = SOURCE_ROOT; };
-		9F52151412AED47F0073ABAE /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scratch; path = ../JREngage/scratch; sourceTree = SOURCE_ROOT; };
 		9F522AA712B0880B0073ABAE /* button_black_135x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_black_135x40.png; sourceTree = "<group>"; };
 		9F522AA812B0880B0073ABAE /* button_black_280x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_black_280x40.png; sourceTree = "<group>"; };
 		9F522AA912B0880B0073ABAE /* button_facebook_135x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_facebook_135x40.png; sourceTree = "<group>"; };
@@ -429,6 +426,8 @@
 		9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderDetail.m; sourceTree = "<group>"; };
 		9F96D45112E8B479002D06B4 /* janrain_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "janrain_logo@2x.png"; sourceTree = "<group>"; };
 		9F96D45312E8B482002D06B4 /* janrain_logo-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "janrain_logo-ipad.png"; sourceTree = "<group>"; };
+		9F96D69B12EA1690002D06B4 /* JREngage+CustomInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JREngage+CustomInterface.h"; sourceTree = "<group>"; };
+		9F96D69C12EA1690002D06B4 /* JREngage+CustomInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JREngage+CustomInterface.m"; sourceTree = "<group>"; };
 		9FB409401241429300FDDA7B /* Quick_PublishAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_PublishAppDelegate.h; sourceTree = "<group>"; };
 		9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quick_PublishAppDelegate.m; sourceTree = "<group>"; };
 		9FB40944124142AA00FDDA7B /* Quick_Publish_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_Publish_Prefix.pch; sourceTree = "<group>"; };
@@ -596,7 +595,6 @@
 				9F522AA412B0880B0073ABAE /* Resources */,
 				9F52146A12AED47F0073ABAE /* Security */,
 				9F52146D12AED47F0073ABAE /* JSON */,
-				9F52151412AED47F0073ABAE /* scratch */,
 				9F52147B12AED47F0073ABAE /* Classes */,
 			);
 			name = JREngage;
@@ -638,6 +636,8 @@
 			children = (
 				9F52147E12AED47F0073ABAE /* JREngage.h */,
 				9F52147F12AED47F0073ABAE /* JREngage.m */,
+				9F96D69B12EA1690002D06B4 /* JREngage+CustomInterface.h */,
+				9F96D69C12EA1690002D06B4 /* JREngage+CustomInterface.m */,
 				9F52147C12AED47F0073ABAE /* JRConnectionManager.h */,
 				9F52147D12AED47F0073ABAE /* JRConnectionManager.m */,
 				9F52148012AED47F0073ABAE /* JRSessionData.h */,
@@ -656,8 +656,6 @@
 				9F52148F12AED47F0073ABAE /* JRWebViewController.m */,
 				9F52149012AED47F0073ABAE /* JRInfoBar.h */,
 				9F52149112AED47F0073ABAE /* JRInfoBar.m */,
-				9F52149212AED47F0073ABAE /* JRError.h */,
-				9F52149312AED47F0073ABAE /* JREngage-config.h */,
 			);
 			name = Classes;
 			path = ../JREngage/classes;
@@ -1001,7 +999,6 @@
 				9F01AA9E1294597C00AD6899 /* janrain_logo.png in Resources */,
 				9F01AAA612945A3100AD6899 /* background-ipad.png in Resources */,
 				9FD162851295EB770002BFEC /* Default-Portrait.png in Resources */,
-				9F52159812AED47F0073ABAE /* scratch in Resources */,
 				9F522B4212B0880C0073ABAE /* button_black_135x40.png in Resources */,
 				9F522B4312B0880C0073ABAE /* button_black_280x40.png in Resources */,
 				9F522B4412B0880C0073ABAE /* button_facebook_135x40.png in Resources */,
@@ -1183,6 +1180,7 @@
 				9F52152412AED47F0073ABAE /* JRUserLandingController.m in Sources */,
 				9F52152512AED47F0073ABAE /* JRWebViewController.m in Sources */,
 				9F52152612AED47F0073ABAE /* JRInfoBar.m in Sources */,
+				9F96D69D12EA1690002D06B4 /* JREngage+CustomInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

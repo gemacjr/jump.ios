@@ -43,6 +43,7 @@
 
 
 #import "JRPublishActivityController.h"
+#import "JREngage+CustomInterface.h"
 
 @interface JRPublishActivityController ()
 - (void)addProvidersToTabBar;

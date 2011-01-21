@@ -31,7 +31,6 @@
 		9F5213F112AED46B0073ABAE /* JRUserLandingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52135A12AED46B0073ABAE /* JRUserLandingController.m */; };
 		9F5213F212AED46B0073ABAE /* JRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52135C12AED46B0073ABAE /* JRWebViewController.m */; };
 		9F5213F312AED46B0073ABAE /* JRInfoBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52135E12AED46B0073ABAE /* JRInfoBar.m */; };
-		9F52146512AED46B0073ABAE /* scratch in Resources */ = {isa = PBXBuildFile; fileRef = 9F5213E112AED46B0073ABAE /* scratch */; };
 		9F521EAD12B062940073ABAE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9912B062940073ABAE /* background.png */; };
 		9F521EAE12B062940073ABAE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9A12B062940073ABAE /* Default.png */; };
 		9F521EB012B062940073ABAE /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9C12B062940073ABAE /* icon.png */; };
@@ -193,6 +192,7 @@
 		9F52273F12B06C040073ABAE /* triangle_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F5226B912B06C040073ABAE /* triangle_icon@2x.png */; };
 		9F96D44B12E8B458002D06B4 /* janrain_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D44A12E8B458002D06B4 /* janrain_logo@2x.png */; };
 		9F96D44D12E8B462002D06B4 /* janrain_logo-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */; };
+		9F96D68912EA13F1002D06B4 /* JREngage+CustomInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F96D68812EA13F1002D06B4 /* JREngage+CustomInterface.m */; };
 		9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */; };
 		9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */; };
 		9FB40A3412414DC500FDDA7B /* QSIViewControllerLevel1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2D12414DC500FDDA7B /* QSIViewControllerLevel1.m */; };
@@ -245,9 +245,6 @@
 		9F52135C12AED46B0073ABAE /* JRWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRWebViewController.m; sourceTree = "<group>"; };
 		9F52135D12AED46B0073ABAE /* JRInfoBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRInfoBar.h; sourceTree = "<group>"; };
 		9F52135E12AED46B0073ABAE /* JRInfoBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRInfoBar.m; sourceTree = "<group>"; };
-		9F52135F12AED46B0073ABAE /* JRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRError.h; sourceTree = "<group>"; };
-		9F52136012AED46B0073ABAE /* JREngage-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JREngage-config.h"; path = "../JREngage/JREngage-config.h"; sourceTree = SOURCE_ROOT; };
-		9F5213E112AED46B0073ABAE /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = scratch; path = ../JREngage/scratch; sourceTree = SOURCE_ROOT; };
 		9F521E9912B062940073ABAE /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		9F521E9A12B062940073ABAE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9F521E9C12B062940073ABAE /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
@@ -409,6 +406,8 @@
 		9F5226B912B06C040073ABAE /* triangle_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle_icon@2x.png"; sourceTree = "<group>"; };
 		9F96D44A12E8B458002D06B4 /* janrain_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "janrain_logo@2x.png"; sourceTree = "<group>"; };
 		9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "janrain_logo-ipad.png"; sourceTree = "<group>"; };
+		9F96D68712EA13F1002D06B4 /* JREngage+CustomInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JREngage+CustomInterface.h"; sourceTree = "<group>"; };
+		9F96D68812EA13F1002D06B4 /* JREngage+CustomInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JREngage+CustomInterface.m"; sourceTree = "<group>"; };
 		9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIRootViewController.h; sourceTree = "<group>"; };
 		9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIRootViewController.m; sourceTree = "<group>"; };
 		9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIUserModel.h; sourceTree = "<group>"; };
@@ -504,7 +503,6 @@
 				9F52203912B062CD0073ABAE /* Resources */,
 				9F52133712AED46B0073ABAE /* Security */,
 				9F52133A12AED46B0073ABAE /* JSON */,
-				9F5213E112AED46B0073ABAE /* scratch */,
 				9F52134812AED46B0073ABAE /* Classes */,
 			);
 			name = JREngage;
@@ -546,6 +544,8 @@
 			children = (
 				9F52134B12AED46B0073ABAE /* JREngage.h */,
 				9F52134C12AED46B0073ABAE /* JREngage.m */,
+				9F96D68712EA13F1002D06B4 /* JREngage+CustomInterface.h */,
+				9F96D68812EA13F1002D06B4 /* JREngage+CustomInterface.m */,
 				9F52134912AED46B0073ABAE /* JRConnectionManager.h */,
 				9F52134A12AED46B0073ABAE /* JRConnectionManager.m */,
 				9F52134D12AED46B0073ABAE /* JRSessionData.h */,
@@ -564,8 +564,6 @@
 				9F52135C12AED46B0073ABAE /* JRWebViewController.m */,
 				9F52135D12AED46B0073ABAE /* JRInfoBar.h */,
 				9F52135E12AED46B0073ABAE /* JRInfoBar.m */,
-				9F52135F12AED46B0073ABAE /* JRError.h */,
-				9F52136012AED46B0073ABAE /* JREngage-config.h */,
 			);
 			name = Classes;
 			path = ../JREngage/classes;
@@ -948,7 +946,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F52146512AED46B0073ABAE /* scratch in Resources */,
 				9F521EAD12B062940073ABAE /* background.png in Resources */,
 				9F521EAE12B062940073ABAE /* Default.png in Resources */,
 				9F521EB012B062940073ABAE /* icon.png in Resources */,
@@ -1162,6 +1159,7 @@
 				9F5213F212AED46B0073ABAE /* JRWebViewController.m in Sources */,
 				9F5213F312AED46B0073ABAE /* JRInfoBar.m in Sources */,
 				9F30A8E412BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m in Sources */,
+				9F96D68912EA13F1002D06B4 /* JREngage+CustomInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

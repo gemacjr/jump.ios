@@ -42,6 +42,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 #import "JRUserInterfaceMaestro.h"
+#import "JREngage+CustomInterface.h"
 
 //@interface JRModalBorder : UIViewController 
 //{

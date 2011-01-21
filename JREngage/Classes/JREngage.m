@@ -344,21 +344,6 @@ static JREngage* singletonJREngage = nil;
 	}    
 }
 
-- (void)setCustomNavigationController:(UINavigationController*)navigationController
-{
-    [interfaceMaestro pushToCustomNavigationController:navigationController];
-}
-
-- (void)setApplicationNavigationController:(UINavigationController*)navigationController
-{
-    [interfaceMaestro pushToCustomNavigationController:navigationController];
-}
-
-- (void)setCustomInterface:(NSDictionary*)customizations
-{
-    [interfaceMaestro setCustomViews:customizations];
-}
-
 - (void)signoutUserForProvider:(NSString*)provider
 {
     DLog(@"");
