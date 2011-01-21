@@ -1692,8 +1692,8 @@ static JRSessionData* singleton = nil;
     [body appendData:[[NSString stringWithFormat:@"&method=%@", method] dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSString *urlString = [NSString stringWithFormat:
-                           @"%@/social/record_activity?device=%@&method=email", 
-                           baseUrl, device];
+                           @"%@/social/record_activity?", 
+                           baseUrl];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     
