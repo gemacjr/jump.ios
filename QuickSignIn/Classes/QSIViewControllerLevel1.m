@@ -99,7 +99,6 @@ Copyright (c) 2010, Janrain, Inc.
 {
     [super viewDidLoad];
 	
-    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         iPad = YES;
     
@@ -289,23 +288,22 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)userDidSignOut
 {
 	NSIndexSet *set0 = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
-	NSIndexSet *set1 = [[[NSIndexSet alloc] initWithIndex:1] autorelease];
-	
+	NSIndexSet *set1 = [[[NSIndexSet alloc] initWithIndex:1] autorelease];	
 
-	if (iPad)
-    {
-        [myTableView beginUpdates];
-        [myTableView reloadSections:set0 withRowAnimation:UITableViewRowAnimationLeft];
-        [myTableView insertSections:set1 withRowAnimation:UITableViewRowAnimationLeft];
-        [myTableView endUpdates];        
-    }
-    else
-    {
+//	if (iPad)
+//    {
+//        [myTableView beginUpdates];
+//        [myTableView reloadSections:set0 withRowAnimation:UITableViewRowAnimationLeft];
+//        [myTableView insertSections:set1 withRowAnimation:UITableViewRowAnimationLeft];
+//        [myTableView endUpdates];        
+//    }
+//    else
+//    {
         [myTableView beginUpdates];
         [myTableView reloadSections:set0 withRowAnimation:UITableViewRowAnimationFade];
         [myTableView reloadSections:set1 withRowAnimation:UITableViewRowAnimationLeft];
         [myTableView endUpdates];
-    }
+//    }
 	
 	[UIView beginAnimations:@"fade" context:nil];
 	myToolBarButton.title = @"Home";
@@ -344,18 +342,18 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == 0 || section == 1)
+//    if (section == 0 || section == 1)
         return 30.0;
-    else
-        return 0;
+//    else
+//        return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section == 0)// || last section)
+//    if (section == 0)// || last section)
         return 30.0;
-    else
-        return 0;
+//    else
+//        return 0;
 }
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section { return nil; }
@@ -364,10 +362,10 @@ Copyright (c) 2010, Janrain, Inc.
 {
 	if (section == 0)
 		return ([[UserModel getUserModel] currentUser]) ? @"Currently Signed In As" : nil;
-	else if (section == 1)
+	else// if (section == 1)
 		return ([[[UserModel getUserModel] signinHistory] count]) ? @"Previously Signed In As" : nil;
-    else
-        return nil;
+//    else
+//        return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -380,17 +378,17 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-    if (iPad)
-        return [[[UserModel getUserModel] signinHistory] count] + 1;
-    else
+//    if (iPad)
+//        return [[[UserModel getUserModel] signinHistory] count] + 1;
+//    else
         return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section 
 {
-    if (iPad)
-        return 1;
+//    if (iPad)
+//        return 1;
     
 	switch (section)
 	{
@@ -424,7 +422,7 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	NSDictionary *userForCell = (indexPath.section == 0) ? 
 									[[UserModel getUserModel] currentUser] : 
-									[[[UserModel getUserModel] signinHistory] objectAtIndex:userIndex];
+									[[[UserModel getUserModel] signinHistory] objectAtIndex:indexPath.row/*userIndex*/];
 
 	NSString *identifier = [userForCell objectForKey:@"identifier"];
 	NSDictionary* userProfile = [[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"];
@@ -454,12 +452,12 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UserModel *model = [UserModel getUserModel];
-    NSInteger userIndex = (iPad) ? (indexPath.section - 1) : indexPath.row;
+//    NSInteger userIndex = (iPad) ? (indexPath.section - 1) : indexPath.row;
 
 	if (indexPath.section == 0)
 		[model setSelectedUser:[model currentUser]];
 	else
-		[model setSelectedUser:[[model signinHistory] objectAtIndex:userIndex]];
+		[model setSelectedUser:[[model signinHistory] objectAtIndex:indexPath.row/*userIndex*/]];
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	[[self navigationController] pushViewController:level2ViewController animated:YES];
@@ -483,7 +481,7 @@ Copyright (c) 2010, Janrain, Inc.
 
 	if (editingStyle == UITableViewCellEditingStyleDelete)
 	{/* Remove this profile from the Model's saved history. */ 
-		[[UserModel getUserModel] removeUserFromHistory:userIndex];
+		[[UserModel getUserModel] removeUserFromHistory:indexPath.row/*userIndex*/];
 			
      /* If that profile was the last one in the list of previous users... */
 		if (![[[UserModel getUserModel] signinHistory] count])
@@ -509,9 +507,9 @@ Copyright (c) 2010, Janrain, Inc.
 		}
 		else
 		{
-			if (iPad)
-                [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationRight];
-            else
+//			if (iPad)
+//                [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationRight];
+//            else
                 [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];		
 		}
 		

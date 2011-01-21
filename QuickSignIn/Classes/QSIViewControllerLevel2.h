@@ -44,8 +44,18 @@
 	UIBarButtonItem *myToolBarButton;
 
 	NSDictionary	*selectedUser;
-	NSDictionary	*selectedUsersProfile;
-	NSMutableArray	*profileEntriesArray;
+    
+	NSDictionary	*profile;
+	NSMutableArray	*profileKeys;
+    
+    NSDictionary	*accessCredentials;
+	NSMutableArray	*accessCredentialsKeys;
+    
+    NSDictionary	*mergedPoco;
+	NSMutableArray	*mergedPocoKeys;
+    
+    NSMutableArray	*friends;
+	NSMutableArray	*friendsKeys;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView	*myTableView;

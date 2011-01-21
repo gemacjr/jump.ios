@@ -153,6 +153,15 @@
     }
     else
     {
+        if (sender == signInButton)
+            [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                          [NSValue valueWithCGRect:signInButton.frame], 
+                                                          kJRPopoverPresentationFrameValue, nil]];
+        else
+            [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                          [self.toolbarItems objectAtIndex:0], 
+                                                          kJRPopoverPresentationBarButtonItem, nil]];
+        
         if ([[UserModel getUserModel] currentUser])
         {
             [[UserModel getUserModel] startSignUserOut:self];

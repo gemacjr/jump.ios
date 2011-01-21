@@ -52,7 +52,7 @@
  /* Instance of the JRAuthenticate library */
 	JREngage *jrEngage;
 	
-    NSDictionary *customInterface;
+    NSMutableDictionary *customInterface;
     UINavigationController *navigationController;
     
  /* Singleton instance of the NSUserDefaults class */
@@ -91,6 +91,7 @@
 @property (readonly) BOOL loadingUserData;
 @property (readonly) NSDictionary *currentUser;
 @property (retain)	 NSDictionary *selectedUser;
+@property (retain)   NSMutableDictionary *customInterface;
 @property (retain)   UINavigationController *navigationController;
 
 /* This is a dictionary of dictionaries, where each dictionary represents the 

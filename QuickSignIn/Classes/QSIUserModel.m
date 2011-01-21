@@ -45,6 +45,7 @@
 @synthesize currentUser;
 @synthesize selectedUser;
 @synthesize loadingUserData;
+@synthesize customInterface;
 @synthesize navigationController;
 @synthesize iPad;
 
@@ -462,6 +463,8 @@ otherwise, this happens automatically.													*/
 	loadingUserData = YES;
 	signInDelegate = [interestedParty retain]; 
     
+    NSDictionary *moreCustomizations = nil;
+    
     if (NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
     {       
      /* EmbeddedTableViewController acts as the delegate and datasource of the embeddedTable, whose view will be added 
@@ -470,16 +473,17 @@ otherwise, this happens automatically.													*/
         EmbeddedTableViewController *embeddedTable = [[EmbeddedTableViewController alloc] init];
         //UIColor *janrainBlue = [UIColor colorWithRed:0.375 green:0.74 blue:0.9 alpha:0.2];
         
-        if (!customInterface)
-            customInterface = [[NSDictionary alloc] initWithObjectsAndKeys:
+        moreCustomizations = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                     embeddedTable.view, kJRProviderTableHeaderView,
-                               @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString, nil];
+                                    @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString, nil];
                                     //janrainBlue, kJRAuthenticationBackgroundColor, nil];
-        
+
         /* If you want your embeddedTable to control the navigationController, you must use your own. */
         [jrEngage setCustomNavigationController:navigationController];
-        [jrEngage setCustomInterface:customInterface];	    
     }
+    
+    [customInterface addEntriesFromDictionary:moreCustomizations];
+    [jrEngage setCustomInterface:customInterface];	    
 
     /* Launch the JRAuthenticate Library. */
     [jrEngage showAuthenticationDialog];

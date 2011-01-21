@@ -34,6 +34,14 @@
 
 #import "QSIViewControllerLevel2.h"
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
 @implementation ViewControllerLevel2
 @synthesize myTableView;
 @synthesize myToolBarButton;
@@ -61,10 +69,18 @@
 	selectedUser = [[[UserModel getUserModel] selectedUser] retain];
 	NSString* identifier = [selectedUser objectForKey:@"identifier"];
 	
-	selectedUsersProfile = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
-	profileEntriesArray = [[selectedUsersProfile allKeys] retain];
+	profile = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
+	profileKeys = [[profile allKeys] retain];
 
-	self.title = [UserModel getDisplayNameFromProfile:selectedUsersProfile];
+    accessCredentials = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"accessCredentials"] retain];
+	accessCredentialsKeys = [[accessCredentials allKeys] retain];
+
+    mergedPoco = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"merged_poco"] retain];
+	mergedPocoKeys = [[mergedPoco allKeys] retain];
+
+    friends = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"friends"] retain];
+    
+	self.title = [UserModel getDisplayNameFromProfile:profile];
 	
 	myTableView.backgroundColor = [UIColor clearColor];	
 	
@@ -89,18 +105,41 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-
-	[selectedUser release];
-	[selectedUsersProfile release];
-	[profileEntriesArray release];
+    
+    
+	[selectedUser release], selectedUser = nil;
+	[profile release], profile = nil;
+	[profileKeys release], profileKeys = nil;
+    [accessCredentials release], accessCredentials = nil;
+    [accessCredentialsKeys release], accessCredentialsKeys = nil;
+    [mergedPoco release], mergedPoco = nil;
+    [mergedPocoKeys release], mergedPocoKeys = nil;
+    [friends release], friends = nil;
+    [friendsKeys release], friendsKeys = nil;
 }	
 	
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	
-	if (section == 0)
-		return @"Identifier";
-	else
-		return @"Basic Profile Information";
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
+{
+    switch (section)
+    {
+        case 0:
+            return @"Identifier";
+        case 1:
+            return @"Basic Profile Information";
+        case 2:
+            return @"Access Credentials";
+        case 3:
+            return @"Merged Portable Contacts";
+        case 4:
+            return @"Friends";
+        default:
+            return nil;
+    }
+    
+//	if (section == 0)
+//		return @"Identifier";
+//	else
+//		return @"Basic Profile Information";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,7 +149,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-	return 2;
+    return 5;
+//	return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView 
@@ -120,13 +160,16 @@
 	{
 		case 0:
 			return 1;
-			break;
 		case 1:
-			return [profileEntriesArray count];
-			break;
+			return [profileKeys count];
+		case 2:
+			return [accessCredentialsKeys count];
+		case 3:
+			return [mergedPocoKeys count];
+		case 4:
+			return [friends count];
 		default:
 			return 0;
-			break;
 	}
 }
 
@@ -136,8 +179,8 @@
 	static NSInteger keyLabelTag = 1;
 	static NSInteger valueLabelTag = 2;
 
-	UITableViewCellStyle style = (indexPath.section == 0) ? UITableViewCellStyleDefault : UITableViewCellStyleDefault;
-	NSString *reuseIdentifier = (indexPath.section == 0) ? @"cachedCellSection0" : @"cachedCellSection1";
+	UITableViewCellStyle style = UITableViewCellStyleDefault;//(indexPath.section == 0) ? UITableViewCellStyleDefault : UITableViewCellStyleDefault;
+	NSString *reuseIdentifier = @"cachedCellSection";//(indexPath.section == 0) ? @"cachedCellSection0" : @"cachedCellSection1";
 
 	UITableViewCell *cell = 
 		[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
@@ -180,11 +223,16 @@
 		
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	switch (indexPath.section)
+    UILabel *titleLabel = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
+    UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
+    NSString* subtitle = nil;
+    NSString* cellTitle = nil;
+    
+    switch (indexPath.section)
 	{
 		case 0:
 		{
-			NSString *identifier = [selectedUsersProfile objectForKey:@"identifier"];
+			NSString *identifier = [profile objectForKey:@"identifier"];
 			
 			cell.textLabel.text = identifier;
 			cell.detailTextLabel.text = nil;	
@@ -192,28 +240,68 @@
 		}	
 		case 1:
 		{
-			UILabel *titleLabel = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
-			UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-
-			NSString* cellTitle = [profileEntriesArray objectAtIndex:indexPath.row];
-			NSString* subtitle = nil;
+            cellTitle = [profileKeys objectAtIndex:indexPath.row];
 			
 			if ([cellTitle isEqualToString:@"name"])
-				subtitle = [UserModel getDisplayNameFromProfile:selectedUsersProfile];
+				subtitle = [UserModel getDisplayNameFromProfile:profile];
 			else if ([cellTitle isEqualToString:@"address"])
-				subtitle = [UserModel getAddressFromProfile:selectedUsersProfile];
+				subtitle = [UserModel getAddressFromProfile:profile];
 			else
-				subtitle = [NSString stringWithFormat:@"%@", [selectedUsersProfile objectForKey:cellTitle]];
-	
-			titleLabel.text = cellTitle;
-			subtitleLabel.text = subtitle;
-
+				subtitle = [profile objectForKey:cellTitle];//[NSString stringWithFormat:@"%@", [profile objectForKey:cellTitle]];
+//			UILabel *titleLabel = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
+//			UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
+//
+//			NSString* cellTitle = [profileKeys objectAtIndex:indexPath.row];
+//			NSString* subtitle = nil;
+//			
+//			if ([cellTitle isEqualToString:@"name"])
+//				subtitle = [UserModel getDisplayNameFromProfile:profile];
+//			else if ([cellTitle isEqualToString:@"address"])
+//				subtitle = [UserModel getAddressFromProfile:profile];
+//			else
+//				subtitle = [NSString stringWithFormat:@"%@", [profile objectForKey:cellTitle]];
+//	
+//			titleLabel.text = cellTitle;
+//			subtitleLabel.text = subtitle;
+            DLog (@"section: basic profile");
+			break;
+		}
+		case 2:
+		{
+            DLog (@"section: access");
+            cellTitle = [accessCredentialsKeys objectAtIndex:indexPath.row];
+			subtitle = [accessCredentials objectForKey:cellTitle];
+			break;
+		}
+		case 3:
+		{
+            DLog (@"section: merged");
+            cellTitle = [mergedPocoKeys objectAtIndex:indexPath.row];
+			subtitle = [mergedPoco objectForKey:cellTitle];
+			break;
+		}
+		case 4:
+		{
+            DLog (@"section: friends");
+            cellTitle = [friends objectAtIndex:indexPath.row];
 			break;
 		}
 		default:
 			break;
 	}
 	
+    if (indexPath.section != 0)
+    {
+        DLog (@"title: %@", cellTitle);
+        DLog (@"subtitle: %@", subtitle);
+        
+        if (![subtitle isKindOfClass:[NSString class]])
+            subtitle = [NSString stringWithFormat:@"%@", subtitle];
+        
+        titleLabel.text = cellTitle;
+        subtitleLabel.text = subtitle;
+    }
+    
 	return cell;
 }
 
@@ -242,9 +330,9 @@
 {
     [myTableView release];
     [myToolBarButton release];
-	[selectedUser release];
-	[selectedUsersProfile release];
-	[profileEntriesArray release];
+//	[selectedUser release];
+//	[selectedUsersProfile release];
+//	[profileEntriesArray release];
 	
 	[super dealloc];
 }
