@@ -40,6 +40,8 @@
 @interface ViewControllerLevel2 : UIViewController <UINavigationBarDelegate, 
 														UITableViewDelegate, UITableViewDataSource>
 {
+    BOOL iPad;
+    
 	UITableView		*myTableView;
 	UIBarButtonItem *myToolBarButton;
 
@@ -62,4 +64,6 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *myToolBarButton;
 
 - (IBAction)signOutButtonPressed:(id)sender;
+- (void)loadUser;
+- (void)clearUser;
 @end

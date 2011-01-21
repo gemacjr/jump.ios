@@ -82,6 +82,7 @@ Copyright (c) 2010, Janrain, Inc.
 @synthesize myTableView;
 @synthesize myToolBarButton;
 @synthesize myNotSignedInLabel;
+@synthesize myRightView;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -108,6 +109,9 @@ Copyright (c) 2010, Janrain, Inc.
     else
         level2ViewController = [[ViewControllerLevel2 alloc] initWithNibName:@"QSIViewControllerLevel2" 
                                                                       bundle:[NSBundle mainBundle]];	
+    
+    if (iPad)
+        [myRightView addSubview:level2ViewController.view];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -459,10 +463,17 @@ Copyright (c) 2010, Janrain, Inc.
 	else
 		[model setSelectedUser:[[model signinHistory] objectAtIndex:indexPath.row/*userIndex*/]];
 	
-	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-	[[self navigationController] pushViewController:level2ViewController animated:YES];
+    if (iPad)
+    {
+        [level2ViewController clearUser];
+        [level2ViewController loadUser];
+    }
+    else
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        [[self navigationController] pushViewController:level2ViewController animated:YES];
+    }
 }
-
 //- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath { }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

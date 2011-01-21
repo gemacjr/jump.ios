@@ -55,33 +55,77 @@
     return self;
 }
 */
+- (void)animateAdditions
+{
+    static int i = 0;
+    
+    [myTableView beginUpdates];
+    [myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,4)] 
+               withRowAnimation:UITableViewRowAnimationBottom];//((i++)%7)];
+    [myTableView endUpdates];
+    
+    NSLog (@"i=%d",i);
+}
+
+- (void)loadUser
+{
+    selectedUser = [[[UserModel getUserModel] selectedUser] retain];
+	NSString* identifier = [selectedUser objectForKey:@"identifier"];
+	
+	profile = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
+	profileKeys = [[profile allKeys] retain];
+    
+    accessCredentials = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"accessCredentials"] retain];
+	accessCredentialsKeys = [[accessCredentials allKeys] retain];
+    
+    mergedPoco = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"merged_poco"] retain];
+	mergedPocoKeys = [[mergedPoco allKeys] retain];
+    
+    friends = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"friends"] retain];   
+	
+    if (iPad)
+        [self animateAdditions];
+    else
+        [myTableView reloadData];
+}
+
+- (void)clearUser
+{
+	[selectedUser release], selectedUser = nil;
+	[profile release], profile = nil;
+	[profileKeys release], profileKeys = nil;
+    [accessCredentials release], accessCredentials = nil;
+    [accessCredentialsKeys release], accessCredentialsKeys = nil;
+    [mergedPoco release], mergedPoco = nil;
+    [mergedPocoKeys release], mergedPocoKeys = nil;
+    [friends release], friends = nil;
+    [friendsKeys release], friendsKeys = nil;
+
+//    if (iPad)
+//        [self animateAdditions];
+//    else
+        [myTableView reloadData];
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        iPad = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	    
+    if (!iPad)
+        self.title = [UserModel getDisplayNameFromProfile:profile];
 	
-	selectedUser = [[[UserModel getUserModel] selectedUser] retain];
-	NSString* identifier = [selectedUser objectForKey:@"identifier"];
-	
-	profile = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
-	profileKeys = [[profile allKeys] retain];
-
-    accessCredentials = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"accessCredentials"] retain];
-	accessCredentialsKeys = [[accessCredentials allKeys] retain];
-
-    mergedPoco = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"merged_poco"] retain];
-	mergedPocoKeys = [[mergedPoco allKeys] retain];
-
-    friends = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"friends"] retain];
+    if ([[UserModel getUserModel] selectedUser])
+        [self loadUser];
     
-	self.title = [UserModel getDisplayNameFromProfile:profile];
-	
 	myTableView.backgroundColor = [UIColor clearColor];	
 	
 #ifdef LILLI
@@ -90,8 +134,6 @@
 	else
 		[myToolBarButton setEnabled:NO];
 #endif
-	
-	[myTableView reloadData];
 }	
 
 /*
@@ -106,16 +148,7 @@
 {
 	[super viewDidDisappear:animated];
     
-    
-	[selectedUser release], selectedUser = nil;
-	[profile release], profile = nil;
-	[profileKeys release], profileKeys = nil;
-    [accessCredentials release], accessCredentials = nil;
-    [accessCredentialsKeys release], accessCredentialsKeys = nil;
-    [mergedPoco release], mergedPoco = nil;
-    [mergedPocoKeys release], mergedPocoKeys = nil;
-    [friends release], friends = nil;
-    [friendsKeys release], friendsKeys = nil;
+    [self clearUser];
 }	
 	
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 

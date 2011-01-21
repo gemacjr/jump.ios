@@ -44,6 +44,8 @@
 	UITableView		*myTableView;
 	UIBarButtonItem *myToolBarButton;
 	UILabel			*myNotSignedInLabel;
+    
+    UIView          *myRightView;
 	
     BOOL iPad;
     
@@ -53,6 +55,7 @@
 @property (nonatomic, retain) IBOutlet UITableView		*myTableView;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem	*myToolBarButton;
 @property (nonatomic, retain) IBOutlet UILabel			*myNotSignedInLabel;
+@property (nonatomic, retain) IBOutlet UIView          *myRightView;
 
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)addAnotherButtonPressed:(id)sender;
