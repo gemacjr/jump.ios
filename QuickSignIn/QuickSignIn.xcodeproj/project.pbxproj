@@ -193,6 +193,10 @@
 		9F96D44B12E8B458002D06B4 /* janrain_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D44A12E8B458002D06B4 /* janrain_logo@2x.png */; };
 		9F96D44D12E8B462002D06B4 /* janrain_logo-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */; };
 		9F96D68912EA13F1002D06B4 /* JREngage+CustomInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F96D68812EA13F1002D06B4 /* JREngage+CustomInterface.m */; };
+		9F96D80412EA5236002D06B4 /* done.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D80212EA5236002D06B4 /* done.png */; };
+		9F96D80512EA5236002D06B4 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D80312EA5236002D06B4 /* edit.png */; };
+		9F96D89012EA6347002D06B4 /* done_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D88E12EA6347002D06B4 /* done_selected.png */; };
+		9F96D89112EA6347002D06B4 /* edit_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D88F12EA6347002D06B4 /* edit_selected.png */; };
 		9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */; };
 		9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */; };
 		9FB40A3412414DC500FDDA7B /* QSIViewControllerLevel1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2D12414DC500FDDA7B /* QSIViewControllerLevel1.m */; };
@@ -408,6 +412,10 @@
 		9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "janrain_logo-ipad.png"; sourceTree = "<group>"; };
 		9F96D68712EA13F1002D06B4 /* JREngage+CustomInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JREngage+CustomInterface.h"; sourceTree = "<group>"; };
 		9F96D68812EA13F1002D06B4 /* JREngage+CustomInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JREngage+CustomInterface.m"; sourceTree = "<group>"; };
+		9F96D80212EA5236002D06B4 /* done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done.png; sourceTree = "<group>"; };
+		9F96D80312EA5236002D06B4 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
+		9F96D88E12EA6347002D06B4 /* done_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done_selected.png; sourceTree = "<group>"; };
+		9F96D88F12EA6347002D06B4 /* edit_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_selected.png; sourceTree = "<group>"; };
 		9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIRootViewController.h; sourceTree = "<group>"; };
 		9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIRootViewController.m; sourceTree = "<group>"; };
 		9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIUserModel.h; sourceTree = "<group>"; };
@@ -597,6 +605,10 @@
 		9F521EA012B062940073ABAE /* images-ipad */ = {
 			isa = PBXGroup;
 			children = (
+				9F96D80312EA5236002D06B4 /* edit.png */,
+				9F96D88F12EA6347002D06B4 /* edit_selected.png */,
+				9F96D80212EA5236002D06B4 /* done.png */,
+				9F96D88E12EA6347002D06B4 /* done_selected.png */,
 				9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */,
 				9F521EA112B062940073ABAE /* background-ipad.png */,
 				9F521EA212B062940073ABAE /* Default-Portrait.png */,
@@ -1108,6 +1120,10 @@
 				9F30A5FF12BAF1DE00A30ADF /* QSIInfoViewController.xib in Resources */,
 				9F96D44B12E8B458002D06B4 /* janrain_logo@2x.png in Resources */,
 				9F96D44D12E8B462002D06B4 /* janrain_logo-ipad.png in Resources */,
+				9F96D80412EA5236002D06B4 /* done.png in Resources */,
+				9F96D80512EA5236002D06B4 /* edit.png in Resources */,
+				9F96D89012EA6347002D06B4 /* done_selected.png in Resources */,
+				9F96D89112EA6347002D06B4 /* edit_selected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

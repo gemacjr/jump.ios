@@ -47,6 +47,11 @@
     
     UIView          *myRightView;
 	
+    UIButton        *myEditButtonPad;
+    UIButton        *myDoneButtonPad;
+    
+    UIBarButtonItem *mySignOutButtonPad;
+    
     BOOL iPad;
     
 	ViewControllerLevel2 *level2ViewController;

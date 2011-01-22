@@ -59,10 +59,17 @@
 {
     static int i = 0;
     
-    [myTableView beginUpdates];
-    [myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,4)] 
-               withRowAnimation:UITableViewRowAnimationBottom];//((i++)%7)];
-    [myTableView endUpdates];
+    if (selectedUser)            
+    {   
+        [myTableView beginUpdates];
+        [myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,4)] 
+                   withRowAnimation:UITableViewRowAnimationBottom];//((i++)%7)];
+        [myTableView endUpdates];
+    }
+    else
+    {
+        [myTableView reloadData];
+    }
     
     NSLog (@"i=%d",i);
 }
@@ -153,6 +160,9 @@
 	
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
 {
+    if (!selectedUser)
+        return 0;
+    
     switch (section)
     {
         case 0:
@@ -182,13 +192,19 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-    return 5;
+//    if (selectedUser)
+        return 5;
+//    else
+//        return 0;
 //	return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView 
  numberOfRowsInSection:(NSInteger)section 
 {
+    if (!selectedUser)
+        return 0;
+    
 	switch (section)
 	{
 		case 0:
