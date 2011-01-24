@@ -116,7 +116,8 @@ static JREngage* singletonJREngage = nil;
 
 - (void)addDelegate:(id<JREngageDelegate>)delegate
 {
-    [delegates addObject:delegate];
+    if (![delegates containsObject:delegate])
+        [delegates addObject:delegate];
 }
 
 - (void)removeDelegate:(id<JREngageDelegate>)delegate
