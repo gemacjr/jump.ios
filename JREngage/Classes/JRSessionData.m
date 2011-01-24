@@ -166,13 +166,13 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     // QTS: Probably need to autorelease this, yes? I think that made it crash...
 	self = [[JRAuthenticatedUser alloc] init];
 
-    RLog(self);
+//    RLog(self);
     
     if (self != nil)
     {
         provider_name = [[coder decodeObjectForKey:@"provider_name"] retain];
     
-//        DLog (@"Decoding Authenticated User: %@", provider_name);
+        //DLog (@"Decoding Authenticated User: %@", provider_name);
         
         photo = [[coder decodeObjectForKey:@"photo"] retain];
         preferred_username = [[coder decodeObjectForKey:@"preferred_username"] retain];
