@@ -359,6 +359,8 @@
 #define kJRPopoverPresentationFrameValue @"Popover.Presentation.Frame.Value"
 
 #define kJRPopoverPresentationBarButtonItem @"Popover.Presentation.BarButtonItem"
+
+#define kJRPopoverPresentationArrowDirection @"Popover.Presentation.ArrowDirection"
 /*@}*/
 
 /** @} */

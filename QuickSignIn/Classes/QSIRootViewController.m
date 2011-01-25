@@ -153,10 +153,25 @@
     }
     else
     {
+        CGRect rect1 = signInButton.frame;
+        CGRect rect2 = [self.view convertRect:signInButton.frame toView:[[UIApplication sharedApplication] keyWindow]];
+        CGRect rect3 = self.view.frame;//[signInButton/*self.view*/ convertRect:signInButton.frame toView:self.view];//[[UIScreen mainScreen] applicationFrame]]],
+        
+        NSLog(@"rect1:\t%f,\t%f,\t%f,\t%f", rect1.origin.x, rect1.origin.y, rect1.size.width, rect1.size.height);
+        NSLog(@"rect2:\t%f,\t%f,\t%f,\t%f", rect2.origin.x, rect2.origin.y, rect2.size.width, rect2.size.height);
+        NSLog(@"rect3:\t%f,\t%f,\t%f,\t%f", rect3.origin.x, rect3.origin.y, rect3.size.width, rect3.size.height);
+        
+        
         if (sender == signInButton)
             [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                          [NSValue valueWithCGRect:signInButton.frame], 
-                                                          kJRPopoverPresentationFrameValue, nil]];
+                                                          [NSValue valueWithCGRect:rect2],//[self.view convertRect:signInButton.frame
+                                                           //                toView:/*[[UIScreen mainScreen] applicationFrame]]],//*/[[UIApplication sharedApplication] keyWindow]]],
+//                                                           CGRectMake(signInButton.frame.origin.x,
+//                                                                      signInButton.frame.origin.y + signInButton.frame.size.height,
+//                                                                      signInButton.frame.size.width, 0)], 
+                                                          kJRPopoverPresentationFrameValue, 
+                                                          [NSNumber numberWithInt:UIPopoverArrowDirectionUp],
+                                                          kJRPopoverPresentationArrowDirection, nil]];
         else
             [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                           [self.toolbarItems objectAtIndex:0], 

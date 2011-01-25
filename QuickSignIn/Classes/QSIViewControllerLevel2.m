@@ -131,7 +131,7 @@
         self.title = [UserModel getDisplayNameFromProfile:profile];
 	
     if ([[UserModel getUserModel] selectedUser])
-        [self loadUser];
+        [self loadUser:YES];
     
 	myTableView.backgroundColor = [UIColor clearColor];	
 	
@@ -155,7 +155,7 @@
 {
 	[super viewDidDisappear:animated];
     
-    [self clearUser];
+    [self clearUser:NO];
 }	
 	
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 

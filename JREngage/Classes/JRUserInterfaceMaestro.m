@@ -177,9 +177,13 @@
 - (void)loadView  
 {
 	DLog (@"");
-    UIView *view = [[[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]] autorelease];
+    
+    UIView *view = [[[UIView alloc] initWithFrame:[[UIApplication sharedApplication] keyWindow].frame] autorelease];//[[UIScreen mainScreen] applicationFrame]] autorelease];
 
-//	view.backgroundColor = [UIColor redColor];
+    CGRect rect1 = view.frame;
+    NSLog(@"rect1:\t%f,\t%f,\t%f,\t%f", rect1.origin.x, rect1.origin.y, rect1.size.width, rect1.size.height);
+    
+    //view.backgroundColor = [UIColor redColor];
     
     shouldUnloadSubviews = NO;
 
@@ -218,10 +222,16 @@
         
         if ([customInterface objectForKey:kJRPopoverPresentationFrameValue])
         {   
-            popoverPresentationFrame = [[customInterface valueForKey:kJRPopoverPresentationFrameValue] CGRectValue];
+            popoverPresentationFrame = [self.view convertRect:[[customInterface valueForKey:kJRPopoverPresentationFrameValue] CGRectValue] 
+                                                       toView:[[UIApplication sharedApplication] keyWindow]];
+//            [[[customInterface valueForKey:kJRPopoverPresentationFrameValue] CGRectValue];
+            UIPopoverArrowDirection direction = ([customInterface valueForKey:kJRPopoverPresentationArrowDirection] ? 
+                                                 [[customInterface valueForKey:kJRPopoverPresentationArrowDirection] intValue] : 
+                                                 UIPopoverArrowDirectionAny);
+            
             [popoverController presentPopoverFromRect:popoverPresentationFrame
                                                inView:self.view 
-                             permittedArrowDirections:UIPopoverArrowDirectionAny 
+                             permittedArrowDirections:direction
                                              animated:YES];
         }
         else
