@@ -32,7 +32,6 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import "QSIRootViewController.h"
 
 @implementation RootViewController
