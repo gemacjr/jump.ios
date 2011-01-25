@@ -32,10 +32,8 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import <UIKit/UIKit.h>
 #import "QSIUserModel.h"
-
 
 @interface ViewControllerLevel2 : UIViewController <UINavigationBarDelegate, 
 														UITableViewDelegate, UITableViewDataSource>
@@ -60,9 +58,6 @@
     NSMutableArray	*friends;
 	NSMutableArray	*friendsKeys;
 }
-//@property (nonatomic, retain) IBOutlet UITableView	*myTableView;
-//@property (nonatomic, retain) IBOutlet UIBarButtonItem *myToolBarButton;
-
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)loadUser:(BOOL)animated;
 - (void)clearUser:(BOOL)animated;

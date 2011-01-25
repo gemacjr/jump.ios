@@ -34,17 +34,10 @@
 
 #import "QSIViewControllerLevel2.h"
 
-#ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#else
-#define DLog(...)
-#endif
-
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+@interface ViewControllerLevel2 ()
+@end
 
 @implementation ViewControllerLevel2
-//@synthesize myTableView;
-//@synthesize myToolBarButton;
 
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -56,98 +49,15 @@
 }
 */
 
-- (void)toggleLabelShow:(BOOL)show withAnimation:(BOOL)animated
-{
-    if (animated)
-        [UIView beginAnimations:@"fade" context:nil];
-    
-    [myLabel setAlpha:(show ? 1.0 : 0.0)];
-    
-    if (animated)
-        [UIView commitAnimations];
-}
-
-- (void)animateAdditions
-{
-    static int i = 0;
-    
-    if (selectedUser)            
-    {   
-        [myTableView beginUpdates];
-        [myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,2)]//NSMakeRange(0,4)] 
-                   withRowAnimation:UITableViewRowAnimationBottom];//((i++)%7)];
-        [myTableView endUpdates];
-    }
-    else
-    {
-        [myTableView reloadData];
-    }
-    
-    NSLog (@"i=%d",i);
-}
-
-- (void)loadUser:(BOOL)animated
-{
-    selectedUser = [[[UserModel getUserModel] selectedUser] retain];
-	NSString* identifier = [selectedUser objectForKey:@"identifier"];
-	
-	profile = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
-	profileKeys = [[profile allKeys] retain];
-    
-    accessCredentials = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"accessCredentials"] retain];
-	accessCredentialsKeys = [[accessCredentials allKeys] retain];
-    
-    mergedPoco = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"merged_poco"] retain];
-	mergedPocoKeys = [[mergedPoco allKeys] retain];
-    
-    friends = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"friends"] retain];   
-	
-    if (iPad && animated)
-        [self animateAdditions];
-    else
-        [myTableView reloadData];
-
-    if (iPad)
-        [self toggleLabelShow:NO withAnimation:NO];
-}
-
-- (void)clearUser:(BOOL)animated
-{
-	[selectedUser release], selectedUser = nil;
-	[profile release], profile = nil;
-	[profileKeys release], profileKeys = nil;
-    [accessCredentials release], accessCredentials = nil;
-    [accessCredentialsKeys release], accessCredentialsKeys = nil;
-    [mergedPoco release], mergedPoco = nil;
-    [mergedPocoKeys release], mergedPocoKeys = nil;
-    [friends release], friends = nil;
-    [friendsKeys release], friendsKeys = nil;
-    
-    if (iPad && animated)
-        [self animateAdditions];
-    else
-        [myTableView reloadData];
-    
-    if (iPad)
-        [self toggleLabelShow:YES withAnimation:animated];
-}
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-    
-    CGRect rect1 = self.view.frame;
-    CGRect rect2 = [self.view convertRect:myTableView.frame toView:[[UIApplication sharedApplication] keyWindow]];
-
-    NSLog(@"view 2:\t%f,\t%f,\t%f,\t%f", rect1.origin.x, rect1.origin.y, rect1.size.width, rect1.size.height);
-    NSLog(@"v(t) 2:\t%f,\t%f,\t%f,\t%f", rect2.origin.x, rect2.origin.y, rect2.size.width, rect2.size.height);
-    
-    if (iPad)
-        myTableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 448, 50)] autorelease];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         iPad = YES;
+
+    if (iPad)
+        myTableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 448, 30)] autorelease];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -173,9 +83,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-
 }
+
 /*
  // Override to allow orientations other than the default portrait orientation.
  - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -184,13 +93,78 @@
  }
  */
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)toggleLabelShow:(BOOL)show withAnimation:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
+    if (animated)
+        [UIView beginAnimations:@"fade" context:nil];
     
-    [self clearUser:NO];
-}	
+    [myLabel setAlpha:(show ? 1.0 : 0.0)];
+    
+    if (animated)
+        [UIView commitAnimations];
+}
+
+- (void)animateAdditions
+{
+    if (selectedUser)            
+    {   
+        [myTableView beginUpdates];
+        [myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,2)]
+                   withRowAnimation:UITableViewRowAnimationBottom];
+        [myTableView endUpdates];
+    }
+    else
+    {
+        [myTableView reloadData];
+    }
+}
+
+- (void)loadUser:(BOOL)animated
+{
+    selectedUser = [[[UserModel getUserModel] selectedUser] retain];
+	NSString* identifier = [selectedUser objectForKey:@"identifier"];
 	
+	profile = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
+	profileKeys = [[profile allKeys] retain];
+    
+    accessCredentials = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"accessCredentials"] retain];
+	accessCredentialsKeys = [[accessCredentials allKeys] retain];
+    
+    mergedPoco = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"merged_poco"] retain];
+	mergedPocoKeys = [[mergedPoco allKeys] retain];
+    
+    friends = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"friends"] retain];   
+	
+    if (iPad && animated)
+        [self animateAdditions];
+    else
+        [myTableView reloadData];
+    
+    if (iPad)
+        [self toggleLabelShow:NO withAnimation:NO];
+}
+
+- (void)clearUser:(BOOL)animated
+{
+	[selectedUser release], selectedUser = nil;
+	[profile release], profile = nil;
+	[profileKeys release], profileKeys = nil;
+    [accessCredentials release], accessCredentials = nil;
+    [accessCredentialsKeys release], accessCredentialsKeys = nil;
+    [mergedPoco release], mergedPoco = nil;
+    [mergedPocoKeys release], mergedPocoKeys = nil;
+    [friends release], friends = nil;
+    [friendsKeys release], friendsKeys = nil;
+    
+    if (iPad && animated)
+        [self animateAdditions];
+    else
+        [myTableView reloadData];
+    
+    if (iPad)
+        [self toggleLabelShow:YES withAnimation:animated];
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
 {
     if (!selectedUser)
@@ -211,11 +185,6 @@
         default:
             return nil;
     }
-    
-//	if (section == 0)
-//		return @"Identifier";
-//	else
-//		return @"Basic Profile Information";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -225,11 +194,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-//    if (selectedUser)
-        return 3;//5;
-//    else
-//        return 0;
-//	return 2;
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -269,8 +234,8 @@
 	static NSInteger keyLabelTag = 1;
 	static NSInteger valueLabelTag = 2;
 
-	UITableViewCellStyle style = UITableViewCellStyleDefault;//(indexPath.section == 0) ? UITableViewCellStyleDefault : UITableViewCellStyleDefault;
-	NSString *reuseIdentifier = @"cachedCellSection";//(indexPath.section == 0) ? @"cachedCellSection0" : @"cachedCellSection1";
+	UITableViewCellStyle style = UITableViewCellStyleDefault;
+	NSString *reuseIdentifier = @"cachedCellSection";
 
 	UITableViewCell *cell = 
 		[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
@@ -337,42 +302,23 @@
 			else if ([cellTitle isEqualToString:@"address"])
 				subtitle = [UserModel getAddressFromProfile:profile];
 			else
-				subtitle = [profile objectForKey:cellTitle];//[NSString stringWithFormat:@"%@", [profile objectForKey:cellTitle]];
-//			UILabel *titleLabel = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
-//			UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-//
-//			NSString* cellTitle = [profileKeys objectAtIndex:indexPath.row];
-//			NSString* subtitle = nil;
-//			
-//			if ([cellTitle isEqualToString:@"name"])
-//				subtitle = [UserModel getDisplayNameFromProfile:profile];
-//			else if ([cellTitle isEqualToString:@"address"])
-//				subtitle = [UserModel getAddressFromProfile:profile];
-//			else
-//				subtitle = [NSString stringWithFormat:@"%@", [profile objectForKey:cellTitle]];
-//	
-//			titleLabel.text = cellTitle;
-//			subtitleLabel.text = subtitle;
-            DLog (@"section: basic profile");
+				subtitle = [profile objectForKey:cellTitle];
 			break;
 		}
 		case 2:
 		{
-            DLog (@"section: access");
             cellTitle = [accessCredentialsKeys objectAtIndex:indexPath.row];
 			subtitle = [accessCredentials objectForKey:cellTitle];
 			break;
 		}
 		case 3:
 		{
-        DLog (@"section: merged");
             cellTitle = [mergedPocoKeys objectAtIndex:indexPath.row];
 			subtitle = [mergedPoco objectForKey:cellTitle];
 			break;
 		}
 		case 4:
 		{
-            DLog (@"section: friends");
             cellTitle = [friends objectAtIndex:indexPath.row];
 			break;
 		}
@@ -382,9 +328,6 @@
 	
     if (indexPath.section != 0)
     {
-        DLog (@"title: %@", cellTitle);
-        DLog (@"subtitle: %@", subtitle);
-        
         if (![subtitle isKindOfClass:[NSString class]])
             subtitle = [NSString stringWithFormat:@"%@", subtitle];
         
@@ -409,16 +352,32 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+    
+    [self clearUser:NO];
+}	
+
+- (void)viewDidUnload 
+{
+	[selectedUser release], selectedUser = nil;
+	[profile release], profile = nil;
+	[profileKeys release], profileKeys = nil;
+    [accessCredentials release], accessCredentials = nil;
+    [accessCredentialsKeys release], accessCredentialsKeys = nil;
+    [mergedPoco release], mergedPoco = nil;
+    [mergedPocoKeys release], mergedPocoKeys = nil;
+    [friends release], friends = nil;
+    [friendsKeys release], friendsKeys = nil;    
 }
 
 - (void)dealloc 
-{
+{   
     [myTableView release];
     [myToolBarButton release];
-	
+    [myLabel release];
+    
 	[super dealloc];
 }
 @end

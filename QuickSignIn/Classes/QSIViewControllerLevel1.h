@@ -32,7 +32,6 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import <UIKit/UIKit.h>
 #import "QSIUserModel.h"
 #import "QSIViewControllerLevel2.h"
@@ -40,6 +39,8 @@
 @interface ViewControllerLevel1 : UIViewController <UINavigationBarDelegate, UserModelDelegate,
 														UITableViewDelegate, UITableViewDataSource>
 {
+    BOOL iPad;
+    
 	IBOutlet UITableView     *myTableView;
 	IBOutlet UIBarButtonItem *mySignOutButtonPhone;
 
@@ -49,19 +50,11 @@
     IBOutlet UIView          *myRightView;
 	
     UIButton        *myEditButtonPad;
-    UIButton        *myDoneButtonPad;
-    
+    UIButton        *myDoneButtonPad;    
     UIBarButtonItem *mySignOutButtonPad;
-    
-    BOOL iPad;
     
 	ViewControllerLevel2 *level2ViewController;
 }
-//@property (nonatomic, retain) IBOutlet UITableView		*myTableView;
-//@property (nonatomic, retain) IBOutlet UIBarButtonItem	*myToolBarButton;
-//@property (nonatomic, retain) IBOutlet UILabel			*myNotSignedInLabel;
-//@property (nonatomic, retain) IBOutlet UIView          *myRightView;
-
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)addAnotherButtonPressed:(id)sender;
 @end
