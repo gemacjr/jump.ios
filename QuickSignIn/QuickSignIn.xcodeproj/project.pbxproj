@@ -14,6 +14,7 @@
 		9F25B0CD12D24CD90083BB6A /* Quick Sign-In.app in Sources */ = {isa = PBXBuildFile; fileRef = 1D6058910D05DD3D006BFB54 /* Quick Sign-In.app */; };
 		9F30A5FF12BAF1DE00A30ADF /* QSIInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */; };
 		9F30A8E412BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */; };
+		9F32496112EE43F200BEDA1F /* edit_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F32496012EE43F200BEDA1F /* edit_disabled.png */; };
 		9F5213E212AED46B0073ABAE /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52133912AED46B0073ABAE /* SFHFKeychainUtils.m */; };
 		9F5213E312AED46B0073ABAE /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52133D12AED46B0073ABAE /* NSObject+SBJSON.m */; };
 		9F5213E412AED46B0073ABAE /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F52133F12AED46B0073ABAE /* NSString+SBJSON.m */; };
@@ -214,6 +215,7 @@
 		9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIInfoViewController.xib; sourceTree = "<group>"; };
 		9F30A8E212BC0C4B00A30ADF /* QSIEmbeddedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIEmbeddedTableViewController.h; sourceTree = "<group>"; };
 		9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIEmbeddedTableViewController.m; sourceTree = "<group>"; };
+		9F32496012EE43F200BEDA1F /* edit_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_disabled.png; sourceTree = "<group>"; };
 		9F52133812AED46B0073ABAE /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		9F52133912AED46B0073ABAE /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		9F52133B12AED46B0073ABAE /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -607,6 +609,7 @@
 			children = (
 				9F96D80312EA5236002D06B4 /* edit.png */,
 				9F96D88F12EA6347002D06B4 /* edit_selected.png */,
+				9F32496012EE43F200BEDA1F /* edit_disabled.png */,
 				9F96D80212EA5236002D06B4 /* done.png */,
 				9F96D88E12EA6347002D06B4 /* done_selected.png */,
 				9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */,
@@ -1124,6 +1127,7 @@
 				9F96D80512EA5236002D06B4 /* edit.png in Resources */,
 				9F96D89012EA6347002D06B4 /* done_selected.png in Resources */,
 				9F96D89112EA6347002D06B4 /* edit_selected.png in Resources */,
+				9F32496112EE43F200BEDA1F /* edit_disabled.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -127,10 +127,12 @@
     CGRect popoverPresentationFrame;
 }
 @property (retain) UINavigationController *navigationController;
+@property (readonly) UIPopoverController  *popoverController;
 @end
 
 @implementation JRModalNavigationController
 @synthesize navigationController;
+@synthesize popoverController;
 
 - (id)initWithRootViewController:(UIViewController*)controller andCustomInterface:(NSDictionary*)_customInterface
 {
@@ -212,6 +214,7 @@
 
 //        navigationController.modalInPopover = YES;
         [popoverController setPopoverContentSize:CGSizeMake(320, 450)];        
+//        popoverController.delegate = self;
         
         if ([customInterface objectForKey:kJRPopoverPresentationFrameValue])
         {   
@@ -291,6 +294,7 @@
 
     if (popoverController)
     {
+//        popoverController.delegate = nil;
         [popoverController dismissPopoverAnimated:YES];
     }
     else
@@ -303,6 +307,12 @@
 
     [self.view removeFromSuperview];
 }
+
+//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+//{
+//	DLog (@"");
+//    [self.view removeFromSuperview];
+//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
@@ -539,6 +549,9 @@ static JRUserInterfaceMaestro* singleton = nil;
 	
     [self tintBar];
     
+    if (jrModalNavController.popoverController)
+        jrModalNavController.popoverController.delegate = self;
+        
     if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
@@ -647,6 +660,16 @@ static JRUserInterfaceMaestro* singleton = nil;
         [customNavigationController popToViewController:originalRootViewController animated:YES];
     else
         [jrModalNavController.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+	DLog (@"");
+//    [self.view removeFromSuperview];
+    if ([sessionData socialSharing])
+        [sessionData triggerPublishingDidCancel];
+    else
+        [sessionData triggerAuthenticationDidCancel];
 }
 
 - (void)authenticationRestarted

@@ -64,6 +64,6 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *myToolBarButton;
 
 - (IBAction)signOutButtonPressed:(id)sender;
-- (void)loadUser;
-- (void)clearUser;
+- (void)loadUser:(BOOL)animated;
+- (void)clearUser:(BOOL)animated;
 @end

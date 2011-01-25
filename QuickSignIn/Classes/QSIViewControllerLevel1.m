@@ -81,9 +81,8 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)setSignOutButtonTitle:(NSString*)newTitle;
 - (void)setEditToDone;
 - (void)setDoneToEdit;
-- (void)setEditDisabled:(BOOL)disabled;
+- (void)setEditButtonEnabled:(BOOL)disabled;
 @end
-
 
 @implementation ViewControllerLevel1
 @synthesize myTableView;
@@ -100,7 +99,6 @@ Copyright (c) 2010, Janrain, Inc.
     return self;
 }
 */
-
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
@@ -121,11 +119,11 @@ Copyright (c) 2010, Janrain, Inc.
     {
         [myRightView addSubview:level2ViewController.view];
         
-        UIBarButtonItem *mySignOutButtonPad = 
-                            [[[UIBarButtonItem alloc] initWithTitle:@"Sign Out"
-                                                              style:UIBarButtonItemStyleBordered
-                                                             target:self
-                                                             action:@selector(signOutButtonPressed:)] autorelease];
+        mySignOutButtonPad = 
+            [[[UIBarButtonItem alloc] initWithTitle:@"Sign Out"
+                                              style:UIBarButtonItemStyleBordered
+                                             target:self
+                                             action:@selector(signOutButtonPressed:)] autorelease];
         
         self.navigationItem.leftBarButtonItem = mySignOutButtonPad;
         self.navigationItem.leftBarButtonItem.enabled = YES;
@@ -137,6 +135,7 @@ Copyright (c) 2010, Janrain, Inc.
         [myEditButtonPad setFrame:CGRectMake(0, 7, 52, 30)];
         [myEditButtonPad setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
         [myEditButtonPad setImage:[UIImage imageNamed:@"edit_selected.png"] forState:UIControlStateHighlighted];
+        [myEditButtonPad setImage:[UIImage imageNamed:@"edit_disabled.png"] forState:UIControlStateDisabled];
         
         [myEditButtonPad addTarget:self action:@selector(editButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -182,58 +181,24 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	self.navigationItem.rightBarButtonItem = addAnotherButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
-    
 	self.navigationItem.hidesBackButton = YES;
-	
-//    UIBarButtonItem *editButton = nil;
-//	if ([[[UserModel getUserModel] signinHistory] count])
-//	{
-//		editButton = [[[UIBarButtonItem alloc] 
-//					    initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-//					    target:self
-//					    action:@selector(editButtonPressed:)] autorelease];
-//	}
-//	else 
-//	{
-//		editButton = [[[UIBarButtonItem alloc]
-//					    initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//						target:nil
-//						action:nil] autorelease];
-//	}
-//    
-//    self.navigationItem.leftBarButtonItem = editButton;
-//	self.navigationItem.leftBarButtonItem.enabled = YES;
-//	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
-//    
-//    if (![[UserModel getUserModel] currentUser])
-//	{
-//		myToolBarButton.title = @"Home";
-//		myTableView.tableHeaderView.alpha = 1.0;
-//	}
-//	else
-//	{
-//		myToolBarButton.title = @"Sign Out";
-//		myTableView.tableHeaderView.alpha = 0.0;
-//	}		
     
     [self setDoneToEdit];
 
 	myTableView.tableHeaderView = myNotSignedInLabel;
         
     if ([[[UserModel getUserModel] signinHistory] count])
-        [self setEditDisabled:NO];
+        [self setEditButtonEnabled:YES];
     else
-        [self setEditDisabled:YES];
+        [self setEditButtonEnabled:NO];
     
     if (![[UserModel getUserModel] currentUser])
 	{
-		//myToolBarButton.title = @"Home";
 		[self setSignOutButtonTitle:@"Home"];
         myTableView.tableHeaderView.alpha = 1.0;
 	}
 	else
 	{
-		//myToolBarButton.title = @"Sign Out";
 		[self setSignOutButtonTitle:@"Sign Out"];
 		myTableView.tableHeaderView.alpha = 0.0;
 	}		
@@ -243,6 +208,12 @@ Copyright (c) 2010, Janrain, Inc.
 	else
 		myNotSignedInLabel.text = @"You are not currently signed in.";
 
+    if (iPad)
+        [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                      self.navigationItem.rightBarButtonItem,
+                                                      kJRPopoverPresentationBarButtonItem, nil]];
+    
+    
     [self.view becomeFirstResponder];
 	[myTableView setEditing:NO animated:NO];
 	[myTableView reloadData];
@@ -256,107 +227,20 @@ Copyright (c) 2010, Janrain, Inc.
 }
 */
 
-- (void)setUpPhoneButtons
-{
-//    UIBarButtonItem *editButton = nil;
-//	if ([[[UserModel getUserModel] signinHistory] count])
-//	{
-//		editButton = [[[UIBarButtonItem alloc] 
-//                       initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-//                       target:self
-//                       action:@selector(editButtonPressed:)] autorelease];
-//	}
-//	else 
-//	{
-//		editButton = [[[UIBarButtonItem alloc]
-//                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                       target:nil
-//                       action:nil] autorelease];
-//	}
-//    
-//    self.navigationItem.leftBarButtonItem = editButton;
-//	self.navigationItem.leftBarButtonItem.enabled = YES;
-//	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;    
-}
-
-- (void)setUpPadButtons
-{
-//    UIBarButtonItem *mySignOutButtonPad = 
-//            [[[UIBarButtonItem alloc] initWithTitle:(([[UserModel getUserModel] currentUser]) ? @"Sign Out" : @"Home") 
-//                                              style:UIBarButtonItemStyleBordered
-//                                             target:self
-//                                             action:@selector(signOutButtonPressed:)] autorelease];
-//	
-//	self.navigationItem.leftBarButtonItem = mySignOutButtonPad;
-//	self.navigationItem.leftBarButtonItem.enabled = YES;
-//    
-//    UIView *buttonContainer = [[UIView alloc] initWithFrame:CGRectMake(610, 0, 52, 44)];
-//    buttonContainer.backgroundColor = [UIColor clearColor];
-//    
-////    UIImageView *editButtonBackground = [[UIImageView alloc] initWithFrame:buttonContainer.frame];
-////    editButtonBackground.image = [UIImage imageNamed:@"edit.png"];
-////    
-////    [buttonContainer addSubview:editButtonBackground];
-//    
-//    myEditButtonPad = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [myEditButtonPad setFrame:CGRectMake(0, 7, 52, 30)];
-//    [myEditButtonPad setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-//    [myEditButtonPad setImage:[UIImage imageNamed:@"edit_selected.png"] forState:UIControlStateHighlighted];
-//
-//    
-//    myDoneButtonPad = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [myDoneButtonPad setFrame:CGRectMake(0, 7, 52, 30)];
-//    [myDoneButtonPad setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
-//    [myDoneButtonPad setImage:[UIImage imageNamed:@"done_selected.png"] forState:UIControlStateHighlighted];
-//    
-//    [myDoneButtonPad setHidden:YES];
-//    
-////    [myEditButtonPad setContentMode:UIViewContentModeCenter];
-//
-//    [buttonContainer addSubview:myDoneButtonPad];
-//    [buttonContainer addSubview:myEditButtonPad];
-//
-//    [self.navigationController.navigationBar addSubview:buttonContainer];
-//
-//    
-////	if ([[[UserModel getUserModel] signinHistory] count])
-////	{
-////		editButton = [[[UIBarButtonItem alloc] 
-////                       initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-////                       target:self
-////                       action:@selector(editButtonPressed:)] autorelease];
-////	}
-////	else 
-////	{
-////		editButton = [[[UIBarButtonItem alloc]
-////                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-////                       target:nil
-////                       action:nil] autorelease];
-////	}
-////    
-////    self.navigationItem.leftBarButtonItem = editButton;
-////	self.navigationItem.leftBarButtonItem.enabled = YES;
-////	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
-////    
-////    if (![[UserModel getUserModel] currentUser])
-////	{
-////		myToolBarButton.title = @"Home";
-////		myTableView.tableHeaderView.alpha = 1.0;
-////	}
-////	else
-////	{
-////		myToolBarButton.title = @"Sign Out";
-////		myTableView.tableHeaderView.alpha = 0.0;
-////	}		    
-}
-
-
 - (void)setSignOutButtonTitle:(NSString*)newTitle
 {
     if (iPad)
         self.navigationItem.leftBarButtonItem.title = newTitle;
     else
         myToolBarButton.title = newTitle;
+}
+
+- (void)setEditButtonEnabled:(BOOL)enabled
+{
+    if (iPad)
+        myEditButtonPad.enabled = enabled;
+    else
+        self.navigationItem.leftBarButtonItem.enabled = enabled;        
 }
 
 - (void)setDoneToEdit
@@ -374,13 +258,13 @@ Copyright (c) 2010, Janrain, Inc.
                                         action:@selector(editButtonPressed:)] autorelease];
         
         self.navigationItem.leftBarButtonItem = editButton;
-        self.navigationItem.leftBarButtonItem.enabled = YES;
-        
-        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;	    
+//        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;	    
     }
     
-    if (![[[UserModel getUserModel] signinHistory] count])
-        [self setEditDisabled:YES];
+    if ([[[UserModel getUserModel] signinHistory] count])
+        [self setEditButtonEnabled:YES];
+    else
+        [self setEditButtonEnabled:NO];
 }
 
 - (void)setEditToDone
@@ -398,55 +282,28 @@ Copyright (c) 2010, Janrain, Inc.
                                         action:@selector(doneButtonPressed:)] autorelease];
         
         self.navigationItem.leftBarButtonItem = doneButton;
-        self.navigationItem.leftBarButtonItem.enabled = YES;
-        
-        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;    
+//        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;    
     }
-}
 
-- (void)setEditDisabled:(BOOL)disabled
-{
-    if (iPad)
-    {
-        
-    }
+    if ([[[UserModel getUserModel] signinHistory] count])
+        [self setEditButtonEnabled:YES];
     else
-    {
-        self.navigationItem.leftBarButtonItem.enabled = NO;        
-    }
+        [self setEditButtonEnabled:NO];
 }
-
 
 - (void)doneButtonPressed:(id)sender
 {
 	[myTableView setEditing:NO animated:YES];
 	[self setDoneToEdit];
-    
-//	UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
-//									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-//									target:self
-//									action:@selector(editButtonPressed:)] autorelease];
-//	
-//	self.navigationItem.leftBarButtonItem = editButton;
-//	self.navigationItem.leftBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;	
 }
 
 - (void)editButtonPressed:(id)sender
 {
+    if (iPad)
+        [level2ViewController clearUser:YES];
+
 	[myTableView setEditing:YES animated:YES];
     [self setEditToDone];
-    
-//	UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
-//									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-//									target:self
-//									action:@selector(doneButtonPressed:)] autorelease];
-//	
-//	self.navigationItem.leftBarButtonItem = doneButton;
-//	self.navigationItem.leftBarButtonItem.enabled = YES;
-//	
-//	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
 }
 
 - (void)delaySignIn:(NSTimer*)theTimer
@@ -459,7 +316,6 @@ Copyright (c) 2010, Janrain, Inc.
 	[[UserModel getUserModel] startSignUserOut:self];	
 }
 
-
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex { }
 
 - (void)addAnotherButtonPressed:(id)sender
@@ -468,10 +324,19 @@ Copyright (c) 2010, Janrain, Inc.
 	
 //#ifdef LILLI	
 
+    if (iPad)
+        [level2ViewController clearUser:YES];
+
+    [myTableView deselectRowAtIndexPath:[myTableView indexPathForSelectedRow] animated:YES];
+    
 	if ([[UserModel getUserModel] currentUser])
 	{
 		[[UserModel getUserModel] startSignUserOut:self];
-		[NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
+
+		if (!iPad)
+            [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
+        else
+            [[UserModel getUserModel] startSignUserIn:self];
 	}
 	else
 	{
@@ -487,6 +352,8 @@ Copyright (c) 2010, Janrain, Inc.
 - (IBAction)signOutButtonPressed:(id)sender
 {
 //#ifdef LILLI	
+    if (iPad)// && [myTableView indexPathForSelectedRow].section == 0)
+        [level2ViewController clearUser:YES];
 
 	if ([[UserModel getUserModel] currentUser])
 	{
@@ -519,8 +386,7 @@ Copyright (c) 2010, Janrain, Inc.
 
 	[UIView beginAnimations:@"fade" context:nil];
     [self setSignOutButtonTitle:@"Sign Out"];
-    //	myToolBarButton.title = @"Sign Out";
-	myTableView.tableHeaderView.alpha = 0.0;
+	 myTableView.tableHeaderView.alpha = 0.0;
 	[UIView commitAnimations];
 }
 
@@ -528,6 +394,8 @@ Copyright (c) 2010, Janrain, Inc.
 {
 	NSIndexSet *set0 = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
 	NSIndexSet *set1 = [[[NSIndexSet alloc] initWithIndex:1] autorelease];	
+    
+	[self doneButtonPressed:nil];
 
 //	if (iPad)
 //    {
@@ -546,11 +414,8 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	[UIView beginAnimations:@"fade" context:nil];
 	[self setSignOutButtonTitle:@"Home"];
-    //  myToolBarButton.title = @"Home";
-	myTableView.tableHeaderView.alpha = 1.0;
+	 myTableView.tableHeaderView.alpha = 1.0;
 	[UIView commitAnimations];
-	
-	[self doneButtonPressed:nil];
 }
 
 
@@ -572,8 +437,7 @@ Copyright (c) 2010, Janrain, Inc.
 #ifdef LILLI
 	[UIView beginAnimations:@"fade" context:nil];
     [self setSignOutButtonTitle:@"Home"];
-    //  myToolBarButton.title = @"Home";
-	myNotSignedInLabel.text = @"You are not currently signed in.";
+     myNotSignedInLabel.text = @"You are not currently signed in.";
 	[UIView commitAnimations];
 #else
 	[[self navigationController] popToRootViewControllerAnimated:YES];	
@@ -625,8 +489,7 @@ Copyright (c) 2010, Janrain, Inc.
         return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView 
- numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 //    if (iPad)
 //        return 1;
@@ -648,13 +511,12 @@ Copyright (c) 2010, Janrain, Inc.
 	}
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView 
-		 cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	UITableViewCellSignInHistory *cell = 
 	(UITableViewCellSignInHistory*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
 
-    NSInteger userIndex = (iPad) ? (indexPath.section - 1) : indexPath.row;
+//    NSInteger userIndex = (iPad) ? (indexPath.section - 1) : indexPath.row;
 	
 	if (!cell || indexPath.section == 0) 
 		cell = [[[UITableViewCell alloc] 
@@ -702,8 +564,8 @@ Copyright (c) 2010, Janrain, Inc.
 	
     if (iPad)
     {
-        [level2ViewController clearUser];
-        [level2ViewController loadUser];
+        [level2ViewController clearUser:NO];
+        [level2ViewController loadUser:YES];
     }
     else
     {
@@ -725,7 +587,7 @@ Copyright (c) 2010, Janrain, Inc.
 											forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	CGFloat headerAlpha = myTableView.tableHeaderView.alpha;
-    NSInteger userIndex = (iPad) ? (indexPath.section - 1) : indexPath.row;
+//    NSInteger userIndex = (iPad) ? (indexPath.section - 1) : indexPath.row;
 
 	if (editingStyle == UITableViewCellEditingStyleDelete)
 	{/* Remove this profile from the Model's saved history. */ 
@@ -773,14 +635,25 @@ Copyright (c) 2010, Janrain, Inc.
 	// Release any cached data, images, etc that aren't in use.
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if (iPad)
+    {
+        [level2ViewController clearUser:YES];
+        [myEditButtonPad setHidden:YES];
+        [myDoneButtonPad setHidden:YES];
+    }
+}
+
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
 
 - (void)dealloc 
-{	
-    
+{       
     [myTableView release];
     [myToolBarButton release];
     [myNotSignedInLabel release];

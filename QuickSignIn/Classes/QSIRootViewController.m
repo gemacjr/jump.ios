@@ -69,8 +69,8 @@
 	
 //#ifdef LILLI	
     
-    if (!iPad)
-    {
+//    if (!iPad)
+//    {
         UIBarButtonItem *spacerButton = [[[UIBarButtonItem alloc]
                                           initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                           target:nil
@@ -87,7 +87,7 @@
         
         self.navigationItem.rightBarButtonItem = viewHistoryButton;
         self.navigationItem.rightBarButtonItem.enabled = YES;
-    }
+//    }
     
 //#endif
 	

@@ -74,7 +74,7 @@
     NSLog (@"i=%d",i);
 }
 
-- (void)loadUser
+- (void)loadUser:(BOOL)animated
 {
     selectedUser = [[[UserModel getUserModel] selectedUser] retain];
 	NSString* identifier = [selectedUser objectForKey:@"identifier"];
@@ -90,13 +90,13 @@
     
     friends = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"friends"] retain];   
 	
-    if (iPad)
+    if (iPad && animated)
         [self animateAdditions];
     else
         [myTableView reloadData];
 }
 
-- (void)clearUser
+- (void)clearUser:(BOOL)animated
 {
 	[selectedUser release], selectedUser = nil;
 	[profile release], profile = nil;
@@ -108,9 +108,9 @@
     [friends release], friends = nil;
     [friendsKeys release], friendsKeys = nil;
 
-//    if (iPad)
-//        [self animateAdditions];
-//    else
+    if (iPad && animated)
+        [self animateAdditions];
+    else
         [myTableView reloadData];
 }
 
