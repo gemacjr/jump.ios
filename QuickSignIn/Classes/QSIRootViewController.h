@@ -41,15 +41,11 @@
 {
     BOOL iPad;
     
-	UIButton *signInButton;
-	UIButton *linkButton;
+	IBOutlet UIButton *signInButton;
+	IBOutlet UIButton *linkButton;
 	
 	ViewControllerLevel1 *level1ViewController;
 }
-
-@property (nonatomic, retain) IBOutlet UIButton *signInButton;
-@property (nonatomic, retain) IBOutlet UIButton *linkButton;
-
 - (IBAction)signInButtonPressed:(id)sender; 
 - (IBAction)signInButtonOnEvent:(id)sender;
 - (IBAction)signInButtonOffEvent:(id)sender;
