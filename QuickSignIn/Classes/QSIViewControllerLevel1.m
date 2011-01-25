@@ -78,6 +78,7 @@ Copyright (c) 2010, Janrain, Inc.
 @end
 
 @interface ViewControllerLevel1 ()
+- (void)toggleTableHeaderVisibility:(BOOL)visible;
 - (void)setSignOutButtonTitle:(NSString*)newTitle;
 - (void)setEditToDone;
 - (void)setDoneToEdit;
@@ -85,10 +86,10 @@ Copyright (c) 2010, Janrain, Inc.
 @end
 
 @implementation ViewControllerLevel1
-@synthesize myTableView;
-@synthesize myToolBarButton;
-@synthesize myNotSignedInLabel;
-@synthesize myRightView;
+//@synthesize myTableView;
+//@synthesize myToolBarButton;
+//@synthesize myNotSignedInLabel;
+//@synthesize myRightView;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -173,6 +174,12 @@ Copyright (c) 2010, Janrain, Inc.
 
 	myTableView.backgroundColor = [UIColor clearColor];
 	
+    CGRect rect1 = self.view.frame;
+    CGRect rect2 = [self.view convertRect:myTableView.frame toView:[[UIApplication sharedApplication] keyWindow]];
+    
+    NSLog(@"view 1:\t%f,\t%f,\t%f,\t%f", rect1.origin.x, rect1.origin.y, rect1.size.width, rect1.size.height);
+    NSLog(@"v(t) 1:\t%f,\t%f,\t%f,\t%f", rect2.origin.x, rect2.origin.y, rect2.size.width, rect2.size.height);
+    
 	UIBarButtonItem *addAnotherButton = [[[UIBarButtonItem alloc] 
 										  initWithTitle:@"Add a Profile" 
 										  style:UIBarButtonItemStyleBordered
@@ -185,7 +192,7 @@ Copyright (c) 2010, Janrain, Inc.
     
     [self setDoneToEdit];
 
-	myTableView.tableHeaderView = myNotSignedInLabel;
+	myTableView.tableHeaderView = myLabelContainerView;//myNotSignedInLabel;
         
     if ([[[UserModel getUserModel] signinHistory] count])
         [self setEditButtonEnabled:YES];
@@ -195,12 +202,14 @@ Copyright (c) 2010, Janrain, Inc.
     if (![[UserModel getUserModel] currentUser])
 	{
 		[self setSignOutButtonTitle:@"Home"];
-        myTableView.tableHeaderView.alpha = 1.0;
+        [self toggleTableHeaderVisibility:YES];
+//        myTableView.tableHeaderView.alpha = 1.0;
 	}
 	else
 	{
 		[self setSignOutButtonTitle:@"Sign Out"];
-		myTableView.tableHeaderView.alpha = 0.0;
+        [self toggleTableHeaderVisibility:NO];
+//		myTableView.tableHeaderView.alpha = 0.0;
 	}		
     
 	if ([[UserModel getUserModel] loadingUserData])
@@ -227,12 +236,23 @@ Copyright (c) 2010, Janrain, Inc.
 }
 */
 
+- (void)toggleTableHeaderVisibility:(BOOL)visible
+{
+    if (visible)
+        myTableView.tableHeaderView.alpha = 1.0;//myTableView.tableHeaderView = myLabelContainerView;
+    else
+        myTableView.tableHeaderView.alpha = 0.0;//myTableView.tableHeaderView = nil;
+    
+//    myTableView.tableHeaderView.alpha = visible ? 1.0 : 0.0;
+//    myTableView.tableHeaderView.frame.    
+}
+
 - (void)setSignOutButtonTitle:(NSString*)newTitle
 {
     if (iPad)
         self.navigationItem.leftBarButtonItem.title = newTitle;
     else
-        myToolBarButton.title = newTitle;
+        mySignOutButtonPhone.title = newTitle;
 }
 
 - (void)setEditButtonEnabled:(BOOL)enabled
@@ -386,7 +406,8 @@ Copyright (c) 2010, Janrain, Inc.
 
 	[UIView beginAnimations:@"fade" context:nil];
     [self setSignOutButtonTitle:@"Sign Out"];
-	 myTableView.tableHeaderView.alpha = 0.0;
+    [self toggleTableHeaderVisibility:NO];
+//	 myTableView.tableHeaderView.alpha = 0.0;
 	[UIView commitAnimations];
 }
 
@@ -414,7 +435,8 @@ Copyright (c) 2010, Janrain, Inc.
 	
 	[UIView beginAnimations:@"fade" context:nil];
 	[self setSignOutButtonTitle:@"Home"];
-	 myTableView.tableHeaderView.alpha = 1.0;
+    [self toggleTableHeaderVisibility:YES];
+//	 myTableView.tableHeaderView.alpha = 1.0;
 	[UIView commitAnimations];
 }
 
@@ -655,7 +677,7 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)dealloc 
 {       
     [myTableView release];
-    [myToolBarButton release];
+    [mySignOutButtonPhone release];
     [myNotSignedInLabel release];
 	[level2ViewController release];	
 	

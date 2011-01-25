@@ -43,8 +43,8 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 @implementation ViewControllerLevel2
-@synthesize myTableView;
-@synthesize myToolBarButton;
+//@synthesize myTableView;
+//@synthesize myToolBarButton;
 
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -55,6 +55,18 @@
     return self;
 }
 */
+
+- (void)toggleLabelShow:(BOOL)show withAnimation:(BOOL)animated
+{
+    if (animated)
+        [UIView beginAnimations:@"fade" context:nil];
+    
+    [myLabel setAlpha:(show ? 1.0 : 0.0)];
+    
+    if (animated)
+        [UIView commitAnimations];
+}
+
 - (void)animateAdditions
 {
     static int i = 0;
@@ -62,7 +74,7 @@
     if (selectedUser)            
     {   
         [myTableView beginUpdates];
-        [myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,4)] 
+        [myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,2)]//NSMakeRange(0,4)] 
                    withRowAnimation:UITableViewRowAnimationBottom];//((i++)%7)];
         [myTableView endUpdates];
     }
@@ -94,6 +106,9 @@
         [self animateAdditions];
     else
         [myTableView reloadData];
+
+    if (iPad)
+        [self toggleLabelShow:NO withAnimation:NO];
 }
 
 - (void)clearUser:(BOOL)animated
@@ -107,11 +122,14 @@
     [mergedPocoKeys release], mergedPocoKeys = nil;
     [friends release], friends = nil;
     [friendsKeys release], friendsKeys = nil;
-
+    
     if (iPad && animated)
         [self animateAdditions];
     else
         [myTableView reloadData];
+    
+    if (iPad)
+        [self toggleLabelShow:YES withAnimation:animated];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -119,6 +137,15 @@
 {
     [super viewDidLoad];
     
+    CGRect rect1 = self.view.frame;
+    CGRect rect2 = [self.view convertRect:myTableView.frame toView:[[UIApplication sharedApplication] keyWindow]];
+
+    NSLog(@"view 2:\t%f,\t%f,\t%f,\t%f", rect1.origin.x, rect1.origin.y, rect1.size.width, rect1.size.height);
+    NSLog(@"v(t) 2:\t%f,\t%f,\t%f,\t%f", rect2.origin.x, rect2.origin.y, rect2.size.width, rect2.size.height);
+    
+    if (iPad)
+        myTableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 448, 50)] autorelease];
+
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         iPad = YES;
 }
@@ -134,7 +161,7 @@
         [self loadUser:YES];
     
 	myTableView.backgroundColor = [UIColor clearColor];	
-	
+   
 #ifdef LILLI
 	if ([[UserModel getUserModel] currentUser])
 		[myToolBarButton setEnabled:YES];
@@ -143,6 +170,12 @@
 #endif
 }	
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+
+}
 /*
  // Override to allow orientations other than the default portrait orientation.
  - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -161,7 +194,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
 {
     if (!selectedUser)
-        return 0;
+        return nil;
     
     switch (section)
     {
@@ -193,14 +226,23 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
 //    if (selectedUser)
-        return 5;
+        return 3;//5;
 //    else
 //        return 0;
 //	return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView 
- numberOfRowsInSection:(NSInteger)section 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 30.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 30.0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
     if (!selectedUser)
         return 0;
@@ -222,8 +264,7 @@
 	}
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView 
-		 cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	static NSInteger keyLabelTag = 1;
 	static NSInteger valueLabelTag = 2;
@@ -324,7 +365,7 @@
 		}
 		case 3:
 		{
-            DLog (@"section: merged");
+        DLog (@"section: merged");
             cellTitle = [mergedPocoKeys objectAtIndex:indexPath.row];
 			subtitle = [mergedPoco objectForKey:cellTitle];
 			break;
@@ -363,11 +404,9 @@
 	[[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
+- (void)didReceiveMemoryWarning 
+{
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload {
@@ -379,13 +418,8 @@
 {
     [myTableView release];
     [myToolBarButton release];
-//	[selectedUser release];
-//	[selectedUsersProfile release];
-//	[profileEntriesArray release];
 	
 	[super dealloc];
 }
-
-
 @end
 

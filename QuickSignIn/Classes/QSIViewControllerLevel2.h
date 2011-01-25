@@ -42,8 +42,9 @@
 {
     BOOL iPad;
     
-	UITableView		*myTableView;
-	UIBarButtonItem *myToolBarButton;
+	IBOutlet UITableView     *myTableView;
+	IBOutlet UIBarButtonItem *myToolBarButton;
+    IBOutlet UILabel         *myLabel;
 
 	NSDictionary	*selectedUser;
     
@@ -59,9 +60,8 @@
     NSMutableArray	*friends;
 	NSMutableArray	*friendsKeys;
 }
-
-@property (nonatomic, retain) IBOutlet UITableView	*myTableView;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *myToolBarButton;
+//@property (nonatomic, retain) IBOutlet UITableView	*myTableView;
+//@property (nonatomic, retain) IBOutlet UIBarButtonItem *myToolBarButton;
 
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)loadUser:(BOOL)animated;
