@@ -135,9 +135,10 @@
     {
         if (sender == signInButton)
             [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                          [NSValue valueWithCGRect:[self.view convertRect:signInButton.frame toView:[[UIApplication sharedApplication] keyWindow]]],
+                                                          [NSValue valueWithCGRect:[self.view convertRect:signInButton.frame 
+                                                                                                   toView:[[UIApplication sharedApplication] keyWindow]]],
                                                           kJRPopoverPresentationFrameValue, 
-                                                          [NSNumber numberWithInt:UIPopoverArrowDirectionUp],
+                                                          [NSNumber numberWithInt:UIPopoverArrowDirectionDown],
                                                           kJRPopoverPresentationArrowDirection, nil]];
         else
             [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:

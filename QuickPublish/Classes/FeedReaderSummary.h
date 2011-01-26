@@ -38,6 +38,8 @@
 
 @interface FeedReaderSummary : UITableViewController
 {
+    BOOL iPad;
+    
 	IBOutlet UITableView *myTable;
     
     FeedReaderDetail *detailViewController;

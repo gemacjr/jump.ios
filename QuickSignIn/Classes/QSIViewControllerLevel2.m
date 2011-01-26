@@ -121,6 +121,10 @@
 
 - (void)loadUser:(BOOL)animated
 {
+    //animated = NO;
+    
+    NSLog (@"loading user, %@", animated ? @"animated" : @"not animated");
+    
     selectedUser = [[[UserModel getUserModel] selectedUser] retain];
 	NSString* identifier = [selectedUser objectForKey:@"identifier"];
 	
@@ -135,6 +139,9 @@
     
     friends = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"friends"] retain];   
 	
+    NSLog (@"section 1, %d rows", [profileKeys count]);
+    NSLog (@"section 2, %d rows", [accessCredentialsKeys count]);
+    
     if (iPad && animated)
         [self animateAdditions];
     else
@@ -146,6 +153,8 @@
 
 - (void)clearUser:(BOOL)animated
 {
+    NSLog (@"clearing user, %@", animated ? @"animated" : @"not animated");
+
 	[selectedUser release], selectedUser = nil;
 	[profile release], profile = nil;
 	[profileKeys release], profileKeys = nil;
@@ -215,10 +224,13 @@
 	switch (section)
 	{
 		case 0:
-			return 1;
+			NSLog (@"section 0: 1 row");
+            return 1;
 		case 1:
+			NSLog (@"section 1: %d rows", [profileKeys count]);            
 			return [profileKeys count];
 		case 2:
+            NSLog (@"section 2: %d row", [accessCredentialsKeys count]);
 			return [accessCredentialsKeys count];
 		case 3:
 			return [mergedPocoKeys count];

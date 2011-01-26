@@ -215,7 +215,7 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28C286DF0D94DF7D0034E888 /* FeedReaderSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderSummary.h; sourceTree = "<group>"; };
-		28C286E00D94DF7D0034E888 /* FeedReaderSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderSummary.m; sourceTree = "<group>"; };
+		28C286E00D94DF7D0034E888 /* FeedReaderSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderSummary.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9F01A8991294506100AD6899 /* FeedReaderDetail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedReaderDetail.xib; sourceTree = "<group>"; };
 		9F01A89A1294506100AD6899 /* FeedReaderFeeds.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedReaderFeeds.xib; sourceTree = "<group>"; };
