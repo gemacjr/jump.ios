@@ -44,6 +44,9 @@
 	IBOutlet UIButton *signInButton;
 	IBOutlet UIButton *linkButton;
 	
+    IBOutlet UIView   *layoutViewOutside;
+    IBOutlet UIView   *layoutViewInside;
+    
 	ViewControllerLevel1 *level1ViewController;
 }
 - (IBAction)signInButtonPressed:(id)sender; 

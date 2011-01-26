@@ -204,6 +204,7 @@
 		9FB40A3512414DC500FDDA7B /* QSIViewControllerLevel2.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2F12414DC500FDDA7B /* QSIViewControllerLevel2.m */; };
 		9FB40A3612414DC500FDDA7B /* QuickSignInAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */; };
 		9FBE274412A713F600E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE274312A713F600E1F93E /* Security.framework */; };
+		9FED8C0612EFEF510027C87D /* QSIRootViewController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FED8C0512EFEF510027C87D /* QSIRootViewController2.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -430,6 +431,7 @@
 		9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickSignInAppDelegate.m; sourceTree = "<group>"; };
 		9FB40A3712414DD200FDDA7B /* Quick_Sign_In_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_Sign_In_Prefix.pch; sourceTree = "<group>"; };
 		9FBE274312A713F600E1F93E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9FED8C0512EFEF510027C87D /* QSIRootViewController2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = QSIRootViewController2.xib; path = Resources/xibs/QSIRootViewController2.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -483,6 +485,7 @@
 				9F521E9712B062940073ABAE /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				9FED8C0512EFEF510027C87D /* QSIRootViewController2.xib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -1128,6 +1131,7 @@
 				9F96D89012EA6347002D06B4 /* done_selected.png in Resources */,
 				9F96D89112EA6347002D06B4 /* edit_selected.png in Resources */,
 				9F32496112EE43F200BEDA1F /* edit_disabled.png in Resources */,
+				9FED8C0612EFEF510027C87D /* QSIRootViewController2.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

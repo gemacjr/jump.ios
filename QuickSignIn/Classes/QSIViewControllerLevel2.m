@@ -85,14 +85,6 @@
     [super viewDidAppear:animated];
 }
 
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
-
 - (void)toggleLabelShow:(BOOL)show withAnimation:(BOOL)animated
 {
     if (animated)
@@ -357,6 +349,11 @@
 {
 	[[UserModel getUserModel] startSignUserOut:nil];
 	[[self navigationController] popToRootViewControllerAnimated:YES];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+{
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning 

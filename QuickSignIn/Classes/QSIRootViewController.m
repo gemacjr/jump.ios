@@ -90,6 +90,21 @@
 		[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
+        self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        [layoutViewOutside setFrame:CGRectMake(0, 60, 320, 267)];
+        [layoutViewInside  setFrame:CGRectMake(0, 100, 320, 167)];
+    }
+    else
+    {   
+        [layoutViewOutside setFrame:CGRectMake(80, 0, 320, 267)];
+        [layoutViewInside  setFrame:CGRectMake(0, 75, 320, 147)];
+    }    
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
@@ -192,13 +207,34 @@
 - (void)userDidSignOut { }
 - (void)didReceiveToken { }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+{
+    return YES;
 }
-*/
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    switch (toInterfaceOrientation)
+    {
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            [layoutViewOutside setFrame:CGRectMake(0, 60, 320, 267)];
+            [layoutViewInside  setFrame:CGRectMake(0, 100, 320, 167)];
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            [layoutViewOutside setFrame:CGRectMake(80, 0, 320, 267)];
+            [layoutViewInside  setFrame:CGRectMake(0, 75, 320, 147)];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    
+}
 
 - (void)didReceiveMemoryWarning 
 {

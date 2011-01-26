@@ -201,13 +201,10 @@ Copyright (c) 2010, Janrain, Inc.
 	[myTableView reloadData];
 }	
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+{
+    return YES;
 }
-*/
 
 - (void)toggleTableHeaderVisibility:(BOOL)visible
 {
