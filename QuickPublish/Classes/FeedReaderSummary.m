@@ -187,8 +187,6 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
-//    NSInteger iPadMult = iPad ? 2 : 1;
-    
     if (cell == nil) 
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
@@ -202,18 +200,14 @@
                                         initWithFrame:(iPad ? 
                                                CGRectMake(IMAGE_FRAME_PAD) : 
                                                CGRectMake(IMAGE_FRAME_PHONE))] autorelease];
-//                                                                                        /*iPadMult * */8,
-//                                                                                        /*iPadMult * */27,
-//                                                                                        /*iPadMult * */(imageWidth - 6),
-//                                                                                        /*iPadMult * */36)] autorelease];
 
-            
-            UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:
-                                                 /*(iPad) ? UIActivityIndicatorViewStyleWhiteLarge : */UIActivityIndicatorViewStyleWhite] autorelease];
-//            if (iPad)
-//                [spinner setFrame:CGRectMake(34, 72, 37, 37)];
-//            else                
-            [spinner setFrame:(iPad ? CGRectMake(SPINNER_FRAME_PAD) : CGRectMake(SPINNER_FRAME_PHONE))];//(18, 37, 16, 16)];
+            UIActivityIndicatorView *spinner = 
+                                [[[UIActivityIndicatorView alloc] 
+                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
+
+            [spinner setFrame:(iPad ? 
+                               CGRectMake(SPINNER_FRAME_PAD) : 
+                               CGRectMake(SPINNER_FRAME_PHONE))];
             
             documentImage.backgroundColor = [UIColor grayColor];
             documentImage.clipsToBounds = YES;
@@ -238,12 +232,12 @@
                     documentImage.image = [self zoomAndCropImage:storyImage.image];
                     break;
                 }
-                else if (storyImage.downloadFailed) /* If the image failed to download, check the next image, or don't use an image. */
-                {
+                else if (storyImage.downloadFailed) 
+                {/* If the image failed to download, check the next image, or don't use an image. */
                     imageAvailable = NO;
                 }
-                else /* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-                {
+                else 
+                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
                     [spinner startAnimating];
                 }
             }
@@ -260,11 +254,8 @@
                                     initWithFrame:(iPad ? 
                                                CGRectMake(TITLE_FRAME_PAD) : 
                                                CGRectMake(TITLE_FRAME_PHONE))] autorelease];
-//                                                                                /*iPadMult * */8, 
-//                                                                                /*iPadMult * */6, 
-//                                                                                /*iPadMult * */284 /*+ ((iPadMult - 1) * 40)*/, 
-//                                                                                /*iPadMult * */16)] autorelease];
-            documentTitle.font = [UIFont boldSystemFontOfSize:/*(iPad) ? 28 : */15.0];
+
+            documentTitle.font = [UIFont boldSystemFontOfSize:15.0];
             documentTitle.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
             documentTitle.backgroundColor = [UIColor clearColor];
             documentTitle.text = story.title;
@@ -274,11 +265,8 @@
                                     initWithFrame:(iPad ? 
                                                    CGRectMake(DESCRIPTION_FRAME_PAD(imageWidth)) : 
                                                    CGRectMake(DESCRIPTION_FRAME_PHONE(imageWidth)))] autorelease];
-//                                                                                      /*iPadMult * */(8 + imageWidth),
-//                                                                                      /*iPadMult *  */25,
-//                                                                                      /*iPadMult * */(268 - imageWidth)/* + ((iPadMult - 1) * 40)*/, 
-//                                                                                      /*iPadMult *  */36)] autorelease];
-            documentDescription.font = [UIFont systemFontOfSize:/*(iPad) ? 24 : */14.0];
+
+            documentDescription.font = [UIFont systemFontOfSize:14.0];
             documentDescription.textColor = [UIColor darkGrayColor];
             documentDescription.numberOfLines = iPad ? 3 : 2;
             documentDescription.backgroundColor = [UIColor clearColor];
@@ -289,11 +277,8 @@
                                     initWithFrame:(iPad ? 
                                                    CGRectMake(DATE_FRAME_PAD) : 
                                                    CGRectMake(DATE_FRAME_PHONE(imageWidth)))] autorelease];
-//                                                                               /*iPadMult * */(8 + imageWidth),
-//                                                                               /*iPadMult *  */63,
-//                                                                               /*iPadMult * */(268 - imageWidth),
-//                                                                               /*iPadMult *  */13)] autorelease];
-            documentDate.font = [UIFont systemFontOfSize:/*iPadMult * */11.0];
+
+            documentDate.font = [UIFont systemFontOfSize:11.0];
             documentDate.textColor = [UIColor darkGrayColor];
             documentDate.textAlignment = iPad ? UITextAlignmentRight : UITextAlignmentLeft;
             documentDate.backgroundColor = [UIColor clearColor];
@@ -312,16 +297,6 @@
             [cell.contentView addSubview:documentDate];
             
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                        
-//            cell.contentView.backgroundColor = [UIColor redColor];
-            
-            UIView *arr[6] = { cell.contentView, documentImage, spinner, documentTitle, documentDescription, documentDate };
-            NSString *strs[6] = {@"content", @"image", @"spinner", @"title", @"descrip", @"date" };
-            
-            for (int i = 0; i < 6; i++)
-                NSLog (@"%@ frame: %f, %f, %f, %f", strs[i], arr[i].frame.origin.x, arr[i].frame.origin.y, arr[i].frame.size.width, arr[i].frame.size.height);
-                       
-            NSLog(@"\n");
         }
     }
     else
@@ -331,8 +306,8 @@
         UILabel *documentDescription = (UILabel*)[cell.contentView viewWithTag:descriptionTag];
         UILabel *documentDate = (UILabel*)[cell.contentView viewWithTag:dateTag];
                 
-        if (![spinner isHidden]) /* If we were previously waiting for the image to download. */
-        {
+        if (![spinner isHidden]) 
+        {/* If we were previously waiting for the image to download. */
             BOOL imageAvailable = NO;
             for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
             {
@@ -347,12 +322,12 @@
                     documentImage.image = [self zoomAndCropImage:storyImage.image];
                     break;
                 }
-                else if (storyImage.downloadFailed) /* If the image failed to download, check the next image, or don't use an image. */
-                {
+                else if (storyImage.downloadFailed)
+                {/* If the image failed to download, check the next image, or don't use an image. */
                     imageAvailable = NO;
                 }
-                else /* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-                {
+                else
+                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
                     [spinner startAnimating];
                 }
             }
@@ -363,15 +338,13 @@
                 [spinner stopAnimating];
                 [documentDescription setFrame:(iPad ? 
                                                CGRectMake(DESCRIPTION_FRAME_PAD(0)) : 
-                                               CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];///*iPadMult * */8, /*iPadMult * */25, /*iPadMult * */268 /*+ ((iPadMult - 1) * 40)*/, /*iPadMult * */36)];
+                                               CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];
                 [documentDate setFrame:(iPad ? 
                                         CGRectMake(DATE_FRAME_PAD) : 
-                                        CGRectMake(DATE_FRAME_PHONE(0)))];///*iPadMult * */8, /*iPadMult * */63, /*iPadMult * */268, /*iPadMult * */13)];
+                                        CGRectMake(DATE_FRAME_PHONE(0)))];
             }
         }
     }
-    
-
     return cell;
 }
 
@@ -400,24 +373,17 @@
             detailViewController = [[FeedReaderDetail alloc] initWithNibName:@"FeedReaderDetail" 
                                                                       bundle:[NSBundle mainBundle]];
     }
+    
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 #pragma mark -
 #pragma mark Memory management
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
+- (void)didReceiveMemoryWarning 
+{
     [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc that aren't in use.
 }
-
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
-
 
 - (void)dealloc 
 {
@@ -428,8 +394,6 @@
     
     [super dealloc];
 }
-
-
 @end
 
  
