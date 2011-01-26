@@ -42,6 +42,8 @@
     IBOutlet UIButton *feedButton;
     IBOutlet UIButton *janrainLink;
     
+    IBOutlet UIView   *layoutView;
+    
     FeedReaderSummary *summaryViewController;
 }
 

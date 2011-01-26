@@ -39,7 +39,7 @@
 			</object>
 			<object class="IBUIView" id="226871036">
 				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">294</int>
+				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIWebView" id="1061393879">
@@ -150,7 +150,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>FeedReaderDetail</string>
 					<string>UIResponder</string>
-					<string>{{137, 4}, {1039, 752}}</string>
+					<string>{{0, 4}, {1039, 746}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>

@@ -207,6 +207,7 @@
 		9FD162851295EB770002BFEC /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD162841295EB770002BFEC /* Default-Portrait.png */; };
 		9FD1638C129733740002BFEC /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD1638B129733740002BFEC /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9FD54A111213726800E11512 /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD54A101213726800E11512 /* FeedReader.m */; };
+		9FED8B2912EFDD0D0027C87D /* FeedReaderFeeds2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FED8B2812EFDD0D0027C87D /* FeedReaderFeeds2.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -438,6 +439,7 @@
 		9FD1638B129733740002BFEC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9FD54A0F1213726800E11512 /* FeedReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReader.h; sourceTree = "<group>"; };
 		9FD54A101213726800E11512 /* FeedReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReader.m; sourceTree = "<group>"; };
+		9FED8B2812EFDD0D0027C87D /* FeedReaderFeeds2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FeedReaderFeeds2.xib; path = Resources/xibs/FeedReaderFeeds2.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -493,6 +495,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				9FED8B2812EFDD0D0027C87D /* FeedReaderFeeds2.xib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -1146,6 +1149,7 @@
 				9F25B07A12C2A9FF0083BB6A /* icon_ipad.png in Resources */,
 				9F96D45212E8B479002D06B4 /* janrain_logo@2x.png in Resources */,
 				9F96D45412E8B482002D06B4 /* janrain_logo-ipad.png in Resources */,
+				9FED8B2912EFDD0D0027C87D /* FeedReaderFeeds2.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

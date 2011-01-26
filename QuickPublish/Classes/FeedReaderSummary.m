@@ -162,15 +162,17 @@
 #define PLUS(a,b) a + b 
 #define MINUS(a,b) a - b
 
+#define CONTENT_FRAME_PHONE         0,          0,  300,          80
 #define TITLE_FRAME_PHONE 			8,          6,  284,          16
 #define IMAGE_FRAME_PHONE           8,          27, 36,           36
 #define SPINNER_FRAME_PHONE         18,         37, 16,           16
 #define DESCRIPTION_FRAME_PHONE(x)  PLUS(8,x),  25, MINUS(268,x), 36
 #define DATE_FRAME_PHONE(x)         PLUS(8,x),  63, MINUS(268,x), 13
 
-#define TITLE_FRAME_PAD 			15,         10, 525,          18
-#define DATE_FRAME_PAD              550,        12, 115,          14
-#define DESCRIPTION_FRAME_PAD(x)    PLUS(20,x), 34, MINUS(600,x), 51
+#define CONTENT_FRAME_PAD           0,          0,  680,          95
+#define TITLE_FRAME_PAD 			15,         10, 520,          18
+#define DATE_FRAME_PAD              545,        12, 120,          14
+#define DESCRIPTION_FRAME_PAD(x)    PLUS(20,x), 34, MINUS(630,x), 51
 #define IMAGE_FRAME_PAD				15,         36, 36,           36
 #define SPINNER_FRAME_PAD			25,         46, 16,           16
 
@@ -190,6 +192,7 @@
     if (cell == nil) 
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
+        [cell.contentView setFrame:(iPad ? CGRectMake(CONTENT_FRAME_PAD) : CGRectMake(CONTENT_FRAME_PHONE))];
 
         if (indexPath.section < [stories count])
         {
@@ -259,6 +262,7 @@
             documentTitle.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
             documentTitle.backgroundColor = [UIColor clearColor];
             documentTitle.text = story.title;
+            [documentTitle setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
             
             UILabel *documentDescription = 
                         [[[UILabel alloc] 
@@ -272,6 +276,8 @@
             documentDescription.backgroundColor = [UIColor clearColor];
             documentDescription.text = story.plainText;
             
+            [documentDescription setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+            
             UILabel *documentDate = 
                         [[[UILabel alloc] 
                                     initWithFrame:(iPad ? 
@@ -283,7 +289,10 @@
             documentDate.textAlignment = iPad ? UITextAlignmentRight : UITextAlignmentLeft;
             documentDate.backgroundColor = [UIColor clearColor];
             documentDate.text = story.pubDate;
-            
+
+            if (iPad)
+                [documentDate setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
+
             [documentImage setTag:imageTag];
             [spinner setTag:spinnerTag];
             [documentTitle setTag:titleTag];
@@ -348,14 +357,10 @@
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+{
     return YES;
 }
-*/
 
 #pragma mark -
 #pragma mark Table view delegate

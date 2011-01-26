@@ -60,7 +60,7 @@
 static NSString *iPadStyle = @" \
 body                            \
 {                               \
-    /*width:680px;*/                \
+    /*width:680px;*/            \
     font-family:\"Helvetica\";  \
     color:#333333;              \
     font-size:20px;             \
@@ -89,7 +89,7 @@ p                               \
 static NSString *iPhoneStyle = @"\
 body                            \
 {                               \
-    width:300px;                \
+    /*width:300px;*/            \
     font-family:\"Helvetica\";  \
     color:#333333;              \
     font-size:14px;             \
@@ -247,13 +247,10 @@ a:active  { color:#7AC143; }";
     [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity andCustomInterface:custom];    
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+{
+    return YES;
 }
-*/
 
 - (void)viewWillDisappear:(BOOL)animated
 {

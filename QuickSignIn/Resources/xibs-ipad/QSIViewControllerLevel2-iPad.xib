@@ -45,7 +45,7 @@
 					<object class="IBUITableView" id="871373317">
 						<reference key="NSNextResponder" ref="576665120"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrameSize">{448, 1004}</string>
+						<string key="NSFrameSize">{448, 752}</string>
 						<reference key="NSSuperview" ref="576665120"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -67,7 +67,7 @@
 					<object class="IBUILabel" id="704583793">
 						<reference key="NSNextResponder" ref="576665120"/>
 						<int key="NSvFlags">302</int>
-						<string key="NSFrame">{{94, 403}, {300, 42}}</string>
+						<string key="NSFrame">{{94, 297}, {300, 42}}</string>
 						<reference key="NSSuperview" ref="576665120"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -93,7 +93,7 @@
 						<int key="IBUITextAlignment">1</int>
 					</object>
 				</object>
-				<string key="NSFrameSize">{448, 1004}</string>
+				<string key="NSFrameSize">{448, 752}</string>
 				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
@@ -208,7 +208,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>ViewControllerLevel2</string>
 					<string>UIResponder</string>
-					<string>{{653, 32}, {448, 1004}}</string>
+					<string>{{653, 4}, {448, 752}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
