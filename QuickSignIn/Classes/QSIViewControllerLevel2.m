@@ -113,7 +113,7 @@
 
 - (void)loadUser:(BOOL)animated
 {
-    //animated = NO;
+    animated = NO;
     
     NSLog (@"loading user, %@", animated ? @"animated" : @"not animated");
     
@@ -145,6 +145,8 @@
 
 - (void)clearUser:(BOOL)animated
 {
+    animated = NO;
+    
     NSLog (@"clearing user, %@", animated ? @"animated" : @"not animated");
 
 	[selectedUser release], selectedUser = nil;
@@ -263,6 +265,8 @@
 		keyLabel.textColor = [UIColor grayColor];
 		keyLabel.textAlignment = UITextAlignmentLeft;
 		
+        [keyLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+        
 		[cell.contentView addSubview:keyLabel];
 		[keyLabel release];
 		
@@ -275,7 +279,9 @@
 		valueLabel.font = [UIFont boldSystemFontOfSize:16.0];
 		valueLabel.textColor = [UIColor blackColor];
 		valueLabel.textAlignment = UITextAlignmentLeft;
-		
+
+        [valueLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+
 		[cell.contentView addSubview:valueLabel];
 		[valueLabel release];
     }

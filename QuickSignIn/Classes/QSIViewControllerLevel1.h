@@ -48,6 +48,7 @@
     IBOutlet UILabel		 *myNotSignedInLabel;
     
     IBOutlet UIView          *myRightView;
+    IBOutlet UIView          *myLeftView;
 	
     UIButton        *myEditButtonPad;
     UIButton        *myDoneButtonPad;    

@@ -92,17 +92,20 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
-        self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    if (!iPad)
     {
-        [layoutViewOutside setFrame:CGRectMake(0, 60, 320, 267)];
-        [layoutViewInside  setFrame:CGRectMake(0, 100, 320, 167)];
+        if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
+            self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        {
+            [layoutViewOutside setFrame:CGRectMake(0, 60, 320, 267)];
+            [layoutViewInside  setFrame:CGRectMake(0, 100, 320, 167)];
+        }
+        else
+        {   
+            [layoutViewOutside setFrame:CGRectMake(80, 0, 320, 267)];
+            [layoutViewInside  setFrame:CGRectMake(0, 75, 320, 147)];
+        }    
     }
-    else
-    {   
-        [layoutViewOutside setFrame:CGRectMake(80, 0, 320, 267)];
-        [layoutViewInside  setFrame:CGRectMake(0, 75, 320, 147)];
-    }    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -146,12 +149,26 @@
 {
 //#ifdef LILLI 
 
+    CGRect rect1 = signInButton.frame;
+    CGRect rect4 = layoutViewInside.frame;
+    CGRect rect2 = [self.view convertRect:signInButton.frame toView:[[UIApplication sharedApplication] keyWindow]];
+    CGRect rect3 = [layoutViewInside convertRect:signInButton.frame toView:[[UIApplication sharedApplication] keyWindow]];
+    
+#define NUM 4
+    CGRect rects[NUM] = { rect1, rect4, rect2, rect3 };
+    NSString *strs[NUM] = { @"rect1", @"rect4", @"rect2", @"rect3" };
+    
+    for (int i = 0; i < NUM; i++)
+        NSLog (@"%@: %f, %f, %f, %f", strs[i], rects[i].origin.x, rects[i].origin.y, rects[i].size.width, rects[i].size.height);
+    
+    
     if (iPad)
     {
         if (sender == signInButton)
             [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                          [NSValue valueWithCGRect:[self.view convertRect:signInButton.frame 
-                                                                                                   toView:[[UIApplication sharedApplication] keyWindow]]],
+                                                          [NSValue valueWithCGRect:
+                                                           [layoutViewInside convertRect:signInButton.frame 
+                                                                                  toView:[[UIApplication sharedApplication] keyWindow]]],
                                                           kJRPopoverPresentationFrameValue, 
                                                           [NSNumber numberWithInt:UIPopoverArrowDirectionDown],
                                                           kJRPopoverPresentationArrowDirection, nil]];
@@ -214,6 +231,9 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    if (iPad)
+        return;
+    
     switch (toInterfaceOrientation)
     {
         case UIInterfaceOrientationPortrait:

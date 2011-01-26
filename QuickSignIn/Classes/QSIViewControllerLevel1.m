@@ -154,6 +154,21 @@ Copyright (c) 2010, Janrain, Inc.
 	self.title = @"Profiles";
 
 	myTableView.backgroundColor = [UIColor clearColor];
+
+//    if (iPad)
+//    {
+//        if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
+//            self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+//        {
+//            [layoutViewOutside setFrame:CGRectMake(0, 60, 320, 267)];
+//            [layoutViewInside  setFrame:CGRectMake(0, 100, 320, 167)];
+//        }
+//        else
+//        {   
+//            [layoutViewOutside setFrame:CGRectMake(80, 0, 320, 267)];
+//            [layoutViewInside  setFrame:CGRectMake(0, 75, 320, 147)];
+//        }    
+//    }
     
 	UIBarButtonItem *addAnotherButton = [[[UIBarButtonItem alloc] 
 										  initWithTitle:@"Add a Profile" 
@@ -194,7 +209,6 @@ Copyright (c) 2010, Janrain, Inc.
         [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                       self.navigationItem.rightBarButtonItem,
                                                       kJRPopoverPresentationBarButtonItem, nil]];
-    
     
     [self.view becomeFirstResponder];
 	[myTableView setEditing:NO animated:NO];

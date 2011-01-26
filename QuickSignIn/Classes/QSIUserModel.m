@@ -509,6 +509,9 @@ otherwise, this happens automatically.													*/
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError *)error
 {
+    if ([error code] == JRDialogShowingError)
+        return;
+    
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:YES];
 }
