@@ -47,7 +47,7 @@
 @class JRWebViewController;
 @class JRPublishActivityController;
 
-@interface JRUserInterfaceMaestro : NSObject 
+@interface JRUserInterfaceMaestro : NSObject <UIPopoverControllerDelegate>
 {
 	JRModalNavigationController *jrModalNavController;
 	JRSessionData	*sessionData;
@@ -61,8 +61,8 @@
 	JRWebViewController         *myWebViewController;
     JRPublishActivityController *myPublishActivityController;
   
-    NSDictionary *customUI;
-    NSDictionary *persistentCustomUI;
+    NSDictionary *customInterface;
+    NSDictionary *persistentcustomInterface;
 }
 
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;

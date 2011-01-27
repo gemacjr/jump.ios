@@ -48,7 +48,7 @@
     
     BOOL iPad;
     
-    NSDictionary *customUI;
+    NSDictionary *customInterface;
 
     UIView		*titleView;
     UIImageView *myBackgroundView;
@@ -66,5 +66,5 @@
 @property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI;
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 @end

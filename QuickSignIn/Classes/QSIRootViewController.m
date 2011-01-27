@@ -32,12 +32,9 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import "QSIRootViewController.h"
 
 @implementation RootViewController
-@synthesize signInButton;	
-@synthesize linkButton;
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -49,41 +46,37 @@
 }
 */
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
 	[super viewDidLoad];
 	
-	self.title = @"Quick Sign-In!";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        iPad = YES;
+    
+    self.title = @"Quick Sign-In!";
 
 	[self navigationController].navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
-#ifdef LILLI	
-	UIBarButtonItem *spacerButton = [[[UIBarButtonItem alloc]
-									  initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-									  target:nil
-									  action:nil] autorelease];
+//#ifdef LILLI	
+    UIBarButtonItem *spacerButton = [[[UIBarButtonItem alloc]
+                                      initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                      target:nil
+                                      action:nil] autorelease];
+    
+    self.navigationItem.leftBarButtonItem = spacerButton;
+    self.navigationItem.leftBarButtonItem.enabled = YES;
+    
+    UIBarButtonItem *viewHistoryButton = [[[UIBarButtonItem alloc] 
+                                           initWithTitle:@"View Profiles" 
+                                           style:UIBarButtonItemStyleBordered
+                                           target:self
+                                           action:@selector(viewHistoryButtonPressed:)] autorelease];
+    
+    self.navigationItem.rightBarButtonItem = viewHistoryButton;
+    self.navigationItem.rightBarButtonItem.enabled = YES;   
+//#endif
 	
-	self.navigationItem.leftBarButtonItem = spacerButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
-	
-	UIBarButtonItem *viewHistoryButton = [[[UIBarButtonItem alloc] 
-										   initWithTitle:@"View Profiles" 
-										   style:UIBarButtonItemStyleBordered
-										   target:self
-										   action:@selector(viewHistoryButtonPressed:)] autorelease];
-	
-	self.navigationItem.rightBarButtonItem = viewHistoryButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-#endif
-	
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    if (iPad)
         level1ViewController = [[ViewControllerLevel1 alloc] initWithNibName:@"QSIViewControllerLevel1-iPad" 
                                                                       bundle:[NSBundle mainBundle]];
     else
@@ -95,6 +88,24 @@
 	/* Check to see if a user is already logged in, and, if so, wait half a second then drill down a level. */
 	if ([[UserModel getUserModel] currentUser]) 
 		[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (!iPad)
+    {
+        if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
+            self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        {
+            [layoutViewOutside setFrame:CGRectMake(0, 60, 320, 267)];
+            [layoutViewInside  setFrame:CGRectMake(0, 100, 320, 167)];
+        }
+        else
+        {   
+            [layoutViewOutside setFrame:CGRectMake(80, 0, 320, 267)];
+            [layoutViewInside  setFrame:CGRectMake(0, 75, 320, 147)];
+        }    
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -136,13 +147,55 @@
 
 - (IBAction)signInButtonPressed:(id)sender 
 {
-#ifdef LILLI /* Drill down a level, then after half a second, sign the user in. */
-	[[self navigationController] pushViewController:level1ViewController animated:YES]; 	
-	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySwitchAccounts:) userInfo:nil repeats:NO];
-#else
-	[[UserModel getUserModel] startSignUserIn:level1ViewController];
-	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
-#endif
+//#ifdef LILLI 
+
+    CGRect rect1 = signInButton.frame;
+    CGRect rect4 = layoutViewInside.frame;
+    CGRect rect2 = [self.view convertRect:signInButton.frame toView:[[UIApplication sharedApplication] keyWindow]];
+    CGRect rect3 = [layoutViewInside convertRect:signInButton.frame toView:[[UIApplication sharedApplication] keyWindow]];
+    
+#define NUM 4
+    CGRect rects[NUM] = { rect1, rect4, rect2, rect3 };
+    NSString *strs[NUM] = { @"rect1", @"rect4", @"rect2", @"rect3" };
+    
+    for (int i = 0; i < NUM; i++)
+        NSLog (@"%@: %f, %f, %f, %f", strs[i], rects[i].origin.x, rects[i].origin.y, rects[i].size.width, rects[i].size.height);
+    
+    
+    if (iPad)
+    {
+        if (sender == signInButton)
+            [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                          [NSValue valueWithCGRect:
+                                                           [layoutViewInside convertRect:signInButton.frame 
+                                                                                  toView:[[UIApplication sharedApplication] keyWindow]]],
+                                                          kJRPopoverPresentationFrameValue, 
+                                                          [NSNumber numberWithInt:UIPopoverArrowDirectionDown],
+                                                          kJRPopoverPresentationArrowDirection, nil]];
+        else
+            [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                          [self.toolbarItems objectAtIndex:0], 
+                                                          kJRPopoverPresentationBarButtonItem, nil]];
+        
+        if ([[UserModel getUserModel] currentUser])
+        {
+            [[UserModel getUserModel] startSignUserOut:self];
+            [[UserModel getUserModel] startSignUserIn:self];	
+        }
+        else
+        {
+            [[UserModel getUserModel] startSignUserIn:self];	
+        }        
+    }
+    else
+    {/* Drill down a level, then after half a second, sign the user in. */
+        [[self navigationController] pushViewController:level1ViewController animated:YES]; 	
+        [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySwitchAccounts:) userInfo:nil repeats:NO];
+    }
+//#else
+//	[[UserModel getUserModel] startSignUserIn:level1ViewController];
+//	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
+//#endif
 }
 
 - (IBAction)viewHistoryButtonPressed:(id)sender
@@ -150,25 +203,65 @@
 	[[self navigationController] pushViewController:level1ViewController animated:YES]; 
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (void)didFailToSignIn:(BOOL)showMessage 
+{
+	if (showMessage)
+	{
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
+														 message:@"An error occurred while attempting to sign you in.  Please try again."
+														delegate:self
+											   cancelButtonTitle:@"OK"
+											   otherButtonTitles:nil] autorelease];
+		[alert show];
+	}
 }
-*/
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
+- (void)userDidSignIn 
+{
+    [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
+}
+
+- (void)userDidSignOut { }
+- (void)didReceiveToken { }
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+{
+    return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (iPad)
+        return;
+    
+    switch (toInterfaceOrientation)
+    {
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            [layoutViewOutside setFrame:CGRectMake(0, 60, 320, 267)];
+            [layoutViewInside  setFrame:CGRectMake(0, 100, 320, 167)];
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            [layoutViewOutside setFrame:CGRectMake(80, 0, 320, 267)];
+            [layoutViewInside  setFrame:CGRectMake(0, 75, 320, 147)];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    
+}
+
+- (void)didReceiveMemoryWarning 
+{
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
+- (void)viewDidUnload { }
 
 - (void)dealloc 
 {
@@ -178,5 +271,4 @@
 	
 	[super dealloc];
 }
-
 @end

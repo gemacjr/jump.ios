@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9F088BDF126684EF008AD40D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F088BDE126684EF008AD40D /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		9F96D60F12EA0462002D06B4 /* JREngage+CustomInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F96D60D12EA0462002D06B4 /* JREngage+CustomInterface.h */; };
+		9F96D61012EA0462002D06B4 /* JREngage+CustomInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F96D60E12EA0462002D06B4 /* JREngage+CustomInterface.m */; };
 		9FBE256D12A6F76700E1F93E /* SFHFKeychainUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FBE256B12A6F76700E1F93E /* SFHFKeychainUtils.h */; };
 		9FBE256E12A6F76700E1F93E /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FBE256C12A6F76700E1F93E /* SFHFKeychainUtils.m */; };
 		9FBE258A12A6FB2300E1F93E /* SBJsonStreamWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FBE258812A6FB2300E1F93E /* SBJsonStreamWriter.h */; };
@@ -192,7 +194,8 @@
 		9F5223F012B06BB80073ABAE /* music_note@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "music_note@2x.jpg"; sourceTree = "<group>"; };
 		9F5223F112B06BB80073ABAE /* profilepic_placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profilepic_placeholder@2x.png"; sourceTree = "<group>"; };
 		9F5223F212B06BB80073ABAE /* triangle_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle_icon@2x.png"; sourceTree = "<group>"; };
-		9F63D526124FEAC400A21A59 /* scratch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = scratch; sourceTree = "<group>"; };
+		9F96D60D12EA0462002D06B4 /* JREngage+CustomInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JREngage+CustomInterface.h"; sourceTree = "<group>"; };
+		9F96D60E12EA0462002D06B4 /* JREngage+CustomInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JREngage+CustomInterface.m"; sourceTree = "<group>"; };
 		9FBE256B12A6F76700E1F93E /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		9FBE256C12A6F76700E1F93E /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		9FBE258812A6FB2300E1F93E /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriter.h; path = "../json-framework/Classes/SBJsonStreamWriter.h"; sourceTree = SOURCE_ROOT; };
@@ -281,7 +284,6 @@
 				9FED50AE12401DE1004684F2 /* JSON */,
 				9FED5117124020C2004684F2 /* Classes */,
 				9FED53D1124044CD004684F2 /* Resources */,
-				9F63D526124FEAC400A21A59 /* scratch */,
 			);
 			name = JREngage;
 			sourceTree = "<group>";
@@ -582,6 +584,8 @@
 			children = (
 				9FED511C124020C2004684F2 /* JREngage.h */,
 				9FED511D124020C2004684F2 /* JREngage.m */,
+				9F96D60D12EA0462002D06B4 /* JREngage+CustomInterface.h */,
+				9F96D60E12EA0462002D06B4 /* JREngage+CustomInterface.m */,
 				9FED5118124020C2004684F2 /* JRActivityObject.h */,
 				9FED5119124020C2004684F2 /* JRActivityObject.m */,
 				9FED5126124020C2004684F2 /* JRSessionData.h */,
@@ -643,6 +647,7 @@
 				9FED5142124020C2004684F2 /* JRWebViewController.h in Headers */,
 				9FBE256D12A6F76700E1F93E /* SFHFKeychainUtils.h in Headers */,
 				9FBE258A12A6FB2300E1F93E /* SBJsonStreamWriter.h in Headers */,
+				9F96D60F12EA0462002D06B4 /* JREngage+CustomInterface.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,6 +718,7 @@
 				9FED5143124020C2004684F2 /* JRWebViewController.m in Sources */,
 				9FBE256E12A6F76700E1F93E /* SFHFKeychainUtils.m in Sources */,
 				9FBE258B12A6FB2300E1F93E /* SBJsonStreamWriter.m in Sources */,
+				9F96D61012EA0462002D06B4 /* JREngage+CustomInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

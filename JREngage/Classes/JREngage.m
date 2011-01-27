@@ -187,7 +187,15 @@ static JREngage* singletonJREngage = nil;
             [sessionData tryToReconfigureLibrary];
             
             return;
-        }
+        } /* TODO: And if it's not a config error?? */
+        else { return; }
+    }
+    
+    if (sessionData.dialogIsShowing)
+    {
+       return [self engageDidFailWithError:
+               [JRError setError:@"The dialog failed to show because there is already a JREngage dialog showing" 
+                        withCode:JRDialogShowingError]];
     }
     
     [interfaceMaestro showAuthenticationDialogWithCustomInterface:customizations];
@@ -214,20 +222,28 @@ static JREngage* singletonJREngage = nil;
         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
         
-        if (sessionData.error.code / 100 == ConfigurationError)//[[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
+        if (sessionData.error.code / 100 == ConfigurationError)
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
             
             return;
-        }
+        } /* TODO: And if it's not a config error?? */
+        else { return; }
+    }
+    
+    if (sessionData.dialogIsShowing)
+    {
+        return [self engageDidFailWithError:
+                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog showing" 
+                         withCode:JRDialogShowingError]];
     }
     
     if (!activity)
     {
-        [self engageDidFailWithError:[JRError setError:@"Activity object can't be nil" 
-                                              withCode:JRPublishErrorAcivityNil]]; 
-                                            //andType:JRErrorTypePublishFailed]];
+        return [self engageDidFailWithError:
+                [JRError setError:@"Activity object can't be nil" 
+                         withCode:JRPublishErrorAcivityNil]]; 
     }
     
 	[sessionData setActivity:activity];
@@ -371,16 +387,6 @@ static JREngage* singletonJREngage = nil;
 		if ([delegate respondsToSelector:@selector(jrSocialPublishingActivity:didFailWithError:forProvider:)])
             [delegate jrSocialPublishingActivity:activity didFailWithError:error forProvider:provider];
 	}    
-}
-
-- (void)setCustomNavigationController:(UINavigationController*)navigationController
-{
-    [interfaceMaestro pushToCustomNavigationController:navigationController];
-}
-
-- (void)setCustomInterface:(NSDictionary*)customizations
-{
-    [interfaceMaestro setCustomViews:customizations];
 }
 
 - (void)signoutUserForProvider:(NSString*)provider

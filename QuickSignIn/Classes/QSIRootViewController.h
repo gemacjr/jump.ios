@@ -37,17 +37,18 @@
 #import "QSIViewControllerLevel1.h"
 #import "QSIUserModel.h"
 
-@interface RootViewController : UIViewController
+@interface RootViewController : UIViewController <UserModelDelegate>
 {
-	UIButton *signInButton;
-	UIButton *linkButton;
+    BOOL iPad;
+    
+	IBOutlet UIButton *signInButton;
+	IBOutlet UIButton *linkButton;
 	
+    IBOutlet UIView   *layoutViewOutside;
+    IBOutlet UIView   *layoutViewInside;
+    
 	ViewControllerLevel1 *level1ViewController;
 }
-
-@property (nonatomic, retain) IBOutlet UIButton *signInButton;
-@property (nonatomic, retain) IBOutlet UIButton *linkButton;
-
 - (IBAction)signInButtonPressed:(id)sender; 
 - (IBAction)signInButtonOnEvent:(id)sender;
 - (IBAction)signInButtonOffEvent:(id)sender;

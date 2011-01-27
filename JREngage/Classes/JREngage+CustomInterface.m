@@ -27,24 +27,28 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  
- File:	 FeedReaderSummary.h 
+ File:	 JREngage+CustomInterface.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, August 24, 2010
+ Date:	 Friday, January 21, 2011
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import <UIKit/UIKit.h>
-#import "FeedReaderDetail.h"
-#import "FeedReader.h"
+#import "JREngage+CustomInterface.h"
 
-@interface FeedReaderSummary : UITableViewController
+
+@implementation JREngage (CustomInterface)
+
+- (void)setCustomNavigationController:(UINavigationController*)navigationController
 {
-    BOOL iPad;
-    
-	IBOutlet UITableView *myTable;
-    
-    FeedReaderDetail *detailViewController;
-    FeedReader *reader;
-    
-    NSArray *stories;
+    [interfaceMaestro pushToCustomNavigationController:navigationController];
+}
+
+- (void)setApplicationNavigationController:(UINavigationController*)navigationController
+{
+    [interfaceMaestro pushToCustomNavigationController:navigationController];
+}
+
+- (void)setCustomInterface:(NSDictionary*)customizations
+{
+    [interfaceMaestro setCustomViews:customizations];
 }
 @end

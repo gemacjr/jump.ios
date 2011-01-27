@@ -41,6 +41,8 @@
 @class Story;
 @interface FeedReaderDetail : UIViewController <UIWebViewDelegate>
 {
+    BOOL iPad;
+    
     Story *story;
     
     FeedReaderWebView *feedReaderWebview;

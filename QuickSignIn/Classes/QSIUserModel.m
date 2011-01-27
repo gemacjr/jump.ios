@@ -45,7 +45,9 @@
 @synthesize currentUser;
 @synthesize selectedUser;
 @synthesize loadingUserData;
+@synthesize customInterface;
 @synthesize navigationController;
+@synthesize iPad;
 
 /* Singleton instance of UserModel */
 static UserModel* singleton = nil;
@@ -89,7 +91,10 @@ otherwise, this happens automatically.													*/
 		displayName = nil;	
 
 		historyCountSnapShot = [prefs integerForKey:@"historyCount"];
-		
+
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            iPad = YES;
+        
      /* Load any session that was still logged in when the application closed. */
 		[self loadSignedInUser];
 	}
@@ -458,26 +463,29 @@ otherwise, this happens automatically.													*/
 	loadingUserData = YES;
 	signInDelegate = [interestedParty retain]; 
     
+    NSDictionary *moreCustomizations = nil;
+    
     if (NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
     {       
      /* EmbeddedTableViewController acts as the delegate and datasource of the embeddedTable, whose view will be added 
         as a "subtable", as the provider table's header view. While they are two different tables, it will appear as if
         they are different sections of the same table. */
         EmbeddedTableViewController *embeddedTable = [[EmbeddedTableViewController alloc] init];
-        UIColor *janrainBlue = [UIColor colorWithRed:0.375 green:0.74 blue:0.9 alpha:0.2];
+        //UIColor *janrainBlue = [UIColor colorWithRed:0.375 green:0.74 blue:0.9 alpha:0.2];
         
-        if (!customInterface)
-            customInterface = [[NSDictionary alloc] initWithObjectsAndKeys:
+        moreCustomizations = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                     embeddedTable.view, kJRProviderTableHeaderView,
-                               @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString, nil];
+                                    @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString, nil];
                                     //janrainBlue, kJRAuthenticationBackgroundColor, nil];
-        
-        /* If you want your embeddedTable to control the navigationController, you must use your own. */
-        [jrEngage setCustomNavigationController:navigationController];
-        [jrEngage setCustomInterface:customInterface];	    
-    }
 
-    /* Launch the JRAuthenticate Library. */
+     /* If you want your embeddedTable to control the navigationController, you must use your own. */
+        [jrEngage setCustomNavigationController:navigationController];
+    }
+    
+    [customInterface addEntriesFromDictionary:moreCustomizations];
+    [jrEngage setCustomInterface:customInterface];	    
+
+ /* Launch the JRAuthenticate Library. */
     [jrEngage showAuthenticationDialog];
 }
 
@@ -501,6 +509,9 @@ otherwise, this happens automatically.													*/
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError *)error
 {
+    if ([error code] == JRDialogShowingError)
+        return;
+    
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:YES];
 }

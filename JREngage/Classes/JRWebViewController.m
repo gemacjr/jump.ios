@@ -50,27 +50,15 @@
 @synthesize myBackgroundView;
 @synthesize myWebView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
     {
-        customUI = [_customUI retain];
+        customInterface = [_customInterface retain];
     }
 
     return self;
 }
-
-//- (NSError*)setError:(NSString*)message withCode:(NSInteger)code andType:(NSString*)type
-//{
-//    DLog(@"");
-//    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-//                              message, NSLocalizedDescriptionKey,
-//                              type, @"type", nil];
-//    
-//    return [[[NSError alloc] initWithDomain:@"JREngage"
-//                                       code:code
-//                                   userInfo:userInfo] autorelease];
-//}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
@@ -85,9 +73,9 @@
     
 	if (!infoBar)
 	{
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
-        else
+//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
+//        else
             infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
@@ -105,7 +93,9 @@
 	DLog(@"");
     [super viewWillAppear:animated];
     
-	self.title = [NSString stringWithFormat:@"%@", (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
+	self.contentSizeForViewInPopover = CGSizeMake(320, 416);
+    
+    self.title = [NSString stringWithFormat:@"%@", (sessionData.currentProvider) ? sessionData.currentProvider.friendlyName : @"Loading"];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -122,7 +112,6 @@
     {
         NSError *error = [JRError setError:@"There was an error authenticating with the selected provider."
                                   withCode:JRAuthenticationFailedError];
-                                //andType:JRErrorTypeAuthenticationFailed];
         
         [sessionData triggerAuthenticationDidFailWithError:error];        
         
@@ -447,7 +436,7 @@
 - (void)dealloc {
 	DLog(@"");
 	
-    [customUI release];
+    [customInterface release];
     [myBackgroundView release];
 	[myWebView release];
 	[infoBar release];

@@ -45,12 +45,12 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        iPad = YES;
+    
     reader = [FeedReader feedReader];
     stories = [[reader allStories] retain];
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -73,11 +73,10 @@
     titleLabel.text = NSLocalizedString(@"Janrain Blog", @"");    
     
     myTable.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0];
-    [myTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     myTable.sectionFooterHeight = 0.0;
     myTable.sectionHeaderHeight = 10.0;
+    [myTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
-
 
 - (void)viewDidAppear:(BOOL)animated 
 {
@@ -85,18 +84,6 @@
  
     [myTable reloadData];
 }
-
-
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
 
 /*
  // Override to allow orientations other than the default portrait orientation.
@@ -133,7 +120,6 @@
     return cropped;
 }
 
-
 #pragma mark -
 #pragma mark Table view data source
 
@@ -147,13 +133,48 @@
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (iPad)
+        return 22.0;
+    
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
+{
+    return @"";
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return 160;
+    if (iPad)
+        return 95;
     else
         return 80;
 }
+
+#define PLUS(a,b) a + b 
+#define MINUS(a,b) a - b
+
+#define CONTENT_FRAME_PHONE         0,          0,  300,          80
+#define TITLE_FRAME_PHONE 			8,          6,  284,          16
+#define IMAGE_FRAME_PHONE           8,          27, 36,           36
+#define SPINNER_FRAME_PHONE         18,         37, 16,           16
+#define DESCRIPTION_FRAME_PHONE(x)  PLUS(8,x),  25, MINUS(268,x), 36
+#define DATE_FRAME_PHONE(x)         PLUS(8,x),  63, MINUS(268,x), 13
+
+#define CONTENT_FRAME_PAD           0,          0,  680,          95
+#define TITLE_FRAME_PAD 			15,         10, 520,          18
+#define DATE_FRAME_PAD              545,        12, 120,          14
+#define DESCRIPTION_FRAME_PAD(x)    PLUS(20,x), 34, MINUS(630,x), 51
+#define IMAGE_FRAME_PAD				15,         36, 36,           36
+#define SPINNER_FRAME_PAD			25,         46, 16,           16
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
@@ -167,28 +188,29 @@
     Story *story = [stories objectAtIndex:indexPath.section];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    BOOL iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? YES : NO;
-    NSInteger iPadMult = iPad ? 2 : 1;
-    
+
     if (cell == nil) 
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
+        [cell.contentView setFrame:(iPad ? CGRectMake(CONTENT_FRAME_PAD) : CGRectMake(CONTENT_FRAME_PHONE))];
 
         if (indexPath.section < [stories count])
         {
             NSInteger imageWidth = 42; 
 
-            UIImageView *documentImage = [[[UIImageView alloc] initWithFrame:CGRectMake(iPadMult * 8,
-                                                                                        iPadMult * 27,
-                                                                                        iPadMult * (imageWidth - 6),
-                                                                                        iPadMult * 36)] autorelease];
+            UIImageView *documentImage = 
+                                [[[UIImageView alloc] 
+                                        initWithFrame:(iPad ? 
+                                               CGRectMake(IMAGE_FRAME_PAD) : 
+                                               CGRectMake(IMAGE_FRAME_PHONE))] autorelease];
 
-            UIActivityIndicatorView *spinner = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:
-                                                 (iPad) ? UIActivityIndicatorViewStyleWhiteLarge : UIActivityIndicatorViewStyleWhite] autorelease];
-            if (iPad)
-                [spinner setFrame:CGRectMake(34, 72, 37, 37)];
-            else                
-                [spinner setFrame:CGRectMake(18, 37, 16, 16)];
+            UIActivityIndicatorView *spinner = 
+                                [[[UIActivityIndicatorView alloc] 
+                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
+
+            [spinner setFrame:(iPad ? 
+                               CGRectMake(SPINNER_FRAME_PAD) : 
+                               CGRectMake(SPINNER_FRAME_PHONE))];
             
             documentImage.backgroundColor = [UIColor grayColor];
             documentImage.clipsToBounds = YES;
@@ -213,12 +235,12 @@
                     documentImage.image = [self zoomAndCropImage:storyImage.image];
                     break;
                 }
-                else if (storyImage.downloadFailed) /* If the image failed to download, check the next image, or don't use an image. */
-                {
+                else if (storyImage.downloadFailed) 
+                {/* If the image failed to download, check the next image, or don't use an image. */
                     imageAvailable = NO;
                 }
-                else /* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-                {
+                else 
+                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
                     [spinner startAnimating];
                 }
             }
@@ -230,35 +252,47 @@
                 imageWidth = 0;
             }
 
-            UILabel *documentTitle = [[[UILabel alloc] initWithFrame:CGRectMake(iPadMult * 8, 
-                                                                                iPadMult * 6, 
-                                                                                iPadMult * 284 + ((iPadMult - 1) * 40), 
-                                                                                iPadMult * 16)] autorelease];
-            documentTitle.font = [UIFont boldSystemFontOfSize:(iPad) ? 28 : 15.0];
+            UILabel *documentTitle = 
+                        [[[UILabel alloc] 
+                                    initWithFrame:(iPad ? 
+                                               CGRectMake(TITLE_FRAME_PAD) : 
+                                               CGRectMake(TITLE_FRAME_PHONE))] autorelease];
+
+            documentTitle.font = [UIFont boldSystemFontOfSize:15.0];
             documentTitle.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
             documentTitle.backgroundColor = [UIColor clearColor];
             documentTitle.text = story.title;
+            [documentTitle setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
             
-            UILabel *documentDescription = [[[UILabel alloc] initWithFrame:CGRectMake(iPadMult * (8 + imageWidth),
-                                                                                      iPadMult *  25,
-                                                                                      iPadMult * (268 - imageWidth) + ((iPadMult - 1) * 40), 
-                                                                                      iPadMult *  36)] autorelease];
-            documentDescription.font = [UIFont systemFontOfSize:(iPad) ? 24 : 14.0];
+            UILabel *documentDescription = 
+                        [[[UILabel alloc] 
+                                    initWithFrame:(iPad ? 
+                                                   CGRectMake(DESCRIPTION_FRAME_PAD(imageWidth)) : 
+                                                   CGRectMake(DESCRIPTION_FRAME_PHONE(imageWidth)))] autorelease];
+
+            documentDescription.font = [UIFont systemFontOfSize:14.0];
             documentDescription.textColor = [UIColor darkGrayColor];
-            documentDescription.numberOfLines = 2;
+            documentDescription.numberOfLines = iPad ? 3 : 2;
             documentDescription.backgroundColor = [UIColor clearColor];
             documentDescription.text = story.plainText;
             
-            UILabel *documentDate = [[[UILabel alloc] initWithFrame:CGRectMake(iPadMult * (8 + imageWidth),
-                                                                               iPadMult *  63,
-                                                                               iPadMult * (268 - imageWidth),
-                                                                               iPadMult *  13)] autorelease];
-            documentDate.font = [UIFont systemFontOfSize:iPadMult * 11.0];
+            [documentDescription setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+            
+            UILabel *documentDate = 
+                        [[[UILabel alloc] 
+                                    initWithFrame:(iPad ? 
+                                                   CGRectMake(DATE_FRAME_PAD) : 
+                                                   CGRectMake(DATE_FRAME_PHONE(imageWidth)))] autorelease];
+
+            documentDate.font = [UIFont systemFontOfSize:11.0];
             documentDate.textColor = [UIColor darkGrayColor];
-            documentDate.textAlignment = UITextAlignmentLeft;
+            documentDate.textAlignment = iPad ? UITextAlignmentRight : UITextAlignmentLeft;
             documentDate.backgroundColor = [UIColor clearColor];
             documentDate.text = story.pubDate;
-            
+
+            if (iPad)
+                [documentDate setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
+
             [documentImage setTag:imageTag];
             [spinner setTag:spinnerTag];
             [documentTitle setTag:titleTag];
@@ -281,8 +315,8 @@
         UILabel *documentDescription = (UILabel*)[cell.contentView viewWithTag:descriptionTag];
         UILabel *documentDate = (UILabel*)[cell.contentView viewWithTag:dateTag];
                 
-        if (![spinner isHidden]) /* If we were previously waiting for the image to download. */
-        {
+        if (![spinner isHidden]) 
+        {/* If we were previously waiting for the image to download. */
             BOOL imageAvailable = NO;
             for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
             {
@@ -297,12 +331,12 @@
                     documentImage.image = [self zoomAndCropImage:storyImage.image];
                     break;
                 }
-                else if (storyImage.downloadFailed) /* If the image failed to download, check the next image, or don't use an image. */
-                {
+                else if (storyImage.downloadFailed)
+                {/* If the image failed to download, check the next image, or don't use an image. */
                     imageAvailable = NO;
                 }
-                else /* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-                {
+                else
+                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
                     [spinner startAnimating];
                 }
             }
@@ -311,56 +345,22 @@
             {
                 [documentImage setHidden:YES];
                 [spinner stopAnimating];
-                [documentDescription setFrame:CGRectMake(iPadMult * 8, iPadMult * 25, iPadMult * 268 + ((iPadMult - 1) * 40), iPadMult * 36)];
-                [documentDate setFrame:CGRectMake(iPadMult * 8, iPadMult * 63, iPadMult * 268, iPadMult * 13)];
+                [documentDescription setFrame:(iPad ? 
+                                               CGRectMake(DESCRIPTION_FRAME_PAD(0)) : 
+                                               CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];
+                [documentDate setFrame:(iPad ? 
+                                        CGRectMake(DATE_FRAME_PAD) : 
+                                        CGRectMake(DATE_FRAME_PHONE(0)))];
             }
-            
         }
     }
-
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+{
     return YES;
 }
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 
 #pragma mark -
 #pragma mark Table view delegate
@@ -371,31 +371,24 @@
 
     if (!detailViewController)
     {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        if (iPad)
             detailViewController = [[FeedReaderDetail alloc] initWithNibName:@"FeedReaderDetail-iPad" 
                                                                       bundle:[NSBundle mainBundle]];
         else
             detailViewController = [[FeedReaderDetail alloc] initWithNibName:@"FeedReaderDetail" 
                                                                       bundle:[NSBundle mainBundle]];
     }
+    
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 #pragma mark -
 #pragma mark Memory management
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
+- (void)didReceiveMemoryWarning 
+{
     [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc that aren't in use.
 }
-
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
-
 
 - (void)dealloc 
 {
@@ -406,8 +399,6 @@
     
     [super dealloc];
 }
-
-
 @end
 
  

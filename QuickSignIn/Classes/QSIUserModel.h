@@ -35,6 +35,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JREngage.h"
+#import "JREngage+CustomInterface.h"
 #import "QuickSignInAppDelegate.h"
 #import "QSIEmbeddedTableViewController.h"
 
@@ -49,46 +50,49 @@
 
 @interface UserModel : NSObject <JREngageDelegate>
 {
-	/* Instance of the JRAuthenticate library */
+ /* Instance of the JRAuthenticate library */
 	JREngage *jrEngage;
 	
-    NSDictionary *customInterface;
+    NSMutableDictionary *customInterface;
     UINavigationController *navigationController;
     
-	/* Singleton instance of the NSUserDefaults class */
+ /* Singleton instance of the NSUserDefaults class */
 	NSUserDefaults *prefs;
 	
-	/* Session dictionary (and strings) containing the identifier, display name, 
-	   current provider, and timestamp of the currently signed in user. */
+ /* Session dictionary (and strings) containing the identifier, display name, 
+    current provider, and timestamp of the currently signed in user. */
 	NSDictionary	*currentUser;
 	NSString		*identifier;
 	NSString		*displayName;
 	NSString		*currentProvider;
 	
-	/* Boolean variable to tell the View Controller classes whether or not the 
-	   Model is signing in a user. */
+ /* Boolean variable to tell the View Controller classes whether or not the 
+    Model is signing in a user. */
 	BOOL loadingUserData;
 
-	/* A place to store the specific profile a user selects in the ViewControllerLevel1
-	   to load in ViewControllerLevel2. */
+ /* A place to store the specific profile a user selects in the ViewControllerLevel1
+    to load in ViewControllerLevel2. */
 	NSDictionary	*selectedUser;
 	
-	/* This unsigned int holds a snapshot of the max size reached by the 
-	   sign-in history array, so that once a user deletes half of the saved sessions,
-	   the Model will go through and clean out the userProfiles dictionary.  
-	   The dictionary of profiles is unordered and has one entry per user, but the
-	   sign-in history array is ordered, and may have a many-to-one mapping of sessions 
-	   to profiles. */
+ /* This unsigned int holds a snapshot of the max size reached by the 
+    sign-in history array, so that once a user deletes half of the saved sessions,
+    the Model will go through and clean out the userProfiles dictionary.  
+    The dictionary of profiles is unordered and has one entry per user, but the
+    sign-in history array is ordered, and may have a many-to-one mapping of sessions 
+    to profiles. */
 	NSUInteger historyCountSnapShot;
 	
-	/* Delegates for the UserModelDelegate protocol. */
+ /* Delegates for the UserModelDelegate protocol. */
 	id<UserModelDelegate> signInDelegate;
 	id<UserModelDelegate> signOutDelegate;
+    
+    BOOL iPad;
 }
 
 @property (readonly) BOOL loadingUserData;
 @property (readonly) NSDictionary *currentUser;
 @property (retain)	 NSDictionary *selectedUser;
+@property (retain)   NSMutableDictionary *customInterface;
 @property (retain)   UINavigationController *navigationController;
 
 /* This is a dictionary of dictionaries, where each dictionary represents the 
@@ -104,6 +108,7 @@
    session's user has a profile in the userProfiles dictionary, indexed by identifier. */
 @property (readonly) NSArray	  *signinHistory;
 
+@property (readonly) BOOL iPad;
 /* Function that removes specific sessions from the signinHistory array, and
    periodically purges the removed profiles from the userProfile dictionary. */
 - (void)removeUserFromHistory:(int)index;

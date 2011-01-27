@@ -36,6 +36,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "JREngage.h"
+#import "JREngage+CustomInterface.h"
 #import "FeedReaderDetail.h"
 #import "Quick_PublishAppDelegate.h"
 

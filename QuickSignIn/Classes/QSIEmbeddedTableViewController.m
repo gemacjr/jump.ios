@@ -173,6 +173,11 @@
     [[UserModel getUserModel].navigationController pushViewController:info animated:YES];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+{
+    return YES;
+}
+
 - (void)dealloc 
 {
     [myTableView release];

@@ -1389,7 +1389,7 @@ static JRSessionData* singleton = nil;
     else if ([tag isKindOfClass:[NSString class]])
     {
         DLog (@"Connect did finish loading: %@", tag);
-
+        DLog (@"Response: %@", payload);
         if ([(NSString*)tag isEqualToString:@"emailSuccess"])
         {
             // Do nothing for now...
@@ -1702,7 +1702,7 @@ static JRSessionData* singleton = nil;
     
 	NSString *tag = [NSString stringWithFormat:@"%@Success", method];
 	
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:[tag retain]];    
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:NO withTag:[tag retain]];    
 }
 
 - (void)triggerEmailSharingDidComplete

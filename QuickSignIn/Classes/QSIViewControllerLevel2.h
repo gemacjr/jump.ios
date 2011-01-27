@@ -32,24 +32,33 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import <UIKit/UIKit.h>
 #import "QSIUserModel.h"
-
 
 @interface ViewControllerLevel2 : UIViewController <UINavigationBarDelegate, 
 														UITableViewDelegate, UITableViewDataSource>
 {
-	UITableView		*myTableView;
-	UIBarButtonItem *myToolBarButton;
+    BOOL iPad;
+    
+	IBOutlet UITableView     *myTableView;
+	IBOutlet UIBarButtonItem *myToolBarButton;
+    IBOutlet UILabel         *myLabel;
 
 	NSDictionary	*selectedUser;
-	NSDictionary	*selectedUsersProfile;
-	NSMutableArray	*profileEntriesArray;
+    
+	NSDictionary	*profile;
+	NSMutableArray	*profileKeys;
+    
+    NSDictionary	*accessCredentials;
+	NSMutableArray	*accessCredentialsKeys;
+    
+    NSDictionary	*mergedPoco;
+	NSMutableArray	*mergedPocoKeys;
+    
+    NSMutableArray	*friends;
+	NSMutableArray	*friendsKeys;
 }
-
-@property (nonatomic, retain) IBOutlet UITableView	*myTableView;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *myToolBarButton;
-
 - (IBAction)signOutButtonPressed:(id)sender;
+- (void)loadUser:(BOOL)animated;
+- (void)clearUser:(BOOL)animated;
 @end

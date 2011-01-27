@@ -49,12 +49,77 @@
 }
 */
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        iPad = YES;
 }
-*/
+
+static NSString *iPadStyle = @" \
+body                            \
+{                               \
+    /*width:680px;*/            \
+    font-family:\"Helvetica\";  \
+    color:#333333;              \
+    font-size:20px;             \
+    padding:0px;                \
+    margin:44px;                \
+}                               \
+                                \
+div.title                       \
+{                               \
+    font-size:24px;             \
+    color:#074764;              \
+}                               \
+                                \
+div.date                        \
+{                               \
+    font-size:16px;             \
+    color:#999999;              \
+}                               \
+                                \
+p                               \
+{                               \
+    color:#333333;              \
+    font-size:20px;             \
+}";
+
+static NSString *iPhoneStyle = @"\
+body                            \
+{                               \
+    /*width:300px;*/            \
+    font-family:\"Helvetica\";  \
+    color:#333333;              \
+    font-size:14px;             \
+    padding:0px;                \
+    margin:10px;                \
+}                               \
+                                \
+div.title                       \
+{                               \
+    font-size:16px;             \
+    color:#074764;              \
+}                               \
+                                \
+div.date                        \
+{                               \
+    font-size:12px;             \
+    color:#999999;              \
+}                               \
+                                \
+p                               \
+{                               \
+    color:#333333;              \
+    font-size:14px;             \
+}";
+
+static NSString *commonStyle = @"\
+a:link    { color:#009DDC; }     \
+a:visited { color:#074764; }     \
+a:active  { color:#7AC143; }";
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -65,110 +130,28 @@
 
     self.title = @"Article";
     
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        webViewContent = [[NSString stringWithFormat:
-                                    @"<html>                                    \
-                                        <head>                                  \
-                                            <style type=\"text/css\">           \
-                                                                                \
-                                                body                            \
-                                                {                               \
-                                                    width:740px;                \
-                                                    font-family:\"Helvetica\";  \
-                                                    color:#333333;              \
-                                                    font-size:28px;             \
-                                                    padding:0px;                \
-                                                    margin:10px;                \
-                                                }                               \
-                                                                                \
-                                                div.title                       \
-                                                {                               \
-                                                    font-size:32px;             \
-                                                    color:#074764;              \
-                                                }                               \
-                                                                                \
-                                                div.date                        \
-                                                {                               \
-                                                    font-size:24px;             \
-                                                    color:#999999;              \
-                                                }                               \
-                                                                                \
-                                                p                               \
-                                                {                               \
-                                                    color:#333333;              \
-                                                    font-size:28px;             \
-                                                }                               \
-                                                                                \
-                                                a:link    { color:#009DDC; }    \
-                                                a:visited { color:#074764; }    \
-                                                a:active  { color:#7AC143; }    \
-                                                                                \
-                                            </style>                            \
-                                        </head>                                 \
-                                                                                \
-                                        <body>                                  \
-                                            <div class=\"main\">                \
-                                                <div class=\"title\">%@</div>   \
-                                                <div class=\"date\">%@</div>    \
-                                                %@                              \
-                                            </div>                              \
-                                        </body>                                 \
-                                    </html>", 
-                                story.title,
-                                story.pubDate,
-                                story.description] retain];
-    else
-        webViewContent = [[NSString stringWithFormat:
-                                    @"<html>                                    \
-                                        <head>                                  \
-                                            <style type=\"text/css\">           \
-                                                                                \
-                                                body                            \
-                                                {                               \
-                                                    width:300px;                \
-                                                    font-family:\"Helvetica\";  \
-                                                    color:#333333;              \
-                                                    font-size:14px;             \
-                                                    padding:0px;                \
-                                                    margin:10px;                \
-                                                }                               \
-                                                                                \
-                                                div.title                       \
-                                                {                               \
-                                                    font-size:16px;             \
-                                                    color:#074764;              \
-                                                }                               \
-                                                                                \
-                                                div.date                        \
-                                                {                               \
-                                                    font-size:12px;             \
-                                                    color:#999999;              \
-                                                }                               \
-                                                                                \
-                                                p                               \
-                                                {                               \
-                                                    color:#333333;              \
-                                                    font-size:14px;             \
-                                                }                               \
-                                                                                \
-                                                a:link    { color:#009DDC; }    \
-                                                a:visited { color:#074764; }    \
-                                                a:active  { color:#7AC143; }    \
-                                                                                \
-                                        </style>                                \
-                                        </head>                                 \
-                                                                                \
-                                        <body>                                  \
-                                            <div class=\"main\">                \
-                                                <div class=\"title\">%@</div>   \
-                                                <div class=\"date\">%@</div>    \
-                                                %@                              \
-                                            </div>                              \
-                                        </body>                                 \
-                                    </html>", 
-                                story.title,
-                                story.pubDate,
-                                story.description] retain];
+    webViewContent = [[NSString stringWithFormat:
+                        @"<html>                                    \
+                            <head>                                  \
+                                <style type=\"text/css\">           \
+                                    %@                              \
+                                    %@                              \
+                                </style>                            \
+                            </head>                                 \
+                                                                    \
+                            <body>                                  \
+                                <div class=\"main\">                \
+                                    <div class=\"title\">%@</div>   \
+                                    <div class=\"date\">%@</div>    \
+                                    %@                              \
+                                </div>                              \
+                            </body>                                 \
+                        </html>",
+                        iPad ? iPadStyle : iPhoneStyle,
+                        commonStyle,
+                        story.title,
+                        story.pubDate,
+                        story.description] retain];
     
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
     
@@ -195,7 +178,7 @@
     {
         if (!feedReaderWebview)
         {
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            if (iPad)
                 feedReaderWebview = [[FeedReaderWebView alloc] initWithNibName:@"FeedReaderWebView-iPad" 
                                                                         bundle:[NSBundle mainBundle]];
             else
@@ -227,7 +210,7 @@
     
     activity.title = story.title;
     
-    NSInteger trunk = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 300 : 160;
+    NSInteger trunk = (iPad) ? 300 : 160;
     activity.description = [story.plainText substringToIndex:
                             ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
     
@@ -254,17 +237,20 @@
                                 andUrlsToBeShortened:[NSArray arrayWithObjects:story.link, nil]];
     
     [FeedReader feedReader].feedReaderDetail = self;
-    [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
-    [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity];
+    
+    if (!iPad)
+        [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
+    
+    NSDictionary *custom = [NSDictionary dictionaryWithObjectsAndKeys:
+                            self.navigationItem.rightBarButtonItem, kJRPopoverPresentationBarButtonItem, nil];
+
+    [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity andCustomInterface:custom];    
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
+{
+    return YES;
 }
-*/
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -274,17 +260,14 @@
 	[webview loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
 }
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
+- (void)didReceiveMemoryWarning 
+{
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload 
+{
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)dealloc 

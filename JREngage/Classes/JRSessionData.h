@@ -56,7 +56,8 @@ typedef enum
     JRDataParsingError,
     JRJsonError,    
     JRConfigurationInformationError,
-    JRSessionDataFinishGetProvidersError    
+    JRSessionDataFinishGetProvidersError,
+    JRDialogShowingError,
 } JREngageConfigurationError;
 
 typedef enum

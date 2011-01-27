@@ -32,28 +32,30 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import <UIKit/UIKit.h>
 #import "QSIUserModel.h"
 #import "QSIViewControllerLevel2.h"
 
-@interface ViewControllerLevel1 : UIViewController <UINavigationBarDelegate, 
-														UITableViewDelegate, UITableViewDataSource, 
-														UserModelDelegate>
+@interface ViewControllerLevel1 : UIViewController <UINavigationBarDelegate, UserModelDelegate,
+														UITableViewDelegate, UITableViewDataSource>
 {
-	UITableView		*myTableView;
-	UIBarButtonItem *myToolBarButton;
-	UILabel			*myNotSignedInLabel;
-	
     BOOL iPad;
+    
+	IBOutlet UITableView     *myTableView;
+	IBOutlet UIBarButtonItem *mySignOutButtonPhone;
+
+	IBOutlet UIView          *myLabelContainerView;
+    IBOutlet UILabel		 *myNotSignedInLabel;
+    
+    IBOutlet UIView          *myRightView;
+    IBOutlet UIView          *myLeftView;
+	
+    UIButton        *myEditButtonPad;
+    UIButton        *myDoneButtonPad;    
+    UIBarButtonItem *mySignOutButtonPad;
     
 	ViewControllerLevel2 *level2ViewController;
 }
-
-@property (nonatomic, retain) IBOutlet UITableView		*myTableView;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem	*myToolBarButton;
-@property (nonatomic, retain) IBOutlet UILabel			*myNotSignedInLabel;
-
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)addAnotherButtonPressed:(id)sender;
 @end

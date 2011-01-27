@@ -76,7 +76,7 @@ typedef enum
     BOOL hasEditedUserContentForActivityAlready;
     BOOL userIsAttemptingToSignOut;
     
-    NSDictionary *customUI;
+    NSDictionary *customInterface;
     NSDictionary *colorsDictionary;
     UIView		 *titleView;
     UIImageView  *myBackgroundView;
@@ -125,7 +125,7 @@ typedef enum
 
 - (id)initWithNibName:(NSString*)nibNameOrNil 
                bundle:(NSBundle*)nibBundleOrNil 
-          andCustomUI:(NSDictionary*)_customUI;
+          andCustomInterface:(NSDictionary*)_customInterface;
 
 - (IBAction)signOutButtonPressed:(id)sender;
 - (IBAction)shareButtonPressed:(id)sender; 

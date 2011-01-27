@@ -43,6 +43,7 @@
 
 
 #import "JRPublishActivityController.h"
+#import "JREngage+CustomInterface.h"
 
 @interface JRPublishActivityController ()
 - (void)addProvidersToTabBar;
@@ -55,11 +56,11 @@
 @implementation JRPublishActivityController
 @synthesize myBackgroundView;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomUI:(NSDictionary*)_customUI
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) 
     {
-        customUI = [_customUI retain];
+        customInterface = [_customInterface retain];
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
@@ -81,18 +82,18 @@
 	sessionData = [JRSessionData jrSessionData];
     activity = [[sessionData activity] retain];
 
-    if ([[customUI objectForKey:kJRSocialSharingTitleString] isKindOfClass:[NSString class]])
-        self.title = [customUI objectForKey:kJRSocialSharingTitleString];
+    if ([[customInterface objectForKey:kJRSocialSharingTitleString] isKindOfClass:[NSString class]])
+        self.title = [customInterface objectForKey:kJRSocialSharingTitleString];
     else
         self.title = @"Share";
     
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customUI objectForKey:kJRSocialSharingBackgroundColorRGBa];
+    NSArray *backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColorRGBa];
     
     /* Load the custom background view, if there is one. */
-    if ([[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
+    if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
          [myBackgroundView setImage:
-            [UIImage imageNamed:[customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]]]];
+            [UIImage imageNamed:[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]]]];
     else /* Otherwise, set the background view to the provided color, if any. */
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)
@@ -104,7 +105,7 @@
         
     myContentView.backgroundColor = [UIColor clearColor];
         
-    titleView = [customUI objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingTitleView, iPadSuffix]];
+    titleView = [customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingTitleView, iPadSuffix]];
     
     if (titleView)
         self.navigationItem.titleView = titleView;
@@ -129,10 +130,9 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
     
-    if (iPad)
-        myUserContentTextView.font = [UIFont systemFontOfSize:28];
+//    if (iPad)
+//        myUserContentTextView.font = [UIFont systemFontOfSize:28];
         
-    
     if ([sessionData hidePoweredBy])
     {
         [myPoweredByLabel setHidden:YES];
@@ -152,7 +152,7 @@
 
      /* Since the method showViewIsLoading will disable the "Cancel" button and reset the loading label to "Sharing,
         change them to the preferred values for just this case. */
-        myLoadingLabel.font = [UIFont systemFontOfSize:(iPad) ? 48.0 : 18.0];
+        myLoadingLabel.font = [UIFont systemFontOfSize:(0/*iPad*/) ? 48.0 : 18.0];
         myLoadingLabel.text = NSLocalizedString(@"Loading providers. Please wait...", @"");
         self.navigationItem.leftBarButtonItem.enabled = YES;
 		
@@ -171,6 +171,8 @@
     DLog(@"");
     
     [super viewWillAppear:animated];
+    
+    self.contentSizeForViewInPopover = CGSizeMake(320, 416);
     
     // QTS: Am I doing this twice?
     if (weAreReady)
@@ -348,7 +350,7 @@ Please try again later."
 {
     DLog(@"");
     
-    myLoadingLabel.font = [UIFont systemFontOfSize:(iPad) ? 56.0 : 24.0];
+    myLoadingLabel.font = [UIFont systemFontOfSize:(0/*iPad*/) ? 56.0 : 24.0];
     myLoadingLabel.text = NSLocalizedString(@"Sharing...", @"");
     
     /* Don't let the user edit or cancel while the activity is being shared */
@@ -502,8 +504,10 @@ Please try again later."
 
 - (void)setButtonImage:(UIButton*)button toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
 {
-    DLog(@"");
-    DLog(@"data retain count: %d", [data retainCount]);    
+    DLog (@"");
+
+    if (!data && !loading)
+        DLog (@"Problem downloading image");
     
     if (!data)
     {
@@ -521,8 +525,6 @@ Please try again later."
         [actIndicator startAnimating];
     else
         [actIndicator stopAnimating];
-    
-    DLog(@"data retain count: %d", [data retainCount]);
 }
 
 - (BOOL)providerCanShareMedia:(JRProvider*)provider
@@ -554,16 +556,15 @@ Please try again later."
         JRMediaObject *media = [_activity.media objectAtIndex:0];
         if ([media isKindOfClass:[JRImageMediaObject class]])
         {
+            DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
             
             NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
-            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
             NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
             
             if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
                 [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
-                
-            [request release];            
         }   
     }
     else 
@@ -881,6 +882,7 @@ Please try again later."
 
 - (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata 
 {
+    DLog(@"");
     NSString* tag = (NSString*)userdata; 
 	
     if ([tag isEqualToString:@"getThumbnail"])
@@ -1198,7 +1200,7 @@ Please try again later."
     [selectedProvider release];
     [loggedInUser release];
     [activity release];
-    [customUI release];
+    [customInterface release];
     [colorsDictionary release];
     [myBackgroundView release];
     [myTabBar release];
