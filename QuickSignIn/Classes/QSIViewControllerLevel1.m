@@ -112,6 +112,8 @@ Copyright (c) 2010, Janrain, Inc.
         
         UIView *buttonContainer = [[[UIView alloc] initWithFrame:CGRectMake(610, 0, 52, 44)] autorelease];
         buttonContainer.backgroundColor = [UIColor clearColor];
+
+        [buttonContainer setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
         
         myEditButtonPad = [UIButton buttonWithType:UIButtonTypeCustom];
         [myEditButtonPad setFrame:CGRectMake(0, 7, 52, 30)];
@@ -154,21 +156,6 @@ Copyright (c) 2010, Janrain, Inc.
 	self.title = @"Profiles";
 
 	myTableView.backgroundColor = [UIColor clearColor];
-
-//    if (iPad)
-//    {
-//        if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
-//            self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-//        {
-//            [layoutViewOutside setFrame:CGRectMake(0, 60, 320, 267)];
-//            [layoutViewInside  setFrame:CGRectMake(0, 100, 320, 167)];
-//        }
-//        else
-//        {   
-//            [layoutViewOutside setFrame:CGRectMake(80, 0, 320, 267)];
-//            [layoutViewInside  setFrame:CGRectMake(0, 75, 320, 147)];
-//        }    
-//    }
     
 	UIBarButtonItem *addAnotherButton = [[[UIBarButtonItem alloc] 
 										  initWithTitle:@"Add a Profile" 

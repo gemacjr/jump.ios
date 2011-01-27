@@ -478,14 +478,14 @@ otherwise, this happens automatically.													*/
                                     @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString, nil];
                                     //janrainBlue, kJRAuthenticationBackgroundColor, nil];
 
-        /* If you want your embeddedTable to control the navigationController, you must use your own. */
+     /* If you want your embeddedTable to control the navigationController, you must use your own. */
         [jrEngage setCustomNavigationController:navigationController];
     }
     
     [customInterface addEntriesFromDictionary:moreCustomizations];
     [jrEngage setCustomInterface:customInterface];	    
 
-    /* Launch the JRAuthenticate Library. */
+ /* Launch the JRAuthenticate Library. */
     [jrEngage showAuthenticationDialog];
 }
 
