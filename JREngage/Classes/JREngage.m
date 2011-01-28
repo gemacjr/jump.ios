@@ -40,8 +40,11 @@
 #define DLog(...)
 #endif
 
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define STARS   "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+#define TABS    "\t\t\t\t\t\t\t"
 
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define WLog(fmt, ...) NSLog((@"\n\n%s%s\n%s* WARNING: " fmt "\n%s%s\n"), TABS, STARS, TABS, TABS, STARS, ##__VA_ARGS__);
 @implementation JREngage
 
 static JREngage* singletonJREngage = nil;
@@ -312,7 +315,8 @@ static JREngage* singletonJREngage = nil;
     for (id<JREngageDelegate> delegate in delegatesCopy) 
     {
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withPayload:forProvider:)])
-            [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
+            WLog (@"The function jrAuthenticationDidReachTokenUrl:withPayload:forProvider: has been deprecated. Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:");
+//          [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
     
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:)])
             [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withResponse:response andPayload:tokenUrlPayload forProvider:provider];

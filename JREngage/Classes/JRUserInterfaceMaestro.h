@@ -52,8 +52,9 @@
 	JRModalNavigationController *jrModalNavController;
 	JRSessionData	*sessionData;
 	NSMutableArray	*delegates;    
-    
-    UINavigationController	*customNavigationController;
+
+    UINavigationController	*customModalNavigationController;
+    UINavigationController	*applicationNavigationController;
     UIViewController        *viewControllerToPopTo;
 
     JRProvidersController       *myProvidersController;
@@ -62,14 +63,15 @@
     JRPublishActivityController *myPublishActivityController;
   
     NSDictionary *customInterface;
-    NSDictionary *persistentcustomInterface;
+    NSDictionary *customInterfaceDefaults;
+    NSDictionary *janrainInterfaceDefaults;
 }
 
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
 
-- (void)pushToCustomNavigationController:(UINavigationController*)_navigationController;
-- (void)setCustomViews:(NSDictionary*)views;
+- (void)useApplicationNavigationController:(UINavigationController*)_navigationController;
+- (void)setCustomInterfaceDefaults:(NSDictionary*)defaultCustomizations;
 
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;

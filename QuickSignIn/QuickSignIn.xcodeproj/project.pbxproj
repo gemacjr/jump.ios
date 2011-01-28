@@ -20,6 +20,9 @@
 		9F23053712F1F7D800147C95 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F23052C12F1F7D800147C95 /* SBJsonStreamWriterState.m */; };
 		9F23053812F1F7D800147C95 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F23052E12F1F7D800147C95 /* SBJsonTokeniser.m */; };
 		9F23053912F1F7D800147C95 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F23053012F1F7D800147C95 /* SBJsonWriter.m */; };
+		9F23062C12F24B5A00147C95 /* nav_split.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F23062912F24B5A00147C95 /* nav_split.png */; };
+		9F23062D12F24B5A00147C95 /* split_landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F23062A12F24B5A00147C95 /* split_landscape.png */; };
+		9F23062E12F24B5A00147C95 /* split_portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F23062B12F24B5A00147C95 /* split_portrait.png */; };
 		9F25B0CD12D24CD90083BB6A /* Quick Sign-In.app in Sources */ = {isa = PBXBuildFile; fileRef = 1D6058910D05DD3D006BFB54 /* Quick Sign-In.app */; };
 		9F30A5FF12BAF1DE00A30ADF /* QSIInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */; };
 		9F30A8E412BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */; };
@@ -235,6 +238,9 @@
 		9F23052E12F1F7D800147C95 /* SBJsonTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonTokeniser.m; path = "../Contrib/json-framework/Classes/SBJsonTokeniser.m"; sourceTree = SOURCE_ROOT; };
 		9F23052F12F1F7D800147C95 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = "../Contrib/json-framework/Classes/SBJsonWriter.h"; sourceTree = SOURCE_ROOT; };
 		9F23053012F1F7D800147C95 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = "../Contrib/json-framework/Classes/SBJsonWriter.m"; sourceTree = SOURCE_ROOT; };
+		9F23062912F24B5A00147C95 /* nav_split.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_split.png; sourceTree = "<group>"; };
+		9F23062A12F24B5A00147C95 /* split_landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = split_landscape.png; sourceTree = "<group>"; };
+		9F23062B12F24B5A00147C95 /* split_portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = split_portrait.png; sourceTree = "<group>"; };
 		9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIInfoViewController.xib; sourceTree = "<group>"; };
 		9F30A8E212BC0C4B00A30ADF /* QSIEmbeddedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIEmbeddedTableViewController.h; sourceTree = "<group>"; };
 		9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIEmbeddedTableViewController.m; sourceTree = "<group>"; };
@@ -625,6 +631,9 @@
 		9F521EA012B062940073ABAE /* images-ipad */ = {
 			isa = PBXGroup;
 			children = (
+				9F23062912F24B5A00147C95 /* nav_split.png */,
+				9F23062A12F24B5A00147C95 /* split_landscape.png */,
+				9F23062B12F24B5A00147C95 /* split_portrait.png */,
 				9F96D80312EA5236002D06B4 /* edit.png */,
 				9F96D88F12EA6347002D06B4 /* edit_selected.png */,
 				9F32496012EE43F200BEDA1F /* edit_disabled.png */,
@@ -1147,6 +1156,9 @@
 				9F96D89112EA6347002D06B4 /* edit_selected.png in Resources */,
 				9F32496112EE43F200BEDA1F /* edit_disabled.png in Resources */,
 				9FED8C0612EFEF510027C87D /* QSIRootViewController2.xib in Resources */,
+				9F23062C12F24B5A00147C95 /* nav_split.png in Resources */,
+				9F23062D12F24B5A00147C95 /* split_landscape.png in Resources */,
+				9F23062E12F24B5A00147C95 /* split_portrait.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

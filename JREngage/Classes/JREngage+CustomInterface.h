@@ -85,38 +85,34 @@
 /*@{*/
 
 /**
- * Key for a \c UIColor object to set as the tint color of the library's navigation bar
- *
- * @note If you push the library's dialogs onto your own navigation controller, using the 
- * JREngage#setCustomNavigationController: method, setting this value will have no effect.
+ * @deprecated
+ * This function has been deprecated. If you want to set the color of the navigation bar, 
+ * you can push the library's dialogs onto your own navigation controller, using the 
+ * JREngage#setCustomNavigationController: method, or create a navigation bar, set the tint, 
+ * and pass it to the library with the define #kJRUseCustomModalNavigationController
  **/
 #define kJRNavigationBarTintColor  @"NavigationBar.TintColor"
 
 /**
- * Key for an \c NSArray of doubles to set as the RGBa tint values for color of the library's navigation bar
+ * @deprecated
  *
- * @note If you push the library's dialogs onto your own navigation controller, using the 
- * JREngage#setCustomNavigationController: method, setting this value will have no effect.
+ * @note This function has been deprecated. If you want to set the color of the navigation bar, 
+ * you can push the library's dialogs onto your own navigation controller, using the 
+ * JREngage#setCustomNavigationController: method, or create a navigation bar, set the tint, 
+ * and pass it to the library with the define #kJRUseCustomModalNavigationController
  **/
 #define kJRNavigationBarTintColorRGBa  @"NavigationBar.TintColor.RGBa"
 
 /**
  * Key for your app's main UINavigationController on which to push the sign-in and sharing dialogs
  */
-#define kJRApplicationNavigationController @"Application.NavigationController"
+#define kJRUseApplicationNavigationController @"Application.NavigationController"
 
 /**
  * Key for a UINavigationController, that you own but aren't currently using, to push the dialogs' views onto
  * when embedded in a UIPopoverController or UIModalViewController (form sheet presentation) on the iPad
  **/
-#define kJRModalDialogNavigationController @"ModalDialog.NavigationController" 
-/*@}*/
-
-/**
- * Key for a UINavigationController, that you own but aren't currently using, to push the dialogs' views onto
- * when embedded in a UIPopoverController or UIModalViewController (form sheet presentation) on the iPad
- **/
-#define kJRModalDialogNavigationController_iPad @"ModalDialog.NavigationController-iPad" 
+#define kJRUseCustomModalNavigationController @"ModalDialog.NavigationController" 
 /*@}*/
 
 /** 
@@ -136,12 +132,12 @@
 #define kJRSocialSharingBackgroundColor   @"SocialSharing.Background.Color"
 
 /**
- * Key for an \c NSArray of doubles to set as the RGBa values of the background color for the Providers Table and the User Landing screen.
+ * @deprecated This value will not be used. define #kJRAuthenticationBackgroundColor will be used instead.
  **/
 #define kJRAuthenticationBackgroundColorRGBa  @"Authentication.Background.Color.RGBa"
 
 /**
- * Key for an \c NSArray of doubles to set as the RGBa values of the background color for the Social Sharing screen.
+ * @deprecated This value will not be used. define #kJRSharingBackgroundColor will be used instead.
  **/
 #define kJRSocialSharingBackgroundColorRGBa   @"SocialSharing.Background.Color.RGBa"
 /*@}*/
@@ -168,17 +164,17 @@
 #define kJRSocialSharingBackgroundImageName   @"SocialSharing.Background.Image.Name"
 
 /**
- * Key for the \c NSString name of the image to be set as the background image of the Providers Table on the iPad.
+ * @deprecated This value will not be used. define #kJRProviderTableBackgroundImageName will be used instead.
  **/
 #define kJRProviderTableBackgroundImageName_iPad   @"ProviderTable.Background.Image.Name-iPad"
 
 /**
- * Key for the \c NSString name of the image to be set as the background image of the User Landing screen on the iPad.
+ * @deprecated This value will not be used. define #kJRUserLandingBackgroundImageName will be used instead.
  **/
 #define kJRUserLandingBackgroundImageName_iPad     @"UserLanding.Background.Image.Name-iPad"
 
 /**
- * Key for the \c NSString name of the image to be set as the background image of the Social Sharing screen on the iPad.
+ * @deprecated This value will not be used. define #kJRSocialSharingBackgroundImageName will be used instead.
  **/
 #define kJRSocialSharingBackgroundImageName_iPad   @"SocialSharing.Background.Image.Name-iPad"
 /*@}*/
@@ -208,18 +204,12 @@
 #define kJRSocialSharingTitleView        @"SocialSharing.Title.View"
 
 /**
- * Key for the \c UIView object to be set as the title view of the Providers Table on the iPad.
- *
- * @note If this value is set, it will override any string value set for define #kJRProviderTableTitleString,
- * although the define #kJRProviderTableTitleString value will be used as the text on the back button.
+ * @deprecated This value will not be used. define #kJRProviderTableTitleView will be used instead.
  **/
 #define kJRProviderTableTitleView_iPad   @"ProviderTable.Title.View-iPad"
 
 /**
- * Key for the \c UIView object to be set as the title view of the Social Sharing screen on the iPad.
- *
- * @note If this value is set, it will override any string value set for define #kJRSocialSharingTitleString,
- * although the define #kJRSocialSharingTitleString value will be used as the text on the back button.
+ * @deprecated This value will not be used. define #kJRSocialSharingTitleView will be used instead.
  **/
 #define kJRSocialSharingTitleView_iPad   @"SocialSharing.Title.View-iPad"
 /*@}*/
@@ -266,12 +256,12 @@
 #define kJRProviderTableFooterView       @"ProviderTable.Table.Footer.View"
 
 /**
- * Key for the \c UIView object to be set as the header view of the Providers Table on the iPad.
+ * @deprecated This value will not be used. define #kJRProviderTableHeaderView will be used instead.
  **/
 #define kJRProviderTableHeaderView_iPad  @"ProviderTable.Table.Header.View-iPad"
 
 /**
- * Key for the \c UIView object to be set as the footer view of the Providers Table on the iPad.
+ * @deprecated This value will not be used. define #kJRProviderTableFooterView will be used instead.
  **/
 #define kJRProviderTableFooterView_iPad  @"ProviderTable.Table.Footer.View-iPad"
 /*@}*/
@@ -299,16 +289,12 @@
 #define kJRProviderTableSectionFooterView       @"ProviderTable.Section.Footer.View"
 
 /**
- * Key for the \c UIView object to be set as the view of the providers section header in the Providers Table on the iPad.
- * 
- * @note Setting this value overrides any string set as the define #kJRProviderTableSectionHeaderTitleString.
+ * @deprecated This value will not be used. define #kJRProviderTableSectionHeaderView will be used instead.
  **/
 #define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.Section.Header.View-iPad"
 
 /**
- * Key for the \c UIView object to be set as the view of the providers section footer in the Providers Table on the iPad.
- * 
- * @note Setting this value overrides any string set as the define #kJRProviderTableSectionFooterTitleString.
+ * @deprecated This value will not be used. define #kJRProviderTableSectionFooterView will be used instead.
  **/
 #define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.Section.Footer.View-iPad"
 /*@}*/
@@ -419,5 +405,6 @@
  * passed into the setCustomInterface:(NSDictionary*) method.
  **/
 - (void)setCustomInterface:(NSDictionary*)customizations;
+- (void)setCustomInterfaceDefaults:(NSDictionary*)customInterfaceDefaults;
 /*@}*/
 @end

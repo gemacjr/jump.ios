@@ -237,21 +237,7 @@
 
 /**
  * @deprecated
- *
- * Sent after JREngage has successfully posted the token to your application's token_url, containing 
- * the body of the response from the server
- *
- * @param tokenUrl
- *   The URL on the server where the token was posted and server-side authentication was completed
- *
- * @param tokenUrlPayload
- *   The response from the server
- *
- * @param provider
- *   The name of the provider on which the user authenticated.  For a list of possible strings, 
- *   please see the \ref basicProviders "List of Providers"
- * 
- * @sa jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:()
+ * Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() instead.
  **/
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
@@ -519,23 +505,13 @@
 
 /**
  * @deprecated
- *
- * Tell JREngage to forget that a user is already signed in with the given provider
- *
- * @param provider
- *   The name of the provider on which the user authenticated.  For a list of possible strings, 
- *   please see the \ref socialProviders "List of Social Providers"
- * 
- * @sa  signoutUserForProvider:()
+ * Please use signoutUserForProvider:().
  **/
 - (void)signoutUserForSocialProvider:(NSString*)provider;
 
 /**
  * @deprecated
- *
- * Tell JREngage to forget that a user is signed in with all \ref socialProviders "Social Providers"
- * 
- * @sa signoutUserForAllProviders
+ * Please use signoutUserForAllProviders.
  **/
 - (void)signoutUserForAllSocialProviders;
 

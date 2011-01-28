@@ -149,10 +149,8 @@
         
         customInterface = [_customInterface retain];
      
-        if (iPad && [customInterface objectForKey:kJRModalDialogNavigationController_iPad])
-            navigationController = [[customInterface objectForKey:kJRModalDialogNavigationController_iPad] retain];
-        else if (!iPad && [customInterface objectForKey:kJRModalDialogNavigationController])
-            navigationController = [[customInterface objectForKey:kJRModalDialogNavigationController] retain];
+        if ([customInterface objectForKey:kJRUseCustomModalNavigationController])
+            navigationController = [[customInterface objectForKey:kJRUseCustomModalNavigationController] retain];
 
         if (!navigationController)
         {
@@ -339,8 +337,9 @@
 @end
 
 @interface JRUserInterfaceMaestro ()
-@property (retain) UINavigationController	*customNavigationController;
-@property (retain) NSDictionary             *persistentcustomInterface;
+@property (retain) UINavigationController	*applicationNavigationController;
+@property (retain) NSDictionary             *customInterfaceDefaults;
+@property (retain) NSDictionary             *janrainInterfaceDefaults;
 @end
 
 @implementation JRUserInterfaceMaestro
@@ -348,8 +347,9 @@
 @synthesize myUserLandingController;
 @synthesize myWebViewController;
 @synthesize myPublishActivityController;
-@synthesize customNavigationController;
-@synthesize persistentcustomInterface;
+@synthesize applicationNavigationController;
+@synthesize customInterfaceDefaults;
+@synthesize janrainInterfaceDefaults;
 
 static JRUserInterfaceMaestro* singleton = nil;
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro
@@ -387,12 +387,29 @@ static JRUserInterfaceMaestro* singleton = nil;
     return self;
 }
 
+- (NSDictionary*)loadJanrainInterfaceDefaults
+{
+    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
+                               [[[NSBundle mainBundle] resourcePath] 
+                                stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:
+                                 [[infoPlist objectForKey:@"JREngage.CustomInterface"] 
+                                  objectForKey:@"DefaultValues"]];
+    [dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"CustomValues"]];
+    
+    // TODO: Convert RGB color to UIColor
+    
+    return dict;
+}
+
 - (id)initWithSessionData:(JRSessionData*)_sessionData
 {
 	if (self = [super init]) 
 	{
         singleton = self;
         sessionData = _sessionData;
+        janrainInterfaceDefaults = [[self loadJanrainInterfaceDefaults] retain];
     }
     
 	return self;
@@ -409,58 +426,65 @@ static JRUserInterfaceMaestro* singleton = nil;
 	return [[super allocWithZone:nil] initWithSessionData:_sessionData];
 }	
 
-- (void)pushToCustomNavigationController:(UINavigationController*)_navigationController
+- (void)useApplicationNavigationController:(UINavigationController*)navigationController
 {
-    self.customNavigationController = _navigationController;
+    self.applicationNavigationController = navigationController;
 //    [navigationController release];
 //    navigationController = [_navigationController retain];
 }
 
+- (void)warnDeprecated:(NSDictionary*)customizations
+{
+    // TODO
+}
+
 - (void)buildCustomInterface:(NSDictionary*)customizations
 {
-    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
-                               [[[NSBundle mainBundle] resourcePath] 
-                                stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
+//    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
+//                               [[[NSBundle mainBundle] resourcePath] 
+//                                stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
 
     // TODO: Doesn't need to be so big
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:([customizations count] + [infoPlist count] + [persistentcustomInterface count])];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:
+                                 ([customizations count] + 
+                                  [janrainInterfaceDefaults count] + 
+                                  [customInterfaceDefaults count])];
 
-    [dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"DefaultValues"]];
-    [dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"CustomValues"]];
-    [dict addEntriesFromDictionary:persistentcustomInterface];
+    [dict addEntriesFromDictionary:janrainInterfaceDefaults];
+    [dict addEntriesFromDictionary:customInterfaceDefaults];
     [dict addEntriesFromDictionary:customizations];
 
     customInterface = [[NSDictionary alloc] initWithDictionary:dict];
     
-    if ([customInterface objectForKey:kJRApplicationNavigationController])
-        customNavigationController = [customInterface objectForKey:kJRApplicationNavigationController];
+    if ([customInterface objectForKey:kJRUseApplicationNavigationController])
+        self.applicationNavigationController = [customInterface objectForKey:kJRUseApplicationNavigationController];
 }
 
-- (void)setCustomViews:(NSDictionary*)views
-{
-    self.persistentcustomInterface = views;
-}
+//- (void)setCustomInterfaceDefaults:(NSDictionary*)defaultCustomizations
+//{
+//    self.customInterfaceDefaults = defaultCustomizations;
+//}
 
 - (void)setUpViewControllers
 {
     DLog(@"");
     if (0)//(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
-        myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController-iPad" 
-                                                                              bundle:[NSBundle mainBundle]
-                                                                  andCustomInterface:customInterface];
-    
-        myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController-iPad"
-                                                                                bundle:[NSBundle mainBundle]
-                                                                    andCustomInterface:customInterface];
-        
-        myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController-iPad"
-                                                                            bundle:[NSBundle mainBundle]
-                                                                andCustomInterface:customInterface];
-        
-        myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController-iPad"
-                                                                                    bundle:[NSBundle mainBundle]
-                                                                        andCustomInterface:customInterface];
+//        myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController-iPad" 
+//                                                                              bundle:[NSBundle mainBundle]
+//                                                                  andCustomInterface:customInterface];
+//    
+//        myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController-iPad"
+//                                                                                bundle:[NSBundle mainBundle]
+//                                                                    andCustomInterface:customInterface];
+//        
+//        myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController-iPad"
+//                                                                            bundle:[NSBundle mainBundle]
+//                                                                andCustomInterface:customInterface];
+//        
+//        myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController-iPad"
+//                                                                                    bundle:[NSBundle mainBundle]
+//                                                                        andCustomInterface:customInterface];
     }
     else
     {
@@ -481,11 +505,24 @@ static JRUserInterfaceMaestro* singleton = nil;
                                                                         andCustomInterface:customInterface];
     }
 
-    /* We do this here, because sometimes we pop straight to the user landing controller and we need the back-button's title to be correct */
-    if ([customInterface objectForKey:kJRProviderTableTitleString])
-        myProvidersController.title = [customInterface objectForKey:kJRProviderTableTitleString];
-    else
-        myProvidersController.title = @"Providers";
+    @try
+    {
+     /* We do this here, because sometimes we pop straight to the user landing controller and we need the back-button's title to be correct */
+        if ([customInterface objectForKey:kJRProviderTableTitleString])
+            myProvidersController.title = [customInterface objectForKey:kJRProviderTableTitleString];
+        else
+            myProvidersController.title = @"Providers";        
+    }
+    @catch (NSException *exception)
+    {
+        ALog (@"Problem with custom interface object for kJRProviderTableTitleString: Caught %@: %@", [exception name], [exception reason]);
+#ifdef DEBUG
+        @throw exception;
+#else
+        ALog (@"Ignoring value for kJRProviderTableTitleString");
+        myProvidersController.title = @"Providers";        
+#endif        
+    }
     
     delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController, 
                  myUserLandingController, 
@@ -538,18 +575,31 @@ static JRUserInterfaceMaestro* singleton = nil;
     NSArray *tintArray = [customInterface objectForKey:kJRNavigationBarTintColorRGBa];
     UIColor *tintColor = [customInterface objectForKey:kJRNavigationBarTintColor];
     
-    if (tintColor)
-        [jrModalNavController.navigationController.navigationBar setTintColor:tintColor];
-    else if (tintArray)
-        if ([tintArray respondsToSelector:@selector(count)])
-            if ([tintArray count] == 4)
-                [jrModalNavController.navigationController.navigationBar setTintColor: 
-                    [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
-                                    green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
-                                     blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
-                                    alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]]];
+    @try
+    {
+        if (tintColor)
+            [jrModalNavController.navigationController.navigationBar setTintColor:tintColor];
+        else if (tintArray)
+            if ([tintArray respondsToSelector:@selector(count)])
+                if ([tintArray count] == 4)
+                    [jrModalNavController.navigationController.navigationBar setTintColor: 
+                     [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
+                                     green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
+                                      blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
+                                     alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]]];
+    }
+    @catch (NSException *exception)
+    {
+        ALog (@"Problem with custom interface object for kJRNavigationBarTintColorRGBa or kJRNavigationBarTintColor: Caught %@: %@", 
+              [exception name], [exception reason]);
+#ifdef DEBUG
+        @throw exception;
+#else
+        ALog (@"Ignoring value for kJRNavigationBarTintColorRGBa or kJRNavigationBarTintColor");
+#endif        
+    }
 }
-
+ 
 - (void)loadModalNavigationControllerWithViewController:(UIViewController*)controller
 {
     DLog(@"");
@@ -578,21 +628,21 @@ static JRUserInterfaceMaestro* singleton = nil;
 	[jrModalNavController presentModalNavigationControllerForAuthentication];    
 }
 
-- (void)loadCustomNavigationControllerWithViewController:(UIViewController*)controller
+- (void)loadApplicationNavigationControllerWithViewController:(UIViewController*)controller
 {
     DLog(@"");
     if (!viewControllerToPopTo)
-        viewControllerToPopTo = [[customNavigationController topViewController] retain];
+        viewControllerToPopTo = [[applicationNavigationController topViewController] retain];
 
     if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
-        [customNavigationController pushViewController:controller animated:NO];
-        [customNavigationController pushViewController:myUserLandingController animated:YES];
+        [applicationNavigationController pushViewController:controller animated:NO];
+        [applicationNavigationController pushViewController:myUserLandingController animated:YES];
     }
     else
     {
-        [customNavigationController pushViewController:controller animated:YES];
+        [applicationNavigationController pushViewController:controller animated:YES];
     }
 }
 
@@ -612,8 +662,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     [self buildCustomInterface:customizations];
     [self setUpViewControllers];
 
-    if (customNavigationController && [customNavigationController isViewLoaded])
-        [self loadCustomNavigationControllerWithViewController:myProvidersController];
+    if (applicationNavigationController && [applicationNavigationController isViewLoaded])
+        [self loadApplicationNavigationControllerWithViewController:myProvidersController];
     else
         [self loadModalNavigationControllerWithViewController:myProvidersController];
 }
@@ -625,8 +675,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     [self setUpViewControllers];	
     [self setUpSocialPublishing];
     
-    if (customNavigationController && [customNavigationController isViewLoaded])
-        [self loadCustomNavigationControllerWithViewController:myPublishActivityController];
+    if (applicationNavigationController && [applicationNavigationController isViewLoaded])
+        [self loadApplicationNavigationControllerWithViewController:myPublishActivityController];
     else
         [self loadModalNavigationControllerWithViewController:myPublishActivityController];
 }
@@ -637,10 +687,10 @@ static JRUserInterfaceMaestro* singleton = nil;
     [jrModalNavController dismissModalNavigationController:style];   
 }
 
-- (void)unloadCustomNavigationController
+- (void)unloadApplicationNavigationController
 {
     DLog(@"");
-    [customNavigationController popToViewController:viewControllerToPopTo animated:YES];
+    [applicationNavigationController popToViewController:viewControllerToPopTo animated:YES];
 
     [viewControllerToPopTo release];
     viewControllerToPopTo = nil;
@@ -655,8 +705,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     for (id<JRUserInterfaceDelegate> delegate in delegates) 
         [delegate userInterfaceWillClose];
     
-    if (customNavigationController && [customNavigationController isViewLoaded])
-        [self unloadCustomNavigationController];
+    if (applicationNavigationController && [applicationNavigationController isViewLoaded])
+        [self unloadApplicationNavigationController];
     else
         [self unloadModalNavigationControllerWithTransitionStyle:style];
     
@@ -676,8 +726,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     else
         originalRootViewController = myProvidersController;
     
-    if (customNavigationController && [customNavigationController isViewLoaded])
-        [customNavigationController popToViewController:originalRootViewController animated:YES];
+    if (applicationNavigationController && [applicationNavigationController isViewLoaded])
+        [applicationNavigationController popToViewController:originalRootViewController animated:YES];
     else
         [jrModalNavController.navigationController popToRootViewControllerAnimated:YES];
 }
