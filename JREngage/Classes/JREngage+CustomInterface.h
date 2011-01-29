@@ -345,7 +345,9 @@
 #define kJRPopoverPresentationFrameValue @"Popover.Presentation.Frame.Value"
 
 #define kJRPopoverPresentationBarButtonItem @"Popover.Presentation.BarButtonItem"
-
+/**
+ * [NSNumber numberWithInt:UIPopoverArrowDirectionDown],
+ **/
 #define kJRPopoverPresentationArrowDirection @"Popover.Presentation.ArrowDirection"
 /*@}*/
 

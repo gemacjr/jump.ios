@@ -44,95 +44,21 @@
 #import "JRUserInterfaceMaestro.h"
 #import "JREngage+CustomInterface.h"
 
-//@interface JRModalBorder : UIViewController 
-//{
-//    UINavigationController *navigationController;
-//}
-//@property (retain) UINavigationController *navigationController;
-//- (id)initWithNavigationController:(UINavigationController*)_navigationController;
-//@end
-//
-//@implementation JRModalBorder
-//@synthesize navigationController;
-//
-//- (id)initWithNavigationController:(UINavigationController*)_navigationController
-//{
-//	if (_navigationController == nil)
-//	{
-//		[self release];
-//		return nil;
-//	}
-//    
-//	if (self = [super init]) 
-//	{        
-//        navigationController = [_navigationController retain];
-//    }
-//    
-//    return self;
-//}
-//
-//- (void)loadView
-//{
-//    UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 340, 480)] autorelease];
-//    
-//    UIImageView *border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_border.png"]] autorelease];
-//    [border setFrame:CGRectMake(0, 0, 340, 480)];
-//    [view addSubview:border];
-//    
-//    UIView *navView = [[[UIView alloc] initWithFrame:CGRectMake(10, 10, 320, 460)] autorelease];
-////    navView.clipsToBounds = YES;
-//    [view addSubview:navView];
-//    
-//    [navigationController.view setFrame:CGRectMake(0, 0, 320, 460)];
-//    [navView addSubview:navigationController.view];
-//    
-////    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_top_left.png"]] autorelease];
-////    [border setFrame:CGRectMake(0, 0, 14, 14)];
-////    [view addSubview:border];
-////
-////    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_top_right.png"]] autorelease];
-////    [border setFrame:CGRectMake(326, 0, 14, 14)];
-////    [view addSubview:border];
-////    
-////    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_bottom_left.png"]] autorelease];
-////    [border setFrame:CGRectMake(0, 466, 14, 14)];
-////    [view addSubview:border];
-////    
-////    border = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"modal_corner_bottom_right.png"]] autorelease];
-////    [border setFrame:CGRectMake(326, 466, 14, 14)];
-////    [view addSubview:border];
-//                        
-//	[self setView:view];
-//}
-//
-//- (void)dealloc
-//{
-//    [navigationController release], navigationController = nil;
-//
-//    [super dealloc];
-//}
-//@end
-
-
 @interface JRModalNavigationController : UIViewController <UIPopoverControllerDelegate>
 {
-	UINavigationController *navigationController;
-    UIPopoverController    *popoverController;
-  
+	UINavigationController *myNavigationController;
+    UIPopoverController    *myPopoverController;
+
     BOOL iPad;
 	BOOL shouldUnloadSubviews;
-    
-    NSDictionary *customInterface;
-    
-    CGRect popoverPresentationFrame;
 }
-@property (retain) UINavigationController *navigationController;
-@property (readonly) UIPopoverController  *popoverController;
+@property (retain) UINavigationController *myNavigationController;
+@property (retain) UIPopoverController    *myPopoverController;
 @end
 
 @implementation JRModalNavigationController
-@synthesize navigationController;
-@synthesize popoverController;
+@synthesize myNavigationController;
+@synthesize myPopoverController;
 
 - (id)initWithRootViewController:(UIViewController*)controller andCustomInterface:(NSDictionary*)_customInterface
 {
@@ -142,146 +68,63 @@
 		return nil;
 	}
         
-	if (self = [super init]) 
-	{        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            iPad = YES;
-        
-        customInterface = [_customInterface retain];
-     
-        if ([customInterface objectForKey:kJRUseCustomModalNavigationController])
-            navigationController = [[customInterface objectForKey:kJRUseCustomModalNavigationController] retain];
+	if (self = [super init]) { }
 
-        if (!navigationController)
-        {
-            navigationController = [[UINavigationController alloc] init];
-            navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;   
-            navigationController.navigationBar.clipsToBounds = YES;
-        }
-
-        [navigationController pushViewController:controller animated:NO];
-        
-        if (iPad && 
-            ([customInterface objectForKey:kJRPopoverPresentationFrameValue] ||
-             [customInterface objectForKey:kJRPopoverPresentationBarButtonItem]))
-        {
-            popoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
-        }
-    }
-    
     return self;
 }
 
 - (void)loadView  
 {
-	DLog (@"");
-    
-    UIView *view = [[[UIView alloc] initWithFrame:[[UIApplication sharedApplication] keyWindow].frame] autorelease];//[[UIScreen mainScreen] applicationFrame]] autorelease];
-
-    CGRect rect1 = view.frame;
-    NSLog(@"rect1:\t%f,\t%f,\t%f,\t%f", rect1.origin.x, rect1.origin.y, rect1.size.width, rect1.size.height);
-    
+	DLog (@"");    
+    UIView *view = [[[UIView alloc] initWithFrame:[[UIApplication sharedApplication] keyWindow].frame] autorelease];
     //view.backgroundColor = [UIColor redColor];
-    
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        iPad = YES;
+
     shouldUnloadSubviews = NO;
 
     [self setView:view];
 }
 
-//- (void)presentModalNavigationControllerForPublishingActivity
-//{
-//	navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-//    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-//	[self presentModalViewController:navigationController animated:YES];
-//}
-
-- (void)delayPopover:(NSTimer*)theTimer
+- (void)presentPopoverNavigationControllerFromBarButton:(UIBarButtonItem*)barButtonItem inDirection:(UIPopoverArrowDirection)direction
 {
-//    [popoverController setPopoverContentSize:CGSizeMake(320, 480)];
-//    navigationController.modalInPopover = YES;
-//    
-//    [popoverController presentPopoverFromRect:popoverPresentationFrame
-//                                       inView:self.view 
-//                     permittedArrowDirections:UIPopoverArrowDirectionAny 
-//                                     animated:YES];
+	DLog (@"");
+    [myPopoverController presentPopoverFromBarButtonItem:barButtonItem
+                                permittedArrowDirections:direction 
+                                                animated:YES];    
 }
 
-- (void)presentModalNavigationControllerForAuthentication
+- (void)presentPopoverNavigationControllerFromCGRect:(CGRect)rect inDirection:(UIPopoverArrowDirection)direction
+{
+	DLog (@"");
+    CGRect popoverPresentationFrame = [self.view convertRect:rect toView:[[UIApplication sharedApplication] keyWindow]];
+
+    [myPopoverController presentPopoverFromRect:popoverPresentationFrame
+                                         inView:self.view 
+                       permittedArrowDirections:direction
+                                       animated:YES];
+}
+
+- (void)presentModalNavigationController
 {
 	DLog (@"");
     
-    if (popoverController && iPad) 
-    {
-//        [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayPopover:) userInfo:nil repeats:NO];
-
-//        navigationController.modalInPopover = YES;
-        [popoverController setPopoverContentSize:CGSizeMake(320, 450)];        
-//        popoverController.delegate = self;
-        
-        if ([customInterface objectForKey:kJRPopoverPresentationFrameValue])
-        {   
-            popoverPresentationFrame = [self.view convertRect:[[customInterface valueForKey:kJRPopoverPresentationFrameValue] CGRectValue] 
-                                                       toView:[[UIApplication sharedApplication] keyWindow]];
-//            [[[customInterface valueForKey:kJRPopoverPresentationFrameValue] CGRectValue];
-            UIPopoverArrowDirection direction = ([customInterface valueForKey:kJRPopoverPresentationArrowDirection] ? 
-                                                 [[customInterface valueForKey:kJRPopoverPresentationArrowDirection] intValue] : 
-                                                 UIPopoverArrowDirectionAny);
-            
-            [popoverController presentPopoverFromRect:popoverPresentationFrame
-                                               inView:self.view 
-                             permittedArrowDirections:direction
-                                             animated:YES];
-        }
-        else
-        {
-            UIBarButtonItem *barButtonItem = [customInterface objectForKey:kJRPopoverPresentationBarButtonItem];
-            [popoverController presentPopoverFromBarButtonItem:barButtonItem
-                                      permittedArrowDirections:UIPopoverArrowDirectionAny 
-                                                      animated:YES];
-        }
-
-        return;
-    }
-    
     if (iPad)
     {
-//        JRModalBorder *modal = [[[JRModalBorder alloc] initWithNavigationController:navigationController] autorelease];
-//        
-//        modal.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//        modal.modalPresentationStyle = UIModalPresentationFormSheet;
-//        
-//        [self presentModalViewController:modal animated:YES];
-//        
-//        modal.view.superview.frame = CGRectMake(0, 0, 340, 480);
-//        modal.view.superview.center = self.view.center;
+        myNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        myNavigationController.modalPresentationStyle = UIModalPresentationFormSheet;
         
-        navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentModalViewController:myNavigationController animated:YES];
         
-        [self presentModalViewController:navigationController animated:YES];
-        
-        navigationController.view.superview.frame = CGRectMake(0, 0, 320, 460);
-        navigationController.view.superview.center = self.view.center;
+        myNavigationController.view.superview.frame = CGRectMake(0, 0, 320, 460);
+        myNavigationController.view.superview.center = self.view.center;
     }
     else
     {
-        navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self presentModalViewController:navigationController animated:YES];
+        myNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentModalViewController:myNavigationController animated:YES];
     }
-    
-//    if (iPad)
-//    {
-//        navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-//    }
-//    else
-//    {
-//        navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-//    }
-//
-//    [self presentModalViewController:navigationController animated:YES];
-//    navigationController.view.superview.frame = CGRectMake(0, 0, 320, 480);
-//    navigationController.view.superview.center = self.view.center;
 }
 
 - (void)viewWillAppear:(BOOL)animated { DLog (@""); [super viewWillAppear:animated]; }
@@ -300,14 +143,13 @@
 {
 	DLog (@"");
 
-    if (popoverController)
+    if (myPopoverController)
     {
-//        popoverController.delegate = nil;
-        [popoverController dismissPopoverAnimated:YES];
+        [myPopoverController dismissPopoverAnimated:YES];
     }
     else
     {
-        navigationController.modalTransitionStyle = style;
+        myNavigationController.modalTransitionStyle = style;
         [self dismissModalViewControllerAnimated:YES];
     }
 
@@ -315,12 +157,6 @@
 
     [self.view removeFromSuperview];
 }
-
-//- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
-//{
-//	DLog (@"");
-//    [self.view removeFromSuperview];
-//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
@@ -330,16 +166,20 @@
 - (void)dealloc 
 {
 	DLog (@"");
-    [navigationController release];
+    [myNavigationController release];
+    [myPopoverController release];
     
 	[super dealloc];
 }
 @end
 
 @interface JRUserInterfaceMaestro ()
-@property (retain) UINavigationController	*applicationNavigationController;
-@property (retain) NSDictionary             *customInterfaceDefaults;
-@property (retain) NSDictionary             *janrainInterfaceDefaults;
+@property (retain) JRModalNavigationController  *jrModalNavController;
+@property (retain) UINavigationController       *applicationNavigationController;
+@property (retain) UINavigationController       *customModalNavigationController;
+@property (retain) UIPopoverController          *popoverController;
+@property (retain) NSDictionary                 *customInterfaceDefaults;
+@property (retain) NSDictionary                 *janrainInterfaceDefaults;
 @end
 
 @implementation JRUserInterfaceMaestro
@@ -347,7 +187,10 @@
 @synthesize myUserLandingController;
 @synthesize myWebViewController;
 @synthesize myPublishActivityController;
+@synthesize jrModalNavController;
 @synthesize applicationNavigationController;
+@synthesize customModalNavigationController;
+@synthesize popoverController;
 @synthesize customInterfaceDefaults;
 @synthesize janrainInterfaceDefaults;
 
@@ -410,6 +253,9 @@ static JRUserInterfaceMaestro* singleton = nil;
         singleton = self;
         sessionData = _sessionData;
         janrainInterfaceDefaults = [[self loadJanrainInterfaceDefaults] retain];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            iPad = YES;
     }
     
 	return self;
@@ -426,11 +272,19 @@ static JRUserInterfaceMaestro* singleton = nil;
 	return [[super allocWithZone:nil] initWithSessionData:_sessionData];
 }	
 
+- (void)handleCustomInterfaceException:(NSException*)exception forKey:(NSString*)kJRKeyString
+{
+    ALog (@"Problem with custom interface object for kJRKeyString, %@: Caught %@: %@", kJRKeyString, [exception name], [exception reason]);
+#ifdef DEBUG
+    @throw exception;
+#else
+    ALog (@"Ignoring value for kJRKeyString, %@", kJRKeyString);
+#endif            
+}
+
 - (void)useApplicationNavigationController:(UINavigationController*)navigationController
 {
     self.applicationNavigationController = navigationController;
-//    [navigationController release];
-//    navigationController = [_navigationController retain];
 }
 
 - (void)warnDeprecated:(NSDictionary*)customizations
@@ -455,15 +309,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     [dict addEntriesFromDictionary:customizations];
 
     customInterface = [[NSDictionary alloc] initWithDictionary:dict];
-    
-    if ([customInterface objectForKey:kJRUseApplicationNavigationController])
-        self.applicationNavigationController = [customInterface objectForKey:kJRUseApplicationNavigationController];
 }
-
-//- (void)setCustomInterfaceDefaults:(NSDictionary*)defaultCustomizations
-//{
-//    self.customInterfaceDefaults = defaultCustomizations;
-//}
 
 - (void)setUpViewControllers
 {
@@ -515,13 +361,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     }
     @catch (NSException *exception)
     {
-        ALog (@"Problem with custom interface object for kJRProviderTableTitleString: Caught %@: %@", [exception name], [exception reason]);
-#ifdef DEBUG
-        @throw exception;
-#else
-        ALog (@"Ignoring value for kJRProviderTableTitleString");
+        [self handleCustomInterfaceException:exception forKey:kJRProviderTableTitleString];
         myProvidersController.title = @"Providers";        
-#endif        
     }
     
     delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController, 
@@ -530,6 +371,48 @@ static JRUserInterfaceMaestro* singleton = nil;
                  myPublishActivityController, nil];
     
     sessionData.dialogIsShowing = YES;
+}
+
+- (void)setUpDialogPresentation
+{
+    if ([customInterface objectForKey:kJRUseApplicationNavigationController])
+        self.applicationNavigationController = [[customInterface objectForKey:kJRUseApplicationNavigationController] retain];
+    
+    if ([customInterface objectForKey:kJRUseCustomModalNavigationController])
+        self.customModalNavigationController = [[customInterface objectForKey:kJRUseCustomModalNavigationController] retain];
+
+    usingAppNav = usingCustomNav = NO;
+    if (iPad)
+    {
+        if ([customInterface objectForKey:kJRPopoverPresentationBarButtonItem])
+            padPopoverMode = PadPopoverFromBar;
+//            if (customModalNavigationController && ![customModalNavigationController isViewLoaded])            
+//                usingCustomNav = dialogPresentationMode = PopoverFromBarWithCustomNav;
+//            else
+//                dialogPresentationMode = PopoverFromBarWithDefaultNav;
+        else if ([customInterface objectForKey:kJRPopoverPresentationFrameValue])
+            padPopoverMode = PadPopoverFromFrame;
+//            if (customModalNavigationController && ![customModalNavigationController isViewLoaded])            
+//                usingCustomNav = dialogPresentationMode = PopoverFromRectWithCustomNav;
+//            else
+//                dialogPresentationMode = PopoverFromRectWithDefaultNav;
+        else
+            padPopoverMode = PadPopoverModeNone;
+        
+        if (customModalNavigationController && ![customModalNavigationController isViewLoaded])            
+            usingCustomNav = YES;//dialogPresentationMode = ModalWithCustomNavPad;
+        else
+            usingCustomNav = NO;//dialogPresentationMode = ModalWithDefaultNavPad;
+    }
+    else
+    {
+        if (applicationNavigationController && [applicationNavigationController isViewLoaded])
+            usingAppNav = YES;//dialogPresentationMode = PushOntoApplicationNav;
+        else if (customModalNavigationController)
+            usingCustomNav = YES;//dialogPresentationMode = ModalWithCustomNavPhone;
+//        else
+//            dialogPresentationMode = ModalWithDefaultNavPhone;
+    }
 }
 
 - (void)tearDownViewControllers
@@ -545,7 +428,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     [myPublishActivityController release],  myPublishActivityController = nil;    
     
     [jrModalNavController release],	jrModalNavController = nil;	   
-
+    [customModalNavigationController release], customModalNavigationController = nil;
+    
     [customInterface release], customInterface = nil;
     
     sessionData.dialogIsShowing = NO;
@@ -570,19 +454,23 @@ static JRUserInterfaceMaestro* singleton = nil;
         [sessionData removeDelegate:myPublishActivityController];
 }
 
-- (void)tintBar
+- (UINavigationController*)createDefaultNavigationController
 {
+    UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
+    navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;   
+    navigationController.navigationBar.clipsToBounds = YES;
+   
     NSArray *tintArray = [customInterface objectForKey:kJRNavigationBarTintColorRGBa];
     UIColor *tintColor = [customInterface objectForKey:kJRNavigationBarTintColor];
     
     @try
     {
         if (tintColor)
-            [jrModalNavController.navigationController.navigationBar setTintColor:tintColor];
+            [navigationController.navigationBar setTintColor:tintColor];
         else if (tintArray)
             if ([tintArray respondsToSelector:@selector(count)])
                 if ([tintArray count] == 4)
-                    [jrModalNavController.navigationController.navigationBar setTintColor: 
+                    [navigationController.navigationBar setTintColor: 
                      [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
                                      green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
                                       blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
@@ -598,26 +486,47 @@ static JRUserInterfaceMaestro* singleton = nil;
         ALog (@"Ignoring value for kJRNavigationBarTintColorRGBa or kJRNavigationBarTintColor");
 #endif        
     }
+    
+//    [navigationController.navigationBar setTintColor:[UIColor blueColor]];
+    return navigationController;
 }
  
-- (void)loadModalNavigationControllerWithViewController:(UIViewController*)controller
+- (void)loadModalNavigationControllerWithViewController:(UIViewController*)rootViewController
 {
     DLog(@"");
-    if (!jrModalNavController)
-		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:controller
-                                                                            andCustomInterface:customInterface];
-	
-    [self tintBar];
+//    if (!jrModalNavController)
+//		jrModalNavController = [[JRModalNavigationController alloc] initWithRootViewController:controller
+//                                                                            andCustomInterface:customInterface];
+
+    self.jrModalNavController = [[JRModalNavigationController alloc] init];
+
+    if (usingCustomNav)
+        jrModalNavController.myNavigationController = customModalNavigationController;
+    else
+        jrModalNavController.myNavigationController = [self createDefaultNavigationController];
     
-    if (jrModalNavController.popoverController)
-        jrModalNavController.popoverController.delegate = self;
+    if (padPopoverMode != PadPopoverModeNone)
+    {
+        jrModalNavController.myPopoverController = 
+            [[UIPopoverController alloc] initWithContentViewController:
+                jrModalNavController.myNavigationController];    
         
+        [jrModalNavController.myNavigationController.navigationBar setTintColor:[UIColor greenColor]];        
+        
+        jrModalNavController.myPopoverController.popoverContentSize = CGSizeMake(320, 460);                
+        jrModalNavController.myPopoverController.delegate = self;
+    }
+
+    [((UINavigationController*)jrModalNavController.myPopoverController.contentViewController).navigationBar setTintColor:[UIColor yellowColor]];        
+    
+    [jrModalNavController.myNavigationController pushViewController:rootViewController animated:NO];
+    
     if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
-        [jrModalNavController.navigationController pushViewController:myUserLandingController animated:NO];
+        [jrModalNavController.myNavigationController pushViewController:myUserLandingController animated:NO];
     }
-   
+    
 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
 	if (!window) 
 	{
@@ -625,10 +534,20 @@ static JRUserInterfaceMaestro* singleton = nil;
 	}
     [window addSubview:jrModalNavController.view];
 	
-	[jrModalNavController presentModalNavigationControllerForAuthentication];    
+	
+    if (padPopoverMode == PadPopoverFromBar)
+        [jrModalNavController presentPopoverNavigationControllerFromBarButton:[customInterface objectForKey:kJRPopoverPresentationBarButtonItem]
+                                                                  inDirection:[[customInterface objectForKey:kJRPopoverPresentationArrowDirection] intValue]];
+    else if (padPopoverMode == PadPopoverFromFrame)
+        [jrModalNavController presentPopoverNavigationControllerFromCGRect:[[customInterface objectForKey:kJRPopoverPresentationFrameValue] CGRectValue] 
+                                                               inDirection:[[customInterface objectForKey:kJRPopoverPresentationArrowDirection] intValue]];
+    else
+        [jrModalNavController presentModalNavigationController];
+    
+    [((UINavigationController*)jrModalNavController.myPopoverController.contentViewController).navigationBar setTintColor:[UIColor purpleColor]];            
 }
 
-- (void)loadApplicationNavigationControllerWithViewController:(UIViewController*)controller
+- (void)loadApplicationNavigationControllerWithViewController:(UIViewController*)rootViewController
 {
     DLog(@"");
     if (!viewControllerToPopTo)
@@ -637,12 +556,12 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
-        [applicationNavigationController pushViewController:controller animated:NO];
+        [applicationNavigationController pushViewController:rootViewController animated:NO];
         [applicationNavigationController pushViewController:myUserLandingController animated:YES];
     }
     else
     {
-        [applicationNavigationController pushViewController:controller animated:YES];
+        [applicationNavigationController pushViewController:rootViewController animated:YES];
     }
 }
 
@@ -661,8 +580,9 @@ static JRUserInterfaceMaestro* singleton = nil;
     DLog(@"");
     [self buildCustomInterface:customizations];
     [self setUpViewControllers];
-
-    if (applicationNavigationController && [applicationNavigationController isViewLoaded])
+    [self setUpDialogPresentation];
+    
+    if (usingAppNav == YES)//(dialogPresentationMode == PushOntoApplicationNav)//(applicationNavigationController && [applicationNavigationController isViewLoaded])
         [self loadApplicationNavigationControllerWithViewController:myProvidersController];
     else
         [self loadModalNavigationControllerWithViewController:myProvidersController];
@@ -674,8 +594,9 @@ static JRUserInterfaceMaestro* singleton = nil;
     [self buildCustomInterface:customizations];
     [self setUpViewControllers];	
     [self setUpSocialPublishing];
+    [self setUpDialogPresentation];
     
-    if (applicationNavigationController && [applicationNavigationController isViewLoaded])
+    if (usingAppNav == YES)//(dialogPresentationMode == PushOntoApplicationNav)//(applicationNavigationController && [applicationNavigationController isViewLoaded])
         [self loadApplicationNavigationControllerWithViewController:myPublishActivityController];
     else
         [self loadModalNavigationControllerWithViewController:myPublishActivityController];
@@ -705,7 +626,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     for (id<JRUserInterfaceDelegate> delegate in delegates) 
         [delegate userInterfaceWillClose];
     
-    if (applicationNavigationController && [applicationNavigationController isViewLoaded])
+    if (usingAppNav)//(applicationNavigationController && [applicationNavigationController isViewLoaded])
         [self unloadApplicationNavigationController];
     else
         [self unloadModalNavigationControllerWithTransitionStyle:style];
@@ -735,7 +656,6 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
 	DLog (@"");
-//    [self.view removeFromSuperview];
     if ([sessionData socialSharing])
         [sessionData triggerPublishingDidCancel];
     else
@@ -745,7 +665,6 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)authenticationRestarted
 {
     DLog(@"");
-    
     [self popToOriginalRootViewController];    
 }
 

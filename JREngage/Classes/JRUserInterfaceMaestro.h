@@ -47,15 +47,44 @@
 @class JRWebViewController;
 @class JRPublishActivityController;
 
+typedef enum
+{
+    PushOntoApplicationNav, // Phone only
+    ModalWithDefaultNavPhone,
+    ModalWithCustomNavPhone,
+    ModalWithDefaultNavPad,
+    ModalWithCustomNavPad,
+    PopoverFromBarWithDefaultNav, // Pad only
+    PopoverFromBarWithCustomNav, // Pad only
+    PopoverFromRectWithDefaultNav, // Pad only
+    PopoverFromRectWithCustomNav, // Pad only
+} DialogPresentationMode;
+
+typedef enum
+{
+    PadPopoverModeNone,
+    PadPopoverFromBar,
+    PadPopoverFromFrame,
+} PadPopoverMode;
+
 @interface JRUserInterfaceMaestro : NSObject <UIPopoverControllerDelegate>
 {
 	JRModalNavigationController *jrModalNavController;
 	JRSessionData	*sessionData;
 	NSMutableArray	*delegates;    
 
+    BOOL iPad;
+    
+    DialogPresentationMode dialogPresentationMode;
+    PadPopoverMode padPopoverMode;
+    BOOL usingAppNav;
+    BOOL usingCustomNav;
+    BOOL padPopover;
+    
     UINavigationController	*customModalNavigationController;
     UINavigationController	*applicationNavigationController;
     UIViewController        *viewControllerToPopTo;
+//    UIPopoverController     *popoverController;
 
     JRProvidersController       *myProvidersController;
 	JRUserLandingController     *myUserLandingController;
