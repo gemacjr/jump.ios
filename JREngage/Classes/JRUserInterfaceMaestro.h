@@ -49,19 +49,6 @@
 
 typedef enum
 {
-    PushOntoApplicationNav, // Phone only
-    ModalWithDefaultNavPhone,
-    ModalWithCustomNavPhone,
-    ModalWithDefaultNavPad,
-    ModalWithCustomNavPad,
-    PopoverFromBarWithDefaultNav, // Pad only
-    PopoverFromBarWithCustomNav, // Pad only
-    PopoverFromRectWithDefaultNav, // Pad only
-    PopoverFromRectWithCustomNav, // Pad only
-} DialogPresentationMode;
-
-typedef enum
-{
     PadPopoverModeNone,
     PadPopoverFromBar,
     PadPopoverFromFrame,
@@ -75,11 +62,10 @@ typedef enum
 
     BOOL iPad;
     
-    DialogPresentationMode dialogPresentationMode;
     PadPopoverMode padPopoverMode;
     BOOL usingAppNav;
     BOOL usingCustomNav;
-    BOOL padPopover;
+//    BOOL padPopover;
     
     UINavigationController	*customModalNavigationController;
     UINavigationController	*applicationNavigationController;

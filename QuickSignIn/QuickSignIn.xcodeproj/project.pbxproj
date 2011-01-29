@@ -1260,7 +1260,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JanRain, Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lilli Szafranski (QWMWM2H3HW)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
@@ -1274,12 +1274,68 @@
 					"$(OBJC_LIBRARY)",
 				);
 				PRODUCT_NAME = "Quick Sign-In";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5F454B76-32EB-4DB7-97BC-EA11298BC5E9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "56601CD9-483E-4EE9-A263-BCE935ACF442";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
+		};
+		9F230ABA12F3AB0600147C95 /* Debug w no Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.2;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-fblocks";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = "Debug w no Debug";
+		};
+		9F230ABB12F3AB0600147C95 /* Debug w no Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = "";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Lilli Szafranski (QWMWM2H3HW)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"OVERRIDE_INCLUDE_EMAIL_SMS=1",
+				);
+				GCC_VERSION = 4.2;
+				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-v",
+					"$(OBJC_LIBRARY)",
+				);
+				PRODUCT_NAME = "Quick Sign-In";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "56601CD9-483E-4EE9-A263-BCE935ACF442";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = "Debug w no Debug";
 		};
 		9F5908C7116F921F006955EF /* Distribution */ = {
 			isa = XCBuildConfiguration;
@@ -1386,6 +1442,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
+				9F230ABB12F3AB0600147C95 /* Debug w no Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
 				9F5908C8116F921F006955EF /* Distribution */,
 			);
@@ -1396,6 +1453,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
+				9F230ABA12F3AB0600147C95 /* Debug w no Debug */,
 				C01FCF5008A954540054247B /* Release */,
 				9F5908C7116F921F006955EF /* Distribution */,
 			);

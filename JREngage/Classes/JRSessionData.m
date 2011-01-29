@@ -1562,8 +1562,8 @@ static JRSessionData* singleton = nil;
     [currentProvider release];
     currentProvider = nil;
     
-    [returningBasicProvider release];
-    returningBasicProvider = nil;
+//    [returningBasicProvider release];
+//    returningBasicProvider = nil;
     
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy) 

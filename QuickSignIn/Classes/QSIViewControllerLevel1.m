@@ -194,14 +194,14 @@ Copyright (c) 2010, Janrain, Inc.
 
     //if (iPad)
         [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-//                                                      self.navigationItem.rightBarButtonItem,
-//                                                      kJRPopoverPresentationBarButtonItem, //nil]];
-//                                                      [NSValue valueWithCGRect:CGRectMake(50, 50, 200, 50)],
-//                                                      kJRPopoverPresentationFrameValue,
-//                                                      [NSNumber numberWithInt:UIPopoverArrowDirectionLeft],                                                      
-//                                                      kJRPopoverPresentationArrowDirection,
-//                                                      self.navigationController,
-//                                                      kJRUseApplicationNavigationController,
+                                                      @"foo",//self.navigationItem.rightBarButtonItem,
+                                                      kJRPopoverPresentationBarButtonItem, //nil]];
+                                                      [NSValue valueWithCGRect:CGRectMake(50, 50, 200, 50)],
+                                                      kJRPopoverPresentationFrameValue,
+                                                      [NSNumber numberWithInt:UIPopoverArrowDirectionLeft],                                                      
+                                                      kJRPopoverPresentationArrowDirection,
+                                                      self.navigationController,
+                                                      kJRUseApplicationNavigationController,
                                                       [UIColor redColor],
                                                       kJRNavigationBarTintColor, nil]];
                                                       
