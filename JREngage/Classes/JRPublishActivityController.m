@@ -32,7 +32,6 @@
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-//#define DEBUG
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
@@ -40,7 +39,6 @@
 #endif
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-
 
 #import "JRPublishActivityController.h"
 #import "JREngage+CustomInterface.h"
@@ -90,7 +88,7 @@
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
     NSArray *backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColorRGBa];
     
-    /* Load the custom background view, if there is one. */
+ /* Load the custom background view, if there is one. */
     if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
          [myBackgroundView setImage:
             [UIImage imageNamed:[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]]]];
@@ -130,9 +128,6 @@
 	
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
     
-//    if (iPad)
-//        myUserContentTextView.font = [UIFont systemFontOfSize:28];
-        
     if ([sessionData hidePoweredBy])
     {
         [myPoweredByLabel setHidden:YES];
@@ -207,7 +202,7 @@
 	    
     DLog (@"Social Providers so far: %d", [[sessionData socialProviders] count]);
     
-    /* If we have our list of providers, stop the progress indicators and load the table. */
+ /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([[sessionData socialProviders] count] > 0)
 	{
         weAreReady = YES;
@@ -220,7 +215,7 @@
 		return;
 	}
 	
-	/* Otherwise, keep polling until we've timed out. */
+ /* Otherwise, keep polling until we've timed out. */
 	if (interval >= 16.0)
 	{	
 		DLog(@"No Available Providers");
@@ -353,17 +348,17 @@ Please try again later."
     myLoadingLabel.font = [UIFont systemFontOfSize:(0/*iPad*/) ? 56.0 : 24.0];
     myLoadingLabel.text = NSLocalizedString(@"Sharing...", @"");
     
-    /* Don't let the user edit or cancel while the activity is being shared */
+ /* Don't let the user edit or cancel while the activity is being shared */
     self.navigationItem.leftBarButtonItem.enabled = !loading;
     self.navigationItem.rightBarButtonItem.enabled = !loading;
     
     UIApplication* app = [UIApplication sharedApplication]; 
     app.networkActivityIndicatorVisible = loading;
     
-    /* Gray/un-gray out the window */
+ /* Gray/un-gray out the window */
     [myLoadingGrayView setHidden:!loading];
     
-    /* and start/stop the activity spinner */
+ /* and start/stop the activity spinner */
     if (loading)
         [myLoadingActivitySpinner startAnimating];
     else

@@ -32,7 +32,6 @@
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import <Foundation/Foundation.h>
 #import "JRSessionData.h"
 #import "JRProvidersController.h"
@@ -65,12 +64,10 @@ typedef enum
     PadPopoverMode padPopoverMode;
     BOOL usingAppNav;
     BOOL usingCustomNav;
-//    BOOL padPopover;
     
     UINavigationController	*customModalNavigationController;
     UINavigationController	*applicationNavigationController;
     UIViewController        *viewControllerToPopTo;
-//    UIPopoverController     *popoverController;
 
     JRProvidersController       *myProvidersController;
 	JRUserLandingController     *myUserLandingController;

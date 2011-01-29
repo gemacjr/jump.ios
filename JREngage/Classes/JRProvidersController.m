@@ -60,17 +60,8 @@
 {
 	[super layoutSubviews];
 
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//    {
-//        self.imageView.frame = CGRectMake(15, 15, 70, 70);
-//        self.textLabel.frame = CGRectMake(100, 22, 300, 60);
-//        self.textLabel.font = [UIFont systemFontOfSize:36];
-//    }
-//    else
-//    {	
-        self.imageView.frame = CGRectMake(10, 10, 30, 30);
-        self.textLabel.frame = CGRectMake(50, 15, 100, 22);
-//    }
+    self.imageView.frame = CGRectMake(10, 10, 30, 30);
+    self.textLabel.frame = CGRectMake(50, 15, 100, 22);
 }
 @end
 
@@ -105,12 +96,12 @@
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
     NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
     
-    /* Load the custom background view, if there is one. */
+ /* Load the custom background view, if there is one. */
     if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
         [myBackgroundView setImage:
          [UIImage imageNamed:[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
 
-    /* If there is a UIColor object set for the background color, use this */
+ /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
     else /* Otherwise, set the background view to the provided RGBa color, if any. */
@@ -167,17 +158,7 @@
     
     if (!infoBar)
 	{
-//        if (iPad)
-//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
-//        else
-            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
-        
-//        if (([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy) && !iPad)
-//            [myTableView setFrame:CGRectMake(myTableView.frame.origin.x,
-//                                             myTableView.frame.origin.y, 
-//                                             myTableView.frame.size.width, 
-//                                             myTableView.frame.size.height - infoBar.frame.size.height)];
-        
+        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];       
 		[self.view addSubview:infoBar];
 	}
 }
@@ -201,7 +182,7 @@
         [myActivitySpinner setHidden:YES];
         [myLoadingLabel setHidden:YES];
         
-        /* Load the table with the list of providers. */
+     /* Load the table with the list of providers. */
         [myTableView reloadData];    
 		//[infoBar fadeIn];
     }
@@ -348,10 +329,7 @@ Please try again later."
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (iPad)
-//        return 100;
-//    else
-        return 50;
+    return 50;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -394,21 +372,21 @@ Please try again later."
     DLog(@"");
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 	
-	/* Let sessionData know which provider the user selected */
+ /* Let sessionData know which provider the user selected */
 	JRProvider *provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
     [sessionData setCurrentProvider:provider];
 
     DLog(@"cell for %@ was selected", provider);
 
-    /* If the selected provider requires input from the user, go to the user landing view.
-       Or if the user started on the user landing page, went back to the list of providers, then selected 
-       the same provider as their last-used provider, go back to the user landing view. */
+ /* If the selected provider requires input from the user, go to the user landing view.
+    Or if the user started on the user landing page, went back to the list of providers, then selected 
+    the same provider as their last-used provider, go back to the user landing view. */
     if (provider.requiresInput || [provider isEqualToReturningProvider:sessionData.returningBasicProvider]) 
     {	
         [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                animated:YES]; 
     }
-    /* Otherwise, go straight to the web view. */
+ /* Otherwise, go straight to the web view. */
     else
     {
         [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myWebViewController
@@ -420,10 +398,7 @@ Please try again later."
 
 - (void)didReceiveMemoryWarning 
 {
-	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -465,5 +440,4 @@ Please try again later."
     
 	[super dealloc];
 }
-
 @end

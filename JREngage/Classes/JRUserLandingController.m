@@ -78,12 +78,12 @@
     NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
     NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
     
-    /* Load the custom background view, if there is one. */
+ /* Load the custom background view, if there is one. */
     if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
         [myBackgroundView setImage:
          [UIImage imageNamed:[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
     
-    /* If there is a UIColor object set for the background color, use this */
+ /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
     else /* Otherwise, set the background view to the provided RGBa color, if any. */
@@ -99,10 +99,7 @@
 
     if (!infoBar)
 	{
-//        if (iPad)
-//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 890, 768, 72) andStyle:[sessionData hidePoweredBy] | JRInfoBarStyleiPad];
-//        else
-            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
+        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
         
         [self.view addSubview:infoBar];
 	}
@@ -159,36 +156,26 @@
 	[super viewDidAppear:animated];
 
     self.contentSizeForViewInPopover = CGSizeMake(320, 416);
-    
-//	NSArray *vcs = [self navigationController].viewControllers;
-//	for (NSObject *vc in vcs)
-//	{
-//		DLog(@"view controller: %@", [vc description]);
-//	}
-	
+
     NSIndexPath *indexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
 	UITableViewCell *cell = (UITableViewCell*)[myTableView cellForRowAtIndexPath:indexPath];
 	UITextField *textField = [self getTextField:cell];
     
-    /* Only make the cell's text field the first responder (and show the keyboard) in certain situations */
+ /* Only make the cell's text field the first responder (and show the keyboard) in certain situations */
 	if ([sessionData weShouldBeFirstResponder] && !textField.text)
 		[textField becomeFirstResponder];
     
 	[infoBar fadeIn];	
 }
 
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- // return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
 	return YES;
 }
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
+- (void)didReceiveMemoryWarning 
+{
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewWillDisappear:(BOOL)animated 
@@ -208,8 +195,6 @@
 {
 	DLog(@"");
     [super viewDidUnload];
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex { }
@@ -218,18 +203,16 @@
 
 - (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (iPad)
-//        return 391;
-//    else
-        return 180;
+    return 180;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+{
     return 1;
 }
 
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
     return 1;
 }
 
@@ -249,10 +232,7 @@ enum
         return (UIImageView*)[cell.contentView viewWithTag:LOGO_TAG];
     
     UIImageView *logo;
-//    if (iPad)
-//        logo = [[[UIImageView alloc] initWithFrame:CGRectMake(60, 40, 558, 130)] autorelease];
-//    else
-        logo = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 280, 65)] autorelease];
+    logo = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 280, 65)] autorelease];
 
     logo.tag = LOGO_TAG;
     
@@ -265,10 +245,7 @@ enum
         return (UILabel*)[cell.contentView viewWithTag:WELCOME_LABEL_TAG];
 
     UILabel *welcomeLabel;
-//    if (iPad)
-//        welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(60, 200, 558, 50)] autorelease];
-//    else
-        welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)] autorelease];
+    welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)] autorelease];
 
     welcomeLabel.font = [UIFont boldSystemFontOfSize: (0/*iPad*/) ? 36.0 : 20.0];
     
@@ -287,10 +264,7 @@ enum
         return (UITextField*)[cell.contentView viewWithTag:TEXT_FIELD_TAG];
     
     UITextField *textField;
-//    if (iPad)
-//        textField = [[[UITextField alloc] initWithFrame:CGRectMake(60, 190, 558, 70)] autorelease];
-//    else
-        textField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 85, 280, 35)] autorelease];
+    textField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 85, 280, 35)] autorelease];
 
     textField.font = [UIFont systemFontOfSize: (0/*iPad*/) ? 30.0 : 15.0];
     
@@ -321,11 +295,7 @@ enum
     
     UIButton *signInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-//    if (iPad)
-//        [signInButton setFrame:CGRectMake(367, 280, 251, 71)];
-//    else
-        [signInButton setFrame:CGRectMake(155, 130, 135, 40)];
-
+    [signInButton setFrame:CGRectMake(155, 130, 135, 40)];
     [signInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                           @"button_iosblue_135x40%@.png", 
                                                           (iPad) ? @"@2x" : @""]]
@@ -355,11 +325,7 @@ enum
     
     UIButton *backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-//    if (iPad)
-//        [backToProvidersButton setFrame:CGRectMake(60, 280, 251, 71)];
-//    else
-        [backToProvidersButton setFrame:CGRectMake(10, 130, 135, 40)];
-
+    [backToProvidersButton setFrame:CGRectMake(10, 130, 135, 40)];
     [backToProvidersButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                                    @"button_black_135x40%@.png", 
                                                                    (iPad) ? @"@2x" : @""]]
@@ -388,11 +354,7 @@ enum
     
     UIButton *bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-//    if (iPad)
-//        [bigSignInButton setFrame:CGRectMake(60, 280, 558, 76)];
-//    else
-        [bigSignInButton setFrame:CGRectMake(10, 130, 280, 40)];
-
+    [bigSignInButton setFrame:CGRectMake(10, 130, 280, 40)];
     [bigSignInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                              @"button_iosblue_280x40%@.png", 
                                                              (iPad) ? @"@2x" : @""]]
@@ -416,7 +378,6 @@ enum
     return bigSignInButton;
 }
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     DLog(@"");
@@ -589,7 +550,7 @@ enum
 {
 	DLog(@"");
     
-    /* This should work, because this button will only be visible during the return experience of a basic provider */
+ /* This should work, because this button will only be visible during the return experience of a basic provider */
     sessionData.currentProvider.forceReauth = YES;
     
     [sessionData setCurrentProvider:nil];
@@ -622,4 +583,3 @@ enum
     [super dealloc];
 }
 @end
-
