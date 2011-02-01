@@ -168,7 +168,7 @@ static JREngage* singletonJREngage = nil;
 //    [interfaceMaestro showAuthenticationDialogWithForcedReauth];    
 //}
 
-- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
+- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
     ALog (@"");
     
@@ -184,7 +184,7 @@ static JREngage* singletonJREngage = nil;
         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */        
 
-        if (sessionData.error.code / 100 == ConfigurationError)//[[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
+        if (sessionData.error.code / 100 == ConfigurationError)
         {
             [self engageDidFailWithError:sessionData.error];
             [sessionData tryToReconfigureLibrary];
@@ -201,7 +201,12 @@ static JREngage* singletonJREngage = nil;
                         withCode:JRDialogShowingError]];
     }
     
-    [interfaceMaestro showAuthenticationDialogWithCustomInterface:customizations];
+    [interfaceMaestro showAuthenticationDialogWithCustomInterface:customInterfaceOverrides];
+}
+
+- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
+{
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:customizations];
 }
 
 - (void)showAuthenticationDialog
@@ -209,7 +214,7 @@ static JREngage* singletonJREngage = nil;
     [self showAuthenticationDialogWithCustomInterface:nil];
 }
 
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
     ALog (@"");
     
@@ -251,7 +256,12 @@ static JREngage* singletonJREngage = nil;
     
 	[sessionData setActivity:activity];
     
-    [interfaceMaestro showPublishingDialogForActivityWithCustomInterface:customizations];    
+    [interfaceMaestro showPublishingDialogForActivityWithCustomInterface:customInterfaceOverrides];    
+}
+
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
+{
+    [self showSocialPublishingDialogWithActivity:activity andCustomInterfaceOverrides:customizations];
 }
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
@@ -439,5 +449,10 @@ static JREngage* singletonJREngage = nil;
 {
     DLog(@"");
     [sessionData setTokenUrl:newTokenUrl];
+}
+
+- (void)setCustomNavigationController:(UINavigationController*)navigationController
+{
+    [interfaceMaestro useApplicationNavigationController:navigationController];
 }
 @end

@@ -50,7 +50,7 @@
 							<object class="IBUITableView" id="823965372">
 								<reference key="NSNextResponder" ref="747073812"/>
 								<int key="NSvFlags">279</int>
-								<string key="NSFrameSize">{319, 1024}</string>
+								<string key="NSFrameSize">{320, 1024}</string>
 								<reference key="NSSuperview" ref="747073812"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
@@ -77,7 +77,7 @@
 									<object class="IBUILabel" id="950987576">
 										<reference key="NSNextResponder" ref="259538948"/>
 										<int key="NSvFlags">298</int>
-										<string key="NSFrame">{{0, 10}, {319, 20}}</string>
+										<string key="NSFrame">{{0, 10}, {320, 20}}</string>
 										<reference key="NSSuperview" ref="259538948"/>
 										<object class="NSColor" key="IBUIBackgroundColor" id="825432507">
 											<int key="NSColorSpace">3</int>
@@ -106,13 +106,13 @@
 										<int key="IBUITextAlignment">1</int>
 									</object>
 								</object>
-								<string key="NSFrameSize">{319, 30}</string>
+								<string key="NSFrameSize">{320, 30}</string>
 								<reference key="NSSuperview" ref="747073812"/>
 								<reference key="IBUIBackgroundColor" ref="825432507"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
 						</object>
-						<string key="NSFrameSize">{319, 1024}</string>
+						<string key="NSFrameSize">{320, 1024}</string>
 						<reference key="NSSuperview" ref="410330266"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -126,7 +126,7 @@
 					<object class="IBUIView" id="297180418">
 						<reference key="NSNextResponder" ref="410330266"/>
 						<int key="NSvFlags">279</int>
-						<string key="NSFrame">{{319, 0}, {448, 1024}}</string>
+						<string key="NSFrame">{{320, 0}, {448, 1024}}</string>
 						<reference key="NSSuperview" ref="410330266"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -135,12 +135,13 @@
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
-					<object class="IBUIImageView" id="971441265">
+					<object class="IBUIImageView" id="744621904">
 						<reference key="NSNextResponder" ref="410330266"/>
-						<int key="NSvFlags">301</int>
+						<int key="NSvFlags">269</int>
 						<string key="NSFrame">{{316, 64}, {7, 960}}</string>
 						<reference key="NSSuperview" ref="410330266"/>
 						<reference key="IBUIBackgroundColor" ref="825432507"/>
+						<int key="IBUIContentMode">6</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
@@ -254,7 +255,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="297180418"/>
 							<reference ref="747073812"/>
-							<reference ref="971441265"/>
+							<reference ref="744621904"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -294,7 +295,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">40</int>
-						<reference key="object" ref="971441265"/>
+						<reference key="object" ref="744621904"/>
 						<reference key="parent" ref="410330266"/>
 					</object>
 				</object>
@@ -334,7 +335,7 @@
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform"/>
-					<string>{{642, 12}, {768, 1024}}</string>
+					<string>{{0, 4}, {559, 752}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform"/>

@@ -75,18 +75,24 @@
 	
 	sessionData = [JRSessionData jrSessionData];
 	
-    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
+    /** DEPRECATED - REMOVE LATER **/
     NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
+    /** DEPRECATED - REMOVE LATER **/
     
- /* Load the custom background view, if there is one. */
-    if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
-        [myBackgroundView setImage:
-         [UIImage imageNamed:[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRProviderTableBackgroundImageName, iPadSuffix]]]];
+    /* Load the custom background view, if there is one. */
+    if ([customInterface objectForKey:kJRAuthenticationBackgroundImageView])
+        [myBackgroundView addSubview:[customInterface objectForKey:kJRAuthenticationBackgroundImageView]];
     
- /* If there is a UIColor object set for the background color, use this */
+    /** DEPRECATED - REMOVE LATER **/
+    if ([customInterface objectForKey:kJRUserLandingBackgroundImageName])
+        [myBackgroundView addSubview:[[UIImageView alloc] initWithImage:
+                                      [UIImage imageNamed:[customInterface objectForKey:kJRUserLandingBackgroundImageName]]]];
+    /** DEPRECATED - REMOVE LATER **/
+    
+    /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
-    else /* Otherwise, set the background view to the provided RGBa color, if any. */
+    else     /** DEPRECATED - REMOVE LATER **/
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)
                 myBackgroundView.backgroundColor = 
@@ -94,6 +100,7 @@
                                 green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
                                  blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
                                 alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+    /** DEPRECATED - REMOVE LATER **/
     
     myTableView.backgroundColor = [UIColor clearColor];
 

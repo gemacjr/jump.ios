@@ -444,17 +444,16 @@
  * pop up a modal dialog, configured with the given custom interface, 
  * and take the user through the sign-in process.
  *
- * @param customizations
+ * @param customInterfaceOverrides
  *   A dictionary of objects and properties, indexed by the set of 
  *   \link customInterface pre-defined custom interface keys\endlink,
  *   to be used by the library to customize the look and feel of the user 
  *   interface and/or add a native login experience
  *
- * @note Any values specified in the \c customizations dictionary will override the 
- * corresponding values specified in both the JREngage-Info.plist and the dictionary 
- * passed into the setCustomInterface:(NSDictionary*) method.
+ * @note Any values specified in the \c customInterfaceOverrides dictionary will override the corresponding
+ * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
-- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 
 ///**
 // *
@@ -484,17 +483,16 @@
  * @param activity
  *   The activity you wish to share
  *
- * @param customizations
+ * @param customInterfaceOverrides
  *   A dictionary of objects and properties, indexed by the set of 
  *   \link customInterface pre-defined custom interface keys\endlink,
  *   to be used by the library to customize the look and feel of the user 
  *   interface and/or add a native login experience
  *
- * @note Any values specified in the \c customizations dictionary will override the 
- * corresponding values specified in both the JREngage-Info.plist and the dictionary 
- * passed into the setCustomInterface:(NSDictionary*) method.
+ * @note Any values specified in the \c customInterfaceOverrides dictionary will override the corresponding
+ * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 /*@}*/
 
 /** 
@@ -502,18 +500,6 @@
  * Methods that manage authenticated users remembered by the library
  **/
 /*@{*/
-
-/**
- * @deprecated
- * Please use signoutUserForProvider:().
- **/
-- (void)signoutUserForSocialProvider:(NSString*)provider;
-
-/**
- * @deprecated
- * Please use signoutUserForAllProviders.
- **/
-- (void)signoutUserForAllSocialProviders;
 
 /**
  * @anchor signoutProvider
@@ -574,5 +560,29 @@
  **/
 - (void)updateTokenUrl:(NSString*)newTokenUrl;
 /*@}*/
+
+/** 
+ * @name Deprecated
+ * These keys have been deprecated in the current version of the JREngage library
+ **/
+/*@{*/
+
+/**
+ * @deprecated 
+ * This method has been deprecated. If you want to push the JREngage dialogs on your pass a pointer 
+ * to this object to the custom interface with the key define #kJRApplicationNavigationController.
+ **/
+- (void)setCustomNavigationController:(UINavigationController*)navigationController;
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+
+/**
+ * @deprecated Please use showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:() instead.
+ **/
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
+/*}*/
 @end
 

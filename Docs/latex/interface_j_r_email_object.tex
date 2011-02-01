@@ -28,12 +28,15 @@ NSArray $\ast$ \hyperlink{interface_j_r_email_object_a3f274a24ce4145b46cb5f0cda5
 \item 
 (id) -\/ \hyperlink{interface_j_r_email_object_aa911e84f7b1f7e8c4fd15009dbdc6783}{initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:}
 \item 
-(id) + \hyperlink{interface_j_r_email_object_aea1535d69b58d30295e5b88f93d0a474}{emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:}
+\hypertarget{interface_j_r_email_object_aea1535d69b58d30295e5b88f93d0a474}{
+(id) + {\bfseries emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:}}
+\label{interface_j_r_email_object_aea1535d69b58d30295e5b88f93d0a474}
+
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Create an email object, fill in the fields, and add the object to the \hyperlink{interface_j_r_activity_object_aa26818070a5987c70ef14700d6f6c72c}{JRActivityObject::email} property in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. The given content is supplied to the MFMailComposeViewController class when the user wants to share your activity via email.
+Object containing content to be shared by email. Create an email object, fill in the fields, and add the object to the \hyperlink{interface_j_r_activity_object_aa26818070a5987c70ef14700d6f6c72c}{JRActivityObject::email} property in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. The given content is supplied to the MFMailComposeViewController class when the user wants to share your activity via email.
 
 If your email message body contains URLs that you would like shortened to an \href{http://rpxnow.com/docs/iphone#shorten_urls}{\tt http://rpx.me/} URL (with which you can track click-\/throughs), add the exact URL(s) to the {\ttfamily urls} array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your email body.
 
@@ -58,26 +61,6 @@ Once the MFMailComposeViewController is displayed, the given subject and body ca
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_email_object_aa911e84f7b1f7e8c4fd15009dbdc6783}
-Returns a {\ttfamily \hyperlink{interface_j_r_email_object}{JREmailObject}} initialized with the given subject and message body.
-
-
-\begin{DoxyParams}{Parameters}
-\item[{\em \_\-subject}]The desired subject of the email. The user can edit this value once the MFMailComposeViewController is displayed.\item[{\em \_\-messageBody}]The desired message body of the email. The message body can be in plain text or html, and if it is in html, this should be indicated by the argument {\ttfamily isHtml}. If you want to include urls that are shortened to an \href{http://rpxnow.com/docs/iphone#shorten_urls}{\tt http://rpx.me/} they should be added to the {\ttfamily urls} array. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. This value can be edited by the user once the MFMailComposeViewController is displayed.\item[{\em \_\-isHtml}]YES if the message body contains HTML content or NO if it contains plain text.\item[{\em \_\-urls}]The array of urls that JREngage will shorten to an \href{http://rpxnow.com/docs/iphone#shorten_urls}{\tt http://rpx.me/} Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain.\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A \hyperlink{interface_j_r_email_object}{JREmailObject} initialized with the given subject and message body. 
-\end{DoxyReturn}
-\hypertarget{interface_j_r_email_object_aea1535d69b58d30295e5b88f93d0a474}{
-\index{JREmailObject@{JREmailObject}!emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:@{emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:}}
-\index{emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:@{emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:}!JREmailObject@{JREmailObject}}
-\subsubsection[{emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:}]{\setlength{\rightskip}{0pt plus 5cm}+ (id) emailObjectWithSubject: 
-\begin{DoxyParamCaption}
-\item[{dummy(NSString $\ast$)}]{ \_\-subject}
-\item[{andMessageBody:(NSString $\ast$)}]{ \_\-messageBody}
-\item[{isHtml:(BOOL)}]{ \_\-isHtml}
-\item[{andUrlsToBeShortened:(NSArray $\ast$)}]{ \_\-urls}
-\end{DoxyParamCaption}
-}}
-\label{interface_j_r_email_object_aea1535d69b58d30295e5b88f93d0a474}
 Returns a {\ttfamily \hyperlink{interface_j_r_email_object}{JREmailObject}} initialized with the given subject and message body.
 
 

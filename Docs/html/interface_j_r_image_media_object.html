@@ -45,9 +45,11 @@ Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_image_media_object.html#a8a15f579b784dbdcdaeea9dc1da56cb3">initWithSrc:andHref:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <a class="el" href="interface_j_r_image_media_object.html#af1e6318b91ab6cda8eba464767b2c81d">imageMediaObjectWithSrc:andHref:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1e6318b91ab6cda8eba464767b2c81d"></a><!-- doxytag: member="JRImageMediaObject::imageMediaObjectWithSrc:andHref:" ref="af1e6318b91ab6cda8eba464767b2c81d" args="(NSString *_src,[andHref] NSString *_href)" -->
+(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>imageMediaObjectWithSrc:andHref:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Image object to be included in a post to a user's stream. </p>
 <p>Create an image media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a2e4ff78f83d0f353f8e0c17ed48ce0ab">JRActivityObject::media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the images get presented and whether or not they are used, depend on the provider.</p>
 <p>Each image must contain a <em>src</em> URL, which maps to the photo's URL, and an <em>href</em> URL, which maps to the URL where a user should be taken if he or she clicks the photo.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd>Format and rules are identical to those described on the <a href="http://developers.facebook.com/docs/guides/attachments">Facebook Developer page on Attachments</a>. </dd></dl>
@@ -58,42 +60,6 @@ Constructors</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">- (id) initWithSrc: </td>
-          <td></td>
-          <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_src</em></td>
-        </tr>
-        <tr>
-          <td class="paramkey">andHref:</td>
-          <td></td>
-          <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_href</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Returns a <code><a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a></code> initialized with the given src and href.</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_src</em>&nbsp;</td><td>The photo's URL. This value cannot be <code>nil</code>.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_href</em>&nbsp;</td><td>The URL where a user should be taken if he or she clicks the photo. This value cannot be <code>nil</code>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a> initialized with the given src and href. If either <code>_src</code> or <code>_href</code> are <em>nil</em>, returns <code>nil</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="af1e6318b91ab6cda8eba464767b2c81d"></a><!-- doxytag: member="JRImageMediaObject::imageMediaObjectWithSrc:andHref:" ref="af1e6318b91ab6cda8eba464767b2c81d" args="(NSString *_src,[andHref] NSString *_href)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">+ (id) imageMediaObjectWithSrc: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
           <td class="paramname"> <em>_src</em></td>

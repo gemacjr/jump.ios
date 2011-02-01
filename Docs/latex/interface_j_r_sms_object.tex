@@ -24,12 +24,15 @@ NSArray $\ast$ \hyperlink{interface_j_r_sms_object_a181c9385d2dc5ade8b096e2302a4
 \item 
 (id) -\/ \hyperlink{interface_j_r_sms_object_a7669f3987b203f6235c5d6e9b0b81535}{initWithMessage:andUrlsToBeShortened:}
 \item 
-(id) + \hyperlink{interface_j_r_sms_object_a7405d41cfdc3add99e5f8c8c8d1f9c10}{smsObjectWithMessage:andUrlsToBeShortened:}
+\hypertarget{interface_j_r_sms_object_a7405d41cfdc3add99e5f8c8c8d1f9c10}{
+(id) + {\bfseries smsObjectWithMessage:andUrlsToBeShortened:}}
+\label{interface_j_r_sms_object_a7405d41cfdc3add99e5f8c8c8d1f9c10}
+
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Create an sms object, fill in the message field, and add the object to the \hyperlink{interface_j_r_activity_object_a7719b59135bd02dbd03d4b35b17cb0a0}{JRActivityObject::sms} property in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. The given message string is supplied to the MFMessageComposeViewController class when the user wants to share your activity via sms.
+Object containing the default message to be shared by sms. Create an sms object, fill in the message field, and add the object to the \hyperlink{interface_j_r_activity_object_a7719b59135bd02dbd03d4b35b17cb0a0}{JRActivityObject::sms} property in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. The given message string is supplied to the MFMessageComposeViewController class when the user wants to share your activity via sms.
 
 If your sms message contains URLs that you would like shortened to an \href{http://rpxnow.com/docs/iphone#shorten_urls}{\tt http://rpx.me/} (with which you can track click-\/throughs), add the exact URL(s) to the {\ttfamily urls} array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your sms message.
 
@@ -50,24 +53,6 @@ If the user attempts to share the activity via sms before the call to shorten th
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_sms_object_a7669f3987b203f6235c5d6e9b0b81535}
-Returns a {\ttfamily \hyperlink{interface_j_r_sms_object}{JRSmsObject}} initialized with the given message and URLs that you wish to be shortened to the \href{http://rpxnow.com/docs/iphone#shorten_urls}{\tt http://rpx.me/} format.
-
-
-\begin{DoxyParams}{Parameters}
-\item[{\em \_\-message}]The desired message text of the sms. If you want to include urls that are shortened to an \href{http://rpxnow.com/docs/iphone#shorten_urls}{\tt http://rpx.me/} url, they should be added to the {\ttfamily urls} array. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. This value can be edited by the user once the MFMessageComposeViewController is displayed.\item[{\em \_\-urls}]The array of urls that JREngage will shorten to an \href{http://rpxnow.com/docs/iphone#shorten_urls}{\tt http://rpx.me/} url. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain.\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A \hyperlink{interface_j_r_sms_object}{JRSmsObject} initialized with the given message text. 
-\end{DoxyReturn}
-\hypertarget{interface_j_r_sms_object_a7405d41cfdc3add99e5f8c8c8d1f9c10}{
-\index{JRSmsObject@{JRSmsObject}!smsObjectWithMessage:andUrlsToBeShortened:@{smsObjectWithMessage:andUrlsToBeShortened:}}
-\index{smsObjectWithMessage:andUrlsToBeShortened:@{smsObjectWithMessage:andUrlsToBeShortened:}!JRSmsObject@{JRSmsObject}}
-\subsubsection[{smsObjectWithMessage:andUrlsToBeShortened:}]{\setlength{\rightskip}{0pt plus 5cm}+ (id) smsObjectWithMessage: 
-\begin{DoxyParamCaption}
-\item[{dummy(NSString $\ast$)}]{ \_\-message}
-\item[{andUrlsToBeShortened:(NSArray $\ast$)}]{ \_\-urls}
-\end{DoxyParamCaption}
-}}
-\label{interface_j_r_sms_object_a7405d41cfdc3add99e5f8c8c8d1f9c10}
 Returns a {\ttfamily \hyperlink{interface_j_r_sms_object}{JRSmsObject}} initialized with the given message and URLs that you wish to be shortened to the \href{http://rpxnow.com/docs/iphone#shorten_urls}{\tt http://rpx.me/} format.
 
 

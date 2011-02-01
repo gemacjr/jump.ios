@@ -36,12 +36,15 @@ NSUInteger \hyperlink{interface_j_r_flash_media_object_ae390a89405d768f2fcc63c24
 \item 
 (id) -\/ \hyperlink{interface_j_r_flash_media_object_aed4ac7b682373f36379eb81dea041513}{initWithSwfsrc:andImgsrc:}
 \item 
-(id) + \hyperlink{interface_j_r_flash_media_object_ab7f138fd781dd5cf40f1fc3d96b68edf}{flashMediaObjectWithSwfsrc:andImgsrc:}
+\hypertarget{interface_j_r_flash_media_object_ab7f138fd781dd5cf40f1fc3d96b68edf}{
+(id) + {\bfseries flashMediaObjectWithSwfsrc:andImgsrc:}}
+\label{interface_j_r_flash_media_object_ab7f138fd781dd5cf40f1fc3d96b68edf}
+
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Create an flash media object, fill in the object's fields, and add the object to the \hyperlink{interface_j_r_activity_object_a2e4ff78f83d0f353f8e0c17ed48ce0ab}{JRActivityObject::media} array in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. How the flash videos get presented and whether or not they are used, depend on the provider.
+Flash object to be included in a post to a user's stream. Create an flash media object, fill in the object's fields, and add the object to the \hyperlink{interface_j_r_activity_object_a2e4ff78f83d0f353f8e0c17ed48ce0ab}{JRActivityObject::media} array in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. How the flash videos get presented and whether or not they are used, depend on the provider.
 
 Each video must contain a {\itshape swfsrc\/} url, which is the URL of the Flash object to be rendered, and an {\itshape imgsrc\/}, which is the URL of an photo that should be displayed in place of the flash object until the user clicks to prompt the flash object to play. Flash object has two optional fields, {\itshape width\/} and {\itshape height\/}, which can be used to override the default choices when displaying the video in the provider's stream (e.g., Facebook's stream). It also has two optional fields, {\itshape expanded\_\-width\/} and {\itshape expanded\_\-height\/}, to specify the width and height of flash object will resize to, on the provider's stream, once the user clicks on it.
 
@@ -64,24 +67,6 @@ Format and rules are identical to those described on the \href{http://developers
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_flash_media_object_aed4ac7b682373f36379eb81dea041513}
-Returns a \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject} initialized with the given swfsrc and imgsrc.
-
-
-\begin{DoxyParams}{Parameters}
-\item[{\em \_\-swfsrc}]The URL of the Flash object to be rendered. This value cannot be {\ttfamily nil}.\item[{\em \_\-imgsrc}]The URL of an photo that should be displayed in place of the flash object. This value cannot be {\ttfamily nil}.\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject} initialized with the given swfsrc and imgsrc. If either {\ttfamily \_\-swfsrc} or {\ttfamily \_\-imgsrc} are {\itshape nil\/}, returns {\ttfamily nil}. 
-\end{DoxyReturn}
-\hypertarget{interface_j_r_flash_media_object_ab7f138fd781dd5cf40f1fc3d96b68edf}{
-\index{JRFlashMediaObject@{JRFlashMediaObject}!flashMediaObjectWithSwfsrc:andImgsrc:@{flashMediaObjectWithSwfsrc:andImgsrc:}}
-\index{flashMediaObjectWithSwfsrc:andImgsrc:@{flashMediaObjectWithSwfsrc:andImgsrc:}!JRFlashMediaObject@{JRFlashMediaObject}}
-\subsubsection[{flashMediaObjectWithSwfsrc:andImgsrc:}]{\setlength{\rightskip}{0pt plus 5cm}+ (id) flashMediaObjectWithSwfsrc: 
-\begin{DoxyParamCaption}
-\item[{dummy(NSString $\ast$)}]{ \_\-swfsrc}
-\item[{andImgsrc:(NSString $\ast$)}]{ \_\-imgsrc}
-\end{DoxyParamCaption}
-}}
-\label{interface_j_r_flash_media_object_ab7f138fd781dd5cf40f1fc3d96b68edf}
 Returns a \hyperlink{interface_j_r_flash_media_object}{JRFlashMediaObject} initialized with the given swfsrc and imgsrc.
 
 

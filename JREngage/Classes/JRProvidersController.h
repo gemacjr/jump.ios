@@ -51,20 +51,20 @@
     NSDictionary *customInterface;
 
     UIView		*titleView;
-    UIImageView *myBackgroundView;
-	UITableView	*myTableView;
+    IBOutlet UIView *myBackgroundView;
+	IBOutlet UITableView	*myTableView;
 	
 	/* Activity Spinner and Label displayed while the list of configured providers is empty */
-	UILabel					*myLoadingLabel;
-	UIActivityIndicatorView *myActivitySpinner; 
+	IBOutlet UILabel					*myLoadingLabel;
+	IBOutlet UIActivityIndicatorView *myActivitySpinner; 
 	NSTimer                 *timer;
     
 	JRInfoBar	*infoBar;
 }
-@property (nonatomic, retain) IBOutlet UIImageView  *myBackgroundView;
-@property (nonatomic, retain) IBOutlet UITableView	*myTableView;
-@property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
+//@property (nonatomic, retain) IBOutlet UIImageView  *myView;
+//@property (nonatomic, retain) IBOutlet UITableView	*myTableView;
+//@property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
+//@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 @end

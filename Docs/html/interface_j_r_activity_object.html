@@ -52,10 +52,12 @@ Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_activity_object.html#a61195dc95162d1136d41af3a5f15fe2d">initWithAction:andUrl:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <a class="el" href="interface_j_r_activity_object.html#a7bfe16e0799ff6c07548ef8aeb778a51">activityObjectWithAction:andUrl:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7bfe16e0799ff6c07548ef8aeb778a51"></a><!-- doxytag: member="JRActivityObject::activityObjectWithAction:andUrl:" ref="a7bfe16e0799ff6c07548ef8aeb778a51" args="(NSString *_action,[andUrl] NSString *_url)" -->
+(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>activityObjectWithAction:andUrl:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<p>Create an activity object, fill in the object's fields, and pass the object to the <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library when you are ready to publish. Currently supported providers are:</p>
+<p>An activity object you create, populate, and post to the user's activity stream. </p>
+<p>Create an activity object, fill in the object's fields, and pass the object to the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library when you are ready to publish. Currently supported providers are:</p>
 <ul>
 <li>Facebook</li>
 <li>LinkedIn</li>
@@ -78,42 +80,6 @@ Constructors</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">- (id) initWithAction: </td>
-          <td></td>
-          <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_action</em></td>
-        </tr>
-        <tr>
-          <td class="paramkey">andUrl:</td>
-          <td></td>
-          <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_url</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Returns a <code><a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a></code> initialized with the given action and url.</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_action</em>&nbsp;</td><td>A string describing what the user did, written in the third person. This value cannot be <code>nil</code>.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_url</em>&nbsp;</td><td>The URL of the resource being mentioned in the activity update. This value cannot be <code>nil</code>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a> initialized with the given action and url. If either <code>_action</code> or <code>_url</code> are <em>nil</em>, returns <code>nil</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a7bfe16e0799ff6c07548ef8aeb778a51"></a><!-- doxytag: member="JRActivityObject::activityObjectWithAction:andUrl:" ref="a7bfe16e0799ff6c07548ef8aeb778a51" args="(NSString *_action,[andUrl] NSString *_url)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">+ (id) activityObjectWithAction: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
           <td class="paramname"> <em>_action</em></td>
@@ -255,7 +221,7 @@ Constructors</h2></td></tr>
 <div class="memdoc">
 <p>An array of objects with base class <code>JRMediaObject</code> (i.e., <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a>, <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a>, <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a>).</p>
 <p>To publish attached media objects with your activity, create the preferred object, populate the object's fields, then add the object to the <code>media</code> array. You can attach pictures, videos, and mp3s to your activity, although how the media objects get presented and whether or not they are used, depend on the provider.</p>
-<p>If you include more than one media type in the array, <a class="el" href="interface_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> will choose only one of these types, in this order:</p>
+<p>If you include more than one media type in the array, <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> will choose only one of these types, in this order:</p>
 <ol type="1">
 <li>image</li>
 <li>flash</li>

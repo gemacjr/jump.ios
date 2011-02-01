@@ -50,6 +50,10 @@
     IBOutlet UIView          *myRightView;
     IBOutlet UIView          *myLeftView;
 	
+    UILabel         *myTitlePad;
+    UIImageView     *mySplitViewPad;
+    UILabel         *mySelectedProfilePad;
+    UIView          *myEditButtonContainer;
     UIButton        *myEditButtonPad;
     UIButton        *myDoneButtonPad;    
     UIBarButtonItem *mySignOutButtonPad;

@@ -17,20 +17,113 @@
 <h1>Deprecated List </h1>  </div>
 </div>
 <div class="contents">
-<p><a class="anchor" id="_deprecated000003"></a> </p>
+<p><a class="anchor" id="_deprecated000018"></a> </p>
 <dl>
-<dt>Member <a class="el" href="interface_j_r_engage.html#a1f4e27ed5dbc05892fd7bc2255d2afa8">[JREngage signoutUserForAllSocialProviders]</a>  </dt>
-<dd></dd>
+<dt>Member <a class="el" href="class_j_r_engage.html#ae9cce08f42f575bc49329b363af5c531">[JREngage setCustomInterface:]</a>  </dt>
+<dd>Please use setCustomInterfaceDefaults() instead. </dd>
 </dl>
-<p><a class="anchor" id="_deprecated000002"></a> </p>
+<p><a class="anchor" id="_deprecated000020"></a> </p>
 <dl>
-<dt>Member <a class="el" href="interface_j_r_engage.html#aede9ed92d80f14d85e59a982da3150fc">[JREngage signoutUserForSocialProvider:]</a>  </dt>
-<dd></dd>
+<dt>Member <a class="el" href="class_j_r_engage.html#a6c704bbff377d20603e6b52bd0ae17f1">[JREngage setCustomNavigationController:]</a>  </dt>
+<dd>This method has been deprecated. If you want to push the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> dialogs on your pass a pointer to this object to the custom interface with the key define <a class="el" href="group__custom_interface.html#ga7bace8001f549fc2ecbe84d967d24d22">kJRApplicationNavigationController</a>. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000021"></a> </p>
+<dl>
+<dt>Member <a class="el" href="class_j_r_engage.html#ac8e1206be8608fbed548b7ec5f85e6e6">[JREngage showAuthenticationDialogWithCustomInterface:]</a>  </dt>
+<dd>Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000022"></a> </p>
+<dl>
+<dt>Member <a class="el" href="class_j_r_engage.html#af5c2aa40f5c45a22f369900d1bd81953">[JREngage showSocialPublishingDialogWithActivity:andCustomInterface:]</a>  </dt>
+<dd>Please use showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:() instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000019"></a> </p>
+<dl>
+<dt>Member <a class="el" href="protocol_j_r_engage_delegate-p.html#abfafec7eed95008f7b7052d962f8f6fa">[JREngageDelegate-p jrAuthenticationDidReachTokenUrl:withPayload:forProvider:]</a>  </dt>
+<dd>Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000004"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#gae0c84a976949aa4eccecc123786efb3c">kJRAuthenticationBackgroundColorRGBa</a>  </dt>
+<dd>This value will not be used. define <a class="el" href="group__custom_interface.html#gacfe014997457d27386eff69eb731ce0f">kJRAuthenticationBackgroundColor</a> will be used instead. </dd>
 </dl>
 <p><a class="anchor" id="_deprecated000001"></a> </p>
 <dl>
-<dt>Member <a class="el" href="protocol_j_r_engage_delegate-p.html#abfafec7eed95008f7b7052d962f8f6fa">[JREngageDelegate-p jrAuthenticationDidReachTokenUrl:withPayload:forProvider:]</a>  </dt>
-<dd></dd>
+<dt>Member <a class="el" href="group__custom_interface.html#ga7c7ed7dac155537c9bc14531c5cec3cb">kJRNavigationBarTintColor</a>  </dt>
+<dd><p class="startdd">If you want to set the color of the navigation bar, you can push the library's dialogs onto your own navigation controller, using the <a class="el" href="class_j_r_engage.html#a6c704bbff377d20603e6b52bd0ae17f1">setCustomNavigationController: (JREngage)</a> method, or create a navigation bar, set the tint, and pass it to the library with the define kJRUseCustomModalNavigationController </p>
+<p></p>
+<p class="enddd"></p>
+</dd>
+</dl>
+<p><a class="anchor" id="_deprecated000003"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#gabda4f66c5cde44bbeaa6a993f4793ac5">kJRNavigationBarTintColorRGBa</a>  </dt>
+<dd>If you want to set the color of the navigation bar, you can push the library's dialogs onto your own navigation controller, using the <a class="el" href="class_j_r_engage.html#a6c704bbff377d20603e6b52bd0ae17f1">setCustomNavigationController: (JREngage)</a> method, or create a navigation bar, set the tint, and pass it to the library with the define kJRUseCustomModalNavigationController </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000006"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#ga893fb6e20be0c6658e81a6a5d5c121f0">kJRProviderTableBackgroundImageName</a>  </dt>
+<dd>Please use define <a class="el" href="group__custom_interface.html#ga68a4950b1b3834ce60218856f596059f">kJRAuthenticationBackgroundImageView</a> instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000009"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#ga25b26cff96d8f174f3bdc040031466b7">kJRProviderTableBackgroundImageName_iPad</a>  </dt>
+<dd>This value will not be used. define <a class="el" href="group__custom_interface.html#ga893fb6e20be0c6658e81a6a5d5c121f0">kJRProviderTableBackgroundImageName</a> will be used instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000015"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#gaa23a63165d46433e2ec24ba44ef771da">kJRProviderTableFooterView_iPad</a>  </dt>
+<dd>This value will not be used. define <a class="el" href="group__custom_interface.html#ga2b5c9162dd7701a552147ae1607a3b4d">kJRProviderTableFooterView</a> will be used instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000014"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#gafaf90a1aa537b105ebc2409ceacc652f">kJRProviderTableHeaderView_iPad</a>  </dt>
+<dd>This value will not be used. define <a class="el" href="group__custom_interface.html#ga1a0f39bfdb880fdd0b8b39cbec492b6f">kJRProviderTableHeaderView</a> will be used instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000017"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#gaa2196cc44d4e0dc4de9e98248c8a7e10">kJRProviderTableSectionFooterView_iPad</a>  </dt>
+<dd>This value will not be used. define <a class="el" href="group__custom_interface.html#ga984c096e9258dea402a1c27ae8bb6c8f">kJRProviderTableSectionFooterView</a> will be used instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000016"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#ga7dcb3488390fabe1f3a358fb5af1e42c">kJRProviderTableSectionHeaderView_iPad</a>  </dt>
+<dd>This value will not be used. define <a class="el" href="group__custom_interface.html#gaaff8ebdd2b9badb1d0a019a71d47db46">kJRProviderTableSectionHeaderView</a> will be used instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000012"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#ga52c322e9fd2aa78cbd64d050f0fd5e41">kJRProviderTableTitleView_iPad</a>  </dt>
+<dd>This value will not be used. define <a class="el" href="group__custom_interface.html#ga0bce97edf43c9cdf53cbcd1aa92c4798">kJRProviderTableTitleView</a> will be used instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000005"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#ga6554a101f0e2e9474a77262143dc528b">kJRSocialSharingBackgroundColorRGBa</a>  </dt>
+<dd>This value will not be used. define kJRSharingBackgroundColor will be used instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000008"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#gad2e00942af19ec9478ba58a491a8b8f2">kJRSocialSharingBackgroundImageName</a>  </dt>
+<dd>Please use define <a class="el" href="group__custom_interface.html#gafe08832d1e15427e1bc1c8c1e3a4c641">kJRSocialSharingBackgroundImageView</a> instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000011"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#ga646cb35f3a7ec2835872ee6df2aceb76">kJRSocialSharingBackgroundImageName_iPad</a>  </dt>
+<dd>This value will not be used. define <a class="el" href="group__custom_interface.html#gafe08832d1e15427e1bc1c8c1e3a4c641">kJRSocialSharingBackgroundImageView</a> will be used instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000013"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#ga2f88062cdd1fd38ad0e800d382450398">kJRSocialSharingTitleView_iPad</a>  </dt>
+<dd>This value will not be used. define <a class="el" href="group__custom_interface.html#ga524965cf426f0eb9de4bcb804528c7f7">kJRSocialSharingTitleView</a> will be used instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000007"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#gadda3f945ba5012762eb92764b251b918">kJRUserLandingBackgroundImageName</a>  </dt>
+<dd>Please use define <a class="el" href="group__custom_interface.html#ga68a4950b1b3834ce60218856f596059f">kJRAuthenticationBackgroundImageView</a> instead. </dd>
+</dl>
+<p><a class="anchor" id="_deprecated000010"></a> </p>
+<dl>
+<dt>Member <a class="el" href="group__custom_interface.html#ga52b4fb3801cf3fe6e5a294d9a4d1ff0a">kJRUserLandingBackgroundImageName_iPad</a>  </dt>
+<dd>This value will not be used. define kJRUserLandingBackgroundImageView will be used instead. </dd>
 </dl>
 </div>
 <!-- doxygen footer -->

@@ -28,12 +28,15 @@ NSString $\ast$ \hyperlink{interface_j_r_image_media_object_a95642c3f4bc97a112a3
 \item 
 (id) -\/ \hyperlink{interface_j_r_image_media_object_a8a15f579b784dbdcdaeea9dc1da56cb3}{initWithSrc:andHref:}
 \item 
-(id) + \hyperlink{interface_j_r_image_media_object_af1e6318b91ab6cda8eba464767b2c81d}{imageMediaObjectWithSrc:andHref:}
+\hypertarget{interface_j_r_image_media_object_af1e6318b91ab6cda8eba464767b2c81d}{
+(id) + {\bfseries imageMediaObjectWithSrc:andHref:}}
+\label{interface_j_r_image_media_object_af1e6318b91ab6cda8eba464767b2c81d}
+
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Create an image media object, fill in the object's fields, and add the object to the \hyperlink{interface_j_r_activity_object_a2e4ff78f83d0f353f8e0c17ed48ce0ab}{JRActivityObject::media} array in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. How the images get presented and whether or not they are used, depend on the provider.
+Image object to be included in a post to a user's stream. Create an image media object, fill in the object's fields, and add the object to the \hyperlink{interface_j_r_activity_object_a2e4ff78f83d0f353f8e0c17ed48ce0ab}{JRActivityObject::media} array in your \hyperlink{interface_j_r_activity_object}{JRActivityObject}. How the images get presented and whether or not they are used, depend on the provider.
 
 Each image must contain a {\itshape src\/} URL, which maps to the photo's URL, and an {\itshape href\/} URL, which maps to the URL where a user should be taken if he or she clicks the photo.
 
@@ -53,24 +56,6 @@ Format and rules are identical to those described on the \href{http://developers
 \end{DoxyParamCaption}
 }}
 \label{interface_j_r_image_media_object_a8a15f579b784dbdcdaeea9dc1da56cb3}
-Returns a {\ttfamily \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject}} initialized with the given src and href.
-
-
-\begin{DoxyParams}{Parameters}
-\item[{\em \_\-src}]The photo's URL. This value cannot be {\ttfamily nil}.\item[{\em \_\-href}]The URL where a user should be taken if he or she clicks the photo. This value cannot be {\ttfamily nil}.\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-A \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject} initialized with the given src and href. If either {\ttfamily \_\-src} or {\ttfamily \_\-href} are {\itshape nil\/}, returns {\ttfamily nil}. 
-\end{DoxyReturn}
-\hypertarget{interface_j_r_image_media_object_af1e6318b91ab6cda8eba464767b2c81d}{
-\index{JRImageMediaObject@{JRImageMediaObject}!imageMediaObjectWithSrc:andHref:@{imageMediaObjectWithSrc:andHref:}}
-\index{imageMediaObjectWithSrc:andHref:@{imageMediaObjectWithSrc:andHref:}!JRImageMediaObject@{JRImageMediaObject}}
-\subsubsection[{imageMediaObjectWithSrc:andHref:}]{\setlength{\rightskip}{0pt plus 5cm}+ (id) imageMediaObjectWithSrc: 
-\begin{DoxyParamCaption}
-\item[{dummy(NSString $\ast$)}]{ \_\-src}
-\item[{andHref:(NSString $\ast$)}]{ \_\-href}
-\end{DoxyParamCaption}
-}}
-\label{interface_j_r_image_media_object_af1e6318b91ab6cda8eba464767b2c81d}
 Returns a {\ttfamily \hyperlink{interface_j_r_image_media_object}{JRImageMediaObject}} initialized with the given src and href.
 
 

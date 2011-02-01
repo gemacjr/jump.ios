@@ -74,16 +74,16 @@ typedef enum
 	JRWebViewController         *myWebViewController;
     JRPublishActivityController *myPublishActivityController;
   
-    NSDictionary *customInterface;
-    NSDictionary *customInterfaceDefaults;
-    NSDictionary *janrainInterfaceDefaults;
+    NSDictionary        *customInterface;
+    NSDictionary        *janrainInterfaceDefaults;
+    NSMutableDictionary *customInterfaceDefaults;
 }
 
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
 
 - (void)useApplicationNavigationController:(UINavigationController*)_navigationController;
-- (void)setCustomInterfaceDefaults:(NSDictionary*)defaultCustomizations;
+//- (void)setCustomInterfaceDefaults:(NSDictionary*)defaultCustomizations;
 
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;
@@ -97,6 +97,8 @@ typedef enum
 - (void)publishingCanceled;
 - (void)publishingFailed;
 
+// QTS: Do I want to make customInterfaceDefaults nonatomic?
+@property (retain)   NSMutableDictionary *customInterfaceDefaults;
 @property (readonly) JRProvidersController       *myProvidersController;
 @property (readonly) JRUserLandingController     *myUserLandingController;
 @property (readonly) JRWebViewController         *myWebViewController;

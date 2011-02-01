@@ -47,9 +47,11 @@ Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_mp3_media_object.html#a15eba85b9094d28d8d9bc6b9625ee55c">initWithSrc:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <a class="el" href="interface_j_r_mp3_media_object.html#ab8788e64a6d5b868e1b0689d55d68246">mp3MediaObjectWithSrc:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab8788e64a6d5b868e1b0689d55d68246"></a><!-- doxytag: member="JRMp3MediaObject::mp3MediaObjectWithSrc:" ref="ab8788e64a6d5b868e1b0689d55d68246" args="(NSString *_src)" -->
+(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>mp3MediaObjectWithSrc:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Mp3 object to be included in a post to a user's stream. </p>
 <p>Create an mp3 media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a2e4ff78f83d0f353f8e0c17ed48ce0ab">JRActivityObject::media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the mp3s get presented and whether or not they are used, depend on the provider.</p>
 <p>Each mp3 must contain a <em>src</em> url, which is the URL of the MP3 file to be rendered. The mp3 can also include a <em>title</em>, <em>artist</em>, and <em>album</em>.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>You can only include one <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> in the media array. Any others will be ignored.</dd></dl>
@@ -61,32 +63,6 @@ Constructors</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">- (id) initWithSrc: </td>
-          <td></td>
-          <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_src</em></td>
-          <td>&nbsp;</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Returns a <code><a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a></code> initialized with the given src.</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_src</em>&nbsp;</td><td>The URL of the MP3 file to be rendered. This value cannot be <code>nil</code>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> initialized with the given src. If <code>_src</code> is <em>nil</em>, returns <code>nil</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ab8788e64a6d5b868e1b0689d55d68246"></a><!-- doxytag: member="JRMp3MediaObject::mp3MediaObjectWithSrc:" ref="ab8788e64a6d5b868e1b0689d55d68246" args="(NSString *_src)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">+ (id) mp3MediaObjectWithSrc: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
           <td class="paramname"> <em>_src</em></td>

@@ -35,10 +35,6 @@
 
 #import <UIKit/UIKit.h>
 #import "JREngage.h"
-//#import "JREngage-config.h"
-//#import "JRInfoBar.h"
-
-
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
 

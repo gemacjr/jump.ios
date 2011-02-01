@@ -49,9 +49,11 @@ Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_flash_media_object.html#aed4ac7b682373f36379eb81dea041513">initWithSwfsrc:andImgsrc:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <a class="el" href="interface_j_r_flash_media_object.html#ab7f138fd781dd5cf40f1fc3d96b68edf">flashMediaObjectWithSwfsrc:andImgsrc:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab7f138fd781dd5cf40f1fc3d96b68edf"></a><!-- doxytag: member="JRFlashMediaObject::flashMediaObjectWithSwfsrc:andImgsrc:" ref="ab7f138fd781dd5cf40f1fc3d96b68edf" args="(NSString *_swfsrc,[andImgsrc] NSString *_imgsrc)" -->
+(id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>flashMediaObjectWithSwfsrc:andImgsrc:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Flash object to be included in a post to a user's stream. </p>
 <p>Create an flash media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a2e4ff78f83d0f353f8e0c17ed48ce0ab">JRActivityObject::media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the flash videos get presented and whether or not they are used, depend on the provider.</p>
 <p>Each video must contain a <em>swfsrc</em> url, which is the URL of the Flash object to be rendered, and an <em>imgsrc</em>, which is the URL of an photo that should be displayed in place of the flash object until the user clicks to prompt the flash object to play. Flash object has two optional fields, <em>width</em> and <em>height</em>, which can be used to override the default choices when displaying the video in the provider's stream (e.g., Facebook's stream). It also has two optional fields, <em>expanded_width</em> and <em>expanded_height</em>, to specify the width and height of flash object will resize to, on the provider's stream, once the user clicks on it.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>You can only include one <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a> in the media array. Any others will be ignored.</dd></dl>
@@ -63,42 +65,6 @@ Constructors</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">- (id) initWithSwfsrc: </td>
-          <td></td>
-          <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_swfsrc</em></td>
-        </tr>
-        <tr>
-          <td class="paramkey">andImgsrc:</td>
-          <td></td>
-          <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_imgsrc</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td><td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Returns a <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a> initialized with the given swfsrc and imgsrc.</p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_swfsrc</em>&nbsp;</td><td>The URL of the Flash object to be rendered. This value cannot be <code>nil</code>.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_imgsrc</em>&nbsp;</td><td>The URL of an photo that should be displayed in place of the flash object. This value cannot be <code>nil</code>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a> initialized with the given swfsrc and imgsrc. If either <code>_swfsrc</code> or <code>_imgsrc</code> are <em>nil</em>, returns <code>nil</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ab7f138fd781dd5cf40f1fc3d96b68edf"></a><!-- doxytag: member="JRFlashMediaObject::flashMediaObjectWithSwfsrc:andImgsrc:" ref="ab7f138fd781dd5cf40f1fc3d96b68edf" args="(NSString *_swfsrc,[andImgsrc] NSString *_imgsrc)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">+ (id) flashMediaObjectWithSwfsrc: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
           <td class="paramname"> <em>_swfsrc</em></td>

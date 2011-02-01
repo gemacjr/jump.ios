@@ -14,14 +14,14 @@ The \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol is ado
 \subsection*{Public Member Functions}
 \begin{Indent}{\bf Configuration}\par
 {\em \label{_amgrp254f642527b45bc260048e30704edb39}
- Messages sent by \hyperlink{interface_j_r_engage}{JREngage} during dialog launch/configuration }\begin{DoxyCompactItemize}
+ Messages sent by \hyperlink{class_j_r_engage}{JREngage} during dialog launch/configuration }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_af46f7ef0c7a5767dc0ab705871d570ac}{jrEngageDialogDidFailToShowWithError:}
 \end{DoxyCompactItemize}
 \end{Indent}
 \begin{Indent}{\bf Authentication}\par
 {\em \label{_amgrpc75f7811d70d17dbcd88e9d03752cbed}
- Messages sent by \hyperlink{interface_j_r_engage}{JREngage} during authentication }\begin{DoxyCompactItemize}
+ Messages sent by \hyperlink{class_j_r_engage}{JREngage} during authentication }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_a4eaa6a5961e175b8275c6b06034afea7}{jrAuthenticationDidNotComplete}
 \item 
@@ -38,7 +38,7 @@ The \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol is ado
 \end{Indent}
 \begin{Indent}{\bf SocialPublishing}\par
 {\em \label{_amgrpeb046f03f7c48654b2974e7c81bd7f9b}
- Messages sent by \hyperlink{interface_j_r_engage}{JREngage} during social publishing }\begin{DoxyCompactItemize}
+ Messages sent by \hyperlink{class_j_r_engage}{JREngage} during social publishing }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{protocol_j_r_engage_delegate-p_a733007b584bd916932ccafe44c3c678d}{jrSocialDidNotCompletePublishing}
 \item 
@@ -52,7 +52,7 @@ The \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol is ado
 
 
 \subsection{Detailed Description}
-This protocol will notify the delegate(s) when authentication and social publishing succeed or fail, it will provider the delegate(s) with the authenticated user's profile data, and, if server-\/side authentication is desired, it can provide the delegate(s) with the data payload returned by your server's token URL. 
+The \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol is adopted by an object that wishes to receive notifications when and information about a user that authenticates with your application and publishes activities to their social networks. This protocol will notify the delegate(s) when authentication and social publishing succeed or fail, it will provider the delegate(s) with the authenticated user's profile data, and, if server-\/side authentication is desired, it can provide the delegate(s) with the data payload returned by your server's token URL. 
 
 \subsection{Member Function Documentation}
 \hypertarget{protocol_j_r_engage_delegate-p_af46f7ef0c7a5767dc0ab705871d570ac}{
@@ -64,13 +64,13 @@ This protocol will notify the delegate(s) when authentication and social publish
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_af46f7ef0c7a5767dc0ab705871d570ac}
-Sent if the application tries to show a \hyperlink{interface_j_r_engage}{JREngage} dialog, and \hyperlink{interface_j_r_engage}{JREngage} failed to show. May occur if the \hyperlink{interface_j_r_engage}{JREngage} library failed to configure, or if the activity object was nil, etc.
+Sent if the application tries to show a \hyperlink{class_j_r_engage}{JREngage} dialog, and \hyperlink{class_j_r_engage}{JREngage} failed to show. May occur if the \hyperlink{class_j_r_engage}{JREngage} library failed to configure, or if the activity object was nil, etc.
 
 
 \begin{DoxyParams}{Parameters}
 \item[{\em error}]The error that occurred during configuration\end{DoxyParams}
 \begin{DoxyNote}{Note}
-This message is only sent if your application tries to show a \hyperlink{interface_j_r_engage}{JREngage} dialog, and not necessarily when an error occurs, if, say, the error occurred during the library's configuration. The raison d'etre is based on the possibility that your application may preemptively configure \hyperlink{interface_j_r_engage}{JREngage}, but never actually use it. If that is the case, then you won't get any error. 
+This message is only sent if your application tries to show a \hyperlink{class_j_r_engage}{JREngage} dialog, and not necessarily when an error occurs, if, say, the error occurred during the library's configuration. The raison d'etre is based on the possibility that your application may preemptively configure \hyperlink{class_j_r_engage}{JREngage}, but never actually use it. If that is the case, then you won't get any error. 
 \end{DoxyNote}
 \hypertarget{protocol_j_r_engage_delegate-p_a4eaa6a5961e175b8275c6b06034afea7}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationDidNotComplete@{jrAuthenticationDidNotComplete}}
@@ -81,7 +81,7 @@ This message is only sent if your application tries to show a \hyperlink{interfa
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_a4eaa6a5961e175b8275c6b06034afea7}
-Sent if the authentication was canceled for any reason other than an error. For example, the user hits the \char`\"{}Cancel\char`\"{} button, any class (e.g., the \hyperlink{interface_j_r_engage}{JREngage} delegate) calls the cancelAuthentication message, or if configuration of the library is taking more than about 16 seconds (rare) to download. \hypertarget{protocol_j_r_engage_delegate-p_a6ac183348ebc0e858e8aad0682b5e1cd}{
+Sent if the authentication was canceled for any reason other than an error. For example, the user hits the \char`\"{}Cancel\char`\"{} button, any class (e.g., the \hyperlink{class_j_r_engage}{JREngage} delegate) calls the cancelAuthentication message, or if configuration of the library is taking more than about 16 seconds (rare) to download. \hypertarget{protocol_j_r_engage_delegate-p_a6ac183348ebc0e858e8aad0682b5e1cd}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationDidSucceedForUser:forProvider:@{jrAuthenticationDidSucceedForUser:forProvider:}}
 \index{jrAuthenticationDidSucceedForUser:forProvider:@{jrAuthenticationDidSucceedForUser:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
 \subsubsection[{jrAuthenticationDidSucceedForUser:forProvider:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) jrAuthenticationDidSucceedForUser: 
@@ -152,17 +152,7 @@ This message is not sent if authentication was canceled. To be notified of a can
 }}
 \label{protocol_j_r_engage_delegate-p_abfafec7eed95008f7b7052d962f8f6fa}
 \begin{Desc}
-\item[\hyperlink{deprecated__deprecated000001}{Deprecated}]\end{Desc}
-
-
-Sent after \hyperlink{interface_j_r_engage}{JREngage} has successfully posted the token to your application's token\_\-url, containing the body of the response from the server
-
-
-\begin{DoxyParams}{Parameters}
-\item[{\em tokenUrl}]The URL on the server where the token was posted and server-\/side authentication was completed\item[{\em tokenUrlPayload}]The response from the server\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers}\end{DoxyParams}
-\begin{DoxySeeAlso}{See also}
-\hyperlink{protocol_j_r_engage_delegate-p_a2cbed662f784706d2db038e1cb9ba3fd}{-\/ jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:} 
-\end{DoxySeeAlso}
+\item[\hyperlink{deprecated__deprecated000019}{Deprecated}]Please use \hyperlink{protocol_j_r_engage_delegate-p_a2cbed662f784706d2db038e1cb9ba3fd}{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:} instead. \end{Desc}
 \hypertarget{protocol_j_r_engage_delegate-p_a2cbed662f784706d2db038e1cb9ba3fd}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:@{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:}}
 \index{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:@{jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:}!JREngageDelegate-p@{JREngageDelegate-\/p}}
@@ -179,7 +169,7 @@ Sent after \hyperlink{interface_j_r_engage}{JREngage} has successfully posted th
 \hypertarget{protocol_j_r_engage_delegate-p_tokenUrlReached}{}
 
 
-Sent after \hyperlink{interface_j_r_engage}{JREngage} has successfully posted the token to your application's token\_\-url, containing the headers and body of the response from the server
+Sent after \hyperlink{class_j_r_engage}{JREngage} has successfully posted the token to your application's token\_\-url, containing the headers and body of the response from the server
 
 
 \begin{DoxyParams}{Parameters}
@@ -209,7 +199,7 @@ Sent when the call to the token URL has failed
 \end{DoxyParamCaption}
 }}
 \label{protocol_j_r_engage_delegate-p_a733007b584bd916932ccafe44c3c678d}
-Sent if social publishing was canceled for any reason other than an error. For example, the user hits the \char`\"{}Cancel\char`\"{} button, any class (e.g., the \hyperlink{interface_j_r_engage}{JREngage} delegate) calls the cancelPublishing message, or if configuration of the library is taking more than about 16 seconds (rare) to download. \hypertarget{protocol_j_r_engage_delegate-p_ae90fea5db002559f6cf4e481080e0bfb}{
+Sent if social publishing was canceled for any reason other than an error. For example, the user hits the \char`\"{}Cancel\char`\"{} button, any class (e.g., the \hyperlink{class_j_r_engage}{JREngage} delegate) calls the cancelPublishing message, or if configuration of the library is taking more than about 16 seconds (rare) to download. \hypertarget{protocol_j_r_engage_delegate-p_ae90fea5db002559f6cf4e481080e0bfb}{
 \index{JREngageDelegate-\/p@{JREngageDelegate-\/p}!jrSocialDidCompletePublishing@{jrSocialDidCompletePublishing}}
 \index{jrSocialDidCompletePublishing@{jrSocialDidCompletePublishing}!JREngageDelegate-p@{JREngageDelegate-\/p}}
 \subsubsection[{jrSocialDidCompletePublishing}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) jrSocialDidCompletePublishing 

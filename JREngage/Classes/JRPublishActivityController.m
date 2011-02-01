@@ -85,25 +85,39 @@
     else
         self.title = @"Share";
     
-    NSString *iPadSuffix = (iPad) ? @"-iPad" : @"";
-    NSArray *backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColorRGBa];
     
- /* Load the custom background view, if there is one. */
-    if ([[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]] isKindOfClass:[NSString class]])
-         [myBackgroundView setImage:
-            [UIImage imageNamed:[customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingBackgroundImageName, iPadSuffix]]]];
-    else /* Otherwise, set the background view to the provided color, if any. */
+    /** DEPRECATED - REMOVE LATER **/
+    NSArray *backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColorRGBa];
+    /** DEPRECATED - REMOVE LATER **/
+    
+    /* Load the custom background view, if there is one. */
+    if ([customInterface objectForKey:kJRSocialSharingBackgroundImageView])
+        [myBackgroundView addSubview:[customInterface objectForKey:kJRSocialSharingBackgroundImageView]];
+    
+    /** DEPRECATED - REMOVE LATER **/
+    if ([customInterface objectForKey:kJRSocialSharingBackgroundImageName])
+        [myBackgroundView addSubview:[[UIImageView alloc] initWithImage:
+                                      [UIImage imageNamed:[customInterface objectForKey:kJRSocialSharingBackgroundImageName]]]];
+    /** DEPRECATED - REMOVE LATER **/
+    
+    [myBackgroundView setAlpha:0.3];
+    
+    /* If there is a UIColor object set for the background color, use this */
+    if ([customInterface objectForKey:kJRSocialSharingBackgroundColor])
+        myBackgroundView.backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColor];
+    else     /** DEPRECATED - REMOVE LATER **/
         if ([backgroundColor respondsToSelector:@selector(count)])
             if ([backgroundColor count] == 4)
                 myBackgroundView.backgroundColor = 
-                    [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-                                    green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-                                     blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-                                    alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
-        
+                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+    /** DEPRECATED - REMOVE LATER **/
+            
     myContentView.backgroundColor = [UIColor clearColor];
         
-    titleView = [customInterface objectForKey:[NSString stringWithFormat:@"%@%@", kJRSocialSharingTitleView, iPadSuffix]];
+    titleView = [customInterface objectForKey:kJRSocialSharingTitleView];
     
     if (titleView)
         self.navigationItem.titleView = titleView;

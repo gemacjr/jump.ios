@@ -36,22 +36,12 @@
 
 
 @implementation JREngage (CustomInterface)
-- (void)setApplicationNavigationController:(UINavigationController*)navigationController
-{
-    [interfaceMaestro useApplicationNavigationController:navigationController];
-}
-
-- (void)setCustomNavigationController:(UINavigationController*)navigationController
-{
-    [self setApplicationNavigationController:navigationController];
-}
-
-- (void)setCustomInterfaceDefaults:(NSDictionary*)customInterfaceDefaults
+- (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
 {
     [interfaceMaestro setCustomInterfaceDefaults:customInterfaceDefaults];    
 }
 
-- (void)setCustomInterface:(NSDictionary*)customizations
+- (void)setCustomInterface:(NSMutableDictionary*)customizations
 {
     [self setCustomInterfaceDefaults:customizations];
 }

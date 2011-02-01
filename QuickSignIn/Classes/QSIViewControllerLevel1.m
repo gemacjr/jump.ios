@@ -82,6 +82,103 @@ Copyright (c) 2010, Janrain, Inc.
     return self;
 }
 */
+- (void)setUpNavigationBarForPad
+{
+    [myRightView addSubview:level2ViewController.view];
+    
+    mySignOutButtonPad = 
+    [[UIBarButtonItem alloc] initWithTitle:@"Sign Out"
+                                     style:UIBarButtonItemStyleBordered
+                                    target:self
+                                    action:@selector(signOutButtonPressed:)];
+    
+    self.navigationItem.leftBarButtonItem = mySignOutButtonPad;
+    self.navigationItem.leftBarButtonItem.enabled = YES;
+    
+    if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
+        self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 44)];
+    else
+        myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(153, 0, 120, 44)];
+    
+    [myTitlePad setFont:[UIFont boldSystemFontOfSize:20.0]];
+    [myTitlePad setBackgroundColor:[UIColor clearColor]];
+    [myTitlePad setTextColor:[UIColor whiteColor]];
+    [myTitlePad setShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
+    [myTitlePad setTextAlignment:UITextAlignmentCenter];
+//    [myTitlePad setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
+    
+    [myTitlePad setText:@"Profiles"];
+    
+    if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
+        self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        myEditButtonContainer = [[UIView alloc] initWithFrame:CGRectMake(262, 0, 52, 44)];//CGRectMake(610, 0, 52, 44)] autorelease];
+    else
+        myEditButtonContainer = [[UIView alloc] initWithFrame:CGRectMake(368, 0, 52, 44)];
+
+    [myEditButtonContainer setBackgroundColor:[UIColor clearColor]];
+//    [myEditButtonContainer setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
+    
+    myEditButtonPad = [UIButton buttonWithType:UIButtonTypeCustom];
+    [myEditButtonPad setFrame:CGRectMake(0, 7, 52, 30)];
+    [myEditButtonPad setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
+    [myEditButtonPad setImage:[UIImage imageNamed:@"edit_selected.png"] forState:UIControlStateHighlighted];
+    [myEditButtonPad setImage:[UIImage imageNamed:@"edit_disabled.png"] forState:UIControlStateDisabled];
+    
+    [myEditButtonPad addTarget:self action:@selector(editButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    myDoneButtonPad = [UIButton buttonWithType:UIButtonTypeCustom];
+    [myDoneButtonPad setFrame:CGRectMake(0, 7, 52, 30)];
+    [myDoneButtonPad setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
+    [myDoneButtonPad setImage:[UIImage imageNamed:@"done_selected.png"] forState:UIControlStateHighlighted];
+    
+    [myDoneButtonPad addTarget:self action:@selector(doneButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [myDoneButtonPad setHidden:YES];
+    
+    [myEditButtonContainer addSubview:myDoneButtonPad];
+    [myEditButtonContainer addSubview:myEditButtonPad];
+    
+    if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
+        self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        mySplitViewPad = [[UIImageView alloc] initWithFrame:CGRectMake(316, 0, 7, 44)];
+    else
+        mySplitViewPad = [[UIImageView alloc] initWithFrame:CGRectMake(422, 0, 7, 44)];
+    
+    [mySplitViewPad setImage:[UIImage imageNamed:@"nav_split.png"]];
+    [mySplitViewPad setBackgroundColor:[UIColor clearColor]];
+    
+//    [mySplitViewPad setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];    
+    
+    if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
+        self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        mySelectedProfilePad = [[UILabel alloc] initWithFrame:CGRectMake(426, 0, 236, 44)];
+    else
+        mySelectedProfilePad = [[UILabel alloc] initWithFrame:CGRectMake(532, 0, 386, 44)];
+    
+    [mySelectedProfilePad setFont:[UIFont boldSystemFontOfSize:20.0]];
+    [mySelectedProfilePad setBackgroundColor:[UIColor clearColor]];
+    [mySelectedProfilePad setTextColor:[UIColor whiteColor]];
+    [mySelectedProfilePad setShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
+    [mySelectedProfilePad setTextAlignment:UITextAlignmentCenter];
+//    [myTitlePad setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
+    
+    [self.navigationController.navigationBar addSubview:myTitlePad];
+    [self.navigationController.navigationBar addSubview:mySplitViewPad];
+    [self.navigationController.navigationBar addSubview:myEditButtonContainer];    
+    [self.navigationController.navigationBar addSubview:mySelectedProfilePad];
+}
+
+- (void)setUpNavigationBarForPhone
+{
+    UIBarButtonItem *editButton = 
+    [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                   target:self
+                                                   action:@selector(editButtonPressed:)] autorelease];
+    
+    self.navigationItem.leftBarButtonItem = editButton;
+    self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;      
+}
 
 - (void)viewDidLoad 
 {
@@ -98,62 +195,17 @@ Copyright (c) 2010, Janrain, Inc.
                                                                       bundle:[NSBundle mainBundle]];	
     
     if (iPad)
-    {
-        [myRightView addSubview:level2ViewController.view];
-        
-        mySignOutButtonPad = 
-            [[UIBarButtonItem alloc] initWithTitle:@"Sign Out"
-                                             style:UIBarButtonItemStyleBordered
-                                            target:self
-                                            action:@selector(signOutButtonPressed:)];
-        
-        self.navigationItem.leftBarButtonItem = mySignOutButtonPad;
-        self.navigationItem.leftBarButtonItem.enabled = YES;
-        
-        UIView *buttonContainer = [[[UIView alloc] initWithFrame:CGRectMake(610, 0, 52, 44)] autorelease];
-        buttonContainer.backgroundColor = [UIColor clearColor];
-
-        [buttonContainer setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
-        
-        myEditButtonPad = [UIButton buttonWithType:UIButtonTypeCustom];
-        [myEditButtonPad setFrame:CGRectMake(0, 7, 52, 30)];
-        [myEditButtonPad setImage:[UIImage imageNamed:@"edit.png"] forState:UIControlStateNormal];
-        [myEditButtonPad setImage:[UIImage imageNamed:@"edit_selected.png"] forState:UIControlStateHighlighted];
-        [myEditButtonPad setImage:[UIImage imageNamed:@"edit_disabled.png"] forState:UIControlStateDisabled];
-        
-        [myEditButtonPad addTarget:self action:@selector(editButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
-        myDoneButtonPad = [UIButton buttonWithType:UIButtonTypeCustom];
-        [myDoneButtonPad setFrame:CGRectMake(0, 7, 52, 30)];
-        [myDoneButtonPad setImage:[UIImage imageNamed:@"done.png"] forState:UIControlStateNormal];
-        [myDoneButtonPad setImage:[UIImage imageNamed:@"done_selected.png"] forState:UIControlStateHighlighted];
-        
-        [myDoneButtonPad addTarget:self action:@selector(doneButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [myDoneButtonPad setHidden:YES];
-        
-        [buttonContainer addSubview:myDoneButtonPad];
-        [buttonContainer addSubview:myEditButtonPad];
-        
-        [self.navigationController.navigationBar addSubview:buttonContainer];
-    }        
+        [self setUpNavigationBarForPad];
     else
-    {
-        UIBarButtonItem *editButton = 
-                            [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-                                                                           target:self
-                                                                           action:@selector(editButtonPressed:)] autorelease];
-        
-        self.navigationItem.leftBarButtonItem = editButton;
-        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;  
-    }
+        [self setUpNavigationBarForPhone];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 	
-	self.title = @"Profiles";
+    if (!iPad)
+        self.title = @"Profiles";
 
 	myTableView.backgroundColor = [UIColor clearColor];
     
@@ -192,18 +244,39 @@ Copyright (c) 2010, Janrain, Inc.
 	else
 		myNotSignedInLabel.text = @"You are not currently signed in.";
 
+    UIImageView *myBackgroundImage = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)] autorelease];
+    [myBackgroundImage setImage:[UIImage imageNamed:@"background.png"]];
+    [myBackgroundImage setContentMode:UIViewContentModeCenter];
+    
+    NSMutableDictionary *myEngageCustomizations  = [[NSMutableDictionary alloc] initWithCapacity:5];
+    [myEngageCustomizations setObject:[UIColor blueColor] forKey:kJRAuthenticationBackgroundColor];
+    [myEngageCustomizations setObject:[UIColor greenColor] forKey:kJRSocialSharingBackgroundColor];
+    [myEngageCustomizations setObject:myBackgroundImage forKey:kJRAuthenticationBackgroundImageView];
+    
+    UINavigationController *nav = [[[UINavigationController alloc] init] autorelease];
+    [nav.navigationBar setTintColor:[UIColor redColor]];
+    
+//    NSMutableDictionary *foo;
+//    [foo setObject: forKey:
     //if (iPad)
         [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                      @"foo",//self.navigationItem.rightBarButtonItem,
-                                                      kJRPopoverPresentationBarButtonItem, //nil]];
-                                                      [NSValue valueWithCGRect:CGRectMake(50, 50, 200, 50)],
-                                                      kJRPopoverPresentationFrameValue,
-                                                      [NSNumber numberWithInt:UIPopoverArrowDirectionLeft],                                                      
-                                                      kJRPopoverPresentationArrowDirection,
-                                                      self.navigationController,
-                                                      kJRUseApplicationNavigationController,
-                                                      [UIColor redColor],
-                                                      kJRNavigationBarTintColor, nil]];
+                                                      myBackgroundImage,
+                                                      kJRAuthenticationBackgroundImageView,
+                                                      @"background.png",
+                                                      kJRProviderTableBackgroundImageName,
+                                                      nav,
+                                                      kJRCustomModalNavigationController,
+//                                                      @"foo",//self.navigationItem.rightBarButtonItem,
+//                                                      kJRPopoverPresentationBarButtonItem, //nil]];
+//                                                      [NSValue valueWithCGRect:CGRectMake(50, 50, 200, 50)],
+//                                                      kJRPopoverPresentationFrameValue,
+//                                                      [NSNumber numberWithInt:UIPopoverArrowDirectionLeft],                                                      
+//                                                      kJRPopoverPresentationArrowDirection,
+//                                                      self.navigationController,
+//                                                      kJRUseApplicationNavigationController,
+//                                                      [UIColor redColor],
+//                                                      kJRNavigationBarTintColor, 
+                                                      nil]];
                                                       
     
     [self.view becomeFirstResponder];
@@ -214,6 +287,40 @@ Copyright (c) 2010, Janrain, Inc.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
 {
     return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (!iPad)
+        return;
+    
+    switch (toInterfaceOrientation)
+    {
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            [myTitlePad setFrame:CGRectMake(130, 0, 60, 44)];
+            [myEditButtonContainer setFrame:CGRectMake(260, 0, 52, 44)];
+            [mySplitViewPad setFrame:CGRectMake(316, 0, 7, 44)];
+            [mySelectedProfilePad setFrame:CGRectMake(426, 0, 236, 44)];
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            [myTitlePad setFrame:CGRectMake(153, 0, 120, 44)];
+            [myEditButtonContainer setFrame:CGRectMake(368, 0, 52, 44)];
+            [mySplitViewPad setFrame:CGRectMake(422, 0, 7, 44)];
+            [mySelectedProfilePad setFrame:CGRectMake(532, 0, 386, 44)];
+            break;
+        default:
+            break;
+    }
+}
+- (void)clearSelectedProfile
+{
+    if (iPad)
+    {
+        [level2ViewController clearUser:YES];
+        [mySelectedProfilePad setText:nil];
+    }    
 }
 
 - (void)toggleTableHeaderVisibility:(BOOL)visible
@@ -289,15 +396,14 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)doneButtonPressed:(id)sender
 {
 	[myTableView setEditing:NO animated:YES];
+    [self clearSelectedProfile];
 	[self setDoneToEdit];
 }
 
 - (void)editButtonPressed:(id)sender
 {
-    if (iPad)
-        [level2ViewController clearUser:YES];
-
 	[myTableView setEditing:YES animated:YES];
+    [self clearSelectedProfile];
     [self setEditToDone];
 }
 
@@ -318,9 +424,8 @@ Copyright (c) 2010, Janrain, Inc.
 	myNotSignedInLabel.text = @"Completing Sign In...";
 	
 //#ifdef LILLI	
-    if (iPad)
-        [level2ViewController clearUser:YES];
-
+    [self clearSelectedProfile];
+    
     [myTableView deselectRowAtIndexPath:[myTableView indexPathForSelectedRow] animated:YES];
     
 	if ([[UserModel getUserModel] currentUser])
@@ -345,8 +450,7 @@ Copyright (c) 2010, Janrain, Inc.
 - (IBAction)signOutButtonPressed:(id)sender
 {
 //#ifdef LILLI	
-    if (iPad)
-        [level2ViewController clearUser:YES];
+    [self clearSelectedProfile];
 
 	if ([[UserModel getUserModel] currentUser])
 	{
@@ -516,6 +620,7 @@ Copyright (c) 2010, Janrain, Inc.
     {
         [level2ViewController clearUser:NO];
         [level2ViewController loadUser:YES];
+        [mySelectedProfilePad setText:level2ViewController.title];
     }
     else
     {

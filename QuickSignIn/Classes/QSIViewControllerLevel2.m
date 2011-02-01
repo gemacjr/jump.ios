@@ -63,14 +63,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	    
-    if (!iPad)
-        self.title = [UserModel getDisplayNameFromProfile:profile];
-	
+	    	
     if ([[UserModel getUserModel] selectedUser])
         [self loadUser:YES];
-    
-	myTableView.backgroundColor = [UIColor clearColor];	
+
+    myTableView.backgroundColor = [UIColor clearColor];	
    
 #ifdef LILLI
 	if ([[UserModel getUserModel] currentUser])
@@ -133,6 +130,8 @@
 	
     NSLog (@"section 1, %d rows", [profileKeys count]);
     NSLog (@"section 2, %d rows", [accessCredentialsKeys count]);
+    
+    self.title = [UserModel getDisplayNameFromProfile:profile];
     
     if (iPad && animated)
         [self animateAdditions];
