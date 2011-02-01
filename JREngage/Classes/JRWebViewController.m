@@ -47,8 +47,8 @@
 @end
 
 @implementation JRWebViewController
-@synthesize myBackgroundView;
-@synthesize myWebView;
+//@synthesize myBackgroundView;
+//@synthesize myWebView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
@@ -73,7 +73,8 @@
     
 	if (!infoBar)
 	{
-        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
+        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 30, self.view.frame.size.width, 30) 
+                                          andStyle:[sessionData hidePoweredBy]];
         
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
             [myWebView setFrame:CGRectMake(myWebView.frame.origin.x, 

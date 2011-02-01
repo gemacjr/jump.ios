@@ -45,13 +45,13 @@
 
 @interface JRUserLandingController ()
 - (NSString*)customTitle;
-- (void)callWebView:(UITextField *)textField;
-- (UITextField*)getTextField:(UITableViewCell *)cell;
+- (void)callWebView:(UITextField*)textField;
+- (UITextField*)getTextField:(UITableViewCell*)cell;
 @end
 
 @implementation JRUserLandingController
-@synthesize myBackgroundView;
-@synthesize myTableView;
+//@synthesize myBackgroundView;
+//@synthesize myTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
@@ -106,8 +106,9 @@
 
     if (!infoBar)
 	{
-        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];
-        
+        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 30, self.view.frame.size.width, 30) 
+                                          andStyle:[sessionData hidePoweredBy]];
+
         [self.view addSubview:infoBar];
 	}
     
@@ -164,9 +165,9 @@
 
     self.contentSizeForViewInPopover = CGSizeMake(320, 416);
 
-    NSIndexPath *indexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
-	UITableViewCell *cell = (UITableViewCell*)[myTableView cellForRowAtIndexPath:indexPath];
-	UITextField *textField = [self getTextField:cell];
+    NSIndexPath     *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+	UITableViewCell *cell =      (UITableViewCell*)[myTableView cellForRowAtIndexPath:indexPath];
+	UITextField     *textField = [self getTextField:cell];
     
  /* Only make the cell's text field the first responder (and show the keyboard) in certain situations */
 	if ([sessionData weShouldBeFirstResponder] && !textField.text)
@@ -303,9 +304,10 @@ enum
     UIButton *signInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     [signInButton setFrame:CGRectMake(155, 130, 135, 40)];
-    [signInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                          @"button_iosblue_135x40%@.png", 
-                                                          (iPad) ? @"@2x" : @""]]
+    [signInButton setBackgroundImage:[UIImage imageNamed:@"button_iosblue_135x40.png"]
+//                                                          NSString stringWithFormat:
+//                                                          @"button_iosblue_135x40%@.png", 
+//                                                          (iPad) ? @"@2x" : @""]]
                             forState:UIControlStateNormal];
     
     [signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
@@ -333,9 +335,10 @@ enum
     UIButton *backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     [backToProvidersButton setFrame:CGRectMake(10, 130, 135, 40)];
-    [backToProvidersButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                                   @"button_black_135x40%@.png", 
-                                                                   (iPad) ? @"@2x" : @""]]
+    [backToProvidersButton setBackgroundImage:[UIImage imageNamed:@"button_black_135x40.png"]
+     //                                                          NSString stringWithFormat:
+     //                                                          @"button_iosblue_135x40%@.png", 
+     //                                                          (iPad) ? @"@2x" : @""]]
                                      forState:UIControlStateNormal];
 
     [backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateNormal];
@@ -362,9 +365,10 @@ enum
     UIButton *bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     [bigSignInButton setFrame:CGRectMake(10, 130, 280, 40)];
-    [bigSignInButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                             @"button_iosblue_280x40%@.png", 
-                                                             (iPad) ? @"@2x" : @""]]
+    [bigSignInButton setBackgroundImage:[UIImage imageNamed:@"button_iosblue_280x40.png"]
+     //                                                          NSString stringWithFormat:
+     //                                                          @"button_iosblue_135x40%@.png", 
+     //                                                          (iPad) ? @"@2x" : @""]]
                                forState:UIControlStateNormal];
     
     [bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
@@ -410,9 +414,8 @@ enum
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    NSString *imagePath = [NSString stringWithFormat:@"logo_%@_280x65%@.png", 
-                                                     sessionData.currentProvider.name,
-                                                     (iPad) ? @"@2x" : @""];
+    NSString *imagePath = [NSString stringWithFormat:@"logo_%@_280x65.png", sessionData.currentProvider.name];
+
 	[self getLogo:cell].image = [UIImage imageNamed:imagePath];
 
     UITextField *textField = [self getTextField:cell];

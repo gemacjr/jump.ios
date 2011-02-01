@@ -52,7 +52,7 @@
 @end
 
 @implementation JRPublishActivityController
-@synthesize myBackgroundView;
+//@synthesize myBackgroundView;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {

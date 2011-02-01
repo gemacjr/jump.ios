@@ -44,28 +44,24 @@
 														UITableViewDataSource, UIAlertViewDelegate, UITextFieldDelegate> 
 {
 	JRSessionData	*sessionData;
+    NSDictionary    *customInterface;
     
     BOOL iPad;
+
+    UILabel              *titleView;
+	IBOutlet UIView      *myBackgroundView;
+	IBOutlet UITableView *myTableView;	
 	
-    NSDictionary *customInterface;
-
-    UIImageView *myBackgroundView;
-	UITableView	*myTableView;	
-	UILabel		*titleView;
-	JRInfoBar	*infoBar;
+    JRInfoBar	*infoBar;
 }
-@property (nonatomic, retain) IBOutlet UIImageView *myBackgroundView;
-@property (nonatomic, retain) IBOutlet UITableView *myTableView;
-
-- (id)initWithNibName:(NSString*)nibNameOrNil 
-               bundle:(NSBundle*)nibBundleOrNil 
-          andCustomInterface:(NSDictionary*)_customInterface;
-
-- (void)backToProvidersTouchUpInside;
-- (void)signInButtonTouchUpInside:(UIButton*)button;
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
-- (BOOL)textFieldShouldClear:(UITextField *)textField;
+//@property (nonatomic, retain) IBOutlet UIImageView *myBackgroundView;
+//@property (nonatomic, retain) IBOutlet UITableView *myTableView;
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
+//- (void)backToProvidersTouchUpInside;
+//- (void)signInButtonTouchUpInside:(UIButton*)button;
+//
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
+//
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
+//- (BOOL)textFieldShouldClear:(UITextField *)textField;
 @end

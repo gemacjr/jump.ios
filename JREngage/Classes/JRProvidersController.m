@@ -165,7 +165,14 @@
     
     if (!infoBar)
 	{
-        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 386, 320, 30) andStyle:[sessionData hidePoweredBy]];       
+//        if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
+//            self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 450, 320, 30) andStyle:[sessionData hidePoweredBy]];
+//        else 
+//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 290, 480, 30) andStyle:[sessionData hidePoweredBy]];
+        infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 30, self.view.frame.size.width, 30) 
+                                          andStyle:[sessionData hidePoweredBy]];
+        
 		[self.view addSubview:infoBar];
 	}
 }
@@ -275,11 +282,8 @@ Please try again later."
 	timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 }
 
-
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-	// return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
 	return YES;
 }
 

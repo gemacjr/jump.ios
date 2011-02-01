@@ -48,11 +48,10 @@ typedef enum
 #define EMAIL 1
 #define SMS 2
 
-@interface JRPublishActivityController : UIViewController <UINavigationBarDelegate, UITextViewDelegate, 
-                                                           UITabBarDelegate, JRSessionDelegate,
-                                                           JRConnectionManagerDelegate, JRUserInterfaceDelegate,
-                                                           UIActionSheetDelegate,
-                                                           MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
+@interface JRPublishActivityController : UIViewController 
+                        <UINavigationBarDelegate, UITextViewDelegate, UITabBarDelegate, 
+                         JRSessionDelegate, JRConnectionManagerDelegate, JRUserInterfaceDelegate,
+                         UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 {
 	JRSessionData	*sessionData;
     
@@ -75,9 +74,9 @@ typedef enum
     NSDictionary *customInterface;
     NSDictionary *colorsDictionary;
     UIView		 *titleView;
-    UIImageView  *myBackgroundView;
-    
-	IBOutlet UITabBar *myTabBar;
+
+    IBOutlet UIView     *myBackgroundView;
+	IBOutlet UITabBar   *myTabBar;
     	    
     /* Activity Spinner and Label displayed while the list of configured providers is empty */
     NSTimer *timer;
@@ -117,7 +116,7 @@ typedef enum
     NSMutableDictionary *cachedProfilePics;
     NSMutableSet        *alreadyShared;
 }
-@property (nonatomic, retain) IBOutlet UIImageView *myBackgroundView;
+//@property (nonatomic, retain) IBOutlet UIImageView *myBackgroundView;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil 
                bundle:(NSBundle*)nibBundleOrNil 

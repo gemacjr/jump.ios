@@ -90,6 +90,7 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 {
 	DLog (@"");    
     UIView *view = [[[UIView alloc] initWithFrame:[[UIApplication sharedApplication] keyWindow].frame] autorelease];
+    [view setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     //view.backgroundColor = [UIColor redColor];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -595,8 +596,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     DLog(@"");
     [applicationNavigationController popToViewController:viewControllerToPopTo animated:YES];
 
-    [viewControllerToPopTo release];
-    viewControllerToPopTo = nil;
+    [viewControllerToPopTo release], viewControllerToPopTo = nil;
+    self.applicationNavigationController = nil;
 }
 
 - (void)unloadUserInterfaceWithTransitionStyle:(UIModalTransitionStyle)style

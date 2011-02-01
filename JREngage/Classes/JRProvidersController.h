@@ -45,26 +45,21 @@
                                                         JRUserInterfaceDelegate> 
 {
 	JRSessionData	*sessionData;
+    NSDictionary    *customInterface;
     
     BOOL iPad;
-    
-    NSDictionary *customInterface;
 
-    UIView		*titleView;
-    IBOutlet UIView *myBackgroundView;
-	IBOutlet UITableView	*myTableView;
+    UIView               *titleView;
+    IBOutlet UIView      *myBackgroundView;
+	IBOutlet UITableView *myTableView;
 	
-	/* Activity Spinner and Label displayed while the list of configured providers is empty */
+ /* Activity Spinner and Label displayed while the list of configured providers is empty */
+	NSTimer *timer;
 	IBOutlet UILabel					*myLoadingLabel;
-	IBOutlet UIActivityIndicatorView *myActivitySpinner; 
-	NSTimer                 *timer;
+	IBOutlet UIActivityIndicatorView    *myActivitySpinner; 
     
 	JRInfoBar	*infoBar;
 }
-//@property (nonatomic, retain) IBOutlet UIImageView  *myView;
-//@property (nonatomic, retain) IBOutlet UITableView	*myTableView;
-//@property (nonatomic, retain) IBOutlet UILabel		*myLoadingLabel;
-//@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myActivitySpinner;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 @end

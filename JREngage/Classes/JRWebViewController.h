@@ -44,20 +44,19 @@
 @interface JRWebViewController : UIViewController <UINavigationBarDelegate, UIWebViewDelegate, JRConnectionManagerDelegate> 
 {
 	JRSessionData	*sessionData;
-
-    NSDictionary *customInterface;
-    
-    UIView      *myBackgroundView;
-	UIWebView	*myWebView;
-	UIView		*titleView;
-	JRInfoBar	*infoBar;
+    NSDictionary    *customInterface;
+   
+    UIView             *titleView;
+	IBOutlet UIView    *myBackgroundView;
+	IBOutlet UIWebView *myWebView;
+	
+    JRInfoBar	*infoBar;
 	
 	BOOL keepProgress;
 	BOOL userHitTheBackButton;
     BOOL connectionDataAlreadyDownloadedThis;
 }
-@property (nonatomic, retain) IBOutlet UIView *myBackgroundView;
-@property (nonatomic, retain) IBOutlet UIWebView *myWebView;
-
+//@property (nonatomic, retain) IBOutlet UIView *myBackgroundView;
+//@property (nonatomic, retain) IBOutlet UIWebView *myWebView;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 @end
