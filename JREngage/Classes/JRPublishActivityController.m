@@ -653,11 +653,11 @@ Please try again later."
         switch (emailOrSms)
         {
             case EMAIL_ONLY:
-//                [self sendEmail];
-//                break;
+                [self sendEmail];
+                break;
             case SMS_ONLY:
-//                [self sendSMS];
-//                break;
+                [self sendSMS];
+                break;
             case EMAIL_AND_SMS:
                 action = [[[UIActionSheet alloc] initWithTitle:@"Share with Email or SMS"
                                                       delegate:self
