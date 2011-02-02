@@ -483,7 +483,7 @@ otherwise, this happens automatically.													*/
     }
     
     [customInterface addEntriesFromDictionary:moreCustomizations];
-    [jrEngage setCustomInterface:customInterface];	    
+    [jrEngage setCustomInterfaceDefaults:customInterface];	    
 
  /* Launch the JRAuthenticate Library. */
     [jrEngage showAuthenticationDialog];

@@ -244,34 +244,34 @@ Copyright (c) 2010, Janrain, Inc.
 	else
 		myNotSignedInLabel.text = @"You are not currently signed in.";
 
-    UIImageView *myBackgroundImage = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)] autorelease];
-    [myBackgroundImage setImage:[UIImage imageNamed:@"background.png"]];
-    [myBackgroundImage setContentMode:UIViewContentModeCenter];
-    
-    NSMutableDictionary *myEngageCustomizations  = [[NSMutableDictionary alloc] initWithCapacity:5];
-    [myEngageCustomizations setObject:[UIColor blueColor] forKey:kJRAuthenticationBackgroundColor];
-    [myEngageCustomizations setObject:[UIColor greenColor] forKey:kJRSocialSharingBackgroundColor];
-    [myEngageCustomizations setObject:myBackgroundImage forKey:kJRAuthenticationBackgroundImageView];
-    
-    UINavigationController *nav = [[[UINavigationController alloc] init] autorelease];
-    [nav.navigationBar setTintColor:[UIColor redColor]];
-    
+//    UIImageView *myBackgroundImage = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)] autorelease];
+//    [myBackgroundImage setImage:[UIImage imageNamed:@"background.png"]];
+//    [myBackgroundImage setContentMode:UIViewContentModeCenter];
+//    
+//    NSMutableDictionary *myEngageCustomizations  = [[NSMutableDictionary alloc] initWithCapacity:5];
+//    [myEngageCustomizations setObject:[UIColor blueColor] forKey:kJRAuthenticationBackgroundColor];
+//    [myEngageCustomizations setObject:[UIColor greenColor] forKey:kJRSocialSharingBackgroundColor];
+//    [myEngageCustomizations setObject:myBackgroundImage forKey:kJRAuthenticationBackgroundImageView];
+//    
+//    UINavigationController *nav = [[[UINavigationController alloc] init] autorelease];
+//    [nav.navigationBar setTintColor:[UIColor redColor]];
+//    
 //    NSMutableDictionary *foo;
 //    [foo setObject: forKey:
-    //if (iPad)
+    if (iPad)
         [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                      myBackgroundImage,
-                                                      kJRAuthenticationBackgroundImageView,
-                                                      @"background.png",
-                                                      kJRProviderTableBackgroundImageName,
-                                                      nav,
-                                                      kJRCustomModalNavigationController,
-//                                                      @"foo",//self.navigationItem.rightBarButtonItem,
-//                                                      kJRPopoverPresentationBarButtonItem, //nil]];
+                                                      self.navigationItem.rightBarButtonItem,
+                                                      kJRPopoverPresentationBarButtonItem, //nil]];
+                                                      [NSNumber numberWithInt:UIPopoverArrowDirectionAny],                                                      
+                                                      kJRPopoverPresentationArrowDirection,
+//                                                      myBackgroundImage,
+//                                                      kJRAuthenticationBackgroundImageView,
+//                                                      @"background.png",
+//                                                      kJRProviderTableBackgroundImageName,
+//                                                      nav,
+//                                                      kJRCustomModalNavigationController,
 //                                                      [NSValue valueWithCGRect:CGRectMake(50, 50, 200, 50)],
 //                                                      kJRPopoverPresentationFrameValue,
-//                                                      [NSNumber numberWithInt:UIPopoverArrowDirectionLeft],                                                      
-//                                                      kJRPopoverPresentationArrowDirection,
 //                                                      self.navigationController,
 //                                                      kJRUseApplicationNavigationController,
 //                                                      [UIColor redColor],
@@ -286,7 +286,9 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
 {
-    return YES;
+    if (iPad)
+        return YES;
+    return NO;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

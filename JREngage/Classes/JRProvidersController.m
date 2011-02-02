@@ -284,6 +284,7 @@ Please try again later."
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
+    DLog (@"");
 	return YES;
 }
 

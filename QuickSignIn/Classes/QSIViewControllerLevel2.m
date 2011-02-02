@@ -358,7 +358,9 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
 {
-    return YES;
+    if (iPad)
+        return YES;
+    return NO;
 }
 
 - (void)didReceiveMemoryWarning 

@@ -73,18 +73,30 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 @synthesize myNavigationController;
 @synthesize myPopoverController;
 
-- (id)initWithRootViewController:(UIViewController*)controller andCustomInterface:(NSDictionary*)_customInterface
-{
-	if (controller == nil)
-	{
-		[self release];
-		return nil;
-	}
-        
-	if (self = [super init]) { }
+//- (UINavigationController*)myNavigationController
+//{
+//    return navigationController;
+//}
+//
+//- (void)setMyNavigationController:(UINavigationController*)navController
+//{
+//    [navController retain];
+//    [navigationController release];
+//    navigationController = navController;
+//}
 
-    return self;
-}
+//- (id)initWithRootViewController:(UIViewController*)controller andCustomInterface:(NSDictionary*)_customInterface
+//{
+//	if (controller == nil)
+//	{
+//		[self release];
+//		return nil;
+//	}
+//        
+//	if (self = [super init]) { }
+//
+//    return self;
+//}
 
 - (void)loadView  
 {
@@ -98,6 +110,13 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 
     shouldUnloadSubviews = NO;
 
+//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];   
+//    [[NSNotificationCenter defaultCenter] 
+//     addObserver:self 
+//     selector:@selector(deviceOrientationDidChange:) 
+//     name:@"UIDeviceOrientationDidChangeNotification" 
+//     object:nil]; 
+    
     [self setView:view];
 }
 
@@ -138,6 +157,22 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
         myNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self presentModalViewController:myNavigationController animated:YES];
     }
+
+//    if (iPad)
+//    {
+//        self.navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//        self.navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+//        
+//        [self presentModalViewController:self.navigationController animated:YES];
+//        
+//        self.navigationController.view.superview.frame = CGRectMake(0, 0, 320, 460);
+//        self.navigationController.view.superview.center = self.view.center;
+//    }
+//    else
+//    {
+//        self.navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//        [self presentModalViewController:self.navigationController animated:YES];
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -160,7 +195,8 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
     }
     else
     {
-        myNavigationController.modalTransitionStyle = style;
+//        myNavigationController.modalTransitionStyle = style;
+        self.navigationController.modalTransitionStyle = style;
         [self dismissModalViewControllerAnimated:YES];
     }
 
@@ -171,6 +207,9 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
+    DLog (@"");
+    if (self.navigationController)
+        DLog (@"nc");
 	return YES;
 }
 
@@ -498,7 +537,7 @@ static JRUserInterfaceMaestro* singleton = nil;
         jrModalNavController.myNavigationController = customModalNavigationController;
     else
         jrModalNavController.myNavigationController = [self createDefaultNavigationController];
-    
+        
     if (padPopoverMode)
         jrModalNavController.myPopoverController = 
             [self createPopoverControllerWithNavigationController:jrModalNavController.myNavigationController];
@@ -509,14 +548,29 @@ static JRUserInterfaceMaestro* singleton = nil;
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
         [jrModalNavController.myNavigationController pushViewController:myUserLandingController animated:NO];
     }
-    
+
+//    if (usingCustomNav)
+//        jrModalNavController.navigationController = customModalNavigationController;
+//    else
+//        jrModalNavController.navigationController = [self createDefaultNavigationController];
+//   
+//    if (padPopoverMode)
+//        jrModalNavController.myPopoverController = 
+//        [self createPopoverControllerWithNavigationController:jrModalNavController.myNavigationController];
+//    
+//    [jrModalNavController.navigationController pushViewController:rootViewController animated:NO];    
+//    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
+//    {   
+//        [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
+//        [jrModalNavController.navigationController pushViewController:myUserLandingController animated:NO];
+//    }
     
 	UIWindow* window = [UIApplication sharedApplication].keyWindow;
 	if (!window) 
-	{
 		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
-	}
+
     [window addSubview:jrModalNavController.view];
+    [window addSubview:jrModalNavController.navigationController.view];
 	
     if (padPopoverMode == PadPopoverFromBar)
         [jrModalNavController 
@@ -633,7 +687,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (applicationNavigationController && [applicationNavigationController isViewLoaded])
         [applicationNavigationController popToViewController:originalRootViewController animated:YES];
     else
-        [jrModalNavController.navigationController popToRootViewControllerAnimated:YES];
+        [jrModalNavController.myNavigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
