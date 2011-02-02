@@ -65,6 +65,10 @@ typedef enum
     BOOL usingAppNav;
     BOOL usingCustomNav;
     
+    BOOL supportsRotation;
+    BOOL alreadyGeneratesDeviceOrientationNotifications;
+    UIInterfaceOrientation oldOrientation;
+    
     UINavigationController	*customModalNavigationController;
     UINavigationController	*applicationNavigationController;
     UIViewController        *viewControllerToPopTo;

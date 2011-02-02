@@ -64,6 +64,7 @@ Copyright (c) 2010, Janrain, Inc.
 @end
 
 @interface ViewControllerLevel1 ()
+- (void)fadeCustomNavigationBarItems:(CGFloat)alpha;
 - (void)toggleTableHeaderVisibility:(BOOL)visible;
 - (void)setSignOutButtonTitle:(NSString*)newTitle;
 - (void)setEditToDone;
@@ -106,6 +107,7 @@ Copyright (c) 2010, Janrain, Inc.
     [myTitlePad setTextColor:[UIColor whiteColor]];
     [myTitlePad setShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
     [myTitlePad setTextAlignment:UITextAlignmentCenter];
+    [myTitlePad setAlpha:0.0];
 //    [myTitlePad setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
     
     [myTitlePad setText:@"Profiles"];
@@ -117,6 +119,7 @@ Copyright (c) 2010, Janrain, Inc.
         myEditButtonContainer = [[UIView alloc] initWithFrame:CGRectMake(368, 0, 52, 44)];
 
     [myEditButtonContainer setBackgroundColor:[UIColor clearColor]];
+    [myEditButtonContainer setAlpha:0.0];
 //    [myEditButtonContainer setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
     
     myEditButtonPad = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -147,7 +150,7 @@ Copyright (c) 2010, Janrain, Inc.
     
     [mySplitViewPad setImage:[UIImage imageNamed:@"nav_split.png"]];
     [mySplitViewPad setBackgroundColor:[UIColor clearColor]];
-    
+    [mySplitViewPad setAlpha:0.0];
 //    [mySplitViewPad setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];    
     
     if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
@@ -161,6 +164,7 @@ Copyright (c) 2010, Janrain, Inc.
     [mySelectedProfilePad setTextColor:[UIColor whiteColor]];
     [mySelectedProfilePad setShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
     [mySelectedProfilePad setTextAlignment:UITextAlignmentCenter];
+    [mySelectedProfilePad setAlpha:0.0];
 //    [myTitlePad setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
     
     [self.navigationController.navigationBar addSubview:myTitlePad];
@@ -284,11 +288,20 @@ Copyright (c) 2010, Janrain, Inc.
 	[myTableView reloadData];
 }	
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (iPad)
+        [self fadeCustomNavigationBarItems:1.0];    
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
 {
     if (iPad)
         return YES;
-    return NO;
+    
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -316,6 +329,7 @@ Copyright (c) 2010, Janrain, Inc.
             break;
     }
 }
+
 - (void)clearSelectedProfile
 {
     if (iPad)
@@ -323,6 +337,18 @@ Copyright (c) 2010, Janrain, Inc.
         [level2ViewController clearUser:YES];
         [mySelectedProfilePad setText:nil];
     }    
+}
+
+- (void)fadeCustomNavigationBarItems:(CGFloat)alpha
+{
+	[UIView beginAnimations:@"fade" context:nil];
+	[UIView setAnimationDuration:0.1];
+	[UIView	setAnimationDelay:0.0];
+    [myTitlePad setAlpha:alpha];
+    [mySplitViewPad setAlpha:alpha];
+    [myEditButtonContainer setAlpha:alpha];    
+    [mySelectedProfilePad setAlpha:alpha];
+	[UIView commitAnimations];    
 }
 
 - (void)toggleTableHeaderVisibility:(BOOL)visible
@@ -683,8 +709,12 @@ Copyright (c) 2010, Janrain, Inc.
     if (iPad)
     {
         [level2ViewController clearUser:YES];
-        [myEditButtonPad setHidden:YES];
-        [myDoneButtonPad setHidden:YES];
+        [self fadeCustomNavigationBarItems:0.0];
+//        [myEditButtonPad setHidden:YES];
+//        [myDoneButtonPad setHidden:YES];
+//        [myTitlePad setHidden:YES];
+//        [mySplitViewPad setHidden:YES];
+//        [mySelectedProfilePad setHidden:YES];
     }
 }
 
@@ -697,8 +727,12 @@ Copyright (c) 2010, Janrain, Inc.
     [myNotSignedInLabel release];
     [mySignOutButtonPhone release];
     [mySignOutButtonPad release];
+    [myEditButtonContainer release];
     [myEditButtonPad release];
     [myDoneButtonPad release];    
+    [myTitlePad release];
+    [mySplitViewPad release];
+    [mySelectedProfilePad release];
     [myRightView release];
 	[level2ViewController release];	
 	

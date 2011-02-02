@@ -157,22 +157,6 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
         myNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self presentModalViewController:myNavigationController animated:YES];
     }
-
-//    if (iPad)
-//    {
-//        self.navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//        self.navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-//        
-//        [self presentModalViewController:self.navigationController animated:YES];
-//        
-//        self.navigationController.view.superview.frame = CGRectMake(0, 0, 320, 460);
-//        self.navigationController.view.superview.center = self.view.center;
-//    }
-//    else
-//    {
-//        self.navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-//        [self presentModalViewController:self.navigationController animated:YES];
-//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -213,6 +197,11 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 	return YES;
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+}
+
 - (void)dealloc 
 {
 	DLog (@"");
@@ -228,7 +217,6 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 @property (retain) UINavigationController       *applicationNavigationController;
 @property (retain) UINavigationController       *customModalNavigationController;
 @property (retain) NSDictionary                 *janrainInterfaceDefaults;
-//@property (retain) NSMutableDictionary                 *customInterfaceDefaults;
 @end
 
 @implementation JRUserInterfaceMaestro
@@ -527,10 +515,44 @@ static JRUserInterfaceMaestro* singleton = nil;
     return popoverController;
 }
 
+//- (void)deviceDidRotate:(NSNotification*)notification
+//{
+//    DLog(@"");
+//    [jrModalNavController didRotateFromInterfaceOrientation:oldOrientation];
+//    oldOrientation = [[UIDevice currentDevice] orientation];
+//}
+//
+//- (void)setUpDeviceRotation
+//{
+//    DLog(@"");
+//    alreadyGeneratesDeviceOrientationNotifications = [[UIDevice currentDevice] isGeneratingDeviceOrientationNotifications];
+//    
+//    oldOrientation = [[UIDevice currentDevice] orientation];
+//    
+//    if (!alreadyGeneratesDeviceOrientationNotifications)
+//        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(deviceDidRotate:)
+//                                                 name:@"UIDeviceOrientationDidChangeNotification" 
+//                                               object:nil];
+//}
+//
+//- (void)tearDownDeviceRotation
+//{
+//    if (!alreadyGeneratesDeviceOrientationNotifications)
+//        [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
+//    
+//    [[NSNotificationCenter defaultCenter] removeObserver:self 
+//                                              forKeyPath:@"UIDeviceOrientationDidChangeNotification"];
+//}
+
 - (void)loadModalNavigationControllerWithViewController:(UIViewController*)rootViewController
 {
     DLog(@"");
-
+//    if (supportsRotation)
+//        [self setUpDeviceRotation];
+    
     self.jrModalNavController = [[JRModalNavigationController alloc] init];
 
     if (usingCustomNav)
@@ -542,6 +564,10 @@ static JRUserInterfaceMaestro* singleton = nil;
         jrModalNavController.myPopoverController = 
             [self createPopoverControllerWithNavigationController:jrModalNavController.myNavigationController];
 
+    UIPopoverArrowDirection arrowDirection = UIPopoverArrowDirectionAny;
+    if ([customInterface objectForKey:kJRPopoverPresentationArrowDirection])
+        arrowDirection = [[customInterface objectForKey:kJRPopoverPresentationArrowDirection] intValue];
+    
     [jrModalNavController.myNavigationController pushViewController:rootViewController animated:NO];    
     if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
     {   
@@ -549,37 +575,20 @@ static JRUserInterfaceMaestro* singleton = nil;
         [jrModalNavController.myNavigationController pushViewController:myUserLandingController animated:NO];
     }
 
-//    if (usingCustomNav)
-//        jrModalNavController.navigationController = customModalNavigationController;
-//    else
-//        jrModalNavController.navigationController = [self createDefaultNavigationController];
-//   
-//    if (padPopoverMode)
-//        jrModalNavController.myPopoverController = 
-//        [self createPopoverControllerWithNavigationController:jrModalNavController.myNavigationController];
-//    
-//    [jrModalNavController.navigationController pushViewController:rootViewController animated:NO];    
-//    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
-//    {   
-//        [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
-//        [jrModalNavController.navigationController pushViewController:myUserLandingController animated:NO];
-//    }
-    
-	UIWindow* window = [UIApplication sharedApplication].keyWindow;
-	if (!window) 
+    UIWindow* window = [UIApplication sharedApplication].keyWindow;
+    if (!window) 
 		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
 
     [window addSubview:jrModalNavController.view];
-    [window addSubview:jrModalNavController.navigationController.view];
 	
     if (padPopoverMode == PadPopoverFromBar)
         [jrModalNavController 
             presentPopoverNavigationControllerFromBarButton:[customInterface objectForKey:kJRPopoverPresentationBarButtonItem]
-                                                inDirection:[[customInterface objectForKey:kJRPopoverPresentationArrowDirection] intValue]];
+                                                inDirection:arrowDirection];
     else if (padPopoverMode == PadPopoverFromFrame)
         [jrModalNavController 
             presentPopoverNavigationControllerFromCGRect:[[customInterface objectForKey:kJRPopoverPresentationFrameValue] CGRectValue] 
-                                             inDirection:[[customInterface objectForKey:kJRPopoverPresentationArrowDirection] intValue]]; 
+                                             inDirection:arrowDirection]; 
     else
         [jrModalNavController presentModalNavigationController];
 }
@@ -630,8 +639,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     DLog(@"");
     [self buildCustomInterface:customizations];
     [self setUpViewControllers];	
-    [self setUpSocialPublishing];
     [self setUpDialogPresentation];
+    [self setUpSocialPublishing];
     
     if (usingAppNav)
         [self loadApplicationNavigationControllerWithViewController:myPublishActivityController];

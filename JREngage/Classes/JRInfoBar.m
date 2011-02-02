@@ -64,18 +64,22 @@
 		
 		barBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 		barBackground.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+        barBackground.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth;
 
 		poweredByLabel = [[UILabel alloc] initWithFrame:CGRectMake(width/2, 0, width/2 - 30, height)];
 		poweredByLabel.backgroundColor = [UIColor clearColor];
 		poweredByLabel.font = [UIFont italicSystemFontOfSize:(iPad) ? 30.0 : 13.0];
 		poweredByLabel.textColor = [UIColor whiteColor];
 		poweredByLabel.textAlignment = UITextAlignmentRight;
-		
+        poweredByLabel.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin;
+        
         // TODO: Localize this string (and all others, of course)
         poweredByLabel.text = (hidesPoweredBy) ? @"" : @"Powered by Janrain";
 		
 		infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
 		infoButton.frame = CGRectMake(width - 20, 7, 15, 15);
+        infoButton.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin;
+
 		[infoButton addTarget:self
 					   action:@selector(getInfo) 
 			 forControlEvents:UIControlEventTouchUpInside];
@@ -85,8 +89,8 @@
         else
             spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(5, 5, 20, 20)];
         
-
 		spinner.activityIndicatorViewStyle = (iPad) ? UIActivityIndicatorViewStyleWhiteLarge : UIActivityIndicatorViewStyleWhite;
+        spinner.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleRightMargin;
 		
 		if (iPad)
             loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 0, 300, height)];
@@ -97,6 +101,7 @@
 		loadingLabel.font = [UIFont systemFontOfSize:(iPad) ? 30.0 : 13.0];
 		loadingLabel.textColor = [UIColor whiteColor];
 		loadingLabel.textAlignment = UITextAlignmentLeft;
+        loadingLabel.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleRightMargin;
 		loadingLabel.text = @"Loading...";
 
 		[self addSubview:barBackground];
