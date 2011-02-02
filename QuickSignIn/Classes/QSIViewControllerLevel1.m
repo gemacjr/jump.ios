@@ -707,6 +707,8 @@ Copyright (c) 2010, Janrain, Inc.
 {
     [super viewWillDisappear:animated];
     
+    [[JREngage jrEngage] cancelPublishing];
+    
     if (iPad)
     {
         [level2ViewController clearUser:YES];

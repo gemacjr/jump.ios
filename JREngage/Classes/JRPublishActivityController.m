@@ -471,7 +471,7 @@ Please try again later."
 #endif
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch (buttonIndex)
     {
@@ -485,8 +485,22 @@ Please try again later."
             if (!userIsAttemptingToSignOut)
                 [self sendSMS];
             break;
+        case 2:
+            myTabBar.selectedItem = [myTabBar.items objectAtIndex:selectedTab];
+            [self tabBar:myTabBar didSelectItem:[myTabBar.items objectAtIndex:selectedTab]];
         default:
             break;
+    }
+    
+    userIsAttemptingToSignOut = NO;
+}
+
+- (void)actionSheetCancel:(UIActionSheet*)actionSheet
+{
+    if (!userIsAttemptingToSignOut)
+    {
+        myTabBar.selectedItem = [myTabBar.items objectAtIndex:selectedTab];
+        [self tabBar:myTabBar didSelectItem:[myTabBar.items objectAtIndex:selectedTab]];
     }
     
     userIsAttemptingToSignOut = NO;
@@ -505,7 +519,7 @@ Please try again later."
                                                                    [NSString stringWithFormat:@" as %@", loggedInUser.preferred_username] : @""]
 														 delegate:self
 												cancelButtonTitle:@"Cancel"  
-										   destructiveButtonTitle:@"OK"
+										   destructiveButtonTitle:@"Sign Out"
 												otherButtonTitles:nil] autorelease];
 	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
     [action showFromTabBar:myTabBar];
@@ -639,11 +653,11 @@ Please try again later."
         switch (emailOrSms)
         {
             case EMAIL_ONLY:
-                [self sendEmail];
-                break;
+//                [self sendEmail];
+//                break;
             case SMS_ONLY:
-                [self sendSMS];
-                break;
+//                [self sendSMS];
+//                break;
             case EMAIL_AND_SMS:
                 action = [[[UIActionSheet alloc] initWithTitle:@"Share with Email or SMS"
                                                       delegate:self
