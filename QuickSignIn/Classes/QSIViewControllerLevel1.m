@@ -630,7 +630,8 @@ Copyright (c) 2010, Janrain, Inc.
 	cell.detailTextLabel.text = subtitle;
 	cell.imageView.image = [UIImage imageNamed:imagePath];
 	
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (!iPad)
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
 	return cell;
 }

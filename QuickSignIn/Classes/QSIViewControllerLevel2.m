@@ -177,13 +177,21 @@
         case 0:
             return @"Identifier";
         case 1:
-            return @"Basic Profile Information";
+            if ([profileKeys count])
+                return @"Basic Profile Information";
+            return nil;
         case 2:
-            return @"Access Credentials";
+            if ([accessCredentials count])
+                return @"Access Credentials";
+            return nil;
         case 3:
-            return @"Merged Portable Contacts";
+            if ([mergedPocoKeys count])
+                return @"Merged Portable Contacts";
+            return nil;
         case 4:
-            return @"Friends";
+            if ([friends count])
+                return @"Friends";
+            return nil;
         default:
             return nil;
     }
@@ -220,10 +228,8 @@
 			NSLog (@"section 0: 1 row");
             return 1;
 		case 1:
-			NSLog (@"section 1: %d rows", [profileKeys count]);            
 			return [profileKeys count];
 		case 2:
-            NSLog (@"section 2: %d row", [accessCredentialsKeys count]);
 			return [accessCredentialsKeys count];
 		case 3:
 			return [mergedPocoKeys count];
