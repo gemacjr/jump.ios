@@ -37,7 +37,6 @@
 #import "JRInfoBar.h"
 
 @protocol JRConnectionManagerDelegate;
-
 @class JRModalNavigationController;
 @class JRSessionData;
 
@@ -56,7 +55,5 @@
 	BOOL userHitTheBackButton;
     BOOL connectionDataAlreadyDownloadedThis;
 }
-//@property (nonatomic, retain) IBOutlet UIView *myBackgroundView;
-//@property (nonatomic, retain) IBOutlet UIWebView *myWebView;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 @end

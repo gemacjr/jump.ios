@@ -84,36 +84,37 @@
         self.title = NSLocalizedString([customInterface objectForKey:kJRSocialSharingTitleString], @"");
     else
         self.title = NSLocalizedString(@"Share", @"");
-    
-    /** DEPRECATED - REMOVE LATER **/
-    NSArray *backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColorRGBa];
-    /** DEPRECATED - REMOVE LATER **/
-    
-    /* Load the custom background view, if there is one. */
+ 
+/*** * * DEPRECATED * * ***/
+/**/NSArray *backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColorRGBa];
+/*** * * DEPRECATED * * ***/
+
+ /* Load the custom background view, if there is one. */
     if ([customInterface objectForKey:kJRSocialSharingBackgroundImageView])
         [myBackgroundView addSubview:[customInterface objectForKey:kJRSocialSharingBackgroundImageView]];
     
-    /** DEPRECATED - REMOVE LATER **/
-    if ([customInterface objectForKey:kJRSocialSharingBackgroundImageName])
-        [myBackgroundView addSubview:[[UIImageView alloc] initWithImage:
-                                      [UIImage imageNamed:[customInterface objectForKey:kJRSocialSharingBackgroundImageName]]]];
-    /** DEPRECATED - REMOVE LATER **/
+/*** * * * * * * DEPRECATED * * * * * * ***/
+/**/if ([customInterface objectForKey:kJRSocialSharingBackgroundImageName])
+/**/    [myBackgroundView addSubview:[[[UIImageView alloc] initWithImage:
+/**/                                   [UIImage imageNamed:[customInterface objectForKey:kJRSocialSharingBackgroundImageName]]] autorelease]];
+/*** * * * * * * DEPRECATED * * * * * * ***/
     
     [myBackgroundView setAlpha:0.3];
     
-    /* If there is a UIColor object set for the background color, use this */
+ /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRSocialSharingBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColor];
-    else     /** DEPRECATED - REMOVE LATER **/
-        if ([backgroundColor respondsToSelector:@selector(count)])
-            if ([backgroundColor count] == 4)
-                myBackgroundView.backgroundColor = 
-                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
-    /** DEPRECATED - REMOVE LATER **/
-            
+    else
+/*** * * * * * * DEPRECATED * * * * * * ***/
+/**/    if ([backgroundColor respondsToSelector:@selector(count)])
+/**/        if ([backgroundColor count] == 4)
+/**/            myBackgroundView.backgroundColor = 
+/**/                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+/**/                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+/**/                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+/**/                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+/*** * * * * * * DEPRECATED * * * * * * ***/
+    
     myContentView.backgroundColor = [UIColor clearColor];
         
     titleView = [[customInterface objectForKey:kJRSocialSharingTitleView] retain];
@@ -163,11 +164,11 @@
 
      /* Since the method showViewIsLoading will disable the "Cancel" button and reset the loading label to "Sharing,
         change them to the preferred values for just this case. */
-        myLoadingLabel.font = [UIFont systemFontOfSize:(0/*iPad*/) ? 48.0 : 18.0];
+        myLoadingLabel.font = [UIFont systemFontOfSize:18.0];
         myLoadingLabel.text = NSLocalizedString(@"Loading providers. Please wait...", @"");
         self.navigationItem.leftBarButtonItem.enabled = YES;
 		
-        /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
+     /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
 		timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 	}
 	else 
@@ -185,9 +186,9 @@
     
     self.contentSizeForViewInPopover = CGSizeMake(320, 416);
     
-    /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
-     or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
-     back button until told otherwise. */
+ /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
+    or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
+    back button until told otherwise. */
 	userHitTheBackButton = YES;
     
     if (!titleView)
@@ -412,7 +413,7 @@ Please try again later."
 {
     DLog(@"");
     
-    myLoadingLabel.font = [UIFont systemFontOfSize:(0/*iPad*/) ? 56.0 : 24.0];
+    myLoadingLabel.font = [UIFont systemFontOfSize:24.0];
     myLoadingLabel.text = NSLocalizedString(@"Sharing...", @"");
     
  /* Don't let the user edit or cancel while the activity is being shared */
@@ -819,7 +820,7 @@ Please try again later."
         if (!provider)
             break;
         
-        NSString *imagePath = [NSString stringWithFormat:@"icon_bw_%@_30x30.png", provider.name];//, (iPad) ? @"@2x" : @"" ];
+        NSString *imagePath = [NSString stringWithFormat:@"icon_bw_%@_30x30.png", provider.name];
         UITabBarItem *providerTab = [[[UITabBarItem alloc] initWithTitle:provider.friendlyName 
                                                                    image:[UIImage imageNamed:imagePath]
                                                                      tag:[providerTabArr count]] autorelease];
@@ -1248,20 +1249,15 @@ Please try again later."
         [sessionData triggerPublishingDidCancel];
 }
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
+- (void)didReceiveMemoryWarning 
+{
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload 
 {
     DLog(@"");
     [super viewDidUnload];
-    
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)userInterfaceWillClose

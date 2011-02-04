@@ -31,7 +31,6 @@
  Date:	 Tuesday, June 1, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import "JREngage.h"
 
 #ifdef DEBUG
@@ -40,11 +39,10 @@
 #define DLog(...)
 #endif
 
-#define STARS   "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-#define TABS    "\t\t\t\t\t\t\t"
-
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#define WLog(fmt, ...) NSLog((@"\n\n%s%s\n%s* WARNING: " fmt "\n%s%s\n"), TABS, STARS, TABS, TABS, STARS, ##__VA_ARGS__);
+#define WLog(fmt, ...) NSLog((@"*** WARNING: " fmt), ##__VA_ARGS__);
+//#define WLog(fmt, ...) NSLog((@"\n\n%s%s\n%s* WARNING: " fmt "\n%s%s\n"), TABS, STARS, TABS, TABS, STARS, ##__VA_ARGS__);
+
 @implementation JREngage
 
 static JREngage* singletonJREngage = nil;
@@ -58,9 +56,7 @@ static JREngage* singletonJREngage = nil;
     return [[self jrEngage] retain];
 }
 
-- (JREngage*)initWithAppID:(NSString*)appId 
-               andTokenUrl:(NSString*)tokenUrl 
-                  delegate:(id<JREngageDelegate>)delegate
+- (JREngage*)initWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
 {
     ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);
     
@@ -77,9 +73,7 @@ static JREngage* singletonJREngage = nil;
 	return self;
 }
 
-+ (JREngage*)jrEngageWithAppId:(NSString*)appId 
-                   andTokenUrl:(NSString*)tokenUrl
-                      delegate:(id<JREngageDelegate>)delegate
++ (JREngage*)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
 {
 	if(singletonJREngage)
 		return singletonJREngage;
@@ -87,9 +81,7 @@ static JREngage* singletonJREngage = nil;
 	if (appId == nil)
 		return nil;
 	
-	return [[super allocWithZone:nil] initWithAppID:appId 
-										andTokenUrl:tokenUrl 
-										   delegate:delegate];
+	return [[super allocWithZone:nil] initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
 }	
 
 - (id)copyWithZone:(NSZone *)zone

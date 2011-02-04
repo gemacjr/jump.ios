@@ -131,7 +131,6 @@
 #import "JRActivityObject.h"
 #import "JRUserInterfaceMaestro.h"
 
-//@class JREngage;
 @class JRUserInterfaceMaestro;
 
 /**
@@ -394,9 +393,7 @@
  *   The shared instance of the \c JREngage object initialized with the given
  *   \c appId, \c tokenUrl, and \c delegate.  If the given \c appId is nil, returns \c nil.
  **/
-+ (JREngage*)jrEngageWithAppId:(NSString*)appId 
-                   andTokenUrl:(NSString*)tokenUrl
-                      delegate:(id<JREngageDelegate>)delegate;
++ (JREngage*)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate;
 /*@}*/
 
 /** 

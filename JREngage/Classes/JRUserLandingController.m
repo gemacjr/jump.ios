@@ -50,8 +50,6 @@
 @end
 
 @implementation JRUserLandingController
-//@synthesize myBackgroundView;
-//@synthesize myTableView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
@@ -75,22 +73,23 @@
 	
 	sessionData = [JRSessionData jrSessionData];
 	
-    /** DEPRECATED - REMOVE LATER **/
-    NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
-    /** DEPRECATED - REMOVE LATER **/
-        
-    /* If there is a UIColor object set for the background color, use this */
+/*** * * DEPRECATED * * ***/
+/**/NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
+/*** * * DEPRECATED * * ***/
+    
+ /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
-    else     /** DEPRECATED - REMOVE LATER **/
-        if ([backgroundColor respondsToSelector:@selector(count)])
-            if ([backgroundColor count] == 4)
-                myBackgroundView.backgroundColor = 
-                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
-    /** DEPRECATED - REMOVE LATER **/
+    else
+/*** * * * * * * DEPRECATED * * * * * * ***/
+/**/    if ([backgroundColor respondsToSelector:@selector(count)])
+/**/        if ([backgroundColor count] == 4)
+/**/            myBackgroundView.backgroundColor = 
+/**/                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+/**/                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+/**/                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+/**/                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+/*** * * * * * * DEPRECATED * * * * * * ***/
     
     myTableView.backgroundColor = [UIColor clearColor];
 
@@ -120,13 +119,14 @@
 	DLog(@"");
     [super viewWillAppear:animated];
     
-    /** DEPRECATED - REMOVE LATER **/
-    if ([customInterface objectForKey:kJRUserLandingBackgroundImageName])
-        [myBackgroundView addSubview:[[UIImageView alloc] initWithImage:
-                                      [UIImage imageNamed:[customInterface objectForKey:kJRUserLandingBackgroundImageName]]]];
-    /** DEPRECATED - REMOVE LATER **/
+/*** * * * * * * DEPRECATED * * * * * * ***/
+/**/if ([customInterface objectForKey:kJRUserLandingBackgroundImageName])
+/**/    [myBackgroundView addSubview:[[[UIImageView alloc] initWithImage:
+/**/                                   [UIImage imageNamed:[customInterface objectForKey:kJRUserLandingBackgroundImageName]]] autorelease]];
+/*** * * * * * * DEPRECATED * * * * * * ***/
 
-    /* Load the custom background view, if there is one. */
+
+ /* Load the custom background view, if there is one. */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundImageView])
         [myBackgroundView addSubview:[customInterface objectForKey:kJRAuthenticationBackgroundImageView]];
         
@@ -255,7 +255,7 @@ enum
     UILabel *welcomeLabel;
     welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)] autorelease];
 
-    welcomeLabel.font = [UIFont boldSystemFontOfSize: (0/*iPad*/) ? 36.0 : 20.0];
+    welcomeLabel.font = [UIFont boldSystemFontOfSize:20.0];
     
     welcomeLabel.adjustsFontSizeToFitWidth = YES;
     welcomeLabel.textColor = [UIColor blackColor];
@@ -274,7 +274,7 @@ enum
     UITextField *textField;
     textField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 85, 280, 35)] autorelease];
 
-    textField.font = [UIFont systemFontOfSize: (0/*iPad*/) ? 30.0 : 15.0];
+    textField.font = [UIFont systemFontOfSize:15.0];
     
     textField.adjustsFontSizeToFitWidth = YES;
     textField.textColor = [UIColor blackColor];
@@ -305,9 +305,6 @@ enum
 
     [signInButton setFrame:CGRectMake(155, 130, 135, 40)];
     [signInButton setBackgroundImage:[UIImage imageNamed:@"button_iosblue_135x40.png"]
-//                                                          NSString stringWithFormat:
-//                                                          @"button_iosblue_135x40%@.png", 
-//                                                          (iPad) ? @"@2x" : @""]]
                             forState:UIControlStateNormal];
     
     [signInButton setTitle:@"Sign In" forState:UIControlStateNormal];
@@ -316,7 +313,7 @@ enum
     [signInButton setTitleShadowColor:[UIColor grayColor]
                              forState:UIControlStateNormal];
 
-    signInButton.titleLabel.font = [UIFont boldSystemFontOfSize: (0/*iPad*/) ? 36.0 : 20.0];
+    signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
 
     [signInButton addTarget:self
                      action:@selector(signInButtonTouchUpInside:) 
@@ -336,9 +333,6 @@ enum
 
     [backToProvidersButton setFrame:CGRectMake(10, 130, 135, 40)];
     [backToProvidersButton setBackgroundImage:[UIImage imageNamed:@"button_black_135x40.png"]
-     //                                                          NSString stringWithFormat:
-     //                                                          @"button_iosblue_135x40%@.png", 
-     //                                                          (iPad) ? @"@2x" : @""]]
                                      forState:UIControlStateNormal];
 
     [backToProvidersButton setTitle:@"Switch Accounts" forState:UIControlStateNormal];
@@ -347,7 +341,7 @@ enum
     [backToProvidersButton setTitleShadowColor:[UIColor grayColor]
                                       forState:UIControlStateNormal];
 
-    backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize: (0/*iPad*/) ? 28.0 : 14.0];
+    backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
 
     [backToProvidersButton addTarget:self
                               action:@selector(backToProvidersTouchUpInside) 
@@ -366,9 +360,6 @@ enum
 
     [bigSignInButton setFrame:CGRectMake(10, 130, 280, 40)];
     [bigSignInButton setBackgroundImage:[UIImage imageNamed:@"button_iosblue_280x40.png"]
-     //                                                          NSString stringWithFormat:
-     //                                                          @"button_iosblue_135x40%@.png", 
-     //                                                          (iPad) ? @"@2x" : @""]]
                                forState:UIControlStateNormal];
     
     [bigSignInButton setTitle:@"Sign In" forState:UIControlStateNormal];
@@ -377,7 +368,7 @@ enum
     [bigSignInButton setTitleShadowColor:[UIColor grayColor]
                                 forState:UIControlStateNormal];
 
-    bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize: (0/*iPad*/) ? 36.0 : 20.0];
+    bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
     
     [bigSignInButton addTarget:self
                         action:@selector(signInButtonTouchUpInside:) 
@@ -468,41 +459,6 @@ enum
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range 
                                                        replacementString:(NSString *)string { return YES; }
 

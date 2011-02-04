@@ -44,8 +44,6 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-#define NUM 3
-
 @interface UITableViewCellProviders : UITableViewCell { }
 @end
 
@@ -92,30 +90,25 @@
 
 	sessionData = [JRSessionData jrSessionData];
     
-    /** DEPRECATED - REMOVE LATER **/
-    NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
-    /** DEPRECATED - REMOVE LATER **/
+/*** * * DEPRECATED * * ***/
+/**/NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
+/*** * * DEPRECATED * * ***/
     
  /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
-    else     /** DEPRECATED - REMOVE LATER **/
-        if ([backgroundColor respondsToSelector:@selector(count)])
-            if ([backgroundColor count] == 4)
-                myBackgroundView.backgroundColor = 
-                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
-    /** DEPRECATED - REMOVE LATER **/
+    else
+/*** * * * * * * DEPRECATED * * * * * * ***/
+/**/    if ([backgroundColor respondsToSelector:@selector(count)])
+/**/        if ([backgroundColor count] == 4)
+/**/            myBackgroundView.backgroundColor = 
+/**/                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+/**/                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+/**/                                blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+/**/                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+/*** * * * * * * DEPRECATED * * * * * * ***/
 
     myTableView.backgroundColor = [UIColor clearColor];
-    
-    CGRect rects[NUM] = { self.view.frame, myBackgroundView.frame, ((UIImageView*)[customInterface objectForKey:kJRAuthenticationBackgroundImageView]).frame };
-    NSString *strs[NUM] = { @"self view", @"bg view", @"cus image view" };
-    
-    for (int i = 0; i < NUM; i++)
-        ALog (@"%@: %f, %f, %f, %f", strs[i], rects[i].origin.x, rects[i].origin.y, rects[i].size.width, rects[i].size.height);
     
     titleView = [customInterface objectForKey:kJRProviderTableTitleView];
     
@@ -166,11 +159,6 @@
 
     if (!infoBar)
 	{
-//        if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
-//            self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 450, 320, 30) andStyle:[sessionData hidePoweredBy]];
-//        else 
-//            infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, 290, 480, 30) andStyle:[sessionData hidePoweredBy]];
         infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 30, self.view.frame.size.width, 30) 
                                           andStyle:[sessionData hidePoweredBy]];
         
@@ -183,25 +171,18 @@
 	DLog(@"");
 	[super viewWillAppear:animated];
 
-    /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
-     or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
-     back button until told otherwise. */
+ /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
+    or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
+    back button until told otherwise. */
 	userHitTheBackButton = YES;
     
+/*** * * * * * * DEPRECATED * * * * * * ***/
+/**/if ([customInterface objectForKey:kJRProviderTableBackgroundImageName])
+/**/    [myBackgroundView addSubview:[[[UIImageView alloc] initWithImage:
+/**/                                   [UIImage imageNamed:[customInterface objectForKey:kJRProviderTableBackgroundImageName]]] autorelease]];
+/*** * * * * * * DEPRECATED * * * * * * ***/
 
-    CGRect rects[NUM] = { self.view.frame, myBackgroundView.frame, ((UIImageView*)[customInterface objectForKey:kJRAuthenticationBackgroundImageView]).frame };
-    NSString *strs[NUM] = { @"self view", @"bg view", @"cus image view" };
-    
-    for (int i = 0; i < NUM; i++)
-        ALog (@"%@: %f, %f, %f, %f", strs[i], rects[i].origin.x, rects[i].origin.y, rects[i].size.width, rects[i].size.height);
-    
-    /** DEPRECATED - REMOVE LATER **/
-    if ([customInterface objectForKey:kJRProviderTableBackgroundImageName])
-        [myBackgroundView addSubview:[[UIImageView alloc] initWithImage:
-                                      [UIImage imageNamed:[customInterface objectForKey:kJRProviderTableBackgroundImageName]]]];
-    /** DEPRECATED - REMOVE LATER **/
-
-    /* Load the custom background view, if there is one. */
+ /* Load the custom background view, if there is one. */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundImageView])
         [myBackgroundView addSubview:[customInterface objectForKey:kJRAuthenticationBackgroundImageView]];
 }
@@ -221,7 +202,6 @@
         
      /* Load the table with the list of providers. */
         [myTableView reloadData];    
-		//[infoBar fadeIn];
     }
     else
     {
@@ -313,7 +293,7 @@ Please try again later."
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [customInterface objectForKey:kJRProviderTableSectionHeaderTitleString];
+    return NSLocalizedString([customInterface objectForKey:kJRProviderTableSectionHeaderTitleString], @"");
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -333,7 +313,7 @@ Please try again later."
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    return [customInterface objectForKey:kJRProviderTableSectionFooterTitleString];
+    return NSLocalizedString([customInterface objectForKey:kJRProviderTableSectionFooterTitleString], @"");
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -384,7 +364,7 @@ Please try again later."
     if (!provider)
         return cell;
 	
-    NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30%@.png", provider.name, (iPad) ? @"@2x" : @"" ];
+    NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30.png", provider.name];
 
 	cell.textLabel.text = provider.friendlyName;
 	cell.imageView.image = [UIImage imageNamed:imagePath];

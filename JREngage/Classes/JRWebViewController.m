@@ -47,8 +47,6 @@
 @end
 
 @implementation JRWebViewController
-//@synthesize myBackgroundView;
-//@synthesize myWebView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
@@ -60,7 +58,6 @@
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad 
 {
 	DLog(@"");

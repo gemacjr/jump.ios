@@ -32,7 +32,6 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import <UIKit/UIKit.h>
 #import "JREngage.h"
 #import "JRInfoBar.h"
@@ -54,14 +53,5 @@
 	
     JRInfoBar	*infoBar;
 }
-//@property (nonatomic, retain) IBOutlet UIImageView *myBackgroundView;
-//@property (nonatomic, retain) IBOutlet UITableView *myTableView;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
-//- (void)backToProvidersTouchUpInside;
-//- (void)signInButtonTouchUpInside:(UIButton*)button;
-//
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
-//
-//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
-//- (BOOL)textFieldShouldClear:(UITextField *)textField;
 @end

@@ -73,50 +73,17 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 @synthesize myNavigationController;
 @synthesize myPopoverController;
 
-//- (UINavigationController*)myNavigationController
-//{
-//    return navigationController;
-//}
-//
-//- (void)setMyNavigationController:(UINavigationController*)navController
-//{
-//    [navController retain];
-//    [navigationController release];
-//    navigationController = navController;
-//}
-
-//- (id)initWithRootViewController:(UIViewController*)controller andCustomInterface:(NSDictionary*)_customInterface
-//{
-//	if (controller == nil)
-//	{
-//		[self release];
-//		return nil;
-//	}
-//        
-//	if (self = [super init]) { }
-//
-//    return self;
-//}
-
 - (void)loadView  
 {
 	DLog (@"");    
     UIView *view = [[[UIView alloc] initWithFrame:[[UIApplication sharedApplication] keyWindow].frame] autorelease];
     [view setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    //view.backgroundColor = [UIColor redColor];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         iPad = YES;
 
     shouldUnloadSubviews = NO;
 
-//    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];   
-//    [[NSNotificationCenter defaultCenter] 
-//     addObserver:self 
-//     selector:@selector(deviceOrientationDidChange:) 
-//     name:@"UIDeviceOrientationDidChangeNotification" 
-//     object:nil]; 
-    
     [self setView:view];
 }
 
@@ -179,8 +146,7 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
     }
     else
     {
-//        myNavigationController.modalTransitionStyle = style;
-        self.navigationController.modalTransitionStyle = style;
+        myNavigationController.modalTransitionStyle = style;
         [self dismissModalViewControllerAnimated:YES];
     }
 
@@ -191,15 +157,7 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
-    DLog (@"");
-    if (self.navigationController)
-        DLog (@"nc");
-	return YES;
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)dealloc 
@@ -290,9 +248,9 @@ static JRUserInterfaceMaestro* singleton = nil;
     [dict setObject:backgroundColor forKey:kJRAuthenticationBackgroundColor];
     [dict removeObjectForKey:kJRAuthenticationBackgroundColorRGBa];
 
-    /** DEPRECATED - REMOVE LATER **/
-    [dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"CustomValues"]];
-    /** DEPRECATED - REMOVE LATER **/
+/*** * * DEPRECATED * * ***/
+/**/[dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"CustomValues"]];
+/*** * * DEPRECATED * * ***/
     
     return dict;
 }
@@ -328,17 +286,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     [customInterfaceDefaults setObject:navigationController forKey:kJRApplicationNavigationController];
 }
 
-- (void)warnDeprecated:(NSDictionary*)customizations
-{
-    // TODO
-}
-
 - (void)buildCustomInterface:(NSDictionary*)customizations
 {
-//    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
-//                               [[[NSBundle mainBundle] resourcePath] 
-//                                stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
-
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:
                                  ([customizations count] + 
                                   [janrainInterfaceDefaults count] + 
@@ -353,57 +302,6 @@ static JRUserInterfaceMaestro* singleton = nil;
         [dict removeObjectForKey:key];
     
     customInterface = [[NSDictionary alloc] initWithDictionary:dict];
-    
-    
-    
-}
-
-- (void)setUpViewControllers
-{
-    DLog(@"");
-    myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController" 
-                                                                          bundle:[NSBundle mainBundle]
-                                                              andCustomInterface:customInterface];
-    
-    myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController"
-                                                                            bundle:[NSBundle mainBundle]
-                                                                andCustomInterface:customInterface];
-    
-    myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController"
-                                                                        bundle:[NSBundle mainBundle]
-                                                            andCustomInterface:customInterface];
-    
-    myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController"
-                                                                                bundle:[NSBundle mainBundle]
-                                                                    andCustomInterface:customInterface];
-
-    @try
-    {
-     /* We do this here, because sometimes we pop straight to the user landing controller and we need the back-button's title to be correct */
-        if ([customInterface objectForKey:kJRProviderTableTitleString] && 
-            ((NSString*)[customInterface objectForKey:kJRProviderTableTitleString]).length)
-            myProvidersController.title = [customInterface objectForKey:kJRProviderTableTitleString];
-        else
-            myProvidersController.title = @"Providers";        
-    }
-    @catch (NSException *exception)
-    {
-        handleCustomInterfaceException(exception, @"kJRProviderTableTitleString");
-        myProvidersController.title = @"Providers";        
-    }
-    
-    if (usingAppNav || (iPad && padPopoverMode != PadPopoverModeNone))
-    {
-        myProvidersController.hidesCancelButton = YES;
-        myPublishActivityController.hidesCancelButton = YES;
-    }
-    
-    delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController, 
-                 myUserLandingController, 
-                 myWebViewController, 
-                 myPublishActivityController, nil];
-    
-    sessionData.dialogIsShowing = YES;
 }
 
 - (void)setUpDialogPresentation
@@ -413,7 +311,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     
     if ([customInterface objectForKey:kJRCustomModalNavigationController])
         self.customModalNavigationController = [[customInterface objectForKey:kJRCustomModalNavigationController] retain];
-
+    
     usingAppNav = usingCustomNav = NO;
     if (iPad)
     {
@@ -446,6 +344,63 @@ static JRUserInterfaceMaestro* singleton = nil;
         @catch (NSException *exception)
         { handleCustomInterfaceException(exception, @"kJRUseApplicationNavigationController"); }
     }
+}
+
+- (void)tearDownDialogPresentation
+{
+    padPopoverMode = PadPopoverModeNone;
+    usingAppNav = usingCustomNav = NO;
+    
+    [viewControllerToPopTo release], viewControllerToPopTo = nil;
+    self.applicationNavigationController = nil;
+    self.customModalNavigationController = nil;
+}
+
+- (void)setUpViewControllers
+{
+    DLog(@"");
+    myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController" 
+                                                                          bundle:[NSBundle mainBundle]
+                                                              andCustomInterface:customInterface];
+    
+    myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController"
+                                                                            bundle:[NSBundle mainBundle]
+                                                                andCustomInterface:customInterface];
+    
+    myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController"
+                                                                        bundle:[NSBundle mainBundle]
+                                                            andCustomInterface:customInterface];
+    
+    myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController"
+                                                                                bundle:[NSBundle mainBundle]
+                                                                    andCustomInterface:customInterface];
+
+    @try
+    {/* We do this here, because sometimes we pop straight to the user landing controller and we need the back-button's title to be correct */
+        if ([customInterface objectForKey:kJRProviderTableTitleString] && 
+            ((NSString*)[customInterface objectForKey:kJRProviderTableTitleString]).length)
+            myProvidersController.title = [customInterface objectForKey:kJRProviderTableTitleString];
+        else
+            myProvidersController.title = @"Providers";        
+    }
+    @catch (NSException *exception)
+    {
+        handleCustomInterfaceException(exception, @"kJRProviderTableTitleString");
+        myProvidersController.title = @"Providers";        
+    }
+    
+    if (usingAppNav || (iPad && padPopoverMode != PadPopoverModeNone))
+    {
+        myProvidersController.hidesCancelButton = YES;
+        myPublishActivityController.hidesCancelButton = YES;
+    }
+    
+    delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController, 
+                 myUserLandingController, 
+                 myWebViewController, 
+                 myPublishActivityController, nil];
+    
+    sessionData.dialogIsShowing = YES;
 }
 
 - (void)tearDownViewControllers
@@ -493,26 +448,26 @@ static JRUserInterfaceMaestro* singleton = nil;
     navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;   
     navigationController.navigationBar.clipsToBounds = YES;
    
-    /** DEPRECATED - REMOVE LATER **/
-    NSArray *tintArray = [customInterface objectForKey:kJRNavigationBarTintColorRGBa];
-    UIColor *tintColor = [customInterface objectForKey:kJRNavigationBarTintColor];
-    
-    @try
-    {
-        if (tintColor)
-            [navigationController.navigationBar setTintColor:tintColor];
-        else if (tintArray)
-            if ([tintArray respondsToSelector:@selector(count)])
-                if ([tintArray count] == 4)
-                    [navigationController.navigationBar setTintColor: 
-                     [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
-                                     green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
-                                      blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
-                                     alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]]];
-    }
-    @catch (NSException *exception)
-    { handleCustomInterfaceException(exception, @"kJRNavigationBarTintColorRGBa or kJRNavigationBarTintColor"); }
-    /** DEPRECATED - REMOVE LATER **/
+/*** * * DEPRECATED * * ***/
+/**/NSArray *tintArray = [customInterface objectForKey:kJRNavigationBarTintColorRGBa];
+/**/UIColor *tintColor = [customInterface objectForKey:kJRNavigationBarTintColor];
+/**/    
+/**/@try
+/**/{
+/**/    if (tintColor)
+/**/        [navigationController.navigationBar setTintColor:tintColor];
+/**/    else if (tintArray)
+/**/        if ([tintArray respondsToSelector:@selector(count)])
+/**/            if ([tintArray count] == 4)
+/**/                [navigationController.navigationBar setTintColor: 
+/**/                    [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
+/**/                                    green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
+/**/                                    blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
+/**/                                    alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]]];
+/**/}
+/**/@catch (NSException *exception)
+/**/{ handleCustomInterfaceException(exception, @"kJRNavigationBarTintColorRGBa or kJRNavigationBarTintColor"); }
+/*** * * DEPRECATED * * ***/
 
     return navigationController;
 }
@@ -631,16 +586,13 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)unloadModalNavigationControllerWithTransitionStyle:(UIModalTransitionStyle)style
 {
     DLog(@"");
-    [jrModalNavController dismissModalNavigationController:style];   
+    [jrModalNavController dismissModalNavigationController:style];  
 }
 
 - (void)unloadApplicationNavigationController
 {
     DLog(@"");
     [applicationNavigationController popToViewController:viewControllerToPopTo animated:YES];
-
-    [viewControllerToPopTo release], viewControllerToPopTo = nil;
-    self.applicationNavigationController = nil;
 }
 
 - (void)unloadUserInterfaceWithTransitionStyle:(UIModalTransitionStyle)style
@@ -661,6 +613,7 @@ static JRUserInterfaceMaestro* singleton = nil;
         [delegate userInterfaceDidClose];
     
     [self tearDownViewControllers];
+    [self tearDownDialogPresentation];
 }
 
 - (void)popToOriginalRootViewController

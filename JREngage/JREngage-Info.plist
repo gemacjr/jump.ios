@@ -5,18 +5,11 @@
 	<key>CFBundleShortVersionString</key>
 	<string>v2.1.03</string>
 	<key>JREngage.GitCommit</key>
-	<string>1</string>
+	<string>d4d07b0d8475fc88a4e86bf15dcd06b79b093560</string>
 	<key>JREngage.CustomInterface</key>
 	<dict>
 		<key>DefaultValues</key>
 		<dict>
-			<key>NavigationBar.TintColor.RGBa</key>
-			<array>
-				<real>0</real>
-				<real>0</real>
-				<real>0</real>
-				<real>0</real>
-			</array>
 			<key>Authentication.Background.Color.RGBa</key>
 			<array>
 				<real>0.102</real>
