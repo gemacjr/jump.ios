@@ -81,10 +81,9 @@
     activity = [[sessionData activity] retain];
 
     if ([[customInterface objectForKey:kJRSocialSharingTitleString] isKindOfClass:[NSString class]])
-        self.title = [customInterface objectForKey:kJRSocialSharingTitleString];
+        self.title = NSLocalizedString([customInterface objectForKey:kJRSocialSharingTitleString], @"");
     else
-        self.title = @"Share";
-    
+        self.title = NSLocalizedString(@"Share", @"");
     
     /** DEPRECATED - REMOVE LATER **/
     NSArray *backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColorRGBa];
@@ -117,7 +116,7 @@
             
     myContentView.backgroundColor = [UIColor clearColor];
         
-    titleView = [customInterface objectForKey:kJRSocialSharingTitleView];
+    titleView = [[customInterface objectForKey:kJRSocialSharingTitleView] retain];
     
     if (titleView)
         self.navigationItem.titleView = titleView;
@@ -190,6 +189,28 @@
      or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
      back button until told otherwise. */
 	userHitTheBackButton = YES;
+    
+    if (!titleView)
+    {
+        UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
+		titleLabel.backgroundColor = [UIColor clearColor];
+		titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+		titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+		titleLabel.textAlignment = UITextAlignmentCenter;
+		titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.adjustsFontSizeToFitWidth = YES;
+        titleLabel.minimumFontSize = 18.0;
+        
+        if ([customInterface objectForKey:kJRSocialSharingTitleString])
+            titleLabel.text = NSLocalizedString([customInterface objectForKey:kJRSocialSharingTitleString], @"");
+        else if (selectedProvider)
+            titleLabel.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Share on", @""), selectedProvider.friendlyName];
+        else
+            titleLabel.text = NSLocalizedString(@"Share", @"");
+            
+        titleView = (UIView*)titleLabel;
+        self.navigationItem.titleView = titleView;
+    }
     
     // QTS: Am I doing this twice?
     if (weAreReady)
@@ -722,21 +743,22 @@ Please try again later."
                                                             alpha:0.2];
 
         [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                                         @"button_%@_280x40%@.png", 
-                                                                         selectedProvider.name, 
-                                                                         (iPad) ? @"@2x" : @""]]
+                                                                         @"button_%@_280x40.png", 
+                                                                         selectedProvider.name]]
                                            forState:UIControlStateNormal];
         
         [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                                   @"button_%@_135x40%@.png", 
-                                                                   selectedProvider.name, 
-                                                                   (iPad) ? @"@2x" : @""]]
+                                                                   @"button_%@_135x40.png", 
+                                                                   selectedProvider.name]]
                                      forState:UIControlStateNormal];
         
         myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:
-                                                    @"icon_%@_30x30%@.png", 
-                                                    selectedProvider.name, 
-                                                    (iPad) ? @"@2x" : @"" ]];
+                                                    @"icon_%@_30x30.png", 
+                                                    selectedProvider.name]];
+                
+        if (![customInterface objectForKey:kJRSocialSharingTitleString] &&
+            ![customInterface objectForKey:kJRSocialSharingTitleView])
+            ((UILabel*)titleView).text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Share on", @""), selectedProvider.friendlyName];
         
         loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
         
@@ -1292,6 +1314,7 @@ Please try again later."
     [mySignOutButton release];
     [cachedProfilePics release];
     [alreadyShared release];
+    [titleView release];
     
     [super dealloc];
 }

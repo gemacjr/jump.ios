@@ -128,7 +128,11 @@
 		titleLabel.textAlignment = UITextAlignmentCenter;
 		titleLabel.textColor = [UIColor whiteColor];
         
-		titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
+        if ([customInterface objectForKey:kJRProviderTableTitleString])
+             titleLabel.text = NSLocalizedString([customInterface objectForKey:kJRProviderTableTitleString], @"");
+        else
+             titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
+        
         titleView = (UIView*)titleLabel;
 	}	
     
