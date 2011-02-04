@@ -348,7 +348,14 @@ static JRUserInterfaceMaestro* singleton = nil;
     [dict addEntriesFromDictionary:customInterfaceDefaults];
     [dict addEntriesFromDictionary:customizations];
 
+    NSArray *nullKeys = [dict allKeysForObject:[NSNull null]];
+    for (NSString *key in nullKeys)
+        [dict removeObjectForKey:key];
+    
     customInterface = [[NSDictionary alloc] initWithDictionary:dict];
+    
+    
+    
 }
 
 - (void)setUpViewControllers

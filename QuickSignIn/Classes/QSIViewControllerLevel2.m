@@ -323,7 +323,7 @@
 		case 2:
 		{
             cellTitle = [accessCredentialsKeys objectAtIndex:indexPath.row];
-			subtitle = [accessCredentials objectForKey:cellTitle];
+			subtitle = [accessCredentials objectForKey:cellTitle];            
 			break;
 		}
 		case 3:
@@ -347,7 +347,14 @@
             subtitle = [NSString stringWithFormat:@"%@", subtitle];
         
         titleLabel.text = cellTitle;
-        subtitleLabel.text = subtitle;
+        
+        if ([cellTitle isEqualToString:@"oauthTokenSecret"] || 
+            [cellTitle isEqualToString:@"sessionKey"] || 
+            [cellTitle isEqualToString:@"eact"] || 
+            [cellTitle isEqualToString:@"accessToken"])
+            subtitleLabel.text = @"***********************************";
+        else
+            subtitleLabel.text = subtitle;
     }
     
 	return cell;
