@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="90"/>
+			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -208,12 +208,12 @@
 										</object>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 									</object>
-									<object class="IBUIView" id="320538920">
+									<object class="IBUIView" id="864311081">
 										<reference key="NSNextResponder" ref="467309782"/>
 										<int key="NSvFlags">-2147483374</int>
 										<string key="NSFrameSize">{320, 215}</string>
 										<reference key="NSSuperview" ref="467309782"/>
-										<object class="NSColor" key="IBUIBackgroundColor" id="590632001">
+										<object class="NSColor" key="IBUIBackgroundColor" id="640230116">
 											<int key="NSColorSpace">1</int>
 											<bytes key="NSRGB">MCAwIDAAA</bytes>
 										</object>
@@ -422,7 +422,7 @@
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<string key="IBUIText">User Name</string>
-										<reference key="IBUITextColor" ref="590632001"/>
+										<reference key="IBUITextColor" ref="640230116"/>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">1</int>
 										<float key="IBUIMinimumFontSize">12</float>
@@ -509,24 +509,24 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 						</object>
 					</object>
-					<object class="IBUIView" id="59201476">
+					<object class="IBUIView" id="320581662">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">-2147483374</int>
 						<string key="NSFrame">{{0, 215}, {320, 245}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="IBUIBackgroundColor" ref="590632001"/>
+						<reference key="IBUIBackgroundColor" ref="640230116"/>
 						<float key="IBUIAlpha">0.40000000596046448</float>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIView" id="245951963">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">-2147483345</int>
+						<int key="NSvFlags">-2147483374</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUILabel" id="924223768">
 								<reference key="NSNextResponder" ref="245951963"/>
 								<int key="NSvFlags">303</int>
-								<string key="NSFrame">{{0, 174}, {320, 32}}</string>
+								<string key="NSFrame">{{0, 140}, {320, 32}}</string>
 								<reference key="NSSuperview" ref="245951963"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -546,14 +546,14 @@
 							<object class="IBUIActivityIndicatorView" id="513493071">
 								<reference key="NSNextResponder" ref="245951963"/>
 								<int key="NSvFlags">-2147483347</int>
-								<string key="NSFrame">{{141, 217}, {37, 37}}</string>
+								<string key="NSFrame">{{141.5, 181.5}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="245951963"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIStyle">0</int>
 							</object>
 						</object>
-						<string key="NSFrame">{{0, -24.5}, {320, 480}}</string>
+						<string key="NSFrameSize">{320, 480}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -869,7 +869,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">myPadGrayEditingViewBottom</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="59201476"/>
+						<reference key="destination" ref="320581662"/>
 					</object>
 					<int key="connectionID">125</int>
 				</object>
@@ -877,7 +877,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">myPadGrayEditingViewTop</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="320538920"/>
+						<reference key="destination" ref="864311081"/>
 					</object>
 					<int key="connectionID">126</int>
 				</object>
@@ -899,7 +899,7 @@
 							<reference ref="383738671"/>
 							<reference ref="607984093"/>
 							<reference ref="245951963"/>
-							<reference ref="59201476"/>
+							<reference ref="320581662"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1013,7 +1013,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="366203431"/>
 							<reference ref="572044687"/>
-							<reference ref="320538920"/>
+							<reference ref="864311081"/>
 							<reference ref="854229870"/>
 						</object>
 						<reference key="parent" ref="607984093"/>
@@ -1133,12 +1133,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">123</int>
-						<reference key="object" ref="320538920"/>
+						<reference key="object" ref="864311081"/>
 						<reference key="parent" ref="467309782"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">124</int>
-						<reference key="object" ref="59201476"/>
+						<reference key="object" ref="320581662"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</object>
@@ -1192,7 +1192,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>JRPublishActivityController</string>
 					<string>UIResponder</string>
-					<string>{{345, 276}, {320, 480}}</string>
+					<string>{{298, 15}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

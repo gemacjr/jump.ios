@@ -171,10 +171,10 @@
 	DLog(@"");
 	[super viewWillAppear:animated];
 
- /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
-    or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
-    back button until told otherwise. */
-	userHitTheBackButton = YES;
+// /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
+//    or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
+//    back button until told otherwise. */
+//	userHitTheBackButton = YES;
     
 /*** * * * * * * DEPRECATED * * * * * * ***/
 /**/if ([customInterface objectForKey:kJRProviderTableBackgroundImageName])
@@ -287,8 +287,7 @@ Please try again later."
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
-    DLog (@"");
-	return YES;
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -386,7 +385,7 @@ Please try again later."
 
     DLog(@"cell for %@ was selected", provider);
 
-    userHitTheBackButton = NO;
+//    userHitTheBackButton = NO;
 
  /* If the selected provider requires input from the user, go to the user landing view.
     Or if the user started on the user landing page, went back to the list of providers, then selected 
@@ -423,8 +422,8 @@ Please try again later."
     DLog(@"");
     [super viewDidDisappear:animated];
     
-    if (hidesCancelButton && userHitTheBackButton)
-        [sessionData triggerAuthenticationDidCancel];
+//    if (hidesCancelButton && userHitTheBackButton)
+//        [sessionData triggerAuthenticationDidCancel];
 }
 
 - (void)viewDidUnload	

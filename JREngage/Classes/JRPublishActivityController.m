@@ -334,8 +334,8 @@ Please try again later."
         [myPadGrayEditingViewBottom setHidden:NO];
         
         [UIView beginAnimations:@"editing" context:nil];
-        [myPadGrayEditingViewTop setAlpha:0.4];
-        [myPadGrayEditingViewBottom setAlpha:0.4];
+        [myPadGrayEditingViewTop setAlpha:0.6];
+        [myPadGrayEditingViewBottom setAlpha:0.6];
         [myUserContentBoundingBox setAlpha:1.0];
         [UIView commitAnimations];
     }
