@@ -68,11 +68,8 @@
 @end
 
 @implementation JRProvidersController
-//@synthesize myBackgroundView;
-//@synthesize myTableView;
-//@synthesize myLoadingLabel;
-//@synthesize myActivitySpinner;
-
+@synthesize hidesCancelButton;
+    
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
@@ -119,7 +116,6 @@
     
     for (int i = 0; i < NUM; i++)
         ALog (@"%@: %f, %f, %f, %f", strs[i], rects[i].origin.x, rects[i].origin.y, rects[i].size.width, rects[i].size.height);
-
     
     titleView = [customInterface objectForKey:kJRProviderTableTitleView];
     
@@ -144,24 +140,26 @@
      if ([[customInterface objectForKey:kJRProviderTableFooterView] isKindOfClass:[UIView class]])
           myTableView.tableFooterView = [customInterface objectForKey:kJRProviderTableFooterView];
     
-	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-                                      initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:sessionData
-                                      action:@selector(triggerAuthenticationDidCancel:)] autorelease];
-    
-	self.navigationItem.rightBarButtonItem = cancelButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	
-	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-	
-	UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
-                                         initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                         target:nil
-                                         action:nil] autorelease];
-    
-	placeholderItem.width = 85;
-	self.navigationItem.leftBarButtonItem = placeholderItem;
-    
+    if (!hidesCancelButton)
+    {
+        UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+                                          initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                          target:sessionData
+                                          action:@selector(triggerAuthenticationDidCancel:)] autorelease];
+        
+        self.navigationItem.rightBarButtonItem = cancelButton;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+        
+        UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
+                                             initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                             target:nil
+                                             action:nil] autorelease];
+        
+        placeholderItem.width = 85;
+        self.navigationItem.leftBarButtonItem = placeholderItem;
+    }
+
     if (!infoBar)
 	{
 //        if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
@@ -181,6 +179,11 @@
 	DLog(@"");
 	[super viewWillAppear:animated];
 
+    /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
+     or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
+     back button until told otherwise. */
+	userHitTheBackButton = YES;
+    
 
     CGRect rects[NUM] = { self.view.frame, myBackgroundView.frame, ((UIImageView*)[customInterface objectForKey:kJRAuthenticationBackgroundImageView]).frame };
     NSString *strs[NUM] = { @"self view", @"bg view", @"cus image view" };
@@ -399,6 +402,8 @@ Please try again later."
 
     DLog(@"cell for %@ was selected", provider);
 
+    userHitTheBackButton = NO;
+
  /* If the selected provider requires input from the user, go to the user landing view.
     Or if the user started on the user landing page, went back to the list of providers, then selected 
     the same provider as their last-used provider, go back to the user landing view. */
@@ -433,6 +438,9 @@ Please try again later."
 {
     DLog(@"");
     [super viewDidDisappear:animated];
+    
+    if (hidesCancelButton && userHitTheBackButton)
+        [sessionData triggerAuthenticationDidCancel];
 }
 
 - (void)viewDidUnload	

@@ -83,7 +83,7 @@
 //    switch (toInterfaceOrientation)
 //    {
 //        case UIInterfaceOrientationPortrait:
-//            [layoutView setFrame:CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
+//            [layoutView setFrame:CGRectMake(, , , )
 //            break;
 //        default:
 //            break;

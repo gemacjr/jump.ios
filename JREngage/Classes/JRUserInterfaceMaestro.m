@@ -385,6 +385,12 @@ static JRUserInterfaceMaestro* singleton = nil;
         myProvidersController.title = @"Providers";        
     }
     
+    if (usingAppNav || (iPad && padPopoverMode != PadPopoverModeNone))
+    {
+        myProvidersController.hidesCancelButton = YES;
+        myPublishActivityController.hidesCancelButton = YES;
+    }
+    
     delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController, 
                  myUserLandingController, 
                  myWebViewController, 
@@ -516,43 +522,9 @@ static JRUserInterfaceMaestro* singleton = nil;
     return popoverController;
 }
 
-//- (void)deviceDidRotate:(NSNotification*)notification
-//{
-//    DLog(@"");
-//    [jrModalNavController didRotateFromInterfaceOrientation:oldOrientation];
-//    oldOrientation = [[UIDevice currentDevice] orientation];
-//}
-//
-//- (void)setUpDeviceRotation
-//{
-//    DLog(@"");
-//    alreadyGeneratesDeviceOrientationNotifications = [[UIDevice currentDevice] isGeneratingDeviceOrientationNotifications];
-//    
-//    oldOrientation = [[UIDevice currentDevice] orientation];
-//    
-//    if (!alreadyGeneratesDeviceOrientationNotifications)
-//        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(deviceDidRotate:)
-//                                                 name:@"UIDeviceOrientationDidChangeNotification" 
-//                                               object:nil];
-//}
-//
-//- (void)tearDownDeviceRotation
-//{
-//    if (!alreadyGeneratesDeviceOrientationNotifications)
-//        [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-//    
-//    [[NSNotificationCenter defaultCenter] removeObserver:self 
-//                                              forKeyPath:@"UIDeviceOrientationDidChangeNotification"];
-//}
-
 - (void)loadModalNavigationControllerWithViewController:(UIViewController*)rootViewController
 {
     DLog(@"");
-//    if (supportsRotation)
-//        [self setUpDeviceRotation];
     
     self.jrModalNavController = [[JRModalNavigationController alloc] init];
 
@@ -626,8 +598,8 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     DLog(@"");
     [self buildCustomInterface:customizations];
-    [self setUpViewControllers];
     [self setUpDialogPresentation];
+    [self setUpViewControllers];
     
     if (usingAppNav)
         [self loadApplicationNavigationControllerWithViewController:myProvidersController];
@@ -639,8 +611,8 @@ static JRUserInterfaceMaestro* singleton = nil;
 {   
     DLog(@"");
     [self buildCustomInterface:customizations];
-    [self setUpViewControllers];	
     [self setUpDialogPresentation];
+    [self setUpViewControllers];	
     [self setUpSocialPublishing];
     
     if (usingAppNav)

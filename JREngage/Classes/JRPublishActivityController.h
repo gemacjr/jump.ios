@@ -56,6 +56,8 @@ typedef enum
 	JRSessionData	*sessionData;
     
     BOOL iPad;
+    BOOL hidesCancelButton;
+    BOOL userHitTheBackButton;
 
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;
@@ -83,6 +85,9 @@ typedef enum
     IBOutlet UILabel					*myLoadingLabel;
     IBOutlet UIActivityIndicatorView    *myLoadingActivitySpinner; 
     IBOutlet UIView                     *myLoadingGrayView;
+    
+    IBOutlet UIView *myPadGrayEditingViewTop;
+    IBOutlet UIView *myPadGrayEditingViewBottom;
     
     IBOutlet UIView      *myContentView;
     
@@ -116,12 +121,9 @@ typedef enum
     NSMutableDictionary *cachedProfilePics;
     NSMutableSet        *alreadyShared;
 }
-//@property (nonatomic, retain) IBOutlet UIImageView *myBackgroundView;
+@property (assign) BOOL hidesCancelButton;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil 
-               bundle:(NSBundle*)nibBundleOrNil 
-          andCustomInterface:(NSDictionary*)_customInterface;
-
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 - (IBAction)signOutButtonPressed:(id)sender;
 - (IBAction)shareButtonPressed:(id)sender; 
 - (IBAction)doneButtonPressed:(id)sender; 

@@ -48,7 +48,9 @@
     NSDictionary    *customInterface;
     
     BOOL iPad;
-
+    BOOL hidesCancelButton;
+    BOOL userHitTheBackButton;
+    
     UIView               *titleView;
     IBOutlet UIView      *myBackgroundView;
 	IBOutlet UITableView *myTableView;
@@ -60,6 +62,7 @@
     
 	JRInfoBar	*infoBar;
 }
+@property (assign) BOOL hidesCancelButton;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 @end

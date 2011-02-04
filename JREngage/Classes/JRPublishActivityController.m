@@ -52,7 +52,7 @@
 @end
 
 @implementation JRPublishActivityController
-//@synthesize myBackgroundView;
+@synthesize hidesCancelButton;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
@@ -122,15 +122,18 @@
     if (titleView)
         self.navigationItem.titleView = titleView;
     
-	UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
-									  initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-									  target:sessionData
-									  action:@selector(triggerPublishingDidCancel:)] autorelease];
-	
-	self.navigationItem.leftBarButtonItem = cancelButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;
-	
-	self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+    if (!hidesCancelButton)
+    {
+        UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+                                          initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                          target:sessionData
+                                          action:@selector(triggerPublishingDidCancel:)] autorelease];
+        
+        self.navigationItem.leftBarButtonItem = cancelButton;
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        
+        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+    }
     
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
@@ -182,6 +185,11 @@
     [super viewWillAppear:animated];
     
     self.contentSizeForViewInPopover = CGSizeMake(320, 416);
+    
+    /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
+     or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
+     back button until told otherwise. */
+	userHitTheBackButton = YES;
     
     // QTS: Am I doing this twice?
     if (weAreReady)
@@ -298,6 +306,18 @@ Please try again later."
                                                 myMediaContentView.frame.size.height)];
         [UIView commitAnimations];
     }
+    else
+    {
+        [myPadGrayEditingViewTop setHidden:NO];
+        [myPadGrayEditingViewBottom setHidden:NO];
+        
+        [UIView beginAnimations:@"editing" context:nil];
+        [myPadGrayEditingViewTop setAlpha:0.4];
+        [myPadGrayEditingViewBottom setAlpha:0.4];
+        [myUserContentBoundingBox setAlpha:1.0];
+        [UIView commitAnimations];
+    }
+
     
     UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -340,6 +360,18 @@ Please try again later."
                                                 myMediaContentView.frame.size.height)];    
         [UIView commitAnimations];
     }   
+    else
+    {
+        [myPadGrayEditingViewTop setHidden:NO];
+        [myPadGrayEditingViewBottom setHidden:NO];
+        
+        [UIView beginAnimations:@"editing" context:nil];
+        [myPadGrayEditingViewTop setAlpha:0.0];
+        [myPadGrayEditingViewBottom setAlpha:0.0];
+        [myUserContentBoundingBox setAlpha:0.3];
+        [UIView commitAnimations];
+    }
+    
     
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc] 
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
@@ -831,6 +863,8 @@ Please try again later."
      /* Set weHaveJustAuthenticated to YES, so that when this view returns (for whatever reason... successful auth
     `   user canceled, etc), the view will know that we just went through the authentication process. */
         weHaveJustAuthenticated = YES;
+
+        userHitTheBackButton = NO;
         
      /* If the selected provider requires input from the user, go to the user landing view. Or if 
         the user started on the user landing page, went back to the list of providers, then selected 
@@ -1187,6 +1221,9 @@ Please try again later."
 {
     DLog(@"");
     [super viewDidDisappear:animated];
+
+    if (hidesCancelButton && userHitTheBackButton)
+        [sessionData triggerPublishingDidCancel];
 }
 
 - (void)didReceiveMemoryWarning {
