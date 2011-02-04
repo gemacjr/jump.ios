@@ -373,7 +373,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     @try
     {
      /* We do this here, because sometimes we pop straight to the user landing controller and we need the back-button's title to be correct */
-        if ([customInterface objectForKey:kJRProviderTableTitleString])
+        if ([customInterface objectForKey:kJRProviderTableTitleString] && 
+            ((NSString*)[customInterface objectForKey:kJRProviderTableTitleString]).length)
             myProvidersController.title = [customInterface objectForKey:kJRProviderTableTitleString];
         else
             myProvidersController.title = @"Providers";        

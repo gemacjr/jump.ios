@@ -78,17 +78,7 @@
     /** DEPRECATED - REMOVE LATER **/
     NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
     /** DEPRECATED - REMOVE LATER **/
-    
-    /* Load the custom background view, if there is one. */
-    if ([customInterface objectForKey:kJRAuthenticationBackgroundImageView])
-        [myBackgroundView addSubview:[customInterface objectForKey:kJRAuthenticationBackgroundImageView]];
-    
-    /** DEPRECATED - REMOVE LATER **/
-    if ([customInterface objectForKey:kJRUserLandingBackgroundImageName])
-        [myBackgroundView addSubview:[[UIImageView alloc] initWithImage:
-                                      [UIImage imageNamed:[customInterface objectForKey:kJRUserLandingBackgroundImageName]]]];
-    /** DEPRECATED - REMOVE LATER **/
-    
+        
     /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
@@ -130,6 +120,16 @@
 	DLog(@"");
     [super viewWillAppear:animated];
     
+    /** DEPRECATED - REMOVE LATER **/
+    if ([customInterface objectForKey:kJRUserLandingBackgroundImageName])
+        [myBackgroundView addSubview:[[UIImageView alloc] initWithImage:
+                                      [UIImage imageNamed:[customInterface objectForKey:kJRUserLandingBackgroundImageName]]]];
+    /** DEPRECATED - REMOVE LATER **/
+
+    /* Load the custom background view, if there is one. */
+    if ([customInterface objectForKey:kJRAuthenticationBackgroundImageView])
+        [myBackgroundView addSubview:[customInterface objectForKey:kJRAuthenticationBackgroundImageView]];
+        
     if (!sessionData.currentProvider)
     {
         NSError *error = [JRError setError:@"There was an error authenticating with the selected provider."

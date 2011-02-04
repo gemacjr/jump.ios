@@ -44,6 +44,8 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+#define NUM 3
+
 @interface UITableViewCellProviders : UITableViewCell { }
 @end
 
@@ -97,16 +99,6 @@
     NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
     /** DEPRECATED - REMOVE LATER **/
     
- /* Load the custom background view, if there is one. */
-    if ([customInterface objectForKey:kJRAuthenticationBackgroundImageView])
-        [myBackgroundView addSubview:[customInterface objectForKey:kJRAuthenticationBackgroundImageView]];
-    
-    /** DEPRECATED - REMOVE LATER **/
-    if ([customInterface objectForKey:kJRProviderTableBackgroundImageName])
-        [myBackgroundView addSubview:[[UIImageView alloc] initWithImage:
-                                      [UIImage imageNamed:[customInterface objectForKey:kJRProviderTableBackgroundImageName]]]];
-    /** DEPRECATED - REMOVE LATER **/
-
  /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
@@ -121,6 +113,13 @@
     /** DEPRECATED - REMOVE LATER **/
 
     myTableView.backgroundColor = [UIColor clearColor];
+    
+    CGRect rects[NUM] = { self.view.frame, myBackgroundView.frame, ((UIImageView*)[customInterface objectForKey:kJRAuthenticationBackgroundImageView]).frame };
+    NSString *strs[NUM] = { @"self view", @"bg view", @"cus image view" };
+    
+    for (int i = 0; i < NUM; i++)
+        ALog (@"%@: %f, %f, %f, %f", strs[i], rects[i].origin.x, rects[i].origin.y, rects[i].size.width, rects[i].size.height);
+
     
     titleView = [customInterface objectForKey:kJRProviderTableTitleView];
     
@@ -181,6 +180,23 @@
 {
 	DLog(@"");
 	[super viewWillAppear:animated];
+
+
+    CGRect rects[NUM] = { self.view.frame, myBackgroundView.frame, ((UIImageView*)[customInterface objectForKey:kJRAuthenticationBackgroundImageView]).frame };
+    NSString *strs[NUM] = { @"self view", @"bg view", @"cus image view" };
+    
+    for (int i = 0; i < NUM; i++)
+        ALog (@"%@: %f, %f, %f, %f", strs[i], rects[i].origin.x, rects[i].origin.y, rects[i].size.width, rects[i].size.height);
+    
+    /** DEPRECATED - REMOVE LATER **/
+    if ([customInterface objectForKey:kJRProviderTableBackgroundImageName])
+        [myBackgroundView addSubview:[[UIImageView alloc] initWithImage:
+                                      [UIImage imageNamed:[customInterface objectForKey:kJRProviderTableBackgroundImageName]]]];
+    /** DEPRECATED - REMOVE LATER **/
+
+    /* Load the custom background view, if there is one. */
+    if ([customInterface objectForKey:kJRAuthenticationBackgroundImageView])
+        [myBackgroundView addSubview:[customInterface objectForKey:kJRAuthenticationBackgroundImageView]];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
