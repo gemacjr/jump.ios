@@ -58,10 +58,6 @@
 		9F5221AC12B062CE0073ABAE /* JRPublishActivityController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5220F512B062CD0073ABAE /* JRPublishActivityController.xib */; };
 		9F5221AD12B062CE0073ABAE /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5220F612B062CD0073ABAE /* JRUserLandingController.xib */; };
 		9F5221AE12B062CE0073ABAE /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5220F712B062CD0073ABAE /* JRWebViewController.xib */; };
-		9F5221AF12B062CE0073ABAE /* JRProvidersController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5220F912B062CD0073ABAE /* JRProvidersController-iPad.xib */; };
-		9F5221B012B062CE0073ABAE /* JRPublishActivityController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5220FA12B062CD0073ABAE /* JRPublishActivityController-iPad.xib */; };
-		9F5221B112B062CE0073ABAE /* JRUserLandingController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5220FB12B062CD0073ABAE /* JRUserLandingController-iPad.xib */; };
-		9F5221B212B062CE0073ABAE /* JRWebViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5220FC12B062CD0073ABAE /* JRWebViewController-iPad.xib */; };
 		9F5221B312B062CE0073ABAE /* JREngage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F5220FD12B062CD0073ABAE /* JREngage-Info.plist */; };
 		9F5226BA12B06C040073ABAE /* button_black_135x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F52262A12B06C040073ABAE /* button_black_135x40.png */; };
 		9F5226BB12B06C040073ABAE /* button_black_280x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F52262B12B06C040073ABAE /* button_black_280x40.png */; };
@@ -286,10 +282,6 @@
 		9F5220F512B062CD0073ABAE /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRPublishActivityController.xib; sourceTree = "<group>"; };
 		9F5220F612B062CD0073ABAE /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRUserLandingController.xib; sourceTree = "<group>"; };
 		9F5220F712B062CD0073ABAE /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRWebViewController.xib; sourceTree = "<group>"; };
-		9F5220F912B062CD0073ABAE /* JRProvidersController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRProvidersController-iPad.xib"; sourceTree = "<group>"; };
-		9F5220FA12B062CD0073ABAE /* JRPublishActivityController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRPublishActivityController-iPad.xib"; sourceTree = "<group>"; };
-		9F5220FB12B062CD0073ABAE /* JRUserLandingController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRUserLandingController-iPad.xib"; sourceTree = "<group>"; };
-		9F5220FC12B062CD0073ABAE /* JRWebViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRWebViewController-iPad.xib"; sourceTree = "<group>"; };
 		9F5220FD12B062CD0073ABAE /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "JREngage-Info.plist"; path = "../JREngage/JREngage-Info.plist"; sourceTree = SOURCE_ROOT; };
 		9F52262A12B06C040073ABAE /* button_black_135x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_black_135x40.png; sourceTree = "<group>"; };
 		9F52262B12B06C040073ABAE /* button_black_280x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_black_280x40.png; sourceTree = "<group>"; };
@@ -672,7 +664,6 @@
 				9F52262812B06C040073ABAE /* images */,
 				9F52267112B06C040073ABAE /* images-2x */,
 				9F5220F312B062CD0073ABAE /* xibs */,
-				9F5220F812B062CD0073ABAE /* xibs-ipad */,
 				9F5220FD12B062CD0073ABAE /* JREngage-Info.plist */,
 			);
 			name = Resources;
@@ -688,18 +679,6 @@
 			);
 			name = xibs;
 			path = ../JREngage/Resources/xibs;
-			sourceTree = SOURCE_ROOT;
-		};
-		9F5220F812B062CD0073ABAE /* xibs-ipad */ = {
-			isa = PBXGroup;
-			children = (
-				9F5220F912B062CD0073ABAE /* JRProvidersController-iPad.xib */,
-				9F5220FA12B062CD0073ABAE /* JRPublishActivityController-iPad.xib */,
-				9F5220FB12B062CD0073ABAE /* JRUserLandingController-iPad.xib */,
-				9F5220FC12B062CD0073ABAE /* JRWebViewController-iPad.xib */,
-			);
-			name = "xibs-ipad";
-			path = "../JREngage/Resources/xibs-ipad";
 			sourceTree = SOURCE_ROOT;
 		};
 		9F52262812B06C040073ABAE /* images */ = {
@@ -1005,10 +984,6 @@
 				9F5221AC12B062CE0073ABAE /* JRPublishActivityController.xib in Resources */,
 				9F5221AD12B062CE0073ABAE /* JRUserLandingController.xib in Resources */,
 				9F5221AE12B062CE0073ABAE /* JRWebViewController.xib in Resources */,
-				9F5221AF12B062CE0073ABAE /* JRProvidersController-iPad.xib in Resources */,
-				9F5221B012B062CE0073ABAE /* JRPublishActivityController-iPad.xib in Resources */,
-				9F5221B112B062CE0073ABAE /* JRUserLandingController-iPad.xib in Resources */,
-				9F5221B212B062CE0073ABAE /* JRWebViewController-iPad.xib in Resources */,
 				9F5221B312B062CE0073ABAE /* JREngage-Info.plist in Resources */,
 				9F5226BA12B06C040073ABAE /* button_black_135x40.png in Resources */,
 				9F5226BB12B06C040073ABAE /* button_black_280x40.png in Resources */,

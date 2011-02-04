@@ -192,10 +192,6 @@
 		9F522BC912B0880C0073ABAE /* JRPublishActivityController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F522B3912B0880C0073ABAE /* JRPublishActivityController.xib */; };
 		9F522BCA12B0880C0073ABAE /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F522B3A12B0880C0073ABAE /* JRUserLandingController.xib */; };
 		9F522BCB12B0880C0073ABAE /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F522B3B12B0880C0073ABAE /* JRWebViewController.xib */; };
-		9F522BCC12B0880C0073ABAE /* JRProvidersController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F522B3D12B0880C0073ABAE /* JRProvidersController-iPad.xib */; };
-		9F522BCD12B0880C0073ABAE /* JRPublishActivityController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F522B3E12B0880C0073ABAE /* JRPublishActivityController-iPad.xib */; };
-		9F522BCE12B0880C0073ABAE /* JRUserLandingController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F522B3F12B0880C0073ABAE /* JRUserLandingController-iPad.xib */; };
-		9F522BCF12B0880C0073ABAE /* JRWebViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F522B4012B0880C0073ABAE /* JRWebViewController-iPad.xib */; };
 		9F522BD012B0880C0073ABAE /* JREngage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F522B4112B0880C0073ABAE /* JREngage-Info.plist */; };
 		9F5234FD12B29F460073ABAE /* janrain_blog.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F5234FC12B29F460073ABAE /* janrain_blog.json */; };
 		9F87D85412145FDE00FF7E2C /* FeedReaderFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */; };
@@ -421,10 +417,6 @@
 		9F522B3912B0880C0073ABAE /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRPublishActivityController.xib; sourceTree = "<group>"; };
 		9F522B3A12B0880C0073ABAE /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRUserLandingController.xib; sourceTree = "<group>"; };
 		9F522B3B12B0880C0073ABAE /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRWebViewController.xib; sourceTree = "<group>"; };
-		9F522B3D12B0880C0073ABAE /* JRProvidersController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRProvidersController-iPad.xib"; sourceTree = "<group>"; };
-		9F522B3E12B0880C0073ABAE /* JRPublishActivityController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRPublishActivityController-iPad.xib"; sourceTree = "<group>"; };
-		9F522B3F12B0880C0073ABAE /* JRUserLandingController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRUserLandingController-iPad.xib"; sourceTree = "<group>"; };
-		9F522B4012B0880C0073ABAE /* JRWebViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRWebViewController-iPad.xib"; sourceTree = "<group>"; };
 		9F522B4112B0880C0073ABAE /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "JREngage-Info.plist"; path = "../JREngage/JREngage-Info.plist"; sourceTree = SOURCE_ROOT; };
 		9F5234FC12B29F460073ABAE /* janrain_blog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = janrain_blog.json; path = Resources/janrain_blog.json; sourceTree = "<group>"; };
 		9F87D85112145FDE00FF7E2C /* FeedReaderFeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderFeeds.h; sourceTree = "<group>"; };
@@ -682,7 +674,6 @@
 				9F522AA512B0880B0073ABAE /* images */,
 				9F522AEE12B0880B0073ABAE /* images-2x */,
 				9F522B3712B0880C0073ABAE /* xibs */,
-				9F522B3C12B0880C0073ABAE /* xibs-ipad */,
 				9F522B4112B0880C0073ABAE /* JREngage-Info.plist */,
 			);
 			name = Resources;
@@ -930,18 +921,6 @@
 			path = ../JREngage/Resources/xibs;
 			sourceTree = SOURCE_ROOT;
 		};
-		9F522B3C12B0880C0073ABAE /* xibs-ipad */ = {
-			isa = PBXGroup;
-			children = (
-				9F522B3D12B0880C0073ABAE /* JRProvidersController-iPad.xib */,
-				9F522B3E12B0880C0073ABAE /* JRPublishActivityController-iPad.xib */,
-				9F522B3F12B0880C0073ABAE /* JRUserLandingController-iPad.xib */,
-				9F522B4012B0880C0073ABAE /* JRWebViewController-iPad.xib */,
-			);
-			name = "xibs-ipad";
-			path = "../JREngage/Resources/xibs-ipad";
-			sourceTree = SOURCE_ROOT;
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1152,10 +1131,6 @@
 				9F522BC912B0880C0073ABAE /* JRPublishActivityController.xib in Resources */,
 				9F522BCA12B0880C0073ABAE /* JRUserLandingController.xib in Resources */,
 				9F522BCB12B0880C0073ABAE /* JRWebViewController.xib in Resources */,
-				9F522BCC12B0880C0073ABAE /* JRProvidersController-iPad.xib in Resources */,
-				9F522BCD12B0880C0073ABAE /* JRPublishActivityController-iPad.xib in Resources */,
-				9F522BCE12B0880C0073ABAE /* JRUserLandingController-iPad.xib in Resources */,
-				9F522BCF12B0880C0073ABAE /* JRWebViewController-iPad.xib in Resources */,
 				9F522BD012B0880C0073ABAE /* JREngage-Info.plist in Resources */,
 				9F5234FD12B29F460073ABAE /* janrain_blog.json in Resources */,
 				9F25B07A12C2A9FF0083BB6A /* icon_ipad.png in Resources */,

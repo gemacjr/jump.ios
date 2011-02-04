@@ -60,10 +60,6 @@
 		9F01A8B11294512600AD6899 /* JRPublishActivityController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRPublishActivityController.xib; sourceTree = "<group>"; };
 		9F01A8B21294512600AD6899 /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRUserLandingController.xib; sourceTree = "<group>"; };
 		9F01A8B31294512600AD6899 /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRWebViewController.xib; sourceTree = "<group>"; };
-		9F01A8B51294512600AD6899 /* JRProvidersController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRProvidersController-iPad.xib"; sourceTree = "<group>"; };
-		9F01A8B61294512600AD6899 /* JRPublishActivityController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRPublishActivityController-iPad.xib"; sourceTree = "<group>"; };
-		9F01A8B71294512600AD6899 /* JRUserLandingController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRUserLandingController-iPad.xib"; sourceTree = "<group>"; };
-		9F01A8B81294512600AD6899 /* JRWebViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "JRWebViewController-iPad.xib"; sourceTree = "<group>"; };
 		9F0880B8125BFB07008AD40D /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JREngage-Info.plist"; sourceTree = "<group>"; };
 		9F088BDE126684EF008AD40D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9F2304F212F1F77200147C95 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSON.h; path = "../Contrib/json-framework/Classes/JSON.h"; sourceTree = SOURCE_ROOT; };
@@ -318,18 +314,6 @@
 			);
 			name = xibs;
 			path = Resources/xibs;
-			sourceTree = "<group>";
-		};
-		9F01A8B41294512600AD6899 /* xibs-ipad */ = {
-			isa = PBXGroup;
-			children = (
-				9F01A8B51294512600AD6899 /* JRProvidersController-iPad.xib */,
-				9F01A8B61294512600AD6899 /* JRPublishActivityController-iPad.xib */,
-				9F01A8B71294512600AD6899 /* JRUserLandingController-iPad.xib */,
-				9F01A8B81294512600AD6899 /* JRWebViewController-iPad.xib */,
-			);
-			name = "xibs-ipad";
-			path = "Resources/xibs-ipad";
 			sourceTree = "<group>";
 		};
 		9F52236112B06BB80073ABAE /* images */ = {
@@ -633,7 +617,6 @@
 				9F52236112B06BB80073ABAE /* images */,
 				9F5223AA12B06BB80073ABAE /* images-2x */,
 				9F01A8AF1294512600AD6899 /* xibs */,
-				9F01A8B41294512600AD6899 /* xibs-ipad */,
 				9F0880B8125BFB07008AD40D /* JREngage-Info.plist */,
 			);
 			name = Resources;
