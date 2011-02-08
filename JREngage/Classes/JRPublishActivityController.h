@@ -56,7 +56,6 @@ typedef enum
     
     BOOL iPad;
     BOOL hidesCancelButton;
-    BOOL userHitTheBackButton;
 
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;

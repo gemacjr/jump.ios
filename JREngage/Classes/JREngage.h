@@ -490,6 +490,11 @@
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
+
+///**
+// * Use this function to detect if a dialog has already been loaded, so that you may cancel it.
+// **/ 
+//- (BOOL)isDialogLoaded;
 /*@}*/
 
 /** 

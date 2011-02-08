@@ -144,17 +144,20 @@
                                           target:sessionData
                                           action:@selector(triggerAuthenticationDidCancel:)] autorelease];
         
-        self.navigationItem.rightBarButtonItem = cancelButton;
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+//        self.navigationItem.rightBarButtonItem = cancelButton;
+//        self.navigationItem.rightBarButtonItem.enabled = YES;
+//        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+        self.navigationItem.leftBarButtonItem = cancelButton;
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
         
-        UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
-                                             initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                             target:nil
-                                             action:nil] autorelease];
-        
-        placeholderItem.width = 85;
-        self.navigationItem.leftBarButtonItem = placeholderItem;
+//        UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc] 
+//                                             initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                             target:nil
+//                                             action:nil] autorelease];
+//        
+//        placeholderItem.width = 85;
+//        self.navigationItem.leftBarButtonItem = placeholderItem;
     }
 
     if (!infoBar)

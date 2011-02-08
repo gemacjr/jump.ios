@@ -67,6 +67,7 @@ typedef enum
     
     UINavigationController	*customModalNavigationController;
     UINavigationController	*applicationNavigationController;
+    UINavigationController	*savedNavigationController;
     UIViewController        *viewControllerToPopTo;
 
     JRProvidersController       *myProvidersController;

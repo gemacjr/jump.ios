@@ -189,7 +189,7 @@ static JREngage* singletonJREngage = nil;
     if (sessionData.dialogIsShowing)
     {
        return [self engageDidFailWithError:
-               [JRError setError:@"The dialog failed to show because there is already a JREngage dialog showing" 
+               [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded." 
                         withCode:JRDialogShowingError]];
     }
     
@@ -235,14 +235,14 @@ static JREngage* singletonJREngage = nil;
     if (sessionData.dialogIsShowing)
     {
         return [self engageDidFailWithError:
-                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog showing" 
+                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded." 
                          withCode:JRDialogShowingError]];
     }
     
     if (!activity)
     {
         return [self engageDidFailWithError:
-                [JRError setError:@"Activity object can't be nil" 
+                [JRError setError:@"Activity object can't be nil." 
                          withCode:JRPublishErrorAcivityNil]]; 
     }
     

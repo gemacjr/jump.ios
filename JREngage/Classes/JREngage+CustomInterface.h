@@ -83,6 +83,18 @@
  * This is also necessary if you want to tint the navigation bar’s color.
  **/
 #define kJRCustomModalNavigationController @"ModalDialog.NavigationController" 
+
+/**
+ * Key for a boolean value represented by an \c NSObject to indicate if the dialog's "Cancel" button should be hidden.
+ *
+ * If you want to hide the "Cancel" button on the Providers Table or Social Sharing screen, pass in an NSObject containing
+ * a positive integer or the strings @"YES" or @"TRUE", etc.  This will remove the "Cancel" button from the library's dialogs.
+ * 
+ * Do not cancel social sharing or authentication by popping the navigation controller back to one of your views, 
+ * as this could potentially leave the library in an unexpected state. If you wish to cancel sign in or social sharing, 
+ * please use the JREngage#cancelAuthentication or JREngage#cancelPublishing methods.
+ **/
+#define kJRNavigationControllerHidesCancelButton @"NavigationController.HidesCancelButton" 
 /*@}*/
 
 /** 

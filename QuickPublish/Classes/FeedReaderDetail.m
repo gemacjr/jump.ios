@@ -245,6 +245,7 @@ a:active  { color:#7AC143; }";
                             self.navigationItem.rightBarButtonItem, kJRPopoverPresentationBarButtonItem, nil];
 
     [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity andCustomInterface:custom];    
+//    [[[FeedReader feedReader] jrEngage] showAuthenticationDialogWithCustomInterfaceOverrides:custom];    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
@@ -256,7 +257,7 @@ a:active  { color:#7AC143; }";
 {
     [super viewWillDisappear:animated];
 
-    [[[FeedReader feedReader] jrEngage] cancelPublishing];
+//    [[[FeedReader feedReader] jrEngage] cancelPublishing];
     
     [webview stopLoading];
 	[webview loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];

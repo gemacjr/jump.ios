@@ -186,10 +186,10 @@
     
     self.contentSizeForViewInPopover = CGSizeMake(320, 416);
     
- /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
-    or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
-    back button until told otherwise. */
-	userHitTheBackButton = YES;
+// /* We need to figure out if the user canceled authentication by hitting the back button or the cancel button,
+//    or if it stopped because it failed or completed successfully on its own.  Assume that the user did hit the
+//    back button until told otherwise. */
+//	userHitTheBackButton = YES;
     
     if (!titleView)
     {
@@ -209,7 +209,7 @@
         else
             titleLabel.text = NSLocalizedString(@"Share", @"");
             
-        titleView = (UIView*)titleLabel;
+        titleView = [(UIView*)titleLabel retain];
         self.navigationItem.titleView = titleView;
     }
     
@@ -461,24 +461,27 @@ Please try again later."
     
     [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ? 230 : 151), 0, 18, 18)];
 
-    UIBarButtonItem *barButton;
-    if (shared)
+    if (!hidesCancelButton) 
     {
-        barButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close" 
-                                                      style:UIBarButtonItemStyleDone 
-                                                     target:sessionData 
-                                                     action:@selector(triggerPublishingDidComplete:)] autorelease];
-    }
-    else
-    {
-        barButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                   target:sessionData
-                                                                   action:@selector(triggerPublishingDidCancel:)] autorelease];   
-        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
-    }
+        UIBarButtonItem *barButton;
+        if (shared)
+        {
+            barButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close" 
+                                                          style:UIBarButtonItemStyleDone 
+                                                         target:sessionData 
+                                                         action:@selector(triggerPublishingDidComplete:)] autorelease];
+        }
+        else
+        {
+            barButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                       target:sessionData
+                                                                       action:@selector(triggerPublishingDidCancel:)] autorelease];   
+            self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+        }
 
-	self.navigationItem.leftBarButtonItem = barButton;
-	self.navigationItem.leftBarButtonItem.enabled = YES;	
+        self.navigationItem.leftBarButtonItem = barButton;
+        self.navigationItem.leftBarButtonItem.enabled = YES;	
+    }
 }
 
 - (void)logUserOutForProvider:(NSString*)provider
@@ -884,10 +887,10 @@ Please try again later."
     if (!loggedInUser)
     {
      /* Set weHaveJustAuthenticated to YES, so that when this view returns (for whatever reason... successful auth
-    `   user canceled, etc), the view will know that we just went through the authentication process. */
+        user canceled, etc), the view will know that we just went through the authentication process. */
         weHaveJustAuthenticated = YES;
 
-        userHitTheBackButton = NO;
+//        userHitTheBackButton = NO;
         
      /* If the selected provider requires input from the user, go to the user landing view. Or if 
         the user started on the user landing page, went back to the list of providers, then selected 
@@ -1245,8 +1248,8 @@ Please try again later."
     DLog(@"");
     [super viewDidDisappear:animated];
 
-    if (hidesCancelButton && userHitTheBackButton)
-        [sessionData triggerPublishingDidCancel];
+//    if (hidesCancelButton && userHitTheBackButton)
+//        [sessionData triggerPublishingDidCancel];
 }
 
 - (void)didReceiveMemoryWarning 

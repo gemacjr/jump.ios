@@ -172,8 +172,9 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 
 @interface JRUserInterfaceMaestro ()
 @property (retain) JRModalNavigationController  *jrModalNavController;
-@property (retain) UINavigationController       *applicationNavigationController;
 @property (retain) UINavigationController       *customModalNavigationController;
+@property (retain) UINavigationController       *applicationNavigationController;
+@property (retain) UINavigationController       *savedNavigationController;
 @property (retain) NSDictionary                 *janrainInterfaceDefaults;
 @end
 
@@ -183,8 +184,9 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 @synthesize myWebViewController;
 @synthesize myPublishActivityController;
 @synthesize jrModalNavController;
-@synthesize applicationNavigationController;
 @synthesize customModalNavigationController;
+@synthesize applicationNavigationController;
+@synthesize savedNavigationController;
 @synthesize customInterfaceDefaults;
 @synthesize janrainInterfaceDefaults;
 
@@ -283,7 +285,8 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)useApplicationNavigationController:(UINavigationController*)navigationController
 {
-    [customInterfaceDefaults setObject:navigationController forKey:kJRApplicationNavigationController];
+    self.savedNavigationController = navigationController;
+    //[customInterfaceDefaults setObject:navigationController forKey:kJRApplicationNavigationController];
 }
 
 - (void)buildCustomInterface:(NSDictionary*)customizations
@@ -308,6 +311,10 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     if ([customInterface objectForKey:kJRApplicationNavigationController])
         self.applicationNavigationController = [[customInterface objectForKey:kJRApplicationNavigationController] retain];
+ 
+ /* Added for backwards compatibility */
+    if (savedNavigationController)
+        self.applicationNavigationController = savedNavigationController;
     
     if ([customInterface objectForKey:kJRCustomModalNavigationController])
         self.customModalNavigationController = [[customInterface objectForKey:kJRCustomModalNavigationController] retain];
@@ -389,7 +396,8 @@ static JRUserInterfaceMaestro* singleton = nil;
         myProvidersController.title = @"Providers";        
     }
     
-    if (usingAppNav || (iPad && padPopoverMode != PadPopoverModeNone))
+    if (/*usingAppNav || */(iPad && padPopoverMode != PadPopoverModeNone) ||
+        [[customInterface objectForKey:kJRNavigationControllerHidesCancelButton] boolValue])
     {
         myProvidersController.hidesCancelButton = YES;
         myPublishActivityController.hidesCancelButton = YES;
@@ -598,6 +606,9 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)unloadUserInterfaceWithTransitionStyle:(UIModalTransitionStyle)style
 {
     DLog(@"");
+    if (!sessionData.dialogIsShowing) 
+        return;
+    
     if ([sessionData socialSharing])
         [self tearDownSocialPublishing];
     

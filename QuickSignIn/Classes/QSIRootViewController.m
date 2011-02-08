@@ -173,9 +173,9 @@
                                                           [NSNumber numberWithInt:UIPopoverArrowDirectionDown],
                                                           kJRPopoverPresentationArrowDirection, nil]];
         else
-            [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                          [self.toolbarItems objectAtIndex:0], 
-                                                          kJRPopoverPresentationBarButtonItem, nil]];
+            [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:nil]];
+//                                                          [self.toolbarItems objectAtIndex:0], 
+//                                                          kJRPopoverPresentationBarButtonItem, nil]];
         
         if ([[UserModel getUserModel] currentUser])
         {
