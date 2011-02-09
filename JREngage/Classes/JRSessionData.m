@@ -44,6 +44,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+#pragma mark server_urls
 //#define STAGING
 //#define LOCAL
 //#define OLEG
@@ -61,6 +62,7 @@ static NSString * const serverUrl = @"https://rpxnow.com";
 #endif
 #endif
 
+#pragma mark consts
 /* Lists of the standard names for providers' logo and icons */
 static NSString * const iconNames[5] = { @"icon_%@_30x30.png",
                                          @"icon_%@_30x30@2x.png",
@@ -78,6 +80,26 @@ static NSString * const iconNamesSocial[11] = { @"icon_%@_30x30.png",
                                                 @"button_%@_280x40.png",
                                                 @"button_%@_280x40@2x.png", nil };
 
+#define AUTHENTICATED_USERS_BY_PROVIDER	@"jrengage.sessionData.authenticatedUsersByProvider"
+#define ALL_PROVIDERS					@"jrengage.sessionData.allProviders"
+#define BASIC_PROVIDERS					@"jrengage.sessionData.basicProviders"
+#define SOCIAL_PROVIDERS				@"jrengage.sessionData.socialProviders"
+#define ICONS_STILL_NEEDED				@"jrengage.sessionData.iconsStillNeeded"
+#define PROVIDERS_WITH_ICONS			@"jrengage.sessionData.providersWithIcons"
+#define BASE_URL						@"jrengage.sessionData.baseUrl"
+#define HIDE_POWERED_BY					@"jrengage.sessionData.hidePoweredBy"
+#define LAST_USED_SOCIAL_PROVIDER		@"jrengage.sessionData.lastUsedSocialProvider"
+#define LAST_USED_BASIC_PROVIDER		@"jrengage.sessionData.lastUsedBasicProvider"
+
+#define JRENGAGE_KEYCHAIN_IDENTIFIER    @"device_tokens.janrain"
+
+#define WELCOME_STRING_FOR_PROVIDER     @"jrengage.provider.%@.welcomeString"
+#define USER_INPUT_FOR_PROVIDER         @"jrengage.provider.%@.userInput"
+#define FORCE_REAUTH_FLAG_FOR_PROVIDER  @"jrengage.provider.%@.forceReauth"
+
+
+
+#pragma mark helper_functions
 NSString* displayNameAndIdentifier()
 {
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
@@ -92,6 +114,7 @@ void RLog (NSObject *object)
     NSLog(@"Object: %@\t\tRetain Count:  %d", [object class], [object retainCount]);
 }
 
+#pragma mark JRError
 NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 @implementation JRError
@@ -107,7 +130,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 }
 @end
 
-
+#pragma mark JRAuthenticatedUser
 @interface JRAuthenticatedUser ()
 - (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name;
 @end
@@ -143,8 +166,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-//	DLog (@"Encoding Authenticated User: %@", provider_name);
-   
     [coder encodeObject:provider_name forKey:@"provider_name"];
     [coder encodeObject:photo forKey:@"photo"];
     [coder encodeObject:preferred_username forKey:@"preferred_username"];
@@ -153,7 +174,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     NSError *error = nil;
     [SFHFKeychainUtils storeUsername:provider_name 
                          andPassword:device_token 
-                      forServiceName:[NSString stringWithFormat:@"device_tokens.janrain.%@.", displayNameAndIdentifier()] 
+                      forServiceName:[NSString stringWithFormat:@"%@.%@.", JRENGAGE_KEYCHAIN_IDENTIFIER, displayNameAndIdentifier()] 
                       updateExisting:YES 
                                error:&error];
 
@@ -166,20 +187,15 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     // QTS: Probably need to autorelease this, yes? I think that made it crash...
 	self = [[JRAuthenticatedUser alloc] init];
 
-//    RLog(self);
-    
     if (self != nil)
     {
         provider_name = [[coder decodeObjectForKey:@"provider_name"] retain];
-    
-        //DLog (@"Decoding Authenticated User: %@", provider_name);
-        
         photo = [[coder decodeObjectForKey:@"photo"] retain];
         preferred_username = [[coder decodeObjectForKey:@"preferred_username"] retain];
 
         NSError *error = nil;
         device_token = [[SFHFKeychainUtils getPasswordForUsername:provider_name
-                                                   andServiceName:[NSString stringWithFormat:@"device_tokens.janrain.%@.", displayNameAndIdentifier()] 
+                                                   andServiceName:[NSString stringWithFormat:@"%@.%@.", JRENGAGE_KEYCHAIN_IDENTIFIER, displayNameAndIdentifier()] 
                                                             error:&error] retain];
         
         if (error)
@@ -198,7 +214,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 {
     NSError *error = nil;
     [SFHFKeychainUtils deleteItemForUsername:provider_name
-                              andServiceName:[NSString stringWithFormat:@"device_tokens.janrain.%@.", displayNameAndIdentifier()] 
+                              andServiceName:[NSString stringWithFormat:@"%@.%@.", JRENGAGE_KEYCHAIN_IDENTIFIER, displayNameAndIdentifier()] 
                                        error:&error];
     if (error)
         ALog (@"Error deleting device token from keychain: %@", [error localizedDescription]);
@@ -221,6 +237,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 }
 @end
 
+#pragma mark JRProvider
 @interface JRProvider ()
 @property (readonly) BOOL      social;
 @property (readonly) NSString *openIdentifier;
@@ -253,7 +270,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     
     /* Save our dynamic variables, in case we ever need to re-initialize a provider object, the init... functions can pull these
      from the user defaults. */
-    [[NSUserDefaults standardUserDefaults] setValue:welcomeString forKey:[NSString stringWithFormat:@"jrengage.provider.%@.welcomeString", self.name]];
+    [[NSUserDefaults standardUserDefaults] setValue:welcomeString forKey:[NSString stringWithFormat:WELCOME_STRING_FOR_PROVIDER, self.name]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -271,7 +288,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     
     /* Save our dynamic variables, in case we ever need to re-initialize a provider object, the init... functions can pull these
      from the user defaults. */    
-    [[NSUserDefaults standardUserDefaults] setValue:userInput forKey:[NSString stringWithFormat:@"jrengage.provider.%@.userInput", self.name]];
+    [[NSUserDefaults standardUserDefaults] setValue:userInput forKey:[NSString stringWithFormat:USER_INPUT_FOR_PROVIDER, self.name]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -286,7 +303,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     
     /* Save our dynamic variables, in case we ever need to re-initialize a provider object, the init... functions can pull these
      from the user defaults. */    
-    [[NSUserDefaults standardUserDefaults] setBool:forceReauth forKey:[NSString stringWithFormat:@"jrengage.provider.%@.forceReauth", self.name]];
+    [[NSUserDefaults standardUserDefaults] setBool:forceReauth forKey:[NSString stringWithFormat:FORCE_REAUTH_FLAG_FOR_PROVIDER, self.name]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -295,9 +312,9 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
    init... functions. */
 - (void)loadDynamicVariables
 {
-    userInput     = [[[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jrengage.provider.%@.userInput", name]] retain];
-    welcomeString = [[[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:@"jrengage.provider.%@.welcomeString", name]] retain];
-    forceReauth   =  [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"jrengage.provider.%@.forceReauth", name]];
+    welcomeString = [[[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:WELCOME_STRING_FOR_PROVIDER, name]] retain];
+    userInput     = [[[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:USER_INPUT_FOR_PROVIDER, name]] retain];
+    forceReauth   =  [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:FORCE_REAUTH_FLAG_FOR_PROVIDER, name]];
 }
 
 - (JRProvider*)initWithName:(NSString*)_name andDictionary:(NSDictionary*)_dictionary
@@ -408,6 +425,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 }
 @end
 
+#pragma mark JRSessionData
 @interface JRSessionData ()
 - (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString;
 - (NSError*)startGetConfiguration;
@@ -429,42 +447,29 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize hidePoweredBy;
 @synthesize error;
 
+#pragma mark singleton_methods
 static JRSessionData* singleton = nil;
 + (JRSessionData*)jrSessionData
 {
 	return singleton;
 }
 
-+ (id)allocWithZone:(NSZone *)zone
++ (id)allocWithZone:(NSZone*)zone
 {
     return [[self jrSessionData] retain];
 }
 
-- (id)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone*)zone
 {
     return self;
 }
 
-- (id)retain
-{
-    return self;
-}
+- (id)retain                { return self; }
+- (NSUInteger)retainCount   { return NSUIntegerMax; }
+- (void)release             { /* Do nothing... */ }
+- (id)autorelease           { return self; }
 
-- (NSUInteger)retainCount
-{
-    return NSUIntegerMax;  //denotes an object that cannot be released
-}
-
-- (void)release
-{
-    //do nothing
-}
-
-- (id)autorelease
-{
-    return self;
-}
-
+#pragma mark accessors
 - (NSString*)returningBasicProvider
 {
     if (alwaysForceReauth)
@@ -505,6 +510,7 @@ static JRSessionData* singleton = nil;
     return activity;
 }
 
+#pragma mark initilization
 - (id)initWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
 {
 	DLog (@"");
@@ -525,7 +531,7 @@ static JRSessionData* singleton = nil;
         /* First, we load all of the cached data (the list of providers, saved users, base url, etc.) */
         
         /* Load the dictionary of authenticated users */
-        NSData *archivedUsers = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.authenticatedUsersByProvider"];
+        NSData *archivedUsers = [[NSUserDefaults standardUserDefaults] objectForKey:AUTHENTICATED_USERS_BY_PROVIDER];
         if (archivedUsers != nil)
         {
             NSDictionary *unarchivedUsers = [NSKeyedUnarchiver unarchiveObjectWithData:archivedUsers];
@@ -538,7 +544,7 @@ static JRSessionData* singleton = nil;
             authenticatedUsersByProvider = [[NSMutableDictionary alloc] initWithCapacity:1];
 
         /* Load the list of all providers */
-        NSData *archivedProviders = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.allProviders"];
+        NSData *archivedProviders = [[NSUserDefaults standardUserDefaults] objectForKey:ALL_PROVIDERS];
         if (archivedProviders != nil)
         {
             NSDictionary *unarchivedProviders = [NSKeyedUnarchiver unarchiveObjectWithData:archivedProviders];
@@ -547,13 +553,13 @@ static JRSessionData* singleton = nil;
         }
         
         /* Load the list of basic providers */
-        basicProviders = [[[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.basicProviders"] retain];
+        basicProviders = [[[NSUserDefaults standardUserDefaults] objectForKey:BASIC_PROVIDERS] retain];
   
         /* Load the list of social providers */
-        socialProviders = [[[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.socialProviders"] retain];
+        socialProviders = [[[NSUserDefaults standardUserDefaults] objectForKey:SOCIAL_PROVIDERS] retain];
         
         /* Load the list of icons that the library should re-attempt to download, in case previous attempts failed for whatever reason */
-        NSData *archivedIconsStillNeeded = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.iconsStillNeeded"];
+        NSData *archivedIconsStillNeeded = [[NSUserDefaults standardUserDefaults] objectForKey:ICONS_STILL_NEEDED];
         if (archivedIconsStillNeeded != nil)
         {
             NSDictionary *unarchivedIconsStillNeeded = [NSKeyedUnarchiver unarchiveObjectWithData:archivedIconsStillNeeded];
@@ -562,7 +568,7 @@ static JRSessionData* singleton = nil;
         }
 
         /* Load the set of providers that already have all of their icons; checking this list is faster than checking for the icons themselves */
-        NSData *archivedProvidersWithIcons = [[NSUserDefaults standardUserDefaults] objectForKey:@"jrengage.sessionData.providersWithIcons"];
+        NSData *archivedProvidersWithIcons = [[NSUserDefaults standardUserDefaults] objectForKey:PROVIDERS_WITH_ICONS];
         if (archivedProvidersWithIcons != nil)
         {
             NSSet *unarchivedProvidersWithIcons = [NSKeyedUnarchiver unarchiveObjectWithData:archivedProvidersWithIcons];
@@ -571,12 +577,12 @@ static JRSessionData* singleton = nil;
         }
         
         /* Load the base url and whether or not we need to hide the tagline */
-        baseUrl = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrengage.sessionData.baseUrl"] retain];
-        hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:@"jrengage.sessionData.hidePoweredBy"];
+        baseUrl = [[[NSUserDefaults standardUserDefaults] stringForKey:BASE_URL] retain];
+        hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:HIDE_POWERED_BY];
         
         /* And load the last used basic and social providers */
-        returningSocialProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrengage.sessionData.lastUsedSocialProvider"] retain];
-        returningBasicProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:@"jrengage.sessionData.lastUsedBasicProvider"] retain];
+        returningSocialProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:LAST_USED_SOCIAL_PROVIDER] retain];
+        returningBasicProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:LAST_USED_BASIC_PROVIDER] retain];
         
         /* As this information may have changed, we're going to ask rpx for this information anyway */
         error = [[self startGetConfiguration] retain];
@@ -605,6 +611,7 @@ static JRSessionData* singleton = nil;
     error = [[self startGetConfiguration] retain];
 }
 
+#pragma mark dynamic_icon_handling
 - (void)finishDownloadPicture:(NSData*)picture named:(NSString*)pictureName forProvider:(NSString*)provider
 {
     DLog (@"Downloaded %@ for %@", pictureName, provider);
@@ -623,9 +630,9 @@ static JRSessionData* singleton = nil;
     }
     
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:iconsStillNeeded] 
-                                              forKey:@"jrengage.sessionData.iconsStillNeeded"];
+                                              forKey:ICONS_STILL_NEEDED];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:providersWithIcons] 
-                                              forKey:@"jrengage.sessionData.providersWithIcons"];    
+                                              forKey:PROVIDERS_WITH_ICONS];    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -696,9 +703,9 @@ static JRSessionData* singleton = nil;
         [providersWithIcons addObject:providerName];                    /* quicker next time.           */
 }
 
-// TODO: Redo this
+#pragma mark configuration
 - (NSString*)appNameAndVersion
-{
+{   // TODO: Redo this
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
     NSString *name = [[[infoPlist objectForKey:@"CFBundleDisplayName"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
     NSString *ident = [[[infoPlist objectForKey:@"CFBundleIdentifier"] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
@@ -754,7 +761,7 @@ static JRSessionData* singleton = nil;
                 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] retain];
     
     /* Then save it */
-    [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:@"jrengage.sessionData.baseUrl"];
+    [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:BASE_URL];
     
     /* Get the providers out of the provider_info section.  These are most likely to have changed. */
     NSDictionary *providerInfo   = [NSDictionary dictionaryWithDictionary:[jsonDict objectForKey:@"provider_info"]];
@@ -780,9 +787,9 @@ static JRSessionData* singleton = nil;
     
     /* Save these now, in case the downloading of the icons gets interrupted for any reason */
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:iconsStillNeeded] 
-                                              forKey:@"jrengage.sessionData.iconsStillNeeded"];
+                                              forKey:ICONS_STILL_NEEDED];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:providersWithIcons] 
-                                              forKey:@"jrengage.sessionData.providersWithIcons"];    
+                                              forKey:PROVIDERS_WITH_ICONS];    
     [[NSUserDefaults standardUserDefaults] synchronize];    
     
     [basicProviders release];
@@ -798,9 +805,9 @@ static JRSessionData* singleton = nil;
     
     /* Then save our stuff */
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders] 
-                                              forKey:@"jrengage.sessionData.allProviders"];
-    [[NSUserDefaults standardUserDefaults] setObject:basicProviders forKey:@"jrengage.sessionData.basicProviders"];
-    [[NSUserDefaults standardUserDefaults] setObject:socialProviders forKey:@"jrengage.sessionData.socialProviders"];
+                                              forKey:ALL_PROVIDERS];
+    [[NSUserDefaults standardUserDefaults] setObject:basicProviders forKey:BASIC_PROVIDERS];
+    [[NSUserDefaults standardUserDefaults] setObject:socialProviders forKey:SOCIAL_PROVIDERS];
     
     /* Figure out if we need to hide the tag line */
     if ([[jsonDict objectForKey:@"hide_tagline"] isEqualToString:@"YES"])
@@ -809,7 +816,7 @@ static JRSessionData* singleton = nil;
         hidePoweredBy = NO;
     
     /* And finally, save that too */
-    [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:@"jrengage.sessionData.hidePoweredBy"];
+    [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:HIDE_POWERED_BY];
     
     /* Once we know that everything is parsed and saved correctly, save the new etag */
     [[NSUserDefaults standardUserDefaults] setValue:newEtag forKey:@"jrengage.sessionData.configurationEtag"];
@@ -887,6 +894,7 @@ static JRSessionData* singleton = nil;
     return nil;
 }
 
+#pragma mark user_management
 - (BOOL)weShouldBeFirstResponder
 {
     /* If we're authenticating with a provider for social publishing, then don't worry about the return experience
@@ -922,7 +930,7 @@ static JRSessionData* singleton = nil;
     
     [authenticatedUsersByProvider removeObjectForKey:providerName];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
-                                              forKey:@"jrengage.sessionData.authenticatedUsersByProvider"];
+                                              forKey:AUTHENTICATED_USERS_BY_PROVIDER];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -938,10 +946,11 @@ static JRSessionData* singleton = nil;
     
     [authenticatedUsersByProvider removeAllObjects];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
-                                              forKey:@"jrengage.sessionData.authenticatedUsersByProvider"];
+                                              forKey:AUTHENTICATED_USERS_BY_PROVIDER];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+#pragma mark provider_management
 - (JRProvider*)getProviderAtIndex:(NSUInteger)index fromArray:(NSArray*)array
 {
     if (index < [array count])
@@ -967,6 +976,7 @@ static JRSessionData* singleton = nil;
     return [allProviders objectForKey:name];
 }
 
+#pragma mark authentication 
 - (void)saveLastUsedSocialProvider:(NSString*)providerName
 {
 	DLog (@"Saving last used social provider: %@", providerName);
@@ -974,7 +984,7 @@ static JRSessionData* singleton = nil;
     [returningSocialProvider release], returningSocialProvider = [providerName retain];
     
     [[NSUserDefaults standardUserDefaults] setObject:returningSocialProvider
-                                              forKey:@"jrengage.sessionData.lastUsedSocialProvider"];
+                                              forKey:LAST_USED_SOCIAL_PROVIDER];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -999,7 +1009,7 @@ static JRSessionData* singleton = nil;
     [returningBasicProvider release], returningBasicProvider = [providerName retain];
     
     [[NSUserDefaults standardUserDefaults] setObject:returningBasicProvider
-                                              forKey:@"jrengage.sessionData.lastUsedBasicProvider"];
+                                              forKey:LAST_USED_BASIC_PROVIDER];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -1007,6 +1017,19 @@ static JRSessionData* singleton = nil;
 {
     [returningBasicProvider release];
     returningBasicProvider = nil;
+}
+
+- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString
+{
+	DLog (@"");
+	NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
+	
+	if ([strArr count] <= 1)
+		return @"Welcome, user!";
+	
+	return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] 
+             stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+            stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (void)deleteFacebookCookies
@@ -1077,6 +1100,7 @@ static JRSessionData* singleton = nil;
 	return [NSURL URLWithString:str];
 }
 
+#pragma mark sharing
 - (void)startShareActivityForUser:(JRAuthenticatedUser*)user
 {
     // TODO: Better error checking in sessionData's share activity bit
@@ -1199,6 +1223,28 @@ static JRSessionData* singleton = nil;
     }
 }
 
+- (void)startRecordActivitySharedBy:(NSString*)method
+{
+    ALog (@"");
+    NSMutableData* body = [NSMutableData data];
+    [body appendData:[[NSString stringWithFormat:@"device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&method=%@", method] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSString *urlString = [NSString stringWithFormat:
+                           @"%@/social/record_activity?", 
+                           baseUrl];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+    
+	NSString *tag = [NSString stringWithFormat:@"%@Success", method];
+	
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:NO withTag:[tag retain]];    
+}
+
+#pragma mark url_shortening
 - (void)startGetShortenedUrlsForActivity:(JRActivityObject*)_activity
 {
     NSDictionary *urls = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
@@ -1245,19 +1291,7 @@ static JRSessionData* singleton = nil;
     }
 }
 
-- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString
-{
-	DLog (@"");
-	NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
-	
-	if ([strArr count] <= 1)
-		return @"Welcome, user!";
-	
-	return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] 
-             stringByReplacingOccurrencesOfString:@"+" withString:@" "]
-            stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-}
-
+#pragma mark token_url
 - (void)startMakeCallToTokenUrl:(NSString*)_tokenUrl withToken:(NSString *)token forProvider:(NSString*)providerName
 {
     ALog (@"Calling token URL for %@:\n%@", providerName, _tokenUrl);
@@ -1303,6 +1337,7 @@ static JRSessionData* singleton = nil;
     }
 }
 
+#pragma mark connection_manager_delegate_protocol
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
     NSObject *tag = (NSObject*)userdata;
@@ -1485,6 +1520,7 @@ static JRSessionData* singleton = nil;
         [(NSDictionary*)userdata release];
 }
 
+#pragma mark delegate_management
 - (void)addDelegate:(id<JRSessionDelegate>)_delegate
 {
     if (_delegate)
@@ -1496,6 +1532,7 @@ static JRSessionData* singleton = nil;
     [delegates removeObject:_delegate];
 }
 
+#pragma mark trigger_methods
 - (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict
 {      
  /* This value will be nil if authentication was canceled after the user authenticated in the
@@ -1513,7 +1550,7 @@ static JRSessionData* singleton = nil;
     
     [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider] 
-                                              forKey:@"jrengage.sessionData.authenticatedUsersByProvider"];
+                                              forKey:AUTHENTICATED_USERS_BY_PROVIDER];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if ([[self basicProviders] containsObject:currentProvider.name])
@@ -1682,27 +1719,6 @@ static JRSessionData* singleton = nil;
         if ([delegate respondsToSelector:@selector(publishingDidRestart)])
             [delegate publishingDidRestart];
     }
-}
-
-- (void)startRecordActivitySharedBy:(NSString*)method
-{
-    ALog (@"");
-    NSMutableData* body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&method=%@", method] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSString *urlString = [NSString stringWithFormat:
-                           @"%@/social/record_activity?", 
-                           baseUrl];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:body];
-    
-	NSString *tag = [NSString stringWithFormat:@"%@Success", method];
-	
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:NO withTag:[tag retain]];    
 }
 
 - (void)triggerEmailSharingDidComplete
