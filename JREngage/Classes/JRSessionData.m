@@ -365,8 +365,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-//	DLog (@"Encoding Provider: %@", name);
-    
     [coder encodeObject:name forKey:@"name"];
     [coder encodeObject:friendlyName forKey:@"friendlyName"];
     [coder encodeObject:placeholderText forKey:@"placeholderText"];
@@ -394,8 +392,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     }   
     [self loadDynamicVariables];
     
-//    DLog (@"Decoding Provider: %@", name);
-    
     return self;
 }
 
@@ -409,8 +405,6 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)dealloc
 {
-//	DLog (@"");
-		
     [name release];
     [friendlyName release];
     [placeholderText release];
@@ -492,7 +486,7 @@ static JRSessionData* singleton = nil;
     dialogIsShowing = isShowing;
 }
 
-- (void)setActivity:(JRActivityObject *)_activity
+- (void)setActivity:(JRActivityObject*)_activity
 {   
     [_activity retain];
     [activity release];
@@ -897,13 +891,11 @@ static JRSessionData* singleton = nil;
 #pragma mark user_management
 - (BOOL)weShouldBeFirstResponder
 {
-    /* If we're authenticating with a provider for social publishing, then don't worry about the return experience
-     * for basic authentication. */
+ /* If we're authenticating with a provider for social publishing, then don't worry about the return experience for basic authentication. */
     if (socialSharing)
         return currentProvider.requiresInput;
     
-    /* If we're authenticating with a basic provider, then we don't need to gather infomation if we're displaying 
-     * return screen. */
+ /* If we're authenticating with a basic provider, then we don't need to gather infomation if we're displaying return screen. */
     if ([currentProvider isEqualToReturningProvider:returningBasicProvider])
         return NO;
     
@@ -1389,7 +1381,7 @@ static JRSessionData* singleton = nil;
             else // There was an error...
             {
                 error = [[JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                                 withCode:JRConfigurationInformationError] retain];
+                                  withCode:JRConfigurationInformationError] retain];
             }
         }
     }
