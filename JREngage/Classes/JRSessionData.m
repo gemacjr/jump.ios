@@ -44,16 +44,16 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-//#define STAGING
-//#define LOCAL
-//#define OLEG
-#ifdef STAGING
+//#define ENGAGE_STAGING_SERVER
+//#define ENGAGE_LOCAL_SERVER
+//#define ENGAGE_OLEG_SERVER
+#ifdef ENGAGE_STAGING_SERVER
 static NSString * const serverUrl = @"https://rpxstaging.com";
 #else
-#ifdef LOCAL 
+#ifdef ENGAGE_LOCAL_SERVER
 static NSString * const serverUrl = @"http://lilli.janrain.com:8080";
 #else
-#ifdef OLEG
+#ifdef ENGAGE_OLEG_SERVER
 static NSString * const serverUrl = @"http://oleg.janrain.com:8080";
 #else
 static NSString * const serverUrl = @"https://rpxnow.com";
@@ -1414,7 +1414,7 @@ static JRSessionData* singleton = nil;
     
     if ([tag isKindOfClass:[NSString class]])
     {   
-        ALog (@"Connection for %@ failed with error: %@", tag, [error localizedDescription]);
+        ALog (@"Connection for %@ failed with error: %@", tag, [_error localizedDescription]);
 
         if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {

@@ -646,6 +646,25 @@ Please try again later."
             if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
                 [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
         }   
+        else if ([media isKindOfClass:[JRFlashMediaObject class]])
+        {
+            DLog (@"Downloading image thumbnail: %@", ((JRFlashMediaObject*)media).imgsrc);
+            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
+            
+            NSURL        *url = [NSURL URLWithString:((JRFlashMediaObject*)media).imgsrc];
+            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+            NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+            
+            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
+                [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+        }   
+        else
+        {
+            [self setButtonImage:myMediaThumbnailView 
+                          toData:[UIImage imageNamed:@"music_note.png"]
+                   andSetLoading:myMediaThumbnailActivityIndicator 
+                       toLoading:NO];
+        }
     }
     else 
     {
