@@ -1025,36 +1025,36 @@ Please try again later."
     weAreCurrentlyPostingSomething = NO; 
 }
 
-- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider 
-{
-    DLog(@"");
-    
-    myLoadingLabel.text = @"Sharing...";
-    
-    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
-    
-    // QTS: Would we ever expect this to not be the case?
-    if (loggedInUser)
-    {
-        [self showViewIsLoading:YES];
-        [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:provider];
-        [self showUserAsLoggedIn:YES];
-        
-        [self shareActivity];
-    }
-    else 
-    {  
-        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-                                                         message:@"There was an error while sharing this activity."
-                                                        delegate:nil
-                                               cancelButtonTitle:@"OK" 
-                                               otherButtonTitles:nil] autorelease];
-        [alert show];
-        [self showViewIsLoading:NO];
-        weAreCurrentlyPostingSomething = NO;
-        weHaveJustAuthenticated = NO; 
-    }
-}
+//- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider 
+//{
+//    DLog(@"");
+//    
+//    myLoadingLabel.text = @"Sharing...";
+//    
+//    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
+//    
+//    // QTS: Would we ever expect this to not be the case?
+//    if (loggedInUser)
+//    {
+//        [self showViewIsLoading:YES];
+//        [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:provider];
+//        [self showUserAsLoggedIn:YES];
+//        
+//        [self shareActivity];
+//    }
+//    else 
+//    {  
+//        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+//                                                         message:@"There was an error while sharing this activity."
+//                                                        delegate:nil
+//                                               cancelButtonTitle:@"OK" 
+//                                               otherButtonTitles:nil] autorelease];
+//        [alert show];
+//        [self showViewIsLoading:NO];
+//        weAreCurrentlyPostingSomething = NO;
+//        weHaveJustAuthenticated = NO; 
+//    }
+//}
 
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider
 {

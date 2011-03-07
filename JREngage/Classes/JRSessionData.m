@@ -45,7 +45,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 //#define ENGAGE_STAGING_SERVER
-//#define ENGAGE_LOCAL_SERVER
+#define ENGAGE_LOCAL_SERVER
 //#define ENGAGE_OLEG_SERVER
 #ifdef ENGAGE_STAGING_SERVER
 static NSString * const serverUrl = @"https://rpxstaging.com";
@@ -1095,7 +1095,7 @@ static JRSessionData* singleton = nil;
     
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/api/v2/activity?", serverUrl]]] retain];
+                                      [NSString stringWithFormat:@"%@/api/v2/activity", serverUrl]]] retain];
     
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
