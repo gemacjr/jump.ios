@@ -1013,6 +1013,8 @@ Please try again later."
     weHaveJustAuthenticated = NO; 
 }
 
+// TODO: Probably need to comment this out, as authenticationDidCancel is something that publish activity
+// should never have to worry about
 - (void)authenticationDidCancel 
 {
     weAreCurrentlyPostingSomething = NO; 
