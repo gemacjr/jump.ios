@@ -131,10 +131,10 @@
     
     self.navigationItem.titleView = titleView;
     
-    if ([[customInterface objectForKey:kJRProviderTableHeaderView] isKindOfClass:[UIView class]])
+//    if ([[customInterface objectForKey:kJRProviderTableHeaderView] isKindOfClass:[UIView class]])
          myTableView.tableHeaderView = [customInterface objectForKey:kJRProviderTableHeaderView];
     
-     if ([[customInterface objectForKey:kJRProviderTableFooterView] isKindOfClass:[UIView class]])
+//     if ([[customInterface objectForKey:kJRProviderTableFooterView] isKindOfClass:[UIView class]])
           myTableView.tableFooterView = [customInterface objectForKey:kJRProviderTableFooterView];
     
     if (!hidesCancelButton)

@@ -161,7 +161,6 @@
     for (int i = 0; i < NUM; i++)
         NSLog (@"%@: %f, %f, %f, %f", strs[i], rects[i].origin.x, rects[i].origin.y, rects[i].size.width, rects[i].size.height);
     
-    
     if (iPad)
     {
         if (sender == signInButton)

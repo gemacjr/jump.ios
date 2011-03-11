@@ -45,6 +45,8 @@
                                       action:@selector(triggerAuthenticationDidCancel:)] autorelease];
     
 	self.navigationItem.rightBarButtonItem = cancelButton;
+    
+    self.contentSizeForViewInPopover = CGSizeMake(320, 416);
 }
 
 - (IBAction)janrainLinkClicked:(id)sender
