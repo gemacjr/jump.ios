@@ -45,7 +45,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 //#define ENGAGE_STAGING_SERVER
-#define ENGAGE_LOCAL_SERVER
+//#define ENGAGE_LOCAL_SERVER
 //#define ENGAGE_OLEG_SERVER
 #ifdef ENGAGE_STAGING_SERVER
 static NSString * const serverUrl = @"https://rpxstaging.com";
@@ -716,7 +716,7 @@ static JRSessionData* singleton = nil;
     NSString *version = [[[infoPlist objectForKey:@"CFBundleShortVersionString"] 
                           stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
     
-    return [NSString stringWithFormat:@"app_name=%@.%@3&version=%@_%@", name, ident, device, version];
+    return [NSString stringWithFormat:@"appName=%@.%@3&version=%@_%@", name, ident, device, version];
 }
 
 - (NSError*)startGetConfiguration
@@ -1096,11 +1096,11 @@ static JRSessionData* singleton = nil;
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
-//    [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&url_shortening=true"] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
 //    [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
+//    [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:

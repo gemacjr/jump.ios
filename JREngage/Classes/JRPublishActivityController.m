@@ -309,6 +309,7 @@ Please try again later."
         hasEditedUserContentForActivityAlready = YES;
     }
     
+    [alreadyShared removeAllObjects];
     [self showActivityAsShared:NO];
     
     if (!iPad)
