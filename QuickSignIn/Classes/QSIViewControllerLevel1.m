@@ -707,7 +707,7 @@ Copyright (c) 2010, Janrain, Inc.
 {
     [super viewWillDisappear:animated];
     
-    [[JREngage jrEngage] cancelPublishing];
+    //[[JREngage jrEngage] cancelPublishing]; ????
     
     if (iPad)
     {

@@ -465,28 +465,37 @@ otherwise, this happens automatically.													*/
     
     NSDictionary *moreCustomizations = nil;
     
-    if (NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
+    if (YES)//(NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
     {       
      /* EmbeddedTableViewController acts as the delegate and datasource of the embeddedTable, whose view will be added 
         as a "subtable", as the provider table's header view. While they are two different tables, it will appear as if
         they are different sections of the same table. */
         EmbeddedTableViewController *embeddedTable = [[EmbeddedTableViewController alloc] init];
         //UIColor *janrainBlue = [UIColor colorWithRed:0.375 green:0.74 blue:0.9 alpha:0.2];
+
+        /* If you want your embeddedTable to control the navigationController, you must use your own. */
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            self.navigationController = [[UINavigationController alloc] init];
         
-        moreCustomizations = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+        moreCustomizations = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                     embeddedTable.view, kJRProviderTableHeaderView,
-                                    @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString, nil];
+                                    @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString, 
+                                    navigationController, ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 
+                                               kJRCustomModalNavigationController : kJRApplicationNavigationController),
+                                    nil] autorelease];
                                     //janrainBlue, kJRAuthenticationBackgroundColor, nil];
 
-     /* If you want your embeddedTable to control the navigationController, you must use your own. */
-        [jrEngage setCustomNavigationController:navigationController];
+        
     }
     
-    [customInterface addEntriesFromDictionary:moreCustomizations];
-    [jrEngage setCustomInterfaceDefaults:customInterface];	    
+    if (customInterface)
+        [customInterface addEntriesFromDictionary:moreCustomizations];
+    else
+        customInterface = [moreCustomizations retain];
+//    [jrEngage setCustomInterfaceDefaults:customInterface];	    
 
  /* Launch the JRAuthenticate Library. */
-    [jrEngage showAuthenticationDialog];
+    [jrEngage showAuthenticationDialogWithCustomInterface:customInterface];
 }
 
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn afterSignOut:(id<UserModelDelegate>)interestedPartySignOut

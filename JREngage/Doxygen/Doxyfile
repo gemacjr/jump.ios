@@ -649,20 +649,8 @@ RECURSIVE              = YES
 # excluded from the INPUT source files. This way you can easily exclude a 
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/JSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSObject+SBJSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSObject+SBJSON.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSString+SBJSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/NSString+SBJSON.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonBase.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonBase.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonParser.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonParser.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonWriter.h \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/SBJsonWriter.m \
-                         /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON/JSON.h \
-                         /Users/lillialexis/iPhone/engage.iphone/Contrib/json-framework/Classes \
-                         /Users/lillialexis/iPhone/engage.iphone/Contrib/json-framework/Classes
+EXCLUDE                = /Users/lillialexis/iPhone/engage.iphone/JREngage/JSON \
+                         /Users/lillialexis/iPhone/engage.iphone/JREngage/Security
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
 # directories that are symbolic links (a Unix filesystem feature) are excluded 

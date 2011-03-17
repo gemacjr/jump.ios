@@ -646,6 +646,25 @@ Please try again later."
             if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
                 [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
         }   
+        else if ([media isKindOfClass:[JRFlashMediaObject class]])
+        {
+            DLog (@"Downloading image thumbnail: %@", ((JRFlashMediaObject*)media).imgsrc);
+            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
+            
+            NSURL        *url = [NSURL URLWithString:((JRFlashMediaObject*)media).imgsrc];
+            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+            NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+            
+            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
+                [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+        }   
+        else
+        {
+            [self setButtonImage:myMediaThumbnailView 
+                          toData:[UIImage imageNamed:@"music_note.png"]
+                   andSetLoading:myMediaThumbnailActivityIndicator 
+                       toLoading:NO];
+        }
     }
     else 
     {
@@ -994,6 +1013,8 @@ Please try again later."
     weHaveJustAuthenticated = NO; 
 }
 
+// TODO: Probably need to comment this out, as authenticationDidCancel is something that publish activity
+// should never have to worry about
 - (void)authenticationDidCancel 
 {
     weAreCurrentlyPostingSomething = NO; 
@@ -1006,36 +1027,36 @@ Please try again later."
     weAreCurrentlyPostingSomething = NO; 
 }
 
-- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider 
-{
-    DLog(@"");
-    
-    myLoadingLabel.text = @"Sharing...";
-    
-    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
-    
-    // QTS: Would we ever expect this to not be the case?
-    if (loggedInUser)
-    {
-        [self showViewIsLoading:YES];
-        [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:provider];
-        [self showUserAsLoggedIn:YES];
-        
-        [self shareActivity];
-    }
-    else 
-    {  
-        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-                                                         message:@"There was an error while sharing this activity."
-                                                        delegate:nil
-                                               cancelButtonTitle:@"OK" 
-                                               otherButtonTitles:nil] autorelease];
-        [alert show];
-        [self showViewIsLoading:NO];
-        weAreCurrentlyPostingSomething = NO;
-        weHaveJustAuthenticated = NO; 
-    }
-}
+//- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider 
+//{
+//    DLog(@"");
+//    
+//    myLoadingLabel.text = @"Sharing...";
+//    
+//    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
+//    
+//    // QTS: Would we ever expect this to not be the case?
+//    if (loggedInUser)
+//    {
+//        [self showViewIsLoading:YES];
+//        [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:provider];
+//        [self showUserAsLoggedIn:YES];
+//        
+//        [self shareActivity];
+//    }
+//    else 
+//    {  
+//        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
+//                                                         message:@"There was an error while sharing this activity."
+//                                                        delegate:nil
+//                                               cancelButtonTitle:@"OK" 
+//                                               otherButtonTitles:nil] autorelease];
+//        [alert show];
+//        [self showViewIsLoading:NO];
+//        weAreCurrentlyPostingSomething = NO;
+//        weHaveJustAuthenticated = NO; 
+//    }
+//}
 
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider
 {

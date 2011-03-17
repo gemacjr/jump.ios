@@ -45,16 +45,16 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 #pragma mark server_urls
-//#define STAGING
-//#define LOCAL
-//#define OLEG
-#ifdef STAGING
+//#define ENGAGE_STAGING_SERVER
+//#define ENGAGE_LOCAL_SERVER
+//#define ENGAGE_OLEG_SERVER
+#ifdef ENGAGE_STAGING_SERVER
 static NSString * const serverUrl = @"https://rpxstaging.com";
 #else
-#ifdef LOCAL 
+#ifdef ENGAGE_LOCAL_SERVER
 static NSString * const serverUrl = @"http://lilli.janrain.com:8080";
 #else
-#ifdef OLEG
+#ifdef ENGAGE_OLEG_SERVER
 static NSString * const serverUrl = @"http://oleg.janrain.com:8080";
 #else
 static NSString * const serverUrl = @"https://rpxnow.com";
@@ -97,16 +97,20 @@ static NSString * const iconNamesSocial[11] = { @"icon_%@_30x30.png",
 #define USER_INPUT_FOR_PROVIDER         @"jrengage.provider.%@.userInput"
 #define FORCE_REAUTH_FLAG_FOR_PROVIDER  @"jrengage.provider.%@.forceReauth"
 
-
-
 #pragma mark helper_functions
-NSString* displayNameAndIdentifier()
+NSString* applicationBundleDisplayNameAndIdentifier()
 {
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
     NSString *name = [infoPlist objectForKey:@"CFBundleDisplayName"];
     NSString *ident = [infoPlist objectForKey:@"CFBundleIdentifier"];
     
     return [NSString stringWithFormat:@"%@.%@", name, ident];
+}
+
+NSString* applicationBundleDisplayName()
+{
+    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
+    return [infoPlist objectForKey:@"CFBundleDisplayName"];
 }
 
 void RLog (NSObject *object)
@@ -174,7 +178,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     NSError *error = nil;
     [SFHFKeychainUtils storeUsername:provider_name 
                          andPassword:device_token 
-                      forServiceName:[NSString stringWithFormat:@"%@.%@.", JRENGAGE_KEYCHAIN_IDENTIFIER, displayNameAndIdentifier()] 
+                      forServiceName:[NSString stringWithFormat:@"%@.%@.", JRENGAGE_KEYCHAIN_IDENTIFIER, applicationBundleDisplayNameAndIdentifier()] 
                       updateExisting:YES 
                                error:&error];
 
@@ -195,7 +199,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
         NSError *error = nil;
         device_token = [[SFHFKeychainUtils getPasswordForUsername:provider_name
-                                                   andServiceName:[NSString stringWithFormat:@"%@.%@.", JRENGAGE_KEYCHAIN_IDENTIFIER, displayNameAndIdentifier()] 
+                                                   andServiceName:[NSString stringWithFormat:@"%@.%@.", JRENGAGE_KEYCHAIN_IDENTIFIER, applicationBundleDisplayNameAndIdentifier()] 
                                                             error:&error] retain];
         
         if (error)
@@ -214,7 +218,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 {
     NSError *error = nil;
     [SFHFKeychainUtils deleteItemForUsername:provider_name
-                              andServiceName:[NSString stringWithFormat:@"%@.%@.", JRENGAGE_KEYCHAIN_IDENTIFIER, displayNameAndIdentifier()] 
+                              andServiceName:[NSString stringWithFormat:@"%@.%@.", JRENGAGE_KEYCHAIN_IDENTIFIER, applicationBundleDisplayNameAndIdentifier()] 
                                        error:&error];
     if (error)
         ALog (@"Error deleting device token from keychain: %@", [error localizedDescription]);
@@ -711,7 +715,7 @@ static JRSessionData* singleton = nil;
     NSString *version = [[[infoPlist objectForKey:@"CFBundleShortVersionString"] 
                           stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
     
-    return [NSString stringWithFormat:@"appName=%@.%@&version=%@_%@", name, ident, device, version];
+    return [NSString stringWithFormat:@"app_name=%@.%@3&version=%@_%@", name, ident, device, version];
 }
 
 - (NSError*)startGetConfiguration
@@ -1106,12 +1110,15 @@ static JRSessionData* singleton = nil;
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
+//    [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&url_shortening=true"] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
+//    [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/api/v2/activity?", serverUrl]]] retain];
+                                      [NSString stringWithFormat:@"%@/api/v2/activity", serverUrl]]] retain];
     
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -1120,7 +1127,8 @@ static JRSessionData* singleton = nil;
                          currentProvider.name, @"providerName", 
                          @"shareActivity", @"action", nil];
     
-    ALog ("Sharing activity on %@:\n request=%@\nbody=%s", user.provider_name, [[request URL] absoluteString], body.bytes);
+    ALog ("Sharing activity on %@:\n request=%@\nbody=%@", user.provider_name, [[request URL] absoluteString], 
+          [NSString stringWithCString:body.bytes encoding:NSUTF8StringEncoding]);
     
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
         [self triggerPublishingDidFailWithError:[JRError setError:@"There was a problem connecting to the Janrain server to share this activity"
@@ -1151,7 +1159,9 @@ static JRSessionData* singleton = nil;
                                                       withCode:JRPublishFailedError]
                                  forProvider:providerName];
         }
+        return;
     }
+    
     if ([[response_dict objectForKey:@"stat"] isEqualToString:@"ok"])
     {
         [self saveLastUsedSocialProvider:providerName];
@@ -1441,7 +1451,7 @@ static JRSessionData* singleton = nil;
     
     if ([tag isKindOfClass:[NSString class]])
     {   
-        ALog (@"Connection for %@ failed with error: %@", tag, [error localizedDescription]);
+        ALog (@"Connection for %@ failed with error: %@", tag, [_error localizedDescription]);
 
         if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {
