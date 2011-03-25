@@ -1195,7 +1195,7 @@
 				INFOPLIST_FILE = "Quick_Publish-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = "Quick Publish";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8F38E073-01E3-4E76-AA2D-7C76524CFA61";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A7B9FC53-99F0-4CBD-B6BE-6BC7F6CD6BD4";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1230,6 +1230,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
+				SDKROOT = iphoneos;
 			};
 			name = Distribution;
 		};
@@ -1261,7 +1262,9 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -1275,6 +1278,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};

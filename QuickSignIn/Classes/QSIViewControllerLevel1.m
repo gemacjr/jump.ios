@@ -83,6 +83,7 @@ Copyright (c) 2010, Janrain, Inc.
     return self;
 }
 */
+
 - (void)setUpNavigationBarForPad
 {
     [myRightView addSubview:level2ViewController.view];
@@ -108,19 +109,17 @@ Copyright (c) 2010, Janrain, Inc.
     [myTitlePad setShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
     [myTitlePad setTextAlignment:UITextAlignmentCenter];
     [myTitlePad setAlpha:0.0];
-//    [myTitlePad setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
     
     [myTitlePad setText:@"Profiles"];
     
     if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
         self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-        myEditButtonContainer = [[UIView alloc] initWithFrame:CGRectMake(262, 0, 52, 44)];//CGRectMake(610, 0, 52, 44)] autorelease];
+        myEditButtonContainer = [[UIView alloc] initWithFrame:CGRectMake(262, 0, 52, 44)];
     else
         myEditButtonContainer = [[UIView alloc] initWithFrame:CGRectMake(368, 0, 52, 44)];
 
     [myEditButtonContainer setBackgroundColor:[UIColor clearColor]];
     [myEditButtonContainer setAlpha:0.0];
-//    [myEditButtonContainer setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
     
     myEditButtonPad = [UIButton buttonWithType:UIButtonTypeCustom];
     [myEditButtonPad setFrame:CGRectMake(0, 7, 52, 30)];
@@ -151,7 +150,6 @@ Copyright (c) 2010, Janrain, Inc.
     [mySplitViewPad setImage:[UIImage imageNamed:@"nav_split.png"]];
     [mySplitViewPad setBackgroundColor:[UIColor clearColor]];
     [mySplitViewPad setAlpha:0.0];
-//    [mySplitViewPad setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];    
     
     if (self.interfaceOrientation == UIInterfaceOrientationPortrait || 
         self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
@@ -165,7 +163,6 @@ Copyright (c) 2010, Janrain, Inc.
     [mySelectedProfilePad setShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
     [mySelectedProfilePad setTextAlignment:UITextAlignmentCenter];
     [mySelectedProfilePad setAlpha:0.0];
-//    [myTitlePad setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth];
     
     [self.navigationController.navigationBar addSubview:myTitlePad];
     [self.navigationController.navigationBar addSubview:mySplitViewPad];
@@ -248,40 +245,12 @@ Copyright (c) 2010, Janrain, Inc.
 	else
 		myNotSignedInLabel.text = @"You are not currently signed in.";
 
-//    UIImageView *myBackgroundImage = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)] autorelease];
-//    [myBackgroundImage setImage:[UIImage imageNamed:@"background.png"]];
-//    [myBackgroundImage setContentMode:UIViewContentModeCenter];
-//    
-//    NSMutableDictionary *myEngageCustomizations  = [[NSMutableDictionary alloc] initWithCapacity:5];
-//    [myEngageCustomizations setObject:[UIColor blueColor] forKey:kJRAuthenticationBackgroundColor];
-//    [myEngageCustomizations setObject:[UIColor greenColor] forKey:kJRSocialSharingBackgroundColor];
-//    [myEngageCustomizations setObject:myBackgroundImage forKey:kJRAuthenticationBackgroundImageView];
-//    
-//    UINavigationController *nav = [[[UINavigationController alloc] init] autorelease];
-//    [nav.navigationBar setTintColor:[UIColor redColor]];
-//    
-//    NSMutableDictionary *foo;
-//    [foo setObject: forKey:
     if (iPad)
         [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                       self.navigationItem.rightBarButtonItem,
-                                                      kJRPopoverPresentationBarButtonItem, //nil]];
+                                                      kJRPopoverPresentationBarButtonItem,
                                                       [NSNumber numberWithInt:UIPopoverArrowDirectionAny],                                                      
-                                                      kJRPopoverPresentationArrowDirection,
-//                                                      myBackgroundImage,
-//                                                      kJRAuthenticationBackgroundImageView,
-//                                                      @"background.png",
-//                                                      kJRProviderTableBackgroundImageName,
-//                                                      nav,
-//                                                      kJRCustomModalNavigationController,
-//                                                      [NSValue valueWithCGRect:CGRectMake(50, 50, 200, 50)],
-//                                                      kJRPopoverPresentationFrameValue,
-//                                                      self.navigationController,
-//                                                      kJRUseApplicationNavigationController,
-//                                                      [UIColor redColor],
-//                                                      kJRNavigationBarTintColor, 
-                                                      nil]];
-                                                      
+                                                      kJRPopoverPresentationArrowDirection, nil]];
     
     [self.view becomeFirstResponder];
 	[myTableView setEditing:NO animated:NO];
@@ -707,17 +676,10 @@ Copyright (c) 2010, Janrain, Inc.
 {
     [super viewWillDisappear:animated];
     
-    //[[JREngage jrEngage] cancelPublishing]; ????
-    
     if (iPad)
     {
         [level2ViewController clearUser:YES];
         [self fadeCustomNavigationBarItems:0.0];
-//        [myEditButtonPad setHidden:YES];
-//        [myDoneButtonPad setHidden:YES];
-//        [myTitlePad setHidden:YES];
-//        [mySplitViewPad setHidden:YES];
-//        [mySelectedProfilePad setHidden:YES];
     }
 }
 
