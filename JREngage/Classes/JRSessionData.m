@@ -170,7 +170,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 - (id)initWithCoder:(NSCoder *)coder
 {
     // QTS: Probably need to autorelease this, yes? I think that made it crash...
-	self = [[JRAuthenticatedUser alloc] init];
+	//self = [[JRAuthenticatedUser alloc] init];
 
 //    RLog(self);
     
@@ -368,7 +368,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    self = [[JRProvider alloc] init];
+    //self = [[JRProvider alloc] init];
     
     if (self != nil)
     {
@@ -1096,11 +1096,11 @@ static JRSessionData* singleton = nil;
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
+//    [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&url_shortening=true"] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
-//    [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
-//    [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
