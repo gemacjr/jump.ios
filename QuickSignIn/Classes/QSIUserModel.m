@@ -458,7 +458,7 @@ otherwise, this happens automatically.													*/
     
     NSDictionary *moreCustomizations = nil;
     
-    if (YES)//(NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
+    if (NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
     {       
      /* EmbeddedTableViewController acts as the delegate and datasource of the embeddedTable, whose view will be added 
         as a "subtable", as the provider table's header view. While they are two different tables, it will appear as if
