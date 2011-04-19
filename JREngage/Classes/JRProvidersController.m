@@ -188,6 +188,27 @@
  /* Load the custom background view, if there is one. */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundImageView])
         [myBackgroundView addSubview:[customInterface objectForKey:kJRAuthenticationBackgroundImageView]];
+    
+    int tableAndSectionHeaderHeight = 0;
+    if (myTableView.tableHeaderView)
+        tableAndSectionHeaderHeight += myTableView.tableHeaderView.frame.size.height;
+    
+    tableAndSectionHeaderHeight += [self tableView:myTableView heightForHeaderInSection:0];
+    
+    if (tableAndSectionHeaderHeight)
+    {
+        DLog ("self.frame: %f %f", self.view.frame.size.width, self.view.frame.size.height);
+        int loadingLabelAndSpinnerVerticalOffset = ((self.view.frame.size.height - tableAndSectionHeaderHeight) / 2) + tableAndSectionHeaderHeight; 
+        [myLoadingLabel setFrame:CGRectMake(myLoadingLabel.frame.origin.x, 
+                                            loadingLabelAndSpinnerVerticalOffset - 40, 
+                                            myLoadingLabel.frame.size.width, 
+                                            myLoadingLabel.frame.size.height)];
+        [myActivitySpinner setFrame:CGRectMake(myActivitySpinner.frame.origin.x, 
+                                               loadingLabelAndSpinnerVerticalOffset, 
+                                               myActivitySpinner.frame.size.width, 
+                                               myActivitySpinner.frame.size.height)];
+        DLog ("label.frame: %f, %f", myLoadingLabel.frame.origin.x, myLoadingLabel.frame.origin.y);
+    }    
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -324,9 +345,9 @@ Please try again later."
         return ((UIView*)[customInterface objectForKey:kJRProviderTableSectionFooterView]).frame.size.height +
                 infoBar.frame.size.height;
     else if ([customInterface objectForKey:kJRProviderTableSectionFooterTitleString])
-        return 30 + infoBar.frame.size.height;
+        return 35 + infoBar.frame.size.height;
 
-    return 30 + infoBar.frame.size.height;
+    return 0 + infoBar.frame.size.height;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
