@@ -99,7 +99,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Sent if the authentication was canceled for any reason other than an error. For example, the user hits the "Cancel" button, any class (e.g., the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> delegate) calls the cancelAuthentication message, or if configuration of the library is taking more than about 16 seconds (rare) to download. </p>
+<p>Sent if the authentication was canceled for any reason other than an error. For example, the user hits the "Cancel" button, any class (e.g., the JREngage delegate) calls the cancelAuthentication message, or if configuration of the library is taking more than about 16 seconds (rare) to download. </p>
 
 </div>
 </div>
@@ -128,17 +128,17 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="authDidSucceed"></a></p>
-<p>Tells the delegate that the user has successfully authenticated with the given provider, passing to the delegate an <code>NSDictionary</code> object with the user's profile data</p>
+<p>Tells the delegate that the user has successfully authenticated with the given provider, passing to the delegate an <em>NSDictionary</em> object with the user's profile data.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>auth_info</em>&nbsp;</td><td>An <code>NSDictionary</code> of fields containing all the information Janrain Engage knows about the user logging into your application. Includes the field "profile" which contains the user's profile information</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>auth_info</em>&nbsp;</td><td>An <em>NSDictionary</em> of fields containing all the information Janrain Engage knows about the user logging into your application. Includes the field <code>"profile"</code> which contains the user's profile information</td></tr>
   </table>
   </dd>
 </dl>
 <p>The structure of the dictionary (represented here in json) should look something like the following: </p>
 <div class="fragment"><pre class="fragment"> <span class="stringliteral">&quot;auth_info&quot;</span>:
  {
- <span class="stringliteral">&quot;profile&quot;</span>: 
+ <span class="stringliteral">&quot;profile&quot;</span>:
  {
  <span class="stringliteral">&quot;displayName&quot;</span>: <span class="stringliteral">&quot;brian&quot;</span>,
  <span class="stringliteral">&quot;preferredUsername&quot;</span>: <span class="stringliteral">&quot;brian&quot;</span>,
@@ -149,7 +149,7 @@ Public Member Functions</h2></td></tr>
  }
 </pre></div><dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">List of Providers</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -181,11 +181,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Sent when authentication failed and could not be recovered by the library</p>
+<p>Sent when authentication failed and could not be recovered by the library.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>error</em>&nbsp;</td><td>The error that occurred during authentication</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user tried to authenticate. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user tried to authenticate. For a list of possible strings, please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">List of Providers</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -223,7 +223,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000019">Deprecated:</a></b></dt><dd>Please use <a class="el" href="protocol_j_r_engage_delegate-p.html#a2cbed662f784706d2db038e1cb9ba3fd">jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:</a> instead. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Please use <a class="el" href="protocol_j_r_engage_delegate-p.html#a2cbed662f784706d2db038e1cb9ba3fd">jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:</a> instead. </dd></dl>
 
 </div>
 </div>
@@ -264,13 +264,13 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="tokenUrlReached"></a></p>
-<p>Sent after <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> has successfully posted the token to your application's token_url, containing the headers and body of the response from the server</p>
+<p>Sent after <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> has successfully posted the token to your application's token_url, containing the headers and body of the response from the server.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>tokenUrl</em>&nbsp;</td><td>The URL on the server where the token was posted and server-side authentication was completed</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>response</em>&nbsp;</td><td>The final NSURLResponse returned from the server</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>response</em>&nbsp;</td><td>The final <em>NSURLResponse</em> returned from the server</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>tokenUrlPayload</em>&nbsp;</td><td>The response from the server</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">List of Providers</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -307,12 +307,12 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Sent when the call to the token URL has failed</p>
+<p>Sent when the call to the token URL has failed.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>tokenUrl</em>&nbsp;</td><td>The URL on the server where the token was posted and server-side authentication was completed</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>error</em>&nbsp;</td><td>The error that occurred during server-side authentication</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">List of Providers</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -333,7 +333,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Sent if social publishing was canceled for any reason other than an error. For example, the user hits the "Cancel" button, any class (e.g., the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> delegate) calls the cancelPublishing message, or if configuration of the library is taking more than about 16 seconds (rare) to download. </p>
+<p>Sent if social publishing was canceled for any reason other than an error. For example, the user hits the "Cancel" button, any class (e.g., the JREngage delegate) calls the cancelPublishing message, or if configuration of the library is taking more than about 16 seconds (rare) to download. </p>
 
 </div>
 </div>
@@ -379,11 +379,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p><a class="anchor" id="didPublish"></a> Sent after the user successfully shares an activity on the given provider</p>
+<p><a class="anchor" id="didPublish"></a> Sent after the user successfully shares an activity on the given provider.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>activity</em>&nbsp;</td><td>The shared activity</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user published the activity. For a list of possible strings, please see the <a class="el" href="_providers.html#socialProviders">List of Social Providers</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user published the activity. For a list of possible strings, please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#socialProviders">List of Social Providers</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -420,12 +420,12 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Sent when publishing an activity failed and could not be recovered by the library</p>
+<p>Sent when publishing an activity failed and could not be recovered by the library.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>activity</em>&nbsp;</td><td>The activity the user was trying to share</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>error</em>&nbsp;</td><td>The error that occurred during publishing</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user attempted to publish the activity. For a list of possible strings, please see the <a class="el" href="_providers.html#socialProviders">List of Social Providers</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user attempted to publish the activity. For a list of possible strings, please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#socialProviders">List of Social Providers</a> </td></tr>
   </table>
   </dd>
 </dl>

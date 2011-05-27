@@ -54,7 +54,9 @@ Methods that display JREngage's dialogs to initiate authentication and social pu
 \end{Indent}
 \begin{Indent}{\bf Management Authenticated Users}\par
 {\em \label{_amgrp4247d2361fbfb57c620ed69782a50c95}
- Methods that manage authenticated users remembered by the library }\begin{DoxyCompactItemize}
+ Use this function to detect if a dialog has already been loaded, so that you may cancel it.
+
+Methods that manage authenticated users remembered by the library }\begin{DoxyCompactItemize}
 \item 
 (void) -\/ \hyperlink{class_j_r_engage_af1448791663265d3b739041983fbae92}{signoutUserForProvider:}
 \item 
@@ -90,19 +92,6 @@ Methods that display JREngage's dialogs to initiate authentication and social pu
 (void) -\/ \hyperlink{class_j_r_engage_af5c2aa40f5c45a22f369900d1bd81953}{showSocialPublishingDialogWithActivity:andCustomInterface:}
 \end{DoxyCompactItemize}
 \end{Indent}
-\begin{Indent}{\bf Configure the User Interface}\par
-{\em \label{_amgrp94e7ef441fcaa606cadd8cfd8b428e50}
- \label{interface_j_r_engage_07_custom_interface_08_customInterface}
-\hypertarget{interface_j_r_engage_07_custom_interface_08_customInterface}{}
-
-
-Methods used to customize the JREngage's user interface }\begin{DoxyCompactItemize}
-\item 
-(void) -\/ \hyperlink{class_j_r_engage_ab62496ba7cbc32e0a4f7d91c992c7ca2}{setCustomInterfaceDefaults:}
-\item 
-(void) -\/ \hyperlink{class_j_r_engage_ae9cce08f42f575bc49329b363af5c531}{setCustomInterface:}
-\end{DoxyCompactItemize}
-\end{Indent}
 
 
 \subsection{Detailed Description}
@@ -125,10 +114,10 @@ $\ast$In the previous version of the Engage for iPhone library, implementing tok
 \end{DoxyParamCaption}
 }}
 \label{class_j_r_engage_adb6bf3a6869d83f2bfce0783f128d9e6}
-Shared instance of the \hyperlink{class_j_r_engage}{JREngage} library
+Shared instance of the \hyperlink{class_j_r_engage}{JREngage} library.
 
 \begin{DoxyReturn}{Returns}
-The instance of the \hyperlink{class_j_r_engage}{JREngage} library once it has been created, otherwise this will return {\ttfamily nil} 
+The instance of the \hyperlink{class_j_r_engage}{JREngage} library once it has been created, otherwise this will return {\itshape nil\/} 
 \end{DoxyReturn}
 \hypertarget{class_j_r_engage_a36c199d6384893b1bf42712771af1e8b}{
 \index{JREngage@{JREngage}!jrEngageWithAppId:andTokenUrl:delegate:@{jrEngageWithAppId:andTokenUrl:delegate:}}
@@ -147,9 +136,9 @@ The instance of the \hyperlink{class_j_r_engage}{JREngage} library once it has b
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em appId}]This is your 20-\/character application ID. You can find this on your application's Dashboard on \href{http://rpxnow.com}{\tt http://rpxnow.com}. This value cannot be {\ttfamily nil}.\item[{\em tokenUrl}]The url on your server where you wish to complete authentication. If provided, the \hyperlink{class_j_r_engage}{JREngage} library will post the user's authentication token to this url where it can used for further authentication and processing. When complete, the library will pass the server's response back to the your application.\item[{\em delegate}]The delegate object that implements the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol.\end{DoxyParams}
+\item[{\em appId}]This is your 20-\/character application ID. You can find this on your application's Dashboard on \href{http://rpxnow.com}{\tt http://rpxnow.com}. This value cannot be {\itshape nil\/} \item[{\em tokenUrl}]The url on your server where you wish to complete authentication. If provided, the \hyperlink{class_j_r_engage}{JREngage} library will post the user's authentication token to this url where it can used for further authentication and processing. When complete, the library will pass the server's response back to the your application\item[{\em delegate}]The delegate object that implements the \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} protocol\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-The shared instance of the {\ttfamily \hyperlink{class_j_r_engage}{JREngage}} object initialized with the given {\ttfamily appId}, {\ttfamily tokenUrl}, and {\ttfamily delegate}. If the given {\ttfamily appId} is nil, returns {\ttfamily nil}. 
+The shared instance of the \hyperlink{class_j_r_engage}{JREngage} object initialized with the given appId, tokenUrl, and delegate. If the given appId is nil, returns {\itshape nil\/}. 
 \end{DoxyReturn}
 \hypertarget{class_j_r_engage_a18377ffb55f821587e6d38b3489692e8}{
 \index{JREngage@{JREngage}!addDelegate:@{addDelegate:}}
@@ -160,7 +149,7 @@ The shared instance of the {\ttfamily \hyperlink{class_j_r_engage}{JREngage}} ob
 \end{DoxyParamCaption}
 }}
 \label{class_j_r_engage_a18377ffb55f821587e6d38b3489692e8}
-Add a \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} to the \hyperlink{class_j_r_engage}{JREngage} library
+Add a \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} to the \hyperlink{class_j_r_engage}{JREngage} library.
 
 
 \begin{DoxyParams}{Parameters}
@@ -174,7 +163,7 @@ Add a \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} to the \hyper
 \end{DoxyParamCaption}
 }}
 \label{class_j_r_engage_ab3f12ac148ea0f6df4d7ff7789cc7c94}
-Remove a \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} from the \hyperlink{class_j_r_engage}{JREngage} library
+Remove a \hyperlink{protocol_j_r_engage_delegate-p}{JREngageDelegate} from the \hyperlink{class_j_r_engage}{JREngage} library.
 
 
 \begin{DoxyParams}{Parameters}
@@ -211,7 +200,7 @@ Use this function to begin authentication. The \hyperlink{class_j_r_engage}{JREn
 \begin{DoxyParams}{Parameters}
 \item[{\em customInterfaceOverrides}]A dictionary of objects and properties, indexed by the set of \hyperlink{group__custom_interface}{pre-\/defined custom interface keys}, to be used by the library to customize the look and feel of the user interface and/or add a native login experience\end{DoxyParams}
 \begin{DoxyNote}{Note}
-Any values specified in the {\ttfamily customInterfaceOverrides} dictionary will override the corresponding values specified the dictionary passed into the \hyperlink{class_j_r_engage_ab62496ba7cbc32e0a4f7d91c992c7ca2}{setCustomInterfaceDefaults:} method. 
+Any values specified in the {\itshape customInterfaceOverrides\/} dictionary will override the corresponding values specified the dictionary passed into the setCustomInterfaceDefaults:() method. 
 \end{DoxyNote}
 \hypertarget{class_j_r_engage_afca7b5ab9a57edc1a460aaec882207c4}{
 \index{JREngage@{JREngage}!showSocialPublishingDialogWithActivity:@{showSocialPublishingDialogWithActivity:}}
@@ -226,7 +215,7 @@ Any values specified in the {\ttfamily customInterfaceOverrides} dictionary will
 \hypertarget{class_j_r_engage_showPubDialog}{}
 
 
-Use this function to begin social publishing. The \hyperlink{class_j_r_engage}{JREngage} library will pop up a modal dialog and take the user through the sign-\/in process, if necessary, and share the given {\ttfamily \hyperlink{interface_j_r_activity_object}{JRActivityObject}}.
+Use this function to begin social publishing. The \hyperlink{class_j_r_engage}{JREngage} library will pop up a modal dialog and take the user through the sign-\/in process, if necessary, and share the given \hyperlink{interface_j_r_activity_object}{JRActivityObject}.
 
 
 \begin{DoxyParams}{Parameters}
@@ -245,13 +234,13 @@ Use this function to begin social publishing. The \hyperlink{class_j_r_engage}{J
 \hypertarget{class_j_r_engage_showPubCustom}{}
 
 
-Use this function to begin social publishing. The \hyperlink{class_j_r_engage}{JREngage} library will pop up a modal dialog, configured with the given custom interface, take the user through the sign-\/in process, if necessary, and share the given {\ttfamily \hyperlink{interface_j_r_activity_object}{JRActivityObject}}.
+Use this function to begin social publishing. The \hyperlink{class_j_r_engage}{JREngage} library will pop up a modal dialog, configured with the given custom interface, take the user through the sign-\/in process, if necessary, and share the given \hyperlink{interface_j_r_activity_object}{JRActivityObject}.
 
 
 \begin{DoxyParams}{Parameters}
 \item[{\em activity}]The activity you wish to share\item[{\em customInterfaceOverrides}]A dictionary of objects and properties, indexed by the set of \hyperlink{group__custom_interface}{pre-\/defined custom interface keys}, to be used by the library to customize the look and feel of the user interface and/or add a native login experience\end{DoxyParams}
 \begin{DoxyNote}{Note}
-Any values specified in the {\ttfamily customInterfaceOverrides} dictionary will override the corresponding values specified the dictionary passed into the \hyperlink{class_j_r_engage_ab62496ba7cbc32e0a4f7d91c992c7ca2}{setCustomInterfaceDefaults:} method. 
+Any values specified in the {\itshape customInterfaceOverrides\/} dictionary will override the corresponding values specified the dictionary passed into the setCustomInterfaceDefaults:() method. 
 \end{DoxyNote}
 \hypertarget{class_j_r_engage_af1448791663265d3b739041983fbae92}{
 \index{JREngage@{JREngage}!signoutUserForProvider:@{signoutUserForProvider:}}
@@ -266,11 +255,11 @@ Any values specified in the {\ttfamily customInterfaceOverrides} dictionary will
 \hypertarget{class_j_r_engage_signoutProvider}{}
 
 
-Tell \hyperlink{class_j_r_engage}{JREngage} to forget that a user is already signed in with the given provider
+Tell \hyperlink{class_j_r_engage}{JREngage} to forget that a user is already signed in with the given provider.
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \hyperlink{_providers_basicProviders}{List of Providers} \end{DoxyParams}
+\item[{\em provider}]The name of the provider on which the user authenticated. For a list of possible strings, please see the \href{http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders}{\tt List of Providers} \end{DoxyParams}
 \hypertarget{class_j_r_engage_a56060e8d5fe94e4bf06ff3edf27af5ee}{
 \index{JREngage@{JREngage}!signoutUserForAllProviders@{signoutUserForAllProviders}}
 \index{signoutUserForAllProviders@{signoutUserForAllProviders}!JREngage@{JREngage}}
@@ -284,7 +273,7 @@ Tell \hyperlink{class_j_r_engage}{JREngage} to forget that a user is already sig
 \hypertarget{class_j_r_engage_signoutAll}{}
 
 
-Tell \hyperlink{class_j_r_engage}{JREngage} to forget that a user is signed in with all \hyperlink{_providers_basicProviders}{Providers} \hypertarget{class_j_r_engage_a66dca1abdfd5103480f9a87f65923a68}{
+Tell \hyperlink{class_j_r_engage}{JREngage} to forget that a user is signed in with all the \href{http://documentation.janrain.com/engage/sdks/ios/mobile-providers#socialProviders}{\tt Providers}. \hypertarget{class_j_r_engage_a66dca1abdfd5103480f9a87f65923a68}{
 \index{JREngage@{JREngage}!alwaysForceReauthentication:@{alwaysForceReauthentication:}}
 \index{alwaysForceReauthentication:@{alwaysForceReauthentication:}!JREngage@{JREngage}}
 \subsubsection[{alwaysForceReauthentication:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) alwaysForceReauthentication: 
@@ -293,11 +282,11 @@ Tell \hyperlink{class_j_r_engage}{JREngage} to forget that a user is signed in w
 \end{DoxyParamCaption}
 }}
 \label{class_j_r_engage_a66dca1abdfd5103480f9a87f65923a68}
-Use this function to toggle whether or not the library should force the user to reauthenticate for all providers
+Use this function to toggle whether or not the library should force the user to reauthenticate for all providers.
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em force}]YES if the library should force reauthentication for all providers or NO if the library should perform the default behavior \end{DoxyParams}
+\item[{\em force}]{\ttfamily YES} if the library should force reauthentication for all providers or {\ttfamily NO} if the library should perform the default behavior \end{DoxyParams}
 \hypertarget{class_j_r_engage_a17b67c9bb98230fb7d59f8c35a20662b}{
 \index{JREngage@{JREngage}!cancelAuthentication@{cancelAuthentication}}
 \index{cancelAuthentication@{cancelAuthentication}!JREngage@{JREngage}}
@@ -329,7 +318,7 @@ Use this functions if you need to cancel publishing for any reason. \hypertarget
 \hypertarget{class_j_r_engage_updateTokenUrl}{}
 
 
-Use this function to specify a different tokenUrl than the one you initiated the library with \hypertarget{class_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}{
+Use this function to specify a different tokenUrl than the one with which you initiated the library. \hypertarget{class_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}{
 \index{JREngage@{JREngage}!setCustomNavigationController:@{setCustomNavigationController:}}
 \index{setCustomNavigationController:@{setCustomNavigationController:}!JREngage@{JREngage}}
 \subsubsection[{setCustomNavigationController:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) setCustomNavigationController: 
@@ -339,7 +328,7 @@ Use this function to specify a different tokenUrl than the one you initiated the
 }}
 \label{class_j_r_engage_a6c704bbff377d20603e6b52bd0ae17f1}
 \begin{Desc}
-\item[\hyperlink{deprecated__deprecated000020}{Deprecated}]This method has been deprecated. If you want to push the \hyperlink{class_j_r_engage}{JREngage} dialogs on your pass a pointer to this object to the custom interface with the key define \hyperlink{group__custom_interface_ga7bace8001f549fc2ecbe84d967d24d22}{kJRApplicationNavigationController}. \end{Desc}
+\item[\hyperlink{deprecated__deprecated000002}{Deprecated}]This method has been deprecated. If you want to push the \hyperlink{class_j_r_engage}{JREngage} dialogs on your pass a pointer to this object to the custom interface with the key define \hyperlink{group__custom_interface_ga7bace8001f549fc2ecbe84d967d24d22}{kJRApplicationNavigationController}. \end{Desc}
 \hypertarget{class_j_r_engage_ac8e1206be8608fbed548b7ec5f85e6e6}{
 \index{JREngage@{JREngage}!showAuthenticationDialogWithCustomInterface:@{showAuthenticationDialogWithCustomInterface:}}
 \index{showAuthenticationDialogWithCustomInterface:@{showAuthenticationDialogWithCustomInterface:}!JREngage@{JREngage}}
@@ -350,7 +339,7 @@ Use this function to specify a different tokenUrl than the one you initiated the
 }}
 \label{class_j_r_engage_ac8e1206be8608fbed548b7ec5f85e6e6}
 \begin{Desc}
-\item[\hyperlink{deprecated__deprecated000021}{Deprecated}]Please use \hyperlink{class_j_r_engage_a60a7be6770b99c3a929f7c006f1b1203}{showAuthenticationDialogWithCustomInterfaceOverrides:} instead. \end{Desc}
+\item[\hyperlink{deprecated__deprecated000003}{Deprecated}]Please use \hyperlink{class_j_r_engage_a60a7be6770b99c3a929f7c006f1b1203}{showAuthenticationDialogWithCustomInterfaceOverrides:} instead. \end{Desc}
 \hypertarget{class_j_r_engage_af5c2aa40f5c45a22f369900d1bd81953}{
 \index{JREngage@{JREngage}!showSocialPublishingDialogWithActivity:andCustomInterface:@{showSocialPublishingDialogWithActivity:andCustomInterface:}}
 \index{showSocialPublishingDialogWithActivity:andCustomInterface:@{showSocialPublishingDialogWithActivity:andCustomInterface:}!JREngage@{JREngage}}
@@ -362,37 +351,7 @@ Use this function to specify a different tokenUrl than the one you initiated the
 }}
 \label{class_j_r_engage_af5c2aa40f5c45a22f369900d1bd81953}
 \begin{Desc}
-\item[\hyperlink{deprecated__deprecated000022}{Deprecated}]Please use \hyperlink{class_j_r_engage_aa84788326df3e8adf4be6128fccb7708}{showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:} instead. \end{Desc}
-\hypertarget{class_j_r_engage_ab62496ba7cbc32e0a4f7d91c992c7ca2}{
-\index{JREngage@{JREngage}!setCustomInterfaceDefaults:@{setCustomInterfaceDefaults:}}
-\index{setCustomInterfaceDefaults:@{setCustomInterfaceDefaults:}!JREngage@{JREngage}}
-\subsubsection[{setCustomInterfaceDefaults:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) setCustomInterfaceDefaults: 
-\begin{DoxyParamCaption}
-\item[{dummy(NSMutableDictionary $\ast$)}]{ customInterfaceDefaults}
-\end{DoxyParamCaption}
-}}
-\label{class_j_r_engage_ab62496ba7cbc32e0a4f7d91c992c7ca2}
-\label{class_j_r_engage_setCustomUI}
-\hypertarget{class_j_r_engage_setCustomUI}{}
- Use this function if you want to customize the look and feel of the user interface or add your own native login experience, by passing an NSMutableDictionary object indexed by the set of \hyperlink{group__custom_interface}{pre-\/defined custom interface keys}.
-
-
-\begin{DoxyParams}{Parameters}
-\item[{\em customInterfaceDefaults}]A dictionary of objects and properties, indexed by the set of \hyperlink{group__custom_interface}{pre-\/defined custom interface keys}, to be used by the library to customize the look and feel of the user interface and/or add a native login experience\end{DoxyParams}
-\begin{DoxyNote}{Note}
-Any values specified in the {\ttfamily customizationInterfaceOverrides} dictionary of the \hyperlink{class_j_r_engage_a60a7be6770b99c3a929f7c006f1b1203}{showAuthenticationDialogWithCustomInterfaceOverrides:} or \hyperlink{class_j_r_engage_aa84788326df3e8adf4be6128fccb7708}{showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:} methods, will override the corresponding values specified in the dictionary passed into the \hyperlink{class_j_r_engage_ab62496ba7cbc32e0a4f7d91c992c7ca2}{setCustomInterfaceDefaults:} method. 
-\end{DoxyNote}
-\hypertarget{class_j_r_engage_ae9cce08f42f575bc49329b363af5c531}{
-\index{JREngage@{JREngage}!setCustomInterface:@{setCustomInterface:}}
-\index{setCustomInterface:@{setCustomInterface:}!JREngage@{JREngage}}
-\subsubsection[{setCustomInterface:}]{\setlength{\rightskip}{0pt plus 5cm}-\/ (void) setCustomInterface: 
-\begin{DoxyParamCaption}
-\item[{dummy(NSDictionary $\ast$)}]{ customizations}
-\end{DoxyParamCaption}
-}}
-\label{class_j_r_engage_ae9cce08f42f575bc49329b363af5c531}
-\begin{Desc}
-\item[\hyperlink{deprecated__deprecated000018}{Deprecated}]Please use setCustomInterfaceDefaults() instead. \end{Desc}
+\item[\hyperlink{deprecated__deprecated000004}{Deprecated}]Please use \hyperlink{class_j_r_engage_aa84788326df3e8adf4be6128fccb7708}{showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:} instead. \end{Desc}
 
 
 The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
