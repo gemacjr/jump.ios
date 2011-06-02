@@ -159,22 +159,22 @@
         return 80;
 }
 
-#define PLUS(a,b) a + b 
-#define MINUS(a,b) a - b
+#define PLUS(a,b)   a + b 
+#define MINUS(a,b)  a - b
 
 #define CONTENT_FRAME_PHONE         0,          0,  300,          80
-#define TITLE_FRAME_PHONE 			8,          6,  284,          16
+#define TITLE_FRAME_PHONE           8,          6,  284,          16
 #define IMAGE_FRAME_PHONE           8,          27, 36,           36
 #define SPINNER_FRAME_PHONE         18,         37, 16,           16
 #define DESCRIPTION_FRAME_PHONE(x)  PLUS(8,x),  25, MINUS(268,x), 36
 #define DATE_FRAME_PHONE(x)         PLUS(8,x),  63, MINUS(268,x), 13
 
 #define CONTENT_FRAME_PAD           0,          0,  680,          95
-#define TITLE_FRAME_PAD 			15,         10, 520,          18
+#define TITLE_FRAME_PAD             15,         10, 520,          18
 #define DATE_FRAME_PAD              545,        12, 120,          14
 #define DESCRIPTION_FRAME_PAD(x)    PLUS(20,x), 34, MINUS(630,x), 51
-#define IMAGE_FRAME_PAD				15,         36, 36,           36
-#define SPINNER_FRAME_PAD			25,         46, 16,           16
+#define IMAGE_FRAME_PAD             15,         36, 36,           36
+#define SPINNER_FRAME_PAD           25,         46, 16,           16
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
