@@ -71,6 +71,17 @@
  * the <a href="http://rpxnow.com/docs/iphone_api/annotated.html">"JREngage API"</a> documentation.
  **/
 
+/**
+ * @page Providers
+ *
+@htmlonly
+<iframe src="https://sites.google.com/a/janrain.com/mobile/mobile_providers" name="providers" frameborder="0" width="750px" height="1270px">
+Your browser does not support iFrames.
+</iframe>
+@endhtmlonly
+ *
+ **/
+
 /* Preprocessor directive that conditionally compiles the code that uses the weakly-linked MessageUI.Framework.
  This framework is required if you want to include the ability to share activities with email or sms.  By default
  the JRENGAGE_INCLUDE_EMAIL_SMS flag should always be set to "1", which can cause errors with the linker if the
@@ -170,8 +181,7 @@
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
- *   please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">
- *   List of Providers</a>
+ *   please see the \ref Providers "List of Providers"
  *
  * @sa
  * For a full description of the dictionary and its fields, please see the
@@ -188,8 +198,7 @@
  *
  * @param provider
  *   The name of the provider on which the user tried to authenticate.  For a list of possible strings,
- *   please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">
- *   List of Providers</a>
+ *   please see the \ref Providers "List of Providers"
  *
  * @note
  * This message is not sent if authentication was canceled.  To be notified of a canceled authentication,
@@ -236,8 +245,7 @@
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
- *   please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">
- *   List of Providers</a>
+ *   please see the \ref Providers "List of Providers"
  **/
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
@@ -271,8 +279,7 @@
  *
  * @param provider
  *   The name of the provider on which the user published the activity.  For a list of possible strings,
- *   please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#socialProviders">
- *   List of Social Providers</a>
+ *   please see the \ref Providers "List of Providers"
  **/
 - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
@@ -287,8 +294,7 @@
  *
  * @param provider
  *   The name of the provider on which the user attempted to publish the activity.  For a list of possible strings,
- *   please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#socialProviders">
- *   List of Social Providers</a>
+ *   please see the \ref Providers "List of Providers"
  **/
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
@@ -476,8 +482,7 @@
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
- *   please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">
- *   List of Providers</a>
+ *   please see the \ref Providers "List of Providers"
  **/
 - (void)signoutUserForProvider:(NSString*)provider;
 
