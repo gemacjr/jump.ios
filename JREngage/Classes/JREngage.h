@@ -542,12 +542,6 @@
         console.log(height);
     }
 </script>
-
-<!-- Redundant attributes to force scrolling to work across multiple browsers -->
-<iframe id="intro" src="../mobile_providers?list=intro&device=iphone" width="100%" height="100%"
-    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
-  Your browser does not support iFrames.
-</iframe>
 @endhtmlonly
 
 @anchor basicProviders
