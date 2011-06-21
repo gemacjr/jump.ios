@@ -772,6 +772,12 @@ table.memberdecls p
 table.memberdecls br
 {
 	height: 0px;
+	line-height: 0px;
+}
+
+table.memberdecls tr
+{
+	height: 0px;
 }
 
 div.groupText p
@@ -834,4 +840,9 @@ dl.return dd
 {
 	padding-top: 11px;
 	padding-bottom: 6px;
+}
+
+div.groupHeader
+{
+  margin-top: 0px;
 }

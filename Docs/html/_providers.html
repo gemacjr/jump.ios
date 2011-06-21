@@ -14,8 +14,35 @@
 </div>
 <div class="contents">
  
-<iframe src="https://sites.google.com/a/janrain.com/mobile/mobile_providers" name="providers" frameborder="0" width="750px" height="1270px">
-Your browser does not support iFrames.
+<!-- Script to resize the iFrames; Only works because iFrames origin is on same domain and iFrame
+      code contains script that calls this script -->
+<script type="text/javascript">
+    function resize(width, height, id) {
+        var iframe = document.getElementById(id);
+        iframe.width = width;
+        iframe.height = height + 50;
+        iframe.scrolling = false;
+        console.log(width);
+        console.log(height);
+    }
+</script>
+
+<!-- Redundant attributes to force scrolling to work across multiple browsers -->
+<iframe id="intro" src="../mobile_providers?list=intro&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
 </iframe>
+<p><a class="anchor" id="basicProviders"></a>  
+<iframe id="basic" src="../mobile_providers?list=basic&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
+  <a href="../mobile_providers?list=basic&device=iphone">List of Providers</a>
+</iframe></p>
+<p><a class="anchor" id="socialProviders"></a>  
+<iframe id="social" src="../mobile_providers?list=social&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
+  <a href="../mobile_providers?list=social&device=iphone">List of Social Providers</a>
+</iframe></p>
  </div>
 <!-- doxygen footer -->

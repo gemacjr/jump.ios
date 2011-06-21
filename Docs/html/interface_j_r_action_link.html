@@ -49,8 +49,8 @@ Constructors</h2></td></tr>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>A link a user can use to take action on an activity update on the provider. </p>
 <p>Create an action link object, fill in the object's fields, and add the object the <a class="el" href="interface_j_r_activity_object.html#a7421d3a6d861b9371d959c8a73bbf053">JRActivityObject.action_links</a> array of your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
-<p>Each action link must contain a link, <em>href</em>, and some <em>text</em>, describing what action will happen if someone clicks the link. Example: </p>
-<div class="fragment"><pre class="fragment"> action_links: 
+<p>Each action link must contain a link, <em>href</em>, and some <em>text</em>, describing what action will happen if someone clicks the link.</p>
+<dl class="user"><dt><b>Example:</b></dt><dd><div class="fragment"><pre class="fragment"> action_links: 
  [
    {
      &quot;text&quot;: &quot;Rate this quiz result&quot;,
@@ -61,7 +61,8 @@ Constructors</h2></td></tr>
      &quot;href&quot;: &quot;http://example.com/quiz/12345/take&quot;
    }
  ]
-</pre></div> <hr/><h2>Member Function Documentation</h2>
+</pre></div> </dd></dl>
+<hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a12047c76c2118380aa557116392fcaf8"></a><!-- doxytag: member="JRActionLink::initWithText:andHref:" ref="a12047c76c2118380aa557116392fcaf8" args="(NSString *_text,[andHref] NSString *_href)" -->
 <div class="memitem">
 <div class="memproto">
@@ -86,15 +87,15 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Returns a <code><a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a></code> initialized with the given text and href.</p>
+<p>Returns a <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> initialized with the given text and href.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_text</em>&nbsp;</td><td>The text describing the link. This value cannot be <code>nil</code>.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_imgsrc</em>&nbsp;</td><td>A link a user can use to take action on an activity update on the provider. This value cannot be <code>nil</code>.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_text</em>&nbsp;</td><td>The text describing the link. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_imgsrc</em>&nbsp;</td><td>A link a user can use to take action on an activity update on the provider. This value cannot be <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> initialized with the given text and href. If either <code>_text</code> or <code>_href</code> are <em>nil</em>, returns <code>nil</code>. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> initialized with the given text and href. If either _text or _href are <em>nil</em>, returns <em>nil</em> </dd></dl>
 
 </div>
 </div>
@@ -109,7 +110,7 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>The text describing the link </p>
+<p>The text describing the link. </p>
 
 </div>
 </div>
@@ -123,7 +124,7 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>A link a user can use to take action on an activity update on the provider </p>
+<p>A link a user can use to take action on an activity update on the provider. </p>
 
 </div>
 </div>

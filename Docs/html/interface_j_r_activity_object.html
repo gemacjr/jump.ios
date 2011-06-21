@@ -35,7 +35,7 @@
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpd41d8cd98f00b204e9800998ecf8427e"></a> The various properties of the <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a> that you can configure </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpd41d8cd98f00b204e9800998ecf8427e"></a> The various properties of the <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a> that you can configure. </p>
 </div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_activity_object.html#a29e4bb27f23843d40b10870159af881b">action</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_activity_object.html#a761f96d5519d27dd978ec5d6ccbd2b5c">url</a></td></tr>
@@ -72,7 +72,7 @@ Constructors</h2></td></tr>
 <li>The user has already authenticated and has given consent to publish activity</li>
 </ul>
 <p>Otherwise, you will be given an error response indicating what was wrong. Detailed error responses will also be given if the activity parameter does not meet the formatting requirements described below.</p>
-<dl class="see"><dt><b>See also:</b></dt><dd>For more information of Janrain Engage's activity api, see <a href="https://rpxnow.com/docs#api_activity">the activity section</a> of our API Documentation. </dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>For more information of Janrain Engage's activity api, see <a href="http://documentation.janrain.com/activity">the activity section</a> of our API Documentation. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="ae3f8cf838f71f90c47a42a3e6efff3f5"></a><!-- doxytag: member="JRActivityObject::initWithAction:andUrl:" ref="ae3f8cf838f71f90c47a42a3e6efff3f5" args="(NSString *_action,[andUrl] NSString *_url)" -->
 <div class="memitem">
@@ -98,15 +98,15 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Returns a <code><a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a></code> initialized with the given action and url.</p>
+<p>Returns a <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a> initialized with the given action and url.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_action</em>&nbsp;</td><td>A string describing what the user did, written in the third person. This value cannot be <code>nil</code>.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_url</em>&nbsp;</td><td>The URL of the resource being mentioned in the activity update. This value cannot be <code>nil</code>.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_action</em>&nbsp;</td><td>A string describing what the user did, written in the third person. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_url</em>&nbsp;</td><td>The URL of the resource being mentioned in the activity update. This value cannot be <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a> initialized with the given action and url. If either <code>_action</code> or <code>_url</code> are <em>nil</em>, returns <code>nil</code>. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a> initialized with the given action and url. If either _action or _url are <em>nil</em>, returns <em>nil</em> </dd></dl>
 
 </div>
 </div>
@@ -121,7 +121,7 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>A string describing what the user did, written in the third person (e.g., "wrote a restaurant review", "posted a comment", "took a quiz") </p>
+<p>A string describing what the user did, written in the third person (e.g., "wrote a restaurant review", "posted a comment", "took a quiz"). </p>
 
 </div>
 </div>
@@ -135,7 +135,7 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>The URL of the resource being mentioned in the activity update </p>
+<p>The URL of the resource being mentioned in the activity update. </p>
 
 </div>
 </div>
@@ -179,7 +179,7 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>A description of the resource mentioned in the activity update </p>
+<p>A description of the resource mentioned in the activity update. </p>
 
 </div>
 </div>
@@ -193,8 +193,8 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>An array of <code><a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a></code> objects, each having two attributes: text and href. An action link is a link a user can use to take action on an activity update on the provider Example: </p>
-<div class="fragment"><pre class="fragment"> <a class="code" href="interface_j_r_activity_object.html#a7421d3a6d861b9371d959c8a73bbf053">action_links</a>: 
+<p>An array of <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> objects, each having two attributes: text and href. An action link is a link a user can use to take action on an activity update on the provider.</p>
+<dl class="user"><dt><b>Example:</b></dt><dd><div class="fragment"><pre class="fragment"> <a class="code" href="interface_j_r_activity_object.html#a7421d3a6d861b9371d959c8a73bbf053">action_links</a>:
  [
    {
      &quot;text&quot;: &quot;Rate this quiz result&quot;,
@@ -205,7 +205,8 @@ Constructors</h2></td></tr>
      &quot;href&quot;: &quot;http://example.com/quiz/12345/take&quot;
    }
  ]
-</pre></div><dl class="note"><dt><b>Note:</b></dt><dd>Any objects added to this array that are not of type <code><a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a></code> will be ignored. </dd></dl>
+</pre></div></dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>Any objects added to this array that are not of type <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> will be ignored. </dd></dl>
 
 </div>
 </div>
@@ -219,15 +220,15 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>An array of objects with base class <code>JRMediaObject</code> (i.e., <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a>, <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a>, <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a>).</p>
-<p>To publish attached media objects with your activity, create the preferred object, populate the object's fields, then add the object to the <code>media</code> array. You can attach pictures, videos, and mp3s to your activity, although how the media objects get presented and whether or not they are used, depend on the provider.</p>
+<p>An array of objects with base class <em>JRMediaObject</em> (i.e., <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a>, <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a>, <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a>).</p>
+<p>To publish attached media objects with your activity, create the preferred object, populate the object's fields, then add the object to the <em>media</em> array. You can attach pictures, videos, and mp3s to your activity, although how the media objects get presented and whether or not they are used, depend on the provider.</p>
 <p>If you include more than one media type in the array, <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> will choose only one of these types, in this order:</p>
 <ol type="1">
 <li>image</li>
 <li>flash</li>
 <li>mp3</li>
 </ol>
-<p>Also, any objects added to this array that are not of type <code>JRMediaObject</code> will be ignored.</p>
+<p>Also, any objects added to this array that are not of type <em>JRMediaObject</em> will be ignored.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd>Media object format and rules are identical to those described on the <a href="http://developers.facebook.com/docs/guides/attachments">Facebook Developer page on Attachments</a>. </dd></dl>
 
 </div>
@@ -242,8 +243,8 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>An object with attributes describing properties of the update. An attribute value can be a string or an object with two attributes, text and href. Example: </p>
-<div class="fragment"><pre class="fragment">   <a class="code" href="interface_j_r_activity_object.html#a07d64819a3af4b60e43300c5caba954a">properties</a>: 
+<p>An object with attributes describing properties of the update. An attribute value can be a string or an object with two attributes, text and href.</p>
+<dl class="user"><dt><b>Example:</b></dt><dd><div class="fragment"><pre class="fragment">   <a class="code" href="interface_j_r_activity_object.html#a07d64819a3af4b60e43300c5caba954a">properties</a>: 
    {
        <span class="stringliteral">&quot;Time&quot;</span>: <span class="stringliteral">&quot;05:00&quot;</span>,
        <span class="stringliteral">&quot;Location&quot;</span>: 
@@ -252,7 +253,8 @@ Constructors</h2></td></tr>
            <span class="stringliteral">&quot;href&quot;</span>: <span class="stringliteral">&quot;http://en.wikipedia.org/wiki/Portland,_Oregon&quot;</span>
        }
    }
-</pre></div> 
+</pre></div> </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="adb6d7886706fefccf55592d174668753"></a><!-- doxytag: member="JRActivityObject::email" ref="adb6d7886706fefccf55592d174668753" args="" -->

@@ -25,7 +25,7 @@
 </div>
 <div class="contents">
 <!-- doxytag: class="JREngageDelegate-p" -->
-<p>The <a class="el" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> protocol is adopted by an object that wishes to receive notifications when and information about a user that authenticates with your application and publishes activities to their social networks.  
+<p>Protocol adopted by an object that wishes to receive notifications when and information about a user that authenticates with your application and publishes activities to their social networks.  
 <a href="#_details">More...</a></p>
 
 <p><code>#import &lt;<a class="el" href="_j_r_engage_8h_source.html">JREngage.h</a>&gt;</code></p>
@@ -56,8 +56,8 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#ac61170cca30757ece707620e9d717ca1">jrSocialPublishingActivity:didFailWithError:forProvider:</a></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<p>The <a class="el" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> protocol is adopted by an object that wishes to receive notifications when and information about a user that authenticates with your application and publishes activities to their social networks. </p>
-<p>This protocol will notify the delegate(s) when authentication and social publishing succeed or fail, it will provider the delegate(s) with the authenticated user's profile data, and, if server-side authentication is desired, it can provide the delegate(s) with the data payload returned by your server's token URL. </p>
+<p>Protocol adopted by an object that wishes to receive notifications when and information about a user that authenticates with your application and publishes activities to their social networks. </p>
+<p>This protocol will notify the delegate(s) when authentication and social publishing succeed or fail, it will provide the delegate(s) with the authenticated user's profile data, and, if server-side authentication is desired, it can provide the delegate(s) with the data payload returned by your server's token URL. </p>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="a80987d730f7a85e32e01e0d30d274f06"></a><!-- doxytag: member="JREngageDelegate&#45;p::jrEngageDialogDidFailToShowWithError:" ref="a80987d730f7a85e32e01e0d30d274f06" args="(NSError *error)" -->
 <div class="memitem">
@@ -132,11 +132,11 @@ Public Member Functions</h2></td></tr>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>auth_info</em>&nbsp;</td><td>An <em>NSDictionary</em> of fields containing all the information Janrain Engage knows about the user logging into your application. Includes the field <code>"profile"</code> which contains the user's profile information</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a></td></tr>
   </table>
   </dd>
 </dl>
-<p>The structure of the dictionary (represented here in json) should look something like the following: </p>
-<div class="fragment"><pre class="fragment"> <span class="stringliteral">&quot;auth_info&quot;</span>:
+<dl class="user"><dt><b>Example:</b></dt><dd>The structure of the auth_info dictionary (represented here in json) should look something like the following: <div class="fragment"><pre class="fragment"> <span class="stringliteral">&quot;auth_info&quot;</span>:
  {
  <span class="stringliteral">&quot;profile&quot;</span>:
  {
@@ -147,13 +147,8 @@ Public Member Functions</h2></td></tr>
  <span class="stringliteral">&quot;identifier&quot;</span>: <span class="stringliteral">&quot;http:\/\/brian.myopenid.com\/&quot;</span>
  }
  }
-</pre></div><dl><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html">List of Providers</a></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="see"><dt><b>See also:</b></dt><dd>For a full description of the dictionary and its fields, please see the <a href="https://rpxnow.com/docs#api_auth_info_response">auth_info response</a> section of the Janrain Engage API documentation. </dd></dl>
+</pre></div></dd></dl>
+<dl class="see"><dt><b>See also:</b></dt><dd>For a full description of the dictionary and its fields, please see the <a href="http://documentation.janrain.com/engage/api/auth_info">auth_info response</a> section of the Janrain Engage API documentation. </dd></dl>
 
 </div>
 </div>
@@ -185,7 +180,7 @@ Public Member Functions</h2></td></tr>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>error</em>&nbsp;</td><td>The error that occurred during authentication</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user tried to authenticate. For a list of possible strings, please see the <a class="el" href="_providers.html">List of Providers</a></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user tried to authenticate. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -223,7 +218,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Please use <a class="el" href="protocol_j_r_engage_delegate-p.html#a23333d964a567c05f79a9f2533c4824f">jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:</a> instead. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000018">Deprecated:</a></b></dt><dd>Please use <a class="el" href="protocol_j_r_engage_delegate-p.html#a23333d964a567c05f79a9f2533c4824f">jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:</a> instead. </dd></dl>
 
 </div>
 </div>
@@ -270,7 +265,7 @@ Public Member Functions</h2></td></tr>
     <tr><td valign="top"></td><td valign="top"><em>tokenUrl</em>&nbsp;</td><td>The URL on the server where the token was posted and server-side authentication was completed</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>response</em>&nbsp;</td><td>The final <em>NSURLResponse</em> returned from the server</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>tokenUrlPayload</em>&nbsp;</td><td>The response from the server</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">List of Providers</a>. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -312,7 +307,7 @@ Public Member Functions</h2></td></tr>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>tokenUrl</em>&nbsp;</td><td>The URL on the server where the token was posted and server-side authentication was completed</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>error</em>&nbsp;</td><td>The error that occurred during server-side authentication</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html">List of Providers</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -383,7 +378,7 @@ Public Member Functions</h2></td></tr>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>activity</em>&nbsp;</td><td>The shared activity</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user published the activity. For a list of possible strings, please see the <a class="el" href="_providers.html">List of Providers</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user published the activity. For a list of possible strings, please see the <a class="el" href="_providers.html#socialProviders">List of Social Providers</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -425,7 +420,7 @@ Public Member Functions</h2></td></tr>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>activity</em>&nbsp;</td><td>The activity the user was trying to share</td></tr>
     <tr><td valign="top"></td><td valign="top"><em>error</em>&nbsp;</td><td>The error that occurred during publishing</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user attempted to publish the activity. For a list of possible strings, please see the <a class="el" href="_providers.html">List of Providers</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user attempted to publish the activity. For a list of possible strings, please see the <a class="el" href="_providers.html#socialProviders">List of Social Providers</a> </td></tr>
   </table>
   </dd>
 </dl>

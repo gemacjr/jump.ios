@@ -50,14 +50,14 @@
  * \ref customInterfaceKeys "pre-defined set of keys", and uses these to set the properties of the
  * library's user interface. To configure the SDK programmatically (e.g., dynamically integrating
  * your native login experience above or below the library's social logins), create an
- * NSMutableDictionary object, indexed by a \ref customInterfaceKeys "pre-defined set of keys"
+ * \e NSMutableDictionary object, indexed by a \ref customInterfaceKeys "pre-defined set of keys"
  * and pass this to the library through the JREngage#setCustomInterfaceDefaults: method.
  *
  * You can also override these default customizations by launching the authentication and social
  * sharing with a new dictionary of the \ref customInterfaceKeys "pre-defined set of keys" and
  * values with the JREngage#showAuthenticationDialogWithCustomInterface:
  * or JREngage#showSocialPublishingDialogWithActivity:andCustomInterface: methods. Any overlapping
- * values passed into the \c show...Dialog methods will override the corresponding values passed
+ * values passed into the \e show...Dialog methods will override the corresponding values passed
  * into the JREngage#setCustomInterfaceDefaults: method.
  *
  * @{
@@ -71,30 +71,31 @@
 /*@{*/
 
 /**
- * Key for your application's main \em UINavigationController object on which to push the sign-in
+ * Key for your application's main \e UINavigationController object on which to push the sign-in
  * and sharing dialogs
- */
+ **/
 #define kJRApplicationNavigationController @"Application.NavigationController"
 
 /**
- * Key for a \em UINavigationController object that your application owns.
+ * Key for a \e UINavigationController object that your application owns.
  *
  * If you want to push your own views onto the library’s navigation controller, but your application
  * does not have a navigation controller or your application is running on the iPad or if you want
- * the library’s dialogs to present themselves using the \em UIModalTransitionStyleCoverVertical
- * transition style, you can use the kJRCustomModalNavigationController key. This is also necessary
+ * the library’s dialogs to present themselves using the \e UIModalTransitionStyleCoverVertical
+ * transition style, you can use the \e kJRCustomModalNavigationController key. This is also necessary
  * if you want to tint the navigation bar’s color.
  **/
 #define kJRCustomModalNavigationController @"ModalDialog.NavigationController"
 
 /**
- * Key for a boolean value represented by an \em NSObject to indicate if the dialog's "Cancel"
+ * Key for a boolean value represented by an \e NSObject to indicate if the dialog's "Cancel"
  * button should be hidden.
  *
  * If you want to hide the "Cancel" button on the Providers Table or Social Sharing screen, pass in
- * an \em NSObject containing a positive integer or the strings \c @"YES" or \c @"TRUE".a This will
+ * an \e NSObject containing a positive integer or the strings \c \@"YES" or \c \@"TRUE". This will
  * remove the "Cancel" button from the library's dialogs.
  *
+ * @par Warning:
  * Do not cancel social sharing or authentication by popping the navigation controller back to one
  * of your views, as this could potentially leave the library in an unexpected state. If you wish
  * to cancel sign in or social sharing, please use the JREngage#cancelAuthentication or
@@ -110,13 +111,13 @@
 /*@{*/
 
 /**
- * Key for a \em UIColor object to set as the background color of the Providers Table and the
+ * Key for a \e UIColor object to set as the background color of the Providers Table and the
  * User Landing screen.
  **/
 #define kJRAuthenticationBackgroundColor  @"Authentication.Background.Color"
 
 /**
- * Key for a \em UIColor object to set as the background color of the Social Sharing screen.
+ * Key for a \e UIColor object to set as the background color of the Social Sharing screen.
  **/
 #define kJRSocialSharingBackgroundColor   @"SocialSharing.Background.Color"
 /*@}*/
@@ -128,13 +129,13 @@
 /*@{*/
 
 /**
- * Key for the \em UIImageView containing the image to be set as the background of the
+ * Key for the \e UIImageView containing the image to be set as the background of the
  * Providers Table and the User Landing screen.
  **/
 #define kJRAuthenticationBackgroundImageView  @"Authentication.Background.Image.View"
 
 /**
- * Key for the \em UIImageView containing the image to be set as the background of the
+ * Key for the \e UIImageView containing the image to be set as the background of the
  * Social Sharing screen.
  **/
 #define kJRSocialSharingBackgroundImageView   @"SocialSharing.Background.Image.View"
@@ -149,7 +150,7 @@
 /*@{*/
 
 /**
- * Key for the \em UIView object to be set as the title view of the Providers Table on the iPhone.
+ * Key for the \e UIView object to be set as the title view of the Providers Table.
  *
  * @note
  * If this value is set, it will override any string value set for define #kJRProviderTableTitleString,
@@ -158,7 +159,7 @@
 #define kJRProviderTableTitleView        @"ProviderTable.Title.View"
 
 /**
- * Key for the \em UIView object to be set as the title view of the Social Sharing screen on the iPhone.
+ * Key for the \e UIView object to be set as the title view of the Social Sharing screen.
  *
  * @note
  * If this value is set, it will override any string value set for define #kJRSocialSharingTitleString,
@@ -176,19 +177,19 @@
 /*@{*/
 
 /**
- * Key for the \em NSString title to be set as the title of the Providers Table.
+ * Key for the \e NSString title to be set as the title of the Providers Table.
  *
  * @note
- * If a \em UIView* is set for the define #kJRProviderTableTitleView key,  this string will not
+ * If a \e UIView* is set for the define #kJRProviderTableTitleView key,  this string will not
  * appear as the title on the navigation bar.  It will only be used as the text on the "Back" button.
  **/
 #define kJRProviderTableTitleString   @"ProviderTable.Title.String"
 
 /**
- * Key for the \em NSString title to be set as the title of the Social Sharing screen.
+ * Key for the \e NSString title to be set as the title of the Social Sharing screen.
  *
  * @note
- * If a \em UIView* is set for the define #kJRSocialSharingTitleView key, this string will not
+ * If a \e UIView* is set for the define #kJRSocialSharingTitleView key, this string will not
  * appear as the title on the navigation bar.  It will only be used as the text on the "Back" button.
  **/
 #define kJRSocialSharingTitleString   @"SocialSharing.Title.String"
@@ -201,12 +202,12 @@
 /*@{*/
 
 /**
- * Key for the \em UIView object to be set as the header view of the Providers Table.
+ * Key for the \e UIView object to be set as the header view of the Providers Table.
  **/
 #define kJRProviderTableHeaderView       @"ProviderTable.Table.Header.View"
 
 /**
- * Key for the \em UIView object to be set as the footer view of the Providers Table.
+ * Key for the \e UIView object to be set as the footer view of the Providers Table.
  **/
 #define kJRProviderTableFooterView       @"ProviderTable.Table.Footer.View"
 /*@}*/
@@ -220,7 +221,7 @@
 /*@{*/
 
 /**
- * Key for the \em UIView object to be set as the view of the providers section header in the
+ * Key for the \e UIView object to be set as the view of the providers section header in the
  * Providers Table.
  *
  * @note
@@ -229,7 +230,7 @@
 #define kJRProviderTableSectionHeaderView       @"ProviderTable.Section.Header.View"
 
 /**
- * Key for the \em UIView object to be set as the view of the providers section footer in the
+ * Key for the \e UIView object to be set as the view of the providers section footer in the
  * Providers Table.
  *
  * @note
@@ -247,59 +248,60 @@
 /*@{*/
 
 /**
- * Key for the \em NSString to be set as the title of the providers section header in the Providers Table.
+ * Key for the \e NSString to be set as the title of the providers section header in the Providers Table.
  *
  * @note
- * If a \em UIView* is set for the define #kJRProviderTableSectionHeaderView key, this string will not be used.
+ * If a \e UIView* is set for the define #kJRProviderTableSectionHeaderView key, this string will not be used.
  **/
 #define kJRProviderTableSectionHeaderTitleString  @"ProviderTable.Section.Header.Title.String"
 
 /**
- * Key for the \em NSString to be set as the title of the providers section footer in the Providers Table.
+ * Key for the \e NSString to be set as the title of the providers section footer in the Providers Table.
  *
  * @note
- * If a \em UIView* is set for the define #kJRProviderTableSectionFooterView key, this string will not be used.
+ * If a \e UIView* is set for the define #kJRProviderTableSectionFooterView key, this string will not be used.
  **/
 #define kJRProviderTableSectionFooterTitleString  @"ProviderTable.Section.Footer.Title.String"
 /*@}*/
 
 /**
- * @anchor popover
- *
  * @name Popover Controller
- * Keys to specify the behavior of the UIPopoverController used to present the dialogs on the iPad
+ * Keys to specify the behavior of the \e UIPopoverController used to present the dialogs on the iPad
  **/
 /*@{*/
 
 /**
- * Key specifying the \em NSValue of a \em CGRect from which the authentication and sharing dialogs
+ * Key specifying the \e NSValue of a \e CGRect from which the authentication and sharing dialogs
  * should originate if using a modal popover view on the iPad.
  *
+ * @par Example:
  * @code
-CGRect rect = CGRectMake(x,y,w,h);
-NSValue *rectValue = [NSValue valueWithCGRect:rect];
- * @encode
+ * CGRect rect = CGRectMake(x,y,w,h);
+ * NSValue *rectValue = [NSValue valueWithCGRect:rect];
+ * @endcode
  **/
 #define kJRPopoverPresentationFrameValue @"Popover.Presentation.Frame.Value"
 
 /**
- * Key for the \em UIBarButtonItem object from which the authentication and sharing dialogs
+ * Key for the \e UIBarButtonItem object from which the authentication and sharing dialogs
  * should originate if using a modal popover view on the iPad.
  **/
 #define kJRPopoverPresentationBarButtonItem @"Popover.Presentation.BarButtonItem"
 
 /**
- * Key for an \em NSNumber object representing the \em UIPopoverArrowDirection enumeration
- * when presenting the dialog from a \em UIPopoverController.
+ * Key for an \e NSNumber object representing the \e UIPopoverArrowDirection enumeration
+ * when presenting the dialog from a \e UIPopoverController.
  *
- * The default is UIPopoverArrowDirectionAny.
+ * The default is \c UIPopoverArrowDirectionAny.
  *
+ * @par Example:
  * @code
-[NSNumber numberWithInt:UIPopoverArrowDirectionDown];
- * @encode
+ * [NSNumber numberWithInt:UIPopoverArrowDirectionDown];
+ * @endcode
  **/
 #define kJRPopoverPresentationArrowDirection @"Popover.Presentation.ArrowDirection"
 /*@}*/
+
 
 /**
  * @name Deprecated
@@ -314,7 +316,7 @@ NSValue *rectValue = [NSValue valueWithCGRect:rect];
  * JREngage#setCustomNavigationController: method, or create a navigation bar, set the tint,
  * and pass it to the library with the define #kJRUseCustomModalNavigationController
  **/
-#define kJRNavigationBarTintColor  @"NavigationBar.TintColor" /**< @deprecated */
+#define kJRNavigationBarTintColor  @"NavigationBar.TintColor"
 
 /**
  * @deprecated
@@ -409,7 +411,7 @@ NSValue *rectValue = [NSValue valueWithCGRect:rect];
 /**
  * @anchor setCustomUI
  * Use this function if you want to customize the look and feel of the user interface or add
- * your own native login experience, by passing an NSMutableDictionary object indexed by the set of
+ * your own native login experience, by passing an \e NSMutableDictionary object indexed by the set of
  * \link customInterface pre-defined custom interface keys\endlink.
  *
  * @param customInterfaceDefaults
@@ -419,7 +421,7 @@ NSValue *rectValue = [NSValue valueWithCGRect:rect];
  *   interface and/or add a native login experience
  *
  * @note
- * Any values specified in the \em customizationInterfaceOverrides dictionary of the
+ * Any values specified in the \e customizationInterfaceOverrides dictionary of the
  * showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*) or
  * showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:()
  * methods, will override the corresponding values specified in the dictionary passed into

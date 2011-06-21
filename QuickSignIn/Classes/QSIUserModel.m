@@ -72,8 +72,8 @@ Instantiate the JRAuthenticate Library with your Engage Application's 20-charact
 library with a token URL, you must make the call yourself after you receive the token,
 otherwise, this happens automatically.													*/
 
-static NSString *appId = @"<your_app_id>";
-static NSString *tokenUrl = @"<your_token_url>";
+//static NSString *appId = @"<your_app_id>";
+//static NSString *tokenUrl = @"<your_token_url>";
 
 - (UserModel*)init
 {

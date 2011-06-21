@@ -71,17 +71,6 @@
  * the <a href="http://rpxnow.com/docs/iphone_api/annotated.html">"JREngage API"</a> documentation.
  **/
 
-/**
- * @page Providers
- *
-@htmlonly
-<iframe src="https://sites.google.com/a/janrain.com/mobile/mobile_providers" name="providers" frameborder="0" width="750px" height="1270px">
-Your browser does not support iFrames.
-</iframe>
-@endhtmlonly
- *
- **/
-
 /* Preprocessor directive that conditionally compiles the code that uses the weakly-linked MessageUI.Framework.
  This framework is required if you want to include the ability to share activities with email or sms.  By default
  the JRENGAGE_INCLUDE_EMAIL_SMS flag should always be set to "1", which can cause errors with the linker if the
@@ -105,12 +94,11 @@ Your browser does not support iFrames.
 
 /**
  * @brief
- * The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and
- * information about a user that authenticates with your application and publishes activities to their
- * social networks.
+ * Protocol adopted by an object that wishes to receive notifications when and information about a
+ * user that authenticates with your application and publishes activities to their social networks.
  *
  * This protocol will notify the delegate(s) when authentication and social publishing succeed or fail,
- * it will provider the delegate(s) with the authenticated user's profile data, and, if server-side
+ * it will provide the delegate(s) with the authenticated user's profile data, and, if server-side
  * authentication is desired, it can provide the delegate(s) with the data payload returned by your
  * server's token URL.
  **/
@@ -157,14 +145,19 @@ Your browser does not support iFrames.
  * @anchor authDidSucceed
  *
  * Tells the delegate that the user has successfully authenticated with the given provider, passing to
- * the delegate an \em NSDictionary object with the user's profile data.
+ * the delegate an \e NSDictionary object with the user's profile data.
  *
  * @param auth_info
- *   An \em NSDictionary of fields containing all the information Janrain Engage knows about the user
+ *   An \e NSDictionary of fields containing all the information Janrain Engage knows about the user
  *   logging into your application.  Includes the field \c "profile" which contains the user's profile information
  *
- *   The structure of the dictionary (represented here in json) should look something like the
- *   following:
+ * @param provider
+ *   The name of the provider on which the user authenticated.  For a list of possible strings,
+ *   please see the \ref basicProviders "List of Providers"
+ *
+ * @par Example:
+ *   The structure of the auth_info dictionary (represented here in json) should look something like
+ *   the following:
  * @code
  "auth_info":
  {
@@ -179,13 +172,10 @@ Your browser does not support iFrames.
  }
  * @endcode
  *
- * @param provider
- *   The name of the provider on which the user authenticated.  For a list of possible strings,
- *   please see the \ref Providers "List of Providers"
  *
  * @sa
  * For a full description of the dictionary and its fields, please see the
- * <a href="https://rpxnow.com/docs#api_auth_info_response">auth_info response</a>
+ * <a href="http://documentation.janrain.com/engage/api/auth_info">auth_info response</a>
  * section of the Janrain Engage API documentation.
  **/
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
@@ -198,7 +188,7 @@ Your browser does not support iFrames.
  *
  * @param provider
  *   The name of the provider on which the user tried to authenticate.  For a list of possible strings,
- *   please see the \ref Providers "List of Providers"
+ *   please see the \ref basicProviders "List of Providers"
  *
  * @note
  * This message is not sent if authentication was canceled.  To be notified of a canceled authentication,
@@ -222,15 +212,14 @@ Your browser does not support iFrames.
  *   The URL on the server where the token was posted and server-side authentication was completed
  *
  * @param response
- *   The final \em NSURLResponse returned from the server
+ *   The final \e NSURLResponse returned from the server
  *
  * @param tokenUrlPayload
  *   The response from the server
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
- *   please see the <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">
- *   List of Providers</a>.
+ *   please see the \ref basicProviders "List of Providers"
  **/
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
@@ -245,7 +234,7 @@ Your browser does not support iFrames.
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
- *   please see the \ref Providers "List of Providers"
+ *   please see the \ref basicProviders "List of Providers"
  **/
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
@@ -279,7 +268,7 @@ Your browser does not support iFrames.
  *
  * @param provider
  *   The name of the provider on which the user published the activity.  For a list of possible strings,
- *   please see the \ref Providers "List of Providers"
+ *   please see the \ref socialProviders "List of Social Providers"
  **/
 - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
@@ -294,7 +283,7 @@ Your browser does not support iFrames.
  *
  * @param provider
  *   The name of the provider on which the user attempted to publish the activity.  For a list of possible strings,
- *   please see the \ref Providers "List of Providers"
+ *   please see the \ref socialProviders "List of Social Providers"
  **/
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 /*@}*/
@@ -327,8 +316,8 @@ Your browser does not support iFrames.
 @interface JREngage : NSObject <JRSessionDelegate>
 {
     JRUserInterfaceMaestro *interfaceMaestro;   /*< \internal Class that handles customizations to the library's UI */
-	JRSessionData	*sessionData;               /*< \internal Holds configuration and state for the JREngage library */
-	NSMutableArray	*delegates;                 /*< \internal Array of JREngageDelegate objects */
+    JRSessionData	*sessionData;                 /*< \internal Holds configuration and state for the JREngage library */
+    NSMutableArray	*delegates;                 /*< \internal Array of JREngageDelegate objects */
 }
 
 /**
@@ -341,7 +330,7 @@ Your browser does not support iFrames.
  * Shared instance of the JREngage library.
  *
  * @return
- *   The instance of the JREngage library once it has been created, otherwise this will return \em nil
+ *   The instance of the JREngage library once it has been created, otherwise this will return \e nil
  **/
 + (JREngage*)jrEngage;
 
@@ -351,7 +340,7 @@ Your browser does not support iFrames.
  *
  * @param appId
  *   This is your 20-character application ID. You can find this on your application's Dashboard
- *   on <a href="http://rpxnow.com">http://rpxnow.com</a>. This value cannot be \em nil
+ *   on <a href="http://rpxnow.com">http://rpxnow.com</a>. This value cannot be \e nil
  *
  * @param tokenUrl
  *   The url on your server where you wish to complete authentication.  If provided,
@@ -364,7 +353,7 @@ Your browser does not support iFrames.
  *
  * @return
  *   The shared instance of the JREngage object initialized with the given
- *   appId, tokenUrl, and delegate.  If the given appId is nil, returns \em nil.
+ *   appId, tokenUrl, and delegate.  If the given appId is nil, returns \e nil.
  **/
 + (JREngage*)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate;
 /*@}*/
@@ -420,7 +409,7 @@ Your browser does not support iFrames.
  *   interface and/or add a native login experience
  *
  * @note
- * Any values specified in the \em customInterfaceOverrides dictionary will override the corresponding
+ * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
@@ -458,7 +447,7 @@ Your browser does not support iFrames.
  *   interface and/or add a native login experience
  *
  * @note
- * Any values specified in the \em customInterfaceOverrides dictionary will override the corresponding
+ * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
@@ -482,7 +471,7 @@ Your browser does not support iFrames.
  *
  * @param provider
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
- *   please see the \ref Providers "List of Providers"
+ *   please see the \ref basicProviders "List of Providers"
  **/
 - (void)signoutUserForProvider:(NSString*)provider;
 
@@ -490,8 +479,7 @@ Your browser does not support iFrames.
  * @anchor signoutAll
  *
  * Tell JREngage to forget that a user is signed in with all the
- * <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#socialProviders">
- * Providers</a>.
+ * \ref socialProviders "Social Providers"
  **/
 - (void)signoutUserForAllProviders;
 
@@ -537,6 +525,50 @@ Your browser does not support iFrames.
  **/
 - (void)updateTokenUrl:(NSString*)newTokenUrl;
 /*@}*/
+
+/**
+ * @page Providers
+ *
+@htmlonly
+<!-- Script to resize the iFrames; Only works because iFrames origin is on same domain and iFrame
+      code contains script that calls this script -->
+<script type="text/javascript">
+    function resize(width, height, id) {
+        var iframe = document.getElementById(id);
+        iframe.width = width;
+        iframe.height = height + 50;
+        iframe.scrolling = false;
+        console.log(width);
+        console.log(height);
+    }
+</script>
+
+<!-- Redundant attributes to force scrolling to work across multiple browsers -->
+<iframe id="intro" src="../mobile_providers?list=intro&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
+</iframe>
+@endhtmlonly
+
+@anchor basicProviders
+@htmlonly
+<iframe id="basic" src="../mobile_providers?list=basic&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
+  <a href="../mobile_providers?list=basic&device=iphone">List of Providers</a>
+</iframe></p>
+@endhtmlonly
+
+@anchor socialProviders
+@htmlonly
+<iframe id="social" src="../mobile_providers?list=social&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
+  <a href="../mobile_providers?list=social&device=iphone">List of Social Providers</a>
+</iframe></p>
+@endhtmlonly
+ *
+ **/
 
 /**
  * @name Deprecated
