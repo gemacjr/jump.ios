@@ -113,7 +113,7 @@
 @interface Story ()
 - (void)setTitle:(NSString*)_title;
 - (void)setLink:(NSString*)_link;
-- (void)setDescription:(NSString*)_description;
+- (void)setDescription:(NSString*)_description andPlainText:(NSString*)_plainText;
 - (void)setAuthor:(NSString*)_author;
 - (void)setPubDate:(NSString*)_pubDate;
 - (void)setPlainText:(NSString*)_plainText;
@@ -175,13 +175,13 @@
 	link = [_link retain];
 }
 
-- (void)setDescription:(NSString*)_description
+- (void)setDescription:(NSString*)_description andPlainText:(NSString*)_plainText
 {
     [description release];
 	description = [[self descriptionWithScaledAndExtractedImages:
                          [_description stringByReplacingOccurrencesOfString:@"%34" withString:@"\""]] retain];
 
-    [self setPlainText:_description];
+    [self setPlainText:_plainText];
 }
 
 - (void)setAuthor:(NSString*)_author
@@ -468,6 +468,7 @@ NSXMLParser *parser;
 Story *currentStory;
 NSString *currentElement;
 NSMutableString *currentContent;
+NSMutableString *currentPlainText;
 int counter;
 - (void)downloadFeedStories;
 
@@ -599,11 +600,15 @@ static FeedReader* singleton = nil;
         currentStory = [[Story alloc] init];
         [currentStory setFeedUrl:feed.url];
 	}
+    else if ([elementName isEqualToString:@"description"])
+    {
+        currentContent = [[NSMutableString alloc] init];
+        currentPlainText = [[NSMutableString alloc] init];
+    }
     else
     {
         currentContent = [[NSMutableString alloc] init];
     }
-
 }
 
 - (void)parser:(NSXMLParser*)xmlParser didEndElement:(NSString*)elementName
@@ -627,7 +632,7 @@ static FeedReader* singleton = nil;
 	else if ([currentElement isEqualToString:@"link"])
         [currentStory setLink:currentContent];
 	else if ([currentElement isEqualToString:@"description"])
-        [currentStory setDescription:currentContent];
+        [currentStory setDescription:currentContent andPlainText:currentPlainText];
 	else if ([currentElement isEqualToString:@"pubDate"])
         [currentStory setPubDate:currentContent];
     else if ([currentElement isEqualToString:@"dc:creator"])
@@ -635,11 +640,13 @@ static FeedReader* singleton = nil;
 
     [currentElement release], currentElement = nil;
     [currentContent release], currentContent = nil;
+    [currentPlainText release], currentPlainText = nil;
 }
 
 - (void)parser:(NSXMLParser*)xmlParser foundCharacters:(NSString*)string
 {
-	//DLog(@"Found characters: %@", string);
+	DLog(@"Found characters: %@", string);
+    static BOOL inAnHtmlTag = NO;
 
 	if ([currentElement isEqualToString:@"title"] ||
         [currentElement isEqualToString:@"link"] ||
@@ -650,6 +657,14 @@ static FeedReader* singleton = nil;
 
     if ([currentElement isEqualToString:@"description"])
     {
+        if ([string isEqualToString:@"<"] && !inAnHtmlTag)
+            inAnHtmlTag = YES;
+
+        if (!inAnHtmlTag)
+            [currentPlainText appendString:string];
+
+        if ([string isEqualToString:@">"] && inAnHtmlTag)
+            inAnHtmlTag = NO;
 
     }
 }
