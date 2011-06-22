@@ -33,6 +33,10 @@
 		9F01AA9D1294597C00AD6899 /* icon_itunes.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA921294597C00AD6899 /* icon_itunes.png */; };
 		9F01AA9E1294597C00AD6899 /* janrain_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AA931294597C00AD6899 /* janrain_logo.png */; };
 		9F01AAA612945A3100AD6899 /* background-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F01AAA512945A3100AD6899 /* background-ipad.png */; };
+		9F0BB6FB13B2B08B00898F4F /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0BB6F613B2B08B00898F4F /* GTMNSString+HTML.m */; };
+		9F0BB6FC13B2B08B00898F4F /* NSDate+InternetDateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0BB6F813B2B08B00898F4F /* NSDate+InternetDateTime.m */; };
+		9F0BB6FD13B2B08B00898F4F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0BB6FA13B2B08B00898F4F /* NSString+HTML.m */; };
+		9F0BB70113B2B0AD00898F4F /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0BB70013B2B0AD00898F4F /* RegexKitLite.m */; };
 		9F25B07A12C2A9FF0083BB6A /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F25B07912C2A9FF0083BB6A /* icon_ipad.png */; };
 		9F5234FD12B29F460073ABAE /* janrain_blog.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F5234FC12B29F460073ABAE /* janrain_blog.json */; };
 		9F87D85412145FDE00FF7E2C /* FeedReaderFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */; };
@@ -206,7 +210,6 @@
 		9FD162851295EB770002BFEC /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD162841295EB770002BFEC /* Default-Portrait.png */; };
 		9FD1638C129733740002BFEC /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD1638B129733740002BFEC /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9FD54A111213726800E11512 /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD54A101213726800E11512 /* FeedReader.m */; };
-		C01FCF5008A954540054247E /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247D /* RegexKitLite.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -238,6 +241,14 @@
 		9F01AA921294597C00AD6899 /* icon_itunes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_itunes.png; sourceTree = "<group>"; };
 		9F01AA931294597C00AD6899 /* janrain_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = janrain_logo.png; sourceTree = "<group>"; };
 		9F01AAA512945A3100AD6899 /* background-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-ipad.png"; sourceTree = "<group>"; };
+		9F0BB6F513B2B08B00898F4F /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GTMNSString+HTML.h"; path = "MWaterfall/GTMNSString+HTML.h"; sourceTree = "<group>"; };
+		9F0BB6F613B2B08B00898F4F /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GTMNSString+HTML.m"; path = "MWaterfall/GTMNSString+HTML.m"; sourceTree = "<group>"; };
+		9F0BB6F713B2B08B00898F4F /* NSDate+InternetDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+InternetDateTime.h"; path = "MWaterfall/NSDate+InternetDateTime.h"; sourceTree = "<group>"; };
+		9F0BB6F813B2B08B00898F4F /* NSDate+InternetDateTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+InternetDateTime.m"; path = "MWaterfall/NSDate+InternetDateTime.m"; sourceTree = "<group>"; };
+		9F0BB6F913B2B08B00898F4F /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+HTML.h"; path = "MWaterfall/NSString+HTML.h"; sourceTree = "<group>"; };
+		9F0BB6FA13B2B08B00898F4F /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+HTML.m"; path = "MWaterfall/NSString+HTML.m"; sourceTree = "<group>"; };
+		9F0BB6FF13B2B0AD00898F4F /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegexKitLite.h; path = RegexKitLite/RegexKitLite.h; sourceTree = "<group>"; };
+		9F0BB70013B2B0AD00898F4F /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegexKitLite.m; path = RegexKitLite/RegexKitLite.m; sourceTree = "<group>"; };
 		9F25B07912C2A9FF0083BB6A /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
 		9F5234FC12B29F460073ABAE /* janrain_blog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = janrain_blog.json; path = Resources/janrain_blog.json; sourceTree = "<group>"; };
 		9F87D85112145FDE00FF7E2C /* FeedReaderFeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderFeeds.h; sourceTree = "<group>"; };
@@ -440,8 +451,7 @@
 		9FD1638B129733740002BFEC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9FD54A0F1213726800E11512 /* FeedReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReader.h; sourceTree = "<group>"; };
 		9FD54A101213726800E11512 /* FeedReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReader.m; sourceTree = "<group>"; };
-		C01FCF5008A954540054247C /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
-		C01FCF5008A954540054247D /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054247C /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMDefines.h; path = MWaterfall/GTMDefines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -464,8 +474,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				C01FCF5008A954540054247D /* RegexKitLite.m */,
-				C01FCF5008A954540054247C /* RegexKitLite.h */,
+				9F0BB6FE13B2B09900898F4F /* RegexKitLite */,
+				9F0BB6F413B2B07200898F4F /* MWaterfall */,
 				9FB409401241429300FDDA7B /* Quick_PublishAppDelegate.h */,
 				9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */,
 				9FD54A0F1213726800E11512 /* FeedReader.h */,
@@ -595,13 +605,36 @@
 			path = "Resources/images-ipad";
 			sourceTree = "<group>";
 		};
+		9F0BB6F413B2B07200898F4F /* MWaterfall */ = {
+			isa = PBXGroup;
+			children = (
+				C01FCF5008A954540054247C /* GTMDefines.h */,
+				9F0BB6F513B2B08B00898F4F /* GTMNSString+HTML.h */,
+				9F0BB6F613B2B08B00898F4F /* GTMNSString+HTML.m */,
+				9F0BB6F713B2B08B00898F4F /* NSDate+InternetDateTime.h */,
+				9F0BB6F813B2B08B00898F4F /* NSDate+InternetDateTime.m */,
+				9F0BB6F913B2B08B00898F4F /* NSString+HTML.h */,
+				9F0BB6FA13B2B08B00898F4F /* NSString+HTML.m */,
+			);
+			name = MWaterfall;
+			sourceTree = "<group>";
+		};
+		9F0BB6FE13B2B09900898F4F /* RegexKitLite */ = {
+			isa = PBXGroup;
+			children = (
+				9F0BB6FF13B2B0AD00898F4F /* RegexKitLite.h */,
+				9F0BB70013B2B0AD00898F4F /* RegexKitLite.m */,
+			);
+			name = RegexKitLite;
+			sourceTree = "<group>";
+		};
 		9FA5DC7B12FC846B0033A711 /* JREngage */ = {
 			isa = PBXGroup;
 			children = (
 				9FA5DCAA12FC846B0033A711 /* Resources */,
 				9FA5DC7C12FC846B0033A711 /* Security */,
 				9FA5DC7F12FC846B0033A711 /* JSON */,
-				9FA5DC9312FC846B0033A711 /* classes */,
+				9FA5DC9312FC846B0033A711 /* Classes */,
 			);
 			name = JREngage;
 			sourceTree = "<group>";
@@ -643,7 +676,7 @@
 			path = ../JREngage/JSON;
 			sourceTree = SOURCE_ROOT;
 		};
-		9FA5DC9312FC846B0033A711 /* classes */ = {
+		9FA5DC9312FC846B0033A711 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				9FA5DC9412FC846B0033A711 /* JREngage.h */,
@@ -669,7 +702,7 @@
 				9FA5DCA812FC846B0033A711 /* JRInfoBar.h */,
 				9FA5DCA912FC846B0033A711 /* JRInfoBar.m */,
 			);
-			name = classes;
+			name = Classes;
 			path = ../JREngage/classes;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1179,7 +1212,10 @@
 				9FA5DD5512FC846B0033A711 /* JRUserLandingController.m in Sources */,
 				9FA5DD5612FC846B0033A711 /* JRWebViewController.m in Sources */,
 				9FA5DD5712FC846B0033A711 /* JRInfoBar.m in Sources */,
-				C01FCF5008A954540054247E /* RegexKitLite.m in Sources */,
+				9F0BB6FB13B2B08B00898F4F /* GTMNSString+HTML.m in Sources */,
+				9F0BB6FC13B2B08B00898F4F /* NSDate+InternetDateTime.m in Sources */,
+				9F0BB6FD13B2B08B00898F4F /* NSString+HTML.m in Sources */,
+				9F0BB70113B2B0AD00898F4F /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

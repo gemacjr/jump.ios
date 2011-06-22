@@ -40,6 +40,8 @@
 #import "FeedReaderDetail.h"
 #import "Quick_PublishAppDelegate.h"
 #import "RegexKitLite.h"
+#import "NSString+HTML.h"
+#import "NSDate+InternetDateTime.h"
 
 //@class FeedReaderDetail;
 @interface StoryImage : NSObject <JRConnectionManagerDelegate>

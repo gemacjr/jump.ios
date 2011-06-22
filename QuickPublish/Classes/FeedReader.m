@@ -162,45 +162,6 @@
     return self;
 }
 
-- (void)setTitle:(NSString*)_title
-{
-	[title release];
-	title = [[[_title stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"]
-                      stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
-}
-
-- (void)setLink:(NSString*)_link
-{
-	[link release];
-	link = [_link retain];
-}
-
-- (void)setDescription:(NSString*)_description andPlainText:(NSString*)_plainText
-{
-    [description release];
-	description = [[self descriptionWithScaledAndExtractedImages:
-                         [_description stringByReplacingOccurrencesOfString:@"%34" withString:@"\""]] retain];
-
-    [self setPlainText:_plainText];
-}
-
-- (void)setAuthor:(NSString*)_author
-{
-	[author release];
-	author = [_author retain];
-}
-
-- (void)setPubDate:(NSString*)_pubDate
-{
-    [pubDate release];
-    pubDate = [_pubDate retain];
-}
-
-//- (NSString*)removeHtmlFromString:(NSString*)htmlString
-//{
-//    return htmlString;
-//}
-
 - (NSString*)newWidthAndHeight:(NSString*)style
 {
     NSString *patternWidth = @"(.*?)width:(.+?)px(.*)";//, Pattern.CASE_INSENSITIVE|Pattern.DOTALL);
@@ -314,10 +275,50 @@
     return [NSString stringWithString:newDescription];
 }
 
+- (void)setTitle:(NSString*)_title
+{
+	[title release];
+	title = [[[_title stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"]
+                      stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
+}
+
+- (void)setLink:(NSString*)_link
+{
+	[link release];
+	link = [_link retain];
+}
+
+- (void)setDescription:(NSString*)_description andPlainText:(NSString*)_plainText
+{
+    [description release];
+	description = [[self descriptionWithScaledAndExtractedImages:
+                         [_description stringByReplacingOccurrencesOfString:@"%34" withString:@"\""]] retain];
+
+    [self setPlainText:_plainText];
+}
+
+- (void)setAuthor:(NSString*)_author
+{
+	[author release];
+	author = [_author retain];
+}
+
+- (void)setPubDate:(NSString*)_pubDate
+{
+    [pubDate release];
+
+    NSDate *date = [NSDate dateFromRFC3339String:_pubDate];
+
+
+
+    pubDate = [_pubDate retain];
+}
+
+
 - (void)setPlainText:(NSString*)_plainText
 {
     [plainText release];
-    plainText = [[_plainText stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
+    plainText = [[[_plainText stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] stringByDecodingHTMLEntities]retain];
 }
 
 - (void)addStoryImage:(NSString*)_storyImage
@@ -665,7 +666,6 @@ static FeedReader* singleton = nil;
 
         if ([string isEqualToString:@">"] && inAnHtmlTag)
             inAnHtmlTag = NO;
-
     }
 }
 
