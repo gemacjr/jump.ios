@@ -39,6 +39,7 @@
 #import "JREngage+CustomInterface.h"
 #import "FeedReaderDetail.h"
 #import "Quick_PublishAppDelegate.h"
+#import "RegexKitLite.h"
 
 //@class FeedReaderDetail;
 @interface StoryImage : NSObject <JRConnectionManagerDelegate>

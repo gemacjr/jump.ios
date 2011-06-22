@@ -206,6 +206,7 @@
 		9FD162851295EB770002BFEC /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD162841295EB770002BFEC /* Default-Portrait.png */; };
 		9FD1638C129733740002BFEC /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD1638B129733740002BFEC /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		9FD54A111213726800E11512 /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD54A101213726800E11512 /* FeedReader.m */; };
+		C01FCF5008A954540054247E /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247D /* RegexKitLite.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -439,6 +440,8 @@
 		9FD1638B129733740002BFEC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9FD54A0F1213726800E11512 /* FeedReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReader.h; sourceTree = "<group>"; };
 		9FD54A101213726800E11512 /* FeedReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReader.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054247C /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054247D /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -461,6 +464,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C01FCF5008A954540054247D /* RegexKitLite.m */,
+				C01FCF5008A954540054247C /* RegexKitLite.h */,
 				9FB409401241429300FDDA7B /* Quick_PublishAppDelegate.h */,
 				9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */,
 				9FD54A0F1213726800E11512 /* FeedReader.h */,
@@ -1174,6 +1179,7 @@
 				9FA5DD5512FC846B0033A711 /* JRUserLandingController.m in Sources */,
 				9FA5DD5612FC846B0033A711 /* JRWebViewController.m in Sources */,
 				9FA5DD5712FC846B0033A711 /* JRInfoBar.m in Sources */,
+				C01FCF5008A954540054247E /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1194,6 +1200,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				INFOPLIST_FILE = "Quick_Publish-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "Quick Publish";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A7B9FC53-99F0-4CBD-B6BE-6BC7F6CD6BD4";
 				SDKROOT = iphoneos;
@@ -1212,6 +1219,7 @@
 				GCC_PREFIX_HEADER = Quick_Publish_Prefix.pch;
 				INFOPLIST_FILE = "Quick_Publish-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "Quick Publish";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1245,6 +1253,7 @@
 				GCC_PREFIX_HEADER = Quick_Publish_Prefix.pch;
 				INFOPLIST_FILE = "Quick_Publish-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				OTHER_LDFLAGS = "-licucore";
 				PRODUCT_NAME = "Quick Publish";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "20843F31-CFDF-4704-A3BF-8912BE1C4392";
 				SDKROOT = iphoneos;

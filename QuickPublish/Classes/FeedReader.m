@@ -176,7 +176,8 @@
 - (void)setDescription:(NSString*)_description
 {
     [description release];
-	description = [[_description stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
+	description = [[self descriptionWithScaledAndExtractedImages:
+                         [_description stringByReplacingOccurrencesOfString:@"%34" withString:@"\""]] retain];
 
     [self setPlainText:_description];
 }
@@ -197,6 +198,107 @@
 //{
 //    return htmlString;
 //}
+
+- (NSString*)newWidthAndHeight:(NSString*)style
+{
+    NSString *patternWidth = @"(.*?)width:(.+?)px(.*)";//, Pattern.CASE_INSENSITIVE|Pattern.DOTALL);
+    NSString *patternHeight = @"(.*?)height:(.+?)px(.*)";//, Pattern.CASE_INSENSITIVE);
+
+    NSArray *matcherWidth = [style captureComponentsMatchedByRegex:patternWidth
+                                                           options:(RKLCaseless | RKLDotAll)
+                                                             range:NSMakeRange(0, [style length])
+                                                             error:NULL];//patternWidth.matcher(style);
+    NSArray *matcherHeight = [style captureComponentsMatchedByRegex:patternHeight
+                                                            options:(RKLCaseless | RKLDotAll)
+                                                              range:NSMakeRange(0, [style length])
+                                                              error:NULL];//patternHeight.matcher(style);
+
+    DLog(@"matchers match style (%@)?: %@%@", style,
+            ([matcherWidth count] ? @"width=yes and " : @"width=no and "),
+            ([matcherHeight count] ? @"height=yes" : @"height=no"));
+
+    if (![matcherWidth count] || ![matcherHeight count])
+        return style;
+
+    int width;
+    int height;
+
+    NSString *widthString = [[matcherWidth objectAtIndex:2]
+                    stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *heightString = [[matcherHeight objectAtIndex:2]
+                    stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+
+    width = [widthString intValue];
+    height = [heightString intValue];
+
+    if (width <= 280)
+        return style;
+
+    double ratio = width / 280.0;
+    int newHeight = [[NSNumber numberWithDouble:(height / ratio)] intValue];
+
+    DLog(@"Style before: %@", style);
+    style = [style stringByReplacingOccurrencesOfString:
+                   [NSString stringWithFormat:@"width:%@px", [matcherWidth objectAtIndex:2]]
+                                             withString:@"width: 280px"];
+    style = [style stringByReplacingOccurrencesOfString:
+                   [NSString stringWithFormat:@"height:%@px", [matcherHeight objectAtIndex:2]]
+                                             withString:
+                   [NSString stringWithFormat:@"height:%dpx", newHeight]];
+    DLog(@"Style after: %@", style);
+
+    return style;
+}
+
+- (NSString*)descriptionWithScaledAndExtractedImages:(NSString*)oldDescription
+{
+    NSArray *splitDescription = [oldDescription componentsSeparatedByString:@"<img"];//   ("<img ", -1 )];
+
+    int length = [splitDescription count];
+
+    NSMutableString *newDescription;
+
+    /* If the very first thing in the description text was an image tag, then our first string in
+     * our array of split strings will be @"".  Since we need to put the "<img" back in to our final
+     * string, initialize it with the "<img" */
+    if ([splitDescription count] > 1 && [[splitDescription objectAtIndex:0] isEqualToString:@""])
+        newDescription = [NSMutableString stringWithString:@"<img"];
+    else
+        newDescription = [NSMutableString stringWithString:[splitDescription objectAtIndex:0]];
+
+    for (int i=1; i<length; i++)
+    {
+        NSString *currentString = [splitDescription objectAtIndex:i];
+        DLog(@"%d: %@",  i, currentString);
+
+        @try {
+            NSString *pattern = @"(.+?)style=\"(.+?)\"(.+?)/>(.+)";
+            NSArray *captureGroups =
+                        [currentString captureComponentsMatchedByRegex:pattern
+                                                               options:RKLCaseless
+                                                                 range:NSMakeRange(0, [currentString length])
+                                                                 error:nil];
+
+            DLog(@"Matches?: %@", ([captureGroups count] ? @"yes" : @"no"));
+
+//            for (int j=1; j<=matcher.groupCount(); j++)
+//                Log.d(TAG, "[scaleDescriptionImages] matched group " + ((Integer)j).toString() + ": " + matcher.group(j));
+
+            [newDescription appendFormat:@"<img %@ style=\"%@\"[[[ %@/>%@",
+                    [captureGroups objectAtIndex:1], [self newWidthAndHeight:[captureGroups objectAtIndex:2]],
+                    [captureGroups objectAtIndex:3], [captureGroups objectAtIndex:4]];
+
+        } @catch (NSException *e) {
+            DLog(@"Exception: %@", [e description]);
+            [newDescription appendFormat:@"<img %@", currentString];
+        }
+    }
+
+    DLog(@"newDescription: %@", newDescription);
+
+    return [NSString stringWithString:newDescription];
+}
 
 - (void)setPlainText:(NSString*)_plainText
 {
@@ -528,6 +630,11 @@ static FeedReader* singleton = nil;
         [currentElement isEqualToString:@"pubDate"] ||
         [currentElement isEqualToString:@"dc:creator"])
         [currentContent appendString:string];
+
+    if ([currentElement isEqualToString:@"description"])
+    {
+
+    }
 }
 
 - (void)parserDidEndDocument:(NSXMLParser*)xmlParser
