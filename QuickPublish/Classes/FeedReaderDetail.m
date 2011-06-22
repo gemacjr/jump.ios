@@ -153,7 +153,7 @@ a:active  { color:#7AC143; }";
                         story.pubDate,
                         story.description] retain];
     
-    [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feed.link]];
+    [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feedUrl]];
     
     UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share" 
                                                                      style:UIBarButtonItemStyleBordered 
@@ -218,7 +218,7 @@ a:active  { color:#7AC143; }";
     {
         StoryImage *storyImage = [story.storyImages objectAtIndex:0];
     
-        JRImageMediaObject *image = [[[JRImageMediaObject alloc] initWithSrc:storyImage.src andHref:story.feed.link] autorelease];
+        JRImageMediaObject *image = [[[JRImageMediaObject alloc] initWithSrc:storyImage.src andHref:story.feedUrl] autorelease];
         [image setPreview:storyImage.image];
     
         activity.media = [NSArray arrayWithObject:image];

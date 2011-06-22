@@ -36,6 +36,9 @@
 #import "FeedReader.h"
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+#define QUICK_PUBLISH_CACHED_STORIES @"quickpublish.feeddata.cachedstories"
+#define QUICK_PUBLISH_CACHED_STORY_LINKS @"quickpublish.feeddata.cachedstorylinks"
+
 @interface StoryImage ()
 - (void)setAlt:(NSString*)_alt;
 - (void)downloadImage;
@@ -113,7 +116,7 @@
 - (void)setPubDate:(NSString*)_pubDate;
 - (void)setPlainText:(NSString*)_plainText;
 - (void)addStoryImage:(NSString*)_storyImage;
-- (void)setFeed:(Feed*)_feed;
+- (void)setFeedUrl:(NSString*)_feedUrl;
 @end
 
 
@@ -125,7 +128,7 @@
 @synthesize pubDate;
 @synthesize plainText;
 @synthesize storyImages;
-@synthesize feed;
+@synthesize feedUrl;
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
@@ -134,6 +137,9 @@
     [coder encodeObject:description forKey:@"description"];
     [coder encodeObject:author forKey:@"author"];
     [coder encodeObject:pubDate forKey:@"pubDate"];
+    [coder encodeObject:plainText forKey:@"plainText"];
+    [coder encodeObject:storyImageUrls forKey:@"storyImageUrls"];
+    [coder encodeObject:feedUrl forKey:@"feedUrl"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -146,6 +152,9 @@
         description = [[coder decodeObjectForKey:@"description"] retain];
         author = [[coder decodeObjectForKey:@"author"] retain];
         pubDate = [[coder decodeObjectForKey:@"pubDate"] retain];
+        plainText = [[coder decodeObjectForKey:@"plainText"] retain];
+        storyImageUrls = [[coder decodeObjectForKey:@"storyImageUrls"] retain];
+        feedUrl = [[coder decodeObjectForKey:@"feedUrl"] retain];
     }   
     
     return self;
@@ -168,6 +177,8 @@
 {
     [description release];
 	description = [[_description stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
+    
+    [self setPlainText:_description];
 }
 
 - (void)setAuthor:(NSString*)_author
@@ -195,22 +206,23 @@
 
     if (![_storyImage hasPrefix:@"http"])
     {
-        _storyImage = [NSString stringWithFormat:@"%@%@", self.feed.link, _storyImage];
+        _storyImage = [NSString stringWithFormat:@"%@%@", self.feedUrl, _storyImage];
     }
     
     StoryImage *image = [[[StoryImage alloc] initWithSrc:_storyImage] autorelease];
     
     [storyImages addObject:image];
+    [storyImageUrls addObject:_storyImage];
     
  /* Only download the first coupla images */
     if ([storyImages count] <= 2)
         [image downloadImage];
 }
 
-- (void)setFeed:(Feed*)_feed
+- (void)setFeedUrl:(NSString*)_feedUrl
 {
-    [feed release];
-    feed = [_feed retain];
+    [feedUrl release];
+    feedUrl = [_feedUrl retain];
 }
 
 - (void)dealloc
@@ -222,17 +234,18 @@
 	[pubDate release];
     [plainText release];
     
-    [feed release];
+    [feedUrl release];
 
     [storyImages release];
+    [storyImageUrls release];
 	[super dealloc];
 }
 @end
 
 @interface Feed ()
-- (void)setUrl:(NSString*)_url;
-- (void)setTitle:(NSString*)_title;
-- (void)setLink:(NSString*)_link;
+//- (void)setUrl:(NSString*)_url;
+//- (void)setTitle:(NSString*)_title;
+//- (void)setLink:(NSString*)_link;
 
 @property (readonly) NSString *url;
 @end
@@ -243,52 +256,136 @@
 @synthesize title;
 @synthesize link;
 
-- (void)encodeWithCoder:(NSCoder *)coder
+- (id)init 
 {
-    [coder encodeObject:url forKey:@"url"];
-    [coder encodeObject:title forKey:@"title"];
-    [coder encodeObject:link forKey:@"link"];
-}
-
-- (id)initWithCoder:(NSCoder *)coder
-{    
-    self = [[Feed alloc] init];
-    if (self != nil)
-    {
-        url = [[coder decodeObjectForKey:@"url"] retain];
-        title = [[coder decodeObjectForKey:@"title"] retain];
-        link = [[coder decodeObjectForKey:@"link"] retain];
+    if (self = [super init])
+	{
+        title = @"Janrain | Blog";
+        link = @"http://www.janrain.com";
+        url = @"http://www.janrain.com/feed/blogs";
         
-        stories = nil;
-    }   
-    
-    return self;
+        NSData *archivedStories = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORIES];
+        if (archivedStories != nil)
+        {
+            NSArray *unarchivedStories = [NSKeyedUnarchiver unarchiveObjectWithData:archivedStories];
+            if (unarchivedStories != nil)
+                stories = [[NSMutableArray alloc] initWithArray:unarchivedStories];
+            else
+                stories = [[NSMutableArray alloc] initWithCapacity:25];
+        }
+
+        NSData *archivedStoryLinks = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORY_LINKS];
+        if (archivedStoryLinks != nil)
+        {
+            NSSet *unarchivedStoryLinks = [NSKeyedUnarchiver unarchiveObjectWithData:archivedStoryLinks];
+            if (unarchivedStoryLinks == nil || [stories count] == 0)
+                storyLinks = [[NSMutableSet alloc] initWithCapacity:25];
+            else
+                storyLinks = [[NSMutableArray alloc] initWithSet:unarchivedStoryLinks];
+        }
+	}
+	
+	return self;	
 }
 
-- (void)setUrl:(NSString*)_url
-{
-	[url release];
-	url = [_url retain];
-}
+//- (void)encodeWithCoder:(NSCoder *)coder
+//{
+//    [coder encodeObject:url forKey:@"url"];
+//    [coder encodeObject:title forKey:@"title"];
+//    [coder encodeObject:link forKey:@"link"];
+//    
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:stories] 
+//                                              forKey:QUICK_PUBLISH_CACHED_STORIES];
+//    
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:storyLinks] 
+//                                              forKey:QUICK_PUBLISH_CACHED_STORY_LINKS];
+//}
+//
+//- (id)initWithCoder:(NSCoder *)coder
+//{    
+//    self = [[Feed alloc] init];
+//    if (self != nil)
+//    {
+//        url = [[coder decodeObjectForKey:@"url"] retain];
+//        title = [[coder decodeObjectForKey:@"title"] retain];
+//        link = [[coder decodeObjectForKey:@"link"] retain];
+//        
+//        NSData *archivedStories = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORIES];
+//        if (archivedStories != nil)
+//        {
+//            NSArray *unarchivedStories = [NSKeyedUnarchiver unarchiveObjectWithData:archivedStories];
+//            if (unarchivedStories != nil)
+//                stories = [[NSMutableArray alloc] initWithArray:unarchivedStories];
+//            else
+//                stories = [[NSMutableArray alloc] initWithCapacity:25];
+//        }
+//
+//        NSData *archivedStoryLinks = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORY_LINKS];
+//        if (archivedStoryLinks != nil)
+//        {
+//            NSSet *unarchivedStoryLinks = [NSKeyedUnarchiver unarchiveObjectWithData:archivedStoryLinks];
+//            if (unarchivedStoryLinks == nil || [stories count] == 0)
+//                storyLinks = [[NSMutableSet alloc] initWithCapacity:25];
+//            else
+//                storyLinks = [[NSMutableArray alloc] initWithArray:unarchivedStoryLinks];
+//        }
+//    }   
+//    
+//    return self;
+//}
 
-- (void)setTitle:(NSString*)_title
-{
-	[title release];
-	title = [_title retain];
-}
-
-- (void)setLink:(NSString*)_link
-{
-	[link release];
-	link = [_link retain];
-}
+//- (void)setUrl:(NSString*)_url
+//{
+//	[url release];
+//	url = [_url retain];
+//}
+//
+//- (void)setTitle:(NSString*)_title
+//{
+//	[title release];
+//	title = [_title retain];
+//}
+//
+//- (void)setLink:(NSString*)_link
+//{
+//	[link release];
+//	link = [_link retain];
+//}
 
 - (NSMutableArray*)stories
 {
-    if (!stories)
-        stories = [[NSMutableArray alloc] initWithCapacity:20];
+//    if (!stories)
+//        stories = [[NSMutableArray alloc] initWithCapacity:20];
     
     return stories;
+}
+
+- (BOOL)newStory:(Story*)story addAtIndex:(int)index 
+{
+//    if ([storyLinks containsObject:[story link]])
+//        return NO;
+    
+    @try 
+    {
+        [stories insertObject:story atIndex:index];
+        [storyLinks addObject:[story link]];
+    }
+    @catch (NSException *e)
+    {
+        [stories insertObject:story atIndex:0];
+        [storyLinks addObject:[story link]];
+    }
+    
+    return YES;
+}
+
+- (void)saveStories
+{
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:stories] 
+                                              forKey:QUICK_PUBLISH_CACHED_STORIES];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:storyLinks] 
+                                              forKey:QUICK_PUBLISH_CACHED_STORY_LINKS];    
 }
 
 - (void)dealloc
@@ -299,12 +396,28 @@
     [link release];
     
     [stories release];
+    [storyLinks release];
     
     [super dealloc];
 }
 @end
 
 @interface FeedReader ()
+Story *currentStory;
+int counter;
+//NSString *currentElement; 
+//NSString *currentTitle;
+//NSString *currentDate;
+//NSString *currentLink;
+//NSString *currentDescription;
+//NSString *currentAuthor;
+//
+//@property (retain) NSString *currentElement; 
+//@property (retain) NSString *currentTitle;
+//@property (retain) NSString *currentDate;
+//@property (retain) NSString *currentLink;
+//@property (retain) NSString *currentDescription;
+//@property (retain) NSString *currentAuthor;
 - (void)downloadFeedStories;
 @end
 
@@ -313,6 +426,12 @@
 @synthesize selectedStory;
 @synthesize jrEngage;
 @synthesize feedReaderDetail;
+
+//@synthesize currentDate;
+//@synthesize currentTitle;
+//@synthesize currentLink;
+//@synthesize currentAuthor;
+//@synthesize currentDescription;
 
 static FeedReader* singleton = nil;
 + (id)allocWithZone:(NSZone *)zone
@@ -354,7 +473,7 @@ static FeedReader* singleton = nil;
 	{
         singleton = self;
         jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:nil/*tokenUrl*/ delegate:self];
-        
+
         [self downloadFeedStories];
 	}
     
@@ -371,67 +490,229 @@ static FeedReader* singleton = nil;
 
 - (void)downloadFeedStories
 {   
-    UIApplication* app = [UIApplication sharedApplication]; 
+    UIApplication *app = [UIApplication sharedApplication]; 
     app.networkActivityIndicatorVisible = YES;
-
-    NSError *error = nil;
-    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.txt"];
-    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
-                                                                  encoding:NSUTF8StringEncoding
-                                                                     error:&error] autorelease];
+        
+    counter = 0;
     
-    NSDictionary *janrain_blog_dictionary = nil;
-    
-    if (!error)
-        janrain_blog_dictionary = [janrain_blog_json JSONValue];  
-    else
-        error = nil;
-    
-    if (!janrain_blog_dictionary)
-    {
-        NSString *pathStr = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
-        janrain_blog_json = [NSString stringWithContentsOfFile:pathStr encoding:NSUTF8StringEncoding error:&error];
-        
-        if (error)
-            return;
-        
-        janrain_blog_dictionary = [janrain_blog_json JSONValue];  
-        
-        if (!janrain_blog_json)
-            return;
-    }
-        
+    DLog(@"Initializing feed");
     feed = [[Feed alloc] init];
-    [feed setTitle:@"Janrain | Blog"];
-    [feed setLink:@"http://www.janrain.com"];
-
-    NSArray *stories = [janrain_blog_dictionary objectForKey:@"feed"];
-    
-    for (NSDictionary *item in stories)
-    {
-        Story *story = [[[Story alloc] init] autorelease];
-        NSDictionary *story_dict = [item objectForKey:@"story"];
+	NSURL *xmlURL = [NSURL URLWithString:[feed url]];
+	
+    DLog(@"Initializing xml parser");
+	parser = [[NSXMLParser alloc] initWithContentsOfURL:xmlURL];
+	
+	[parser setDelegate:self];
+	[parser setShouldProcessNamespaces:NO];
+	[parser setShouldReportNamespacePrefixes:NO];
+	[parser setShouldResolveExternalEntities:NO];
+	
+    DLog(@"Starting to parse the Janrain Blog feed");
+    [parser parse];
         
-        [story setTitle:[story_dict objectForKey:@"title"]];
-        [story setLink:[story_dict objectForKey:@"link"]];
-        [story setDescription:[story_dict objectForKey:@"description"]];
-        [story setAuthor:[story_dict objectForKey:@"creator"]];
-        [story setPubDate:[story_dict objectForKey:@"date"]];
-        [story setPlainText:[story_dict objectForKey:@"plainText"]];
-        [story setFeed:feed];
-        
-        NSArray *images = [story_dict objectForKey:@"images"];
-        
-        for (NSString *image in images)
-        {
-            [story addStoryImage:image];
-        }
-        
-        [feed.stories addObject:story];
-    }
-    
-    app.networkActivityIndicatorVisible = NO;
+//    NSArray *stories = [janrain_blog_dictionary objectForKey:@"feed"];
+//    
+//    for (NSDictionary *item in stories)
+//    {
+//        Story *story = [[[Story alloc] init] autorelease];
+//        NSDictionary *story_dict = [item objectForKey:@"story"];
+//        
+//        [story setTitle:[story_dict objectForKey:@"title"]];
+//        [story setLink:[story_dict objectForKey:@"link"]];
+//        [story setDescription:[story_dict objectForKey:@"description"]];
+//        [story setAuthor:[story_dict objectForKey:@"creator"]];
+//        [story setPubDate:[story_dict objectForKey:@"date"]];
+//        [story setPlainText:[story_dict objectForKey:@"plainText"]];
+//        [story setFeed:feed];
+//        
+//        NSArray *images = [story_dict objectForKey:@"images"];
+//        
+//        for (NSString *image in images)
+//        {
+//            [story addStoryImage:image];
+//        }
+//        
+//        [feed.stories addObject:story];
+//    }
+//    
+//    app.networkActivityIndicatorVisible = NO;
 }
+
+- (void)parserDidStartDocument:(NSXMLParser*)xmlParser
+{
+	DLog(@"Found the feed and started parsing");
+}
+
+- (void)parser:(NSXMLParser*)xmlParser parseErrorOccurred:(NSError*)parseError 
+{
+	NSString *errorString = [NSString stringWithFormat:@"Unable to download story feed from web site (Error code %i )", [parseError code]];
+
+	DLog(@"Error parsing XML: %@", errorString);
+	
+    UIAlertView * errorAlert = [[UIAlertView alloc] initWithTitle:@"Error loading content" 
+                                                          message:errorString 
+                                                         delegate:self 
+                                                cancelButtonTitle:@"OK" 
+                                                otherButtonTitles:nil];
+	[errorAlert show];
+}
+
+- (void)parser:(NSXMLParser*)xmlParser didStartElement:(NSString*)elementName 
+  namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qName 
+    attributes:(NSDictionary*)attributeDict
+{
+	DLog(@"Started element: %@", elementName);
+
+	currentElement = [[NSString alloc] initWithString:elementName];
+	if ([elementName isEqualToString:@"item"]) 
+	{
+        DLog(@"Element is a story");
+        currentStory = [[Story alloc] init];
+        [currentStory setFeedUrl:feed.url];
+//		currentTitle = [[NSMutableString alloc] init];
+//		currentDate = [[NSMutableString alloc] init];
+//		currentDescription = [[NSMutableString alloc] init];
+//		currentLink = [[NSMutableString alloc] init];
+//      currentAuthor = [[NSMutableString alloc] init];
+//      currentPlainText = [[NSMutableString alloc] init];
+	}
+    else
+    {
+        currentContent = [[NSMutableString alloc] init];
+    }
+
+}
+
+- (void)parser:(NSXMLParser*)xmlParser didEndElement:(NSString*)elementName 
+  namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qName
+{
+	NSLog(@"Ended element: %@", elementName);
+	if ([elementName isEqualToString:@"item"]) 
+	{
+        DLog(@"Element is a story");
+//        [currentStory setTitle:currentTitle];
+//        [currentStory setLink:currentLink];
+//        [currentStory setDescription:currentDescription];
+//        [currentStory setAuthor:currentAuthor];
+//        [currentStory setPubDate:currentDate];
+//        [currentStory setPlainText:[self removeHtmlFromString:currentDescription]];
+//        [currentStory setFeed:feed];
+        
+        if (![feed newStory:currentStory addAtIndex:counter])
+            [parser abortParsing];
+
+		NSLog(@"Adding story: %@", [currentStory title]);        
+        
+        [currentStory release], currentStory = nil;
+        counter++;
+	}
+    else if ([currentElement isEqualToString:@"title"]) 
+        [currentStory setTitle:currentContent];
+	else if ([currentElement isEqualToString:@"link"]) 
+        [currentStory setLink:currentContent];
+	else if ([currentElement isEqualToString:@"description"]) 
+        [currentStory setDescription:currentContent];
+	else if ([currentElement isEqualToString:@"pubDate"]) 
+        [currentStory setPubDate:currentContent];
+    else if ([currentElement isEqualToString:@"dc:creator"])
+        [currentStory setAuthor:currentContent];
+    
+    [currentElement release], currentElement = nil;
+    [currentContent release], currentContent = nil;
+}
+
+//- (NSString*)removeHtmlFromString:(NSString*)htmlString
+//{
+//    return htmlString;
+//}
+
+- (void)parser:(NSXMLParser*)xmlParser foundCharacters:(NSString*)string
+{
+	DLog(@"Found characters: %@", string);
+
+	if ([currentElement isEqualToString:@"title"] ||
+        [currentElement isEqualToString:@"link"] ||
+        [currentElement isEqualToString:@"description"] ||
+        [currentElement isEqualToString:@"pubDate"] ||
+        [currentElement isEqualToString:@"dc:creator"])
+        [currentContent appendString:string];
+}
+
+- (void)parserDidEndDocument:(NSXMLParser*)xmlParser
+{
+    UIApplication* app = [UIApplication sharedApplication]; 
+    app.networkActivityIndicatorVisible = NO;
+	
+    DLog(@"All done!");
+	DLog(@"Stories array has %d items", [feed.stories count]);
+	
+    [feed saveStories];
+}
+
+
+//- (void)downloadFeedStories
+//{   
+//    UIApplication* app = [UIApplication sharedApplication]; 
+//    app.networkActivityIndicatorVisible = YES;
+//
+//    NSError *error = nil;
+//    NSURL *path = [NSURL URLWithString:@"http://www.janrain.com/misc/janrain_blog.txt"];
+//    NSString *janrain_blog_json = [[[NSString alloc] initWithContentsOfURL:path
+//                                                                  encoding:NSUTF8StringEncoding
+//                                                                     error:&error] autorelease];
+//    
+//    NSDictionary *janrain_blog_dictionary = nil;
+//    
+//    if (!error)
+//        janrain_blog_dictionary = [janrain_blog_json JSONValue];  
+//    else
+//        error = nil;
+//    
+//    if (!janrain_blog_dictionary)
+//    {
+//        NSString *pathStr = [[NSBundle mainBundle] pathForResource:@"janrain_blog" ofType:@"json"];  
+//        janrain_blog_json = [NSString stringWithContentsOfFile:pathStr encoding:NSUTF8StringEncoding error:&error];
+//        
+//        if (error)
+//            return;
+//        
+//        janrain_blog_dictionary = [janrain_blog_json JSONValue];  
+//        
+//        if (!janrain_blog_json)
+//            return;
+//    }
+//        
+//    feed = [[Feed alloc] init];
+//    [feed setTitle:@"Janrain | Blog"];
+//    [feed setLink:@"http://www.janrain.com"];
+//
+//    NSArray *stories = [janrain_blog_dictionary objectForKey:@"feed"];
+//    
+//    for (NSDictionary *item in stories)
+//    {
+//        Story *story = [[[Story alloc] init] autorelease];
+//        NSDictionary *story_dict = [item objectForKey:@"story"];
+//        
+//        [story setTitle:[story_dict objectForKey:@"title"]];
+//        [story setLink:[story_dict objectForKey:@"link"]];
+//        [story setDescription:[story_dict objectForKey:@"description"]];
+//        [story setAuthor:[story_dict objectForKey:@"creator"]];
+//        [story setPubDate:[story_dict objectForKey:@"date"]];
+//        [story setPlainText:[story_dict objectForKey:@"plainText"]];
+//        [story setFeed:feed];
+//        
+//        NSArray *images = [story_dict objectForKey:@"images"];
+//        
+//        for (NSString *image in images)
+//        {
+//            [story addStoryImage:image];
+//        }
+//        
+//        [feed.stories addObject:story];
+//    }
+//    
+//    app.networkActivityIndicatorVisible = NO;
+//}
 
 - (NSArray*)allStories
 {

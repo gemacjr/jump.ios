@@ -73,9 +73,10 @@
 
     NSString *plainText;
 	
+    NSMutableArray *storyImageUrls;
     NSMutableArray *storyImages;
     
-    Feed *feed;
+    NSString *feedUrl;
 }
 
 @property (readonly) NSString *title;
@@ -85,7 +86,7 @@
 @property (readonly) NSString *pubDate;
 @property (readonly) NSString *plainText;
 @property (readonly) NSMutableArray *storyImages;
-@property (readonly) Feed *feed;
+@property (readonly) NSString *feedUrl;
 @end
 
 @interface Feed : NSObject
@@ -96,6 +97,7 @@
 	NSString *link;             /* The URL to the HTML website corresponding to the channel. (e.g., http://www.goupstate.com/) */
 
     NSMutableArray *stories;
+    NSMutableSet   *storyLinks;
 }
 
 @property (readonly) NSString *title;
@@ -103,7 +105,7 @@
 @property (readonly) NSMutableArray *stories;
 @end
 
-@interface FeedReader : NSObject <JREngageDelegate>
+@interface FeedReader : NSObject <JREngageDelegate, NSXMLParserDelegate>
 {    
     Feed *feed;
     Story *selectedStory;
@@ -111,6 +113,19 @@
     JREngage *jrEngage;
     
     FeedReaderDetail *feedReaderDetail;
+    
+    NSXMLParser *parser; 
+
+    Story *currentStory;
+    NSString *currentElement; 
+    NSMutableString *currentContent;
+
+////    NSMutableDictionary *item; 
+//
+
+//    NSMutableString *currentTitle, *currentDate, 
+//                    *currentLink, *currentDescription, 
+//                    *currentAuthor, *currentPlainText;
 }
 
 @property (retain)   FeedReaderDetail *feedReaderDetail;
