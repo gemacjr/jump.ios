@@ -93,7 +93,8 @@
 @interface Feed : NSObject
 {
     NSString *url;
- 	NSString *title;            /* The name of the channel. It's how people refer to your service. If you have an HTML website that contains the same information as your RSS file, the title of your channel should be the same as the title of your website. (e.g., GoUpstate.com News Headlines) */
+ 	NSString *rssUrl;
+    NSString *title;            /* The name of the channel. It's how people refer to your service. If you have an HTML website that contains the same information as your RSS file, the title of your channel should be the same as the title of your website. (e.g., GoUpstate.com News Headlines) */
 	NSString *link;             /* The URL to the HTML website corresponding to the channel. (e.g., http://www.goupstate.com/) */
 
     NSMutableArray *stories;
@@ -102,6 +103,7 @@
 
 //@property (readonly) NSString *title;
 //@property (readonly) NSString *link;
+@property (readonly) NSString *rssUrl;
 @property (readonly) NSString *url;
 @property (readonly) NSMutableArray *stories;
 @end

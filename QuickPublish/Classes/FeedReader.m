@@ -83,6 +83,8 @@
 /* To save memory, image will only download itself if prompted to do so by the story. */
 - (void)downloadImage
 {
+    DLog(@"Downloading story image: %@", src);
+
     NSURL *url = [NSURL URLWithString:src];
 
     if(!url)
@@ -270,24 +272,36 @@
     for (int i=1; i<length; i++)
     {
         NSString *currentString = [splitDescription objectAtIndex:i];
-        DLog(@"%d: %@",  i, currentString);
+        //DLog(@"%d: %@",  i, currentString);
 
         @try {
-            NSString *pattern = @"(.+?)style=\"(.+?)\"(.+?)/>(.+)";
-            NSArray *captureGroups =
-                        [currentString captureComponentsMatchedByRegex:pattern
+            NSString *styleMatchers = @"(.+?)style=\"(.+?)\"(.+?)/>(.+)";
+            NSArray *styleCaptures =
+                        [currentString captureComponentsMatchedByRegex:styleMatchers
                                                                options:RKLCaseless
                                                                  range:NSMakeRange(0, [currentString length])
                                                                  error:nil];
 
-            DLog(@"Matches?: %@", ([captureGroups count] ? @"yes" : @"no"));
+            DLog(@"Matches?: %@", ([styleCaptures count] ? @"yes" : @"no"));
 
 //            for (int j=1; j<=matcher.groupCount(); j++)
 //                Log.d(TAG, "[scaleDescriptionImages] matched group " + ((Integer)j).toString() + ": " + matcher.group(j));
 
             [newDescription appendFormat:@"<img %@ style=\"%@\"[[[ %@/>%@",
-                    [captureGroups objectAtIndex:1], [self newWidthAndHeight:[captureGroups objectAtIndex:2]],
-                    [captureGroups objectAtIndex:3], [captureGroups objectAtIndex:4]];
+                    [styleCaptures objectAtIndex:1], [self newWidthAndHeight:[styleCaptures objectAtIndex:2]],
+                    [styleCaptures objectAtIndex:3], [styleCaptures objectAtIndex:4]];
+
+
+            NSString *srcMatchers = @"(.+?)src=\"(.+?)\"(.+?)/>(.+)";
+            NSArray *srcCaptures =
+                        [currentString captureComponentsMatchedByRegex:srcMatchers
+                                                               options:RKLCaseless
+                                                                 range:NSMakeRange(0, [currentString length])
+                                                                 error:nil];
+
+            if ([srcCaptures count])
+                [self addStoryImage:[srcCaptures objectAtIndex:2]];
+
 
         } @catch (NSException *e) {
             DLog(@"Exception: %@", [e description]);
@@ -295,7 +309,7 @@
         }
     }
 
-    DLog(@"newDescription: %@", newDescription);
+    //DLog(@"newDescription: %@", newDescription);
 
     return [NSString stringWithString:newDescription];
 }
@@ -308,6 +322,8 @@
 
 - (void)addStoryImage:(NSString*)_storyImage
 {
+    DLog(@"Adding a story image");
+
     if (!storyImages)
         storyImages = [[NSMutableArray alloc] initWithCapacity:1];
 
@@ -355,6 +371,7 @@
 
 @implementation Feed
 @synthesize url;
+@synthesize rssUrl;
 //@synthesize title;
 //@synthesize link;
 
@@ -363,8 +380,8 @@
     if (self = [super init])
 	{
         title = @"Janrain | Blog";
-        link = @"http://www.janrain.com";
-        url = @"http://www.janrain.com/feed/blogs";
+        url = @"http://www.janrain.com";
+        rssUrl = @"http://www.janrain.com/feed/blogs";
 
         [self loadStories];
 	}
@@ -528,7 +545,7 @@ static FeedReader* singleton = nil;
 
     DLog(@"Initializing feed");
     feed = [[Feed alloc] init];
-	NSURL *xmlURL = [NSURL URLWithString:[feed url]];
+	NSURL *xmlURL = [NSURL URLWithString:[feed rssUrl]];
 
     DLog(@"Initializing xml parser");
 	parser = [[NSXMLParser alloc] initWithContentsOfURL:xmlURL];
