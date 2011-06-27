@@ -153,6 +153,8 @@ a:active  { color:#7AC143; }";
                         story.pubDate,
                         story.description] retain];
 
+    DLog("%@", webViewContent);
+
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feedUrl]];
 
     UIBarButtonItem *shareButton = [[[UIBarButtonItem alloc] initWithTitle:@"Share"

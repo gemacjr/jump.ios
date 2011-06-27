@@ -111,16 +111,20 @@
 @end
 
 @interface Story ()
-- (void)setTitle:(NSString*)_title;
-- (void)setLink:(NSString*)_link;
-- (void)setDescription:(NSString*)_description andPlainText:(NSString*)_plainText;
-- (void)setAuthor:(NSString*)_author;
+//- (void)setTitle:(NSString*)_title;
+//- (void)setLink:(NSString*)_link;
+- (void)setDescription:(NSString*)_description;// andPlainText:(NSString*)_plainText;
+//- (void)setAuthor:(NSString*)_author;
 - (void)setPubDate:(NSString*)_pubDate;
-- (void)setPlainText:(NSString*)_plainText;
+//- (void)setPlainText:(NSString*)_plainText;
 - (void)addStoryImage:(NSString*)_storyImage;
-- (void)setFeedUrl:(NSString*)_feedUrl;
+//- (void)setFeedUrl:(NSString*)_feedUrl;
+@property (retain) NSString *title;
+@property (retain) NSString *link;
+@property (retain) NSString *author;
+@property (retain) NSString *plainText;
+@property (retain) NSString *feedUrl;
 @end
-
 
 @implementation Story
 @synthesize title;
@@ -162,19 +166,19 @@
     return self;
 }
 
-- (NSString*)newWidthAndHeight:(NSString*)style
+- (NSString*)scaledWidthAndHeight:(NSString*)style
 {
-    NSString *patternWidth = @"(.*?)width:(.+?)px(.*)";//, Pattern.CASE_INSENSITIVE|Pattern.DOTALL);
-    NSString *patternHeight = @"(.*?)height:(.+?)px(.*)";//, Pattern.CASE_INSENSITIVE);
+    NSString *patternWidth = @"(.*?)width:(.+?)px(.*)";
+    NSString *patternHeight = @"(.*?)height:(.+?)px(.*)";
 
     NSArray *matcherWidth = [style captureComponentsMatchedByRegex:patternWidth
                                                            options:(RKLCaseless | RKLDotAll)
                                                              range:NSMakeRange(0, [style length])
-                                                             error:NULL];//patternWidth.matcher(style);
+                                                             error:NULL];
     NSArray *matcherHeight = [style captureComponentsMatchedByRegex:patternHeight
                                                             options:(RKLCaseless | RKLDotAll)
                                                               range:NSMakeRange(0, [style length])
-                                                              error:NULL];//patternHeight.matcher(style);
+                                                              error:NULL];
 
     DLog(@"matchers match style (%@)?: %@%@", style,
             ([matcherWidth count] ? @"width=yes and " : @"width=no and "),
@@ -216,7 +220,7 @@
 
 - (NSString*)descriptionWithScaledAndExtractedImages:(NSString*)oldDescription
 {
-    NSArray *splitDescription = [oldDescription componentsSeparatedByString:@"<img"];//   ("<img ", -1 )];
+    NSArray *splitDescription = [oldDescription componentsSeparatedByString:@"<img"];
 
     int length = [splitDescription count];
 
@@ -245,13 +249,9 @@
 
             DLog(@"Matches?: %@", ([styleCaptures count] ? @"yes" : @"no"));
 
-//            for (int j=1; j<=matcher.groupCount(); j++)
-//                Log.d(TAG, "[scaleDescriptionImages] matched group " + ((Integer)j).toString() + ": " + matcher.group(j));
-
             [newDescription appendFormat:@"<img %@ style=\"%@\"[[[ %@/>%@",
-                    [styleCaptures objectAtIndex:1], [self newWidthAndHeight:[styleCaptures objectAtIndex:2]],
+                    [styleCaptures objectAtIndex:1], [self scaledWidthAndHeight:[styleCaptures objectAtIndex:2]],
                     [styleCaptures objectAtIndex:3], [styleCaptures objectAtIndex:4]];
-
 
             NSString *srcMatchers = @"(.+?)src=\"(.+?)\"(.+?)/>(.+)";
             NSArray *srcCaptures =
@@ -275,51 +275,74 @@
     return [NSString stringWithString:newDescription];
 }
 
-- (void)setTitle:(NSString*)_title
-{
-	[title release];
-	title = [[[_title stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"]
-                      stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
-}
+//- (void)setTitle:(NSString*)_title
+//{
+//	[title release];
+//	title = [[[_title stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"]
+//                      stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
+//}
+//
+//- (void)setLink:(NSString*)_link
+//{
+//	[link release];
+//	link = [_link retain];
+//}
 
-- (void)setLink:(NSString*)_link
-{
-	[link release];
-	link = [_link retain];
-}
-
-- (void)setDescription:(NSString*)_description andPlainText:(NSString*)_plainText
+- (void)setDescription:(NSString*)_description// andPlainText:(NSString*)_plainText
 {
     [description release];
-	description = [[self descriptionWithScaledAndExtractedImages:
-                         [_description stringByReplacingOccurrencesOfString:@"%34" withString:@"\""]] retain];
+//	description = [[self descriptionWithScaledAndExtractedImages:
+//                         [_description stringByReplacingOccurrencesOfString:@"%34" withString:@"\""]] retain];
 
-    [self setPlainText:_plainText];
+    description = [[self descriptionWithScaledAndExtractedImages:_description] retain];
+    [self setPlainText:[description stringByConvertingHTMLToPlainText]];//_plainText];
 }
 
-- (void)setAuthor:(NSString*)_author
-{
-	[author release];
-	author = [_author retain];
-}
+//- (void)setAuthor:(NSString*)_author
+//{
+//	[author release];
+//	author = [_author retain];
+//}
 
 - (void)setPubDate:(NSString*)_pubDate
 {
-    [pubDate release];
+    NSRange rangeOfDashColonTimezone = [_pubDate rangeOfString:@"-:"];
+    if (rangeOfDashColonTimezone.location == NSNotFound)
+        goto JUST_FINISH;
+
+    _pubDate = [_pubDate substringToIndex:rangeOfDashColonTimezone.location];
+
+//    NSError *error;
+//    NSString *pattern = @"[0-9]{4}-[0-9]{2}-[0-9]{2}([A-Za-z]{3})[0-9]{2}:[0-9]{2}:[0-9]{2}";
+//    NSArray *matcher = [_pubDate captureComponentsMatchedByRegex:pattern
+//                                                               options:RKLCaseless
+//                                                                 range:NSMakeRange(0, [_pubDate length])
+//                                                                 error:&error];
+//
+//    if (error || [matcher count] < 2)
+//        goto JUST_FINISH;
+//
+//    NSString *timezone = [matcher objectAtIndex:1];
+//
+//    _pubDate = [_pubDate stringByReplacingOccurrencesOfString:timezone withString:@"T"];
 
     NSDate *date = [NSDate dateFromRFC3339String:_pubDate];
 
+    if (!date)
+        goto JUST_FINISH;
 
+    _pubDate = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
 
+JUST_FINISH:
+    [pubDate release];
     pubDate = [_pubDate retain];
 }
 
-
-- (void)setPlainText:(NSString*)_plainText
-{
-    [plainText release];
-    plainText = [[[_plainText stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] stringByDecodingHTMLEntities]retain];
-}
+//- (void)setPlainText:(NSString*)_plainText
+//{
+//    [plainText release];
+//    plainText = [[[_plainText stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] stringByDecodingHTMLEntities] retain];
+//}
 
 - (void)addStoryImage:(NSString*)_storyImage
 {
@@ -343,11 +366,11 @@
         [image downloadImage];
 }
 
-- (void)setFeedUrl:(NSString*)_feedUrl
-{
-    [feedUrl release];
-    feedUrl = [_feedUrl retain];
-}
+//- (void)setFeedUrl:(NSString*)_feedUrl
+//{
+//    [feedUrl release];
+//    feedUrl = [_feedUrl retain];
+//}
 
 - (void)dealloc
 {
@@ -398,7 +421,7 @@
     return stories;
 }
 
-- (BOOL)newStory:(Story*)story addAtIndex:(int)index
+- (BOOL)newStory:(Story*)story addAtIndex:(NSUInteger)index
 {
 //    if ([storyLinks containsObject:[story link]])
 //        return NO;
@@ -469,9 +492,9 @@ NSXMLParser *parser;
 Story *currentStory;
 NSString *currentElement;
 NSMutableString *currentContent;
-NSMutableString *currentPlainText;
-int counter;
-- (void)downloadFeedStories;
+//NSMutableString *currentPlainText;
+NSUInteger counter;
+//- (void)downloadFeedStories;
 
 @property (retain) id<FeedReaderDelegate>delegate;
 @end
@@ -535,8 +558,10 @@ static FeedReader* singleton = nil;
 	if(singleton)
 		return singleton;
 
-	return [[super allocWithZone:nil] init];
+	return [[[super allocWithZone:nil] init] autorelease];
+    //return [[[self allocWithZone:nil] init] autorelease];
 }
+
 - (void)downloadFeed:(id<FeedReaderDelegate>)feedReaderDelegate
 {
     UIApplication *app = [UIApplication sharedApplication];
@@ -604,7 +629,7 @@ static FeedReader* singleton = nil;
     else if ([elementName isEqualToString:@"description"])
     {
         currentContent = [[NSMutableString alloc] init];
-        currentPlainText = [[NSMutableString alloc] init];
+        //currentPlainText = [[NSMutableString alloc] init];
     }
     else
     {
@@ -633,7 +658,7 @@ static FeedReader* singleton = nil;
 	else if ([currentElement isEqualToString:@"link"])
         [currentStory setLink:currentContent];
 	else if ([currentElement isEqualToString:@"description"])
-        [currentStory setDescription:currentContent andPlainText:currentPlainText];
+        [currentStory setDescription:currentContent];// andPlainText:currentPlainText];
 	else if ([currentElement isEqualToString:@"pubDate"])
         [currentStory setPubDate:currentContent];
     else if ([currentElement isEqualToString:@"dc:creator"])
@@ -641,13 +666,13 @@ static FeedReader* singleton = nil;
 
     [currentElement release], currentElement = nil;
     [currentContent release], currentContent = nil;
-    [currentPlainText release], currentPlainText = nil;
+//    [currentPlainText release], currentPlainText = nil;
 }
 
 - (void)parser:(NSXMLParser*)xmlParser foundCharacters:(NSString*)string
 {
-	DLog(@"Found characters: %@", string);
-    static BOOL inAnHtmlTag = NO;
+//	DLog(@"Found characters: %@", string);
+//    static BOOL inAnHtmlTag = NO;
 
 	if ([currentElement isEqualToString:@"title"] ||
         [currentElement isEqualToString:@"link"] ||
@@ -656,17 +681,17 @@ static FeedReader* singleton = nil;
         [currentElement isEqualToString:@"dc:creator"])
         [currentContent appendString:string];
 
-    if ([currentElement isEqualToString:@"description"])
-    {
-        if ([string isEqualToString:@"<"] && !inAnHtmlTag)
-            inAnHtmlTag = YES;
-
-        if (!inAnHtmlTag)
-            [currentPlainText appendString:string];
-
-        if ([string isEqualToString:@">"] && inAnHtmlTag)
-            inAnHtmlTag = NO;
-    }
+//    if ([currentElement isEqualToString:@"description"])
+//    {
+//        if ([string isEqualToString:@"<"] && !inAnHtmlTag)
+//            inAnHtmlTag = YES;
+//
+//        if (!inAnHtmlTag)
+//            [currentPlainText appendString:string];
+//
+//        if ([string isEqualToString:@">"] && inAnHtmlTag)
+//            inAnHtmlTag = NO;
+//    }
 }
 
 - (void)parserDidEndDocument:(NSXMLParser*)xmlParser

@@ -135,7 +135,7 @@
 }
 
 //@property (retain)   FeedReaderDetail *feedReaderDetail;
-@property (readonly) NSMutableArray *allStories;
+@property (readonly) NSArray *allStories;
 @property (retain)   Story *selectedStory;
 @property (readonly) JREngage *jrEngage;
 

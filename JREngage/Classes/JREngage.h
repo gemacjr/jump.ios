@@ -291,7 +291,7 @@
 
 /**
  * @brief
- * Main API for interacting with the Janrain Engage for iPhone library
+ * Main API for interacting with the Janrain Engage for iOS library
  *
  * @sa
  * Use the JREngage object to authenticate a user with your application and
@@ -316,7 +316,7 @@
 @interface JREngage : NSObject <JRSessionDelegate>
 {
     JRUserInterfaceMaestro *interfaceMaestro;   /*< \internal Class that handles customizations to the library's UI */
-    JRSessionData	*sessionData;                 /*< \internal Holds configuration and state for the JREngage library */
+    JRSessionData	*sessionData;               /*< \internal Holds configuration and state for the JREngage library */
     NSMutableArray	*delegates;                 /*< \internal Array of JREngageDelegate objects */
 }
 
