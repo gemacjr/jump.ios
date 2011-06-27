@@ -43,22 +43,14 @@
 #import "NSString+HTML.h"
 #import "NSDate+InternetDateTime.h"
 
-//@class FeedReaderDetail;
 @interface StoryImage : NSObject <JRConnectionManagerDelegate>
 {
-    NSString *alt;		/* Specifies an alternate text for an image (e.g., x) */
-	NSString *src;		/* (URL) Specifies the URL of an image (e.g., x) */
-	CGFloat *height;	/* p(ixels) pecifies the height of an image (e.g., x) */
-	CGFloat *width;		/* (pixels) Specifies the width of an image (e.g., x) */
-
+    NSString *src;		/* (URL) Specifies the URL of an image (e.g., x) */
     UIImage *image;
 
     BOOL downloadFailed;
 }
-@property (readonly) NSString *alt;
 @property (readonly) NSString *src;
-@property (readonly) CGFloat  *height;
-@property (readonly) CGFloat  *width;
 @property (readonly) UIImage  *image;
 @property (readonly) BOOL downloadFailed;
 
@@ -81,7 +73,6 @@
 
     NSString *feedUrl;
 }
-
 @property (readonly) NSString *title;
 @property (readonly) NSString *link;
 @property (readonly) NSString *description;
@@ -102,9 +93,6 @@
     NSMutableArray *stories;
     NSMutableSet   *storyLinks;
 }
-
-//@property (readonly) NSString *title;
-//@property (readonly) NSString *link;
 @property (readonly) NSString *rssUrl;
 @property (readonly) NSString *url;
 @property (readonly) NSMutableArray *stories;
@@ -124,17 +112,7 @@
     JREngage *jrEngage;
 
     id<FeedReaderDelegate>delegate;
-
-//    FeedReaderDetail *feedReaderDetail;
-
-//    NSXMLParser *parser;
-//
-//    Story *currentStory;
-//    NSString *currentElement;
-//    NSMutableString *currentContent;
 }
-
-//@property (retain)   FeedReaderDetail *feedReaderDetail;
 @property (readonly) NSArray *allStories;
 @property (retain)   Story *selectedStory;
 @property (readonly) JREngage *jrEngage;

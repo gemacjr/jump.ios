@@ -32,7 +32,6 @@
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import "FeedReader.h"
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
@@ -40,15 +39,11 @@
 #define QUICK_PUBLISH_CACHED_STORY_LINKS @"quickpublish.feeddata.cachedstorylinks"
 
 @interface StoryImage ()
-- (void)setAlt:(NSString*)_alt;
 - (void)downloadImage;
 @end
 
 @implementation StoryImage
-@synthesize alt;
 @synthesize src;
-@synthesize height;
-@synthesize width;
 @synthesize image;
 @synthesize downloadFailed;
 
@@ -94,16 +89,9 @@
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:nil];
 }
 
-- (void)setAlt:(NSString*)_alt
-{
-	[alt release];
-	alt = [_alt retain];
-}
-
 - (void)dealloc
 {
     [src release];
-    [alt release];
     [image release];
 
     [super dealloc];
@@ -111,14 +99,8 @@
 @end
 
 @interface Story ()
-//- (void)setTitle:(NSString*)_title;
-//- (void)setLink:(NSString*)_link;
-- (void)setDescription:(NSString*)_description;// andPlainText:(NSString*)_plainText;
-//- (void)setAuthor:(NSString*)_author;
+- (void)setDescription:(NSString*)_description;
 - (void)setPubDate:(NSString*)_pubDate;
-//- (void)setPlainText:(NSString*)_plainText;
-- (void)addStoryImage:(NSString*)_storyImage;
-//- (void)setFeedUrl:(NSString*)_feedUrl;
 @property (retain) NSString *title;
 @property (retain) NSString *link;
 @property (retain) NSString *author;
@@ -150,7 +132,6 @@
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    self = [[Story alloc] init];
     if (self != nil)
     {
         title = [[coder decodeObjectForKey:@"title"] retain];
@@ -164,6 +145,28 @@
     }
 
     return self;
+}
+
+- (void)addStoryImage:(NSString*)_storyImage
+{
+    DLog(@"Adding a story image");
+
+    if (!storyImages)
+        storyImages = [[NSMutableArray alloc] initWithCapacity:1];
+
+    if (![_storyImage hasPrefix:@"http"])
+    {
+        _storyImage = [NSString stringWithFormat:@"%@%@", self.feedUrl, _storyImage];
+    }
+
+    StoryImage *image = [[[StoryImage alloc] initWithSrc:_storyImage] autorelease];
+
+    [storyImages addObject:image];
+    [storyImageUrls addObject:_storyImage];
+
+ /* Only download the first coupla images */
+    if ([storyImages count] <= 2)
+        [image downloadImage];
 }
 
 - (NSString*)scaledWidthAndHeight:(NSString*)style
@@ -180,11 +183,11 @@
                                                               range:NSMakeRange(0, [style length])
                                                               error:NULL];
 
-    DLog(@"matchers match style (%@)?: %@%@", style,
+    DLog(@"Height/width matchers match style (%@)?: %@%@", style,
             ([matcherWidth count] ? @"width=yes and " : @"width=no and "),
             ([matcherHeight count] ? @"height=yes" : @"height=no"));
 
-    if (![matcherWidth count])// || ![matcherHeight count])
+    if (![matcherWidth count])
         return style;
 
     DLog(@"Style before: %@", style);
@@ -222,7 +225,7 @@
 
 - (NSString*)descriptionWithScaledAndExtractedImages:(NSString*)oldDescription
 {
-    DLog(@"oldDescription: %@", oldDescription);
+    //DLog(@"oldDescription: %@", oldDescription);
 
     NSMutableString *newDescription;
     NSArray *splitDescription = [oldDescription componentsSeparatedByString:@"<img"];
@@ -232,27 +235,17 @@
 
     int length = [splitDescription count];
 
-    for (int i = 0; i < length; i++)
-        DLog(@"splitDescription[%d out of %d]: %@", i, length, [splitDescription objectAtIndex:i]);
-
     if (length == 0)
         return oldDescription;
 
     if (length == 1 && [((NSString *)[splitDescription objectAtIndex:0]) isEqualToString:oldDescription])
         return oldDescription;
 
-    /* If the very first thing in the description text was an image tag, then our first string in
-     * our array of split strings will be @"".  Since we need to put the "<img" back in to our final
-     * string, initialize it with the "<img" */
-    if ([splitDescription count] > 1 && [[splitDescription objectAtIndex:0] isEqualToString:@""])
-        newDescription = [NSMutableString stringWithString:@"<img"];
-    else
-        newDescription = [NSMutableString stringWithString:[splitDescription objectAtIndex:0]];
+    newDescription = [NSMutableString stringWithString:[splitDescription objectAtIndex:0]];
 
     for (int i=1; i<length; i++)
     {
         NSString *currentString = [splitDescription objectAtIndex:i];
-        //DLog(@"%d: %@",  i, currentString);
 
         // TODO: Do we need the try/catch??
         @try {
@@ -301,34 +294,13 @@
     return [NSString stringWithString:newDescription];
 }
 
-//- (void)setTitle:(NSString*)_title
-//{
-//	[title release];
-//	title = [[[_title stringByReplacingOccurrencesOfString:@"&#39;" withString:@"'"]
-//                      stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] retain];
-//}
-//
-//- (void)setLink:(NSString*)_link
-//{
-//	[link release];
-//	link = [_link retain];
-//}
-
-- (void)setDescription:(NSString*)_description// andPlainText:(NSString*)_plainText
+- (void)setDescription:(NSString*)_description
 {
     [description release];
-//	description = [[self descriptionWithScaledAndExtractedImages:
-//                         [_description stringByReplacingOccurrencesOfString:@"%34" withString:@"\""]] retain];
 
     description = [[self descriptionWithScaledAndExtractedImages:_description] retain];
-    [self setPlainText:[description stringByConvertingHTMLToPlainText]];//_plainText];
+    [self setPlainText:[description stringByConvertingHTMLToPlainText]];
 }
-
-//- (void)setAuthor:(NSString*)_author
-//{
-//	[author release];
-//	author = [_author retain];
-//}
 
 - (void)setPubDate:(NSString*)_pubDate
 {
@@ -364,40 +336,6 @@ JUST_FINISH:
     pubDate = [_pubDate retain];
 }
 
-//- (void)setPlainText:(NSString*)_plainText
-//{
-//    [plainText release];
-//    plainText = [[[_plainText stringByReplacingOccurrencesOfString:@"%34" withString:@"\""] stringByDecodingHTMLEntities] retain];
-//}
-
-- (void)addStoryImage:(NSString*)_storyImage
-{
-    DLog(@"Adding a story image");
-
-    if (!storyImages)
-        storyImages = [[NSMutableArray alloc] initWithCapacity:1];
-
-    if (![_storyImage hasPrefix:@"http"])
-    {
-        _storyImage = [NSString stringWithFormat:@"%@%@", self.feedUrl, _storyImage];
-    }
-
-    StoryImage *image = [[[StoryImage alloc] initWithSrc:_storyImage] autorelease];
-
-    [storyImages addObject:image];
-    [storyImageUrls addObject:_storyImage];
-
- /* Only download the first coupla images */
-    if ([storyImages count] <= 2)
-        [image downloadImage];
-}
-
-//- (void)setFeedUrl:(NSString*)_feedUrl
-//{
-//    [feedUrl release];
-//    feedUrl = [_feedUrl retain];
-//}
-
 - (void)dealloc
 {
 	[title release];
@@ -416,14 +354,11 @@ JUST_FINISH:
 @end
 
 @interface Feed ()
-//@property (readonly) NSString *url;
 @end
 
 @implementation Feed
 @synthesize url;
 @synthesize rssUrl;
-//@synthesize title;
-//@synthesize link;
 
 - (id)init
 {
@@ -518,19 +453,14 @@ NSXMLParser *parser;
 Story *currentStory;
 NSString *currentElement;
 NSMutableString *currentContent;
-//NSMutableString *currentPlainText;
 NSUInteger counter;
-//- (void)downloadFeedStories;
-
 @property (retain) id<FeedReaderDelegate>delegate;
 @end
-
 
 @implementation FeedReader
 @synthesize selectedStory;
 @synthesize jrEngage;
 @synthesize delegate;
-//@synthesize feedReaderDetail;
 
 static FeedReader* singleton = nil;
 + (id)allocWithZone:(NSZone *)zone
@@ -585,7 +515,6 @@ static FeedReader* singleton = nil;
 		return singleton;
 
 	return [[[super allocWithZone:nil] init] autorelease];
-    //return [[[self allocWithZone:nil] init] autorelease];
 }
 
 - (void)downloadFeed:(id<FeedReaderDelegate>)feedReaderDelegate
@@ -655,7 +584,6 @@ static FeedReader* singleton = nil;
     else if ([elementName isEqualToString:@"description"])
     {
         currentContent = [[NSMutableString alloc] init];
-        //currentPlainText = [[NSMutableString alloc] init];
     }
     else
     {
@@ -666,7 +594,7 @@ static FeedReader* singleton = nil;
 - (void)parser:(NSXMLParser*)xmlParser didEndElement:(NSString*)elementName
   namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qName
 {
-	NSLog(@"Ended element: %@", elementName);
+	DLog(@"Ended element: %@", elementName);
 	if ([elementName isEqualToString:@"item"])
 	{
         DLog(@"Element is a story");
@@ -674,7 +602,7 @@ static FeedReader* singleton = nil;
         if (![feed newStory:currentStory addAtIndex:counter])
             [parser abortParsing];
 
-		NSLog(@"Adding story: %@", [currentStory title]);
+		DLog(@"Adding story: %@", [currentStory title]);
 
         [currentStory release], currentStory = nil;
         counter++;
@@ -684,7 +612,7 @@ static FeedReader* singleton = nil;
 	else if ([currentElement isEqualToString:@"link"])
         [currentStory setLink:currentContent];
 	else if ([currentElement isEqualToString:@"description"])
-        [currentStory setDescription:currentContent];// andPlainText:currentPlainText];
+        [currentStory setDescription:currentContent];
 	else if ([currentElement isEqualToString:@"pubDate"])
         [currentStory setPubDate:currentContent];
     else if ([currentElement isEqualToString:@"dc:creator"])
@@ -692,13 +620,11 @@ static FeedReader* singleton = nil;
 
     [currentElement release], currentElement = nil;
     [currentContent release], currentContent = nil;
-//    [currentPlainText release], currentPlainText = nil;
 }
 
 - (void)parser:(NSXMLParser*)xmlParser foundCharacters:(NSString*)string
 {
 //	DLog(@"Found characters: %@", string);
-//    static BOOL inAnHtmlTag = NO;
 
 	if ([currentElement isEqualToString:@"title"] ||
         [currentElement isEqualToString:@"link"] ||
@@ -706,18 +632,6 @@ static FeedReader* singleton = nil;
         [currentElement isEqualToString:@"pubDate"] ||
         [currentElement isEqualToString:@"dc:creator"])
         [currentContent appendString:string];
-
-//    if ([currentElement isEqualToString:@"description"])
-//    {
-//        if ([string isEqualToString:@"<"] && !inAnHtmlTag)
-//            inAnHtmlTag = YES;
-//
-//        if (!inAnHtmlTag)
-//            [currentPlainText appendString:string];
-//
-//        if ([string isEqualToString:@">"] && inAnHtmlTag)
-//            inAnHtmlTag = NO;
-//    }
 }
 
 - (void)parserDidEndDocument:(NSXMLParser*)xmlParser
