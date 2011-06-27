@@ -39,13 +39,18 @@
 
 @interface FeedReaderFeeds : UIViewController <FeedReaderDelegate>
 {
-    IBOutlet UIButton *feedButton;
-    IBOutlet UIButton *janrainLink;
+    FeedReader *reader;
 
-    IBOutlet UIView   *layoutView;
+    UIButton *feedButton;
+    UIButton *janrainLink;
+
+//    UIView   *layoutView;
 
     FeedReaderSummary *summaryViewController;
 }
+@property (nonatomic, retain) IBOutlet UIButton *feedButton;
+@property (nonatomic, retain) IBOutlet UIButton *janrainLink;
+//@property (nonatomic, retain) IBOutlet UIView   *layoutView;
 
 - (IBAction)janrainBlogSelected:(id)sender;
 - (IBAction)janrainLinkClicked:(id)sender;

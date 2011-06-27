@@ -35,6 +35,9 @@
 #import "FeedReaderFeeds.h"
 
 @implementation FeedReaderFeeds
+@synthesize feedButton;
+@synthesize janrainLink;
+//@synthesize layoutView;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -50,7 +53,7 @@
 {
     [super viewDidLoad];
 
-    FeedReader *reader = [FeedReader feedReader];
+    reader = [FeedReader feedReader];
     self.title = @"Home";
 
     UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 180, 44)] autorelease];
@@ -68,8 +71,6 @@
         [feedButton setEnabled:NO];
     else
         [feedButton setEnabled:YES];
-
-    [reader downloadFeed:self];
 
     janrainLink.titleLabel.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
 }
@@ -101,18 +102,31 @@
     [super viewWillAppear:animated];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    if ([reader.allStories count] == 0)
+        [reader downloadFeed:self];
+}
+
 - (IBAction)janrainBlogSelected:(id)sender
 {
-    [summaryViewController release];
-
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary-iPad"
-                                                                    bundle:[NSBundle mainBundle]];
+    if ([reader.allStories count] == 0)
+    {
+        [reader downloadFeed:self];
+    }
     else
-        summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary"
-                                                                    bundle:[NSBundle mainBundle]];
+    {
+        [summaryViewController release];
 
-    [self.navigationController pushViewController:summaryViewController animated:YES];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary-iPad"
+                                                                        bundle:[NSBundle mainBundle]];
+        else
+            summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary"
+                                                                        bundle:[NSBundle mainBundle]];
+
+        [self.navigationController pushViewController:summaryViewController animated:YES];
+    }
 }
 
 - (IBAction)janrainLinkClicked:(id)sender
@@ -143,8 +157,6 @@
         [feedButton setEnabled:YES];
     }
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {

@@ -35,11 +35,11 @@
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Configuration</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp254f642527b45bc260048e30704edb39"></a> Messages sent by <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> during dialog launch/configuration </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp254f642527b45bc260048e30704edb39"></a> Messages sent by <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> during dialog launch/configuration </p>
 </div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#a80987d730f7a85e32e01e0d30d274f06">jrEngageDialogDidFailToShowWithError:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Authentication</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpc75f7811d70d17dbcd88e9d03752cbed"></a> Messages sent by <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> during authentication </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpc75f7811d70d17dbcd88e9d03752cbed"></a> Messages sent by <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> during authentication </p>
 </div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#a388f6ea1d314132c85a215c952fb7901">jrAuthenticationDidNotComplete</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#a07949ead6dfb60be2058c04aecff9ca9">jrAuthenticationDidSucceedForUser:forProvider:</a></td></tr>
@@ -48,7 +48,7 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#a23333d964a567c05f79a9f2533c4824f">jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#af08de9f7a3979031faaf0b134eb12dca">jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">SocialPublishing</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpeb046f03f7c48654b2974e7c81bd7f9b"></a> Messages sent by <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> during social publishing </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpeb046f03f7c48654b2974e7c81bd7f9b"></a> Messages sent by <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> during social publishing </p>
 </div></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#a5ef7762d503eb0f583d172d4a10f7869">jrSocialDidNotCompletePublishing</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="protocol_j_r_engage_delegate-p.html#afc069beff80daac09cc1e06566a45320">jrSocialDidCompletePublishing</a></td></tr>
@@ -74,14 +74,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Sent if the application tries to show a <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> dialog, and <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> failed to show. May occur if the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library failed to configure, or if the activity object was nil, etc.</p>
+<p>Sent if the application tries to show a <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> dialog, and <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> failed to show. May occur if the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library failed to configure, or if the activity object was nil, etc.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>error</em>&nbsp;</td><td>The error that occurred during configuration</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="note"><dt><b>Note:</b></dt><dd>This message is only sent if your application tries to show a <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> dialog, and not necessarily when an error occurs, if, say, the error occurred during the library's configuration. The raison d'etre is based on the possibility that your application may preemptively configure <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>, but never actually use it. If that is the case, then you won't get any error. </dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>This message is only sent if your application tries to show a <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> dialog, and not necessarily when an error occurs, if, say, the error occurred during the library's configuration. The raison d'etre is based on the possibility that your application may preemptively configure <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a>, but never actually use it. If that is the case, then you won't get any error. </dd></dl>
 
 </div>
 </div>
@@ -259,7 +259,7 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="tokenUrlReached"></a></p>
-<p>Sent after <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> has successfully posted the token to your application's token_url, containing the headers and body of the response from the server.</p>
+<p>Sent after <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> has successfully posted the token to your application's token_url, containing the headers and body of the response from the server.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>tokenUrl</em>&nbsp;</td><td>The URL on the server where the token was posted and server-side authentication was completed</td></tr>
