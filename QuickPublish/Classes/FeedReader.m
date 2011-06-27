@@ -184,35 +184,37 @@
             ([matcherWidth count] ? @"width=yes and " : @"width=no and "),
             ([matcherHeight count] ? @"height=yes" : @"height=no"));
 
-    if (![matcherWidth count] || ![matcherHeight count])
+    if (![matcherWidth count])// || ![matcherHeight count])
         return style;
 
-    int width;
-    int height;
+    DLog(@"Style before: %@", style);
 
     NSString *widthString = [[matcherWidth objectAtIndex:2]
                     stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *heightString = [[matcherHeight objectAtIndex:2]
-                    stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
-
-    width = [widthString intValue];
-    height = [heightString intValue];
+    int width = [widthString intValue];
 
     if (width <= 280)
         return style;
 
-    double ratio = width / 280.0;
-    int newHeight = [[NSNumber numberWithDouble:(height / ratio)] intValue];
+    style = [style stringByReplacingOccurrencesOfString:
+                       [NSString stringWithFormat:@"width:%@px", [matcherWidth objectAtIndex:2]]
+                                                 withString:@"width: 280px"];
 
-    DLog(@"Style before: %@", style);
-    style = [style stringByReplacingOccurrencesOfString:
-                   [NSString stringWithFormat:@"width:%@px", [matcherWidth objectAtIndex:2]]
-                                             withString:@"width: 280px"];
-    style = [style stringByReplacingOccurrencesOfString:
+    double ratio = width / 280.0;
+
+    if ([matcherHeight count])
+    {
+        NSString *heightString = [[matcherHeight objectAtIndex:2]
+                        stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        int height = [heightString intValue];
+        int newHeight = [[NSNumber numberWithDouble:(height / ratio)] intValue];
+
+        style = [style stringByReplacingOccurrencesOfString:
                    [NSString stringWithFormat:@"height:%@px", [matcherHeight objectAtIndex:2]]
                                              withString:
                    [NSString stringWithFormat:@"height:%dpx", newHeight]];
+    }
+
     DLog(@"Style after: %@", style);
 
     return style;
@@ -220,11 +222,24 @@
 
 - (NSString*)descriptionWithScaledAndExtractedImages:(NSString*)oldDescription
 {
+    DLog(@"oldDescription: %@", oldDescription);
+
+    NSMutableString *newDescription;
     NSArray *splitDescription = [oldDescription componentsSeparatedByString:@"<img"];
+
+    if (!splitDescription)
+        return oldDescription;
 
     int length = [splitDescription count];
 
-    NSMutableString *newDescription;
+    for (int i = 0; i < length; i++)
+        DLog(@"splitDescription[%d out of %d]: %@", i, length, [splitDescription objectAtIndex:i]);
+
+    if (length == 0)
+        return oldDescription;
+
+    if (length == 1 && [((NSString *)[splitDescription objectAtIndex:0]) isEqualToString:oldDescription])
+        return oldDescription;
 
     /* If the very first thing in the description text was an image tag, then our first string in
      * our array of split strings will be @"".  Since we need to put the "<img" back in to our final
@@ -239,19 +254,31 @@
         NSString *currentString = [splitDescription objectAtIndex:i];
         //DLog(@"%d: %@",  i, currentString);
 
+        // TODO: Do we need the try/catch??
         @try {
             NSString *styleMatchers = @"(.+?)style=\"(.+?)\"(.+?)/>(.+)";
             NSArray *styleCaptures =
                         [currentString captureComponentsMatchedByRegex:styleMatchers
-                                                               options:RKLCaseless
+                                                               options:RKLCaseless | RKLDotAll
                                                                  range:NSMakeRange(0, [currentString length])
                                                                  error:nil];
 
-            DLog(@"Matches?: %@", ([styleCaptures count] ? @"yes" : @"no"));
+            DLog(@"Style matches?: %@", ([styleCaptures count] == 5 ? @"yes" : @"no"));
 
-            [newDescription appendFormat:@"<img %@ style=\"%@\"[[[ %@/>%@",
-                    [styleCaptures objectAtIndex:1], [self scaledWidthAndHeight:[styleCaptures objectAtIndex:2]],
-                    [styleCaptures objectAtIndex:3], [styleCaptures objectAtIndex:4]];
+            // TODO: Will this ever be null, or just empty
+            if (!styleCaptures)
+                [newDescription appendFormat:@"<img %@", currentString];
+            else if ([styleCaptures count] != 5)
+                [newDescription appendFormat:@"<img %@", currentString];
+            else
+                [newDescription appendFormat:@"<img %@ style=\"%@\" %@/>%@",
+                        [styleCaptures objectAtIndex:1], [self scaledWidthAndHeight:[styleCaptures objectAtIndex:2]],
+                        [styleCaptures objectAtIndex:3], [styleCaptures objectAtIndex:4]];
+
+            DLog(@"styleCaptures[1]: %@", [styleCaptures objectAtIndex:1]);
+            DLog(@"styleCaptures[2]: %@", [styleCaptures objectAtIndex:2]);
+            DLog(@"styleCaptures[3]: %@", [styleCaptures objectAtIndex:3]);
+            DLog(@"styleCaptures[4]: %@", [styleCaptures objectAtIndex:4]);
 
             NSString *srcMatchers = @"(.+?)src=\"(.+?)\"(.+?)/>(.+)";
             NSArray *srcCaptures =
@@ -260,9 +287,8 @@
                                                                  range:NSMakeRange(0, [currentString length])
                                                                  error:nil];
 
-            if ([srcCaptures count])
+            if ([srcCaptures count] == 5)
                 [self addStoryImage:[srcCaptures objectAtIndex:2]];
-
 
         } @catch (NSException *e) {
             DLog(@"Exception: %@", [e description]);
