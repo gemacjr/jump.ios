@@ -249,29 +249,31 @@
 
         // TODO: Do we need the try/catch??
         @try {
-            NSString *styleMatchers = @"(.+?)style=\"(.+?)\"(.+?)/>(.+)";
-            NSArray *styleCaptures =
-                        [currentString captureComponentsMatchedByRegex:styleMatchers
-                                                               options:RKLCaseless | RKLDotAll
-                                                                 range:NSMakeRange(0, [currentString length])
-                                                                 error:nil];
+            if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+            {
+                NSString *styleMatchers = @"(.+?)style=\"(.+?)\"(.+?)/>(.+)";
+                NSArray *styleCaptures =
+                            [currentString captureComponentsMatchedByRegex:styleMatchers
+                                                                   options:RKLCaseless | RKLDotAll
+                                                                     range:NSMakeRange(0, [currentString length])
+                                                                     error:nil];
 
-            DLog(@"Style matches?: %@", ([styleCaptures count] == 5 ? @"yes" : @"no"));
+                DLog(@"Style matches?: %@", ([styleCaptures count] == 5 ? @"yes" : @"no"));
 
-            // TODO: Will this ever be null, or just empty
-            if (!styleCaptures)
-                [newDescription appendFormat:@"<img %@", currentString];
-            else if ([styleCaptures count] != 5)
-                [newDescription appendFormat:@"<img %@", currentString];
+                // TODO: Will this ever be null, or just empty
+                if (!styleCaptures)
+                    [newDescription appendFormat:@"<img %@", currentString];
+                else if ([styleCaptures count] != 5)
+                    [newDescription appendFormat:@"<img %@", currentString];
+                else
+                    [newDescription appendFormat:@"<img %@ style=\"%@\" %@/>%@",
+                            [styleCaptures objectAtIndex:1], [self scaledWidthAndHeight:[styleCaptures objectAtIndex:2]],
+                            [styleCaptures objectAtIndex:3], [styleCaptures objectAtIndex:4]];
+            }
             else
-                [newDescription appendFormat:@"<img %@ style=\"%@\" %@/>%@",
-                        [styleCaptures objectAtIndex:1], [self scaledWidthAndHeight:[styleCaptures objectAtIndex:2]],
-                        [styleCaptures objectAtIndex:3], [styleCaptures objectAtIndex:4]];
-
-            DLog(@"styleCaptures[1]: %@", [styleCaptures objectAtIndex:1]);
-            DLog(@"styleCaptures[2]: %@", [styleCaptures objectAtIndex:2]);
-            DLog(@"styleCaptures[3]: %@", [styleCaptures objectAtIndex:3]);
-            DLog(@"styleCaptures[4]: %@", [styleCaptures objectAtIndex:4]);
+            {
+                [newDescription appendFormat:@"<img %@", currentString];
+            }
 
             NSString *srcMatchers = @"(.+?)src=\"(.+?)\"(.+?)/>(.+)";
             NSArray *srcCaptures =
