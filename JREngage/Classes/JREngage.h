@@ -33,18 +33,18 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
- * @mainpage Janrain Engage for the iPhone, version 2
+ * @mainpage Janrain Engage for iOS, version 2
  *
  * <a href="http://rpxnow.com/docs/iphone">
- * The Janrain Engage for iPhone SDK</a> makes it easy to include third party authentication and
- * social publishing in your iPhone app.  This Objective-C library includes the same key
+ * The Janrain Engage for iOS SDK</a> makes it easy to include third party authentication and
+ * social publishing in your iPhone or iPad applications.  This Objective-C library includes the same key
  * features as our web version, as well as additional features created specifically for the mobile
  * platform. With as few as three lines of code, you can authenticate your users with their
  * accounts on Google, Yahoo!, Facebook, etc., and they can immediately publish their
  * activities to multiple social networks, including Facebook, Twitter, LinkedIn, MySpace,
  * and Yahoo, through one simple interface.
  *
- * Beyond authentication and social sharing, the latest release of the Engage for iPhone SDK
+ * Beyond authentication and social sharing, the latest release of the Engage for iOS SDK
  * now allows mobile apps to:
  *   - Share content, activities, game scores or invitations via Email or SMS
  *   - Customize the login experience by displaying native and social login options on the same screen
@@ -53,7 +53,7 @@
  *   - Provide an additional level of security with forced re-authentication when
  *     users are about to make a purchase or conduct a sensitive transaction
  *   - Configure and maintain separate lists of providers for mobile and web apps
- *   - Match the look and feel of the iPhone app with customizable background colors,
+ *   - Match the look and feel of the iPhone or iPAd app with customizable background colors,
  *     images, and navigation bar tints
  *
  * Before you begin, you need to have created a
@@ -293,12 +293,8 @@
  * @brief
  * Main API for interacting with the Janrain Engage for iOS library
  *
- * @sa
- * Use the JREngage object to authenticate a user with your application and
- * allow them to publish activities to their social networks.
- *
- * If you wish to include 3rd-Party Authentication and Social Publishing in your iPhone
- * application, you can use the JREngage class to achieve this.  Prior to using the JREngage
+ * If you wish to include 3rd-Party Authentication and Social Publishing in your iPhone or iPad
+ * applications, you can use the JREngage class to achieve this.  Prior to using the JREngage
  * library, you must already have an application on <a href="http://rpxnow.com">http://rpxnow.com</a>.
  * This is all that is required for basic authentication, although some providers may require extra
  * configuration (which can be done through your application's <a href="http://rpxnow.com/relying_parties">Dashboard</a>
@@ -307,9 +303,9 @@
  * If desired, you can optionally implement server-side authentication<span class="footnote">*</span>.
  * When provided, the JREngage library can post the user's authentication token to a url on your server:
  * the token url.  Your server can complete authentication, access more of JREngage's API, log the authentication, etc.
- * and the server's response will be passed back through to your iPhone application.
+ * and the server's response will be passed back through to your iOS application.
  *
- * <span class="footnote">*</span>In the previous version of the Engage for iPhone library, implementing token url that
+ * <span class="footnote">*</span>In the previous version of the Engage for iOS library, implementing token url that
  * completed server-side authentication was required. This is no longer the case, although you can optionally implement
  * the token url if you wish to continue authentication on your server.
  **/
