@@ -69,7 +69,6 @@
 
     NSString *plainText;
 
-//    NSMutableArray *storyImageUrls;
     NSMutableArray *storyImages;
 
     NSString *feedUrl;

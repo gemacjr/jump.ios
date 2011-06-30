@@ -94,7 +94,8 @@
         return nil;
     }
 
-    if ([super init])
+    self = [super init];
+    if (self)
     {
         src = [imageSrc retain];
 
@@ -445,7 +446,9 @@ JUST_FINISH:
 
 - (id)init
 {
-    if (self = [super init])
+    self = [super init];
+
+    if (self)
 	{
         title = @"Janrain | Blog";
         url = @"http://www.janrain.com";
@@ -507,16 +510,6 @@ JUST_FINISH:
 - (void)loadStories
 {
     NSString *cachedVersion = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_VERSION];
-
-//    NSString *path = [[NSBundle mainBundle] bundlePath];
-//    NSString *finalPath = [path stringByAppendingPathComponent:@"/Info.plist"];
-//
-//    DLog(@"path: %@", path);
-//    DLog(@"finalPath: %@", finalPath);
-//
-//    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:
-//                                                 [[[NSBundle mainBundle] bundlePath]
-//                                                 stringByAppendingPathComponent:@"Info.plist"]];
     NSString *currentVersion = [[NSDictionary dictionaryWithContentsOfFile:
                                                  [[[NSBundle mainBundle] bundlePath]
                                                  stringByAppendingPathComponent:@"Info.plist"]]
@@ -612,7 +605,8 @@ static FeedReader* singleton = nil;
 
 - (id)init
 {
-	if (self = [super init])
+    self = [super init];
+	if (self)
 	{
         singleton = self;
         feed = [[Feed alloc] init];
@@ -776,7 +770,7 @@ static FeedReader* singleton = nil;
 
 - (NSArray*)allStories
 {
-    return feed.stories;
+    return [NSArray arrayWithArray:feed.stories];
 }
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
