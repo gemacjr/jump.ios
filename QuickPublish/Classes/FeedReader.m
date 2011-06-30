@@ -50,7 +50,6 @@
 #define QUICK_PUBLISH_STORY_IMAGES @"quickpublish.story.images"
 
 #define QUICK_PUBLISH_STORYIMAGE_SRC @"quickpublish.storyimage.src"
-#define QUICK_PUBLISH_STORYIMAGE_IMAGE @"quickpublish.storyimage.image"
 #define QUICK_PUBLISH_STORYIMAGE_FILENAME @"quickpublish.storyimage.filename"
 #define QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED @"quickpublish.storyimage.downloadfailed"
 
@@ -69,14 +68,6 @@
     [coder encodeObject:src forKey:QUICK_PUBLISH_STORYIMAGE_SRC];
     [coder encodeObject:fileName forKey:QUICK_PUBLISH_STORYIMAGE_FILENAME];
     [coder encodeBool:downloadFailed forKey:QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED];
-
-//    NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
-//	[imageData writeToFile:fileName atomically:YES];
-
-
-
-//    NSData *imageData = [NSData dataWithData:[image TIFFRepresentation]];//UIImagePNGRepresentation(image)];
-//    [coder encodeObject:imageData forKey:QUICK_PUBLISH_STORYIMAGE_IMAGE];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -87,17 +78,9 @@
         fileName = [[coder decodeObjectForKey:QUICK_PUBLISH_STORYIMAGE_FILENAME] retain];
         downloadFailed = [coder decodeBoolForKey:QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED];
 
-
-        NSString  *pngPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+        NSString  *imagePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
             stringByAppendingPathComponent:fileName];
-
-        image = [[UIImage imageWithContentsOfFile:pngPath] retain];
-
-        //image = [[coder decodeObjectForKey:QUICK_PUBLISH_STORYIMAGE_IMAGE] retain];
-
-//        NSData *imageData = [coder decodeObjectForKey:QUICK_PUBLISH_STORYIMAGE_IMAGE];
-//        if (imageData)
-//            image = [[UIImage imageWithData:imageData] retain];
+        image = [[UIImage imageWithContentsOfFile:imagePath] retain];
     }
 
     return self;
@@ -129,10 +112,16 @@
     return self;
 }
 
-//+ (id)storyImageWithSrc:(NSString*)_src
-//{
-//    return [[[StoryImage alloc] initWithSrc:_src] autorelease];
-//}
+- (void)deleteFromDisk
+{
+    NSString  *imagePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+        stringByAppendingPathComponent:fileName];
+
+    NSError *error;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    [fileManager removeItemAtPath:imagePath error:&error];
+}
 
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
@@ -142,35 +131,10 @@
         downloadFailed = YES;
     else
     {
-
-
-
-        NSString  *pngPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+        NSString  *imagePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
             stringByAppendingPathComponent:fileName];
-        //NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Test.jpg"];
-
-        // Write a UIImage to JPEG with minimum compression (best quality)
-        // The value 'image' must be a UIImage object
-        // The value '1.0' represents image compression quality as value from 0.0 to 1.0
-        //[UIImageJPEGRepresentation(image, 1.0) writeToFile:jpgPath atomically:YES];
-
-        // Write image to PNG
-        [UIImagePNGRepresentation(image) writeToFile:pngPath atomically:YES];
-
-        // Let's check to see if files were successfully written...
-
-        // Create file manager
-        NSError *error;
-        NSFileManager *fileMgr = [NSFileManager defaultManager];
-
-        // Point to Document directory
-        NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-
-        // Write out the contents of home directory to console
-        NSLog(@"Documents directory: %@", [fileMgr contentsOfDirectoryAtPath:documentsDirectory error:&error]);
-
+        [UIImagePNGRepresentation(image) writeToFile:imagePath atomically:YES];
     }
-
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
@@ -180,7 +144,7 @@
 /* To save memory, image will only download itself if prompted to do so by the story. */
 - (void)downloadImage
 {
-    //DLog(@"Downloading story image: %@", src);
+    DLog(@"Downloading story image: %@", src);
 
     NSURL *url = [NSURL URLWithString:src];
 
@@ -229,12 +193,9 @@
     [coder encodeObject:author forKey:QUICK_PUBLISH_STORY_AUTHOR];
     [coder encodeObject:pubDate forKey:QUICK_PUBLISH_STORY_PUBDATE];
     [coder encodeObject:plainText forKey:QUICK_PUBLISH_STORY_PLAINTEXT];
-    [coder encodeObject:storyImageUrls forKey:QUICK_PUBLISH_STORY_STORYIMAGEURLS];
     [coder encodeObject:feedUrl forKey:QUICK_PUBLISH_STORY_FEEDURL];
 
     [coder encodeObject:[NSKeyedArchiver archivedDataWithRootObject:storyImages] forKey:QUICK_PUBLISH_STORY_IMAGES];
-
-    //[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:storyImages] forKey:QUICK_PUBLISH_STORY_IMAGES];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -247,7 +208,6 @@
         author = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_AUTHOR] retain];
         pubDate = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_PUBDATE] retain];
         plainText = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_PLAINTEXT] retain];
-        storyImageUrls = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_STORYIMAGEURLS] retain];
         feedUrl = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_FEEDURL] retain];
 
         NSData *archivedImages = [coder decodeObjectForKey:QUICK_PUBLISH_STORY_IMAGES];
@@ -259,22 +219,13 @@
         }
     }
 
-    // TODO: Cache story images
-//    if (storyImageUrls)
-//    {
-//        for (int i = 0; i < [storyImageUrls count]; i++)
-//        {
-//            /* Only download the first coupla images */
-//            if (i == 2)
-//                break;
-//
-//            StoryImage *image = [StoryImage storyImageWithSrc:[storyImageUrls objectAtIndex:i]];
-//            [storyImages addObject:image];
-//            [image downloadImage];
-//        }
-//    }
-
     return self;
+}
+
+- (void)deleteImagesFromDisk
+{
+    for (StoryImage *image in storyImages)
+        [image deleteFromDisk];
 }
 
 - (void)addStoryImage:(NSString*)_storyImage
@@ -292,7 +243,6 @@
     StoryImage *image = [[[StoryImage alloc] initWithImageSrc:_storyImage andStoryTitle:title] autorelease];
 
     [storyImages addObject:image];
-    [storyImageUrls addObject:_storyImage];
 
  /* Only download the first coupla images */
     if ([storyImages count] <= 2)
@@ -480,8 +430,7 @@ JUST_FINISH:
     [feedUrl release];
 
     [storyImages release];
-    [storyImageUrls release];
-	[super dealloc];
+    [super dealloc];
 }
 @end
 
@@ -523,15 +472,18 @@ JUST_FINISH:
     if ([storyLinks containsObject:[story link]])
         return NO;
 
-    @try
-    {
+    if (index > [stories count])
+        [stories addObject:story];
+    else
         [stories insertObject:story atIndex:index];
-        [storyLinks addObject:[story link]];
-    }
-    @catch (NSException *e)
+
+    [storyLinks addObject:[story link]];
+
+    while ([stories count] > 10)
     {
-        [stories insertObject:story atIndex:0];
-        [storyLinks addObject:[story link]];
+        Story *story = [stories lastObject];
+        [story deleteImagesFromDisk];
+        [stories removeLastObject];
     }
 
     return YES;
@@ -708,6 +660,20 @@ static FeedReader* singleton = nil;
 	DLog(@"Found the feed and started parsing");
 }
 
+- (void)feedDidFinishDownloading
+{
+    [delegate feedDidFinishDownloading];
+
+    [delegate release], delegate = nil;
+    [feed saveStories];
+}
+
+- (void)feedDidFailToDownload
+{
+    [delegate feedDidFailToDownload];
+    [delegate release], delegate = nil;
+}
+
 - (void)parser:(NSXMLParser*)xmlParser parseErrorOccurred:(NSError*)parseError
 {
 	NSString *errorString = [NSString stringWithFormat:@"Unable to download story feed from web site (Error code %i )", [parseError code]];
@@ -723,12 +689,9 @@ static FeedReader* singleton = nil;
 
 
     if ([parseError code] == 512)
-        [delegate feedDidFinishDownloading];
+        [self feedDidFinishDownloading];
     else
-        [delegate feedDidFailToDownload];
-
-    [delegate release];
-    [feed saveStories];
+        [self feedDidFailToDownload];
 }
 
 - (void)parser:(NSXMLParser*)xmlParser didStartElement:(NSString*)elementName
