@@ -46,6 +46,7 @@
 @interface StoryImage : NSObject <JRConnectionManagerDelegate>
 {
     NSString *src;		/* (URL) Specifies the URL of an image (e.g., x) */
+    NSString *fileName;
     UIImage *image;
 
     BOOL downloadFailed;
@@ -54,7 +55,7 @@
 @property (readonly) UIImage  *image;
 @property (readonly) BOOL downloadFailed;
 
-- (id)initWithSrc:(NSString*)_src;
+- (id)initWithImageSrc:(NSString*)imageSrc andStoryTitle:(NSString*)storyTitle;
 @end
 
 @class Feed;

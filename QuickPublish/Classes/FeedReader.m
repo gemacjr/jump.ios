@@ -47,6 +47,12 @@
 #define QUICK_PUBLISH_STORY_PLAINTEXT @"quickpublish.story.plainText"
 #define QUICK_PUBLISH_STORY_STORYIMAGEURLS @"quickpublish.story.storyImageUrls"
 #define QUICK_PUBLISH_STORY_FEEDURL @"quickpublish.story.feedUrl"
+#define QUICK_PUBLISH_STORY_IMAGES @"quickpublish.story.images"
+
+#define QUICK_PUBLISH_STORYIMAGE_SRC @"quickpublish.storyimage.src"
+#define QUICK_PUBLISH_STORYIMAGE_IMAGE @"quickpublish.storyimage.image"
+#define QUICK_PUBLISH_STORYIMAGE_FILENAME @"quickpublish.storyimage.filename"
+#define QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED @"quickpublish.storyimage.downloadfailed"
 
 @interface StoryImage ()
 - (void)downloadImage;
@@ -57,9 +63,49 @@
 @synthesize image;
 @synthesize downloadFailed;
 
-- (id)initWithSrc:(NSString*)_src
+
+- (void)encodeWithCoder:(NSCoder *)coder
 {
-    if (_src == nil)
+    [coder encodeObject:src forKey:QUICK_PUBLISH_STORYIMAGE_SRC];
+    [coder encodeObject:fileName forKey:QUICK_PUBLISH_STORYIMAGE_FILENAME];
+    [coder encodeBool:downloadFailed forKey:QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED];
+
+//    NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
+//	[imageData writeToFile:fileName atomically:YES];
+
+
+
+//    NSData *imageData = [NSData dataWithData:[image TIFFRepresentation]];//UIImagePNGRepresentation(image)];
+//    [coder encodeObject:imageData forKey:QUICK_PUBLISH_STORYIMAGE_IMAGE];
+}
+
+- (id)initWithCoder:(NSCoder *)coder
+{
+    if (self != nil)
+    {
+        src = [[coder decodeObjectForKey:QUICK_PUBLISH_STORYIMAGE_SRC] retain];
+        fileName = [[coder decodeObjectForKey:QUICK_PUBLISH_STORYIMAGE_FILENAME] retain];
+        downloadFailed = [coder decodeBoolForKey:QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED];
+
+
+        NSString  *pngPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+            stringByAppendingPathComponent:fileName];
+
+        image = [[UIImage imageWithContentsOfFile:pngPath] retain];
+
+        //image = [[coder decodeObjectForKey:QUICK_PUBLISH_STORYIMAGE_IMAGE] retain];
+
+//        NSData *imageData = [coder decodeObjectForKey:QUICK_PUBLISH_STORYIMAGE_IMAGE];
+//        if (imageData)
+//            image = [[UIImage imageWithData:imageData] retain];
+    }
+
+    return self;
+}
+
+- (id)initWithImageSrc:(NSString*)imageSrc andStoryTitle:(NSString*)storyTitle
+{
+    if (imageSrc == nil)
     {
         [self release];
         return nil;
@@ -67,16 +113,26 @@
 
     if ([super init])
     {
-        src = [_src retain];
+        src = [imageSrc retain];
+
+        if (!storyTitle)
+            storyTitle = @"";
+
+        NSString *titleMinusSpaces = [[[storyTitle stringByRemovingNewLinesAndWhitespace]
+            stringByReplacingOccurrencesOfString:@"/" withString:@""]
+            stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *srcMinusPath = [src lastPathComponent];
+
+        fileName = [[NSString alloc] initWithFormat:@"%@%@", titleMinusSpaces, srcMinusPath];
     }
 
     return self;
 }
 
-+ (id)storyImageWithSrc:(NSString*)_src
-{
-    return [[[StoryImage alloc] initWithSrc:_src] autorelease];
-}
+//+ (id)storyImageWithSrc:(NSString*)_src
+//{
+//    return [[[StoryImage alloc] initWithSrc:_src] autorelease];
+//}
 
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
 {
@@ -84,6 +140,37 @@
 
     if (!image)
         downloadFailed = YES;
+    else
+    {
+
+
+
+        NSString  *pngPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+            stringByAppendingPathComponent:fileName];
+        //NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Test.jpg"];
+
+        // Write a UIImage to JPEG with minimum compression (best quality)
+        // The value 'image' must be a UIImage object
+        // The value '1.0' represents image compression quality as value from 0.0 to 1.0
+        //[UIImageJPEGRepresentation(image, 1.0) writeToFile:jpgPath atomically:YES];
+
+        // Write image to PNG
+        [UIImagePNGRepresentation(image) writeToFile:pngPath atomically:YES];
+
+        // Let's check to see if files were successfully written...
+
+        // Create file manager
+        NSError *error;
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+
+        // Point to Document directory
+        NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+
+        // Write out the contents of home directory to console
+        NSLog(@"Documents directory: %@", [fileMgr contentsOfDirectoryAtPath:documentsDirectory error:&error]);
+
+    }
+
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
@@ -93,7 +180,7 @@
 /* To save memory, image will only download itself if prompted to do so by the story. */
 - (void)downloadImage
 {
-    DLog(@"Downloading story image: %@", src);
+    //DLog(@"Downloading story image: %@", src);
 
     NSURL *url = [NSURL URLWithString:src];
 
@@ -108,6 +195,7 @@
 {
     [src release];
     [image release];
+    [fileName release];
 
     [super dealloc];
 }
@@ -143,6 +231,10 @@
     [coder encodeObject:plainText forKey:QUICK_PUBLISH_STORY_PLAINTEXT];
     [coder encodeObject:storyImageUrls forKey:QUICK_PUBLISH_STORY_STORYIMAGEURLS];
     [coder encodeObject:feedUrl forKey:QUICK_PUBLISH_STORY_FEEDURL];
+
+    [coder encodeObject:[NSKeyedArchiver archivedDataWithRootObject:storyImages] forKey:QUICK_PUBLISH_STORY_IMAGES];
+
+    //[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:storyImages] forKey:QUICK_PUBLISH_STORY_IMAGES];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -157,30 +249,37 @@
         plainText = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_PLAINTEXT] retain];
         storyImageUrls = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_STORYIMAGEURLS] retain];
         feedUrl = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_FEEDURL] retain];
+
+        NSData *archivedImages = [coder decodeObjectForKey:QUICK_PUBLISH_STORY_IMAGES];
+        if (archivedImages != nil)
+        {
+            NSArray *unarchivedImages = [NSKeyedUnarchiver unarchiveObjectWithData:archivedImages];
+            if (unarchivedImages != nil)
+                storyImages = [[NSMutableArray alloc] initWithArray:unarchivedImages];
+        }
     }
 
     // TODO: Cache story images
-
-    if (storyImageUrls)
-    {
-        for (int i = 0; i < [storyImageUrls count]; i++)
-        {
-            /* Only download the first coupla images */
-            if (i == 2)
-                break;
-
-            StoryImage *image = [StoryImage storyImageWithSrc:[storyImageUrls objectAtIndex:i]];
-            [storyImages addObject:image];
-            [image downloadImage];
-        }
-    }
+//    if (storyImageUrls)
+//    {
+//        for (int i = 0; i < [storyImageUrls count]; i++)
+//        {
+//            /* Only download the first coupla images */
+//            if (i == 2)
+//                break;
+//
+//            StoryImage *image = [StoryImage storyImageWithSrc:[storyImageUrls objectAtIndex:i]];
+//            [storyImages addObject:image];
+//            [image downloadImage];
+//        }
+//    }
 
     return self;
 }
 
 - (void)addStoryImage:(NSString*)_storyImage
 {
-    DLog(@"Adding a story image");
+    DLog(@"Adding a story image: %@", _storyImage);
 
     if (!storyImages)
         storyImages = [[NSMutableArray alloc] initWithCapacity:1];
@@ -190,7 +289,7 @@
         _storyImage = [NSString stringWithFormat:@"%@%@", self.feedUrl, _storyImage];
     }
 
-    StoryImage *image = [[[StoryImage alloc] initWithSrc:_storyImage] autorelease];
+    StoryImage *image = [[[StoryImage alloc] initWithImageSrc:_storyImage andStoryTitle:title] autorelease];
 
     [storyImages addObject:image];
     [storyImageUrls addObject:_storyImage];
@@ -214,14 +313,14 @@
                                                               range:NSMakeRange(0, [style length])
                                                               error:NULL];
 
-    DLog(@"Height/width matchers match style (%@)?: %@%@", style,
-            ([matcherWidth count] ? @"width=yes and " : @"width=no and "),
-            ([matcherHeight count] ? @"height=yes" : @"height=no"));
+//    DLog(@"Height/width matchers match style (%@)?: %@%@", style,
+//            ([matcherWidth count] ? @"width=yes and " : @"width=no and "),
+//            ([matcherHeight count] ? @"height=yes" : @"height=no"));
 
     if (![matcherWidth count])
         return style;
 
-    DLog(@"Style before: %@", style);
+//    DLog(@"Style before: %@", style);
 
     NSString *widthString = [[matcherWidth objectAtIndex:2]
                     stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -249,7 +348,7 @@
                    [NSString stringWithFormat:@"height:%dpx", newHeight]];
     }
 
-    DLog(@"Style after: %@", style);
+//    DLog(@"Style after: %@", style);
 
     return style;
 }
@@ -289,7 +388,7 @@
                                                                      range:NSMakeRange(0, [currentString length])
                                                                      error:nil];
 
-                DLog(@"Style matches?: %@", ([styleCaptures count] == 5 ? @"yes" : @"no"));
+//                DLog(@"Style matches?: %@", ([styleCaptures count] == 5 ? @"yes" : @"no"));
 
                 // TODO: Will this ever be null, or just empty
                 if (!styleCaptures)
@@ -636,12 +735,12 @@ static FeedReader* singleton = nil;
   namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qName
     attributes:(NSDictionary*)attributeDict
 {
-	DLog(@"Started element: %@", elementName);
+//	DLog(@"Started element: %@", elementName);
 
 	currentElement = [[NSString alloc] initWithString:elementName];
 	if ([elementName isEqualToString:@"item"])
 	{
-        DLog(@"Element is a story");
+//        DLog(@"Element is a story");
         currentStory = [[Story alloc] init];
         [currentStory setFeedUrl:feed.url];
 	}
@@ -658,15 +757,15 @@ static FeedReader* singleton = nil;
 - (void)parser:(NSXMLParser*)xmlParser didEndElement:(NSString*)elementName
   namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qName
 {
-	DLog(@"Ended element: %@", elementName);
+//	DLog(@"Ended element: %@", elementName);
 	if ([elementName isEqualToString:@"item"])
 	{
-        DLog(@"Element is a story");
+//        DLog(@"Element is a story");
 
         if (![feed isNewStory:currentStory addAtIndex:counter])
             [parser abortParsing];
 
-		DLog(@"Adding story: %@", [currentStory title]);
+//		DLog(@"Adding story: %@", [currentStory title]);
 
         [currentStory release], currentStory = nil;
         counter++;
