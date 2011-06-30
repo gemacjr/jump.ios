@@ -123,7 +123,7 @@
     [myTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [myTable setTableHeaderView:tableHeader.view];
 
-    myTable.delegate = self;
+    myTable.scrollsToTop = YES;
     [myTable reloadData];
 
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -135,14 +135,17 @@
     [super viewDidAppear:animated];
 }
 
-- (void)scrollViewDidScrollToTop:(UIScrollView*)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    DLog(@"");
-    [tableHeader startBlogUpdate];
-    [reader downloadFeed:self];
+    if (scrollView.contentOffset.y == 0)
+    {
+        DLog(@"");
+        [tableHeader startBlogUpdate];
+        [reader downloadFeed:self];
 
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
 }
 
 - (void)feedDidFinishDownloading
