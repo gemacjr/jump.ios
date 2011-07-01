@@ -101,7 +101,12 @@
 }
 @end
 
+@interface FeedReaderSummary ()
+@property (retain) NSArray *stories;
+@end
+
 @implementation FeedReaderSummary
+@synthesize stories;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -114,7 +119,7 @@
         iPad = YES;
 
     reader = [FeedReader feedReader];
-    stories = [[reader allStories] retain];
+    self.stories = reader.allStories;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -187,6 +192,8 @@
 - (void)feedDidFinishDownloading
 {
     [tableHeader finishBlogUpdate];
+    self.stories = reader.allStories;
+
     [myTable reloadData];
 
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -198,6 +205,12 @@
 - (void)feedDidFailToDownload
 {
     [tableHeader finishBlogUpdate];
+
+    if ([reader.allStories count] > [stories count])
+    {
+        self.stories = reader.allStories;
+        [myTable reloadData];
+    }
 
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
@@ -245,6 +258,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView
 {
+    DLog(@"stories count: %d", [stories count]);
     return [stories count];
 }
 
@@ -298,15 +312,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *reuseIdentifier = [NSString stringWithFormat:@"cachedCellForSection_%d", indexPath.section];
+    Story *story = [stories objectAtIndex:indexPath.section];
+
+    UIImageView *documentImage       = nil;
+    UIActivityIndicatorView *spinner = nil;
+    UILabel *documentTitle           = nil;
+    UILabel *documentDescription     = nil;
+    UILabel *documentDate            = nil;
+
     static NSInteger imageTag       = 10;
     static NSInteger spinnerTag     = 20;
     static NSInteger titleTag       = 30;
     static NSInteger descriptionTag = 40;
     static NSInteger dateTag        = 50;
 
-    Story *story = [stories objectAtIndex:indexPath.section];
-
+    NSString *reuseIdentifier = [NSString stringWithFormat:@"cachedCellForSection_%d", indexPath.section];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
     if (cell == nil)
@@ -318,65 +338,65 @@
         {
             NSInteger imageWidth = 42;
 
-            UIImageView *documentImage =
-                                [[[UIImageView alloc]
-                                        initWithFrame:(iPad ?
-                                               CGRectMake(IMAGE_FRAME_PAD) :
-                                               CGRectMake(IMAGE_FRAME_PHONE))] autorelease];
-
-            UIActivityIndicatorView *spinner =
-                                [[[UIActivityIndicatorView alloc]
-                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
-
-            [spinner setFrame:(iPad ?
-                               CGRectMake(SPINNER_FRAME_PAD) :
-                               CGRectMake(SPINNER_FRAME_PHONE))];
+            documentImage =
+                [[[UIImageView alloc]
+                        initWithFrame:(iPad ?
+                               CGRectMake(IMAGE_FRAME_PAD) :
+                               CGRectMake(IMAGE_FRAME_PHONE))] autorelease];
 
             documentImage.backgroundColor = [UIColor grayColor];
             documentImage.clipsToBounds = YES;
             documentImage.contentMode = UIViewContentModeScaleAspectFill;
 
+            spinner =
+                [[[UIActivityIndicatorView alloc]
+                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite] autorelease];
+
+            [spinner setFrame:(iPad ?
+                               CGRectMake(SPINNER_FRAME_PAD) :
+                               CGRectMake(SPINNER_FRAME_PHONE))];
+
             [spinner setHidesWhenStopped:YES];
             [spinner startAnimating];
 
-         /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).
-            If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
-            BOOL imageAvailable = NO;
-            for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
-            {
-                StoryImage *storyImage = [story.storyImages objectAtIndex:i];
-                imageAvailable = YES;
+//         /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).
+//            If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
+//            BOOL imageAvailable = NO;
+//            for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
+//            {
+//                StoryImage *storyImage = [story.storyImages objectAtIndex:i];
+//                imageAvailable = YES;
+//
+//             /* If an image has already downloaded, set the image and break. */
+//                if (storyImage.image)
+//                {
+//                    [spinner stopAnimating];
+//                    documentImage.backgroundColor = [UIColor whiteColor];
+//                    documentImage.image = [self zoomAndCropImage:storyImage.image];
+//                    break;
+//                }
+//                else if (storyImage.downloadFailed)
+//                {/* If the image failed to download, check the next image, or don't use an image. */
+//                    imageAvailable = NO;
+//                }
+//                else
+//                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
+//                    [spinner startAnimating];
+//                }
+//            }
+//
+//            if (!imageAvailable)
+//            {
+//                [documentImage setHidden:YES];
+//                [spinner stopAnimating];
+//                imageWidth = 0;
+//            }
 
-             /* If an image has already downloaded, set the image and break. */
-                if (storyImage.image)
-                {
-                    [spinner stopAnimating];
-                    documentImage.backgroundColor = [UIColor whiteColor];
-                    documentImage.image = [self zoomAndCropImage:storyImage.image];
-                    break;
-                }
-                else if (storyImage.downloadFailed)
-                {/* If the image failed to download, check the next image, or don't use an image. */
-                    imageAvailable = NO;
-                }
-                else
-                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-                    [spinner startAnimating];
-                }
-            }
-
-            if (!imageAvailable)
-            {
-                [documentImage setHidden:YES];
-                [spinner stopAnimating];
-                imageWidth = 0;
-            }
-
-            UILabel *documentTitle =
-                        [[[UILabel alloc]
-                                    initWithFrame:(iPad ?
-                                               CGRectMake(TITLE_FRAME_PAD) :
-                                               CGRectMake(TITLE_FRAME_PHONE))] autorelease];
+            documentTitle =
+                [[[UILabel alloc]
+                            initWithFrame:(iPad ?
+                                       CGRectMake(TITLE_FRAME_PAD) :
+                                       CGRectMake(TITLE_FRAME_PHONE))] autorelease];
 
             documentTitle.font = [UIFont boldSystemFontOfSize:15.0];
             documentTitle.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
@@ -384,11 +404,11 @@
             documentTitle.text = story.title;
             [documentTitle setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
-            UILabel *documentDescription =
-                        [[[UILabel alloc]
-                                    initWithFrame:(iPad ?
-                                                   CGRectMake(DESCRIPTION_FRAME_PAD(imageWidth)) :
-                                                   CGRectMake(DESCRIPTION_FRAME_PHONE(imageWidth)))] autorelease];
+            documentDescription =
+                [[[UILabel alloc]
+                            initWithFrame:(iPad ?
+                                           CGRectMake(DESCRIPTION_FRAME_PAD(imageWidth)) :
+                                           CGRectMake(DESCRIPTION_FRAME_PHONE(imageWidth)))] autorelease];
 
             documentDescription.font = [UIFont systemFontOfSize:14.0];
             documentDescription.textColor = [UIColor darkGrayColor];
@@ -398,11 +418,11 @@
 
             [documentDescription setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
-            UILabel *documentDate =
-                        [[[UILabel alloc]
-                                    initWithFrame:(iPad ?
-                                                   CGRectMake(DATE_FRAME_PAD) :
-                                                   CGRectMake(DATE_FRAME_PHONE(imageWidth)))] autorelease];
+            documentDate =
+                [[[UILabel alloc]
+                            initWithFrame:(iPad ?
+                                           CGRectMake(DATE_FRAME_PAD) :
+                                           CGRectMake(DATE_FRAME_PHONE(imageWidth)))] autorelease];
 
             documentDate.font = [UIFont systemFontOfSize:11.0];
             documentDate.textColor = [UIColor darkGrayColor];
@@ -430,50 +450,98 @@
     }
     else
     {
-        UIImageView *documentImage = (UIImageView*)[cell.contentView viewWithTag:imageTag];
-        UIActivityIndicatorView *spinner = (UIActivityIndicatorView*)[cell.contentView viewWithTag:spinnerTag];
-        UILabel *documentDescription = (UILabel*)[cell.contentView viewWithTag:descriptionTag];
-        UILabel *documentDate = (UILabel*)[cell.contentView viewWithTag:dateTag];
+        documentImage = (UIImageView*)[cell.contentView viewWithTag:imageTag];
+        spinner = (UIActivityIndicatorView*)[cell.contentView viewWithTag:spinnerTag];
+        documentTitle = (UILabel*)[cell.contentView viewWithTag:titleTag];
+        documentDescription = (UILabel*)[cell.contentView viewWithTag:descriptionTag];
+        documentDate = (UILabel*)[cell.contentView viewWithTag:dateTag];
 
-        if (![spinner isHidden])
-        {/* If we were previously waiting for the image to download. */
-            BOOL imageAvailable = NO;
-            for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
+//        if (![spinner isHidden])
+//        {/* If we were previously waiting for the image to download. */
+//            BOOL imageAvailable = NO;
+//            for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
+//            {
+//                StoryImage *storyImage = [story.storyImages objectAtIndex:i];
+//                imageAvailable = YES;
+//
+//             /* If an image has already downloaded, set the image and break. */
+//                if (storyImage.image)
+//                {
+//                    [spinner stopAnimating];
+//                    documentImage.backgroundColor = [UIColor whiteColor];
+//                    documentImage.image = [self zoomAndCropImage:storyImage.image];
+//                    break;
+//                }
+//                else if (storyImage.downloadFailed)
+//                {/* If the image failed to download, check the next image, or don't use an image. */
+//                    imageAvailable = NO;
+//                }
+//                else
+//                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
+//                    [spinner startAnimating];
+//                }
+//            }
+//
+//            if (!imageAvailable)
+//            {
+//                [documentImage setHidden:YES];
+//                [spinner stopAnimating];
+//                [documentDescription setFrame:(iPad ?
+//                                               CGRectMake(DESCRIPTION_FRAME_PAD(0)) :
+//                                               CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];
+//                [documentDate setFrame:(iPad ?
+//                                        CGRectMake(DATE_FRAME_PAD) :
+//                                        CGRectMake(DATE_FRAME_PHONE(0)))];
+//            }
+//        }
+    }
+
+    if (![spinner isHidden])
+    {/* If we were previously waiting for the image to download. */
+        BOOL imageAvailable = NO;
+
+        /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).
+        If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
+        for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
+        {
+            StoryImage *storyImage = [story.storyImages objectAtIndex:i];
+            imageAvailable = YES;
+
+         /* If an image has already downloaded, set the image and break. */
+            if (storyImage.image)
             {
-                StoryImage *storyImage = [story.storyImages objectAtIndex:i];
-                imageAvailable = YES;
-
-             /* If an image has already downloaded, set the image and break. */
-                if (storyImage.image)
-                {
-                    [spinner stopAnimating];
-                    documentImage.backgroundColor = [UIColor whiteColor];
-                    documentImage.image = [self zoomAndCropImage:storyImage.image];
-                    break;
-                }
-                else if (storyImage.downloadFailed)
-                {/* If the image failed to download, check the next image, or don't use an image. */
-                    imageAvailable = NO;
-                }
-                else
-                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-                    [spinner startAnimating];
-                }
-            }
-
-            if (!imageAvailable)
-            {
-                [documentImage setHidden:YES];
                 [spinner stopAnimating];
-                [documentDescription setFrame:(iPad ?
-                                               CGRectMake(DESCRIPTION_FRAME_PAD(0)) :
-                                               CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];
-                [documentDate setFrame:(iPad ?
-                                        CGRectMake(DATE_FRAME_PAD) :
-                                        CGRectMake(DATE_FRAME_PHONE(0)))];
+                documentImage.backgroundColor = [UIColor whiteColor];
+                documentImage.image = [self zoomAndCropImage:storyImage.image];
+                break;
+            }
+            else if (storyImage.downloadFailed)
+            {/* If the image failed to download, check the next image, or don't use an image. */
+                imageAvailable = NO;
+            }
+            else
+            {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
+                [spinner startAnimating];
             }
         }
+
+        if (!imageAvailable)
+        {
+            [documentImage setHidden:YES];
+            [spinner stopAnimating];
+            [documentDescription setFrame:(iPad ?
+                                           CGRectMake(DESCRIPTION_FRAME_PAD(0)) :
+                                           CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];
+            [documentDate setFrame:(iPad ?
+                                    CGRectMake(DATE_FRAME_PAD) :
+                                    CGRectMake(DATE_FRAME_PHONE(0)))];
+        }
     }
+
+    documentTitle.text = story.title;
+    documentDescription.text = story.plainText;
+    documentDate.text = story.pubDate;
+
     return cell;
 }
 

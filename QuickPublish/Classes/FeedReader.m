@@ -482,11 +482,12 @@ JUST_FINISH:
 
     [storyLinks addObject:[story link]];
 
-    while ([stories count] > 10)
+    while ([stories count] > 30)
     {
-        Story *story = [stories lastObject];
-        [story deleteImagesFromDisk];
+        Story *lastStory = [stories lastObject];
+        [lastStory deleteImagesFromDisk];
         [stories removeLastObject];
+        [storyLinks removeObject:[lastStory link]];
     }
 
     return YES;
@@ -657,8 +658,8 @@ static FeedReader* singleton = nil;
 - (void)feedDidFinishDownloading
 {
     [delegate feedDidFinishDownloading];
-
     [delegate release], delegate = nil;
+
     [feed saveStories];
 }
 
@@ -666,6 +667,8 @@ static FeedReader* singleton = nil;
 {
     [delegate feedDidFailToDownload];
     [delegate release], delegate = nil;
+
+    [feed saveStories];
 }
 
 - (void)parser:(NSXMLParser*)xmlParser parseErrorOccurred:(NSError*)parseError
@@ -722,6 +725,10 @@ static FeedReader* singleton = nil;
 	{
 //        DLog(@"Element is a story");
 
+//        if (counter >= 5)
+//            if (![feed isNewStory:currentStory addAtIndex:counter - 5])
+//                [parser abortParsing];
+
         if (![feed isNewStory:currentStory addAtIndex:counter])
             [parser abortParsing];
 
@@ -765,10 +772,7 @@ static FeedReader* singleton = nil;
     DLog(@"All done!");
 	DLog(@"Stories array has %d items", [feed.stories count]);
 
-    [feed saveStories];
-
-    [delegate feedDidFinishDownloading];
-    [delegate release];
+    [self feedDidFinishDownloading];
 }
 
 - (NSArray*)allStories

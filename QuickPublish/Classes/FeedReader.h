@@ -99,7 +99,6 @@
 @end
 
 @protocol FeedReaderDelegate <NSObject>
-@optional
 - (void)feedDidFinishDownloading;
 - (void)feedDidFailToDownload;
 @end

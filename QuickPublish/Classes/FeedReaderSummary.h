@@ -56,7 +56,6 @@
     FeedReaderDetail *detailViewController;
     FeedReader *reader;
 
-    BOOL updatingBlog;
     BOOL aboutToStartUpdating;
 
     NSArray *stories;
