@@ -670,9 +670,12 @@ static FeedReader* singleton = nil;
 
 - (void)parser:(NSXMLParser*)xmlParser parseErrorOccurred:(NSError*)parseError
 {
-	NSString *errorString = [NSString stringWithFormat:@"Unable to download story feed from web site (Error code %i )", [parseError code]];
+//	NSString *errorString = [NSString stringWithFormat:@"Unable to download story feed from web site (Error code %i )", [parseError code]];
 
-	DLog(@"Error parsing XML: %@", errorString);
+	DLog(@"Error parsing XML: %@", [parseError description]);
+
+    UIApplication* app = [UIApplication sharedApplication];
+    app.networkActivityIndicatorVisible = NO;
 
 //    UIAlertView * errorAlert = [[[UIAlertView alloc] initWithTitle:@"Error loading content"
 //                                                           message:errorString

@@ -37,21 +37,42 @@
 
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+#define SPINNER_WIDTH 37
+#define LABEL_WIDTH 200
+#define EDGE_PADDING 10
+#define BETWEEN_PADDING 13
+
 @implementation TableHeaderViewController
-- (id)init
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super init];
     if (self)
     {
-        UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)] autorelease];
+        UIView *view = [[[UIView alloc] initWithFrame:frame] autorelease];
         [view setBackgroundColor:[UIColor clearColor]];
+        [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth |
+                                  UIViewAutoresizingFlexibleLeftMargin |
+                                  UIViewAutoresizingFlexibleRightMargin];
+
+        int centeredSubviewWidth = EDGE_PADDING + SPINNER_WIDTH + BETWEEN_PADDING + LABEL_WIDTH + EDGE_PADDING;
+        UIView *centeredSubview = [[[UIView alloc] initWithFrame:CGRectMake((frame.size.width - centeredSubviewWidth)/2,
+            0, centeredSubviewWidth, frame.size.height)] autorelease];
+        [centeredSubview setBackgroundColor:[UIColor clearColor]];
+        [centeredSubview setAutoresizingMask:UIViewAutoresizingNone];
+
         spinner = [[UIActivityIndicatorView alloc]
-            initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [spinner setFrame:CGRectMake(2, 2, 16, 16)];
-        [view addSubview:spinner];
-        label = [[UILabel alloc] initWithFrame:CGRectMake(22, 0, 280, 20)];
+            initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [spinner setFrame:CGRectMake(EDGE_PADDING,
+            (frame.size.height - SPINNER_WIDTH)/2, SPINNER_WIDTH, SPINNER_WIDTH)];
+        [centeredSubview addSubview:spinner];
+
+        label = [[UILabel alloc] initWithFrame:CGRectMake((EDGE_PADDING + SPINNER_WIDTH + BETWEEN_PADDING),
+            0, LABEL_WIDTH, frame.size.height)];
         [label setText:@"REFRESHING BLOG OR SOMETHING"];
-        [view addSubview:label];
+        [label setBackgroundColor:[UIColor clearColor]];
+        [centeredSubview addSubview:label];
+
+        [view addSubview:centeredSubview];
 
         self.view = view;
     }
@@ -115,7 +136,7 @@
 
     titleLabel.text = NSLocalizedString(@"Janrain Blog", @"");
 
-    tableHeader = [[TableHeaderViewController alloc] init];
+    tableHeader = [[TableHeaderViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
 
     myTable.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0];
     myTable.sectionFooterHeight = 0.0;
@@ -137,26 +158,51 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (scrollView.contentOffset.y < 0)
+    {
+        DLog(@"(scrollView.contentOffset.y < 0)");
+        if (!aboutToStartUpdating)
+        {
+            aboutToStartUpdating = YES;
+            [tableHeader startBlogUpdate];
+        }
+    }
+
     if (scrollView.contentOffset.y == 0)
     {
-        DLog(@"");
-        [tableHeader startBlogUpdate];
-        [reader downloadFeed:self];
+        DLog(@"(scrollView.contentOffset.y == 0)");
 
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        if (aboutToStartUpdating)
+        {
+            [reader downloadFeed:self];
+        }
     }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    DLog(@"");
 }
 
 - (void)feedDidFinishDownloading
 {
     [tableHeader finishBlogUpdate];
     [myTable reloadData];
+
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+
+    aboutToStartUpdating = NO;
 }
 
 - (void)feedDidFailToDownload
 {
     [tableHeader finishBlogUpdate];
+
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+
+    aboutToStartUpdating = NO;
 }
 
 /*
