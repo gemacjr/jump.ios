@@ -36,28 +36,28 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a618a23c34ede4a4eb56ed6cf05d91b64">subject</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#ad0e6a07cb2aec3cf6eee75d2ace32e7d">messageBody</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#af372942f67fba5e93fb2b53f4ee8a3c5">isHtml</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSArray *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a3f274a24ce4145b46cb5f0cda50378ce">urls</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a77f576b88ae7cfb3c7610cba9c3f8929">subject</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#ad8f3d6c32798a827e54408435a111a1d">messageBody</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a7bd2f94fe6f1f0a20563681dce74a4d1">isHtml</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSArray *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a28c8bf72dca850fa1a15056b6e6157a6">urls</a></td></tr>
 <tr><td colspan="2"><h2><a name="member-group"></a>
 Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_email_object.html#aa911e84f7b1f7e8c4fd15009dbdc6783">initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aea1535d69b58d30295e5b88f93d0a474"></a><!-- doxytag: member="JREmailObject::emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:" ref="aea1535d69b58d30295e5b88f93d0a474" args="(NSString *_subject,[andMessageBody] NSString *_messageBody,[isHtml] BOOL _isHtml,[andUrlsToBeShortened] NSArray *_urls)" -->
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_email_object.html#a0442bf634e0618b5fe0da428ae5df44c">initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a30207f2ff4219b399ca6dae94498b442"></a><!-- doxytag: member="JREmailObject::emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:" ref="a30207f2ff4219b399ca6dae94498b442" args="(NSString *_subject,[andMessageBody] NSString *_messageBody,[isHtml] BOOL _isHtml,[andUrlsToBeShortened] NSArray *_urls)" -->
 (id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Object containing content to be shared by email. </p>
-<p>Create an email object, fill in the fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#aa26818070a5987c70ef14700d6f6c72c">JRActivityObject::email</a> property in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. The given content is supplied to the MFMailComposeViewController class when the user wants to share your activity via email.</p>
-<p>If your email message body contains URLs that you would like shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> URL (with which you can track click-throughs), add the exact URL(s) to the <code>urls</code> array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your email body.</p>
+<p>Create an email object, fill in the fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#adb6d7886706fefccf55592d174668753">JRActivityObject.email</a> property in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. The given content is supplied to the <em>MFMailComposeViewController</em> class when the user wants to share your activity via email.</p>
+<p>If your email message body contains URLs that you would like shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> URL (with which you can track click-throughs), add the exact URL(s) to the <em>urls</em> array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your email body.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>If the user attempts to share the activity via email before the call to shorten the URLs is returned, the email will contain the original URLs and the click-throughs will not be tracked. <br/>
 </dd>
 <dd>
-Once the MFMailComposeViewController is displayed, the given subject and body can be modified by the user. </dd></dl>
+Once the <em>MFMailComposeViewController</em> is displayed, the given subject and body can be modified by the user. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="aa911e84f7b1f7e8c4fd15009dbdc6783"></a><!-- doxytag: member="JREmailObject::initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:" ref="aa911e84f7b1f7e8c4fd15009dbdc6783" args="(NSString *_subject,[andMessageBody] NSString *_messageBody,[isHtml] BOOL _isHtml,[andUrlsToBeShortened] NSArray *_urls)" -->
+<a class="anchor" id="a0442bf634e0618b5fe0da428ae5df44c"></a><!-- doxytag: member="JREmailObject::initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:" ref="a0442bf634e0618b5fe0da428ae5df44c" args="(NSString *_subject,[andMessageBody] NSString *_messageBody,[isHtml] BOOL _isHtml,[andUrlsToBeShortened] NSArray *_urls)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -93,22 +93,22 @@ Once the MFMailComposeViewController is displayed, the given subject and body ca
       </table>
 </div>
 <div class="memdoc">
-<p>Returns a <code><a class="el" href="interface_j_r_email_object.html" title="Object containing content to be shared by email.">JREmailObject</a></code> initialized with the given subject and message body.</p>
+<p>Returns a <a class="el" href="interface_j_r_email_object.html" title="Object containing content to be shared by email.">JREmailObject</a> initialized with the given subject and message body.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_subject</em>&nbsp;</td><td>The desired subject of the email. The user can edit this value once the MFMailComposeViewController is displayed.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_messageBody</em>&nbsp;</td><td>The desired message body of the email. The message body can be in plain text or html, and if it is in html, this should be indicated by the argument <code>isHtml</code>. If you want to include urls that are shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> they should be added to the <code>urls</code> array. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. This value can be edited by the user once the MFMailComposeViewController is displayed.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_isHtml</em>&nbsp;</td><td>YES if the message body contains HTML content or NO if it contains plain text.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_urls</em>&nbsp;</td><td>The array of urls that JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_subject</em>&nbsp;</td><td>The desired subject of the email. The user can edit this value once the <em>MFMailComposeViewController</em> is displayed</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_messageBody</em>&nbsp;</td><td>The desired message body of the email. The message body can be in plain text or html, and if it is in html, this should be indicated by the argument <em>isHtml</em>. If you want to include urls that are shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> they should be added to the <em>urls</em> array. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. This value can be edited by the user once the <em>MFMailComposeViewController</em> is displayed</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_isHtml</em>&nbsp;</td><td><code>YES</code> if the message body contains HTML content or <code>NO</code> if it contains plain text</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_urls</em>&nbsp;</td><td>The array of urls that JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_email_object.html" title="Object containing content to be shared by email.">JREmailObject</a> initialized with the given subject and message body. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_email_object.html" title="Object containing content to be shared by email.">JREmailObject</a> initialized with the given subject and message body </dd></dl>
 
 </div>
 </div>
 <hr/><h2>Properties</h2>
-<a class="anchor" id="a618a23c34ede4a4eb56ed6cf05d91b64"></a><!-- doxytag: member="JREmailObject::subject" ref="a618a23c34ede4a4eb56ed6cf05d91b64" args="" -->
+<a class="anchor" id="a77f576b88ae7cfb3c7610cba9c3f8929"></a><!-- doxytag: member="JREmailObject::subject" ref="a77f576b88ae7cfb3c7610cba9c3f8929" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -118,11 +118,11 @@ Once the MFMailComposeViewController is displayed, the given subject and body ca
       </table>
 </div>
 <div class="memdoc">
-<p>The desired email subject </p>
+<p>The desired email subject. </p>
 
 </div>
 </div>
-<a class="anchor" id="ad0e6a07cb2aec3cf6eee75d2ace32e7d"></a><!-- doxytag: member="JREmailObject::messageBody" ref="ad0e6a07cb2aec3cf6eee75d2ace32e7d" args="" -->
+<a class="anchor" id="ad8f3d6c32798a827e54408435a111a1d"></a><!-- doxytag: member="JREmailObject::messageBody" ref="ad8f3d6c32798a827e54408435a111a1d" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -132,11 +132,11 @@ Once the MFMailComposeViewController is displayed, the given subject and body ca
       </table>
 </div>
 <div class="memdoc">
-<p>The desired message body </p>
+<p>The desired message body. </p>
 
 </div>
 </div>
-<a class="anchor" id="af372942f67fba5e93fb2b53f4ee8a3c5"></a><!-- doxytag: member="JREmailObject::isHtml" ref="af372942f67fba5e93fb2b53f4ee8a3c5" args="" -->
+<a class="anchor" id="a7bd2f94fe6f1f0a20563681dce74a4d1"></a><!-- doxytag: member="JREmailObject::isHtml" ref="a7bd2f94fe6f1f0a20563681dce74a4d1" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -146,11 +146,11 @@ Once the MFMailComposeViewController is displayed, the given subject and body ca
       </table>
 </div>
 <div class="memdoc">
-<p>Specify YES if the body parameter contains HTML content or specify NO if it contains plain text </p>
+<p>Specify YES if the body parameter contains HTML content or specify NO if it contains plain text, </p>
 
 </div>
 </div>
-<a class="anchor" id="a3f274a24ce4145b46cb5f0cda50378ce"></a><!-- doxytag: member="JREmailObject::urls" ref="a3f274a24ce4145b46cb5f0cda50378ce" args="" -->
+<a class="anchor" id="a28c8bf72dca850fa1a15056b6e6157a6"></a><!-- doxytag: member="JREmailObject::urls" ref="a28c8bf72dca850fa1a15056b6e6157a6" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -160,12 +160,12 @@ Once the MFMailComposeViewController is displayed, the given subject and body ca
       </table>
 </div>
 <div class="memdoc">
-<p>An array of URLs that will be shortened to the <a href="http://rpx.me">http://rpx.me</a> domain so that click-through rates can be tracked <a class="anchor" id="emailUrls"></a> </p>
+<p>An array of URLs that will be shortened to the <a href="http://rpx.me">http://rpx.me</a> domain so that click-through rates can be tracked <a class="anchor" id="emailUrls"></a>. </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/<a class="el" href="_j_r_activity_object_8h_source.html">JRActivityObject.h</a></li>
+<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/<a class="el" href="_j_r_activity_object_8h_source.html">JRActivityObject.h</a></li>
 </ul>
 </div>
 <!-- doxygen footer -->

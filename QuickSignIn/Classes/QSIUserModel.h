@@ -48,13 +48,16 @@
 - (void)userDidSignOut;
 @end
 
+@class EmbeddedTableViewController;
+
 @interface UserModel : NSObject <JREngageDelegate>
 {
  /* Instance of the JRAuthenticate library */
 	JREngage *jrEngage;
 	
-    NSMutableDictionary *customInterface;
-    UINavigationController *navigationController;
+    NSMutableDictionary         *customInterface;
+    UINavigationController      *navigationController;
+    EmbeddedTableViewController *embeddedTable;
     
  /* Singleton instance of the NSUserDefaults class */
 	NSUserDefaults *prefs;
@@ -106,7 +109,7 @@
    for any user.  Each dictionary contains the identifier, display name, current provider,
    and timestamp for that specific session. The signinHistory array is ordered, and each 
    session's user has a profile in the userProfiles dictionary, indexed by identifier. */
-@property (readonly) NSArray	  *signinHistory;
+@property (readonly) NSArray *signinHistory;
 
 @property (readonly) BOOL iPad;
 /* Function that removes specific sessions from the signinHistory array, and
@@ -121,9 +124,7 @@
 
 - (void)triggerAuthenticationDidCancel:(id)sender;
 
-
 //- (void)setNavigationController:(UINavigationController*)navigationController;
-
 
 /* Returns singleton instance of class. */
 + (UserModel*)getUserModel;

@@ -38,26 +38,26 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_mp3_media_object.html#ae6ae676c1841834aba74a2c5d11cb54c">src</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_mp3_media_object.html#accd252e22f704fd4b314217317f0b5cb">title</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_mp3_media_object.html#aa164b3ecc14b03d36f5093d3d4d7f5b1">artist</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_mp3_media_object.html#adefc6578183aa09a492b229696f581df">album</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_mp3_media_object.html#a668351767970455ec189196ede16db27">src</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_mp3_media_object.html#a6782f341812fcbe7fc1add57a80edc5c">title</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_mp3_media_object.html#a1b241cac310ca5ae7475b906cd0cab29">artist</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_mp3_media_object.html#a14a55186aef4584b3c11d4e51fdc6efb">album</a></td></tr>
 <tr><td colspan="2"><h2><a name="member-group"></a>
 Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_mp3_media_object.html#a15eba85b9094d28d8d9bc6b9625ee55c">initWithSrc:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab8788e64a6d5b868e1b0689d55d68246"></a><!-- doxytag: member="JRMp3MediaObject::mp3MediaObjectWithSrc:" ref="ab8788e64a6d5b868e1b0689d55d68246" args="(NSString *_src)" -->
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_mp3_media_object.html#a3f7bd80a6865f065f370843501a01ad8">initWithSrc:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae4461c53211ee35729e6ff386c44439f"></a><!-- doxytag: member="JRMp3MediaObject::mp3MediaObjectWithSrc:" ref="ae4461c53211ee35729e6ff386c44439f" args="(NSString *_src)" -->
 (id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>mp3MediaObjectWithSrc:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Mp3 object to be included in a post to a user's stream. </p>
-<p>Create an mp3 media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a2e4ff78f83d0f353f8e0c17ed48ce0ab">JRActivityObject::media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the mp3s get presented and whether or not they are used, depend on the provider.</p>
+<p>Create an mp3 media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#aef896fa5eb35f9c881210d1c233a69c1">JRActivityObject.media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the mp3s get presented and whether or not they are used, depend on the provider.</p>
 <p>Each mp3 must contain a <em>src</em> url, which is the URL of the MP3 file to be rendered. The mp3 can also include a <em>title</em>, <em>artist</em>, and <em>album</em>.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>You can only include one <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> in the media array. Any others will be ignored.</dd></dl>
-<p>* @ Format and rules are identical to those described on the <a href="http://developers.facebook.com/docs/guides/attachments">Facebook Developer page on Attachments</a>. </p>
+<dl class="see"><dt><b>See also:</b></dt><dd>Format and rules are identical to those described on the <a href="http://developers.facebook.com/docs/guides/attachments">Facebook Developer page on Attachments</a>. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a15eba85b9094d28d8d9bc6b9625ee55c"></a><!-- doxytag: member="JRMp3MediaObject::initWithSrc:" ref="a15eba85b9094d28d8d9bc6b9625ee55c" args="(NSString *_src)" -->
+<a class="anchor" id="a3f7bd80a6865f065f370843501a01ad8"></a><!-- doxytag: member="JRMp3MediaObject::initWithSrc:" ref="a3f7bd80a6865f065f370843501a01ad8" args="(NSString *_src)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -72,19 +72,19 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Returns a <code><a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a></code> initialized with the given src.</p>
+<p>Returns a <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> initialized with the given src.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_src</em>&nbsp;</td><td>The URL of the MP3 file to be rendered. This value cannot be <code>nil</code>.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>_src</em>&nbsp;</td><td>The URL of the MP3 file to be rendered. This value cannot be <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> initialized with the given src. If <code>_src</code> is <em>nil</em>, returns <code>nil</code>. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> initialized with the given src. If _src is <em>nil</em>, returns <em>nil</em> </dd></dl>
 
 </div>
 </div>
 <hr/><h2>Properties</h2>
-<a class="anchor" id="ae6ae676c1841834aba74a2c5d11cb54c"></a><!-- doxytag: member="JRMp3MediaObject::src" ref="ae6ae676c1841834aba74a2c5d11cb54c" args="" -->
+<a class="anchor" id="a668351767970455ec189196ede16db27"></a><!-- doxytag: member="JRMp3MediaObject::src" ref="a668351767970455ec189196ede16db27" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -94,11 +94,11 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>The URL of the MP3 file to be rendered </p>
+<p>The URL of the MP3 file to be rendered. </p>
 
 </div>
 </div>
-<a class="anchor" id="accd252e22f704fd4b314217317f0b5cb"></a><!-- doxytag: member="JRMp3MediaObject::title" ref="accd252e22f704fd4b314217317f0b5cb" args="" -->
+<a class="anchor" id="a6782f341812fcbe7fc1add57a80edc5c"></a><!-- doxytag: member="JRMp3MediaObject::title" ref="a6782f341812fcbe7fc1add57a80edc5c" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -108,11 +108,11 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>The title of the song </p>
+<p>The title of the song. </p>
 
 </div>
 </div>
-<a class="anchor" id="aa164b3ecc14b03d36f5093d3d4d7f5b1"></a><!-- doxytag: member="JRMp3MediaObject::artist" ref="aa164b3ecc14b03d36f5093d3d4d7f5b1" args="" -->
+<a class="anchor" id="a1b241cac310ca5ae7475b906cd0cab29"></a><!-- doxytag: member="JRMp3MediaObject::artist" ref="a1b241cac310ca5ae7475b906cd0cab29" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -122,11 +122,11 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>The artist </p>
+<p>The artist. </p>
 
 </div>
 </div>
-<a class="anchor" id="adefc6578183aa09a492b229696f581df"></a><!-- doxytag: member="JRMp3MediaObject::album" ref="adefc6578183aa09a492b229696f581df" args="" -->
+<a class="anchor" id="a14a55186aef4584b3c11d4e51fdc6efb"></a><!-- doxytag: member="JRMp3MediaObject::album" ref="a14a55186aef4584b3c11d4e51fdc6efb" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -136,12 +136,12 @@ Constructors</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>The album </p>
+<p>The album. </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/<a class="el" href="_j_r_activity_object_8h_source.html">JRActivityObject.h</a></li>
+<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/<a class="el" href="_j_r_activity_object_8h_source.html">JRActivityObject.h</a></li>
 </ul>
 </div>
 <!-- doxygen footer -->

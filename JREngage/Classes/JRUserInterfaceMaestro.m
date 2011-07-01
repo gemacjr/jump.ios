@@ -482,12 +482,19 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (UIPopoverController*)createPopoverControllerWithNavigationController:(UINavigationController*)navigationController
 {
+//    UIPopoverController *popoverController = 
+//        [[[UIPopoverController alloc] 
+//            initWithContentViewController:navigationController] autorelease];
+    /* Allocating UIPopoverController with class string allocation so that it compiles for iPhone OS versions < v3.2 */
     UIPopoverController *popoverController = 
-        [[[UIPopoverController alloc] 
+        [[[NSClassFromString(@"UIPopoverController") alloc] 
             initWithContentViewController:navigationController] autorelease];
     
-    popoverController.popoverContentSize = CGSizeMake(320, 460);                
-    popoverController.delegate = self;
+    if (popoverController)
+    {
+        popoverController.popoverContentSize = CGSizeMake(320, 460);                
+        popoverController.delegate = self;        
+    }
     
     return popoverController;
 }
@@ -507,6 +514,13 @@ static JRUserInterfaceMaestro* singleton = nil;
         jrModalNavController.myPopoverController = 
             [self createPopoverControllerWithNavigationController:jrModalNavController.myNavigationController];
 
+    /* If the code is used by a universal application and is compiled for versions of iOS that don't 
+       support popovercontrollers (i.e., iOS < v3.2), this will return nil;  If it does, fall back 
+       to modal dialog presentation. This might never happen, because the above code wouldn't be called
+       on the iPhone anyway... */
+    if (!jrModalNavController.myPopoverController)
+        padPopoverMode = PadPopoverModeNone;
+        
     UIPopoverArrowDirection arrowDirection = UIPopoverArrowDirectionAny;
     if ([customInterface objectForKey:kJRPopoverPresentationArrowDirection])
         arrowDirection = [[customInterface objectForKey:kJRPopoverPresentationArrowDirection] intValue];

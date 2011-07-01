@@ -13,39 +13,31 @@
   </div>
 </div>
 <div class="contents">
-<h2><a class="anchor" id="basicProviders"></a>
-List of Providers</h2>
-<p>Here is a list of possible strings that the argument (NSString*)provider can be when used in the authentication methods:</p>
-<ul>
-<li>"aol"</li>
-<li>"blogger"</li>
-<li>"facebook"</li>
-<li>"flickr"</li>
-<li>"google"</li>
-<li>"hyves"</li>
-<li>"linkedin"</li>
-<li>"live_id"</li>
-<li>"livejournal"</li>
-<li>"myopenid"</li>
-<li>"myspace"</li>
-<li>"netlog"</li>
-<li>"openid"</li>
-<li>"paypal"</li>
-<li>"twitter"</li>
-<li>"verisign"</li>
-<li>"yahoo"</li>
-</ul>
-<dl class="note"><dt><b>Note:</b></dt><dd>As your Engage application is limited by the number of providers it may use, you may only see a subset of this list.</dd></dl>
-<h2><a class="anchor" id="socialProviders"></a>
-List of Social Providers</h2>
-<p>Here is a list of possible strings that the argument (NSString*)provider can be when used in the social publishing methods:</p>
-<ul>
-<li>"facebook"</li>
-<li>"linkedin"</li>
-<li>"myspace"</li>
-<li>"twitter"</li>
-<li>"yahoo"</li>
-</ul>
-<dl class="note"><dt><b>Note:</b></dt><dd>As your Engage application is limited by the number of providers it may use, you may only see a subset of this list. </dd></dl>
-</div>
+ 
+<!-- Script to resize the iFrames; Only works because iFrames origin is on same domain and iFrame
+      code contains script that calls this script -->
+<script type="text/javascript">
+    function resize(width, height, id) {
+        var iframe = document.getElementById(id);
+        iframe.width = width;
+        iframe.height = height + 50;
+        iframe.scrolling = false;
+        console.log(width);
+        console.log(height);
+    }
+</script>
+<p><a class="anchor" id="basicProviders"></a>  
+<!-- Redundant attributes to force scrolling to work across multiple browsers -->
+<iframe id="basic" src="../mobile_providers?list=basic&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
+  <a href="../mobile_providers?list=basic&device=iphone">List of Providers</a>
+</iframe></p>
+<p><a class="anchor" id="socialProviders"></a>  
+<iframe id="social" src="../mobile_providers?list=social&device=iphone" width="100%" height="100%"
+    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
+  Your browser does not support iFrames.
+  <a href="../mobile_providers?list=social&device=iphone">List of Social Providers</a>
+</iframe></p>
+ </div>
 <!-- doxygen footer -->

@@ -189,7 +189,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 - (id)initWithCoder:(NSCoder *)coder
 {
     // QTS: Probably need to autorelease this, yes? I think that made it crash...
-	self = [[JRAuthenticatedUser alloc] init];
+	//self = [[JRAuthenticatedUser alloc] init];
 
     if (self != nil)
     {
@@ -381,7 +381,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    self = [[JRProvider alloc] init];
+    //self = [[JRProvider alloc] init];
     
     if (self != nil)
     {
@@ -715,7 +715,7 @@ static JRSessionData* singleton = nil;
     NSString *version = [[[infoPlist objectForKey:@"CFBundleShortVersionString"] 
                           stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
     
-    return [NSString stringWithFormat:@"app_name=%@.%@3&version=%@_%@", name, ident, device, version];
+    return [NSString stringWithFormat:@"appName=%@.%@3&version=%@_%@", name, ident, device, version];
 }
 
 - (NSError*)startGetConfiguration
@@ -1113,7 +1113,7 @@ static JRSessionData* singleton = nil;
 //    [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&url_shortening=true"] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
-//    [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
@@ -1543,8 +1543,13 @@ static JRSessionData* singleton = nil;
     if (!currentProvider)
         return;
     
+    // TODO: TEST THIS!!!
     NSDictionary *goodies = [payloadDict objectForKey:@"rpx_result"];
-   
+    NSString *token = [goodies objectForKey:@"token"];
+    NSMutableDictionary *auth_info = [NSMutableDictionary dictionaryWithDictionary:[goodies objectForKey:@"auth_info"]];
+    
+    [auth_info setObject:token forKey:@"token"];
+    
     DLog (@"Authentication completed for user: %@", [goodies description]);
 
     JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
@@ -1565,10 +1570,9 @@ static JRSessionData* singleton = nil;
     for (id<JRSessionDelegate> delegate in delegatesCopy) 
     {
         if ([delegate respondsToSelector:@selector(authenticationDidCompleteForUser:forProvider:)])
-            [delegate authenticationDidCompleteForUser:[goodies objectForKey:@"auth_info"] forProvider:currentProvider.name];
+            [delegate authenticationDidCompleteForUser:auth_info forProvider:currentProvider.name];
     }
 
-    NSString *token = [goodies objectForKey:@"token"];
 	if (tokenUrl)
         [self startMakeCallToTokenUrl:tokenUrl withToken:token forProvider:currentProvider.name];
     

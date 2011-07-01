@@ -148,19 +148,6 @@
 - (IBAction)signInButtonPressed:(id)sender 
 {
 //#ifdef LILLI 
-
-    CGRect rect1 = signInButton.frame;
-    CGRect rect4 = layoutViewInside.frame;
-    CGRect rect2 = [self.view convertRect:signInButton.frame toView:[[UIApplication sharedApplication] keyWindow]];
-    CGRect rect3 = [layoutViewInside convertRect:signInButton.frame toView:[[UIApplication sharedApplication] keyWindow]];
-    
-#define NUM 4
-    CGRect rects[NUM] = { rect1, rect4, rect2, rect3 };
-    NSString *strs[NUM] = { @"rect1", @"rect4", @"rect2", @"rect3" };
-    
-    for (int i = 0; i < NUM; i++)
-        NSLog (@"%@: %f, %f, %f, %f", strs[i], rects[i].origin.x, rects[i].origin.y, rects[i].size.width, rects[i].size.height);
-    
     if (iPad)
     {
         if (sender == signInButton)
@@ -173,8 +160,6 @@
                                                           kJRPopoverPresentationArrowDirection, nil]];
         else
             [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:nil]];
-//                                                          [self.toolbarItems objectAtIndex:0], 
-//                                                          kJRPopoverPresentationBarButtonItem, nil]];
         
         if ([[UserModel getUserModel] currentUser])
         {
@@ -193,7 +178,7 @@
     }
 //#else
 //	[[UserModel getUserModel] startSignUserIn:level1ViewController];
-//	 [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
+//	[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delayNavPush:) userInfo:nil repeats:NO];
 //#endif
 }
 

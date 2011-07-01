@@ -69,17 +69,18 @@
  * Each image must contain a \e src URL, which maps to the photo's URL, and an 
  * \e href URL, which maps to the URL where a user should be taken if he or she clicks the photo.
  *
- * @sa Format and rules are identical to those described on the 
+ * @sa
+ * Format and rules are identical to those described on the
  * <a href="http://developers.facebook.com/docs/guides/attachments"> 
  * Facebook Developer page on Attachments</a>.
  **/
 @interface JRImageMediaObject : JRMediaObject
 {
     // QTS: Place doxygen comments on instance variables or public properties?
-    NSString *src;  /**< The photo's URL */
+    NSString *src;  /**< The photo's URL. */
     NSString *href; /**< The URL where a user should be taken if he or she clicks the photo. */
     
-    UIImage  *preview; /**< \internal Contains the downloaded preview of the image for display in the publish activity dialog */
+    UIImage  *preview; /**< \internal Contains the downloaded preview of the image for display in the publish activity dialog. */
 }
 @property (readonly) NSString *src;
 @property (readonly) NSString *href;
@@ -90,17 +91,17 @@
  **/
 /*@{*/
 /**
- * Returns a \c JRImageMediaObject initialized with the given src and href.
+ * Returns a JRImageMediaObject initialized with the given src and href.
  *
  * @param _src
- *   The photo's URL.  This value cannot be \c nil.
+ *   The photo's URL.  This value cannot be \e nil
  *
  * @param _href
- *   The URL where a user should be taken if he or she clicks the photo.  This value cannot be \c nil.
+ *   The URL where a user should be taken if he or she clicks the photo.  This value cannot be \e nil
  *
  * @return
  *   A JRImageMediaObject initialized with the given src and href.  If either
- *   \c _src or \c _href are \e nil, returns \c nil.
+ *   _src or _href are \e nil, returns \e nil
  **/
 - (id)initWithSrc:(NSString *)_src andHref:(NSString *)_href;
 + (id)imageMediaObjectWithSrc:(NSString*)_src andHref:(NSString*)_href;
@@ -127,20 +128,21 @@
  * @note You can only include one JRFlashMediaObject in the media array.  Any others
  * will be ignored.
  *
- * @sa Format and rules are identical to those described on the 
+ * @sa
+ * Format and rules are identical to those described on the
  * <a href="http://developers.facebook.com/docs/guides/attachments"> 
  * Facebook Developer page on Attachments</a>.
  **/
 @interface JRFlashMediaObject : JRMediaObject
 {
-    NSString *swfsrc;           /**< The URL of the Flash object to be rendered */
-    NSString *imgsrc;           /**< The URL of an photo that should be displayed in place of the flash object */		
-    NSUInteger width;           /**< Used to override the default width */		
-    NSUInteger height;          /**< Used to override the default height */
-    NSUInteger expanded_width;  /**< Width the video will resize to once the user clicks it */
-    NSUInteger expanded_height; /**< Height the video will resize to once the user clicks it */
+    NSString *swfsrc;           /**< The URL of the Flash object to be rendered. */
+    NSString *imgsrc;           /**< The URL of an photo that should be displayed in place of the flash object. */
+    NSUInteger width;           /**< Used to override the default width. */
+    NSUInteger height;          /**< Used to override the default height. */
+    NSUInteger expanded_width;  /**< Width the video will resize to once the user clicks it. */
+    NSUInteger expanded_height; /**< Height the video will resize to once the user clicks it. */
     
-    UIImage *preview;           /**< \internal Contains the downloaded preview of the image for display in the publish activity dialog */
+    UIImage *preview;           /**< \internal Contains the downloaded preview of the image for display in the publish activity dialog. */
 }
 @property (readonly) NSString *swfsrc;
 @property (readonly) NSString *imgsrc;
@@ -158,14 +160,14 @@
  * Returns a JRFlashMediaObject initialized with the given swfsrc and imgsrc.
  *
  * @param _swfsrc
- *   The URL of the Flash object to be rendered.  This value cannot be \c nil.
+ *   The URL of the Flash object to be rendered.  This value cannot be \e nil
  *
  * @param _imgsrc
- *   The URL of an photo that should be displayed in place of the flash object.  This value cannot be \c nil.
+ *   The URL of an photo that should be displayed in place of the flash object.  This value cannot be \e nil
  *
  * @return
  *   A JRFlashMediaObject initialized with the given swfsrc and imgsrc.  If either
- *   \c _swfsrc or \c _imgsrc are \e nil, returns \c nil.
+ *   _swfsrc or _imgsrc are \e nil, returns \e nil
  **/
 - (id)initWithSwfsrc:(NSString *)_swfsrc andImgsrc:(NSString *)_imgsrc;
 
@@ -187,16 +189,17 @@
  * @note You can only include one JRMp3MediaObject in the media array.  Any others
  * will be ignored.
  *
- * * @ Format and rules are identical to those described on the 
+ * @sa
+ * Format and rules are identical to those described on the
  * <a href="http://developers.facebook.com/docs/guides/attachments"> 
  * Facebook Developer page on Attachments</a>.
  **/
 @interface JRMp3MediaObject : JRMediaObject
 {
-    NSString *src;      /**< The URL of the MP3 file to be rendered */
-    NSString *title;    /**< The title of the song */
-    NSString *artist;   /**< The artist */
-    NSString *album;    /**< The album */
+    NSString *src;      /**< The URL of the MP3 file to be rendered. */
+    NSString *title;    /**< The title of the song. */
+    NSString *artist;   /**< The artist. */
+    NSString *album;    /**< The album. */
 }
 @property (readonly) NSString *src;
 @property (retain) NSString *title;
@@ -208,14 +211,14 @@
  **/
 /*@{*/
 /**
- * Returns a \c JRMp3MediaObject initialized with the given src.
+ * Returns a JRMp3MediaObject initialized with the given src.
  *
  * @param _src
- *   The URL of the MP3 file to be rendered.  This value cannot be \c nil.
+ *   The URL of the MP3 file to be rendered.  This value cannot be \e nil
  *
  * @return
  *   A JRMp3MediaObject initialized with the given src.  If 
- *   \c _src is \e nil, returns \c nil.
+ *   _src is \e nil, returns \e nil
  **/
 - (id)initWithSrc:(NSString *)_src;
 
@@ -232,7 +235,8 @@
  *
  * Each action link must contain a link, \e href, and some \e text, describing what action
  * will happen if someone clicks the link. 
- * Example:
+ *
+ * @par Example:
  * @code
  * action_links: 
  * [
@@ -250,8 +254,8 @@
  **/
 @interface JRActionLink : NSObject
 {
-    NSString *text; /**< The text describing the link */
-    NSString *href; /**< A link a user can use to take action on an activity update on the provider */
+    NSString *text; /**< The text describing the link. */
+    NSString *href; /**< A link a user can use to take action on an activity update on the provider. */
 }
 @property (retain) NSString *text;
 @property (retain) NSString *href;
@@ -261,17 +265,17 @@
  **/
 /*@{*/
 /**
- * Returns a \c JRActionLink initialized with the given text and href.
+ * Returns a JRActionLink initialized with the given text and href.
  *
  * @param _text
- *   The text describing the link.  This value cannot be \c nil.
+ *   The text describing the link.  This value cannot be \e nil
  *
  * @param _imgsrc
- *   A link a user can use to take action on an activity update on the provider.  This value cannot be \c nil.
+ *   A link a user can use to take action on an activity update on the provider.  This value cannot be \e nil
  *
  * @return
  *   A JRActionLink initialized with the given text and href.  If either
- *   \c _text or \c _href are \e nil, returns \c nil.
+ *   _text or _href are \e nil, returns \e nil
  **/
 - (id)initWithText:(NSString *)_text andHref:(NSString *)_href;
 
@@ -285,27 +289,28 @@
  *
  * Create an email object, fill in the fields, and add the object
  * to the JRActivityObject#email property in your JRActivityObject.
- * The given content is supplied to the MFMailComposeViewController 
+ * The given content is supplied to the \e MFMailComposeViewController 
  * class when the user wants to share your activity via email. 
  * 
  * If your email message body contains URLs that you would like shortened 
  * to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
  * URL (with which you can track click-throughs), add the 
- * exact URL(s) to the \c urls array.  The library will contact the Engage
+ * exact URL(s) to the \e urls array.  The library will contact the Engage
  * servers to obtain shortened URLs and replace any instance of the url in
  * your email body.
  *
- * @note If the user attempts to share the activity via email before the 
+ * @note
+ * If the user attempts to share the activity via email before the
  * call to shorten the URLs is returned, the email will contain the original 
  * URLs and the click-throughs will not be tracked. \n@note
- * Once the MFMailComposeViewController is displayed, the given subject and body can be modified by the user.
+ * Once the \e MFMailComposeViewController is displayed, the given subject and body can be modified by the user.
  **/
 @interface JREmailObject : NSObject
 {
-    NSString *subject;      /**< The desired email subject */
-    NSString *messageBody;  /**< The desired message body */
-    BOOL      isHtml;       /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text */
-    NSArray  *urls;         /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked @anchor emailUrls */
+    NSString *subject;      /**< The desired email subject. */
+    NSString *messageBody;  /**< The desired message body. */
+    BOOL      isHtml;       /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text, */
+    NSArray  *urls;         /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked @anchor emailUrls. */
 }
 @property (retain) NSString *subject;       
 @property (retain) NSString *messageBody;
@@ -317,29 +322,30 @@
  **/
 /*@{*/
 /**
- * Returns a \c JREmailObject initialized with the given subject and message body.
+ * Returns a JREmailObject initialized with the given subject and message body.
  *
  * @param _subject
- *   The desired subject of the email.  The user can edit this value once the MFMailComposeViewController is displayed.
+ *   The desired subject of the email.  The user can edit this value once the \e MFMailComposeViewController
+ *   is displayed
  *
  * @param _messageBody
  *   The desired message body of the email.  The message body can be in plain text or html, and if it is in html,
- *   this should be indicated by the argument \c isHtml.  If you want to include urls that are shortened
+ *   this should be indicated by the argument \e isHtml.  If you want to include urls that are shortened
  *   to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> they should be added to the
- *   \c urls array.  Once the call to get the shortened URLs is completed, the library will replace 
+ *   \e urls array.  Once the call to get the shortened URLs is completed, the library will replace
  *   all occurrences of each url with its corresponding shortened url.  This value can be edited by the user once the 
- *   MFMailComposeViewController is displayed. 
+ *   \e MFMailComposeViewController is displayed
  *
  * @param _isHtml
- *   YES if the message body contains HTML content or NO if it contains plain text.
+ *   \c YES if the message body contains HTML content or \c NO if it contains plain text
  *
  * @param _urls
  *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
  *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding 
- *   shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain.
+ *   shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain
  *
  * @return
- *   A JREmailObject initialized with the given subject and message body.
+ *   A JREmailObject initialized with the given subject and message body
  **/
 - (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
 
@@ -353,55 +359,52 @@
  *
  * Create an sms object, fill in the message field, and add the object
  * to the JRActivityObject#sms property in your JRActivityObject.
- * The given message string is supplied to the MFMessageComposeViewController 
+ * The given message string is supplied to the \e MFMessageComposeViewController 
  * class when the user wants to share your activity via sms. 
  * 
  * If your sms message contains URLs that you would like shortened 
  * to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
- * (with which you can track click-throughs), add the exact URL(s) to the \c urls array.
+ * (with which you can track click-throughs), add the exact URL(s) to the \e urls array.
  * The library will contact the Engage servers to obtain shortened URLs and replace any 
  * instance of the url in your sms message.
  *
- * @note If the user attempts to share the activity via sms before the 
+ * @note
+ * If the user attempts to share the activity via sms before the
  * call to shorten the URLs is returned, the sms will contain the original 
- * URLs and the click-throughs will not be tracked. \n
- * Once the MFMessageComposeViewController is displayed, the given message string can be modified by the user.
+ * URLs and the click-throughs will not be tracked. <br /><br />
+ * Once the \e MFMessageComposeViewController is displayed, the given message string can be
+ * modified by the user.
  **/
 @interface JRSmsObject : NSObject
 {
-    NSString *message;  /**< The desired message */
-    NSArray  *urls;     /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked  @anchor smsUrls*/
+    NSString *message;  /**< The desired message. */
+    NSArray  *urls;     /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked. @anchor smsUrls*/
 }
 @property (retain) NSString *message;
 @property (retain) NSArray  *urls;
 
-/** 
- * @name Constructors
- **/
-/*@{*/
-
-/** 
+/**
  * @name Constructors
  **/
 /*@{*/
 /**
- * Returns a \c JRSmsObject initialized with the given message and URLs that you wish to be 
+ * Returns a JRSmsObject initialized with the given message and URLs that you wish to be
  * shortened to the <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> format.
  *
  * @param _message
  *   The desired message text of the sms.  If you want to include urls that are shortened to an 
  *   <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url, they should be added 
- *   to the \c urls array.  Once the call to get the shortened URLs is completed, the library will replace 
+ *   to the \e urls array.  Once the call to get the shortened URLs is completed, the library will replace
  *   all occurrences of each url with its corresponding shortened url.  This value can be edited by 
- *   the user once the MFMessageComposeViewController is displayed. 
+ *   the user once the \e MFMessageComposeViewController is displayed
  *
  * @param _urls
  *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url.
  *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding
- *   shortened url. To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain.
+ *   shortened url. To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain
  *
  * @return
- *   A JRSmsObject initialized with the given message text.
+ *   A JRSmsObject initialized with the given message text
  **/
 - (id)initWithMessage:(NSString*)_message andUrlsToBeShortened:(NSArray*)_urls;
 
@@ -431,25 +434,26 @@
  * Otherwise, you will be given an error response indicating what was wrong. Detailed error responses will 
  * also be given if the activity parameter does not meet the formatting requirements described below. 
  * 
- * @sa For more information of Janrain Engage's activity api, see <a href="https://rpxnow.com/docs#api_activity">
- * the activity section</a> of our API Documentation.
+ * @sa
+ * For more information of Janrain Engage's activity api, see
+ * <a href="http://documentation.janrain.com/activity">the activity section</a> of our API Documentation.
  **/
 @interface JRActivityObject : NSObject 
 {
    /** 
     * @name
-    * The various properties of the JRActivityObject that you can configure
+    * The various properties of the JRActivityObject that you can configure.
     **/
    /*@{*/
     
    /**
     * A string describing what the user did, written in the third person (e.g., 
-    * "wrote a restaurant review", "posted a comment", "took a quiz")
+    * "wrote a restaurant review", "posted a comment", "took a quiz").
     **/
     NSString *action;  					
     
    /**
-    * The URL of the resource being mentioned in the activity update 
+    * The URL of the resource being mentioned in the activity update.
     **/
     NSString *url;
     
@@ -457,29 +461,32 @@
     * A string containing user-supplied content, such as a comment or the first paragraph of an article 
     * that the user wrote. 
     * 
-    * @note Some providers (Twitter in particular) may truncate this value.
+    * @note
+    * Some providers (Twitter in particular) may truncate this value.
     **/
     NSString *user_generated_content;    
 
    /**
     * The title of the resource being mentioned in the activity update. 
     *
-    * @note No length restriction on the status is imposed by Janrain Engage, 
+    * @note
+    * No length restriction on the status is imposed by Janrain Engage,
     * however Yahoo truncates this value to 256 characters. 
     **/
     NSString *title;                     
     
    /**
-    * A description of the resource mentioned in the activity update
+    * A description of the resource mentioned in the activity update.
     **/
     NSString *description;
     
    /**
-    * An array of \c JRActionLink objects, each having two attributes: text and href. 
-    * An action link is a link a user can use to take action on an activity update on the provider
-    * Example:
+    * An array of JRActionLink objects, each having two attributes: text and href.
+    * An action link is a link a user can use to take action on an activity update on the provider.
+    *
+    * @par Example:
     * @code
-    * action_links: 
+    * action_links:
     * [
     *   {
     *     "text": "Rate this quiz result",
@@ -492,16 +499,17 @@
     * ]
     * @endcode
     * 
-    * @note Any objects added to this array that are not of type \c JRActionLink will be ignored.
+    * @note
+    * Any objects added to this array that are not of type JRActionLink will be ignored.
     **/
     NSMutableArray *action_links;
     
    /**
-    * An array of objects with base class \c JRMediaObject (i.e., JRImageMediaObject, 
+    * An array of objects with base class \e JRMediaObject (i.e., JRImageMediaObject,
     * JRFlashMediaObject, JRMp3MediaObject). 
     * 
     * To publish attached media objects with your activity, create the preferred
-    * object, populate the object's fields, then add the object to the \c media array.
+    * object, populate the object's fields, then add the object to the \e media array.
     * You can attach pictures, videos, and mp3s to your activity, although how the
     * media objects get presented and whether or not they are used, depend on the provider.
     *
@@ -511,10 +519,10 @@
     *   -# flash
     *   -# mp3
     *
-    * Also, any objects added to this array that are not of type \c JRMediaObject will be ignored.
-    * 
+    * Also, any objects added to this array that are not of type \e JRMediaObject will be ignored.
     *
-    * @sa Media object format and rules are identical to those described on the 
+    * @sa
+    * Media object format and rules are identical to those described on the
     * <a href="http://developers.facebook.com/docs/guides/attachments"> Facebook Developer page on Attachments</a>.
     **/   
     NSMutableArray *media;
@@ -522,7 +530,8 @@
    /**
     * An object with attributes describing properties of the update. An attribute value can be 
     * a string or an object with two attributes, text and href. 
-    * Example:
+    *
+    * @par Example:
     * @code
     *   properties: 
     *   {
@@ -572,17 +581,17 @@
  **/
 /*@{*/
 /**
- * Returns a \c JRActivityObject initialized with the given action and url.
+ * Returns a JRActivityObject initialized with the given action and url.
  *
  * @param _action
- *   A string describing what the user did, written in the third person.  This value cannot be \c nil.
+ *   A string describing what the user did, written in the third person.  This value cannot be \e nil
  *
  * @param _url
- *   The URL of the resource being mentioned in the activity update.  This value cannot be \c nil.
+ *   The URL of the resource being mentioned in the activity update.  This value cannot be \e nil
  *
  * @return
  *   A JRActivityObject initialized with the given action and url.  If either
- *   \c _action or \c _url are \e nil, returns \c nil.
+ *   _action or _url are \e nil, returns \e nil
  **/
 - (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
 
@@ -594,10 +603,11 @@
  * Returns an NSDictionary representing the JRActivityObject.
  *
  * @return
- *   An NSDictionary of NSString objects representing the JRActivityObject.
+ *   An NSDictionary of NSString objects representing the JRActivityObject
  *
- * @note This function should not be used directly.  It is intended only for use by the
- * JREngage library.
+ * @note
+ * This function should not be used directly.  It is intended only for use by the
+ * JREngage library
  **/
 - (NSDictionary*)dictionaryForObject;
 @end

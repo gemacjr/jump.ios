@@ -13,27 +13,27 @@
   </div>
 <div class="header">
   <div class="headertitle">
-<h1>/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/JREngage.h</h1>  </div>
+<h1>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/JREngage.h</h1>  </div>
 </div>
 <div class="contents">
-<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * </span>
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *</span>
 <a name="l00002"></a>00002 <span class="comment"> Copyright (c) 2010, Janrain, Inc.</span>
-<a name="l00003"></a>00003 <span class="comment"> </span>
+<a name="l00003"></a>00003 <span class="comment"></span>
 <a name="l00004"></a>00004 <span class="comment"> All rights reserved.</span>
-<a name="l00005"></a>00005 <span class="comment"> </span>
+<a name="l00005"></a>00005 <span class="comment"></span>
 <a name="l00006"></a>00006 <span class="comment"> Redistribution and use in source and binary forms, with or without modification,</span>
 <a name="l00007"></a>00007 <span class="comment"> are permitted provided that the following conditions are met:</span>
-<a name="l00008"></a>00008 <span class="comment"> </span>
+<a name="l00008"></a>00008 <span class="comment"></span>
 <a name="l00009"></a>00009 <span class="comment"> * Redistributions of source code must retain the above copyright notice, this</span>
-<a name="l00010"></a>00010 <span class="comment">   list of conditions and the following disclaimer. </span>
-<a name="l00011"></a>00011 <span class="comment"> * Redistributions in binary form must reproduce the above copyright notice, </span>
+<a name="l00010"></a>00010 <span class="comment">   list of conditions and the following disclaimer.</span>
+<a name="l00011"></a>00011 <span class="comment"> * Redistributions in binary form must reproduce the above copyright notice,</span>
 <a name="l00012"></a>00012 <span class="comment">   this list of conditions and the following disclaimer in the documentation and/or</span>
-<a name="l00013"></a>00013 <span class="comment">   other materials provided with the distribution. </span>
+<a name="l00013"></a>00013 <span class="comment">   other materials provided with the distribution.</span>
 <a name="l00014"></a>00014 <span class="comment"> * Neither the name of the Janrain, Inc. nor the names of its</span>
 <a name="l00015"></a>00015 <span class="comment">   contributors may be used to endorse or promote products derived from this</span>
 <a name="l00016"></a>00016 <span class="comment">   software without specific prior written permission.</span>
-<a name="l00017"></a>00017 <span class="comment"> </span>
-<a name="l00018"></a>00018 <span class="comment"> </span>
+<a name="l00017"></a>00017 <span class="comment"></span>
+<a name="l00018"></a>00018 <span class="comment"></span>
 <a name="l00019"></a>00019 <span class="comment"> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
 <a name="l00020"></a>00020 <span class="comment"> ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
 <a name="l00021"></a>00021 <span class="comment"> WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
@@ -43,103 +43,104 @@
 <a name="l00025"></a>00025 <span class="comment"> LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
 <a name="l00026"></a>00026 <span class="comment"> ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
 <a name="l00027"></a>00027 <span class="comment"> (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
-<a name="l00028"></a>00028 <span class="comment"> SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </span>
-<a name="l00029"></a>00029 <span class="comment"> </span>
+<a name="l00028"></a>00028 <span class="comment"> SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="l00029"></a>00029 <span class="comment"></span>
 <a name="l00030"></a>00030 <span class="comment"> File:   JREngage.h</span>
 <a name="l00031"></a>00031 <span class="comment"> Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com</span>
 <a name="l00032"></a>00032 <span class="comment"> Date:   Tuesday, June 1, 2010</span>
 <a name="l00033"></a>00033 <span class="comment"> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */</span>
 <a name="l00034"></a>00034 
-<a name="l00115"></a>00115 <span class="comment">/* Preprocessor directive that conditionally compiles the code that uses the weakly-linked MessageUI.Framework.</span>
-<a name="l00116"></a>00116 <span class="comment"> This framework is required if you want to include the ability to share activities with email or sms.  By default</span>
-<a name="l00117"></a>00117 <span class="comment"> the JRENGAGE_INCLUDE_EMAIL_SMS flag should always be set to &quot;1&quot;, which can cause errors with the linker if the </span>
-<a name="l00118"></a>00118 <span class="comment"> framework isn&#39;t included, but I figured most apps would want the email and sms sharing ability.  If you don&#39;t want</span>
-<a name="l00119"></a>00119 <span class="comment"> to add the MessageUI.Framework to one or more of your apps that use the JREngage library, you don&#39;t have to change</span>
-<a name="l00120"></a>00120 <span class="comment"> this value to &quot;0&quot; (which could cause merging issues if I make changes later).</span>
-<a name="l00121"></a>00121 <span class="comment"> </span>
-<a name="l00122"></a>00122 <span class="comment"> Instead, if you want to override this setting, you need to add the preprocessor flag &quot;OVERRIDE_INCLUDE_EMAIL_SMS&quot;</span>
-<a name="l00123"></a>00123 <span class="comment"> to your target&#39;s GCC_PREPROCESSOR_DEFINITIONS build setting (also listed as &quot;Preprocessor Macros&quot; under the</span>
-<a name="l00124"></a>00124 <span class="comment"> &quot;GCC 4.2 - Preprocessing&quot; heading). */</span>
-<a name="l00125"></a>00125 <span class="preprocessor">#ifndef OVERRIDE_INCLUDE_EMAIL_SMS</span>
-<a name="l00126"></a>00126 <span class="preprocessor"></span><span class="preprocessor">#define JRENGAGE_INCLUDE_EMAIL_SMS 1</span>
-<a name="l00127"></a>00127 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
-<a name="l00128"></a>00128 <span class="preprocessor"></span>
-<a name="l00129"></a>00129 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
-<a name="l00130"></a>00130 <span class="preprocessor">#import &quot;JRSessionData.h&quot;</span>
-<a name="l00131"></a>00131 <span class="preprocessor">#import &quot;<a class="code" href="_j_r_activity_object_8h.html" title="Interface for creating and populating activities that you wish to publish.">JRActivityObject.h</a>&quot;</span>
-<a name="l00132"></a>00132 <span class="preprocessor">#import &quot;JRUserInterfaceMaestro.h&quot;</span>
-<a name="l00133"></a>00133 
-<a name="l00134"></a>00134 <span class="comment">//@class JREngage;</span>
-<a name="l00135"></a>00135 <span class="keyword">@class</span> JRUserInterfaceMaestro;
-<a name="l00136"></a>00136 
-<a name="l00148"></a><a class="code" href="protocol_j_r_engage_delegate-p.html">00148</a> <span class="keyword">@protocol </span><a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> &lt;NSObject&gt;
-<a name="l00149"></a>00149 <span class="keyword">@optional</span>
-<a name="l00150"></a>00150 
-<a name="l00156"></a>00156 
-<a name="l00170"></a>00170 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
-<a name="l00178"></a>00178 
-<a name="l00184"></a>00184 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a4eaa6a5961e175b8275c6b06034afea7">jrAuthenticationDidNotComplete</a>;
-<a name="l00185"></a>00185 
-<a name="l00220"></a>00220 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
-<a name="l00221"></a>00221 
-<a name="l00236"></a>00236 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00237"></a>00237 
-<a name="l00242"></a>00242 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
-<a name="l00243"></a>00243 
-<a name="l00263"></a>00263 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
-<a name="l00264"></a>00264 
-<a name="l00278"></a>00278 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00286"></a>00286 
-<a name="l00292"></a>00292 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a733007b584bd916932ccafe44c3c678d">jrSocialDidNotCompletePublishing</a>;
-<a name="l00293"></a>00293 
-<a name="l00299"></a>00299 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#ae90fea5db002559f6cf4e481080e0bfb">jrSocialDidCompletePublishing</a>;
-<a name="l00300"></a>00300 
-<a name="l00312"></a>00312 - (void)jrSocialDidPublishActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity forProvider:(NSString*)provider;
-<a name="l00313"></a>00313 
-<a name="l00327"></a>00327 - (void)jrSocialPublishingActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00329"></a>00329 <span class="keyword">@end</span>
-<a name="l00330"></a>00330 
-<a name="l00355"></a>00355 <span class="keyword">@interface </span><a class="code" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> : NSObject &lt;JRSessionDelegate&gt;
-<a name="l00356"></a>00356 {
-<a name="l00357"></a>00357     JRUserInterfaceMaestro *interfaceMaestro;   <span class="comment">/*&lt; \internal Class that handles customizations to the library&#39;s UI */</span>
-<a name="l00358"></a>00358         JRSessionData   *sessionData;               <span class="comment">/*&lt; \internal Holds configuration and state for the JREngage library */</span>
-<a name="l00359"></a>00359         NSMutableArray  *delegates;                 <span class="comment">/*&lt; \internal Array of JREngageDelegate objects */</span>
-<a name="l00360"></a>00360 }
-<a name="l00361"></a>00361 
-<a name="l00367"></a>00367 
-<a name="l00374"></a>00374 + (<a class="code" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngage;
-<a name="l00375"></a>00375 
-<a name="l00397"></a>00397 + (<a class="code" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a>*)jrEngageWithAppId:(NSString*)appId 
-<a name="l00398"></a>00398                    andTokenUrl:(NSString*)tokenUrl
-<a name="l00399"></a>00399                       delegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
-<a name="l00407"></a>00407 
-<a name="l00414"></a>00414 - (void)addDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
-<a name="l00415"></a>00415 
-<a name="l00422"></a>00422 - (void)removeDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a>&gt;)delegate;
-<a name="l00431"></a>00431 
-<a name="l00438"></a>00438 - (void)showAuthenticationDialog;
-<a name="l00439"></a>00439 
-<a name="l00456"></a>00456 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
-<a name="l00457"></a>00457 
-<a name="l00459"></a>00459 <span class="comment">// *</span>
-<a name="l00460"></a>00460 <span class="comment">// **/</span>
-<a name="l00461"></a>00461 <span class="comment">//- (void)showAuthenticationDialogWithForcedReauthenticationOnLastUsedProvider;</span>
-<a name="l00462"></a>00462 
-<a name="l00473"></a>00473 - (void)showSocialPublishingDialogWithActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity;
-<a name="l00474"></a>00474 
-<a name="l00495"></a>00495 - (void)showSocialPublishingDialogWithActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
+<a name="l00074"></a>00074 <span class="comment">/* Preprocessor directive that conditionally compiles the code that uses the weakly-linked MessageUI.Framework.</span>
+<a name="l00075"></a>00075 <span class="comment"> This framework is required if you want to include the ability to share activities with email or sms.  By default</span>
+<a name="l00076"></a>00076 <span class="comment"> the JRENGAGE_INCLUDE_EMAIL_SMS flag should always be set to &quot;1&quot;, which can cause errors with the linker if the</span>
+<a name="l00077"></a>00077 <span class="comment"> framework isn&#39;t included, but I figured most apps would want the email and sms sharing ability.  If you don&#39;t want</span>
+<a name="l00078"></a>00078 <span class="comment"> to add the MessageUI.Framework to one or more of your apps that use the JREngage library, you don&#39;t have to change</span>
+<a name="l00079"></a>00079 <span class="comment"> this value to &quot;0&quot; (which could cause merging issues if I make changes later).</span>
+<a name="l00080"></a>00080 <span class="comment"></span>
+<a name="l00081"></a>00081 <span class="comment"> Instead, if you want to override this setting, you need to add the preprocessor flag &quot;OVERRIDE_INCLUDE_EMAIL_SMS&quot;</span>
+<a name="l00082"></a>00082 <span class="comment"> to your target&#39;s GCC_PREPROCESSOR_DEFINITIONS build setting (also listed as &quot;Preprocessor Macros&quot; under the</span>
+<a name="l00083"></a>00083 <span class="comment"> &quot;GCC 4.2 - Preprocessing&quot; heading). */</span>
+<a name="l00084"></a>00084 <span class="preprocessor">#ifndef OVERRIDE_INCLUDE_EMAIL_SMS</span>
+<a name="l00085"></a>00085 <span class="preprocessor"></span><span class="preprocessor">#define JRENGAGE_INCLUDE_EMAIL_SMS 1</span>
+<a name="l00086"></a>00086 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
+<a name="l00087"></a>00087 <span class="preprocessor"></span>
+<a name="l00088"></a>00088 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
+<a name="l00089"></a>00089 <span class="preprocessor">#import &quot;JRSessionData.h&quot;</span>
+<a name="l00090"></a>00090 <span class="preprocessor">#import &quot;<a class="code" href="_j_r_activity_object_8h.html" title="Interface for creating and populating activities that you wish to publish.">JRActivityObject.h</a>&quot;</span>
+<a name="l00091"></a>00091 <span class="preprocessor">#import &quot;JRUserInterfaceMaestro.h&quot;</span>
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <span class="keyword">@class</span> JRUserInterfaceMaestro;
+<a name="l00094"></a>00094 
+<a name="l00105"></a><a class="code" href="protocol_j_r_engage_delegate-p.html">00105</a> <span class="keyword">@protocol </span><a class="code" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a> &lt;NSObject&gt;
+<a name="l00106"></a>00106 <span class="keyword">@optional</span>
+<a name="l00107"></a>00107 
+<a name="l00113"></a>00113 
+<a name="l00127"></a>00127 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error;
+<a name="l00135"></a>00135 
+<a name="l00142"></a>00142 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a388f6ea1d314132c85a215c952fb7901">jrAuthenticationDidNotComplete</a>;
+<a name="l00143"></a>00143 
+<a name="l00181"></a>00181 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider;
+<a name="l00182"></a>00182 
+<a name="l00197"></a>00197 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00198"></a>00198 
+<a name="l00203"></a>00203 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+<a name="l00204"></a>00204 
+<a name="l00224"></a>00224 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+<a name="l00225"></a>00225 
+<a name="l00239"></a>00239 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00247"></a>00247 
+<a name="l00253"></a>00253 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#a5ef7762d503eb0f583d172d4a10f7869">jrSocialDidNotCompletePublishing</a>;
+<a name="l00254"></a>00254 
+<a name="l00260"></a>00260 - (void)<a class="code" href="protocol_j_r_engage_delegate-p.html#afc069beff80daac09cc1e06566a45320">jrSocialDidCompletePublishing</a>;
+<a name="l00261"></a>00261 
+<a name="l00273"></a>00273 - (void)jrSocialDidPublishActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity forProvider:(NSString*)provider;
+<a name="l00274"></a>00274 
+<a name="l00288"></a>00288 - (void)jrSocialPublishingActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00290"></a>00290 <span class="keyword">@end</span>
+<a name="l00291"></a>00291 
+<a name="l00312"></a>00312 <span class="keyword">@interface </span><a class="code" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> : NSObject &lt;JRSessionDelegate&gt;
+<a name="l00313"></a>00313 {
+<a name="l00314"></a>00314     JRUserInterfaceMaestro *interfaceMaestro;   <span class="comment">/*&lt; \internal Class that handles customizations to the library&#39;s UI */</span>
+<a name="l00315"></a>00315     JRSessionData       *sessionData;               <span class="comment">/*&lt; \internal Holds configuration and state for the JREngage library */</span>
+<a name="l00316"></a>00316     NSMutableArray      *delegates;                 <span class="comment">/*&lt; \internal Array of JREngageDelegate objects */</span>
+<a name="l00317"></a>00317 }
+<a name="l00318"></a>00318 
+<a name="l00324"></a>00324 
+<a name="l00331"></a>00331 + (<a class="code" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a>*)jrEngage;
+<a name="l00332"></a>00332 
+<a name="l00354"></a>00354 + (<a class="code" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a>*)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a>&gt;)delegate;
+<a name="l00362"></a>00362 
+<a name="l00369"></a>00369 - (void)addDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a>&gt;)delegate;
+<a name="l00370"></a>00370 
+<a name="l00377"></a>00377 - (void)removeDelegate:(<span class="keywordtype">id</span>&lt;<a class="code" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a>&gt;)delegate;
+<a name="l00386"></a>00386 
+<a name="l00393"></a>00393 - (void)showAuthenticationDialog;
+<a name="l00394"></a>00394 
+<a name="l00411"></a>00411 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
+<a name="l00412"></a>00412 
+<a name="l00414"></a>00414 <span class="comment">// *</span>
+<a name="l00415"></a>00415 <span class="comment">// **/</span>
+<a name="l00416"></a>00416 <span class="comment">//- (void)showAuthenticationDialogWithForcedReauthenticationOnLastUsedProvider;</span>
+<a name="l00417"></a>00417 
+<a name="l00427"></a>00427 - (void)showSocialPublishingDialogWithActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity;
+<a name="l00428"></a>00428 
+<a name="l00449"></a>00449 - (void)showSocialPublishingDialogWithActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
+<a name="l00450"></a>00450 
+<a name="l00452"></a>00452 <span class="comment">// * Use this function to detect if a dialog has already been loaded, so that you may cancel it.</span>
+<a name="l00453"></a>00453 <span class="comment">// **/</span>
+<a name="l00454"></a>00454 <span class="comment">//- (BOOL)isDialogLoaded;</span>
+<a name="l00462"></a>00462 <span class="comment"></span>
+<a name="l00472"></a>00472 - (void)signoutUserForProvider:(NSString*)provider;
+<a name="l00473"></a>00473 
+<a name="l00480"></a>00480 - (void)signoutUserForAllProviders;
+<a name="l00481"></a>00481 
+<a name="l00490"></a>00490 - (void)alwaysForceReauthentication:(BOOL)force;
+<a name="l00498"></a>00498 
+<a name="l00502"></a>00502 - (void)cancelAuthentication;
 <a name="l00503"></a>00503 
-<a name="l00513"></a>00513 - (void)signoutUserForProvider:(NSString*)provider;
-<a name="l00514"></a>00514 
-<a name="l00520"></a>00520 - (void)signoutUserForAllProviders;
-<a name="l00521"></a>00521 
-<a name="l00529"></a>00529 - (void)alwaysForceReauthentication:(BOOL)force;
-<a name="l00537"></a>00537 
-<a name="l00541"></a>00541 - (void)cancelAuthentication;
-<a name="l00542"></a>00542 
-<a name="l00546"></a>00546 - (void)cancelPublishing;
-<a name="l00554"></a>00554 
-<a name="l00561"></a>00561 - (void)updateTokenUrl:(NSString*)newTokenUrl;
+<a name="l00507"></a>00507 - (void)cancelPublishing;
+<a name="l00515"></a>00515 
+<a name="l00522"></a>00522 - (void)updateTokenUrl:(NSString*)newTokenUrl;
 <a name="l00569"></a>00569 
 <a name="l00575"></a>00575 - (void)setCustomNavigationController:(UINavigationController*)navigationController;
 <a name="l00576"></a>00576 

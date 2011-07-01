@@ -25,7 +25,7 @@
 </div>
 <div class="contents">
 <!-- doxytag: class="JREngage" --><!-- doxytag: inherits="JRSessionDelegate-p" -->
-<p>Main API for interacting with the Janrain Engage for iPhone library.  
+<p>Main API for interacting with the Janrain Engage for iOS library.  
 <a href="#_details">More...</a></p>
 
 <p><code>#import &lt;<a class="el" href="_j_r_engage_8h_source.html">JREngage.h</a>&gt;</code></p>
@@ -37,61 +37,61 @@
 <tr><td colspan="2"><h2><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Get the JREngage Instance</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp1563bd99b5767462283658c6804d90b3"></a> Methods that initialize and return the shared <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> instance </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp1563bd99b5767462283658c6804d90b3"></a> Methods that initialize and return the shared <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> instance </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(<a class="el" href="class_j_r_engage.html">JREngage</a> *)&nbsp;</td><td class="memItemRight" valign="bottom">+ <a class="el" href="class_j_r_engage.html#adb6bf3a6869d83f2bfce0783f128d9e6">jrEngage</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(<a class="el" href="class_j_r_engage.html">JREngage</a> *)&nbsp;</td><td class="memItemRight" valign="bottom">+ <a class="el" href="class_j_r_engage.html#a36c199d6384893b1bf42712771af1e8b">jrEngageWithAppId:andTokenUrl:delegate:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(<a class="el" href="class_j_r_engage.html">JREngage</a> *)&nbsp;</td><td class="memItemRight" valign="bottom">+ <a class="el" href="class_j_r_engage.html#a2484deae4023ac6526b30c0067fbbb63">jrEngage</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(<a class="el" href="class_j_r_engage.html">JREngage</a> *)&nbsp;</td><td class="memItemRight" valign="bottom">+ <a class="el" href="class_j_r_engage.html#a1a6120a2b853b34b0832b8163c13a166">jrEngageWithAppId:andTokenUrl:delegate:</a></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Manage the Delegates</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpf6bb425cb9b7388d33e37d551db6b02e"></a> Add/remove delegates that implement the <a class="el" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> protocol </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpf6bb425cb9b7388d33e37d551db6b02e"></a> Add/remove delegates that implement the <a class="el" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a> protocol </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a18377ffb55f821587e6d38b3489692e8">addDelegate:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#ab3f12ac148ea0f6df4d7ff7789cc7c94">removeDelegate:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#aae7068880e4d8313fe6593191533d167">addDelegate:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a740c31c16dbdcaff23d6895ad704177d">removeDelegate:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Show the JREngage Dialogs</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp345603279e1df04f4a3678e78089b7be"></a> <a class="anchor" id="showMethods"></a></p>
 <p>Methods that display JREngage's dialogs to initiate authentication and social publishing </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a01ecdff491f91543e18f33d0e565b046">showAuthenticationDialog</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a60a7be6770b99c3a929f7c006f1b1203">showAuthenticationDialogWithCustomInterfaceOverrides:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#afca7b5ab9a57edc1a460aaec882207c4">showSocialPublishingDialogWithActivity:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#aa84788326df3e8adf4be6128fccb7708">showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a0de1aa16e951a1b62e2ef459b1596e83">showAuthenticationDialog</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#aaefab8ad7ff493091e576b8dcfcf2ef6">showAuthenticationDialogWithCustomInterfaceOverrides:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a00050c4ca863ee3441a2bc21962ea955">showSocialPublishingDialogWithActivity:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#ad4d2cc5b9b5bb1cce70268f3de3bc4b7">showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Management Authenticated Users</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp4247d2361fbfb57c620ed69782a50c95"></a> Methods that manage authenticated users remembered by the library </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp4247d2361fbfb57c620ed69782a50c95"></a> Use this function to detect if a dialog has already been loaded, so that you may cancel it.</p>
+<p>Methods that manage authenticated users remembered by the library </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#af1448791663265d3b739041983fbae92">signoutUserForProvider:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a56060e8d5fe94e4bf06ff3edf27af5ee">signoutUserForAllProviders</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a66dca1abdfd5103480f9a87f65923a68">alwaysForceReauthentication:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#ab59f4c1b6e7c35477dcd0bc2d9123317">signoutUserForProvider:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a7877c06caf812fc767c43352f0509380">signoutUserForAllProviders</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a26bdf41fa1592da0209d0e5043fc268c">alwaysForceReauthentication:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Cancel the JREngage Dialogs</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrpd07ee85d05cc5dd13dd0e31682479a39"></a> Methods to cancel authentication and social publishing </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a17b67c9bb98230fb7d59f8c35a20662b">cancelAuthentication</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a205c368338061976178a5b0e36f2d4f2">cancelPublishing</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a5d37932565edbaf3d879f5848a7bc889">cancelAuthentication</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a45445132f9f15aa224c19e11bec26982">cancelPublishing</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Server-side Authentication</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp1fc6cae7bdf84f91a0bad45f5891f15e"></a> Methods to reconfigure server-side authentication </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#ac0fb45ee43767dfdea0057bb93000db6">updateTokenUrl:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#ac0aa72fc83d0bac0c6da8572e4cf1df7">updateTokenUrl:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Deprecated</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp0ac54cb10e7494cff1949826e8e32f7b"></a> These keys have been deprecated in the current version of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library </p>
+<tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp0ac54cb10e7494cff1949826e8e32f7b"></a> These keys have been deprecated in the current version of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a6c704bbff377d20603e6b52bd0ae17f1">setCustomNavigationController:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#ac8e1206be8608fbed548b7ec5f85e6e6">showAuthenticationDialogWithCustomInterface:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#af5c2aa40f5c45a22f369900d1bd81953">showSocialPublishingDialogWithActivity:andCustomInterface:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a88c0eb55419cfc6a8e256a78b309279b">setCustomNavigationController:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#af8301e0a2c6ef6223779e658caae332c">showAuthenticationDialogWithCustomInterface:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#ab9a4aaa7907dec7717f021175516d542">showSocialPublishingDialogWithActivity:andCustomInterface:</a></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Configure the User Interface</div></td></tr>
 <tr><td colspan="2"><div class="groupText"><p><a class="anchor" id="amgrp94e7ef441fcaa606cadd8cfd8b428e50"></a> <a class="anchor" id="customInterface"></a></p>
 <p>Methods used to customize the JREngage's user interface </p>
 </div></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#ab62496ba7cbc32e0a4f7d91c992c7ca2">setCustomInterfaceDefaults:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#ae9cce08f42f575bc49329b363af5c531">setCustomInterface:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a7f33a8beb9ab673a62ccf1288a4f48c0">setCustomInterfaceDefaults:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_j_r_engage.html#a425161c07c17aaa62be6a17b81e9bd1f">setCustomInterface:</a></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
-<p>Main API for interacting with the Janrain Engage for iPhone library. </p>
-<dl class="see"><dt><b>See also:</b></dt><dd>Use the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> object to authenticate a user with your application and allow them to publish activities to their social networks.</dd></dl>
-<p>If you wish to include 3rd-Party Authentication and Social Publishing in your iPhone application, you can use the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> class to achieve this. Prior to using the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library, you must already have an application on <a href="http://rpxnow.com">http://rpxnow.com</a>. This is all that is required for basic authentication, although some providers may require extra configuration (which can be done through your application's <a href="http://rpxnow.com/relying_parties">Dashboard</a> For social publishing, you will need to configure your rpxnow application with the desired providers.</p>
-<p>If desired, you can optionally implement server-side authentication<span class="footnote">*</span>. When provided, the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library can post the user's authentication token to a url on your server: the token url. Your server can complete authentication, access more of JREngage's API, log the authentication, etc. and the server's response will be passed back through to your iPhone application.</p>
-<p><span class="footnote">*</span>In the previous version of the Engage for iPhone library, implementing token url that completed server-side authentication was required. This is no longer the case, although you can optionally implement the token url if you wish to continue authentication on your server. </p>
+<p>Main API for interacting with the Janrain Engage for iOS library. </p>
+<p>If you wish to include 3rd-Party Authentication and Social Publishing in your iPhone or iPad applications, you can use the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> class to achieve this. Prior to using the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library, you must already have an application on <a href="http://rpxnow.com">http://rpxnow.com</a>. This is all that is required for basic authentication, although some providers may require extra configuration (which can be done through your application's <a href="http://rpxnow.com/relying_parties">Dashboard</a> For social publishing, you will need to configure your rpxnow application with the desired providers.</p>
+<p>If desired, you can optionally implement server-side authentication<span class="footnote">*</span>. When provided, the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library can post the user's authentication token to a url on your server: the token url. Your server can complete authentication, access more of JREngage's API, log the authentication, etc. and the server's response will be passed back through to your iOS application.</p>
+<p><span class="footnote">*</span>In the previous version of the Engage for iOS library, implementing token url that completed server-side authentication was required. This is no longer the case, although you can optionally implement the token url if you wish to continue authentication on your server. </p>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="adb6bf3a6869d83f2bfce0783f128d9e6"></a><!-- doxytag: member="JREngage::jrEngage" ref="adb6bf3a6869d83f2bfce0783f128d9e6" args="()" -->
+<a class="anchor" id="a2484deae4023ac6526b30c0067fbbb63"></a><!-- doxytag: member="JREngage::jrEngage" ref="a2484deae4023ac6526b30c0067fbbb63" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -105,12 +105,12 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Shared instance of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library</p>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The instance of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library once it has been created, otherwise this will return <code>nil</code> </dd></dl>
+<p>Shared instance of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library.</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The instance of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library once it has been created, otherwise this will return <em>nil</em> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a36c199d6384893b1bf42712771af1e8b"></a><!-- doxytag: member="JREngage::jrEngageWithAppId:andTokenUrl:delegate:" ref="a36c199d6384893b1bf42712771af1e8b" args="(NSString *appId,[andTokenUrl] NSString *tokenUrl,[delegate] id&lt; JREngageDelegate &gt; delegate)" -->
+<a class="anchor" id="a1a6120a2b853b34b0832b8163c13a166"></a><!-- doxytag: member="JREngage::jrEngageWithAppId:andTokenUrl:delegate:" ref="a1a6120a2b853b34b0832b8163c13a166" args="(NSString *appId,[andTokenUrl] NSString *tokenUrl,[delegate] id&lt; JREngageDelegate &gt; delegate)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -140,20 +140,20 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p><a class="anchor" id="engageWithAppId"></a> Initializes and returns the shared instance of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library</p>
+<p><a class="anchor" id="engageWithAppId"></a> Initializes and returns the shared instance of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>appId</em>&nbsp;</td><td>This is your 20-character application ID. You can find this on your application's Dashboard on <a href="http://rpxnow.com">http://rpxnow.com</a>. This value cannot be <code>nil</code>.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>tokenUrl</em>&nbsp;</td><td>The url on your server where you wish to complete authentication. If provided, the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library will post the user's authentication token to this url where it can used for further authentication and processing. When complete, the library will pass the server's response back to the your application.</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>delegate</em>&nbsp;</td><td>The delegate object that implements the <a class="el" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> protocol.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>appId</em>&nbsp;</td><td>This is your 20-character application ID. You can find this on your application's Dashboard on <a href="http://rpxnow.com">http://rpxnow.com</a>. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>tokenUrl</em>&nbsp;</td><td>The url on your server where you wish to complete authentication. If provided, the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library will post the user's authentication token to this url where it can used for further authentication and processing. When complete, the library will pass the server's response back to the your application</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>delegate</em>&nbsp;</td><td>The delegate object that implements the <a class="el" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a> protocol</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>The shared instance of the <code><a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a></code> object initialized with the given <code>appId</code>, <code>tokenUrl</code>, and <code>delegate</code>. If the given <code>appId</code> is nil, returns <code>nil</code>. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The shared instance of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> object initialized with the given appId, tokenUrl, and delegate. If the given appId is nil, returns <em>nil</em>. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a18377ffb55f821587e6d38b3489692e8"></a><!-- doxytag: member="JREngage::addDelegate:" ref="a18377ffb55f821587e6d38b3489692e8" args="(id&lt; JREngageDelegate &gt; delegate)" -->
+<a class="anchor" id="aae7068880e4d8313fe6593191533d167"></a><!-- doxytag: member="JREngage::addDelegate:" ref="aae7068880e4d8313fe6593191533d167" args="(id&lt; JREngageDelegate &gt; delegate)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -168,17 +168,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Add a <a class="el" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> to the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library</p>
+<p>Add a <a class="el" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a> to the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>delegate</em>&nbsp;</td><td>The object that implements the <a class="el" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> protocol </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>delegate</em>&nbsp;</td><td>The object that implements the <a class="el" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a> protocol </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="ab3f12ac148ea0f6df4d7ff7789cc7c94"></a><!-- doxytag: member="JREngage::removeDelegate:" ref="ab3f12ac148ea0f6df4d7ff7789cc7c94" args="(id&lt; JREngageDelegate &gt; delegate)" -->
+<a class="anchor" id="a740c31c16dbdcaff23d6895ad704177d"></a><!-- doxytag: member="JREngage::removeDelegate:" ref="a740c31c16dbdcaff23d6895ad704177d" args="(id&lt; JREngageDelegate &gt; delegate)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -193,17 +193,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Remove a <a class="el" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> from the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library</p>
+<p>Remove a <a class="el" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a> from the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>delegate</em>&nbsp;</td><td>The object that implements the <a class="el" href="protocol_j_r_engage_delegate-p.html" title="The JREngageDelegate protocol is adopted by an object that wishes to receive notifications when and i...">JREngageDelegate</a> protocol </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>delegate</em>&nbsp;</td><td>The object that implements the <a class="el" href="protocol_j_r_engage_delegate-p.html" title="Protocol adopted by an object that wishes to receive notifications when and information about a user ...">JREngageDelegate</a> protocol </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a01ecdff491f91543e18f33d0e565b046"></a><!-- doxytag: member="JREngage::showAuthenticationDialog" ref="a01ecdff491f91543e18f33d0e565b046" args="()" -->
+<a class="anchor" id="a0de1aa16e951a1b62e2ef459b1596e83"></a><!-- doxytag: member="JREngage::showAuthenticationDialog" ref="a0de1aa16e951a1b62e2ef459b1596e83" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -218,11 +218,11 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="showAuthDialog"></a></p>
-<p>Use this function to begin authentication. The <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library will pop up a modal dialog and take the user through the sign-in process. </p>
+<p>Use this function to begin authentication. The <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library will pop up a modal dialog and take the user through the sign-in process. </p>
 
 </div>
 </div>
-<a class="anchor" id="a60a7be6770b99c3a929f7c006f1b1203"></a><!-- doxytag: member="JREngage::showAuthenticationDialogWithCustomInterfaceOverrides:" ref="a60a7be6770b99c3a929f7c006f1b1203" args="(NSDictionary *customInterfaceOverrides)" -->
+<a class="anchor" id="aaefab8ad7ff493091e576b8dcfcf2ef6"></a><!-- doxytag: member="JREngage::showAuthenticationDialogWithCustomInterfaceOverrides:" ref="aaefab8ad7ff493091e576b8dcfcf2ef6" args="(NSDictionary *customInterfaceOverrides)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -238,18 +238,18 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="showAuthCustom"></a></p>
-<p>Use this function to begin authentication. The <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library will pop up a modal dialog, configured with the given custom interface, and take the user through the sign-in process.</p>
+<p>Use this function to begin authentication. The <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library will pop up a modal dialog, configured with the given custom interface, and take the user through the sign-in process.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>customInterfaceOverrides</em>&nbsp;</td><td>A dictionary of objects and properties, indexed by the set of <a class="el" href="group__custom_interface.html">pre-defined custom interface keys</a>, to be used by the library to customize the look and feel of the user interface and/or add a native login experience</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="note"><dt><b>Note:</b></dt><dd>Any values specified in the <code>customInterfaceOverrides</code> dictionary will override the corresponding values specified the dictionary passed into the <a class="el" href="class_j_r_engage.html#ab62496ba7cbc32e0a4f7d91c992c7ca2">setCustomInterfaceDefaults:</a> method. </dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>Any values specified in the <em>customInterfaceOverrides</em> dictionary will override the corresponding values specified the dictionary passed into the <a class="el" href="class_j_r_engage.html#a7f33a8beb9ab673a62ccf1288a4f48c0">setCustomInterfaceDefaults:</a> method. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="afca7b5ab9a57edc1a460aaec882207c4"></a><!-- doxytag: member="JREngage::showSocialPublishingDialogWithActivity:" ref="afca7b5ab9a57edc1a460aaec882207c4" args="(JRActivityObject *activity)" -->
+<a class="anchor" id="a00050c4ca863ee3441a2bc21962ea955"></a><!-- doxytag: member="JREngage::showSocialPublishingDialogWithActivity:" ref="a00050c4ca863ee3441a2bc21962ea955" args="(JRActivityObject *activity)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -265,7 +265,7 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="showPubDialog"></a></p>
-<p>Use this function to begin social publishing. The <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library will pop up a modal dialog and take the user through the sign-in process, if necessary, and share the given <code><a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a></code>.</p>
+<p>Use this function to begin social publishing. The <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library will pop up a modal dialog and take the user through the sign-in process, if necessary, and share the given <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>activity</em>&nbsp;</td><td>The activity you wish to share </td></tr>
@@ -275,7 +275,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aa84788326df3e8adf4be6128fccb7708"></a><!-- doxytag: member="JREngage::showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:" ref="aa84788326df3e8adf4be6128fccb7708" args="(JRActivityObject *activity,[andCustomInterfaceOverrides] NSDictionary *customInterfaceOverrides)" -->
+<a class="anchor" id="ad4d2cc5b9b5bb1cce70268f3de3bc4b7"></a><!-- doxytag: member="JREngage::showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:" ref="ad4d2cc5b9b5bb1cce70268f3de3bc4b7" args="(JRActivityObject *activity,[andCustomInterfaceOverrides] NSDictionary *customInterfaceOverrides)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -300,7 +300,7 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="showPubCustom"></a></p>
-<p>Use this function to begin social publishing. The <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> library will pop up a modal dialog, configured with the given custom interface, take the user through the sign-in process, if necessary, and share the given <code><a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a></code>.</p>
+<p>Use this function to begin social publishing. The <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library will pop up a modal dialog, configured with the given custom interface, take the user through the sign-in process, if necessary, and share the given <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>activity</em>&nbsp;</td><td>The activity you wish to share</td></tr>
@@ -308,11 +308,11 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="note"><dt><b>Note:</b></dt><dd>Any values specified in the <code>customInterfaceOverrides</code> dictionary will override the corresponding values specified the dictionary passed into the <a class="el" href="class_j_r_engage.html#ab62496ba7cbc32e0a4f7d91c992c7ca2">setCustomInterfaceDefaults:</a> method. </dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>Any values specified in the <em>customInterfaceOverrides</em> dictionary will override the corresponding values specified the dictionary passed into the <a class="el" href="class_j_r_engage.html#a7f33a8beb9ab673a62ccf1288a4f48c0">setCustomInterfaceDefaults:</a> method. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af1448791663265d3b739041983fbae92"></a><!-- doxytag: member="JREngage::signoutUserForProvider:" ref="af1448791663265d3b739041983fbae92" args="(NSString *provider)" -->
+<a class="anchor" id="ab59f4c1b6e7c35477dcd0bc2d9123317"></a><!-- doxytag: member="JREngage::signoutUserForProvider:" ref="ab59f4c1b6e7c35477dcd0bc2d9123317" args="(NSString *provider)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -328,7 +328,7 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="signoutProvider"></a></p>
-<p>Tell <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> to forget that a user is already signed in with the given provider</p>
+<p>Tell <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> to forget that a user is already signed in with the given provider.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>provider</em>&nbsp;</td><td>The name of the provider on which the user authenticated. For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a> </td></tr>
@@ -338,7 +338,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a56060e8d5fe94e4bf06ff3edf27af5ee"></a><!-- doxytag: member="JREngage::signoutUserForAllProviders" ref="a56060e8d5fe94e4bf06ff3edf27af5ee" args="()" -->
+<a class="anchor" id="a7877c06caf812fc767c43352f0509380"></a><!-- doxytag: member="JREngage::signoutUserForAllProviders" ref="a7877c06caf812fc767c43352f0509380" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -353,11 +353,11 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="signoutAll"></a></p>
-<p>Tell <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> to forget that a user is signed in with all <a class="el" href="_providers.html#basicProviders">Providers</a> </p>
+<p>Tell <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> to forget that a user is signed in with all the <a class="el" href="_providers.html#socialProviders">Social Providers</a> </p>
 
 </div>
 </div>
-<a class="anchor" id="a66dca1abdfd5103480f9a87f65923a68"></a><!-- doxytag: member="JREngage::alwaysForceReauthentication:" ref="a66dca1abdfd5103480f9a87f65923a68" args="(BOOL force)" -->
+<a class="anchor" id="a26bdf41fa1592da0209d0e5043fc268c"></a><!-- doxytag: member="JREngage::alwaysForceReauthentication:" ref="a26bdf41fa1592da0209d0e5043fc268c" args="(BOOL force)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -372,17 +372,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Use this function to toggle whether or not the library should force the user to reauthenticate for all providers</p>
+<p>Use this function to toggle whether or not the library should force the user to reauthenticate for all providers.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>force</em>&nbsp;</td><td>YES if the library should force reauthentication for all providers or NO if the library should perform the default behavior </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>force</em>&nbsp;</td><td><code>YES</code> if the library should force reauthentication for all providers or <code>NO</code> if the library should perform the default behavior </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a17b67c9bb98230fb7d59f8c35a20662b"></a><!-- doxytag: member="JREngage::cancelAuthentication" ref="a17b67c9bb98230fb7d59f8c35a20662b" args="()" -->
+<a class="anchor" id="a5d37932565edbaf3d879f5848a7bc889"></a><!-- doxytag: member="JREngage::cancelAuthentication" ref="a5d37932565edbaf3d879f5848a7bc889" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -400,7 +400,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a205c368338061976178a5b0e36f2d4f2"></a><!-- doxytag: member="JREngage::cancelPublishing" ref="a205c368338061976178a5b0e36f2d4f2" args="()" -->
+<a class="anchor" id="a45445132f9f15aa224c19e11bec26982"></a><!-- doxytag: member="JREngage::cancelPublishing" ref="a45445132f9f15aa224c19e11bec26982" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -418,7 +418,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ac0fb45ee43767dfdea0057bb93000db6"></a><!-- doxytag: member="JREngage::updateTokenUrl:" ref="ac0fb45ee43767dfdea0057bb93000db6" args="(NSString *newTokenUrl)" -->
+<a class="anchor" id="ac0aa72fc83d0bac0c6da8572e4cf1df7"></a><!-- doxytag: member="JREngage::updateTokenUrl:" ref="ac0aa72fc83d0bac0c6da8572e4cf1df7" args="(NSString *newTokenUrl)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -434,11 +434,11 @@ Public Member Functions</h2></td></tr>
 </div>
 <div class="memdoc">
 <p><a class="anchor" id="updateTokenUrl"></a></p>
-<p>Use this function to specify a different tokenUrl than the one you initiated the library with </p>
+<p>Use this function to specify a different tokenUrl than the one with which you initiated the library. </p>
 
 </div>
 </div>
-<a class="anchor" id="a6c704bbff377d20603e6b52bd0ae17f1"></a><!-- doxytag: member="JREngage::setCustomNavigationController:" ref="a6c704bbff377d20603e6b52bd0ae17f1" args="(UINavigationController *navigationController)" -->
+<a class="anchor" id="a88c0eb55419cfc6a8e256a78b309279b"></a><!-- doxytag: member="JREngage::setCustomNavigationController:" ref="a88c0eb55419cfc6a8e256a78b309279b" args="(UINavigationController *navigationController)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -453,11 +453,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000020">Deprecated:</a></b></dt><dd>This method has been deprecated. If you want to push the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iPhone library.">JREngage</a> dialogs on your pass a pointer to this object to the custom interface with the key define <a class="el" href="group__custom_interface.html#ga7bace8001f549fc2ecbe84d967d24d22">kJRApplicationNavigationController</a>. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000019">Deprecated:</a></b></dt><dd>This method has been deprecated. If you want to push the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> dialogs on your pass a pointer to this object to the custom interface with the key define <a class="el" href="group__custom_interface.html#ga7bace8001f549fc2ecbe84d967d24d22">kJRApplicationNavigationController</a>. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ac8e1206be8608fbed548b7ec5f85e6e6"></a><!-- doxytag: member="JREngage::showAuthenticationDialogWithCustomInterface:" ref="ac8e1206be8608fbed548b7ec5f85e6e6" args="(NSDictionary *customizations)" -->
+<a class="anchor" id="af8301e0a2c6ef6223779e658caae332c"></a><!-- doxytag: member="JREngage::showAuthenticationDialogWithCustomInterface:" ref="af8301e0a2c6ef6223779e658caae332c" args="(NSDictionary *customizations)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -472,11 +472,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000021">Deprecated:</a></b></dt><dd>Please use <a class="el" href="class_j_r_engage.html#a60a7be6770b99c3a929f7c006f1b1203">showAuthenticationDialogWithCustomInterfaceOverrides:</a> instead. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000020">Deprecated:</a></b></dt><dd>Please use <a class="el" href="class_j_r_engage.html#aaefab8ad7ff493091e576b8dcfcf2ef6">showAuthenticationDialogWithCustomInterfaceOverrides:</a> instead. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af5c2aa40f5c45a22f369900d1bd81953"></a><!-- doxytag: member="JREngage::showSocialPublishingDialogWithActivity:andCustomInterface:" ref="af5c2aa40f5c45a22f369900d1bd81953" args="(JRActivityObject *activity,[andCustomInterface] NSDictionary *customizations)" -->
+<a class="anchor" id="ab9a4aaa7907dec7717f021175516d542"></a><!-- doxytag: member="JREngage::showSocialPublishingDialogWithActivity:andCustomInterface:" ref="ab9a4aaa7907dec7717f021175516d542" args="(JRActivityObject *activity,[andCustomInterface] NSDictionary *customizations)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -500,11 +500,11 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000022">Deprecated:</a></b></dt><dd>Please use <a class="el" href="class_j_r_engage.html#aa84788326df3e8adf4be6128fccb7708">showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:</a> instead. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000021">Deprecated:</a></b></dt><dd>Please use <a class="el" href="class_j_r_engage.html#ad4d2cc5b9b5bb1cce70268f3de3bc4b7">showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:</a> instead. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ab62496ba7cbc32e0a4f7d91c992c7ca2"></a><!-- doxytag: member="JREngage::setCustomInterfaceDefaults:" ref="ab62496ba7cbc32e0a4f7d91c992c7ca2" args="(NSMutableDictionary *customInterfaceDefaults)" -->
+<a class="anchor" id="a7f33a8beb9ab673a62ccf1288a4f48c0"></a><!-- doxytag: member="JREngage::setCustomInterfaceDefaults:" ref="a7f33a8beb9ab673a62ccf1288a4f48c0" args="(NSMutableDictionary *customInterfaceDefaults)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -519,18 +519,18 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p><a class="anchor" id="setCustomUI"></a> Use this function if you want to customize the look and feel of the user interface or add your own native login experience, by passing an NSMutableDictionary object indexed by the set of <a class="el" href="group__custom_interface.html">pre-defined custom interface keys</a>.</p>
+<p><a class="anchor" id="setCustomUI"></a> Use this function if you want to customize the look and feel of the user interface or add your own native login experience, by passing an <em>NSMutableDictionary</em> object indexed by the set of <a class="el" href="group__custom_interface.html">pre-defined custom interface keys</a>.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>customInterfaceDefaults</em>&nbsp;</td><td>A dictionary of objects and properties, indexed by the set of <a class="el" href="group__custom_interface.html">pre-defined custom interface keys</a>, to be used by the library to customize the look and feel of the user interface and/or add a native login experience</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="note"><dt><b>Note:</b></dt><dd>Any values specified in the <code>customizationInterfaceOverrides</code> dictionary of the <a class="el" href="class_j_r_engage.html#a60a7be6770b99c3a929f7c006f1b1203">showAuthenticationDialogWithCustomInterfaceOverrides:</a> or <a class="el" href="class_j_r_engage.html#aa84788326df3e8adf4be6128fccb7708">showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:</a> methods, will override the corresponding values specified in the dictionary passed into the <a class="el" href="class_j_r_engage.html#ab62496ba7cbc32e0a4f7d91c992c7ca2">setCustomInterfaceDefaults:</a> method. </dd></dl>
+<dl class="note"><dt><b>Note:</b></dt><dd>Any values specified in the <em>customizationInterfaceOverrides</em> dictionary of the <a class="el" href="class_j_r_engage.html#aaefab8ad7ff493091e576b8dcfcf2ef6">showAuthenticationDialogWithCustomInterfaceOverrides:</a> or <a class="el" href="class_j_r_engage.html#ad4d2cc5b9b5bb1cce70268f3de3bc4b7">showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:</a> methods, will override the corresponding values specified in the dictionary passed into the <a class="el" href="class_j_r_engage.html#a7f33a8beb9ab673a62ccf1288a4f48c0">setCustomInterfaceDefaults:</a> method. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ae9cce08f42f575bc49329b363af5c531"></a><!-- doxytag: member="JREngage::setCustomInterface:" ref="ae9cce08f42f575bc49329b363af5c531" args="(NSDictionary *customizations)" -->
+<a class="anchor" id="a425161c07c17aaa62be6a17b81e9bd1f"></a><!-- doxytag: member="JREngage::setCustomInterface:" ref="a425161c07c17aaa62be6a17b81e9bd1f" args="(NSDictionary *customizations)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -545,14 +545,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000018">Deprecated:</a></b></dt><dd>Please use setCustomInterfaceDefaults() instead. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000017">Deprecated:</a></b></dt><dd>Please use setCustomInterfaceDefaults() instead. </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/JREngage+CustomInterface.m</li>
-<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/<a class="el" href="_j_r_engage_8h_source.html">JREngage.h</a></li>
-<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/Classes/JREngage.m</li>
+<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/JREngage+CustomInterface.m</li>
+<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/<a class="el" href="_j_r_engage_8h_source.html">JREngage.h</a></li>
+<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/JREngage.m</li>
 </ul>
 </div>
 <!-- doxygen footer -->
