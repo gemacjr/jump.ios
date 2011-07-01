@@ -1,21 +1,21 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2010, Janrain, Inc.
- 
+
  All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+
  * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
- * Redistributions in binary form must reproduce the above copyright notice, 
+   list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation and/or
-   other materials provided with the distribution. 
+   other materials provided with the distribution.
  * Neither the name of the Janrain, Inc. nor the names of its
    contributors may be used to endorse or promote products derived from this
    software without specific prior written permission.
- 
- 
+
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,8 +25,8 @@
  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
  File:	 JRPublishActivityController.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, August 24, 2010
@@ -47,21 +47,44 @@ typedef enum
 #define EMAIL 1
 #define SMS 2
 
-@interface JRPublishActivityController : UIViewController 
-                        <UINavigationBarDelegate, UITextViewDelegate, UITabBarDelegate, 
+#define OUTER_STROKE_COLOR    [UIColor lightGrayColor]
+#define INNER_STROKE_COLOR    [UIColor redColor]
+#define OUTER_FILL_COLOR      [UIColor lightGrayColor]
+#define INNER_FILL_COLOR      [UIColor clearColor]
+#define OUTER_STROKE_WIDTH    0.1
+#define INNER_STROKE_WIDTH    0.5
+#define OUTER_CORNER_RADIUS   10.0
+#define INNER_CORNER_RADIUS   8.0
+
+@interface RoundedRectView : UIView {
+    UIColor     *outerStrokeColor;
+    UIColor     *innerStrokeColor;
+    UIColor     *rectColor;
+    CGFloat     strokeWidth;
+    CGFloat     cornerRadius;
+}
+@property (nonatomic, retain) UIColor *outerStrokeColor;
+@property (nonatomic, retain) UIColor *innerStrokeColor;
+@property (nonatomic, retain) UIColor *rectColor;
+@property CGFloat strokeWidth;
+@property CGFloat cornerRadius;
+@end
+
+@interface JRPublishActivityController : UIViewController
+                        <UINavigationBarDelegate, UITextViewDelegate, UITabBarDelegate,
                          JRSessionDelegate, JRConnectionManagerDelegate, JRUserInterfaceDelegate,
                          UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 {
 	JRSessionData	*sessionData;
-    
+
     BOOL iPad;
     BOOL hidesCancelButton;
 
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;
-    
+
     JRActivityObject *activity;
-    
+
     EmailOrSms emailOrSms;
     int selectedTab;
 
@@ -70,32 +93,32 @@ typedef enum
     BOOL weAreCurrentlyPostingSomething;
     BOOL hasEditedUserContentForActivityAlready;
     BOOL userIsAttemptingToSignOut;
-    
+
     NSDictionary *customInterface;
     NSDictionary *colorsDictionary;
     UIView		 *titleView;
 
     IBOutlet UIView     *myBackgroundView;
 	IBOutlet UITabBar   *myTabBar;
-    	    
+
     /* Activity Spinner and Label displayed while the list of configured providers is empty */
     NSTimer *timer;
     IBOutlet UILabel					*myLoadingLabel;
-    IBOutlet UIActivityIndicatorView    *myLoadingActivitySpinner; 
+    IBOutlet UIActivityIndicatorView    *myLoadingActivitySpinner;
     IBOutlet UIView                     *myLoadingGrayView;
-    
+
     IBOutlet UIView *myPadGrayEditingViewTop;
     IBOutlet UIView *myPadGrayEditingViewBottom;
-    
+
     IBOutlet UIView      *myContentView;
-    
+
     IBOutlet UITextView  *myUserContentTextView;
     IBOutlet UIButton    *myUserContentBoundingBox;
-    
+
     IBOutlet UIImageView *myProviderIcon;
     IBOutlet UIButton    *myInfoButton;
     IBOutlet UILabel     *myPoweredByLabel;
-    
+
     IBOutlet UIView                  *myMediaContentView;
     IBOutlet UIView                  *myMediaViewBackgroundMiddle;
     IBOutlet UIImageView             *myMediaViewBackgroundTop;
@@ -104,7 +127,7 @@ typedef enum
     IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
     IBOutlet UILabel                 *myTitleLabel;
     IBOutlet UILabel                 *myDescriptionLabel;
-    
+
     IBOutlet UIView                  *myShareToView;
     IBOutlet UIImageView             *myTriangleIcon;
     IBOutlet UIButton                *myProfilePic;
@@ -115,7 +138,7 @@ typedef enum
     IBOutlet UIImageView             *mySharedCheckMark;
     IBOutlet UILabel                 *mySharedLabel;
     IBOutlet UIButton                *mySignOutButton;
-    
+
     NSMutableDictionary *cachedProfilePics;
     NSMutableSet        *alreadyShared;
 }
@@ -123,8 +146,8 @@ typedef enum
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 - (IBAction)signOutButtonPressed:(id)sender;
-- (IBAction)shareButtonPressed:(id)sender; 
-- (IBAction)doneButtonPressed:(id)sender; 
-- (IBAction)editButtonPressed:(id)sender; 
+- (IBAction)shareButtonPressed:(id)sender;
+- (IBAction)doneButtonPressed:(id)sender;
+- (IBAction)editButtonPressed:(id)sender;
 - (IBAction)infoButtonPressed:(id)sender;
 @end
