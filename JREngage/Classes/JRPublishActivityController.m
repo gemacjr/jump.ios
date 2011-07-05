@@ -139,7 +139,7 @@
         withRadius:OUTER_CORNER_RADIUS strokeWidth:OUTER_STROKE_WIDTH
         strokeColor:OUTER_STROKE_COLOR andFillColor:OUTER_FILL_COLOR];
 
-    [self drawRoundedRect:CGRectMake(5, 5, self.bounds.size.width - 10, self.bounds.size.height - 10)
+    [self drawRoundedRect:CGRectMake(INNER_RECT_INSET, INNER_RECT_INSET, self.bounds.size.width - (2 * INNER_RECT_INSET), self.bounds.size.height - (2 * INNER_RECT_INSET))
         withRadius:INNER_CORNER_RADIUS strokeWidth:INNER_STROKE_WIDTH
         strokeColor:INNER_STROKE_COLOR andFillColor:INNER_FILL_COLOR];
 
@@ -346,6 +346,8 @@
         titleView = [(UIView*)titleLabel retain];
         self.navigationItem.titleView = titleView;
     }
+
+    [myPreviewLabel setBackgroundColor:[UIColor colorWithRed:0.9296 green:0.9296 blue:0.9296 alpha:1.0]];
 
     // QTS: Am I doing this twice?
     if (weAreReady)

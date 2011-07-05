@@ -47,14 +47,15 @@ typedef enum
 #define EMAIL 1
 #define SMS 2
 
-#define OUTER_STROKE_COLOR    [UIColor lightGrayColor]
+#define OUTER_STROKE_COLOR    [UIColor colorWithRed:0.9296 green:0.9296 blue:0.9296 alpha:1.0]
 #define INNER_STROKE_COLOR    [UIColor redColor]
-#define OUTER_FILL_COLOR      [UIColor lightGrayColor]
+#define OUTER_FILL_COLOR      [UIColor colorWithRed:0.9296 green:0.9296 blue:0.9296 alpha:1.0]
 #define INNER_FILL_COLOR      [UIColor clearColor]
 #define OUTER_STROKE_WIDTH    0.1
 #define INNER_STROKE_WIDTH    0.5
 #define OUTER_CORNER_RADIUS   10.0
-#define INNER_CORNER_RADIUS   8.0
+#define INNER_CORNER_RADIUS   9.0
+#define INNER_RECT_INSET      6
 
 @interface RoundedRectView : UIView {
     UIColor     *outerStrokeColor;
@@ -119,6 +120,7 @@ typedef enum
     IBOutlet UIButton    *myInfoButton;
     IBOutlet UILabel     *myPoweredByLabel;
 
+    IBOutlet UILabel                 *myPreviewLabel;
     IBOutlet UIView                  *myMediaContentView;
     IBOutlet UIView                  *myMediaViewBackgroundMiddle;
     IBOutlet UIImageView             *myMediaViewBackgroundTop;
