@@ -46,34 +46,58 @@
 @implementation RoundedRectView
 @synthesize outerStrokeColor;
 @synthesize innerStrokeColor;
-@synthesize rectColor;
-@synthesize strokeWidth;
-@synthesize cornerRadius;
+@synthesize outerFillColor;
+@synthesize innerFillColor;
+@synthesize outerStrokeWidth;
+@synthesize innerStrokeWidth;
+@synthesize outerCornerRadius;
+@synthesize innerCornerRadius;
+@synthesize drawInnerRect;
+
+//- (BOOL)drawInnerRect
+//{
+//    return drawInnerRect;
+//}
+//
+//- (void)setDrawInnerRect:(BOOL)newDrawInnerRect
+//{
+//    DLog(@"");
+//    drawInnerRect = newDrawInnerRect;
+//}
+
 - (id)initWithCoder:(NSCoder *)decoder
 {
+    DLog(@"");
     if (self = [super initWithCoder:decoder])
     {
-//        self.outerStrokeColor = kDefaultOuterStrokeColor;
-//        self.innerStrokeColor = kDefaultInnerStrokeColor;
+        self.outerStrokeColor = OUTER_STROKE_COLOR;
+        self.innerStrokeColor = INNER_STROKE_COLOR;
+        self.outerFillColor = OUTER_FILL_COLOR;
+        self.innerFillColor = INNER_FILL_COLOR;
+        self.outerStrokeWidth = OUTER_STROKE_WIDTH;
+        self.innerStrokeWidth = INNER_STROKE_WIDTH;
+        self.outerCornerRadius = OUTER_CORNER_RADIUS;
+        self.innerCornerRadius = INNER_CORNER_RADIUS;
         self.backgroundColor = [UIColor clearColor];
-//        self.strokeWidth = kDefaultStrokeWidth;
-//        self.rectColor = kDefaultRectColor;
-//        self.cornerRadius = kDefaultCornerRadius;
     }
     return self;
 }
 - (id)initWithFrame:(CGRect)frame
 {
+    DLog(@"");
     if (self = [super initWithFrame:frame])
     {
         // Initialization code
         self.opaque = NO;
-//        self.outerStrokeColor = kDefaultOuterStrokeColor;
-//        self.innerStrokeColor = kDefaultInnerStrokeColor;
+        self.outerStrokeColor = OUTER_STROKE_COLOR;
+        self.innerStrokeColor = INNER_STROKE_COLOR;
+        self.outerFillColor = OUTER_FILL_COLOR;
+        self.innerFillColor = INNER_FILL_COLOR;
+        self.outerStrokeWidth = OUTER_STROKE_WIDTH;
+        self.innerStrokeWidth = INNER_STROKE_WIDTH;
+        self.outerCornerRadius = OUTER_CORNER_RADIUS;
+        self.innerCornerRadius = INNER_CORNER_RADIUS;
         self.backgroundColor = [UIColor clearColor];
-//        self.rectColor = kDefaultRectColor;
-//        self.strokeWidth = kDefaultStrokeWidth;
-//        self.cornerRadius = kDefaultCornerRadius;
     }
     return self;
 }
@@ -126,7 +150,11 @@
     CGContextDrawPath(context, kCGPathFillStroke);
 }
 
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect
+{
+    DLog(@"");
+    DLog(@"Draw inner rect? %@", (drawInnerRect ? @"YES" : @"NO"));
+
 //
 //    CGContextRef context = UIGraphicsGetCurrentContext();
 //    CGContextSetLineWidth(context, strokeWidth);
@@ -136,12 +164,13 @@
 //    CGRect rrect = self.bounds;
 
     [self drawRoundedRect:self.bounds
-        withRadius:OUTER_CORNER_RADIUS strokeWidth:OUTER_STROKE_WIDTH
-        strokeColor:OUTER_STROKE_COLOR andFillColor:OUTER_FILL_COLOR];
+        withRadius:outerCornerRadius strokeWidth:outerStrokeWidth
+        strokeColor:outerStrokeColor andFillColor:outerFillColor];
 
-    [self drawRoundedRect:CGRectMake(INNER_RECT_INSET, INNER_RECT_INSET, self.bounds.size.width - (2 * INNER_RECT_INSET), self.bounds.size.height - (2 * INNER_RECT_INSET))
-        withRadius:INNER_CORNER_RADIUS strokeWidth:INNER_STROKE_WIDTH
-        strokeColor:INNER_STROKE_COLOR andFillColor:INNER_FILL_COLOR];
+    if (drawInnerRect)
+        [self drawRoundedRect:CGRectMake(INNER_RECT_INSET, INNER_RECT_INSET, self.bounds.size.width - (2 * INNER_RECT_INSET), self.bounds.size.height - (2 * INNER_RECT_INSET))
+            withRadius:innerCornerRadius strokeWidth:innerStrokeWidth
+            strokeColor:innerStrokeColor andFillColor:innerFillColor];
 
 //    CGFloat radius = cornerRadius;
 //    CGFloat width = CGRectGetWidth(rrect);
@@ -171,7 +200,8 @@
 - (void)dealloc {
     [outerStrokeColor release];
     [innerStrokeColor release];
-    [rectColor release];
+    [outerFillColor release];
+    [innerFillColor release];
     [super dealloc];
 }
 
@@ -348,6 +378,12 @@
     }
 
     [myPreviewLabel setBackgroundColor:[UIColor colorWithRed:0.9296 green:0.9296 blue:0.9296 alpha:1.0]];
+    [myPreviewRoundedRect setDrawInnerRect:YES];
+    myMediaViewBackgroundMiddle.outerFillColor = [UIColor lightGrayColor];
+    myMediaViewBackgroundMiddle.outerStrokeColor = [UIColor lightGrayColor];
+    myMediaViewBackgroundMiddle.outerCornerRadius = 5.0;
+    [myPreviewRoundedRect setNeedsDisplay];
+    [myMediaViewBackgroundMiddle setNeedsDisplay];
 
     // QTS: Am I doing this twice?
     if (weAreReady)
@@ -1453,8 +1489,8 @@ Please try again later."
     [myPoweredByLabel release];
     [myMediaContentView release];
     [myMediaViewBackgroundMiddle release];
-    [myMediaViewBackgroundTop release];
-    [myMediaViewBackgroundBottom release];
+//    [myMediaViewBackgroundTop release];
+//    [myMediaViewBackgroundBottom release];
     [myMediaThumbnailView release];
     [myMediaThumbnailActivityIndicator release];
     [myTitleLabel release];

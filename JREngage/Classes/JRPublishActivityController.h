@@ -60,15 +60,23 @@ typedef enum
 @interface RoundedRectView : UIView {
     UIColor     *outerStrokeColor;
     UIColor     *innerStrokeColor;
-    UIColor     *rectColor;
-    CGFloat     strokeWidth;
-    CGFloat     cornerRadius;
+    UIColor     *outerFillColor;
+    UIColor     *innerFillColor;
+    CGFloat     outerStrokeWidth;
+    CGFloat     innerStrokeWidth;
+    CGFloat     outerCornerRadius;
+    CGFloat     innerCornerRadius;
+    BOOL        drawInnerRect;
 }
 @property (nonatomic, retain) UIColor *outerStrokeColor;
 @property (nonatomic, retain) UIColor *innerStrokeColor;
-@property (nonatomic, retain) UIColor *rectColor;
-@property CGFloat strokeWidth;
-@property CGFloat cornerRadius;
+@property (nonatomic, retain) UIColor *outerFillColor;
+@property (nonatomic, retain) UIColor *innerFillColor;
+@property CGFloat outerStrokeWidth;
+@property CGFloat innerStrokeWidth;
+@property CGFloat outerCornerRadius;
+@property CGFloat innerCornerRadius;
+@property BOOL    drawInnerRect;
 @end
 
 @interface JRPublishActivityController : UIViewController
@@ -120,11 +128,12 @@ typedef enum
     IBOutlet UIButton    *myInfoButton;
     IBOutlet UILabel     *myPoweredByLabel;
 
+    IBOutlet RoundedRectView         *myPreviewRoundedRect;
     IBOutlet UILabel                 *myPreviewLabel;
     IBOutlet UIView                  *myMediaContentView;
-    IBOutlet UIView                  *myMediaViewBackgroundMiddle;
-    IBOutlet UIImageView             *myMediaViewBackgroundTop;
-    IBOutlet UIImageView             *myMediaViewBackgroundBottom;
+    IBOutlet RoundedRectView         *myMediaViewBackgroundMiddle;
+//    IBOutlet UIImageView             *myMediaViewBackgroundTop;
+//    IBOutlet UIImageView             *myMediaViewBackgroundBottom;
     IBOutlet UIButton                *myMediaThumbnailView;
     IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
     IBOutlet UILabel                 *myTitleLabel;
