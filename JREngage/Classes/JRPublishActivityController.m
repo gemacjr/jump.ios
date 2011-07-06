@@ -544,13 +544,13 @@ Please try again later."
         [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,
                                                    myUserContentTextView.frame.origin.y,
                                                    myUserContentTextView.frame.size.width,
-                                                   94)];
+                                                   76)];
         [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x,
                                                       myUserContentBoundingBox.frame.origin.y,
                                                       myUserContentBoundingBox.frame.size.width,
-                                                      100)];
+                                                      82)];
         [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
-                                                120,
+                                                102,
                                                 myMediaContentView.frame.size.width,
                                                 myMediaContentView.frame.size.height)];
         [UIView commitAnimations];
