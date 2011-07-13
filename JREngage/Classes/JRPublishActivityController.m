@@ -314,9 +314,12 @@
         [myPoweredByLabel setHidden:YES];
         [myInfoButton setHidden:YES];
     }
+    
+    [myPreviewLabel setDelegate:self];
 
     [self loadActivityToViewForFirstTime:activity];
-
+    [self changePreviewLabelToText:myUserContentTextView.text];
+    
  /* If the user calls the library before the session data object is done initializing -
     because either the requests for the base URL or provider list haven't returned -
     display the "Loading Providers" label and activity spinner.
@@ -377,7 +380,8 @@
         self.navigationItem.titleView = titleView;
     }
 
-    [myPreviewLabel setBackgroundColor:[UIColor colorWithRed:0.9296 green:0.9296 blue:0.9296 alpha:1.0]];
+    [myPreviewLabel setBackgroundColor:[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0]];
+    [myPreviewRoundedRect setOuterFillColor:[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0]];
     [myPreviewRoundedRect setDrawInnerRect:YES];
     myMediaViewBackgroundMiddle.outerFillColor = [UIColor lightGrayColor];
     myMediaViewBackgroundMiddle.outerStrokeColor = [UIColor lightGrayColor];
@@ -398,6 +402,10 @@
     if (weAreReady && !weAreCurrentlyPostingSomething)
         [self showViewIsLoading:NO];
 }
+
+#define TXT_BEGIN "Hello World! How are you? Don't forget to "
+#define TXT_LINK "share your food"
+#define TXT_END "!"
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -580,6 +588,66 @@ Please try again later."
 
     return YES;
 }
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    [self changePreviewLabelToText:[textView text]];
+}
+
+- (void)changePreviewLabelToText:(NSString*)text
+{
+    NSString *userName = (loggedInUser) ? loggedInUser.preferred_username : @"You";
+    NSString *url = @"www.janrain.com";
+    
+    NSInteger unl = [userName length];
+    NSInteger tl = [text length];
+    NSInteger urll = [url length];
+    
+    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@ %@", userName, text, url]];
+    [previewText setFont:[UIFont systemFontOfSize:11.0]];
+	[previewText setTextColor:[UIColor blackColor]];
+    
+    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, unl)];
+    [previewText setTextColor:[UIColor redColor] range:NSMakeRange(unl + tl + 1 , urll)];	
+	
+    myPreviewLabel.attributedText = previewText;
+    myPreviewLabel.extendBottomToFit = YES;
+    
+    DLog(@"preview text: %@", [previewText string]);
+	//myPreviewLabel.textAlignment = UITextAlignmentJustify;
+}
+
+- (void)attributedLabel:(OHAttributedLabel*)attrLabel didChangeHeightFrom:(NSInteger)fromHeight to:(NSInteger)toHeight
+{
+    DLog(@"from height: %i to height: %i", fromHeight, toHeight);
+}
+
+-(IBAction)fillLabel1 {
+	NSString* txt = @ TXT_BEGIN TXT_LINK TXT_END; // concat the 3 (#define) constant parts in a single NSString
+	/**(1)** Build the NSAttributedString *******/
+	NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:txt];
+	// for those calls we don't specify a range so it affects the whole string
+	[attrStr setFont:[UIFont systemFontOfSize:18]];
+	[attrStr setTextColor:[UIColor grayColor]];
+    
+	// now we only change the color of "Hello"
+	[attrStr setTextColor:[UIColor redColor] range:NSMakeRange(0,5)];	
+	
+    //    OHAttributedLabel *label = [[[OHAttributedLabel alloc] initWithFrame:CGRectMake(10, 10, 10, 10)] autorelease];
+    //    label.attributedText = attrStr;
+    
+	/**(2)** Affect the NSAttributedString to the OHAttributedLabel *******/
+	myPreviewLabel.attributedText = attrStr;
+	// and add a link to the "share your food!" text
+	[myPreviewLabel addCustomLink:[NSURL URLWithString:@"http://www.foodreporter.net"] inRange:[txt rangeOfString:@TXT_LINK]];
+    
+	// Use the "Justified" alignment
+	myPreviewLabel.textAlignment = UITextAlignmentJustify;
+	// "Hello World!" will be displayed in the label, justified, "Hello" in red and " World!" in gray.	
+    //[myPreviewLabel setNeedsLayout];
+}
+
+
 
 /* That is, cover the view with a transparent gray box and a large white activity indicator. */
 - (void)showViewIsLoading:(BOOL)loading
@@ -899,6 +967,8 @@ Please try again later."
 
 - (void)loadActivityToViewForFirstTime:(JRActivityObject*)newActivity
 {
+    myUserContentTextView.text = newActivity.action;
+    
     if (!newActivity.title && !newActivity.description &&
         ([newActivity.media count] == 0 || mediaThumbnailFailedToDownload))
         activityHasMedia = NO;

@@ -36,6 +36,8 @@
 #import "JREngage.h"
 #import <MessageUI/MessageUI.h>
 #import <MessageUI/MFMailComposeViewController.h>
+#import "NSAttributedString+Attributes.h"
+#import "OHAttributedLabel.h"
 
 typedef enum
 {
@@ -133,8 +135,11 @@ typedef enum
     IBOutlet UIButton    *myInfoButton;
     IBOutlet UILabel     *myPoweredByLabel;
 
+    IBOutlet UILabel                 *myRemainingCharactersLabel;
+    IBOutlet UIActivityIndicatorView *myRemainingCharactersSpinner;
+    
     IBOutlet RoundedRectView         *myPreviewRoundedRect;
-    IBOutlet UILabel                 *myPreviewLabel;
+    IBOutlet OHAttributedLabel       *myPreviewLabel;
     IBOutlet UIView                  *myMediaContentView;
     IBOutlet RoundedRectView         *myMediaViewBackgroundMiddle;
 //    IBOutlet UIImageView             *myMediaViewBackgroundTop;

@@ -204,6 +204,9 @@
 		9FA5DDE012FC846B0033A711 /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FA5DD4012FC846B0033A711 /* JRUserLandingController.xib */; };
 		9FA5DDE112FC846B0033A711 /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FA5DD4112FC846B0033A711 /* JRWebViewController.xib */; };
 		9FA5DDE212FC846B0033A711 /* JREngage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FA5DD4212FC846B0033A711 /* JREngage-Info.plist */; };
+		9FA783B913CE21E900E1B603 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA783B513CE21E900E1B603 /* OHAttributedLabel.m */; };
+		9FA783BA13CE21E900E1B603 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA783B713CE21E900E1B603 /* NSAttributedString+Attributes.m */; };
+		9FA783CB13CE441A00E1B603 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA783CA13CE441A00E1B603 /* CoreText.framework */; };
 		9FB409421241429300FDDA7B /* Quick_PublishAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */; };
 		9FB87B2412DCE5D900AE8AFC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB87B2312DCE5D900AE8AFC /* CoreLocation.framework */; };
 		9FBE258512A6FAB500E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE258412A6FAB500E1F93E /* Security.framework */; };
@@ -441,6 +444,11 @@
 		9FA5DD4012FC846B0033A711 /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRUserLandingController.xib; sourceTree = "<group>"; };
 		9FA5DD4112FC846B0033A711 /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRWebViewController.xib; sourceTree = "<group>"; };
 		9FA5DD4212FC846B0033A711 /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "JREngage-Info.plist"; path = "../JREngage/JREngage-Info.plist"; sourceTree = SOURCE_ROOT; };
+		9FA783B513CE21E900E1B603 /* OHAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OHAttributedLabel.m; path = ../JREngage/AttributedLabel/OHAttributedLabel.m; sourceTree = SOURCE_ROOT; };
+		9FA783B613CE21E900E1B603 /* OHAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OHAttributedLabel.h; path = ../JREngage/AttributedLabel/OHAttributedLabel.h; sourceTree = SOURCE_ROOT; };
+		9FA783B713CE21E900E1B603 /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+Attributes.m"; path = "../JREngage/AttributedLabel/NSAttributedString+Attributes.m"; sourceTree = SOURCE_ROOT; };
+		9FA783B813CE21E900E1B603 /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+Attributes.h"; path = "../JREngage/AttributedLabel/NSAttributedString+Attributes.h"; sourceTree = SOURCE_ROOT; };
+		9FA783CA13CE441A00E1B603 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		9FB409401241429300FDDA7B /* Quick_PublishAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_PublishAppDelegate.h; sourceTree = "<group>"; };
 		9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quick_PublishAppDelegate.m; sourceTree = "<group>"; };
 		9FB40944124142AA00FDDA7B /* Quick_Publish_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_Publish_Prefix.pch; sourceTree = "<group>"; };
@@ -465,6 +473,7 @@
 				9FD1638C129733740002BFEC /* MessageUI.framework in Frameworks */,
 				9FBE258512A6FAB500E1F93E /* Security.framework in Frameworks */,
 				9FB87B2412DCE5D900AE8AFC /* CoreLocation.framework in Frameworks */,
+				9FA783CB13CE441A00E1B603 /* CoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,6 +553,7 @@
 				9FD1638B129733740002BFEC /* MessageUI.framework */,
 				9FBE258412A6FAB500E1F93E /* Security.framework */,
 				9FB87B2312DCE5D900AE8AFC /* CoreLocation.framework */,
+				9FA783CA13CE441A00E1B603 /* CoreText.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -631,10 +641,11 @@
 		9FA5DC7B12FC846B0033A711 /* JREngage */ = {
 			isa = PBXGroup;
 			children = (
-				9FA5DCAA12FC846B0033A711 /* Resources */,
-				9FA5DC7C12FC846B0033A711 /* Security */,
+				9FA783B413CE21E900E1B603 /* AttributedLabel */,
 				9FA5DC7F12FC846B0033A711 /* JSON */,
+				9FA5DC7C12FC846B0033A711 /* Security */,
 				9FA5DC9312FC846B0033A711 /* Classes */,
+				9FA5DCAA12FC846B0033A711 /* Resources */,
 			);
 			name = JREngage;
 			sourceTree = "<group>";
@@ -959,6 +970,17 @@
 			path = ../JREngage/Resources/xibs;
 			sourceTree = SOURCE_ROOT;
 		};
+		9FA783B413CE21E900E1B603 /* AttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				9FA783B513CE21E900E1B603 /* OHAttributedLabel.m */,
+				9FA783B613CE21E900E1B603 /* OHAttributedLabel.h */,
+				9FA783B713CE21E900E1B603 /* NSAttributedString+Attributes.m */,
+				9FA783B813CE21E900E1B603 /* NSAttributedString+Attributes.h */,
+			);
+			name = AttributedLabel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1216,6 +1238,8 @@
 				9F0BB6FC13B2B08B00898F4F /* NSDate+InternetDateTime.m in Sources */,
 				9F0BB6FD13B2B08B00898F4F /* NSString+HTML.m in Sources */,
 				9F0BB70113B2B0AD00898F4F /* RegexKitLite.m in Sources */,
+				9FA783B913CE21E900E1B603 /* OHAttributedLabel.m in Sources */,
+				9FA783BA13CE21E900E1B603 /* NSAttributedString+Attributes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
