@@ -382,7 +382,9 @@
     [description release];
 
     description = [[self descriptionWithScaledAndExtractedImages:_description] retain];
-    [self setPlainText:[description stringByConvertingHTMLToPlainText]];
+    [self setPlainText:[description stringByConvertingHTMLToPlainText]];//[[description stringByConvertingHTMLToPlainText]
+//                                     stringByTrimmingCharactersInSet:[[NSCharacterSet
+//                                         alphanumericCharacterSet] invertedSet]]];
 }
 
 - (void)setPubDate:(NSString*)_pubDate
