@@ -107,6 +107,11 @@ typedef enum
     NSDictionary *colorsDictionary;
     UIView		 *titleView;
 
+    NSInteger *previewHeight;
+    BOOL mediaThumbnailFailedToDownload;
+    BOOL activityHasMedia;
+    BOOL mediaIsAlreadyShowing;
+
     IBOutlet UIView     *myBackgroundView;
 	IBOutlet UITabBar   *myTabBar;
 

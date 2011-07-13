@@ -315,7 +315,7 @@
         [myInfoButton setHidden:YES];
     }
 
-    [self loadActivityToView];
+    [self loadActivityToViewForFirstTime:activity];
 
  /* If the user calls the library before the session data object is done initializing -
     because either the requests for the base URL or provider list haven't returned -
@@ -387,7 +387,7 @@
 
     // QTS: Am I doing this twice?
     if (weAreReady)
-        [self loadActivityToView];
+        [self loadActivityToViewForFirstTime:activity];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -426,7 +426,7 @@
         [self showViewIsLoading:NO];
 
         [self addProvidersToTabBar];
-        [self loadActivityToView];
+        [self loadActivityToViewForFirstTime:activity];
 
 		return;
 	}
@@ -789,6 +789,13 @@ Please try again later."
 
     return NO;
 }
+- (void)layoutMediaView:(BOOL)shouldHide
+{
+    if (shouldHide || !activityHasMedia)
+    {
+        [myMediaViewBackgroundMiddle setHidden:YES];
+    }
+}
 
 - (void)loadActivityToView:(JRActivityObject*)_activity
 {
@@ -799,14 +806,142 @@ Please try again later."
     else
         myUserContentTextView.text = _activity.user_generated_content;
 
-    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
+    if ([self providerCanShareMedia:selectedProvider] && activityHasMedia)
     {
-        [myMediaContentView setHidden:NO];
+        if (!mediaIsAlreadyShowing)
+        {
+//            [UIView beginAnimations:@"media_grow" context:nil];
+//            [UIView setAnimationDuration:2000];
+            [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
+                                                       myMediaContentView.frame.origin.y,
+                                                       myMediaContentView.frame.size.width,
+                                                       150)];
+//            [UIView commitAnimations];
+//
+//            //[myMediaViewBackgroundMiddle setHidden:NO];
+//
+//            [UIView beginAnimations:@"media_fade" context:nil];
+//            [UIView setAnimationDelay:2000];
+            [myMediaViewBackgroundMiddle setHidden:NO];//setAlpha:1.0];
+//            [UIView commitAnimations];
 
-        myTitleLabel.text = _activity.title;
-        myDescriptionLabel.text = _activity.description;
+            mediaIsAlreadyShowing = YES;
+        }
+    }
+    else
+    {
+        if (mediaIsAlreadyShowing)
+        {
+//            [UIView beginAnimations:@"media_fade" context:nil];
+//            [UIView setAnimationDuration:2000];
+            [myMediaViewBackgroundMiddle setHidden:YES];//setAlpha:0.0];
+//            [UIView commitAnimations];
+//
+//            //[myMediaViewBackgroundMiddle setHidden:YES];
+//
+//            [UIView beginAnimations:@"media_grow" context:nil];
+//            [UIView setAnimationDelay:2000];
+            [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
+                                                       myMediaContentView.frame.origin.y,
+                                                       myMediaContentView.frame.size.width,
+                                                       58)];
+//            [UIView commitAnimations];
 
-        JRMediaObject *media = [_activity.media objectAtIndex:0];
+            mediaIsAlreadyShowing = NO;
+        }
+    }
+
+//    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
+//    {
+//        [myMediaContentView setHidden:NO];
+//
+//        myTitleLabel.text = _activity.title;
+//        myDescriptionLabel.text = _activity.description;
+//
+//        JRMediaObject *media = [_activity.media objectAtIndex:0];
+//        if ([media isKindOfClass:[JRImageMediaObject class]])
+//        {
+//            DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
+//            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
+//
+//            NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
+//            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+//            NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+//
+//            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
+//                [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+//        }
+//        else if ([media isKindOfClass:[JRFlashMediaObject class]])
+//        {
+//            DLog (@"Downloading image thumbnail: %@", ((JRFlashMediaObject*)media).imgsrc);
+//            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
+//
+//            NSURL        *url = [NSURL URLWithString:((JRFlashMediaObject*)media).imgsrc];
+//            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+//            NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+//
+//            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
+//                [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+//        }
+//        else
+//        {
+//            [self setButtonImage:myMediaThumbnailView
+//                          toData:UIImagePNGRepresentation([UIImage imageNamed:@"music_note.png"])
+//                   andSetLoading:myMediaThumbnailActivityIndicator
+//                       toLoading:NO];
+//        }
+//    }
+//    else
+//    {
+//        [myMediaContentView setHidden:YES];
+//    }
+}
+
+- (void)loadActivityToViewForFirstTime:(JRActivityObject*)newActivity
+{
+    if (!newActivity.title && !newActivity.description &&
+        ([newActivity.media count] == 0 || mediaThumbnailFailedToDownload))
+        activityHasMedia = NO;
+    else
+        activityHasMedia = YES;
+
+    if (activityHasMedia == NO)
+    {
+        [myMediaViewBackgroundMiddle setHidden:YES];
+        return;
+    }
+
+    if (newActivity.title)
+    {
+       myTitleLabel.text = newActivity.title;
+    }
+    else
+    {
+        [myDescriptionLabel setFrame:CGRectMake(myDescriptionLabel.frame.origin.x, 4,
+            myDescriptionLabel.frame.size.width,
+            myDescriptionLabel.frame.size.height)];
+        [myPreviewRoundedRect setFrame:CGRectMake(myPreviewRoundedRect.frame.origin.x,
+            myPreviewRoundedRect.frame.origin.y,
+            myPreviewRoundedRect.frame.size.width, 72)];
+        [myTitleLabel setHidden:YES];
+    }
+
+    if (newActivity.description)
+    {
+        myDescriptionLabel.text = newActivity.description;
+    }
+    else
+    {
+        [myPreviewRoundedRect setFrame:CGRectMake(myPreviewRoundedRect.frame.origin.x,
+            myPreviewRoundedRect.frame.origin.y,
+            myPreviewRoundedRect.frame.size.width, 48)];
+        [myDescriptionLabel setHidden:YES];
+    }
+
+//    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
+    if ([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload)
+    {
+        JRMediaObject *media = [newActivity.media objectAtIndex:0];
         if ([media isKindOfClass:[JRImageMediaObject class]])
         {
             DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
@@ -841,8 +976,17 @@ Please try again later."
     }
     else
     {
-        [myMediaContentView setHidden:YES];
+        DLog(@"frame: %i, %i, %i, %i", 8, myDescriptionLabel.frame.origin.y, 262, myDescriptionLabel.frame.size.height);
+        [myTitleLabel setFrame:CGRectMake(8, myTitleLabel.frame.origin.y, 262, myTitleLabel.frame.size.height)];
+        [myDescriptionLabel setFrame:CGRectMake(8, myDescriptionLabel.frame.origin.y,
+            262, myDescriptionLabel.frame.size.height)];
     }
+//    else
+//    {
+//        [myMediaContentView setHidden:YES];
+//    }
+
+    mediaIsAlreadyShowing = YES;
 }
 
 /* Not the best way to do this, but if this function is called, it calls loadActivityToView: with just
@@ -933,10 +1077,18 @@ Please try again later."
 
         NSArray *colorArray = [selectedProvider.socialPublishingProperties objectForKey:@"color_values"];
         if ([colorArray count] == 4)
+        {
             myShareToView.backgroundColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
                                                             green:[[colorArray objectAtIndex:1] doubleValue]
                                                              blue:[[colorArray objectAtIndex:2] doubleValue]
                                                             alpha:0.2];
+
+            myPreviewRoundedRect.innerStrokeColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
+                                                            green:[[colorArray objectAtIndex:1] doubleValue]
+                                                             blue:[[colorArray objectAtIndex:2] doubleValue]
+                                                            alpha:1.0];
+            [myPreviewRoundedRect setNeedsDisplay];
+        }
 
         [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
                                                                          @"button_%@_280x40.png",
@@ -1163,6 +1315,7 @@ Please try again later."
     if ([tag isEqualToString:@"getThumbnail"])
     {
         [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+        mediaThumbnailFailedToDownload = YES;
     }
     else
     {
@@ -1463,7 +1616,7 @@ Please try again later."
 
     [self showViewIsLoading:NO];
     [timer invalidate];
-    [self loadActivityToView:nil];
+    [self loadActivityToViewForFirstTime:nil];
 }
 
 - (void)userInterfaceDidClose { }
