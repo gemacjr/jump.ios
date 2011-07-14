@@ -49,9 +49,9 @@ typedef enum
 #define EMAIL 1
 #define SMS 2
 
-#define OUTER_STROKE_COLOR    [UIColor colorWithRed:0.9296 green:0.9296 blue:0.9296 alpha:1.0]
+#define OUTER_STROKE_COLOR    [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
 #define INNER_STROKE_COLOR    [UIColor redColor]
-#define OUTER_FILL_COLOR      [UIColor colorWithRed:0.9296 green:0.9296 blue:0.9296 alpha:1.0]
+#define OUTER_FILL_COLOR      [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
 #define INNER_FILL_COLOR      [UIColor clearColor]
 #define OUTER_STROKE_WIDTH    0.1
 #define INNER_STROKE_WIDTH    0.5

@@ -381,8 +381,8 @@
         self.navigationItem.titleView = titleView;
     }
 
-    [myPreviewLabel setBackgroundColor:[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0]];
-    [myPreviewRoundedRect setOuterFillColor:[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0]];
+    [myPreviewLabel setBackgroundColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+    [myPreviewRoundedRect setOuterFillColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
     [myPreviewRoundedRect setDrawInnerRect:YES];
     myMediaViewBackgroundMiddle.outerFillColor = [UIColor lightGrayColor];
     myMediaViewBackgroundMiddle.outerStrokeColor = [UIColor lightGrayColor];
