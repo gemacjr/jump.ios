@@ -320,7 +320,7 @@
 
     [self loadActivityToViewForFirstTime:activity];
     [self changePreviewLabelToText:myUserContentTextView.text];
-    
+            
  /* If the user calls the library before the session data object is done initializing -
     because either the requests for the base URL or provider list haven't returned -
     display the "Loading Providers" label and activity spinner.
@@ -404,10 +404,6 @@
         [self showViewIsLoading:NO];
 }
 
-#define TXT_BEGIN "Hello World! How are you? Don't forget to "
-#define TXT_LINK "share your food"
-#define TXT_END "!"
-
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     DLog(@"");
@@ -478,6 +474,16 @@ Please try again later."
     [myUserContentTextView becomeFirstResponder];
 }
 
+#define EDITING_HEIGHT_OFFSET 24
+#define USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT 72
+#define USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT 78
+#define CHARACTER_COUNT_DEFAULT_Y_ORIGIN 90
+#define PREVIEW_BOX_DEFAULT_Y_ORIGIN 107
+#define USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT (USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//96
+#define USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT (USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//102
+#define CHARACTER_COUNT_EDITING_Y_ORIGIN (CHARACTER_COUNT_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)//114
+#define PREVIEW_BOX_EDITING_Y_ORIGIN (PREVIEW_BOX_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)
+
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     DLog(@"");
@@ -499,16 +505,22 @@ Please try again later."
         [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,
                                                    myUserContentTextView.frame.origin.y,
                                                    myUserContentTextView.frame.size.width,
-                                                   160)];
+                                                   USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT)];
         [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x,
                                                       myUserContentBoundingBox.frame.origin.y,
                                                       myUserContentBoundingBox.frame.size.width,
-                                                      160)];
+                                                      USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT)];
+        [myRemainingCharactersLabel setFrame:CGRectMake(myRemainingCharactersLabel.frame.origin.x,
+                                                        CHARACTER_COUNT_EDITING_Y_ORIGIN,
+                                                        myRemainingCharactersLabel.frame.size.width,
+                                                        myRemainingCharactersLabel.frame.size.height)];
         [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
-                                                180,
+                                                PREVIEW_BOX_EDITING_Y_ORIGIN,
                                                 myMediaContentView.frame.size.width,
                                                 myMediaContentView.frame.size.height)];
         [UIView commitAnimations];
+
+        [myScrollView setContentSize:CGSizeMake(320, 350)];
     }
     else
     {
@@ -521,7 +533,6 @@ Please try again later."
         [myUserContentBoundingBox setAlpha:1.0];
         [UIView commitAnimations];
     }
-
 
     UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc]
 									initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -553,16 +564,22 @@ Please try again later."
         [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,
                                                    myUserContentTextView.frame.origin.y,
                                                    myUserContentTextView.frame.size.width,
-                                                   76)];
+                                                   USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT)];
         [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x,
                                                       myUserContentBoundingBox.frame.origin.y,
                                                       myUserContentBoundingBox.frame.size.width,
-                                                      82)];
+                                                      USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT)];
+        [myRemainingCharactersLabel setFrame:CGRectMake(myRemainingCharactersLabel.frame.origin.x,
+                                                        CHARACTER_COUNT_DEFAULT_Y_ORIGIN,
+                                                        myRemainingCharactersLabel.frame.size.width,
+                                                        myRemainingCharactersLabel.frame.size.height)];
         [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
-                                                102,
+                                                PREVIEW_BOX_DEFAULT_Y_ORIGIN,
                                                 myMediaContentView.frame.size.width,
                                                 myMediaContentView.frame.size.height)];
         [UIView commitAnimations];
+    
+        [myScrollView setContentSize:CGSizeMake(320, 267)];
     }
     else
     {
@@ -575,7 +592,6 @@ Please try again later."
         [myUserContentBoundingBox setAlpha:0.3];
         [UIView commitAnimations];
     }
-
 
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc]
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
@@ -623,30 +639,30 @@ Please try again later."
     DLog(@"from height: %i to height: %i", fromHeight, toHeight);
 }
 
--(IBAction)fillLabel1 {
-	NSString* txt = @ TXT_BEGIN TXT_LINK TXT_END; // concat the 3 (#define) constant parts in a single NSString
-	/**(1)** Build the NSAttributedString *******/
-	NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:txt];
-	// for those calls we don't specify a range so it affects the whole string
-	[attrStr setFont:[UIFont systemFontOfSize:18]];
-	[attrStr setTextColor:[UIColor grayColor]];
-    
-	// now we only change the color of "Hello"
-	[attrStr setTextColor:[UIColor redColor] range:NSMakeRange(0,5)];	
-	
-    //    OHAttributedLabel *label = [[[OHAttributedLabel alloc] initWithFrame:CGRectMake(10, 10, 10, 10)] autorelease];
-    //    label.attributedText = attrStr;
-    
-	/**(2)** Affect the NSAttributedString to the OHAttributedLabel *******/
-	myPreviewLabel.attributedText = attrStr;
-	// and add a link to the "share your food!" text
-	[myPreviewLabel addCustomLink:[NSURL URLWithString:@"http://www.foodreporter.net"] inRange:[txt rangeOfString:@TXT_LINK]];
-    
-	// Use the "Justified" alignment
-	myPreviewLabel.textAlignment = UITextAlignmentJustify;
-	// "Hello World!" will be displayed in the label, justified, "Hello" in red and " World!" in gray.	
-    //[myPreviewLabel setNeedsLayout];
-}
+//-(IBAction)fillLabel1 {
+//	NSString* txt = @ TXT_BEGIN TXT_LINK TXT_END; // concat the 3 (#define) constant parts in a single NSString
+//	/**(1)** Build the NSAttributedString *******/
+//	NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:txt];
+//	// for those calls we don't specify a range so it affects the whole string
+//	[attrStr setFont:[UIFont systemFontOfSize:18]];
+//	[attrStr setTextColor:[UIColor grayColor]];
+//    
+//	// now we only change the color of "Hello"
+//	[attrStr setTextColor:[UIColor redColor] range:NSMakeRange(0,5)];	
+//	
+//    //    OHAttributedLabel *label = [[[OHAttributedLabel alloc] initWithFrame:CGRectMake(10, 10, 10, 10)] autorelease];
+//    //    label.attributedText = attrStr;
+//    
+//	/**(2)** Affect the NSAttributedString to the OHAttributedLabel *******/
+//	myPreviewLabel.attributedText = attrStr;
+//	// and add a link to the "share your food!" text
+//	[myPreviewLabel addCustomLink:[NSURL URLWithString:@"http://www.foodreporter.net"] inRange:[txt rangeOfString:@TXT_LINK]];
+//    
+//	// Use the "Justified" alignment
+//	myPreviewLabel.textAlignment = UITextAlignmentJustify;
+//	// "Hello World!" will be displayed in the label, justified, "Hello" in red and " World!" in gray.	
+//    //[myPreviewLabel setNeedsLayout];
+//}
 
 
 

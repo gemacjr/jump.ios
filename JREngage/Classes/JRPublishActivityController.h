@@ -138,6 +138,8 @@ typedef enum
     IBOutlet UILabel                 *myRemainingCharactersLabel;
     IBOutlet UIActivityIndicatorView *myRemainingCharactersSpinner;
     
+    IBOutlet UIScrollView            *myScrollView;
+    
     IBOutlet RoundedRectView         *myPreviewRoundedRect;
     IBOutlet OHAttributedLabel       *myPreviewLabel;
     IBOutlet UIView                  *myMediaContentView;
