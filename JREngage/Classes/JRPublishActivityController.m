@@ -310,12 +310,13 @@
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
 
     if ([sessionData hidePoweredBy])
-    {
+    {   
         [myPoweredByLabel setHidden:YES];
         [myInfoButton setHidden:YES];
     }
     
     [myPreviewLabel setDelegate:self];
+    [myPreviewLabel setAutomaticallyDetectLinks:NO];
 
     [self loadActivityToViewForFirstTime:activity];
     [self changePreviewLabelToText:myUserContentTextView.text];

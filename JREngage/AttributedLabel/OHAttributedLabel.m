@@ -382,12 +382,14 @@ BOOL CTRunContainsCharactersFromStringRange(CTRunRef run, NSRange range) {
 			if (self.centerVertically || self.extendBottomToFit) {
 				CGSize sz = CTFramesetterSuggestFrameSizeWithConstraints(framesetter,CFRangeMake(0,0),NULL,CGSizeMake(drawingRect.size.width,CGFLOAT_MAX),NULL);
 				if (self.extendBottomToFit) {
-					CGFloat delta = MAX(0.f , ceilf(sz.height - drawingRect.size.height)) + 10 /* Security margin */;
+					CGFloat delta = MAX(0.f , ceilf(sz.height - drawingRect.size.height));//LILLI: DO WE NEED THIS?? + 10 /* Security margin */;
 					drawingRect.origin.y -= delta;
 					drawingRect.size.height += delta;
+
+                    if ((previousHeight != drawingRect.size.height) && [delegate respondsToSelector:@selector(attributedLabel:didChangeHeightFrom:to:)])
+                        [delegate attributedLabel:self didChangeHeightFrom:previousHeight to:drawingRect.size.height];
                     
-                    if (delta && [delegate respondsToSelector:@selector(attributedLabel:didChangeHeightFrom:to:)])
-                        [delegate attributedLabel:self didChangeHeightFrom:(drawingRect.size.height - delta) to:drawingRect.size.height];
+                    previousHeight = drawingRect.size.height;
 				}
 				if (self.centerVertically) {
 					drawingRect.origin.y -= (drawingRect.size.height - sz.height)/2;
