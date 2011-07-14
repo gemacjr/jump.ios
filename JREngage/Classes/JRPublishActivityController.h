@@ -128,8 +128,8 @@ typedef enum
 
     IBOutlet UIView      *myContentView;
 
-    IBOutlet UITextView  *myUserContentTextView;
-    IBOutlet UIButton    *myUserContentBoundingBox;
+    IBOutlet UITextView         *myUserContentTextView;
+    IBOutlet RoundedRectView    *myUserContentBoundingBox;
 
     IBOutlet UIImageView *myProviderIcon;
     IBOutlet UIButton    *myInfoButton;

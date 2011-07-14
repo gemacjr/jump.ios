@@ -387,9 +387,15 @@
     myMediaViewBackgroundMiddle.outerFillColor = [UIColor lightGrayColor];
     myMediaViewBackgroundMiddle.outerStrokeColor = [UIColor lightGrayColor];
     myMediaViewBackgroundMiddle.outerCornerRadius = 5.0;
+    myUserContentBoundingBox.outerStrokeColor = [UIColor darkGrayColor];
+    myUserContentBoundingBox.outerFillColor = [UIColor whiteColor];
+    myUserContentBoundingBox.outerStrokeWidth = 1.5;
+    myUserContentBoundingBox.alpha = 0.3;
     [myPreviewRoundedRect setNeedsDisplay];
     [myMediaViewBackgroundMiddle setNeedsDisplay];
 
+    [myScrollView setContentSize:CGSizeMake(320, 264)];
+    
     // QTS: Am I doing this twice?
     if (weAreReady)
         [self loadActivityToViewForFirstTime:activity];
@@ -499,8 +505,8 @@ Please try again later."
     [alreadyShared removeAllObjects];
     [self showActivityAsShared:NO];
 
-    if (!iPad)
-    {
+//    if (!iPad)
+//    {
         [UIView beginAnimations:@"editing" context:nil];
         [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,
                                                    myUserContentTextView.frame.origin.y,
@@ -518,16 +524,17 @@ Please try again later."
                                                 PREVIEW_BOX_EDITING_Y_ORIGIN,
                                                 myMediaContentView.frame.size.width,
                                                 myMediaContentView.frame.size.height)];
+    [myScrollView setContentSize:CGSizeMake(320, 350)];
+    if (!iPad)
+    {
         [UIView commitAnimations];
-
-        [myScrollView setContentSize:CGSizeMake(320, 350)];
     }
     else
     {
         [myPadGrayEditingViewTop setHidden:NO];
         [myPadGrayEditingViewBottom setHidden:NO];
 
-        [UIView beginAnimations:@"editing" context:nil];
+//        [UIView beginAnimations:@"editing" context:nil];
         [myPadGrayEditingViewTop setAlpha:0.6];
         [myPadGrayEditingViewBottom setAlpha:0.6];
         [myUserContentBoundingBox setAlpha:1.0];
@@ -558,8 +565,8 @@ Please try again later."
         myUserContentTextView.text = activity.action;
     }
 
-    if (!iPad)
-    {
+//    if (!iPad)
+//    {
         [UIView beginAnimations:@"editing" context:nil];
         [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,
                                                    myUserContentTextView.frame.origin.y,
@@ -577,16 +584,18 @@ Please try again later."
                                                 PREVIEW_BOX_DEFAULT_Y_ORIGIN,
                                                 myMediaContentView.frame.size.width,
                                                 myMediaContentView.frame.size.height)];
-        [UIView commitAnimations];
+        [myScrollView setContentSize:CGSizeMake(320, 264)];
     
-        [myScrollView setContentSize:CGSizeMake(320, 267)];
-    }
+    if (!iPad)
+    {
+        [UIView commitAnimations];
+    }    
     else
     {
-        [myPadGrayEditingViewTop setHidden:NO];
-        [myPadGrayEditingViewBottom setHidden:NO];
+        [myPadGrayEditingViewTop setHidden:YES];
+        [myPadGrayEditingViewBottom setHidden:YES];
 
-        [UIView beginAnimations:@"editing" context:nil];
+        //[UIView beginAnimations:@"editing" context:nil];
         [myPadGrayEditingViewTop setAlpha:0.0];
         [myPadGrayEditingViewBottom setAlpha:0.0];
         [myUserContentBoundingBox setAlpha:0.3];
