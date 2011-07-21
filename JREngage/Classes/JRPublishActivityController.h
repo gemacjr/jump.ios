@@ -84,7 +84,8 @@ typedef enum
 @interface JRPublishActivityController : UIViewController
                         <UINavigationBarDelegate, UITextViewDelegate, UITabBarDelegate,
                          JRSessionDelegate, JRConnectionManagerDelegate, JRUserInterfaceDelegate,
-                         UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
+                         UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, 
+                         OHAttributedLabelDelegate>
 {
 	JRSessionData	*sessionData;
 

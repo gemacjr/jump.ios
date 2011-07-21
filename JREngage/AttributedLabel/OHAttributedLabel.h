@@ -50,6 +50,7 @@
 @interface OHAttributedLabel : UILabel {
 	NSMutableAttributedString* _attributedText; //!< Internally mutable, but externally immutable copy access only
     NSInteger previousHeight;
+    NSInteger maxHeight;
 	CTFrameRef textFrame;
 	CGRect drawingRect;
 	NSMutableArray* customLinks;
@@ -72,5 +73,6 @@
 @property(nonatomic, assign) IBOutlet id<OHAttributedLabelDelegate> delegate;
 
 @property(nonatomic, assign) BOOL centerVertically;
-@property(nonatomic, assign) BOOL extendBottomToFit; //!< Allows to draw text past the bottom of the view if need. May help in rare cases (like using Emoji)
+@property(nonatomic, assign) BOOL adjustBottomToFit; //!< Allows to draw text past the bottom of the view if need. May help in rare cases (like using Emoji)
+@property(nonatomic, assign) NSInteger maxHeight;
 @end

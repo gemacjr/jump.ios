@@ -317,6 +317,8 @@
     
     [myPreviewLabel setDelegate:self];
     [myPreviewLabel setAutomaticallyDetectLinks:NO];
+    [myPreviewLabel setMaxHeight:44];
+    [myPreviewLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
 
     [self loadActivityToViewForFirstTime:activity];
     [self changePreviewLabelToText:myUserContentTextView.text];
@@ -628,7 +630,8 @@ Please try again later."
     NSInteger unl = [userName length];
     NSInteger tl = [text length];
     NSInteger urll = [url length];
-    
+    [myPreviewLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
+
     NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@ %@", userName, text, url]];
     [previewText setFont:[UIFont systemFontOfSize:11.0]];
 	[previewText setTextColor:[UIColor blackColor]];
@@ -637,15 +640,16 @@ Please try again later."
     [previewText setTextColor:[UIColor redColor] range:NSMakeRange(unl + tl + 1 , urll)];	
 	
     myPreviewLabel.attributedText = previewText;
-    myPreviewLabel.extendBottomToFit = YES;
+    myPreviewLabel.adjustBottomToFit = YES;
     
-    DLog(@"preview text: %@", [previewText string]);
+//    DLog(@"preview text: %@", [previewText string]);
 	//myPreviewLabel.textAlignment = UITextAlignmentJustify;
 }
 
 - (void)attributedLabel:(OHAttributedLabel*)attrLabel didChangeHeightFrom:(NSInteger)fromHeight to:(NSInteger)toHeight
 {
     DLog(@"from height: %i to height: %i", fromHeight, toHeight);
+    DLog(@"label frame: %f, %f, %f, %f", myPreviewLabel.frame.origin.x, myPreviewLabel.frame.origin.y, myPreviewLabel.frame.size.width, myPreviewLabel.frame.size.height);
 }
 
 //-(IBAction)fillLabel1 {

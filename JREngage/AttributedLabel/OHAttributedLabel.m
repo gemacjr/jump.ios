@@ -126,7 +126,7 @@ BOOL CTRunContainsCharactersFromStringRange(CTRunRef run, NSRange range) {
 
 @implementation OHAttributedLabel
 @synthesize linkColor, highlightedLinkColor, underlineLinks;
-@synthesize centerVertically, automaticallyDetectLinks, onlyCatchTouchesOnLinks, extendBottomToFit;
+@synthesize centerVertically, automaticallyDetectLinks, onlyCatchTouchesOnLinks, adjustBottomToFit, maxHeight;
 @synthesize delegate;
 
 
@@ -143,12 +143,13 @@ BOOL CTRunContainsCharactersFromStringRange(CTRunRef run, NSRange range) {
 	underlineLinks = YES;
 	automaticallyDetectLinks = YES;
 	onlyCatchTouchesOnLinks = NO;
+    maxHeight = -1;
 	self.userInteractionEnabled = YES;
 	self.contentMode = UIViewContentModeRedraw;
 	[self resetAttributedText];
 }
 
-- (id) initWithFrame:(CGRect)aFrame
+- (id)initWithFrame:(CGRect)aFrame
 {
 	self = [super initWithFrame:aFrame];
 	if (self != nil) {
@@ -358,6 +359,82 @@ BOOL CTRunContainsCharactersFromStringRange(CTRunRef run, NSRange range) {
 	}
 }
 
+//- (NSMutableAttributedString*)mutableAttributedStringFromAttributedString:(NSAttributedString*)attrString trimmedToLength:(NSInteger)length
+//{
+//    //NSMutableAttributedString *trimmedString = [attrString mutableCopy];
+//    NSInteger difference = [[attrString string] length] - length;
+//
+//    if (difference <= 0)
+//        return [attrString mutableCopy];
+//    
+//    NSString *justTheString = [attrString string];
+//    
+//    switch (self.lineBreakMode)
+//    {
+//        // Wrap or clip the string only at word boundaries. This is the default wrapping option.
+//        // Available in iOS 2.0 and later.
+//        case UILineBreakModeWordWrap:
+//        {
+//            justTheString = [justTheString substringToIndex:length];
+//            NSRange rangeOfLastWhiteSpace = [justTheString rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
+//                                                                           options:NSBackwardsSearch
+//                                                                             range:NSMakeRange(0, [justTheString length])];
+//            justTheString = [[justTheString substringToIndex:rangeOfLastWhiteSpace.location] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//            NSInteger newStringLength = [justTheString length];
+//            NSMutableAttributedString* newAttrString = [attrString mutableCopy];
+//            [newAttrString deleteCharactersInRange:NSMakeRange(newStringLength, [[attrString string] length] - newStringLength)];
+//            return newAttrString;
+//        }
+//        // Wrap or clip the string at the closest character boundary.
+//        // Available in iOS 2.0 and later.
+//        case UILineBreakModeCharacterWrap:
+//        {    
+//            justTheString = [justTheString substringToIndex:length];
+//            NSInteger newStringLength = [justTheString length];
+//            NSMutableAttributedString* newAttrString = [attrString mutableCopy];
+//            [newAttrString  deleteCharactersInRange:NSMakeRange(newStringLength, [[attrString string] length] - newStringLength)];
+//            return newAttrString;
+//        }        
+//        // Clip the text when the end of the drawing rectangle is reached. This option could result in a partially rendered character at the end of a string.
+//        // Available in iOS 2.0 and later.
+//        case UILineBreakModeClip:
+//        {   
+//            return [attrString mutableCopy];
+//        }
+//        // Truncate text (as needed) from the beginning of the line. For multiple lines of text, only text on the first line is truncated.
+//        // Available in iOS 2.0 and later.
+//        case UILineBreakModeHeadTruncation:
+//        {   
+//            NSMutableAttributedString* newAttrString = [attrString mutableCopy];
+//            [newAttrString deleteCharactersInRange:NSMakeRange(0, difference)];
+//            [newAttrString replaceCharactersInRange:NSMakeRange(0, 3) withString:@"..."];
+//            return newAttrString;
+//        }
+//        // Truncate text (as needed) from the end of the line. For multiple lines of text, only text on the last line is truncated.
+//        // Available in iOS 2.0 and later.
+//        case UILineBreakModeTailTruncation:
+//        {   
+//            NSMutableAttributedString* newAttrString = [attrString mutableCopy];
+//            [newAttrString deleteCharactersInRange:NSMakeRange(length, difference)];
+//            [newAttrString replaceCharactersInRange:NSMakeRange(length - 3, 3) withString:@"..."];
+//            return newAttrString;
+//        }
+//        // Truncate text (as needed) from the middle of the line. For multiple lines of text, text is truncated only at the midpoint of the line.
+//        // Available in iOS 2.0 and later.
+//        case UILineBreakModeMiddleTruncation:
+//        {   
+//            NSMutableAttributedString* newAttrString = [attrString mutableCopy];
+//            [newAttrString deleteCharactersInRange:NSMakeRange(length/2 - difference/2, difference)];
+//            [newAttrString replaceCharactersInRange:NSMakeRange(length/2 - difference/2 - 2, 3) withString:@"..."];
+//            return newAttrString;
+//        }
+//        default:
+//        {   
+//            return [attrString mutableCopy];
+//        }
+//    }
+//}
+
 - (void)drawTextInRect:(CGRect)aRect
 {
 	if (_attributedText) {
@@ -379,13 +456,20 @@ BOOL CTRunContainsCharactersFromStringRange(CTRunRef run, NSRange range) {
 		if (textFrame == NULL) {
 			CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)attrStrWithLinks);
 			drawingRect = self.bounds;
-			if (self.centerVertically || self.extendBottomToFit) {
-				CGSize sz = CTFramesetterSuggestFrameSizeWithConstraints(framesetter,CFRangeMake(0,0),NULL,CGSizeMake(drawingRect.size.width,CGFLOAT_MAX),NULL);
-				if (self.extendBottomToFit) {
-					CGFloat delta = MAX(0.f , ceilf(sz.height - drawingRect.size.height));//LILLI: DO WE NEED THIS?? + 10 /* Security margin */;
+			if (self.centerVertically || self.adjustBottomToFit) {
+                CFRange fitRange = CFRangeMake(0, 0);
+				CGSize sz = CTFramesetterSuggestFrameSizeWithConstraints(framesetter,CFRangeMake(0,0),NULL,CGSizeMake(drawingRect.size.width,(maxHeight != -1 ? maxHeight : CGFLOAT_MAX)),&fitRange);
+				if (self.adjustBottomToFit) {
+					CGFloat delta = ceilf(sz.height - drawingRect.size.height);//MAX(0.f , ceilf(sz.height - drawingRect.size.height));//LILLI: DO WE NEED THIS?? + 10 /* Security margin */;
 					drawingRect.origin.y -= delta;
 					drawingRect.size.height += delta;
+                    
+//                    if (maxHeight != -1 && drawingRect.size.height > maxHeight)
+//                        drawingRect.size.height = maxHeight;
 
+//                    if ([[attrStrWithLinks string] length] > fitRange.length)
+//                        attrStrWithLinks = [self mutableAttributedStringFromAttributedString:attrStrWithLinks trimmedToLength:fitRange.length];
+                    
                     if ((previousHeight != drawingRect.size.height) && [delegate respondsToSelector:@selector(attributedLabel:didChangeHeightFrom:to:)])
                         [delegate attributedLabel:self didChangeHeightFrom:previousHeight to:drawingRect.size.height];
                     
@@ -395,6 +479,7 @@ BOOL CTRunContainsCharactersFromStringRange(CTRunRef run, NSRange range) {
 					drawingRect.origin.y -= (drawingRect.size.height - sz.height)/2;
 				}
 			}
+			framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)attrStrWithLinks);
 			CGMutablePathRef path = CGPathCreateMutable();
 			CGPathAddRect(path, NULL, drawingRect);
 			textFrame = CTFramesetterCreateFrame(framesetter,CFRangeMake(0,0), path, NULL);
@@ -547,9 +632,14 @@ BOOL CTRunContainsCharactersFromStringRange(CTRunRef run, NSRange range) {
 	[self setNeedsDisplay];
 }
 
--(void)setExtendBottomToFit:(BOOL)val {
-	extendBottomToFit = val;
+-(void)setAdjustBottomToFit:(BOOL)val {
+	adjustBottomToFit = val;
 	[self setNeedsDisplay];
+}
+
+- (void)setMaxHeight:(NSInteger)val {
+    maxHeight = val;
+    [self setNeedsDisplay];
 }
 
 -(void)setNeedsDisplay {
