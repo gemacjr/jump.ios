@@ -630,14 +630,13 @@ Please try again later."
     NSInteger unl = [userName length];
     NSInteger tl = [text length];
     NSInteger urll = [url length];
-    [myPreviewLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
 
-    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@ %@", userName, text, url]];
+    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@x%@x%@", userName, text, url]];
     [previewText setFont:[UIFont systemFontOfSize:11.0]];
 	[previewText setTextColor:[UIColor blackColor]];
     
     [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, unl)];
-    [previewText setTextColor:[UIColor redColor] range:NSMakeRange(unl + tl + 1 , urll)];	
+    [previewText setTextColor:[UIColor redColor] range:NSMakeRange(unl + tl + 2 , urll)];	
 	
     myPreviewLabel.attributedText = previewText;
     myPreviewLabel.adjustBottomToFit = YES;
