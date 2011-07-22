@@ -163,6 +163,9 @@ typedef enum
     IBOutlet UILabel                 *mySharedLabel;
     IBOutlet UIButton                *mySignOutButton;
 
+    NSString *shortenedActivityUrl;
+    NSInteger maxCharacters;
+    
     NSMutableDictionary *cachedProfilePics;
     NSMutableSet        *alreadyShared;
 }

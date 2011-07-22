@@ -321,7 +321,7 @@
     [myPreviewLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
 
     [self loadActivityToViewForFirstTime:activity];
-    [self changePreviewLabelToText:myUserContentTextView.text];
+//    [self changePreviewLabelToText:myUserContentTextView.text]; // TODO: make this right
             
  /* If the user calls the library before the session data object is done initializing -
     because either the requests for the base URL or provider list haven't returned -
@@ -619,7 +619,14 @@ Please try again later."
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    [self changePreviewLabelToText:[textView text]];
+    if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+        [self updatePreviewTextWhenContentReplacesAction];
+    else
+        [self updatePreviewTextWhenContentDoesNotReplaceAction];
+    
+    [self updateCharacterCount];
+    
+//    [self changePreviewLabelToText:[textView text]];
 }
 
 - (void)changePreviewLabelToText:(NSString*)text
@@ -674,6 +681,166 @@ Please try again later."
 //	myPreviewLabel.textAlignment = UITextAlignmentJustify;
 //	// "Hello World!" will be displayed in the label, justified, "Hello" in red and " World!" in gray.	
 //    //[myPreviewLabel setNeedsLayout];
+//}
+
+- (BOOL)willPublishThunkToStatus
+{
+    return ((![activity url] || [[activity url] isEqualToString:@""]) && 
+            [[selectedProvider.socialSharingProperties objectForKey:@"uses_set_status_if_no_url"] isEqualToString:@"YES"]);
+}
+
+- (BOOL)doesActivityUrlAffectCharacterCountForSelectedProvider
+{
+    BOOL url_reduces_max_chars = [[selectedProvider.socialSharingProperties objectForKey:@"url_reduces_max_chars"] isEqualToString:@"YES"];
+    BOOL shows_url_as_url = [[selectedProvider.socialSharingProperties objectForKey:@"shows_url_as"] isEqualToString:@"url"];
+    
+    /* Twitter/MySpace -> true */
+    return (url_reduces_max_chars && shows_url_as_url);
+}
+
+- (void)updateCharacterCount
+{
+    // TODO: verify correctness of the 0 remaining characters edge case
+    NSString *characterCountText;
+    
+    if (maxCharacters == -1)
+        return;
+    
+    int chars_remaining = 0;
+    if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+    {
+        /* Twitter, MySpace, LinkedIn */
+        if ([self doesActivityUrlAffectCharacterCountForSelectedProvider] && shortenedActivityUrl == nil) 
+        {
+            /* Twitter, MySpace */
+            characterCountText = @"Calculating remaining characters";
+        }
+        else
+        {
+            int preview_length = [[myPreviewLabel text] length];
+            chars_remaining = maxCharacters - preview_length;
+            
+            characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
+        }
+    } 
+    else
+    { /* Facebook, Yahoo */
+        int comment_length = [[myUserContentTextView text] length];
+        chars_remaining = maxCharacters - comment_length;
+
+        characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
+    }
+    
+    [myRemainingCharactersLabel setText:characterCountText];
+    
+    if (chars_remaining < 0)
+        [myRemainingCharactersLabel setTextColor:[UIColor redColor]]; // TODO: Make just character number red with attributed label
+    else
+        [myRemainingCharactersLabel setTextColor:[UIColor darkGrayColor]];
+    
+    DLog(@"updateCharacterCount: %@", characterCountText);
+}
+
+- (void)updateUserCommentView
+{
+    //mUserHasEditedText = true;
+    
+    if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+    {
+        /* Twitter, MySpace, LinkedIn */
+        [self updatePreviewTextWhenContentReplacesAction];
+    } /* ... else Yahoo or Facebook */
+}
+
+- (void)updatePreviewTextWhenContentReplacesAction
+{
+    NSString *username = (loggedInUser) ? loggedInUser.preferred_username : @"You";
+    NSString *url = (shortenedActivityUrl) ? shortenedActivityUrl : @"shortening url...";
+    
+    NSString *text = (![[myUserContentTextView text] isEqualToString:@""]) ?
+                            [myUserContentTextView text] :                                         
+                            [activity action];
+    
+    NSInteger nl = [username length];
+    NSInteger ul = [url length];
+
+    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
+    [previewText setFont:[UIFont systemFontOfSize:11.0]];
+	[previewText setTextColor:[UIColor blackColor]];
+    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
+	
+    if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
+    { /* Twitter/MySpace -> true */
+        NSMutableAttributedString *urlAttrString = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@" %@", url]];
+        [urlAttrString setTextColor:[UIColor redColor] range:NSMakeRange(1, ul)];	
+        
+        [previewText appendAttributedString:urlAttrString];
+    }
+    
+    myPreviewLabel.attributedText = previewText;
+    myPreviewLabel.adjustBottomToFit = YES;
+}
+
+- (void)updatePreviewTextWhenContentDoesNotReplaceAction
+{
+    NSString *username = (loggedInUser) ? loggedInUser.preferred_username : @"You";    
+    NSString *text = activity.action;
+    
+    NSInteger nl = [username length];
+    
+    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
+    [previewText setFont:[UIFont systemFontOfSize:11.0]];
+	[previewText setTextColor:[UIColor blackColor]];
+    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
+	
+    myPreviewLabel.attributedText = previewText;
+    myPreviewLabel.adjustBottomToFit = YES;
+}
+
+//private void initializeWithProviderConfiguration() {
+//    /* Check for no suitable providers */
+//    List<JRProvider> socialProviders = mSessionData.getSocialProviders();
+//    if (socialProviders == null || socialProviders.size() == 0) {
+//        JREngageError err = new JREngageError(
+//                                              "Cannot load the Publish Activity, no social sharing providers are configured.",
+//                                              JREngageError.ConfigurationError.CONFIGURATION_INFORMATION_ERROR,
+//                                              JREngageError.ErrorType.CONFIGURATION_INFORMATION_MISSING);
+//        mSessionData.triggerPublishingDialogDidFail(err);
+//        return;
+//    }
+//    
+//    /* Configure the properties of the UI */
+//    mActivityObject.shortenUrls(new JRActivityObject.ShortenedUrlCallback() {
+//        public void setShortenedUrl(String shortenedUrl) {
+//            mShortenedActivityURL = shortenedUrl;
+//            
+//            if (mSelectedProvider == null) return;
+//            
+//            if (mSelectedProvider.getSocialSharingProperties().
+//                getAsBoolean("content_replaces_action")) {
+//                updatePreviewTextWhenContentReplacesAction();
+//            } else {
+//                updatePreviewTextWhenContentDoesNotReplaceAction();
+//            }
+//            updateCharacterCount();
+//        }
+//    });
+//    createTabs();
+//    
+//    /* Re-set the user comment with it's existing so the text change listener is fired
+//     * and the character count is updated.
+//     * See also onCreate */
+//    mUserCommentView.setText(mUserCommentView.getText());
+//}
+
+//private void shareActivity() {
+//    Log.d(TAG, "shareActivity mAuthenticatedUser: " + mAuthenticatedUser.toString());
+//    
+//    if (isPublishThunk()) {
+//        mSessionData.setStatusForUser(mAuthenticatedUser);
+//    } else {
+//        mSessionData.shareActivityForUser(mAuthenticatedUser);
+//    }
 //}
 
 
@@ -881,11 +1048,12 @@ Please try again later."
 {
     DLog(@"");
 
-    if ([[provider.socialPublishingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"])
+    if ([[provider.socialSharingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"])
         return YES;
 
     return NO;
 }
+
 - (void)layoutMediaView:(BOOL)shouldHide
 {
     if (shouldHide || !activityHasMedia)
@@ -1174,7 +1342,7 @@ Please try again later."
 
         selectedTab = item.tag;
 
-        NSArray *colorArray = [selectedProvider.socialPublishingProperties objectForKey:@"color_values"];
+        NSArray *colorArray = [selectedProvider.socialSharingProperties objectForKey:@"color_values"];
         if ([colorArray count] == 4)
         {
             myShareToView.backgroundColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
@@ -1220,7 +1388,19 @@ Please try again later."
         {
             [self showUserAsLoggedIn:NO];
         }
-
+        
+        if ([self willPublishThunkToStatus])
+            maxCharacters = [[[[selectedProvider socialSharingProperties] objectForKey:@"set_status_properties"] objectForKey:@"max_characters"] integerValue];
+        else
+            maxCharacters = [[[selectedProvider socialSharingProperties] objectForKey:@"max_characters"] integerValue];
+        
+        if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+            [self updatePreviewTextWhenContentReplacesAction];
+        else
+            [self updatePreviewTextWhenContentDoesNotReplaceAction];
+        
+        [self updateCharacterCount];
+    
         [self loadActivityToView];
         [self showActivityAsShared:([alreadyShared containsObject:selectedProvider.name] ? YES : NO)];
     }

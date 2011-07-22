@@ -257,7 +257,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize url;
 @synthesize requiresInput;
 @synthesize shortText;
-@synthesize socialPublishingProperties;
+@synthesize socialSharingProperties;
 @synthesize social;
 
 - (NSString*)welcomeString
@@ -356,9 +356,9 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
             shortText = @"";
         }
         
-        socialPublishingProperties = [[_dictionary objectForKey:@"social_sharing_properties"] retain];
+        socialSharingProperties = [[_dictionary objectForKey:@"social_sharing_properties"] retain];
         
-        if ([socialPublishingProperties count])
+        if ([socialSharingProperties count])
             social = YES;
         
         [self loadDynamicVariables];
@@ -376,7 +376,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [coder encodeObject:openIdentifier forKey:@"openIdentifier"];
     [coder encodeObject:url forKey:@"url"];
     [coder encodeBool:requiresInput forKey:@"requiresInput"];    
-    [coder encodeObject:socialPublishingProperties forKey:@"socialPublishingProperties"];
+    [coder encodeObject:socialSharingProperties forKey:@"socialPublishingProperties"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -392,7 +392,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         openIdentifier =  [[coder decodeObjectForKey:@"openIdentifier"] retain];
         url =             [[coder decodeObjectForKey:@"url"] retain];
         requiresInput =    [coder decodeBoolForKey:@"requiresInput"];
-        socialPublishingProperties = [[coder decodeObjectForKey:@"socialPublishingProperties"] retain];
+        socialSharingProperties = [[coder decodeObjectForKey:@"socialPublishingProperties"] retain];
     }   
     [self loadDynamicVariables];
     
@@ -417,7 +417,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [url release];	
     [userInput release];
     [welcomeString release];
-    [socialPublishingProperties release];
+    [socialSharingProperties release];
     
 	[super dealloc];
 }

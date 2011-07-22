@@ -111,7 +111,7 @@ extern NSString * JREngageErrorDomain;
     NSString *userInput;
 	NSString *welcomeString;
     
-    NSDictionary *socialPublishingProperties;
+    NSDictionary *socialSharingProperties;
     BOOL          social;
 
 }
@@ -124,7 +124,7 @@ extern NSString * JREngageErrorDomain;
 @property            BOOL      forceReauth;
 @property (retain)   NSString *userInput;
 @property (retain)   NSString *welcomeString;
-@property (readonly) NSDictionary *socialPublishingProperties;
+@property (readonly) NSDictionary *socialSharingProperties;
 
 - (BOOL)isEqualToReturningProvider:(NSString*)returningProvider;
 @end
