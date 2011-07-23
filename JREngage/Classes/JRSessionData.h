@@ -82,6 +82,10 @@ extern NSString * JREngageErrorDomain;
 + (NSError*)setError:(NSString*)message withCode:(NSInteger)code;
 @end
 
+@interface JRActivityObject (shortenedUrl)
+@property (retain) NSString *shortenedUrl;
+@end
+
 @interface JRAuthenticatedUser : NSObject
 {
     NSString *photo;
@@ -148,6 +152,8 @@ extern NSString * JREngageErrorDomain;
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
 
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+
+- (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)activity;
 @end
 
 @class JRActivityObject;

@@ -563,6 +563,8 @@
     JRSmsObject *sms;
     
     /*@}*/
+    
+    NSString *shortenedUrl;
 }
 
 @property (readonly) NSString *action;  							

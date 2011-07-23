@@ -717,7 +717,7 @@ Please try again later."
         }
         else
         {
-            int preview_length = [[myPreviewLabel text] length];
+            int preview_length = [[myPreviewLabel attributedText] length];
             chars_remaining = maxCharacters - preview_length;
             
             characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
@@ -750,6 +750,25 @@ Please try again later."
         /* Twitter, MySpace, LinkedIn */
         [self updatePreviewTextWhenContentReplacesAction];
     } /* ... else Yahoo or Facebook */
+}
+
+- (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)_activity
+{
+    DLog(@"");
+    if (_activity == activity)
+    {
+        shortenedActivityUrl = url;
+        
+        if (selectedProvider == nil)
+            return;
+        
+        if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+            [self updatePreviewTextWhenContentReplacesAction];
+        else
+            [self updatePreviewTextWhenContentDoesNotReplaceAction];
+        
+        [self updateCharacterCount];
+    }
 }
 
 - (void)updatePreviewTextWhenContentReplacesAction
@@ -1390,9 +1409,9 @@ Please try again later."
         }
         
         if ([self willPublishThunkToStatus])
-            maxCharacters = [[[[selectedProvider socialSharingProperties] objectForKey:@"set_status_properties"] objectForKey:@"max_characters"] integerValue];
+            maxCharacters = [((NSString*)[[[selectedProvider socialSharingProperties] objectForKey:@"set_status_properties"] objectForKey:@"max_characters"]) intValue];// integerValue];
         else
-            maxCharacters = [[[selectedProvider socialSharingProperties] objectForKey:@"max_characters"] integerValue];
+            maxCharacters = [[[selectedProvider socialSharingProperties] objectForKey:@"max_characters"] intValue];
         
         if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
             [self updatePreviewTextWhenContentReplacesAction];

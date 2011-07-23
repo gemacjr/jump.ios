@@ -134,6 +134,12 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 }
 @end
 
+#pragma mark JRActivityObject ()
+@implementation JRActivityObject (shortenedUrl)
+- (NSString*)shortenedUrl { return shortenedUrl; }
+- (void)setShortenedUrl:(NSString*)newUrl { [newUrl retain]; [shortenedUrl release]; shortenedUrl = newUrl; }
+@end
+
 #pragma mark JRAuthenticatedUser
 @interface JRAuthenticatedUser ()
 - (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name;
@@ -376,7 +382,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [coder encodeObject:openIdentifier forKey:@"openIdentifier"];
     [coder encodeObject:url forKey:@"url"];
     [coder encodeBool:requiresInput forKey:@"requiresInput"];    
-    [coder encodeObject:socialSharingProperties forKey:@"socialPublishingProperties"];
+    [coder encodeObject:socialSharingProperties forKey:@"socialSharingProperties"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -392,7 +398,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         openIdentifier =  [[coder decodeObjectForKey:@"openIdentifier"] retain];
         url =             [[coder decodeObjectForKey:@"url"] retain];
         requiresInput =    [coder decodeBoolForKey:@"requiresInput"];
-        socialSharingProperties = [[coder decodeObjectForKey:@"socialPublishingProperties"] retain];
+        socialSharingProperties = [[coder decodeObjectForKey:@"socialSharingProperties"] retain];
     }   
     [self loadDynamicVariables];
     
@@ -1249,10 +1255,15 @@ static JRSessionData* singleton = nil;
 #pragma mark url_shortening
 - (void)startGetShortenedUrlsForActivity:(JRActivityObject*)_activity
 {
-    NSDictionary *urls = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
+    /* In case there's an error, we'll just set the activity's shortened url to the 
+     * unshortened url for now, and update it only if we successfully shorten it. */
+    _activity.shortenedUrl = _activity.url;
 
-    NSString *urlString = [NSString stringWithFormat:@"%@/openid/get_urls?urls=%@",
-                           baseUrl, [[urls JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSDictionary *urls = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", [NSArray arrayWithObject:_activity.url], @"activity", nil];
+
+    NSString *urlString = [NSString stringWithFormat:@"%@/openid/get_urls?urls=%@&app_name=%@&device=%@",
+                           baseUrl, [[urls JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                            [self appNameAndVersion], device];
     
     DLog (@"Getting shortened URLs: %@", urlString);
 	
@@ -1266,17 +1277,18 @@ static JRSessionData* singleton = nil;
 - (void)finishGetShortenedUrlsForActivity:(JRActivityObject*)_activity withShortenedUrls:(NSString*)urls
 {
     DLog ("Shortened Urls: %@", urls);
-    
+//    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     NSDictionary *dict = [urls JSONValue];
     
     if (!dict) 
-        return;
+        goto foo;
     
     if ([dict objectForKey:@"err"])
-        return;
+        goto foo;
     
-    NSDictionary *emailUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"email"];
-    NSDictionary *smsUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"sms"];
+    NSDictionary *emailUrls = [[dict objectForKey:@"urls"] objectForKey:@"email"];
+    NSDictionary *smsUrls = [[dict objectForKey:@"urls"] objectForKey:@"sms"];
+    NSDictionary *activityUrls = [[dict objectForKey:@"urls"] objectForKey:@"activity"];
     
     for (NSString *key in [emailUrls allKeys])
     {
@@ -1291,6 +1303,17 @@ static JRSessionData* singleton = nil;
                                  stringByReplacingOccurrencesOfString:key 
                                  withString:[smsUrls objectForKey:key]];
     }
+
+    for (NSString *key in [activityUrls allKeys])
+    {
+        if ([key isEqualToString:activity.url])
+            [_activity setShortenedUrl:[activityUrls objectForKey:key]];            
+    }
+    
+foo:
+    for (id<JRSessionDelegate> delegate in [NSArray arrayWithArray:delegates]) 
+        if ([delegate respondsToSelector:@selector(urlShortenedToNewUrl:forActivity:)])
+            [delegate urlShortenedToNewUrl:[_activity shortenedUrl] forActivity:_activity];
 }
 
 #pragma mark token_url
@@ -1501,7 +1524,13 @@ static JRSessionData* singleton = nil;
         }
         else if ([action isEqualToString:@"shortenUrls"])
         {
-            // Do nothing for now...
+            /* Call with _activity.shortenedUrl (as opposed to newShortened) in case there was an error, as
+             * _activity.shortenedUrl was previously set to fall back to the full url. */
+            NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
+            for (id<JRSessionDelegate> delegate in delegatesCopy) 
+                if ([delegate respondsToSelector:@selector(urlShortenedToNewUrl:forActivity:)])
+                    [delegate urlShortenedToNewUrl:((JRActivityObject*)[(NSDictionary*)tag objectForKey:@"activity"]).shortenedUrl 
+                                       forActivity:((JRActivityObject*)[(NSDictionary*)tag objectForKey:@"activity"])];
         }
         else
         {
