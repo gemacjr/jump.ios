@@ -54,17 +54,6 @@
 @synthesize innerCornerRadius;
 @synthesize drawInnerRect;
 
-//- (BOOL)drawInnerRect
-//{
-//    return drawInnerRect;
-//}
-//
-//- (void)setDrawInnerRect:(BOOL)newDrawInnerRect
-//{
-//    DLog(@"");
-//    drawInnerRect = newDrawInnerRect;
-//}
-
 - (id)initWithCoder:(NSCoder *)decoder
 {
     DLog(@"");
@@ -87,7 +76,6 @@
     DLog(@"");
     if (self = [super initWithFrame:frame])
     {
-        // Initialization code
         self.opaque = NO;
         self.outerStrokeColor = OUTER_STROKE_COLOR;
         self.innerStrokeColor = INNER_STROKE_COLOR;
@@ -123,9 +111,7 @@
     CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);
     CGContextSetFillColorWithColor(context, fillColor.CGColor);
 
-    //CGRect rrect = self.bounds;
 
-    //CGFloat radius = cornerRadius;
     CGFloat width = CGRectGetWidth(rrect);
     CGFloat height = CGRectGetHeight(rrect);
 
@@ -153,15 +139,6 @@
 - (void)drawRect:(CGRect)rect
 {
     DLog(@"");
-//    DLog(@"Draw inner rect? %@", (drawInnerRect ? @"YES" : @"NO"));
-
-//
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    CGContextSetLineWidth(context, strokeWidth);
-//    CGContextSetStrokeColorWithColor(context, self.outerStrokeColor.CGColor);
-//    CGContextSetFillColorWithColor(context, self.rectColor.CGColor);
-
-//    CGRect rrect = self.bounds;
 
     [self drawRoundedRect:self.bounds
         withRadius:outerCornerRadius strokeWidth:outerStrokeWidth
@@ -171,42 +148,6 @@
         [self drawRoundedRect:CGRectMake(INNER_RECT_INSET, INNER_RECT_INSET, self.bounds.size.width - (2 * INNER_RECT_INSET), self.bounds.size.height - (2 * INNER_RECT_INSET))
             withRadius:innerCornerRadius strokeWidth:innerStrokeWidth
             strokeColor:innerStrokeColor andFillColor:innerFillColor];
-
-//    CGFloat radius = cornerRadius;
-//    CGFloat width = CGRectGetWidth(rrect);
-//    CGFloat height = CGRectGetHeight(rrect);
-
-    // Make sure corner radius isn't larger than half the shorter side
-//    if (radius > width/2.0)
-//        radius = width/2.0;
-//    if (radius > height/2.0)
-//        radius = height/2.0;
-//
-//    CGFloat minx = CGRectGetMinX(rrect);
-//    CGFloat midx = CGRectGetMidX(rrect);
-//    CGFloat maxx = CGRectGetMaxX(rrect);
-//    CGFloat miny = CGRectGetMinY(rrect);
-//    CGFloat midy = CGRectGetMidY(rrect);
-//    CGFloat maxy = CGRectGetMaxY(rrect);
-//    CGContextMoveToPoint(context, minx, midy);
-//    CGContextAddArcToPoint(context, minx, miny, midx, miny, radius);
-//    CGContextAddArcToPoint(context, maxx, miny, maxx, midy, radius);
-//    CGContextAddArcToPoint(context, maxx, maxy, midx, maxy, radius);
-//    CGContextAddArcToPoint(context, minx, maxy, minx, midy, radius);
-//    CGContextClosePath(context);
-//    CGContextDrawPath(context, kCGPathFillStroke);
-}
-
-- (CGRect)frame
-{
-//    DLog(@"myPreviewRoundedRect frame: %f, %f, %f, %f", super.frame.origin.x, super.frame.origin.y, super.frame.size.width, super.frame.size.height);
-    return super.frame;
-}
-
-- (void)setFrame:(CGRect)newFrame
-{
-    [super setFrame:newFrame];
-//    DLog(@"myPreviewRoundedRect frame: %f, %f, %f, %f", super.frame.origin.x, super.frame.origin.y, super.frame.size.width, super.frame.size.height);
 }
 
 - (void)dealloc {
@@ -347,7 +288,6 @@
     [myScrollView setContentSize:CGSizeMake(320, 264)];
     
     [self loadActivityToViewForFirstTime:activity];
-//    [self changePreviewLabelToText:myUserContentTextView.text]; // TODO: make this right
             
  /* If the user calls the library before the session data object is done initializing -
     because either the requests for the base URL or provider list haven't returned -
@@ -636,8 +576,6 @@ Please try again later."
         [self updatePreviewTextWhenContentDoesNotReplaceAction];
     
     [self updateCharacterCount];
-    
-//    [self changePreviewLabelToText:[textView text]];
 }
 
 - (void)changePreviewLabelToText:(NSString*)text
@@ -658,50 +596,19 @@ Please try again later."
 	
     myPreviewLabel.attributedText = previewText;
     myPreviewLabel.adjustBottomToFit = YES;
-    
-//    DLog(@"preview text: %@", [previewText string]);
-	//myPreviewLabel.textAlignment = UITextAlignmentJustify;
 }
 
 - (void)attributedLabel:(OHAttributedLabel*)attrLabel didChangeHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight
 {
     DLog(@"from height: %f to height: %f", fromHeight, toHeight);
-//    DLog(@"label frame: %f, %f, %f, %f", myPreviewLabel.frame.origin.x, myPreviewLabel.frame.origin.y, myPreviewLabel.frame.size.width, myPreviewLabel.frame.size.height);
     
     previewLabelHeight = toHeight;
-    
     [myMediaViewBackgroundMiddle setFrame:CGRectMake(myMediaViewBackgroundMiddle.frame.origin.x,
                                                      myMediaViewBackgroundMiddle.frame.origin.y + (toHeight - fromHeight),
                                                      myMediaViewBackgroundMiddle.frame.size.width,
                                                      myMediaViewBackgroundMiddle.frame.size.height)];
     [self loadActivityToView];
-//    [self adjustPreviewBoxHeight];
 }
-
-//-(IBAction)fillLabel1 {
-//	NSString* txt = @ TXT_BEGIN TXT_LINK TXT_END; // concat the 3 (#define) constant parts in a single NSString
-//	/**(1)** Build the NSAttributedString *******/
-//	NSMutableAttributedString* attrStr = [NSMutableAttributedString attributedStringWithString:txt];
-//	// for those calls we don't specify a range so it affects the whole string
-//	[attrStr setFont:[UIFont systemFontOfSize:18]];
-//	[attrStr setTextColor:[UIColor grayColor]];
-//    
-//	// now we only change the color of "Hello"
-//	[attrStr setTextColor:[UIColor redColor] range:NSMakeRange(0,5)];	
-//	
-//    //    OHAttributedLabel *label = [[[OHAttributedLabel alloc] initWithFrame:CGRectMake(10, 10, 10, 10)] autorelease];
-//    //    label.attributedText = attrStr;
-//    
-//	/**(2)** Affect the NSAttributedString to the OHAttributedLabel *******/
-//	myPreviewLabel.attributedText = attrStr;
-//	// and add a link to the "share your food!" text
-//	[myPreviewLabel addCustomLink:[NSURL URLWithString:@"http://www.foodreporter.net"] inRange:[txt rangeOfString:@TXT_LINK]];
-//    
-//	// Use the "Justified" alignment
-//	myPreviewLabel.textAlignment = UITextAlignmentJustify;
-//	// "Hello World!" will be displayed in the label, justified, "Hello" in red and " World!" in gray.	
-//    //[myPreviewLabel setNeedsLayout];
-//}
 
 - (BOOL)willPublishThunkToStatus
 {
@@ -720,7 +627,6 @@ Please try again later."
 
 - (void)updateCharacterCount
 {
-//    DLog(@"");
     // TODO: verify correctness of the 0 remaining characters edge case
     NSString *characterCountText;
     
@@ -840,42 +746,6 @@ Please try again later."
     myPreviewLabel.adjustBottomToFit = YES;
 }
 
-//private void initializeWithProviderConfiguration() {
-//    /* Check for no suitable providers */
-//    List<JRProvider> socialProviders = mSessionData.getSocialProviders();
-//    if (socialProviders == null || socialProviders.size() == 0) {
-//        JREngageError err = new JREngageError(
-//                                              "Cannot load the Publish Activity, no social sharing providers are configured.",
-//                                              JREngageError.ConfigurationError.CONFIGURATION_INFORMATION_ERROR,
-//                                              JREngageError.ErrorType.CONFIGURATION_INFORMATION_MISSING);
-//        mSessionData.triggerPublishingDialogDidFail(err);
-//        return;
-//    }
-//    
-//    /* Configure the properties of the UI */
-//    mActivityObject.shortenUrls(new JRActivityObject.ShortenedUrlCallback() {
-//        public void setShortenedUrl(String shortenedUrl) {
-//            mShortenedActivityURL = shortenedUrl;
-//            
-//            if (mSelectedProvider == null) return;
-//            
-//            if (mSelectedProvider.getSocialSharingProperties().
-//                getAsBoolean("content_replaces_action")) {
-//                updatePreviewTextWhenContentReplacesAction();
-//            } else {
-//                updatePreviewTextWhenContentDoesNotReplaceAction();
-//            }
-//            updateCharacterCount();
-//        }
-//    });
-//    createTabs();
-//    
-//    /* Re-set the user comment with it's existing so the text change listener is fired
-//     * and the character count is updated.
-//     * See also onCreate */
-//    mUserCommentView.setText(mUserCommentView.getText());
-//}
-
 //private void shareActivity() {
 //    Log.d(TAG, "shareActivity mAuthenticatedUser: " + mAuthenticatedUser.toString());
 //    
@@ -885,8 +755,6 @@ Please try again later."
 //        mSessionData.shareActivityForUser(mAuthenticatedUser);
 //    }
 //}
-
-
 
 /* That is, cover the view with a transparent gray box and a large white activity indicator. */
 - (void)showViewIsLoading:(BOOL)loading
@@ -1089,20 +957,15 @@ Please try again later."
 
 - (BOOL)providerCanShareMedia:(JRProvider*)provider
 {
-//    DLog(@"");
-
     if ([[provider.socialSharingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"])
         return YES;
-
     return NO;
 }
 
 - (void)layoutMediaView:(BOOL)shouldHide
 {
     if (shouldHide || !activityHasMedia)
-    {
         [myMediaViewBackgroundMiddle setHidden:YES];
-    }
 }
 
 - (void)loadActivityToView:(JRActivityObject*)_activity
@@ -1125,9 +988,6 @@ Please try again later."
                                                     myMediaContentView.frame.size.width,
                                                     mediaBoxHeight + previewLabelHeight + 32.0)];//157)];
 //            [UIView commitAnimations];
-//
-//            //[myMediaViewBackgroundMiddle setHidden:NO];
-//
 //            [UIView beginAnimations:@"media_fade" context:nil];
 //            [UIView setAnimationDelay:2000];
             [myMediaViewBackgroundMiddle setHidden:NO];//setAlpha:1.0];
@@ -1144,9 +1004,6 @@ Please try again later."
 //            [UIView setAnimationDuration:2000];
             [myMediaViewBackgroundMiddle setHidden:YES];//setAlpha:0.0];
 //            [UIView commitAnimations];
-//
-//            //[myMediaViewBackgroundMiddle setHidden:YES];
-//
 //            [UIView beginAnimations:@"media_grow" context:nil];
 //            [UIView setAnimationDelay:2000];
             [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
@@ -1158,61 +1015,7 @@ Please try again later."
             mediaIsAlreadyShowing = NO;
         }
     }
-
-//    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
-//    {
-//        [myMediaContentView setHidden:NO];
-//
-//        myTitleLabel.text = _activity.title;
-//        myDescriptionLabel.text = _activity.description;
-//
-//        JRMediaObject *media = [_activity.media objectAtIndex:0];
-//        if ([media isKindOfClass:[JRImageMediaObject class]])
-//        {
-//            DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
-//            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
-//
-//            NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
-//            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-//            NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
-//
-//            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
-//                [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
-//        }
-//        else if ([media isKindOfClass:[JRFlashMediaObject class]])
-//        {
-//            DLog (@"Downloading image thumbnail: %@", ((JRFlashMediaObject*)media).imgsrc);
-//            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
-//
-//            NSURL        *url = [NSURL URLWithString:((JRFlashMediaObject*)media).imgsrc];
-//            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-//            NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
-//
-//            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
-//                [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
-//        }
-//        else
-//        {
-//            [self setButtonImage:myMediaThumbnailView
-//                          toData:UIImagePNGRepresentation([UIImage imageNamed:@"music_note.png"])
-//                   andSetLoading:myMediaThumbnailActivityIndicator
-//                       toLoading:NO];
-//        }
-//    }
-//    else
-//    {
-//        [myMediaContentView setHidden:YES];
-//    }
 }
-
-//- (void)adjustPreviewBoxHeight
-//{
-//    DLog(@"myPreviewRoundedRect frame: %f, %f, %f, %f", myPreviewRoundedRect.frame.origin.x, myPreviewRoundedRect.frame.origin.y,  myPreviewRoundedRect.frame.size.width, mediaBoxHeight + previewLabelHeight + 32.0);
-//    [myPreviewRoundedRect setFrame:CGRectMake(myPreviewRoundedRect.frame.origin.x,
-//                                              myPreviewRoundedRect.frame.origin.y, 
-//                                              myPreviewRoundedRect.frame.size.width,
-//                                              mediaBoxHeight + previewLabelHeight + 32.0)];
-//}
 
 - (void)loadActivityToViewForFirstTime:(JRActivityObject*)newActivity
 {
@@ -1236,7 +1039,6 @@ Please try again later."
     CGFloat descr_x = 46.0, descr_y = 22.0, descr_w = 224.0, descr_h = 56.0;
     mediaBoxHeight = 48.0;
     
-    //    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
     if ([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload)
     {
         JRMediaObject *media = [newActivity.media objectAtIndex:0];
@@ -1276,12 +1078,7 @@ Please try again later."
     {
         title_x = descr_x = 8.0;
         title_w = descr_w = 262.0;
-            
-//        [myTitleLabel setFrame:CGRectMake(8, myTitleLabel.frame.origin.y, 262, myTitleLabel.frame.size.height)];
-//        [myDescriptionLabel setFrame:CGRectMake(8, myDescriptionLabel.frame.origin.y,
-//                                                262, myDescriptionLabel.frame.size.height)];
     }
-    
     
     CGFloat shouldBeTitleHeight = 0;    
     if (newActivity.title)
@@ -1292,18 +1089,6 @@ Please try again later."
                                                  constrainedToSize:CGSizeMake(([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73) 
                                                      lineBreakMode:UILineBreakModeTailTruncation];
         shouldBeTitleHeight = shouldBeTitleSize.height;
-        
-//        DLog(@"shouldBeTitleHeight for %@: %f", newActivity.action, shouldBeTitleHeight);
-    }
-    else
-    {
-//        [myDescriptionLabel setFrame:CGRectMake(myDescriptionLabel.frame.origin.x, 4,
-//            myDescriptionLabel.frame.size.width,
-//            myDescriptionLabel.frame.size.height)];
-//        [myPreviewRoundedRect setFrame:CGRectMake(myPreviewRoundedRect.frame.origin.x,
-//            myPreviewRoundedRect.frame.origin.y,
-//            myPreviewRoundedRect.frame.size.width, 72)];
-//        [myTitleLabel setHidden:YES];
     }
 
     CGFloat shouldBeDescriptionHeight = 0;    
@@ -1315,17 +1100,7 @@ Please try again later."
                                                  constrainedToSize:CGSizeMake(([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73) 
                                                      lineBreakMode:UILineBreakModeTailTruncation];
         shouldBeDescriptionHeight = shouldBeDescriptionSize.height;        
-
-//        DLog(@"shouldBeDescriptionHeight for %@: %f", newActivity.action, shouldBeDescriptionHeight);
     }
-    else
-    {
-//        [myPreviewRoundedRect setFrame:CGRectMake(myPreviewRoundedRect.frame.origin.x,
-//            myPreviewRoundedRect.frame.origin.y,
-//            myPreviewRoundedRect.frame.size.width, 48)];
-//        [myDescriptionLabel setHidden:YES];
-    }
-
     
     if (shouldBeTitleHeight == 0 && shouldBeDescriptionHeight == 0) /* There is no title or description */
     {
@@ -1409,16 +1184,7 @@ Please try again later."
                                             myMediaContentView.frame.origin.y,
                                             myMediaContentView.frame.size.width,
                                             mediaBoxHeight + previewLabelHeight + 32.0)];//157)];
-    
-    
-//    else
-//    {
-//        [myMediaContentView setHidden:YES];
-//    }
-
     mediaIsAlreadyShowing = YES;
-
-//    [self adjustPreviewBoxHeight];
 }
 
 /* Not the best way to do this, but if this function is called, it calls loadActivityToView: with just
@@ -2086,8 +1852,6 @@ Please try again later."
     [myPoweredByLabel release];
     [myMediaContentView release];
     [myMediaViewBackgroundMiddle release];
-//    [myMediaViewBackgroundTop release];
-//    [myMediaViewBackgroundBottom release];
     [myMediaThumbnailView release];
     [myMediaThumbnailActivityIndicator release];
     [myTitleLabel release];
