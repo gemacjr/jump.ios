@@ -110,7 +110,8 @@ typedef enum
     NSDictionary *colorsDictionary;
     UIView		 *titleView;
 
-    NSInteger *previewHeight;
+    CGFloat previewLabelHeight;
+    CGFloat mediaBoxHeight;
     BOOL mediaThumbnailFailedToDownload;
     BOOL activityHasMedia;
     BOOL mediaIsAlreadyShowing;
@@ -152,7 +153,7 @@ typedef enum
     IBOutlet UILabel                 *myTitleLabel;
     IBOutlet UILabel                 *myDescriptionLabel;
 
-    NSInteger previewLabelHeight;
+//    NSInteger previewLabelHeight;
     
     IBOutlet UIView                  *myShareToView;
     IBOutlet UIImageView             *myTriangleIcon;

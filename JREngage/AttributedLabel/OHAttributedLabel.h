@@ -40,7 +40,7 @@
 @optional
 -(BOOL)attributedLabel:(OHAttributedLabel*)attributedLabel shouldFollowLink:(NSTextCheckingResult*)linkInfo;
 -(UIColor*)colorForLink:(NSTextCheckingResult*)linkInfo underlineStyle:(int32_t*)underlineStyle; //!< Combination of CTUnderlineStyle and CTUnderlineStyleModifiers
--(void)attributedLabel:(OHAttributedLabel*)attributedLabel didChangeHeightFrom:(NSInteger)fromHeight to:(NSInteger)toHeight;
+-(void)attributedLabel:(OHAttributedLabel*)attributedLabel didChangeHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight;
 @end
 
 #define UITextAlignmentJustify ((UITextAlignment)kCTJustifiedTextAlignment)
@@ -49,7 +49,7 @@
 
 @interface OHAttributedLabel : UILabel {
 	NSMutableAttributedString* _attributedText; //!< Internally mutable, but externally immutable copy access only
-    NSInteger previousHeight;
+    CGFloat previousHeight;
     NSInteger maxHeight;
 	CTFrameRef textFrame;
 	CGRect drawingRect;
