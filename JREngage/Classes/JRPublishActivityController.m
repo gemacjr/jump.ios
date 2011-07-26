@@ -1099,7 +1099,7 @@ Please try again later."
             [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
                                                        myMediaContentView.frame.origin.y,
                                                        myMediaContentView.frame.size.width,
-                                                       150)];
+                                                       157)];
 //            [UIView commitAnimations];
 //
 //            //[myMediaViewBackgroundMiddle setHidden:NO];
@@ -1128,7 +1128,7 @@ Please try again later."
             [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
                                                        myMediaContentView.frame.origin.y,
                                                        myMediaContentView.frame.size.width,
-                                                       58)];
+                                                       67)];
 //            [UIView commitAnimations];
 
             mediaIsAlreadyShowing = NO;
@@ -1185,7 +1185,8 @@ Please try again later."
 {
     myUserContentTextView.text = newActivity.action;
     
-    if (!newActivity.title && !newActivity.description &&
+    if ((!newActivity.title || [newActivity.title isEqualToString:@""]) && 
+        (!newActivity.description || [newActivity.description isEqualToString:@""]) &&
         ([newActivity.media count] == 0 || mediaThumbnailFailedToDownload))
         activityHasMedia = NO;
     else
@@ -1197,34 +1198,11 @@ Please try again later."
         return;
     }
 
-    if (newActivity.title)
-    {
-       myTitleLabel.text = newActivity.title;
-    }
-    else
-    {
-        [myDescriptionLabel setFrame:CGRectMake(myDescriptionLabel.frame.origin.x, 4,
-            myDescriptionLabel.frame.size.width,
-            myDescriptionLabel.frame.size.height)];
-        [myPreviewRoundedRect setFrame:CGRectMake(myPreviewRoundedRect.frame.origin.x,
-            myPreviewRoundedRect.frame.origin.y,
-            myPreviewRoundedRect.frame.size.width, 72)];
-        [myTitleLabel setHidden:YES];
-    }
-
-    if (newActivity.description)
-    {
-        myDescriptionLabel.text = newActivity.description;
-    }
-    else
-    {
-        [myPreviewRoundedRect setFrame:CGRectMake(myPreviewRoundedRect.frame.origin.x,
-            myPreviewRoundedRect.frame.origin.y,
-            myPreviewRoundedRect.frame.size.width, 48)];
-        [myDescriptionLabel setHidden:YES];
-    }
-
-//    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
+    CGFloat title_x = 46.0, title_y = 5.0, title_w = 224.0, title_h = 15.0;
+    CGFloat descr_x = 46.0, descr_y = 22.0, descr_w = 224.0, descr_h = 56.0;
+    CGFloat media_h = 48.0;
+    
+    //    if ((weAreReady) && ([_activity.media count] > 0) && ([self providerCanShareMedia:selectedProvider]))
     if ([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload)
     {
         JRMediaObject *media = [newActivity.media objectAtIndex:0];
@@ -1232,11 +1210,11 @@ Please try again later."
         {
             DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
-
+            
             NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
             NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
             NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
-
+            
             if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
                 [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
         }
@@ -1244,11 +1222,11 @@ Please try again later."
         {
             DLog (@"Downloading image thumbnail: %@", ((JRFlashMediaObject*)media).imgsrc);
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
-
+            
             NSURL        *url = [NSURL URLWithString:((JRFlashMediaObject*)media).imgsrc];
             NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
             NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
-
+            
             if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
                 [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
         }
@@ -1262,11 +1240,140 @@ Please try again later."
     }
     else
     {
-        DLog(@"frame: %i, %i, %i, %i", 8, myDescriptionLabel.frame.origin.y, 262, myDescriptionLabel.frame.size.height);
-        [myTitleLabel setFrame:CGRectMake(8, myTitleLabel.frame.origin.y, 262, myTitleLabel.frame.size.height)];
-        [myDescriptionLabel setFrame:CGRectMake(8, myDescriptionLabel.frame.origin.y,
-            262, myDescriptionLabel.frame.size.height)];
+        title_x = descr_x = 8.0;
+        title_w = descr_w = 262.0;
+            
+//        [myTitleLabel setFrame:CGRectMake(8, myTitleLabel.frame.origin.y, 262, myTitleLabel.frame.size.height)];
+//        [myDescriptionLabel setFrame:CGRectMake(8, myDescriptionLabel.frame.origin.y,
+//                                                262, myDescriptionLabel.frame.size.height)];
     }
+    
+    
+    CGFloat shouldBeTitleHeight = 0;    
+    if (newActivity.title)
+    {
+        myTitleLabel.text = newActivity.title;
+    
+        CGSize shouldBeTitleSize = [myTitleLabel.text sizeWithFont:myTitleLabel.font 
+                                                 constrainedToSize:CGSizeMake(([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73) 
+                                                     lineBreakMode:UILineBreakModeTailTruncation];
+        shouldBeTitleHeight = shouldBeTitleSize.height;
+        
+        DLog(@"shouldBeTitleHeight for %@: %f", newActivity.action, shouldBeTitleHeight);
+    }
+    else
+    {
+//        [myDescriptionLabel setFrame:CGRectMake(myDescriptionLabel.frame.origin.x, 4,
+//            myDescriptionLabel.frame.size.width,
+//            myDescriptionLabel.frame.size.height)];
+//        [myPreviewRoundedRect setFrame:CGRectMake(myPreviewRoundedRect.frame.origin.x,
+//            myPreviewRoundedRect.frame.origin.y,
+//            myPreviewRoundedRect.frame.size.width, 72)];
+//        [myTitleLabel setHidden:YES];
+    }
+
+    CGFloat shouldBeDescriptionHeight = 0;    
+    if (newActivity.description)
+    {
+        myDescriptionLabel.text = newActivity.description;
+        
+        CGSize shouldBeDescriptionSize = [myDescriptionLabel.text sizeWithFont:myDescriptionLabel.font 
+                                                 constrainedToSize:CGSizeMake(([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73) 
+                                                     lineBreakMode:UILineBreakModeTailTruncation];
+        shouldBeDescriptionHeight = shouldBeDescriptionSize.height;        
+
+        DLog(@"shouldBeDescriptionHeight for %@: %f", newActivity.action, shouldBeDescriptionHeight);
+    }
+    else
+    {
+//        [myPreviewRoundedRect setFrame:CGRectMake(myPreviewRoundedRect.frame.origin.x,
+//            myPreviewRoundedRect.frame.origin.y,
+//            myPreviewRoundedRect.frame.size.width, 48)];
+//        [myDescriptionLabel setHidden:YES];
+    }
+
+    
+    if (shouldBeTitleHeight == 0 && shouldBeDescriptionHeight == 0) /* There is no title or description */
+    {
+        [myTitleLabel setHidden:YES];
+        [myDescriptionLabel setHidden:YES];
+    }
+    else if (shouldBeTitleHeight == 0 && shouldBeDescriptionHeight != 0 ) /* There is no title but there is a description */
+    {
+        descr_y = 5.0;        
+        
+        if (shouldBeDescriptionHeight <= 73.0)
+            descr_h = shouldBeDescriptionHeight;
+        else
+            descr_h = 70.0; /* The height of 5 lines of 11.0 pt. font */
+
+        if ((descr_h > 38.0) || ([newActivity.media count] == 0))
+            media_h = descr_h + 10.0; /* 10.0 is the padding above and below the title/description */
+
+        [myTitleLabel setHidden:YES];
+    }
+    else if (shouldBeDescriptionHeight == 0 && shouldBeTitleHeight != 0 ) /* There is no description but there is a title */
+    {
+        if (shouldBeTitleHeight <= 73.0)
+            title_h = shouldBeTitleHeight;
+        else
+            title_h = 60.0; /* The height of 4 lines of 12.0 pt. bold font */
+
+        if ((title_h > 38.0) || ([newActivity.media count] == 0))
+            media_h = title_h + 10.0; /* 10.0 is the padding above and below the title/description */
+
+        [myDescriptionLabel setHidden:YES];
+    }
+    else // if (shouldBeDescriptionHeight != 0 && shouldBeTitleHeight !=0 ) /* There is a title and a description*/
+    {
+        if (shouldBeTitleHeight + shouldBeDescriptionHeight < 71)
+        {
+            title_h = shouldBeTitleHeight;
+            descr_h = shouldBeDescriptionHeight;
+            descr_y = shouldBeTitleHeight + 7.0; /* Title height + top padding + interior padding */
+            
+            if ((shouldBeTitleHeight + shouldBeDescriptionHeight > 38.0) || ([newActivity.media count] == 0))
+                media_h = shouldBeTitleHeight + shouldBeDescriptionHeight + 12.0;
+        }
+        
+        if (shouldBeTitleHeight + shouldBeDescriptionHeight >= 71) /* Max height is 83 (including title and description heights, 5 px top/bottom padding, and 2 px interior padding) */ 
+        {
+            if (shouldBeTitleHeight >= 15 && shouldBeDescriptionHeight >= 56)
+            {
+                // keep things as they are
+            }
+            else if (shouldBeTitleHeight >= 15 && shouldBeDescriptionHeight < 56)
+            {
+                descr_h = shouldBeDescriptionHeight;
+                CGSize shouldBeTitleSize = [myTitleLabel.text sizeWithFont:myTitleLabel.font 
+                                                         constrainedToSize:CGSizeMake(([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 71 - shouldBeDescriptionHeight) 
+                                                             lineBreakMode:UILineBreakModeTailTruncation];
+                shouldBeTitleHeight = shouldBeTitleSize.height;
+                
+                title_h = shouldBeTitleHeight;
+                descr_y = shouldBeTitleHeight + 7.0; /* Title height + top padding + interior padding */
+            }
+            else if (shouldBeTitleHeight < 15 && shouldBeDescriptionHeight >= 56)
+            {
+                // only happens if there is no title
+            }
+            else if (shouldBeTitleHeight < 15 && shouldBeDescriptionHeight < 56)
+            {
+                // moot case
+            }
+            media_h = title_h + descr_h + 12.0;
+        }
+    }
+    
+    [myTitleLabel setFrame:CGRectMake(title_x, title_y, title_w, title_h)];
+    [myDescriptionLabel setFrame:CGRectMake(descr_x, descr_y, descr_w, descr_h)];
+    [myMediaViewBackgroundMiddle setFrame:CGRectMake(myMediaViewBackgroundMiddle.frame.origin.x,
+                                                     myMediaViewBackgroundMiddle.frame.origin.y,
+                                                     myMediaViewBackgroundMiddle.frame.size.width,
+                                                     media_h)];
+    
+    
+    
 //    else
 //    {
 //        [myMediaContentView setHidden:YES];

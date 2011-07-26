@@ -152,6 +152,8 @@ typedef enum
     IBOutlet UILabel                 *myTitleLabel;
     IBOutlet UILabel                 *myDescriptionLabel;
 
+    NSInteger previewLabelHeight;
+    
     IBOutlet UIView                  *myShareToView;
     IBOutlet UIImageView             *myTriangleIcon;
     IBOutlet UIButton                *myProfilePic;
