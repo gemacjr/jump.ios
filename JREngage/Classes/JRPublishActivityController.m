@@ -272,7 +272,7 @@
     [myPreviewLabel setAutomaticallyDetectLinks:NO];
     [myPreviewLabel setMaxHeight:44];
     [myPreviewLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
-    [myPreviewLabel setBackgroundColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+//    [myPreviewLabel setBackgroundColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
     [myPreviewRoundedRect setOuterFillColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
     [myPreviewRoundedRect setDrawInnerRect:YES];
     myMediaViewBackgroundMiddle.outerFillColor = [UIColor lightGrayColor];
@@ -284,6 +284,8 @@
     myUserContentBoundingBox.alpha = 0.3;
     [myPreviewRoundedRect setNeedsDisplay];
     [myMediaViewBackgroundMiddle setNeedsDisplay];
+    
+//    [myPreviewLabel setFrame:CGRectMake(myPreviewLabel.frame.origin.x, 80, myPreviewLabel.frame.size.width, myPreviewLabel.frame.size.height)];
     
     [myScrollView setContentSize:CGSizeMake(320, 264)];
     
@@ -555,6 +557,8 @@ Please try again later."
         [UIView commitAnimations];
     }
 
+    [myPreviewRoundedRect setNeedsDisplay];
+
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc]
 									initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
 									target:self
@@ -578,29 +582,34 @@ Please try again later."
     [self updateCharacterCount];
 }
 
-- (void)changePreviewLabelToText:(NSString*)text
-{
-    NSString *userName = (loggedInUser) ? loggedInUser.preferred_username : @"You";
-    NSString *url = @"www.janrain.com";
-    
-    NSInteger unl = [userName length];
-    NSInteger tl = [text length];
-    NSInteger urll = [url length];
-
-    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@x%@x%@", userName, text, url]];
-    [previewText setFont:[UIFont systemFontOfSize:11.0]];
-	[previewText setTextColor:[UIColor blackColor]];
-    
-    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, unl)];
-    [previewText setTextColor:[UIColor redColor] range:NSMakeRange(unl + tl + 2 , urll)];	
-	
-    myPreviewLabel.attributedText = previewText;
-    myPreviewLabel.adjustBottomToFit = YES;
-}
+//- (void)changePreviewLabelToText:(NSString*)text
+//{
+//    NSString *userName = (loggedInUser) ? loggedInUser.preferred_username : @"You";
+//    NSString *url = @"www.janrain.com";
+//    
+//    NSInteger unl = [userName length];
+//    NSInteger tl = [text length];
+//    NSInteger urll = [url length];
+//
+//    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@x%@x%@", userName, text, url]];
+//    [previewText setFont:[UIFont systemFontOfSize:11.0]];
+//	[previewText setTextColor:[UIColor blackColor]];
+//    
+//    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, unl)];
+//    [previewText setTextColor:[UIColor redColor] range:NSMakeRange(unl + tl + 2 , urll)];	
+//
+//    myPreviewLabel.attributedText = previewText;
+//    myPreviewLabel.adjustBottomToFit = YES;
+//}
 
 - (void)attributedLabel:(OHAttributedLabel*)attrLabel didChangeHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight
 {
     DLog(@"from height: %f to height: %f", fromHeight, toHeight);
+    DLog(@"myMediaViewBackgroundMiddle frame: %f, %f, %f, %f", 
+         myMediaViewBackgroundMiddle.frame.origin.x,
+         myMediaViewBackgroundMiddle.frame.origin.y + (toHeight - fromHeight),
+         myMediaViewBackgroundMiddle.frame.size.width,
+         myMediaViewBackgroundMiddle.frame.size.height);
     
     previewLabelHeight = toHeight;
     [myMediaViewBackgroundMiddle setFrame:CGRectMake(myMediaViewBackgroundMiddle.frame.origin.x,
@@ -972,15 +981,16 @@ Please try again later."
 {
     DLog(@"");
 
-    if (!hasEditedUserContentForActivityAlready)
-        myUserContentTextView.text = _activity.action;
-    else
-        myUserContentTextView.text = _activity.user_generated_content;
+// TODO: Move somewhere else!!
+//    if (!hasEditedUserContentForActivityAlready)
+//        myUserContentTextView.text = _activity.action;
+//    else
+//        myUserContentTextView.text = _activity.user_generated_content;
 
     if ([self providerCanShareMedia:selectedProvider] && activityHasMedia)
     {
-        if (!mediaIsAlreadyShowing)
-        {
+//        if (!mediaIsAlreadyShowing)
+//        {
 //            [UIView beginAnimations:@"media_grow" context:nil];
 //            [UIView setAnimationDuration:2000];
             [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
@@ -993,13 +1003,13 @@ Please try again later."
             [myMediaViewBackgroundMiddle setHidden:NO];//setAlpha:1.0];
 //            [UIView commitAnimations];
 
-            mediaIsAlreadyShowing = YES;
-        }
+//            mediaIsAlreadyShowing = YES;
+//        }
     }
     else
     {
-        if (mediaIsAlreadyShowing)
-        {
+//        if (mediaIsAlreadyShowing)
+//        {
 //            [UIView beginAnimations:@"media_fade" context:nil];
 //            [UIView setAnimationDuration:2000];
             [myMediaViewBackgroundMiddle setHidden:YES];//setAlpha:0.0];
@@ -1009,12 +1019,21 @@ Please try again later."
             [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
                                                     myMediaContentView.frame.origin.y,
                                                     myMediaContentView.frame.size.width,
-                                                    previewLabelHeight + 25.0)];//67)];
+                                                    previewLabelHeight + 28.0)];//67)];
 //            [UIView commitAnimations];
 
-            mediaIsAlreadyShowing = NO;
-        }
+//            mediaIsAlreadyShowing = NO;
+//        }
     }
+
+    [myPreviewRoundedRect setNeedsDisplay];
+    
+    DLog(@"myMediaContentView frame: %f, %f, %f, %f", 
+         myMediaContentView.frame.origin.x,
+         myMediaContentView.frame.origin.y,
+         myMediaContentView.frame.size.width,
+         myMediaContentView.frame.size.height);
+    
 }
 
 - (void)loadActivityToViewForFirstTime:(JRActivityObject*)newActivity
@@ -1180,10 +1199,18 @@ Please try again later."
                                                      20.0,//myMediaViewBackgroundMiddle.frame.origin.y,
                                                      myMediaViewBackgroundMiddle.frame.size.width,
                                                      mediaBoxHeight)];
+    [myMediaViewBackgroundMiddle setNeedsDisplay];
     [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
                                             myMediaContentView.frame.origin.y,
                                             myMediaContentView.frame.size.width,
-                                            mediaBoxHeight + previewLabelHeight + 32.0)];//157)];
+                                            mediaBoxHeight + previewLabelHeight + 37.0)];//157)];
+    CGRect mvbmframe = myMediaViewBackgroundMiddle.frame;
+    DLog(@"myMediaViewBackgroundMiddle frame: %f, %f, %f, %f", 
+         myMediaViewBackgroundMiddle.frame.origin.x,
+         myMediaViewBackgroundMiddle.frame.origin.y,
+         myMediaViewBackgroundMiddle.frame.size.width,
+         myMediaViewBackgroundMiddle.frame.size.height);
+
     mediaIsAlreadyShowing = YES;
 }
 

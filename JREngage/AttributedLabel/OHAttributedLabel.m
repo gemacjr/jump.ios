@@ -448,7 +448,8 @@ BOOL CTRunContainsCharactersFromStringRange(CTRunRef run, NSRange range) {
 		if (self.shadowColor) {
 			CGContextSetShadowWithColor(ctx, self.shadowOffset, 0.0, self.shadowColor.CGColor);
 		}
-		
+		//CGContextSetFillColorWithColor(ctx, [UIColor blueColor].CGColor);
+        
 		NSMutableAttributedString* attrStrWithLinks = [self attributedTextWithLinks];
 		if (self.highlighted && self.highlightedTextColor != nil) {
 			[attrStrWithLinks setTextColor:self.highlightedTextColor];
