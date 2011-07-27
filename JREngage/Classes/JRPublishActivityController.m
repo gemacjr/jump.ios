@@ -729,7 +729,7 @@ Please try again later."
     if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
     { /* Twitter/MySpace -> true */
         NSMutableAttributedString *urlAttrString = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@" %@", url]];
-        [urlAttrString setTextColor:[UIColor redColor] range:NSMakeRange(1, ul)];	
+        [urlAttrString setTextColor:JANRAIN_BLUE range:NSMakeRange(1, ul)];	
         
         [previewText appendAttributedString:urlAttrString];
     }

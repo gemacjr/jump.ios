@@ -46,6 +46,7 @@
 @class JRWebViewController;
 @class JRPublishActivityController;
 
+#define JANRAIN_BLUE [UIColor colorWithRed:0.102 green:0.33 blue:0.48 alpha:1.0]
 typedef enum
 {
     PadPopoverModeNone,
