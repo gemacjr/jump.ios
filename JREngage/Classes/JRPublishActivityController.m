@@ -640,8 +640,19 @@ Please try again later."
     NSString *characterCountText;
     
     if (maxCharacters == -1)
+    {
+        [myRemainingCharactersLabel setHidden:YES];
+        [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 97,
+                                                myMediaContentView.frame.size.width, 
+                                                myMediaContentView.frame.size.height)];
         return;
-    
+    }
+
+    [myRemainingCharactersLabel setHidden:NO];
+    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 107,
+                                            myMediaContentView.frame.size.width, 
+                                            myMediaContentView.frame.size.height)];
+          
     int chars_remaining = 0;
     if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
     {
