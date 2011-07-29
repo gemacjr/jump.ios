@@ -1600,7 +1600,7 @@ foo:
                                               forKey:AUTHENTICATED_USERS_BY_PROVIDER];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    if ([[self basicProviders] containsObject:currentProvider.name])
+    if ([[self basicProviders] containsObject:currentProvider.name] && !socialSharing)
         [self saveLastUsedBasicProvider:currentProvider.name];
     
     if ([[self socialProviders] containsObject:currentProvider.name])

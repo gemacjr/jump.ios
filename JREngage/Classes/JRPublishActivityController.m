@@ -157,19 +157,26 @@
     [innerFillColor release];
     [super dealloc];
 }
-
 @end
 
 @interface JRPublishActivityController ()
 - (void)addProvidersToTabBar;
-- (void)showActivityAsShared:(BOOL)shared;
+- (void)determineIfWeCanShareViaEmailAndOrSMS;
+- (void)loadActivityToViewForFirstTime;
+- (void)sendEmail;
+- (void)sendSMS;
 - (void)showViewIsLoading:(BOOL)loading;
-- (void)loadActivityToView;
-- (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user forProvider:(NSString*)providerName;
+- (void)setProfilePicToDefaultPic;
+- (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl forProvider:(NSString*)providerName;
+- (void)setButtonImage:(UIButton*)button toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading;
+@property (retain) JRProvider *selectedProvider;
+@property (retain) JRAuthenticatedUser *loggedInUser;
 @end
 
 @implementation JRPublishActivityController
 @synthesize hidesCancelButton;
+@synthesize selectedProvider;
+@synthesize loggedInUser;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
@@ -192,46 +199,29 @@
 
     [super viewDidLoad];
 
-    alreadyShared = [[NSMutableSet alloc] initWithCapacity:4];
-
 	sessionData = [JRSessionData jrSessionData];
     activity = [[sessionData activity] retain];
 
+ /* There's a slight chance that their capacities could be 0, but that's OK; they're mutable. */
+    alreadyShared = [[NSMutableSet alloc] initWithCapacity:[[sessionData socialProviders] count]];
+    cachedProfilePics = [[NSMutableDictionary alloc] initWithCapacity:[[sessionData socialProviders] count]];    
+    
     if ([[customInterface objectForKey:kJRSocialSharingTitleString] isKindOfClass:[NSString class]])
         self.title = NSLocalizedString([customInterface objectForKey:kJRSocialSharingTitleString], @"");
     else
         self.title = NSLocalizedString(@"Share", @"");
 
-/*** * * DEPRECATED * * ***/
-/**/NSArray *backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColorRGBa];
-/*** * * DEPRECATED * * ***/
-
  /* Load the custom background view, if there is one. */
     if ([customInterface objectForKey:kJRSocialSharingBackgroundImageView])
         [myBackgroundView addSubview:[customInterface objectForKey:kJRSocialSharingBackgroundImageView]];
-
-/*** * * * * * * DEPRECATED * * * * * * ***/
-/**/if ([customInterface objectForKey:kJRSocialSharingBackgroundImageName])
-/**/    [myBackgroundView addSubview:[[[UIImageView alloc] initWithImage:
-/**/                                   [UIImage imageNamed:[customInterface objectForKey:kJRSocialSharingBackgroundImageName]]] autorelease]];
-/*** * * * * * * DEPRECATED * * * * * * ***/
 
     [myBackgroundView setAlpha:0.3];
 
  /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRSocialSharingBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColor];
-    else
-/*** * * * * * * DEPRECATED * * * * * * ***/
-/**/    if ([backgroundColor respondsToSelector:@selector(count)])
-/**/        if ([backgroundColor count] == 4)
-/**/            myBackgroundView.backgroundColor =
-/**/                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-/**/                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-/**/                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-/**/                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
-/*** * * * * * * DEPRECATED * * * * * * ***/
 
+    // TODO: WHY CAN'T I SET THIS IN THE NIB?
     myContentView.backgroundColor = [UIColor clearColor];
 
     titleView = [[customInterface objectForKey:kJRSocialSharingTitleView] retain];
@@ -268,28 +258,30 @@
         [myInfoButton setHidden:YES];
     }
     
-    [myPreviewLabel setDelegate:self];
-    [myPreviewLabel setAutomaticallyDetectLinks:NO];
-    [myPreviewLabel setMaxHeight:44];
-    [myPreviewLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
-//    [myPreviewLabel setBackgroundColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+ /* Set OHAttributedLabel defaults */
+    [myPreviewAttributedLabel setDelegate:self];
+    [myPreviewAttributedLabel setAutomaticallyDetectLinks:NO];
+    [myPreviewAttributedLabel setMaxHeight:44];
+    [myPreviewAttributedLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
+    
+ /* Set RoundedRect defaults */
     [myPreviewRoundedRect setOuterFillColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
     [myPreviewRoundedRect setDrawInnerRect:YES];
-    myMediaViewBackgroundMiddle.outerFillColor = [UIColor lightGrayColor];
-    myMediaViewBackgroundMiddle.outerStrokeColor = [UIColor lightGrayColor];
-    myMediaViewBackgroundMiddle.outerCornerRadius = 5.0;
-    myUserContentBoundingBox.outerStrokeColor = [UIColor darkGrayColor];
-    myUserContentBoundingBox.outerFillColor = [UIColor whiteColor];
-    myUserContentBoundingBox.outerStrokeWidth = 1.5;
-    myUserContentBoundingBox.alpha = 0.3;
+    [myRichDataContainer setOuterFillColor:[UIColor lightGrayColor]];
+    [myRichDataContainer setOuterStrokeColor:[UIColor lightGrayColor]];
+    [myRichDataContainer setOuterCornerRadius:5.0];
+    [myUserCommentBoundingBox setOuterStrokeColor:[UIColor darkGrayColor]];
+    [myUserCommentBoundingBox setOuterFillColor:[UIColor whiteColor]];
+    [myUserCommentBoundingBox setOuterStrokeWidth:1.5];
+    [myUserCommentBoundingBox setAlpha:0.3];
     [myPreviewRoundedRect setNeedsDisplay];
-    [myMediaViewBackgroundMiddle setNeedsDisplay];
-    
-//    [myPreviewLabel setFrame:CGRectMake(myPreviewLabel.frame.origin.x, 80, myPreviewLabel.frame.size.width, myPreviewLabel.frame.size.height)];
-    
+    [myRichDataContainer setNeedsDisplay];
+    [myUserCommentBoundingBox setNeedsDisplay];
+        
     [myScrollView setContentSize:CGSizeMake(320, 264)];
     
-    [self loadActivityToViewForFirstTime:activity];
+    [self determineIfWeCanShareViaEmailAndOrSMS];
+    [self loadActivityToViewForFirstTime];
             
  /* If the user calls the library before the session data object is done initializing -
     because either the requests for the base URL or provider list haven't returned -
@@ -298,10 +290,11 @@
     [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
 	if ([[sessionData socialProviders] count] == 0)
 	{
-        [self showViewIsLoading:YES];
+        weAreStillWaitingOnSocialProviders = YES;
 
      /* Since the method showViewIsLoading will disable the "Cancel" button and reset the loading label to "Sharing,
         change them to the preferred values for just this case. */
+        [self showViewIsLoading:YES];
         myLoadingLabel.font = [UIFont systemFontOfSize:18.0];
         myLoadingLabel.text = NSLocalizedString(@"Loading providers. Please wait...", @"");
         self.navigationItem.leftBarButtonItem.enabled = YES;
@@ -311,7 +304,7 @@
 	}
 	else
 	{
-        weAreReady = YES;
+        weAreStillWaitingOnSocialProviders = NO;
         [self addProvidersToTabBar];
 	}
 }
@@ -329,6 +322,7 @@
 //    back button until told otherwise. */
 //	userHitTheBackButton = YES;
 
+    // TODO: Why is this in viewWillAppear and not above in viewDidLoad??
     if (!titleView)
     {
         UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
@@ -351,9 +345,8 @@
         self.navigationItem.titleView = titleView;
     }
 
-    // QTS: Am I doing this twice?
-    if (weAreReady)
-        [self loadActivityToView:activity];//[self loadActivityToViewForFirstTime:activity];
+//    if (!weAreStillWaitingOnSocialProviders)
+//        [self adjustRichDataContainer];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -361,7 +354,7 @@
     DLog(@"");
 	[super viewDidAppear:animated];
 
-    if (weAreReady && !weAreCurrentlyPostingSomething)
+    if (!weAreStillWaitingOnSocialProviders && !weAreCurrentlyPostingSomething)
         [self showViewIsLoading:NO];
 }
 
@@ -387,12 +380,12 @@
  /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([[sessionData socialProviders] count] > 0)
 	{
-        weAreReady = YES;
+        weAreStillWaitingOnSocialProviders = NO;
 
         [self showViewIsLoading:NO];
 
         [self addProvidersToTabBar];
-        [self loadActivityToView:activity];//[self loadActivityToViewForFirstTime:activity];
+//        [self adjustRichDataContainer];
 
 		return;
 	}
@@ -422,17 +415,386 @@ Please try again later."
 	timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 }
 
+- (BOOL)willPublishThunkToStatusForProvider:(JRProvider*)provider
+{
+    return ((![activity url] || [[activity url] isEqualToString:@""]) && 
+            [[provider.socialSharingProperties objectForKey:@"uses_set_status_if_no_url"] isEqualToString:@"YES"]);
+}
+
+- (BOOL)doesActivityUrlAffectCharacterCountForSelectedProvider
+{
+    BOOL url_reduces_max_chars = [[selectedProvider.socialSharingProperties objectForKey:@"url_reduces_max_chars"] isEqualToString:@"YES"];
+    BOOL shows_url_as_url = [[selectedProvider.socialSharingProperties objectForKey:@"shows_url_as"] isEqualToString:@"url"];
+    
+    /* Twitter/MySpace -> true */
+    return (url_reduces_max_chars && shows_url_as_url);
+}
+
+- (BOOL)providerCanShareRichData:(JRProvider*)provider
+{
+    if ([[provider.socialSharingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"])
+        return YES;
+    return NO;
+}
+
+/* That is, cover the view with a transparent gray box and a large white activity indicator. */
+- (void)showViewIsLoading:(BOOL)loading
+{
+    DLog(@"");
+    
+    myLoadingLabel.font = [UIFont systemFontOfSize:24.0];
+    myLoadingLabel.text = NSLocalizedString(@"Sharing...", @"");
+    
+    /* Don't let the user edit or cancel while the activity is being shared */
+    self.navigationItem.leftBarButtonItem.enabled = !loading;
+    self.navigationItem.rightBarButtonItem.enabled = !loading;
+    
+    UIApplication* app = [UIApplication sharedApplication];
+    app.networkActivityIndicatorVisible = loading;
+    
+    /* Gray/un-gray out the window */
+    [myLoadingGrayView setHidden:!loading];
+    
+    /* and start/stop the activity spinner */
+    if (loading)
+        [myLoadingActivitySpinner startAnimating];
+    else
+        [myLoadingActivitySpinner stopAnimating];
+}
+
+- (void)showUserAsLoggedIn:(BOOL)loggedIn
+{
+    [UIView beginAnimations:@"buttonSlide" context:nil];
+    
+    [myJustShareButton setHidden:!loggedIn];
+    [myConnectAndShareButton setHidden:loggedIn];
+    
+    [myTriangleIcon setFrame:CGRectMake(loggedIn ? 230 : 151, 0, 18, 18)];
+    
+    [myProfilePic setHidden:!loggedIn];
+    [myUserName setHidden:!loggedIn];
+    [mySignOutButton setHidden:!loggedIn];
+    [UIView commitAnimations];
+}
+
+- (void)showActivityAsShared:(BOOL)shared
+{
+    DLog(@"");
+    [mySharedLabel setHidden:!shared];
+    [mySharedCheckMark setHidden:!shared];
+    
+    if (loggedInUser)
+        [myJustShareButton setHidden:shared];
+    else
+        [myConnectAndShareButton setHidden:shared];
+    
+    [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ? 230 : 151), 0, 18, 18)];
+    
+    if (!hidesCancelButton)
+    {
+        UIBarButtonItem *barButton;
+        if (shared)
+        {
+            barButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                          style:UIBarButtonItemStyleDone
+                                                         target:sessionData
+                                                         action:@selector(triggerPublishingDidComplete:)] autorelease];
+        }
+        else
+        {
+            barButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                       target:sessionData
+                                                                       action:@selector(triggerPublishingDidCancel:)] autorelease];
+            self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+        }
+        
+        self.navigationItem.leftBarButtonItem = barButton;
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+    }
+}
+
+- (void)updatePreviewTextWhenContentReplacesAction
+{
+    DLog(@"");
+    NSString *username = (loggedInUser) ? loggedInUser.preferred_username : @"You";
+    NSString *url = (shortenedActivityUrl) ? shortenedActivityUrl : @"shortening url...";
+    
+    NSString *text = (![[myUserCommentTextView text] isEqualToString:@""]) ?
+    [myUserCommentTextView text] :                                         
+    [activity action];
+    
+    NSInteger nl = [username length];
+    NSInteger ul = [url length];
+    
+    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
+    [previewText setFont:[UIFont systemFontOfSize:11.0]];
+	[previewText setTextColor:[UIColor blackColor]];
+    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
+	
+    if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
+    { /* Twitter/MySpace -> true */
+        NSMutableAttributedString *urlAttrString = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@" %@", url]];
+        [urlAttrString setTextColor:JANRAIN_BLUE range:NSMakeRange(1, ul)];	
+        
+        [previewText appendAttributedString:urlAttrString];
+    }
+    
+    myPreviewAttributedLabel.attributedText = previewText;
+    myPreviewAttributedLabel.adjustBottomToFit = YES;
+}
+
+- (void)updatePreviewTextWhenContentDoesNotReplaceAction
+{
+    DLog(@"");
+    NSString *username = (loggedInUser) ? loggedInUser.preferred_username : @"You";    
+    NSString *text = activity.action;
+    
+    NSInteger nl = [username length];
+    
+    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
+    [previewText setFont:[UIFont systemFontOfSize:11.0]];
+	[previewText setTextColor:[UIColor blackColor]];
+    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
+	
+    myPreviewAttributedLabel.attributedText = previewText;
+    myPreviewAttributedLabel.adjustBottomToFit = YES;
+}
+
+- (void)updateCharacterCount
+{
+    // TODO: verify correctness of the 0 remaining characters edge case
+    NSString *characterCountText;
+    
+    if (maxCharacters == -1)
+        return;
+    
+    int chars_remaining = 0;
+    if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+    {
+        /* Twitter, MySpace, LinkedIn */
+        if ([self doesActivityUrlAffectCharacterCountForSelectedProvider] && shortenedActivityUrl == nil) 
+        {
+            /* Twitter, MySpace */
+            characterCountText = @"Calculating remaining characters";
+        }
+        else
+        {
+            int preview_length = [[myPreviewAttributedLabel attributedText] length];
+            chars_remaining = maxCharacters - preview_length;
+            
+            characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
+        }
+    } 
+    else
+    { /* Facebook, Yahoo */
+        int comment_length = [[myUserCommentTextView text] length];
+        chars_remaining = maxCharacters - comment_length;
+        
+        characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
+    }
+    
+    [myRemainingCharactersLabel setText:characterCountText];
+    
+    if (chars_remaining < 0)
+        [myRemainingCharactersLabel setTextColor:[UIColor redColor]]; // TODO: Make just character number red with attributed label
+    else
+        [myRemainingCharactersLabel setTextColor:[UIColor darkGrayColor]];
+    
+    DLog(@"updateCharacterCount: %@", characterCountText);
+}
+
+- (void)adjustRichDataContainerVisibility
+{
+    DLog(@"");
+    
+    // TODO: Move somewhere else!!
+    //    if (!hasEditedUserContentForActivityAlready)
+    //        myUserContentTextView.text = _activity.action;
+    //    else
+    //        myUserContentTextView.text = _activity.user_generated_content;
+    
+    if ([self providerCanShareRichData:selectedProvider] && activityHasRichData)
+    {
+        //            [UIView beginAnimations:@"media_grow" context:nil];
+        //            [UIView setAnimationDuration:2000];
+        [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
+                                                myPreviewContainer.frame.origin.y,
+                                                myPreviewContainer.frame.size.width,
+                                                mediaBoxHeight + previewLabelHeight + 32.0)];//157)];
+                                                                                             //            [UIView commitAnimations];
+                                                                                             //            [UIView beginAnimations:@"media_fade" context:nil];
+                                                                                             //            [UIView setAnimationDelay:2000];
+        [myRichDataContainer setHidden:NO];//setAlpha:1.0];
+                                           //            [UIView commitAnimations];
+        
+    }
+    else
+    {
+        //            [UIView beginAnimations:@"media_fade" context:nil];
+        //            [UIView setAnimationDuration:2000];
+        [myRichDataContainer setHidden:YES];//setAlpha:0.0];
+                                            //            [UIView commitAnimations];
+                                            //            [UIView beginAnimations:@"media_grow" context:nil];
+                                            //            [UIView setAnimationDelay:2000];
+        [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
+                                                myPreviewContainer.frame.origin.y,
+                                                myPreviewContainer.frame.size.width,
+                                                previewLabelHeight + 28.0)];//67)];
+                                                                            //            [UIView commitAnimations];
+        
+    }
+    
+    [myPreviewRoundedRect setNeedsDisplay];
+}
+
+- (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user forProvider:(NSString*)providerName
+{
+    DLog(@"");
+    myUserName.text = user.preferred_username;
+    
+    NSData *cachedProfilePic = [cachedProfilePics objectForKey:providerName];
+    
+    if (cachedProfilePic)
+        [self setButtonImage:myProfilePic toData:cachedProfilePic andSetLoading:myProfilePicActivityIndicator toLoading:NO];
+    else if (user.photo)
+        [self fetchProfilePicFromUrl:user.photo forProvider:providerName];
+    else
+        [self setProfilePicToDefaultPic];
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    DLog(@"");
+    
+#if JRENGAGE_INCLUDE_EMAIL_SMS
+    if (item.tag == [[sessionData socialProviders] count])
+    {
+        UIActionSheet *action;
+        switch (emailAndOrSmsIndex)
+        {
+            case EMAIL_ONLY:
+                [self sendEmail];
+                break;
+            case SMS_ONLY:
+                [self sendSMS];
+                break;
+            case EMAIL_AND_SMS:
+                action = [[[UIActionSheet alloc] initWithTitle:@"Share with Email or SMS"
+                                                      delegate:self
+                                             cancelButtonTitle:@"Cancel"
+                                        destructiveButtonTitle:nil
+                                             otherButtonTitles:@"Email", @"SMS", nil] autorelease];
+                action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+                [action showFromTabBar:myTabBar];
+                break;
+            default:
+                break;
+        }
+    }
+    else
+#endif
+    {
+        //        [selectedProvider release];
+        //        [loggedInUser release];
+        
+        self.selectedProvider = [sessionData getSocialProviderAtIndex:item.tag];
+        [sessionData setCurrentProvider:selectedProvider];
+        
+        self.loggedInUser = [sessionData authenticatedUserForProvider:selectedProvider];
+        
+        selectedTab = item.tag;
+        
+        NSArray *colorArray = [selectedProvider.socialSharingProperties objectForKey:@"color_values"];
+        if ([colorArray count] == 4)
+        {
+            myShareToView.backgroundColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
+                                                            green:[[colorArray objectAtIndex:1] doubleValue]
+                                                             blue:[[colorArray objectAtIndex:2] doubleValue]
+                                                            alpha:0.2];
+            
+            myPreviewRoundedRect.innerStrokeColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
+                                                                    green:[[colorArray objectAtIndex:1] doubleValue]
+                                                                     blue:[[colorArray objectAtIndex:2] doubleValue]
+                                                                    alpha:1.0];
+            [myPreviewRoundedRect setNeedsDisplay];
+        }
+        
+        [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
+                                                                         @"button_%@_280x40.png",
+                                                                         selectedProvider.name]]
+                                           forState:UIControlStateNormal];
+        
+        [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
+                                                                   @"button_%@_135x40.png",
+                                                                   selectedProvider.name]]
+                                     forState:UIControlStateNormal];
+        
+        myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:
+                                                    @"icon_%@_30x30.png",
+                                                    selectedProvider.name]];
+        
+        if (![customInterface objectForKey:kJRSocialSharingTitleString] &&
+            ![customInterface objectForKey:kJRSocialSharingTitleView])
+            ((UILabel*)titleView).text = [NSString stringWithFormat:@"%@ %@", 
+                                          NSLocalizedString(@"Share on", @""), 
+                                          selectedProvider.friendlyName];
+        
+        // Here because you can switch tabs while editing on the iPad, yes??
+        activity.user_generated_content = myUserCommentTextView.text;
+        
+        if (loggedInUser)
+        {
+            [self showUserAsLoggedIn:YES];
+            [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:selectedProvider.name];
+        }
+        else
+        {
+            [self showUserAsLoggedIn:NO];
+        }
+        
+        if ([self willPublishThunkToStatusForProvider:selectedProvider])
+            maxCharacters = [((NSString*)[[[selectedProvider socialSharingProperties] objectForKey:@"set_status_properties"] objectForKey:@"max_characters"]) intValue];// integerValue];
+        else
+            maxCharacters = [[[selectedProvider socialSharingProperties] objectForKey:@"max_characters"] intValue];
+        
+        if (maxCharacters == -1)
+        {
+            [myRemainingCharactersLabel setHidden:YES];
+            [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x, 97,
+                                                    myPreviewContainer.frame.size.width, 
+                                                    myPreviewContainer.frame.size.height)];
+        }
+        else
+        {
+            [myRemainingCharactersLabel setHidden:NO];
+            [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x, 107,
+                                                    myPreviewContainer.frame.size.width, 
+                                                    myPreviewContainer.frame.size.height)];
+        }        
+        
+        if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+            [self updatePreviewTextWhenContentReplacesAction];
+        else
+            [self updatePreviewTextWhenContentDoesNotReplaceAction];
+        
+        [self updateCharacterCount];
+        
+        [self adjustRichDataContainerVisibility];
+        [self showActivityAsShared:([alreadyShared containsObject:selectedProvider.name] ? YES : NO)];
+    }
+}
+
 - (void)doneButtonPressed:(id)sender
 {
-    [myUserContentTextView resignFirstResponder];
+    [myUserCommentTextView resignFirstResponder];
 
-    if (myUserContentTextView.text.length > 0)
-        [myUserContentTextView scrollRangeToVisible:NSMakeRange(0, 1)];
+//    if (myUserContentTextView.text.length > 0)
+//        [myUserContentTextView scrollRangeToVisible:NSMakeRange(0, 1)];
 }
 
 - (void)editButtonPressed:(id)sender
 {
-    [myUserContentTextView becomeFirstResponder];
+    [myUserCommentTextView becomeFirstResponder];
 }
 
 #define EDITING_HEIGHT_OFFSET 24
@@ -453,33 +815,33 @@ Please try again later."
     Otherwise, just leave what they've already written. */
     if (!hasEditedUserContentForActivityAlready)
     {
-        myUserContentTextView.text = @"";
+        myUserCommentTextView.text = @"";
         hasEditedUserContentForActivityAlready = YES;
     }
 
     [alreadyShared removeAllObjects];
     [self showActivityAsShared:NO];
 
-//    if (!iPad)
-//    {
-        [UIView beginAnimations:@"editing" context:nil];
-        [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,
-                                                   myUserContentTextView.frame.origin.y,
-                                                   myUserContentTextView.frame.size.width,
-                                                   USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT)];
-        [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x,
-                                                      myUserContentBoundingBox.frame.origin.y,
-                                                      myUserContentBoundingBox.frame.size.width,
-                                                      USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT)];
-        [myRemainingCharactersLabel setFrame:CGRectMake(myRemainingCharactersLabel.frame.origin.x,
-                                                        CHARACTER_COUNT_EDITING_Y_ORIGIN,
-                                                        myRemainingCharactersLabel.frame.size.width,
-                                                        myRemainingCharactersLabel.frame.size.height)];
-        [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
-                                                PREVIEW_BOX_EDITING_Y_ORIGIN,
-                                                myMediaContentView.frame.size.width,
-                                                myMediaContentView.frame.size.height)];
+    [UIView beginAnimations:@"editing" context:nil];
+    [myUserCommentTextView setFrame:CGRectMake(myUserCommentTextView.frame.origin.x,
+                                               myUserCommentTextView.frame.origin.y,
+                                               myUserCommentTextView.frame.size.width,
+                                               USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT)];
+    [myUserCommentBoundingBox setFrame:CGRectMake(myUserCommentBoundingBox.frame.origin.x,
+                                                  myUserCommentBoundingBox.frame.origin.y,
+                                                  myUserCommentBoundingBox.frame.size.width,
+                                                  USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT)];
+    [myRemainingCharactersLabel setFrame:CGRectMake(myRemainingCharactersLabel.frame.origin.x,
+                                                    CHARACTER_COUNT_EDITING_Y_ORIGIN,
+                                                    myRemainingCharactersLabel.frame.size.width,
+                                                    myRemainingCharactersLabel.frame.size.height)];
+    [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
+                                            PREVIEW_BOX_EDITING_Y_ORIGIN,
+                                            myPreviewContainer.frame.size.width,
+                                            myPreviewContainer.frame.size.height)];
+    
     [myScrollView setContentSize:CGSizeMake(320, 350)];
+
     if (!iPad)
     {
         [UIView commitAnimations];
@@ -488,11 +850,9 @@ Please try again later."
     {
         [myPadGrayEditingViewTop setHidden:NO];
         [myPadGrayEditingViewBottom setHidden:NO];
-
-//        [UIView beginAnimations:@"editing" context:nil];
         [myPadGrayEditingViewTop setAlpha:0.6];
         [myPadGrayEditingViewBottom setAlpha:0.6];
-        [myUserContentBoundingBox setAlpha:1.0];
+        [myUserCommentBoundingBox setAlpha:1.0];
         [UIView commitAnimations];
     }
 
@@ -503,7 +863,6 @@ Please try again later."
 
 	self.navigationItem.rightBarButtonItem = doneButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
-
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
 
     return YES;
@@ -514,32 +873,33 @@ Please try again later."
     DLog(@"");
 
  /* If the user started to enter something, but didn't end up keeping anything, set
-    the text back to what the activity's action was. */
-    if (myUserContentTextView.text.length == 0)
+    the text back to what the activity's action was. (Aside: We could also set 
+    hasEditedUserContentForActivityAlready to "NO", clearing the action the next time 
+    they go to edit.  Currently, on second edit, the action stays, which I kinda like) */
+    if (myUserCommentTextView.text.length == 0)
     {
-        myUserContentTextView.text = activity.action;
+        myUserCommentTextView.text = activity.action;
     }
 
-//    if (!iPad)
-//    {
-        [UIView beginAnimations:@"editing" context:nil];
-        [myUserContentTextView setFrame:CGRectMake(myUserContentTextView.frame.origin.x,
-                                                   myUserContentTextView.frame.origin.y,
-                                                   myUserContentTextView.frame.size.width,
-                                                   USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT)];
-        [myUserContentBoundingBox setFrame:CGRectMake(myUserContentBoundingBox.frame.origin.x,
-                                                      myUserContentBoundingBox.frame.origin.y,
-                                                      myUserContentBoundingBox.frame.size.width,
-                                                      USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT)];
-        [myRemainingCharactersLabel setFrame:CGRectMake(myRemainingCharactersLabel.frame.origin.x,
-                                                        CHARACTER_COUNT_DEFAULT_Y_ORIGIN,
-                                                        myRemainingCharactersLabel.frame.size.width,
-                                                        myRemainingCharactersLabel.frame.size.height)];
-        [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
-                                                PREVIEW_BOX_DEFAULT_Y_ORIGIN,
-                                                myMediaContentView.frame.size.width,
-                                                myMediaContentView.frame.size.height)];
-        [myScrollView setContentSize:CGSizeMake(320, 264)];
+    [UIView beginAnimations:@"editing" context:nil];
+    [myUserCommentTextView setFrame:CGRectMake(myUserCommentTextView.frame.origin.x,
+                                               myUserCommentTextView.frame.origin.y,
+                                               myUserCommentTextView.frame.size.width,
+                                               USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT)];
+    [myUserCommentBoundingBox setFrame:CGRectMake(myUserCommentBoundingBox.frame.origin.x,
+                                                  myUserCommentBoundingBox.frame.origin.y,
+                                                  myUserCommentBoundingBox.frame.size.width,
+                                                  USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT)];
+    [myRemainingCharactersLabel setFrame:CGRectMake(myRemainingCharactersLabel.frame.origin.x,
+                                                    CHARACTER_COUNT_DEFAULT_Y_ORIGIN,
+                                                    myRemainingCharactersLabel.frame.size.width,
+                                                    myRemainingCharactersLabel.frame.size.height)];
+    [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
+                                            PREVIEW_BOX_DEFAULT_Y_ORIGIN,
+                                            myPreviewContainer.frame.size.width,
+                                            myPreviewContainer.frame.size.height)];
+
+    [myScrollView setContentSize:CGSizeMake(320, 264)];
     
     if (!iPad)
     {
@@ -549,11 +909,9 @@ Please try again later."
     {
         [myPadGrayEditingViewTop setHidden:YES];
         [myPadGrayEditingViewBottom setHidden:YES];
-
-        //[UIView beginAnimations:@"editing" context:nil];
         [myPadGrayEditingViewTop setAlpha:0.0];
         [myPadGrayEditingViewBottom setAlpha:0.0];
-        [myUserContentBoundingBox setAlpha:0.3];
+        [myUserCommentBoundingBox setAlpha:0.3];
         [UIView commitAnimations];
     }
 
@@ -566,8 +924,12 @@ Please try again later."
 
 	self.navigationItem.rightBarButtonItem = editButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
-
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+    
+    if (myUserCommentTextView.text.length > 0)
+        [myUserCommentTextView scrollRangeToVisible:NSMakeRange(0, 1)];
+
+    activity.user_generated_content = myUserCommentTextView.text;
 
     return YES;
 }
@@ -582,285 +944,14 @@ Please try again later."
     [self updateCharacterCount];
 }
 
-//- (void)changePreviewLabelToText:(NSString*)text
-//{
-//    NSString *userName = (loggedInUser) ? loggedInUser.preferred_username : @"You";
-//    NSString *url = @"www.janrain.com";
-//    
-//    NSInteger unl = [userName length];
-//    NSInteger tl = [text length];
-//    NSInteger urll = [url length];
-//
-//    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@x%@x%@", userName, text, url]];
-//    [previewText setFont:[UIFont systemFontOfSize:11.0]];
-//	[previewText setTextColor:[UIColor blackColor]];
-//    
-//    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, unl)];
-//    [previewText setTextColor:[UIColor redColor] range:NSMakeRange(unl + tl + 2 , urll)];	
-//
-//    myPreviewLabel.attributedText = previewText;
-//    myPreviewLabel.adjustBottomToFit = YES;
-//}
-
 - (void)attributedLabel:(OHAttributedLabel*)attrLabel didChangeHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight
-{
-    DLog(@"from height: %f to height: %f", fromHeight, toHeight);
-    DLog(@"myMediaViewBackgroundMiddle frame: %f, %f, %f, %f", 
-         myMediaViewBackgroundMiddle.frame.origin.x,
-         myMediaViewBackgroundMiddle.frame.origin.y + (toHeight - fromHeight),
-         myMediaViewBackgroundMiddle.frame.size.width,
-         myMediaViewBackgroundMiddle.frame.size.height);
-    
+{    
     previewLabelHeight = toHeight;
-    [myMediaViewBackgroundMiddle setFrame:CGRectMake(myMediaViewBackgroundMiddle.frame.origin.x,
-                                                     myMediaViewBackgroundMiddle.frame.origin.y + (toHeight - fromHeight),
-                                                     myMediaViewBackgroundMiddle.frame.size.width,
-                                                     myMediaViewBackgroundMiddle.frame.size.height)];
-    [self loadActivityToView];
-}
-
-- (BOOL)willPublishThunkToStatus
-{
-    return ((![activity url] || [[activity url] isEqualToString:@""]) && 
-            [[selectedProvider.socialSharingProperties objectForKey:@"uses_set_status_if_no_url"] isEqualToString:@"YES"]);
-}
-
-- (BOOL)doesActivityUrlAffectCharacterCountForSelectedProvider
-{
-    BOOL url_reduces_max_chars = [[selectedProvider.socialSharingProperties objectForKey:@"url_reduces_max_chars"] isEqualToString:@"YES"];
-    BOOL shows_url_as_url = [[selectedProvider.socialSharingProperties objectForKey:@"shows_url_as"] isEqualToString:@"url"];
-    
-    /* Twitter/MySpace -> true */
-    return (url_reduces_max_chars && shows_url_as_url);
-}
-
-- (void)updateCharacterCount
-{
-    // TODO: verify correctness of the 0 remaining characters edge case
-    NSString *characterCountText;
-    
-    if (maxCharacters == -1)
-    {
-        [myRemainingCharactersLabel setHidden:YES];
-        [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 97,
-                                                myMediaContentView.frame.size.width, 
-                                                myMediaContentView.frame.size.height)];
-        return;
-    }
-
-    [myRemainingCharactersLabel setHidden:NO];
-    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x, 107,
-                                            myMediaContentView.frame.size.width, 
-                                            myMediaContentView.frame.size.height)];
-          
-    int chars_remaining = 0;
-    if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
-    {
-        /* Twitter, MySpace, LinkedIn */
-        if ([self doesActivityUrlAffectCharacterCountForSelectedProvider] && shortenedActivityUrl == nil) 
-        {
-            /* Twitter, MySpace */
-            characterCountText = @"Calculating remaining characters";
-        }
-        else
-        {
-            int preview_length = [[myPreviewLabel attributedText] length];
-            chars_remaining = maxCharacters - preview_length;
-            
-            characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
-        }
-    } 
-    else
-    { /* Facebook, Yahoo */
-        int comment_length = [[myUserContentTextView text] length];
-        chars_remaining = maxCharacters - comment_length;
-
-        characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
-    }
-    
-    [myRemainingCharactersLabel setText:characterCountText];
-    
-    if (chars_remaining < 0)
-        [myRemainingCharactersLabel setTextColor:[UIColor redColor]]; // TODO: Make just character number red with attributed label
-    else
-        [myRemainingCharactersLabel setTextColor:[UIColor darkGrayColor]];
-    
-    DLog(@"updateCharacterCount: %@", characterCountText);
-}
-
-- (void)updateUserCommentView
-{
-    DLog(@"");
-    //mUserHasEditedText = true;
-    
-    if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
-    {
-        /* Twitter, MySpace, LinkedIn */
-        [self updatePreviewTextWhenContentReplacesAction];
-    } /* ... else Yahoo or Facebook */
-}
-
-- (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)_activity
-{
-    DLog(@"");
-    if (_activity == activity)
-    {
-        shortenedActivityUrl = url;
-        
-        if (selectedProvider == nil)
-            return;
-        
-        if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
-            [self updatePreviewTextWhenContentReplacesAction];
-        else
-            [self updatePreviewTextWhenContentDoesNotReplaceAction];
-        
-        [self updateCharacterCount];
-    }
-}
-
-- (void)updatePreviewTextWhenContentReplacesAction
-{
-    DLog(@"");
-    NSString *username = (loggedInUser) ? loggedInUser.preferred_username : @"You";
-    NSString *url = (shortenedActivityUrl) ? shortenedActivityUrl : @"shortening url...";
-    
-    NSString *text = (![[myUserContentTextView text] isEqualToString:@""]) ?
-                            [myUserContentTextView text] :                                         
-                            [activity action];
-    
-    NSInteger nl = [username length];
-    NSInteger ul = [url length];
-
-    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
-    [previewText setFont:[UIFont systemFontOfSize:11.0]];
-	[previewText setTextColor:[UIColor blackColor]];
-    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
-	
-    if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
-    { /* Twitter/MySpace -> true */
-        NSMutableAttributedString *urlAttrString = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@" %@", url]];
-        [urlAttrString setTextColor:JANRAIN_BLUE range:NSMakeRange(1, ul)];	
-        
-        [previewText appendAttributedString:urlAttrString];
-    }
-    
-    myPreviewLabel.attributedText = previewText;
-    myPreviewLabel.adjustBottomToFit = YES;
-}
-
-- (void)updatePreviewTextWhenContentDoesNotReplaceAction
-{
-    DLog(@"");
-    NSString *username = (loggedInUser) ? loggedInUser.preferred_username : @"You";    
-    NSString *text = activity.action;
-    
-    NSInteger nl = [username length];
-    
-    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
-    [previewText setFont:[UIFont systemFontOfSize:11.0]];
-	[previewText setTextColor:[UIColor blackColor]];
-    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
-	
-    myPreviewLabel.attributedText = previewText;
-    myPreviewLabel.adjustBottomToFit = YES;
-}
-
-//private void shareActivity() {
-//    Log.d(TAG, "shareActivity mAuthenticatedUser: " + mAuthenticatedUser.toString());
-//    
-//    if (isPublishThunk()) {
-//        mSessionData.setStatusForUser(mAuthenticatedUser);
-//    } else {
-//        mSessionData.shareActivityForUser(mAuthenticatedUser);
-//    }
-//}
-
-/* That is, cover the view with a transparent gray box and a large white activity indicator. */
-- (void)showViewIsLoading:(BOOL)loading
-{
-    DLog(@"");
-
-    myLoadingLabel.font = [UIFont systemFontOfSize:24.0];
-    myLoadingLabel.text = NSLocalizedString(@"Sharing...", @"");
-
- /* Don't let the user edit or cancel while the activity is being shared */
-    self.navigationItem.leftBarButtonItem.enabled = !loading;
-    self.navigationItem.rightBarButtonItem.enabled = !loading;
-
-    UIApplication* app = [UIApplication sharedApplication];
-    app.networkActivityIndicatorVisible = loading;
-
- /* Gray/un-gray out the window */
-    [myLoadingGrayView setHidden:!loading];
-
- /* and start/stop the activity spinner */
-    if (loading)
-        [myLoadingActivitySpinner startAnimating];
-    else
-        [myLoadingActivitySpinner stopAnimating];
-}
-
-- (void)showUserAsLoggedIn:(BOOL)loggedIn
-{
-    [UIView beginAnimations:@"buttonSlide" context:nil];
-
-    [myJustShareButton setHidden:!loggedIn];
-    [myConnectAndShareButton setHidden:loggedIn];
-
-    [myTriangleIcon setFrame:CGRectMake(loggedIn ? 230 : 151, 0, 18, 18)];
-
-    [myProfilePic setHidden:!loggedIn];
-    [myUserName setHidden:!loggedIn];
-    [mySignOutButton setHidden:!loggedIn];
-    [UIView commitAnimations];
-}
-
-- (void)showActivityAsShared:(BOOL)shared
-{
-    DLog(@"");
-    [mySharedLabel setHidden:!shared];
-    [mySharedCheckMark setHidden:!shared];
-
-    if (loggedInUser)
-        [myJustShareButton setHidden:shared];
-    else
-        [myConnectAndShareButton setHidden:shared];
-
-    [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ? 230 : 151), 0, 18, 18)];
-
-    if (!hidesCancelButton)
-    {
-        UIBarButtonItem *barButton;
-        if (shared)
-        {
-            barButton = [[[UIBarButtonItem alloc] initWithTitle:@"Close"
-                                                          style:UIBarButtonItemStyleDone
-                                                         target:sessionData
-                                                         action:@selector(triggerPublishingDidComplete:)] autorelease];
-        }
-        else
-        {
-            barButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                       target:sessionData
-                                                                       action:@selector(triggerPublishingDidCancel:)] autorelease];
-            self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
-        }
-
-        self.navigationItem.leftBarButtonItem = barButton;
-        self.navigationItem.leftBarButtonItem.enabled = YES;
-    }
-}
-
-- (void)logUserOutForProvider:(NSString*)provider
-{
-    [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
-    [cachedProfilePics removeObjectForKey:selectedProvider.name];
-    [loggedInUser release];
-    loggedInUser = nil;
-
-    [self showUserAsLoggedIn:NO];
-    [self showActivityAsShared:NO];
+    [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
+                                             myRichDataContainer.frame.origin.y + (toHeight - fromHeight),
+                                             myRichDataContainer.frame.size.width,
+                                             myRichDataContainer.frame.size.height)];
+    [self adjustRichDataContainerVisibility];
 }
 
 - (void)sendEmail
@@ -894,6 +985,36 @@ Please try again later."
     [self presentModalViewController:sms animated:YES];
 
 #endif
+}
+
+- (void)logUserOutForProvider:(NSString*)provider
+{
+    [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
+    [cachedProfilePics removeObjectForKey:selectedProvider.name];
+    [loggedInUser release];
+    loggedInUser = nil;
+    
+    [self showUserAsLoggedIn:NO];
+    [self showActivityAsShared:NO];
+}
+
+- (IBAction)signOutButtonPressed:(id)sender
+{
+    DLog(@"");
+    
+    userIsAttemptingToSignOut = YES;
+    
+	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
+                                                                   @"You are currently signed in to %@%@. Would you like to sign out?",
+                                                                   selectedProvider.friendlyName,
+                                                                   (loggedInUser.preferred_username) ?
+                                                                   [NSString stringWithFormat:@" as %@", loggedInUser.preferred_username] : @""]
+														 delegate:self
+												cancelButtonTitle:@"Cancel"
+										   destructiveButtonTitle:@"Sign Out"
+												otherButtonTitles:nil] autorelease];
+	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    [action showFromTabBar:myTabBar];
 }
 
 - (void)actionSheet:(UIActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -931,32 +1052,13 @@ Please try again later."
     userIsAttemptingToSignOut = NO;
 }
 
-- (IBAction)signOutButtonPressed:(id)sender
-{
-    DLog(@"");
-
-    userIsAttemptingToSignOut = YES;
-
-	UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
-                                                                   @"You are currently signed in to %@%@. Would you like to sign out?",
-                                                                   selectedProvider.friendlyName,
-                                                                   (loggedInUser.preferred_username) ?
-                                                                   [NSString stringWithFormat:@" as %@", loggedInUser.preferred_username] : @""]
-														 delegate:self
-												cancelButtonTitle:@"Cancel"
-										   destructiveButtonTitle:@"Sign Out"
-												otherButtonTitles:nil] autorelease];
-	action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-    [action showFromTabBar:myTabBar];
-}
-
 - (void)setButtonImage:(UIButton*)button toData:(NSData*)data andSetLoading:(UIActivityIndicatorView*)actIndicator toLoading:(BOOL)loading
 {
     DLog (@"");
-
+    
     if (!data && !loading)
         DLog (@"Problem downloading image");
-
+    
     if (!data)
     {
         [button setImage:nil forState:UIControlStateNormal];
@@ -968,100 +1070,110 @@ Please try again later."
         button.imageView.contentMode = UIViewContentModeScaleAspectFill;
         button.backgroundColor = [UIColor whiteColor];
     }
-
+    
     if (loading)
         [actIndicator startAnimating];
     else
         [actIndicator stopAnimating];
 }
 
-- (BOOL)providerCanShareMedia:(JRProvider*)provider
+- (void)setProfilePicToDefaultPic
 {
-    if ([[provider.socialSharingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"])
-        return YES;
-    return NO;
+    [myProfilePic setImage:[UIImage imageNamed:@"profilepic_placeholder.png"] forState:UIControlStateNormal];
+    myProfilePic.backgroundColor = [UIColor clearColor];
+    [myProfilePicActivityIndicator stopAnimating];
 }
 
-- (void)layoutMediaView:(BOOL)shouldHide
-{
-    if (shouldHide || !activityHasMedia)
-        [myMediaViewBackgroundMiddle setHidden:YES];
-}
-
-- (void)loadActivityToView:(JRActivityObject*)_activity
+- (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl forProvider:(NSString*)providerName
 {
     DLog(@"");
+    [self setButtonImage:myProfilePic toData:nil andSetLoading:myProfilePicActivityIndicator toLoading:YES];
+    
+    NSURL        *url = [NSURL URLWithString:profilePicUrl];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    NSString     *tag = [providerName retain];
+    
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
+        [self setProfilePicToDefaultPic];
+    
+    [request release];
+}
 
-// TODO: Move somewhere else!!
-//    if (!hasEditedUserContentForActivityAlready)
-//        myUserContentTextView.text = _activity.action;
-//    else
-//        myUserContentTextView.text = _activity.user_generated_content;
-
-    if ([self providerCanShareMedia:selectedProvider] && activityHasMedia)
+- (void)downloadMediaThumbnailsForActivity
+{
+    JRMediaObject *media = [activity.media objectAtIndex:0];
+    if ([media isKindOfClass:[JRImageMediaObject class]])
     {
-//        if (!mediaIsAlreadyShowing)
-//        {
-//            [UIView beginAnimations:@"media_grow" context:nil];
-//            [UIView setAnimationDuration:2000];
-            [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
-                                                    myMediaContentView.frame.origin.y,
-                                                    myMediaContentView.frame.size.width,
-                                                    mediaBoxHeight + previewLabelHeight + 32.0)];//157)];
-//            [UIView commitAnimations];
-//            [UIView beginAnimations:@"media_fade" context:nil];
-//            [UIView setAnimationDelay:2000];
-            [myMediaViewBackgroundMiddle setHidden:NO];//setAlpha:1.0];
-//            [UIView commitAnimations];
-
-//            mediaIsAlreadyShowing = YES;
-//        }
+        DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
+        [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
+        
+        NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
+        NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+        NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+        
+        if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
+            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
+    }
+    else if ([media isKindOfClass:[JRFlashMediaObject class]])
+    {
+        DLog (@"Downloading image thumbnail: %@", ((JRFlashMediaObject*)media).imgsrc);
+        [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
+        
+        NSURL        *url = [NSURL URLWithString:((JRFlashMediaObject*)media).imgsrc];
+        NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
+        NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+        
+        if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
+            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
     }
     else
     {
-//        if (mediaIsAlreadyShowing)
-//        {
-//            [UIView beginAnimations:@"media_fade" context:nil];
-//            [UIView setAnimationDuration:2000];
-            [myMediaViewBackgroundMiddle setHidden:YES];//setAlpha:0.0];
-//            [UIView commitAnimations];
-//            [UIView beginAnimations:@"media_grow" context:nil];
-//            [UIView setAnimationDelay:2000];
-            [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
-                                                    myMediaContentView.frame.origin.y,
-                                                    myMediaContentView.frame.size.width,
-                                                    previewLabelHeight + 28.0)];//67)];
-//            [UIView commitAnimations];
-
-//            mediaIsAlreadyShowing = NO;
-//        }
-    }
-
-    [myPreviewRoundedRect setNeedsDisplay];
-    
-    DLog(@"myMediaContentView frame: %f, %f, %f, %f", 
-         myMediaContentView.frame.origin.x,
-         myMediaContentView.frame.origin.y,
-         myMediaContentView.frame.size.width,
-         myMediaContentView.frame.size.height);
-    
+        [self setButtonImage:myMediaThumbnailView
+                      toData:UIImagePNGRepresentation([UIImage imageNamed:@"music_note.png"])
+               andSetLoading:myMediaThumbnailActivityIndicator
+                   toLoading:NO];
+    }    
 }
 
-- (void)loadActivityToViewForFirstTime:(JRActivityObject*)newActivity
+- (void)determineIfWeCanShareViaEmailAndOrSMS
+{
+#if JRENGAGE_INCLUDE_EMAIL_SMS
+#else
+    return;
+#endif
+    
+    Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
+    Class messageClass = (NSClassFromString(@"MFMessageComposeViewController"));
+    
+    /* Check if the activity has an email object, sms string, or both and if we can send either or both.
+     If so, emailOrSms will be 0, 1, 2, or 3, accordingly. */
+    if (activity.email && [mailClass canSendMail])  /* Add 1. */
+        emailAndOrSmsIndex += EMAIL;
+    if (activity.sms && [messageClass canSendText]) /* Add 2. */
+        emailAndOrSmsIndex += SMS;
+    
+    return;// emailAndOrSmsIndex;
+}
+
+- (void)loadActivityToViewForFirstTime//:(JRActivityObject*)newActivity
 {
     DLog(@"");
-    myUserContentTextView.text = newActivity.action;
     
-    if ((!newActivity.title || [newActivity.title isEqualToString:@""]) && 
-        (!newActivity.description || [newActivity.description isEqualToString:@""]) &&
-        ([newActivity.media count] == 0 || mediaThumbnailFailedToDownload))
-        activityHasMedia = NO;
+ /* Set the user-comment text view's text to the activity's action */
+    myUserCommentTextView.text = activity.action;
+    
+ /* Determine if the activity has rich data (media, a title, or a description) */
+    if ((!activity.title || [activity.title isEqualToString:@""]) && 
+        (!activity.description || [activity.description isEqualToString:@""]) &&
+        ([activity.media count] == 0 || mediaThumbnailFailedToDownload))
+        activityHasRichData = NO;
     else
-        activityHasMedia = YES;
+        activityHasRichData = YES;
 
-    if (activityHasMedia == NO)
+ /* If it doesn't, we're done */
+    if (activityHasRichData == NO)
     {
-        [myMediaViewBackgroundMiddle setHidden:YES];
+        [myRichDataContainer setHidden:YES];
         return;
     }
 
@@ -1069,40 +1181,9 @@ Please try again later."
     CGFloat descr_x = 46.0, descr_y = 22.0, descr_w = 224.0, descr_h = 56.0;
     mediaBoxHeight = 48.0;
     
-    if ([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload)
+    if ([activity.media count] > 0 && !mediaThumbnailFailedToDownload)
     {
-        JRMediaObject *media = [newActivity.media objectAtIndex:0];
-        if ([media isKindOfClass:[JRImageMediaObject class]])
-        {
-            DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
-            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
-            
-            NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
-            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-            NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
-            
-            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
-                [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
-        }
-        else if ([media isKindOfClass:[JRFlashMediaObject class]])
-        {
-            DLog (@"Downloading image thumbnail: %@", ((JRFlashMediaObject*)media).imgsrc);
-            [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
-            
-            NSURL        *url = [NSURL URLWithString:((JRFlashMediaObject*)media).imgsrc];
-            NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-            NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
-            
-            if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
-                [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
-        }
-        else
-        {
-            [self setButtonImage:myMediaThumbnailView
-                          toData:UIImagePNGRepresentation([UIImage imageNamed:@"music_note.png"])
-                   andSetLoading:myMediaThumbnailActivityIndicator
-                       toLoading:NO];
-        }
+        [self downloadMediaThumbnailsForActivity];
     }
     else
     {
@@ -1110,24 +1191,26 @@ Please try again later."
         title_w = descr_w = 262.0;
     }
     
+ /* Set the title label and determine how much space the activity's title will potentially need */
     CGFloat shouldBeTitleHeight = 0;    
-    if (newActivity.title)
+    if (activity.title)
     {
-        myTitleLabel.text = newActivity.title;
+        myTitleLabel.text = activity.title;
     
         CGSize shouldBeTitleSize = [myTitleLabel.text sizeWithFont:myTitleLabel.font 
-                                                 constrainedToSize:CGSizeMake(([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73) 
+                                                 constrainedToSize:CGSizeMake(([activity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73) 
                                                      lineBreakMode:UILineBreakModeTailTruncation];
         shouldBeTitleHeight = shouldBeTitleSize.height;
     }
 
+ /* Set the description label and determine how much space the activity's description will potentially need */
     CGFloat shouldBeDescriptionHeight = 0;    
-    if (newActivity.description)
+    if (activity.description)
     {
-        myDescriptionLabel.text = newActivity.description;
+        myDescriptionLabel.text = activity.description;
         
         CGSize shouldBeDescriptionSize = [myDescriptionLabel.text sizeWithFont:myDescriptionLabel.font 
-                                                 constrainedToSize:CGSizeMake(([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73) 
+                                                 constrainedToSize:CGSizeMake(([activity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73) 
                                                      lineBreakMode:UILineBreakModeTailTruncation];
         shouldBeDescriptionHeight = shouldBeDescriptionSize.height;        
     }
@@ -1136,6 +1219,8 @@ Please try again later."
     {
         [myTitleLabel setHidden:YES];
         [myDescriptionLabel setHidden:YES];
+        
+        return;
     }
     else if (shouldBeTitleHeight == 0 && shouldBeDescriptionHeight != 0 ) /* There is no title but there is a description */
     {
@@ -1146,7 +1231,7 @@ Please try again later."
         else
             descr_h = 70.0; /* The height of 5 lines of 11.0 pt. font */
 
-        if ((descr_h > 38.0) || ([newActivity.media count] == 0))
+        if ((descr_h > 38.0) || ([activity.media count] == 0))
             mediaBoxHeight = descr_h + 10.0; /* 10.0 is the padding above and below the title/description */
 
         [myTitleLabel setHidden:YES];
@@ -1158,7 +1243,7 @@ Please try again later."
         else
             title_h = 60.0; /* The height of 4 lines of 12.0 pt. bold font */
 
-        if ((title_h > 38.0) || ([newActivity.media count] == 0))
+        if ((title_h > 38.0) || ([activity.media count] == 0))
             mediaBoxHeight = title_h + 10.0; /* 10.0 is the padding above and below the title/description */
 
         [myDescriptionLabel setHidden:YES];
@@ -1171,11 +1256,10 @@ Please try again later."
             descr_h = shouldBeDescriptionHeight;
             descr_y = shouldBeTitleHeight + 7.0; /* Title height + top padding + interior padding */
             
-            if ((shouldBeTitleHeight + shouldBeDescriptionHeight > 38.0) || ([newActivity.media count] == 0))
+            if ((shouldBeTitleHeight + shouldBeDescriptionHeight > 38.0) || ([activity.media count] == 0))
                 mediaBoxHeight = shouldBeTitleHeight + shouldBeDescriptionHeight + 12.0;
         }
-        
-        if (shouldBeTitleHeight + shouldBeDescriptionHeight >= 71) /* Max height is 83 (including title and description heights, 5 px top/bottom padding, and 2 px interior padding) */ 
+        else if (shouldBeTitleHeight + shouldBeDescriptionHeight >= 71) /* Max height is 83 (including title and description heights, 5 px top/bottom padding, and 2 px interior padding) */ 
         {
             if (shouldBeTitleHeight >= 15 && shouldBeDescriptionHeight >= 56)
             {
@@ -1185,7 +1269,7 @@ Please try again later."
             {
                 descr_h = shouldBeDescriptionHeight;
                 CGSize shouldBeTitleSize = [myTitleLabel.text sizeWithFont:myTitleLabel.font 
-                                                         constrainedToSize:CGSizeMake(([newActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 71 - shouldBeDescriptionHeight) 
+                                                         constrainedToSize:CGSizeMake(([activity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 71 - shouldBeDescriptionHeight) 
                                                              lineBreakMode:UILineBreakModeTailTruncation];
                 shouldBeTitleHeight = shouldBeTitleSize.height;
                 
@@ -1206,193 +1290,15 @@ Please try again later."
     
     [myTitleLabel setFrame:CGRectMake(title_x, title_y, title_w, title_h)];
     [myDescriptionLabel setFrame:CGRectMake(descr_x, descr_y, descr_w, descr_h)];
-    [myMediaViewBackgroundMiddle setFrame:CGRectMake(myMediaViewBackgroundMiddle.frame.origin.x,
-                                                     20.0,//myMediaViewBackgroundMiddle.frame.origin.y,
-                                                     myMediaViewBackgroundMiddle.frame.size.width,
-                                                     mediaBoxHeight)];
-    [myMediaViewBackgroundMiddle setNeedsDisplay];
-    [myMediaContentView setFrame:CGRectMake(myMediaContentView.frame.origin.x,
-                                            myMediaContentView.frame.origin.y,
-                                            myMediaContentView.frame.size.width,
+    [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
+                                             20.0,//myMediaViewBackgroundMiddle.frame.origin.y,
+                                             myRichDataContainer.frame.size.width,
+                                             mediaBoxHeight)];
+    [myRichDataContainer setNeedsDisplay];
+    [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
+                                            myPreviewContainer.frame.origin.y,
+                                            myPreviewContainer.frame.size.width,
                                             mediaBoxHeight + previewLabelHeight + 37.0)];//157)];
-    CGRect mvbmframe = myMediaViewBackgroundMiddle.frame;
-    DLog(@"myMediaViewBackgroundMiddle frame: %f, %f, %f, %f", 
-         myMediaViewBackgroundMiddle.frame.origin.x,
-         myMediaViewBackgroundMiddle.frame.origin.y,
-         myMediaViewBackgroundMiddle.frame.size.width,
-         myMediaViewBackgroundMiddle.frame.size.height);
-
-    mediaIsAlreadyShowing = YES;
-}
-
-/* Not the best way to do this, but if this function is called, it calls loadActivityToView: with just
-   the current activity instance variable.  If, like in the case where the view is closing, we
-   want to load an empty activity, loadActivityToView: can be called directly with _activity=nil.
-   Maybe it's because I thought calling an instance method with an instance variable was redundant or something... */
-- (void)loadActivityToView
-{
-    [self loadActivityToView:activity];
-}
-
-- (void)setProfilePicToDefaultPic
-{
-    [myProfilePic setImage:[UIImage imageNamed:@"profilepic_placeholder.png"] forState:UIControlStateNormal];
-    myProfilePic.backgroundColor = [UIColor clearColor];
-    [myProfilePicActivityIndicator stopAnimating];
-}
-
-- (void)fetchProfilePicFromUrl:(NSString*)profilePicUrl forProvider:(NSString*)providerName
-{
-    DLog(@"");
-    [self setButtonImage:myProfilePic toData:nil andSetLoading:myProfilePicActivityIndicator toLoading:YES];
-
-    NSURL        *url = [NSURL URLWithString:profilePicUrl];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSString     *tag = [providerName retain];
-
-    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
-        [self setProfilePicToDefaultPic];
-
-    [request release];
-}
-
-- (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user forProvider:(NSString*)providerName
-{
-    DLog(@"");
-    myUserName.text = user.preferred_username;
-
-    NSData *cachedProfilePic = [cachedProfilePics objectForKey:providerName];
-
-    if (cachedProfilePic)
-        [self setButtonImage:myProfilePic toData:cachedProfilePic andSetLoading:myProfilePicActivityIndicator toLoading:NO];
-    else if (user.photo)
-        [self fetchProfilePicFromUrl:user.photo forProvider:providerName];
-    else
-        [self setProfilePicToDefaultPic];
-}
-
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
-{
-    DLog(@"");
-
-#if JRENGAGE_INCLUDE_EMAIL_SMS
-    if (item.tag == [[sessionData socialProviders] count])
-    {
-        UIActionSheet *action;
-        switch (emailOrSms)
-        {
-            case EMAIL_ONLY:
-                [self sendEmail];
-                break;
-            case SMS_ONLY:
-                [self sendSMS];
-                break;
-            case EMAIL_AND_SMS:
-                action = [[[UIActionSheet alloc] initWithTitle:@"Share with Email or SMS"
-                                                      delegate:self
-                                             cancelButtonTitle:@"Cancel"
-                                        destructiveButtonTitle:nil
-                                             otherButtonTitles:@"Email", @"SMS", nil] autorelease];
-                action.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-                [action showFromTabBar:myTabBar];
-                break;
-            default:
-                break;
-        }
-    }
-    else
-#endif
-    {
-        [selectedProvider release];
-        [loggedInUser release];
-
-        selectedProvider = [[sessionData getSocialProviderAtIndex:item.tag] retain];
-        [sessionData setCurrentProvider:selectedProvider];
-
-        selectedTab = item.tag;
-
-        NSArray *colorArray = [selectedProvider.socialSharingProperties objectForKey:@"color_values"];
-        if ([colorArray count] == 4)
-        {
-            myShareToView.backgroundColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
-                                                            green:[[colorArray objectAtIndex:1] doubleValue]
-                                                             blue:[[colorArray objectAtIndex:2] doubleValue]
-                                                            alpha:0.2];
-
-            myPreviewRoundedRect.innerStrokeColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
-                                                            green:[[colorArray objectAtIndex:1] doubleValue]
-                                                             blue:[[colorArray objectAtIndex:2] doubleValue]
-                                                            alpha:1.0];
-            [myPreviewRoundedRect setNeedsDisplay];
-        }
-
-        [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                                         @"button_%@_280x40.png",
-                                                                         selectedProvider.name]]
-                                           forState:UIControlStateNormal];
-
-        [myJustShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
-                                                                   @"button_%@_135x40.png",
-                                                                   selectedProvider.name]]
-                                     forState:UIControlStateNormal];
-
-        myProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:
-                                                    @"icon_%@_30x30.png",
-                                                    selectedProvider.name]];
-
-        if (![customInterface objectForKey:kJRSocialSharingTitleString] &&
-            ![customInterface objectForKey:kJRSocialSharingTitleView])
-            ((UILabel*)titleView).text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Share on", @""), selectedProvider.friendlyName];
-
-        loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
-
-        activity.user_generated_content = myUserContentTextView.text;
-
-        if (loggedInUser)
-        {
-            [self showUserAsLoggedIn:YES];
-            [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:selectedProvider.name];
-        }
-        else
-        {
-            [self showUserAsLoggedIn:NO];
-        }
-        
-        if ([self willPublishThunkToStatus])
-            maxCharacters = [((NSString*)[[[selectedProvider socialSharingProperties] objectForKey:@"set_status_properties"] objectForKey:@"max_characters"]) intValue];// integerValue];
-        else
-            maxCharacters = [[[selectedProvider socialSharingProperties] objectForKey:@"max_characters"] intValue];
-        
-        if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
-            [self updatePreviewTextWhenContentReplacesAction];
-        else
-            [self updatePreviewTextWhenContentDoesNotReplaceAction];
-        
-        [self updateCharacterCount];
-    
-        [self loadActivityToView];
-        [self showActivityAsShared:([alreadyShared containsObject:selectedProvider.name] ? YES : NO)];
-    }
-}
-
-- (BOOL)canSendMailOrSMS
-{
-#if JRENGAGE_INCLUDE_EMAIL_SMS
-#else
-    return NO;
-#endif
-
-    Class mailClass = (NSClassFromString(@"MFMailComposeViewController"));
-    Class messageClass = (NSClassFromString(@"MFMessageComposeViewController"));
-
- /* Check if the activity has an email object, sms string, or both and if we can send either or both.
-    If so, emailOrSms will be 0, 1, 2, or 3, accordingly. */
-    if (activity.email && [mailClass canSendMail])  /* Add 1. */
-        emailOrSms += EMAIL;
-    if (activity.sms && [messageClass canSendText]) /* Add 2. */
-        emailOrSms += SMS;
-
-    return emailOrSms;
 }
 
 - (void)addProvidersToTabBar
@@ -1401,9 +1307,9 @@ Please try again later."
 
     NSInteger numberOfTabs = [[sessionData socialProviders] count];
     NSInteger indexOfLastUsedProvider = 0;
-    BOOL canSendEmailAndText = [self canSendMailOrSMS];
+    BOOL weShouldAddTabForEmailAndOrSms = (BOOL)emailAndOrSmsIndex;
 
-    if (canSendEmailAndText)
+    if (weShouldAddTabForEmailAndOrSms)
         numberOfTabs++;
 
     NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:numberOfTabs];
@@ -1428,22 +1334,21 @@ Please try again later."
         [provider release];
     }
 
-    if (canSendEmailAndText)
+    if (weShouldAddTabForEmailAndOrSms)
     {
 
         NSString *simpleStrArray[6] = { @"Email", @"Sms", @"Email/SMS", @"mail", @"sms", @"mail_sms" };
 
-        UITabBarItem *emailTab =  [[[UITabBarItem alloc] initWithTitle:simpleStrArray[((int)emailOrSms - 1)]
+        UITabBarItem *emailTab =  [[[UITabBarItem alloc] initWithTitle:simpleStrArray[((int)emailAndOrSmsIndex - 1)]
                                                                  image:[UIImage imageNamed:
                                                                         [NSString stringWithFormat:
                                                                          @"icon_bw_%@_30x30.png",
-                                                                         simpleStrArray[((int)emailOrSms +2)]]]
+                                                                         simpleStrArray[((int)emailAndOrSmsIndex + 2)]]]
                                                                    tag:[providerTabArr count]] autorelease];
 
         [providerTabArr insertObject:emailTab atIndex:[providerTabArr count]];
     }
 
-    cachedProfilePics = [[NSMutableDictionary alloc] initWithCapacity:[[sessionData socialProviders] count]];
     [myTabBar setItems:providerTabArr animated:YES];
 
     // QTS: Should we make the default selected social provider be the provider most commonly used
@@ -1461,7 +1366,10 @@ Please try again later."
 {
     DLog(@"");
 
-    [sessionData shareActivityForUser:loggedInUser];
+//    if ([self willPublishThunkToStatusForProvider:selectedProvider])
+//        [sessionData setStatusForUser:loggedInUser];
+//    else
+        [sessionData shareActivityForUser:loggedInUser];
 }
 
 - (IBAction)shareButtonPressed:(id)sender
@@ -1470,8 +1378,8 @@ Please try again later."
 
     weAreCurrentlyPostingSomething = YES;
 
-    if (myUserContentTextView.text && hasEditedUserContentForActivityAlready)
-        activity.user_generated_content = myUserContentTextView.text;
+    if (myUserCommentTextView.text && hasEditedUserContentForActivityAlready)
+        activity.user_generated_content = myUserCommentTextView.text;
 
     [sessionData setCurrentProvider:selectedProvider];
     [self showViewIsLoading:YES];
@@ -1581,6 +1489,25 @@ Please try again later."
     [(NSString*)userdata release];
 }
 
+- (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)_activity
+{
+    DLog(@"");
+    if (_activity == activity)
+    {
+        shortenedActivityUrl = url;
+        
+        if (selectedProvider == nil)
+            return;
+        
+        if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+            [self updatePreviewTextWhenContentReplacesAction];
+        else
+            [self updatePreviewTextWhenContentDoesNotReplaceAction];
+        
+        [self updateCharacterCount];
+    }
+}
+
 - (void)authenticationDidRestart
 {
     weAreCurrentlyPostingSomething = NO;
@@ -1600,37 +1527,6 @@ Please try again later."
     weHaveJustAuthenticated = NO;
     weAreCurrentlyPostingSomething = NO;
 }
-
-//- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider
-//{
-//    DLog(@"");
-//
-//    myLoadingLabel.text = @"Sharing...";
-//
-//    loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
-//
-//    // QTS: Would we ever expect this to not be the case?
-//    if (loggedInUser)
-//    {
-//        [self showViewIsLoading:YES];
-//        [self loadUserNameAndProfilePicForUser:loggedInUser forProvider:provider];
-//        [self showUserAsLoggedIn:YES];
-//
-//        [self shareActivity];
-//    }
-//    else
-//    {
-//        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Shared"
-//                                                         message:@"There was an error while sharing this activity."
-//                                                        delegate:nil
-//                                               cancelButtonTitle:@"OK"
-//                                               otherButtonTitles:nil] autorelease];
-//        [alert show];
-//        [self showViewIsLoading:NO];
-//        weAreCurrentlyPostingSomething = NO;
-//        weHaveJustAuthenticated = NO;
-//    }
-//}
 
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider
 {
@@ -1864,7 +1760,9 @@ Please try again later."
 
     [self showViewIsLoading:NO];
     [timer invalidate];
-    [self loadActivityToViewForFirstTime:nil];
+    
+    // TODO: Make this empty the activity!!!
+    [self loadActivityToViewForFirstTime];
 }
 
 - (void)userInterfaceDidClose { }
@@ -1883,13 +1781,13 @@ Please try again later."
     [myLoadingLabel release];
     [myLoadingActivitySpinner release];
     [myLoadingGrayView release];
-    [myUserContentTextView release];
-    [myUserContentBoundingBox release];
+    [myUserCommentTextView release];
+    [myUserCommentBoundingBox release];
     [myProviderIcon release];
     [myInfoButton release];
     [myPoweredByLabel release];
-    [myMediaContentView release];
-    [myMediaViewBackgroundMiddle release];
+    [myPreviewContainer release];
+    [myRichDataContainer release];
     [myMediaThumbnailView release];
     [myMediaThumbnailActivityIndicator release];
     [myTitleLabel release];

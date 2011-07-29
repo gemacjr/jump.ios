@@ -82,40 +82,43 @@ typedef enum
 @end
 
 @interface JRPublishActivityController : UIViewController
-                        <UINavigationBarDelegate, UITextViewDelegate, UITabBarDelegate,
-                         JRSessionDelegate, JRConnectionManagerDelegate, JRUserInterfaceDelegate,
+                         <JRSessionDelegate, JRConnectionManagerDelegate, JRUserInterfaceDelegate, UITabBarDelegate,
                          UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, 
                          OHAttributedLabelDelegate>
 {
 	JRSessionData	*sessionData;
-
-    BOOL iPad;
-    BOOL hidesCancelButton;
+    JRActivityObject *activity;
 
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;
 
-    JRActivityObject *activity;
+    BOOL iPad;
+    BOOL hidesCancelButton;
 
-    EmailOrSms emailOrSms;
+    EmailOrSms emailAndOrSmsIndex;
     int selectedTab;
-
-    BOOL weAreReady;
+    
+    NSString *shortenedActivityUrl;
+    NSInteger maxCharacters;
+    
+    NSMutableDictionary *cachedProfilePics;
+    NSMutableSet        *alreadyShared;
+    
+    BOOL weAreStillWaitingOnSocialProviders;
     BOOL weHaveJustAuthenticated;
     BOOL weAreCurrentlyPostingSomething;
     BOOL hasEditedUserContentForActivityAlready;
     BOOL userIsAttemptingToSignOut;
+    BOOL mediaThumbnailFailedToDownload;
+    BOOL activityHasRichData;
+
+    CGFloat previewLabelHeight;
+    CGFloat mediaBoxHeight;
 
     NSDictionary *customInterface;
     NSDictionary *colorsDictionary;
     UIView		 *titleView;
-
-    CGFloat previewLabelHeight;
-    CGFloat mediaBoxHeight;
-    BOOL mediaThumbnailFailedToDownload;
-    BOOL activityHasMedia;
-    BOOL mediaIsAlreadyShowing;
-
+    
     IBOutlet UIView     *myBackgroundView;
 	IBOutlet UITabBar   *myTabBar;
 
@@ -128,49 +131,37 @@ typedef enum
     IBOutlet UIView *myPadGrayEditingViewTop;
     IBOutlet UIView *myPadGrayEditingViewBottom;
 
-    IBOutlet UIView      *myContentView;
+    IBOutlet UIView         *myContentView;
+    IBOutlet UIScrollView   *myScrollView;
 
-    IBOutlet UITextView         *myUserContentTextView;
-    IBOutlet RoundedRectView    *myUserContentBoundingBox;
+    IBOutlet UITextView         *myUserCommentTextView;
+    IBOutlet RoundedRectView    *myUserCommentBoundingBox;
 
-    IBOutlet UIImageView *myProviderIcon;
-    IBOutlet UIButton    *myInfoButton;
-    IBOutlet UILabel     *myPoweredByLabel;
+    IBOutlet UILabel *myRemainingCharactersLabel;
 
-    IBOutlet UILabel                 *myRemainingCharactersLabel;
-    IBOutlet UIActivityIndicatorView *myRemainingCharactersSpinner;
-    
-    IBOutlet UIScrollView            *myScrollView;
-    
+    IBOutlet UIView                  *myPreviewContainer;
     IBOutlet RoundedRectView         *myPreviewRoundedRect;
-    IBOutlet OHAttributedLabel       *myPreviewLabel;
-    IBOutlet UIView                  *myMediaContentView;
-    IBOutlet RoundedRectView         *myMediaViewBackgroundMiddle;
-//    IBOutlet UIImageView             *myMediaViewBackgroundTop;
-//    IBOutlet UIImageView             *myMediaViewBackgroundBottom;
+    IBOutlet OHAttributedLabel       *myPreviewAttributedLabel;
+    IBOutlet RoundedRectView         *myRichDataContainer;
     IBOutlet UIButton                *myMediaThumbnailView;
     IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
     IBOutlet UILabel                 *myTitleLabel;
     IBOutlet UILabel                 *myDescriptionLabel;
 
-//    NSInteger previewLabelHeight;
+    IBOutlet UIButton    *myInfoButton;
+    IBOutlet UILabel     *myPoweredByLabel;
+    IBOutlet UIImageView *myProviderIcon;
     
     IBOutlet UIView                  *myShareToView;
     IBOutlet UIImageView             *myTriangleIcon;
+    IBOutlet UIButton                *myConnectAndShareButton;
+    IBOutlet UIButton                *myJustShareButton;
     IBOutlet UIButton                *myProfilePic;
     IBOutlet UIActivityIndicatorView *myProfilePicActivityIndicator;
     IBOutlet UILabel                 *myUserName;
-    IBOutlet UIButton                *myConnectAndShareButton;
-    IBOutlet UIButton                *myJustShareButton;
+    IBOutlet UIButton                *mySignOutButton;
     IBOutlet UIImageView             *mySharedCheckMark;
     IBOutlet UILabel                 *mySharedLabel;
-    IBOutlet UIButton                *mySignOutButton;
-
-    NSString *shortenedActivityUrl;
-    NSInteger maxCharacters;
-    
-    NSMutableDictionary *cachedProfilePics;
-    NSMutableSet        *alreadyShared;
 }
 @property (assign) BOOL hidesCancelButton;
 
