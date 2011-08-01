@@ -207,6 +207,16 @@
 		9FA783B913CE21E900E1B603 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA783B513CE21E900E1B603 /* OHAttributedLabel.m */; };
 		9FA783BA13CE21E900E1B603 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA783B713CE21E900E1B603 /* NSAttributedString+Attributes.m */; };
 		9FA783CB13CE441A00E1B603 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA783CA13CE441A00E1B603 /* CoreText.framework */; };
+		9FA798CD13E7260200E1B603 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA798CC13E7260200E1B603 /* QuartzCore.framework */; };
+		9FA798F413E7279600E1B603 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA798F213E7279600E1B603 /* EGORefreshTableHeaderView.m */; };
+		9FA798FD13E727A700E1B603 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FA798F513E727A700E1B603 /* blackArrow.png */; };
+		9FA798FE13E727A700E1B603 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FA798F613E727A700E1B603 /* blackArrow@2x.png */; };
+		9FA798FF13E727A700E1B603 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FA798F713E727A700E1B603 /* blueArrow.png */; };
+		9FA7990013E727A700E1B603 /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FA798F813E727A700E1B603 /* blueArrow@2x.png */; };
+		9FA7990113E727A700E1B603 /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FA798F913E727A700E1B603 /* grayArrow.png */; };
+		9FA7990213E727A700E1B603 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FA798FA13E727A700E1B603 /* grayArrow@2x.png */; };
+		9FA7990313E727A700E1B603 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FA798FB13E727A700E1B603 /* whiteArrow.png */; };
+		9FA7990413E727A700E1B603 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FA798FC13E727A700E1B603 /* whiteArrow@2x.png */; };
 		9FB409421241429300FDDA7B /* Quick_PublishAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */; };
 		9FB87B2412DCE5D900AE8AFC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB87B2312DCE5D900AE8AFC /* CoreLocation.framework */; };
 		9FBE258512A6FAB500E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE258412A6FAB500E1F93E /* Security.framework */; };
@@ -449,6 +459,17 @@
 		9FA783B713CE21E900E1B603 /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+Attributes.m"; path = "../JREngage/AttributedLabel/NSAttributedString+Attributes.m"; sourceTree = SOURCE_ROOT; };
 		9FA783B813CE21E900E1B603 /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+Attributes.h"; path = "../JREngage/AttributedLabel/NSAttributedString+Attributes.h"; sourceTree = SOURCE_ROOT; };
 		9FA783CA13CE441A00E1B603 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		9FA798CC13E7260200E1B603 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9FA798F213E7279600E1B603 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EGORefreshTableHeaderView.m; path = EGOTableViewPullRefresh/Classes/EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		9FA798F313E7279600E1B603 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EGORefreshTableHeaderView.h; path = EGOTableViewPullRefresh/Classes/EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		9FA798F513E727A700E1B603 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackArrow.png; path = EGOTableViewPullRefresh/Resources/blackArrow.png; sourceTree = "<group>"; };
+		9FA798F613E727A700E1B603 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blackArrow@2x.png"; path = "EGOTableViewPullRefresh/Resources/blackArrow@2x.png"; sourceTree = "<group>"; };
+		9FA798F713E727A700E1B603 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blueArrow.png; path = EGOTableViewPullRefresh/Resources/blueArrow.png; sourceTree = "<group>"; };
+		9FA798F813E727A700E1B603 /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blueArrow@2x.png"; path = "EGOTableViewPullRefresh/Resources/blueArrow@2x.png"; sourceTree = "<group>"; };
+		9FA798F913E727A700E1B603 /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grayArrow.png; path = EGOTableViewPullRefresh/Resources/grayArrow.png; sourceTree = "<group>"; };
+		9FA798FA13E727A700E1B603 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "grayArrow@2x.png"; path = "EGOTableViewPullRefresh/Resources/grayArrow@2x.png"; sourceTree = "<group>"; };
+		9FA798FB13E727A700E1B603 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whiteArrow.png; path = EGOTableViewPullRefresh/Resources/whiteArrow.png; sourceTree = "<group>"; };
+		9FA798FC13E727A700E1B603 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "whiteArrow@2x.png"; path = "EGOTableViewPullRefresh/Resources/whiteArrow@2x.png"; sourceTree = "<group>"; };
 		9FB409401241429300FDDA7B /* Quick_PublishAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_PublishAppDelegate.h; sourceTree = "<group>"; };
 		9FB409411241429300FDDA7B /* Quick_PublishAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quick_PublishAppDelegate.m; sourceTree = "<group>"; };
 		9FB40944124142AA00FDDA7B /* Quick_Publish_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_Publish_Prefix.pch; sourceTree = "<group>"; };
@@ -474,6 +495,7 @@
 				9FBE258512A6FAB500E1F93E /* Security.framework in Frameworks */,
 				9FB87B2412DCE5D900AE8AFC /* CoreLocation.framework in Frameworks */,
 				9FA783CB13CE441A00E1B603 /* CoreText.framework in Frameworks */,
+				9FA798CD13E7260200E1B603 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,6 +505,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9FA798A113E7210E00E1B603 /* EGOTableViewPullRefresh */,
 				9F0BB6FE13B2B09900898F4F /* RegexKitLite */,
 				9F0BB6F413B2B07200898F4F /* MWaterfall */,
 				9FB409401241429300FDDA7B /* Quick_PublishAppDelegate.h */,
@@ -550,10 +573,10 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
-				9FD1638B129733740002BFEC /* MessageUI.framework */,
 				9FBE258412A6FAB500E1F93E /* Security.framework */,
 				9FB87B2312DCE5D900AE8AFC /* CoreLocation.framework */,
 				9FA783CA13CE441A00E1B603 /* CoreText.framework */,
+				9FA798CC13E7260200E1B603 /* QuartzCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -578,6 +601,7 @@
 				9F01A8A01294506100AD6899 /* FeedReaderFeeds-iPad.xib */,
 				9F01A8A11294506100AD6899 /* FeedReaderSummary-iPad.xib */,
 				9F01A8A21294506100AD6899 /* FeedReaderWebView-iPad.xib */,
+				9FD1638B129733740002BFEC /* MessageUI.framework */,
 				9F01A8A31294506100AD6899 /* MainWindow-iPad.xib */,
 			);
 			name = "xibs-ipad";
@@ -981,6 +1005,39 @@
 			name = AttributedLabel;
 			sourceTree = "<group>";
 		};
+		9FA798A113E7210E00E1B603 /* EGOTableViewPullRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				9FA798F013E7277700E1B603 /* Classes */,
+				9FA798F113E7278100E1B603 /* Resources */,
+			);
+			name = EGOTableViewPullRefresh;
+			sourceTree = "<group>";
+		};
+		9FA798F013E7277700E1B603 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9FA798F213E7279600E1B603 /* EGORefreshTableHeaderView.m */,
+				9FA798F313E7279600E1B603 /* EGORefreshTableHeaderView.h */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		9FA798F113E7278100E1B603 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9FA798F513E727A700E1B603 /* blackArrow.png */,
+				9FA798F613E727A700E1B603 /* blackArrow@2x.png */,
+				9FA798F713E727A700E1B603 /* blueArrow.png */,
+				9FA798F813E727A700E1B603 /* blueArrow@2x.png */,
+				9FA798F913E727A700E1B603 /* grayArrow.png */,
+				9FA798FA13E727A700E1B603 /* grayArrow@2x.png */,
+				9FA798FB13E727A700E1B603 /* whiteArrow.png */,
+				9FA798FC13E727A700E1B603 /* whiteArrow@2x.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1196,6 +1253,14 @@
 				9FA5DDE012FC846B0033A711 /* JRUserLandingController.xib in Resources */,
 				9FA5DDE112FC846B0033A711 /* JRWebViewController.xib in Resources */,
 				9FA5DDE212FC846B0033A711 /* JREngage-Info.plist in Resources */,
+				9FA798FD13E727A700E1B603 /* blackArrow.png in Resources */,
+				9FA798FE13E727A700E1B603 /* blackArrow@2x.png in Resources */,
+				9FA798FF13E727A700E1B603 /* blueArrow.png in Resources */,
+				9FA7990013E727A700E1B603 /* blueArrow@2x.png in Resources */,
+				9FA7990113E727A700E1B603 /* grayArrow.png in Resources */,
+				9FA7990213E727A700E1B603 /* grayArrow@2x.png in Resources */,
+				9FA7990313E727A700E1B603 /* whiteArrow.png in Resources */,
+				9FA7990413E727A700E1B603 /* whiteArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1240,6 +1305,7 @@
 				9F0BB70113B2B0AD00898F4F /* RegexKitLite.m in Sources */,
 				9FA783B913CE21E900E1B603 /* OHAttributedLabel.m in Sources */,
 				9FA783BA13CE21E900E1B603 /* NSAttributedString+Attributes.m in Sources */,
+				9FA798F413E7279600E1B603 /* EGORefreshTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

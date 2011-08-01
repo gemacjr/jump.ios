@@ -571,6 +571,7 @@ NSUInteger counter;
 @synthesize selectedStory;
 @synthesize jrEngage;
 @synthesize delegate;
+@synthesize currentlyReloadingBlog;
 
 static FeedReader* singleton = nil;
 + (id)allocWithZone:(NSZone *)zone
@@ -634,6 +635,8 @@ static FeedReader* singleton = nil;
     UIApplication *app = [UIApplication sharedApplication];
     app.networkActivityIndicatorVisible = YES;
 
+    currentlyReloadingBlog = YES;
+    
     [self setDelegate:feedReaderDelegate];
     counter = 0;
 
@@ -659,6 +662,8 @@ static FeedReader* singleton = nil;
 
 - (void)feedDidFinishDownloading
 {
+    currentlyReloadingBlog = NO;
+    
     [delegate feedDidFinishDownloading];
     [delegate release], delegate = nil;
 
@@ -667,6 +672,8 @@ static FeedReader* singleton = nil;
 
 - (void)feedDidFailToDownload
 {
+    currentlyReloadingBlog = NO;
+    
     [delegate feedDidFailToDownload];
     [delegate release], delegate = nil;
 

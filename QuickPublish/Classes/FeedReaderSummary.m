@@ -42,70 +42,71 @@
 #define EDGE_PADDING 10
 #define BETWEEN_PADDING 13
 
-@implementation TableHeaderViewController
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super init];
-    if (self)
-    {
-        UIView *view = [[[UIView alloc] initWithFrame:frame] autorelease];
-        [view setBackgroundColor:[UIColor clearColor]];
-        [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth |
-                                  UIViewAutoresizingFlexibleLeftMargin |
-                                  UIViewAutoresizingFlexibleRightMargin];
-
-        int centeredSubviewWidth = EDGE_PADDING + SPINNER_WIDTH + BETWEEN_PADDING + LABEL_WIDTH + EDGE_PADDING;
-        UIView *centeredSubview = [[[UIView alloc] initWithFrame:CGRectMake((frame.size.width - centeredSubviewWidth)/2,
-            0, centeredSubviewWidth, frame.size.height)] autorelease];
-        [centeredSubview setBackgroundColor:[UIColor clearColor]];
-        [centeredSubview setAutoresizingMask:UIViewAutoresizingNone];
-
-        spinner = [[UIActivityIndicatorView alloc]
-            initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [spinner setFrame:CGRectMake(EDGE_PADDING,
-            (frame.size.height - SPINNER_WIDTH)/2, SPINNER_WIDTH, SPINNER_WIDTH)];
-        [centeredSubview addSubview:spinner];
-
-        label = [[UILabel alloc] initWithFrame:CGRectMake((EDGE_PADDING + SPINNER_WIDTH + BETWEEN_PADDING),
-            0, LABEL_WIDTH, frame.size.height)];
-        [label setText:@"REFRESHING BLOG OR SOMETHING"];
-        [label setBackgroundColor:[UIColor clearColor]];
-        [centeredSubview addSubview:label];
-
-        [view addSubview:centeredSubview];
-
-        self.view = view;
-    }
-
-    return self;
-}
-
-- (void)dealloc
-{
-    [label release], label = nil;
-    [spinner release], spinner = nil;
-
-    [super dealloc];
-}
-
-- (void)startBlogUpdate
-{
-    [spinner startAnimating];
-    [label setText:@"UPDATING"];
-}
-
-- (void)finishBlogUpdate
-{
-    [spinner stopAnimating];
-    [label setText:@"PULL DOWN TO UPDATE"];
-}
-@end
+//@implementation TableHeaderViewController
+//- (id)initWithFrame:(CGRect)frame
+//{
+//    self = [super init];
+//    if (self)
+//    {
+//        UIView *view = [[[UIView alloc] initWithFrame:frame] autorelease];
+//        [view setBackgroundColor:[UIColor clearColor]];
+//        [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth |
+//                                  UIViewAutoresizingFlexibleLeftMargin |
+//                                  UIViewAutoresizingFlexibleRightMargin];
+//
+//        int centeredSubviewWidth = EDGE_PADDING + SPINNER_WIDTH + BETWEEN_PADDING + LABEL_WIDTH + EDGE_PADDING;
+//        UIView *centeredSubview = [[[UIView alloc] initWithFrame:CGRectMake((frame.size.width - centeredSubviewWidth)/2,
+//            0, centeredSubviewWidth, frame.size.height)] autorelease];
+//        [centeredSubview setBackgroundColor:[UIColor clearColor]];
+//        [centeredSubview setAutoresizingMask:UIViewAutoresizingNone];
+//
+//        spinner = [[UIActivityIndicatorView alloc]
+//            initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//        [spinner setFrame:CGRectMake(EDGE_PADDING,
+//            (frame.size.height - SPINNER_WIDTH)/2, SPINNER_WIDTH, SPINNER_WIDTH)];
+//        [centeredSubview addSubview:spinner];
+//
+//        label = [[UILabel alloc] initWithFrame:CGRectMake((EDGE_PADDING + SPINNER_WIDTH + BETWEEN_PADDING),
+//            0, LABEL_WIDTH, frame.size.height)];
+//        [label setText:@"REFRESHING BLOG OR SOMETHING"];
+//        [label setBackgroundColor:[UIColor clearColor]];
+//        [centeredSubview addSubview:label];
+//
+//        [view addSubview:centeredSubview];
+//
+//        self.view = view;
+//    }
+//
+//    return self;
+//}
+//
+//- (void)dealloc
+//{
+//    [label release], label = nil;
+//    [spinner release], spinner = nil;
+//
+//    [super dealloc];
+//}
+//
+//- (void)startBlogUpdate
+//{
+//    [spinner startAnimating];
+//    [label setText:@"UPDATING"];
+//}
+//
+//- (void)finishBlogUpdate
+//{
+//    [spinner stopAnimating];
+//    [label setText:@"PULL DOWN TO UPDATE"];
+//}
+//@end
 
 @interface FeedReaderSummary ()
 @property (retain) NSArray *stories;
 @end
 
 @implementation FeedReaderSummary
+@synthesize myTable;
 @synthesize stories;
 
 #pragma mark -
@@ -120,6 +121,19 @@
 
     reader = [FeedReader feedReader];
     self.stories = reader.allStories;
+    
+    if (refreshHeaderView == nil) {
+		
+		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.myTable.bounds.size.height, self.view.frame.size.width, self.myTable.bounds.size.height)];
+		view.delegate = self;
+		[self.myTable addSubview:view];
+		refreshHeaderView = view;
+		[view release];
+		
+	}
+	
+	//  update the last update date
+	[refreshHeaderView refreshLastUpdatedDate];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -141,19 +155,19 @@
 
     titleLabel.text = NSLocalizedString(@"Janrain Blog", @"");
 
-    tableHeader = [[TableHeaderViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+//    tableHeader = [[TableHeaderViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
 
     myTable.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0];
     myTable.sectionFooterHeight = 0.0;
     myTable.sectionHeaderHeight = 10.0;
     [myTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [myTable setTableHeaderView:tableHeader.view];
+//    [myTable setTableHeaderView:tableHeader.view];
 
-    myTable.scrollsToTop = YES;
+//    myTable.scrollsToTop = YES;
     [myTable reloadData];
 
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -161,61 +175,65 @@
     [super viewDidAppear:animated];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (scrollView.contentOffset.y < 0)
-    {
-        DLog(@"(scrollView.contentOffset.y < 0)");
-        if (!aboutToStartUpdating)
-        {
-            aboutToStartUpdating = YES;
-            [tableHeader startBlogUpdate];
-        }
-    }
-
-    if (scrollView.contentOffset.y == 0)
-    {
-        DLog(@"(scrollView.contentOffset.y == 0)");
-
-        if (aboutToStartUpdating)
-        {
-            [reader downloadFeed:self];
-        }
-    }
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    DLog(@"");
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    if (scrollView.contentOffset.y < 0)
+//    {
+//        DLog(@"(scrollView.contentOffset.y < 0)");
+//        if (!aboutToStartUpdating)
+//        {
+//            aboutToStartUpdating = YES;
+//            [tableHeader startBlogUpdate];
+//        }
+//    }
+//
+//    if (scrollView.contentOffset.y == 0)
+//    {
+//        DLog(@"(scrollView.contentOffset.y == 0)");
+//
+//        if (aboutToStartUpdating)
+//        {
+//            [reader downloadFeed:self];
+//        }
+//    }
+//}
+//
+//- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+//{
+//    DLog(@"");
+//}
 
 - (void)feedDidFinishDownloading
 {
-    [tableHeader finishBlogUpdate];
+//    [tableHeader finishBlogUpdate];
+    [self doneLoadingTableViewData];
+    
     self.stories = reader.allStories;
 
     [myTable reloadData];
 
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-
-    aboutToStartUpdating = NO;
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//
+//    aboutToStartUpdating = NO;
 }
 
 - (void)feedDidFailToDownload
 {
-    [tableHeader finishBlogUpdate];
+//    [tableHeader finishBlogUpdate];
 
+    [self doneLoadingTableViewData];
+        
     if ([reader.allStories count] > [stories count])
     {
         self.stories = reader.allStories;
         [myTable reloadData];
     }
 
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-
-    aboutToStartUpdating = NO;
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//
+//    aboutToStartUpdating = NO;
 }
 
 /*
@@ -611,6 +629,62 @@
     return YES;
 }
 
+
+#pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+
+- (void)reloadTableViewDataSource{
+	
+	//  should be calling your tableviews data source model to reload
+	//  put here just for demo
+	//_reloading = YES;
+    [reader downloadFeed:self];
+}
+
+- (void)doneLoadingTableViewData{
+	
+	//  model should call this when its done loading
+	//_reloading = NO;
+	[refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.myTable];
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
+	
+	[refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+	
+	[refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+}
+
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+	
+	[self reloadTableViewDataSource];
+	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+	
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+	
+//	return _reloading; // should return if data source model is reloading
+    return reader.currentlyReloadingBlog;
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+	
+	return [NSDate date]; // should return date data source was last changed
+	
+}
+
 #pragma mark -
 #pragma mark Table view delegate
 
@@ -642,7 +716,7 @@
 - (void)dealloc
 {
     [myTable release];
-    [tableHeader release];
+//    [tableHeader release];
 
     [detailViewController release];
     [stories release];
