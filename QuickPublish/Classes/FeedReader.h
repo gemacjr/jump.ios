@@ -113,10 +113,11 @@
     id<FeedReaderDelegate>delegate;
     BOOL currentlyReloadingBlog;
 }
-@property (readonly) NSArray *allStories;
-@property (retain)   Story *selectedStory;
 @property (readonly) JREngage *jrEngage;
+@property (readonly) NSArray *allStories;
 @property (readonly) BOOL currentlyReloadingBlog;
+@property (readonly) NSDate *dateOfLastUpdate;
+@property (retain)   Story *selectedStory;
 
 + (FeedReader*)feedReader;
 - (void)downloadFeed:(id<FeedReaderDelegate>)feedReaderDelegate;

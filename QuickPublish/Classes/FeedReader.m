@@ -43,15 +43,17 @@
 #define QUICK_PUBLISH_STORY_LINK @"quickpublish.story.link"
 #define QUICK_PUBLISH_STORY_DESCRIPTION @"quickpublish.story.description"
 #define QUICK_PUBLISH_STORY_AUTHOR @"quickpublish.story.author"
-#define QUICK_PUBLISH_STORY_PUBDATE @"quickpublish.story.pubDate"
-#define QUICK_PUBLISH_STORY_PLAINTEXT @"quickpublish.story.plainText"
-#define QUICK_PUBLISH_STORY_STORYIMAGEURLS @"quickpublish.story.storyImageUrls"
-#define QUICK_PUBLISH_STORY_FEEDURL @"quickpublish.story.feedUrl"
+#define QUICK_PUBLISH_STORY_PUBDATE @"quickpublish.story.pubdate"
+#define QUICK_PUBLISH_STORY_PLAINTEXT @"quickpublish.story.plaintext"
+#define QUICK_PUBLISH_STORY_STORYIMAGEURLS @"quickpublish.story.storyimageurls"
+#define QUICK_PUBLISH_STORY_FEEDURL @"quickpublish.story.feedurl"
 #define QUICK_PUBLISH_STORY_IMAGES @"quickpublish.story.images"
 
 #define QUICK_PUBLISH_STORYIMAGE_SRC @"quickpublish.storyimage.src"
 #define QUICK_PUBLISH_STORYIMAGE_FILENAME @"quickpublish.storyimage.filename"
 #define QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED @"quickpublish.storyimage.downloadfailed"
+
+#define QUICK_PUBLISH_LAST_UPDATE_DATE @"quickpublish.reader.lastupdatedate"
 
 @interface StoryImage ()
 - (void)downloadImage;
@@ -568,10 +570,11 @@ NSUInteger counter;
 @end
 
 @implementation FeedReader
-@synthesize selectedStory;
-@synthesize jrEngage;
 @synthesize delegate;
+@synthesize jrEngage;
 @synthesize currentlyReloadingBlog;
+@synthesize selectedStory;
+@dynamic dateOfLastUpdate;
 
 static FeedReader* singleton = nil;
 + (id)allocWithZone:(NSZone *)zone
@@ -668,6 +671,7 @@ static FeedReader* singleton = nil;
     [delegate release], delegate = nil;
 
     [feed saveStories];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:QUICK_PUBLISH_LAST_UPDATE_DATE];
 }
 
 - (void)feedDidFailToDownload
@@ -678,6 +682,12 @@ static FeedReader* singleton = nil;
     [delegate release], delegate = nil;
 
     [feed saveStories];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:QUICK_PUBLISH_LAST_UPDATE_DATE];
+}
+
+- (NSDate*)dateOfLastUpdate
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_LAST_UPDATE_DATE];
 }
 
 - (void)parser:(NSXMLParser*)xmlParser parseErrorOccurred:(NSError*)parseError

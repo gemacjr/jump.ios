@@ -37,25 +37,13 @@
 #import "FeedReader.h"
 #import "EGORefreshTableHeaderView.h"
 
-//@interface TableHeaderViewController : UIViewController
-//{
-////    UIView *view;
-//    UILabel *label;
-//    UIActivityIndicatorView *spinner;
-//}
-//- (void)startBlogUpdate;
-//- (void)finishBlogUpdate;
-//@end
-
 @interface FeedReaderSummary : UIViewController <UITableViewDataSource, UITableViewDelegate, 
-                                                 EGORefreshTableHeaderDelegate, /*UIScrollViewDelegate,*/ FeedReaderDelegate>
+                                                 EGORefreshTableHeaderDelegate, FeedReaderDelegate>
 {
     BOOL iPad;
 
 	IBOutlet UITableView *myTable;
-//    TableHeaderViewController *tableHeader;
-
-    EGORefreshTableHeaderView *refreshHeaderView;
+    EGORefreshTableHeaderView *refreshHeader;
     
     FeedReaderDetail *detailViewController;
     FeedReader *reader;

@@ -37,70 +37,6 @@
 
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-#define SPINNER_WIDTH 37
-#define LABEL_WIDTH 200
-#define EDGE_PADDING 10
-#define BETWEEN_PADDING 13
-
-//@implementation TableHeaderViewController
-//- (id)initWithFrame:(CGRect)frame
-//{
-//    self = [super init];
-//    if (self)
-//    {
-//        UIView *view = [[[UIView alloc] initWithFrame:frame] autorelease];
-//        [view setBackgroundColor:[UIColor clearColor]];
-//        [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth |
-//                                  UIViewAutoresizingFlexibleLeftMargin |
-//                                  UIViewAutoresizingFlexibleRightMargin];
-//
-//        int centeredSubviewWidth = EDGE_PADDING + SPINNER_WIDTH + BETWEEN_PADDING + LABEL_WIDTH + EDGE_PADDING;
-//        UIView *centeredSubview = [[[UIView alloc] initWithFrame:CGRectMake((frame.size.width - centeredSubviewWidth)/2,
-//            0, centeredSubviewWidth, frame.size.height)] autorelease];
-//        [centeredSubview setBackgroundColor:[UIColor clearColor]];
-//        [centeredSubview setAutoresizingMask:UIViewAutoresizingNone];
-//
-//        spinner = [[UIActivityIndicatorView alloc]
-//            initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-//        [spinner setFrame:CGRectMake(EDGE_PADDING,
-//            (frame.size.height - SPINNER_WIDTH)/2, SPINNER_WIDTH, SPINNER_WIDTH)];
-//        [centeredSubview addSubview:spinner];
-//
-//        label = [[UILabel alloc] initWithFrame:CGRectMake((EDGE_PADDING + SPINNER_WIDTH + BETWEEN_PADDING),
-//            0, LABEL_WIDTH, frame.size.height)];
-//        [label setText:@"REFRESHING BLOG OR SOMETHING"];
-//        [label setBackgroundColor:[UIColor clearColor]];
-//        [centeredSubview addSubview:label];
-//
-//        [view addSubview:centeredSubview];
-//
-//        self.view = view;
-//    }
-//
-//    return self;
-//}
-//
-//- (void)dealloc
-//{
-//    [label release], label = nil;
-//    [spinner release], spinner = nil;
-//
-//    [super dealloc];
-//}
-//
-//- (void)startBlogUpdate
-//{
-//    [spinner startAnimating];
-//    [label setText:@"UPDATING"];
-//}
-//
-//- (void)finishBlogUpdate
-//{
-//    [spinner stopAnimating];
-//    [label setText:@"PULL DOWN TO UPDATE"];
-//}
-//@end
-
 @interface FeedReaderSummary ()
 @property (retain) NSArray *stories;
 @end
@@ -122,18 +58,18 @@
     reader = [FeedReader feedReader];
     self.stories = reader.allStories;
     
-    if (refreshHeaderView == nil) {
-		
-		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.myTable.bounds.size.height, self.view.frame.size.width, self.myTable.bounds.size.height)];
-		view.delegate = self;
-		[self.myTable addSubview:view];
-		refreshHeaderView = view;
-		[view release];
-		
+    if (refreshHeader == nil) 
+    {
+		refreshHeader = [[EGORefreshTableHeaderView alloc] 
+                         initWithFrame:CGRectMake(0.0f, 
+                                                  0.0f - self.myTable.bounds.size.height, 
+                                                  self.view.frame.size.width, 
+                                                  self.myTable.bounds.size.height)];
+		refreshHeader.delegate = self;
+		[self.myTable addSubview:refreshHeader];
 	}
 	
-	//  update the last update date
-	[refreshHeaderView refreshLastUpdatedDate];
+	[refreshHeader refreshLastUpdatedDate];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -155,19 +91,13 @@
 
     titleLabel.text = NSLocalizedString(@"Janrain Blog", @"");
 
-//    tableHeader = [[TableHeaderViewController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-
     myTable.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0];
+    refreshHeader.backgroundColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0];
     myTable.sectionFooterHeight = 0.0;
     myTable.sectionHeaderHeight = 10.0;
     [myTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-//    [myTable setTableHeaderView:tableHeader.view];
 
-//    myTable.scrollsToTop = YES;
     [myTable reloadData];
-
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -175,53 +105,16 @@
     [super viewDidAppear:animated];
 }
 
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    if (scrollView.contentOffset.y < 0)
-//    {
-//        DLog(@"(scrollView.contentOffset.y < 0)");
-//        if (!aboutToStartUpdating)
-//        {
-//            aboutToStartUpdating = YES;
-//            [tableHeader startBlogUpdate];
-//        }
-//    }
-//
-//    if (scrollView.contentOffset.y == 0)
-//    {
-//        DLog(@"(scrollView.contentOffset.y == 0)");
-//
-//        if (aboutToStartUpdating)
-//        {
-//            [reader downloadFeed:self];
-//        }
-//    }
-//}
-//
-//- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-//{
-//    DLog(@"");
-//}
-
 - (void)feedDidFinishDownloading
 {
-//    [tableHeader finishBlogUpdate];
     [self doneLoadingTableViewData];
     
     self.stories = reader.allStories;
-
     [myTable reloadData];
-
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-//
-//    aboutToStartUpdating = NO;
 }
 
 - (void)feedDidFailToDownload
 {
-//    [tableHeader finishBlogUpdate];
-
     [self doneLoadingTableViewData];
         
     if ([reader.allStories count] > [stories count])
@@ -229,11 +122,6 @@
         self.stories = reader.allStories;
         [myTable reloadData];
     }
-
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [myTable scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-//
-//    aboutToStartUpdating = NO;
 }
 
 /*
@@ -377,39 +265,6 @@
             [spinner setHidesWhenStopped:YES];
             [spinner startAnimating];
 
-//         /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).
-//            If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
-//            BOOL imageAvailable = NO;
-//            for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
-//            {
-//                StoryImage *storyImage = [story.storyImages objectAtIndex:i];
-//                imageAvailable = YES;
-//
-//             /* If an image has already downloaded, set the image and break. */
-//                if (storyImage.image)
-//                {
-//                    [spinner stopAnimating];
-//                    documentImage.backgroundColor = [UIColor whiteColor];
-//                    documentImage.image = [self zoomAndCropImage:storyImage.image];
-//                    break;
-//                }
-//                else if (storyImage.downloadFailed)
-//                {/* If the image failed to download, check the next image, or don't use an image. */
-//                    imageAvailable = NO;
-//                }
-//                else
-//                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-//                    [spinner startAnimating];
-//                }
-//            }
-//
-//            if (!imageAvailable)
-//            {
-//                [documentImage setHidden:YES];
-//                [spinner stopAnimating];
-//                imageWidth = 0;
-//            }
-
             documentTitle =
                 [[[UILabel alloc]
                             initWithFrame:(iPad ?
@@ -420,7 +275,6 @@
             documentTitle.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
             documentTitle.backgroundColor = [UIColor clearColor];
             [documentTitle setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
-            //documentTitle.text = story.title;
 
             documentDescription =
                 [[[UILabel alloc]
@@ -433,9 +287,6 @@
             documentDescription.numberOfLines = iPad ? 3 : 2;
             documentDescription.backgroundColor = [UIColor clearColor];
             [documentDescription setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
-//            documentDescription.text = [story.plainText
-//                                             stringByTrimmingCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
-
 
             documentDate =
                 [[[UILabel alloc]
@@ -449,7 +300,6 @@
             documentDate.backgroundColor = [UIColor clearColor];
             if (iPad)
                 [documentDate setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
-//            documentDate.text = story.pubDate;
 
             [documentImage setTag:imageTag];
             [spinner setTag:spinnerTag];
@@ -473,152 +323,67 @@
         documentTitle = (UILabel*)[cell.contentView viewWithTag:titleTag];
         documentDescription = (UILabel*)[cell.contentView viewWithTag:descriptionTag];
         documentDate = (UILabel*)[cell.contentView viewWithTag:dateTag];
-
-//        if (![spinner isHidden])
-//        {/* If we were previously waiting for the image to download. */
-//            BOOL imageAvailable = NO;
-//            for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
-//            {
-//                StoryImage *storyImage = [story.storyImages objectAtIndex:i];
-//                imageAvailable = YES;
-//
-//             /* If an image has already downloaded, set the image and break. */
-//                if (storyImage.image)
-//                {
-//                    [spinner stopAnimating];
-//                    documentImage.backgroundColor = [UIColor whiteColor];
-//                    documentImage.image = [self zoomAndCropImage:storyImage.image];
-//                    break;
-//                }
-//                else if (storyImage.downloadFailed)
-//                {/* If the image failed to download, check the next image, or don't use an image. */
-//                    imageAvailable = NO;
-//                }
-//                else
-//                {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-//                    [spinner startAnimating];
-//                }
-//            }
-//
-//            if (!imageAvailable)
-//            {
-//                [documentImage setHidden:YES];
-//                [spinner stopAnimating];
-//                [documentDescription setFrame:(iPad ?
-//                                               CGRectMake(DESCRIPTION_FRAME_PAD(0)) :
-//                                               CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];
-//                [documentDate setFrame:(iPad ?
-//                                        CGRectMake(DATE_FRAME_PAD) :
-//                                        CGRectMake(DATE_FRAME_PHONE(0)))];
-//            }
-//        }
     }
 
-//    if (![spinner isHidden])
-//    {/* If we were previously waiting for the image to download. */
-        BOOL imageAvailable = NO;
+    BOOL imageAvailable = NO;
+    
+ /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).
+    If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
+    for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
+    {
+        StoryImage *storyImage = [story.storyImages objectAtIndex:i];
+        imageAvailable = YES;
         
-        /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).
-         If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
-        for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
+        /* If an image has already downloaded, set the image and break. */
+        if (storyImage.image)
         {
-            StoryImage *storyImage = [story.storyImages objectAtIndex:i];
-            imageAvailable = YES;
-            
-            /* If an image has already downloaded, set the image and break. */
-            if (storyImage.image)
-            {
-                [spinner stopAnimating];
-                [documentDescription setFrame:(iPad ?
-                                               CGRectMake(DESCRIPTION_FRAME_PAD(imageWidth)) :
-                                               CGRectMake(DESCRIPTION_FRAME_PHONE(imageWidth)))];
-                [documentDate setFrame:(iPad ?
-                                        CGRectMake(DATE_FRAME_PAD) :
-                                        CGRectMake(DATE_FRAME_PHONE(imageWidth)))];
-                [documentImage setHidden:NO];
-
-                documentImage.backgroundColor = [UIColor whiteColor];
-                documentImage.image = [self zoomAndCropImage:storyImage.image];
-                break;
-            }
-            else if (storyImage.downloadFailed)
-            {/* If the image failed to download, check the next image, or don't use an image. */
-                imageAvailable = NO;
-            }
-            else
-            {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-                [spinner startAnimating];
-                [documentDescription setFrame:(iPad ?
-                                               CGRectMake(DESCRIPTION_FRAME_PAD(imageWidth)) :
-                                               CGRectMake(DESCRIPTION_FRAME_PHONE(imageWidth)))];
-                [documentDate setFrame:(iPad ?
-                                        CGRectMake(DATE_FRAME_PAD) :
-                                        CGRectMake(DATE_FRAME_PHONE(imageWidth)))];
-                [documentImage setHidden:NO];
-                
-                documentImage.backgroundColor = [UIColor grayColor];
-                documentImage.image = nil;
-            }
-        }
-        
-        if (!imageAvailable)
-        {
-            [documentImage setHidden:YES];
             [spinner stopAnimating];
             [documentDescription setFrame:(iPad ?
-                                           CGRectMake(DESCRIPTION_FRAME_PAD(0)) :
-                                           CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];
+                                           CGRectMake(DESCRIPTION_FRAME_PAD(imageWidth)) :
+                                           CGRectMake(DESCRIPTION_FRAME_PHONE(imageWidth)))];
             [documentDate setFrame:(iPad ?
                                     CGRectMake(DATE_FRAME_PAD) :
-                                    CGRectMake(DATE_FRAME_PHONE(0)))];
+                                    CGRectMake(DATE_FRAME_PHONE(imageWidth)))];
+            [documentImage setHidden:NO];
+
+            documentImage.backgroundColor = [UIColor whiteColor];
+            documentImage.image = [self zoomAndCropImage:storyImage.image];
+            break;
         }
-//    }
-    
-//    if (![spinner isHidden])
-//    {/* If we were previously waiting for the image to download. */
-//        BOOL imageAvailable = NO;
-//
-//        /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).
-//        If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
-//        for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
-//        {
-//            StoryImage *storyImage = [story.storyImages objectAtIndex:i];
-//            imageAvailable = YES;
-//
-//         /* If an image has already downloaded, set the image and break. */
-//            if (storyImage.image)
-//            {
-//                [spinner stopAnimating];
-//                documentImage.backgroundColor = [UIColor whiteColor];
-//                documentImage.image = [self zoomAndCropImage:storyImage.image];
-//                break;
-//            }
-//            else if (storyImage.downloadFailed)
-//            {/* If the image failed to download, check the next image, or don't use an image. */
-//                imageAvailable = NO;
-//            }
-//            else
-//            {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
-//                [spinner startAnimating];
-//            }
-//        }
-//
-//        if (!imageAvailable)
-//        {
-//            [documentImage setHidden:YES];
-//            [spinner stopAnimating];
-//            [documentDescription setFrame:(iPad ?
-//                                           CGRectMake(DESCRIPTION_FRAME_PAD(0)) :
-//                                           CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];
-//            [documentDate setFrame:(iPad ?
-//                                    CGRectMake(DATE_FRAME_PAD) :
-//                                    CGRectMake(DATE_FRAME_PHONE(0)))];
-//        }
-//    }
+        else if (storyImage.downloadFailed)
+        {/* If the image failed to download, check the next image, or don't use an image. */
+            imageAvailable = NO;
+        }
+        else
+        {/* Otherwise, there is an image url but not an image.  It's probably still downloading.  Keep that spinner spinning. */
+            [spinner startAnimating];
+            [documentDescription setFrame:(iPad ?
+                                           CGRectMake(DESCRIPTION_FRAME_PAD(imageWidth)) :
+                                           CGRectMake(DESCRIPTION_FRAME_PHONE(imageWidth)))];
+            [documentDate setFrame:(iPad ?
+                                    CGRectMake(DATE_FRAME_PAD) :
+                                    CGRectMake(DATE_FRAME_PHONE(imageWidth)))];
+            [documentImage setHidden:NO];
+            
+            documentImage.backgroundColor = [UIColor grayColor];
+            documentImage.image = nil;
+        }
+    }
+        
+    if (!imageAvailable)
+    {
+        [documentImage setHidden:YES];
+        [spinner stopAnimating];
+        [documentDescription setFrame:(iPad ?
+                                       CGRectMake(DESCRIPTION_FRAME_PAD(0)) :
+                                       CGRectMake(DESCRIPTION_FRAME_PHONE(0)))];
+        [documentDate setFrame:(iPad ?
+                                CGRectMake(DATE_FRAME_PAD) :
+                                CGRectMake(DATE_FRAME_PHONE(0)))];
+    }
 
     documentTitle.text = story.title;
     documentDescription.text = [story.plainText stringByTrimmingCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
-//    documentDescription.text = story.plainText;
     documentDate.text = story.pubDate;
 
     return cell;
@@ -629,60 +394,49 @@
     return YES;
 }
 
-
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
 
-
-- (void)reloadTableViewDataSource{
-	
-	//  should be calling your tableviews data source model to reload
-	//  put here just for demo
-	//_reloading = YES;
+- (void)reloadTableViewDataSource
+{
     [reader downloadFeed:self];
 }
 
-- (void)doneLoadingTableViewData{
-	
-	//  model should call this when its done loading
-	//_reloading = NO;
-	[refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.myTable];
+- (void)doneLoadingTableViewData
+{
+	[refreshHeader egoRefreshScrollViewDataSourceDidFinishedLoading:self.myTable];
 }
 
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
-	
-	[refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{		
+	[refreshHeader egoRefreshScrollViewDidScroll:scrollView];
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	
-	[refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{	
+	[refreshHeader egoRefreshScrollViewDidEndDragging:scrollView];
 }
-
 
 #pragma mark -
 #pragma mark EGORefreshTableHeaderDelegate Methods
 
-- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
-	
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view
+{
 	[self reloadTableViewDataSource];
 	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
-	
 }
 
-- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
-	
-//	return _reloading; // should return if data source model is reloading
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view
+{
     return reader.currentlyReloadingBlog;
 }
 
-- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
-	
-	return [NSDate date]; // should return date data source was last changed
-	
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
+{
+	return reader.dateOfLastUpdate;
 }
 
 #pragma mark -
@@ -716,8 +470,7 @@
 - (void)dealloc
 {
     [myTable release];
-//    [tableHeader release];
-
+    [refreshHeader release];
     [detailViewController release];
     [stories release];
 
