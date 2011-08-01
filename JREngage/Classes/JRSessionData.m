@@ -492,7 +492,11 @@ static JRSessionData* singleton = nil;
     since the dialogs dynamically load our data. Now that the dialog isn't showing, load the saved configuration information. */
     if (!isShowing && savedConfigurationBlock)
         error = [[self finishGetConfiguration:savedConfigurationBlock] retain];
-
+    
+ /* If the dialog is going away, then we don't still need to shorten the urls */
+    if (!isShowing)
+        stillNeedToShortenUrls = NO;
+    
     dialogIsShowing = isShowing;
 }
 
@@ -560,10 +564,12 @@ static JRSessionData* singleton = nil;
         basicProviders = [[[NSUserDefaults standardUserDefaults] objectForKey:BASIC_PROVIDERS] retain];
   
         /* Load the list of social providers */
-        NSMutableArray *temp = [NSMutableArray arrayWithArray:[[[NSUserDefaults standardUserDefaults] objectForKey:SOCIAL_PROVIDERS] retain]];
-        [temp addObject:@"yahoo"];
+//        NSMutableArray *temp = [NSMutableArray arrayWithArray:[[[NSUserDefaults standardUserDefaults] objectForKey:SOCIAL_PROVIDERS] retain]];
+//        [temp addObject:@"yahoo"];
+//        socialProviders = [[NSArray alloc] initWithArray:temp];//[[[NSUserDefaults standardUserDefaults] objectForKey:SOCIAL_PROVIDERS] retain];
+
+        socialProviders = [[[NSUserDefaults standardUserDefaults] objectForKey:SOCIAL_PROVIDERS] retain];
         
-        socialProviders = [[NSArray alloc] initWithArray:temp];//[[[NSUserDefaults standardUserDefaults] objectForKey:SOCIAL_PROVIDERS] retain];
         
         /* Load the list of icons that the library should re-attempt to download, in case previous attempts failed for whatever reason */
         NSData *archivedIconsStillNeeded = [[NSUserDefaults standardUserDefaults] objectForKey:ICONS_STILL_NEEDED];
@@ -766,6 +772,10 @@ static JRSessionData* singleton = nil;
     [baseUrl release];
     baseUrl = [[[jsonDict objectForKey:@"baseurl"] 
                 stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]] retain];
+    
+    if (stillNeedToShortenUrls && activity)
+        [self startGetShortenedUrlsForActivity:activity];
+    stillNeedToShortenUrls = NO;
     
     /* Then save it */
     [[NSUserDefaults standardUserDefaults] setValue:baseUrl forKey:BASE_URL];
@@ -1263,10 +1273,19 @@ static JRSessionData* singleton = nil;
 #pragma mark url_shortening
 - (void)startGetShortenedUrlsForActivity:(JRActivityObject*)_activity
 {
+    DLog(@"");
+    
     /* In case there's an error, we'll just set the activity's shortened url to the 
      * unshortened url for now, and update it only if we successfully shorten it. */
     _activity.shortenedUrl = _activity.url;
 
+    /* If we haven't gotten the baseUrl back from the configuration yet, return, and get the shortented urls later */
+    if (!baseUrl)
+    {
+        stillNeedToShortenUrls = YES;
+        return;
+    }
+    
     NSMutableDictionary *urls = [NSMutableDictionary dictionaryWithCapacity:3];
     if (_activity.email.urls) [urls setObject:_activity.email.urls forKey:@"email"];
     if (_activity.sms.urls) [urls setObject:_activity.email.urls forKey:@"sms"];

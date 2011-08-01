@@ -50,7 +50,7 @@ typedef enum
 #define SMS 2
 
 #define OUTER_STROKE_COLOR    [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
-#define INNER_STROKE_COLOR    [UIColor redColor]
+#define INNER_STROKE_COLOR    JANRAIN_BLUE
 #define OUTER_FILL_COLOR      [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
 #define INNER_FILL_COLOR      [UIColor clearColor]
 #define OUTER_STROKE_WIDTH    0.1

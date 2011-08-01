@@ -290,13 +290,14 @@
     [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
 	if ([[sessionData socialProviders] count] == 0)
 	{
+        DLog(@"[[sessionData socialProviders] count] == 0");
         weAreStillWaitingOnSocialProviders = YES;
 
-     /* Since the method showViewIsLoading will disable the "Cancel" button and reset the loading label to "Sharing,
-        change them to the preferred values for just this case. */
-        [self showViewIsLoading:YES];
         myLoadingLabel.font = [UIFont systemFontOfSize:18.0];
         myLoadingLabel.text = NSLocalizedString(@"Loading providers. Please wait...", @"");
+
+     /* Since the method showViewIsLoading will disable the "Cancel" button, reenable it for this case */
+        [self showViewIsLoading:YES];
         self.navigationItem.leftBarButtonItem.enabled = YES;
 
      /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
@@ -364,6 +365,8 @@
     [sessionData triggerPublishingDidTimeOutConfiguration];
 }
 
+#define CONFIGURATION_TIMEOUT 32.0
+
 /* If the user calls the library before the session data object is done initializing -
  because either the requests for the base URL or provider list haven't returned -
  keep polling every few milliseconds, for about 16 seconds,
@@ -383,15 +386,18 @@
         weAreStillWaitingOnSocialProviders = NO;
 
         [self showViewIsLoading:NO];
-
+        
+     /* Set the loading label font/text back to default "Sharing..." */
+        myLoadingLabel.font = [UIFont systemFontOfSize:24.0];
+        myLoadingLabel.text = NSLocalizedString(@"Sharing...", @"");
+        
         [self addProvidersToTabBar];
-//        [self adjustRichDataContainer];
 
 		return;
 	}
 
  /* Otherwise, keep polling until we've timed out. */
-	if (interval >= 16.0)
+	if (interval >= CONFIGURATION_TIMEOUT)
 	{
 		DLog(@"No Available Providers");
 
@@ -441,9 +447,6 @@ Please try again later."
 - (void)showViewIsLoading:(BOOL)loading
 {
     DLog(@"");
-    
-    myLoadingLabel.font = [UIFont systemFontOfSize:24.0];
-    myLoadingLabel.text = NSLocalizedString(@"Sharing...", @"");
     
     /* Don't let the user edit or cancel while the activity is being shared */
     self.navigationItem.leftBarButtonItem.enabled = !loading;
@@ -534,8 +537,12 @@ Please try again later."
     if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
     { /* Twitter/MySpace -> true */
         NSMutableAttributedString *urlAttrString = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@" %@", url]];
-        [urlAttrString setTextColor:JANRAIN_BLUE range:NSMakeRange(1, ul)];	
         
+        if (shortenedActivityUrl)
+            [urlAttrString setTextColor:JANRAIN_BLUE range:NSMakeRange(1, ul)];	
+        else
+            [urlAttrString setTextColor:[UIColor darkGrayColor] range:NSMakeRange(1, ul)];	
+
         [previewText appendAttributedString:urlAttrString];
     }
     
@@ -1159,8 +1166,9 @@ Please try again later."
 {
     DLog(@"");
     
- /* Set the user-comment text view's text to the activity's action */
+ /* Set the user-comment text view's text and preview label to the activity's action */
     myUserCommentTextView.text = activity.action;
+    [self updatePreviewTextWhenContentReplacesAction];
     
  /* Determine if the activity has rich data (media, a title, or a description) */
     if ((!activity.title || [activity.title isEqualToString:@""]) && 
@@ -1299,6 +1307,8 @@ Please try again later."
                                             myPreviewContainer.frame.origin.y,
                                             myPreviewContainer.frame.size.width,
                                             mediaBoxHeight + previewLabelHeight + 37.0)];//157)];
+
+    [self adjustRichDataContainerVisibility];
 }
 
 - (void)addProvidersToTabBar

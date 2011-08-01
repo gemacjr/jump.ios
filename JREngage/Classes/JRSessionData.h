@@ -214,6 +214,8 @@ extern NSString * JREngageErrorDomain;
  /* TRUE if either of the the library's dialogs are loaded */
     BOOL dialogIsShowing;
     
+    BOOL stillNeedToShortenUrls;
+    
  /* Because configuration errors aren't reported until the calling application needs the library,
     we save this event in an instance variable. */
     NSError  *error;
