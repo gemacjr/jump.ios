@@ -74,6 +74,7 @@ typedef enum
     JRPublishErrorInvalidOauthToken,
     JRPublishErrorDuplicateTwitter,
     JRPublishErrorLinkedInCharacterExceded,
+    JRPublishErrorMissingParameter,
 } JREngageSocialPublishingError;
 
 extern NSString * JREngageErrorDomain;

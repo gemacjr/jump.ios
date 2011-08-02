@@ -1376,9 +1376,9 @@ Please try again later."
 {
     DLog(@"");
 
-//    if ([self willPublishThunkToStatusForProvider:selectedProvider])
-//        [sessionData setStatusForUser:loggedInUser];
-//    else
+    if ([self willPublishThunkToStatusForProvider:selectedProvider])
+        [sessionData setStatusForUser:loggedInUser];
+    else
         [sessionData shareActivityForUser:loggedInUser];
 }
 
@@ -1625,6 +1625,10 @@ Please try again later."
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity."];
             reauthenticate = YES;
+            break;
+        case JRPublishErrorMissingParameter:
+            errorMessage = [NSString stringWithFormat:
+                            @"There was an error while sharing this activity."];
             break;
         default:
             errorMessage = [NSString stringWithFormat:

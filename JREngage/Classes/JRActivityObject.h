@@ -598,6 +598,19 @@
 - (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
 
 + (id)activityObjectWithAction:(NSString*)_action andUrl:(NSString*)_url;
+
+/**
+ * Returns a JRActivityObject initialized with the given action.
+ *
+ * @param _action
+ *   A string describing what the user did, written in the third person.  This value cannot be \e nil
+ *
+ * @return
+ *   A JRActivityObject initialized with the given action.  If action _action is \e nil, returns \e nil
+ **/
+- (id)initWithAction:(NSString*)_action;
+
++ (id)activityObjectWithAction:(NSString*)_action;
 /*@}*/
 
 /**

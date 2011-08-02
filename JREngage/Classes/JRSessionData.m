@@ -1132,9 +1132,8 @@ static JRSessionData* singleton = nil;
     NSString *deviceToken = user.device_token;
         
     NSMutableData* body = [NSMutableData data];
-    [body appendData:[[NSString stringWithFormat:@"device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
-//    [body appendData:[[NSString stringWithFormat:@"&options={\"urlShortening\":\"true\"}"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&url_shortening=true"] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -1147,9 +1146,10 @@ static JRSessionData* singleton = nil;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
     
-    NSDictionary* tag = [[NSDictionary alloc] initWithObjectsAndKeys:activity, @"activity", 
-                         currentProvider.name, @"providerName", 
-                         @"shareActivity", @"action", nil];
+    NSDictionary* tag = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"shareActivity", @"action",
+                         activity, @"activity", 
+                         currentProvider.name, @"providerName", nil];
     
     ALog ("Sharing activity on %@:\n request=%@\nbody=%@", user.provider_name, [[request URL] absoluteString], 
           [NSString stringWithCString:body.bytes encoding:NSUTF8StringEncoding]);
@@ -1161,9 +1161,50 @@ static JRSessionData* singleton = nil;
     [request release];    
 }
 
+- (void)startSetStatusForUser:(JRAuthenticatedUser*)user
+{
+    DLog (@"activity status: %@", [activity user_generated_content]);
+    
+    NSString *status = [activity user_generated_content]; 
+    NSString *deviceToken = user.device_token;
+    
+    NSMutableData* body = [NSMutableData data];
+    [body appendData:[[NSString stringWithFormat:@"status=%@", status] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
+                                     [NSURL URLWithString:
+                                      [NSString stringWithFormat:@"%@/api/v2/set_status", serverUrl]]] retain];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+    
+    NSDictionary* tag = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"shareActivity", @"action",
+                         activity, @"activity", 
+                         currentProvider.name, @"providerName", nil];
+    
+    ALog ("Sharing activity on %@:\n request=%@\nbody=%@", user.provider_name, [[request URL] absoluteString], 
+          [NSString stringWithCString:body.bytes encoding:NSUTF8StringEncoding]);
+    
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+        [self triggerPublishingDidFailWithError:[JRError setError:@"There was a problem connecting to the Janrain server to share this activity"
+                                                         withCode:JRPublishErrorBadConnection]]; 
+    // TODO: don't retain/release, just do
+    [request release];    
+}
+
 - (void)shareActivityForUser:(JRAuthenticatedUser*)user
 {
     [self startShareActivityForUser:user];
+}
+
+- (void)setStatusForUser:(JRAuthenticatedUser*)user
+{
+    [self startSetStatusForUser:user];
 }
 
 - (void)finishShareActivity:(JRActivityObject*)_activity forProvider:(NSString*)providerName withResponse:(NSString*)response
@@ -1214,24 +1255,28 @@ static JRSessionData* singleton = nil;
             
             switch (code)
             {
-                case 0: /* "Missing parameter: apiKey" */
-                    publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
-                                            withCode:JRPublishErrorMissingApiKey];
+                case 0: /* "Missing parameter: activity/url/apiKey/etc." */
+                    if ([[error_dict objectForKey:@"msg"] isEqualToString:@"Missing parameter: apiKey"])
+                        publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
+                                                withCode:JRPublishErrorMissingApiKey];
+                    else
+                        publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
+                                                withCode:JRPublishErrorMissingParameter];
                     break;
                 case 4: /* "Facebook Error: Invalid OAuth 2.0 Access Token" */
                     publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
                                             withCode:JRPublishErrorInvalidOauthToken];
                     break;
-                case 100: // TODO LinkedIn character limit error
+                case 100: // TODO: LinkedIn character limit error // TODO: Check Yahoo's too
                     publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
                                             withCode:JRPublishErrorLinkedInCharacterExceded];
                     break;
-                case 6: // TODO Twitter duplicate error
+                case 6: // TODO: Twitter duplicate error
                     publishError = [JRError setError:[error_dict objectForKey:@"msg"] 
                                             withCode:JRPublishErrorDuplicateTwitter];
                     break;
                 case 1000: /* Extracting code failed; Fall through. */
-                default: // TODO Other errors (find them)
+                default: // TODO: Other errors (find them)
                     publishError = [JRError setError:@"There was a problem publishing this activity" 
                                             withCode:JRPublishFailedError];
                     break;
@@ -1641,6 +1686,12 @@ foo:
 
 - (void)triggerAuthenticationDidFailWithError:(NSError*)_error
 {
+    // TODO: Update to cookie data returned in provider_info
+    if ([currentProvider.name isEqualToString:@"facebook"])
+        [self deleteFacebookCookies];
+    else if ([currentProvider.name isEqualToString:@"live_id"])
+        [self deleteLiveCookies];
+    
     [currentProvider release];
     currentProvider = nil;
     

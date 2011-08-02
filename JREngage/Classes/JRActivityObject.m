@@ -417,6 +417,30 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     return [[[JRActivityObject alloc] initWithAction:_action andUrl:_url] autorelease];
 }
 
+- (id)initWithAction:(NSString*)_action
+{
+    if (!_action)
+    {
+        [self release];
+        return nil;
+    }
+    
+    if (self = [super init]) 
+	{
+        action = [_action retain];
+    }
+    
+	return self;
+}
+
++ (id)activityObjectWithAction:(NSString*)_action
+{
+    if (!_action)
+        return nil;
+    
+    return [[[JRActivityObject alloc] initWithAction:_action] autorelease];
+}
+
 /* This function filters the given array, _media, and only keeps the objects that 
    directly inherit from the base class JRMediaObject (JRImageMediaObject, etc.).
    What it doesn't test for is if a user creates a new object that directly inherits 
@@ -519,7 +543,13 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithCapacity:7] autorelease];
     [dict setValue:[action URLEscaped] forKey:@"action"];
-    [dict setValue:[url URLEscaped] forKey:@"url"];
+    
+    // TODO: Figure out why Engage fails if there is no url, but accepts an empty one.  Shouldn't it ignore the no-url
+    // when coming from mobile?
+    if (url)
+        [dict setValue:[url URLEscaped] forKey:@"url"];
+    else
+        [dict setValue:@"" forKey:@"url"];
     
     if (user_generated_content)
         [dict setValue:[user_generated_content URLEscaped] forKey:@"user_generated_content"];
