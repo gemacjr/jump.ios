@@ -589,11 +589,10 @@
  *   A string describing what the user did, written in the third person.  This value cannot be \e nil
  *
  * @param _url
- *   The URL of the resource being mentioned in the activity update.  This value cannot be \e nil
+ *   The URL of the resource being mentioned in the activity update.  
  *
  * @return
- *   A JRActivityObject initialized with the given action and url.  If either
- *   _action or _url are \e nil, returns \e nil
+ *   A JRActivityObject initialized with the given action and url.  If action _action is \e nil, returns \e nil
  **/
 - (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url;
 

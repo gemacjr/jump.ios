@@ -394,7 +394,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
 - (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url
 {
-    if (!_action || !_url)
+    if (!_action)
     {
         [self release];
         return nil;
@@ -411,8 +411,8 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
 + (id)activityObjectWithAction:(NSString*)_action andUrl:(NSString*)_url
 {
-    if (!_action || !_url)
-            return nil;
+    if (!_action)
+        return nil;
         
     return [[[JRActivityObject alloc] initWithAction:_action andUrl:_url] autorelease];
 }
