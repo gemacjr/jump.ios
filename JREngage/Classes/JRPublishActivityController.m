@@ -1166,6 +1166,10 @@ Please try again later."
 {
     DLog(@"");
     
+ /* If the activity doesn't have a url, set the shortened url to an empty string */
+    if (!activity.url)
+        shortenedActivityUrl = @"";
+    
  /* Set the user-comment text view's text and preview label to the activity's action */
     myUserCommentTextView.text = activity.action;
     [self updatePreviewTextWhenContentReplacesAction];
@@ -1502,7 +1506,7 @@ Please try again later."
 - (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)_activity
 {
     DLog(@"");
-    if (_activity == activity)
+    if (_activity == activity && url != nil)
     {
         shortenedActivityUrl = url;
         

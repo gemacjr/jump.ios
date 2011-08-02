@@ -266,6 +266,7 @@ extern NSString * JREngageErrorDomain;
 - (void)forgetAllAuthenticatedUsers;
 
 - (void)shareActivityForUser:(JRAuthenticatedUser*)user;
+- (void)setStatusForUser:(JRAuthenticatedUser*)user;
 
 - (void)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict;
 - (void)triggerAuthenticationDidStartOver:(id)sender;

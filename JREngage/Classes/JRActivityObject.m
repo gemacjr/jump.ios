@@ -379,7 +379,6 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 }
 @end
 
-
 @implementation JRActivityObject
 @synthesize action;  							
 @synthesize url;
