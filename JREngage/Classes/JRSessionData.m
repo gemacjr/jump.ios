@@ -448,6 +448,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize alwaysForceReauth;
 @synthesize forceReauth;
 @synthesize socialSharing;
+@synthesize skipReturningUserLandingPage;
 @synthesize hidePoweredBy;
 @synthesize error;
 
@@ -476,7 +477,9 @@ static JRSessionData* singleton = nil;
 #pragma mark accessors
 - (NSString*)returningBasicProvider
 {
-    if (alwaysForceReauth)
+ /* This is here so that when a calling application sets skipReturningUserLandingPage, the dialog always opens
+    to the providers list, and never opens to the returning user landing page. */
+    if (skipReturningUserLandingPage)
         return nil;
     
     return returningBasicProvider;

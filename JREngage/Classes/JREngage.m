@@ -160,22 +160,23 @@ static JREngage* singletonJREngage = nil;
 //    [interfaceMaestro showAuthenticationDialogWithForcedReauth];    
 //}
 
-- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides 
+                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
 {
     ALog (@"");
     
- /* If there was error configuring the library, sessionData.error will not be null. */
+    /* If there was error configuring the library, sessionData.error will not be null. */
     if (sessionData.error)
     {
         
-     /* Since configuration should happen long before the user attempts to use the library and because the user may not
-        attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
-        is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
-        a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
-        user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
-        This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
-        resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */        
-
+        /* Since configuration should happen long before the user attempts to use the library and because the user may not
+         attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
+         is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
+         a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
+         user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
+         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
+         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */        
+        
         if (sessionData.error.code / 100 == ConfigurationError)
         {
             [self engageDidFailWithError:sessionData.error];
@@ -188,22 +189,35 @@ static JREngage* singletonJREngage = nil;
     
     if (sessionData.dialogIsShowing)
     {
-       return [self engageDidFailWithError:
-               [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded." 
-                        withCode:JRDialogShowingError]];
+        return [self engageDidFailWithError:
+                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded." 
+                         withCode:JRDialogShowingError]];
     }
     
+    [sessionData setSkipReturningUserLandingPage:skipReturningUserLandingPage];
     [interfaceMaestro showAuthenticationDialogWithCustomInterface:customInterfaceOverrides];
 }
 
+
+- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+{
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides skippingReturningUserLandingPage:NO];
+}
+
+- (void)showAuthenticationDialogSkippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage;
+{
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil skippingReturningUserLandingPage:skipReturningUserLandingPage];
+}
+
+/* Deprecated */
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
 {
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:customizations];
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:customizations skippingReturningUserLandingPage:NO];
 }
 
 - (void)showAuthenticationDialog
 {
-    [self showAuthenticationDialogWithCustomInterface:nil];
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil skippingReturningUserLandingPage:NO];
 }
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides

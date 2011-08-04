@@ -429,6 +429,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     [customInterface release], customInterface = nil;
     
     sessionData.dialogIsShowing = NO;
+    sessionData.skipReturningUserLandingPage = NO;
 }
 
 - (void)setUpSocialPublishing
@@ -556,12 +557,18 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (!viewControllerToPopTo)
         viewControllerToPopTo = [[applicationNavigationController topViewController] retain];
 
-    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
+ /* Test to see if we should open the authentication dialog to the returning user landing page. If we have a 
+    returning provider (a provider the user previously signed in with); if we don't have a currently selected 
+    provider; and if we aren't opening the social sharing dialog (i.e., we are only authenticating), then 
+    open to the returning user landing page. */
+    if (sessionData.returningBasicProvider && !sessionData.currentProvider && !sessionData.socialSharing)
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
         [applicationNavigationController pushViewController:rootViewController animated:NO];
         [applicationNavigationController pushViewController:myUserLandingController animated:YES];
     }
+ /* Otherwise open to the normal root view controller (the list of providers view controller if 
+    authenticating or the publish activity view controller if social sharing). */
     else
     {
         [applicationNavigationController pushViewController:rootViewController animated:YES];
