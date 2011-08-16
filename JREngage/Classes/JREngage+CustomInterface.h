@@ -302,6 +302,21 @@
 #define kJRPopoverPresentationArrowDirection @"Popover.Presentation.ArrowDirection"
 /*@}*/
 
+/**
+ * @name Custom Authentication
+ * Keys to customize the list of providers during sign-in
+ **/
+/*@{*/
+
+/**
+ * Key for an \e NSArray object containing a list of /e NSString provider names that you would like to exclude from table of 
+ * providers when you launch the sign-in dialog
+ *
+ * For a list of possible strings, please see the \ref basicProviders "List of Providers"
+ **/
+#define kJRRemoveProvidersFromAuthentication @"ProviderTable.RemoveProviders"
+/*@}*/
+
 
 /**
  * @name Deprecated

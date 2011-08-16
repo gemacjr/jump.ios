@@ -119,6 +119,7 @@ extern NSString * JREngageErrorDomain;
     NSDictionary *socialSharingProperties;
     BOOL          social;
 
+    NSArray *cookieDomains;
 }
 
 @property (readonly) NSString *name;
@@ -130,7 +131,7 @@ extern NSString * JREngageErrorDomain;
 @property (retain)   NSString *userInput;
 @property (retain)   NSString *welcomeString;
 @property (readonly) NSDictionary *socialSharingProperties;
-
+@property (readonly) NSArray *cookieDomains;
 - (BOOL)isEqualToReturningProvider:(NSString*)returningProvider;
 @end
 

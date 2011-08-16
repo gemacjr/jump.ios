@@ -500,6 +500,31 @@ static JRUserInterfaceMaestro* singleton = nil;
     return popoverController;
 }
 
+- (BOOL)shouldOpenToUserLandingPage
+{
+   /* Test to see if we should open the authentication dialog to the returning user landing page. 
+    *
+    * We will only open to the user landing page if the following conditions are met:
+    *   a. If we have a returning provider (a provider the user previously signed in with); 
+    *   b. if we don't have a currently selected provider (TODO: check if this will ever be the case);
+    *   c. if we aren't opening the social sharing dialog (i.e., we are only authenticating); 
+    *   d. the returning provider hasn't been excluded from the list of providers (between the last 
+    *        time they logged in and now),
+    *   e. and the returning provider is still in the list of providers configured with the RP 
+    * The last two cases will only happen if the user signs in once, and then the list of providers changes
+    * between the first sign in and when they log in again.  If the RP's configuration has changed and their
+    * last-used provider has been dropped, but the configuration call hasn't returned from the server yet,
+    * this case may fall through the cracks. */
+    if (sessionData.returningBasicProvider 
+        && !sessionData.currentProvider 
+        && !sessionData.socialSharing
+        && ![((NSArray*)[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]) containsObject:sessionData.returningBasicProvider]
+        && [sessionData.basicProviders containsObject:sessionData.returningBasicProvider])
+        return YES;
+    
+    return NO;
+}
+
 - (void)loadModalNavigationControllerWithViewController:(UIViewController*)rootViewController
 {
     DLog(@"");
@@ -527,7 +552,8 @@ static JRUserInterfaceMaestro* singleton = nil;
         arrowDirection = [[customInterface objectForKey:kJRPopoverPresentationArrowDirection] intValue];
     
     [jrModalNavController.myNavigationController pushViewController:rootViewController animated:NO];    
-    if (sessionData.returningBasicProvider && !sessionData.currentProvider && ![sessionData socialSharing])
+    
+    if ([self shouldOpenToUserLandingPage])
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
         [jrModalNavController.myNavigationController pushViewController:myUserLandingController animated:NO];
@@ -557,18 +583,12 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (!viewControllerToPopTo)
         viewControllerToPopTo = [[applicationNavigationController topViewController] retain];
 
- /* Test to see if we should open the authentication dialog to the returning user landing page. If we have a 
-    returning provider (a provider the user previously signed in with); if we don't have a currently selected 
-    provider; and if we aren't opening the social sharing dialog (i.e., we are only authenticating), then 
-    open to the returning user landing page. */
-    if (sessionData.returningBasicProvider && !sessionData.currentProvider && !sessionData.socialSharing)
+    if ([self shouldOpenToUserLandingPage])
     {   
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
         [applicationNavigationController pushViewController:rootViewController animated:NO];
         [applicationNavigationController pushViewController:myUserLandingController animated:YES];
     }
- /* Otherwise open to the normal root view controller (the list of providers view controller if 
-    authenticating or the publish activity view controller if social sharing). */
     else
     {
         [applicationNavigationController pushViewController:rootViewController animated:YES];

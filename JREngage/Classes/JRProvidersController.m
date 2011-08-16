@@ -65,9 +65,14 @@
 }
 @end
 
+@interface JRProvidersController ()
+@property (retain) NSMutableArray *providers;
+@end
+
 @implementation JRProvidersController
+@synthesize providers;
 @synthesize hidesCancelButton;
-    
+
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
@@ -209,6 +214,36 @@
                                                myActivitySpinner.frame.size.height)];
         DLog ("label.frame: %f, %f", myLoadingLabel.frame.origin.x, myLoadingLabel.frame.origin.y);
     }    
+    
+    if ([[sessionData basicProviders] count] > 0)
+    {
+        [self setProviders:[NSMutableArray arrayWithArray:sessionData.basicProviders]];
+        [providers removeObjectsInArray:[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]];
+        
+        [myActivitySpinner stopAnimating];
+        [myActivitySpinner setHidden:YES];
+        [myLoadingLabel setHidden:YES];
+        
+        /* Load the table with the list of providers. */
+        [myTableView reloadData];    
+    }
+    else
+    {
+        DLog(@"prov count = %d", [[sessionData basicProviders] count]);
+        
+        /* If the user calls the library before the session data object is done initializing - 
+         because either the requests for the base URL or provider list haven't returned - 
+         display the "Loading Providers" label and activity spinner. 
+         sessionData = nil when the call to get the base URL hasn't returned
+         [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
+        [myActivitySpinner setHidden:NO];
+        [myLoadingLabel setHidden:NO];
+        
+        [myActivitySpinner startAnimating];
+        
+        /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
+        timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -218,33 +253,6 @@
 	
 	self.contentSizeForViewInPopover = CGSizeMake(320, 416);
 
-    if ([[sessionData basicProviders] count] > 0)
-    {
-        [myActivitySpinner stopAnimating];
-        [myActivitySpinner setHidden:YES];
-        [myLoadingLabel setHidden:YES];
-        
-     /* Load the table with the list of providers. */
-        [myTableView reloadData];    
-    }
-    else
-    {
-        DLog(@"prov count = %d", [[sessionData basicProviders] count]);
-        
-     /* If the user calls the library before the session data object is done initializing - 
-        because either the requests for the base URL or provider list haven't returned - 
-        display the "Loading Providers" label and activity spinner. 
-        sessionData = nil when the call to get the base URL hasn't returned
-        [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
-        [myActivitySpinner setHidden:NO];
-        [myLoadingLabel setHidden:NO];
-        
-        [myActivitySpinner startAnimating];
-        
-     /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
-        timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
-    }
-    
     [infoBar fadeIn];
 }
 
@@ -271,6 +279,9 @@
  /* If we have our list of providers, stop the progress indicators and load the table. */
 	if ([[sessionData basicProviders] count] > 0)
 	{
+        [self setProviders:[NSMutableArray arrayWithArray:sessionData.basicProviders]];
+        [providers removeObjectsInArray:[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]];
+        
         [myActivitySpinner stopAnimating];
 		[myActivitySpinner setHidden:YES];
 		[myLoadingLabel setHidden:YES];
@@ -370,11 +381,13 @@ Please try again later."
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	return [[sessionData basicProviders] count];
+	return [providers count];//[[sessionData basicProviders] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+    DLog(@"");
+    
     UITableViewCellProviders *cell = 
         (UITableViewCellProviders*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
 	
@@ -382,7 +395,7 @@ Please try again later."
 		cell = [[[UITableViewCellProviders alloc] 
 				 initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 	
-	JRProvider* provider = [sessionData getBasicProviderAtIndex:indexPath.row];
+	JRProvider* provider = [sessionData getProviderNamed:[providers objectAtIndex:indexPath.row]];//[sessionData getBasicProviderAtIndex:indexPath.row];
 
     if (!provider)
         return cell;
@@ -404,7 +417,7 @@ Please try again later."
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 	
  /* Let sessionData know which provider the user selected */
-	JRProvider *provider = [[sessionData getBasicProviderAtIndex:indexPath.row] retain];
+	JRProvider *provider = [sessionData getProviderNamed:[providers objectAtIndex:indexPath.row]];//[[sessionData getBasicProviderAtIndex:indexPath.row] retain];
     [sessionData setCurrentProvider:provider];
 
     DLog(@"cell for %@ was selected", provider);
@@ -426,7 +439,7 @@ Please try again later."
                                                animated:YES]; 
     }
     
-    [provider release];
+//    [provider release];
 }
 
 - (void)didReceiveMemoryWarning 

@@ -265,6 +265,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize shortText;
 @synthesize socialSharingProperties;
 @synthesize social;
+@synthesize cookieDomains;
 
 - (NSString*)welcomeString
 {
@@ -345,7 +346,8 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         placeholderText = [[_dictionary objectForKey:@"input_prompt"] retain];
         openIdentifier = [[_dictionary objectForKey:@"openid_identifier"] retain];
         url = [[_dictionary objectForKey:@"url"] retain]; 
-
+        cookieDomains = [[_dictionary objectForKey:@"cookie_domains"] retain];
+        
         if ([[_dictionary objectForKey:@"requires_input"] isEqualToString:@"YES"])
             requiresInput = YES;
         
@@ -383,6 +385,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [coder encodeObject:url forKey:@"url"];
     [coder encodeBool:requiresInput forKey:@"requiresInput"];    
     [coder encodeObject:socialSharingProperties forKey:@"socialSharingProperties"];
+    [coder encodeObject:cookieDomains forKey:@"cookieDomains"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -399,6 +402,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         url =             [[coder decodeObjectForKey:@"url"] retain];
         requiresInput =    [coder decodeBoolForKey:@"requiresInput"];
         socialSharingProperties = [[coder decodeObjectForKey:@"socialSharingProperties"] retain];
+        cookieDomains =   [[coder decodeObjectForKey:@"cookieDomains"] retain];
     }   
     [self loadDynamicVariables];
     
@@ -424,6 +428,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [userInput release];
     [welcomeString release];
     [socialSharingProperties release];
+    [cookieDomains release];
     
 	[super dealloc];
 }
@@ -996,6 +1001,14 @@ static JRSessionData* singleton = nil;
 
 - (JRProvider*)getProviderNamed:(NSString*)name
 {
+//    if (![allProviders isKindOfClass:[NSDictionary class]])
+//        DLog(@"");
+//    
+//    id provider = [allProviders objectForKey:name];
+//    
+//    if (![provider isKindOfClass:[JRProvider class]])
+//        DLog(@"");
+        
     return [allProviders objectForKey:name];
 }
 
@@ -1055,6 +1068,47 @@ static JRSessionData* singleton = nil;
             stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
+- (void) deleteWebviewCookiesForDomains:(NSArray*)domains
+{
+    NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+
+    for (NSString *domain in domains)
+    {    
+        NSURL *url = [NSURL URLWithString:domain];
+        NSArray* cookiesWithDomain = [cookies cookiesForURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@", domain]]];        
+
+        for (NSHTTPCookie* cookie in cookiesWithDomain) 
+            [cookies deleteCookie:cookie];
+    }
+
+//    CookieSyncManager csm = CookieSyncManager.createInstance(JREngage.getContext());
+//    CookieManager cm = CookieManager.getInstance();
+//    
+//    /* Trim any leading .s */
+//    if (domain.startsWith(".")) domain = domain.substring(1);
+//    
+//    /* Cookies are stored by domain, and are not different for different schemes (i.e. http vs
+//     * https) (although they do have an optional 'secure' flag.) */
+//    String cookieGlob = cm.getCookie("http://" + domain);
+//    if (cookieGlob != null) {
+//        String[] cookies = cookieGlob.split(";");
+//        for (String cookieTuple : cookies) {
+//            String[] cookieParts = cookieTuple.split("=");
+//            
+//            /* setCookie has changed a lot between different versions of Android with respect to
+//             * how it handles cookies like these, which are set in order to clear an existing
+//             * cookie.  This way of invoking it seems to work on all versions. */
+//            cm.setCookie(domain, cookieParts[0] + "=;");
+//            
+//            /* These calls have worked for some subset of the the set of all versions of
+//             * Android:
+//             * cm.setCookie(domain, cookieParts[0] + "=");
+//             * cm.setCookie(domain, cookieParts[0]); */
+//        }
+//        csm.sync();
+//    }
+}
+
 - (void)deleteFacebookCookies
 {
     NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
@@ -1102,13 +1156,17 @@ static JRSessionData* singleton = nil;
     
     NSString *str = nil;
     
-    if ([currentProvider.name isEqualToString:@"facebook"])
-        if (alwaysForceReauth || currentProvider.forceReauth)
-            [self deleteFacebookCookies];
+    // TODO: currentProvider => currentlyAuthenticatingProvider
+    if (alwaysForceReauth || currentProvider.forceReauth)
+        [self deleteWebviewCookiesForDomains:currentProvider.cookieDomains];
     
-    if ([currentProvider.name isEqualToString:@"live_id"])
-        if (alwaysForceReauth || currentProvider.forceReauth)
-            [self deleteLiveCookies];
+//    if ([currentProvider.name isEqualToString:@"facebook"])
+//        if (alwaysForceReauth || currentProvider.forceReauth)
+//            [self deleteFacebookCookies];
+//    
+//    if ([currentProvider.name isEqualToString:@"live_id"])
+//        if (alwaysForceReauth || currentProvider.forceReauth)
+//            [self deleteLiveCookies];
     
     str = [NSString stringWithFormat:@"%@%@?%@%@device=%@&extended=true", 
            baseUrl, 

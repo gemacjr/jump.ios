@@ -46,6 +46,8 @@
 	JRSessionData	*sessionData;
     NSDictionary    *customInterface;
     
+    NSMutableArray  *providers;
+    
     BOOL iPad;
     BOOL hidesCancelButton;
 //    BOOL userHitTheBackButton;
