@@ -101,8 +101,22 @@
         [self.view addSubview:infoBar];
 	}
     
-    self.navigationItem.backBarButtonItem.target = sessionData;
-    self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);    
+    if (!self.navigationController.navigationBar.backItem) 
+    {
+        UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+                                          initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                          target:sessionData
+                                          action:@selector(triggerAuthenticationDidCancel:)] autorelease];
+        
+        self.navigationItem.rightBarButtonItem = cancelButton;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;        
+    }
+    else
+    {
+        self.navigationItem.backBarButtonItem.target = sessionData;
+        self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);            
+    }
 }
 
 - (NSString*)customTitle

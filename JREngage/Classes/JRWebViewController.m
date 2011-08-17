@@ -81,6 +81,27 @@
         
 		[self.view addSubview:infoBar];
 	}
+    
+    UINavigationController *foo = self.navigationController;
+    UINavigationBar *bar = foo.navigationBar;
+    UINavigationItem *baz = bar.backItem;
+    
+    if (!self.navigationController.navigationBar.backItem)
+    {
+        DLog(@"no back button");
+        UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc] 
+                                          initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                          target:sessionData
+                                          action:@selector(triggerAuthenticationDidCancel:)] autorelease];
+        
+        self.navigationItem.rightBarButtonItem = cancelButton;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;        
+    }
+    else
+    {
+        DLog(@"back button");
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated 

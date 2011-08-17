@@ -393,6 +393,19 @@
 - (void)showAuthenticationDialog;
 
 /**
+ * @anchor showAuthDialog
+ *
+ * Use this function to begin authentication for one specific provider.  The JREngage library will
+ * pop up a modal dialog, skipping the list of providers, and taking the user straight to the sign-in 
+ * flow of the passes provider.  The user will not be able to return to the list of providers.
+ *
+ * @param provider
+ *   The name of the provider on which the user will authenticate.  For a list of possible strings,
+ *   please see the \ref basicProviders "List of Providers"
+ **/
+- (void)showAuthenticationDialogForProvider:(NSString*)provider;
+
+/**
  * @anchor showAuthCustom
  *
  * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,

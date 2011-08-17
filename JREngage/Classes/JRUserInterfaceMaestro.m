@@ -612,10 +612,16 @@ static JRUserInterfaceMaestro* singleton = nil;
     [self setUpDialogPresentation];
     [self setUpViewControllers];
     
-    if (usingAppNav)
-        [self loadApplicationNavigationControllerWithViewController:myProvidersController];
+    UIViewController *rootViewController;
+    if (sessionData.currentProvider)
+        rootViewController = (sessionData.currentProvider.requiresInput) ? (UIViewController*)myUserLandingController : (UIViewController*)myWebViewController;
     else
-        [self loadModalNavigationControllerWithViewController:myProvidersController];
+        rootViewController = myProvidersController;
+    
+    if (usingAppNav)
+        [self loadApplicationNavigationControllerWithViewController:rootViewController];//myProvidersController];
+    else
+        [self loadModalNavigationControllerWithViewController:rootViewController];//myProvidersController];
 }
 
 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations

@@ -1071,12 +1071,17 @@ static JRSessionData* singleton = nil;
 - (void) deleteWebviewCookiesForDomains:(NSArray*)domains
 {
     NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-
+    
+    NSArray* cookiesWithDomain;
     for (NSString *domain in domains)
     {    
-        NSURL *url = [NSURL URLWithString:domain];
-        NSArray* cookiesWithDomain = [cookies cookiesForURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@", domain]]];        
+        /* http:// */
+        cookiesWithDomain = [cookies cookiesForURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@", domain]]];        
+        for (NSHTTPCookie* cookie in cookiesWithDomain) 
+            [cookies deleteCookie:cookie];
 
+        /* https:// */
+        cookiesWithDomain = [cookies cookiesForURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://%@", domain]]];                
         for (NSHTTPCookie* cookie in cookiesWithDomain) 
             [cookies deleteCookie:cookie];
     }
