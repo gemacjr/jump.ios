@@ -142,7 +142,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 #pragma mark JRAuthenticatedUser
 @interface JRAuthenticatedUser ()
-- (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name;
+- (id)initUserWithDictionary:(NSDictionary*)dictionary andWelcomeString:(NSString*)_welcomeString forProviderNamed:(NSString*)_provider_name;
 @end
 
 @implementation JRAuthenticatedUser
@@ -150,8 +150,9 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize preferred_username;
 @synthesize device_token;
 @synthesize provider_name;
+@synthesize welcomeString;
 
-- (id)initUserWithDictionary:(NSDictionary*)dictionary forProviderNamed:(NSString*)_provider_name
+- (id)initUserWithDictionary:(NSDictionary*)dictionary andWelcomeString:(NSString*)_welcomeString forProviderNamed:(NSString*)_provider_name
 {
     if (dictionary == nil || _provider_name == nil || (void*)[dictionary objectForKey:@"device_token"] == kCFNull)
 	{
@@ -163,12 +164,18 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 	{
         device_token = [[dictionary objectForKey:@"device_token"] retain];
         provider_name = [_provider_name retain];
-        
+            
         if ((void*)[dictionary objectForKey:@"photo"] != kCFNull)
             photo = [[dictionary objectForKey:@"photo"] retain];
 
         if ((void*)[dictionary objectForKey:@"preferred_username"] != kCFNull)
             preferred_username = [[dictionary objectForKey:@"preferred_username"] retain];        
+
+        if (welcomeString && ![welcomeString isEqualToString:@""])
+            welcomeString = [_welcomeString retain];
+        else
+            welcomeString = [[NSString stringWithFormat:@"Sign in as %@?", preferred_username] retain]; 
+        
     }
 
 	return self;
@@ -180,7 +187,8 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [coder encodeObject:photo forKey:@"photo"];
     [coder encodeObject:preferred_username forKey:@"preferred_username"];
     [coder encodeObject:nil forKey:@"device_token"];
-
+    [coder encodeObject:welcomeString forKey:@"welcomeString"];
+        
     NSError *error = nil;
     [SFHFKeychainUtils storeUsername:provider_name 
                          andPassword:device_token 
@@ -202,6 +210,10 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         provider_name = [[coder decodeObjectForKey:@"provider_name"] retain];
         photo = [[coder decodeObjectForKey:@"photo"] retain];
         preferred_username = [[coder decodeObjectForKey:@"preferred_username"] retain];
+        welcomeString = [[coder  decodeObjectForKey:@"welcomeString"] retain];
+        
+        if (!welcomeString)
+            welcomeString = [[NSString stringWithFormat:@"Sign in as %@?", preferred_username] retain]; 
 
         NSError *error = nil;
         device_token = [[SFHFKeychainUtils getPasswordForUsername:provider_name
@@ -267,23 +279,23 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize social;
 @synthesize cookieDomains;
 
-- (NSString*)welcomeString
-{
-    return welcomeString;
-}
-
-- (void)setWelcomeString:(NSString *)_welcomeString
-{
-    [_welcomeString retain];
-    [welcomeString release];
-    
-    welcomeString = _welcomeString;
-    
-    /* Save our dynamic variables, in case we ever need to re-initialize a provider object, the init... functions can pull these
-     from the user defaults. */
-    [[NSUserDefaults standardUserDefaults] setValue:welcomeString forKey:[NSString stringWithFormat:WELCOME_STRING_FOR_PROVIDER, self.name]];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
+//- (NSString*)welcomeString
+//{
+//    return welcomeString;
+//}
+//
+//- (void)setWelcomeString:(NSString *)_welcomeString
+//{
+//    [_welcomeString retain];
+//    [welcomeString release];
+//    
+//    welcomeString = _welcomeString;
+//    
+//    /* Save our dynamic variables, in case we ever need to re-initialize a provider object, the init... functions can pull these
+//     from the user defaults. */
+//    [[NSUserDefaults standardUserDefaults] setValue:welcomeString forKey:[NSString stringWithFormat:WELCOME_STRING_FOR_PROVIDER, self.name]];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+//}
 
 - (NSString*)userInput
 {
@@ -323,7 +335,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
    init... functions. */
 - (void)loadDynamicVariables
 {
-    welcomeString = [[[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:WELCOME_STRING_FOR_PROVIDER, name]] retain];
+//    welcomeString = [[[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:WELCOME_STRING_FOR_PROVIDER, name]] retain];
     userInput     = [[[NSUserDefaults standardUserDefaults] stringForKey:[NSString stringWithFormat:USER_INPUT_FOR_PROVIDER, name]] retain];
     forceReauth   =  [[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:FORCE_REAUTH_FLAG_FOR_PROVIDER, name]];
 }
@@ -426,7 +438,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [openIdentifier release];
     [url release];	
     [userInput release];
-    [welcomeString release];
+//    [welcomeString release];
     [socialSharingProperties release];
     [cookieDomains release];
     
@@ -450,8 +462,10 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize returningSocialProvider;
 @synthesize baseUrl;
 @synthesize tokenUrl;
+@synthesize authenticatingDirectlyOnThisProvider;
 @synthesize alwaysForceReauth;
-@synthesize forceReauth;
+@synthesize forceReauthJustThisTime;
+//@synthesize forceReauth;
 @synthesize socialSharing;
 @synthesize skipReturningUserLandingPage;
 @synthesize hidePoweredBy;
@@ -1027,21 +1041,7 @@ static JRSessionData* singleton = nil;
 - (void)saveLastUsedBasicProvider:(NSString*)providerName
 {
 	DLog (@"Saving last used basic provider: %@", providerName);
-    
-    // TODO: See about re-adding cookie code that manually sets the last used provider and see 
-    // if that means using rpx to log into site through Safari browser will also remember the user/provider
-    
-    NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
-    
-	for (NSHTTPCookie *savedCookie in cookies) 
-	{
-		if ([savedCookie.name isEqualToString:@"welcome_info"])
-		{
-			[[self getProviderNamed:providerName] setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
-		}
-	}	    
-    
+        
     [returningBasicProvider release], returningBasicProvider = [providerName retain];
     
     [[NSUserDefaults standardUserDefaults] setObject:returningBasicProvider
@@ -1055,17 +1055,34 @@ static JRSessionData* singleton = nil;
     returningBasicProvider = nil;
 }
 
-- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString
+- (NSString*)getWelcomeMessageFromCookie//String:(NSString*)cookieString
 {
 	DLog (@"");
-	NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
-	
-	if ([strArr count] <= 1)
-		return @"Welcome, user!";
-	
-	return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] 
-             stringByReplacingOccurrencesOfString:@"+" withString:@" "]
-            stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    // TODO: See about re-adding cookie code that manually sets the last used provider and see 
+    // if that means using rpx to log into site through Safari browser will also remember the user/provider
+    
+    NSHTTPCookieStorage *cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:baseUrl]];
+    
+	for (NSHTTPCookie *savedCookie in cookies) 
+	{
+		if ([savedCookie.name isEqualToString:@"welcome_info"])
+		{
+			//[[self getProviderNamed:providerName] setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
+            NSString *cookieString = savedCookie.value;
+            NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
+            
+            if ([strArr count] <= 1)
+                return nil;//@"Welcome, user!";
+            
+            return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]] 
+                     stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+                    stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		}
+	}	    
+    
+    return nil;
 }
 
 - (void) deleteWebviewCookiesForDomains:(NSArray*)domains
@@ -1085,33 +1102,6 @@ static JRSessionData* singleton = nil;
         for (NSHTTPCookie* cookie in cookiesWithDomain) 
             [cookies deleteCookie:cookie];
     }
-
-//    CookieSyncManager csm = CookieSyncManager.createInstance(JREngage.getContext());
-//    CookieManager cm = CookieManager.getInstance();
-//    
-//    /* Trim any leading .s */
-//    if (domain.startsWith(".")) domain = domain.substring(1);
-//    
-//    /* Cookies are stored by domain, and are not different for different schemes (i.e. http vs
-//     * https) (although they do have an optional 'secure' flag.) */
-//    String cookieGlob = cm.getCookie("http://" + domain);
-//    if (cookieGlob != null) {
-//        String[] cookies = cookieGlob.split(";");
-//        for (String cookieTuple : cookies) {
-//            String[] cookieParts = cookieTuple.split("=");
-//            
-//            /* setCookie has changed a lot between different versions of Android with respect to
-//             * how it handles cookies like these, which are set in order to clear an existing
-//             * cookie.  This way of invoking it seems to work on all versions. */
-//            cm.setCookie(domain, cookieParts[0] + "=;");
-//            
-//            /* These calls have worked for some subset of the the set of all versions of
-//             * Android:
-//             * cm.setCookie(domain, cookieParts[0] + "=");
-//             * cm.setCookie(domain, cookieParts[0]); */
-//        }
-//        csm.sync();
-//    }
 }
 
 - (void)deleteFacebookCookies
@@ -1161,8 +1151,14 @@ static JRSessionData* singleton = nil;
     
     NSString *str = nil;
     
+    BOOL weNeedToForceReauth = (alwaysForceReauth || 
+                                currentProvider.forceReauth || 
+                                authenticatingDirectlyOnThisProvider || 
+                                ![self authenticatedUserForProvider:currentProvider])
+    ? YES : NO;
+    
     // TODO: currentProvider => currentlyAuthenticatingProvider
-    if (alwaysForceReauth || currentProvider.forceReauth)
+    if (weNeedToForceReauth)
         [self deleteWebviewCookiesForDomains:currentProvider.cookieDomains];
     
 //    if ([currentProvider.name isEqualToString:@"facebook"])
@@ -1177,7 +1173,7 @@ static JRSessionData* singleton = nil;
            baseUrl, 
            currentProvider.url,
            oid, 
-           ((alwaysForceReauth || currentProvider.forceReauth) ? @"force_reauth=true&" : @""),
+           weNeedToForceReauth ? @"force_reauth=true&" : @"",
            device];
     
 	currentProvider.forceReauth = NO;
@@ -1723,6 +1719,7 @@ foo:
     DLog (@"Authentication completed for user: %@", [goodies description]);
 
     JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
+                                                                    andWelcomeString:[self getWelcomeMessageFromCookie]
                                                                     forProviderNamed:currentProvider.name] autorelease];    
     
     [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];

@@ -94,11 +94,13 @@ extern NSString * JREngageErrorDomain;
     NSString *preferred_username;
     NSString *device_token;
     NSString *provider_name;
+	NSString *welcomeString;
 }
 @property (readonly) NSString *photo;
 @property (readonly) NSString *preferred_username;
 @property (readonly) NSString *device_token;
 @property (readonly) NSString *provider_name;
+@property (retain)   NSString *welcomeString;
 @end
 
 @interface JRProvider : NSObject
@@ -115,7 +117,7 @@ extern NSString * JREngageErrorDomain;
 	BOOL      forceReauth;
     
     NSString *userInput;
-	NSString *welcomeString;
+//	NSString *welcomeString;
     
     NSDictionary *socialSharingProperties;
     BOOL          social;
@@ -130,7 +132,7 @@ extern NSString * JREngageErrorDomain;
 @property (readonly) BOOL      requiresInput;
 @property            BOOL      forceReauth;
 @property (retain)   NSString *userInput;
-@property (retain)   NSString *welcomeString;
+//@property (retain)   NSString *welcomeString;
 @property (readonly) NSDictionary *socialSharingProperties;
 @property (readonly) NSArray *cookieDomains;
 - (BOOL)isEqualToReturningProvider:(NSString*)returningProvider;
@@ -208,8 +210,10 @@ extern NSString * JREngageErrorDomain;
 	
 	// QTS: What is the behavior of this (i.e., how does it affect social publishing?)
     //      when selected during a basic authentication call?
+    BOOL authenticatingDirectlyOnThisProvider;
     BOOL alwaysForceReauth;
-    BOOL forceReauth;
+    BOOL forceReauthJustThisTime;
+//    BOOL forceReauth;
     BOOL skipReturningUserLandingPage;
 
     
@@ -241,7 +245,9 @@ extern NSString * JREngageErrorDomain;
 
 @property (readonly) BOOL hidePoweredBy;
 @property            BOOL alwaysForceReauth;
-@property            BOOL forceReauth;
+@property            BOOL forceReauthJustThisTime;
+//@property            BOOL forceReauth;
+@property            BOOL authenticatingDirectlyOnThisProvider;
 @property            BOOL socialSharing;
 @property            BOOL dialogIsShowing;
 @property            BOOL skipReturningUserLandingPage;

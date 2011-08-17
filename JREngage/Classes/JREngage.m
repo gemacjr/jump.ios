@@ -203,7 +203,7 @@ static JREngage* singletonJREngage = nil;
     }
     
     if (provider)
-        [sessionData setCurrentProvider:[sessionData getProviderNamed:provider]];
+        interfaceMaestro.directProvider = provider;//[sessionData setCurrentProvider:[sessionData getProviderNamed:provider]];
 
     [sessionData setSkipReturningUserLandingPage:skipReturningUserLandingPage];
     [interfaceMaestro showAuthenticationDialogWithCustomInterface:customInterfaceOverrides];

@@ -66,6 +66,8 @@ typedef enum
     BOOL usingAppNav;
     BOOL usingCustomNav;
     
+    NSString *directProvider;
+    
     UINavigationController	*customModalNavigationController;
     UINavigationController	*applicationNavigationController;
     UINavigationController	*savedNavigationController;
@@ -104,4 +106,5 @@ typedef enum
 @property (readonly) JRUserLandingController     *myUserLandingController;
 @property (readonly) JRWebViewController         *myWebViewController;
 @property (readonly) JRPublishActivityController *myPublishActivityController;
+@property (retain) NSString *directProvider;
 @end

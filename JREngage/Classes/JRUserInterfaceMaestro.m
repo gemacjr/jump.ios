@@ -189,6 +189,7 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 @synthesize savedNavigationController;
 @synthesize customInterfaceDefaults;
 @synthesize janrainInterfaceDefaults;
+@synthesize directProvider;
 
 static JRUserInterfaceMaestro* singleton = nil;
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro
@@ -427,6 +428,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     [customModalNavigationController release], customModalNavigationController = nil;
     
     [customInterface release], customInterface = nil;
+    [directProvider release], directProvider = nil;
     
     sessionData.dialogIsShowing = NO;
     sessionData.skipReturningUserLandingPage = NO;
@@ -505,17 +507,20 @@ static JRUserInterfaceMaestro* singleton = nil;
    /* Test to see if we should open the authentication dialog to the returning user landing page. 
     *
     * We will only open to the user landing page if the following conditions are met:
-    *   a. If we have a returning provider (a provider the user previously signed in with); 
-    *   b. if we don't have a currently selected provider (TODO: check if this will ever be the case);
-    *   c. if we aren't opening the social sharing dialog (i.e., we are only authenticating); 
-    *   d. the returning provider hasn't been excluded from the list of providers (between the last 
+    *   a. If we have a returning provider (a provider the user previously signed in with);
+    *   b. if there is a saved user for the returning provider (the only time this wouldn't be the case
+    *       is when upgrading the library and the saved users couldn't be deserialized);
+    *   c. if we don't have a currently selected provider (TODO: check if this will ever be the case);
+    *   d. if we aren't opening the social sharing dialog (i.e., we are only authenticating); 
+    *   e. the returning provider hasn't been excluded from the list of providers (between the last 
     *        time they logged in and now),
-    *   e. and the returning provider is still in the list of providers configured with the RP 
+    *   f. and the returning provider is still in the list of providers configured with the RP 
     * The last two cases will only happen if the user signs in once, and then the list of providers changes
     * between the first sign in and when they log in again.  If the RP's configuration has changed and their
     * last-used provider has been dropped, but the configuration call hasn't returned from the server yet,
     * this case may fall through the cracks. */
     if (sessionData.returningBasicProvider 
+        && [sessionData authenticatedUserForProviderNamed:sessionData.returningBasicProvider]
         && !sessionData.currentProvider 
         && !sessionData.socialSharing
         && ![((NSArray*)[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]) containsObject:sessionData.returningBasicProvider]
@@ -605,6 +610,25 @@ static JRUserInterfaceMaestro* singleton = nil;
 //        [self loadModalNavigationControllerWithViewController:myProvidersController];    
 //}
 
+
+// TODO: Document this function
+- (JRProvider*)weAreOnlyAuthenticatingOnThisProvider
+{
+    sessionData.authenticatingDirectlyOnThisProvider = YES;
+    
+    if (directProvider)
+        return [sessionData getProviderNamed:directProvider];
+    
+    NSMutableArray *providers = [NSMutableArray arrayWithArray:sessionData.basicProviders];
+    [providers removeObjectsInArray:[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]];
+    if ([providers count] == 1)
+        return [sessionData getProviderNamed:[providers objectAtIndex:0]];
+
+    
+    sessionData.authenticatingDirectlyOnThisProvider = YES;
+    return nil;
+}
+
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
 {
     DLog(@"");
@@ -613,7 +637,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     [self setUpViewControllers];
     
     UIViewController *rootViewController;
-    if (sessionData.currentProvider)
+    if (sessionData.currentProvider = [self weAreOnlyAuthenticatingOnThisProvider])
         rootViewController = (sessionData.currentProvider.requiresInput) ? (UIViewController*)myUserLandingController : (UIViewController*)myWebViewController;
     else
         rootViewController = myProvidersController;

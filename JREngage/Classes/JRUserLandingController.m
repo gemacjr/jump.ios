@@ -436,12 +436,12 @@ enum
         {
             [textField resignFirstResponder];
 			textField.text = [NSString stringWithString:sessionData.currentProvider.userInput];
-			[bigSignInButton setHidden:YES];
+//			[bigSignInButton setHidden:YES];
 		}
         else
 		{	
             textField.text = nil;
-			[bigSignInButton setHidden:NO];
+//			[bigSignInButton setHidden:NO];
         }
 		
 		textField.placeholder = [NSString stringWithString:sessionData.currentProvider.placeholderText];
@@ -449,6 +449,7 @@ enum
 		[textField setHidden:NO];
 		[textField setEnabled:YES];
 		[welcomeLabel setHidden:YES];
+        [bigSignInButton setHidden:NO];
 	}
 	else /* If the provider doesn't require input, then we are here because this is the return experience screen and only for basic providers */
 	{
@@ -459,9 +460,9 @@ enum
 		[welcomeLabel setHidden:NO];
 		[bigSignInButton setHidden:YES];
 
-		welcomeLabel.text = sessionData.currentProvider.welcomeString;
+		welcomeLabel.text = [sessionData authenticatedUserForProvider:sessionData.currentProvider].welcomeString;
 		
-		DLog(@"welcomeMsg: %@", sessionData.currentProvider.welcomeString);
+//		DLog(@"welcomeMsg: %@", sessionData.currentProvider.welcomeString);
 	}
     
     return cell;
