@@ -73,23 +73,23 @@
 	
 	sessionData = [JRSessionData jrSessionData];
 	
-/*** * * DEPRECATED * * ***/
-/**/NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
-/*** * * DEPRECATED * * ***/
+///*** * * DEPRECATED * * ***/
+///**/NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
+///*** * * DEPRECATED * * ***/
     
  /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
-    else
-/*** * * * * * * DEPRECATED * * * * * * ***/
-/**/    if ([backgroundColor respondsToSelector:@selector(count)])
-/**/        if ([backgroundColor count] == 4)
-/**/            myBackgroundView.backgroundColor = 
-/**/                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-/**/                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-/**/                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-/**/                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
-/*** * * * * * * DEPRECATED * * * * * * ***/
+//    else
+///*** * * * * * * DEPRECATED * * * * * * ***/
+///**/    if ([backgroundColor respondsToSelector:@selector(count)])
+///**/        if ([backgroundColor count] == 4)
+///**/            myBackgroundView.backgroundColor = 
+///**/                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
+///**/                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
+///**/                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
+///**/                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
+///*** * * * * * * DEPRECATED * * * * * * ***/
     
     myTableView.backgroundColor = [UIColor clearColor];
 
@@ -133,11 +133,11 @@
 	DLog(@"");
     [super viewWillAppear:animated];
     
-/*** * * * * * * DEPRECATED * * * * * * ***/
-/**/if ([customInterface objectForKey:kJRUserLandingBackgroundImageName])
-/**/    [myBackgroundView addSubview:[[[UIImageView alloc] initWithImage:
-/**/                                   [UIImage imageNamed:[customInterface objectForKey:kJRUserLandingBackgroundImageName]]] autorelease]];
-/*** * * * * * * DEPRECATED * * * * * * ***/
+///*** * * * * * * DEPRECATED * * * * * * ***/
+///**/if ([customInterface objectForKey:kJRUserLandingBackgroundImageName])
+///**/    [myBackgroundView addSubview:[[[UIImageView alloc] initWithImage:
+///**/                                   [UIImage imageNamed:[customInterface objectForKey:kJRUserLandingBackgroundImageName]]] autorelease]];
+///*** * * * * * * DEPRECATED * * * * * * ***/
 
 
  /* Load the custom background view, if there is one. */

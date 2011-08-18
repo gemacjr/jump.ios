@@ -196,11 +196,11 @@
  **/
 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
-/**
- * @deprecated
- * Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() instead.
- **/
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+///**
+// * @deprecated
+// * Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() instead.
+// **/
+//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 
 /**
  * @anchor tokenUrlReached
@@ -330,6 +330,7 @@
  **/
 + (JREngage*)jrEngage;
 
+// TODO: Figure out and document what calling this does if the library is already initialized
 /**
  * @anchor engageWithAppId
  * Initializes and returns the shared instance of the JREngage library
@@ -515,6 +516,7 @@
  **/
 /*@{*/
 
+// TODO: Document exactly how this affects authentication/publishing
 /**
  * @anchor signoutProvider
  *
@@ -616,28 +618,28 @@
  *
  **/
 
-/**
- * @name Deprecated
- * These keys have been deprecated in the current version of the JREngage library
- **/
-/*@{*/
-
-/**
- * @deprecated
- * This method has been deprecated. If you want to push the JREngage dialogs on your pass a pointer
- * to this object to the custom interface with the key define #kJRApplicationNavigationController.
- **/
-- (void)setCustomNavigationController:(UINavigationController*)navigationController;
-
-/**
- * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
- **/
-- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
-
-/**
- * @deprecated Please use showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:() instead.
- **/
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
-/*}*/
+///**
+// * @name Deprecated
+// * These keys have been deprecated in the current version of the JREngage library
+// **/
+///*@{*/
+//
+///**
+// * @deprecated
+// * This method has been deprecated. If you want to push the JREngage dialogs on your pass a pointer
+// * to this object to the custom interface with the key define #kJRApplicationNavigationController.
+// **/
+//- (void)setCustomNavigationController:(UINavigationController*)navigationController;
+//
+///**
+// * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+// **/
+//- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+//
+///**
+// * @deprecated Please use showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:() instead.
+// **/
+//- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
+///*}*/
 @end
 

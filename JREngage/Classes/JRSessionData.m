@@ -448,7 +448,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 #pragma mark JRSessionData
 @interface JRSessionData ()
-- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString;
+//- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString;
 - (NSError*)startGetConfiguration;
 - (NSError*)finishGetConfiguration:(NSString *)dataStr;
 - (void)startGetShortenedUrlsForActivity:(JRActivityObject *)_activity;

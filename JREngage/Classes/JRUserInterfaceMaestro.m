@@ -251,9 +251,9 @@ static JRUserInterfaceMaestro* singleton = nil;
     [dict setObject:backgroundColor forKey:kJRAuthenticationBackgroundColor];
     [dict removeObjectForKey:kJRAuthenticationBackgroundColorRGBa];
 
-/*** * * DEPRECATED * * ***/
-/**/[dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"CustomValues"]];
-/*** * * DEPRECATED * * ***/
+///*** * * DEPRECATED * * ***/
+///**/[dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"CustomValues"]];
+///*** * * DEPRECATED * * ***/
     
     return dict;
 }
@@ -459,26 +459,26 @@ static JRUserInterfaceMaestro* singleton = nil;
     navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;   
     navigationController.navigationBar.clipsToBounds = YES;
    
-/*** * * DEPRECATED * * ***/
-/**/NSArray *tintArray = [customInterface objectForKey:kJRNavigationBarTintColorRGBa];
-/**/UIColor *tintColor = [customInterface objectForKey:kJRNavigationBarTintColor];
-/**/    
-/**/@try
-/**/{
-/**/    if (tintColor)
-/**/        [navigationController.navigationBar setTintColor:tintColor];
-/**/    else if (tintArray)
-/**/        if ([tintArray respondsToSelector:@selector(count)])
-/**/            if ([tintArray count] == 4)
-/**/                [navigationController.navigationBar setTintColor: 
-/**/                    [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
-/**/                                    green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
-/**/                                    blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
-/**/                                    alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]]];
-/**/}
-/**/@catch (NSException *exception)
-/**/{ handleCustomInterfaceException(exception, @"kJRNavigationBarTintColorRGBa or kJRNavigationBarTintColor"); }
-/*** * * DEPRECATED * * ***/
+///*** * * DEPRECATED * * ***/
+///**/NSArray *tintArray = [customInterface objectForKey:kJRNavigationBarTintColorRGBa];
+///**/UIColor *tintColor = [customInterface objectForKey:kJRNavigationBarTintColor];
+///**/    
+///**/@try
+///**/{
+///**/    if (tintColor)
+///**/        [navigationController.navigationBar setTintColor:tintColor];
+///**/    else if (tintArray)
+///**/        if ([tintArray respondsToSelector:@selector(count)])
+///**/            if ([tintArray count] == 4)
+///**/                [navigationController.navigationBar setTintColor: 
+///**/                    [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
+///**/                                    green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
+///**/                                    blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
+///**/                                    alpha:[(NSNumber*)[tintArray objectAtIndex:3] doubleValue]]];
+///**/}
+///**/@catch (NSException *exception)
+///**/{ handleCustomInterfaceException(exception, @"kJRNavigationBarTintColorRGBa or kJRNavigationBarTintColor"); }
+///*** * * DEPRECATED * * ***/
 
     return navigationController;
 }
