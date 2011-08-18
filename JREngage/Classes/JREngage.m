@@ -161,7 +161,6 @@ static JREngage* singletonJREngage = nil;
 //}
 
 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides 
-                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
                           orAuthenticatingOnJustThisProvider:(NSString*)provider
 {
     ALog (@"");
@@ -194,7 +193,7 @@ static JREngage* singletonJREngage = nil;
                 [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded." 
                          withCode:JRDialogShowingError]];
     }
-    
+
     if (provider && ![sessionData.allProviders objectForKey:provider])//containsObject:provider]) 
     {
         return [self engageDidFailWithError:
@@ -204,41 +203,41 @@ static JREngage* singletonJREngage = nil;
     
     if (provider)
         interfaceMaestro.directProvider = provider;//[sessionData setCurrentProvider:[sessionData getProviderNamed:provider]];
-
-    [sessionData setSkipReturningUserLandingPage:skipReturningUserLandingPage];
+    
+//    [sessionData setSkipReturningUserLandingPage:skipReturningUserLandingPage];
     [interfaceMaestro showAuthenticationDialogWithCustomInterface:customInterfaceOverrides];
 }
 
-- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides 
-                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
-{
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides skippingReturningUserLandingPage:skipReturningUserLandingPage orAuthenticatingOnJustThisProvider:nil];    
-}
+//- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides 
+//                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
+//{
+//    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides skippingReturningUserLandingPage:skipReturningUserLandingPage orAuthenticatingOnJustThisProvider:nil];    
+//}
 
 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides skippingReturningUserLandingPage:NO orAuthenticatingOnJustThisProvider:nil];
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:nil];
 }
 
-- (void)showAuthenticationDialogSkippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
-{
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil skippingReturningUserLandingPage:skipReturningUserLandingPage orAuthenticatingOnJustThisProvider:nil];
-}
+//- (void)showAuthenticationDialogSkippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
+//{
+//    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil skippingReturningUserLandingPage:skipReturningUserLandingPage orAuthenticatingOnJustThisProvider:nil];
+//}
 
 /* Deprecated */
-- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
-{
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:customizations skippingReturningUserLandingPage:NO orAuthenticatingOnJustThisProvider:nil];
-}
+//- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
+//{
+//    [self showAuthenticationDialogWithCustomInterfaceOverrides:customizations /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:nil];
+//}
 
 - (void)showAuthenticationDialogForProvider:(NSString*)provider
 {
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil skippingReturningUserLandingPage:NO orAuthenticatingOnJustThisProvider:provider];   
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:provider];   
 }
 
 - (void)showAuthenticationDialog
 {
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil skippingReturningUserLandingPage:NO orAuthenticatingOnJustThisProvider:nil];
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:nil];
 }
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides

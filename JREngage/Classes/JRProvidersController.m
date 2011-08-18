@@ -429,7 +429,7 @@ Please try again later."
     Or if the user started on the user landing page, went back to the list of providers, then selected 
     the same provider as their last-used provider, go back to the user landing view. */
     if (provider.requiresInput || 
-        ([sessionData authenticatedUserForProvider:provider] && !provider.forceReauth))//[provider isEqualToReturningProvider:sessionData.returningBasicProvider]) 
+        ([sessionData authenticatedUserForProvider:provider] && !(provider.forceReauth || sessionData.alwaysForceReauth)))//[provider isEqualToReturningProvider:sessionData.returningBasicProvider]) 
     {	
         [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                animated:YES]; 

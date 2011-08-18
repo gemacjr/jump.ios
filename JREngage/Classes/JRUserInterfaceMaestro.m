@@ -431,7 +431,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     [directProvider release], directProvider = nil;
     
     sessionData.dialogIsShowing = NO;
-    sessionData.skipReturningUserLandingPage = NO;
+//    sessionData.skipReturningUserLandingPage = NO;
 }
 
 - (void)setUpSocialPublishing
@@ -521,7 +521,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     * this case may fall through the cracks. */
     if (sessionData.returningBasicProvider 
         && [sessionData authenticatedUserForProviderNamed:sessionData.returningBasicProvider]
-        && !sessionData.currentProvider 
+        && !sessionData.alwaysForceReauth
+        && ![sessionData getProviderNamed:sessionData.returningBasicProvider].forceReauth
         && !sessionData.socialSharing
         && ![((NSArray*)[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]) containsObject:sessionData.returningBasicProvider]
         && [sessionData.basicProviders containsObject:sessionData.returningBasicProvider])

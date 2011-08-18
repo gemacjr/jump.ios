@@ -423,47 +423,47 @@
  **/
 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 
-/**
- * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
- * configured with the given custom interface, possibly skipping the user landing page, 
- * and take the user through the sign-in process.
- *
- * @param customInterfaceOverrides
- *   A dictionary of objects and properties, indexed by the set of
- *   \link customInterface pre-defined custom interface keys\endlink,
- *   to be used by the library to customize the look and feel of the user
- *   interface and/or add a native login experience
- *
- * @param skipReturningUserLandingPage
- *   Prevents the dialog from opening to the returning-user landing page when \c YES.  That is, the
- *   dialog will always open straight to the list of providers.  The dialog falls back to the default
- *   behavior when \c NO
- *
- * @note
- * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
- * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
- *
- * @note
- * If you always want to force the user to re=enter his/her credentials, pass \c true to the method
- * setAlwaysForceReauthentication().
- **/
-- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides 
-                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage;
-
-/**
- * Use this function to begin authentication.  The JREngage library will pop up a modal dialog and
- * take the user through the sign-in process.
- *
- * @param skipReturningUserLandingPage
- *   Prevents the dialog from opening to the returning-user landing page when \c YES.  That is, the
- *   dialog will always open straight to the list of providers.  The dialog falls back to the default
- *   behavior when \c NO
- *
- * @note
- * If you always want to force the user to re=enter his/her credentials, pass \c true to the method
- * setAlwaysForceReauthentication().
- **/
-- (void)showAuthenticationDialogSkippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage;
+///**
+// * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
+// * configured with the given custom interface, possibly skipping the user landing page, 
+// * and take the user through the sign-in process.
+// *
+// * @param customInterfaceOverrides
+// *   A dictionary of objects and properties, indexed by the set of
+// *   \link customInterface pre-defined custom interface keys\endlink,
+// *   to be used by the library to customize the look and feel of the user
+// *   interface and/or add a native login experience
+// *
+// * @param skipReturningUserLandingPage
+// *   Prevents the dialog from opening to the returning-user landing page when \c YES.  That is, the
+// *   dialog will always open straight to the list of providers.  The dialog falls back to the default
+// *   behavior when \c NO
+// *
+// * @note
+// * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
+// * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
+// *
+// * @note
+// * If you always want to force the user to re=enter his/her credentials, pass \c true to the method
+// * setAlwaysForceReauthentication().
+// **/
+//- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides 
+//                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage;
+//
+///**
+// * Use this function to begin authentication.  The JREngage library will pop up a modal dialog and
+// * take the user through the sign-in process.
+// *
+// * @param skipReturningUserLandingPage
+// *   Prevents the dialog from opening to the returning-user landing page when \c YES.  That is, the
+// *   dialog will always open straight to the list of providers.  The dialog falls back to the default
+// *   behavior when \c NO
+// *
+// * @note
+// * If you always want to force the user to re=enter his/her credentials, pass \c true to the method
+// * setAlwaysForceReauthentication().
+// **/
+//- (void)showAuthenticationDialogSkippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage;
 
 ///**
 // *

@@ -214,7 +214,7 @@ extern NSString * JREngageErrorDomain;
     BOOL alwaysForceReauth;
     BOOL forceReauthJustThisTime;
 //    BOOL forceReauth;
-    BOOL skipReturningUserLandingPage;
+//    BOOL skipReturningUserLandingPage;
 
     
  /* TRUE if the library is currently sharing an activity */
@@ -250,7 +250,7 @@ extern NSString * JREngageErrorDomain;
 @property            BOOL authenticatingDirectlyOnThisProvider;
 @property            BOOL socialSharing;
 @property            BOOL dialogIsShowing;
-@property            BOOL skipReturningUserLandingPage;
+//@property            BOOL skipReturningUserLandingPage;
 @property (readonly) NSError *error;
 
 + (JRSessionData*)jrSessionData;
