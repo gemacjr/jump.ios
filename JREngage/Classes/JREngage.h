@@ -397,7 +397,7 @@
  * @anchor showAuthDialog
  *
  * Use this function to begin authentication for one specific provider.  The JREngage library will
- * pop up a modal dialog, skipping the list of providers, and taking the user straight to the sign-in 
+ * pop up a modal dialog, skipping the list of providers, and taking the user straight to the sign-in
  * flow of the passes provider.  The user will not be able to return to the list of providers.
  *
  * @param provider
@@ -426,7 +426,7 @@
 
 ///**
 // * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
-// * configured with the given custom interface, possibly skipping the user landing page, 
+// * configured with the given custom interface, possibly skipping the user landing page,
 // * and take the user through the sign-in process.
 // *
 // * @param customInterfaceOverrides
@@ -448,7 +448,7 @@
 // * If you always want to force the user to re=enter his/her credentials, pass \c true to the method
 // * setAlwaysForceReauthentication().
 // **/
-//- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides 
+//- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 //                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage;
 //
 ///**
@@ -573,9 +573,9 @@
 /**
  * @anchor updateTokenUrl
  *
- * Use this function to specify a different tokenUrl than the one with which you initiated the library. 
- * On this URL, you can continue any server-side authentication, and send your server's response back 
- * to the library.  The library will pass your server's response back to your application with the 
+ * Use this function to specify a different tokenUrl than the one with which you initiated the library.
+ * On this URL, you can continue any server-side authentication, and send your server's response back
+ * to the library.  The library will pass your server's response back to your application with the
  * jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() method
  *
  * @param tokenUrl

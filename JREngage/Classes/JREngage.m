@@ -1,20 +1,20 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2010, Janrain, Inc.
- 
+
  All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+
  * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
- * Redistributions in binary form must reproduce the above copyright notice, 
+   list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation and/or
-   other materials provided with the distribution. 
+   other materials provided with the distribution.
  * Neither the name of the Janrain, Inc. nor the names of its
    contributors may be used to endorse or promote products derived from this
    software without specific prior written permission.
-  
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,11 +24,11 @@
  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- 
- File:	 JRAuthenticate.m 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ File:   JRAuthenticate.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, June 1, 2010
+ Date:   Tuesday, June 1, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "JREngage.h"
@@ -48,7 +48,7 @@
 static JREngage* singletonJREngage = nil;
 + (JREngage*)jrEngage
 {
-	return singletonJREngage;
+    return singletonJREngage;
 }
 
 + (id)allocWithZone:(NSZone *)zone
@@ -59,31 +59,31 @@ static JREngage* singletonJREngage = nil;
 - (JREngage*)initWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
 {
     ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);
-    
-	if (self = [super init])
-	{
-		singletonJREngage = self;
-		
-		_delegates = [[NSMutableArray alloc] initWithObjects:delegate, nil];
-		
+
+    if (self = [super init])
+    {
+        singletonJREngage = self;
+
+        _delegates = [[NSMutableArray alloc] initWithObjects:delegate, nil];
+
         _sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
         _interfaceMaestro = [JRUserInterfaceMaestro jrUserInterfaceMaestroWithSessionData:_sessionData];
-    }	
-	
-	return self;
+    }
+
+    return self;
 }
 
 + (JREngage*)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
 {
 // TODO: Figure out if we should reconfigure the library here
-	if(singletonJREngage)
-		return singletonJREngage;
-	
-	if (appId == nil)
-		return nil;
-	
-	return [[super allocWithZone:nil] initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
-}	
+    if(singletonJREngage)
+        return singletonJREngage;
+
+    if (appId == nil)
+        return nil;
+
+    return [[super allocWithZone:nil] initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
+}
 
 - (id)copyWithZone:(NSZone *)zone
 {
@@ -124,95 +124,95 @@ static JREngage* singletonJREngage = nil;
 - (void)engageDidFailWithError:(NSError*)error
 {
     ALog (@"JREngage failed to load with error: %@", [error localizedDescription]);
-    
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
-	{
-		if ([delegate respondsToSelector:@selector(jrEngageDialogDidFailToShowWithError:)])
+    for (id<JREngageDelegate> delegate in delegatesCopy)
+    {
+        if ([delegate respondsToSelector:@selector(jrEngageDialogDidFailToShowWithError:)])
             [delegate jrEngageDialogDidFailToShowWithError:error];
-	}
+    }
 }
 
 //- (void)showAuthenticationDialogWithForcedReauthenticationOnLastUsedProvider
 //{
 //    ALog (@"");
-//    
+//
 //    /* If there was error configuring the library, sessionData.error will not be null. */
 //    if (sessionData.error)
 //    {
-//        
+//
 //        /* Since configuration should happen long before the user attempts to use the library and because the user may not
-//         attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
-//         is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
-//         a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
-//         user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
-//         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
-//         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */        
-//        
+//         attempt to use the library at all, we shouldn’t notify the calling application of the error until the library
+//         is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues),
+//         a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the
+//         user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).
+//         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited
+//         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
+//
 //        if (sessionData.error.code / 100 == ConfigurationError)//[[[sessionData.error userInfo] objectForKey:@"type"] isEqualToString:JRErrorTypeConfigurationFailed])
 //        {
 //            [self engageDidFailWithError:sessionData.error];
 //            [sessionData tryToReconfigureLibrary];
-//            
+//
 //            return;
 //        }
 //    }
-//    
-//    [interfaceMaestro showAuthenticationDialogWithForcedReauth];    
+//
+//    [interfaceMaestro showAuthenticationDialogWithForcedReauth];
 //}
 
-- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides 
+- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
                           orAuthenticatingOnJustThisProvider:(NSString*)provider
 {
     ALog (@"");
-    
+
     /* If there was error configuring the library, sessionData.error will not be null. */
     if (_sessionData.error)
     {
-        
+
         /* Since configuration should happen long before the user attempts to use the library and because the user may not
-         attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
-         is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
-         a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
-         user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
-         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
-         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */        
-        
+         attempt to use the library at all, we shouldn’t notify the calling application of the error until the library
+         is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues),
+         a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the
+         user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).
+         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited
+         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
+
         if (_sessionData.error.code / 100 == ConfigurationError)
         {
             [self engageDidFailWithError:_sessionData.error];
             [_sessionData tryToReconfigureLibrary];
-            
+
             return;
         } /* TODO: And if it's not a config error?? */
         else { return; }
     }
-    
+
     if (_sessionData.dialogIsShowing)
     {
         return [self engageDidFailWithError:
-                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded." 
+                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
                          withCode:JRDialogShowingError]];
     }
 
-    if (provider && ![_sessionData.allProviders objectForKey:provider])//containsObject:provider]) 
+    if (provider && ![_sessionData.allProviders objectForKey:provider])//containsObject:provider])
     {
         return [self engageDidFailWithError:
                 [JRError setError:@"You tried to authenticate on a specific provider, but this provider has not yet been configured."
                          withCode:JRProviderNotConfiguredError]];
     }
-    
+
     if (provider)
         _interfaceMaestro.directProvider = provider;//[sessionData setCurrentProvider:[sessionData getProviderNamed:provider]];
-    
+
 //    [sessionData setSkipReturningUserLandingPage:skipReturningUserLandingPage];
     [_interfaceMaestro showAuthenticationDialogWithCustomInterface:customInterfaceOverrides];
 }
 
-//- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides 
+//- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 //                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
 //{
-//    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides skippingReturningUserLandingPage:skipReturningUserLandingPage orAuthenticatingOnJustThisProvider:nil];    
+//    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides skippingReturningUserLandingPage:skipReturningUserLandingPage orAuthenticatingOnJustThisProvider:nil];
 //}
 
 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
@@ -233,7 +233,7 @@ static JREngage* singletonJREngage = nil;
 
 - (void)showAuthenticationDialogForProvider:(NSString*)provider
 {
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:provider];   
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:provider];
 }
 
 - (void)showAuthenticationDialog
@@ -244,46 +244,46 @@ static JREngage* singletonJREngage = nil;
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
     ALog (@"");
-    
+
  /* If there was error configuring the library, sessionData.error will not be null. */
     if (_sessionData.error)
     {
-        
+
     /* Since configuration should happen long before the user attempts to use the library and because the user may not
-        attempt to use the library at all, we shouldn’t notify the calling application of the error until the library 
-        is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues), 
-        a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the 
-        user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).  
-        This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited 
+        attempt to use the library at all, we shouldn’t notify the calling application of the error until the library
+        is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues),
+        a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the
+        user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).
+        This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited
         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
-        
+
         if (_sessionData.error.code / 100 == ConfigurationError)
         {
             [self engageDidFailWithError:_sessionData.error];
             [_sessionData tryToReconfigureLibrary];
-            
+
             return;
         } /* TODO: And if it's not a config error?? */
         else { return; }
     }
-    
+
     if (_sessionData.dialogIsShowing)
     {
         return [self engageDidFailWithError:
-                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded." 
+                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
                          withCode:JRDialogShowingError]];
     }
-    
+
     if (!activity)
     {
         return [self engageDidFailWithError:
-                [JRError setError:@"Activity object can't be nil." 
-                         withCode:JRPublishErrorAcivityNil]]; 
+                [JRError setError:@"Activity object can't be nil."
+                         withCode:JRPublishErrorAcivityNil]];
     }
-    
-	[_sessionData setActivity:activity];
-    
-    [_interfaceMaestro showPublishingDialogForActivityWithCustomInterface:customInterfaceOverrides];    
+
+    [_sessionData setActivity:activity];
+
+    [_interfaceMaestro showPublishingDialogForActivityWithCustomInterface:customInterfaceOverrides];
 }
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
@@ -304,60 +304,60 @@ static JREngage* singletonJREngage = nil;
 
 - (void)authenticationDidCancel
 {
-	DLog (@"");
-    
+    DLog (@"");
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
-	{
+    for (id<JREngageDelegate> delegate in delegatesCopy)
+    {
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidNotComplete)])
             [delegate jrAuthenticationDidNotComplete];
-	}
-    
+    }
+
     [_interfaceMaestro authenticationCanceled];
 }
 
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider
 {
     ALog (@"Signing complete for %@", provider);
-    
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
-	{
+    for (id<JREngageDelegate> delegate in delegatesCopy)
+    {
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidSucceedForUser:forProvider:)])
             [delegate jrAuthenticationDidSucceedForUser:profile forProvider:provider];
-	}
-    
-	[_interfaceMaestro authenticationCompleted];
+    }
+
+    [_interfaceMaestro authenticationCompleted];
 }
 
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
-	ALog (@"Signing failed for %@", provider);
-    
+    ALog (@"Signing failed for %@", provider);
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
-	{
+    for (id<JREngageDelegate> delegate in delegatesCopy)
+    {
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidFailWithError:forProvider:)])
             [delegate jrAuthenticationDidFailWithError:error forProvider:provider];
-	}
-    
-	[_interfaceMaestro authenticationFailed];
+    }
+
+    [_interfaceMaestro authenticationFailed];
 }
 
 - (void)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 {
     ALog (@"Token URL reached for %@: %@", provider, tokenUrl);
-    
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
+    for (id<JREngageDelegate> delegate in delegatesCopy)
     {
 //        if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withPayload:forProvider:)])
 //            WLog (@"The function jrAuthenticationDidReachTokenUrl:withPayload:forProvider: has been deprecated. Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:");
 //          [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
-    
+
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:)])
             [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withResponse:response andPayload:tokenUrlPayload forProvider:provider];
-    }    
+    }
 }
 
 - (void)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
@@ -365,7 +365,7 @@ static JREngage* singletonJREngage = nil;
     ALog (@"Token URL failed for %@: %@", provider, tokenUrl);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
+    for (id<JREngageDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(jrAuthenticationCallToTokenUrl:didFailWithError:forProvider:)])
             [delegate jrAuthenticationCallToTokenUrl:tokenUrl didFailWithError:error forProvider:provider];
@@ -378,31 +378,31 @@ static JREngage* singletonJREngage = nil;
     [_interfaceMaestro publishingRestarted];
 }
 
-- (void)publishingDidCancel 
-{ 
-	DLog(@"");
-    
+- (void)publishingDidCancel
+{
+    DLog(@"");
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
-	{
-		if ([delegate respondsToSelector:@selector(jrSocialDidNotCompletePublishing)])
+    for (id<JREngageDelegate> delegate in delegatesCopy)
+    {
+        if ([delegate respondsToSelector:@selector(jrSocialDidNotCompletePublishing)])
             [delegate jrSocialDidNotCompletePublishing];
-	}
-    
-	[_interfaceMaestro publishingCanceled];
+    }
+
+    [_interfaceMaestro publishingCanceled];
 }
 
 - (void)publishingDidComplete
 {
-	DLog(@"");
-    
+    DLog(@"");
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
-	{
-		if ([delegate respondsToSelector:@selector(jrSocialDidCompletePublishing)])
+    for (id<JREngageDelegate> delegate in delegatesCopy)
+    {
+        if ([delegate respondsToSelector:@selector(jrSocialDidCompletePublishing)])
             [delegate jrSocialDidCompletePublishing];
-	}
-    
+    }
+
     [_interfaceMaestro publishingCompleted];
 }
 
@@ -411,35 +411,35 @@ static JREngage* singletonJREngage = nil;
     ALog (@"Activity shared on %@", provider);
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
-	{
-		if ([delegate respondsToSelector:@selector(jrSocialDidPublishActivity:forProvider:)])
+    for (id<JREngageDelegate> delegate in delegatesCopy)
+    {
+        if ([delegate respondsToSelector:@selector(jrSocialDidPublishActivity:forProvider:)])
             [delegate jrSocialDidPublishActivity:activity forProvider:provider];
-	}
+    }
 }
 
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     ALog (@"Sharing activity failed for %@", provider);
-    
+
     NSArray *delegatesCopy = [NSArray arrayWithArray:_delegates];
-    for (id<JREngageDelegate> delegate in delegatesCopy) 
-	{
-		if ([delegate respondsToSelector:@selector(jrSocialPublishingActivity:didFailWithError:forProvider:)])
+    for (id<JREngageDelegate> delegate in delegatesCopy)
+    {
+        if ([delegate respondsToSelector:@selector(jrSocialPublishingActivity:didFailWithError:forProvider:)])
             [delegate jrSocialPublishingActivity:activity didFailWithError:error forProvider:provider];
-	}    
+    }
 }
 
 - (void)signoutUserForProvider:(NSString*)provider
 {
     DLog(@"");
-    [_sessionData forgetAuthenticatedUserForProvider:provider];    
+    [_sessionData forgetAuthenticatedUserForProvider:provider];
 }
 
 - (void)signoutUserForAllProviders
 {
     DLog(@"");
-    [_sessionData forgetAllAuthenticatedUsers];    
+    [_sessionData forgetAllAuthenticatedUsers];
 }
 
 - (void)signoutUserForSocialProvider:(NSString*)provider
@@ -461,7 +461,7 @@ static JREngage* singletonJREngage = nil;
 }
 
 - (void)cancelAuthentication
-{	
+{
     DLog(@"");
     [_sessionData triggerAuthenticationDidCancel];
 }

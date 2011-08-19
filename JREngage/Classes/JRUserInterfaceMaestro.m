@@ -1,21 +1,21 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2010, Janrain, Inc.
- 
+
  All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+
  * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
- * Redistributions in binary form must reproduce the above copyright notice, 
+   list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation and/or
-   other materials provided with the distribution. 
+   other materials provided with the distribution.
  * Neither the name of the Janrain, Inc. nor the names of its
    contributors may be used to endorse or promote products derived from this
    software without specific prior written permission.
- 
- 
+
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,11 +25,11 @@
  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- 
- File:	 JRUserInterfaceMaestro.m 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ File:   JRUserInterfaceMaestro.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, August 24, 2010
+ Date:   Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifdef DEBUG
@@ -45,25 +45,25 @@
 
 void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyString)
 {
-    NSLog (@"*** Exception thrown. Problem is most likely with jrEngage custom interface object@%: Caught %@: %@", 
+    NSLog (@"*** Exception thrown. Problem is most likely with jrEngage custom interface object@%: Caught %@: %@",
                  (kJRKeyString ? [NSString stringWithFormat:@" possibly from kJRKeyString, %@", kJRKeyString] : @""),
-                 [exception name], 
+                 [exception name],
                  [exception reason]);
-    
+
 #ifdef DEBUG
     @throw exception;
 #else
     NSLog (@"*** Ignoring value and using defaults if possible.");
-#endif            
+#endif
 }
 
 @interface JRModalNavigationController : UIViewController <UIPopoverControllerDelegate>
 {
-	UINavigationController *myNavigationController;
+    UINavigationController *myNavigationController;
     UIPopoverController    *myPopoverController;
 
     BOOL iPad;
-	BOOL shouldUnloadSubviews;
+    BOOL shouldUnloadSubviews;
 }
 @property (retain) UINavigationController *myNavigationController;
 @property (retain) UIPopoverController    *myPopoverController;
@@ -73,9 +73,9 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 @synthesize myNavigationController;
 @synthesize myPopoverController;
 
-- (void)loadView  
+- (void)loadView
 {
-	DLog (@"");    
+    DLog (@"");
     UIView *view = [[[UIView alloc] initWithFrame:[[UIApplication sharedApplication] keyWindow].frame] autorelease];
     [view setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 
@@ -89,33 +89,33 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 
 - (void)presentPopoverNavigationControllerFromBarButton:(UIBarButtonItem*)barButtonItem inDirection:(UIPopoverArrowDirection)direction
 {
-	DLog (@"");
+    DLog (@"");
     [myPopoverController presentPopoverFromBarButtonItem:barButtonItem
-                                permittedArrowDirections:direction 
-                                                animated:YES];            
+                                permittedArrowDirections:direction
+                                                animated:YES];
 }
 
 - (void)presentPopoverNavigationControllerFromCGRect:(CGRect)rect inDirection:(UIPopoverArrowDirection)direction
 {
-	DLog (@"");
+    DLog (@"");
     CGRect popoverPresentationFrame = [self.view convertRect:rect toView:[[UIApplication sharedApplication] keyWindow]];
-    
+
     [myPopoverController presentPopoverFromRect:popoverPresentationFrame
-                                         inView:self.view 
+                                         inView:self.view
                        permittedArrowDirections:direction
-                                       animated:YES];        
+                                       animated:YES];
 }
 
 - (void)presentModalNavigationController
 {
-	DLog (@"");
+    DLog (@"");
     if (iPad)
     {
         myNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         myNavigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-        
+
         [self presentModalViewController:myNavigationController animated:YES];
-        
+
         myNavigationController.view.superview.frame = CGRectMake(0, 0, 320, 460);
         myNavigationController.view.superview.center = self.view.center;
     }
@@ -126,19 +126,19 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated 
+- (void)viewDidAppear:(BOOL)animated
 {
-    DLog (@""); 
+    DLog (@"");
 
     if (shouldUnloadSubviews)
         [self.view removeFromSuperview];
-    
-    [super viewDidAppear:animated]; 
+
+    [super viewDidAppear:animated];
 }
 
 - (void)dismissModalNavigationController:(UIModalTransitionStyle)style
 {
-	DLog (@"");
+    DLog (@"");
 
     if (myPopoverController)
     {
@@ -155,18 +155,18 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
     [self.view removeFromSuperview];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)dealloc 
+- (void)dealloc
 {
-	DLog (@"");
+    DLog (@"");
     [myNavigationController release];
     [myPopoverController release];
-    
-	[super dealloc];
+
+    [super dealloc];
 }
 @end
 
@@ -194,7 +194,7 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 static JRUserInterfaceMaestro* singleton = nil;
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro
 {
-	return singleton;
+    return singleton;
 }
 
 + (id)allocWithZone:(NSZone *)zone
@@ -229,60 +229,60 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (NSDictionary*)loadJanrainInterfaceDefaults
 {
-    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile: 
-                               [[[NSBundle mainBundle] resourcePath] 
+    NSDictionary *infoPlist = [NSDictionary dictionaryWithContentsOfFile:
+                               [[[NSBundle mainBundle] resourcePath]
                                 stringByAppendingPathComponent:@"/JREngage-Info.plist"]];
-    
+
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:
-                                 [[infoPlist objectForKey:@"JREngage.CustomInterface"] 
+                                 [[infoPlist objectForKey:@"JREngage.CustomInterface"]
                                   objectForKey:@"DefaultValues"]];
 
     NSArray *backgroundColorRGBa = [dict objectForKey:kJRAuthenticationBackgroundColorRGBa];
     UIColor *backgroundColor = nil;
-    
+
     if ([backgroundColorRGBa respondsToSelector:@selector(count)])
         if ([backgroundColorRGBa count] == 4)
-            backgroundColor = 
+            backgroundColor =
                 [UIColor colorWithRed:[(NSNumber*)[backgroundColorRGBa objectAtIndex:0] doubleValue]
                                 green:[(NSNumber*)[backgroundColorRGBa objectAtIndex:1] doubleValue]
                                  blue:[(NSNumber*)[backgroundColorRGBa objectAtIndex:2] doubleValue]
                                 alpha:[(NSNumber*)[backgroundColorRGBa objectAtIndex:3] doubleValue]];
-    
+
     [dict setObject:backgroundColor forKey:kJRAuthenticationBackgroundColor];
     [dict removeObjectForKey:kJRAuthenticationBackgroundColorRGBa];
 
 ///*** * * DEPRECATED * * ***/
 ///**/[dict addEntriesFromDictionary:[[infoPlist objectForKey:@"JREngage.CustomInterface"] objectForKey:@"CustomValues"]];
 ///*** * * DEPRECATED * * ***/
-    
+
     return dict;
 }
 
 - (id)initWithSessionData:(JRSessionData*)_sessionData
 {
-	if (self = [super init]) 
-	{
+    if (self = [super init])
+    {
         singleton = self;
         sessionData = _sessionData;
         janrainInterfaceDefaults = [[self loadJanrainInterfaceDefaults] retain];
-        
+
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
     }
-    
-	return self;
+
+    return self;
 }
 
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData
 {
-	if(singleton)
-		return singleton;
-	
-	if (_sessionData == nil)
-		return nil;
-    
-	return [[super allocWithZone:nil] initWithSessionData:_sessionData];
-}	
+    if(singleton)
+        return singleton;
+
+    if (_sessionData == nil)
+        return nil;
+
+    return [[super allocWithZone:nil] initWithSessionData:_sessionData];
+}
 
 - (void)useApplicationNavigationController:(UINavigationController*)navigationController
 {
@@ -293,8 +293,8 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)buildCustomInterface:(NSDictionary*)customizations
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:
-                                 ([customizations count] + 
-                                  [janrainInterfaceDefaults count] + 
+                                 ([customizations count] +
+                                  [janrainInterfaceDefaults count] +
                                   [customInterfaceDefaults count])];
 
     [dict addEntriesFromDictionary:janrainInterfaceDefaults];
@@ -304,7 +304,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     NSArray *nullKeys = [dict allKeysForObject:[NSNull null]];
     for (NSString *key in nullKeys)
         [dict removeObjectForKey:key];
-    
+
     customInterface = [[NSDictionary alloc] initWithDictionary:dict];
 }
 
@@ -312,14 +312,14 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     if ([customInterface objectForKey:kJRApplicationNavigationController])
         self.applicationNavigationController = [[customInterface objectForKey:kJRApplicationNavigationController] retain];
- 
+
  /* Added for backwards compatibility */
     if (savedNavigationController)
         self.applicationNavigationController = savedNavigationController;
-    
+
     if ([customInterface objectForKey:kJRCustomModalNavigationController])
         self.customModalNavigationController = [[customInterface objectForKey:kJRCustomModalNavigationController] retain];
-    
+
     usingAppNav = usingCustomNav = NO;
     if (iPad)
     {
@@ -329,10 +329,10 @@ static JRUserInterfaceMaestro* singleton = nil;
             padPopoverMode = PadPopoverFromFrame;
         else
             padPopoverMode = PadPopoverModeNone;
-        
+
         @try
         {
-            if (customModalNavigationController && ![customModalNavigationController isViewLoaded])            
+            if (customModalNavigationController && ![customModalNavigationController isViewLoaded])
                 usingCustomNav = YES;
             else
                 usingCustomNav = NO;
@@ -358,7 +358,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     padPopoverMode = PadPopoverModeNone;
     usingAppNav = usingCustomNav = NO;
-    
+
     [viewControllerToPopTo release], viewControllerToPopTo = nil;
     self.applicationNavigationController = nil;
     self.customModalNavigationController = nil;
@@ -367,48 +367,48 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)setUpViewControllers
 {
     DLog(@"");
-    myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController" 
+    myProvidersController       = [[JRProvidersController alloc] initWithNibName:@"JRProvidersController"
                                                                           bundle:[NSBundle mainBundle]
                                                               andCustomInterface:customInterface];
-    
+
     myUserLandingController     = [[JRUserLandingController alloc] initWithNibName:@"JRUserLandingController"
                                                                             bundle:[NSBundle mainBundle]
                                                                 andCustomInterface:customInterface];
-    
+
     myWebViewController         = [[JRWebViewController alloc] initWithNibName:@"JRWebViewController"
                                                                         bundle:[NSBundle mainBundle]
                                                             andCustomInterface:customInterface];
-    
+
     myPublishActivityController = [[JRPublishActivityController alloc] initWithNibName:@"JRPublishActivityController"
                                                                                 bundle:[NSBundle mainBundle]
                                                                     andCustomInterface:customInterface];
 
     @try
     {/* We do this here, because sometimes we pop straight to the user landing controller and we need the back-button's title to be correct */
-        if ([customInterface objectForKey:kJRProviderTableTitleString] && 
+        if ([customInterface objectForKey:kJRProviderTableTitleString] &&
             ((NSString*)[customInterface objectForKey:kJRProviderTableTitleString]).length)
             myProvidersController.title = [customInterface objectForKey:kJRProviderTableTitleString];
         else
-            myProvidersController.title = @"Providers";        
+            myProvidersController.title = @"Providers";
     }
     @catch (NSException *exception)
     {
         handleCustomInterfaceException(exception, @"kJRProviderTableTitleString");
-        myProvidersController.title = @"Providers";        
+        myProvidersController.title = @"Providers";
     }
-    
-    if (/*usingAppNav || */(iPad && padPopoverMode != PadPopoverModeNone) ||
+
+    if (/*usingAppNav || */(iPad && padPopoverMode != PadPopoverModeNone)
         [[customInterface objectForKey:kJRNavigationControllerHidesCancelButton] boolValue])
     {
         myProvidersController.hidesCancelButton = YES;
         myPublishActivityController.hidesCancelButton = YES;
     }
-    
-    delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController, 
-                 myUserLandingController, 
-                 myWebViewController, 
+
+    delegates = [[NSMutableArray alloc] initWithObjects:myProvidersController,
+                 myUserLandingController,
+                 myWebViewController,
                  myPublishActivityController, nil];
-    
+
     sessionData.dialogIsShowing = YES;
 }
 
@@ -418,18 +418,18 @@ static JRUserInterfaceMaestro* singleton = nil;
 
     [delegates removeAllObjects];
     [delegates release], delegates = nil;
-    
+
     [myProvidersController release],        myProvidersController = nil;
     [myUserLandingController release],      myUserLandingController = nil;
     [myWebViewController release],          myWebViewController = nil;
-    [myPublishActivityController release],  myPublishActivityController = nil;    
-    
-    [jrModalNavController release],	jrModalNavController = nil;	   
+    [myPublishActivityController release],  myPublishActivityController = nil;
+
+    [jrModalNavController release], jrModalNavController = nil;
     [customModalNavigationController release], customModalNavigationController = nil;
-    
+
     [customInterface release], customInterface = nil;
     [directProvider release], directProvider = nil;
-    
+
     sessionData.dialogIsShowing = NO;
 //    sessionData.skipReturningUserLandingPage = NO;
 }
@@ -438,7 +438,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     DLog(@"");
     [sessionData setSocialSharing:YES];
-    
+
     if (myPublishActivityController)
         [sessionData addDelegate:myPublishActivityController];
 }
@@ -448,7 +448,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     DLog(@"");
     [sessionData setSocialSharing:NO];
     [sessionData setActivity:nil];
-    
+
     if (myPublishActivityController)
         [sessionData removeDelegate:myPublishActivityController];
 }
@@ -456,13 +456,13 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (UINavigationController*)createDefaultNavigationController
 {
     UINavigationController *navigationController = [[[UINavigationController alloc] init] autorelease];
-    navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;   
+    navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     navigationController.navigationBar.clipsToBounds = YES;
-   
+
 ///*** * * DEPRECATED * * ***/
 ///**/NSArray *tintArray = [customInterface objectForKey:kJRNavigationBarTintColorRGBa];
 ///**/UIColor *tintColor = [customInterface objectForKey:kJRNavigationBarTintColor];
-///**/    
+///**/
 ///**/@try
 ///**/{
 ///**/    if (tintColor)
@@ -470,7 +470,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 ///**/    else if (tintArray)
 ///**/        if ([tintArray respondsToSelector:@selector(count)])
 ///**/            if ([tintArray count] == 4)
-///**/                [navigationController.navigationBar setTintColor: 
+///**/                [navigationController.navigationBar setTintColor:
 ///**/                    [UIColor colorWithRed:[(NSNumber*)[tintArray objectAtIndex:0] doubleValue]
 ///**/                                    green:[(NSNumber*)[tintArray objectAtIndex:1] doubleValue]
 ///**/                                    blue:[(NSNumber*)[tintArray objectAtIndex:2] doubleValue]
@@ -485,41 +485,41 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (UIPopoverController*)createPopoverControllerWithNavigationController:(UINavigationController*)navigationController
 {
-//    UIPopoverController *popoverController = 
-//        [[[UIPopoverController alloc] 
+//    UIPopoverController *popoverController =
+//        [[[UIPopoverController alloc]
 //            initWithContentViewController:navigationController] autorelease];
     /* Allocating UIPopoverController with class string allocation so that it compiles for iPhone OS versions < v3.2 */
-    UIPopoverController *popoverController = 
-        [[[NSClassFromString(@"UIPopoverController") alloc] 
+    UIPopoverController *popoverController =
+        [[[NSClassFromString(@"UIPopoverController") alloc]
             initWithContentViewController:navigationController] autorelease];
-    
+
     if (popoverController)
     {
-        popoverController.popoverContentSize = CGSizeMake(320, 460);                
-        popoverController.delegate = self;        
+        popoverController.popoverContentSize = CGSizeMake(320, 460);
+        popoverController.delegate = self;
     }
-    
+
     return popoverController;
 }
 
 - (BOOL)shouldOpenToUserLandingPage
 {
-   /* Test to see if we should open the authentication dialog to the returning user landing page. 
+   /* Test to see if we should open the authentication dialog to the returning user landing page.
     *
     * We will only open to the user landing page if the following conditions are met:
     *   a. If we have a returning provider (a provider the user previously signed in with);
     *   b. if there is a saved user for the returning provider (the only time this wouldn't be the case
     *       is when upgrading the library and the saved users couldn't be deserialized);
     *   c. if we don't have a currently selected provider (TODO: check if this will ever be the case);
-    *   d. if we aren't opening the social sharing dialog (i.e., we are only authenticating); 
-    *   e. the returning provider hasn't been excluded from the list of providers (between the last 
+    *   d. if we aren't opening the social sharing dialog (i.e., we are only authenticating);
+    *   e. the returning provider hasn't been excluded from the list of providers (between the last
     *        time they logged in and now),
-    *   f. and the returning provider is still in the list of providers configured with the RP 
+    *   f. and the returning provider is still in the list of providers configured with the RP
     * The last two cases will only happen if the user signs in once, and then the list of providers changes
     * between the first sign in and when they log in again.  If the RP's configuration has changed and their
     * last-used provider has been dropped, but the configuration call hasn't returned from the server yet,
     * this case may fall through the cracks. */
-    if (sessionData.returningBasicProvider 
+    if (sessionData.returningBasicProvider
         && [sessionData authenticatedUserForProviderNamed:sessionData.returningBasicProvider]
         && !sessionData.alwaysForceReauth
         && ![sessionData getProviderNamed:sessionData.returningBasicProvider].forceReauth
@@ -527,58 +527,58 @@ static JRUserInterfaceMaestro* singleton = nil;
         && ![((NSArray*)[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]) containsObject:sessionData.returningBasicProvider]
         && [sessionData.basicProviders containsObject:sessionData.returningBasicProvider])
         return YES;
-    
+
     return NO;
 }
 
 - (void)loadModalNavigationControllerWithViewController:(UIViewController*)rootViewController
 {
     DLog(@"");
-    
+
     self.jrModalNavController = [[JRModalNavigationController alloc] init];
 
     if (usingCustomNav)
         jrModalNavController.myNavigationController = customModalNavigationController;
     else
         jrModalNavController.myNavigationController = [self createDefaultNavigationController];
-        
+
     if (padPopoverMode)
-        jrModalNavController.myPopoverController = 
+        jrModalNavController.myPopoverController =
             [self createPopoverControllerWithNavigationController:jrModalNavController.myNavigationController];
 
-    /* If the code is used by a universal application and is compiled for versions of iOS that don't 
-       support popovercontrollers (i.e., iOS < v3.2), this will return nil;  If it does, fall back 
+    /* If the code is used by a universal application and is compiled for versions of iOS that don't
+       support popovercontrollers (i.e., iOS < v3.2), this will return nil;  If it does, fall back
        to modal dialog presentation. This might never happen, because the above code wouldn't be called
        on the iPhone anyway... */
     if (!jrModalNavController.myPopoverController)
         padPopoverMode = PadPopoverModeNone;
-        
+
     UIPopoverArrowDirection arrowDirection = UIPopoverArrowDirectionAny;
     if ([customInterface objectForKey:kJRPopoverPresentationArrowDirection])
         arrowDirection = [[customInterface objectForKey:kJRPopoverPresentationArrowDirection] intValue];
-    
-    [jrModalNavController.myNavigationController pushViewController:rootViewController animated:NO];    
-    
+
+    [jrModalNavController.myNavigationController pushViewController:rootViewController animated:NO];
+
     if ([self shouldOpenToUserLandingPage])
-    {   
+    {
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
         [jrModalNavController.myNavigationController pushViewController:myUserLandingController animated:NO];
     }
 
     UIWindow* window = [UIApplication sharedApplication].keyWindow;
-    if (!window) 
-		window = [[UIApplication sharedApplication].windows objectAtIndex:0];
+    if (!window)
+        window = [[UIApplication sharedApplication].windows objectAtIndex:0];
 
     [window addSubview:jrModalNavController.view];
-	
+
     if (padPopoverMode == PadPopoverFromBar)
-        [jrModalNavController 
+        [jrModalNavController
             presentPopoverNavigationControllerFromBarButton:[customInterface objectForKey:kJRPopoverPresentationBarButtonItem]
                                                 inDirection:arrowDirection];
     else if (padPopoverMode == PadPopoverFromFrame)
-        [jrModalNavController 
-            presentPopoverNavigationControllerFromCGRect:[[customInterface objectForKey:kJRPopoverPresentationFrameValue] CGRectValue] 
-                                             inDirection:arrowDirection]; 
+        [jrModalNavController
+            presentPopoverNavigationControllerFromCGRect:[[customInterface objectForKey:kJRPopoverPresentationFrameValue] CGRectValue]
+                                             inDirection:arrowDirection];
     else
         [jrModalNavController presentModalNavigationController];
 }
@@ -590,7 +590,7 @@ static JRUserInterfaceMaestro* singleton = nil;
         viewControllerToPopTo = [[applicationNavigationController topViewController] retain];
 
     if ([self shouldOpenToUserLandingPage])
-    {   
+    {
         [sessionData setCurrentProvider:[sessionData getProviderNamed:sessionData.returningBasicProvider]];
         [applicationNavigationController pushViewController:rootViewController animated:NO];
         [applicationNavigationController pushViewController:myUserLandingController animated:YES];
@@ -604,11 +604,11 @@ static JRUserInterfaceMaestro* singleton = nil;
 //- (void)showAuthenticationDialogWithForcedReauth
 //{
 //    [self setUpViewControllers];
-//    
+//
 //    if (customNavigationController && [customNavigationController isViewLoaded])
 //        [self loadCustomNavigationControllerWithViewController:myProvidersController];
 //    else
-//        [self loadModalNavigationControllerWithViewController:myProvidersController];    
+//        [self loadModalNavigationControllerWithViewController:myProvidersController];
 //}
 
 
@@ -616,16 +616,16 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (JRProvider*)weAreOnlyAuthenticatingOnThisProvider
 {
     sessionData.authenticatingDirectlyOnThisProvider = YES;
-    
+
     if (directProvider)
         return [sessionData getProviderNamed:directProvider];
-    
+
     NSMutableArray *providers = [NSMutableArray arrayWithArray:sessionData.basicProviders];
     [providers removeObjectsInArray:[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]];
     if ([providers count] == 1)
         return [sessionData getProviderNamed:[providers objectAtIndex:0]];
 
-    
+
     sessionData.authenticatingDirectlyOnThisProvider = YES;
     return nil;
 }
@@ -636,13 +636,13 @@ static JRUserInterfaceMaestro* singleton = nil;
     [self buildCustomInterface:customizations];
     [self setUpDialogPresentation];
     [self setUpViewControllers];
-    
+
     UIViewController *rootViewController;
     if (sessionData.currentProvider = [self weAreOnlyAuthenticatingOnThisProvider])
         rootViewController = (sessionData.currentProvider.requiresInput) ? (UIViewController*)myUserLandingController : (UIViewController*)myWebViewController;
     else
         rootViewController = myProvidersController;
-    
+
     if (usingAppNav)
         [self loadApplicationNavigationControllerWithViewController:rootViewController];//myProvidersController];
     else
@@ -650,13 +650,13 @@ static JRUserInterfaceMaestro* singleton = nil;
 }
 
 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations
-{   
+{
     DLog(@"");
     [self buildCustomInterface:customizations];
     [self setUpDialogPresentation];
-    [self setUpViewControllers];	
+    [self setUpViewControllers];
     [self setUpSocialPublishing];
-    
+
     if (usingAppNav)
         [self loadApplicationNavigationControllerWithViewController:myPublishActivityController];
     else
@@ -666,7 +666,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)unloadModalNavigationControllerWithTransitionStyle:(UIModalTransitionStyle)style
 {
     DLog(@"");
-    [jrModalNavController dismissModalNavigationController:style];  
+    [jrModalNavController dismissModalNavigationController:style];
 }
 
 - (void)unloadApplicationNavigationController
@@ -678,23 +678,23 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)unloadUserInterfaceWithTransitionStyle:(UIModalTransitionStyle)style
 {
     DLog(@"");
-    if (!sessionData.dialogIsShowing) 
+    if (!sessionData.dialogIsShowing)
         return;
-    
+
     if ([sessionData socialSharing])
         [self tearDownSocialPublishing];
-    
-    for (id<JRUserInterfaceDelegate> delegate in delegates) 
+
+    for (id<JRUserInterfaceDelegate> delegate in delegates)
         [delegate userInterfaceWillClose];
-    
+
     if (usingAppNav)
         [self unloadApplicationNavigationController];
     else
         [self unloadModalNavigationControllerWithTransitionStyle:style];
-    
-    for (id<JRUserInterfaceDelegate> delegate in delegates) 
+
+    for (id<JRUserInterfaceDelegate> delegate in delegates)
         [delegate userInterfaceDidClose];
-    
+
     [self tearDownViewControllers];
     [self tearDownDialogPresentation];
 }
@@ -703,12 +703,12 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     DLog(@"");
     UIViewController *originalRootViewController = nil;
-    
+
     if ([sessionData socialSharing])
         originalRootViewController = myPublishActivityController;
     else
         originalRootViewController = myProvidersController;
-    
+
     if (applicationNavigationController && [applicationNavigationController isViewLoaded])
         [applicationNavigationController popToViewController:originalRootViewController animated:YES];
     else
@@ -717,7 +717,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
-	DLog (@"");
+    DLog (@"");
     if ([sessionData socialSharing])
         [sessionData triggerPublishingDidCancel];
     else
@@ -727,7 +727,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)authenticationRestarted
 {
     DLog(@"");
-    [self popToOriginalRootViewController];    
+    [self popToOriginalRootViewController];
 }
 
 - (void)authenticationCompleted
@@ -745,8 +745,8 @@ static JRUserInterfaceMaestro* singleton = nil;
     [self popToOriginalRootViewController];
 }
 
-- (void)authenticationCanceled 
-{	
+- (void)authenticationCanceled
+{
     DLog(@"");
     [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];
 }
@@ -754,11 +754,11 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)publishingRestarted
 {
     DLog(@"");
-    [self popToOriginalRootViewController];   
+    [self popToOriginalRootViewController];
 }
 
-- (void)publishingCompleted 
-{ 
+- (void)publishingCompleted
+{
     DLog(@"");
     [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];
 }
@@ -766,13 +766,13 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)publishingCanceled
 {
     DLog(@"");
-	[self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];
 }
 
-- (void)publishingFailed 
-{ 
+- (void)publishingFailed
+{
     DLog(@"");
 //  [self popToOriginalRootViewController];
-// 	[self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];
+//  [self unloadUserInterfaceWithTransitionStyle:UIModalTransitionStyleCoverVertical];
 }
 @end

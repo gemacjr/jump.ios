@@ -27,9 +27,9 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
- File:	 JRPublishActivityController.h
+ File:   JRPublishActivityController.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, August 24, 2010
+ Date:   Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
@@ -83,10 +83,10 @@ typedef enum
 
 @interface JRPublishActivityController : UIViewController
                          <JRSessionDelegate, JRConnectionManagerDelegate, JRUserInterfaceDelegate, UITabBarDelegate,
-                         UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, 
+                         UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,
                          OHAttributedLabelDelegate>
 {
-    JRSessionData	*sessionData;
+    JRSessionData    *sessionData;
     JRActivityObject *activity;
 
     JRProvider          *selectedProvider;
@@ -97,13 +97,13 @@ typedef enum
 
     EmailOrSms emailAndOrSmsIndex;
     int selectedTab;
-        
+
     NSString *shortenedActivityUrl;
     NSInteger maxCharacters;
-        
+
     NSMutableDictionary *cachedProfilePics;
     NSMutableSet        *alreadyShared;
-        
+
     BOOL weAreStillWaitingOnSocialProviders;
     BOOL weHaveJustAuthenticated;
     BOOL weAreCurrentlyPostingSomething;
@@ -117,14 +117,14 @@ typedef enum
 
     NSDictionary *customInterface;
     NSDictionary *colorsDictionary;
-    UIView		 *titleView;
-        
+    UIView       *titleView;
+
     UIView     *myBackgroundView;
     UITabBar   *myTabBar;
 
     /* Activity Spinner and Label displayed while the list of configured providers is empty */
     NSTimer *timer;
-    UILabel					*myLoadingLabel;
+    UILabel                 *myLoadingLabel;
     UIActivityIndicatorView *myLoadingActivitySpinner;
     UIView                  *myLoadingGrayView;
 
@@ -151,7 +151,7 @@ typedef enum
     UIButton    *myInfoButton;
     UILabel     *myPoweredByLabel;
     UIImageView *myProviderIcon;
-        
+
     UIView                  *myShareToView;
     UIImageView             *myTriangleIcon;
     UIButton                *myConnectAndShareButton;
