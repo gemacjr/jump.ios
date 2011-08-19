@@ -36,10 +36,10 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a77f576b88ae7cfb3c7610cba9c3f8929">subject</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#ad8f3d6c32798a827e54408435a111a1d">messageBody</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a18187f6ff54cead7eaf1ca7739bb4567">subject</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a6430b910b2cdcb4c4afe2d8747afa8d0">messageBody</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">BOOL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a7bd2f94fe6f1f0a20563681dce74a4d1">isHtml</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSArray *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a28c8bf72dca850fa1a15056b6e6157a6">urls</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSArray *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_email_object.html#a873c0da8be8e16803dd08e3516ebae84">urls</a></td></tr>
 <tr><td colspan="2"><h2><a name="member-group"></a>
 Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
@@ -50,7 +50,7 @@ Constructors</h2></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Object containing content to be shared by email. </p>
-<p>Create an email object, fill in the fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#adb6d7886706fefccf55592d174668753">JRActivityObject.email</a> property in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. The given content is supplied to the <em>MFMailComposeViewController</em> class when the user wants to share your activity via email.</p>
+<p>Create an email object, fill in the fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a3f3c485be861e61ce60d9c7a92373e19">JRActivityObject.email</a> property in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. The given content is supplied to the <em>MFMailComposeViewController</em> class when the user wants to share your activity via email.</p>
 <p>If your email message body contains URLs that you would like shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> URL (with which you can track click-throughs), add the exact URL(s) to the <em>urls</em> array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your email body.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>If the user attempts to share the activity via email before the call to shorten the URLs is returned, the email will contain the original URLs and the click-throughs will not be tracked. <br/>
 </dd>
@@ -108,12 +108,12 @@ Once the <em>MFMailComposeViewController</em> is displayed, the given subject an
 </div>
 </div>
 <hr/><h2>Properties</h2>
-<a class="anchor" id="a77f576b88ae7cfb3c7610cba9c3f8929"></a><!-- doxytag: member="JREmailObject::subject" ref="a77f576b88ae7cfb3c7610cba9c3f8929" args="" -->
+<a class="anchor" id="a18187f6ff54cead7eaf1ca7739bb4567"></a><!-- doxytag: member="JREmailObject::subject" ref="a18187f6ff54cead7eaf1ca7739bb4567" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString *) subject<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) subject<code> [read, write, retain]</code></td>
         </tr>
       </table>
 </div>
@@ -122,12 +122,12 @@ Once the <em>MFMailComposeViewController</em> is displayed, the given subject an
 
 </div>
 </div>
-<a class="anchor" id="ad8f3d6c32798a827e54408435a111a1d"></a><!-- doxytag: member="JREmailObject::messageBody" ref="ad8f3d6c32798a827e54408435a111a1d" args="" -->
+<a class="anchor" id="a6430b910b2cdcb4c4afe2d8747afa8d0"></a><!-- doxytag: member="JREmailObject::messageBody" ref="a6430b910b2cdcb4c4afe2d8747afa8d0" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString *) messageBody<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) messageBody<code> [read, write, retain]</code></td>
         </tr>
       </table>
 </div>
@@ -150,12 +150,12 @@ Once the <em>MFMailComposeViewController</em> is displayed, the given subject an
 
 </div>
 </div>
-<a class="anchor" id="a28c8bf72dca850fa1a15056b6e6157a6"></a><!-- doxytag: member="JREmailObject::urls" ref="a28c8bf72dca850fa1a15056b6e6157a6" args="" -->
+<a class="anchor" id="a873c0da8be8e16803dd08e3516ebae84"></a><!-- doxytag: member="JREmailObject::urls" ref="a873c0da8be8e16803dd08e3516ebae84" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSArray *) urls<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSArray*) urls<code> [read, write, retain]</code></td>
         </tr>
       </table>
 </div>

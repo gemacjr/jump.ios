@@ -36,8 +36,8 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_sms_object.html#a27152af20a38c9dfcfa5df4100b3b148">message</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSArray *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_sms_object.html#a28c8bf72dca850fa1a15056b6e6157a6">urls</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_sms_object.html#ab5c4852f4a82ccbb3b2c0df6b0130ddd">message</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSArray *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_sms_object.html#a873c0da8be8e16803dd08e3516ebae84">urls</a></td></tr>
 <tr><td colspan="2"><h2><a name="member-group"></a>
 Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
@@ -48,7 +48,7 @@ Constructors</h2></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Object containing the default message to be shared by sms. </p>
-<p>Create an sms object, fill in the message field, and add the object to the <a class="el" href="interface_j_r_activity_object.html#acd30f9b023bee11c938781ec7bb90f89">JRActivityObject.sms</a> property in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. The given message string is supplied to the <em>MFMessageComposeViewController</em> class when the user wants to share your activity via sms.</p>
+<p>Create an sms object, fill in the message field, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a6be39a72508a474d9c2437058e5926a9">JRActivityObject.sms</a> property in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. The given message string is supplied to the <em>MFMessageComposeViewController</em> class when the user wants to share your activity via sms.</p>
 <p>If your sms message contains URLs that you would like shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> (with which you can track click-throughs), add the exact URL(s) to the <em>urls</em> array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your sms message.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>If the user attempts to share the activity via sms before the call to shorten the URLs is returned, the sms will contain the original URLs and the click-throughs will not be tracked. <br/>
 <br/>
@@ -91,12 +91,12 @@ Constructors</h2></td></tr>
 </div>
 </div>
 <hr/><h2>Properties</h2>
-<a class="anchor" id="a27152af20a38c9dfcfa5df4100b3b148"></a><!-- doxytag: member="JRSmsObject::message" ref="a27152af20a38c9dfcfa5df4100b3b148" args="" -->
+<a class="anchor" id="ab5c4852f4a82ccbb3b2c0df6b0130ddd"></a><!-- doxytag: member="JRSmsObject::message" ref="ab5c4852f4a82ccbb3b2c0df6b0130ddd" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString *) message<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) message<code> [read, write, retain]</code></td>
         </tr>
       </table>
 </div>
@@ -105,12 +105,12 @@ Constructors</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a28c8bf72dca850fa1a15056b6e6157a6"></a><!-- doxytag: member="JRSmsObject::urls" ref="a28c8bf72dca850fa1a15056b6e6157a6" args="" -->
+<a class="anchor" id="a873c0da8be8e16803dd08e3516ebae84"></a><!-- doxytag: member="JRSmsObject::urls" ref="a873c0da8be8e16803dd08e3516ebae84" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSArray *) urls<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSArray*) urls<code> [read, write, retain]</code></td>
         </tr>
       </table>
 </div>

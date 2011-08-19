@@ -64,25 +64,27 @@
 <a name="l00046"></a>00046         JRSessionData   *sessionData;
 <a name="l00047"></a>00047     NSDictionary    *customInterface;
 <a name="l00048"></a>00048     
-<a name="l00049"></a>00049     BOOL iPad;
-<a name="l00050"></a>00050     BOOL hidesCancelButton;
-<a name="l00051"></a>00051 <span class="comment">//    BOOL userHitTheBackButton;</span>
-<a name="l00052"></a>00052     
-<a name="l00053"></a>00053     UIView               *titleView;
-<a name="l00054"></a>00054     IBOutlet UIView      *myBackgroundView;
-<a name="l00055"></a>00055         IBOutlet UITableView *myTableView;
-<a name="l00056"></a>00056         
-<a name="l00057"></a>00057  <span class="comment">/* Activity Spinner and Label displayed while the list of configured providers is empty */</span>
-<a name="l00058"></a>00058         NSTimer *timer;
-<a name="l00059"></a>00059         IBOutlet UILabel                                        *myLoadingLabel;
-<a name="l00060"></a>00060         IBOutlet UIActivityIndicatorView    *myActivitySpinner; 
-<a name="l00061"></a>00061     
-<a name="l00062"></a>00062         JRInfoBar       *infoBar;
-<a name="l00063"></a>00063 }
-<a name="l00064"></a>00064 @property (assign) BOOL hidesCancelButton;
-<a name="l00065"></a>00065 
-<a name="l00066"></a>00066 - (<span class="keywordtype">id</span>)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
-<a name="l00067"></a>00067 @end
+<a name="l00049"></a>00049     NSMutableArray  *providers;
+<a name="l00050"></a>00050     
+<a name="l00051"></a>00051     BOOL iPad;
+<a name="l00052"></a>00052     BOOL hidesCancelButton;
+<a name="l00053"></a>00053 <span class="comment">//    BOOL userHitTheBackButton;</span>
+<a name="l00054"></a>00054     
+<a name="l00055"></a>00055     UIView               *titleView;
+<a name="l00056"></a>00056     IBOutlet UIView      *myBackgroundView;
+<a name="l00057"></a>00057         IBOutlet UITableView *myTableView;
+<a name="l00058"></a>00058         
+<a name="l00059"></a>00059  <span class="comment">/* Activity Spinner and Label displayed while the list of configured providers is empty */</span>
+<a name="l00060"></a>00060         NSTimer *timer;
+<a name="l00061"></a>00061         IBOutlet UILabel                                        *myLoadingLabel;
+<a name="l00062"></a>00062         IBOutlet UIActivityIndicatorView    *myActivitySpinner; 
+<a name="l00063"></a>00063     
+<a name="l00064"></a>00064         JRInfoBar       *infoBar;
+<a name="l00065"></a>00065 }
+<a name="l00066"></a>00066 @property (assign) BOOL hidesCancelButton;
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068 - (<span class="keywordtype">id</span>)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
+<a name="l00069"></a>00069 @end
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

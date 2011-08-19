@@ -27,9 +27,9 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
- File:	 JREngage+CustomInterface.h
+ File:   JREngage+CustomInterface.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Friday, January 21, 2011
+ Date:   Friday, January 21, 2011
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
@@ -309,7 +309,7 @@
 /*@{*/
 
 /**
- * Key for an \e NSArray object containing a list of /e NSString provider names that you would like to exclude from table of 
+ * Key for an \e NSArray object containing a list of /e NSString provider names that you would like to exclude from table of
  * providers when you launch the sign-in dialog
  *
  * For a list of possible strings, please see the \ref basicProviders "List of Providers"

@@ -1,21 +1,21 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
  Copyright (c) 2010, Janrain, Inc.
- 
+  
  All rights reserved.
- 
+  
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+  
  * Redistributions of source code must retain the above copyright notice, this
-	 list of conditions and the following disclaimer. 
+     list of conditions and the following disclaimer. 
  * Redistributions in binary form must reproduce the above copyright notice, 
-	 this list of conditions and the following disclaimer in the documentation and/or
-	 other materials provided with the distribution. 
+     this list of conditions and the following disclaimer in the documentation and/or
+     other materials provided with the distribution. 
  * Neither the name of the Janrain, Inc. nor the names of its
-	 contributors may be used to endorse or promote products derived from this
-	 software without specific prior written permission.
- 
- 
+     contributors may be used to endorse or promote products derived from this
+     software without specific prior written permission.
+  
+  
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -26,7 +26,7 @@
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- 
+  
  File:	 JRProvidersController.h 
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
@@ -40,30 +40,34 @@
 @class JRUserInterfaceMaestro;
 
 @interface JRProvidersController : UIViewController <UINavigationBarDelegate, UITableViewDelegate, 
-														UITableViewDataSource, UIAlertViewDelegate,
+                                                        UITableViewDataSource, UIAlertViewDelegate,
                                                         JRUserInterfaceDelegate> 
 {
-	JRSessionData	*sessionData;
+    JRSessionData	*sessionData;
     NSDictionary    *customInterface;
-    
+        
     NSMutableArray  *providers;
-    
+        
     BOOL iPad;
     BOOL hidesCancelButton;
 //    BOOL userHitTheBackButton;
-    
-    UIView               *titleView;
-    IBOutlet UIView      *myBackgroundView;
-	IBOutlet UITableView *myTableView;
-	
+        
+    UIView      *titleView;
+    UIView      *myBackgroundView;
+    UITableView *myTableView;
+    	
  /* Activity Spinner and Label displayed while the list of configured providers is empty */
-	NSTimer *timer;
-	IBOutlet UILabel					*myLoadingLabel;
-	IBOutlet UIActivityIndicatorView    *myActivitySpinner; 
-    
-	JRInfoBar	*infoBar;
+    NSTimer *timer;
+    UILabel					*myLoadingLabel;
+    UIActivityIndicatorView *myActivitySpinner; 
+        
+    JRInfoBar	*infoBar;
 }
 @property (assign) BOOL hidesCancelButton;
+@property (nonatomic, retain) IBOutlet UIView      *myBackgroundView;
+@property (nonatomic, retain) IBOutlet UITableView *myTableView;
+@property (nonatomic, retain) IBOutlet UILabel					*myLoadingLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView  *myActivitySpinner; 
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 @end

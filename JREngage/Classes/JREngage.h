@@ -27,9 +27,9 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
- File:	 JREngage.h
+ File:   JREngage.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, June 1, 2010
+ Date:   Tuesday, June 1, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /**
@@ -311,9 +311,9 @@
  **/
 @interface JREngage : NSObject <JRSessionDelegate>
 {
-    JRUserInterfaceMaestro *interfaceMaestro;   /*< \internal Class that handles customizations to the library's UI */
-    JRSessionData	*sessionData;               /*< \internal Holds configuration and state for the JREngage library */
-    NSMutableArray	*delegates;                 /*< \internal Array of JREngageDelegate objects */
+    JRUserInterfaceMaestro *_interfaceMaestro; /*< \internal Class that handles customizations to the library's UI */
+    JRSessionData          *_sessionData;      /*< \internal Holds configuration and state for the JREngage library */
+    NSMutableArray         *_delegates;        /*< \internal Array of JREngageDelegate objects */
 }
 
 /**
@@ -573,10 +573,15 @@
 /**
  * @anchor updateTokenUrl
  *
- * Use this function to specify a different tokenUrl than the one with which you initiated
- * the library.
+ * Use this function to specify a different tokenUrl than the one with which you initiated the library. 
+ * On this URL, you can continue any server-side authentication, and send your server's response back 
+ * to the library.  The library will pass your server's response back to your application with the 
+ * jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() method
+ *
+ * @param tokenUrl
+ *   The valid URL on your web server where the library will \e POST the authentication token
  **/
-- (void)updateTokenUrl:(NSString*)newTokenUrl;
+- (void)updateTokenUrl:(NSString*)tokenUrl;
 /*@}*/
 
 /**

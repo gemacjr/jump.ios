@@ -83,6 +83,11 @@ Popover Controller</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__custom_interface.html#ga6b597e0a293938c07e5f36cd88da5a71">kJRPopoverPresentationBarButtonItem</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__custom_interface.html#gafe8ed9543a8bd4a8ef872f77bce583c5">kJRPopoverPresentationArrowDirection</a></td></tr>
 <tr><td colspan="2"><h2><a name="member-group"></a>
+Custom Authentication</h2></td></tr>
+<tr><td colspan="2"><p><a class="anchor" id="amgrpc80ca04f04c2f62476d6eb666235dbda"></a> Keys to customize the list of providers during sign-in </p>
+<br/><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__custom_interface.html#ga9b63fd3dc3901bbf094fa63aa0ebf3bb">kJRRemoveProvidersFromAuthentication</a></td></tr>
+<tr><td colspan="2"><h2><a name="member-group"></a>
 Deprecated</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp0ac54cb10e7494cff1949826e8e32f7b"></a> These keys have been deprecated in the current version of the <a class="el" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> library </p>
 <br/><br/></td></tr>
@@ -107,7 +112,7 @@ Deprecated</h2></td></tr>
 <p>Customize the user interface with your application's colors, images, native login, etc. </p>
 <p>The Engage for iPhone SDK provides the ability to customize the look and feel of the user interface, as well as the ability to add your own native login experience, through the <a class="el" href="interface_j_r_engage_07_custom_interface_08.html#customInterface">Custom Interface API</a>. You can set many of the custom interface defaults through the <a class="el" href="class_j_r_engage.html#a7f33a8beb9ab673a62ccf1288a4f48c0">setCustomInterfaceDefaults: (JREngage)</a> method and override these defaults programmatically through any of the <a class="el" href="class_j_r_engage.html#showMethods">...CustomInterfaceOverrides</a> functions.</p>
 <p>The SDK accepts a mutable dictionary of values, indexed by a <a class="el" href="group__custom_interface.html#customInterfaceKeys">pre-defined set of keys</a>, and uses these to set the properties of the library's user interface. To configure the SDK programmatically (e.g., dynamically integrating your native login experience above or below the library's social logins), create an <em>NSMutableDictionary</em> object, indexed by a <a class="el" href="group__custom_interface.html#customInterfaceKeys">pre-defined set of keys</a> and pass this to the library through the <a class="el" href="class_j_r_engage.html#a7f33a8beb9ab673a62ccf1288a4f48c0">setCustomInterfaceDefaults: (JREngage)</a> method.</p>
-<p>You can also override these default customizations by launching the authentication and social sharing with a new dictionary of the <a class="el" href="group__custom_interface.html#customInterfaceKeys">pre-defined set of keys</a> and values with the <a class="el" href="class_j_r_engage.html#af8301e0a2c6ef6223779e658caae332c">showAuthenticationDialogWithCustomInterface: (JREngage)</a> or <a class="el" href="class_j_r_engage.html#ab9a4aaa7907dec7717f021175516d542">showSocialPublishingDialogWithActivity:andCustomInterface: (JREngage)</a> methods. Any overlapping values passed into the <em>show</em>...Dialog methods will override the corresponding values passed into the <a class="el" href="class_j_r_engage.html#a7f33a8beb9ab673a62ccf1288a4f48c0">setCustomInterfaceDefaults: (JREngage)</a> method. </p>
+<p>You can also override these default customizations by launching the authentication and social sharing with a new dictionary of the <a class="el" href="group__custom_interface.html#customInterfaceKeys">pre-defined set of keys</a> and values with the JREngage.showAuthenticationDialogWithCustomInterface: or JREngage.showSocialPublishingDialogWithActivity:andCustomInterface: methods. Any overlapping values passed into the <em>show</em>...Dialog methods will override the corresponding values passed into the <a class="el" href="class_j_r_engage.html#a7f33a8beb9ab673a62ccf1288a4f48c0">setCustomInterfaceDefaults: (JREngage)</a> method. </p>
 <hr/><h2>Define Documentation</h2>
 <a class="anchor" id="ga7bace8001f549fc2ecbe84d967d24d22"></a><!-- doxytag: member="JREngage+CustomInterface.h::kJRApplicationNavigationController" ref="ga7bace8001f549fc2ecbe84d967d24d22" args="" -->
 <div class="memitem">
@@ -406,6 +411,21 @@ Deprecated</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga9b63fd3dc3901bbf094fa63aa0ebf3bb"></a><!-- doxytag: member="JREngage+CustomInterface.h::kJRRemoveProvidersFromAuthentication" ref="ga9b63fd3dc3901bbf094fa63aa0ebf3bb" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define kJRRemoveProvidersFromAuthentication</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Key for an <em>NSArray</em> object containing a list of /e NSString provider names that you would like to exclude from table of providers when you launch the sign-in dialog</p>
+<p>For a list of possible strings, please see the <a class="el" href="_providers.html#basicProviders">List of Providers</a> </p>
+
+</div>
+</div>
 <a class="anchor" id="ga7c7ed7dac155537c9bc14531c5cec3cb"></a><!-- doxytag: member="JREngage+CustomInterface.h::kJRNavigationBarTintColor" ref="ga7c7ed7dac155537c9bc14531c5cec3cb" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -416,7 +436,7 @@ Deprecated</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>If you want to set the color of the navigation bar, you can push the library's dialogs onto your own navigation controller, using the <a class="el" href="class_j_r_engage.html#a88c0eb55419cfc6a8e256a78b309279b">setCustomNavigationController: (JREngage)</a> method, or create a navigation bar, set the tint, and pass it to the library with the define kJRUseCustomModalNavigationController </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>If you want to set the color of the navigation bar, you can push the library's dialogs onto your own navigation controller, using the JREngage.setCustomNavigationController: method, or create a navigation bar, set the tint, and pass it to the library with the define kJRUseCustomModalNavigationController </dd></dl>
 
 </div>
 </div>
@@ -430,7 +450,7 @@ Deprecated</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>If you want to set the color of the navigation bar, you can push the library's dialogs onto your own navigation controller, using the <a class="el" href="class_j_r_engage.html#a88c0eb55419cfc6a8e256a78b309279b">setCustomNavigationController: (JREngage)</a> method, or create a navigation bar, set the tint, and pass it to the library with the define kJRUseCustomModalNavigationController </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>If you want to set the color of the navigation bar, you can push the library's dialogs onto your own navigation controller, using the JREngage.setCustomNavigationController: method, or create a navigation bar, set the tint, and pass it to the library with the define kJRUseCustomModalNavigationController </dd></dl>
 
 </div>
 </div>

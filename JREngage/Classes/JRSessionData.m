@@ -136,8 +136,8 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 #pragma mark JRActivityObject ()
 @implementation JRActivityObject (shortenedUrl)
-- (NSString*)shortenedUrl { return shortenedUrl; }
-- (void)setShortenedUrl:(NSString*)newUrl { [newUrl retain]; [shortenedUrl release]; shortenedUrl = newUrl; }
+- (NSString*)shortenedUrl { return _shortenedUrl; }
+- (void)setShortenedUrl:(NSString*)newUrl { [newUrl retain]; [_shortenedUrl release]; _shortenedUrl = newUrl; }
 @end
 
 #pragma mark JRAuthenticatedUser
@@ -1749,11 +1749,11 @@ foo:
 
 - (void)triggerAuthenticationDidFailWithError:(NSError*)_error
 {
-    // TODO: Update to cookie data returned in provider_info
-    if ([currentProvider.name isEqualToString:@"facebook"])
-        [self deleteFacebookCookies];
-    else if ([currentProvider.name isEqualToString:@"live_id"])
-        [self deleteLiveCookies];
+    // TODO: Set force_reauth for the provider instead!!!
+//    if ([currentProvider.name isEqualToString:@"facebook"])
+//        [self deleteFacebookCookies];
+//    else if ([currentProvider.name isEqualToString:@"live_id"])
+//        [self deleteLiveCookies];
     
     [currentProvider release];
     currentProvider = nil;

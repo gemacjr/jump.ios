@@ -36,19 +36,19 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_action_link.html#af2db62cd230bc0a10cea4e7630ac9e07">text</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_action_link.html#aee41f72e6d44e417e4eddcae51a9fec7">href</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_action_link.html#a34710a06f8d45c8629e5628fc241f376">text</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_action_link.html#ac04557f0b4317a13f153f7cd07d68c1a">href</a></td></tr>
 <tr><td colspan="2"><h2><a name="member-group"></a>
 Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_action_link.html#a12047c76c2118380aa557116392fcaf8">initWithText:andHref:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad58ab6dba3564002a2ae5242e72f6e28"></a><!-- doxytag: member="JRActionLink::actionLinkWithText:andHref:" ref="ad58ab6dba3564002a2ae5242e72f6e28" args="(NSString *_text,[andHref] NSString *_href)" -->
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_action_link.html#a39b5b4e9e81ab5eb895d7e1c8f39d4d8">initWithText:andHref:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a16879d13af1e1ea5a388e23ea5c29844"></a><!-- doxytag: member="JRActionLink::actionLinkWithText:andHref:" ref="a16879d13af1e1ea5a388e23ea5c29844" args="(NSString *text,[andHref] NSString *href)" -->
 (id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>actionLinkWithText:andHref:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>A link a user can use to take action on an activity update on the provider. </p>
-<p>Create an action link object, fill in the object's fields, and add the object the <a class="el" href="interface_j_r_activity_object.html#a7421d3a6d861b9371d959c8a73bbf053">JRActivityObject.action_links</a> array of your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
+<p>Create an action link object, fill in the object's fields, and add the object the <a class="el" href="interface_j_r_activity_object.html#ac29192f576a02db12e144a7b864c01a0">JRActivityObject.action_links</a> array of your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
 <p>Each action link must contain a link, <em>href</em>, and some <em>text</em>, describing what action will happen if someone clicks the link.</p>
 <dl class="user"><dt><b>Example:</b></dt><dd><div class="fragment"><pre class="fragment"> action_links: 
  [
@@ -63,7 +63,7 @@ Constructors</h2></td></tr>
  ]
 </pre></div> </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a12047c76c2118380aa557116392fcaf8"></a><!-- doxytag: member="JRActionLink::initWithText:andHref:" ref="a12047c76c2118380aa557116392fcaf8" args="(NSString *_text,[andHref] NSString *_href)" -->
+<a class="anchor" id="a39b5b4e9e81ab5eb895d7e1c8f39d4d8"></a><!-- doxytag: member="JRActionLink::initWithText:andHref:" ref="a39b5b4e9e81ab5eb895d7e1c8f39d4d8" args="(NSString *text,[andHref] NSString *href)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -71,13 +71,13 @@ Constructors</h2></td></tr>
           <td class="memname">- (id) initWithText: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_text</em></td>
+          <td class="paramname"> <em>text</em></td>
         </tr>
         <tr>
           <td class="paramkey">andHref:</td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_href</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>href</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -90,22 +90,22 @@ Constructors</h2></td></tr>
 <p>Returns a <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> initialized with the given text and href.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_text</em>&nbsp;</td><td>The text describing the link. This value cannot be <em>nil</em> </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_imgsrc</em>&nbsp;</td><td>A link a user can use to take action on an activity update on the provider. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>The text describing the link. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>imgsrc</em>&nbsp;</td><td>A link a user can use to take action on an activity update on the provider. This value cannot be <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> initialized with the given text and href. If either _text or _href are <em>nil</em>, returns <em>nil</em> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> initialized with the given text and href. If either text or href are <em>nil</em>, returns <em>nil</em> </dd></dl>
 
 </div>
 </div>
 <hr/><h2>Properties</h2>
-<a class="anchor" id="af2db62cd230bc0a10cea4e7630ac9e07"></a><!-- doxytag: member="JRActionLink::text" ref="af2db62cd230bc0a10cea4e7630ac9e07" args="" -->
+<a class="anchor" id="a34710a06f8d45c8629e5628fc241f376"></a><!-- doxytag: member="JRActionLink::text" ref="a34710a06f8d45c8629e5628fc241f376" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString *) text<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) text<code> [read, write, retain]</code></td>
         </tr>
       </table>
 </div>
@@ -114,12 +114,12 @@ Constructors</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aee41f72e6d44e417e4eddcae51a9fec7"></a><!-- doxytag: member="JRActionLink::href" ref="aee41f72e6d44e417e4eddcae51a9fec7" args="" -->
+<a class="anchor" id="ac04557f0b4317a13f153f7cd07d68c1a"></a><!-- doxytag: member="JRActionLink::href" ref="ac04557f0b4317a13f153f7cd07d68c1a" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString *) href<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) href<code> [read, write, retain]</code></td>
         </tr>
       </table>
 </div>

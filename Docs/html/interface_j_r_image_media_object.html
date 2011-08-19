@@ -38,23 +38,23 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_image_media_object.html#a668351767970455ec189196ede16db27">src</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_image_media_object.html#aee41f72e6d44e417e4eddcae51a9fec7">href</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_image_media_object.html#a0228b945a1dd3f0f78a55d4353fbf352">src</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_image_media_object.html#ac04557f0b4317a13f153f7cd07d68c1a">href</a></td></tr>
 <tr><td colspan="2"><h2><a name="member-group"></a>
 Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_image_media_object.html#aa6040ff9228701c7c5258ec3450dde72">initWithSrc:andHref:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab335ab2f9bc9ff8ae97e80b7b10fe3a3"></a><!-- doxytag: member="JRImageMediaObject::imageMediaObjectWithSrc:andHref:" ref="ab335ab2f9bc9ff8ae97e80b7b10fe3a3" args="(NSString *_src,[andHref] NSString *_href)" -->
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_image_media_object.html#adca9e47f5038553444157b6ca15f463a">initWithSrc:andHref:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9cd7b6380a6afc8e0d3f571375cb0a44"></a><!-- doxytag: member="JRImageMediaObject::imageMediaObjectWithSrc:andHref:" ref="a9cd7b6380a6afc8e0d3f571375cb0a44" args="(NSString *src,[andHref] NSString *href)" -->
 (id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>imageMediaObjectWithSrc:andHref:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Image object to be included in a post to a user's stream. </p>
-<p>Create an image media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#aef896fa5eb35f9c881210d1c233a69c1">JRActivityObject.media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the images get presented and whether or not they are used, depend on the provider.</p>
+<p>Create an image media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a7deaa868eb6d2eb695cd8104f54b713c">JRActivityObject.media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the images get presented and whether or not they are used, depend on the provider.</p>
 <p>Each image must contain a <em>src</em> URL, which maps to the photo's URL, and an <em>href</em> URL, which maps to the URL where a user should be taken if he or she clicks the photo.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd>Format and rules are identical to those described on the <a href="http://developers.facebook.com/docs/guides/attachments">Facebook Developer page on Attachments</a>. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="aa6040ff9228701c7c5258ec3450dde72"></a><!-- doxytag: member="JRImageMediaObject::initWithSrc:andHref:" ref="aa6040ff9228701c7c5258ec3450dde72" args="(NSString *_src,[andHref] NSString *_href)" -->
+<a class="anchor" id="adca9e47f5038553444157b6ca15f463a"></a><!-- doxytag: member="JRImageMediaObject::initWithSrc:andHref:" ref="adca9e47f5038553444157b6ca15f463a" args="(NSString *src,[andHref] NSString *href)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -62,13 +62,13 @@ Constructors</h2></td></tr>
           <td class="memname">- (id) initWithSrc: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_src</em></td>
+          <td class="paramname"> <em>src</em></td>
         </tr>
         <tr>
           <td class="paramkey">andHref:</td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_href</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>href</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -81,22 +81,22 @@ Constructors</h2></td></tr>
 <p>Returns a <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a> initialized with the given src and href.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_src</em>&nbsp;</td><td>The photo's URL. This value cannot be <em>nil</em> </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_href</em>&nbsp;</td><td>The URL where a user should be taken if he or she clicks the photo. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>src</em>&nbsp;</td><td>The photo's URL. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>href</em>&nbsp;</td><td>The URL where a user should be taken if he or she clicks the photo. This value cannot be <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a> initialized with the given src and href. If either _src or _href are <em>nil</em>, returns <em>nil</em> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a> initialized with the given src and href. If either src or href are <em>nil</em>, returns <em>nil</em> </dd></dl>
 
 </div>
 </div>
 <hr/><h2>Properties</h2>
-<a class="anchor" id="a668351767970455ec189196ede16db27"></a><!-- doxytag: member="JRImageMediaObject::src" ref="a668351767970455ec189196ede16db27" args="" -->
+<a class="anchor" id="a0228b945a1dd3f0f78a55d4353fbf352"></a><!-- doxytag: member="JRImageMediaObject::src" ref="a0228b945a1dd3f0f78a55d4353fbf352" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString *) src<code> [read, assign]</code></td>
+          <td class="memname">- (NSString*) src<code> [read, assign]</code></td>
         </tr>
       </table>
 </div>
@@ -105,12 +105,12 @@ Constructors</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aee41f72e6d44e417e4eddcae51a9fec7"></a><!-- doxytag: member="JRImageMediaObject::href" ref="aee41f72e6d44e417e4eddcae51a9fec7" args="" -->
+<a class="anchor" id="ac04557f0b4317a13f153f7cd07d68c1a"></a><!-- doxytag: member="JRImageMediaObject::href" ref="ac04557f0b4317a13f153f7cd07d68c1a" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString *) href<code> [read, assign]</code></td>
+          <td class="memname">- (NSString*) href<code> [read, assign]</code></td>
         </tr>
       </table>
 </div>

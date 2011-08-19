@@ -86,7 +86,7 @@ typedef enum
                          UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, 
                          OHAttributedLabelDelegate>
 {
-	JRSessionData	*sessionData;
+    JRSessionData	*sessionData;
     JRActivityObject *activity;
 
     JRProvider          *selectedProvider;
@@ -97,13 +97,13 @@ typedef enum
 
     EmailOrSms emailAndOrSmsIndex;
     int selectedTab;
-    
+        
     NSString *shortenedActivityUrl;
     NSInteger maxCharacters;
-    
+        
     NSMutableDictionary *cachedProfilePics;
     NSMutableSet        *alreadyShared;
-    
+        
     BOOL weAreStillWaitingOnSocialProviders;
     BOOL weHaveJustAuthenticated;
     BOOL weAreCurrentlyPostingSomething;
@@ -118,52 +118,85 @@ typedef enum
     NSDictionary *customInterface;
     NSDictionary *colorsDictionary;
     UIView		 *titleView;
-    
-    IBOutlet UIView     *myBackgroundView;
-	IBOutlet UITabBar   *myTabBar;
+        
+    UIView     *myBackgroundView;
+    UITabBar   *myTabBar;
 
     /* Activity Spinner and Label displayed while the list of configured providers is empty */
     NSTimer *timer;
-    IBOutlet UILabel					*myLoadingLabel;
-    IBOutlet UIActivityIndicatorView    *myLoadingActivitySpinner;
-    IBOutlet UIView                     *myLoadingGrayView;
+    UILabel					*myLoadingLabel;
+    UIActivityIndicatorView *myLoadingActivitySpinner;
+    UIView                  *myLoadingGrayView;
 
-    IBOutlet UIView *myPadGrayEditingViewTop;
-    IBOutlet UIView *myPadGrayEditingViewBottom;
+    UIView *myPadGrayEditingViewTop;
+    UIView *myPadGrayEditingViewBottom;
 
-    IBOutlet UIView         *myContentView;
-    IBOutlet UIScrollView   *myScrollView;
+    UIView       *myContentView;
+    UIScrollView *myScrollView;
 
-    IBOutlet UITextView         *myUserCommentTextView;
-    IBOutlet RoundedRectView    *myUserCommentBoundingBox;
+    UITextView      *myUserCommentTextView;
+    RoundedRectView *myUserCommentBoundingBox;
 
-    IBOutlet UILabel *myRemainingCharactersLabel;
+    UILabel *myRemainingCharactersLabel;
 
-    IBOutlet UIView                  *myPreviewContainer;
-    IBOutlet RoundedRectView         *myPreviewRoundedRect;
-    IBOutlet OHAttributedLabel       *myPreviewAttributedLabel;
-    IBOutlet RoundedRectView         *myRichDataContainer;
-    IBOutlet UIButton                *myMediaThumbnailView;
-    IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
-    IBOutlet UILabel                 *myTitleLabel;
-    IBOutlet UILabel                 *myDescriptionLabel;
+    UIView                  *myPreviewContainer;
+    RoundedRectView         *myPreviewRoundedRect;
+    OHAttributedLabel       *myPreviewAttributedLabel;
+    RoundedRectView         *myRichDataContainer;
+    UIButton                *myMediaThumbnailView;
+    UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
+    UILabel                 *myTitleLabel;
+    UILabel                 *myDescriptionLabel;
 
-    IBOutlet UIButton    *myInfoButton;
-    IBOutlet UILabel     *myPoweredByLabel;
-    IBOutlet UIImageView *myProviderIcon;
-    
-    IBOutlet UIView                  *myShareToView;
-    IBOutlet UIImageView             *myTriangleIcon;
-    IBOutlet UIButton                *myConnectAndShareButton;
-    IBOutlet UIButton                *myJustShareButton;
-    IBOutlet UIButton                *myProfilePic;
-    IBOutlet UIActivityIndicatorView *myProfilePicActivityIndicator;
-    IBOutlet UILabel                 *myUserName;
-    IBOutlet UIButton                *mySignOutButton;
-    IBOutlet UIImageView             *mySharedCheckMark;
-    IBOutlet UILabel                 *mySharedLabel;
+    UIButton    *myInfoButton;
+    UILabel     *myPoweredByLabel;
+    UIImageView *myProviderIcon;
+        
+    UIView                  *myShareToView;
+    UIImageView             *myTriangleIcon;
+    UIButton                *myConnectAndShareButton;
+    UIButton                *myJustShareButton;
+    UIButton                *myProfilePic;
+    UIActivityIndicatorView *myProfilePicActivityIndicator;
+    UILabel                 *myUserName;
+    UIButton                *mySignOutButton;
+    UIImageView             *mySharedCheckMark;
+    UILabel                 *mySharedLabel;
 }
 @property (assign) BOOL hidesCancelButton;
+@property (nonatomic, retain) IBOutlet UIView                  *myBackgroundView;
+@property (nonatomic, retain) IBOutlet UITabBar                *myTabBar;
+@property (nonatomic, retain) IBOutlet UILabel                 *myLoadingLabel;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myLoadingActivitySpinner;
+@property (nonatomic, retain) IBOutlet UIView                  *myLoadingGrayView;
+@property (nonatomic, retain) IBOutlet UIView                  *myPadGrayEditingViewTop;
+@property (nonatomic, retain) IBOutlet UIView                  *myPadGrayEditingViewBottom;
+@property (nonatomic, retain) IBOutlet UIView                  *myContentView;
+@property (nonatomic, retain) IBOutlet UIScrollView            *myScrollView;
+@property (nonatomic, retain) IBOutlet UITextView              *myUserCommentTextView;
+@property (nonatomic, retain) IBOutlet RoundedRectView         *myUserCommentBoundingBox;
+@property (nonatomic, retain) IBOutlet UILabel                 *myRemainingCharactersLabel;
+@property (nonatomic, retain) IBOutlet UIView                  *myPreviewContainer;
+@property (nonatomic, retain) IBOutlet RoundedRectView         *myPreviewRoundedRect;
+@property (nonatomic, retain) IBOutlet OHAttributedLabel       *myPreviewAttributedLabel;
+@property (nonatomic, retain) IBOutlet RoundedRectView         *myRichDataContainer;
+@property (nonatomic, retain) IBOutlet UIButton                *myMediaThumbnailView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
+@property (nonatomic, retain) IBOutlet UILabel                 *myTitleLabel;
+@property (nonatomic, retain) IBOutlet UILabel                 *myDescriptionLabel;
+@property (nonatomic, retain) IBOutlet UIButton                *myInfoButton;
+@property (nonatomic, retain) IBOutlet UILabel                 *myPoweredByLabel;
+@property (nonatomic, retain) IBOutlet UIImageView             *myProviderIcon;
+@property (nonatomic, retain) IBOutlet UIView                  *myShareToView;
+@property (nonatomic, retain) IBOutlet UIImageView             *myTriangleIcon;
+@property (nonatomic, retain) IBOutlet UIButton                *myConnectAndShareButton;
+@property (nonatomic, retain) IBOutlet UIButton                *myJustShareButton;
+@property (nonatomic, retain) IBOutlet UIButton                *myProfilePic;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myProfilePicActivityIndicator;
+@property (nonatomic, retain) IBOutlet UILabel                 *myUserName;
+@property (nonatomic, retain) IBOutlet UIButton                *mySignOutButton;
+@property (nonatomic, retain) IBOutlet UIImageView             *mySharedCheckMark;
+@property (nonatomic, retain) IBOutlet UILabel                 *mySharedLabel;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
 - (IBAction)signOutButtonPressed:(id)sender;

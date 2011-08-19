@@ -1,21 +1,21 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2010, Janrain, Inc.
- 
+
  All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
- 
+
  * Redistributions of source code must retain the above copyright notice, this
-   list of conditions and the following disclaimer. 
- * Redistributions in binary form must reproduce the above copyright notice, 
+   list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation and/or
-   other materials provided with the distribution. 
+   other materials provided with the distribution.
  * Neither the name of the Janrain, Inc. nor the names of its
    contributors may be used to endorse or promote products derived from this
    software without specific prior written permission.
- 
- 
+
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,9 +25,9 @@
  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- 
- File:	 JRActivityObject.m 
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ File:	 JRActivityObject.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -42,34 +42,35 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
-@implementation NSString (NSString_URL_ESCAPING)
+
+@implementation NSString (NSStringURLESCAPING)
 - (NSString*)URLEscaped
 {
     NSString *str = [self stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
     str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
     str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
-    
+
     return str;
 }
 @end
 
 /* Added the CFAdditions category to NSObject to filter objects in our media array based on their base class (JRMediaObject) */
 @interface NSObject (CFAdditions)
-- (NSString*)cf_baseClassName;
-- (NSString*)cf_className;
+- (NSString*)cfbaseClassName;
+- (NSString*)cfclassName;
 @end
 
 /* Added these functions to the NSObject object to filter objects in our media array based on their base class (JRMediaObject) */
 @implementation NSObject (CFAdditions)
-- (NSString *) cf_baseClassName { return NSStringFromClass([self superclass]); }
-- (NSString *) cf_className { return NSStringFromClass([self class]); }
+- (NSString *) cfbaseClassName { return NSStringFromClass([self superclass]); }
+- (NSString *) cfclassName { return NSStringFromClass([self class]); }
 @end
 
 @protocol JRMediaObjectDelegate <NSObject>
 - (NSDictionary*)dictionaryForObject;
 @end
 
-@implementation JRMediaObject 
+@implementation JRMediaObject
 @end
 
 @interface JRImageMediaObject () <JRMediaObjectDelegate>
@@ -79,188 +80,189 @@
 @interface JRFlashMediaObject () <JRMediaObjectDelegate>
 @end
 
-@implementation JRImageMediaObject 
-@synthesize src;
-@synthesize href;
-@synthesize preview;
+@implementation JRImageMediaObject
+@synthesize src          = _src;
+@synthesize href         = _href;
+@synthesize previewImage = _preview;
 
-- (id)initWithSrc:(NSString*)_src andHref:(NSString*)_href
+- (id)initWithSrc:(NSString*)src andHref:(NSString*)href
 {
-    if (!_src || !_href)
+    if (!src || !href)
     {
         [self release];
         return nil;
     }
-    
+
     if (self = [super init])
     {
-        src = [_src retain];
-        href = [_href retain];
+        _src  = [src retain];
+        _href = [href retain];
     }
-    
+
     return self;
 }
 
-+ (id)imageMediaObjectWithSrc:(NSString*)_src andHref:(NSString*)_href
++ (id)imageMediaObjectWithSrc:(NSString*)src andHref:(NSString*)href
 {
-    if (!_src || !_href)
+    if (!src || !href)
         return nil;
-    
-    return [[[JRImageMediaObject alloc] initWithSrc:_src andHref:_href] autorelease];    
+
+    return [[[JRImageMediaObject alloc] initWithSrc:src andHref:href] autorelease];
 }
 
-- (void)setPreviewImage:(UIImage*)image
-{
-    [preview release];
-    preview = [image retain];
-}
+//- (void)setPreviewImage:(UIImage*)image
+//{
+//    [image retain];
+//    [_preview release];
+//    _preview = image;
+//}
 
 - (NSDictionary*)dictionaryForObject
 {
     return [[[NSDictionary alloc] initWithObjectsAndKeys:
-             @"image", @"type", 
-             [src URLEscaped], @"src", 
-             [href URLEscaped], @"href", nil] autorelease];
+             @"image", @"type",
+             [_src URLEscaped], @"src",
+             [_href URLEscaped], @"href", nil] autorelease];
 }
 
 - (void)dealloc
 {
-	[src release]; 
-	[href release];
-    [preview release];
-	
-	[super dealloc];
+    [_src release];
+    [_href release];
+    [_preview release];
+
+    [super dealloc];
 }
 @end
 
-@implementation JRFlashMediaObject 
-@synthesize swfsrc;
-@synthesize imgsrc;
-@synthesize width;		
-@synthesize height;
-@synthesize expanded_width;
-@synthesize expanded_height;
-@synthesize preview;
+@implementation JRFlashMediaObject
+@synthesize swfsrc          = _swfsrc;
+@synthesize imgsrc          = _imgsrc;
+@synthesize width           = _width;
+@synthesize height          = _height;
+@synthesize expanded_width  = _expanded_width;
+@synthesize expanded_height = _expanded_height;
+@synthesize previewImage    = _preview;
 
-- (id)initWithSwfsrc:(NSString*)_swfsrc andImgsrc:(NSString*)_imgsrc
+- (id)initWithSwfsrc:(NSString*)swfsrc andImgsrc:(NSString*)imgsrc
 {
-    if (!_swfsrc || !_imgsrc)
+    if (!swfsrc || !imgsrc)
     {
         [self release];
         return nil;
     }
-    
+
     if (self = [super init])
     {
-        swfsrc = [_swfsrc retain];
-        imgsrc = [_imgsrc retain];
+        _swfsrc = [swfsrc retain];
+        _imgsrc = [imgsrc retain];
     }
-    
+
     return self;
 }
 
-+ (id)flashMediaObjectWithSwfsrc:(NSString*)_swfsrc andImgsrc:(NSString*)_imgsrc
++ (id)flashMediaObjectWithSwfsrc:(NSString*)swfsrc andImgsrc:(NSString*)imgsrc
 {
-    if (!_swfsrc || !_imgsrc)
+    if (!swfsrc || !imgsrc)
         return nil;
-    
-    return [[[JRFlashMediaObject alloc] initWithSwfsrc:_swfsrc andImgsrc:_imgsrc] autorelease];
+
+    return [[[JRFlashMediaObject alloc] initWithSwfsrc:swfsrc andImgsrc:imgsrc] autorelease];
 }
 
-- (void)setPreviewImage:(UIImage*)image
-{
-    [preview release];
-    preview = [image retain];
-}
+//- (void)setPreviewImage:(UIImage*)image
+//{
+//    [_preview release];
+//    _preview = [image retain];
+//}
 
 - (NSDictionary*)dictionaryForObject
 {
-    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys: 
-                                  @"flash", @"type", 
-                                  [swfsrc URLEscaped], @"swfsrc", 
-                                  [imgsrc URLEscaped], @"imgsrc", nil] autorelease];
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                  @"flash", @"type",
+                                  [_swfsrc URLEscaped], @"swfsrc",
+                                  [_imgsrc URLEscaped], @"imgsrc", nil] autorelease];
 
-    if (width)
-        [dict setObject:[NSString stringWithFormat:@"%d", width] forKey:@"width"];
-    
-    if (height)
-        [dict setValue:[NSString stringWithFormat:@"%d", height] forKey:@"height"];
-    
-    if (expanded_width)
-        [dict setValue:[NSString stringWithFormat:@"%d", expanded_width] forKey:@"expanded_width"];
-    
-    if (expanded_height)
-        [dict setValue:[NSString stringWithFormat:@"%d", expanded_height] forKey:@"expanded_height"];
-    
+    if (_width)
+        [dict setObject:[NSString stringWithFormat:@"%d", _width] forKey:@"width"];
+
+    if (_height)
+        [dict setValue:[NSString stringWithFormat:@"%d", _height] forKey:@"height"];
+
+    if (_expanded_width)
+        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_width] forKey:@"expandedwidth"];
+
+    if (_expanded_height)
+        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_height] forKey:@"expandedheight"];
+
     return dict;
 }
 
 - (void)dealloc
 {
-	[swfsrc release];          
-	[imgsrc release];          
-	[preview release];          
+    [_swfsrc release];
+    [_imgsrc release];
+    [_preview release];
 
-	[super dealloc];
+    [super dealloc];
 }
 @end
 
-@implementation JRMp3MediaObject 
-@synthesize src;
-@synthesize title;
-@synthesize artist;
-@synthesize album;
+@implementation JRMp3MediaObject
+@synthesize src    = _src;
+@synthesize title  = _title;
+@synthesize artist = _artist;
+@synthesize album  = _album;
 
-- (id)initWithSrc:(NSString*)_src
+- (id)initWithSrc:(NSString*)src
 {
-    if (!_src)
+    if (!src)
     {
         [self release];
         return nil;
     }
-    
+
     if (self = [super init])
     {
-        src = [_src retain];
+        _src = [src retain];
     }
-    
+
     return self;
 }
 
-+ (id)mp3MediaObjectWithSrc:(NSString*)_src
++ (id)mp3MediaObjectWithSrc:(NSString*)src
 {
-    if (!_src)
+    if (!src)
         return nil;
-    
-    return [[[JRMp3MediaObject alloc] initWithSrc:_src] autorelease];
+
+    return [[[JRMp3MediaObject alloc] initWithSrc:src] autorelease];
 }
 
 - (NSDictionary*)dictionaryForObject
 {
-    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys: 
-                                  @"mp3", @"type", 
-                                  [src URLEscaped], @"src", nil] autorelease];
-    
-    if (title)
-        [dict setValue:[title URLEscaped] forKey:@"title"];
-    
-    if (artist)
-        [dict setValue:[artist URLEscaped] forKey:@"artist"];
-    
-    if (album)
-        [dict setValue:[album URLEscaped] forKey:@"album"];
-    
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                  @"mp3", @"type",
+                                  [_src URLEscaped], @"src", nil] autorelease];
+
+    if (_title)
+        [dict setValue:[_title URLEscaped] forKey:@"title"];
+
+    if (_artist)
+        [dict setValue:[_artist URLEscaped] forKey:@"artist"];
+
+    if (_album)
+        [dict setValue:[_album URLEscaped] forKey:@"album"];
+
     return dict;
 }
 
 - (void)dealloc
 {
-	[src release];     
-	[title release];   
-	[artist release];  
-	[album release];   
-	
-	[super dealloc];
+    [_src release];
+    [_title release];
+    [_artist release];
+    [_album release];
+
+    [super dealloc];
 }
 @end
 
@@ -270,236 +272,253 @@
 @end
 
 @implementation JRActionLink
-@synthesize text;
-@synthesize href;
+@synthesize text = _text;
+@synthesize href = _href;
 
-- (id)initWithText:(NSString*)_text andHref:(NSString*)_href
+- (id)initWithText:(NSString*)text andHref:(NSString*)href
 {
-    if (!_text || !_href)
+    if (!text || !href)
     {
         [self release];
         return nil;
     }
-    
+
     if (self = [super init])
     {
-        text = [_text retain];
-        href = [_href retain];
+        _text = [text retain];
+        _href = [href retain];
     }
-    
+
     return self;
 }
 
-+ (id)actionLinkWithText:(NSString*)_text andHref:(NSString*)_href
++ (id)actionLinkWithText:(NSString*)text andHref:(NSString*)href
 {
-    if (!_text || !_href)
+    if (!text || !href)
         return nil;
-    
-    return [[[JRActionLink alloc] initWithText:_text andHref:_href] autorelease];
+
+    return [[[JRActionLink alloc] initWithText:text andHref:href] autorelease];
 }
 
 - (NSDictionary*)dictionaryForObject
 {
     return [[[NSDictionary alloc] initWithObjectsAndKeys:
-             [text URLEscaped], @"text",
-             [href URLEscaped], @"href", nil] autorelease];
+             [_text URLEscaped], @"text",
+             [_href URLEscaped], @"href", nil] autorelease];
 }
 
 - (void)dealloc
 {
-	[text release]; 
-	[href release]; 
+    [_text release];
+    [_href release];
 
-	[super dealloc];
+    [super dealloc];
 }
 @end
 
 NSArray* filteredArrayOfValidUrls (NSArray *urls)
 {
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:[urls count]];
-                             
+
     for (NSObject *url in urls)
         if ([url isKindOfClass:[NSString class]])
             if ([NSURLConnection canHandleRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:(NSString*)url]]])
                 [array addObject:url];
-    
+
     return array;
 }
 
 @implementation JREmailObject
-@synthesize subject;
-@synthesize messageBody;
-@synthesize isHtml;
-@synthesize urls;
+@synthesize subject     = _subject;
+@synthesize messageBody = _messageBody;
+@synthesize isHtml      = _isHtml;
+@synthesize urls        = _urls;
 
-- (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
-{   
+- (id)initWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls;
+{
     if (self = [super init])
     {
-        if (_subject)
-            subject = [[NSString stringWithString:_subject] retain];
+        if (subject)
+            _subject = [[NSString stringWithString:subject] retain];
 
-        if (_messageBody)
-            messageBody = [[NSString stringWithString:_messageBody] retain];
+        if (messageBody)
+            _messageBody = [[NSString stringWithString:messageBody] retain];
 
-        isHtml = _isHtml;
-        urls   = [filteredArrayOfValidUrls (_urls) retain];
+        _isHtml = isHtml;
+        _urls   = [filteredArrayOfValidUrls (urls) retain];
     }
 
     return self;
 }
 
-+ (id)emailObjectWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
++ (id)emailObjectWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls;
 {
-    return [[[JREmailObject alloc] initWithSubject:_subject andMessageBody:_messageBody isHtml:_isHtml andUrlsToBeShortened:_urls] autorelease];
+    return [[[JREmailObject alloc] initWithSubject:subject andMessageBody:messageBody isHtml:isHtml andUrlsToBeShortened:urls] autorelease];
+}
+
+- (void)dealloc
+{
+    [_subject release];
+    [_messageBody release];
+    [_urls release];
+
+    [super dealloc];
 }
 @end
 
 
 @implementation JRSmsObject
-@synthesize message;
-@synthesize urls;
+@synthesize message = _message;
+@synthesize urls    = _urls;
 
-- (id)initWithMessage:(NSString*)_message andUrlsToBeShortened:(NSArray*)_urls;
-{   
+- (id)initWithMessage:(NSString*)message andUrlsToBeShortened:(NSArray*)urls;
+{
     if (self = [super init])
     {
-        if (_message)
-            message = [[NSString stringWithString:_message] retain];
+        if (message)
+            _message = [[NSString stringWithString:message] retain];
 
-        urls    =  [filteredArrayOfValidUrls (_urls) retain];
+        _urls =  [filteredArrayOfValidUrls (urls) retain];
     }
-    
+
     return self;
 }
 
-+ (id)smsObjectWithMessage:(NSString *)_message andUrlsToBeShortened:(NSArray*)_urls;
++ (id)smsObjectWithMessage:(NSString *)message andUrlsToBeShortened:(NSArray*)urls;
 {
-    return [[[JRSmsObject alloc] initWithMessage:_message andUrlsToBeShortened:_urls] autorelease];
+    return [[[JRSmsObject alloc] initWithMessage:message andUrlsToBeShortened:urls] autorelease];
+}
+
+- (void)dealloc
+{
+    [_message release];
+    [_urls release];
+
+    [super dealloc];
 }
 @end
 
 @implementation JRActivityObject
-@synthesize action;  							
-@synthesize url;
-@synthesize user_generated_content;
-@synthesize title;				
-@synthesize description;
-@synthesize properties;
-@synthesize email;
-@synthesize sms;
-@dynamic action_links; 					
+@synthesize action                 = _action;
+@synthesize url                    = _url;
+@synthesize user_generated_content = _user_generated_content;
+@synthesize title                  = _title;
+@synthesize description            = _description;
+@synthesize properties             = _properties;
+@synthesize email                  = _email;
+@synthesize sms                    = _sms;
+@dynamic action_links;
 @dynamic media;
 
-- (id)initWithAction:(NSString*)_action andUrl:(NSString*)_url
+- (id)initWithAction:(NSString*)action andUrl:(NSString*)url
 {
-    if (!_action)
+    if (!action)
     {
         [self release];
         return nil;
     }
-    
-    if (self = [super init]) 
-	{
-        action = [_action retain];
-        url = [_url retain];
+
+    if (self = [super init])
+    {
+        _action = [action retain];
+        _url = [url retain];
     }
-    
-	return self;
+
+    return self;
 }
 
-+ (id)activityObjectWithAction:(NSString*)_action andUrl:(NSString*)_url
++ (id)activityObjectWithAction:(NSString*)action andUrl:(NSString*)url
 {
-    if (!_action)
+    if (!action)
         return nil;
-        
-    return [[[JRActivityObject alloc] initWithAction:_action andUrl:_url] autorelease];
+
+    return [[[JRActivityObject alloc] initWithAction:action andUrl:url] autorelease];
 }
 
-- (id)initWithAction:(NSString*)_action
+- (id)initWithAction:(NSString*)action
 {
-    if (!_action)
+    if (!action)
     {
         [self release];
         return nil;
     }
-    
-    if (self = [super init]) 
-	{
-        action = [_action retain];
+
+    if (self = [super init])
+    {
+        _action = [action retain];
     }
-    
-	return self;
+
+    return self;
 }
 
-+ (id)activityObjectWithAction:(NSString*)_action
++ (id)activityObjectWithAction:(NSString*)action
 {
-    if (!_action)
+    if (!action)
         return nil;
-    
-    return [[[JRActivityObject alloc] initWithAction:_action] autorelease];
+
+    return [[[JRActivityObject alloc] initWithAction:action] autorelease];
 }
 
-/* This function filters the given array, _media, and only keeps the objects that 
+/* This function filters the given array, media, and only keeps the objects that
    directly inherit from the base class JRMediaObject (JRImageMediaObject, etc.).
-   What it doesn't test for is if a user creates a new object that directly inherits 
+   What it doesn't test for is if a user creates a new object that directly inherits
    JRMediaObject and passes that in.  If they do that, don't know why, worst case is
    that the app will crash.                                                          */
-- (void)setMedia:(NSMutableArray *)_media
+- (void)setMedia:(NSMutableArray *)media
 {
-    [media release], media = [[NSMutableArray arrayWithArray:
-                               [_media filteredArrayUsingPredicate:
+    [_media release], _media = [[NSMutableArray arrayWithArray:
+                               [media filteredArrayUsingPredicate:
                                 [NSPredicate predicateWithFormat:
-                                 @"cf_baseClassName = %@", NSStringFromClass([JRMediaObject class])]]] retain];
+                                 @"cfbaseClassName = %@", NSStringFromClass([JRMediaObject class])]]] retain];
 }
 
 - (NSMutableArray*)media
 {
 //    if (!media)
 //        media = [[NSMutableArray alloc] initWithCapacity:1];
-    
-    return media;
+
+    return _media;
 }
 
-/* This function filters the given array, _action_links, and only keeps the objects that 
+/* This function filters the given array, actionlinks, and only keeps the objects that
    have the class name JRActionLinks                                                     */
-- (void)setAction_links:(NSMutableArray *)_action_links
+- (void)setActionlinks:(NSMutableArray *)action_links
 {
-    [action_links release], action_links = [[NSMutableArray arrayWithArray:
-                                             [_action_links filteredArrayUsingPredicate:
+    [_action_links release], _action_links = [[NSMutableArray arrayWithArray:
+                                             [action_links filteredArrayUsingPredicate:
                                               [NSPredicate predicateWithFormat:
-                                               @"cf_className = %@", NSStringFromClass([JRActionLink class])]]] retain];
+                                               @"cfclassName = %@", NSStringFromClass([JRActionLink class])]]] retain];
 }
 
 - (NSMutableArray*)action_links
 {
-//    if (!action_links)
-//        action_links = [[NSMutableArray alloc] initWithCapacity:1];
+//    if (!actionlinks)
+//        actionlinks = [[NSMutableArray alloc] initWithCapacity:1];
 
-    return action_links;
+    return _action_links;
 }
 
-/* Some pre-processing of the activity object, mostly the media array, to deal with 
-   anything icky before sending it to rpxnow's publish_activity api                 */
+/* Some pre-processing of the activity object, mostly the media array, to deal with
+   anything icky before sending it to rpxnow's publishactivity api                 */
 - (void)validateActivity
 {
-    if ([media count] > 0)
+    if ([_media count] > 0)
     {
-        NSArray *images = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
-        NSArray *songs  = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
-        NSArray *videos = [media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRFlashMediaObject class])]];
-        
+        NSArray *images = [_media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRImageMediaObject class])]];
+        NSArray *songs  = [_media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRMp3MediaObject class])]];
+        NSArray *videos = [_media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRFlashMediaObject class])]];
+
 //        DLog(@"images count: %d", [images count]);
 //        DLog(@"songs count : %d", [songs count]);
 //        DLog(@"videos count: %d", [videos count]);
-        
+
         /* If we have images and either songs or videos or both */
         if ([images count] && ([songs count] || [videos count]))
         {
 //            DLog(@"([images count] && ([songs count] || [videos count]))");
-                        
+
             /* Then we only use the images; The songs or videos will be ignored */
-            [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]];
+            [_media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRImageMediaObject class])]];
         }
         /* If we don't have images, but we have both songs and videos */
         else if ([songs count] && [videos count])
@@ -507,10 +526,10 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 //            DLog(@"([songs count] && [videos count])");
 
             /* Then we only use the songs; The videos will be ignored */
-            [media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]];
+            [_media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRMp3MediaObject class])]];
         }
         /* Otherwise, we only have videos... */
-      
+
 // NTS: Facebook says you can only use 5 pictures, but testing didn't throw an error, even though
 // it did throw errors when using more than one song or video. Just leaving this for now...
 //        if ([images count] && [images count] > 5)
@@ -518,92 +537,92 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 //            while ([media count] > 5)
 //                [media removeLastObject];
 //        }
-//        else 
+//        else
         if ([songs count] && [songs count] > 1)
         {
-            while ([media count] > 1)
-                [media removeLastObject];
+            while ([_media count] > 1)
+                [_media removeLastObject];
         }
         else if ([videos count] && [images count] > 1)
         {
-            while ([media count] > 1)
-                [media removeLastObject];
+            while ([_media count] > 1)
+                [_media removeLastObject];
         }
     }
 }
 
 // QTS: Is there a better way of doing this, like by using NSCoders to do the encoding?
-/* This function goes through all of the fields of the activity object and turns the object into 
+/* This function goes through all of the fields of the activity object and turns the object into
    an NSDictionary of string values and keys so that it can be converted into json by the json
    library.  It also validates the objects and escapes icky characters in the process. */
 - (NSDictionary*)dictionaryForObject
 {
     [self validateActivity];
-    
+
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithCapacity:7] autorelease];
-    [dict setValue:[action URLEscaped] forKey:@"action"];
-    
+    [dict setValue:[_action URLEscaped] forKey:@"action"];
+
     // TODO: Figure out why Engage fails if there is no url, but accepts an empty one.  Shouldn't it ignore the no-url
     // when coming from mobile?
-    if (url)
-        [dict setValue:[url URLEscaped] forKey:@"url"];
+    if (_url)
+        [dict setValue:[_url URLEscaped] forKey:@"url"];
     else
         [dict setValue:@"" forKey:@"url"];
-    
-    if (user_generated_content)
-        [dict setValue:[user_generated_content URLEscaped] forKey:@"user_generated_content"];
-    
-    if (title)
-        [dict setValue:[title URLEscaped] forKey:@"title"];
-    
-    if (description)
-        [dict setValue:[description URLEscaped] forKey:@"description"];
-    
-    if ([action_links count])
+
+    if (_user_generated_content)
+        [dict setValue:[_user_generated_content URLEscaped] forKey:@"usergeneratedcontent"];
+
+    if (_title)
+        [dict setValue:[_title URLEscaped] forKey:@"title"];
+
+    if (_description)
+        [dict setValue:[_description URLEscaped] forKey:@"description"];
+
+    if ([_action_links count])
     {
-        NSMutableArray *arr = [[[NSMutableArray alloc] initWithCapacity:[action_links count]] autorelease];
-        
-        for (JRActionLink *link in action_links)
+        NSMutableArray *arr = [[[NSMutableArray alloc] initWithCapacity:[_action_links count]] autorelease];
+
+        for (JRActionLink *link in _action_links)
         {
             [arr addObject:[link dictionaryForObject]];
         }
-        
-        [dict setValue:arr forKey:@"action_links"];
+
+        [dict setValue:arr forKey:@"actionlinks"];
     }
-    
-    if ([media count])
+
+    if ([_media count])
     {
 //        DLog(@"[media count] = %d", [media count]);
-        
-        NSMutableArray *arr = [[[NSMutableArray alloc] initWithCapacity:[media count]] autorelease];
-        
-        for (id<JRMediaObjectDelegate> item in media)
+
+        NSMutableArray *arr = [[[NSMutableArray alloc] initWithCapacity:[_media count]] autorelease];
+
+        for (id<JRMediaObjectDelegate> item in _media)
         {
             [arr addObject:[item dictionaryForObject]];
         }
-        
+
         [dict setValue:arr forKey:@"media"];
     }
-    
-    if ([properties count])
-        [dict setObject:properties forKey:@"properties"];
-    
+
+    if ([_properties count])
+        [dict setObject:_properties forKey:@"properties"];
+
     return [NSDictionary dictionaryWithObject:dict forKey:@"activity"];
 }
 
 - (void)dealloc
 {
-	[action release];  							
-	[url release];
-	[user_generated_content release];
-	[title release];				
-	[description release];
-	[action_links release]; 					
-	[media release];
-	[properties release];	
-    [email release];
-    [sms release];
+    [_action release];
+    [_url release];
+    [_user_generated_content release];
+    [_title release];
+    [_description release];
+    [_action_links release];
+    [_media release];
+    [_properties release];
+    [_email release];
+    [_sms release];
 
-	[super dealloc];
+    [super dealloc];
 }
 @end
