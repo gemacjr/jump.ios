@@ -397,7 +397,7 @@ static JRUserInterfaceMaestro* singleton = nil;
         myProvidersController.title = @"Providers";
     }
 
-    if (/*usingAppNav || */(iPad && padPopoverMode != PadPopoverModeNone)
+    if (/*usingAppNav || */(iPad && padPopoverMode != PadPopoverModeNone) ||
         [[customInterface objectForKey:kJRNavigationControllerHidesCancelButton] boolValue])
     {
         myProvidersController.hidesCancelButton = YES;

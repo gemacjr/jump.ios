@@ -352,7 +352,7 @@
  *   The shared instance of the JREngage object initialized with the given
  *   appId, tokenUrl, and delegate.  If the given appId is nil, returns \e nil.
  **/
-+ (JREngage*)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate;
++ (id)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate;
 /*@}*/
 
 /**

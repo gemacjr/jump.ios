@@ -448,6 +448,12 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 #pragma mark JRSessionData
 @interface JRSessionData ()
+@property (copy) NSString* appId;
+//@property (copy) NSString* tokenUrl;
+@property (retain) NSError *error;
+@property (retain) NSString *newEtag;
+@property (retain) NSString *gitCommit;
+@property (retain) NSString *savedConfigurationBlock;
 //- (NSString*)getWelcomeMessageFromCookieString:(NSString*)cookieString;
 - (NSError*)startGetConfiguration;
 - (NSError*)finishGetConfiguration:(NSString *)dataStr;
@@ -455,13 +461,15 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @end
 
 @implementation JRSessionData
+@synthesize appId;
+@synthesize tokenUrl;
 @synthesize allProviders;
 @synthesize basicProviders;
 @synthesize socialProviders;
 @synthesize currentProvider;
 @synthesize returningSocialProvider;
 @synthesize baseUrl;
-@synthesize tokenUrl;
+//@synthesize tokenUrl;
 @synthesize authenticatingDirectlyOnThisProvider;
 @synthesize alwaysForceReauth;
 @synthesize forceReauthJustThisTime;
@@ -470,6 +478,9 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 //@synthesize skipReturningUserLandingPage;
 @synthesize hidePoweredBy;
 @synthesize error;
+@synthesize newEtag;
+@synthesize gitCommit;
+@synthesize savedConfigurationBlock;
 
 #pragma mark singleton_methods
 static JRSessionData* singleton = nil;
@@ -513,7 +524,7 @@ static JRSessionData* singleton = nil;
 {/* If we found out that the configuration changed while a dialog was showing, we saved it until the dialog wasn't showing
     since the dialogs dynamically load our data. Now that the dialog isn't showing, load the saved configuration information. */
     if (!isShowing && savedConfigurationBlock)
-        error = [[self finishGetConfiguration:savedConfigurationBlock] retain];
+        self.error = [self finishGetConfiguration:savedConfigurationBlock];
 
  /* If the dialog is going away, then we don't still need to shorten the urls */
     if (!isShowing)
@@ -541,6 +552,15 @@ static JRSessionData* singleton = nil;
 }
 
 #pragma mark initilization
+- (id)reconfigureWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl
+{
+    self.appId = _appId;
+    self.tokenUrl = _tokenUrl;
+    self.error = [self startGetConfiguration];
+
+    return self;   
+}
+
 - (id)initWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
 {
     DLog (@"");
@@ -550,8 +570,8 @@ static JRSessionData* singleton = nil;
         singleton = self;
 
         delegates = [[NSMutableArray alloc] initWithObjects:[_delegate retain], nil];
-        appId = [_appId retain];
-        tokenUrl = [_tokenUrl retain];
+        self.appId = _appId;
+        self.tokenUrl = _tokenUrl;
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             device = @"ipad";
@@ -620,30 +640,25 @@ static JRSessionData* singleton = nil;
         returningBasicProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:LAST_USED_BASIC_PROVIDER] retain];
 
         /* As this information may have changed, we're going to ask rpx for this information anyway */
-        error = [[self startGetConfiguration] retain];
+        self.error = [self startGetConfiguration];
     }
 
     return self;
 }
 
-+ (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
++ (id)jrSessionDataWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate
 {
     if(singleton)
-        return singleton;
+        return [singleton reconfigureWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl];
 
-    if (_appId == nil || _appId.length == 0)
-        return nil;
-
-    return [[super allocWithZone:nil] initWithAppId:_appId tokenUrl:_tokenUrl andDelegate:_delegate];
+    return [((JRSessionData*)[super allocWithZone:nil]) initWithAppId:_appId tokenUrl:_tokenUrl andDelegate:_delegate];
 }
 
 - (void)tryToReconfigureLibrary
 {
     ALog (@"Configuration error occurred. Trying to reconfigure the library.");
-    [error release];
-    error = nil;
 
-    error = [[self startGetConfiguration] retain];
+    self.error = [self startGetConfiguration];
 }
 
 #pragma mark dynamic_icon_handling
@@ -872,12 +887,12 @@ static JRSessionData* singleton = nil;
     /* Now, download any missing icons */
     [self downloadAnyIcons:iconsStillNeeded];
 
-    /* Then release our saved configuration information */
-    [savedConfigurationBlock release];
-    [newEtag release];
+//    [savedConfigurationBlock release];
+//    [newEtag release];
 
-    savedConfigurationBlock = nil;
-    newEtag = nil;
+    /* Then nullify our saved configuration information */
+    self.savedConfigurationBlock = nil;
+    self.newEtag = nil;
 
     return nil;
 }
@@ -905,8 +920,8 @@ static JRSessionData* singleton = nil;
     itself every time. */
     if (![oldEtag isEqualToString:etag] || ![currentCommit isEqualToString:savedCommit] || [currentCommit isEqualToString:@"1"])
     {
-        newEtag = [etag retain];
-        gitCommit = [currentCommit retain];
+        self.newEtag = etag;
+        self.gitCommit = currentCommit;
 
      /* We can only update all of our data if the UI isn't currently using that information.  Otherwise, the library may
         crash/behave inconsistently.  If a dialog isn't showing, go ahead and update new configuration information.
@@ -927,7 +942,7 @@ static JRSessionData* singleton = nil;
         signal to sessionData when the dialog closes (by setting the boolean dialogIsShowing to "NO".
         In the setter function, sessionData checks to see if there's anything stored in the
         savedConfigurationBlock, and updates it then. */
-        savedConfigurationBlock = [dataStr retain];
+        self.savedConfigurationBlock = dataStr;
     }
     else
     {/* Even if we don't reconfigure, there may be icons that we still need to download.
@@ -1151,9 +1166,9 @@ static JRSessionData* singleton = nil;
 
     NSString *str = nil;
 
-    BOOL weNeedToForceReauth = (alwaysForceReauth
-                                currentProvider.forceReauth
-                                authenticatingDirectlyOnThisProvider
+    BOOL weNeedToForceReauth = (alwaysForceReauth ||
+                                currentProvider.forceReauth ||
+                                authenticatingDirectlyOnThisProvider ||
                                 ![self authenticatedUserForProvider:currentProvider])
     ? YES : NO;
 
@@ -1545,13 +1560,13 @@ foo:
 
             if ([payloadString rangeOfString:@"\"provider_info\":{"].length != 0)
             {
-                error = [[self finishGetConfiguration:payloadString
-                                             withEtag:[headers objectForKey:@"Etag"]] retain];
+                self.error = [self finishGetConfiguration:payloadString
+                                                 withEtag:[headers objectForKey:@"Etag"]];
             }
             else // There was an error...
             {
-                error = [[JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
-                                  withCode:JRConfigurationInformationError] retain];
+                self.error = [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
+                                      withCode:JRConfigurationInformationError];
             }
         }
     }
@@ -1615,8 +1630,8 @@ foo:
 
         if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {
-            error = [[JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
-                              withCode:JRConfigurationInformationError] retain];
+            self.error = [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
+                                  withCode:JRConfigurationInformationError];
         }
         else if ([(NSString*)tag isEqualToString:@"emailSuccess"])
         {

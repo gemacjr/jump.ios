@@ -56,7 +56,17 @@ static JREngage* singletonJREngage = nil;
     return [[self jrEngage] retain];
 }
 
-- (JREngage*)initWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
+- (id)reconfigureWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
+{
+    [_delegates removeAllObjects];
+    [_delegates addObject:delegate];
+    
+    _sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
+    
+    return self;
+}
+
+- (id)initWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
 {
     ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);
 
@@ -73,16 +83,15 @@ static JREngage* singletonJREngage = nil;
     return self;
 }
 
-+ (JREngage*)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
-{
-// TODO: Figure out if we should reconfigure the library here
-    if(singletonJREngage)
-        return singletonJREngage;
-
-    if (appId == nil)
++ (id)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
+{    
+    if (appId == nil || appId.length == 0)
         return nil;
 
-    return [[super allocWithZone:nil] initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
+    if(singletonJREngage)
+        return [singletonJREngage reconfigureWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
+    
+    return [((JREngage *)[super allocWithZone:nil]) initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -184,22 +193,28 @@ static JREngage* singletonJREngage = nil;
             [_sessionData tryToReconfigureLibrary];
 
             return;
-        } /* TODO: And if it's not a config error?? */
-        else { return; }
+        }
+        else
+        { 
+            [self engageDidFailWithError:_sessionData.error];
+            return; 
+        }
     }
 
     if (_sessionData.dialogIsShowing)
     {
-        return [self engageDidFailWithError:
-                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
-                         withCode:JRDialogShowingError]];
+        [self engageDidFailWithError:
+              [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
+                       withCode:JRDialogShowingError]];
+        return;
     }
 
     if (provider && ![_sessionData.allProviders objectForKey:provider])//containsObject:provider])
     {
-        return [self engageDidFailWithError:
-                [JRError setError:@"You tried to authenticate on a specific provider, but this provider has not yet been configured."
-                         withCode:JRProviderNotConfiguredError]];
+        [self engageDidFailWithError:
+              [JRError setError:@"You tried to authenticate on a specific provider, but this provider has not yet been configured."
+                       withCode:JRProviderNotConfiguredError]];
+        return;
     }
 
     if (provider)
@@ -263,22 +278,28 @@ static JREngage* singletonJREngage = nil;
             [_sessionData tryToReconfigureLibrary];
 
             return;
-        } /* TODO: And if it's not a config error?? */
-        else { return; }
+        }
+        else
+        { 
+            [self engageDidFailWithError:_sessionData.error];
+            return; 
+        }
     }
 
     if (_sessionData.dialogIsShowing)
     {
-        return [self engageDidFailWithError:
-                [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
-                         withCode:JRDialogShowingError]];
+        [self engageDidFailWithError:
+              [JRError setError:@"The dialog failed to show because there is already a JREngage dialog loaded."
+                       withCode:JRDialogShowingError]];
+        return;
     }
 
     if (!activity)
     {
-        return [self engageDidFailWithError:
-                [JRError setError:@"Activity object can't be nil."
-                         withCode:JRPublishErrorAcivityNil]];
+        [self engageDidFailWithError:
+              [JRError setError:@"Activity object can't be nil."
+                        withCode:JRPublishErrorAcivityNil]];
+        return;
     }
 
     [_sessionData setActivity:activity];

@@ -220,6 +220,7 @@ a:active  { color:#7AC143; }";
     {
         StoryImage *storyImage = [story.storyImages objectAtIndex:0];
 
+        // TODO: Shouldn't I be setting the preview in the library?
         JRImageMediaObject *image = [[[JRImageMediaObject alloc] initWithSrc:storyImage.src andHref:story.feedUrl] autorelease];
         [image setPreview:storyImage.image];
 

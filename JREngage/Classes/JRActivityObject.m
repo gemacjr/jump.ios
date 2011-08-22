@@ -83,7 +83,7 @@
 @implementation JRImageMediaObject
 @synthesize src          = _src;
 @synthesize href         = _href;
-@synthesize previewImage = _preview;
+@synthesize preview      = _preview;
 
 - (id)initWithSrc:(NSString*)src andHref:(NSString*)href
 {
@@ -142,7 +142,7 @@
 @synthesize height          = _height;
 @synthesize expanded_width  = _expanded_width;
 @synthesize expanded_height = _expanded_height;
-@synthesize previewImage    = _preview;
+@synthesize preview         = _preview;
 
 - (id)initWithSwfsrc:(NSString*)swfsrc andImgsrc:(NSString*)imgsrc
 {
@@ -562,8 +562,9 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithCapacity:7] autorelease];
     [dict setValue:[_action URLEscaped] forKey:@"action"];
 
-    // TODO: Figure out why Engage fails if there is no url, but accepts an empty one.  Shouldn't it ignore the no-url
-    // when coming from mobile?
+    // Question to self: Figure out why Engage fails if there is no url, but accepts an empty one.  Shouldn't it ignore the no-url
+    // when coming from mobile?  (It doesn't, so we just send a @"" when there isn't a url for the providers that can
+    // handle that and thunk to set_status for those that don't.)
     if (_url)
         [dict setValue:[_url URLEscaped] forKey:@"url"];
     else
