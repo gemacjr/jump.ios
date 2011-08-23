@@ -87,7 +87,7 @@ typedef enum
                          OHAttributedLabelDelegate>
 {
     JRSessionData    *sessionData;
-    JRActivityObject *activity;
+    JRActivityObject *currentActivity;
 
     JRProvider          *selectedProvider;
     JRAuthenticatedUser *loggedInUser;
@@ -198,7 +198,7 @@ typedef enum
 @property (nonatomic, retain) IBOutlet UIImageView             *mySharedCheckMark;
 @property (nonatomic, retain) IBOutlet UILabel                 *mySharedLabel;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface;
 - (IBAction)signOutButtonPressed:(id)sender;
 - (IBAction)shareButtonPressed:(id)sender;
 - (IBAction)doneButtonPressed:(id)sender;

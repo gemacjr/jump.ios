@@ -69,5 +69,5 @@
 @property (nonatomic, retain) IBOutlet UILabel                  *myLoadingLabel;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView  *myActivitySpinner;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface;
 @end

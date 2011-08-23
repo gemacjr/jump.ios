@@ -57,7 +57,7 @@
 - (id)initWithCoder:(NSCoder *)decoder
 {
     DLog(@"");
-    if (self = [super initWithCoder:decoder])
+    if ((self = [super initWithCoder:decoder]))
     {
         self.outerStrokeColor = OUTER_STROKE_COLOR;
         self.innerStrokeColor = INNER_STROKE_COLOR;
@@ -74,7 +74,7 @@
 - (id)initWithFrame:(CGRect)frame
 {
     DLog(@"");
-    if (self = [super initWithFrame:frame])
+    if ((self = [super initWithFrame:frame]))
     {
         self.opaque = NO;
         self.outerStrokeColor = OUTER_STROKE_COLOR;
@@ -185,11 +185,11 @@
             myTriangleIcon, myConnectAndShareButton, myJustShareButton, myProfilePic, myProfilePicActivityIndicator,
             myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
-        customInterface = [_customInterface retain];
+        customInterface = [theCustomInterface retain];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
@@ -207,7 +207,7 @@
     [super viewDidLoad];
 
     sessionData = [JRSessionData jrSessionData];
-    activity = [[sessionData activity] retain];
+    currentActivity = [[sessionData activity] retain];
 
  /* There's a slight chance that their capacities could be 0, but that's OK; they're mutable. */
     alreadyShared = [[NSMutableSet alloc] initWithCapacity:[[sessionData socialProviders] count]];
@@ -430,7 +430,7 @@ Please try again later."
 
 - (BOOL)willPublishThunkToStatusForProvider:(JRProvider*)provider
 {
-    return ((![activity url] || [[activity url] isEqualToString:@""]) &&
+    return ((![currentActivity url] || [[currentActivity url] isEqualToString:@""]) &&
             [[provider.socialSharingProperties objectForKey:@"uses_set_status_if_no_url"] isEqualToString:@"YES"]);
 }
 
@@ -526,12 +526,12 @@ Please try again later."
 - (void)updatePreviewTextWhenContentReplacesAction
 {
     DLog(@"");
-    NSString *username = (loggedInUser) ? loggedInUser.preferred_username : @"You";
+    NSString *username = (loggedInUser) ? loggedInUser.preferredUsername : @"You";
     NSString *url = (shortenedActivityUrl) ? shortenedActivityUrl : @"shortening url...";
 
     NSString *text = (![[myUserCommentTextView text] isEqualToString:@""]) ?
     [myUserCommentTextView text] :
-    [activity action];
+    [currentActivity action];
 
     NSInteger nl = [username length];
     NSInteger ul = [url length];
@@ -560,8 +560,8 @@ Please try again later."
 - (void)updatePreviewTextWhenContentDoesNotReplaceAction
 {
     DLog(@"");
-    NSString *username = (loggedInUser) ? loggedInUser.preferred_username : @"You";
-    NSString *text = activity.action;
+    NSString *username = (loggedInUser) ? loggedInUser.preferredUsername : @"You";
+    NSString *text = currentActivity.action;
 
     NSInteger nl = [username length];
 
@@ -664,7 +664,7 @@ Please try again later."
 - (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user forProvider:(NSString*)providerName
 {
     DLog(@"");
-    myUserName.text = user.preferred_username;
+    myUserName.text = user.preferredUsername;
 
     NSData *cachedProfilePic = [cachedProfilePics objectForKey:providerName];
 
@@ -721,14 +721,14 @@ Please try again later."
         NSArray *colorArray = [selectedProvider.socialSharingProperties objectForKey:@"color_values"];
         if ([colorArray count] == 4)
         {
-            myShareToView.backgroundColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
-                                                            green:[[colorArray objectAtIndex:1] doubleValue]
-                                                             blue:[[colorArray objectAtIndex:2] doubleValue]
+            myShareToView.backgroundColor = [UIColor colorWithRed:[((NSString*)[colorArray objectAtIndex:0]) floatValue]
+                                                            green:[((NSString*)[colorArray objectAtIndex:1]) floatValue]
+                                                             blue:[((NSString*)[colorArray objectAtIndex:2]) floatValue]
                                                             alpha:0.2];
 
-            myPreviewRoundedRect.innerStrokeColor = [UIColor colorWithRed:[[colorArray objectAtIndex:0] doubleValue]
-                                                                    green:[[colorArray objectAtIndex:1] doubleValue]
-                                                                     blue:[[colorArray objectAtIndex:2] doubleValue]
+            myPreviewRoundedRect.innerStrokeColor = [UIColor colorWithRed:[((NSString*)[colorArray objectAtIndex:0]) floatValue]
+                                                                    green:[((NSString*)[colorArray objectAtIndex:1]) floatValue]
+                                                                     blue:[((NSString*)[colorArray objectAtIndex:2]) floatValue]
                                                                     alpha:1.0];
             [myPreviewRoundedRect setNeedsDisplay];
         }
@@ -754,7 +754,7 @@ Please try again later."
                                           selectedProvider.friendlyName];
 
         // Here because you can switch tabs while editing on the iPad, yes??
-        activity.user_generated_content = myUserCommentTextView.text;
+        currentActivity.user_generated_content = myUserCommentTextView.text;
 
         if (loggedInUser)
         {
@@ -767,9 +767,9 @@ Please try again later."
         }
 
         if ([self willPublishThunkToStatusForProvider:selectedProvider])
-            maxCharacters = [((NSString*)[[[selectedProvider socialSharingProperties] objectForKey:@"set_status_properties"] objectForKey:@"max_characters"]) intValue];// integerValue];
+            maxCharacters = [((NSString*)[((NSDictionary*)[[selectedProvider socialSharingProperties] objectForKey:@"set_status_properties"]) objectForKey:@"max_characters"]) intValue];// integerValue];
         else
-            maxCharacters = [[[selectedProvider socialSharingProperties] objectForKey:@"max_characters"] intValue];
+            maxCharacters = [((NSString*)[[selectedProvider socialSharingProperties] objectForKey:@"max_characters"]) intValue];
 
         if (maxCharacters == -1)
         {
@@ -892,7 +892,7 @@ Please try again later."
     they go to edit.  Currently, on second edit, the action stays, which I kinda like) */
     if (myUserCommentTextView.text.length == 0)
     {
-        myUserCommentTextView.text = activity.action;
+        myUserCommentTextView.text = currentActivity.action;
     }
 
     [UIView beginAnimations:@"editing" context:nil];
@@ -943,7 +943,7 @@ Please try again later."
     if (myUserCommentTextView.text.length > 0)
         [myUserCommentTextView scrollRangeToVisible:NSMakeRange(0, 1)];
 
-    activity.user_generated_content = myUserCommentTextView.text;
+    currentActivity.user_generated_content = myUserCommentTextView.text;
 
     return YES;
 }
@@ -978,8 +978,8 @@ Please try again later."
 
     email.mailComposeDelegate = self;
 
-    [email setSubject:activity.email.subject];
-    [email setMessageBody:activity.email.messageBody isHTML:activity.email.isHtml];
+    [email setSubject:currentActivity.email.subject];
+    [email setMessageBody:currentActivity.email.messageBody isHTML:currentActivity.email.isHtml];
 
     [self presentModalViewController:email animated:YES];
 #endif
@@ -994,7 +994,7 @@ Please try again later."
         return;
 
     sms.messageComposeDelegate = self;
-    sms.body = activity.sms.message;
+    sms.body = currentActivity.sms.message;
 
     [self presentModalViewController:sms animated:YES];
 
@@ -1021,8 +1021,8 @@ Please try again later."
     UIActionSheet *action = [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:
                                                                    @"You are currently signed in to %@%@. Would you like to sign out?",
                                                                    selectedProvider.friendlyName,
-                                                                   (loggedInUser.preferred_username) ?
-                                                                   [NSString stringWithFormat:@" as %@", loggedInUser.preferred_username] : @""]
+                                                                   (loggedInUser.preferredUsername) ?
+                                                                   [NSString stringWithFormat:@" as %@", loggedInUser.preferredUsername] : @""]
                                                          delegate:self
                                                 cancelButtonTitle:@"Cancel"
                                            destructiveButtonTitle:@"Sign Out"
@@ -1115,7 +1115,7 @@ Please try again later."
 
 - (void)downloadMediaThumbnailsForActivity
 {
-    JRMediaObject *media = [activity.media objectAtIndex:0];
+    JRMediaObject *media = [currentActivity.media objectAtIndex:0];
     if ([media isKindOfClass:[JRImageMediaObject class]])
     {
         DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
@@ -1161,9 +1161,9 @@ Please try again later."
 
     /* Check if the activity has an email object, sms string, or both and if we can send either or both.
      If so, emailOrSms will be 0, 1, 2, or 3, accordingly. */
-    if (activity.email && [mailClass canSendMail])  /* Add 1. */
+    if (currentActivity.email && [mailClass canSendMail])  /* Add 1. */
         emailAndOrSmsIndex += EMAIL;
-    if (activity.sms && [messageClass canSendText]) /* Add 2. */
+    if (currentActivity.sms && [messageClass canSendText]) /* Add 2. */
         emailAndOrSmsIndex += SMS;
 
     return;// emailAndOrSmsIndex;
@@ -1174,17 +1174,17 @@ Please try again later."
     DLog(@"");
 
  /* If the activity doesn't have a url, set the shortened url to an empty string */
-    if (!activity.url)
+    if (!currentActivity.url)
         shortenedActivityUrl = @"";
 
  /* Set the user-comment text view's text and preview label to the activity's action */
-    myUserCommentTextView.text = activity.action;
+    myUserCommentTextView.text = currentActivity.action;
     [self updatePreviewTextWhenContentReplacesAction];
 
  /* Determine if the activity has rich data (media, a title, or a description) */
-    if ((!activity.title || [activity.title isEqualToString:@""]) &&
-        (!activity.description || [activity.description isEqualToString:@""]) &&
-        ([activity.media count] == 0 || mediaThumbnailFailedToDownload))
+    if ((!currentActivity.title || [currentActivity.title isEqualToString:@""]) &&
+        (!currentActivity.description || [currentActivity.description isEqualToString:@""]) &&
+        ([currentActivity.media count] == 0 || mediaThumbnailFailedToDownload))
         activityHasRichData = NO;
     else
         activityHasRichData = YES;
@@ -1200,7 +1200,7 @@ Please try again later."
     CGFloat descr_x = 46.0, descr_y = 22.0, descr_w = 224.0, descr_h = 56.0;
     mediaBoxHeight = 48.0;
 
-    if ([activity.media count] > 0 && !mediaThumbnailFailedToDownload)
+    if ([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload)
     {
         [self downloadMediaThumbnailsForActivity];
     }
@@ -1212,24 +1212,24 @@ Please try again later."
 
  /* Set the title label and determine how much space the activity's title will potentially need */
     CGFloat shouldBeTitleHeight = 0;
-    if (activity.title)
+    if (currentActivity.title)
     {
-        myTitleLabel.text = activity.title;
+        myTitleLabel.text = currentActivity.title;
 
         CGSize shouldBeTitleSize = [myTitleLabel.text sizeWithFont:myTitleLabel.font
-                                                 constrainedToSize:CGSizeMake(([activity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73)
+                                                 constrainedToSize:CGSizeMake(([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73)
                                                      lineBreakMode:UILineBreakModeTailTruncation];
         shouldBeTitleHeight = shouldBeTitleSize.height;
     }
 
  /* Set the description label and determine how much space the activity's description will potentially need */
     CGFloat shouldBeDescriptionHeight = 0;
-    if (activity.description)
+    if (currentActivity.description)
     {
-        myDescriptionLabel.text = activity.description;
+        myDescriptionLabel.text = currentActivity.description;
 
         CGSize shouldBeDescriptionSize = [myDescriptionLabel.text sizeWithFont:myDescriptionLabel.font
-                                                 constrainedToSize:CGSizeMake(([activity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73)
+                                                 constrainedToSize:CGSizeMake(([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73)
                                                      lineBreakMode:UILineBreakModeTailTruncation];
         shouldBeDescriptionHeight = shouldBeDescriptionSize.height;
     }
@@ -1250,7 +1250,7 @@ Please try again later."
         else
             descr_h = 70.0; /* The height of 5 lines of 11.0 pt. font */
 
-        if ((descr_h > 38.0) || ([activity.media count] == 0))
+        if ((descr_h > 38.0) || ([currentActivity.media count] == 0))
             mediaBoxHeight = descr_h + 10.0; /* 10.0 is the padding above and below the title/description */
 
         [myTitleLabel setHidden:YES];
@@ -1262,7 +1262,7 @@ Please try again later."
         else
             title_h = 60.0; /* The height of 4 lines of 12.0 pt. bold font */
 
-        if ((title_h > 38.0) || ([activity.media count] == 0))
+        if ((title_h > 38.0) || ([currentActivity.media count] == 0))
             mediaBoxHeight = title_h + 10.0; /* 10.0 is the padding above and below the title/description */
 
         [myDescriptionLabel setHidden:YES];
@@ -1275,7 +1275,7 @@ Please try again later."
             descr_h = shouldBeDescriptionHeight;
             descr_y = shouldBeTitleHeight + 7.0; /* Title height + top padding + interior padding */
 
-            if ((shouldBeTitleHeight + shouldBeDescriptionHeight > 38.0) || ([activity.media count] == 0))
+            if ((shouldBeTitleHeight + shouldBeDescriptionHeight > 38.0) || ([currentActivity.media count] == 0))
                 mediaBoxHeight = shouldBeTitleHeight + shouldBeDescriptionHeight + 12.0;
         }
         else if (shouldBeTitleHeight + shouldBeDescriptionHeight >= 71) /* Max height is 83 (including title and description heights, 5 px top/bottom padding, and 2 px interior padding) */
@@ -1288,7 +1288,7 @@ Please try again later."
             {
                 descr_h = shouldBeDescriptionHeight;
                 CGSize shouldBeTitleSize = [myTitleLabel.text sizeWithFont:myTitleLabel.font
-                                                         constrainedToSize:CGSizeMake(([activity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 71 - shouldBeDescriptionHeight)
+                                                         constrainedToSize:CGSizeMake(([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 71 - shouldBeDescriptionHeight)
                                                              lineBreakMode:UILineBreakModeTailTruncation];
                 shouldBeTitleHeight = shouldBeTitleSize.height;
 
@@ -1400,7 +1400,7 @@ Please try again later."
     weAreCurrentlyPostingSomething = YES;
 
     if (myUserCommentTextView.text && hasEditedUserContentForActivityAlready)
-        activity.user_generated_content = myUserCommentTextView.text;
+        currentActivity.user_generated_content = myUserCommentTextView.text;
 
     [sessionData setCurrentProvider:selectedProvider];
     [self showViewIsLoading:YES];
@@ -1510,10 +1510,10 @@ Please try again later."
     [(NSString*)userdata release];
 }
 
-- (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)_activity
+- (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)activity
 {
     DLog(@"");
-    if (_activity == activity && url != nil)
+    if (currentActivity == activity && url != nil)
     {
         shortenedActivityUrl = url;
 
@@ -1580,7 +1580,7 @@ Please try again later."
     }
 }
 
-- (void)publishingActivityDidSucceed:(JRActivityObject*)_activity forProvider:(NSString*)provider;
+- (void)publishingActivityDidSucceed:(JRActivityObject*)theActivity forProvider:(NSString*)provider;
 {
     DLog(@"");
 
@@ -1605,7 +1605,7 @@ Please try again later."
 - (void)publishingDidCancel { weAreCurrentlyPostingSomething = NO; }
 - (void)publishingDidComplete { weAreCurrentlyPostingSomething = NO; }
 
-- (void)publishingActivity:(JRActivityObject*)_activity didFailWithError:(NSError*)error forProvider:(NSString*)provider
+- (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
     DLog(@"");
     NSString *errorMessage = nil;
@@ -1623,7 +1623,7 @@ Please try again later."
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Twitter does not allow duplicate status updates."];
             break;
-        case JRPublishErrorLinkedInCharacterExceded:
+        case JRPublishErrorLinkedInCharacterExceeded:
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Status was too long."];
             break;
@@ -1798,7 +1798,7 @@ Please try again later."
 
     [selectedProvider release];
     [loggedInUser release];
-    [activity release];
+    [currentActivity release];
     [customInterface release];
     [colorsDictionary release];
     [myBackgroundView release];

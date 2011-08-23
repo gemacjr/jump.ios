@@ -38,7 +38,7 @@ typedef enum
 {
     JRInfoBarStyleShowPoweredBy = 0,
     JRInfoBarStyleHidePoweredBy,
-    JRInfoBarStyleiPad
+    JRInfoBarStylePad
 } JRInfoBarStyle;
 
 @interface JRInfoBar : UIView <UIActionSheetDelegate>

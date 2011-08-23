@@ -70,11 +70,11 @@ typedef enum
 {
     JRPublishFailedError = 300,
     JRPublishErrorBadConnection,
-    JRPublishErrorAcivityNil,
+    JRPublishErrorActivityNil,
     JRPublishErrorMissingApiKey,
     JRPublishErrorInvalidOauthToken,
     JRPublishErrorDuplicateTwitter,
-    JRPublishErrorLinkedInCharacterExceded,
+    JRPublishErrorLinkedInCharacterExceeded,
     JRPublishErrorMissingParameter,
 } JREngageSocialPublishingError;
 
@@ -90,39 +90,39 @@ extern NSString * JREngageErrorDomain;
 
 @interface JRAuthenticatedUser : NSObject
 {
-    NSString *photo;
-    NSString *preferred_username;
-    NSString *device_token;
-    NSString *provider_name;
-    NSString *welcomeString;
+    NSString *_photo;
+    NSString *_preferredUsername;
+    NSString *_deviceToken;
+    NSString *_providerName;
+    NSString *_welcomeString;
 }
 @property (readonly) NSString *photo;
-@property (readonly) NSString *preferred_username;
-@property (readonly) NSString *device_token;
-@property (readonly) NSString *provider_name;
-@property (retain)   NSString *welcomeString;
+@property (readonly) NSString *preferredUsername;
+@property (readonly) NSString *deviceToken;
+@property (readonly) NSString *providerName;
+@property (copy)     NSString *welcomeString;
 @end
 
 @interface JRProvider : NSObject
 {
-    NSString *name;
+    NSString *_name;
 
-    NSString *friendlyName;
-    NSString *placeholderText;
-    NSString *shortText;
-    BOOL      requiresInput;
+    NSString *_friendlyName;
+    NSString *_placeholderText;
+    NSString *_shortText;
+    BOOL      _requiresInput;
 
-    NSString *openIdentifier;
-    NSString *url;
-    BOOL      forceReauth;
+    NSString *_openIdentifier;
+    NSString *_url;
+    BOOL      _forceReauth;
 
-    NSString *userInput;
+    NSString *_userInput;
 //  NSString *welcomeString;
 
-    NSDictionary *socialSharingProperties;
-    BOOL          social;
+    NSDictionary *_socialSharingProperties;
+    BOOL          _social;
 
-    NSArray *cookieDomains;
+    NSArray *_cookieDomains;
 }
 
 @property (readonly) NSString *name;
@@ -254,12 +254,13 @@ extern NSString * JREngageErrorDomain;
 @property (readonly) NSError *error;
 
 + (id)jrSessionData;
-+ (id)jrSessionDataWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(id<JRSessionDelegate>)_delegate;
++ (id)jrSessionDataWithAppId:(NSString*)newAppId tokenUrl:(NSString*)newTokenUrl andDelegate:(id<JRSessionDelegate>)newDelegate;
 
 - (void)tryToReconfigureLibrary;
+- (id)reconfigureWithAppId:(NSString*)newAppId tokenUrl:(NSString*)newTokenUrl;
 
-- (void)addDelegate:(id<JRSessionDelegate>)_delegate;
-- (void)removeDelegate:(id<JRSessionDelegate>)_delegate;
+- (void)addDelegate:(id<JRSessionDelegate>)delegateToAdd;
+- (void)removeDelegate:(id<JRSessionDelegate>)delegateToRemove;
 
 - (NSURL*)startUrlForCurrentProvider;
 
@@ -284,13 +285,13 @@ extern NSString * JREngageErrorDomain;
 - (void)triggerAuthenticationDidCancel;
 - (void)triggerAuthenticationDidCancel:(id)sender;
 - (void)triggerAuthenticationDidTimeOutConfiguration;
-- (void)triggerAuthenticationDidFailWithError:(NSError*)_error;
+- (void)triggerAuthenticationDidFailWithError:(NSError*)theError;
 
 - (void)triggerPublishingDidStartOver:(id)sender;
 - (void)triggerPublishingDidCancel;
 - (void)triggerPublishingDidCancel:(id)sender;
 - (void)triggerPublishingDidTimeOutConfiguration;
-- (void)triggerPublishingDidFailWithError:(NSError*)_error;
+- (void)triggerPublishingDidFailWithError:(NSError*)theError;
 
 - (void)triggerEmailSharingDidComplete;
 - (void)triggerSmsSharingDidComplete;

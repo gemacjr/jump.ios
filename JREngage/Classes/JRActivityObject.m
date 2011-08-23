@@ -43,7 +43,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 
-@implementation NSString (NSStringURLESCAPING)
+@implementation NSString (NSString_URL_ESCAPING)
 - (NSString*)URLEscaped
 {
     NSString *str = [self stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
@@ -93,7 +93,7 @@
         return nil;
     }
 
-    if (self = [super init])
+    if ((self = [super init]))
     {
         _src  = [src retain];
         _href = [href retain];
@@ -152,7 +152,7 @@
         return nil;
     }
 
-    if (self = [super init])
+    if ((self = [super init]))
     {
         _swfsrc = [swfsrc retain];
         _imgsrc = [imgsrc retain];
@@ -221,7 +221,7 @@
         return nil;
     }
 
-    if (self = [super init])
+    if ((self = [super init]))
     {
         _src = [src retain];
     }
@@ -283,7 +283,7 @@
         return nil;
     }
 
-    if (self = [super init])
+    if ((self = [super init]))
     {
         _text = [text retain];
         _href = [href retain];
@@ -334,9 +334,9 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 @synthesize isHtml      = _isHtml;
 @synthesize urls        = _urls;
 
-- (id)initWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls;
+- (id)initWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls
 {
-    if (self = [super init])
+    if ((self = [super init]))
     {
         if (subject)
             _subject = [[NSString stringWithString:subject] retain];
@@ -351,7 +351,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     return self;
 }
 
-+ (id)emailObjectWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls;
++ (id)emailObjectWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls
 {
     return [[[JREmailObject alloc] initWithSubject:subject andMessageBody:messageBody isHtml:isHtml andUrlsToBeShortened:urls] autorelease];
 }
@@ -371,9 +371,9 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 @synthesize message = _message;
 @synthesize urls    = _urls;
 
-- (id)initWithMessage:(NSString*)message andUrlsToBeShortened:(NSArray*)urls;
+- (id)initWithMessage:(NSString*)message andUrlsToBeShortened:(NSArray*)urls
 {
-    if (self = [super init])
+    if ((self = [super init]))
     {
         if (message)
             _message = [[NSString stringWithString:message] retain];
@@ -384,7 +384,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     return self;
 }
 
-+ (id)smsObjectWithMessage:(NSString *)message andUrlsToBeShortened:(NSArray*)urls;
++ (id)smsObjectWithMessage:(NSString *)message andUrlsToBeShortened:(NSArray*)urls
 {
     return [[[JRSmsObject alloc] initWithMessage:message andUrlsToBeShortened:urls] autorelease];
 }
@@ -418,7 +418,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
         return nil;
     }
 
-    if (self = [super init])
+    if ((self = [super init]))
     {
         _action = [action retain];
         _url = [url retain];
@@ -443,7 +443,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
         return nil;
     }
 
-    if (self = [super init])
+    if ((self = [super init]))
     {
         _action = [action retain];
     }
@@ -499,7 +499,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 }
 
 /* Some pre-processing of the activity object, mostly the media array, to deal with
-   anything icky before sending it to rpxnow's publishactivity api                 */
+   anything icky before sending it to rpxnow's publish_activity api                 */
 - (void)validateActivity
 {
     if ([_media count] > 0)
@@ -623,7 +623,8 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     [_properties release];
     [_email release];
     [_sms release];
-
+    [_shortenedUrl release];
+    
     [super dealloc];
 }
 @end

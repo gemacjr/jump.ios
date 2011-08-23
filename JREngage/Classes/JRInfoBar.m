@@ -50,7 +50,7 @@
 {
     DLog(@"");
 
-    if (self = [super initWithFrame:frame])
+    if ((self = [super initWithFrame:frame]))
     {
         int width = self.frame.size.width;
         int height = self.frame.size.height;

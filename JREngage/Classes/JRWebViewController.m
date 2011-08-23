@@ -50,11 +50,11 @@
 @synthesize myBackgroundView;
 @synthesize myWebView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
-        customInterface = [_customInterface retain];
+        customInterface = [theCustomInterface retain];
     }
 
     return self;
@@ -189,14 +189,14 @@
 
         if(!payloadDict) {  /* TODO: Error */ }
 
-        if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"stat"] isEqualToString:@"ok"])
+        if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"stat"]) isEqualToString:@"ok"])
         {
             userHitTheBackButton = NO; /* Because authentication completed successfully. */
             [sessionData triggerAuthenticationDidCompleteWithPayload:payloadDict];
         }
         else
         {
-            if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"] isEqualToString:@"Discovery failed for the OpenID you entered"])
+            if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Discovery failed for the OpenID you entered"])
             {
                 NSString *message = nil;
                 if (sessionData.currentProvider.requiresInput)
@@ -217,7 +217,7 @@
 
                 [alert show];
             }
-            else if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"] isEqualToString:@"The URL you entered does not appear to be an OpenID"])
+            else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"The URL you entered does not appear to be an OpenID"])
             {
                 NSString *message = nil;
                 if (sessionData.currentProvider.requiresInput)
@@ -238,7 +238,7 @@
 
                 [alert show];
             }
-            else if ([[[payloadDict objectForKey:@"rpx_result"] objectForKey:@"error"] isEqualToString:@"Please enter your OpenID"])
+            else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Please enter your OpenID"])
             {
                 NSError *error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
                                           withCode:JRAuthenticationFailedError];
@@ -331,7 +331,8 @@
         DLog(@"request url has prefix: %@", [sessionData baseUrl]);
 
         NSString* tag = [[NSString stringWithFormat:@"rpx_result"] retain];
-        [JRConnectionManager createConnectionFromRequest:[request retain] forDelegate:self withTag:tag];
+//        [JRConnectionManager createConnectionFromRequest:[request retain] forDelegate:self withTag:tag];
+        [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
 
         keepProgress = YES;
         return NO;
@@ -365,7 +366,7 @@
     {
         [self stopProgress];
 
-        NSError *_error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", [error localizedDescription]]
+        NSError *newError = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", [error localizedDescription]]
                                    withCode:JRAuthenticationFailedError];
 
         UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
@@ -376,7 +377,7 @@
         [alert show];
 
         userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
-        [sessionData triggerAuthenticationDidFailWithError:_error];
+        [sessionData triggerAuthenticationDidFailWithError:newError];
     }
 }
 

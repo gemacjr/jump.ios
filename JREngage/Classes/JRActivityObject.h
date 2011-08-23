@@ -319,11 +319,11 @@
 /**
  * Returns a JREmailObject initialized with the given subject and message body.
  *
- * @param _subject
+ * @param subject
  *   The desired subject of the email.  The user can edit this value once the \e MFMailComposeViewController
  *   is displayed
  *
- * @param _messageBody
+ * @param messageBody
  *   The desired message body of the email.  The message body can be in plain text or html, and if it is in html,
  *   this should be indicated by the argument \e isHtml.  If you want to include urls that are shortened
  *   to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> they should be added to the
@@ -331,10 +331,10 @@
  *   all occurrences of each url with its corresponding shortened url.  This value can be edited by the user once the
  *   \e MFMailComposeViewController is displayed
  *
- * @param _isHtml
+ * @param isHtml
  *   \c YES if the message body contains HTML content or \c NO if it contains plain text
  *
- * @param _urls
+ * @param urls
  *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
  *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding
  *   shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain
@@ -342,8 +342,8 @@
  * @return
  *   A JREmailObject initialized with the given subject and message body
  **/
-- (id)initWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
-+ (id)emailObjectWithSubject:(NSString *)_subject andMessageBody:(NSString *)_messageBody isHtml:(BOOL)_isHtml andUrlsToBeShortened:(NSArray*)_urls;
+- (id)initWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls;
++ (id)emailObjectWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls;
 /*@}*/
 @end
 
@@ -385,14 +385,14 @@
  * Returns a JRSmsObject initialized with the given message and URLs that you wish to be
  * shortened to the <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> format.
  *
- * @param _message
+ * @param message
  *   The desired message text of the sms.  If you want to include urls that are shortened to an
  *   <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url, they should be added
  *   to the \e urls array.  Once the call to get the shortened URLs is completed, the library will replace
  *   all occurrences of each url with its corresponding shortened url.  This value can be edited by
  *   the user once the \e MFMessageComposeViewController is displayed
  *
- * @param _urls
+ * @param urls
  *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url.
  *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding
  *   shortened url. To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain
@@ -400,8 +400,8 @@
  * @return
  *   A JRSmsObject initialized with the given message text
  **/
-- (id)initWithMessage:(NSString*)_message andUrlsToBeShortened:(NSArray*)_urls;
-+ (id)smsObjectWithMessage:(NSString *)_message andUrlsToBeShortened:(NSArray*)_urls;
+- (id)initWithMessage:(NSString*)message andUrlsToBeShortened:(NSArray*)urls;
++ (id)smsObjectWithMessage:(NSString *)message andUrlsToBeShortened:(NSArray*)urls;
 /*@}*/
 @end
 

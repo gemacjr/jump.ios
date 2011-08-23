@@ -53,11 +53,11 @@
 @synthesize myBackgroundView;
 @synthesize myTableView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
-        customInterface = [_customInterface retain];
+        customInterface = [theCustomInterface retain];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
@@ -225,7 +225,7 @@
 
 #pragma mark Table view methods
 
-- (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 180;
 }
@@ -429,7 +429,7 @@ enum
     UIButton    *bigSignInButton = [self getBigSignInButton:cell];
     UILabel     *welcomeLabel = [self getWelcomeLabel:cell];
 
- /* If the provider requires input, we need to enable the textField, and set the text/placeholder text to the apropriate string */
+ /* If the provider requires input, we need to enable the textField, and set the text/placeholder text to the appropriate string */
     if (sessionData.currentProvider.requiresInput)
     {
         DLog(@"current provider requires input");

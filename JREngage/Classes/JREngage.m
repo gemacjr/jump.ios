@@ -61,7 +61,7 @@ static JREngage* singletonJREngage = nil;
     [_delegates removeAllObjects];
     [_delegates addObject:delegate];
     
-    _sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
+    [_sessionData reconfigureWithAppId:appId tokenUrl:tokenUrl];
     
     return self;
 }
@@ -70,7 +70,7 @@ static JREngage* singletonJREngage = nil;
 {
     ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);
 
-    if (self = [super init])
+    if ((self = [super init]))
     {
         singletonJREngage = self;
 
@@ -180,12 +180,12 @@ static JREngage* singletonJREngage = nil;
     {
 
         /* Since configuration should happen long before the user attempts to use the library and because the user may not
-         attempt to use the library at all, we shouldn’t notify the calling application of the error until the library
+         attempt to use the library at all, we shouldn't notify the calling application of the error until the library
          is actually needed.  Additionally, since many configuration issues could be temporary (e.g., network issues),
          a subsequent attempt to reconfigure the library could end successfully.  The calling application could alert the
          user of the issue (with a pop-up dialog, for example) right when the user wants to use it (and not before).
-         This gives the calling application an ad hoc way to reconfigure the library, and doesn’t waste the limited
-         resources by trying to reconfigure itself if it doesn’t know if it’s actually needed. */
+         This gives the calling application an ad hoc way to reconfigure the library, and doesn't waste the limited
+         resources by trying to reconfigure itself if it doesn't know if it’s actually needed. */
 
         if (_sessionData.error.code / 100 == ConfigurationError)
         {
@@ -298,7 +298,7 @@ static JREngage* singletonJREngage = nil;
     {
         [self engageDidFailWithError:
               [JRError setError:@"Activity object can't be nil."
-                        withCode:JRPublishErrorAcivityNil]];
+                        withCode:JRPublishErrorActivityNil]];
         return;
     }
 
@@ -499,8 +499,8 @@ static JREngage* singletonJREngage = nil;
     [_sessionData setTokenUrl:newTokenUrl];
 }
 
-- (void)setCustomNavigationController:(UINavigationController*)navigationController
-{
-    [_interfaceMaestro useApplicationNavigationController:navigationController];
-}
+//- (void)setCustomNavigationController:(UINavigationController*)navigationController
+//{
+//    [_interfaceMaestro useApplicationNavigationController:navigationController];
+//}
 @end

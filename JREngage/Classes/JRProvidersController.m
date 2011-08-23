@@ -51,7 +51,7 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) { }
+    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) { }
 
     return self;
 }
@@ -77,11 +77,11 @@
 @synthesize myLoadingLabel;
 @synthesize myActivitySpinner;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface
 {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
-        customInterface = [_customInterface retain];
+        customInterface = [theCustomInterface retain];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
@@ -373,7 +373,7 @@ Please try again later."
         return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, myTableView.frame.size.width, infoBar.frame.size.height)] autorelease];
 }
 
-- (CGFloat)tableView:(UITableView *)_tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 50;
 }
@@ -492,6 +492,7 @@ Please try again later."
     [myLoadingLabel release];
     [myActivitySpinner release];
     [infoBar release];
+    [providers release];
 
     [super dealloc];
 }

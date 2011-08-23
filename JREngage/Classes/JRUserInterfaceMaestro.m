@@ -45,8 +45,8 @@
 
 void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyString)
 {
-    NSLog (@"*** Exception thrown. Problem is most likely with jrEngage custom interface object@%: Caught %@: %@",
-                 (kJRKeyString ? [NSString stringWithFormat:@" possibly from kJRKeyString, %@", kJRKeyString] : @""),
+    NSLog (@"*** Exception thrown. Problem is most likely with jrEngage custom interface object%@: Caught %@: %@",
+                 (kJRKeyString ? [NSString stringWithFormat:@" %@", kJRKeyString] : @""),
                  [exception name],
                  [exception reason]);
 
@@ -243,10 +243,10 @@ static JRUserInterfaceMaestro* singleton = nil;
     if ([backgroundColorRGBa respondsToSelector:@selector(count)])
         if ([backgroundColorRGBa count] == 4)
             backgroundColor =
-                [UIColor colorWithRed:[(NSNumber*)[backgroundColorRGBa objectAtIndex:0] doubleValue]
-                                green:[(NSNumber*)[backgroundColorRGBa objectAtIndex:1] doubleValue]
-                                 blue:[(NSNumber*)[backgroundColorRGBa objectAtIndex:2] doubleValue]
-                                alpha:[(NSNumber*)[backgroundColorRGBa objectAtIndex:3] doubleValue]];
+                [UIColor colorWithRed:[(NSNumber*)[backgroundColorRGBa objectAtIndex:0] floatValue]
+                                green:[(NSNumber*)[backgroundColorRGBa objectAtIndex:1] floatValue]
+                                 blue:[(NSNumber*)[backgroundColorRGBa objectAtIndex:2] floatValue]
+                                alpha:[(NSNumber*)[backgroundColorRGBa objectAtIndex:3] floatValue]];
 
     [dict setObject:backgroundColor forKey:kJRAuthenticationBackgroundColor];
     [dict removeObjectForKey:kJRAuthenticationBackgroundColorRGBa];
@@ -258,12 +258,12 @@ static JRUserInterfaceMaestro* singleton = nil;
     return dict;
 }
 
-- (id)initWithSessionData:(JRSessionData*)_sessionData
+- (id)initWithSessionData:(JRSessionData*)newSessionData
 {
-    if (self = [super init])
+    if ((self = [super init]))
     {
         singleton = self;
-        sessionData = _sessionData;
+        sessionData = newSessionData;
         janrainInterfaceDefaults = [[self loadJanrainInterfaceDefaults] retain];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -273,15 +273,15 @@ static JRUserInterfaceMaestro* singleton = nil;
     return self;
 }
 
-+ (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData
++ (id)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)newSessionData
 {
     if(singleton)
         return singleton;
 
-    if (_sessionData == nil)
+    if (newSessionData == nil)
         return nil;
 
-    return [[super allocWithZone:nil] initWithSessionData:_sessionData];
+    return [((JRUserInterfaceMaestro*)[super allocWithZone:nil]) initWithSessionData:newSessionData];
 }
 
 - (void)useApplicationNavigationController:(UINavigationController*)navigationController
@@ -311,16 +311,16 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)setUpDialogPresentation
 {
     if ([customInterface objectForKey:kJRApplicationNavigationController])
-        self.applicationNavigationController = [[customInterface objectForKey:kJRApplicationNavigationController] retain];
+        self.applicationNavigationController = [customInterface objectForKey:kJRApplicationNavigationController];
 
  /* Added for backwards compatibility */
     if (savedNavigationController)
         self.applicationNavigationController = savedNavigationController;
 
     if ([customInterface objectForKey:kJRCustomModalNavigationController])
-        self.customModalNavigationController = [[customInterface objectForKey:kJRCustomModalNavigationController] retain];
+        self.customModalNavigationController = [customInterface objectForKey:kJRCustomModalNavigationController];
 
-    usingAppNav = usingCustomNav = NO;
+    usingAppNav = NO, usingCustomNav = NO;
     if (iPad)
     {
         if ([customInterface objectForKey:kJRPopoverPresentationBarButtonItem])
@@ -357,7 +357,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 - (void)tearDownDialogPresentation
 {
     padPopoverMode = PadPopoverModeNone;
-    usingAppNav = usingCustomNav = NO;
+    usingAppNav = NO, usingCustomNav = NO;
 
     [viewControllerToPopTo release], viewControllerToPopTo = nil;
     self.applicationNavigationController = nil;
@@ -535,7 +535,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 {
     DLog(@"");
 
-    self.jrModalNavController = [[JRModalNavigationController alloc] init];
+    self.jrModalNavController = [[[JRModalNavigationController alloc] init] autorelease];
 
     if (usingCustomNav)
         jrModalNavController.myNavigationController = customModalNavigationController;
@@ -638,7 +638,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     [self setUpViewControllers];
 
     UIViewController *rootViewController;
-    if (sessionData.currentProvider = [self weAreOnlyAuthenticatingOnThisProvider])
+    if ((sessionData.currentProvider = [self weAreOnlyAuthenticatingOnThisProvider]))
         rootViewController = (sessionData.currentProvider.requiresInput) ? (UIViewController*)myUserLandingController : (UIViewController*)myWebViewController;
     else
         rootViewController = myProvidersController;

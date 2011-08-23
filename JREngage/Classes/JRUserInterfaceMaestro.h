@@ -83,10 +83,10 @@ typedef enum
     NSMutableDictionary *customInterfaceDefaults;
 }
 
-+ (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
++ (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)newSessionData;
 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
 
-- (void)useApplicationNavigationController:(UINavigationController*)_navigationController;
+//- (void)useApplicationNavigationController:(UINavigationController*)navigationController;
 
 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;

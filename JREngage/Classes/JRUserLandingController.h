@@ -55,5 +55,5 @@
 }
 @property (nonatomic, retain) IBOutlet UIView      *myBackgroundView;
 @property (nonatomic, retain) IBOutlet UITableView *myTableView;
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface;
 @end

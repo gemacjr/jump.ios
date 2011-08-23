@@ -46,15 +46,15 @@
 
 @interface ConnectionData : NSObject
 {
-    NSURLRequest    *request;
-    NSMutableData   *response;
-    NSURLResponse   *fullResponse;
+    NSURLRequest    *_request;
+    NSMutableData   *_response;
+    NSURLResponse   *_fullResponse;
 
-    BOOL returnFullResponse;
+    BOOL _returnFullResponse;
 
-    void *tag;
+    void *_tag;
 
-    id<JRConnectionManagerDelegate> delegate;
+    id<JRConnectionManagerDelegate> _delegate;
 }
 
 @property (retain) NSURLRequest     *request;
@@ -66,31 +66,31 @@
 @end
 
 @implementation ConnectionData
-@synthesize request;
-@synthesize response;
-@synthesize fullResponse;
-@synthesize returnFullResponse;
-@synthesize tag;
-@synthesize delegate;
+@synthesize request            = _request;
+@synthesize response           = _response;
+@synthesize fullResponse       = _fullResponse;
+@synthesize returnFullResponse = _returnFullResponse;
+@synthesize tag                = _tag;
+@synthesize delegate           = _delegate;
 
-- (id)initWithRequest:(NSURLRequest*)_request
-          forDelegate:(id<JRConnectionManagerDelegate>)_delegate
-   returnFullResponse:(BOOL)_returnFullResponse
+- (id)initWithRequest:(NSURLRequest*)request
+          forDelegate:(id<JRConnectionManagerDelegate>)delegate
+   returnFullResponse:(BOOL)returnFullResponse
               withTag:(void*)userdata
 {
 //  DLog(@"");
 
-    if (self = [super init])
+    if ((self = [super init]))
     {
-        request  = [_request retain];
-        response = nil;
-        fullResponse = nil;
+        _request  = [request retain];
+        _response = nil;
+        _fullResponse = nil;
 
-        returnFullResponse = _returnFullResponse;
+        _returnFullResponse = returnFullResponse;
 
-        delegate = [_delegate retain];
+        _delegate = [delegate retain];
 
-        tag = userdata;
+        _tag = userdata;
     }
 
     return self;
@@ -100,10 +100,10 @@
 {
 //  DLog(@"");
 
-    [request release];
-    [response release];
-    [fullResponse release];
-    [delegate release];
+    [_request release];
+    [_response release];
+    [_fullResponse release];
+    [_delegate release];
 
     [super dealloc];
 }
@@ -117,7 +117,7 @@ static JRConnectionManager* singleton = nil;
 
 - (JRConnectionManager*)init
 {
-    if (self = [super init])
+    if ((self = [super init]))
     {
         connectionBuffers = CFDictionaryCreateMutable(kCFAllocatorDefault, 0,
                                                       &kCFTypeDictionaryKeyCallBacks,
@@ -127,10 +127,10 @@ static JRConnectionManager* singleton = nil;
     return self;
 }
 
-+ (JRConnectionManager*)getJRConnectionManager
++ (id)getJRConnectionManager
 {
     if (singleton == nil) {
-        singleton = [[super allocWithZone:NULL] init];
+        singleton = [((JRConnectionManager*)[super allocWithZone:NULL]) init];
     }
 
     return singleton;
