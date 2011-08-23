@@ -94,6 +94,7 @@ typedef enum
 
     BOOL iPad;
     BOOL hidesCancelButton;
+    BOOL hasCoreText;
 
     EmailOrSms emailAndOrSmsIndex;
     int selectedTab;
