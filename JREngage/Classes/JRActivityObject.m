@@ -54,18 +54,34 @@
 }
 @end
 
-/* Added the CFAdditions category to NSObject to filter objects in our media array based on their base class (JRMediaObject) */
-@interface NSObject (CFAdditions)
+/* Added the CF_Class_Name_Additions category to NSObject to filter objects in our media array based on their base class (JRMediaObject) */
+@interface NSObject (CF_Class_Name_Additions)
 - (NSString*)cfbaseClassName;
 - (NSString*)cfclassName;
 @end
 
 /* Added these functions to the NSObject object to filter objects in our media array based on their base class (JRMediaObject) */
-@implementation NSObject (CFAdditions)
-- (NSString *) cfbaseClassName { return NSStringFromClass([self superclass]); }
-- (NSString *) cfclassName { return NSStringFromClass([self class]); }
+@implementation NSObject (CF_Class_Name_Additions)
+- (NSString*) cfbaseClassName { return NSStringFromClass([self superclass]); }
+- (NSString*) cfclassName { return NSStringFromClass([self class]); }
 @end
 
+@interface NSPredicate (JRObject_Class_Name_Predicates)
++ (NSPredicate*)predicateForMediaObjectBaseClass;
++ (NSPredicate*)predicateForImageMediaObjectClass;
++ (NSPredicate*)predicateForFlashMediaObjectClass;
++ (NSPredicate*)predicateForMp3MediaObjectClass;
++ (NSPredicate*)predicateForActionLinkObjectClass;
+@end
+
+@implementation NSPredicate (JRObject_Class_Name_Predicates)
++ (NSPredicate*)predicateForMediaObjectBaseClass  { return [NSPredicate predicateWithFormat:@"cfbaseClassName = %@", NSStringFromClass([JRMediaObject class])];}
++ (NSPredicate*)predicateForImageMediaObjectClass { return [NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRImageMediaObject class])]; }
++ (NSPredicate*)predicateForFlashMediaObjectClass { return [NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRMp3MediaObject class])]; }
++ (NSPredicate*)predicateForMp3MediaObjectClass   { return [NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRFlashMediaObject class])]; }
++ (NSPredicate*)predicateForActionLinkObjectClass { return [NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRActionLink class])]; }
+@end
+        
 @protocol JRMediaObjectDelegate <NSObject>
 - (NSDictionary*)dictionaryForObject;
 @end
@@ -95,8 +111,8 @@
 
     if ((self = [super init]))
     {
-        _src  = [src retain];
-        _href = [href retain];
+        _src  = [src copy];
+        _href = [href copy];
     }
 
     return self;
@@ -108,6 +124,17 @@
         return nil;
 
     return [[[JRImageMediaObject alloc] initWithSrc:src andHref:href] autorelease];
+}
+
+- (id)copyWithZone:(NSZone*)zone
+{
+	JRImageMediaObject *imageMediaObjectCopy = 
+                               [[JRImageMediaObject allocWithZone:zone] initWithSrc:_src 
+                                                                            andHref:_href];
+
+	imageMediaObjectCopy.preview = [[_preview copy] autorelease];
+
+	return imageMediaObjectCopy;
 }
 
 //- (void)setPreviewImage:(UIImage*)image
@@ -154,8 +181,8 @@
 
     if ((self = [super init]))
     {
-        _swfsrc = [swfsrc retain];
-        _imgsrc = [imgsrc retain];
+        _swfsrc = [swfsrc copy];
+        _imgsrc = [imgsrc copy];
     }
 
     return self;
@@ -174,6 +201,21 @@
 //    [_preview release];
 //    _preview = [image retain];
 //}
+
+- (id)copyWithZone:(NSZone*)zone
+{
+	JRFlashMediaObject *flashMediaObjectCopy = 
+                               [[JRFlashMediaObject allocWithZone:zone] initWithSwfsrc:_swfsrc 
+                                                                             andImgsrc:_imgsrc];
+
+    flashMediaObjectCopy.width           = _width;
+    flashMediaObjectCopy.height          = _height;
+    flashMediaObjectCopy.expanded_width  = _expanded_width;
+    flashMediaObjectCopy.expanded_height = _expanded_height;
+    flashMediaObjectCopy.preview         = [[_preview copy] autorelease];
+	
+	return flashMediaObjectCopy;
+}
 
 - (NSDictionary*)dictionaryForObject
 {
@@ -223,7 +265,7 @@
 
     if ((self = [super init]))
     {
-        _src = [src retain];
+        _src = [src copy];
     }
 
     return self;
@@ -235,6 +277,18 @@
         return nil;
 
     return [[[JRMp3MediaObject alloc] initWithSrc:src] autorelease];
+}
+
+- (id)copyWithZone:(NSZone*)zone
+{
+	JRMp3MediaObject *mp3MediaObjectCopy = 
+                             [[JRMp3MediaObject allocWithZone:zone] initWithSrc:_src];
+
+    mp3MediaObjectCopy.title  = _title;
+    mp3MediaObjectCopy.artist = _artist;
+    mp3MediaObjectCopy.album  = _album;
+    
+	return mp3MediaObjectCopy;
 }
 
 - (NSDictionary*)dictionaryForObject
@@ -285,8 +339,8 @@
 
     if ((self = [super init]))
     {
-        _text = [text retain];
-        _href = [href retain];
+        _text = [text copy];
+        _href = [href copy];
     }
 
     return self;
@@ -298,6 +352,13 @@
         return nil;
 
     return [[[JRActionLink alloc] initWithText:text andHref:href] autorelease];
+}
+
+- (id)copyWithZone:(NSZone*)zone
+{
+	JRActionLink *actionLinkCopy = [[JRActionLink allocWithZone:zone] initWithText:_text
+                                                                           andHref:_href];
+	return actionLinkCopy;
 }
 
 - (NSDictionary*)dictionaryForObject
@@ -323,7 +384,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     for (NSObject *url in urls)
         if ([url isKindOfClass:[NSString class]])
             if ([NSURLConnection canHandleRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:(NSString*)url]]])
-                [array addObject:url];
+                [array addObject:[[url copy] autorelease]];
 
     return array;
 }
@@ -339,10 +400,10 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     if ((self = [super init]))
     {
         if (subject)
-            _subject = [[NSString stringWithString:subject] retain];
+            _subject = [subject copy];
 
         if (messageBody)
-            _messageBody = [[NSString stringWithString:messageBody] retain];
+            _messageBody = [messageBody copy];
 
         _isHtml = isHtml;
         _urls   = [filteredArrayOfValidUrls (urls) retain];
@@ -354,6 +415,16 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 + (id)emailObjectWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls
 {
     return [[[JREmailObject alloc] initWithSubject:subject andMessageBody:messageBody isHtml:isHtml andUrlsToBeShortened:urls] autorelease];
+}
+
+- (id)copyWithZone:(NSZone*)zone
+{
+	JREmailObject *emailObjectCopy = [[JREmailObject allocWithZone:zone] initWithSubject:_subject 
+                                                                          andMessageBody:_messageBody 
+                                                                                  isHtml:_isHtml 
+                                                                    andUrlsToBeShortened:_urls];
+
+	return emailObjectCopy;
 }
 
 - (void)dealloc
@@ -376,7 +447,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     if ((self = [super init]))
     {
         if (message)
-            _message = [[NSString stringWithString:message] retain];
+            _message = [message copy];
 
         _urls =  [filteredArrayOfValidUrls (urls) retain];
     }
@@ -387,6 +458,14 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 + (id)smsObjectWithMessage:(NSString *)message andUrlsToBeShortened:(NSArray*)urls
 {
     return [[[JRSmsObject alloc] initWithMessage:message andUrlsToBeShortened:urls] autorelease];
+}
+
+- (id)copyWithZone:(NSZone*)zone
+{
+	JRSmsObject *smsObjectCopy = [[JRSmsObject allocWithZone:zone] initWithMessage:_message 
+                                                              andUrlsToBeShortened:_urls];
+
+	return smsObjectCopy;
 }
 
 - (void)dealloc
@@ -420,8 +499,8 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
     if ((self = [super init]))
     {
-        _action = [action retain];
-        _url = [url retain];
+        _action = [action copy];
+        _url    = [url copy];
     }
 
     return self;
@@ -445,7 +524,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
     if ((self = [super init]))
     {
-        _action = [action retain];
+        _action = [action copy];
     }
 
     return self;
@@ -459,43 +538,67 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
     return [[[JRActivityObject alloc] initWithAction:action] autorelease];
 }
 
+- (id)copyWithZone:(NSZone*)zone
+{
+	JRActivityObject *activityObjectCopy = [[JRActivityObject allocWithZone:zone] initWithAction:_action 
+                                                                                          andUrl:_url];
+    
+    activityObjectCopy.user_generated_content = _user_generated_content;
+    activityObjectCopy.title                  = _title;
+    activityObjectCopy.description            = _description;
+    activityObjectCopy.properties             = _properties;
+    activityObjectCopy.email                  = _email;
+    activityObjectCopy.sms                    = _sms;
+    activityObjectCopy.action_links           = _action_links;
+    activityObjectCopy.media                  = _media;
+    
+    return activityObjectCopy;
+}
+
+
 /* This function filters the given array, media, and only keeps the objects that
    directly inherit from the base class JRMediaObject (JRImageMediaObject, etc.).
    What it doesn't test for is if a user creates a new object that directly inherits
    JRMediaObject and passes that in.  If they do that, don't know why, worst case is
    that the app will crash.                                                          */
-- (void)setMedia:(NSMutableArray *)media
+- (void)setMedia:(NSArray*)media
 {
-    [_media release], _media = [[NSMutableArray arrayWithArray:
-                               [media filteredArrayUsingPredicate:
-                                [NSPredicate predicateWithFormat:
-                                 @"cfbaseClassName = %@", NSStringFromClass([JRMediaObject class])]]] retain];
+    NSPredicate *predicate = [NSPredicate predicateForMediaObjectBaseClass];
+    NSMutableArray *oldMedia = _media; 
+    
+    _media = [[NSMutableArray alloc] initWithArray:[media filteredArrayUsingPredicate:predicate] 
+                                         copyItems:YES];
+    
+    [oldMedia release];
 }
 
-- (NSMutableArray*)media
+- (NSArray*)media
 {
 //    if (!media)
 //        media = [[NSMutableArray alloc] initWithCapacity:1];
 
-    return _media;
+    return [[_media copy] autorelease];
 }
 
 /* This function filters the given array, actionlinks, and only keeps the objects that
    have the class name JRActionLinks                                                     */
-- (void)setActionlinks:(NSMutableArray *)action_links
+- (void)setAction_links:(NSArray*)action_links
 {
-    [_action_links release], _action_links = [[NSMutableArray arrayWithArray:
-                                             [action_links filteredArrayUsingPredicate:
-                                              [NSPredicate predicateWithFormat:
-                                               @"cfclassName = %@", NSStringFromClass([JRActionLink class])]]] retain];
+    NSPredicate *predicate = [NSPredicate predicateForActionLinkObjectClass];
+    NSMutableArray *oldActionLinks = _action_links;
+    
+    _action_links = [[NSMutableArray alloc] initWithArray:[action_links filteredArrayUsingPredicate:predicate]
+                                                copyItems:YES];
+    
+    [oldActionLinks release];
 }
 
-- (NSMutableArray*)action_links
+- (NSArray*)action_links
 {
 //    if (!actionlinks)
 //        actionlinks = [[NSMutableArray alloc] initWithCapacity:1];
 
-    return _action_links;
+    return [[_action_links copy] autorelease];
 }
 
 /* Some pre-processing of the activity object, mostly the media array, to deal with
@@ -504,9 +607,9 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 {
     if ([_media count] > 0)
     {
-        NSArray *images = [_media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRImageMediaObject class])]];
-        NSArray *songs  = [_media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRMp3MediaObject class])]];
-        NSArray *videos = [_media filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRFlashMediaObject class])]];
+        NSArray *images = [_media filteredArrayUsingPredicate:[NSPredicate predicateForImageMediaObjectClass]];
+        NSArray *songs  = [_media filteredArrayUsingPredicate:[NSPredicate predicateForMp3MediaObjectClass]];
+        NSArray *videos = [_media filteredArrayUsingPredicate:[NSPredicate predicateForFlashMediaObjectClass]];
 
 //        DLog(@"images count: %d", [images count]);
 //        DLog(@"songs count : %d", [songs count]);
@@ -518,7 +621,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 //            DLog(@"([images count] && ([songs count] || [videos count]))");
 
             /* Then we only use the images; The songs or videos will be ignored */
-            [_media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRImageMediaObject class])]];
+            [_media filterUsingPredicate:[NSPredicate predicateForImageMediaObjectClass]];
         }
         /* If we don't have images, but we have both songs and videos */
         else if ([songs count] && [videos count])
@@ -526,7 +629,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
 //            DLog(@"([songs count] && [videos count])");
 
             /* Then we only use the songs; The videos will be ignored */
-            [_media filterUsingPredicate:[NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRMp3MediaObject class])]];
+            [_media filterUsingPredicate:[NSPredicate predicateForMp3MediaObjectClass]];
         }
         /* Otherwise, we only have videos... */
 

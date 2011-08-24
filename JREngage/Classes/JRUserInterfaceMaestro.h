@@ -101,10 +101,10 @@ typedef enum
 - (void)publishingFailed;
 
 // QTS: Do I want to make customInterfaceDefaults nonatomic?
-@property (retain)   NSMutableDictionary         *customInterfaceDefaults;
+@property (copy)     NSMutableDictionary         *customInterfaceDefaults;
 @property (readonly) JRProvidersController       *myProvidersController;
 @property (readonly) JRUserLandingController     *myUserLandingController;
 @property (readonly) JRWebViewController         *myWebViewController;
 @property (readonly) JRPublishActivityController *myPublishActivityController;
-@property (retain) NSString *directProvider;
+@property (copy) NSString *directProvider;
 @end

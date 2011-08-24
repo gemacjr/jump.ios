@@ -189,14 +189,14 @@ static JREngage* singletonJREngage = nil;
 
         if (_sessionData.error.code / 100 == ConfigurationError)
         {
-            [self engageDidFailWithError:_sessionData.error];
+            [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
             [_sessionData tryToReconfigureLibrary];
 
             return;
         }
         else
-        { 
-            [self engageDidFailWithError:_sessionData.error];
+        {   // TODO: The session data error doesn't get reset here.  When will this happen and what will be the expected behavior? 
+            [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
             return; 
         }
     }
@@ -274,14 +274,14 @@ static JREngage* singletonJREngage = nil;
 
         if (_sessionData.error.code / 100 == ConfigurationError)
         {
-            [self engageDidFailWithError:_sessionData.error];
+            [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
             [_sessionData tryToReconfigureLibrary];
 
             return;
         }
         else
         { 
-            [self engageDidFailWithError:_sessionData.error];
+            [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
             return; 
         }
     }
@@ -298,12 +298,11 @@ static JREngage* singletonJREngage = nil;
     {
         [self engageDidFailWithError:
               [JRError setError:@"Activity object can't be nil."
-                        withCode:JRPublishErrorActivityNil]];
+                       withCode:JRPublishErrorActivityNil]];
         return;
     }
 
     [_sessionData setActivity:activity];
-
     [_interfaceMaestro showPublishingDialogForActivityWithCustomInterface:customInterfaceOverrides];
 }
 

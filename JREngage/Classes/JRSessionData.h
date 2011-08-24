@@ -117,7 +117,6 @@ extern NSString * JREngageErrorDomain;
     BOOL      _forceReauth;
 
     NSString *_userInput;
-//  NSString *welcomeString;
 
     NSDictionary *_socialSharingProperties;
     BOOL          _social;
@@ -125,16 +124,15 @@ extern NSString * JREngageErrorDomain;
     NSArray *_cookieDomains;
 }
 
-@property (readonly) NSString *name;
-@property (readonly) NSString *friendlyName;
-@property (readonly) NSString *shortText;
-@property (readonly) NSString *placeholderText;
-@property (readonly) BOOL      requiresInput;
-@property            BOOL      forceReauth;
-@property (retain)   NSString *userInput;
-//@property (retain)   NSString *welcomeString;
+@property (readonly) NSString     *name;
+@property (readonly) NSString     *friendlyName;
+@property (readonly) NSString     *shortText;
+@property (readonly) NSString     *placeholderText;
+@property (readonly) BOOL          requiresInput;
+@property            BOOL          forceReauth;
+@property (retain)   NSString     *userInput;
 @property (readonly) NSDictionary *socialSharingProperties;
-@property (readonly) NSArray *cookieDomains;
+@property (readonly) NSArray      *cookieDomains;
 - (BOOL)isEqualToReturningProvider:(NSString*)returningProvider;
 @end
 
@@ -143,7 +141,7 @@ extern NSString * JREngageErrorDomain;
 - (void)authenticationDidRestart;
 - (void)authenticationDidCancel;
 
-- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider;
+//- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider;
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
@@ -155,7 +153,6 @@ extern NSString * JREngageErrorDomain;
 - (void)publishingDidComplete;
 
 - (void)publishingActivityDidSucceed:(JRActivityObject*)activity forProvider:(NSString*)provider;
-
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
 - (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)activity;
@@ -213,9 +210,6 @@ extern NSString * JREngageErrorDomain;
     BOOL authenticatingDirectlyOnThisProvider;
     BOOL alwaysForceReauth;
     BOOL forceReauthJustThisTime;
-//    BOOL forceReauth;
-//    BOOL skipReturningUserLandingPage;
-
 
  /* TRUE if the library is currently sharing an activity */
     BOOL socialSharing;
@@ -238,19 +232,17 @@ extern NSString * JREngageErrorDomain;
 @property (readonly) NSArray             *basicProviders;
 @property (readonly) NSArray             *socialProviders;
 
-@property (retain)   JRActivityObject *activity;
+@property (copy)     JRActivityObject *activity;
 
-@property (retain)   NSString *tokenUrl;
+@property (copy)     NSString *tokenUrl;
 @property (readonly) NSString *baseUrl;
 
 @property (readonly) BOOL hidePoweredBy;
 @property            BOOL alwaysForceReauth;
 @property            BOOL forceReauthJustThisTime;
-//@property            BOOL forceReauth;
 @property            BOOL authenticatingDirectlyOnThisProvider;
 @property            BOOL socialSharing;
 @property            BOOL dialogIsShowing;
-//@property            BOOL skipReturningUserLandingPage;
 @property (readonly) NSError *error;
 
 + (id)jrSessionData;

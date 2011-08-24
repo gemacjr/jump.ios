@@ -444,9 +444,9 @@
  **/
 - (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
 
-/**
- * @deprecated Please use setCustomInterfaceDefaults() instead.
- **/
-- (void)setCustomInterface:(NSDictionary*)customizations;
+///**
+// * @deprecated Please use setCustomInterfaceDefaults() instead.
+// **/
+//- (void)setCustomInterface:(NSDictionary*)customizations;
 /*@}*/
 @end

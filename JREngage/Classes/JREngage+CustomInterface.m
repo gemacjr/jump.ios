@@ -41,8 +41,8 @@
     [_interfaceMaestro setCustomInterfaceDefaults:customInterfaceDefaults];
 }
 
-- (void)setCustomInterface:(NSMutableDictionary*)customizations
-{
-    [self setCustomInterfaceDefaults:customizations];
-}
+//- (void)setCustomInterface:(NSMutableDictionary*)customizations
+//{
+//    [self setCustomInterfaceDefaults:customizations];
+//}
 @end

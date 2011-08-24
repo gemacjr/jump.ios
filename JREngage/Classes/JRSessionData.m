@@ -104,10 +104,10 @@ static NSString * const iconNamesSocial[11] = { @"icon_%@_30x30.png",
 #define kJRProviderUserInput     @"jrengage.provider.%@.userInput"
 #define kJRProviderForceReauth   @"jrengage.provider.%@.forceReauth"
  
-#define kJRUserProviderName      @"jrengage.authenticatedUser.providerName"
-#define kJRUserPhoto             @"jrengage.authenticatedUser.photo"
-#define kJRUserPreferredUsername @"jrengage.authenticatedUser.preferredUsername"
-#define kJRUserWelcomeString     @"jrengage.authenticatedUser.welcomeString"
+#define kJRUserProviderName      @"provider_name"
+#define kJRUserPhoto             @"photo"
+#define kJRUserPreferredUsername @"preferred_username"
+#define kJRUserWelcomeString     @"welcome_string"
 
 #pragma mark helper_functions
 NSString* applicationBundleDisplayNameAndIdentifier()
@@ -241,6 +241,9 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
             _deviceToken = [[coder decodeObjectForKey:@"device_token"] retain];
     }
 
+    if (!_providerName)
+        [self release], self = nil;
+    
     return self;
 }
 
@@ -440,8 +443,8 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @property (retain) NSString *gitCommit;
 @property (retain) NSString *savedConfigurationBlock;
 - (NSError*)startGetConfiguration;
-- (NSError*)finishGetConfiguration:(NSString *)dataStr;
-- (void)startGetShortenedUrlsForActivity:(JRActivityObject *)theActivity;
+- (NSError*)finishGetConfiguration:(NSString*)dataStr;
+- (void)startGetShortenedUrlsForActivity:(JRActivityObject*)theActivity;
 @end
 
 @implementation JRSessionData
@@ -517,8 +520,9 @@ static JRSessionData* singleton = nil;
 - (JRActivityObject*)activity { return activity; }
 - (void)setActivity:(JRActivityObject*)newActivity
 {
-    [newActivity retain], [activity release];
-    activity = newActivity;
+    JRActivityObject *oldActivity = activity;
+    activity = [newActivity copy];
+    [oldActivity release];
 
     if (!activity)
         return;

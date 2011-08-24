@@ -74,7 +74,7 @@
  * <a href="http://developers.facebook.com/docs/guides/attachments">
  * Facebook Developer page on Attachments</a>.
  **/
-@interface JRImageMediaObject : JRMediaObject
+@interface JRImageMediaObject : JRMediaObject <NSCopying>
 {
     NSString *_src;
     NSString *_href;
@@ -132,7 +132,7 @@
  * <a href="http://developers.facebook.com/docs/guides/attachments">
  * Facebook Developer page on Attachments</a>.
  **/
-@interface JRFlashMediaObject : JRMediaObject
+@interface JRFlashMediaObject : JRMediaObject <NSCopying>
 {
     NSString  *_swfsrc;
     NSString  *_imgsrc;
@@ -191,7 +191,7 @@
  * <a href="http://developers.facebook.com/docs/guides/attachments">
  * Facebook Developer page on Attachments</a>.
  **/
-@interface JRMp3MediaObject : JRMediaObject
+@interface JRMp3MediaObject : JRMediaObject <NSCopying>
 {
     NSString *_src;
     NSString *_title;
@@ -199,9 +199,9 @@
     NSString *_album;
 }
 @property (readonly) NSString *src;   /**< The URL of the MP3 file to be rendered. */
-@property (retain)   NSString *title; /**< The title of the song. */
-@property (retain)   NSString *artist /**< The artist. */                                 ;
-@property (retain)   NSString *album; /**< The album. */
+@property (copy)     NSString *title; /**< The title of the song. */
+@property (copy)     NSString *artist /**< The artist. */                                 ;
+@property (copy)     NSString *album; /**< The album. */
 
 /**
  * @name Constructors
@@ -248,13 +248,13 @@
  * @endcode
  *
  **/
-@interface JRActionLink : NSObject
+@interface JRActionLink : NSObject <NSCopying>
 {
     NSString *_text;
     NSString *_href;
 }
-@property (retain) NSString *text; /**< The text describing the link. */
-@property (retain) NSString *href; /**< A link a user can use to take action on an activity update on the provider. */
+@property (copy)   NSString *text; /**< The text describing the link. */
+@property (copy)   NSString *href; /**< A link a user can use to take action on an activity update on the provider. */
 
 /**
  * @name Constructors
@@ -300,17 +300,17 @@
  * URLs and the click-throughs will not be tracked. \n@note
  * Once the \e MFMailComposeViewController is displayed, the given subject and body can be modified by the user.
  **/
-@interface JREmailObject : NSObject
+@interface JREmailObject : NSObject <NSCopying>
 {
     NSString *_subject;
     NSString *_messageBody;
     BOOL      _isHtml;
     NSArray  *_urls;
 }
-@property (retain) NSString *subject;     /**< The desired email subject. */
-@property (retain) NSString *messageBody; /**< The desired message body. */
-@property          BOOL      isHtml;      /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text, */
-@property (retain) NSArray  *urls;        /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked @anchor emailUrls. */
+@property (copy) NSString *subject;     /**< The desired email subject. */
+@property (copy) NSString *messageBody; /**< The desired message body. */
+@property        BOOL      isHtml;      /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text, */
+@property (copy) NSArray  *urls;        /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked @anchor emailUrls. */
 
 /**
  * @name Constructors
@@ -374,8 +374,8 @@
     NSString *_message;
     NSArray  *_urls;
 }
-@property (retain) NSString *message; /**< The desired message. */
-@property (retain) NSArray  *urls;    /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked. @anchor smsUrls*/
+@property (copy) NSString *message; /**< The desired message. */
+@property (copy) NSArray  *urls;    /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked. @anchor smsUrls*/
 
 /**
  * @name Constructors
@@ -431,18 +431,18 @@
  * For more information of Janrain Engage's activity api, see
  * <a href="http://documentation.janrain.com/activity">the activity section</a> of our API Documentation.
  **/
-@interface JRActivityObject : NSObject
+@interface JRActivityObject : NSObject <NSCopying>
 {
-    NSString            *_action;
-    NSString            *_url;
-    NSString            *_user_generated_content;
-    NSString            *_title;
-    NSString            *_description;
-    NSMutableArray      *_action_links;
-    NSMutableArray      *_media;
-    NSMutableDictionary *_properties;
-    JREmailObject       *_email;
-    JRSmsObject         *_sms;
+    NSString       *_action;
+    NSString       *_url;
+    NSString       *_user_generated_content;
+    NSString       *_title;
+    NSString       *_description;
+    NSMutableArray *_action_links;
+    NSMutableArray *_media;
+    NSDictionary   *_properties;
+    JREmailObject  *_email;
+    JRSmsObject    *_sms;
 
     NSString *_shortenedUrl;
 }
@@ -471,7 +471,7 @@
  * @note
  * Some providers (Twitter in particular) may truncate this value.
  **/
-@property (retain) NSString *user_generated_content;
+@property (copy) NSString *user_generated_content;
 
 /**
  * The title of the resource being mentioned in the activity update.
@@ -480,12 +480,12 @@
  * No length restriction on the status is imposed by Janrain Engage,
  * however Yahoo truncates this value to 256 characters.
  **/
-@property (retain) NSString *title;
+@property (copy) NSString *title;
 
 /**
  * A description of the resource mentioned in the activity update.
  **/
-@property (retain) NSString *description;
+@property (copy) NSString *description;
 
 /**
  * An array of JRActionLink objects, each having two attributes: text and href.
@@ -509,7 +509,7 @@
  * @note
  * Any objects added to this array that are not of type JRActionLink will be ignored.
  **/
-@property (retain) NSMutableArray *action_links;
+@property (copy) NSArray *action_links;
 
 /**
  * An array of objects with base class \e JRMediaObject (i.e., JRImageMediaObject,
@@ -532,7 +532,7 @@
  * Media object format and rules are identical to those described on the
  * <a href="http://developers.facebook.com/docs/guides/attachments"> Facebook Developer page on Attachments</a>.
  **/
-@property (retain) NSMutableArray *media;
+@property (copy) NSArray *media;
 
 /**
  * An object with attributes describing properties of the update. An attribute value can be
@@ -551,7 +551,7 @@
  *   }
  * @endcode
  **/
-@property (retain) NSMutableDictionary *properties;
+@property (copy) NSDictionary *properties;
 
 /**
  * @anchor activityEmail
@@ -559,7 +559,7 @@
  * An object containing the subject and message body of an email, if the user wishes to
  * share via email.
  **/
-@property (retain) JREmailObject *email;
+@property (copy) JREmailObject *email;
 
 /**
  * @anchor activitySms
@@ -567,7 +567,7 @@
  * An object containing the message body of an sms, if the user wishes to
  * share via sms.
  **/
-@property (retain) JRSmsObject *sms;
+@property (copy) JRSmsObject *sms;
 /*@}*/
 
 /**
@@ -599,7 +599,6 @@
  *   A JRActivityObject initialized with the given action.  If action is \e nil, returns \e nil
  **/
 - (id)initWithAction:(NSString*)action;
-
 + (id)activityObjectWithAction:(NSString*)action;
 /*@}*/
 
