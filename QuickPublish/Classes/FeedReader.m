@@ -816,8 +816,8 @@ static FeedReader* singleton = nil;
 //- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 //- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
 //- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
-//- (void)jrSocialDidNotCompletePublishing { }
-//- (void)jrSocialDidCompletePublishing { }
-//- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { }
-//- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+- (void)jrSocialDidNotCompletePublishing { DLog(@""); }
+- (void)jrSocialDidCompletePublishing { DLog(@""); }
+- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { DLog(@""); }
+- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
 @end

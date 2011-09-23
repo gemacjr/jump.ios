@@ -304,13 +304,13 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-//  DLog(@"");
+    //DLog(@"");
     [[(ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection) response] appendData:data];
 }
 
 - (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response
 {
-//  DLog(@"");
+  DLog(@"");
 
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 
@@ -322,7 +322,7 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
-//  DLog(@"");
+  DLog(@"");
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 
     NSURLRequest *request = [connectionData request];
@@ -374,6 +374,7 @@ static JRConnectionManager* singleton = nil;
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request
                                                           redirectResponse:(NSURLResponse *)redirectResponse
 {
+    DLog(@"");
 //  DLog(@"willSendRequest:  %@", [[request URL] absoluteString]);
 //  DLog(@"redirectResponse: %@", [[redirectResponse URL] absoluteString]);
 
@@ -390,6 +391,7 @@ static JRConnectionManager* singleton = nil;
 - (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse { DLog(@""); return cachedResponse; }
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten
                                                totalBytesWritten:(NSInteger)totalBytesWritten
-                                       totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite { DLog(@""); }
+                                       totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite 
+{ /*DLog(@"bytesWritten: %d, totalBytesWritten: %d, totalBytesExpected: %d", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);*/ }
 
 @end

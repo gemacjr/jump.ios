@@ -48,6 +48,8 @@
 @synthesize navigationController;
 @synthesize embeddedTable;
 @synthesize iPad;
+@synthesize tokenUrlDelegate;
+@synthesize pendingCallToTokenUrl;
 
 /* Singleton instance of UserModel */
 static UserModel* singleton = nil;
@@ -399,8 +401,9 @@ otherwise, this happens automatically.													*/
 	loadingUserData = NO;
 	
 	[signInDelegate userDidSignIn];
-	[signInDelegate release];
-	signInDelegate = nil;
+	
+    [self setTokenUrlDelegate:signInDelegate];
+    [signInDelegate release], signInDelegate = nil;
 }
 
 - (void)finishSignUserOut
@@ -438,8 +441,7 @@ otherwise, this happens automatically.													*/
 	currentProvider = nil;
 	
 	[signOutDelegate userDidSignOut];
-	[signOutDelegate release];
-	signInDelegate = nil;
+	[signOutDelegate release], signOutDelegate = nil;
 
  /* As we remove sign-in sessions from the history, eventually we need to prune the profiles from the
     userProfiles dictionary.  We do this when the size of the signinHistory array is half 
@@ -512,13 +514,22 @@ otherwise, this happens automatically.													*/
     
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:YES];
+    [signInDelegate release], signInDelegate = nil;
 }
 
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary *)auth_info forProvider:(NSString *)provider
 {
-	UIApplication* app = [UIApplication sharedApplication]; 
-	app.networkActivityIndicatorVisible = NO;
-	
+    if (!tokenUrl)
+    {
+        UIApplication* app = [UIApplication sharedApplication]; 
+        app.networkActivityIndicatorVisible = NO;
+	}
+	else
+    {
+        pendingCallToTokenUrl = YES;
+        [self setTokenUrlDelegate:signInDelegate];
+    }
+
     currentProvider = [[NSString stringWithString:provider] retain];
 	[signInDelegate didReceiveToken];
     
@@ -528,13 +539,20 @@ otherwise, this happens automatically.													*/
 	[self finishSignUserIn:auth_info];
 }
 
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)_tokenUrl 
-                             withPayload:(NSData*)tokenUrlPayload 
-                             forProvider:(NSString*)provider
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl 
+                            withResponse:(NSURLResponse*)response 
+                              andPayload:(NSData*)tokenUrlPayload 
+                             forProvider:(NSString*)provider;
 {
+    DLog(@"");
 	UIApplication* app = [UIApplication sharedApplication]; 
 	app.networkActivityIndicatorVisible = NO;
-	
+
+    pendingCallToTokenUrl = NO;
+    
+    [tokenUrlDelegate didReachTokenUrl];
+    [tokenUrlDelegate release], tokenUrlDelegate = nil;
+
 //  NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
 //    
 //	NSRange found = [payload rangeOfString:@"{"];
@@ -555,17 +573,24 @@ otherwise, this happens automatically.													*/
 {
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:NO];
+    [signInDelegate release], signInDelegate = nil;
 }
 
 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	loadingUserData = NO;
-	[signInDelegate didFailToSignIn:NO];
+	[signInDelegate didFailToSignIn:YES];
+    [signInDelegate release], signInDelegate = nil;
 }
 
-- (void)jrAuthenticationCallToTokenUrl:(NSString*)_tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
+- (void)jrAuthenticationCallToTokenUrl:(NSString*)theTokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
 	loadingUserData = NO;
-	[signInDelegate didFailToSignIn:YES];
+    pendingCallToTokenUrl = NO;
+    
+	[tokenUrlDelegate didFailToReachTokenUrl];
+    [tokenUrlDelegate release], tokenUrlDelegate = nil;
+//	[signInDelegate didFailToSignIn:YES];
+//  [signInDelegate release], signInDelegate = nil;
 }
 @end

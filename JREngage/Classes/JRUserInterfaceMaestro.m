@@ -620,13 +620,13 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (directProvider)
         return [sessionData getProviderNamed:directProvider];
 
-    NSMutableArray *providers = [NSMutableArray arrayWithArray:sessionData.basicProviders];
-    [providers removeObjectsInArray:[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]];
-    if ([providers count] == 1)
-        return [sessionData getProviderNamed:[providers objectAtIndex:0]];
+//    NSMutableArray *providers = [NSMutableArray arrayWithArray:sessionData.basicProviders];
+//    [providers removeObjectsInArray:[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]];
+//    if ([providers count] == 1)
+//        return [sessionData getProviderNamed:[providers objectAtIndex:0]];
 
 
-    sessionData.authenticatingDirectlyOnThisProvider = YES;
+    sessionData.authenticatingDirectlyOnThisProvider = NO;
     return nil;
 }
 

@@ -263,6 +263,9 @@ Copyright (c) 2010, Janrain, Inc.
 
     if (iPad)
         [self fadeCustomNavigationBarItems:1.0];
+    
+    if ([[UserModel getUserModel] pendingCallToTokenUrl]) 
+        [[UserModel getUserModel] setTokenUrlDelegate:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -525,6 +528,27 @@ Copyright (c) 2010, Janrain, Inc.
 #endif
 }
 
+- (void)didReachTokenUrl
+{
+//    DLog(@"");
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign-In Complete"
+                                                     message:@"You have successfully signed-in to the Quick Sign-In application and server."
+                                                    delegate:self
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];    
+}
+
+- (void)didFailToReachTokenUrl
+{
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign-In Error"
+                                                     message:@"An error occurred while attempting to sign you in to the Quick Sign-In server."
+                                                    delegate:self
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];    
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 30.0;
@@ -681,6 +705,9 @@ Copyright (c) 2010, Janrain, Inc.
         [level2ViewController clearUser:YES];
         [self fadeCustomNavigationBarItems:0.0];
     }
+    
+    if ([[UserModel getUserModel] pendingCallToTokenUrl]) 
+        [[UserModel getUserModel] setTokenUrlDelegate:nil];
 }
 
 - (void)viewDidUnload { }

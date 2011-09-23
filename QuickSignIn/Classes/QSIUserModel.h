@@ -32,20 +32,30 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import <Foundation/Foundation.h>
 #import "JREngage.h"
 #import "JREngage+CustomInterface.h"
 #import "QuickSignInAppDelegate.h"
 #import "QSIEmbeddedTableViewController.h"
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
 #define LILLI
 
 @protocol UserModelDelegate <NSObject>
+@optional
 - (void)didFailToSignIn:(BOOL)showMessage;
 - (void)didReceiveToken;
 - (void)userDidSignIn;
 - (void)userDidSignOut;
+- (void)didReachTokenUrl;
+- (void)didFailToReachTokenUrl;
 @end
 
 @class EmbeddedTableViewController;
@@ -72,6 +82,11 @@
  /* Boolean variable to tell the View Controller classes whether or not the 
     Model is signing in a user. */
 	BOOL loadingUserData;
+ 
+ /* Boolean variable to indicate to View Controller classes whether or not the
+    Model is waiting on the call to the token URL, so they can add/remove themselves as
+    the tokenUrlDelegate if they appear/disappear during the network call. */
+    BOOL pendingCallToTokenUrl;
 
  /* A place to store the specific profile a user selects in the ViewControllerLevel1
     to load in ViewControllerLevel2. */
@@ -88,9 +103,12 @@
  /* Delegates for the UserModelDelegate protocol. */
 	id<UserModelDelegate> signInDelegate;
 	id<UserModelDelegate> signOutDelegate;
+    id<UserModelDelegate> tokenUrlDelegate;
     
     BOOL iPad;
 }
+@property (retain) id<UserModelDelegate> tokenUrlDelegate;
+@property          BOOL pendingCallToTokenUrl;
 
 @property (readonly) BOOL loadingUserData;
 @property (readonly) NSDictionary *currentUser;

@@ -111,6 +111,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+    
+    if ([[UserModel getUserModel] pendingCallToTokenUrl]) 
+        [[UserModel getUserModel] setTokenUrlDelegate:self];
 }
 
 - (void)delaySwitchAccounts:(NSTimer*)theTimer
@@ -208,6 +211,26 @@
 - (void)userDidSignOut { }
 - (void)didReceiveToken { }
 
+- (void)didReachTokenUrl
+{
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign-In Complete"
+                                                     message:@"You have successfully signed-in to the Quick Sign-In application and server."
+                                                    delegate:self
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];    
+}
+
+- (void)didFailToReachTokenUrl
+{
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign-In Error"
+                                                     message:@"An error occurred while attempting to sign you in to the Quick Sign-In server."
+                                                    delegate:self
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];    
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation 
 {
     if (iPad)
@@ -245,6 +268,15 @@
 - (void)didReceiveMemoryWarning 
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if ([[UserModel getUserModel] pendingCallToTokenUrl]) 
+        [[UserModel getUserModel] setTokenUrlDelegate:nil];
+    
 }
 
 - (void)viewDidUnload { }

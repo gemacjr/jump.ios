@@ -5,7 +5,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>v2.2.0</string>
 	<key>JREngage.GitCommit</key>
-	<string>74e46c1b7b38551ed87bae9070e7764619bbecc5</string>
+	<string>0cd828eb858ea6da</string>
 	<key>JREngage.CustomInterface</key>
 	<dict>
 		<key>DefaultValues</key>

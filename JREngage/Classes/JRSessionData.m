@@ -241,8 +241,8 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
             _deviceToken = [[coder decodeObjectForKey:@"device_token"] retain];
     }
 
-    if (!_providerName)
-        [self release], self = nil;
+//    if (!_providerName)
+//        [self release], self = nil;
     
     return self;
 }
@@ -343,7 +343,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
     if ((self = [super init]))
     {
-        _name = [_name retain];
+        _name = [name retain];
 
         _friendlyName    = [[dictionary objectForKey:@"friendly_name"] retain];
         _placeholderText = [[dictionary objectForKey:@"input_prompt"] retain];
@@ -397,15 +397,15 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 {
     if (self != nil)
     {
-        _name                    = [[coder decodeObjectForKey:@"name"] retain];
-        _friendlyName            = [[coder decodeObjectForKey:@"friendlyName"] retain];
-        _placeholderText         = [[coder decodeObjectForKey:@"placeholderText"] retain];
-        _shortText               = [[coder decodeObjectForKey:@"shortText"] retain];
-        _openIdentifier          = [[coder decodeObjectForKey:@"openIdentifier"] retain];
-        _url                     = [[coder decodeObjectForKey:@"url"] retain];
-        _requiresInput           =  [coder decodeBoolForKey:@"requiresInput"];
-        _socialSharingProperties = [[coder decodeObjectForKey:@"socialSharingProperties"] retain];
-        _cookieDomains           = [[coder decodeObjectForKey:@"cookieDomains"] retain];
+        _name                    = [[coder decodeObjectForKey:kJRProviderName] retain];
+        _friendlyName            = [[coder decodeObjectForKey:kJRProviderFriendlyName] retain];
+        _placeholderText         = [[coder decodeObjectForKey:kJRProviderPlaceholderText] retain];
+        _shortText               = [[coder decodeObjectForKey:kJRProviderShortText] retain];
+        _openIdentifier          = [[coder decodeObjectForKey:kJRProviderOpenIdentifier] retain];
+        _url                     = [[coder decodeObjectForKey:kJRProviderUrl] retain];
+        _requiresInput           =  [coder decodeBoolForKey:  kJRProviderRequiresInput];
+        _socialSharingProperties = [[coder decodeObjectForKey:kJRProviderSocialSharingProperties] retain];
+        _cookieDomains           = [[coder decodeObjectForKey:kJRProviderCookieDomains] retain];
     }
     [self loadDynamicVariables];
 
@@ -1701,11 +1701,18 @@ CALL_DELEGATE_SELECTOR:
     JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
                                                                     andWelcomeString:[self getWelcomeMessageFromCookie]
                                                                     forProviderNamed:currentProvider.name] autorelease];
-
-    [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider]
-                                              forKey:kJRAuthenticatedUsersByProvider];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (user)
+    {
+        [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:authenticatedUsersByProvider]
+                                                  forKey:kJRAuthenticatedUsersByProvider];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    else
+    {
+        // TODO: There could be some kind of error initializing the user!
+    }
 
     if ([[self basicProviders] containsObject:currentProvider.name] && !socialSharing)
         [self saveLastUsedBasicProvider:currentProvider.name];
