@@ -70,6 +70,7 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)setEditToDone;
 - (void)setDoneToEdit;
 - (void)setEditButtonEnabled:(BOOL)disabled;
+- (void)readjustNavBarForPadRotation:(UIInterfaceOrientation)toInterfaceOrientation;
 @end
 
 @implementation ViewControllerLevel1
@@ -97,18 +98,25 @@ Copyright (c) 2010, Janrain, Inc.
     self.navigationItem.leftBarButtonItem = mySignOutButtonPad;
     self.navigationItem.leftBarButtonItem.enabled = YES;
 
+//    if (self.interfaceOrientation == UIInterfaceOrientationPortrait ||
+//        self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+//        myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 44)];
+//    else
+//        myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(153, 0, 120, 44)];
+
     if (self.interfaceOrientation == UIInterfaceOrientationPortrait ||
         self.interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-        myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(100, 0, 120, 44)];
+        myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(95, 0, 130, 44)];
     else
-        myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(153, 0, 120, 44)];
-
+        myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(148, 0, 130, 44)];
+   
     [myTitlePad setFont:[UIFont boldSystemFontOfSize:20.0]];
     [myTitlePad setBackgroundColor:[UIColor clearColor]];
     [myTitlePad setTextColor:[UIColor whiteColor]];
     [myTitlePad setShadowColor:[UIColor colorWithWhite:0.0 alpha:0.5]];
     [myTitlePad setTextAlignment:UITextAlignmentCenter];
     [myTitlePad setAlpha:0.0];
+    [myTitlePad setAutoresizingMask:UIViewAutoresizingNone];
 
     [myTitlePad setText:@"Profiles"];
 
@@ -262,27 +270,17 @@ Copyright (c) 2010, Janrain, Inc.
     [super viewDidAppear:animated];
 
     if (iPad)
+    {
+//        [self readjustNavBarForPadRotation:self.interfaceOrientation];
         [self fadeCustomNavigationBarItems:1.0];
-    
+    }        
+        
     if ([[UserModel getUserModel] pendingCallToTokenUrl]) 
         [[UserModel getUserModel] setTokenUrlDelegate:self];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+- (void)readjustNavBarForPadRotation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-//    return YES;
-    
-    if (iPad)
-        return YES;
-
-    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    if (!iPad)
-        return;
-
     switch (toInterfaceOrientation)
     {
         case UIInterfaceOrientationPortrait:
@@ -301,7 +299,25 @@ Copyright (c) 2010, Janrain, Inc.
             break;
         default:
             break;
-    }
+    }    
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+//    return YES;
+    
+    if (iPad)
+        return YES;
+
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (!iPad)
+        return;
+    
+    [self readjustNavBarForPadRotation:toInterfaceOrientation];
 }
 
 - (void)clearSelectedProfile
@@ -423,6 +439,8 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)addAnotherButtonPressed:(id)sender
 {
+    [self doneButtonPressed:nil];
+    
 	myNotSignedInLabel.text = @"Completing Sign In...";
 
 //#ifdef LILLI
