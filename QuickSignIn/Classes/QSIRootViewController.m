@@ -235,7 +235,8 @@
 {
     if (iPad)
         return YES;
-    return NO;    
+    
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);    
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

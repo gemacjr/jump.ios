@@ -326,6 +326,9 @@ Please try again later."
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+//    DLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+//    return YES;
+    
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 

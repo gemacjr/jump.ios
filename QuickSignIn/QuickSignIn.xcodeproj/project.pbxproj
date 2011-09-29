@@ -1236,7 +1236,7 @@
 					"DEBUG=1",
 					"OVERRIDE_INCLUDE_EMAIL_SMS=1",
 				);
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "";
@@ -1264,7 +1264,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "OVERRIDE_INCLUDE_EMAIL_SMS=1";
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "";
@@ -1320,7 +1320,7 @@
 					"DEBUG=1",
 					"OVERRIDE_INCLUDE_EMAIL_SMS=1",
 				);
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "";
@@ -1372,7 +1372,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "OVERRIDE_INCLUDE_EMAIL_SMS=1";
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Quick_Sign_In-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "";

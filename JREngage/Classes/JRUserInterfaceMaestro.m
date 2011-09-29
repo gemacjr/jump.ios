@@ -157,6 +157,9 @@ void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyStri
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+//    DLog(@"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXXXXXXXXXXXXXXXXX");
+//    return YES;
+    
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 

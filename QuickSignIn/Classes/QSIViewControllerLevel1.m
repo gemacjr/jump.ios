@@ -270,6 +270,8 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
+//    return YES;
+    
     if (iPad)
         return YES;
 

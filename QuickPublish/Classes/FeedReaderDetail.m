@@ -212,9 +212,9 @@ a:active  { color:#7AC143; }";
 
     activity.title = story.title;
 
-//    NSInteger trunk = /*(iPad)*/ 0 ? 300 : 200;
-//    activity.description = [story.plainText substringToIndex:
-//                            ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
+    NSInteger trunk = /*(iPad)*/ 0 ? 300 : 200;
+    activity.description = [story.plainText substringToIndex:
+                            ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
 
     if ([story.storyImages count] > 0)
     {
@@ -242,11 +242,12 @@ a:active  { color:#7AC143; }";
     // TODO: Why are we setting this??
 //    [FeedReader feedReader].feedReaderDetail = self;
 
-    if (!iPad)
-        [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
+//    if (!iPad)
+//        [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
 
     NSDictionary *custom = [NSDictionary dictionaryWithObjectsAndKeys:
-                            self.navigationItem.rightBarButtonItem, kJRPopoverPresentationBarButtonItem, nil];
+                            self.navigationItem.rightBarButtonItem, kJRPopoverPresentationBarButtonItem, 
+                            self.navigationController, kJRApplicationNavigationController, nil];
 
     [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity andCustomInterface:custom];
 //    [[[FeedReader feedReader] jrEngage] showAuthenticationDialogWithCustomInterfaceOverrides:custom];

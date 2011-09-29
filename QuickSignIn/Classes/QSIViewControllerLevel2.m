@@ -396,7 +396,8 @@
 {
     if (iPad)
         return YES;
-    return NO;
+    
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)didReceiveMemoryWarning 
