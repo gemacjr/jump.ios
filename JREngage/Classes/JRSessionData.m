@@ -464,7 +464,7 @@ static JRSessionData* singleton = nil;
 
 - (id)retain                { return self; }
 - (NSUInteger)retainCount   { return NSUIntegerMax; }
-- (void)release             { /* Do nothing... */ }
+- (oneway void)release             { /* Do nothing... */ }
 - (id)autorelease           { return self; }
 
 #pragma mark accessors

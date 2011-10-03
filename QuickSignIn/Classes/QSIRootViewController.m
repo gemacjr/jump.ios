@@ -58,13 +58,13 @@
 	[self navigationController].navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
 //#ifdef LILLI	
-    UIBarButtonItem *spacerButton = [[[UIBarButtonItem alloc]
-                                      initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                      target:nil
-                                      action:nil] autorelease];
-    
-    self.navigationItem.leftBarButtonItem = spacerButton;
-    self.navigationItem.leftBarButtonItem.enabled = YES;
+//    UIBarButtonItem *spacerButton = [[[UIBarButtonItem alloc]
+//                                      initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                      target:nil
+//                                      action:nil] autorelease];
+//    
+//    self.navigationItem.leftBarButtonItem = spacerButton;
+//    self.navigationItem.leftBarButtonItem.enabled = YES;
     
     UIBarButtonItem *viewHistoryButton = [[[UIBarButtonItem alloc] 
                                            initWithTitle:@"View Profiles" 

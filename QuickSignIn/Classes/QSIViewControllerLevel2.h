@@ -47,16 +47,16 @@
 	NSDictionary	*selectedUser;
     
 	NSDictionary	*profile;
-	NSMutableArray	*profileKeys;
+	NSArray         *profileKeys;
     
     NSDictionary	*accessCredentials;
-	NSMutableArray	*accessCredentialsKeys;
+	NSArray         *accessCredentialsKeys;
     
     NSDictionary	*mergedPoco;
-	NSMutableArray	*mergedPocoKeys;
+	NSArray         *mergedPocoKeys;
     
     NSMutableArray	*friends;
-	NSMutableArray	*friendsKeys;
+	NSArray         *friendsKeys;
 }
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)loadUser:(BOOL)animated;
