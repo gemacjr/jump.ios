@@ -84,9 +84,9 @@
         [self.view addSubview:infoBar];
     }
 
-    UINavigationController *foo = self.navigationController;
-    UINavigationBar *bar = foo.navigationBar;
-    UINavigationItem *baz = bar.backItem;
+//    UINavigationController *foo = self.navigationController;
+//    UINavigationBar *bar = foo.navigationBar;
+//    UINavigationItem *baz = bar.backItem;
 
     if (!self.navigationController.navigationBar.backItem)
     {
