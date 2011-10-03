@@ -35,24 +35,16 @@
 #import <UIKit/UIKit.h>
 #import "FeedReaderDetail.h"
 #import "FeedReader.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface TableHeaderViewController : UIViewController
-{
-//    UIView *view;
-    UILabel *label;
-    UIActivityIndicatorView *spinner;
-}
-- (void)startBlogUpdate;
-- (void)finishBlogUpdate;
-@end
-
-@interface FeedReaderSummary : UIViewController <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, FeedReaderDelegate>
+@interface FeedReaderSummary : UIViewController <UITableViewDataSource, UITableViewDelegate, 
+                                                 EGORefreshTableHeaderDelegate, FeedReaderDelegate>
 {
     BOOL iPad;
 
 	IBOutlet UITableView *myTable;
-    TableHeaderViewController *tableHeader;
-
+    EGORefreshTableHeaderView *refreshHeader;
+    
     FeedReaderDetail *detailViewController;
     FeedReader *reader;
 
@@ -60,4 +52,8 @@
 
     NSArray *stories;
 }
+@property (retain) UITableView *myTable;
+- (void)reloadTableViewDataSource;
+- (void)doneLoadingTableViewData;
+
 @end

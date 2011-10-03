@@ -35,7 +35,7 @@
 #import <UIKit/UIKit.h>
 #import "QSIUserModel.h"
 
-@interface ViewControllerLevel2 : UIViewController <UINavigationBarDelegate, 
+@interface ViewControllerLevel2 : UIViewController <UINavigationBarDelegate, UserModelDelegate,
 														UITableViewDelegate, UITableViewDataSource>
 {
     BOOL iPad;

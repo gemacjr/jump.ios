@@ -212,14 +212,15 @@ a:active  { color:#7AC143; }";
 
     activity.title = story.title;
 
-    NSInteger trunk = /*(iPad)*/ 0 ? 300 : 160;
-    activity.description = [story.plainText substringToIndex:
-                            ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
+//    NSInteger trunk = /*(iPad)*/ 0 ? 300 : 200;
+//    activity.description = [story.plainText substringToIndex:
+//                            ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
 
     if ([story.storyImages count] > 0)
     {
         StoryImage *storyImage = [story.storyImages objectAtIndex:0];
 
+        // TODO: Shouldn't I be setting the preview in the library?
         JRImageMediaObject *image = [[[JRImageMediaObject alloc] initWithSrc:storyImage.src andHref:story.feedUrl] autorelease];
         [image setPreview:storyImage.image];
 

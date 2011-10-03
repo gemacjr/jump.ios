@@ -64,64 +64,68 @@
 <a name="l00046"></a>00046 <span class="keyword">@class</span> JRWebViewController;
 <a name="l00047"></a>00047 <span class="keyword">@class</span> JRPublishActivityController;
 <a name="l00048"></a>00048 
-<a name="l00049"></a>00049 <span class="keyword">typedef</span> <span class="keyword">enum</span>
-<a name="l00050"></a>00050 {
-<a name="l00051"></a>00051     PadPopoverModeNone,
-<a name="l00052"></a>00052     PadPopoverFromBar,
-<a name="l00053"></a>00053     PadPopoverFromFrame,
-<a name="l00054"></a>00054 } PadPopoverMode;
-<a name="l00055"></a>00055 
-<a name="l00056"></a>00056 <span class="keyword">@interface </span>JRUserInterfaceMaestro : NSObject &lt;UIPopoverControllerDelegate&gt;
-<a name="l00057"></a>00057 {
-<a name="l00058"></a>00058         JRModalNavigationController *jrModalNavController;
-<a name="l00059"></a>00059         JRSessionData   *sessionData;
-<a name="l00060"></a>00060         NSMutableArray  *delegates;    
-<a name="l00061"></a>00061 
-<a name="l00062"></a>00062     BOOL iPad;
-<a name="l00063"></a>00063     
-<a name="l00064"></a>00064     PadPopoverMode padPopoverMode;
-<a name="l00065"></a>00065     BOOL usingAppNav;
-<a name="l00066"></a>00066     BOOL usingCustomNav;
-<a name="l00067"></a>00067     
-<a name="l00068"></a>00068     UINavigationController      *customModalNavigationController;
-<a name="l00069"></a>00069     UINavigationController      *applicationNavigationController;
-<a name="l00070"></a>00070     UINavigationController      *savedNavigationController;
-<a name="l00071"></a>00071     UIViewController        *viewControllerToPopTo;
-<a name="l00072"></a>00072 
-<a name="l00073"></a>00073     JRProvidersController       *myProvidersController;
-<a name="l00074"></a>00074         JRUserLandingController     *myUserLandingController;
-<a name="l00075"></a>00075         JRWebViewController         *myWebViewController;
-<a name="l00076"></a>00076     JRPublishActivityController *myPublishActivityController;
-<a name="l00077"></a>00077   
-<a name="l00078"></a>00078     NSDictionary        *customInterface;
-<a name="l00079"></a>00079     NSDictionary        *janrainInterfaceDefaults;
-<a name="l00080"></a>00080     NSMutableDictionary *customInterfaceDefaults;
-<a name="l00081"></a>00081 }
-<a name="l00082"></a>00082 
-<a name="l00083"></a>00083 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
-<a name="l00084"></a>00084 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
+<a name="l00049"></a>00049 <span class="preprocessor">#define JANRAIN_BLUE [UIColor colorWithRed:0.102 green:0.33 blue:0.48 alpha:1.0]</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span><span class="keyword">typedef</span> <span class="keyword">enum</span>
+<a name="l00051"></a>00051 {
+<a name="l00052"></a>00052     PadPopoverModeNone,
+<a name="l00053"></a>00053     PadPopoverFromBar,
+<a name="l00054"></a>00054     PadPopoverFromFrame,
+<a name="l00055"></a>00055 } PadPopoverMode;
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 <span class="keyword">@interface </span>JRUserInterfaceMaestro : NSObject &lt;UIPopoverControllerDelegate&gt;
+<a name="l00058"></a>00058 {
+<a name="l00059"></a>00059         JRModalNavigationController *jrModalNavController;
+<a name="l00060"></a>00060         JRSessionData   *sessionData;
+<a name="l00061"></a>00061         NSMutableArray  *delegates;    
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063     BOOL iPad;
+<a name="l00064"></a>00064     
+<a name="l00065"></a>00065     PadPopoverMode padPopoverMode;
+<a name="l00066"></a>00066     BOOL usingAppNav;
+<a name="l00067"></a>00067     BOOL usingCustomNav;
+<a name="l00068"></a>00068     
+<a name="l00069"></a>00069     NSString *directProvider;
+<a name="l00070"></a>00070     
+<a name="l00071"></a>00071     UINavigationController      *customModalNavigationController;
+<a name="l00072"></a>00072     UINavigationController      *applicationNavigationController;
+<a name="l00073"></a>00073     UINavigationController      *savedNavigationController;
+<a name="l00074"></a>00074     UIViewController        *viewControllerToPopTo;
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076     JRProvidersController       *myProvidersController;
+<a name="l00077"></a>00077         JRUserLandingController     *myUserLandingController;
+<a name="l00078"></a>00078         JRWebViewController         *myWebViewController;
+<a name="l00079"></a>00079     JRPublishActivityController *myPublishActivityController;
+<a name="l00080"></a>00080   
+<a name="l00081"></a>00081     NSDictionary        *customInterface;
+<a name="l00082"></a>00082     NSDictionary        *janrainInterfaceDefaults;
+<a name="l00083"></a>00083     NSMutableDictionary *customInterfaceDefaults;
+<a name="l00084"></a>00084 }
 <a name="l00085"></a>00085 
-<a name="l00086"></a>00086 - (void)useApplicationNavigationController:(UINavigationController*)_navigationController;
-<a name="l00087"></a>00087 
-<a name="l00088"></a>00088 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
-<a name="l00089"></a>00089 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;
+<a name="l00086"></a>00086 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
+<a name="l00087"></a>00087 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
+<a name="l00088"></a>00088 
+<a name="l00089"></a>00089 - (void)useApplicationNavigationController:(UINavigationController*)_navigationController;
 <a name="l00090"></a>00090 
-<a name="l00091"></a>00091 - (void)authenticationRestarted;
-<a name="l00092"></a>00092 - (void)authenticationCompleted;
-<a name="l00093"></a>00093 - (void)authenticationFailed;
-<a name="l00094"></a>00094 - (void)authenticationCanceled;
-<a name="l00095"></a>00095 - (void)publishingRestarted;
-<a name="l00096"></a>00096 - (void)publishingCompleted;
-<a name="l00097"></a>00097 - (void)publishingCanceled;
-<a name="l00098"></a>00098 - (void)publishingFailed;
-<a name="l00099"></a>00099 
-<a name="l00100"></a>00100 <span class="comment">// QTS: Do I want to make customInterfaceDefaults nonatomic?</span>
-<a name="l00101"></a>00101 @property (retain)   NSMutableDictionary         *customInterfaceDefaults;
-<a name="l00102"></a>00102 @property (readonly) JRProvidersController       *myProvidersController;
-<a name="l00103"></a>00103 @property (readonly) JRUserLandingController     *myUserLandingController;
-<a name="l00104"></a>00104 @property (readonly) JRWebViewController         *myWebViewController;
-<a name="l00105"></a>00105 @property (readonly) JRPublishActivityController *myPublishActivityController;
-<a name="l00106"></a>00106 @end
+<a name="l00091"></a>00091 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+<a name="l00092"></a>00092 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094 - (void)authenticationRestarted;
+<a name="l00095"></a>00095 - (void)authenticationCompleted;
+<a name="l00096"></a>00096 - (void)authenticationFailed;
+<a name="l00097"></a>00097 - (void)authenticationCanceled;
+<a name="l00098"></a>00098 - (void)publishingRestarted;
+<a name="l00099"></a>00099 - (void)publishingCompleted;
+<a name="l00100"></a>00100 - (void)publishingCanceled;
+<a name="l00101"></a>00101 - (void)publishingFailed;
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 <span class="comment">// QTS: Do I want to make customInterfaceDefaults nonatomic?</span>
+<a name="l00104"></a>00104 @property (retain)   NSMutableDictionary         *customInterfaceDefaults;
+<a name="l00105"></a>00105 @property (readonly) JRProvidersController       *myProvidersController;
+<a name="l00106"></a>00106 @property (readonly) JRUserLandingController     *myUserLandingController;
+<a name="l00107"></a>00107 @property (readonly) JRWebViewController         *myWebViewController;
+<a name="l00108"></a>00108 @property (readonly) JRPublishActivityController *myPublishActivityController;
+<a name="l00109"></a>00109 @property (retain) NSString *directProvider;
+<a name="l00110"></a>00110 @end
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

@@ -38,8 +38,8 @@
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="properties"></a>
 Properties</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_flash_media_object.html#a5ef24b38265cf688f7c66006d029e277">swfsrc</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_flash_media_object.html#afbe23592e0d213382cea0810abf55822">imgsrc</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_flash_media_object.html#aa6526a92da9100aa26d45e4c68ee9a1f">swfsrc</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">NSString *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_flash_media_object.html#aaa879f8838a6280ee1001d75cc999c10">imgsrc</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_flash_media_object.html#acd081eccf83d41190b3b6721f5e51b13">width</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_flash_media_object.html#a8c2df92862138d67690ca185a19142f0">height</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">NSUInteger&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_j_r_flash_media_object.html#a05b440e4cc0bd1d6d1c779f36b7127e7">expanded_width</a></td></tr>
@@ -48,18 +48,18 @@ Properties</h2></td></tr>
 Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_flash_media_object.html#aa341528cdde1526039aa7712c29aff64">initWithSwfsrc:andImgsrc:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7831fdbbcab96df76ebc7d68a4d9e359"></a><!-- doxytag: member="JRFlashMediaObject::flashMediaObjectWithSwfsrc:andImgsrc:" ref="a7831fdbbcab96df76ebc7d68a4d9e359" args="(NSString *_swfsrc,[andImgsrc] NSString *_imgsrc)" -->
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_flash_media_object.html#ada8df682f56bc97ed22b85868fbe71b8">initWithSwfsrc:andImgsrc:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3e3e1a0c06b8ba59a3b4f2c6e0eb1c7d"></a><!-- doxytag: member="JRFlashMediaObject::flashMediaObjectWithSwfsrc:andImgsrc:" ref="a3e3e1a0c06b8ba59a3b4f2c6e0eb1c7d" args="(NSString *swfsrc,[andImgsrc] NSString *imgsrc)" -->
 (id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>flashMediaObjectWithSwfsrc:andImgsrc:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Flash object to be included in a post to a user's stream. </p>
-<p>Create an flash media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#aef896fa5eb35f9c881210d1c233a69c1">JRActivityObject.media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the flash videos get presented and whether or not they are used, depend on the provider.</p>
+<p>Create an flash media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a7deaa868eb6d2eb695cd8104f54b713c">JRActivityObject.media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the flash videos get presented and whether or not they are used, depend on the provider.</p>
 <p>Each video must contain a <em>swfsrc</em> url, which is the URL of the Flash object to be rendered, and an <em>imgsrc</em>, which is the URL of an photo that should be displayed in place of the flash object until the user clicks to prompt the flash object to play. Flash object has two optional fields, <em>width</em> and <em>height</em>, which can be used to override the default choices when displaying the video in the provider's stream (e.g., Facebook's stream). It also has two optional fields, <em>expanded_width</em> and <em>expanded_height</em>, to specify the width and height of flash object will resize to, on the provider's stream, once the user clicks on it.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>You can only include one <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a> in the media array. Any others will be ignored.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd>Format and rules are identical to those described on the <a href="http://developers.facebook.com/docs/guides/attachments">Facebook Developer page on Attachments</a>. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="aa341528cdde1526039aa7712c29aff64"></a><!-- doxytag: member="JRFlashMediaObject::initWithSwfsrc:andImgsrc:" ref="aa341528cdde1526039aa7712c29aff64" args="(NSString *_swfsrc,[andImgsrc] NSString *_imgsrc)" -->
+<a class="anchor" id="ada8df682f56bc97ed22b85868fbe71b8"></a><!-- doxytag: member="JRFlashMediaObject::initWithSwfsrc:andImgsrc:" ref="ada8df682f56bc97ed22b85868fbe71b8" args="(NSString *swfsrc,[andImgsrc] NSString *imgsrc)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -67,13 +67,13 @@ Constructors</h2></td></tr>
           <td class="memname">- (id) initWithSwfsrc: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_swfsrc</em></td>
+          <td class="paramname"> <em>swfsrc</em></td>
         </tr>
         <tr>
           <td class="paramkey">andImgsrc:</td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_imgsrc</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>imgsrc</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -86,22 +86,22 @@ Constructors</h2></td></tr>
 <p>Returns a <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a> initialized with the given swfsrc and imgsrc.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_swfsrc</em>&nbsp;</td><td>The URL of the Flash object to be rendered. This value cannot be <em>nil</em> </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_imgsrc</em>&nbsp;</td><td>The URL of an photo that should be displayed in place of the flash object. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>swfsrc</em>&nbsp;</td><td>The URL of the Flash object to be rendered. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>imgsrc</em>&nbsp;</td><td>The URL of an photo that should be displayed in place of the flash object. This value cannot be <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a> initialized with the given swfsrc and imgsrc. If either _swfsrc or _imgsrc are <em>nil</em>, returns <em>nil</em> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_flash_media_object.html" title="Flash object to be included in a post to a user&#39;s stream.">JRFlashMediaObject</a> initialized with the given swfsrc and imgsrc. If either swfsrc or imgsrc are <em>nil</em>, returns <em>nil</em> </dd></dl>
 
 </div>
 </div>
 <hr/><h2>Properties</h2>
-<a class="anchor" id="a5ef24b38265cf688f7c66006d029e277"></a><!-- doxytag: member="JRFlashMediaObject::swfsrc" ref="a5ef24b38265cf688f7c66006d029e277" args="" -->
+<a class="anchor" id="aa6526a92da9100aa26d45e4c68ee9a1f"></a><!-- doxytag: member="JRFlashMediaObject::swfsrc" ref="aa6526a92da9100aa26d45e4c68ee9a1f" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString *) swfsrc<code> [read, assign]</code></td>
+          <td class="memname">- (NSString*) swfsrc<code> [read, assign]</code></td>
         </tr>
       </table>
 </div>
@@ -110,12 +110,12 @@ Constructors</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afbe23592e0d213382cea0810abf55822"></a><!-- doxytag: member="JRFlashMediaObject::imgsrc" ref="afbe23592e0d213382cea0810abf55822" args="" -->
+<a class="anchor" id="aaa879f8838a6280ee1001d75cc999c10"></a><!-- doxytag: member="JRFlashMediaObject::imgsrc" ref="aaa879f8838a6280ee1001d75cc999c10" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString *) imgsrc<code> [read, assign]</code></td>
+          <td class="memname">- (NSString*) imgsrc<code> [read, assign]</code></td>
         </tr>
       </table>
 </div>
