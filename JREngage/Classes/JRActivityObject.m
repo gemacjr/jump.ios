@@ -35,12 +35,12 @@
 #import "JRActivityObject.h"
 
 #ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
 #define DLog(...)
 #endif
 
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
 @implementation NSString (NSString_URL_ESCAPING)
@@ -49,6 +49,7 @@
     NSString *str = [self stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
     str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
     str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
+    str = [str stringByReplacingOccurrencesOfString:@";" withString:@"%3b"];
 
     return str;
 }
@@ -56,14 +57,14 @@
 
 /* Added the CF_Class_Name_Additions category to NSObject to filter objects in our media array based on their base class (JRMediaObject) */
 @interface NSObject (CF_Class_Name_Additions)
-- (NSString*)cfbaseClassName;
-- (NSString*)cfclassName;
+- (NSString*)cf_baseClassName;
+- (NSString*)cf_className;
 @end
 
 /* Added these functions to the NSObject object to filter objects in our media array based on their base class (JRMediaObject) */
 @implementation NSObject (CF_Class_Name_Additions)
-- (NSString*) cfbaseClassName { return NSStringFromClass([self superclass]); }
-- (NSString*) cfclassName { return NSStringFromClass([self class]); }
+- (NSString*) cf_baseClassName { return NSStringFromClass([self superclass]); }
+- (NSString*) cf_className { return NSStringFromClass([self class]); }
 @end
 
 @interface NSPredicate (JRObject_Class_Name_Predicates)
@@ -75,11 +76,11 @@
 @end
 
 @implementation NSPredicate (JRObject_Class_Name_Predicates)
-+ (NSPredicate*)predicateForMediaObjectBaseClass  { return [NSPredicate predicateWithFormat:@"cfbaseClassName = %@", NSStringFromClass([JRMediaObject class])];}
-+ (NSPredicate*)predicateForImageMediaObjectClass { return [NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRImageMediaObject class])]; }
-+ (NSPredicate*)predicateForFlashMediaObjectClass { return [NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRMp3MediaObject class])]; }
-+ (NSPredicate*)predicateForMp3MediaObjectClass   { return [NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRFlashMediaObject class])]; }
-+ (NSPredicate*)predicateForActionLinkObjectClass { return [NSPredicate predicateWithFormat:@"cfclassName = %@", NSStringFromClass([JRActionLink class])]; }
++ (NSPredicate*)predicateForMediaObjectBaseClass  { return [NSPredicate predicateWithFormat:@"cf_baseClassName = %@", NSStringFromClass([JRMediaObject class])];}
++ (NSPredicate*)predicateForImageMediaObjectClass { return [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRImageMediaObject class])]; }
++ (NSPredicate*)predicateForFlashMediaObjectClass { return [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRMp3MediaObject class])]; }
++ (NSPredicate*)predicateForMp3MediaObjectClass   { return [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRFlashMediaObject class])]; }
++ (NSPredicate*)predicateForActionLinkObjectClass { return [NSPredicate predicateWithFormat:@"cf_className = %@", NSStringFromClass([JRActionLink class])]; }
 @end
         
 @protocol JRMediaObjectDelegate <NSObject>
@@ -231,10 +232,10 @@
         [dict setValue:[NSString stringWithFormat:@"%d", _height] forKey:@"height"];
 
     if (_expanded_width)
-        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_width] forKey:@"expandedwidth"];
+        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_width] forKey:@"expanded_width"];
 
     if (_expanded_height)
-        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_height] forKey:@"expandedheight"];
+        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_height] forKey:@"expanded_height"];
 
     return dict;
 }
@@ -674,7 +675,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
         [dict setValue:@"" forKey:@"url"];
 
     if (_user_generated_content)
-        [dict setValue:[_user_generated_content URLEscaped] forKey:@"usergeneratedcontent"];
+        [dict setValue:[_user_generated_content URLEscaped] forKey:@"user_generated_content"];
 
     if (_title)
         [dict setValue:[_title URLEscaped] forKey:@"title"];
@@ -691,7 +692,7 @@ NSArray* filteredArrayOfValidUrls (NSArray *urls)
             [arr addObject:[link dictionaryForObject]];
         }
 
-        [dict setValue:arr forKey:@"actionlinks"];
+        [dict setValue:arr forKey:@"action_links"];
     }
 
     if ([_media count])

@@ -35,12 +35,12 @@
 #import "JRSessionData.h"
 
 #ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
 #define DLog(...)
 #endif
 
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #pragma mark server_urls
 //#define ENGAGE_STAGING_SERVER
@@ -439,7 +439,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @interface JRSessionData ()
 @property (copy)   NSString *appId;
 @property (retain) NSError  *error;
-@property (retain) NSString *newEtag;
+@property (retain) NSString *updatedEtag;
 @property (retain) NSString *gitCommit;
 @property (retain) NSString *savedConfigurationBlock;
 - (NSError*)startGetConfiguration;
@@ -462,7 +462,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize socialSharing;
 @synthesize hidePoweredBy;
 @synthesize error;
-@synthesize newEtag;
+@synthesize updatedEtag;
 @synthesize gitCommit;
 @synthesize savedConfigurationBlock;
 
@@ -853,7 +853,7 @@ static JRSessionData* singleton = nil;
     [[NSUserDefaults standardUserDefaults] setBool:hidePoweredBy forKey:kJRHidePoweredBy];
 
     /* Once we know that everything is parsed and saved correctly, save the new etag */
-    [[NSUserDefaults standardUserDefaults] setValue:newEtag forKey:@"jrengage.sessionData.configurationEtag"];
+    [[NSUserDefaults standardUserDefaults] setValue:updatedEtag forKey:@"jrengage.sessionData.configurationEtag"];
 
     [[NSUserDefaults standardUserDefaults] setValue:gitCommit forKey:@"jrengage.sessionData.engageCommit"];
 
@@ -864,7 +864,7 @@ static JRSessionData* singleton = nil;
 
     /* Then nullify our saved configuration information */
     self.savedConfigurationBlock = nil;
-    self.newEtag = nil;
+    self.updatedEtag = nil;
 
     return nil;
 }
@@ -892,7 +892,7 @@ static JRSessionData* singleton = nil;
     itself every time. */
     if (![oldEtag isEqualToString:etag] || ![currentCommit isEqualToString:savedCommit] || [currentCommit isEqualToString:@"1"])
     {
-        self.newEtag = etag;
+        self.updatedEtag = etag;
         self.gitCommit = currentCommit;
 
      /* We can only update all of our data if the UI isn't currently using that information.  Otherwise, the library may
@@ -1172,6 +1172,8 @@ static JRSessionData* singleton = nil;
     NSString *activityContent = [(NSDictionary*)[activityDictionary objectForKey:@"activity"] JSONRepresentation];
     NSString *deviceToken = user.deviceToken;
 
+    DLog(@"activity json string \n %@" , activityContent);
+    
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];

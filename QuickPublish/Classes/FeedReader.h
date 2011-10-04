@@ -73,14 +73,14 @@
 
     NSString *feedUrl;
 }
-@property (readonly) NSString *title;
-@property (readonly) NSString *link;
-@property (readonly) NSString *description;
-@property (readonly) NSString *author;
-@property (readonly) NSString *pubDate;
-@property (readonly) NSString *plainText;
+@property (retain, readonly) NSString *feedUrl;
+@property (retain, readonly) NSString *title;
+@property (retain, readonly) NSString *link;
+@property (retain, readonly) NSString *author;
+@property (retain, readonly) NSString *plainText;
 @property (readonly) NSMutableArray *storyImages;
-@property (readonly) NSString *feedUrl;
+@property (readonly) NSString *description;
+@property (readonly) NSString *pubDate;
 @end
 
 @interface Feed : NSObject
@@ -112,6 +112,12 @@
 
     id<FeedReaderDelegate>delegate;
     BOOL currentlyReloadingBlog;
+    
+    NSXMLParser *parser;
+    Story *currentStory;
+    NSString *currentElement;
+    NSMutableString *currentContent;
+    NSUInteger counter;
 }
 @property (readonly) JREngage *jrEngage;
 @property (readonly) NSArray *allStories;

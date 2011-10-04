@@ -33,7 +33,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "FeedReader.h"
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #define QUICK_PUBLISH_CACHED_VERSION @"quickpublish.cachedversion"
 #define QUICK_PUBLISH_CACHED_STORIES @"quickpublish.feeddata.cachedstories"
@@ -54,6 +54,58 @@
 #define QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED @"quickpublish.storyimage.downloadfailed"
 
 #define QUICK_PUBLISH_LAST_UPDATE_DATE @"quickpublish.reader.lastupdatedate"
+
+@interface NSString (HTML_StyleOut)
+- (NSString*)stringWithCommentedOutHTMLStyleTags;
+@end
+
+@implementation NSString (HTML_StyleOut)
+- (NSString*)stringWithCommentedOutHTMLStyleTags
+{
+    NSMutableString *result;// = [[NSMutableString alloc] initWithCapacity:self.length];
+	
+    //NSMutableString *newDescription;
+    NSArray *splitString = [self componentsSeparatedByString:@"<style type=\"text/css\">"];
+    
+    if (!splitString)
+        return self;
+    
+    int length = [splitString count];
+    
+    if (length == 0)
+        return self;
+    
+    if (length == 1 && [((NSString*)[splitString objectAtIndex:0]) isEqualToString:self])
+        return self;
+    
+    result = [NSMutableString stringWithString:[splitString objectAtIndex:0]];
+    
+    for (int i=1; i<length; i++)
+    {
+        NSString *currentString = [splitString objectAtIndex:i];
+        
+
+        NSString *styleMatchers = @"(.+?)</style>(.+)";
+        NSArray *styleCaptures =
+                [currentString captureComponentsMatchedByRegex:styleMatchers
+                                                       options:RKLCaseless | RKLDotAll
+                                                         range:NSMakeRange(0, [currentString length])
+                                                         error:nil];
+                
+        if (!styleCaptures)
+            [result appendFormat:@"<style type=\"text/css\">%@", currentString];
+        else if ([styleCaptures count] != 3)
+            [result appendFormat:@"<style type=\"text/css\">%@", currentString];
+        else
+            [result appendFormat:@"<!--style type=\"text/css\">%@</style-->%@",
+             [styleCaptures objectAtIndex:1],
+             [styleCaptures objectAtIndex:2]];
+    }        
+            
+    return result;
+}
+
+@end
 
 @interface StoryImage ()
 - (void)downloadImage;
@@ -384,7 +436,7 @@
     [description release];
 
     description = [[self descriptionWithScaledAndExtractedImages:_description] retain];
-    [self setPlainText:[description stringByConvertingHTMLToPlainText]];//[[description stringByConvertingHTMLToPlainText]
+    [self setPlainText:[[description stringWithCommentedOutHTMLStyleTags] stringByConvertingHTMLToPlainText]];//[[description stringByConvertingHTMLToPlainText]
 //                                     stringByTrimmingCharactersInSet:[[NSCharacterSet
 //                                         alphanumericCharacterSet] invertedSet]]];
 }
@@ -535,7 +587,7 @@ JUST_FINISH:
         {
             NSSet *unarchivedStoryLinks = [NSKeyedUnarchiver unarchiveObjectWithData:archivedStoryLinks];
             if (unarchivedStoryLinks != nil)
-                storyLinks = [[NSMutableArray alloc] initWithSet:unarchivedStoryLinks];
+                storyLinks = [[NSMutableSet alloc] initWithSet:unarchivedStoryLinks];
         }
     }
 
@@ -561,15 +613,20 @@ JUST_FINISH:
 @end
 
 @interface FeedReader ()
-NSXMLParser *parser;
-Story *currentStory;
-NSString *currentElement;
-NSMutableString *currentContent;
-NSUInteger counter;
+@property (retain) NSXMLParser *parser;
+@property (retain) Story *currentStory;
+@property (retain) NSString *currentElement;
+@property (retain) NSMutableString *currentContent;
+@property          NSUInteger counter;
 @property (retain) id<FeedReaderDelegate>delegate;
 @end
 
 @implementation FeedReader
+@synthesize parser;
+@synthesize currentStory;
+@synthesize currentElement;
+@synthesize currentContent;
+@synthesize counter;
 @synthesize delegate;
 @synthesize jrEngage;
 @synthesize currentlyReloadingBlog;
@@ -693,9 +750,11 @@ static FeedReader* singleton = nil;
 - (void)parser:(NSXMLParser*)xmlParser parseErrorOccurred:(NSError*)parseError
 {
 //	NSString *errorString = [NSString stringWithFormat:@"Unable to download story feed from web site (Error code %i )", [parseError code]];
-
-	DLog(@"Error parsing XML: %@", [parseError description]);
-
+    if ([parseError code] == 512)
+        DLog(@"Error parsing XML: %@", [parseError description]);
+    else
+        DLog(@"Duplicate story found; stopping xml parse");
+    
     UIApplication* app = [UIApplication sharedApplication];
     app.networkActivityIndicatorVisible = NO;
 
@@ -705,7 +764,6 @@ static FeedReader* singleton = nil;
 //                                                 cancelButtonTitle:@"OK"
 //                                                 otherButtonTitles:nil] autorelease];
 //	[errorAlert show];
-
 
     if ([parseError code] == 512)
         [self feedDidFinishDownloading];
@@ -727,7 +785,7 @@ static FeedReader* singleton = nil;
         [currentStory setFeedUrl:feed.url];
 	}
     else if ([elementName isEqualToString:@"description"])
-    {
+    { // TODO: This else block appears to do nothing different...
         currentContent = [[NSMutableString alloc] init];
     }
     else

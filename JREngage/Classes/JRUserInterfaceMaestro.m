@@ -712,7 +712,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     else
         originalRootViewController = myProvidersController;
 
-    if (applicationNavigationController && [applicationNavigationController isViewLoaded])
+    if (usingAppNav && applicationNavigationController && [applicationNavigationController isViewLoaded])
         [applicationNavigationController popToViewController:originalRootViewController animated:YES];
     else
         [jrModalNavController.myNavigationController popToRootViewControllerAnimated:YES];

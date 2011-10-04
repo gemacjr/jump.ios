@@ -243,7 +243,7 @@ extern NSString * JREngageErrorDomain;
 @property            BOOL authenticatingDirectlyOnThisProvider;
 @property            BOOL socialSharing;
 @property            BOOL dialogIsShowing;
-@property (readonly) NSError *error;
+@property (retain, readonly) NSError *error;
 
 + (id)jrSessionData;
 + (id)jrSessionDataWithAppId:(NSString*)newAppId tokenUrl:(NSString*)newTokenUrl andDelegate:(id<JRSessionDelegate>)newDelegate;

@@ -458,7 +458,7 @@ otherwise, this happens automatically.													*/
 	loadingUserData = YES;
 	signInDelegate = [interestedParty retain]; 
     
-    NSDictionary *moreCustomizations = nil;
+    NSMutableDictionary *moreCustomizations = nil;
     
     if (NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
     {       

@@ -249,7 +249,7 @@ a:active  { color:#7AC143; }";
                             self.navigationItem.rightBarButtonItem, kJRPopoverPresentationBarButtonItem, 
                             self.navigationController, kJRApplicationNavigationController, nil];
 
-    [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity andCustomInterface:custom];
+    [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity andCustomInterfaceOverrides:custom];
 //    [[[FeedReader feedReader] jrEngage] showAuthenticationDialogWithCustomInterfaceOverrides:custom];
 }
 

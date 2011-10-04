@@ -622,7 +622,7 @@ Copyright (c) 2010, Janrain, Inc.
         (UITableViewCellSignInHistory*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
 
 	if (!cell || indexPath.section == 0)
-		cell = [[[UITableViewCell alloc]
+		cell = [[[UITableViewCellSignInHistory alloc]
 			 initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 
 
