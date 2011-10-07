@@ -197,6 +197,7 @@
 		9F521EBB12B062940073ABAE /* QSIRootViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EAA12B062940073ABAE /* QSIRootViewController-iPad.xib */; };
 		9F521EBC12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EAB12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib */; };
 		9F521EBD12B062940073ABAE /* QSIViewControllerLevel2-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EAC12B062940073ABAE /* QSIViewControllerLevel2-iPad.xib */; };
+		9F608B47143F7F6A002F4439 /* JRPreviewLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F608B46143F7F6A002F4439 /* JRPreviewLabel.m */; };
 		9F96D44B12E8B458002D06B4 /* janrain_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D44A12E8B458002D06B4 /* janrain_logo@2x.png */; };
 		9F96D44D12E8B462002D06B4 /* janrain_logo-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */; };
 		9F96D80412EA5236002D06B4 /* done.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D80212EA5236002D06B4 /* done.png */; };
@@ -428,6 +429,8 @@
 		9F521EAA12B062940073ABAE /* QSIRootViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIRootViewController-iPad.xib"; sourceTree = "<group>"; };
 		9F521EAB12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIViewControllerLevel1-iPad.xib"; sourceTree = "<group>"; };
 		9F521EAC12B062940073ABAE /* QSIViewControllerLevel2-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIViewControllerLevel2-iPad.xib"; sourceTree = "<group>"; };
+		9F608B45143F7F6A002F4439 /* JRPreviewLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPreviewLabel.h; path = ../JREngage/Classes/JRPreviewLabel.h; sourceTree = SOURCE_ROOT; };
+		9F608B46143F7F6A002F4439 /* JRPreviewLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPreviewLabel.m; path = ../JREngage/Classes/JRPreviewLabel.m; sourceTree = SOURCE_ROOT; };
 		9F96D44A12E8B458002D06B4 /* janrain_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "janrain_logo@2x.png"; sourceTree = "<group>"; };
 		9F96D44C12E8B462002D06B4 /* janrain_logo-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "janrain_logo-ipad.png"; sourceTree = "<group>"; };
 		9F96D80212EA5236002D06B4 /* done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done.png; sourceTree = "<group>"; };
@@ -610,6 +613,8 @@
 				9F18159E13ECC38E00D9CA54 /* JRWebViewController.m */,
 				9F18159F13ECC38E00D9CA54 /* JRInfoBar.h */,
 				9F1815A013ECC38E00D9CA54 /* JRInfoBar.m */,
+				9F608B45143F7F6A002F4439 /* JRPreviewLabel.h */,
+				9F608B46143F7F6A002F4439 /* JRPreviewLabel.m */,
 			);
 			name = Classes;
 			path = ../JREngage/classes;
@@ -1212,6 +1217,7 @@
 				9F18164E13ECC38F00D9CA54 /* JRUserLandingController.m in Sources */,
 				9F18164F13ECC38F00D9CA54 /* JRWebViewController.m in Sources */,
 				9F18165013ECC38F00D9CA54 /* JRInfoBar.m in Sources */,
+				9F608B47143F7F6A002F4439 /* JRPreviewLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1223,10 +1229,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv6,
-					"$(ARCHS_STANDARD_32_BIT)",
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1235,7 +1238,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Quick_Sign_In_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
+					DEBUG,
 					"OVERRIDE_INCLUDE_EMAIL_SMS=1",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;

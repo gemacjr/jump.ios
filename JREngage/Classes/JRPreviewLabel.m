@@ -6,9 +6,6 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "JRSpecialLabel.h"
-
-
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
@@ -16,6 +13,8 @@
 #endif
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+#import "JRPreviewLabel.h"
 
 @interface NSString (visibleText)
 - (NSString*)stringVisibleInRect:(CGRect)rect withFont:(UIFont*)font;
@@ -154,7 +153,7 @@
 #define WORD_WRAP UILineBreakModeWordWrap
 #define TAIL_TRUNK UILineBreakModeTailTruncation
 
-@interface JRSpecialLabel ()
+@interface JRPreviewLabel ()
 @property (retain) NSString *username;
 @property (retain) NSString *url;
 @property (retain) NSString *text;
@@ -163,7 +162,7 @@
 @property CGFloat fontSize;
 @end
 
-@implementation JRSpecialLabel
+@implementation JRPreviewLabel
 @synthesize username;
 @synthesize text;
 @synthesize url;

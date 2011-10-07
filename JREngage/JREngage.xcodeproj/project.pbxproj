@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9F088BDF126684EF008AD40D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F088BDE126684EF008AD40D /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9F608AF4143E7CD2002F4439 /* JRSpecialLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F608AF2143E7CD2002F4439 /* JRSpecialLabel.h */; };
-		9F608AF5143E7CD2002F4439 /* JRSpecialLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F608AF3143E7CD2002F4439 /* JRSpecialLabel.m */; };
+		9F608B3A143F7E98002F4439 /* JRPreviewLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F608B38143F7E98002F4439 /* JRPreviewLabel.h */; };
+		9F608B3B143F7E98002F4439 /* JRPreviewLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F608B39143F7E98002F4439 /* JRPreviewLabel.m */; };
 		9F96D60F12EA0462002D06B4 /* JREngage+CustomInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F96D60D12EA0462002D06B4 /* JREngage+CustomInterface.h */; };
 		9F96D61012EA0462002D06B4 /* JREngage+CustomInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F96D60E12EA0462002D06B4 /* JREngage+CustomInterface.m */; };
 		9FA5DC6112FC843D0033A711 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FA5DC4E12FC843D0033A711 /* JSON.h */; };
@@ -202,8 +202,8 @@
 		9F5223F012B06BB80073ABAE /* music_note@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "music_note@2x.jpg"; sourceTree = "<group>"; };
 		9F5223F112B06BB80073ABAE /* profilepic_placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profilepic_placeholder@2x.png"; sourceTree = "<group>"; };
 		9F5223F212B06BB80073ABAE /* triangle_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangle_icon@2x.png"; sourceTree = "<group>"; };
-		9F608AF2143E7CD2002F4439 /* JRSpecialLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRSpecialLabel.h; path = Classes/JRSpecialLabel.h; sourceTree = SOURCE_ROOT; };
-		9F608AF3143E7CD2002F4439 /* JRSpecialLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSpecialLabel.m; path = Classes/JRSpecialLabel.m; sourceTree = SOURCE_ROOT; };
+		9F608B38143F7E98002F4439 /* JRPreviewLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPreviewLabel.h; path = Classes/JRPreviewLabel.h; sourceTree = SOURCE_ROOT; };
+		9F608B39143F7E98002F4439 /* JRPreviewLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPreviewLabel.m; path = Classes/JRPreviewLabel.m; sourceTree = SOURCE_ROOT; };
 		9F96D60D12EA0462002D06B4 /* JREngage+CustomInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JREngage+CustomInterface.h"; sourceTree = "<group>"; };
 		9F96D60E12EA0462002D06B4 /* JREngage+CustomInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JREngage+CustomInterface.m"; sourceTree = "<group>"; };
 		9FA5DC4E12FC843D0033A711 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -630,8 +630,8 @@
 				9FED512D124020C2004684F2 /* JRWebViewController.m */,
 				9FED511E124020C2004684F2 /* JRInfoBar.h */,
 				9FED511F124020C2004684F2 /* JRInfoBar.m */,
-				9F608AF2143E7CD2002F4439 /* JRSpecialLabel.h */,
-				9F608AF3143E7CD2002F4439 /* JRSpecialLabel.m */,
+				9F608B38143F7E98002F4439 /* JRPreviewLabel.h */,
+				9F608B39143F7E98002F4439 /* JRPreviewLabel.m */,
 			);
 			name = Classes;
 			path = classes;
@@ -680,7 +680,7 @@
 				9FA5DC7712FC844F0033A711 /* SFHFKeychainUtils.h in Headers */,
 				9FA783B113CE21C300E1B603 /* OHAttributedLabel.h in Headers */,
 				9FA783B313CE21C300E1B603 /* NSAttributedString+Attributes.h in Headers */,
-				9F608AF4143E7CD2002F4439 /* JRSpecialLabel.h in Headers */,
+				9F608B3A143F7E98002F4439 /* JRPreviewLabel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,7 +757,7 @@
 				9FA5DC7812FC844F0033A711 /* SFHFKeychainUtils.m in Sources */,
 				9FA783B013CE21C300E1B603 /* OHAttributedLabel.m in Sources */,
 				9FA783B213CE21C300E1B603 /* NSAttributedString+Attributes.m in Sources */,
-				9F608AF5143E7CD2002F4439 /* JRSpecialLabel.m in Sources */,
+				9F608B3B143F7E98002F4439 /* JRPreviewLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

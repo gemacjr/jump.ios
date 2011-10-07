@@ -39,6 +39,7 @@
 		9F0BB70113B2B0AD00898F4F /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0BB70013B2B0AD00898F4F /* RegexKitLite.m */; };
 		9F25B07A12C2A9FF0083BB6A /* icon_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F25B07912C2A9FF0083BB6A /* icon_ipad.png */; };
 		9F5234FD12B29F460073ABAE /* janrain_blog.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F5234FC12B29F460073ABAE /* janrain_blog.json */; };
+		9F608B42143F7F06002F4439 /* JRPreviewLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F608B41143F7F06002F4439 /* JRPreviewLabel.m */; };
 		9F87D85412145FDE00FF7E2C /* FeedReaderFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */; };
 		9F87DF471219A97600FF7E2C /* FeedReaderWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F87DF451219A97600FF7E2C /* FeedReaderWebView.m */; };
 		9F8AC6101210BD4E004DB52A /* FeedReaderDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AC60E1210BD4E004DB52A /* FeedReaderDetail.m */; };
@@ -264,6 +265,8 @@
 		9F0BB70013B2B0AD00898F4F /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegexKitLite.m; path = RegexKitLite/RegexKitLite.m; sourceTree = "<group>"; };
 		9F25B07912C2A9FF0083BB6A /* icon_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_ipad.png; sourceTree = "<group>"; };
 		9F5234FC12B29F460073ABAE /* janrain_blog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = janrain_blog.json; path = Resources/janrain_blog.json; sourceTree = "<group>"; };
+		9F608B40143F7F06002F4439 /* JRPreviewLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPreviewLabel.h; path = ../JREngage/Classes/JRPreviewLabel.h; sourceTree = SOURCE_ROOT; };
+		9F608B41143F7F06002F4439 /* JRPreviewLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPreviewLabel.m; path = ../JREngage/Classes/JRPreviewLabel.m; sourceTree = SOURCE_ROOT; };
 		9F87D85112145FDE00FF7E2C /* FeedReaderFeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderFeeds.h; sourceTree = "<group>"; };
 		9F87D85212145FDE00FF7E2C /* FeedReaderFeeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReaderFeeds.m; sourceTree = "<group>"; };
 		9F87DF441219A97600FF7E2C /* FeedReaderWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReaderWebView.h; sourceTree = "<group>"; };
@@ -736,6 +739,8 @@
 				9FA5DCA712FC846B0033A711 /* JRWebViewController.m */,
 				9FA5DCA812FC846B0033A711 /* JRInfoBar.h */,
 				9FA5DCA912FC846B0033A711 /* JRInfoBar.m */,
+				9F608B40143F7F06002F4439 /* JRPreviewLabel.h */,
+				9F608B41143F7F06002F4439 /* JRPreviewLabel.m */,
 			);
 			name = Classes;
 			path = ../JREngage/classes;
@@ -1309,6 +1314,7 @@
 				9FA783B913CE21E900E1B603 /* OHAttributedLabel.m in Sources */,
 				9FA783BA13CE21E900E1B603 /* NSAttributedString+Attributes.m in Sources */,
 				9FA798F413E7279600E1B603 /* EGORefreshTableHeaderView.m in Sources */,
+				9F608B42143F7F06002F4439 /* JRPreviewLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface JRSpecialLabel : UIView
+//@class JRSpecialLabel;
+@protocol JRPreviewLabelDelegate <NSObject>
+@optional
+-(void)previewLabel:(JRPreviewLabel*)previewLabel didChangeHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight;
+@end
+
+@interface JRPreviewLabel : UIView
 {
     UILabel *usernameLabel;
     UILabel *textLabelLine1;
