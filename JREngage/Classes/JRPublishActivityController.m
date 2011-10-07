@@ -33,12 +33,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
 #define DLog(...)
 #endif
 
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRPublishActivityController.h"
 #import "JREngage+CustomInterface.h"
@@ -265,11 +265,11 @@
         [myInfoButton setHidden:YES];
     }
 
- /* Set OHAttributedLabel defaults */
+// /* Set OHAttributedLabel defaults */
     [myPreviewAttributedLabel setDelegate:self];
-    [myPreviewAttributedLabel setAutomaticallyDetectLinks:NO];
-    [myPreviewAttributedLabel setMaxHeight:44];
-    [myPreviewAttributedLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
+//    [myPreviewAttributedLabel setAutomaticallyDetectLinks:NO];
+//    [myPreviewAttributedLabel setMaxHeight:44];
+//    [myPreviewAttributedLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
 
  /* Set RoundedRect defaults */
     [myPreviewRoundedRect setOuterFillColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
@@ -526,52 +526,72 @@ Please try again later."
 - (void)updatePreviewTextWhenContentReplacesAction
 {
     DLog(@"");
-    NSString *username = (loggedInUser) ? loggedInUser.preferredUsername : @"You";
-    NSString *url = (shortenedActivityUrl) ? shortenedActivityUrl : @"shortening url...";
+    NSString *username = (loggedInUser) ? 
+                                loggedInUser.preferredUsername : 
+                                @"You";
+    
+    NSString *url      = (shortenedActivityUrl) ? 
+                                shortenedActivityUrl : 
+                                @"shortening url...";
 
-    NSString *text = (![[myUserCommentTextView text] isEqualToString:@""]) ?
-    [myUserCommentTextView text] :
-    [currentActivity action];
+    NSString *text     = (![[myUserCommentTextView text] isEqualToString:@""]) ?
+                                [myUserCommentTextView text] :
+                                [currentActivity action];
 
-    NSInteger nl = [username length];
-    NSInteger ul = [url length];
+//    NSInteger nl = [username length];
+//    NSInteger ul = [url length];
 
-    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
-    [previewText setFont:[UIFont systemFontOfSize:11.0]];
-    [previewText setTextColor:[UIColor blackColor]];
-    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
+//    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
+//    [previewText setFont:[UIFont systemFontOfSize:11.0]];
+//    [previewText setTextColor:[UIColor blackColor]];
+//    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
+
+    [myPreviewAttributedLabel setUsername:username];
+    [myPreviewAttributedLabel setUsertext:text];
 
     if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
     { /* Twitter/MySpace -> true */
-        NSMutableAttributedString *urlAttrString = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@" %@", url]];
-
-        if (shortenedActivityUrl)
-            [urlAttrString setTextColor:JANRAIN_BLUE range:NSMakeRange(1, ul)];
-        else
-            [urlAttrString setTextColor:[UIColor darkGrayColor] range:NSMakeRange(1, ul)];
-
-        [previewText appendAttributedString:urlAttrString];
+//        NSMutableAttributedString *urlAttrString = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@" %@", url]];
+//
+//        if (shortenedActivityUrl)
+//            [urlAttrString setTextColor:JANRAIN_BLUE range:NSMakeRange(1, ul)];
+//        else
+//            [urlAttrString setTextColor:[UIColor darkGrayColor] range:NSMakeRange(1, ul)];
+//        
+//        [previewText appendAttributedString:urlAttrString];
+        
+        // TODO: Add ability to set colors to preview label
+        // TODO: Fix size of url when long and on own line (shouldn't trunk at 3/4)
+        [myPreviewAttributedLabel setUrl:url];
+    }
+    else
+    {
+        [myPreviewAttributedLabel setUrl:nil];
     }
 
-    myPreviewAttributedLabel.attributedText = previewText;
-    myPreviewAttributedLabel.adjustBottomToFit = YES;
+//    myPreviewAttributedLabel.attributedText = previewText;
+//    myPreviewAttributedLabel.adjustBottomToFit = YES;
 }
 
 - (void)updatePreviewTextWhenContentDoesNotReplaceAction
 {
     DLog(@"");
     NSString *username = (loggedInUser) ? loggedInUser.preferredUsername : @"You";
-    NSString *text = currentActivity.action;
+    NSString *text     = currentActivity.action;
 
-    NSInteger nl = [username length];
-
-    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
-    [previewText setFont:[UIFont systemFontOfSize:11.0]];
-    [previewText setTextColor:[UIColor blackColor]];
-    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
-
-    myPreviewAttributedLabel.attributedText = previewText;
-    myPreviewAttributedLabel.adjustBottomToFit = YES;
+    [myPreviewAttributedLabel setUsername:username];
+    [myPreviewAttributedLabel setUsertext:text];
+    [myPreviewAttributedLabel setUrl:nil];
+    
+//    NSInteger nl = [username length];
+//
+//    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
+//    [previewText setFont:[UIFont systemFontOfSize:11.0]];
+//    [previewText setTextColor:[UIColor blackColor]];
+//    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
+//
+//    myPreviewAttributedLabel.attributedText = previewText;
+//    myPreviewAttributedLabel.adjustBottomToFit = YES;
 }
 
 - (void)updateCharacterCount
@@ -593,7 +613,8 @@ Please try again later."
         }
         else
         {
-            int preview_length = [[myPreviewAttributedLabel attributedText] length];
+//            int preview_length = [[myPreviewAttributedLabel attributedText] length];
+            int preview_length = [[myPreviewAttributedLabel text] length];
             chars_remaining = maxCharacters - preview_length;
 
             characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
@@ -958,15 +979,16 @@ Please try again later."
     [self updateCharacterCount];
 }
 
-- (void)attributedLabel:(OHAttributedLabel*)attrLabel didChangeHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight
-{
-    previewLabelHeight = toHeight;
-    [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
-                                             myRichDataContainer.frame.origin.y + (toHeight - fromHeight),
-                                             myRichDataContainer.frame.size.width,
-                                             myRichDataContainer.frame.size.height)];
-    [self adjustRichDataContainerVisibility];
-}
+//- (void)attributedLabel:(OHAttributedLabel*)attrLabel didChangeHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight
+//- (void)previewLabel:(JRPreviewLabel*)previewLabel didChangeContentHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight;
+//{
+//    previewLabelHeight = toHeight;
+//    [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
+//                                             myRichDataContainer.frame.origin.y + (toHeight - fromHeight),
+//                                             myRichDataContainer.frame.size.width,
+//                                             myRichDataContainer.frame.size.height)];
+//    [self adjustRichDataContainerVisibility];
+//}
 
 - (void)sendEmail
 {

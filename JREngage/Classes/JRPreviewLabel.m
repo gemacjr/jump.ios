@@ -39,65 +39,10 @@
     return visibleString;
 }
 
-//- (NSUInteger)lengthOfStringVisibleInRect:(CGRect)rect withFont:(UIFont*)font andLineBreakMode:(UILineBreakMode)lineBreakMode
-//{
-//    DLog (@"rect width/height: %f, %f", rect.size.width, rect.size.height);
-//    DLog (@"self           (%u): %@", self.length, self);
-//    
-//    NSString *visibleString = @"";
-//    //    if (self.length == 0)
-//    //    {
-//    //        return 0;// @"";
-//    //    }
-//    //    if (self.length == 1)
-//    //    {
-//    //        CGSize stringSize = [self sizeWithFont:font 
-//    //                             constrainedToSize:CGSizeMake(rect.size.width, rect.size.height + font.lineHeight)
-//    //                                 lineBreakMode:lineBreakMode];
-//    //        
-//    //        if (stringSize.height > rect.size.height || stringSize.width >= rect.size.width)
-//    //            return 0;//@"";
-//    //        else
-//    //            return 1;//self;
-//    //    }
-//    
-//    //    NSString *testString = [self substringToIndex:1];
-//    //    for (int i = 2; i <= self.length; i++)
-//    for (int i = 1; i <= self.length; i++)
-//    {
-//        //        NSString *oneBefore = testString;
-//        //        testString = [self substringToIndex:i];
-//        NSString *testString = [self substringToIndex:i];
-//        
-//        DLog (@"visible string (%u): %@", visibleString.length, visibleString);
-//        DLog (@"test string    (%u): %@", visibleString.length, testString);
-//        
-//        CGSize stringSize = [testString sizeWithFont:font 
-//                                   constrainedToSize:CGSizeMake(rect.size.width, rect.size.height + font.lineHeight)
-//                                       lineBreakMode:lineBreakMode];
-//        
-//        DLog (@"test width/height: %f, %f", stringSize.width, stringSize.height);
-//        
-//        if (stringSize.height > rect.size.height || stringSize.width > rect.size.width)
-//        {
-//            DLog (@"+--------------------------------------------------------------------------------------");
-//            DLog (@"| test width/height: %f, %f", stringSize.width, stringSize.height);
-//            DLog (@"| visible string (%u): %@", visibleString.length, visibleString);
-//            DLog (@"| test string    (%u): %@", visibleString.length, testString);
-//            DLog (@"+--------------------------------------------------------------------------------------");
-//            break;
-//        }
-//        //        visibleString = oneBefore;
-//        visibleString = testString;
-//    }
-//    
-//    return visibleString.length;
-//}
-
 - (NSInteger)lengthOfStringVisibleInSize:(CGSize)size withFont:(UIFont*)font andLineBreakMode:(UILineBreakMode)lineBreakMode
 {
-    DLog (@"rect width/height: %f, %f", size.width, size.height);
-    DLog (@"self           (%u): %@", self.length, self);
+//    DLog (@"rect width/height: %f, %f", size.width, size.height);
+//    DLog (@"self           (%u): %@", self.length, self);
     
     if (self.length == 0)
         return 0;
@@ -121,15 +66,15 @@
 
         if (stringSize.height > size.height || stringSize.width > size.width)
         {
-            DLog (@"+--------------------------------------------------------------------------------------");
-            DLog (@"| test width/height: %f, %f", stringSize.width, stringSize.height);
-            DLog (@"| self           (%u): %@", self.length, self);
-            DLog (@"| visible string (%u): %@", visibleString.length, visibleString);
-            DLog (@"| test string    (%u): %@", testString.length, testString);
-            DLog (@"| index of last breaking character: %u", indexOfLastBreakingCharacter);
-            if (indexOfLastBreakingCharacter != -1)
-            DLog (@"| new string     (%u): %@", [self substringFromIndex:indexOfLastBreakingCharacter + 1].length, [self substringFromIndex:indexOfLastBreakingCharacter + 1]);
-            DLog (@"+--------------------------------------------------------------------------------------");
+//            DLog (@"+--------------------------------------------------------------------------------------");
+//            DLog (@"| test width/height: %f, %f", stringSize.width, stringSize.height);
+//            DLog (@"| self           (%u): %@", self.length, self);
+//            DLog (@"| visible string (%u): %@", visibleString.length, visibleString);
+//            DLog (@"| test string    (%u): %@", testString.length, testString);
+//            DLog (@"| index of last breaking character: %u", indexOfLastBreakingCharacter);
+//            if (indexOfLastBreakingCharacter != -1)
+//            DLog (@"| new string     (%u): %@", [self substringFromIndex:indexOfLastBreakingCharacter + 1].length, [self substringFromIndex:indexOfLastBreakingCharacter + 1]);
+//            DLog (@"+--------------------------------------------------------------------------------------");
             break;
         }
         
@@ -147,45 +92,47 @@
 
 @end
 
-#define FONT_SIZE 15.0
-#define SYS_FONT [UIFont systemFontOfSize:FONT_SIZE]
-#define CHAR_WRAP UILineBreakModeCharacterWrap
-#define WORD_WRAP UILineBreakModeWordWrap
-#define TAIL_TRUNK UILineBreakModeTailTruncation
-
 @interface JRPreviewLabel ()
-@property (retain) NSString *username;
-@property (retain) NSString *url;
-@property (retain) NSString *text;
+//@property (retain) NSString *username;
+//@property (retain) NSString *url;
+//@property (retain) NSString *text;
 @property (retain) UIFont *font;
 @property (retain) UIFont *boldFont;
-@property CGFloat fontSize;
+//@property CGFloat fontSize;
+- (void)rebuildText;
 @end
 
 @implementation JRPreviewLabel
-@synthesize username;
+@dynamic username;
+@dynamic usertext;
+@dynamic url;
+@dynamic fontSize;
 @synthesize text;
-@synthesize url;
-@synthesize fontSize;
 @synthesize font;
 @synthesize boldFont;
+@synthesize delegate;
 
-- (id)initWithFrame:(CGRect)aRect defaultUsername:(NSString*)defaultUsername defaultText:(NSString*)defaultText 
+- (id)initWithFrame:(CGRect)aRect defaultUsername:(NSString*)defaultUsername defaultUsertext:(NSString*)defaultUsertext 
          defaultUrl:(NSString*)defaultUrl andDefaultFontSize:(CGFloat)defaultFontSize
 {
     if ((self = [super initWithFrame:aRect]))
     {
         if (defaultUsername && ![defaultUsername isEqualToString:@""])
-            username = [[NSString alloc] initWithFormat:@"%@ ", 
-                        [defaultUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+            username = [[defaultUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
+                        //[[NSString alloc] initWithFormat:@"%@", 
+                        // [defaultUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 
-        if (defaultText && ![defaultText isEqualToString:@""])
-            text     = [[NSString alloc] initWithFormat:@"%@", 
-                        [defaultText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+        if (defaultUsertext && ![defaultUsertext isEqualToString:@""])
+            usertext = [[defaultUsertext stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
+                        //[[NSString alloc] initWithFormat:@"%@", 
+                        //[defaultText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
         
         if (defaultUrl && ![defaultUrl isEqualToString:@""])
-            url      = [[NSString alloc] initWithFormat:@" %@", 
-                        [defaultUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+            url      = [[defaultUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
+                        //[[NSString alloc] initWithFormat:@"%@", 
+                        //[defaultUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+        
+        [self rebuildText];
         
         if (defaultFontSize)
             fontSize = defaultFontSize;
@@ -197,27 +144,27 @@
         
         usernameLabel = [[UILabel alloc] init];
         usernameLabel.numberOfLines = 1;
-        usernameLabel.lineBreakMode = TAIL_TRUNK;
+        usernameLabel.lineBreakMode = UILineBreakModeTailTruncation;
         usernameLabel.font = boldFont;
         
         textLabelLine1 = [[UILabel alloc] init];
         textLabelLine1.numberOfLines = 0;
-        textLabelLine1.lineBreakMode = WORD_WRAP;
+        textLabelLine1.lineBreakMode = UILineBreakModeWordWrap;
         textLabelLine1.font = font;
         
         textLabelLine2 = [[UILabel alloc] init];
         textLabelLine2.numberOfLines = 0;
-        textLabelLine2.lineBreakMode = WORD_WRAP;
+        textLabelLine2.lineBreakMode = UILineBreakModeWordWrap;
         textLabelLine2.font = font;
      
         textLabelLine3 = [[UILabel alloc] init];
         textLabelLine3.numberOfLines = 1;
-        textLabelLine3.lineBreakMode = TAIL_TRUNK;
+        textLabelLine3.lineBreakMode = UILineBreakModeTailTruncation;
         textLabelLine3.font = font;
         
         urlLabel = [[UILabel alloc] init];
         urlLabel.numberOfLines = 1;
-        urlLabel.lineBreakMode = TAIL_TRUNK;
+        urlLabel.lineBreakMode = UILineBreakModeTailTruncation;
         urlLabel.font = font;
         urlLabel.textColor = [UIColor darkGrayColor];
         
@@ -238,6 +185,12 @@
     return self;
 }
 
+- (id)initWithFrame:(CGRect)aRect
+{
+    return [[JRPreviewLabel alloc] initWithFrame:aRect defaultUsername:nil defaultUsertext:nil 
+                                      defaultUrl:nil andDefaultFontSize:12.0];
+}
+
 - (void)layoutSubviews
 {
     usernameLabel.text = @"";
@@ -246,13 +199,15 @@
     textLabelLine3.text = @"";
     urlLabel.text = @"";
     
+    CGFloat newContentHeight = 0;
     CGFloat lineWidth        = self.frame.size.width;
     CGFloat lineHeight       = boldFont.lineHeight;
     CGFloat superviewHeight  = self.frame.size.height;
     CGFloat usernameMaxWidth = (lineWidth * 3) / 4;
     CGFloat urlMaxWidth      = (lineWidth * 3) / 4;
+    CGFloat usernamePadding  = (username) ? fontSize : 0;
+    CGFloat urlPadding       = (url)      ? fontSize : 0;
     
-//    NSUInteger lineNumberOfUrl = 0;
     BOOL wrapTextToSecondLine  = NO;
     BOOL wrapTextToThirdLine   = NO;
     
@@ -270,39 +225,40 @@
     
     CGSize sizeOfUrl = [url sizeWithFont:font
                        constrainedToSize:CGSizeMake(urlMaxWidth, lineHeight)
-                           lineBreakMode:TAIL_TRUNK];
+                           lineBreakMode:UILineBreakModeTailTruncation];
     
     CGSize sizeOfUsername = [username sizeWithFont:boldFont
                                  constrainedToSize:CGSizeMake(usernameMaxWidth, lineHeight)
-                                     lineBreakMode:TAIL_TRUNK];
+                                     lineBreakMode:UILineBreakModeTailTruncation];
     
-    CGFloat remainingLineOneWidth = lineWidth - sizeOfUsername.width;
     
-    sizeOfFirstLineOfText = [text sizeWithFont:font
+    CGFloat remainingLineOneWidth = lineWidth - sizeOfUsername.width - usernamePadding;
+    
+    sizeOfFirstLineOfText = [usertext sizeWithFont:font
                              constrainedToSize:CGSizeMake(remainingLineOneWidth, superviewHeight)
-                                 lineBreakMode:WORD_WRAP];
+                                 lineBreakMode:UILineBreakModeWordWrap];
 
     if (sizeOfFirstLineOfText.height <= lineHeight)
     {    
-        lengthOfFirstLineOfText = text.length;
-        firstLineOfText = text;
+        lengthOfFirstLineOfText = usertext.length;
+        firstLineOfText = usertext;
     }
     else
     {
         wrapTextToSecondLine = YES;
 
-        lengthOfFirstLineOfText = [text lengthOfStringVisibleInSize:CGSizeMake(sizeOfFirstLineOfText.width, lineHeight) 
-                                                           withFont:font 
-                                                   andLineBreakMode:WORD_WRAP];
+        lengthOfFirstLineOfText = [usertext lengthOfStringVisibleInSize:CGSizeMake(sizeOfFirstLineOfText.width, lineHeight) 
+                                                               withFont:font 
+                                                       andLineBreakMode:UILineBreakModeWordWrap];
         
-        firstLineOfText = [text substringToIndex:lengthOfFirstLineOfText];
+        firstLineOfText = [usertext substringToIndex:lengthOfFirstLineOfText];
 
-        if (text.length > lengthOfFirstLineOfText)
-            remainingText = [text substringFromIndex:lengthOfFirstLineOfText];
+        if (usertext.length > lengthOfFirstLineOfText)
+            remainingText = [usertext substringFromIndex:lengthOfFirstLineOfText];
 
         sizeOfSecondLineOfText = [remainingText sizeWithFont:font
                                            constrainedToSize:CGSizeMake(lineWidth, superviewHeight)
-                                               lineBreakMode:WORD_WRAP];
+                                               lineBreakMode:UILineBreakModeWordWrap];
         
         if (sizeOfSecondLineOfText.height <= lineHeight)
         {    
@@ -315,7 +271,7 @@
             
             lengthOfSecondLineOfText = [remainingText lengthOfStringVisibleInSize:CGSizeMake(sizeOfSecondLineOfText.width, lineHeight)
                                                                 withFont:font 
-                                                        andLineBreakMode:WORD_WRAP];
+                                                        andLineBreakMode:UILineBreakModeWordWrap];
 
             secondLineOfText = [remainingText substringToIndex:lengthOfSecondLineOfText];
             
@@ -323,28 +279,63 @@
                 thirdLineOfText = [remainingText substringFromIndex:lengthOfSecondLineOfText];
             
             sizeOfThirdLineOfText = [thirdLineOfText sizeWithFont:font
-                                                constrainedToSize:CGSizeMake(lineWidth - sizeOfUrl.width, lineHeight)
-                                                    lineBreakMode:TAIL_TRUNK];
+                                                constrainedToSize:CGSizeMake(lineWidth - sizeOfUrl.width - urlPadding, lineHeight)
+                                                    lineBreakMode:UILineBreakModeTailTruncation];
         }
     }
 
     usernameLabel.frame = CGRectMake(0, 0, sizeOfUsername.width, lineHeight);
     usernameLabel.text = username;
     
-    textLabelLine1.frame = CGRectMake(sizeOfUsername.width, 0, sizeOfFirstLineOfText.width, lineHeight);
+    textLabelLine1.frame = CGRectMake(sizeOfUsername.width + usernamePadding, 0, sizeOfFirstLineOfText.width, lineHeight);
     textLabelLine1.text = firstLineOfText;    
     
-    if (!wrapTextToSecondLine) // && !wrapTextToThirdLine
+    if (!wrapTextToSecondLine) /* && !wrapTextToThirdLine of course */
     {
         [textLabelLine2 setHidden:YES];
         [textLabelLine3 setHidden:YES];
-     
-        if (sizeOfUsername.width + sizeOfFirstLineOfText.width + sizeOfUrl.width < lineWidth)
-            urlLabel.frame = CGRectMake(sizeOfUsername.width + sizeOfFirstLineOfText.width, 0,
+        
+        /* Special check for the case where we don't have any text whatsoever */
+        if (!username && !text && !url)
+        {
+            newContentHeight = 0;
+        }
+        else if (!text)
+        {
+            if (!username)
+            {
+                urlLabel.frame = CGRectMake(0, 0, sizeOfUrl.width, lineHeight);
+                newContentHeight = lineHeight;
+            }
+            else if (sizeOfUsername.width + usernamePadding + sizeOfUrl.width < lineWidth)
+            {
+                urlLabel.frame = CGRectMake(sizeOfUsername.width + usernamePadding, 0,
+                                            sizeOfUrl.width, lineHeight);
+                
+                newContentHeight = lineHeight;                
+            }
+            else
+            {
+                urlLabel.frame = CGRectMake(0, lineHeight, 
+                                            sizeOfUrl.width, lineHeight);
+                
+                newContentHeight = lineHeight * 2;                
+            }
+        }
+        else if (sizeOfUsername.width + usernamePadding + sizeOfFirstLineOfText.width + urlPadding + sizeOfUrl.width < lineWidth)
+        {                                                                                                     
+            urlLabel.frame = CGRectMake(sizeOfUsername.width + usernamePadding + sizeOfFirstLineOfText.width + urlPadding, 0,
                                         sizeOfUrl.width, lineHeight);
+
+            newContentHeight = lineHeight;
+        }
         else
+        {
             urlLabel.frame = CGRectMake(0, lineHeight, 
-                                        sizeOfUrl.width, lineHeight);
+                                         sizeOfUrl.width, lineHeight);
+
+            newContentHeight = lineHeight * 2;
+        }
     }
     else if (wrapTextToSecondLine && !wrapTextToThirdLine)
     {
@@ -354,14 +345,22 @@
         textLabelLine2.frame = CGRectMake(0, lineHeight, sizeOfSecondLineOfText.width, lineHeight);
         textLabelLine2.text = secondLineOfText;
 
-        if (sizeOfSecondLineOfText.width + sizeOfUrl.width < lineWidth)
-            urlLabel.frame = CGRectMake(sizeOfSecondLineOfText.width, lineHeight,
-                                        sizeOfUrl.width, lineHeight);
+        if (sizeOfSecondLineOfText.width + urlPadding + sizeOfUrl.width < lineWidth)
+        {   
+            urlLabel.frame = CGRectMake(sizeOfSecondLineOfText.width + urlPadding, lineHeight,
+                                         sizeOfUrl.width, lineHeight);
+
+            newContentHeight = lineHeight * 2;
+        }
         else
+        {
             urlLabel.frame = CGRectMake(0, lineHeight * 2, 
                                         sizeOfUrl.width, lineHeight);
+
+            newContentHeight = lineHeight * 3;
+        }
     }
-    else // (wrapTextToSecondLine && wrapTextToThirdLine)
+    else /* (wrapTextToSecondLine && wrapTextToThirdLine) */
     {
         [textLabelLine2 setHidden:NO];
         [textLabelLine3 setHidden:NO];
@@ -372,52 +371,87 @@
         textLabelLine3.frame = CGRectMake(0, lineHeight * 2, sizeOfThirdLineOfText.width, lineHeight);
         textLabelLine3.text = thirdLineOfText;
         
-        urlLabel.frame = CGRectMake(sizeOfThirdLineOfText.width, lineHeight * 2,
+        urlLabel.frame = CGRectMake(sizeOfThirdLineOfText.width + urlPadding, lineHeight * 2,
                                     sizeOfUrl.width, lineHeight);
-        
+
+        newContentHeight = lineHeight * 3;
     }
     
     [urlLabel setHidden:NO];
     [urlLabel setText:url];
     
+    if (newContentHeight != contentHeight)
+    {
+        if ([delegate respondsToSelector:@selector(previewLabel:didChangeContentHeightFrom:to:)])
+            [delegate previewLabel:self didChangeContentHeightFrom:contentHeight to:newContentHeight];
+
+        contentHeight = newContentHeight;
+    }
 }
 
-- (void)setUsername_:(NSString*)newUsername
+- (void)rebuildText
 {
+    [text release];
+    text = [[NSString stringWithFormat:@"%@%@%@",
+            (username) ? [NSString stringWithFormat:@"%@ ", username] : @"", 
+            (usertext) ? [NSString stringWithFormat:@"%@ ", usertext] : @"",
+            (url)      ? (url) : (@"")] retain];
+}
+
+- (NSString*)username { return [[username copy] autorelease]; }
+- (NSString*)usertext { return [[usertext copy] autorelease]; }
+- (NSString*)url      { return [[url copy] autorelease]; }
+
+- (void)setUsername:(NSString*)newUsername
+{
+    [username release];
+    
     if (newUsername && ![newUsername isEqualToString:@""])
-        self.username = [NSString stringWithFormat:@"%@ ", 
-                         [newUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+        username = [[newUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
+                         //[NSString stringWithFormat:@"%@", 
+                         //[newUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
     else
-        self.username = nil;
+        username = nil;
     
+    [self rebuildText];
     [self setNeedsLayout];
 }
 
-- (void)setUrl_:(NSString*)newUrl
+- (void)setUrl:(NSString*)newUrl
 {
+    [url release];
+    
     if (newUrl && ![newUrl isEqualToString:@""])
-        self.url = [NSString stringWithFormat:@" %@", 
-                       [newUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+        url = [[newUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
+                        //[NSString stringWithFormat:@"%@", 
+                        //[newUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
     else
-        self.url = nil;
+        url = nil;
     
+    [self rebuildText];
     [self setNeedsLayout];
 }
 
-- (void)setText_:(NSString*)newText;
+- (void)setUsertext:(NSString*)newUsertext;
 {
-    if (newText && ![newText isEqualToString:@""])
-        self.text = [NSString stringWithFormat:@"%@", 
-                     [newText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-    else
-        self.text = nil;
+    [usertext release];
     
+    if (newUsertext && ![newUsertext isEqualToString:@""])
+        usertext = [[newUsertext stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
+                        //[NSString stringWithFormat:@"%@", 
+                        //[newText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    else
+        usertext = nil;
+    
+    [self rebuildText];
     [self setNeedsLayout];
 }
+
+- (CGFloat)fontSize { return fontSize; }
 
 - (void)setFontSize_:(CGFloat)newFontSize
 {
-    self.fontSize = newFontSize;
+    fontSize = newFontSize;
 
     self.font     = [[UIFont fontWithName:@"Courier" size:fontSize] retain];//[[UIFont systemFontOfSize:fontSize] retain];
     self.boldFont = [[UIFont fontWithName:@"Courier-Bold" size:fontSize] retain];//[[UIFont boldSystemFontOfSize:fontSize] retain];
@@ -442,6 +476,7 @@
     [textLabelLine3 release];
     [urlLabel release];
     [username release];
+    [usertext release];
     [url release];
     [text release];
     [font release];
@@ -450,165 +485,6 @@
     [super dealloc];
 }
 @end
-
-
-//- (void)layoutSubviews
-//{
-//    usernameLabel.text = @"";
-//    textLabelLine1.text = @"";
-//    textLabelLine2.text = @"";
-//    textLabelLine3.text = @"";
-//    urlLabel.text = @"";
-//    
-//    CGFloat lineWidth        = self.frame.size.width;
-//    CGFloat lineHeight       = boldFont.lineHeight;
-//    CGFloat superviewHeight  = self.frame.size.height;
-//    CGFloat usernameMaxWidth = (lineWidth * 3) / 4;
-//    CGFloat urlMaxWidth      = (lineWidth * 3) / 4;
-//    
-//    NSUInteger lineNumberOfUrl = 0;
-//    BOOL wrapTextToSecondLine  = NO;
-//    BOOL wrapTextToThirdLine   = NO;
-//    
-//    CGSize sizeOfFirstLineOfText  = CGSizeZero;
-//    CGSize sizeOfSecondLineOfText = CGSizeZero;
-//    CGSize sizeOfThirdLineOfText  = CGSizeZero;
-//    
-//    NSInteger lengthOfFirstLineOfText  = 0;
-//    NSInteger lengthOfSecondLineOfText = 0;
-//    
-//    NSString *firstLineOfText;
-//    NSString *secondLineOfText;
-//    NSString *remainingText;
-//    
-//    CGSize sizeOfUrl = [url sizeWithFont:font
-//                       constrainedToSize:CGSizeMake(urlMaxWidth, lineHeight)
-//                           lineBreakMode:CHAR_WRAP];
-//    
-//    CGSize sizeOfUsername = [username sizeWithFont:boldFont
-//                                 constrainedToSize:CGSizeMake(usernameMaxWidth, lineHeight)
-//                                     lineBreakMode:CHAR_WRAP];
-//    
-//    usernameLabel.frame = CGRectMake(0, 0, sizeOfUsername.width, lineHeight);
-//    usernameLabel.text = username;
-//    
-//    CGFloat remainingLineOneWidth = lineWidth - sizeOfUsername.width;
-//    
-//    sizeOfFirstLineOfText = [text sizeWithFont:font
-//                             constrainedToSize:CGSizeMake(remainingLineOneWidth, superviewHeight)
-//                                 lineBreakMode:WORD_WRAP];
-//    
-//    lengthOfFirstLineOfText = [text lengthOfStringVisibleInSize:CGSizeMake(sizeOfFirstLineOfText.width, lineHeight) 
-//                                                       withFont:font 
-//                                               andLineBreakMode:WORD_WRAP];
-//    
-//    firstLineOfText = [text substringToIndex:lengthOfFirstLineOfText];
-//    
-//    if (text.length > lengthOfFirstLineOfText)
-//        remainingText = [text substringFromIndex:lengthOfFirstLineOfText];
-//        
-//        if (sizeOfFirstLineOfText.height > lineHeight)
-//            wrapTextToSecondLine = YES;
-//            
-//            textLabelLine1.frame = CGRectMake(sizeOfUsername.width, 0, sizeOfFirstLineOfText.width, lineHeight);
-//            textLabelLine1.text = firstLineOfText;//text;
-//            
-//            if (!wrapTextToSecondLine)
-//            {
-//                [textLabelLine2 setHidden:YES];
-//                [textLabelLine3 setHidden:YES];
-//                
-//                if (sizeOfUsername.width + sizeOfFirstLineOfText.width + sizeOfUrl.width < lineWidth)
-//                    lineNumberOfUrl = 1;
-//                else
-//                    lineNumberOfUrl = 2;
-//            }
-//            else
-//            {
-//                [textLabelLine2 setHidden:NO];
-//                
-//                //        NSString *secondLine = [text substringFromIndex:
-//                //                                [text lengthOfStringVisibleInRect:
-//                //                                 CGRectMake(0, 0, sizeOfFirstLineOfText.width, lineHeight) 
-//                //                                                         withFont:font
-//                //                                                 andLineBreakMode:WORD_WRAP]];
-//                
-//                sizeOfSecondLineOfText = [remainingText sizeWithFont:font//[secondLine sizeWithFont:font
-//                                                   constrainedToSize:CGSizeMake(lineWidth, superviewHeight)
-//                                                       lineBreakMode:WORD_WRAP];
-//                
-//                if (sizeOfSecondLineOfText.height > lineHeight) 
-//                    wrapTextToThirdLine = YES;
-//                
-//                textLabelLine2.frame = CGRectMake(0, lineHeight, sizeOfSecondLineOfText.width, lineHeight);
-//                textLabelLine2.text = secondLine;
-//                
-//                if (!wrapTextToThirdLine)
-//                {
-//                    [textLabelLine3 setHidden:YES];
-//                    
-//                    if (sizeOfSecondLineOfText.width + sizeOfUrl.width < lineWidth)
-//                        lineNumberOfUrl = 2;
-//                    else
-//                        lineNumberOfUrl = 3;
-//                }
-//                else
-//                {
-//                    [textLabelLine3 setHidden:NO];
-//                    
-//                    lineNumberOfUrl = 3;
-//                    
-//                    NSString *thirdLine = [secondLine substringFromIndex:
-//                                           [secondLine lengthOfStringVisibleInRect:
-//                                            CGRectMake(0, 0, sizeOfSecondLineOfText.width, lineHeight) 
-//                                                                          withFont:font
-//                                                                  andLineBreakMode:WORD_WRAP]];
-//                    
-//                    sizeOfThirdLineOfText = [thirdLine sizeWithFont:font
-//                                                  constrainedToSize:CGSizeMake(lineWidth - sizeOfUrl.width, lineHeight)
-//                                                      lineBreakMode:TAIL_TRUNK];
-//                    
-//                    textLabelLine3.frame = CGRectMake(0, lineHeight * 2, sizeOfThirdLineOfText.width, lineHeight);
-//                    textLabelLine3.text = thirdLine;
-//                }
-//            }
-//    
-//    if (url)
-//    {
-//        switch (lineNumberOfUrl)
-//        {
-//            case 1:
-//                urlLabel.frame = CGRectMake(sizeOfUsername.width + sizeOfFirstLineOfText.width, 0,
-//                                            sizeOfUrl.width, lineHeight);
-//                break;
-//            case 2:
-//                urlLabel.frame = CGRectMake(sizeOfSecondLineOfText.width, lineHeight, 
-//                                            sizeOfUrl.width, lineHeight);
-//                break;
-//            case 3:
-//                urlLabel.frame = CGRectMake(sizeOfThirdLineOfText.width, lineHeight * 2,
-//                                            sizeOfUrl.width, lineHeight);
-//                break;
-//            default:
-//                break;
-//        }
-//        
-//        [urlLabel setHidden:NO];
-//        [urlLabel setText:url];
-//    }
-//    else
-//    {
-//        [urlLabel setHidden:YES];
-//    }
-//}
-//
-//
-//
-//
-//
-
-
-
 
 
 
