@@ -93,12 +93,8 @@
 @end
 
 @interface JRPreviewLabel ()
-//@property (retain) NSString *username;
-//@property (retain) NSString *url;
-//@property (retain) NSString *text;
 @property (retain) UIFont *font;
 @property (retain) UIFont *boldFont;
-//@property CGFloat fontSize;
 - (void)rebuildText;
 @end
 
@@ -115,76 +111,65 @@
 - (void)finishInitWithDefaultUsername:(NSString*)defaultUsername defaultUsertext:(NSString*)defaultUsertext 
                            defaultUrl:(NSString*)defaultUrl andDefaultFontSize:(CGFloat)defaultFontSize
 {
-//    if ((self = [super initWithFrame:aRect]))
-//    {
-        if (defaultUsername && ![defaultUsername isEqualToString:@""])
-            username = [[defaultUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
-                        //[[NSString alloc] initWithFormat:@"%@", 
-                        // [defaultUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+    if (defaultUsername && ![defaultUsername isEqualToString:@""])
+        username = [[defaultUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
 
-        if (defaultUsertext && ![defaultUsertext isEqualToString:@""])
-            usertext = [[defaultUsertext stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
-                        //[[NSString alloc] initWithFormat:@"%@", 
-                        //[defaultText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-        
-        if (defaultUrl && ![defaultUrl isEqualToString:@""])
-            url      = [[defaultUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
-                        //[[NSString alloc] initWithFormat:@"%@", 
-                        //[defaultUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
-        
-        [self rebuildText];
-        
-        if (defaultFontSize)
-            fontSize = defaultFontSize;
-        else
-            fontSize = 12.0;
+    if (defaultUsertext && ![defaultUsertext isEqualToString:@""])
+        usertext = [[defaultUsertext stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
+    
+    if (defaultUrl && ![defaultUrl isEqualToString:@""])
+        url      = [[defaultUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
+    
+    [self rebuildText];
+    
+    if (defaultFontSize)
+        fontSize = defaultFontSize;
+    else
+        fontSize = 12.0;
 
 //        font     = [[UIFont fontWithName:@"Courier" size:fontSize] retain];
 //        boldFont = [[UIFont fontWithName:@"Courier-Bold" size:fontSize] retain];
-        font     = [[UIFont systemFontOfSize:fontSize] retain];
-        boldFont = [[UIFont boldSystemFontOfSize:fontSize] retain];
-        
-        usernameLabel = [[UILabel alloc] init];
-        usernameLabel.numberOfLines = 1;
-        usernameLabel.lineBreakMode = UILineBreakModeTailTruncation;
-        usernameLabel.font = boldFont;
-        
-        textLabelLine1 = [[UILabel alloc] init];
-        textLabelLine1.numberOfLines = 0;
-        textLabelLine1.lineBreakMode = UILineBreakModeWordWrap;
-        textLabelLine1.font = font;
-        
-        textLabelLine2 = [[UILabel alloc] init];
-        textLabelLine2.numberOfLines = 0;
-        textLabelLine2.lineBreakMode = UILineBreakModeWordWrap;
-        textLabelLine2.font = font;
-     
-        textLabelLine3 = [[UILabel alloc] init];
-        textLabelLine3.numberOfLines = 1;
-        textLabelLine3.lineBreakMode = UILineBreakModeTailTruncation;
-        textLabelLine3.font = font;
-        
-        urlLabel = [[UILabel alloc] init];
-        urlLabel.numberOfLines = 1;
-        urlLabel.lineBreakMode = UILineBreakModeTailTruncation;
-        urlLabel.font = font;
-        urlLabel.textColor = [UIColor darkGrayColor];
-        
-        usernameLabel.backgroundColor  = [UIColor clearColor]; //[UIColor redColor];
-        textLabelLine1.backgroundColor = [UIColor clearColor]; //[UIColor blueColor];
-        textLabelLine2.backgroundColor = [UIColor clearColor]; //[UIColor yellowColor];
-        textLabelLine3.backgroundColor = [UIColor clearColor]; //[UIColor greenColor];
-        urlLabel.backgroundColor       = [UIColor clearColor]; //[UIColor purpleColor];
-        self.backgroundColor           = [UIColor clearColor]; //[UIColor orangeColor];
-        
-        [self addSubview:usernameLabel];
-        [self addSubview:textLabelLine1];
-        [self addSubview:textLabelLine2];
-        [self addSubview:textLabelLine3];
-        [self addSubview:urlLabel];
-//    }
+    font     = [[UIFont systemFontOfSize:fontSize] retain];
+    boldFont = [[UIFont boldSystemFontOfSize:fontSize] retain];
     
-//    return self;
+    usernameLabel = [[UILabel alloc] init];
+    usernameLabel.numberOfLines = 1;
+    usernameLabel.lineBreakMode = UILineBreakModeTailTruncation;
+    usernameLabel.font = boldFont;
+    
+    textLabelLine1 = [[UILabel alloc] init];
+    textLabelLine1.numberOfLines = 0;
+    textLabelLine1.lineBreakMode = UILineBreakModeWordWrap;
+    textLabelLine1.font = font;
+    
+    textLabelLine2 = [[UILabel alloc] init];
+    textLabelLine2.numberOfLines = 0;
+    textLabelLine2.lineBreakMode = UILineBreakModeWordWrap;
+    textLabelLine2.font = font;
+ 
+    textLabelLine3 = [[UILabel alloc] init];
+    textLabelLine3.numberOfLines = 1;
+    textLabelLine3.lineBreakMode = UILineBreakModeTailTruncation;
+    textLabelLine3.font = font;
+    
+    urlLabel = [[UILabel alloc] init];
+    urlLabel.numberOfLines = 1;
+    urlLabel.lineBreakMode = UILineBreakModeTailTruncation;
+    urlLabel.font = font;
+    urlLabel.textColor = [UIColor darkGrayColor];
+    
+    usernameLabel.backgroundColor  = [UIColor clearColor]; //[UIColor redColor];
+    textLabelLine1.backgroundColor = [UIColor clearColor]; //[UIColor blueColor];
+    textLabelLine2.backgroundColor = [UIColor clearColor]; //[UIColor yellowColor];
+    textLabelLine3.backgroundColor = [UIColor clearColor]; //[UIColor greenColor];
+    urlLabel.backgroundColor       = [UIColor clearColor]; //[UIColor purpleColor];
+    self.backgroundColor           = [UIColor clearColor]; //[UIColor orangeColor];
+    
+    [self addSubview:usernameLabel];
+    [self addSubview:textLabelLine1];
+    [self addSubview:textLabelLine2];
+    [self addSubview:textLabelLine3];
+    [self addSubview:urlLabel];
 }
 
 - (id)initWithFrame:(CGRect)aRect defaultUsername:(NSString*)defaultUsername defaultUsertext:(NSString*)defaultUsertext 
@@ -442,8 +427,6 @@
     
     if (newUsername && ![newUsername isEqualToString:@""])
         username = [[newUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
-                         //[NSString stringWithFormat:@"%@", 
-                         //[newUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
     else
         username = nil;
     
@@ -457,8 +440,6 @@
     
     if (newUrl && ![newUrl isEqualToString:@""])
         url = [[newUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
-                        //[NSString stringWithFormat:@"%@", 
-                        //[newUrl stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
     else
         url = nil;
     
@@ -472,8 +453,6 @@
     
     if (newUsertext && ![newUsertext isEqualToString:@""])
         usertext = [[newUsertext stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
-                        //[NSString stringWithFormat:@"%@", 
-                        //[newText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
     else
         usertext = nil;
     
@@ -512,7 +491,7 @@
     [username release];
     [usertext release];
     [url release];
-    [text release];
+    [text release], text = nil;
     [font release];
     [boldFont release];
 

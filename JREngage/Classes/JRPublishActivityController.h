@@ -37,8 +37,6 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "JREngage.h"
 #import "JRPreviewLabel.h"
-//#import "NSAttributedString+Attributes.h"
-//#import "OHAttributedLabel.h"
 
 typedef enum
 {
@@ -60,7 +58,8 @@ typedef enum
 #define INNER_CORNER_RADIUS   9.0
 #define INNER_RECT_INSET      6
 
-@interface RoundedRectView : UIView {
+@interface RoundedRectView : UIView 
+{
     UIColor     *outerStrokeColor;
     UIColor     *innerStrokeColor;
     UIColor     *outerFillColor;
@@ -85,7 +84,7 @@ typedef enum
 @interface JRPublishActivityController : UIViewController
                          <JRSessionDelegate, JRConnectionManagerDelegate, JRUserInterfaceDelegate, UITabBarDelegate,
                          UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,
-                         JRPreviewLabelDelegate>//OHAttributedLabelDelegate>
+                         JRPreviewLabelDelegate>
 {
     JRSessionData    *sessionData;
     JRActivityObject *currentActivity;
@@ -143,7 +142,6 @@ typedef enum
 
     UIView                  *myPreviewContainer;
     RoundedRectView         *myPreviewRoundedRect;
-//  OHAttributedLabel       *myPreviewAttributedLabel;
     JRPreviewLabel          *myPreviewAttributedLabel;
     RoundedRectView         *myRichDataContainer;
     UIButton                *myMediaThumbnailView;
@@ -182,7 +180,6 @@ typedef enum
 @property (nonatomic, retain) IBOutlet UIView                  *myPreviewContainer;
 @property (nonatomic, retain) IBOutlet RoundedRectView         *myPreviewRoundedRect;
 @property (nonatomic, retain) IBOutlet JRPreviewLabel          *myPreviewAttributedLabel;
-//@property (nonatomic, retain) IBOutlet OHAttributedLabel       *myPreviewAttributedLabel;
 @property (nonatomic, retain) IBOutlet RoundedRectView         *myRichDataContainer;
 @property (nonatomic, retain) IBOutlet UIButton                *myMediaThumbnailView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;

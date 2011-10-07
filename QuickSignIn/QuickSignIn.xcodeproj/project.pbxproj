@@ -11,8 +11,6 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		9F18163A13ECC38E00D9CA54 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F18156F13ECC38E00D9CA54 /* OHAttributedLabel.m */; };
-		9F18163B13ECC38E00D9CA54 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F18157113ECC38E00D9CA54 /* NSAttributedString+Attributes.m */; };
 		9F18163C13ECC38F00D9CA54 /* NSObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F18157613ECC38E00D9CA54 /* NSObject+JSON.m */; };
 		9F18163D13ECC38F00D9CA54 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F18157813ECC38E00D9CA54 /* SBJsonParser.m */; };
 		9F18163E13ECC38F00D9CA54 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F18157A13ECC38E00D9CA54 /* SBJsonStreamParser.m */; };
@@ -218,10 +216,6 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9F18156F13ECC38E00D9CA54 /* OHAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OHAttributedLabel.m; path = ../JREngage/AttributedLabel/OHAttributedLabel.m; sourceTree = SOURCE_ROOT; };
-		9F18157013ECC38E00D9CA54 /* OHAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OHAttributedLabel.h; path = ../JREngage/AttributedLabel/OHAttributedLabel.h; sourceTree = SOURCE_ROOT; };
-		9F18157113ECC38E00D9CA54 /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+Attributes.m"; path = "../JREngage/AttributedLabel/NSAttributedString+Attributes.m"; sourceTree = SOURCE_ROOT; };
-		9F18157213ECC38E00D9CA54 /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+Attributes.h"; path = "../JREngage/AttributedLabel/NSAttributedString+Attributes.h"; sourceTree = SOURCE_ROOT; };
 		9F18157413ECC38E00D9CA54 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9F18157513ECC38E00D9CA54 /* NSObject+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSON.h"; sourceTree = "<group>"; };
 		9F18157613ECC38E00D9CA54 /* NSObject+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSON.m"; sourceTree = "<group>"; };
@@ -535,20 +529,8 @@
 				9F18157313ECC38E00D9CA54 /* JSON */,
 				9F18158713ECC38E00D9CA54 /* Security */,
 				9F18158A13ECC38E00D9CA54 /* Classes */,
-				9F18156E13ECC38E00D9CA54 /* AttributedLabel */,
 			);
 			name = JREngage;
-			sourceTree = "<group>";
-		};
-		9F18156E13ECC38E00D9CA54 /* AttributedLabel */ = {
-			isa = PBXGroup;
-			children = (
-				9F18156F13ECC38E00D9CA54 /* OHAttributedLabel.m */,
-				9F18157013ECC38E00D9CA54 /* OHAttributedLabel.h */,
-				9F18157113ECC38E00D9CA54 /* NSAttributedString+Attributes.m */,
-				9F18157213ECC38E00D9CA54 /* NSAttributedString+Attributes.h */,
-			);
-			name = AttributedLabel;
 			sourceTree = "<group>";
 		};
 		9F18157313ECC38E00D9CA54 /* JSON */ = {
@@ -1194,8 +1176,6 @@
 				9FB40A3512414DC500FDDA7B /* QSIViewControllerLevel2.m in Sources */,
 				9FB40A3612414DC500FDDA7B /* QuickSignInAppDelegate.m in Sources */,
 				9F30A8E412BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m in Sources */,
-				9F18163A13ECC38E00D9CA54 /* OHAttributedLabel.m in Sources */,
-				9F18163B13ECC38E00D9CA54 /* NSAttributedString+Attributes.m in Sources */,
 				9F18163C13ECC38F00D9CA54 /* NSObject+JSON.m in Sources */,
 				9F18163D13ECC38F00D9CA54 /* SBJsonParser.m in Sources */,
 				9F18163E13ECC38F00D9CA54 /* SBJsonStreamParser.m in Sources */,

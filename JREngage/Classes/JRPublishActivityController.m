@@ -265,12 +265,6 @@
         [myInfoButton setHidden:YES];
     }
 
-// /* Set OHAttributedLabel defaults */
-    [myPreviewAttributedLabel setDelegate:self];
-//    [myPreviewAttributedLabel setAutomaticallyDetectLinks:NO];
-//    [myPreviewAttributedLabel setMaxHeight:44];
-//    [myPreviewAttributedLabel setLineBreakMode:UILineBreakModeMiddleTruncation];
-
  /* Set RoundedRect defaults */
     [myPreviewRoundedRect setOuterFillColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
     [myPreviewRoundedRect setDrawInnerRect:YES];
@@ -474,8 +468,12 @@ Please try again later."
 
 - (void)showUserAsLoggedIn:(BOOL)loggedIn
 {
+    if (loggedIn)
+        [myPreviewAttributedLabel setUsername:loggedInUser.preferredUsername];
+    else
+        [myPreviewAttributedLabel setUsername:@"You"];
+    
     [UIView beginAnimations:@"buttonSlide" context:nil];
-
     [myJustShareButton setHidden:!loggedIn];
     [myConnectAndShareButton setHidden:loggedIn];
 
@@ -538,29 +536,13 @@ Please try again later."
                                 [myUserCommentTextView text] :
                                 [currentActivity action];
 
-//    NSInteger nl = [username length];
-//    NSInteger ul = [url length];
-
-//    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
-//    [previewText setFont:[UIFont systemFontOfSize:11.0]];
-//    [previewText setTextColor:[UIColor blackColor]];
-//    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
-
     [myPreviewAttributedLabel setUsername:username];
     [myPreviewAttributedLabel setUsertext:text];
 
     if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
     { /* Twitter/MySpace -> true */
-//        NSMutableAttributedString *urlAttrString = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@" %@", url]];
-//
-//        if (shortenedActivityUrl)
-//            [urlAttrString setTextColor:JANRAIN_BLUE range:NSMakeRange(1, ul)];
-//        else
-//            [urlAttrString setTextColor:[UIColor darkGrayColor] range:NSMakeRange(1, ul)];
-//        
-//        [previewText appendAttributedString:urlAttrString];
         
-        // TODO: Add ability to set colors to preview label
+        // TODO: Add ability to set colors to preview label (Janrain blue for links)
         // TODO: Fix size of url when long and on own line (shouldn't trunk at 3/4)
         [myPreviewAttributedLabel setUrl:url];
     }
@@ -568,9 +550,6 @@ Please try again later."
     {
         [myPreviewAttributedLabel setUrl:nil];
     }
-
-//    myPreviewAttributedLabel.attributedText = previewText;
-//    myPreviewAttributedLabel.adjustBottomToFit = YES;
 }
 
 - (void)updatePreviewTextWhenContentDoesNotReplaceAction
@@ -582,16 +561,6 @@ Please try again later."
     [myPreviewAttributedLabel setUsername:username];
     [myPreviewAttributedLabel setUsertext:text];
     [myPreviewAttributedLabel setUrl:nil];
-    
-//    NSInteger nl = [username length];
-//
-//    NSMutableAttributedString *previewText = [NSMutableAttributedString attributedStringWithString:[NSString stringWithFormat:@"%@ %@", username, text]];
-//    [previewText setFont:[UIFont systemFontOfSize:11.0]];
-//    [previewText setTextColor:[UIColor blackColor]];
-//    [previewText setFont:[UIFont boldSystemFontOfSize:11.0] range:NSMakeRange(0, nl)];
-//
-//    myPreviewAttributedLabel.attributedText = previewText;
-//    myPreviewAttributedLabel.adjustBottomToFit = YES;
 }
 
 - (void)updateCharacterCount
@@ -613,7 +582,6 @@ Please try again later."
         }
         else
         {
-//            int preview_length = [[myPreviewAttributedLabel attributedText] length];
             int preview_length = [[myPreviewAttributedLabel text] length];
             chars_remaining = maxCharacters - preview_length;
 

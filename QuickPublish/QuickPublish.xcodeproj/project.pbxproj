@@ -205,8 +205,6 @@
 		9FA5DDE012FC846B0033A711 /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FA5DD4012FC846B0033A711 /* JRUserLandingController.xib */; };
 		9FA5DDE112FC846B0033A711 /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FA5DD4112FC846B0033A711 /* JRWebViewController.xib */; };
 		9FA5DDE212FC846B0033A711 /* JREngage-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FA5DD4212FC846B0033A711 /* JREngage-Info.plist */; };
-		9FA783B913CE21E900E1B603 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA783B513CE21E900E1B603 /* OHAttributedLabel.m */; };
-		9FA783BA13CE21E900E1B603 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA783B713CE21E900E1B603 /* NSAttributedString+Attributes.m */; };
 		9FA783CB13CE441A00E1B603 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA783CA13CE441A00E1B603 /* CoreText.framework */; };
 		9FA798CD13E7260200E1B603 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA798CC13E7260200E1B603 /* QuartzCore.framework */; };
 		9FA798F413E7279600E1B603 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA798F213E7279600E1B603 /* EGORefreshTableHeaderView.m */; };
@@ -457,10 +455,6 @@
 		9FA5DD4012FC846B0033A711 /* JRUserLandingController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRUserLandingController.xib; sourceTree = "<group>"; };
 		9FA5DD4112FC846B0033A711 /* JRWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JRWebViewController.xib; sourceTree = "<group>"; };
 		9FA5DD4212FC846B0033A711 /* JREngage-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "JREngage-Info.plist"; path = "../JREngage/JREngage-Info.plist"; sourceTree = SOURCE_ROOT; };
-		9FA783B513CE21E900E1B603 /* OHAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OHAttributedLabel.m; path = ../JREngage/AttributedLabel/OHAttributedLabel.m; sourceTree = SOURCE_ROOT; };
-		9FA783B613CE21E900E1B603 /* OHAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OHAttributedLabel.h; path = ../JREngage/AttributedLabel/OHAttributedLabel.h; sourceTree = SOURCE_ROOT; };
-		9FA783B713CE21E900E1B603 /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+Attributes.m"; path = "../JREngage/AttributedLabel/NSAttributedString+Attributes.m"; sourceTree = SOURCE_ROOT; };
-		9FA783B813CE21E900E1B603 /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+Attributes.h"; path = "../JREngage/AttributedLabel/NSAttributedString+Attributes.h"; sourceTree = SOURCE_ROOT; };
 		9FA783CA13CE441A00E1B603 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		9FA798CC13E7260200E1B603 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9FA798F213E7279600E1B603 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EGORefreshTableHeaderView.m; path = EGOTableViewPullRefresh/Classes/EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
@@ -668,7 +662,6 @@
 		9FA5DC7B12FC846B0033A711 /* JREngage */ = {
 			isa = PBXGroup;
 			children = (
-				9FA783B413CE21E900E1B603 /* AttributedLabel */,
 				9FA5DC7F12FC846B0033A711 /* JSON */,
 				9FA5DC7C12FC846B0033A711 /* Security */,
 				9FA5DC9312FC846B0033A711 /* Classes */,
@@ -999,17 +992,6 @@
 			path = ../JREngage/Resources/xibs;
 			sourceTree = SOURCE_ROOT;
 		};
-		9FA783B413CE21E900E1B603 /* AttributedLabel */ = {
-			isa = PBXGroup;
-			children = (
-				9FA783B513CE21E900E1B603 /* OHAttributedLabel.m */,
-				9FA783B613CE21E900E1B603 /* OHAttributedLabel.h */,
-				9FA783B713CE21E900E1B603 /* NSAttributedString+Attributes.m */,
-				9FA783B813CE21E900E1B603 /* NSAttributedString+Attributes.h */,
-			);
-			name = AttributedLabel;
-			sourceTree = "<group>";
-		};
 		9FA798A113E7210E00E1B603 /* EGOTableViewPullRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -1311,8 +1293,6 @@
 				9F0BB6FC13B2B08B00898F4F /* NSDate+InternetDateTime.m in Sources */,
 				9F0BB6FD13B2B08B00898F4F /* NSString+HTML.m in Sources */,
 				9F0BB70113B2B0AD00898F4F /* RegexKitLite.m in Sources */,
-				9FA783B913CE21E900E1B603 /* OHAttributedLabel.m in Sources */,
-				9FA783BA13CE21E900E1B603 /* NSAttributedString+Attributes.m in Sources */,
 				9FA798F413E7279600E1B603 /* EGORefreshTableHeaderView.m in Sources */,
 				9F608B42143F7F06002F4439 /* JRPreviewLabel.m in Sources */,
 			);

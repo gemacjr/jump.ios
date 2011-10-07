@@ -33,10 +33,6 @@
 		9FA5DC7312FC843D0033A711 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA5DC6012FC843D0033A711 /* SBJsonWriter.m */; };
 		9FA5DC7712FC844F0033A711 /* SFHFKeychainUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FA5DC7512FC844F0033A711 /* SFHFKeychainUtils.h */; };
 		9FA5DC7812FC844F0033A711 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA5DC7612FC844F0033A711 /* SFHFKeychainUtils.m */; };
-		9FA783B013CE21C300E1B603 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA783AC13CE21C300E1B603 /* OHAttributedLabel.m */; };
-		9FA783B113CE21C300E1B603 /* OHAttributedLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FA783AD13CE21C300E1B603 /* OHAttributedLabel.h */; };
-		9FA783B213CE21C300E1B603 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FA783AE13CE21C300E1B603 /* NSAttributedString+Attributes.m */; };
-		9FA783B313CE21C300E1B603 /* NSAttributedString+Attributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FA783AF13CE21C300E1B603 /* NSAttributedString+Attributes.h */; };
 		9FED512E124020C2004684F2 /* JRActivityObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED5118124020C2004684F2 /* JRActivityObject.h */; };
 		9FED512F124020C2004684F2 /* JRActivityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FED5119124020C2004684F2 /* JRActivityObject.m */; };
 		9FED5130124020C2004684F2 /* JRConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED511A124020C2004684F2 /* JRConnectionManager.h */; };
@@ -227,10 +223,6 @@
 		9FA5DC6012FC843D0033A711 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		9FA5DC7512FC844F0033A711 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		9FA5DC7612FC844F0033A711 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
-		9FA783AC13CE21C300E1B603 /* OHAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OHAttributedLabel.m; path = AttributedLabel/OHAttributedLabel.m; sourceTree = "<group>"; };
-		9FA783AD13CE21C300E1B603 /* OHAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OHAttributedLabel.h; path = AttributedLabel/OHAttributedLabel.h; sourceTree = "<group>"; };
-		9FA783AE13CE21C300E1B603 /* NSAttributedString+Attributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+Attributes.m"; path = "AttributedLabel/NSAttributedString+Attributes.m"; sourceTree = "<group>"; };
-		9FA783AF13CE21C300E1B603 /* NSAttributedString+Attributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+Attributes.h"; path = "AttributedLabel/NSAttributedString+Attributes.h"; sourceTree = "<group>"; };
 		9FED5118124020C2004684F2 /* JRActivityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActivityObject.h; sourceTree = "<group>"; };
 		9FED5119124020C2004684F2 /* JRActivityObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRActivityObject.m; sourceTree = "<group>"; };
 		9FED511A124020C2004684F2 /* JRConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRConnectionManager.h; sourceTree = "<group>"; };
@@ -300,7 +292,6 @@
 		08FB77AEFE84172EC02AAC07 /* JREngage */ = {
 			isa = PBXGroup;
 			children = (
-				9FA783AB13CE21B200E1B603 /* AttributedLabel */,
 				9FA5DC4D12FC843D0033A711 /* JSON */,
 				9FA5DC7412FC844F0033A711 /* Security */,
 				9FED5117124020C2004684F2 /* Classes */,
@@ -594,17 +585,6 @@
 			path = Security;
 			sourceTree = "<group>";
 		};
-		9FA783AB13CE21B200E1B603 /* AttributedLabel */ = {
-			isa = PBXGroup;
-			children = (
-				9FA783AC13CE21C300E1B603 /* OHAttributedLabel.m */,
-				9FA783AD13CE21C300E1B603 /* OHAttributedLabel.h */,
-				9FA783AE13CE21C300E1B603 /* NSAttributedString+Attributes.m */,
-				9FA783AF13CE21C300E1B603 /* NSAttributedString+Attributes.h */,
-			);
-			name = AttributedLabel;
-			sourceTree = "<group>";
-		};
 		9FED5117124020C2004684F2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -678,8 +658,6 @@
 				9FA5DC7012FC843D0033A711 /* SBJsonTokeniser.h in Headers */,
 				9FA5DC7212FC843D0033A711 /* SBJsonWriter.h in Headers */,
 				9FA5DC7712FC844F0033A711 /* SFHFKeychainUtils.h in Headers */,
-				9FA783B113CE21C300E1B603 /* OHAttributedLabel.h in Headers */,
-				9FA783B313CE21C300E1B603 /* NSAttributedString+Attributes.h in Headers */,
 				9F608B3A143F7E98002F4439 /* JRPreviewLabel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -755,8 +733,6 @@
 				9FA5DC7112FC843D0033A711 /* SBJsonTokeniser.m in Sources */,
 				9FA5DC7312FC843D0033A711 /* SBJsonWriter.m in Sources */,
 				9FA5DC7812FC844F0033A711 /* SFHFKeychainUtils.m in Sources */,
-				9FA783B013CE21C300E1B603 /* OHAttributedLabel.m in Sources */,
-				9FA783B213CE21C300E1B603 /* NSAttributedString+Attributes.m in Sources */,
 				9F608B3B143F7E98002F4439 /* JRPreviewLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
