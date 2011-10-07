@@ -352,6 +352,7 @@ BOOL CTRunContainsCharactersFromStringRange(CTRunRef run, NSRange range) {
 // MARK: Drawing Text
 /////////////////////////////////////////////////////////////////////////////
 
+//LILLI BUG HERE!!!
 -(void)resetTextFrame {
 	if (textFrame) {
 		CFRelease(textFrame);
