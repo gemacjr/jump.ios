@@ -980,15 +980,15 @@ Please try again later."
 }
 
 //- (void)attributedLabel:(OHAttributedLabel*)attrLabel didChangeHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight
-//- (void)previewLabel:(JRPreviewLabel*)previewLabel didChangeContentHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight;
-//{
-//    previewLabelHeight = toHeight;
-//    [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
-//                                             myRichDataContainer.frame.origin.y + (toHeight - fromHeight),
-//                                             myRichDataContainer.frame.size.width,
-//                                             myRichDataContainer.frame.size.height)];
-//    [self adjustRichDataContainerVisibility];
-//}
+- (void)previewLabel:(JRPreviewLabel*)previewLabel didChangeContentHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight;
+{
+    previewLabelHeight = toHeight;
+    [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
+                                             myRichDataContainer.frame.origin.y + (toHeight - fromHeight),
+                                             myRichDataContainer.frame.size.width,
+                                             myRichDataContainer.frame.size.height)];
+    [self adjustRichDataContainerVisibility];
+}
 
 - (void)sendEmail
 {

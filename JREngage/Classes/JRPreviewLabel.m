@@ -112,11 +112,11 @@
 @synthesize boldFont;
 @synthesize delegate;
 
-- (id)initWithFrame:(CGRect)aRect defaultUsername:(NSString*)defaultUsername defaultUsertext:(NSString*)defaultUsertext 
-         defaultUrl:(NSString*)defaultUrl andDefaultFontSize:(CGFloat)defaultFontSize
+- (void)finishInitWithDefaultUsername:(NSString*)defaultUsername defaultUsertext:(NSString*)defaultUsertext 
+                           defaultUrl:(NSString*)defaultUrl andDefaultFontSize:(CGFloat)defaultFontSize
 {
-    if ((self = [super initWithFrame:aRect]))
-    {
+//    if ((self = [super initWithFrame:aRect]))
+//    {
         if (defaultUsername && ![defaultUsername isEqualToString:@""])
             username = [[defaultUsername stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] copy];
                         //[[NSString alloc] initWithFormat:@"%@", 
@@ -139,8 +139,10 @@
         else
             fontSize = 12.0;
 
-        font     = [[UIFont fontWithName:@"Courier" size:fontSize] retain];//[[UIFont systemFontOfSize:fontSize] retain];
-        boldFont = [[UIFont fontWithName:@"Courier-Bold" size:fontSize] retain];//[[UIFont boldSystemFontOfSize:fontSize] retain];
+//        font     = [[UIFont fontWithName:@"Courier" size:fontSize] retain];
+//        boldFont = [[UIFont fontWithName:@"Courier-Bold" size:fontSize] retain];
+        font     = [[UIFont systemFontOfSize:fontSize] retain];
+        boldFont = [[UIFont boldSystemFontOfSize:fontSize] retain];
         
         usernameLabel = [[UILabel alloc] init];
         usernameLabel.numberOfLines = 1;
@@ -168,18 +170,30 @@
         urlLabel.font = font;
         urlLabel.textColor = [UIColor darkGrayColor];
         
-//        usernameLabel.backgroundColor = [UIColor redColor];
-//        textLabelLine1.backgroundColor = [UIColor blueColor];
-//        textLabelLine2.backgroundColor = [UIColor yellowColor];
-//        textLabelLine3.backgroundColor = [UIColor greenColor];
-//        urlLabel.backgroundColor = [UIColor purpleColor];
-//        self.backgroundColor = [UIColor orangeColor];
+        usernameLabel.backgroundColor  = [UIColor clearColor]; //[UIColor redColor];
+        textLabelLine1.backgroundColor = [UIColor clearColor]; //[UIColor blueColor];
+        textLabelLine2.backgroundColor = [UIColor clearColor]; //[UIColor yellowColor];
+        textLabelLine3.backgroundColor = [UIColor clearColor]; //[UIColor greenColor];
+        urlLabel.backgroundColor       = [UIColor clearColor]; //[UIColor purpleColor];
+        self.backgroundColor           = [UIColor clearColor]; //[UIColor orangeColor];
         
         [self addSubview:usernameLabel];
         [self addSubview:textLabelLine1];
         [self addSubview:textLabelLine2];
         [self addSubview:textLabelLine3];
         [self addSubview:urlLabel];
+//    }
+    
+//    return self;
+}
+
+- (id)initWithFrame:(CGRect)aRect defaultUsername:(NSString*)defaultUsername defaultUsertext:(NSString*)defaultUsertext 
+         defaultUrl:(NSString*)defaultUrl andDefaultFontSize:(CGFloat)defaultFontSize
+{
+    if ((self = [super initWithFrame:aRect]))
+    {
+        [self finishInitWithDefaultUsername:defaultUsername defaultUsertext:defaultUsertext 
+                                 defaultUrl:defaultUrl andDefaultFontSize:defaultFontSize];
     }
     
     return self;
@@ -187,8 +201,24 @@
 
 - (id)initWithFrame:(CGRect)aRect
 {
-    return [[JRPreviewLabel alloc] initWithFrame:aRect defaultUsername:nil defaultUsertext:nil 
-                                      defaultUrl:nil andDefaultFontSize:12.0];
+    if ((self = [super initWithFrame:aRect]))
+    {
+        [self finishInitWithDefaultUsername:nil defaultUsertext:nil 
+                                 defaultUrl:nil andDefaultFontSize:12.0];
+    }
+    
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if ((self = [super initWithCoder:decoder]))
+    {
+        [self finishInitWithDefaultUsername:nil defaultUsertext:nil 
+                                 defaultUrl:nil andDefaultFontSize:12.0];
+    }
+    
+    return self;
 }
 
 - (void)layoutSubviews
@@ -205,8 +235,8 @@
     CGFloat superviewHeight  = self.frame.size.height;
     CGFloat usernameMaxWidth = (lineWidth * 3) / 4;
     CGFloat urlMaxWidth      = (lineWidth * 3) / 4;
-    CGFloat usernamePadding  = (username) ? fontSize : 0;
-    CGFloat urlPadding       = (url)      ? fontSize : 0;
+    CGFloat usernamePadding  = (username) ? fontSize / 3 : 0;
+    CGFloat urlPadding       = (url)      ? fontSize / 3 : 0;
     
     BOOL wrapTextToSecondLine  = NO;
     BOOL wrapTextToThirdLine   = NO;
@@ -226,6 +256,10 @@
     CGSize sizeOfUrl = [url sizeWithFont:font
                        constrainedToSize:CGSizeMake(urlMaxWidth, lineHeight)
                            lineBreakMode:UILineBreakModeTailTruncation];
+    
+//    CGSize foo = [@" " sizeWithFont:font
+//                       constrainedToSize:CGSizeMake(urlMaxWidth, lineHeight)
+//                           lineBreakMode:UILineBreakModeTailTruncation];
     
     CGSize sizeOfUsername = [username sizeWithFont:boldFont
                                  constrainedToSize:CGSizeMake(usernameMaxWidth, lineHeight)
@@ -296,11 +330,11 @@
         [textLabelLine3 setHidden:YES];
         
         /* Special check for the case where we don't have any text whatsoever */
-        if (!username && !text && !url)
+        if (!username && !usertext && !url)
         {
             newContentHeight = 0;
         }
-        else if (!text)
+        else if (!usertext)
         {
             if (!username)
             {
@@ -453,11 +487,11 @@
 {
     fontSize = newFontSize;
 
-    self.font     = [[UIFont fontWithName:@"Courier" size:fontSize] retain];//[[UIFont systemFontOfSize:fontSize] retain];
-    self.boldFont = [[UIFont fontWithName:@"Courier-Bold" size:fontSize] retain];//[[UIFont boldSystemFontOfSize:fontSize] retain];
+//    self.font     = [[UIFont fontWithName:@"Courier" size:fontSize] retain];
+//    self.boldFont = [[UIFont fontWithName:@"Courier-Bold" size:fontSize] retain];
 
-//    self.font     = [UIFont systemFontOfSize:fontSize];
-//    self.boldFont = [UIFont boldSystemFontOfSize:fontSize];
+    self.font     = [UIFont systemFontOfSize:fontSize];
+    self.boldFont = [UIFont boldSystemFontOfSize:fontSize];
     
     usernameLabel.font = boldFont;    
     textLabelLine1.font = font;
