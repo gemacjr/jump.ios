@@ -755,6 +755,7 @@
 				GCC_PREFIX_HEADER = JREngage_Prefix.pch;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = JREngage;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -769,6 +770,7 @@
 				GCC_PREFIX_HEADER = JREngage_Prefix.pch;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = JREngage;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
