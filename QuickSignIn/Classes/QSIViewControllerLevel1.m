@@ -57,9 +57,25 @@ Copyright (c) 2010, Janrain, Inc.
 - (void) layoutSubviews
 {
 	[super layoutSubviews];
+    
+//    CGRect mframe = self.frame;
+//    CGRect cframe = self.contentView.frame;
+    
+//    self.contentView.frame = CGRectMake(self.contentView.frame.origin.x,
+//                                        self.contentView.frame.origin.y,
+//                                        self.frame.size.width,
+//                                        self.frame.size.height);
+	
+    CGFloat titleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
+    CGFloat subtitleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
+    
     self.imageView.frame = CGRectMake(10, 10, 30, 30);
-    self.textLabel.frame = CGRectMake(50, 15, 100, 22);
-    self.detailTextLabel.frame = CGRectMake(160, 20, 100, 15);
+    self.textLabel.frame = CGRectMake(50, 15, titleWidth, 22);
+    self.detailTextLabel.frame = CGRectMake(titleWidth + 60, 20, subtitleWidth, 15);
+    
+//    [self.textLabel setBackgroundColor:[UIColor redColor]];
+//    [self.detailTextLabel setBackgroundColor:[UIColor redColor]];
+//    [self.contentView setBackgroundColor:[UIColor yellowColor]];
 }
 @end
 
@@ -285,14 +301,14 @@ Copyright (c) 2010, Janrain, Inc.
     {
         case UIInterfaceOrientationPortrait:
         case UIInterfaceOrientationPortraitUpsideDown:
-            [myTitlePad setFrame:CGRectMake(130, 0, 60, 44)];
+            [myTitlePad setFrame:CGRectMake(95, 0, 130, 44)];
             [myEditButtonContainer setFrame:CGRectMake(260, 0, 52, 44)];
             [mySplitViewPad setFrame:CGRectMake(316, 0, 7, 44)];
             [mySelectedProfilePad setFrame:CGRectMake(426, 0, 236, 44)];
             break;
         case UIInterfaceOrientationLandscapeLeft:
         case UIInterfaceOrientationLandscapeRight:
-            [myTitlePad setFrame:CGRectMake(153, 0, 120, 44)];
+            [myTitlePad setFrame:CGRectMake(148, 0, 130, 44)];
             [myEditButtonContainer setFrame:CGRectMake(368, 0, 52, 44)];
             [mySplitViewPad setFrame:CGRectMake(422, 0, 7, 44)];
             [mySelectedProfilePad setFrame:CGRectMake(532, 0, 386, 44)];
@@ -625,8 +641,7 @@ Copyright (c) 2010, Janrain, Inc.
 		cell = [[[UITableViewCellSignInHistory alloc]
 			 initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 
-
-	NSDictionary *userForCell = (indexPath.section == 0) ?
+    NSDictionary *userForCell = (indexPath.section == 0) ?
 									[[UserModel getUserModel] currentUser] :
 									[[[UserModel getUserModel] signinHistory] objectAtIndex:indexPath.row];
 
@@ -645,7 +660,9 @@ Copyright (c) 2010, Janrain, Inc.
 
     if (!iPad)
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
+    else
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    
 	return cell;
 }
 

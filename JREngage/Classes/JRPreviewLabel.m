@@ -462,7 +462,7 @@
 
 - (CGFloat)fontSize { return fontSize; }
 
-- (void)setFontSize_:(CGFloat)newFontSize
+- (void)setFontSize:(CGFloat)newFontSize
 {
     fontSize = newFontSize;
 

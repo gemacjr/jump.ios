@@ -28,7 +28,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>v2.2.1</string>
+	<string>2.2.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<false/>
 	<key>NSMainNibFile</key>
@@ -37,4 +37,3 @@
 	<string>MainWindow-iPad</string>
 </dict>
 </plist>
-<!-- -->

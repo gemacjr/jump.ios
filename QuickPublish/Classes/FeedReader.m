@@ -775,7 +775,7 @@ static FeedReader* singleton = nil;
   namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qName
     attributes:(NSDictionary*)attributeDict
 {
-//	DLog(@"Started element: %@", elementName);
+	DLog(@"Started element: %@", elementName);
 
 	currentElement = [[NSString alloc] initWithString:elementName];
 	if ([elementName isEqualToString:@"item"])
@@ -831,7 +831,8 @@ static FeedReader* singleton = nil;
 
 - (void)parser:(NSXMLParser*)xmlParser foundCharacters:(NSString*)string
 {
-//	DLog(@"Found characters: %@", string);
+    if ([currentElement isEqualToString:@"dc:creator"])
+        DLog(@"Found characters: %@", string);
 
 	if ([currentElement isEqualToString:@"title"] ||
         [currentElement isEqualToString:@"link"] ||

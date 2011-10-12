@@ -72,6 +72,14 @@ div.title                       \
 {                               \
     font-size:24px;             \
     color:#074764;              \
+    padding-bottom:4px;         \
+}                               \
+                                \
+div.author                      \
+{                               \
+    font-size:16px;             \
+    color:#999999;              \
+    padding-bottom:2px;         \
 }                               \
                                 \
 div.date                        \
@@ -101,6 +109,14 @@ div.title                       \
 {                               \
     font-size:16px;             \
     color:#074764;              \
+    padding-bottom:4px;         \
+}                               \
+                                \
+div.author                      \
+{                               \
+    font-size:12px;             \
+    color:#999999;              \
+    padding-bottom:2px;         \
 }                               \
                                 \
 div.date                        \
@@ -131,25 +147,27 @@ a:active  { color:#7AC143; }";
     self.title = @"Article";
 
     webViewContent = [[NSString stringWithFormat:
-                        @"<html>                                    \
-                            <head>                                  \
-                                <style type=\"text/css\">           \
-                                    %@                              \
-                                    %@                              \
-                                </style>                            \
-                            </head>                                 \
-                                                                    \
-                            <body>                                  \
-                                <div class=\"main\">                \
-                                    <div class=\"title\">%@</div>   \
-                                    <div class=\"date\">%@</div>    \
-                                    %@                              \
-                                </div>                              \
-                            </body>                                 \
+                        @"<html>                                       \
+                            <head>                                     \
+                                <style type=\"text/css\">              \
+                                    %@                                 \
+                                    %@                                 \
+                                </style>                               \
+                            </head>                                    \
+                                                                       \
+                            <body>                                     \
+                                <div class=\"main\">                   \
+                                    <div class=\"title\">%@</div>      \
+                                    <div class=\"author\">by %@</div>  \
+                                    <div class=\"date\">%@</div>       \
+                                    %@                                 \
+                                </div>                                 \
+                            </body>                                    \
                         </html>",
                         iPad ? iPadStyle : iPhoneStyle,
                         commonStyle,
                         story.title,
+                        story.author,
                         story.pubDate,
                         story.description] retain];
 
