@@ -462,7 +462,7 @@
 /**
  * The URL of the resource being mentioned in the activity update.
  **/
-@property (readonly) NSString *url;
+@property (copy) NSString *url;
 
 /**
  * A string containing user-supplied content, such as a comment or the first paragraph of an article
