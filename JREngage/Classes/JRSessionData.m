@@ -44,18 +44,23 @@
 
 #pragma mark server_urls
 //#define ENGAGE_STAGING_SERVER
-//#define ENGAGE_LOCAL_SERVER
-//#define ENGAGE_OLEG_SERVER
+//#define LOCAL_ENGAGE_SERVER
+//#define NATHAN_ENGAGE_SERVER
+//#define OLEG_ENGAGE_SERVER
 #ifdef ENGAGE_STAGING_SERVER
 static NSString * const serverUrl = @"https://rpxstaging.com";
 #else
-#ifdef ENGAGE_LOCAL_SERVER
+#ifdef LOCAL_ENGAGE_SERVER
 static NSString * const serverUrl = @"http://lilli.janrain.com:8080";
 #else
-#ifdef ENGAGE_OLEG_SERVER
+#ifdef NATHAN_ENGAGE_SERVER
+static NSString * const serverUrl = @"http://nathan-dev.janrain.com:8080";
+#else
+#ifdef OLEG_ENGAGE_SERVER
 static NSString * const serverUrl = @"http://oleg.janrain.com:8080";
 #else
 static NSString * const serverUrl = @"https://rpxnow.com";
+#endif
 #endif
 #endif
 #endif
@@ -91,19 +96,19 @@ static NSString * const iconNamesSocial[11] = { @"icon_%@_30x30.png",
 
 #define kJRKeychainIdentifier    @"device_tokens.janrain"
 
-#define kJRProviderName                     @"jrengage.provider.name"  
-#define kJRProviderFriendlyName             @"jrengage.provider.friendlyName"  
-#define kJRProviderPlaceholderText          @"jrengage.provider.placeholderText"  
-#define kJRProviderShortText                @"jrengage.provider.shortText"  
-#define kJRProviderOpenIdentifier           @"jrengage.provider.openIdentifier"  
-#define kJRProviderUrl                      @"jrengage.provider.url"  
-#define kJRProviderRequiresInput            @"jrengage.provider.requiresInput"  
-#define kJRProviderSocialSharingProperties  @"jrengage.provider.socialSharingProperties"  
-#define kJRProviderCookieDomains            @"jrengage.provider.cookieDomains"  
+#define kJRProviderName                     @"jrengage.provider.name"
+#define kJRProviderFriendlyName             @"jrengage.provider.friendlyName"
+#define kJRProviderPlaceholderText          @"jrengage.provider.placeholderText"
+#define kJRProviderShortText                @"jrengage.provider.shortText"
+#define kJRProviderOpenIdentifier           @"jrengage.provider.openIdentifier"
+#define kJRProviderUrl                      @"jrengage.provider.url"
+#define kJRProviderRequiresInput            @"jrengage.provider.requiresInput"
+#define kJRProviderSocialSharingProperties  @"jrengage.provider.socialSharingProperties"
+#define kJRProviderCookieDomains            @"jrengage.provider.cookieDomains"
 
 #define kJRProviderUserInput     @"jrengage.provider.%@.userInput"
 #define kJRProviderForceReauth   @"jrengage.provider.%@.forceReauth"
- 
+
 #define kJRUserProviderName      @"provider_name"
 #define kJRUserPhoto             @"photo"
 #define kJRUserPreferredUsername @"preferred_username"
@@ -204,8 +209,8 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     NSError *error = nil;
     [SFHFKeychainUtils storeUsername:_providerName
                          andPassword:_deviceToken
-                      forServiceName:[NSString stringWithFormat:@"%@.%@.", 
-                                      kJRKeychainIdentifier, 
+                      forServiceName:[NSString stringWithFormat:@"%@.%@.",
+                                      kJRKeychainIdentifier,
                                       applicationBundleDisplayNameAndIdentifier()]
                       updateExisting:YES
                                error:&error];
@@ -228,8 +233,8 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
         NSError *error = nil;
         _deviceToken = [[SFHFKeychainUtils getPasswordForUsername:_providerName
-                                                   andServiceName:[NSString stringWithFormat:@"%@.%@.", 
-                                                                   kJRKeychainIdentifier, 
+                                                   andServiceName:[NSString stringWithFormat:@"%@.%@.",
+                                                                   kJRKeychainIdentifier,
                                                                    applicationBundleDisplayNameAndIdentifier()]
                                                             error:&error] retain];
 
@@ -243,7 +248,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 //    if (!_providerName)
 //        [self release], self = nil;
-    
+
     return self;
 }
 
@@ -270,7 +275,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
     [_preferredUsername release];
     [_deviceToken release];
     [_welcomeString release];
-    
+
     [super dealloc];
 }
 @end
@@ -284,16 +289,16 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @end
 
 @implementation JRProvider
-@synthesize name                    = _name;                       
-@synthesize friendlyName            = _friendlyName;               
-@synthesize placeholderText         = _placeholderText;             
+@synthesize name                    = _name;
+@synthesize friendlyName            = _friendlyName;
+@synthesize placeholderText         = _placeholderText;
 @synthesize openIdentifier          = _openIdentifier;
-@synthesize url                     = _url;                        
-@synthesize requiresInput           = _requiresInput;   
-@synthesize shortText               = _shortText; 
+@synthesize url                     = _url;
+@synthesize requiresInput           = _requiresInput;
+@synthesize shortText               = _shortText;
 @synthesize socialSharingProperties = _socialSharingProperties;
-@synthesize social                  = _social; 
-@synthesize cookieDomains           = _cookieDomains; 
+@synthesize social                  = _social;
+@synthesize cookieDomains           = _cookieDomains;
 
 - (NSString*)userInput { return _userInput; }
 - (void)setUserInput:(NSString*)userInput
@@ -303,7 +308,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
  /* Save our dynamic variables, in case we ever need to re-initialize a provider object, the init... functions can pull these
     from the user defaults. */
-    [[NSUserDefaults standardUserDefaults] setValue:_userInput 
+    [[NSUserDefaults standardUserDefaults] setValue:_userInput
                                              forKey:[NSString stringWithFormat:kJRProviderUserInput, self.name]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -315,7 +320,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
  /* Save our dynamic variables, in case we ever need to re-initialize a provider object, the init... functions can pull these
     from the user defaults. */
-    [[NSUserDefaults standardUserDefaults] setBool:_forceReauth 
+    [[NSUserDefaults standardUserDefaults] setBool:_forceReauth
                                             forKey:[NSString stringWithFormat:kJRProviderForceReauth, self.name]];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -325,9 +330,9 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
    init... functions. */
 - (void)loadDynamicVariables
 {
-    _userInput     = [[[NSUserDefaults standardUserDefaults] 
+    _userInput     = [[[NSUserDefaults standardUserDefaults]
                        stringForKey:[NSString stringWithFormat:kJRProviderUserInput, _name]] retain];
-    _forceReauth   =  [[NSUserDefaults standardUserDefaults] 
+    _forceReauth   =  [[NSUserDefaults standardUserDefaults]
                        boolForKey:[NSString stringWithFormat:kJRProviderForceReauth, _name]];
 }
 
@@ -357,11 +362,11 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
         if (_requiresInput)
         {
             NSArray *arr    = [[self.placeholderText stringByTrimmingCharactersInSet:
-                                    [NSCharacterSet whitespaceCharacterSet]] 
+                                    [NSCharacterSet whitespaceCharacterSet]]
                                         componentsSeparatedByString:@" "];
             NSRange  subArr = {[arr count] - 2, 2};
             NSArray *newArr = [arr subarrayWithRange:subArr];
-            
+
             _shortText = [[newArr componentsJoinedByString:@" "] retain];
         }
         else
@@ -537,7 +542,7 @@ static JRSessionData* singleton = nil;
     self.tokenUrl = newTokenUrl;
     self.error = [self startGetConfiguration];
 
-    return self;   
+    return self;
 }
 
 - (id)initWithAppId:(NSString*)newAppId tokenUrl:(NSString*)newTokenUrl andDelegate:(id<JRSessionDelegate>)newDelegate
@@ -731,9 +736,9 @@ static JRSessionData* singleton = nil;
 - (NSString*)appNameAndVersion
 {   // TODO: Redo this
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
-    NSString     *name      = [[[infoPlist objectForKey:@"CFBundleDisplayName"] 
+    NSString     *name      = [[[infoPlist objectForKey:@"CFBundleDisplayName"]
                                 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
-    NSString     *ident     = [[[infoPlist objectForKey:@"CFBundleIdentifier"] 
+    NSString     *ident     = [[[infoPlist objectForKey:@"CFBundleIdentifier"]
                                 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] URLEscaped];
 
     infoPlist = [NSDictionary dictionaryWithContentsOfFile:
@@ -756,7 +761,7 @@ static JRSessionData* singleton = nil;
     ALog (@"Getting configuration for RP: %@", urlString);
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
- 
+
     NSString *tag = [[NSString alloc] initWithFormat:@"getConfiguration"];
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
@@ -899,9 +904,9 @@ static JRSessionData* singleton = nil;
         crash/behave inconsistently.  If a dialog isn't showing, go ahead and update new configuration information.
 
         Or, in rare cases, there might not be any data at all (the lists of basic and social providers are nil), perhaps
-        because this is the first time the library was used and the configuration information is still downloading. 
+        because this is the first time the library was used and the configuration information is still downloading.
         In these cases, the dialogs will display their view as greyed-out, with a spinning activity indicator and a
-        loading message, as they waitfor the lists of providers to download, so we can go ahead and update the 
+        loading message, as they waitfor the lists of providers to download, so we can go ahead and update the
         configuration information here, too. The dialogs won't try and do anything until we're done updating the lists. */
         if (!dialogIsShowing)
             return [self finishGetConfiguration:dataStr];
@@ -1173,7 +1178,7 @@ static JRSessionData* singleton = nil;
     NSString *deviceToken = user.deviceToken;
 
     DLog(@"activity json string \n %@" , activityContent);
-    
+
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -1387,7 +1392,7 @@ static JRSessionData* singleton = nil;
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 
-    NSDictionary *tag = [[NSDictionary alloc] initWithObjectsAndKeys:theActivity, @"activity", 
+    NSDictionary *tag = [[NSDictionary alloc] initWithObjectsAndKeys:theActivity, @"activity",
                                                                      @"shortenUrls", @"action", nil];
 
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
@@ -1703,7 +1708,7 @@ CALL_DELEGATE_SELECTOR:
     JRAuthenticatedUser *user = [[[JRAuthenticatedUser alloc] initUserWithDictionary:goodies
                                                                     andWelcomeString:[self getWelcomeMessageFromCookie]
                                                                     forProviderNamed:currentProvider.name] autorelease];
-    
+
     if (user)
     {
         [authenticatedUsersByProvider setObject:user forKey:currentProvider.name];

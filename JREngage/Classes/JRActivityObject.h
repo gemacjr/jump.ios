@@ -48,8 +48,9 @@
 
 /* Added a category to NSString including a function to correctly escape any arguments sent to
    Engage, so that there are no errors when sending a json structure to rpxnow's api */
-@interface NSString (NSString_URL_ESCAPING)
+@interface NSString (NSString_URL_HANDLING)
 - (NSString*)URLEscaped;
+- (BOOL)isWellFormedAbsoluteUrl;
 @end
 
 /**
@@ -63,11 +64,13 @@
  * @brief Image object to be included in a post to a user's stream.
  *
  * Create an image media object, fill in the object's fields, and add the object to the
- * JRActivityObject#media array in your JRActivityObject.  How the images get presented
+ * JRActivityObject#media array in your JRActivityObject.  How the images get presented,
  * and whether or not they are used, depend on the provider.
  *
- * Each image must contain a \e src URL, which maps to the photo's URL, and an
- * \e href URL, which maps to the URL where a user should be taken if he or she clicks the photo.
+ * Each image must contain an NSString* \e src URL, which maps to the photo's URL, and an
+ * NSString* \e href URL, which maps to the URL where a user should be taken if he or she
+ * clicks the photo. Both URLs must be well-formed; that is, they must have both a scheme
+ * and host, and conform to <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>.
  *
  * @sa
  * Format and rules are identical to those described on the
@@ -93,14 +96,17 @@
  * Returns a JRImageMediaObject initialized with the given src and href.
  *
  * @param src
- *   The photo's URL.  This value cannot be \e nil
+ *   The photo's URL.  This value must be an \e NSString* representation of a well-formed URL,
+ *   with a scheme and host.  It cannot be an empty string or \e nil
  *
  * @param href
- *   The URL where a user should be taken if he or she clicks the photo.  This value cannot be \e nil
+ *   The URL where a user should be taken if he or she clicks the photo.  This value must
+ *   be an \e NSString* representation of a well-formed URL, with a scheme and host.
+ *   It cannot be an empty string or \e nil
  *
  * @return
  *   A JRImageMediaObject initialized with the given src and href.  If either
- *   src or href are \e nil, returns \e nil
+ *   src or href are malformed, empty, or \e nil, returns \e nil
  **/
 - (id)initWithSrc:(NSString *)src andHref:(NSString *)href;
 + (id)imageMediaObjectWithSrc:(NSString*)src andHref:(NSString*)href;
@@ -115,12 +121,14 @@
  * JRActivityObject#media array in your JRActivityObject.  How the flash videos get presented
  * and whether or not they are used, depend on the provider.
  *
- * Each video must contain a \e swfsrc url, which is the URL of the Flash object to be rendered,
- * and an \e imgsrc, which is the URL of an photo that should be displayed in place of the
- * flash object until the user clicks to prompt the flash object to play.  Flash object
- * has two optional fields, \e width and \e height, which can be used to override the
- * default choices when displaying the video in the provider's stream (e.g., Facebook's stream).
- * It also has two optional fields, \e expanded_width and \e expanded_height, to specify
+ * Each video must contain an NSString* \e swfsrc url, which is the URL of the Flash object to be rendered,
+ * and an NSString* \e imgsrc, which is the URL of an photo that should be displayed in place of the
+ * flash object until the user clicks to prompt the flash object to play. Both URLs must be
+ * well-formed; that is, they must have both a scheme and host, and conform to
+ * <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>. Flash objects have two optional
+ * fields, \e width and \e height, which can be used to override the default choices
+ * when displaying the video in the provider's stream (e.g., Facebook's stream).
+ * They also have two optional fields, \e expanded_width and \e expanded_height, to specify
  * the width and height of flash object will resize to, on the provider's stream,
  * once the user clicks on it.
  *
@@ -158,14 +166,17 @@
  * Returns a JRFlashMediaObject initialized with the given swfsrc and imgsrc.
  *
  * @param swfsrc
- *   The URL of the Flash object to be rendered.  This value cannot be \e nil
+ *   The URL of the Flash object to be rendered.  This value must be an \e NSString*
+ *   representation of a well-formed URL, with a scheme and host.  It cannot be an empty string or \e nil
  *
  * @param imgsrc
- *   The URL of an photo that should be displayed in place of the flash object.  This value cannot be \e nil
+ *   The URL of an photo that should be displayed in place of the flash object. This value must be an
+ *   \e NSString* representation of a well-formed URL, with a scheme and host.  It cannot be an empty
+ *   string or \e nil
  *
  * @return
  *   A JRFlashMediaObject initialized with the given swfsrc and imgsrc.  If either
- *   swfsrc or imgsrc are \e nil, returns \e nil
+ *   swfsrc or imgsrc are malformed, empty, or \e nil, returns \e nil
  **/
 - (id)initWithSwfsrc:(NSString *)swfsrc andImgsrc:(NSString *)imgsrc;
 + (id)flashMediaObjectWithSwfsrc:(NSString*)swfsrc andImgsrc:(NSString*)imgsrc;
@@ -180,8 +191,10 @@
  * JRActivityObject#media array in your JRActivityObject.  How the mp3s get presented
  * and whether or not they are used, depend on the provider.
  *
- * Each mp3 must contain a \e src url, which is the URL of the MP3 file to be rendered.
- * The mp3 can also include a \e title, \e artist, and \e album.
+ * Each mp3 must contain an NSString* \e src url, which is the URL of the MP3 file to be rendered.
+ * The mp3 can also include a \e title, \e artist, and \e album. The \e src URL must be
+ * well-formed; that is, it must have both a scheme and host, and conform to
+ * <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>.
  *
  * @note You can only include one JRMp3MediaObject in the media array.  Any others
  * will be ignored.
@@ -211,11 +224,12 @@
  * Returns a JRMp3MediaObject initialized with the given src.
  *
  * @param src
- *   The URL of the MP3 file to be rendered.  This value cannot be \e nil
+ *   The URL of the MP3 file to be rendered.  This value must be an \e NSString* representation of
+ *   a well-formed URL, with a scheme and host.  It cannot be an empty string or \e nil
  *
  * @return
  *   A JRMp3MediaObject initialized with the given src.  If
- *   src is \e nil, returns \e nil
+ *   src is malformed, empty, or \e nil, returns \e nil
  **/
 - (id)initWithSrc:(NSString *)src;
 + (id)mp3MediaObjectWithSrc:(NSString*)src;
@@ -229,8 +243,9 @@
  * Create an action link object, fill in the object's fields, and add the object
  * the JRActivityObject#action_links array of your JRActivityObject.
  *
- * Each action link must contain a link, \e href, and some \e text, describing what action
- * will happen if someone clicks the link.
+ * Each action link must contain an NSString* representation of a link, \e href, and some \e text,
+ * describing what action will happen if someone clicks the link. The \e href link must be well-formed; that is,
+ * it must have both a scheme and host, and conform to <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>.
  *
  * @par Example:
  * @code
@@ -267,11 +282,13 @@
  *   The text describing the link.  This value cannot be \e nil
  *
  * @param imgsrc
- *   A link a user can use to take action on an activity update on the provider.  This value cannot be \e nil
+ *   A link a user can use to take action on an activity update on the provider.  This value
+ *   must be an \e NSString* representation of a well-formed URL, with a scheme and host.
+ *   It cannot be an empty string or \e nil
  *
  * @return
  *   A JRActionLink initialized with the given text and href.  If either
- *   text or href are \e nil, returns \e nil
+ *   text or href are empty or \e nil, or if href is malformed, returns \e nil
  **/
 - (id)initWithText:(NSString *)text andHref:(NSString *)href;
 + (id)actionLinkWithText:(NSString*)text andHref:(NSString*)href;
@@ -289,8 +306,8 @@
  *
  * If your email message body contains URLs that you would like shortened
  * to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
- * URL (with which you can track click-throughs), add the
- * exact URL(s) to the \e urls array.  The library will contact the Engage
+ * URL (with which you can track click-throughs), add the exact URL(s),
+ * as NSString*s, to the \e urls array.  The library will contact the Engage
  * servers to obtain shortened URLs and replace any instance of the url in
  * your email body.
  *
@@ -336,8 +353,10 @@
  *
  * @param urls
  *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
- *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding
- *   shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain
+ *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each
+ *   url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via email
+ *   before the call is returned, the original urls will remain.  The URLs must be an \e NSString* representation
+ *   of a well-formed URL, with a scheme and host. They cannot be an empty string or \e nil
  *
  * @return
  *   A JREmailObject initialized with the given subject and message body
@@ -356,9 +375,9 @@
  * The given message string is supplied to the \e MFMessageComposeViewController
  * class when the user wants to share your activity via sms.
  *
- * If your sms message contains URLs that you would like shortened
- * to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a>
- * (with which you can track click-throughs), add the exact URL(s) to the \e urls array.
+ * If your sms message contains URLs that you would like shortened to an
+ * <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> (with which you
+ * can track click-throughs), add the exact URL(s), as NSString*s, to the \e urls array.
  * The library will contact the Engage servers to obtain shortened URLs and replace any
  * instance of the url in your sms message.
  *
@@ -394,8 +413,10 @@
  *
  * @param urls
  *   The array of urls that %JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url.
- *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding
- *   shortened url. To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain
+ *   Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url
+ *   with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via sms before
+ *   the call is returned, the original urls will remain.   The URLs must be an \e NSString* representation
+ *   of a well-formed URL, with a scheme and host. They cannot be an empty string or \e nil
  *
  * @return
  *   A JRSmsObject initialized with the given message text
@@ -460,7 +481,9 @@
 @property (readonly) NSString *action;
 
 /**
- * The URL of the resource being mentioned in the activity update.
+ * The URL of the resource being mentioned in the activity update.  The URL must be an \e NSString* representation
+ * of a well-formed URL, with a scheme and host. They cannot be an empty string or \e nil.  If these
+ * conditions are not met, the JRActivityObject#url property will be set to \e nil.
  **/
 @property (copy) NSString *url;
 
@@ -469,7 +492,10 @@
  * that the user wrote.
  *
  * @note
- * Some providers (Twitter in particular) may truncate this value.
+ * This property will likely be changed by the user when sharing.  If no comment is supplied to
+ * the JRActivityObject, and the user does not update this property when sharing, this
+ * value is replaced by the JRActivityObject#action for most providers. Some providers
+ * (Twitter in particular) may truncate this value.
  **/
 @property (copy) NSString *user_generated_content;
 
@@ -581,7 +607,9 @@
  *   A string describing what the user did, written in the third person.  This value cannot be \e nil
  *
  * @param url
- *   The URL of the resource being mentioned in the activity update.
+ *   The URL of the resource being mentioned in the activity update. The URL must be an \e NSString* representation
+ *   of a well-formed URL, with a scheme and host. They cannot be an empty string or \e nil.  If these
+ *   conditions are not met, the JRActivityObject#url property will be set to \e nil
  *
  * @return
  *   A JRActivityObject initialized with the given action and url.  If action is \e nil, returns \e nil
