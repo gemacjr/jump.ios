@@ -78,7 +78,7 @@ static NSString * const iconNamesSocial[11] = { @"icon_%@_30x30.png",
                                                 @"button_%@_280x40.png",
                                                 @"button_%@_280x40@2x.png", nil };
 
-NSString* applicationBundleDisplayNameAndIdentifier()
+static NSString* applicationBundleDisplayNameAndIdentifier()
 {
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
     NSString *name = [infoPlist objectForKey:@"CFBundleDisplayName"];
@@ -87,16 +87,16 @@ NSString* applicationBundleDisplayNameAndIdentifier()
     return [NSString stringWithFormat:@"%@.%@", name, ident];
 }
 
-NSString* applicationBundleDisplayName()
+static NSString* applicationBundleDisplayName()
 {
     NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
     return [infoPlist objectForKey:@"CFBundleDisplayName"];
 }
 
-void RLog (NSObject *object)
-{
-    NSLog(@"Object: %@\t\tRetain Count:  %d", [object class], [object retainCount]);
-}
+//static void RLog (NSObject *object)
+//{
+//    NSLog(@"Object: %@\t\tRetain Count:  %d", [object class], [object retainCount]);
+//}
 
 NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
