@@ -43,7 +43,7 @@
 #import "JRUserInterfaceMaestro.h"
 #import "JREngage+CustomInterface.h"
 
-void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyString)
+static void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyString)
 {
     NSLog (@"*** Exception thrown. Problem is most likely with jrEngage custom interface object %@ : Caught %@ : %@", 
                  (kJRKeyString ? [NSString stringWithFormat:@" possibly from kJRKeyString, %@", kJRKeyString] : @""),
