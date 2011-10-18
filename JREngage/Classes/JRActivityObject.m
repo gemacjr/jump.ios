@@ -314,7 +314,7 @@
 }
 @end
 
-NSArray* filteredArrayOfValidUrls (NSArray *urls)
+static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 {
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:[urls count]];
                              
