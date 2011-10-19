@@ -1133,7 +1133,7 @@ Please try again later."
     else
     {
         [self setButtonImage:myMediaThumbnailView
-                      toData:UIImagePNGRepresentation([UIImage imageNamed:@"music_note.png"])
+                      toData:UIImagePNGRepresentation([UIImage imageNamed:@"music_note.jpg"])
                andSetLoading:myMediaThumbnailActivityIndicator
                    toLoading:NO];
     }
