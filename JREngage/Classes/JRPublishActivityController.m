@@ -179,8 +179,8 @@
 @synthesize loggedInUser;
 @synthesize myBackgroundView, myTabBar, myLoadingLabel, myLoadingActivitySpinner, myLoadingGrayView,
             myPadGrayEditingViewTop, myPadGrayEditingViewBottom, myContentView, myScrollView, myUserCommentTextView,
-            myUserCommentBoundingBox, myRemainingCharactersLabel, myPreviewContainer, myPreviewRoundedRect,
-            myPreviewAttributedLabel, myRichDataContainer, myMediaThumbnailView, myMediaThumbnailActivityIndicator,
+            myUserCommentBoundingBox, myRemainingCharactersLabel, myEntirePreviewContainer, myPreviewContainerRoundedRect,
+myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMediaThumbnailActivityIndicator,
             myTitleLabel, myDescriptionLabel, myInfoButton, myPoweredByLabel, myProviderIcon, myShareToView,
             myTriangleIcon, myConnectAndShareButton, myJustShareButton, myProfilePic, myProfilePicActivityIndicator,
             myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
@@ -266,8 +266,8 @@
     }
 
  /* Set RoundedRect defaults */
-    [myPreviewRoundedRect setOuterFillColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
-    [myPreviewRoundedRect setDrawInnerRect:YES];
+    [myPreviewContainerRoundedRect setOuterFillColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
+    [myPreviewContainerRoundedRect setDrawInnerRect:YES];
     [myRichDataContainer setOuterFillColor:[UIColor lightGrayColor]];
     [myRichDataContainer setOuterStrokeColor:[UIColor lightGrayColor]];
     [myRichDataContainer setOuterCornerRadius:5.0];
@@ -275,7 +275,7 @@
     [myUserCommentBoundingBox setOuterFillColor:[UIColor whiteColor]];
     [myUserCommentBoundingBox setOuterStrokeWidth:1.5];
     [myUserCommentBoundingBox setAlpha:0.3];
-    [myPreviewRoundedRect setNeedsDisplay];
+    [myPreviewContainerRoundedRect setNeedsDisplay];
     [myRichDataContainer setNeedsDisplay];
     [myUserCommentBoundingBox setNeedsDisplay];
 
@@ -469,9 +469,9 @@ Please try again later."
 - (void)showUserAsLoggedIn:(BOOL)loggedIn
 {
     if (loggedIn)
-        [myPreviewAttributedLabel setUsername:loggedInUser.preferredUsername];
+        [myPreviewOfTheUserCommentLabel setUsername:loggedInUser.preferredUsername];
     else
-        [myPreviewAttributedLabel setUsername:@"You"];
+        [myPreviewOfTheUserCommentLabel setUsername:@"You"];
 
     [UIView beginAnimations:@"buttonSlide" context:nil];
     [myJustShareButton setHidden:!loggedIn];
@@ -536,19 +536,19 @@ Please try again later."
                                 [myUserCommentTextView text] :
                                 [currentActivity action];
 
-    [myPreviewAttributedLabel setUsername:username];
-    [myPreviewAttributedLabel setUsertext:text];
+    [myPreviewOfTheUserCommentLabel setUsername:username];
+    [myPreviewOfTheUserCommentLabel setUsertext:text];
 
     if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
     { /* Twitter/MySpace -> true */
 
         // TODO: Add ability to set colors to preview label (Janrain blue for links)
         // TODO: Fix size of url when long and on own line (shouldn't trunk at 3/4)
-        [myPreviewAttributedLabel setUrl:url];
+        [myPreviewOfTheUserCommentLabel setUrl:url];
     }
     else
     {
-        [myPreviewAttributedLabel setUrl:nil];
+        [myPreviewOfTheUserCommentLabel setUrl:nil];
     }
 }
 
@@ -558,9 +558,9 @@ Please try again later."
     NSString *username = (loggedInUser) ? loggedInUser.preferredUsername : @"You";
     NSString *text     = currentActivity.action;
 
-    [myPreviewAttributedLabel setUsername:username];
-    [myPreviewAttributedLabel setUsertext:text];
-    [myPreviewAttributedLabel setUrl:nil];
+    [myPreviewOfTheUserCommentLabel setUsername:username];
+    [myPreviewOfTheUserCommentLabel setUsertext:text];
+    [myPreviewOfTheUserCommentLabel setUrl:nil];
 }
 
 - (void)updateCharacterCount
@@ -582,7 +582,7 @@ Please try again later."
         }
         else
         {
-            int preview_length = [[myPreviewAttributedLabel text] length];
+            int preview_length = [[myPreviewOfTheUserCommentLabel text] length];
             chars_remaining = maxCharacters - preview_length;
 
             characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
@@ -620,10 +620,10 @@ Please try again later."
     {
         //            [UIView beginAnimations:@"media_grow" context:nil];
         //            [UIView setAnimationDuration:2000];
-        [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
-                                                myPreviewContainer.frame.origin.y,
-                                                myPreviewContainer.frame.size.width,
-                                                mediaBoxHeight + previewLabelHeight + 32.0)];//157)];
+        [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
+                                                      myEntirePreviewContainer.frame.origin.y,
+                                                      myEntirePreviewContainer.frame.size.width,
+                                                      mediaBoxHeight + previewLabelHeight + 32.0)];//157)];
                                                                                              //            [UIView commitAnimations];
                                                                                              //            [UIView beginAnimations:@"media_fade" context:nil];
                                                                                              //            [UIView setAnimationDelay:2000];
@@ -639,15 +639,15 @@ Please try again later."
                                             //            [UIView commitAnimations];
                                             //            [UIView beginAnimations:@"media_grow" context:nil];
                                             //            [UIView setAnimationDelay:2000];
-        [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
-                                                myPreviewContainer.frame.origin.y,
-                                                myPreviewContainer.frame.size.width,
+        [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
+                                                myEntirePreviewContainer.frame.origin.y,
+                                                myEntirePreviewContainer.frame.size.width,
                                                 previewLabelHeight + 28.0)];//67)];
                                                                             //            [UIView commitAnimations];
 
     }
 
-    [myPreviewRoundedRect setNeedsDisplay];
+    [myPreviewContainerRoundedRect setNeedsDisplay];
 }
 
 - (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user forProvider:(NSString*)providerName
@@ -715,11 +715,11 @@ Please try again later."
                                                              blue:[((NSString*)[colorArray objectAtIndex:2]) floatValue]
                                                             alpha:0.2];
 
-            myPreviewRoundedRect.innerStrokeColor = [UIColor colorWithRed:[((NSString*)[colorArray objectAtIndex:0]) floatValue]
+            myPreviewContainerRoundedRect.innerStrokeColor = [UIColor colorWithRed:[((NSString*)[colorArray objectAtIndex:0]) floatValue]
                                                                     green:[((NSString*)[colorArray objectAtIndex:1]) floatValue]
                                                                      blue:[((NSString*)[colorArray objectAtIndex:2]) floatValue]
                                                                     alpha:1.0];
-            [myPreviewRoundedRect setNeedsDisplay];
+            [myPreviewContainerRoundedRect setNeedsDisplay];
         }
 
         [myConnectAndShareButton setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:
@@ -763,16 +763,16 @@ Please try again later."
         if (maxCharacters == -1)
         {
             [myRemainingCharactersLabel setHidden:YES];
-            [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x, 97,
-                                                    myPreviewContainer.frame.size.width,
-                                                    myPreviewContainer.frame.size.height)];
+            [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x, 97,
+                                                    myEntirePreviewContainer.frame.size.width,
+                                                    myEntirePreviewContainer.frame.size.height)];
         }
         else
         {
             [myRemainingCharactersLabel setHidden:NO];
-            [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x, 107,
-                                                    myPreviewContainer.frame.size.width,
-                                                    myPreviewContainer.frame.size.height)];
+            [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x, 107,
+                                                    myEntirePreviewContainer.frame.size.width,
+                                                    myEntirePreviewContainer.frame.size.height)];
         }
 
         if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
@@ -838,10 +838,10 @@ Please try again later."
                                                     CHARACTER_COUNT_EDITING_Y_ORIGIN,
                                                     myRemainingCharactersLabel.frame.size.width,
                                                     myRemainingCharactersLabel.frame.size.height)];
-    [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
+    [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
                                             PREVIEW_BOX_EDITING_Y_ORIGIN,
-                                            myPreviewContainer.frame.size.width,
-                                            myPreviewContainer.frame.size.height)];
+                                            myEntirePreviewContainer.frame.size.width,
+                                            myEntirePreviewContainer.frame.size.height)];
 
     [myScrollView setContentSize:CGSizeMake(320, 350)];
 
@@ -897,10 +897,10 @@ Please try again later."
                                                     CHARACTER_COUNT_DEFAULT_Y_ORIGIN,
                                                     myRemainingCharactersLabel.frame.size.width,
                                                     myRemainingCharactersLabel.frame.size.height)];
-    [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
+    [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
                                             PREVIEW_BOX_DEFAULT_Y_ORIGIN,
-                                            myPreviewContainer.frame.size.width,
-                                            myPreviewContainer.frame.size.height)];
+                                            myEntirePreviewContainer.frame.size.width,
+                                            myEntirePreviewContainer.frame.size.height)];
 
     [myScrollView setContentSize:CGSizeMake(320, 264)];
 
@@ -918,7 +918,7 @@ Please try again later."
         [UIView commitAnimations];
     }
 
-    [myPreviewRoundedRect setNeedsDisplay];
+    [myPreviewContainerRoundedRect setNeedsDisplay];
 
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc]
                                     initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
@@ -1159,19 +1159,29 @@ Please try again later."
     return;// emailAndOrSmsIndex;
 }
 
+/* MBC = Media Box Content */
+/* Max height of the whole box is 83 (including title and description heights,
+   5 px top/bottom padding, and 2 px interior padding).  The MBC max height is
+   73 (max height minus the padding) */
+#define MBC_MAX_HEIGHT       73.0
+#define MBC_EXTERIOR_PADDING 10.0
+#define MBC_INTERIOR_PADDING 2.0
 - (void)loadActivityToViewForFirstTime//:(JRActivityObject*)newActivity
 {
     DLog(@"");
 
- /* If the activity doesn't have a url, set the shortened url to an empty string */
+ /* If the activity doesn't have a url, set the shortened url to an empty string,
+  * otherwise, if it's nil, the updatePreviewText func will say "shortening url..." */
     if (!currentActivity.url)
         shortenedActivityUrl = @"";
 
- /* Set the user-comment text view's text and preview label to the activity's action */
+ /* Set the user-comment text view's text and preview label to the activity's action.
+  * We are safe using "updatePreviewTextWhenContentReplacesAction" here, because at
+  * this point the content IS the action*/
     myUserCommentTextView.text = currentActivity.action;
     [self updatePreviewTextWhenContentReplacesAction];
 
- /* Determine if the activity has rich data (media, a title, or a description) */
+ /* Determine if the activity has rich data (media, a title, or a description) or not */
     if ((!currentActivity.title || [currentActivity.title isEqualToString:@""]) &&
         (!currentActivity.description || [currentActivity.description isEqualToString:@""]) &&
         ([currentActivity.media count] == 0 || mediaThumbnailFailedToDownload))
@@ -1186,128 +1196,169 @@ Please try again later."
         return;
     }
 
+ /* Now, determine the sizes and appearance of the media box components (title, description, and media) based on
+    their size and presense */
+
+ /* Set up the default coordinates for the title and description and default height of the media box */
     CGFloat title_x = 46.0, title_y = 5.0, title_w = 224.0, title_h = 15.0;
     CGFloat descr_x = 46.0, descr_y = 22.0, descr_w = 224.0, descr_h = 56.0;
-    mediaBoxHeight = 48.0;
+    mediaBoxHeight = 48.0; /* This is the minimum height of the media box needed for the media thumbnail and padding
+                              If the title and descr are large enough, this size grows, and if there is no media
+                              and the title and descr are small, it shrinks. */
 
+ /* If we have media, and downloading its thumbnail hasn't failed, download it */
     if ([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload)
     {
         [self downloadMediaThumbnailsForActivity];
     }
+
+ /* Otherwise, reposition the title and descr so that their x position equals 8.0 and their width is 262.0 */
     else
     {
         title_x = descr_x = 8.0;
         title_w = descr_w = 262.0;
     }
 
- /* Set the title label and determine how much space the activity's title will potentially need */
+ /* If there is a title, set the title label's text and determine how much space the
+    activity's title will potentially need */
     CGFloat shouldBeTitleHeight = 0;
     if (currentActivity.title)
     {
         myTitleLabel.text = currentActivity.title;
 
-        CGSize shouldBeTitleSize = [myTitleLabel.text sizeWithFont:myTitleLabel.font
-                                                 constrainedToSize:CGSizeMake(([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73)
-                                                     lineBreakMode:UILineBreakModeTailTruncation];
+        CGSize shouldBeTitleSize =
+                       [myTitleLabel.text sizeWithFont:myTitleLabel.font                        // TODO: Verify change made below
+                                     constrainedToSize:CGSizeMake(title_w, MBC_MAX_HEIGHT)//([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73)
+                                         lineBreakMode:UILineBreakModeTailTruncation];
         shouldBeTitleHeight = shouldBeTitleSize.height;
     }
 
- /* Set the description label and determine how much space the activity's description will potentially need */
+ /* If there is a description, set the description label's text and determine how much
+    space the activity's description will potentially need */
     CGFloat shouldBeDescriptionHeight = 0;
     if (currentActivity.description)
     {
         myDescriptionLabel.text = currentActivity.description;
 
-        CGSize shouldBeDescriptionSize = [myDescriptionLabel.text sizeWithFont:myDescriptionLabel.font
-                                                 constrainedToSize:CGSizeMake(([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73)
-                                                     lineBreakMode:UILineBreakModeTailTruncation];
+        CGSize shouldBeDescriptionSize =
+                       [myDescriptionLabel.text sizeWithFont:myDescriptionLabel.font
+                                           constrainedToSize:CGSizeMake(descr_w, MBC_MAX_HEIGHT)//([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 73)
+                                               lineBreakMode:UILineBreakModeTailTruncation];
         shouldBeDescriptionHeight = shouldBeDescriptionSize.height;
     }
 
-    if (shouldBeTitleHeight == 0 && shouldBeDescriptionHeight == 0) /* There is no title or description */
+    /* There is no title or description */
+    if (shouldBeTitleHeight == 0 && shouldBeDescriptionHeight == 0)
     {
         [myTitleLabel setHidden:YES];
         [myDescriptionLabel setHidden:YES];
 
         return;
     }
-    else if (shouldBeTitleHeight == 0 && shouldBeDescriptionHeight != 0 ) /* There is no title but there is a description */
+
+    /* There is no title but there is a description */
+    else if (shouldBeTitleHeight == 0 && shouldBeDescriptionHeight != 0 )
     {
         descr_y = 5.0;
 
-        if (shouldBeDescriptionHeight <= 73.0)
+        if (shouldBeDescriptionHeight <= MBC_MAX_HEIGHT)
             descr_h = shouldBeDescriptionHeight;
         else
-            descr_h = 70.0; /* The height of 5 lines of 11.0 pt. font */
+            descr_h = 70.0; /* The height of 5 lines of 11.0 pt. font, which is the most we can fit when we
+                               don't have a title */
 
+        /* If the descr label is taller than our media thumbnail, or if we don't have a media thumbnail, set the media
+        box height to the descr label plus padding */
         if ((descr_h > 38.0) || ([currentActivity.media count] == 0))
-            mediaBoxHeight = descr_h + 10.0; /* 10.0 is the padding above and below the title/description */
+            mediaBoxHeight = descr_h + MBC_EXTERIOR_PADDING; /* The padding above and below the title/description */
 
         [myTitleLabel setHidden:YES];
     }
-    else if (shouldBeDescriptionHeight == 0 && shouldBeTitleHeight != 0 ) /* There is no description but there is a title */
+
+    /* There is no description but there is a title */
+    else if (shouldBeDescriptionHeight == 0 && shouldBeTitleHeight != 0 )
     {
-        if (shouldBeTitleHeight <= 73.0)
+        if (shouldBeTitleHeight <= MBC_MAX_HEIGHT)
             title_h = shouldBeTitleHeight;
         else
-            title_h = 60.0; /* The height of 4 lines of 12.0 pt. bold font */
+            title_h = 60.0; /* The height of 4 lines of 12.0 pt. bold font, which is the most we can fit when we
+                               don't have a title */
 
+     /* If the title label is taller than our media thumbnail, or if we don't have a media thumbnail, set the media
+        box height to the title label plus padding */
         if ((title_h > 38.0) || ([currentActivity.media count] == 0))
-            mediaBoxHeight = title_h + 10.0; /* 10.0 is the padding above and below the title/description */
+            mediaBoxHeight = title_h + MBC_EXTERIOR_PADDING; /* The padding above and below the title/description */
 
         [myDescriptionLabel setHidden:YES];
     }
-    else // if (shouldBeDescriptionHeight != 0 && shouldBeTitleHeight !=0 ) /* There is a title and a description*/
+
+    /* There is a title and a description*/
+    else /* if (shouldBeDescriptionHeight != 0 && shouldBeTitleHeight !=0 ) */
     {
-        if (shouldBeTitleHeight + shouldBeDescriptionHeight < 71)
+        /* If both the title and descr labels fit into the media box content height */
+        if (shouldBeTitleHeight + shouldBeDescriptionHeight + MBC_INTERIOR_PADDING < MBC_MAX_HEIGHT) //71)
         {
+          /* Let them keep their heights, and position the descr label */
             title_h = shouldBeTitleHeight;
             descr_h = shouldBeDescriptionHeight;
             descr_y = shouldBeTitleHeight + 7.0; /* Title height + top padding + interior padding */
 
+         /* If the title label and descr labels are together taller than our media thumbnail, or if we don't
+            have a media thumbnail, set the media box height to the title label height plus the descr label
+            height plus padding */
             if ((shouldBeTitleHeight + shouldBeDescriptionHeight > 38.0) || ([currentActivity.media count] == 0))
-                mediaBoxHeight = shouldBeTitleHeight + shouldBeDescriptionHeight + 12.0;
+                mediaBoxHeight = shouldBeTitleHeight + shouldBeDescriptionHeight + MBC_EXTERIOR_PADDING + MBC_INTERIOR_PADDING;
         }
-        else if (shouldBeTitleHeight + shouldBeDescriptionHeight >= 71) /* Max height is 83 (including title and description heights, 5 px top/bottom padding, and 2 px interior padding) */
+
+        /* If both the title and descr labels DON'T fit into the media box content height */
+        else if (shouldBeTitleHeight + shouldBeDescriptionHeight + MBC_INTERIOR_PADDING >= MBC_MAX_HEIGHT)
         {
+         /* If the title height is taller than one line of text and the descr height is taller than four lines... */
             if (shouldBeTitleHeight >= 15 && shouldBeDescriptionHeight >= 56)
             {
-                // keep things as they are
+                /* ... then keep things as they are (i.e., 1 line and 4 lines) */
             }
+
+         /* If the title height is taller than one line of text and the descr height is SHORTER than four lines... */
             else if (shouldBeTitleHeight >= 15 && shouldBeDescriptionHeight < 56)
             {
-                descr_h = shouldBeDescriptionHeight;
-                CGSize shouldBeTitleSize = [myTitleLabel.text sizeWithFont:myTitleLabel.font
-                                                         constrainedToSize:CGSizeMake(([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 71 - shouldBeDescriptionHeight)
-                                                             lineBreakMode:UILineBreakModeTailTruncation];
+                /* ... then make the descr as tall as it needs to be and adjust the title to fit (e.g., 2 lines and 3 lines) */
+                CGSize shouldBeTitleSize =
+                               [myTitleLabel.text sizeWithFont:myTitleLabel.font
+                                             constrainedToSize:CGSizeMake(title_w, MBC_MAX_HEIGHT - MBC_INTERIOR_PADDING - shouldBeDescriptionHeight)//([currentActivity.media count] > 0 && !mediaThumbnailFailedToDownload) ? 224 : 262, 71 - shouldBeDescriptionHeight)
+                                                 lineBreakMode:UILineBreakModeTailTruncation];
                 shouldBeTitleHeight = shouldBeTitleSize.height;
 
                 title_h = shouldBeTitleHeight;
+                descr_h = shouldBeDescriptionHeight;
                 descr_y = shouldBeTitleHeight + 7.0; /* Title height + top padding + interior padding */
             }
             else if (shouldBeTitleHeight < 15 && shouldBeDescriptionHeight >= 56)
             {
-                // only happens if there is no title
+                /* only happens if there is no title */
             }
             else if (shouldBeTitleHeight < 15 && shouldBeDescriptionHeight < 56)
             {
-                // moot case
+                /* moot case */
             }
+
+         /* Because when we have both a title and descr, their combined height will always be more than 30?? */
             mediaBoxHeight = title_h + descr_h + 12.0;
         }
     }
 
+ /* Now actually set the frames */
     [myTitleLabel setFrame:CGRectMake(title_x, title_y, title_w, title_h)];
     [myDescriptionLabel setFrame:CGRectMake(descr_x, descr_y, descr_w, descr_h)];
     [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
-                                             20.0,//myMediaViewBackgroundMiddle.frame.origin.y,
+                                             20.0,
                                              myRichDataContainer.frame.size.width,
                                              mediaBoxHeight)];
     [myRichDataContainer setNeedsDisplay];
-    [myPreviewContainer setFrame:CGRectMake(myPreviewContainer.frame.origin.x,
-                                            myPreviewContainer.frame.origin.y,
-                                            myPreviewContainer.frame.size.width,
-                                            mediaBoxHeight + previewLabelHeight + 37.0)];//157)];
+    [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
+                                            myEntirePreviewContainer.frame.origin.y,
+                                            myEntirePreviewContainer.frame.size.width,
+                                            mediaBoxHeight + previewLabelHeight + 37.0)];
 
     [self adjustRichDataContainerVisibility];
 }
@@ -1811,14 +1862,14 @@ Please try again later."
     [myContentView release];
     [myScrollView release];
     [myRemainingCharactersLabel release];
-    [myPreviewRoundedRect release];
-    [myPreviewAttributedLabel release];
+    [myPreviewContainerRoundedRect release];
+    [myPreviewOfTheUserCommentLabel release];
     [myUserCommentTextView release];
     [myUserCommentBoundingBox release];
     [myProviderIcon release];
     [myInfoButton release];
     [myPoweredByLabel release];
-    [myPreviewContainer release];
+    [myEntirePreviewContainer release];
     [myRichDataContainer release];
     [myMediaThumbnailView release];
     [myMediaThumbnailActivityIndicator release];

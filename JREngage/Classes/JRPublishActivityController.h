@@ -140,9 +140,9 @@ typedef enum
 
     UILabel *myRemainingCharactersLabel;
 
-    UIView                  *myPreviewContainer;
-    RoundedRectView         *myPreviewRoundedRect;
-    JRPreviewLabel          *myPreviewAttributedLabel;
+    UIView                  *myEntirePreviewContainer;
+    RoundedRectView         *myPreviewContainerRoundedRect;
+    JRPreviewLabel          *myPreviewOfTheUserCommentLabel;
     RoundedRectView         *myRichDataContainer;
     UIButton                *myMediaThumbnailView;
     UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
@@ -177,9 +177,9 @@ typedef enum
 @property (nonatomic, retain) IBOutlet UITextView              *myUserCommentTextView;
 @property (nonatomic, retain) IBOutlet RoundedRectView         *myUserCommentBoundingBox;
 @property (nonatomic, retain) IBOutlet UILabel                 *myRemainingCharactersLabel;
-@property (nonatomic, retain) IBOutlet UIView                  *myPreviewContainer;
-@property (nonatomic, retain) IBOutlet RoundedRectView         *myPreviewRoundedRect;
-@property (nonatomic, retain) IBOutlet JRPreviewLabel          *myPreviewAttributedLabel;
+@property (nonatomic, retain) IBOutlet UIView                  *myEntirePreviewContainer;
+@property (nonatomic, retain) IBOutlet RoundedRectView         *myPreviewContainerRoundedRect;
+@property (nonatomic, retain) IBOutlet JRPreviewLabel          *myPreviewOfTheUserCommentLabel;
 @property (nonatomic, retain) IBOutlet RoundedRectView         *myRichDataContainer;
 @property (nonatomic, retain) IBOutlet UIButton                *myMediaThumbnailView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
