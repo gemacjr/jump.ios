@@ -1260,9 +1260,9 @@ static JRSessionData* singleton = nil;
 {
     ALog (@"Activity sharing response: %@", response);
 
-    NSDictionary *response_dict = [response JSONValue];
+    NSDictionary *responseDict = [response JSONValue];
 
-    if (!response_dict)
+    if (!responseDict)
     {
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy)
@@ -1276,7 +1276,7 @@ static JRSessionData* singleton = nil;
         return;
     }
 
-    if ([[response_dict objectForKey:@"stat"] isEqualToString:@"ok"])
+    if ([[responseDict objectForKey:@"stat"] isEqualToString:@"ok"])
     {
         [self saveLastUsedSocialProvider:providerName];
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
@@ -1288,10 +1288,10 @@ static JRSessionData* singleton = nil;
     }
     else
     {
-        NSDictionary *error_dict = [response_dict objectForKey:@"err"];
+        NSDictionary *errorDict = [responseDict objectForKey:@"err"];
         NSError *publishError = nil;
 
-        if (!error_dict)
+        if (!errorDict)
         {
             publishError = [JRError setError:@"There was a problem publishing this activity"
                                     withCode:JRPublishFailedError];
@@ -1299,36 +1299,121 @@ static JRSessionData* singleton = nil;
         else
         {
             int code;
-            if (!CFNumberGetValue((void*)[error_dict objectForKey:@"code"], kCFNumberSInt32Type, &code))
+            if (!CFNumberGetValue((void*)[errorDict objectForKey:@"code"], kCFNumberSInt32Type, &code))
                 code = 1000;
 
+            NSString *errorMessage = [errorDict objectForKey:@"msg"];
             switch (code)
             {
-                case 0: /* "Missing parameter: activity/url/apiKey/etc." */
-                    if ([[error_dict objectForKey:@"msg"] isEqualToString:@"Missing parameter: apiKey"])
-                        publishError = [JRError setError:[error_dict objectForKey:@"msg"]
+                case 0: /* "Missing parameter: ..." error */
+
+                 /* Missing apiKey; this error should prompt a reauthentication. */
+                    if ([errorMessage isEqualToString:@"Missing parameter: apiKey"])
+                        publishError = [JRError setError:errorMessage
                                                 withCode:JRPublishErrorMissingApiKey];
+
+                 /* Missing some other parameter: activity/url/etc." */
                     else
-                        publishError = [JRError setError:[error_dict objectForKey:@"msg"]
+                        publishError = [JRError setError:errorMessage
                                                 withCode:JRPublishErrorMissingParameter];
                     break;
-                case 4: /* "Facebook Error: Invalid OAuth 2.0 Access Token" */
-                    publishError = [JRError setError:[error_dict objectForKey:@"msg"]
-                                            withCode:JRPublishErrorInvalidOauthToken];
+
+                case 4: /* "Facebook Error: ..." */
+
+                /* "Invalid OAuth 2.0 Access Token" or "Error validating access token: The session has been
+                    invalidated because the user has changed the password" or TODO: THE SESSION EXPIRED ERROR;
+                    these errors should prompt a reauthentication. */
+                    if (([errorMessage rangeOfString:@"Invalid OAuth 2.0 Access Token"
+                                             options:NSCaseInsensitiveSearch].location != NSNotFound) ||
+                        ([errorMessage rangeOfString:@"Error validating access token"
+                                             options:NSCaseInsensitiveSearch].location != NSNotFound) ||
+                        ([errorMessage rangeOfString:@"Error validating access token"
+                                             options:NSCaseInsensitiveSearch].location != NSNotFound))
+                            publishError = [JRError setError:errorMessage
+                                                    withCode:JRPublishErrorInvalidFacebookSession];
+
+                 /* Bad image error: "One or more of your image records failed to include a valid 'href' field" */
+                    else if ([errorMessage rangeOfString:@"image records failed"
+                                                 options:NSCaseInsensitiveSearch].location != NSNotFound)
+                        publishError = [JRError setError:errorMessage
+                                                withCode:JRPublishErrorInvalidFacebookMedia];
+
+                 /* Bad flash object error: "flash objects must have the 'source' and 'picture' attributes/etc." */
+                    else if ([errorMessage rangeOfString:@"flash objects must"
+                                                 options:NSCaseInsensitiveSearch].location != NSNotFound)
+                        publishError = [JRError setError:errorMessage
+                                                withCode:JRPublishErrorInvalidFacebookMedia];
+
+                 /* Any other generic Facebook error */
+                    else
+                        publishError = [JRError setError:errorMessage
+                                                withCode:JRPublishErrorFacebookGeneric];
+
                     break;
-                case 100: // TODO: LinkedIn character limit error // TODO: Check Yahoo's too
-                    publishError = [JRError setError:[error_dict objectForKey:@"msg"]
-                                            withCode:JRPublishErrorLinkedInCharacterExceeded];
+
+                case 6: /* Error interacting with a previously operational provider */
+                 /* Twitter duplicate message error: "Twitter server error: Status is a duplicate." */
+                    if ([errorMessage isEqualToString:@"Twitter server error: Status is a duplicate."])
+                        publishError = [JRError setError:errorMessage
+                                                withCode:JRPublishErrorDuplicateTwitter];
+                 /* Any other error with code 6 */
+                    else
+                        publishError = [JRError setError:errorMessage
+                                                withCode:JRPublishFailedError];
                     break;
-                case 6: // TODO: Twitter duplicate error
-                    publishError = [JRError setError:[error_dict objectForKey:@"msg"]
-                                            withCode:JRPublishErrorDuplicateTwitter];
+
+                case 13: /* Twitter Error */
+                    publishError = [JRError setError:errorMessage
+                                            withCode:JRPublishErrorTwitterGeneric];
                     break;
+
+                case 14: /* LinkedIn Error */
+                    publishError = [JRError setError:errorMessage
+                                            withCode:JRPublishErrorLinkedInGeneric];
+                    break;
+
+                case 16: /* MySpace Error */
+                    publishError = [JRError setError:errorMessage
+                                            withCode:JRPublishErrorMyspaceGeneric];
+                    break;
+
+                case 17: /* Yahoo Error */
+                    publishError = [JRError setError:errorMessage
+                                            withCode:JRPublishErrorYahooGeneric];
+                    break;
+
+                case 100: /* Character limit error?  Not documented on rpxnow.com. */
+                 /* Formerly LinkedIn character limit error (JRPublishErrorLinkedInCharacterExceeded) */
+                    publishError = [JRError setError:errorMessage
+                                            withCode:JRPublishErrorCharacterLimitExceeded];
+                    break;
+
+
                 case 1000: /* Extracting code failed; Fall through. */
-                default: // TODO: Other errors (find them)
+                default:   /* See below for list of ignored error codes. */
                     publishError = [JRError setError:@"There was a problem publishing this activity"
                                             withCode:JRPublishFailedError];
                     break;
+
+            /* -1:  Service Temporarily Unavailable
+                1:  Invalid parameter
+                2:  Data not found
+                3:  Authentication error
+                5:  Mapping exists
+                7:  Engage account upgrade needed to access this API
+                8:  Missing third-party credentials for this identifier
+                9:  Third-party credentials have been revoked
+                10: Your application is not properly configured
+                11: The provider or identifier does not support this feature
+                12: Google Error
+                13: Twitter Error
+                14: LinkedIn Error
+                15: LiveId Error
+                16: MySpace Error
+                18: Domain already exists
+                19: App Id not found
+                17: Yahoo Error
+                20: Orkut Error */
             }
         }
 

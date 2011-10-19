@@ -472,7 +472,7 @@ Please try again later."
         [myPreviewAttributedLabel setUsername:loggedInUser.preferredUsername];
     else
         [myPreviewAttributedLabel setUsername:@"You"];
-    
+
     [UIView beginAnimations:@"buttonSlide" context:nil];
     [myJustShareButton setHidden:!loggedIn];
     [myConnectAndShareButton setHidden:loggedIn];
@@ -524,12 +524,12 @@ Please try again later."
 - (void)updatePreviewTextWhenContentReplacesAction
 {
     DLog(@"");
-    NSString *username = (loggedInUser) ? 
-                                loggedInUser.preferredUsername : 
+    NSString *username = (loggedInUser) ?
+                                loggedInUser.preferredUsername :
                                 @"You";
-    
-    NSString *url      = (shortenedActivityUrl) ? 
-                                shortenedActivityUrl : 
+
+    NSString *url      = (shortenedActivityUrl) ?
+                                shortenedActivityUrl :
                                 @"shortening url...";
 
     NSString *text     = (![[myUserCommentTextView text] isEqualToString:@""]) ?
@@ -541,7 +541,7 @@ Please try again later."
 
     if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
     { /* Twitter/MySpace -> true */
-        
+
         // TODO: Add ability to set colors to preview label (Janrain blue for links)
         // TODO: Fix size of url when long and on own line (shouldn't trunk at 3/4)
         [myPreviewAttributedLabel setUrl:url];
@@ -1613,7 +1613,7 @@ Please try again later."
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Twitter does not allow duplicate status updates."];
             break;
-        case JRPublishErrorLinkedInCharacterExceeded:
+        case JRPublishErrorCharacterLimitExceeded: /* ... was "JRPublishErrorLinkedInCharacterExceeded" */
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity: Status was too long."];
             break;
@@ -1622,7 +1622,7 @@ Please try again later."
                             @"There was an error while sharing this activity."];
             reauthenticate = YES;
             break;
-        case JRPublishErrorInvalidOauthToken:
+        case JRPublishErrorInvalidFacebookSession:  /* ... was "JRPublishErrorInvalidOauthKey" */
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity."];
             reauthenticate = YES;
@@ -1632,6 +1632,16 @@ Please try again later."
                             @"There was an error while sharing this activity."];
             break;
         default:
+         /* JRPublishErrorBadConnection,
+            JRPublishErrorActivityNil,
+            JRPublishErrorFacebookGeneric,
+            JRPublishErrorInvalidFacebookSession,
+            JRPublishErrorInvalidFacebookMedia,
+            JRPublishErrorTwitterGeneric,
+            JRPublishErrorLinkedInGeneric,
+            JRPublishErrorMyspaceGeneric,
+            JRPublishErrorYahooGeneric */
+
             errorMessage = [NSString stringWithFormat:
                             @"There was an error while sharing this activity."];
             break;

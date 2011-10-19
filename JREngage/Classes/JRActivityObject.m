@@ -56,6 +56,8 @@
 
 - (BOOL)isWellFormedAbsoluteUrl
 {
+//    return YES;
+
     NSURL *url = [NSURL URLWithString:self];
     if (url && url.scheme && url.host)
         return YES;

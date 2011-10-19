@@ -71,11 +71,20 @@ typedef enum
     JRPublishFailedError = 300,
     JRPublishErrorBadConnection,
     JRPublishErrorActivityNil,
-    JRPublishErrorMissingApiKey,
-    JRPublishErrorInvalidOauthToken,
-    JRPublishErrorDuplicateTwitter,
-    JRPublishErrorLinkedInCharacterExceeded,
     JRPublishErrorMissingParameter,
+    JRPublishErrorMissingApiKey,
+    JRPublishErrorCharacterLimitExceeded,
+    JRPublishErrorFacebookGeneric,
+    JRPublishErrorInvalidFacebookSession,
+    JRPublishErrorInvalidFacebookMedia,
+    //JRPublishErrorInvalidFacebookActionLinks/Properties,
+    JRPublishErrorTwitterGeneric,
+    JRPublishErrorDuplicateTwitter,
+    JRPublishErrorLinkedInGeneric,
+    JRPublishErrorMyspaceGeneric,
+    JRPublishErrorYahooGeneric,
+    JRPublishErrorInvalidOauthKey, /* Will be deprecating */
+    JRPublishErrorLinkedInCharacterExceeded, /* Will be deprecating */
 } JREngageSocialPublishingError;
 
 extern NSString * JREngageErrorDomain;
