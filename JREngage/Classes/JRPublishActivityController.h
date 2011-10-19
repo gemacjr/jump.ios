@@ -58,7 +58,7 @@ typedef enum
 #define INNER_CORNER_RADIUS   9.0
 #define INNER_RECT_INSET      6
 
-@interface RoundedRectView : UIView 
+@interface RoundedRectView : UIView
 {
     UIColor     *outerStrokeColor;
     UIColor     *innerStrokeColor;

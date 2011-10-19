@@ -1369,6 +1369,9 @@ static JRSessionData* singleton = nil;
 {
     DLog(@"");
 
+    if (!theActivity.url && ![theActivity.email.urls count] && ![theActivity.sms.urls count])
+        return;
+
     /* In case there's an error, we'll just set the activity's shortened url to the
      * unshortened url for now, and update it only if we successfully shorten it. */
     theActivity.shortenedUrl = theActivity.url;
