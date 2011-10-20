@@ -422,6 +422,7 @@ Please try again later."
     timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 }
 
+/* Right now, LinkedIn and Yahoo! */
 - (BOOL)willPublishThunkToStatusForProvider:(JRProvider*)provider
 {
     return ((![currentActivity url] || [[currentActivity url] isEqualToString:@""]) &&
@@ -439,7 +440,10 @@ Please try again later."
 
 - (BOOL)providerCanShareRichData:(JRProvider*)provider
 {
-    if ([[provider.socialSharingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"])
+ /* If the provider can share media (Facebook and LinkedIn) and we're not going to thunk
+    to set_status (Yahoo! and LinkedIn when there's no activity url) */
+    if ([[provider.socialSharingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"] &&
+        ![self willPublishThunkToStatusForProvider:provider])
         return YES;
     return NO;
 }
@@ -568,7 +572,7 @@ Please try again later."
     // TODO: verify correctness of the 0 remaining characters edge case
     NSString *characterCountText;
 
-    if (maxCharacters == -1)
+    if (maxCharacters == -1 || maxCharacters > 500)
         return;
 
     int chars_remaining = 0;
@@ -610,7 +614,7 @@ Please try again later."
 {
     DLog(@"");
 
-    // TODO: Move somewhere else!!
+    // TODO: Move somewhere else!!  Did I already??
     //    if (!hasEditedUserContentForActivityAlready)
     //        myUserContentTextView.text = _activity.action;
     //    else
@@ -618,33 +622,19 @@ Please try again later."
 
     if ([self providerCanShareRichData:selectedProvider] && activityHasRichData)
     {
-        //            [UIView beginAnimations:@"media_grow" context:nil];
-        //            [UIView setAnimationDuration:2000];
         [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
                                                       myEntirePreviewContainer.frame.origin.y,
                                                       myEntirePreviewContainer.frame.size.width,
-                                                      mediaBoxHeight + previewLabelHeight + 32.0)];//157)];
-                                                                                             //            [UIView commitAnimations];
-                                                                                             //            [UIView beginAnimations:@"media_fade" context:nil];
-                                                                                             //            [UIView setAnimationDelay:2000];
-        [myRichDataContainer setHidden:NO];//setAlpha:1.0];
-                                           //            [UIView commitAnimations];
-
+                                                      mediaBoxHeight + previewLabelHeight + 32.0)];
+        [myRichDataContainer setHidden:NO];
     }
     else
     {
-        //            [UIView beginAnimations:@"media_fade" context:nil];
-        //            [UIView setAnimationDuration:2000];
-        [myRichDataContainer setHidden:YES];//setAlpha:0.0];
-                                            //            [UIView commitAnimations];
-                                            //            [UIView beginAnimations:@"media_grow" context:nil];
-                                            //            [UIView setAnimationDelay:2000];
+        [myRichDataContainer setHidden:YES];
         [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
                                                 myEntirePreviewContainer.frame.origin.y,
                                                 myEntirePreviewContainer.frame.size.width,
-                                                previewLabelHeight + 28.0)];//67)];
-                                                                            //            [UIView commitAnimations];
-
+                                                previewLabelHeight + 28.0)];
     }
 
     [myPreviewContainerRoundedRect setNeedsDisplay];
@@ -760,7 +750,7 @@ Please try again later."
         else
             maxCharacters = [((NSString*)[[selectedProvider socialSharingProperties] objectForKey:@"max_characters"]) intValue];
 
-        if (maxCharacters == -1)
+        if (maxCharacters == -1 || maxCharacters > 500)
         {
             [myRemainingCharactersLabel setHidden:YES];
             [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x, 97,
@@ -775,7 +765,8 @@ Please try again later."
                                                     myEntirePreviewContainer.frame.size.height)];
         }
 
-        if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+        if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"] ||
+            [self willPublishThunkToStatusForProvider:selectedProvider])
             [self updatePreviewTextWhenContentReplacesAction];
         else
             [self updatePreviewTextWhenContentDoesNotReplaceAction];
@@ -939,7 +930,8 @@ Please try again later."
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+    if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"] ||
+        [self willPublishThunkToStatusForProvider:selectedProvider])
         [self updatePreviewTextWhenContentReplacesAction];
     else
         [self updatePreviewTextWhenContentDoesNotReplaceAction];
@@ -947,9 +939,9 @@ Please try again later."
     [self updateCharacterCount];
 }
 
-//- (void)attributedLabel:(OHAttributedLabel*)attrLabel didChangeHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight
 - (void)previewLabel:(JRPreviewLabel*)previewLabel didChangeContentHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight;
 {
+    DLog(@"fromHeight: %f toHeight: %f", fromHeight, toHeight);
     previewLabelHeight = toHeight;
     [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
                                              myRichDataContainer.frame.origin.y + (toHeight - fromHeight),
@@ -1253,7 +1245,7 @@ Please try again later."
         [myTitleLabel setHidden:YES];
         [myDescriptionLabel setHidden:YES];
 
-        return;
+        //return;
     }
 
     /* There is no title but there is a description */
@@ -1351,7 +1343,7 @@ Please try again later."
     [myTitleLabel setFrame:CGRectMake(title_x, title_y, title_w, title_h)];
     [myDescriptionLabel setFrame:CGRectMake(descr_x, descr_y, descr_w, descr_h)];
     [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
-                                             20.0,
+                                             previewLabelHeight + 20.0,
                                              myRichDataContainer.frame.size.width,
                                              mediaBoxHeight)];
     [myRichDataContainer setNeedsDisplay];
@@ -1561,7 +1553,8 @@ Please try again later."
         if (selectedProvider == nil)
             return;
 
-        if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+        if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"] ||
+            [self willPublishThunkToStatusForProvider:selectedProvider])
             [self updatePreviewTextWhenContentReplacesAction];
         else
             [self updatePreviewTextWhenContentDoesNotReplaceAction];
