@@ -839,7 +839,7 @@ Please try again later."
 #define USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT 72
 #define USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT 78
 #define CHARACTER_COUNT_DEFAULT_Y_ORIGIN 90
-#define PREVIEW_BOX_DEFAULT_Y_ORIGIN 107
+#define PREVIEW_BOX_DEFAULT_Y_ORIGIN 97//107
 #define USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT (USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//96
 #define USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT (USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//102
 #define CHARACTER_COUNT_EDITING_Y_ORIGIN (CHARACTER_COUNT_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)//114
@@ -856,6 +856,9 @@ Please try again later."
         myUserCommentTextView.text = @"";
         hasEditedUserContentForActivityAlready = YES;
     }
+
+    CGFloat remainingCharacterOffset =
+                ([self shouldHideRemainingCharacterCount] ? 0 : 10);
 
     [alreadyShared removeAllObjects];
     [self showActivityAsShared:NO];
@@ -874,7 +877,7 @@ Please try again later."
                                                     myRemainingCharactersLabel.frame.size.width,
                                                     myRemainingCharactersLabel.frame.size.height)];
     [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
-                                            PREVIEW_BOX_EDITING_Y_ORIGIN,
+                                            PREVIEW_BOX_EDITING_Y_ORIGIN + remainingCharacterOffset,
                                             myEntirePreviewContainer.frame.size.width,
                                             myEntirePreviewContainer.frame.size.height)];
 
@@ -919,6 +922,9 @@ Please try again later."
         myUserCommentTextView.text = currentActivity.action;
     }
 
+    CGFloat remainingCharacterOffset =
+                ([self shouldHideRemainingCharacterCount] ? 0 : 10);
+
     [UIView beginAnimations:@"editing" context:nil];
     [myUserCommentTextView setFrame:CGRectMake(myUserCommentTextView.frame.origin.x,
                                                myUserCommentTextView.frame.origin.y,
@@ -933,7 +939,7 @@ Please try again later."
                                                     myRemainingCharactersLabel.frame.size.width,
                                                     myRemainingCharactersLabel.frame.size.height)];
     [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
-                                            PREVIEW_BOX_DEFAULT_Y_ORIGIN,
+                                            PREVIEW_BOX_DEFAULT_Y_ORIGIN + remainingCharacterOffset,
                                             myEntirePreviewContainer.frame.size.width,
                                             myEntirePreviewContainer.frame.size.height)];
 
