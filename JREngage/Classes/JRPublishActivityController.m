@@ -43,6 +43,68 @@
 #import "JRPublishActivityController.h"
 #import "JREngage+CustomInterface.h"
 
+
+@interface JRProvider (SOCIAL_SHARING_PROPERTIES)
+- (BOOL)willThunkPublishToStatusForActivity:(JRActivityObject*)activity;
+//- (BOOL)doesActivityUrlAffectCharacterCount;
+- (BOOL)isActivityUrlPartOfUserContent;
+- (BOOL)canShareRichDataForActivity:(JRActivityObject*)activity;
+- (BOOL)doesContentReplaceAction;
+- (NSInteger)maxCharactersForSetStatus;
+- (NSInteger)maxCharactersForPublishActivity;
+@end
+
+@implementation JRProvider (SOCIAL_SHARING_PROPERTIES)
+/* Right now, LinkedIn and Yahoo! */
+- (BOOL)willThunkPublishToStatusForActivity:(JRActivityObject*)activity
+{
+ /* If the activity url is nil (or empty) certain providers will thunk from publish activity to set_status */
+    return ((![activity url] || [[activity url] isEqualToString:@""]) &&
+            [[self.socialSharingProperties objectForKey:@"uses_set_status_if_no_url"] isEqualToString:@"YES"]);
+}
+
+//- (BOOL)doesActivityUrlAffectCharacterCount
+- (BOOL)isActivityUrlPartOfUserContent
+{
+    BOOL url_reduces_max_chars = [[self.socialSharingProperties objectForKey:@"url_reduces_max_chars"] isEqualToString:@"YES"];
+    BOOL shows_url_as_url = [[self.socialSharingProperties objectForKey:@"shows_url_as"] isEqualToString:@"url"];
+
+    /* Twitter/MySpace -> true */
+    return (url_reduces_max_chars && shows_url_as_url);
+}
+
+- (BOOL)canShareRichDataForActivity:(JRActivityObject*)activity
+{
+ /* If the provider can share media (Facebook and LinkedIn) and we're not going to thunk
+    to set_status (Yahoo! and LinkedIn when there's no activity url) */
+    if ([[self.socialSharingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"] &&
+        ![self willThunkPublishToStatusForActivity:activity])
+        return YES;
+
+    return NO;
+}
+
+- (BOOL)doesContentReplaceAction
+{
+    if ([[self.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+        return YES;
+
+    return NO;
+}
+
+- (NSInteger)maxCharactersForSetStatus
+{
+    return [((NSString*)[((NSDictionary*)[[self socialSharingProperties] objectForKey:@"set_status_properties"]) objectForKey:@"max_characters"]) intValue];
+}
+
+- (NSInteger)maxCharactersForPublishActivity
+{
+    return [((NSString*)[[self socialSharingProperties] objectForKey:@"max_characters"]) intValue];
+}
+
+
+@end
+
 @implementation RoundedRectView
 @synthesize outerStrokeColor;
 @synthesize innerStrokeColor;
@@ -422,32 +484,6 @@ Please try again later."
     timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
 }
 
-/* Right now, LinkedIn and Yahoo! */
-- (BOOL)willPublishThunkToStatusForProvider:(JRProvider*)provider
-{
-    return ((![currentActivity url] || [[currentActivity url] isEqualToString:@""]) &&
-            [[provider.socialSharingProperties objectForKey:@"uses_set_status_if_no_url"] isEqualToString:@"YES"]);
-}
-
-- (BOOL)doesActivityUrlAffectCharacterCountForSelectedProvider
-{
-    BOOL url_reduces_max_chars = [[selectedProvider.socialSharingProperties objectForKey:@"url_reduces_max_chars"] isEqualToString:@"YES"];
-    BOOL shows_url_as_url = [[selectedProvider.socialSharingProperties objectForKey:@"shows_url_as"] isEqualToString:@"url"];
-
-    /* Twitter/MySpace -> true */
-    return (url_reduces_max_chars && shows_url_as_url);
-}
-
-- (BOOL)providerCanShareRichData:(JRProvider*)provider
-{
- /* If the provider can share media (Facebook and LinkedIn) and we're not going to thunk
-    to set_status (Yahoo! and LinkedIn when there's no activity url) */
-    if ([[provider.socialSharingProperties objectForKey:@"can_share_media"] isEqualToString:@"YES"] &&
-        ![self willPublishThunkToStatusForProvider:provider])
-        return YES;
-    return NO;
-}
-
 /* That is, cover the view with a transparent gray box and a large white activity indicator. */
 - (void)showViewIsLoading:(BOOL)loading
 {
@@ -543,7 +579,8 @@ Please try again later."
     [myPreviewOfTheUserCommentLabel setUsername:username];
     [myPreviewOfTheUserCommentLabel setUsertext:text];
 
-    if ([self doesActivityUrlAffectCharacterCountForSelectedProvider])
+//    if ([self doesActivityUrlAffectCharacterCountForSelectedProvider:nil])
+    if ([selectedProvider isActivityUrlPartOfUserContent])
     { /* Twitter/MySpace -> true */
 
         // TODO: Add ability to set colors to preview label (Janrain blue for links)
@@ -567,19 +604,27 @@ Please try again later."
     [myPreviewOfTheUserCommentLabel setUrl:nil];
 }
 
+- (BOOL)shouldHideRemainingCharacterCount
+{
+    if (maxCharacters == -1 || maxCharacters > 500)
+        return YES;
+
+    return NO;
+}
+
 - (void)updateCharacterCount
 {
     // TODO: verify correctness of the 0 remaining characters edge case
     NSString *characterCountText;
 
-    if (maxCharacters == -1 || maxCharacters > 500)
+    if ([self shouldHideRemainingCharacterCount])
         return;
 
     int chars_remaining = 0;
-    if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"])
+    if ([selectedProvider doesContentReplaceAction])
     {
         /* Twitter, MySpace, LinkedIn */
-        if ([self doesActivityUrlAffectCharacterCountForSelectedProvider] && shortenedActivityUrl == nil)
+        if ([selectedProvider isActivityUrlPartOfUserContent] && shortenedActivityUrl == nil)
         {
             /* Twitter, MySpace */
             characterCountText = @"Calculating remaining characters";
@@ -620,7 +665,7 @@ Please try again later."
     //    else
     //        myUserContentTextView.text = _activity.user_generated_content;
 
-    if ([self providerCanShareRichData:selectedProvider] && activityHasRichData)
+    if ([selectedProvider canShareRichDataForActivity:currentActivity] && activityHasRichData)
     {
         [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
                                                       myEntirePreviewContainer.frame.origin.y,
@@ -745,28 +790,27 @@ Please try again later."
             [self showUserAsLoggedIn:NO];
         }
 
-        if ([self willPublishThunkToStatusForProvider:selectedProvider])
-            maxCharacters = [((NSString*)[((NSDictionary*)[[selectedProvider socialSharingProperties] objectForKey:@"set_status_properties"]) objectForKey:@"max_characters"]) intValue];// integerValue];
+        if ([selectedProvider willThunkPublishToStatusForActivity:currentActivity])
+            maxCharacters = [selectedProvider maxCharactersForSetStatus];
         else
-            maxCharacters = [((NSString*)[[selectedProvider socialSharingProperties] objectForKey:@"max_characters"]) intValue];
+            maxCharacters = [selectedProvider maxCharactersForPublishActivity];
 
-        if (maxCharacters == -1 || maxCharacters > 500)
+        if ([self shouldHideRemainingCharacterCount])
         {
             [myRemainingCharactersLabel setHidden:YES];
             [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x, 97,
-                                                    myEntirePreviewContainer.frame.size.width,
-                                                    myEntirePreviewContainer.frame.size.height)];
+                                                          myEntirePreviewContainer.frame.size.width,
+                                                          myEntirePreviewContainer.frame.size.height)];
         }
         else
         {
             [myRemainingCharactersLabel setHidden:NO];
             [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x, 107,
-                                                    myEntirePreviewContainer.frame.size.width,
-                                                    myEntirePreviewContainer.frame.size.height)];
+                                                          myEntirePreviewContainer.frame.size.width,
+                                                          myEntirePreviewContainer.frame.size.height)];
         }
 
-        if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"] ||
-            [self willPublishThunkToStatusForProvider:selectedProvider])
+        if ([selectedProvider doesContentReplaceAction] || [selectedProvider willThunkPublishToStatusForActivity:currentActivity])
             [self updatePreviewTextWhenContentReplacesAction];
         else
             [self updatePreviewTextWhenContentDoesNotReplaceAction];
@@ -930,8 +974,7 @@ Please try again later."
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-    if ([[[selectedProvider socialSharingProperties] objectForKey:@"content_replaces_action"] isEqualToString:@"YES"] ||
-        [self willPublishThunkToStatusForProvider:selectedProvider])
+    if ([selectedProvider doesContentReplaceAction] || [selectedProvider willThunkPublishToStatusForActivity:currentActivity])
         [self updatePreviewTextWhenContentReplacesAction];
     else
         [self updatePreviewTextWhenContentDoesNotReplaceAction];
@@ -1420,7 +1463,7 @@ Please try again later."
 {
     DLog(@"");
 
-    if ([self willPublishThunkToStatusForProvider:selectedProvider])
+    if ([selectedProvider willThunkPublishToStatusForActivity:currentActivity])
         [sessionData setStatusForUser:loggedInUser];
     else
         [sessionData shareActivityForUser:loggedInUser];
@@ -1553,8 +1596,7 @@ Please try again later."
         if (selectedProvider == nil)
             return;
 
-        if ([[selectedProvider.socialSharingProperties objectForKey:@"content_replaces_action"] isEqualToString:@"YES"] ||
-            [self willPublishThunkToStatusForProvider:selectedProvider])
+        if ([selectedProvider doesContentReplaceAction] || [selectedProvider willThunkPublishToStatusForActivity:currentActivity])
             [self updatePreviewTextWhenContentReplacesAction];
         else
             [self updatePreviewTextWhenContentDoesNotReplaceAction];
