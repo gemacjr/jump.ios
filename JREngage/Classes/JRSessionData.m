@@ -777,15 +777,21 @@ static JRSessionData* singleton = nil;
 
     /* Make sure that the returned string can be parsed as json (which there should be no reason that this wouldn't happen) */
     if (![dataStr respondsToSelector:@selector(JSONValue)])
+    {
+        DLog(@"%@", dataStr);
         return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
                         withCode:JRJsonError];
+    }
 
     NSDictionary *jsonDict = [dataStr JSONValue];
 
     /* Double-check the return value */
     if(!jsonDict)
+    {
+        DLog(@"%@", dataStr);
         return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
                         withCode:JRJsonError];
+    }
 
     [baseUrl release];
     baseUrl = [[[jsonDict objectForKey:@"baseurl"]
