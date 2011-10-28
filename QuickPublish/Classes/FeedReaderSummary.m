@@ -33,6 +33,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
+#import <UIKit/UIKit.h>
 #import "FeedReaderSummary.h"
 
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -57,18 +58,18 @@
 
     reader = [FeedReader feedReader];
     self.stories = reader.allStories;
-    
-    if (refreshHeader == nil) 
+
+    if (refreshHeader == nil)
     {
-		refreshHeader = [[EGORefreshTableHeaderView alloc] 
-                         initWithFrame:CGRectMake(0.0f, 
-                                                  0.0f - self.myTable.bounds.size.height, 
-                                                  self.view.frame.size.width, 
+		refreshHeader = [[EGORefreshTableHeaderView alloc]
+                         initWithFrame:CGRectMake(0.0f,
+                                                  0.0f - self.myTable.bounds.size.height,
+                                                  self.view.frame.size.width,
                                                   self.myTable.bounds.size.height)];
 		refreshHeader.delegate = self;
 		[self.myTable addSubview:refreshHeader];
 	}
-	
+
 	[refreshHeader refreshLastUpdatedDate];
 }
 
@@ -108,7 +109,7 @@
 - (void)feedDidFinishDownloading
 {
     [self doneLoadingTableViewData];
-    
+
     self.stories = reader.allStories;
     [myTable reloadData];
 }
@@ -116,7 +117,7 @@
 - (void)feedDidFailToDownload
 {
     [self doneLoadingTableViewData];
-        
+
     if ([reader.allStories count] > [stories count])
     {
         self.stories = reader.allStories;
@@ -209,7 +210,8 @@
 #define DESCRIPTION_FRAME_PHONE(x)  PLUS(8,x),  25, MINUS(268,x), 36
 #define DATE_FRAME_PHONE(x)         PLUS(8,x),  63, MINUS(268,x), 13
 
-#define CONTENT_FRAME_PAD           0,          0,  680,          95
+#define CONTENT_FRAME_PAD_PROFILE   0,          0,  680,          95
+#define CONTENT_FRAME_PAD_LANDSCAPE 0,          0,  680,          95
 #define TITLE_FRAME_PAD             15,         10, 520,          18
 #define DATE_FRAME_PAD              545,        12, 120,          14
 #define DESCRIPTION_FRAME_PAD(x)    PLUS(20,x), 34, MINUS(630,x), 51
@@ -240,7 +242,7 @@
     if (cell == nil)
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
-        [cell.contentView setFrame:(iPad ? CGRectMake(CONTENT_FRAME_PAD) : CGRectMake(CONTENT_FRAME_PHONE))];
+        [cell.contentView setFrame:(iPad ? CGRectMake(CONTENT_FRAME_PAD_PROFILE) : CGRectMake(CONTENT_FRAME_PHONE))];
 
         if (indexPath.section < [stories count])
         {
@@ -326,14 +328,14 @@
     }
 
     BOOL imageAvailable = NO;
-    
+
  /* If storyImages > 2, only check for the first two images (since we are only downloading the first two images).
     If there are less than 2 storyImages (0 or 1), only check the first or don't check at all. */
     for (int i = 0; i < (([story.storyImages count] > 2) ? 2 : [story.storyImages count]); i++)
     {
         StoryImage *storyImage = [story.storyImages objectAtIndex:i];
         imageAvailable = YES;
-        
+
         /* If an image has already downloaded, set the image and break. */
         if (storyImage.image)
         {
@@ -364,12 +366,12 @@
                                     CGRectMake(DATE_FRAME_PAD) :
                                     CGRectMake(DATE_FRAME_PHONE(imageWidth)))];
             [documentImage setHidden:NO];
-            
+
             documentImage.backgroundColor = [UIColor grayColor];
             documentImage.image = nil;
         }
     }
-        
+
     if (!imageAvailable)
     {
         [documentImage setHidden:YES];
@@ -386,12 +388,20 @@
     documentDescription.text = [story.plainText stringByTrimmingCharactersInSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
     documentDate.text = story.pubDate;
 
+    if (iPad && UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+        [cell.contentView setFrame:CGRectMake(CONTENT_FRAME_PAD_LANDSCAPE)];
+
     return cell;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     return YES;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+//    [myTable reloadData];
 }
 
 #pragma mark -
@@ -411,12 +421,12 @@
 #pragma mark UIScrollViewDelegate Methods
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{		
+{
 	[refreshHeader egoRefreshScrollViewDidScroll:scrollView];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{	
+{
 	[refreshHeader egoRefreshScrollViewDidEndDragging:scrollView];
 }
 

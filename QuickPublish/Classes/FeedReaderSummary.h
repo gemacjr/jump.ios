@@ -37,14 +37,14 @@
 #import "FeedReader.h"
 #import "EGORefreshTableHeaderView.h"
 
-@interface FeedReaderSummary : UIViewController <UITableViewDataSource, UITableViewDelegate, 
+@interface FeedReaderSummary : UIViewController <UITableViewDataSource, UITableViewDelegate,
                                                  EGORefreshTableHeaderDelegate, FeedReaderDelegate>
 {
     BOOL iPad;
 
-	IBOutlet UITableView *myTable;
+	IBOutlet UITableView      *myTable;
     EGORefreshTableHeaderView *refreshHeader;
-    
+
     FeedReaderDetail *detailViewController;
     FeedReader *reader;
 
