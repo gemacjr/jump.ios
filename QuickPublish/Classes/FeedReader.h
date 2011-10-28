@@ -37,7 +37,7 @@
 #import <UIKit/UIKit.h>
 #import "JREngage.h"
 #import "JREngage+CustomInterface.h"
-#import "FeedReaderDetail.h"
+//#import "FeedReaderDetail.h"
 #import "Quick_PublishAppDelegate.h"
 #import "RegexKitLite.h"
 #import "NSString+HTML.h"
@@ -98,33 +98,42 @@
 @property (readonly) NSMutableArray *stories;
 @end
 
+
+@protocol LibraryDialogDelegate <NSObject>
+@optional
+- (void)libraryDialogClosed;
+@end
+
 @protocol FeedReaderDelegate <NSObject>
 - (void)feedDidFinishDownloading;
 - (void)feedDidFailToDownload;
 @end
 
+
 @interface FeedReader : NSObject <JREngageDelegate, NSXMLParserDelegate>
 {
-    Feed *feed;
+    Feed  *feed;
     Story *selectedStory;
 
     JREngage *jrEngage;
 
-    id<FeedReaderDelegate>delegate;
+    id<FeedReaderDelegate>    feedReaderDelegate;
+    id<LibraryDialogDelegate> libraryDialogDelegate;
+
     BOOL currentlyReloadingBlog;
-    
-    NSXMLParser *parser;
-    Story *currentStory;
-    NSString *currentElement;
+
+    NSXMLParser     *parser;
+    Story           *currentStory;
+    NSString        *currentElement;
     NSMutableString *currentContent;
-    NSUInteger counter;
+    NSUInteger       counter;
 }
 @property (readonly) JREngage *jrEngage;
-@property (readonly) NSArray *allStories;
-@property (readonly) BOOL currentlyReloadingBlog;
-@property (readonly) NSDate *dateOfLastUpdate;
-@property (retain)   Story *selectedStory;
-
+@property (readonly) NSArray  *allStories;
+@property (readonly) BOOL      currentlyReloadingBlog;
+@property (readonly) NSDate   *dateOfLastUpdate;
+@property (retain)   Story    *selectedStory;
+@property (retain)   id<LibraryDialogDelegate>libraryDialogDelegate;
 + (FeedReader*)feedReader;
-- (void)downloadFeed:(id<FeedReaderDelegate>)feedReaderDelegate;
+- (void)downloadFeed:(id<FeedReaderDelegate>)delegate;
 @end

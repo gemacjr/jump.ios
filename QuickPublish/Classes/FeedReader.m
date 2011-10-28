@@ -32,6 +32,7 @@
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#import <Foundation/Foundation.h>
 #import "FeedReader.h"
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
@@ -63,27 +64,27 @@
 - (NSString*)stringWithCommentedOutHTMLStyleTags
 {
     NSMutableString *result;// = [[NSMutableString alloc] initWithCapacity:self.length];
-	
+
     //NSMutableString *newDescription;
     NSArray *splitString = [self componentsSeparatedByString:@"<style type=\"text/css\">"];
-    
+
     if (!splitString)
         return self;
-    
+
     int length = [splitString count];
-    
+
     if (length == 0)
         return self;
-    
+
     if (length == 1 && [((NSString*)[splitString objectAtIndex:0]) isEqualToString:self])
         return self;
-    
+
     result = [NSMutableString stringWithString:[splitString objectAtIndex:0]];
-    
+
     for (int i=1; i<length; i++)
     {
         NSString *currentString = [splitString objectAtIndex:i];
-        
+
 
         NSString *styleMatchers = @"(.+?)</style>(.+)";
         NSArray *styleCaptures =
@@ -91,7 +92,7 @@
                                                        options:RKLCaseless | RKLDotAll
                                                          range:NSMakeRange(0, [currentString length])
                                                          error:nil];
-                
+
         if (!styleCaptures)
             [result appendFormat:@"<style type=\"text/css\">%@", currentString];
         else if ([styleCaptures count] != 3)
@@ -100,8 +101,8 @@
             [result appendFormat:@"<!--style type=\"text/css\">%@</style-->%@",
              [styleCaptures objectAtIndex:1],
              [styleCaptures objectAtIndex:2]];
-    }        
-            
+    }
+
     return result;
 }
 
@@ -618,7 +619,7 @@ JUST_FINISH:
 @property (retain) NSString *currentElement;
 @property (retain) NSMutableString *currentContent;
 @property          NSUInteger counter;
-@property (retain) id<FeedReaderDelegate>delegate;
+@property (retain) id<FeedReaderDelegate>feedReaderDelegate;
 @end
 
 @implementation FeedReader
@@ -627,11 +628,13 @@ JUST_FINISH:
 @synthesize currentElement;
 @synthesize currentContent;
 @synthesize counter;
-@synthesize delegate;
+@synthesize feedReaderDelegate;
 @synthesize jrEngage;
 @synthesize currentlyReloadingBlog;
 @synthesize selectedStory;
 @dynamic dateOfLastUpdate;
+@synthesize libraryDialogDelegate;
+
 
 static FeedReader* singleton = nil;
 + (id)allocWithZone:(NSZone *)zone
@@ -690,14 +693,14 @@ static FeedReader* singleton = nil;
 	return [[[super allocWithZone:nil] init] autorelease];
 }
 
-- (void)downloadFeed:(id<FeedReaderDelegate>)feedReaderDelegate
+- (void)downloadFeed:(id<FeedReaderDelegate>)delegate
 {
     UIApplication *app = [UIApplication sharedApplication];
     app.networkActivityIndicatorVisible = YES;
 
     currentlyReloadingBlog = YES;
-    
-    [self setDelegate:feedReaderDelegate];
+
+    [self setFeedReaderDelegate:delegate];
     counter = 0;
 
     DLog(@"Initializing feed");
@@ -723,9 +726,9 @@ static FeedReader* singleton = nil;
 - (void)feedDidFinishDownloading
 {
     currentlyReloadingBlog = NO;
-    
-    [delegate feedDidFinishDownloading];
-    [delegate release], delegate = nil;
+
+    [feedReaderDelegate feedDidFinishDownloading];
+    [feedReaderDelegate release], feedReaderDelegate = nil;
 
     [feed saveStories];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:QUICK_PUBLISH_LAST_UPDATE_DATE];
@@ -734,9 +737,9 @@ static FeedReader* singleton = nil;
 - (void)feedDidFailToDownload
 {
     currentlyReloadingBlog = NO;
-    
-    [delegate feedDidFailToDownload];
-    [delegate release], delegate = nil;
+
+    [feedReaderDelegate feedDidFailToDownload];
+    [feedReaderDelegate release], feedReaderDelegate = nil;
 
     [feed saveStories];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:QUICK_PUBLISH_LAST_UPDATE_DATE];
@@ -754,7 +757,7 @@ static FeedReader* singleton = nil;
         DLog(@"Error parsing XML: %@", [parseError description]);
     else
         DLog(@"Duplicate story found; stopping xml parse");
-    
+
     UIApplication* app = [UIApplication sharedApplication];
     app.networkActivityIndicatorVisible = NO;
 
@@ -866,17 +869,36 @@ static FeedReader* singleton = nil;
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil] autorelease];
     [alert show];
+
+    if ([libraryDialogDelegate respondsToSelector:@selector(libraryDialogClosed)])
+        [libraryDialogDelegate libraryDialogClosed];
 }
 
 /* Entire JREngageDelegate protocol */
-//- (void)jrEngageDialogDidFailToShowWithError:(NSError*)error { }
 //- (void)jrAuthenticationDidNotComplete { }
 //- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider { }
 //- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 //- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
 //- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
-- (void)jrSocialDidNotCompletePublishing { DLog(@""); }
-- (void)jrSocialDidCompletePublishing { DLog(@""); }
+- (void)jrSocialDidNotCompletePublishing
+{
+    DLog(@"");
+    if ([libraryDialogDelegate respondsToSelector:@selector(libraryDialogClosed)])
+            [libraryDialogDelegate libraryDialogClosed];
+}
+
+- (void)jrSocialDidCompletePublishing
+{
+    DLog(@"");
+    if ([libraryDialogDelegate respondsToSelector:@selector(libraryDialogClosed)])
+            [libraryDialogDelegate libraryDialogClosed];
+}
+
 - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider { DLog(@""); }
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider { DLog(@""); }
+
+- (void)dealloc {
+
+    [super dealloc];
+}
 @end
