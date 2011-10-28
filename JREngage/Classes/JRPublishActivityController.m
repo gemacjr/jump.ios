@@ -707,6 +707,16 @@ Please try again later."
         [self setProfilePicToDefaultPic];
 }
 
+#define EDITING_HEIGHT_OFFSET 24
+#define USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT 72
+#define USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT 78
+#define CHARACTER_COUNT_DEFAULT_Y_ORIGIN 90
+#define PREVIEW_BOX_DEFAULT_Y_ORIGIN 97//107
+#define USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT (USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//96
+#define USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT (USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//102
+#define CHARACTER_COUNT_EDITING_Y_ORIGIN (CHARACTER_COUNT_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)//114
+#define PREVIEW_BOX_EDITING_Y_ORIGIN (PREVIEW_BOX_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)
+
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     DLog(@"");
@@ -802,19 +812,24 @@ Please try again later."
         else
             maxCharacters = [selectedProvider maxCharactersForPublishActivity];
 
+        NSUInteger foo = (weAreCurrentlyEditing ? PREVIEW_BOX_EDITING_Y_ORIGIN : PREVIEW_BOX_DEFAULT_Y_ORIGIN);
         if ([self shouldHideRemainingCharacterCount])
         {
             [myRemainingCharactersLabel setHidden:YES];
-            [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x, 97,
-                                                          myEntirePreviewContainer.frame.size.width,
-                                                          myEntirePreviewContainer.frame.size.height)];
+            [myEntirePreviewContainer setFrame:
+                    CGRectMake(myEntirePreviewContainer.frame.origin.x,
+                               (weAreCurrentlyEditing ? PREVIEW_BOX_EDITING_Y_ORIGIN : PREVIEW_BOX_DEFAULT_Y_ORIGIN),
+                               myEntirePreviewContainer.frame.size.width,
+                               myEntirePreviewContainer.frame.size.height)];
         }
         else
         {
             [myRemainingCharactersLabel setHidden:NO];
-            [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x, 107,
-                                                          myEntirePreviewContainer.frame.size.width,
-                                                          myEntirePreviewContainer.frame.size.height)];
+            [myEntirePreviewContainer setFrame:
+                    CGRectMake(myEntirePreviewContainer.frame.origin.x,
+                               (weAreCurrentlyEditing ? PREVIEW_BOX_EDITING_Y_ORIGIN : PREVIEW_BOX_DEFAULT_Y_ORIGIN) + 10,
+                               myEntirePreviewContainer.frame.size.width,
+                               myEntirePreviewContainer.frame.size.height)];
         }
 
         if ([selectedProvider doesContentReplaceAction] || [selectedProvider willThunkPublishToStatusForActivity:currentActivity])
@@ -842,19 +857,11 @@ Please try again later."
     [myUserCommentTextView becomeFirstResponder];
 }
 
-#define EDITING_HEIGHT_OFFSET 24
-#define USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT 72
-#define USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT 78
-#define CHARACTER_COUNT_DEFAULT_Y_ORIGIN 90
-#define PREVIEW_BOX_DEFAULT_Y_ORIGIN 97//107
-#define USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT (USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//96
-#define USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT (USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//102
-#define CHARACTER_COUNT_EDITING_Y_ORIGIN (CHARACTER_COUNT_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)//114
-#define PREVIEW_BOX_EDITING_Y_ORIGIN (PREVIEW_BOX_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)
-
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     DLog(@"");
+
+    weAreCurrentlyEditing = YES;
 
  /* If the user hasn't entered their own content already, then clear the text view.
     Otherwise, just leave what they've already written. */
@@ -934,6 +941,8 @@ Please try again later."
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     DLog(@"");
+
+    weAreCurrentlyEditing = NO;
 
  /* If the user started to enter something, but didn't end up keeping anything, set
     the text back to what the activity's action was. (Aside: We could also set

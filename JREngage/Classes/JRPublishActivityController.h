@@ -108,6 +108,7 @@ typedef enum
     BOOL weAreStillWaitingOnSocialProviders;
     BOOL weHaveJustAuthenticated;
     BOOL weAreCurrentlyPostingSomething;
+    BOOL weAreCurrentlyEditing;
     BOOL hasEditedUserContentForActivityAlready;
     BOOL userIsAttemptingToSignOut;
     BOOL mediaThumbnailFailedToDownload;
