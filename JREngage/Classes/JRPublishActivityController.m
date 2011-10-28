@@ -40,6 +40,8 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+#import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import "JRPublishActivityController.h"
 #import "JREngage+CustomInterface.h"
 
@@ -326,6 +328,11 @@ myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMed
         [myPoweredByLabel setHidden:YES];
         [myInfoButton setHidden:YES];
     }
+
+
+//    [myPadGrayEditingViewTop setBackgroundColor:[UIColor redColor]];
+//    [myPadGrayEditingViewBottom setBackgroundColor:[UIColor blueColor]];
+
 
  /* Set RoundedRect defaults */
     [myPreviewContainerRoundedRect setOuterFillColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
@@ -864,22 +871,35 @@ Please try again later."
     [self showActivityAsShared:NO];
 
     [UIView beginAnimations:@"editing" context:nil];
-    [myUserCommentTextView setFrame:CGRectMake(myUserCommentTextView.frame.origin.x,
-                                               myUserCommentTextView.frame.origin.y,
-                                               myUserCommentTextView.frame.size.width,
-                                               USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT)];
-    [myUserCommentBoundingBox setFrame:CGRectMake(myUserCommentBoundingBox.frame.origin.x,
-                                                  myUserCommentBoundingBox.frame.origin.y,
-                                                  myUserCommentBoundingBox.frame.size.width,
-                                                  USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT)];
-    [myRemainingCharactersLabel setFrame:CGRectMake(myRemainingCharactersLabel.frame.origin.x,
-                                                    CHARACTER_COUNT_EDITING_Y_ORIGIN,
-                                                    myRemainingCharactersLabel.frame.size.width,
-                                                    myRemainingCharactersLabel.frame.size.height)];
-    [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
-                                            PREVIEW_BOX_EDITING_Y_ORIGIN + remainingCharacterOffset,
-                                            myEntirePreviewContainer.frame.size.width,
-                                            myEntirePreviewContainer.frame.size.height)];
+    [myUserCommentTextView setFrame:
+            CGRectMake(myUserCommentTextView.frame.origin.x,
+                       myUserCommentTextView.frame.origin.y,
+                       myUserCommentTextView.frame.size.width,
+                       USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT)];
+
+    [myUserCommentBoundingBox setFrame:
+            CGRectMake(myUserCommentBoundingBox.frame.origin.x,
+                       myUserCommentBoundingBox.frame.origin.y,
+                       myUserCommentBoundingBox.frame.size.width,
+                       USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT)];
+
+    [myRemainingCharactersLabel setFrame:
+            CGRectMake(myRemainingCharactersLabel.frame.origin.x,
+                       CHARACTER_COUNT_EDITING_Y_ORIGIN,
+                       myRemainingCharactersLabel.frame.size.width,
+                       myRemainingCharactersLabel.frame.size.height)];
+
+    [myEntirePreviewContainer setFrame:
+            CGRectMake(myEntirePreviewContainer.frame.origin.x,
+                       PREVIEW_BOX_EDITING_Y_ORIGIN + remainingCharacterOffset,
+                       myEntirePreviewContainer.frame.size.width,
+                       myEntirePreviewContainer.frame.size.height)];
+
+    // TODO: Don't make scroll view size so tall if rich data isn't very tall.
+    [myPadGrayEditingViewTop setFrame:
+            CGRectMake(myPadGrayEditingViewTop.frame.origin.x,
+                       myPadGrayEditingViewTop.frame.origin.y,
+                       myPadGrayEditingViewTop.frame.size.width, 350)];
 
     [myScrollView setContentSize:CGSizeMake(320, 350)];
 
@@ -926,22 +946,34 @@ Please try again later."
                 ([self shouldHideRemainingCharacterCount] ? 0 : 10);
 
     [UIView beginAnimations:@"editing" context:nil];
-    [myUserCommentTextView setFrame:CGRectMake(myUserCommentTextView.frame.origin.x,
-                                               myUserCommentTextView.frame.origin.y,
-                                               myUserCommentTextView.frame.size.width,
-                                               USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT)];
-    [myUserCommentBoundingBox setFrame:CGRectMake(myUserCommentBoundingBox.frame.origin.x,
-                                                  myUserCommentBoundingBox.frame.origin.y,
-                                                  myUserCommentBoundingBox.frame.size.width,
-                                                  USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT)];
-    [myRemainingCharactersLabel setFrame:CGRectMake(myRemainingCharactersLabel.frame.origin.x,
-                                                    CHARACTER_COUNT_DEFAULT_Y_ORIGIN,
-                                                    myRemainingCharactersLabel.frame.size.width,
-                                                    myRemainingCharactersLabel.frame.size.height)];
-    [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
-                                            PREVIEW_BOX_DEFAULT_Y_ORIGIN + remainingCharacterOffset,
-                                            myEntirePreviewContainer.frame.size.width,
-                                            myEntirePreviewContainer.frame.size.height)];
+    [myUserCommentTextView setFrame:
+            CGRectMake(myUserCommentTextView.frame.origin.x,
+                       myUserCommentTextView.frame.origin.y,
+                       myUserCommentTextView.frame.size.width,
+                       USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT)];
+
+    [myUserCommentBoundingBox setFrame:
+            CGRectMake(myUserCommentBoundingBox.frame.origin.x,
+                       myUserCommentBoundingBox.frame.origin.y,
+                       myUserCommentBoundingBox.frame.size.width,
+                       USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT)];
+
+    [myRemainingCharactersLabel setFrame:
+            CGRectMake(myRemainingCharactersLabel.frame.origin.x,
+                       CHARACTER_COUNT_DEFAULT_Y_ORIGIN,
+                       myRemainingCharactersLabel.frame.size.width,
+                       myRemainingCharactersLabel.frame.size.height)];
+
+    [myEntirePreviewContainer setFrame:
+            CGRectMake(myEntirePreviewContainer.frame.origin.x,
+                       PREVIEW_BOX_DEFAULT_Y_ORIGIN + remainingCharacterOffset,
+                       myEntirePreviewContainer.frame.size.width,
+                       myEntirePreviewContainer.frame.size.height)];
+
+    [myPadGrayEditingViewTop setFrame:
+             CGRectMake(myPadGrayEditingViewTop.frame.origin.x,
+                        myPadGrayEditingViewTop.frame.origin.y,
+                        myPadGrayEditingViewTop.frame.size.width, 264)];
 
     [myScrollView setContentSize:CGSizeMake(320, 264)];
 
