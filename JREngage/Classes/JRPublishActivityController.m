@@ -871,6 +871,8 @@ Please try again later."
     [self showActivityAsShared:NO];
 
     [UIView beginAnimations:@"editing" context:nil];
+    //[UIView setAnimationDuration:2.0];
+
     [myUserCommentTextView setFrame:
             CGRectMake(myUserCommentTextView.frame.origin.x,
                        myUserCommentTextView.frame.origin.y,
@@ -946,6 +948,7 @@ Please try again later."
                 ([self shouldHideRemainingCharacterCount] ? 0 : 10);
 
     [UIView beginAnimations:@"editing" context:nil];
+    //[UIView setAnimationDuration:2.0];
     [myUserCommentTextView setFrame:
             CGRectMake(myUserCommentTextView.frame.origin.x,
                        myUserCommentTextView.frame.origin.y,
@@ -975,7 +978,7 @@ Please try again later."
                         myPadGrayEditingViewTop.frame.origin.y,
                         myPadGrayEditingViewTop.frame.size.width, 264)];
 
-    [myScrollView setContentSize:CGSizeMake(320, 264)];
+    [myScrollView setContentSize:CGSizeMake(320, myScrollView.frame.size.height)];
 
     if (!iPad)
     {
