@@ -36,7 +36,6 @@
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 #import "FeedReaderDetail.h"
-#import "FeedReader.h"
 
 @implementation FeedReaderDetail
 
@@ -225,6 +224,7 @@ a:active  { color:#7AC143; }";
 
 - (IBAction)shareButtonPressed:(id)sender
 {
+    weAreSharing = YES;
     JRActivityObject *activity = [[[JRActivityObject alloc]
                                   initWithAction:@"shared an article from the Janrain Blog."
                                   andUrl:story.link] autorelease];
@@ -282,6 +282,7 @@ a:active  { color:#7AC143; }";
 
 - (void)libraryDialogClosed
 {
+    weAreSharing = NO;
     self.navigationItem.rightBarButtonItem.enabled = YES;
     [[FeedReader feedReader] setLibraryDialogDelegate:nil];
 }
@@ -295,7 +296,8 @@ a:active  { color:#7AC143; }";
 {
     [super viewWillDisappear:animated];
 
-//    [[[FeedReader feedReader] jrEngage] cancelPublishing];
+    if (weAreSharing)
+        [[[FeedReader feedReader] jrEngage] cancelPublishing];
 
     [webview stopLoading];
 	[webview loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];

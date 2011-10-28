@@ -34,6 +34,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FeedReader.h"
+#import "JREngage.h"
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #define QUICK_PUBLISH_CACHED_VERSION @"quickpublish.cachedversion"
@@ -861,6 +862,7 @@ static FeedReader* singleton = nil;
     return [NSArray arrayWithArray:feed.stories];
 }
 
+/* Entire JREngageDelegate protocol */
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
 {
 	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sharing Failed"
@@ -874,7 +876,6 @@ static FeedReader* singleton = nil;
         [libraryDialogDelegate libraryDialogClosed];
 }
 
-/* Entire JREngageDelegate protocol */
 //- (void)jrAuthenticationDidNotComplete { }
 //- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider { }
 //- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
