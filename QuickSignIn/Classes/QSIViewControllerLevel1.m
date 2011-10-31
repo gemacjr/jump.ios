@@ -34,6 +34,7 @@ Copyright (c) 2010, Janrain, Inc.
 
 #import <UIKit/UIKit.h>
 #import "QSIViewControllerLevel1.h"
+#import "QSIUserModel.h"
 
 @interface UITableViewCellSignInHistory : UITableViewCell
 {
@@ -478,6 +479,15 @@ Copyright (c) 2010, Janrain, Inc.
     {
         [[UserModel getUserModel] startSignUserIn:self];
     }
+
+    if (iPad)
+    {
+        libraryDialogShowing = YES;
+        [[UserModel getUserModel] setLibraryDialogDelegate:self];
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }
+
+
 //#else
 //  [[UserModel getUserModel] startSignUserOut:self];
 //  [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
@@ -540,6 +550,12 @@ Copyright (c) 2010, Janrain, Inc.
     [self setSignOutButtonTitle:@"Home"];
     [self toggleTableHeaderVisibility:YES];
     [UIView commitAnimations];
+}
+
+- (void)libraryDialogClosed
+{
+    libraryDialogShowing = NO;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 - (void)didReceiveToken { }
@@ -739,6 +755,9 @@ Copyright (c) 2010, Janrain, Inc.
     {
         [level2ViewController clearUser:YES];
         [self fadeCustomNavigationBarItems:0.0];
+
+        if (libraryDialogShowing)
+            [[UserModel getUserModel] triggerAuthenticationDidCancel:self];
     }
 
     if ([[UserModel getUserModel] pendingCallToTokenUrl])

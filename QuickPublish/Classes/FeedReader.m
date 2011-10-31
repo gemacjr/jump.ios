@@ -881,6 +881,7 @@ static FeedReader* singleton = nil;
 //- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider { }
 //- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider { }
 //- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider { }
+
 - (void)jrSocialDidNotCompletePublishing
 {
     DLog(@"");

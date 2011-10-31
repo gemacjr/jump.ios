@@ -36,10 +36,11 @@
 #import "QSIUserModel.h"
 #import "QSIViewControllerLevel2.h"
 
-@interface ViewControllerLevel1 : UIViewController <UINavigationBarDelegate, UserModelDelegate,
+@interface ViewControllerLevel1 : UIViewController <UINavigationBarDelegate, UserModelDelegate, LibraryDialogDelegate,
 														UITableViewDelegate, UITableViewDataSource>
 {
     BOOL iPad;
+    BOOL libraryDialogShowing;
 
 	IBOutlet UITableView     *myTableView;
 	IBOutlet UIBarButtonItem *mySignOutButtonPhone;
