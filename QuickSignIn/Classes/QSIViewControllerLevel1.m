@@ -1,42 +1,43 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 Copyright (c) 2010, Janrain, Inc.
 
-	All rights reserved.
+    All rights reserved.
 
-	Redistribution and use in source and binary forms, with or without modification,
-	are permitted provided that the following conditions are met:
+    Redistribution and use in source and binary forms, with or without modification,
+    are permitted provided that the following conditions are met:
 
-	* Redistributions of source code must retain the above copyright notice, this
-		list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice,
-		this list of conditions and the following disclaimer in the documentation and/or
-		other materials provided with the distribution.
-	* Neither the name of the Janrain, Inc. nor the names of its
-		contributors may be used to endorse or promote products derived from this
-		software without specific prior written permission.
+    * Redistributions of source code must retain the above copyright notice, this
+        list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice,
+        this list of conditions and the following disclaimer in the documentation and/or
+        other materials provided with the distribution.
+    * Neither the name of the Janrain, Inc. nor the names of its
+        contributors may be used to endorse or promote products derived from this
+        software without specific prior written permission.
 
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-	DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-	ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-	ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+    ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
- File:	 QSIViewControllerLevel1.m
+ File:   QSIViewControllerLevel1.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, June 1, 2010
+ Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#import <UIKit/UIKit.h>
 #import "QSIViewControllerLevel1.h"
 
 @interface UITableViewCellSignInHistory : UITableViewCell
 {
-//	UIImageView *icon;
+//  UIImageView *icon;
 }
 //@property (nonatomic, retain) UIImageView *icon;
 @end
@@ -46,33 +47,33 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-	if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
-	{
-//		[self addSubview:icon];
-	}
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
+    {
+//      [self addSubview:icon];
+    }
 
-	return self;
+    return self;
 }
 
 - (void) layoutSubviews
 {
-	[super layoutSubviews];
-    
+    [super layoutSubviews];
+
 //    CGRect mframe = self.frame;
 //    CGRect cframe = self.contentView.frame;
-    
+
 //    self.contentView.frame = CGRectMake(self.contentView.frame.origin.x,
 //                                        self.contentView.frame.origin.y,
 //                                        self.frame.size.width,
 //                                        self.frame.size.height);
-	
+
     CGFloat titleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
     CGFloat subtitleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
-    
+
     self.imageView.frame = CGRectMake(10, 10, 30, 30);
     self.textLabel.frame = CGRectMake(50, 15, titleWidth, 22);
     self.detailTextLabel.frame = CGRectMake(titleWidth + 60, 20, subtitleWidth, 15);
-    
+
 //    [self.textLabel setBackgroundColor:[UIColor redColor]];
 //    [self.detailTextLabel setBackgroundColor:[UIColor redColor]];
 //    [self.contentView setBackgroundColor:[UIColor yellowColor]];
@@ -125,7 +126,7 @@ Copyright (c) 2010, Janrain, Inc.
         myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(95, 0, 130, 44)];
     else
         myTitlePad = [[UILabel alloc] initWithFrame:CGRectMake(148, 0, 130, 44)];
-   
+
     [myTitlePad setFont:[UIFont boldSystemFontOfSize:20.0]];
     [myTitlePad setBackgroundColor:[UIColor clearColor]];
     [myTitlePad setTextColor:[UIColor whiteColor]];
@@ -232,21 +233,21 @@ Copyright (c) 2010, Janrain, Inc.
     if (!iPad)
         self.title = @"Profiles";
 
-	myTableView.backgroundColor = [UIColor clearColor];
+    myTableView.backgroundColor = [UIColor clearColor];
 
-	UIBarButtonItem *addAnotherButton = [[[UIBarButtonItem alloc]
-										  initWithTitle:@"Add a Profile"
-										  style:UIBarButtonItemStyleBordered
-										  target:self
-										  action:@selector(addAnotherButtonPressed:)] autorelease];
+    UIBarButtonItem *addAnotherButton = [[[UIBarButtonItem alloc]
+                                          initWithTitle:@"Add a Profile"
+                                                  style:UIBarButtonItemStyleBordered
+                                                 target:self
+                                                 action:@selector(addAnotherButtonPressed:)] autorelease];
 
-	self.navigationItem.rightBarButtonItem = addAnotherButton;
-	self.navigationItem.rightBarButtonItem.enabled = YES;
-	self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.rightBarButtonItem = addAnotherButton;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+    self.navigationItem.hidesBackButton = YES;
 
     [self setDoneToEdit];
 
-	myTableView.tableHeaderView = myLabelContainerView;
+    myTableView.tableHeaderView = myLabelContainerView;
 
     if ([[[UserModel getUserModel] signinHistory] count])
         [self setEditButtonEnabled:YES];
@@ -254,20 +255,20 @@ Copyright (c) 2010, Janrain, Inc.
         [self setEditButtonEnabled:NO];
 
     if (![[UserModel getUserModel] currentUser])
-	{
-		[self setSignOutButtonTitle:@"Home"];
+    {
+        [self setSignOutButtonTitle:@"Home"];
         [self toggleTableHeaderVisibility:YES];
-	}
-	else
-	{
-		[self setSignOutButtonTitle:@"Sign Out"];
+    }
+    else
+    {
+        [self setSignOutButtonTitle:@"Sign Out"];
         [self toggleTableHeaderVisibility:NO];
-	}
+    }
 
-	if ([[UserModel getUserModel] loadingUserData])
-		myNotSignedInLabel.text = @"Completing Sign In...";
-	else
-		myNotSignedInLabel.text = @"You are not currently signed in.";
+    if ([[UserModel getUserModel] loadingUserData])
+        myNotSignedInLabel.text = @"Completing Sign In...";
+    else
+        myNotSignedInLabel.text = @"You are not currently signed in.";
 
     if (iPad)
         [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -277,8 +278,8 @@ Copyright (c) 2010, Janrain, Inc.
                                                       kJRPopoverPresentationArrowDirection, nil]];
 
     [self.view becomeFirstResponder];
-	[myTableView setEditing:NO animated:NO];
-	[myTableView reloadData];
+    [myTableView setEditing:NO animated:NO];
+    [myTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -289,9 +290,9 @@ Copyright (c) 2010, Janrain, Inc.
     {
 //        [self readjustNavBarForPadRotation:self.interfaceOrientation];
         [self fadeCustomNavigationBarItems:1.0];
-    }        
-        
-    if ([[UserModel getUserModel] pendingCallToTokenUrl]) 
+    }
+
+    if ([[UserModel getUserModel] pendingCallToTokenUrl])
         [[UserModel getUserModel] setTokenUrlDelegate:self];
 }
 
@@ -315,13 +316,13 @@ Copyright (c) 2010, Janrain, Inc.
             break;
         default:
             break;
-    }    
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
 //    return YES;
-    
+
     if (iPad)
         return YES;
 
@@ -332,7 +333,7 @@ Copyright (c) 2010, Janrain, Inc.
 {
     if (!iPad)
         return;
-    
+
     [self readjustNavBarForPadRotation:toInterfaceOrientation];
 }
 
@@ -347,14 +348,14 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)fadeCustomNavigationBarItems:(CGFloat)alpha
 {
-	[UIView beginAnimations:@"fade" context:nil];
-	[UIView setAnimationDuration:0.1];
-	[UIView	setAnimationDelay:0.0];
+    [UIView beginAnimations:@"fade" context:nil];
+    [UIView setAnimationDuration:0.1];
+    [UIView setAnimationDelay:0.0];
     [myTitlePad setAlpha:alpha];
     [mySplitViewPad setAlpha:alpha];
     [myEditButtonContainer setAlpha:alpha];
     [mySelectedProfilePad setAlpha:alpha];
-	[UIView commitAnimations];
+    [UIView commitAnimations];
 }
 
 - (void)toggleTableHeaderVisibility:(BOOL)visible
@@ -429,26 +430,26 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)doneButtonPressed:(id)sender
 {
-	[myTableView setEditing:NO animated:YES];
+    [myTableView setEditing:NO animated:YES];
     [self clearSelectedProfile];
-	[self setDoneToEdit];
+    [self setDoneToEdit];
 }
 
 - (void)editButtonPressed:(id)sender
 {
-	[myTableView setEditing:YES animated:YES];
+    [myTableView setEditing:YES animated:YES];
     [self clearSelectedProfile];
     [self setEditToDone];
 }
 
 - (void)delaySignIn:(NSTimer*)theTimer
 {
-	[[UserModel getUserModel] startSignUserIn:self];
+    [[UserModel getUserModel] startSignUserIn:self];
 }
 
 - (void)delaySignOut:(NSTimer*)theTimer
 {
-	[[UserModel getUserModel] startSignUserOut:self];
+    [[UserModel getUserModel] startSignUserOut:self];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex { }
@@ -456,30 +457,30 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)addAnotherButtonPressed:(id)sender
 {
     [self doneButtonPressed:nil];
-    
-	myNotSignedInLabel.text = @"Completing Sign In...";
+
+    myNotSignedInLabel.text = @"Completing Sign In...";
 
 //#ifdef LILLI
     [self clearSelectedProfile];
 
     [myTableView deselectRowAtIndexPath:[myTableView indexPathForSelectedRow] animated:YES];
 
-	if ([[UserModel getUserModel] currentUser])
-	{
-		[[UserModel getUserModel] startSignUserOut:self];
+    if ([[UserModel getUserModel] currentUser])
+    {
+        [[UserModel getUserModel] startSignUserOut:self];
 
-		if (!iPad)
+        if (!iPad)
             [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
         else
             [[UserModel getUserModel] startSignUserIn:self];
-	}
-	else
-	{
-		[[UserModel getUserModel] startSignUserIn:self];
-	}
+    }
+    else
+    {
+        [[UserModel getUserModel] startSignUserIn:self];
+    }
 //#else
-//	[[UserModel getUserModel] startSignUserOut:self];
-//	[NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
+//  [[UserModel getUserModel] startSignUserOut:self];
+//  [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
 //#endif
 }
 
@@ -488,79 +489,79 @@ Copyright (c) 2010, Janrain, Inc.
 //#ifdef LILLI
     [self clearSelectedProfile];
 
-	if ([[UserModel getUserModel] currentUser])
-	{
-		myNotSignedInLabel.text = @"You are not currently signed in.";
-		[[UserModel getUserModel] startSignUserOut:self];
-	}
-	else
-	{
-		[[self navigationController] popToRootViewControllerAnimated:YES];
-	}
+    if ([[UserModel getUserModel] currentUser])
+    {
+        myNotSignedInLabel.text = @"You are not currently signed in.";
+        [[UserModel getUserModel] startSignUserOut:self];
+    }
+    else
+    {
+        [[self navigationController] popToRootViewControllerAnimated:YES];
+    }
 
 //#else
-//	[NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySignOut:) userInfo:nil repeats:NO];
-//	[[self navigationController] popToRootViewControllerAnimated:YES];
+//  [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySignOut:) userInfo:nil repeats:NO];
+//  [[self navigationController] popToRootViewControllerAnimated:YES];
 //#endif
 
 }
 
 - (void)userDidSignIn
 {
-	NSArray *insIndexPaths = [NSArray arrayWithObjects:
-							 [NSIndexPath indexPathForRow:0 inSection:0], nil];
-	NSIndexSet *set = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
+    NSArray *insIndexPaths = [NSArray arrayWithObjects:
+                             [NSIndexPath indexPathForRow:0 inSection:0], nil];
+    NSIndexSet *set = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
 
-	[myTableView beginUpdates];
-	[myTableView insertRowsAtIndexPaths:insIndexPaths withRowAnimation:UITableViewRowAnimationRight];
-	[myTableView endUpdates];
+    [myTableView beginUpdates];
+    [myTableView insertRowsAtIndexPaths:insIndexPaths withRowAnimation:UITableViewRowAnimationRight];
+    [myTableView endUpdates];
 
-	[myTableView reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
+    [myTableView reloadSections:set withRowAnimation:UITableViewRowAnimationNone];
 
-	[UIView beginAnimations:@"fade" context:nil];
+    [UIView beginAnimations:@"fade" context:nil];
     [self setSignOutButtonTitle:@"Sign Out"];
     [self toggleTableHeaderVisibility:NO];
-	[UIView commitAnimations];
+    [UIView commitAnimations];
 }
 
 - (void)userDidSignOut
 {
-	NSIndexSet *set0 = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
-	NSIndexSet *set1 = [[[NSIndexSet alloc] initWithIndex:1] autorelease];
+    NSIndexSet *set0 = [[[NSIndexSet alloc] initWithIndex:0] autorelease];
+    NSIndexSet *set1 = [[[NSIndexSet alloc] initWithIndex:1] autorelease];
 
-	[self doneButtonPressed:nil];
+    [self doneButtonPressed:nil];
 
     [myTableView beginUpdates];
     [myTableView reloadSections:set0 withRowAnimation:UITableViewRowAnimationFade];
     [myTableView reloadSections:set1 withRowAnimation:UITableViewRowAnimationLeft];
     [myTableView endUpdates];
 
-	[UIView beginAnimations:@"fade" context:nil];
-	[self setSignOutButtonTitle:@"Home"];
+    [UIView beginAnimations:@"fade" context:nil];
+    [self setSignOutButtonTitle:@"Home"];
     [self toggleTableHeaderVisibility:YES];
-	[UIView commitAnimations];
+    [UIView commitAnimations];
 }
 
 - (void)didReceiveToken { }
 - (void)didFailToSignIn:(BOOL)showMessage
 {
-	if (showMessage)
-	{
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
-														 message:@"An error occurred while attempting to sign you in.  Please try again."
-														delegate:self
-											   cancelButtonTitle:@"OK"
-											   otherButtonTitles:nil] autorelease];
-		[alert show];
-	}
+    if (showMessage)
+    {
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
+                                                         message:@"An error occurred while attempting to sign you in.  Please try again."
+                                                        delegate:self
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil] autorelease];
+        [alert show];
+    }
 
 #ifdef LILLI
-	[UIView beginAnimations:@"fade" context:nil];
+    [UIView beginAnimations:@"fade" context:nil];
     [self setSignOutButtonTitle:@"Home"];
      myNotSignedInLabel.text = @"You are not currently signed in.";
-	[UIView commitAnimations];
+    [UIView commitAnimations];
 #else
-	[[self navigationController] popToRootViewControllerAnimated:YES];
+    [[self navigationController] popToRootViewControllerAnimated:YES];
 #endif
 }
 
@@ -572,7 +573,7 @@ Copyright (c) 2010, Janrain, Inc.
                                                     delegate:self
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil] autorelease];
-    [alert show];    
+    [alert show];
 }
 
 - (void)didFailToReachTokenUrl
@@ -582,7 +583,7 @@ Copyright (c) 2010, Janrain, Inc.
                                                     delegate:self
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil] autorelease];
-    [alert show];    
+    [alert show];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -597,10 +598,10 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	if (section == 0)
-		return ([[UserModel getUserModel] currentUser]) ? @"Currently Signed In As" : nil;
-	else
-		return ([[[UserModel getUserModel] signinHistory] count]) ? @"Previously Signed In As" : nil;
+    if (section == 0)
+        return ([[UserModel getUserModel] currentUser]) ? @"Currently Signed In As" : nil;
+    else
+        return ([[[UserModel getUserModel] signinHistory] count]) ? @"Previously Signed In As" : nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -615,65 +616,62 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	switch (section)
-	{
-		case 0:
-			if ([[UserModel getUserModel] currentUser])
-				return 1;
-			else
-				return 0;
-			break;
-		case 1:
-			return [[[UserModel getUserModel] signinHistory] count];
-			break;
-		default:
-			return 0;
-			break;
-	}
+    switch (section)
+    {
+        case 0:
+            if ([[UserModel getUserModel] currentUser])
+                return 1;
+            else
+                return 0;
+        case 1:
+            return [[[UserModel getUserModel] signinHistory] count];
+        default:
+            return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UITableViewCellSignInHistory *cell =
+    UITableViewCellSignInHistory *cell =
         (UITableViewCellSignInHistory*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
 
-	if (!cell || indexPath.section == 0)
-		cell = [[[UITableViewCellSignInHistory alloc]
-			 initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
+    if (!cell || indexPath.section == 0)
+        cell = [[[UITableViewCellSignInHistory alloc]
+             initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 
     NSDictionary *userForCell = (indexPath.section == 0) ?
-									[[UserModel getUserModel] currentUser] :
-									[[[UserModel getUserModel] signinHistory] objectAtIndex:indexPath.row];
+                                    [[UserModel getUserModel] currentUser] :
+                                    [[[UserModel getUserModel] signinHistory] objectAtIndex:indexPath.row];
 
-	NSString *identifier = [userForCell objectForKey:@"identifier"];
-	NSDictionary* userProfile = [[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"];
+    NSString *identifier = [userForCell objectForKey:@"identifier"];
+    NSDictionary* userProfile = [[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"];
 
 
-	NSString* displayName = [UserModel getDisplayNameFromProfile:userProfile];
-	NSString* subtitle = [userForCell objectForKey:@"timestamp"];
-	NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30.png",
+    NSString* displayName = [UserModel getDisplayNameFromProfile:userProfile];
+    NSString* subtitle = [userForCell objectForKey:@"timestamp"];
+    NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30.png",
                            [userForCell objectForKey:@"provider"]];
 
-	cell.textLabel.text = displayName;
-	cell.detailTextLabel.text = subtitle;
-	cell.imageView.image = [UIImage imageNamed:imagePath];
+    cell.textLabel.text = displayName;
+    cell.detailTextLabel.text = subtitle;
+    cell.imageView.image = [UIImage imageNamed:imagePath];
 
     if (!iPad)
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     else
         cell.accessoryType = UITableViewCellAccessoryNone;
-    
-	return cell;
+
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UserModel *model = [UserModel getUserModel];
+    UserModel *model = [UserModel getUserModel];
 
-	if (indexPath.section == 0)
-		[model setSelectedUser:[model currentUser]];
-	else
-		[model setSelectedUser:[[model signinHistory] objectAtIndex:indexPath.row]];
+    if (indexPath.section == 0)
+        [model setSelectedUser:[model currentUser]];
+    else
+        [model setSelectedUser:[[model signinHistory] objectAtIndex:indexPath.row]];
 
     if (iPad)
     {
@@ -690,45 +688,45 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 0)
-		return NO;
+    if (indexPath.section == 0)
+        return NO;
 
-	return YES;
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-											forRowAtIndexPath:(NSIndexPath *)indexPath
+                                            forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	CGFloat headerAlpha = myTableView.tableHeaderView.alpha;
+    CGFloat headerAlpha = myTableView.tableHeaderView.alpha;
 
-	if (editingStyle == UITableViewCellEditingStyleDelete)
-	{/* Remove this profile from the Model's saved history. */
-		[[UserModel getUserModel] removeUserFromHistory:indexPath.row];
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {/* Remove this profile from the Model's saved history. */
+        [[UserModel getUserModel] removeUserFromHistory:indexPath.row];
 
      /* If that profile was the last one in the list of previous users... */
-		if (![[[UserModel getUserModel] signinHistory] count])
-		{
-			if (![[UserModel getUserModel] currentUser])
-			{
-				[[self navigationController] popViewControllerAnimated:YES];
-			}
+        if (![[[UserModel getUserModel] signinHistory] count])
+        {
+            if (![[UserModel getUserModel] currentUser])
+            {
+                [[self navigationController] popViewControllerAnimated:YES];
+            }
 
-			[self setDoneToEdit];
+            [self setDoneToEdit];
 
-			[myTableView beginUpdates];
-			[myTableView reloadSections:[NSIndexSet indexSetWithIndex:1]
-					   withRowAnimation:UITableViewRowAnimationTop];
-			[myTableView endUpdates];
+            [myTableView beginUpdates];
+            [myTableView reloadSections:[NSIndexSet indexSetWithIndex:1]
+                       withRowAnimation:UITableViewRowAnimationTop];
+            [myTableView endUpdates];
 
-			[myTableView setEditing:NO animated:YES];
-		}
-		else
-		{
+            [myTableView setEditing:NO animated:YES];
+        }
+        else
+        {
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-		}
+        }
 
-		myTableView.tableHeaderView.alpha = headerAlpha;
-	}
+        myTableView.tableHeaderView.alpha = headerAlpha;
+    }
 }
 
 - (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
@@ -742,12 +740,12 @@ Copyright (c) 2010, Janrain, Inc.
         [level2ViewController clearUser:YES];
         [self fadeCustomNavigationBarItems:0.0];
     }
-    
-    if ([[UserModel getUserModel] pendingCallToTokenUrl]) 
+
+    if ([[UserModel getUserModel] pendingCallToTokenUrl])
         [[UserModel getUserModel] setTokenUrlDelegate:nil];
 }
 
-- (void)viewDidUnload { }
+- (void)viewDidUnload { [super viewDidUnload]; }
 
 - (void)dealloc
 {
@@ -763,8 +761,8 @@ Copyright (c) 2010, Janrain, Inc.
     [mySplitViewPad release];
     [mySelectedProfilePad release];
     [myRightView release];
-	[level2ViewController release];
+    [level2ViewController release];
 
-	[super dealloc];
+    [super dealloc];
 }
 @end

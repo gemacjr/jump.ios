@@ -1,16 +1,16 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2010, Janrain, Inc.
- 
+
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification,
 	are permitted provided that the following conditions are met:
 
 	* Redistributions of source code must retain the above copyright notice, this
-		list of conditions and the following disclaimer. 
-	* Redistributions in binary form must reproduce the above copyright notice, 
+		list of conditions and the following disclaimer.
+	* Redistributions in binary form must reproduce the above copyright notice,
 		this list of conditions and the following disclaimer in the documentation and/or
-		other materials provided with the distribution. 
+		other materials provided with the distribution.
 	* Neither the name of the Janrain, Inc. nor the names of its
 		contributors may be used to endorse or promote products derived from this
 		software without specific prior written permission.
@@ -24,13 +24,14 @@
 	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
 	ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
- 
+	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
  File:	 QSIUserModel.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#import <UIKit/UIKit.h>
 #import "QSIUserModel.h"
 
 @interface UserModel ()
@@ -56,21 +57,21 @@ static UserModel* singleton = nil;
 
 /* To use the JREngage library, you must first sign up for an account and create
    an application on http://rpxnow.com.  You must also have a web server that can host
-   your token URL.  Your token URL contains your Engage Application's 40-character key and 
-   makes the auth_info post to the Engage server.  You can have more than one token URL, 
-   and you can instantiate the JRAuthenticate library with tokenURL=nil, but you will need 
+   your token URL.  Your token URL contains your Engage Application's 40-character key and
+   makes the auth_info post to the Engage server.  You can have more than one token URL,
+   and you can instantiate the JRAuthenticate library with tokenURL=nil, but you will need
    to post the token to a token URL to finish authentication.  If you already have an Engage
    widget working on your site, it is recommended that you create a second, more simple
-   token URL specifically for the iPhone Library.  If you don't already have the Engage 
-   widget working on your site, or you don't have a site, we recommend that you create a 
+   token URL specifically for the iPhone Library.  If you don't already have the Engage
+   widget working on your site, or you don't have a site, we recommend that you create a
    very simple application using Google's App Engine: http://code.google.com/appengine/.
-   See my reference application in the ../googleAppEngineDemoApp folder for an example 
+   See my reference application in the ../googleAppEngineDemoApp folder for an example
    of a simple token URL that call auth_info, and serves the returned json response
    back to this application.
- 
- 
+
+
 Instantiate the JRAuthenticate Library with your Engage Application's 20-character ID and
-(optional) token URL, which you create on your web site.  If you don't instantiate the 
+(optional) token URL, which you create on your web site.  If you don't instantiate the
 library with a token URL, you must make the call yourself after you receive the token,
 otherwise, this happens automatically.													*/
 
@@ -83,25 +84,25 @@ otherwise, this happens automatically.													*/
 	{
      /* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
 		jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
-		
+
         prefs = [[NSUserDefaults standardUserDefaults] retain];
-		
+
 		selectedUser = nil;
 		currentUser = nil;
 		identifier = nil;
 		currentProvider = nil;
-		displayName = nil;	
+		displayName = nil;
 
 		historyCountSnapShot = [prefs integerForKey:@"historyCount"];
 
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
-        
+
      /* Load any session that was still logged in when the application closed. */
 		[self loadSignedInUser];
 	}
-	
-	return self;	
+
+	return self;
 }
 
 /* Return the singleton instance of this class. */
@@ -110,7 +111,7 @@ otherwise, this happens automatically.													*/
     if (singleton == nil) {
         singleton = [[super allocWithZone:NULL] init];
     }
-	
+
     return singleton;
 }
 
@@ -147,63 +148,63 @@ otherwise, this happens automatically.													*/
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
 {
 	NSString *name = nil;
-	
+
 	if ([profile objectForKey:@"preferredUsername"])
 		name = [NSString stringWithFormat:@"%@", [profile objectForKey:@"preferredUsername"]];
 	else if ([[profile objectForKey:@"name"] objectForKey:@"formatted"])
-		name = [NSString stringWithFormat:@"%@", 
-				[[profile objectForKey:@"name"] objectForKey:@"formatted"]];					 
-	else 
+		name = [NSString stringWithFormat:@"%@",
+				[[profile objectForKey:@"name"] objectForKey:@"formatted"]];
+	else
 		name = [NSString stringWithFormat:@"%@%@%@%@%@",
-				([[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
+				([[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]) ?
+				[NSString stringWithFormat:@"%@ ",
 				 [[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]] : @"",
-				([[profile objectForKey:@"name"] objectForKey:@"givenName"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
+				([[profile objectForKey:@"name"] objectForKey:@"givenName"]) ?
+				[NSString stringWithFormat:@"%@ ",
 				 [[profile objectForKey:@"name"] objectForKey:@"givenName"]] : @"",
-				([[profile objectForKey:@"name"] objectForKey:@"middleName"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
+				([[profile objectForKey:@"name"] objectForKey:@"middleName"]) ?
+				[NSString stringWithFormat:@"%@ ",
 				 [[profile objectForKey:@"name"] objectForKey:@"middleName"]] : @"",
-				([[profile objectForKey:@"name"] objectForKey:@"familyName"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
+				([[profile objectForKey:@"name"] objectForKey:@"familyName"]) ?
+				[NSString stringWithFormat:@"%@ ",
 				 [[profile objectForKey:@"name"] objectForKey:@"familyName"]] : @"",
-				([[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
+				([[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]) ?
+				[NSString stringWithFormat:@"%@ ",
 				 [[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]] : @""];
-	
+
 	return name;
 }
 
 + (NSString*)getAddressFromProfile:(NSDictionary*)profile
 {
 	NSString *addr = nil;
-	
+
 	if ([[profile objectForKey:@"address"] objectForKey:@"formatted"])
-		addr = [NSString stringWithFormat:@"%@", 
-				[[profile objectForKey:@"address"] objectForKey:@"formatted"]];					 
-	else 
+		addr = [NSString stringWithFormat:@"%@",
+				[[profile objectForKey:@"address"] objectForKey:@"formatted"]];
+	else
 		addr = [NSString stringWithFormat:@"%@%@%@%@%@",
-				([[profile objectForKey:@"address"] objectForKey:@"streetAddress"]) ? 
-				[NSString stringWithFormat:@"%@, ", 
+				([[profile objectForKey:@"address"] objectForKey:@"streetAddress"]) ?
+				[NSString stringWithFormat:@"%@, ",
 				 [[profile objectForKey:@"address"] objectForKey:@"streetAddress"]] : @"",
-				([[profile objectForKey:@"address"] objectForKey:@"locality"]) ? 
-				[NSString stringWithFormat:@"%@, ", 
+				([[profile objectForKey:@"address"] objectForKey:@"locality"]) ?
+				[NSString stringWithFormat:@"%@, ",
 				 [[profile objectForKey:@"address"] objectForKey:@"locality"]] : @"",
-				([[profile objectForKey:@"address"] objectForKey:@"region"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
+				([[profile objectForKey:@"address"] objectForKey:@"region"]) ?
+				[NSString stringWithFormat:@"%@ ",
 				 [[profile objectForKey:@"address"] objectForKey:@"region"]] : @"",
-				([[profile objectForKey:@"address"] objectForKey:@"postalCode"]) ? 
-				[NSString stringWithFormat:@"%@ ", 
+				([[profile objectForKey:@"address"] objectForKey:@"postalCode"]) ?
+				[NSString stringWithFormat:@"%@ ",
 				 [[profile objectForKey:@"address"] objectForKey:@"postalCode"]] : @"",
-				([[profile objectForKey:@"address"] objectForKey:@"country"]) ? 
-				[NSString stringWithFormat:@"%@", 
+				([[profile objectForKey:@"address"] objectForKey:@"country"]) ?
+				[NSString stringWithFormat:@"%@",
 				 [[profile objectForKey:@"address"] objectForKey:@"country"]] : @""];
-	
+
 	return addr;
 }
 
 /* Returns the sign-in history as an ordered array of sessions, store as dictionaries.
-   Each session's dictionary contains the identifier, display name, provider, and timestamp 
+   Each session's dictionary contains the identifier, display name, provider, and timestamp
    for that particular session.  As one user may log in many times, identifiers are not unique. */
 - (NSArray*)signinHistory
 {
@@ -220,40 +221,40 @@ otherwise, this happens automatically.													*/
 - (void)pruneUserProfiles
 {
 	NSArray *historyArr = [prefs arrayForKey:@"signinHistory"];
-	
- /* Since the sign-in history array likely contains several duplicate identifiers, we'll first 
+
+ /* Since the sign-in history array likely contains several duplicate identifiers, we'll first
     go through the array one time, pull out all the identifiers, and add them to an NSMutableSet.
     When finished, the NSSet will contain only the *unique* identifiers, which should be far fewer than
     the size of the sign-in history array. */
 	NSMutableSet *uniqueIDS = [[[NSMutableSet alloc] initWithCapacity:[historyArr count]] autorelease];
-	
+
  /* Don't forget the current user. */
 	if (currentUser)
 		[uniqueIDS addObject:[currentUser objectForKey:@"identifier"]];
-	
+
 	for (NSDictionary* savedLogin in historyArr)
 	{
 		[uniqueIDS addObject:[savedLogin objectForKey:@"identifier"]];
 	}
-	
+
  /* This is the dictionary of profiles which we will be pruning. */
 	NSDictionary *profiles = [[prefs objectForKey:@"userProfiles"] retain];
-	
+
  /* This is the new dictionary of profiles init-ed to the correct capacity. */
-	NSMutableDictionary* newProfiles = [[NSMutableDictionary alloc] 
-										initWithCapacity:[uniqueIDS count]]; 
-	
+	NSMutableDictionary* newProfiles = [[NSMutableDictionary alloc]
+										initWithCapacity:[uniqueIDS count]];
+
  /* Figure out the new size for the number of profiles in our new dictionary based on the number of
     identifiers we are saving in our history, so we can stop one we've finished pruning */
 	NSUInteger theNewSize = [uniqueIDS count];
 	NSUInteger whatWeHaveFoundSoFar = 0;
-	
+
 	for (NSString* ident in [profiles allKeys])
 	{
      /* If we're done, just stop */
-		if (whatWeHaveFoundSoFar == theNewSize) 
+		if (whatWeHaveFoundSoFar == theNewSize)
 			break;
-		
+
      /* If this identifier is still in the set, add it to the new dictionary of profiles */
 		if ([uniqueIDS containsObject:ident])
 		{
@@ -261,17 +262,17 @@ otherwise, this happens automatically.													*/
 			whatWeHaveFoundSoFar++;
 		}
 	}
-	
+
  /* Now, save the new, pruned dictionary and release */
 	[prefs setObject:newProfiles forKey:@"userProfiles"];
 	[newProfiles release];
 	[profiles release];
-	
+
  /* And update the test value */
 	historyCountSnapShot = [historyArr count];
-	
+
  /* Save the historyCountSnapShot, as it may be bigger than the current array count */
-	[prefs setInteger:historyCountSnapShot forKey:@"historyCount"];	
+	[prefs setInteger:historyCountSnapShot forKey:@"historyCount"];
 }
 
 - (void)removeUserFromHistory:(int)index
@@ -284,20 +285,20 @@ otherwise, this happens automatically.													*/
  /* Remove the entry, */
 	@try
 		{ [historyArr removeObjectAtIndex:index]; }
-	@catch ( NSException *e ) 
+	@catch ( NSException *e )
 		{ return; }
 
  /* And save. */
 	[prefs setObject:historyArr forKey:@"signinHistory"];
 
- /* As we remove the unique sign-ins from the history, eventually we may remove all entries 
+ /* As we remove the unique sign-ins from the history, eventually we may remove all entries
     for a specific user, but we will still have their profile data saved in the userProfiles
-    dictionary.  Therefore, we should eventually prune the userProfiles dictionary so that 
-    we don't have needless information hanging around. Since this is time consuming, only 
+    dictionary.  Therefore, we should eventually prune the userProfiles dictionary so that
+    we don't have needless information hanging around. Since this is time consuming, only
     prune when the size of the signinHistory array is half of what it was before. */
-	if ([historyArr count] <= (historyCountSnapShot/2)) 
+	if ([historyArr count] <= (historyCountSnapShot/2))
 		[self pruneUserProfiles];
-	
+
 	[historyArr release];
 }
 
@@ -305,31 +306,31 @@ otherwise, this happens automatically.													*/
 {
  /* First, see if there is a saved user */
 	currentUser = [prefs objectForKey:@"currentUser"];
-	
+
 	if (!currentUser)
 		return;
-	
+
  /* If there is, load the displayName and identifier */
 	identifier = [[currentUser objectForKey:@"identifier"] retain];
 	displayName = [[currentUser objectForKey:@"displayName"] retain];
 	currentProvider = [[currentUser objectForKey:@"provider"] retain];
-	
+
  /* Then check the cookies to make sure the saved user's identifier matches any cookie returned from
     the token URL, or if their session has expired */
 	NSHTTPCookieStorage* cookieStore = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 	NSArray *cookies = [cookieStore cookiesForURL:[NSURL URLWithString:@"http://jrauthenticate.appspot.com"]];
 	NSString *cookieIdentifier = nil;
-	
-	for (NSHTTPCookie *cookie in cookies) 
+
+	for (NSHTTPCookie *cookie in cookies)
 	{
 		if ([cookie.name isEqualToString:@"sid"])
 		{
-			cookieIdentifier = [[NSString stringWithString:cookie.value] 
+			cookieIdentifier = [[NSString stringWithString:cookie.value]
 								stringByTrimmingCharactersInSet:
 								[NSCharacterSet characterSetWithCharactersInString:@"\""]];
 		}
-	}	
-	
+	}
+
  /* Then the cookie expired, and we have a user currently logged in, so we have to
     log out the current user and save the history of the session in the array of previous sessions */
 	if (!cookieIdentifier)
@@ -337,7 +338,7 @@ otherwise, this happens automatically.													*/
 		[self finishSignUserOut];
 		return;
 	}
-	
+
  /* Make sure the cookie's identifier matches the saved user's identifier,
     otherwise, sign the user out. */
 	if (![cookieIdentifier isEqualToString:identifier])
@@ -345,7 +346,7 @@ otherwise, this happens automatically.													*/
 		[self finishSignUserOut];
 		return;
 	}
-	
+
 	return;
 }
 
@@ -353,98 +354,98 @@ otherwise, this happens automatically.													*/
 {
 	if (currentUser)
 		[self finishSignUserOut];
-	
+
  /* Get the identifier and normalize it (remove html escapes) */
 	identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
-	
+
  /* Get the display name */
 	displayName = [[UserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
-	
- /* Store the current user's profile dictionary in the dictionary of users, 
+
+ /* Store the current user's profile dictionary in the dictionary of users,
     using the identifier as the key, and then save the dictionary of users */
 	NSDictionary *tmp = [prefs objectForKey:@"userProfiles"];
-	
+
  /* If this profile doesn't already exist in the dictionary of saved profiles */
 	if (![tmp objectForKey:identifier])
 	{
      /* Create a mutable dictionary from the non-mutable NSUserDefaults dictionary, */
-		NSMutableDictionary* profiles = [[NSMutableDictionary alloc] 
-										initWithCapacity:([tmp count] + 1)]; 
+		NSMutableDictionary* profiles = [[NSMutableDictionary alloc]
+										initWithCapacity:([tmp count] + 1)];
 		[profiles addEntriesFromDictionary:tmp];
-		
+
      /* add the user's profile to the dictionary, indexed by the identifier, and save. */
 		[profiles setObject:user forKey:identifier];
 		[prefs setObject:profiles forKey:@"userProfiles"];
-		
+
 		[profiles release];
 	}
-	
+
  /* Get the approximate timestamp of the user's log in */
 	NSDate *today = [NSDate date];
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setTimeStyle:NSDateFormatterShortStyle];
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	
+
 	NSString *currentTime = [dateFormatter stringFromDate:today];
 	[dateFormatter release];
-	
- /* Create a dictionary of the identifier and the timestamp.  For now, save this dictionary 
+
+ /* Create a dictionary of the identifier and the timestamp.  For now, save this dictionary
     as the currently logged in user. */
 	currentUser = [[NSDictionary dictionaryWithObjectsAndKeys:
 					identifier, @"identifier",
 					currentProvider, @"provider",
 					displayName, @"displayName",
 					currentTime, @"timestamp", nil] retain];
-	
+
 	[prefs setObject:currentUser forKey:@"currentUser"];
-	
+
 	loadingUserData = NO;
-	
+
 	[signInDelegate userDidSignIn];
-	
+
     [self setTokenUrlDelegate:signInDelegate];
     [signInDelegate release], signInDelegate = nil;
 }
 
 - (void)finishSignUserOut
 {
- /* Save the currentUser's session dictionary (identifier, display name, provider and timestamp) 
-    at the beginning of the sign-in history array.  One specific user may have multiple distinct 
-    sessions saved in this array, which is why we're saving minimal session data in this array 
+ /* Save the currentUser's session dictionary (identifier, display name, provider and timestamp)
+    at the beginning of the sign-in history array.  One specific user may have multiple distinct
+    sessions saved in this array, which is why we're saving minimal session data in this array
     and keeping their full profiles in the separate userProfiles dictionary. */
 
  /* Create a mutable array from the non-mutable NSUserDefaults array, */
 	NSArray *tmp = [prefs arrayForKey:@"signinHistory"];
-	NSMutableArray *signinHistory = [[NSMutableArray alloc] 
+	NSMutableArray *signinHistory = [[NSMutableArray alloc]
 									 initWithCapacity:([tmp count] + 1)];
 	[signinHistory addObjectsFromArray:tmp];
-	
+
  /* Insert the currentUser's session dictionary at the beginning of the array, */
 	[signinHistory insertObject:currentUser atIndex:0];
-	
+
  /* save the array, and nullify the currentUser. */
 	[prefs setObject:signinHistory forKey:@"signinHistory"];
 	[prefs setObject:nil forKey:@"currentUser"];
-	
+
 	[signinHistory release];
-	
+
 	[currentUser release];
 	currentUser = nil;
-	
+
 	[displayName release];
 	displayName = nil;
-	
+
 	[identifier release];
 	identifier = nil;
-	
+
 	[currentProvider release];
 	currentProvider = nil;
-	
+
 	[signOutDelegate userDidSignOut];
 	[signOutDelegate release], signOutDelegate = nil;
 
  /* As we remove sign-in sessions from the history, eventually we need to prune the profiles from the
-    userProfiles dictionary.  We do this when the size of the signinHistory array is half 
+    userProfiles dictionary.  We do this when the size of the signinHistory array is half
     of the historyCountSnapShot.  As the array grows, so does historyCountSnapShot, but
     historyCountSnapShot only shrinks after a pruning. */
 	historyCountSnapShot++;
@@ -456,13 +457,13 @@ otherwise, this happens automatically.													*/
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedParty
 {
 	loadingUserData = YES;
-	signInDelegate = [interestedParty retain]; 
-    
+	signInDelegate = [interestedParty retain];
+
     NSMutableDictionary *moreCustomizations = nil;
-    
+
     if (YES)//(NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
-    {       
-     /* EmbeddedTableViewController acts as the delegate and datasource of the embeddedTable, whose view will be added 
+    {
+     /* EmbeddedTableViewController acts as the delegate and datasource of the embeddedTable, whose view will be added
         as a "subtable", as the provider table's header view. While they are two different tables, it will appear as if
         they are different sections of the same table. */
         if (!embeddedTable)
@@ -470,16 +471,20 @@ otherwise, this happens automatically.													*/
 
         /* If you want your embeddedTable to control the navigationController, you must use your own. */
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
             self.navigationController = [[UINavigationController alloc] init];
-        
+            self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+        }
+
+
         moreCustomizations = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                     embeddedTable.view, kJRProviderTableHeaderView,
-                                    @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString, 
-                                    navigationController, ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 
+                                    @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString,
+                                    navigationController, ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ?
                                                kJRCustomModalNavigationController : kJRApplicationNavigationController),
                                     nil] autorelease];
     }
-    
+
     if (customInterface)
         [customInterface addEntriesFromDictionary:moreCustomizations];
     else
@@ -491,15 +496,15 @@ otherwise, this happens automatically.													*/
 
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn afterSignOut:(id<UserModelDelegate>)interestedPartySignOut
 {
-	signOutDelegate = [interestedPartySignOut retain]; 
+	signOutDelegate = [interestedPartySignOut retain];
 	[self startSignUserIn:interestedPartySignIn];
 }
 
 - (void)startSignUserOut:(id<UserModelDelegate>)interestedParty
 {
 	signOutDelegate = [interestedParty retain];
-	
-	[self finishSignUserOut];	
+
+	[self finishSignUserOut];
 }
 
 - (void)triggerAuthenticationDidCancel:(id)sender
@@ -511,7 +516,7 @@ otherwise, this happens automatically.													*/
 {
     if ([error code] == JRDialogShowingError)
         return;
-    
+
 	loadingUserData = NO;
 	[signInDelegate didFailToSignIn:YES];
     [signInDelegate release], signInDelegate = nil;
@@ -521,7 +526,7 @@ otherwise, this happens automatically.													*/
 {
     if (!tokenUrl)
     {
-        UIApplication* app = [UIApplication sharedApplication]; 
+        UIApplication* app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = NO;
 	}
 	else
@@ -532,40 +537,40 @@ otherwise, this happens automatically.													*/
 
     currentProvider = [[NSString stringWithString:provider] retain];
 	[signInDelegate didReceiveToken];
-    
+
 	if(!auth_info) // Then there was an error
 		return; // TODO: Manage error
-	
+
 	[self finishSignUserIn:auth_info];
 }
 
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl 
-                            withResponse:(NSURLResponse*)response 
-                              andPayload:(NSData*)tokenUrlPayload 
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl
+                            withResponse:(NSURLResponse*)response
+                              andPayload:(NSData*)tokenUrlPayload
                              forProvider:(NSString*)provider;
 {
     DLog(@"");
-	UIApplication* app = [UIApplication sharedApplication]; 
+	UIApplication* app = [UIApplication sharedApplication];
 	app.networkActivityIndicatorVisible = NO;
 
     pendingCallToTokenUrl = NO;
-    
+
     [tokenUrlDelegate didReachTokenUrl];
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
 
 //  NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
-//    
+//
 //	NSRange found = [payload rangeOfString:@"{"];
-//	
+//
 //	if (found.length == 0)// Then there was an error
 //		return; // TODO: Manage error
-//	
+//
 //	NSString *userStr = [payload substringFromIndex:found.location];
 //	NSDictionary* user = [userStr JSONValue];
-//	
+//
 //	if(!user) // Then there was an error
 //		return; // TODO: Manage error
-//	
+//
 //	[self finishSignUserIn:user];
 }
 
@@ -587,7 +592,7 @@ otherwise, this happens automatically.													*/
 {
 	loadingUserData = NO;
     pendingCallToTokenUrl = NO;
-    
+
 	[tokenUrlDelegate didFailToReachTokenUrl];
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
 //	[signInDelegate didFailToSignIn:YES];
