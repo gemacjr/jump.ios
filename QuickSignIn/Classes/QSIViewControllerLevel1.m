@@ -272,11 +272,15 @@ Copyright (c) 2010, Janrain, Inc.
         myNotSignedInLabel.text = @"You are not currently signed in.";
 
     if (iPad)
+    {
         [[UserModel getUserModel] setCustomInterface:[NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                       self.navigationItem.rightBarButtonItem,
                                                       kJRPopoverPresentationBarButtonItem,
                                                       [NSNumber numberWithInt:UIPopoverArrowDirectionAny],
                                                       kJRPopoverPresentationArrowDirection, nil]];
+
+        [self readjustNavBarForPadRotation:self.interfaceOrientation];
+    }
 
     [self.view becomeFirstResponder];
     [myTableView setEditing:NO animated:NO];
