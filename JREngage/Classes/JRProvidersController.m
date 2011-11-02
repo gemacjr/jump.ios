@@ -35,6 +35,7 @@
 
 #import "JRProvidersController.h"
 #import "JREngage+CustomInterface.h"
+#import "JRSessionData.h"
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -328,9 +329,10 @@ Please try again later."
 {
 //    DLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 //    return YES;
+    if (sessionData.canRotate)
+        return YES;
 
-    return YES;
-//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

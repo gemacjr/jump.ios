@@ -471,6 +471,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 @synthesize updatedEtag;
 @synthesize gitCommit;
 @synthesize savedConfigurationBlock;
+@synthesize canRotate;
 
 #pragma mark singleton_methods
 static JRSessionData* singleton = nil;

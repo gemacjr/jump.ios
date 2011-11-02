@@ -366,6 +366,8 @@ static JRUserInterfaceMaestro* singleton = nil;
         @catch (NSException *exception)
         { handleCustomInterfaceException(exception, @"kJRUseApplicationNavigationController"); }
     }
+
+    if (usingAppNav) sessionData.canRotate = YES;
 }
 
 - (void)tearDownDialogPresentation

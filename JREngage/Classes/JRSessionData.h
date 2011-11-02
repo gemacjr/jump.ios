@@ -220,6 +220,8 @@ extern NSString * JREngageErrorDomain;
     BOOL alwaysForceReauth;
     BOOL forceReauthJustThisTime;
 
+    BOOL canRotate;
+
  /* TRUE if the library is currently sharing an activity */
     BOOL socialSharing;
 
@@ -252,6 +254,7 @@ extern NSString * JREngageErrorDomain;
 @property            BOOL authenticatingDirectlyOnThisProvider;
 @property            BOOL socialSharing;
 @property            BOOL dialogIsShowing;
+@property            BOOL canRotate;
 @property (retain, readonly) NSError *error;
 
 + (id)jrSessionData;
