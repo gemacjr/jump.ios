@@ -1879,13 +1879,11 @@ Please try again later."
     [self dismissModalViewControllerAnimated:YES];
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-*/
 
 - (void)viewWillDisappear:(BOOL)animated
 {

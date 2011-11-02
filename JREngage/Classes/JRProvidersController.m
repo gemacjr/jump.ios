@@ -328,8 +328,9 @@ Please try again later."
 {
 //    DLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 //    return YES;
-    
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+
+    return YES;
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
