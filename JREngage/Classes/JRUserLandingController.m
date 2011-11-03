@@ -32,21 +32,34 @@
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <Foundation/Foundation.h>
 #import "JRUserLandingController.h"
 #import "JREngage+CustomInterface.h"
 
 #ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
 #define DLog(...)
 #endif
 
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+#define frame_x(a) a.frame.origin.x
+#define frame_y(a) a.frame.origin.y
+#define frame_w(a) a.frame.size.width
+#define frame_h(a) a.frame.size.height
+
+#define frame_a(a) frame_x(a), frame_y(a), frame_w(a), frame_h(a)
+
 
 @interface JRUserLandingController ()
 - (NSString*)customTitle;
 - (void)callWebView:(UITextField*)textField;
 - (UITextField*)getTextField:(UITableViewCell*)cell;
+- (UITableViewCell*)getTableCell;
+- (void)adjustTableViewFrame;
 @end
 
 @implementation JRUserLandingController
@@ -172,6 +185,7 @@
     self.navigationItem.titleView = titleView;
 
     [myTableView reloadData];
+    [self adjustTableViewFrame];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -181,23 +195,16 @@
 
     self.contentSizeForViewInPopover = CGSizeMake(320, 416);
 
-    NSIndexPath     *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    UITableViewCell *cell =      (UITableViewCell*)[myTableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [self getTableCell];
     UITextField     *textField = [self getTextField:cell];
+
+    DLog(@"cell content view: %f, %f, %f, %f", frame_a([cell contentView]));
 
  /* Only make the cell's text field the first responder (and show the keyboard) in certain situations */
     if ([sessionData weShouldBeFirstResponder] && !textField.text)
         [textField becomeFirstResponder];
 
     [infoBar fadeIn];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if (sessionData.canRotate)
-        return YES;
-
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)didReceiveMemoryWarning
@@ -253,13 +260,41 @@ enum
     BIG_SIGN_IN_BUTTON_TAG
 };
 
+#define LOGO_FRAME                      10,     10,     280,    65
+#define WELCOME_LABEL_FRAME             10,     90,     280,    25
+#define TEXT_FIELD_FRAME                10,     85,     280,    35
+#define BUTTON_SUBVIEW_FRAME            10,     130,    280,    40
+#define BIG_SIGN_IN_BUTTON_FRAME        0,      0,      280,    40
+#define BACK_TO_PROVIDERS_BUTTON_FRAME  0,      0,      135,    40
+#define SMALL_SIGN_IN_BUTTON_FRAME      145,    0,      135,    40
+
+//#define BACK_TO_PROVIDERS_BUTTON_FRAME(orientation)                    \
+//                        (UIDeviceOrientationIsPortrait(orientation)) ? \
+//                               155,    130,    135,    40            : \
+//                               325,    80,     135,    40
+//
+//#define SMALL_SIGNIN_BUTTON_FRAME(orientation)                         \
+//                        (UIDeviceOrientationIsPortrait(orientation)) ? \
+//                               10.0,     130.0,    135.0,    40.0    : \
+//                               325.0,    130.0,    135.0,    40.0
+
+#define TABLE_VIEW_CELL [myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+
+- (UITableViewCell*)getTableCell
+{
+    return [myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+}
+
 - (UIImageView*)getLogo:(UITableViewCell*)cell
 {
     if (cell)
         return (UIImageView*)[cell.contentView viewWithTag:LOGO_TAG];
 
     UIImageView *logo;
-    logo = [[[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 280, 65)] autorelease];
+    logo = [[[UIImageView alloc] initWithFrame:CGRectMake(LOGO_FRAME)] autorelease];//CGRectMake(10, 10, 280, 65)] autorelease];
+
+    logo.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
+    logo.contentMode = UIViewContentModeCenter;
 
     logo.tag = LOGO_TAG;
 
@@ -272,13 +307,14 @@ enum
         return (UILabel*)[cell.contentView viewWithTag:WELCOME_LABEL_TAG];
 
     UILabel *welcomeLabel;
-    welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(10, 90, 280, 25)] autorelease];
+    welcomeLabel = [[[UILabel alloc] initWithFrame:CGRectMake(WELCOME_LABEL_FRAME)] autorelease];//CGRectMake(10, 90, 280, 25)] autorelease];
 
     welcomeLabel.font = [UIFont boldSystemFontOfSize:20.0];
 
     welcomeLabel.adjustsFontSizeToFitWidth = YES;
     welcomeLabel.textColor = [UIColor blackColor];
     welcomeLabel.backgroundColor = [UIColor clearColor];
+    welcomeLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 
     welcomeLabel.tag = WELCOME_LABEL_TAG;
 
@@ -291,7 +327,7 @@ enum
         return (UITextField*)[cell.contentView viewWithTag:TEXT_FIELD_TAG];
 
     UITextField *textField;
-    textField = [[[UITextField alloc] initWithFrame:CGRectMake(10, 85, 280, 35)] autorelease];
+    textField = [[[UITextField alloc] initWithFrame:CGRectMake(TEXT_FIELD_FRAME)] autorelease];//CGRectMake(10, 85, 280, 35)] autorelease];
 
     textField.font = [UIFont systemFontOfSize:15.0];
 
@@ -306,6 +342,7 @@ enum
     textField.keyboardType = UIKeyboardTypeURL;
     textField.returnKeyType = UIReturnKeyDone;
     textField.enablesReturnKeyAutomatically = YES;
+    textField.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
 
     textField.delegate = self;
 
@@ -322,7 +359,10 @@ enum
 
     UIButton *signInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    [signInButton setFrame:CGRectMake(155, 130, 135, 40)];
+//    CGRect rect = CGRectMake(SMALL_SIGNIN_BUTTON_FRAME(self.interfaceOrientation));
+//    DLog(@"XXXXXXX %f, %f, %f, %f", SMALL_SIGNIN_BUTTON_FRAME(self.interfaceOrientation));//rect.origin.x, rect.origin.y, rect.size.width, rect.size.width);
+
+    [signInButton setFrame:CGRectMake(SMALL_SIGN_IN_BUTTON_FRAME)];//(self.interfaceOrientation))];//CGRectMake(155, 130, 135, 40)];
     [signInButton setBackgroundImage:[UIImage imageNamed:@"button_iosblue_135x40.png"]
                             forState:UIControlStateNormal];
 
@@ -333,6 +373,7 @@ enum
                              forState:UIControlStateNormal];
 
     signInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+    //signInButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 
     [signInButton addTarget:self
                      action:@selector(signInButtonTouchUpInside:)
@@ -350,7 +391,7 @@ enum
 
     UIButton *backToProvidersButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    [backToProvidersButton setFrame:CGRectMake(10, 130, 135, 40)];
+    [backToProvidersButton setFrame:CGRectMake(BACK_TO_PROVIDERS_BUTTON_FRAME)];//(self.interfaceOrientation))];//CGRectMake(10, 130, 135, 40)];
     [backToProvidersButton setBackgroundImage:[UIImage imageNamed:@"button_black_135x40.png"]
                                      forState:UIControlStateNormal];
 
@@ -361,6 +402,7 @@ enum
                                       forState:UIControlStateNormal];
 
     backToProvidersButton.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
+    //backToProvidersButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 
     [backToProvidersButton addTarget:self
                               action:@selector(backToProvidersTouchUpInside)
@@ -377,7 +419,7 @@ enum
 
     UIButton *bigSignInButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    [bigSignInButton setFrame:CGRectMake(10, 130, 280, 40)];
+    [bigSignInButton setFrame:CGRectMake(BIG_SIGN_IN_BUTTON_FRAME)];//CGRectMake(10, 130, 280, 40)];
     [bigSignInButton setBackgroundImage:[UIImage imageNamed:@"button_iosblue_280x40.png"]
                                forState:UIControlStateNormal];
 
@@ -388,6 +430,7 @@ enum
                                 forState:UIControlStateNormal];
 
     bigSignInButton.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+    //bigSignInButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 
     [bigSignInButton addTarget:self
                         action:@selector(signInButtonTouchUpInside:)
@@ -412,25 +455,43 @@ enum
         cell = [[[UITableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cachedCell"] autorelease];
 
+        [cell.contentView setFrame:CGRectMake(10, 0, 300, 180)];
+        DLog(@"cell content view frame: %f, %f, %f, %f", frame_a(cell.contentView));
+
+        UIView *buttonSubview = [[[UIView alloc] initWithFrame:CGRectMake(BUTTON_SUBVIEW_FRAME)] autorelease];
+
+        [buttonSubview setAutoresizingMask:UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin];
+
+        [buttonSubview addSubview:[self getSignInButton:nil]];
+        [buttonSubview addSubview:[self getBackToProvidersButton:nil]];
+        [buttonSubview addSubview:[self getBigSignInButton:nil]];
+
         [cell.contentView addSubview:[self getLogo:nil]];
         [cell.contentView addSubview:[self getWelcomeLabel:nil]];
         [cell.contentView addSubview:[self getTextField:nil]];
-        [cell.contentView addSubview:[self getSignInButton:nil]];
-        [cell.contentView addSubview:[self getBackToProvidersButton:nil]];
-        [cell.contentView addSubview:[self getBigSignInButton:nil]];
+
+        [cell.contentView addSubview:buttonSubview];
 
         cell.backgroundColor = [UIColor whiteColor];
 
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
+//    DLog(@"logo: %f, %f, %f, %f", frame_a([self getLogo:cell]));
+//    DLog(@"welcome: %f, %f, %f, %f", frame_a([self getWelcomeLabel:cell]));
+//    DLog(@"text field: %f, %f, %f, %f", frame_a([self getTextField:cell]));
+//    DLog(@"left button: %f, %f, %f, %f", frame_a([self getBackToProvidersButton:cell]));
+//    DLog(@"right button: %f, %f, %f, %f", frame_a([self getSignInButton:cell]));
+//    DLog(@"big button: %f, %f, %f, %f", frame_a([self getBigSignInButton:cell]));
+
+
     NSString *imagePath = [NSString stringWithFormat:@"logo_%@_280x65.png", sessionData.currentProvider.name];
 
     [self getLogo:cell].image = [UIImage imageNamed:imagePath];
 
-    UITextField *textField = [self getTextField:cell];
+    UITextField *textField       = [self getTextField:cell];
     UIButton    *bigSignInButton = [self getBigSignInButton:cell];
-    UILabel     *welcomeLabel = [self getWelcomeLabel:cell];
+    UILabel     *welcomeLabel    = [self getWelcomeLabel:cell];
 
  /* If the provider requires input, we need to enable the textField, and set the text/placeholder text to the appropriate string */
     if (sessionData.currentProvider.requiresInput)
@@ -473,10 +534,60 @@ enum
     return cell;
 }
 
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+//}
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if (sessionData.canRotate)
+        return YES;
+
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#define TABLE_VIEW_FRAME_LANDSCAPE_SMALL    0,  0,  480,  120
+#define TABLE_VIEW_FRAME_LANDSCAPE_BIG      0,  0,  480,  268
+#define TABLE_VIEW_FRAME_PORTRAIT           0,  0,  320,  416
+
+- (void)shrinkTableViewLandscape
+{
+    [myTableView setFrame:CGRectMake(TABLE_VIEW_FRAME_LANDSCAPE_SMALL)];
+    [myTableView scrollRectToVisible:CGRectMake(BUTTON_SUBVIEW_FRAME) animated:YES];
+}
+
+- (void)growTableViewLandscape
+{
+    [myTableView setFrame:CGRectMake(TABLE_VIEW_FRAME_LANDSCAPE_BIG)];
+}
+
+- (void)growTableViewPortrait
+{
+    [myTableView setFrame:CGRectMake(TABLE_VIEW_FRAME_PORTRAIT)];
+}
+
+- (void)adjustTableViewFrame
+{
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) // sessionData.currentProvider.requiresInput
+    {
+        if ([[self getTextField:[self getTableCell]] isFirstResponder])
+            [self shrinkTableViewLandscape];
+        else
+            [self growTableViewLandscape];
+    }
+    else
+    {
+        [self growTableViewPortrait];
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    DLog(@"table view frame: %f, %f, %f, %f", frame_a(myTableView));
+
+
+    [self adjustTableViewFrame];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range
@@ -495,7 +606,8 @@ enum
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     DLog(@"");
-    [textField becomeFirstResponder];
+    //[textField becomeFirstResponder];
+    [self adjustTableViewFrame];
 }
 
 - (void)callWebView:(UITextField *)textField
@@ -507,6 +619,7 @@ enum
         if (textField.text.length > 0)
         {
             [textField resignFirstResponder];
+            [self adjustTableViewFrame];
 
             sessionData.currentProvider.userInput = [NSString stringWithString:textField.text];
         }
@@ -530,6 +643,7 @@ enum
 {
     DLog(@"");
     [textField resignFirstResponder];
+    [self adjustTableViewFrame];
 }
 
 - (void)backToProvidersTouchUpInside
@@ -548,11 +662,40 @@ enum
 - (void)signInButtonTouchUpInside:(UIButton*)button
 {
     DLog(@"");
-    UITableViewCell* cell = (UITableViewCell*)[[button superview] superview];
-    UITextField *textField = [self getTextField:cell];
+//    UITableViewCell *cell      = (UITableViewCell*)[[button superview] superview];
+    UITextField *textField = [self getTextField:[self getTableCell]];//cell];
 
     [self callWebView:textField];
 }
+
+////- (void)willAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+////                                                    duration:(NSTimeInterval)duration
+//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+//{
+////    [[self getSignInButton:[self getTableCell]] setAlpha:0.0];
+////    [[self getBackToProvidersButton:[self getTableCell]] setAlpha:0.0];
+////    [[self getBigSignInButton:[self getTableCell]] setAlpha:0.0];
+//
+//    [[self getSignInButton:[self getTableCell]] setFrame:CGRectMake(SMALL_SIGNIN_BUTTON_FRAME(interfaceOrientation))];
+//    [[self getBackToProvidersButton:[self getTableCell]] setFrame:CGRectMake(BACK_TO_PROVIDERS_BUTTON_FRAME(interfaceOrientation))];
+//
+//}
+
+//- (void)willAnimateSecondHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+//                                                     duration:(NSTimeInterval)duration
+//{
+//    [[self getSignInButton:[self getTableCell]] setAlpha:1.0];
+//    [[self getBackToProvidersButton:[self getTableCell]] setAlpha:1.0];
+//    [[self getBigSignInButton:[self getTableCell]] setAlpha:1.0];
+//}
+//
+//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+//{
+//    UIButton *signInButton = [self getSignInButton:[self getTableCell]];
+//
+//    signInButton.frame = CGRectMake(180, 10, 135, 37);
+//}
+
 
 - (void)userInterfaceWillClose { }
 - (void)userInterfaceDidClose { }
