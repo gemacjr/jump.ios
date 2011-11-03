@@ -524,7 +524,10 @@ Please try again later."
     [myJustShareButton setHidden:!loggedIn];
     [myConnectAndShareButton setHidden:loggedIn];
 
-    [myTriangleIcon setFrame:CGRectMake(loggedIn ? 230 : 151, 0, 18, 18)];
+    [myTriangleIcon setFrame:CGRectMake(loggedIn ?
+            ([myTriangleIcon superview].frame.size.width - 90) :
+            ([myTriangleIcon superview].frame.size.width / 2) - 9, 0, 18, 18)];
+//    [myTriangleIcon setFrame:CGRectMake(loggedIn ? 230 : 151, 0, 18, 18)];
 
     [myProfilePic setHidden:!loggedIn];
     [myUserName setHidden:!loggedIn];
@@ -543,7 +546,10 @@ Please try again later."
     else
         [myConnectAndShareButton setHidden:shared];
 
-    [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ? 230 : 151), 0, 18, 18)];
+    [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ?
+            ([myTriangleIcon superview].frame.size.width - 90) :
+            ([myTriangleIcon superview].frame.size.width / 2) - 9), 0, 18, 18)];
+//    [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ? 230 : 151), 0, 18, 18)];
 
     if (!hidesCancelButton)
     {
@@ -707,15 +713,19 @@ Please try again later."
         [self setProfilePicToDefaultPic];
 }
 
-#define EDITING_HEIGHT_OFFSET 24
-#define USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT 72
-#define USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT 78
-#define CHARACTER_COUNT_DEFAULT_Y_ORIGIN 90
-#define PREVIEW_BOX_DEFAULT_Y_ORIGIN 97//107
-#define USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT (USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//96
+#define EDITING_HEIGHT_OFFSET                     24
+#define USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT     72
+#define USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT  78
+#define CHARACTER_COUNT_DEFAULT_Y_ORIGIN          90
+#define PREVIEW_BOX_DEFAULT_Y_ORIGIN              97//107
+#define USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT    (USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//96
 #define USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT (USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//102
-#define CHARACTER_COUNT_EDITING_Y_ORIGIN (CHARACTER_COUNT_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)//114
-#define PREVIEW_BOX_EDITING_Y_ORIGIN (PREVIEW_BOX_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)
+#define CHARACTER_COUNT_EDITING_Y_ORIGIN         (CHARACTER_COUNT_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)//114
+#define PREVIEW_BOX_EDITING_Y_ORIGIN             (PREVIEW_BOX_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)
+#define SCROLL_VIEW_DEFAULT_HEIGHT_PORTRAIT       264
+#define SCROLL_VIEW_DEFAULT_HEIGHT_LANDSCAPE      116
+#define SCROLL_VIEW_EDITING_HEIGHT_PORTRAIT       200
+#define SCROLL_VIEW_EDITING_HEIGHT_LANDSCAPE      106
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
@@ -904,16 +914,31 @@ Please try again later."
                        myEntirePreviewContainer.frame.size.width,
                        myEntirePreviewContainer.frame.size.height)];
 
+    CGFloat scrollViewContentHeight = myEntirePreviewContainer.frame.origin.y +
+                                      myEntirePreviewContainer.frame.size.height + 10;
+
     // TODO: Don't make scroll view size so tall if rich data isn't very tall.
     [myPadGrayEditingViewTop setFrame:
             CGRectMake(myPadGrayEditingViewTop.frame.origin.x,
                        myPadGrayEditingViewTop.frame.origin.y,
-                       myPadGrayEditingViewTop.frame.size.width, 350)];
+                       myPadGrayEditingViewTop.frame.size.width,// 350)];
+                       scrollViewContentHeight)];
 
-    [myScrollView setContentSize:CGSizeMake(320, 350)];
+    [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];//320, 350)];
+
+    DLog(@"scrollViewContentHeight: %f", scrollViewContentHeight);
 
     if (!iPad)
     {
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+            [myScrollView setFrame:
+                CGRectMake(myScrollView.frame.origin.x, myScrollView.frame.origin.y,
+                           myScrollView.frame.size.width, SCROLL_VIEW_EDITING_HEIGHT_PORTRAIT)];
+        else
+            [myScrollView setFrame:
+                CGRectMake(myScrollView.frame.origin.x, myScrollView.frame.origin.y,
+                           myScrollView.frame.size.width, SCROLL_VIEW_EDITING_HEIGHT_LANDSCAPE)];
+
         [UIView commitAnimations];
     }
     else
@@ -982,15 +1007,30 @@ Please try again later."
                        myEntirePreviewContainer.frame.size.width,
                        myEntirePreviewContainer.frame.size.height)];
 
+    CGFloat scrollViewContentHeight = myEntirePreviewContainer.frame.origin.y +
+                                      myEntirePreviewContainer.frame.size.height + 10;
+
+    DLog(@"scrollViewContentHeight: %f", scrollViewContentHeight);
+
     [myPadGrayEditingViewTop setFrame:
              CGRectMake(myPadGrayEditingViewTop.frame.origin.x,
                         myPadGrayEditingViewTop.frame.origin.y,
-                        myPadGrayEditingViewTop.frame.size.width, 264)];
+                        myPadGrayEditingViewTop.frame.size.width,// 264)];
+                        scrollViewContentHeight)];
 
-    [myScrollView setContentSize:CGSizeMake(320, myScrollView.frame.size.height)];
+    [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];//320, myScrollView.frame.size.height)];
 
     if (!iPad)
     {
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+            [myScrollView setFrame:
+                CGRectMake(myScrollView.frame.origin.x, myScrollView.frame.origin.y,
+                           myScrollView.frame.size.width, SCROLL_VIEW_DEFAULT_HEIGHT_PORTRAIT)];
+        else
+            [myScrollView setFrame:
+                CGRectMake(myScrollView.frame.origin.x, myScrollView.frame.origin.y,
+                           myScrollView.frame.size.width, SCROLL_VIEW_DEFAULT_HEIGHT_LANDSCAPE)];
+
         [UIView commitAnimations];
     }
     else
@@ -1041,6 +1081,11 @@ Please try again later."
                                              myRichDataContainer.frame.size.width,
                                              myRichDataContainer.frame.size.height)];
     [self adjustRichDataContainerVisibility];
+
+    CGFloat scrollViewContentHeight = myEntirePreviewContainer.frame.origin.y +
+                                      myEntirePreviewContainer.frame.size.height + 10;
+
+    [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];
 }
 
 - (void)sendEmail
@@ -1885,6 +1930,23 @@ Please try again later."
         return YES;
 
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+                                         duration:(NSTimeInterval)duration
+{
+    [myTriangleIcon setFrame:CGRectMake([alreadyShared containsObject:selectedProvider.name] ?
+            25 :
+            ((loggedInUser) ?
+                ([myTriangleIcon superview].frame.size.width - 90) :
+                ([myTriangleIcon superview].frame.size.width / 2) - 9), 0, 18, 18)];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [myUserCommentBoundingBox setNeedsDisplay];
+    [myPreviewContainerRoundedRect setNeedsDisplay];
+    [myRichDataContainer setNeedsDisplay];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
