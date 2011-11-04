@@ -41,7 +41,6 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import <UIKit/UIKit.h>
-#import <CoreGraphics/CoreGraphics.h>
 #import "JRPublishActivityController.h"
 #import "JREngage+CustomInterface.h"
 
@@ -123,15 +122,15 @@
     DLog(@"");
     if ((self = [super initWithCoder:decoder]))
     {
-        self.outerStrokeColor = OUTER_STROKE_COLOR;
-        self.innerStrokeColor = INNER_STROKE_COLOR;
-        self.outerFillColor = OUTER_FILL_COLOR;
-        self.innerFillColor = INNER_FILL_COLOR;
-        self.outerStrokeWidth = OUTER_STROKE_WIDTH;
-        self.innerStrokeWidth = INNER_STROKE_WIDTH;
+        self.outerStrokeColor  = OUTER_STROKE_COLOR;
+        self.innerStrokeColor  = INNER_STROKE_COLOR;
+        self.outerFillColor    = OUTER_FILL_COLOR;
+        self.innerFillColor    = INNER_FILL_COLOR;
+        self.outerStrokeWidth  = OUTER_STROKE_WIDTH;
+        self.innerStrokeWidth  = INNER_STROKE_WIDTH;
         self.outerCornerRadius = OUTER_CORNER_RADIUS;
         self.innerCornerRadius = INNER_CORNER_RADIUS;
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor   = [UIColor clearColor];
     }
     return self;
 }
@@ -140,16 +139,16 @@
     DLog(@"");
     if ((self = [super initWithFrame:frame]))
     {
-        self.opaque = NO;
-        self.outerStrokeColor = OUTER_STROKE_COLOR;
-        self.innerStrokeColor = INNER_STROKE_COLOR;
-        self.outerFillColor = OUTER_FILL_COLOR;
-        self.innerFillColor = INNER_FILL_COLOR;
-        self.outerStrokeWidth = OUTER_STROKE_WIDTH;
-        self.innerStrokeWidth = INNER_STROKE_WIDTH;
+        self.opaque            = NO;
+        self.outerStrokeColor  = OUTER_STROKE_COLOR;
+        self.innerStrokeColor  = INNER_STROKE_COLOR;
+        self.outerFillColor    = OUTER_FILL_COLOR;
+        self.innerFillColor    = INNER_FILL_COLOR;
+        self.outerStrokeWidth  = OUTER_STROKE_WIDTH;
+        self.innerStrokeWidth  = INNER_STROKE_WIDTH;
         self.outerCornerRadius = OUTER_CORNER_RADIUS;
         self.innerCornerRadius = INNER_CORNER_RADIUS;
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor   = [UIColor clearColor];
     }
     return self;
 }
@@ -174,7 +173,6 @@
     CGContextSetLineWidth(context, strokeWidth);
     CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);
     CGContextSetFillColorWithColor(context, fillColor.CGColor);
-
 
     CGFloat width = CGRectGetWidth(rrect);
     CGFloat height = CGRectGetHeight(rrect);
@@ -205,13 +203,15 @@
     DLog(@"");
 
     [self drawRoundedRect:self.bounds
-        withRadius:outerCornerRadius strokeWidth:outerStrokeWidth
-        strokeColor:outerStrokeColor andFillColor:outerFillColor];
+               withRadius:outerCornerRadius strokeWidth:outerStrokeWidth
+              strokeColor:outerStrokeColor andFillColor:outerFillColor];
 
     if (drawInnerRect)
-        [self drawRoundedRect:CGRectMake(INNER_RECT_INSET, INNER_RECT_INSET, self.bounds.size.width - (2 * INNER_RECT_INSET), self.bounds.size.height - (2 * INNER_RECT_INSET))
-            withRadius:innerCornerRadius strokeWidth:innerStrokeWidth
-            strokeColor:innerStrokeColor andFillColor:innerFillColor];
+        [self drawRoundedRect:CGRectMake(INNER_RECT_INSET, INNER_RECT_INSET,
+                                         self.bounds.size.width - (2 * INNER_RECT_INSET),
+                                         self.bounds.size.height - (2 * INNER_RECT_INSET))
+                   withRadius:innerCornerRadius strokeWidth:innerStrokeWidth
+                  strokeColor:innerStrokeColor andFillColor:innerFillColor];
 }
 
 - (void)dealloc {
@@ -244,7 +244,7 @@
 @synthesize myBackgroundView, myTabBar, myLoadingLabel, myLoadingActivitySpinner, myLoadingGrayView,
             myPadGrayEditingViewTop, myPadGrayEditingViewBottom, myContentView, myScrollView, myUserCommentTextView,
             myUserCommentBoundingBox, myRemainingCharactersLabel, myEntirePreviewContainer, myPreviewContainerRoundedRect,
-myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMediaThumbnailActivityIndicator,
+            myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMediaThumbnailActivityIndicator,
             myTitleLabel, myDescriptionLabel, myInfoButton, myPoweredByLabel, myProviderIcon, myShareToView,
             myTriangleIcon, myConnectAndShareButton, myJustShareButton, myProfilePic, myProfilePicActivityIndicator,
             myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
@@ -270,7 +270,7 @@ myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMed
 
     [super viewDidLoad];
 
-    sessionData = [JRSessionData jrSessionData];
+    sessionData     = [JRSessionData jrSessionData];
     currentActivity = [[sessionData activity] retain];
 
  /* There's a slight chance that their capacities could be 0, but that's OK; they're mutable. */
@@ -303,25 +303,25 @@ myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMed
     if (!hidesCancelButton)
     {
         UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc]
-                                          initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                          target:sessionData
-                                          action:@selector(triggerPublishingDidCancel:)] autorelease];
+                                initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                     target:sessionData
+                                                     action:@selector(triggerPublishingDidCancel:)] autorelease];
 
-        self.navigationItem.leftBarButtonItem = cancelButton;
+        self.navigationItem.leftBarButtonItem         = cancelButton;
         self.navigationItem.leftBarButtonItem.enabled = YES;
 
-        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
+        self.navigationItem.leftBarButtonItem.style   = UIBarButtonItemStyleBordered;
     }
 
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc]
-                                    initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-                                    target:self
-                                    action:@selector(editButtonPressed:)] autorelease];
+                                initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                     target:self
+                                                     action:@selector(editButtonPressed:)] autorelease];
 
-    self.navigationItem.rightBarButtonItem = editButton;
+    self.navigationItem.rightBarButtonItem         = editButton;
     self.navigationItem.rightBarButtonItem.enabled = YES;
 
-    self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
     if ([sessionData hidePoweredBy])
     {
@@ -397,13 +397,13 @@ myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMed
     if (!titleView)
     {
         UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
-        titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-        titleLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-        titleLabel.textAlignment = UITextAlignmentCenter;
-        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.backgroundColor           = [UIColor clearColor];
+        titleLabel.font                      = [UIFont boldSystemFontOfSize:20.0];
+        titleLabel.shadowColor               = [UIColor colorWithWhite:0.0 alpha:0.5];
+        titleLabel.textAlignment             = UITextAlignmentCenter;
+        titleLabel.textColor                 = [UIColor whiteColor];
         titleLabel.adjustsFontSizeToFitWidth = YES;
-        titleLabel.minimumFontSize = 18.0;
+        titleLabel.minimumFontSize           = 18.0;
 
         if ([customInterface objectForKey:kJRSocialSharingTitleString])
             titleLabel.text = NSLocalizedString([customInterface objectForKey:kJRSocialSharingTitleString], @"");
@@ -412,7 +412,7 @@ myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMed
         else
             titleLabel.text = NSLocalizedString(@"Share", @"");
 
-        titleView = [(UIView*)titleLabel retain];
+        titleView = [titleLabel retain];
         self.navigationItem.titleView = titleView;
     }
 
@@ -474,12 +474,10 @@ myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMed
         [self showViewIsLoading:NO];
 
         UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers" message:
-
 @"There are no available providers. \
 Either there is a problem connecting \
 or no providers have been configured. \
 Please try again later."
-
                                                         delegate:self
                                                cancelButtonTitle:@"OK"
                                                otherButtonTitles:nil] autorelease];
@@ -497,7 +495,7 @@ Please try again later."
     DLog(@"");
 
     /* Don't let the user edit or cancel while the activity is being shared */
-    self.navigationItem.leftBarButtonItem.enabled = !loading;
+    self.navigationItem.leftBarButtonItem.enabled  = !loading;
     self.navigationItem.rightBarButtonItem.enabled = !loading;
 
     UIApplication* app = [UIApplication sharedApplication];
@@ -527,6 +525,7 @@ Please try again later."
     [myTriangleIcon setFrame:CGRectMake(loggedIn ?
             ([myTriangleIcon superview].frame.size.width - 90) :
             ([myTriangleIcon superview].frame.size.width / 2) - 9, 0, 18, 18)];
+
 //    [myTriangleIcon setFrame:CGRectMake(loggedIn ? 230 : 151, 0, 18, 18)];
 
     [myProfilePic setHidden:!loggedIn];
@@ -549,6 +548,7 @@ Please try again later."
     [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ?
             ([myTriangleIcon superview].frame.size.width - 90) :
             ([myTriangleIcon superview].frame.size.width / 2) - 9), 0, 18, 18)];
+
 //    [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ? 230 : 151), 0, 18, 18)];
 
     if (!hidesCancelButton)
@@ -569,7 +569,7 @@ Please try again later."
             self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
         }
 
-        self.navigationItem.leftBarButtonItem = barButton;
+        self.navigationItem.leftBarButtonItem         = barButton;
         self.navigationItem.leftBarButtonItem.enabled = YES;
     }
 }
@@ -645,7 +645,7 @@ Please try again later."
         else
         {
             int preview_length = [[myPreviewOfTheUserCommentLabel text] length];
-            chars_remaining = maxCharacters - preview_length;
+            chars_remaining    = maxCharacters - preview_length;
 
             characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
         }
@@ -653,7 +653,7 @@ Please try again later."
     else
     { /* Facebook, Yahoo */
         int comment_length = [[myUserCommentTextView text] length];
-        chars_remaining = maxCharacters - comment_length;
+        chars_remaining    = maxCharacters - comment_length;
 
         characterCountText = [NSString stringWithFormat:@"Remaining characters: %d", chars_remaining]; // TODO: Make just character number red
     }
@@ -717,11 +717,11 @@ Please try again later."
 #define USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT     72
 #define USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT  78
 #define CHARACTER_COUNT_DEFAULT_Y_ORIGIN          90
-#define PREVIEW_BOX_DEFAULT_Y_ORIGIN              97//107
-#define USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT    (USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//96
-#define USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT (USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)//102
-#define CHARACTER_COUNT_EDITING_Y_ORIGIN         (CHARACTER_COUNT_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)//114
-#define PREVIEW_BOX_EDITING_Y_ORIGIN             (PREVIEW_BOX_DEFAULT_Y_ORIGIN + EDITING_HEIGHT_OFFSET)
+#define PREVIEW_BOX_DEFAULT_Y_ORIGIN              97
+#define USER_CONTENT_TEXT_VIEW_EDITING_HEIGHT    (USER_CONTENT_TEXT_VIEW_DEFAULT_HEIGHT    + EDITING_HEIGHT_OFFSET)
+#define USER_CONTENT_BOUNDING_BOX_EDITING_HEIGHT (USER_CONTENT_BOUNDING_BOX_DEFAULT_HEIGHT + EDITING_HEIGHT_OFFSET)
+#define CHARACTER_COUNT_EDITING_Y_ORIGIN         (CHARACTER_COUNT_DEFAULT_Y_ORIGIN         + EDITING_HEIGHT_OFFSET)
+#define PREVIEW_BOX_EDITING_Y_ORIGIN             (PREVIEW_BOX_DEFAULT_Y_ORIGIN             + EDITING_HEIGHT_OFFSET)
 #define SCROLL_VIEW_DEFAULT_HEIGHT_PORTRAIT       264
 #define SCROLL_VIEW_DEFAULT_HEIGHT_LANDSCAPE      116
 #define SCROLL_VIEW_EDITING_HEIGHT_PORTRAIT       200
@@ -888,7 +888,6 @@ Please try again later."
     [self showActivityAsShared:NO];
 
     [UIView beginAnimations:@"editing" context:nil];
-    //[UIView setAnimationDuration:2.0];
 
     [myUserCommentTextView setFrame:
             CGRectMake(myUserCommentTextView.frame.origin.x,
@@ -917,14 +916,13 @@ Please try again later."
     CGFloat scrollViewContentHeight = myEntirePreviewContainer.frame.origin.y +
                                       myEntirePreviewContainer.frame.size.height + 10;
 
-    // TODO: Don't make scroll view size so tall if rich data isn't very tall.
     [myPadGrayEditingViewTop setFrame:
             CGRectMake(myPadGrayEditingViewTop.frame.origin.x,
                        myPadGrayEditingViewTop.frame.origin.y,
-                       myPadGrayEditingViewTop.frame.size.width,// 350)];
+                       myPadGrayEditingViewTop.frame.size.width,
                        scrollViewContentHeight)];
 
-    [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];//320, 350)];
+    [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];
 
     DLog(@"scrollViewContentHeight: %f", scrollViewContentHeight);
 
@@ -952,13 +950,13 @@ Please try again later."
     }
 
     UIBarButtonItem *doneButton = [[[UIBarButtonItem alloc]
-                                    initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                    target:self
-                                    action:@selector(doneButtonPressed:)] autorelease];
+                        initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                             target:self
+                                             action:@selector(doneButtonPressed:)] autorelease];
 
-    self.navigationItem.rightBarButtonItem = doneButton;
+    self.navigationItem.rightBarButtonItem         = doneButton;
     self.navigationItem.rightBarButtonItem.enabled = YES;
-    self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleDone;
 
     return YES;
 }
@@ -982,7 +980,6 @@ Please try again later."
                 ([self shouldHideRemainingCharacterCount] ? 0 : 10);
 
     [UIView beginAnimations:@"editing" context:nil];
-    //[UIView setAnimationDuration:2.0];
     [myUserCommentTextView setFrame:
             CGRectMake(myUserCommentTextView.frame.origin.x,
                        myUserCommentTextView.frame.origin.y,
@@ -1015,10 +1012,10 @@ Please try again later."
     [myPadGrayEditingViewTop setFrame:
              CGRectMake(myPadGrayEditingViewTop.frame.origin.x,
                         myPadGrayEditingViewTop.frame.origin.y,
-                        myPadGrayEditingViewTop.frame.size.width,// 264)];
+                        myPadGrayEditingViewTop.frame.size.width,
                         scrollViewContentHeight)];
 
-    [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];//320, myScrollView.frame.size.height)];
+    [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];
 
     if (!iPad)
     {
@@ -1046,13 +1043,13 @@ Please try again later."
     [myPreviewContainerRoundedRect setNeedsDisplay];
 
     UIBarButtonItem *editButton = [[[UIBarButtonItem alloc]
-                                    initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-                                    target:self
-                                    action:@selector(editButtonPressed:)] autorelease];
+                        initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                             target:self
+                                             action:@selector(editButtonPressed:)] autorelease];
 
-    self.navigationItem.rightBarButtonItem = editButton;
+    self.navigationItem.rightBarButtonItem         = editButton;
     self.navigationItem.rightBarButtonItem.enabled = YES;
-    self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
     if (myUserCommentTextView.text.length > 0)
         [myUserCommentTextView scrollRangeToVisible:NSMakeRange(0, 1)];
@@ -1196,13 +1193,13 @@ Please try again later."
     if (!data)
     {
         [button setImage:nil forState:UIControlStateNormal];
-        button.backgroundColor = [UIColor darkGrayColor];
+        [button setBackgroundColor:[UIColor darkGrayColor]];
     }
     else
     {
         [button setImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-        button.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        button.backgroundColor = [UIColor whiteColor];
+        [button.imageView setContentMode:UIViewContentModeScaleAspectFill];
+        [button setBackgroundColor:[UIColor whiteColor]];
     }
 
     if (loading)
@@ -1223,9 +1220,9 @@ Please try again later."
     DLog(@"");
     [self setButtonImage:myProfilePic toData:nil andSetLoading:myProfilePicActivityIndicator toLoading:YES];
 
-    NSURL        *url = [NSURL URLWithString:profilePicUrl];
+    NSURL        *url     = [NSURL URLWithString:profilePicUrl];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    NSString     *tag = [providerName retain];
+    NSString     *tag     = [providerName retain];
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
         [self setProfilePicToDefaultPic];
@@ -1241,9 +1238,9 @@ Please try again later."
         DLog (@"Downloading image thumbnail: %@", ((JRImageMediaObject*)media).src);
         [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
 
-        NSURL        *url = [NSURL URLWithString:((JRImageMediaObject*)media).src];
+        NSURL        *url     = [NSURL URLWithString:((JRImageMediaObject *) media).src];
         NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-        NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+        NSString     *tag     = [[NSString alloc] initWithFormat:@"getThumbnail"];
 
         if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
@@ -1253,9 +1250,9 @@ Please try again later."
         DLog (@"Downloading image thumbnail: %@", ((JRFlashMediaObject*)media).imgsrc);
         [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:YES];
 
-        NSURL        *url = [NSURL URLWithString:((JRFlashMediaObject*)media).imgsrc];
+        NSURL        *url     = [NSURL URLWithString:((JRFlashMediaObject *) media).imgsrc];
         NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-        NSString     *tag = [[NSString alloc] initWithFormat:@"getThumbnail"];
+        NSString     *tag     = [[NSString alloc] initWithFormat:@"getThumbnail"];
 
         if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
@@ -1497,8 +1494,8 @@ Please try again later."
 {
     DLog(@"");
 
-    NSInteger numberOfTabs = [[sessionData socialProviders] count];
-    NSInteger indexOfLastUsedProvider = 0;
+    NSUInteger numberOfTabs = [[sessionData socialProviders] count];
+    NSUInteger indexOfLastUsedProvider = 0;
     BOOL weShouldAddTabForEmailAndOrSms = (BOOL)emailAndOrSmsIndex;
 
     if (weShouldAddTabForEmailAndOrSms)
@@ -1506,7 +1503,7 @@ Please try again later."
 
     NSMutableArray *providerTabArr = [[NSMutableArray alloc] initWithCapacity:numberOfTabs];
 
-    for (int i = 0; i < [[sessionData socialProviders] count]; i++)
+    for (NSUInteger i = 0; i < [[sessionData socialProviders] count]; i++)
     {
         JRProvider *provider = [[sessionData getSocialProviderAtIndex:i] retain];
 
@@ -1533,8 +1530,7 @@ Please try again later."
 
         UITabBarItem *emailTab =  [[[UITabBarItem alloc] initWithTitle:simpleStrArray[((int)emailAndOrSmsIndex - 1)]
                                                                  image:[UIImage imageNamed:
-                                                                        [NSString stringWithFormat:
-                                                                         @"icon_bw_%@_30x30.png",
+                                                                        [NSString stringWithFormat:@"icon_bw_%@_30x30.png",
                                                                          simpleStrArray[((int)emailAndOrSmsIndex + 2)]]]
                                                                    tag:[providerTabArr count]] autorelease];
 

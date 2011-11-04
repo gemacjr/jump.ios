@@ -97,7 +97,7 @@ typedef enum
     BOOL hasCoreText;
 
     EmailOrSms emailAndOrSmsIndex;
-    int selectedTab;
+    NSUInteger selectedTab;
 
     NSString *shortenedActivityUrl;
     NSInteger maxCharacters;
