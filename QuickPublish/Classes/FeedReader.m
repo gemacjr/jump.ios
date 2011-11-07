@@ -383,7 +383,7 @@ static FeedReader* singleton = nil;
     NSDictionary *janrain_blog_dictionary = nil;
     
     if (!error)
-        janrain_blog_dictionary = [janrain_blog_json JSONValue];  
+        janrain_blog_dictionary = [janrain_blog_json objectFromJSONString];//[janrain_blog_json JSONValue];  
     else
         error = nil;
     
@@ -395,7 +395,7 @@ static FeedReader* singleton = nil;
         if (error)
             return;
         
-        janrain_blog_dictionary = [janrain_blog_json JSONValue];  
+        janrain_blog_dictionary = [janrain_blog_json objectFromJSONString];//[janrain_blog_json JSONValue];  
         
         if (!janrain_blog_json)
             return;

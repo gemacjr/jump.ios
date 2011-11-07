@@ -743,12 +743,12 @@ static JRSessionData* singleton = nil;
 {
     ALog (@"Configuration information needs to be updated.");
     
-    /* Make sure that the returned string can be parsed as json (which there should be no reason that this wouldn't happen) */
-    if (![dataStr respondsToSelector:@selector(JSONValue)])
-        return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
-                        withCode:JRJsonError];
+//    /* Make sure that the returned string can be parsed as json (which there should be no reason that this wouldn't happen) */
+//    if (![dataStr respondsToSelector:@selector(JSONValue)])
+//        return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+//                        withCode:JRJsonError];
     
-    NSDictionary *jsonDict = [dataStr JSONValue];
+    NSDictionary *jsonDict = (NSDictionary*)[dataStr objectFromJSONString];//[dataStr JSONValue];
     
     /* Double-check the return value */
     if(!jsonDict)
@@ -1090,7 +1090,7 @@ static JRSessionData* singleton = nil;
     
     DLog (@"activity dictionary: %@", [activityDictionary description]);
     
-    NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONRepresentation];                          
+    NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONString];//JSONRepresentation];                          
     NSString *deviceToken = user.device_token;
         
     NSMutableData* body = [NSMutableData data];
@@ -1132,7 +1132,7 @@ static JRSessionData* singleton = nil;
 {
     ALog (@"Activity sharing response: %@", response);
     
-    NSDictionary *response_dict = [response JSONValue];
+    NSDictionary *response_dict = [response objectFromJSONString];//[response JSONValue];
     
     if (!response_dict)
     {
@@ -1216,7 +1216,7 @@ static JRSessionData* singleton = nil;
     NSDictionary *urls = [NSDictionary dictionaryWithObjectsAndKeys:_activity.email.urls, @"email", _activity.sms.urls, @"sms", nil];
 
     NSString *urlString = [NSString stringWithFormat:@"%@/openid/get_urls?urls=%@",
-                           baseUrl, [[urls JSONRepresentation] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                           baseUrl, [[urls JSONString]/*JSONRepresentation]*/ stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     DLog (@"Getting shortened URLs: %@", urlString);
 	
@@ -1231,7 +1231,7 @@ static JRSessionData* singleton = nil;
 {
     DLog ("Shortened Urls: %@", urls);
     
-    NSDictionary *dict = [urls JSONValue];
+    NSDictionary *dict = [urls objectFromJSONString];//[urls JSONValue];
     
     if (!dict) 
         return;
@@ -1239,8 +1239,8 @@ static JRSessionData* singleton = nil;
     if ([dict objectForKey:@"err"])
         return;
     
-    NSDictionary *emailUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"email"];
-    NSDictionary *smsUrls = [[[urls JSONValue] objectForKey:@"urls"] objectForKey:@"sms"];
+    NSDictionary *emailUrls = [[[urls objectFromJSONString]/*JSONValue]*/ objectForKey:@"urls"] objectForKey:@"email"];
+    NSDictionary *smsUrls = [[[urls objectFromJSONString]/*JSONValue]*/ objectForKey:@"urls"] objectForKey:@"sms"];
     
     for (NSString *key in [emailUrls allKeys])
     {
