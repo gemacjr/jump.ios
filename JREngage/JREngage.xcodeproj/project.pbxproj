@@ -12,6 +12,8 @@
 		9F5F5A6F14686B5900158A87 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F5A6D14686B5900158A87 /* JSONKit.m */; };
 		9F608B3A143F7E98002F4439 /* JRPreviewLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F608B38143F7E98002F4439 /* JRPreviewLabel.h */; };
 		9F608B3B143F7E98002F4439 /* JRPreviewLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F608B39143F7E98002F4439 /* JRPreviewLabel.m */; };
+		9F7BC0111468888C0068BD40 /* SFHFKeychainUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F7BC00F1468888C0068BD40 /* SFHFKeychainUtils.h */; };
+		9F7BC0121468888C0068BD40 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7BC0101468888C0068BD40 /* SFHFKeychainUtils.m */; };
 		9F96D60F12EA0462002D06B4 /* JREngage+CustomInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F96D60D12EA0462002D06B4 /* JREngage+CustomInterface.h */; };
 		9F96D61012EA0462002D06B4 /* JREngage+CustomInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F96D60E12EA0462002D06B4 /* JREngage+CustomInterface.m */; };
 		9FED512E124020C2004684F2 /* JRActivityObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FED5118124020C2004684F2 /* JRActivityObject.h */; };
@@ -183,6 +185,8 @@
 		9F5F5A6D14686B5900158A87 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		9F608B38143F7E98002F4439 /* JRPreviewLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPreviewLabel.h; path = Classes/JRPreviewLabel.h; sourceTree = SOURCE_ROOT; };
 		9F608B39143F7E98002F4439 /* JRPreviewLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPreviewLabel.m; path = Classes/JRPreviewLabel.m; sourceTree = SOURCE_ROOT; };
+		9F7BC00F1468888C0068BD40 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFHFKeychainUtils.h; path = Security/SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		9F7BC0101468888C0068BD40 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFHFKeychainUtils.m; path = Security/SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		9F96D60D12EA0462002D06B4 /* JREngage+CustomInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JREngage+CustomInterface.h"; sourceTree = "<group>"; };
 		9F96D60E12EA0462002D06B4 /* JREngage+CustomInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JREngage+CustomInterface.m"; sourceTree = "<group>"; };
 		9FED5118124020C2004684F2 /* JRActivityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActivityObject.h; sourceTree = "<group>"; };
@@ -524,6 +528,8 @@
 		9F7BBA8F146884E30068BD40 /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				9F7BC00F1468888C0068BD40 /* SFHFKeychainUtils.h */,
+				9F7BC0101468888C0068BD40 /* SFHFKeychainUtils.m */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -592,6 +598,7 @@
 				9F96D60F12EA0462002D06B4 /* JREngage+CustomInterface.h in Headers */,
 				9F608B3A143F7E98002F4439 /* JRPreviewLabel.h in Headers */,
 				9F5F5A6E14686B5900158A87 /* JSONKit.h in Headers */,
+				9F7BC0111468888C0068BD40 /* SFHFKeychainUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,6 +665,7 @@
 				9F96D61012EA0462002D06B4 /* JREngage+CustomInterface.m in Sources */,
 				9F608B3B143F7E98002F4439 /* JRPreviewLabel.m in Sources */,
 				9F5F5A6F14686B5900158A87 /* JSONKit.m in Sources */,
+				9F7BC0121468888C0068BD40 /* SFHFKeychainUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
