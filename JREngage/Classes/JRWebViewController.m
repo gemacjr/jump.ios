@@ -185,7 +185,7 @@
 
         if (![payload respondsToSelector:@selector(JSONValue)]) { /* TODO: Error */ }
 
-        NSDictionary *payloadDict = [payload JSONValue];
+        NSDictionary *payloadDict = [payload objectFromJSONString];//[payload JSONValue];
 
         if(!payloadDict) {  /* TODO: Error */ }
 
