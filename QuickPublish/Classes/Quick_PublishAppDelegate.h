@@ -32,6 +32,9 @@
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+static NSString * const appId = @"appcfamhnpkagijaeinl";
+static NSString * const tokenUrl = @"http://jrauthenticate.appspot.com/login";
+
 #import <UIKit/UIKit.h>
 
 @interface Quick_PublishAppDelegate : NSObject <UIApplicationDelegate> {

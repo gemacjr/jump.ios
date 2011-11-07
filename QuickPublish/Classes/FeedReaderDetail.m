@@ -296,7 +296,7 @@ a:active  { color:#7AC143; }";
 {
     [super viewWillDisappear:animated];
 
-    if (weAreSharing)
+    if (iPad && weAreSharing)
         [[[FeedReader feedReader] jrEngage] cancelPublishing];
 
     [webview stopLoading];

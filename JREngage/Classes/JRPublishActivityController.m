@@ -1768,8 +1768,8 @@ Please try again later."
     weHaveJustAuthenticated = NO;
 }
 
-- (void)publishingDidRestart { weAreCurrentlyPostingSomething = NO; }
-- (void)publishingDidCancel { weAreCurrentlyPostingSomething = NO; }
+- (void)publishingDidRestart  { weAreCurrentlyPostingSomething = NO; }
+- (void)publishingDidCancel   { weAreCurrentlyPostingSomething = NO; }
 - (void)publishingDidComplete { weAreCurrentlyPostingSomething = NO; }
 
 - (void)publishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider

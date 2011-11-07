@@ -1180,7 +1180,7 @@ static JRSessionData* singleton = nil;
     DLog (@"activity dictionary: %@", [activityDictionary description]);
 
     NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONString];//JSONRepresentation];                          
-    NSString *deviceToken = user.device_token;
+    NSString *deviceToken = user.deviceToken;
 
     DLog(@"activity json string \n %@" , activityContent);
     
@@ -1264,9 +1264,9 @@ static JRSessionData* singleton = nil;
 {
     ALog (@"Activity sharing response: %@", response);
     
-    NSDictionary *response_dict = [response objectFromJSONString];//[response JSONValue];
+    NSDictionary *responseDict = [response objectFromJSONString];//[response JSONValue];
     
-    if (!response_dict)
+    if (!responseDict)
     {
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy)
@@ -1310,6 +1310,7 @@ static JRSessionData* singleton = nil;
             switch (code)
             {
                 case 0: /* "Missing parameter: ..." error */
+                case 1: /* Invalid parameter: ..." error */
 
                  /* Missing apiKey; this error should prompt a reauthentication. */
                     if ([errorMessage isEqualToString:@"Missing parameter: apiKey"])

@@ -687,7 +687,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)unloadApplicationNavigationController
 {
-    DLog(@"");
+    DLog(@""); 
     [applicationNavigationController popToViewController:viewControllerToPopTo animated:YES];
 }
 
