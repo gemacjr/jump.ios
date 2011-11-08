@@ -54,6 +54,7 @@
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
+        sessionData     = [JRSessionData jrSessionData];
         customInterface = [theCustomInterface retain];
     }
 
@@ -64,8 +65,6 @@
 {
     DLog(@"");
     [super viewDidLoad];
-
-    sessionData = [JRSessionData jrSessionData];
 
     self.navigationItem.backBarButtonItem.target = sessionData;
     self.navigationItem.backBarButtonItem.action = @selector(triggerAuthenticationDidStartOver:);
@@ -390,6 +389,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    DLog(@"");
     if (sessionData.canRotate)
         return YES;
 

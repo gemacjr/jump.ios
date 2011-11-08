@@ -41,9 +41,9 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import "JRPublishActivityController.h"
 #import "JREngage+CustomInterface.h"
-
 
 @interface JRProvider (SOCIAL_SHARING_PROPERTIES)
 - (BOOL)willThunkPublishToStatusForActivity:(JRActivityObject*)activity;
@@ -242,17 +242,21 @@
 @synthesize selectedProvider;
 @synthesize loggedInUser;
 @synthesize myBackgroundView, myTabBar, myLoadingLabel, myLoadingActivitySpinner, myLoadingGrayView,
-            myPadGrayEditingViewTop, myPadGrayEditingViewBottom, myContentView, myScrollView, myUserCommentTextView,
-            myUserCommentBoundingBox, myRemainingCharactersLabel, myEntirePreviewContainer, myPreviewContainerRoundedRect,
-            myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView, myMediaThumbnailActivityIndicator,
-            myTitleLabel, myDescriptionLabel, myInfoButton, myPoweredByLabel, myProviderIcon, myShareToView,
-            myTriangleIcon, myConnectAndShareButton, myJustShareButton, myProfilePic, myProfilePicActivityIndicator,
-            myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
+            myPadGrayEditingViewTop, myPadGrayEditingViewMiddle, myPadGrayEditingViewBottom, myContentView, myScrollView,
+            myUserCommentTextView, myUserCommentBoundingBox, myRemainingCharactersLabel, myEntirePreviewContainer,
+            myPreviewContainerRoundedRect, myPreviewOfTheUserCommentLabel, myRichDataContainer, myMediaThumbnailView,
+            myMediaThumbnailActivityIndicator, myTitleLabel, myDescriptionLabel, myInfoButton, myPoweredByLabel,
+            myProviderIcon, myShareToView, myTriangleIcon, myConnectAndShareButton, myJustShareButton, myProfilePic,
+            myProfilePicActivityIndicator, myUserName, mySignOutButton, mySharedCheckMark, mySharedLabel;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface
 {
+    DLog(@"");
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
+
+        sessionData     = [JRSessionData jrSessionData];
+        currentActivity = [[sessionData activity] retain];
         customInterface = [theCustomInterface retain];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -269,9 +273,6 @@
     DLog(@"");
 
     [super viewDidLoad];
-
-    sessionData     = [JRSessionData jrSessionData];
-    currentActivity = [[sessionData activity] retain];
 
  /* There's a slight chance that their capacities could be 0, but that's OK; they're mutable. */
     alreadyShared = [[NSMutableSet alloc] initWithCapacity:[[sessionData socialProviders] count]];
@@ -330,8 +331,9 @@
     }
 
 
-//    [myPadGrayEditingViewTop setBackgroundColor:[UIColor redColor]];
-//    [myPadGrayEditingViewBottom setBackgroundColor:[UIColor blueColor]];
+    [myPadGrayEditingViewTop setBackgroundColor:[UIColor redColor]];
+//    [myPadGrayEditingViewMiddle setBackgroundColor:[UIColor yellowColor]];
+    [myPadGrayEditingViewBottom setBackgroundColor:[UIColor blueColor]];
 
 
  /* Set RoundedRect defaults */
@@ -668,7 +670,7 @@ Please try again later."
     DLog(@"updateCharacterCount: %@", characterCountText);
 }
 
-- (void)adjustRichDataContainerVisibility
+- (void)adjustPreviewContainerLayout
 {
     DLog(@"");
 
@@ -680,22 +682,60 @@ Please try again later."
 
     if ([selectedProvider canShareRichDataForActivity:currentActivity] && activityHasRichData)
     {
-        [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
-                                                      myEntirePreviewContainer.frame.origin.y,
-                                                      myEntirePreviewContainer.frame.size.width,
-                                                      mediaBoxHeight + previewLabelHeight + 32.0)];
+        [myEntirePreviewContainer setFrame:
+                CGRectMake(myEntirePreviewContainer.frame.origin.x,
+                           myEntirePreviewContainer.frame.origin.y,
+                           myEntirePreviewContainer.frame.size.width,
+                           mediaBoxHeight + previewLabelHeight + 32.0)];
         [myRichDataContainer setHidden:NO];
     }
     else
     {
         [myRichDataContainer setHidden:YES];
-        [myEntirePreviewContainer setFrame:CGRectMake(myEntirePreviewContainer.frame.origin.x,
-                                                myEntirePreviewContainer.frame.origin.y,
-                                                myEntirePreviewContainer.frame.size.width,
-                                                previewLabelHeight + 28.0)];
+        [myEntirePreviewContainer setFrame:
+                CGRectMake(myEntirePreviewContainer.frame.origin.x,
+                           myEntirePreviewContainer.frame.origin.y,
+                           myEntirePreviewContainer.frame.size.width,
+                           previewLabelHeight + 28.0)];
     }
 
+    CGFloat scrollViewContentHeight = myEntirePreviewContainer.frame.origin.y +
+                                      myEntirePreviewContainer.frame.size.height + 10;
+
+    if (iPad && (scrollViewContentHeight < myScrollView.frame.size.height))
+        scrollViewContentHeight = myScrollView.frame.size.height;
+
+    if (iPad)
+    {
+        [myPadGrayEditingViewTop setFrame:
+                CGRectMake(myPadGrayEditingViewTop.frame.origin.x,
+                           myPadGrayEditingViewTop.frame.origin.y,
+                           myPadGrayEditingViewTop.frame.size.width,
+                           scrollViewContentHeight)];
+
+//        [myPadGrayEditingViewMiddle setFrame:
+//                CGRectMake(myPadGrayEditingViewMiddle.frame.origin.x, scrollViewContentHeight,
+//                           myPadGrayEditingViewMiddle.frame.size.width,
+//                           myPadGrayEditingViewBottom.frame.origin.y - scrollViewContentHeight)];
+    }
+
+    [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];
+
     [myPreviewContainerRoundedRect setNeedsDisplay];
+}
+
+- (void)previewLabel:(JRPreviewLabel*)previewLabel didChangeContentHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight;
+{
+    DLog(@"fromHeight: %f toHeight: %f", fromHeight, toHeight);
+    previewLabelHeight = toHeight;
+    [myRichDataContainer setFrame:
+                CGRectMake(myRichDataContainer.frame.origin.x,
+                           myRichDataContainer.frame.origin.y + (toHeight - fromHeight),
+                           myRichDataContainer.frame.size.width,
+                           myRichDataContainer.frame.size.height)];
+    [self adjustPreviewContainerLayout];
+
+
 }
 
 - (void)loadUserNameAndProfilePicForUser:(JRAuthenticatedUser*)user forProvider:(NSString*)providerName
@@ -849,7 +889,7 @@ Please try again later."
 
         [self updateCharacterCount];
 
-        [self adjustRichDataContainerVisibility];
+        [self adjustPreviewContainerLayout];
         [self showActivityAsShared:([alreadyShared containsObject:selectedProvider.name] ? YES : NO)];
     }
 }
@@ -884,6 +924,12 @@ Please try again later."
     CGFloat remainingCharacterOffset =
                 ([self shouldHideRemainingCharacterCount] ? 0 : 10);
 
+//    if (iPad)
+//        [myPadGrayEditingViewMiddle setFrame:
+//                CGRectMake(myPadGrayEditingViewMiddle.frame.origin.x, scrollViewContentHeight - EDITING_HEIGHT_OFFSET,
+//                           myPadGrayEditingViewMiddle.frame.size.width,
+//                           myPadGrayEditingViewBottom.frame.origin.y - (scrollViewContentHeight - EDITING_HEIGHT_OFFSET))];
+
     [alreadyShared removeAllObjects];
     [self showActivityAsShared:NO];
 
@@ -916,11 +962,19 @@ Please try again later."
     CGFloat scrollViewContentHeight = myEntirePreviewContainer.frame.origin.y +
                                       myEntirePreviewContainer.frame.size.height + 10;
 
+    if (iPad && (scrollViewContentHeight < myScrollView.frame.size.height))
+        scrollViewContentHeight = myScrollView.frame.size.height;
+
     [myPadGrayEditingViewTop setFrame:
             CGRectMake(myPadGrayEditingViewTop.frame.origin.x,
                        myPadGrayEditingViewTop.frame.origin.y,
                        myPadGrayEditingViewTop.frame.size.width,
                        scrollViewContentHeight)];
+
+//    [myPadGrayEditingViewMiddle setFrame:
+//            CGRectMake(myPadGrayEditingViewMiddle.frame.origin.x, scrollViewContentHeight,
+//                       myPadGrayEditingViewMiddle.frame.size.width,
+//                       myPadGrayEditingViewBottom.frame.origin.y - scrollViewContentHeight)];
 
     [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];
 
@@ -941,11 +995,15 @@ Please try again later."
     }
     else
     {
-        [myPadGrayEditingViewTop setHidden:NO];
+        //[myScrollView setBackgroundColor:[UIColor whiteColor]];
+
+        [myPadGrayEditingViewTop    setHidden:NO];
+//        [myPadGrayEditingViewMiddle setHidden:NO];
         [myPadGrayEditingViewBottom setHidden:NO];
-        [myPadGrayEditingViewTop setAlpha:0.6];
+        [myPadGrayEditingViewTop    setAlpha:0.6];
+//        [myPadGrayEditingViewMiddle setAlpha:0.6];
         [myPadGrayEditingViewBottom setAlpha:0.6];
-        [myUserCommentBoundingBox setAlpha:1.0];
+        [myUserCommentBoundingBox   setAlpha:1.0];
         [UIView commitAnimations];
     }
 
@@ -1007,6 +1065,9 @@ Please try again later."
     CGFloat scrollViewContentHeight = myEntirePreviewContainer.frame.origin.y +
                                       myEntirePreviewContainer.frame.size.height + 10;
 
+    if (iPad && (scrollViewContentHeight < myScrollView.frame.size.height))
+        scrollViewContentHeight = myScrollView.frame.size.height;
+
     DLog(@"scrollViewContentHeight: %f", scrollViewContentHeight);
 
     [myPadGrayEditingViewTop setFrame:
@@ -1033,8 +1094,10 @@ Please try again later."
     else
     {
         [myPadGrayEditingViewTop setHidden:YES];
+//        [myPadGrayEditingViewMiddle setHidden:YES];
         [myPadGrayEditingViewBottom setHidden:YES];
         [myPadGrayEditingViewTop setAlpha:0.0];
+//        [myPadGrayEditingViewMiddle setAlpha:0.0];
         [myPadGrayEditingViewBottom setAlpha:0.0];
         [myUserCommentBoundingBox setAlpha:0.3];
         [UIView commitAnimations];
@@ -1067,22 +1130,6 @@ Please try again later."
         [self updatePreviewTextWhenContentDoesNotReplaceAction];
 
     [self updateCharacterCount];
-}
-
-- (void)previewLabel:(JRPreviewLabel*)previewLabel didChangeContentHeightFrom:(CGFloat)fromHeight to:(CGFloat)toHeight;
-{
-    DLog(@"fromHeight: %f toHeight: %f", fromHeight, toHeight);
-    previewLabelHeight = toHeight;
-    [myRichDataContainer setFrame:CGRectMake(myRichDataContainer.frame.origin.x,
-                                             myRichDataContainer.frame.origin.y + (toHeight - fromHeight),
-                                             myRichDataContainer.frame.size.width,
-                                             myRichDataContainer.frame.size.height)];
-    [self adjustRichDataContainerVisibility];
-
-    CGFloat scrollViewContentHeight = myEntirePreviewContainer.frame.origin.y +
-                                      myEntirePreviewContainer.frame.size.height + 10;
-
-    [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];
 }
 
 - (void)sendEmail
@@ -1487,7 +1534,7 @@ Please try again later."
                                             myEntirePreviewContainer.frame.size.width,
                                             mediaBoxHeight + previewLabelHeight + 37.0)];
 
-    [self adjustRichDataContainerVisibility];
+    [self adjustPreviewContainerLayout];
 }
 
 - (void)addProvidersToTabBar
@@ -1922,6 +1969,7 @@ Please try again later."
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    DLog(@"");
     if (sessionData.canRotate)
         return YES;
 
@@ -2001,6 +2049,7 @@ Please try again later."
     [myLoadingActivitySpinner release];
     [myLoadingGrayView release];
     [myPadGrayEditingViewTop release];
+    [myPadGrayEditingViewMiddle release];
     [myPadGrayEditingViewBottom release];
     [myContentView release];
     [myScrollView release];

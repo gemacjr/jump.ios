@@ -35,7 +35,6 @@
 
 #import "JRProvidersController.h"
 #import "JREngage+CustomInterface.h"
-#import "JRSessionData.h"
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
@@ -82,6 +81,7 @@
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
+        sessionData     = [JRSessionData jrSessionData];
         customInterface = [theCustomInterface retain];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -97,8 +97,6 @@
 {
     DLog(@"");
     [super viewDidLoad];
-
-    sessionData = [JRSessionData jrSessionData];
 
 ///*** * * DEPRECATED * * ***/
 ///**/NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
@@ -309,12 +307,10 @@
         app.networkActivityIndicatorVisible = YES;
 
         UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Available Providers" message:
-
 @"There are no available providers. \
 Either there is a problem connecting \
 or no providers have been configured. \
 Please try again later."
-
                                                         delegate:self
                                                cancelButtonTitle:@"OK"
                                                otherButtonTitles:nil] autorelease];
@@ -327,8 +323,7 @@ Please try again later."
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-//    DLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-//    return YES;
+    DLog(@"");
     if (sessionData.canRotate)
         return YES;
 

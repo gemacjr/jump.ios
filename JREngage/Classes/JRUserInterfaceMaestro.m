@@ -163,15 +163,10 @@ static void handleCustomInterfaceException(NSException* exception, NSString* kJR
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    DLog(@"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXXXXXXXXXXXXXXXXX");
-//    return YES;
+    DLog(@"");
+    return YES;
 
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    DLog(@"bbbbbbbbbbbbbbbbbbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXXXXXXXXXXXXXXXXX");
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)dealloc
@@ -367,7 +362,7 @@ static JRUserInterfaceMaestro* singleton = nil;
         { handleCustomInterfaceException(exception, @"kJRUseApplicationNavigationController"); }
     }
 
-    if (usingAppNav) sessionData.canRotate = YES;
+    if (usingAppNav || iPad) sessionData.canRotate = YES;
 }
 
 - (void)tearDownDialogPresentation
@@ -687,7 +682,7 @@ static JRUserInterfaceMaestro* singleton = nil;
 
 - (void)unloadApplicationNavigationController
 {
-    DLog(@""); 
+    DLog(@"");
     [applicationNavigationController popToViewController:viewControllerToPopTo animated:YES];
 }
 

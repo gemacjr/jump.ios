@@ -66,6 +66,7 @@
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
+        sessionData     = [JRSessionData jrSessionData];
         customInterface = [theCustomInterface retain];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -81,8 +82,6 @@
 {
     DLog(@"");
     [super viewDidLoad];
-
-    sessionData = [JRSessionData jrSessionData];
 
 ///*** * * DEPRECATED * * ***/
 ///**/NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
@@ -498,6 +497,7 @@ enum
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    DLog(@"");
     if (sessionData.canRotate)
         return YES;
 
@@ -526,7 +526,7 @@ enum
 
 - (void)adjustTableViewFrame
 {
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation) && !iPad)
     {
         if ([[self getTextField:[self getTableCell]] isFirstResponder])
             [self shrinkTableViewLandscape];

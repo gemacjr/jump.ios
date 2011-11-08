@@ -131,6 +131,7 @@ typedef enum
     UIView                  *myLoadingGrayView;
 
     UIView *myPadGrayEditingViewTop;
+    UIView *myPadGrayEditingViewMiddle;
     UIView *myPadGrayEditingViewBottom;
 
     UIView       *myContentView;
@@ -172,6 +173,7 @@ typedef enum
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myLoadingActivitySpinner;
 @property (nonatomic, retain) IBOutlet UIView                  *myLoadingGrayView;
 @property (nonatomic, retain) IBOutlet UIView                  *myPadGrayEditingViewTop;
+@property (nonatomic, retain) IBOutlet UIView                  *myPadGrayEditingViewMiddle;
 @property (nonatomic, retain) IBOutlet UIView                  *myPadGrayEditingViewBottom;
 @property (nonatomic, retain) IBOutlet UIView                  *myContentView;
 @property (nonatomic, retain) IBOutlet UIScrollView            *myScrollView;
