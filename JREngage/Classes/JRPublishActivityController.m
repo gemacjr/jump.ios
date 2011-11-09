@@ -342,7 +342,7 @@
     [myUserCommentBoundingBox setOuterStrokeColor:[UIColor darkGrayColor]];
     [myUserCommentBoundingBox setOuterFillColor:[UIColor whiteColor]];
     [myUserCommentBoundingBox setOuterStrokeWidth:1.5];
-    [myUserCommentBoundingBox setAlpha:0.3];
+    [myUserCommentBoundingBox setAlpha:0.5];
     [myPreviewContainerRoundedRect setNeedsDisplay];
     [myRichDataContainer setNeedsDisplay];
     [myUserCommentBoundingBox setNeedsDisplay];

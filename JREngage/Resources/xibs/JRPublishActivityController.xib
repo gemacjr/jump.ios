@@ -274,10 +274,7 @@
 										<string key="NSFrame">{{10, 107}, {300, 157}}</string>
 										<reference key="NSSuperview" ref="467309782"/>
 										<reference key="NSNextKeyView" ref="522492931"/>
-										<object class="NSColor" key="IBUIBackgroundColor">
-											<int key="NSColorSpace">1</int>
-											<bytes key="NSRGB">MSAxIDEAA</bytes>
-										</object>
+										<reference key="IBUIBackgroundColor" ref="602163224"/>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 									</object>
 									<object class="IBUIView" id="864311081">
