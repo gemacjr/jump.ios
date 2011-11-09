@@ -365,7 +365,7 @@
         myLoadingLabel.font = [UIFont systemFontOfSize:18.0];
         myLoadingLabel.text = NSLocalizedString(@"Loading providers. Please wait...", @"");
 
-     /* Since the method showViewIsLoading will disable the "Cancel" button, reenable it for this case */
+     /* Since the method showViewIsLoading will disable the "Cancel" button, re-enable it for this case */
         [self showViewIsLoading:YES];
         self.navigationItem.leftBarButtonItem.enabled = YES;
 
@@ -1362,7 +1362,7 @@ Please try again later."
     }
 
  /* Now, determine the sizes and appearance of the media box components (title, description, and media) based on
-    their size and presense */
+    their size and presence */
 
  /* Set up the default coordinates for the title and description and default height of the media box */
     CGFloat title_x = 46.0, title_y = 5.0, title_w = 224.0, title_h = 15.0;

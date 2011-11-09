@@ -910,7 +910,7 @@ static JRSessionData* singleton = nil;
         Or, in rare cases, there might not be any data at all (the lists of basic and social providers are nil), perhaps
         because this is the first time the library was used and the configuration information is still downloading.
         In these cases, the dialogs will display their view as greyed-out, with a spinning activity indicator and a
-        loading message, as they waitfor the lists of providers to download, so we can go ahead and update the
+        loading message, as they wait for the lists of providers to download, so we can go ahead and update the
         configuration information here, too. The dialogs won't try and do anything until we're done updating the lists. */
         if (!dialogIsShowing)
             return [self finishGetConfiguration:dataStr];
