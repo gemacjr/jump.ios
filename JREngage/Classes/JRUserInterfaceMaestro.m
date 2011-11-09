@@ -42,6 +42,7 @@
 
 #import "JRUserInterfaceMaestro.h"
 #import "JREngage+CustomInterface.h"
+#import "JRSessionData.h"
 
 static void handleCustomInterfaceException(NSException* exception, NSString* kJRKeyString)
 {
@@ -517,25 +518,33 @@ static JRUserInterfaceMaestro* singleton = nil;
    /* Test to see if we should open the authentication dialog to the returning user landing page.
     *
     * We will only open to the user landing page if the following conditions are met:
-    *   a. If we have a returning provider (a provider the user previously signed in with);
+    *   a. If we have a returning provider (the provider the user most recently signed in with);
     *   b. if there is a saved user for the returning provider (the only time this wouldn't be the case
-    *       is when upgrading the library and the saved users couldn't be deserialized);
-    *   c. if we don't have a currently selected provider (TODO: check if this will ever be the case);
-    *   d. if we aren't opening the social sharing dialog (i.e., we are only authenticating);
-    *   e. the returning provider hasn't been excluded from the list of providers (between the last
-    *        time they logged in and now),
-    *   f. and the returning provider is still in the list of providers configured with the RP
-    * The last two cases will only happen if the user signs in once, and then the list of providers changes
-    * between the first sign in and when they log in again.  If the RP's configuration has changed and their
-    * last-used provider has been dropped, but the configuration call hasn't returned from the server yet,
-    * this case may fall through the cracks. */
-    if (sessionData.returningBasicProvider
-        && [sessionData authenticatedUserForProviderNamed:sessionData.returningBasicProvider]
-        && !sessionData.alwaysForceReauth
-        && ![sessionData getProviderNamed:sessionData.returningBasicProvider].forceReauth
-        && !sessionData.socialSharing
-        && ![((NSArray*)[customInterface objectForKey:kJRRemoveProvidersFromAuthentication]) containsObject:sessionData.returningBasicProvider]
-        && [sessionData.basicProviders containsObject:sessionData.returningBasicProvider])
+    *         is when upgrading the library and the saved users couldn't be deserialized);
+    *   c. if we don't have a currently selected provider (which will be the case when we're signing in directly
+    *         to one provider);
+    *   d. if alwaysForceReauth isn't set to 'true'
+    *   e. if the returning provider (the provider the user most recently signed in with) isn't set to
+    *         alwaysForceReath
+    *   f. if we aren't opening the social sharing dialog (i.e., we are only authenticating);
+    *   g. the returning provider is still in the list of providers configured with the RP (between the last
+    *        time they logged in and now);
+    *   h. and the returning provider hasn't been excluded from the list of providers.
+    *
+    * The last two cases will only happen if the user signs in with a particular provider once (which is then set as
+    * the returningBasicProvider), and then the list of providers changes between the first sign in and when they
+    * log in again.  If the RP's configuration has changed and their last-used provider has been dropped, but the
+    * configuration call hasn't returned from the server yet, then this case may fall through the cracks (although
+    * this case is very unlikely to happen). */
+    if (sessionData.returningBasicProvider                                                      /* a */
+        && [sessionData authenticatedUserForProviderNamed:sessionData.returningBasicProvider]   /* b */
+        && !sessionData.currentProvider                                                         /* c */
+        && !sessionData.alwaysForceReauth                                                       /* d */
+        && ![sessionData getProviderNamed:sessionData.returningBasicProvider].forceReauth       /* e */
+        && !sessionData.socialSharing                                                           /* f */
+        && [sessionData.basicProviders containsObject:sessionData.returningBasicProvider]       /* g */
+        && ![((NSArray*)[customInterface objectForKey:kJRRemoveProvidersFromAuthentication])    /* h */
+                    containsObject:sessionData.returningBasicProvider])
         return YES;
 
     return NO;

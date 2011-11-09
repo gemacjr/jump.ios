@@ -393,11 +393,9 @@
 - (void)showAuthenticationDialog;
 
 /**
- * @anchor showAuthDialog
- *
  * Use this function to begin authentication for one specific provider.  The JREngage library will
- * pop up a modal dialog, skipping the list of providers, and taking the user straight to the sign-in
- * flow of the passes provider.  The user will not be able to return to the list of providers.
+ * pop up a modal dialog, skipping the list of providers, and take the user straight to the sign-in
+ * flow of the passed provider.  The user will not be able to return to the list of providers.
  *
  * @param provider
  *   The name of the provider on which the user will authenticate.  For a list of possible strings,
@@ -422,6 +420,28 @@
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
+
+/**
+* Use this function to begin authentication.  The JREngage library will pop up a modal dialog, configured
+* with the given custom interface and skipping the list of providers, and take the user straight to the sign-in
+* flow of the passed provider.  The user will not be able to return to the list of providers.
+*
+* @param provider
+*   The name of the provider on which the user will authenticate.  For a list of possible strings,
+*   please see the \ref basicProviders "List of Providers"
+*
+* @param customInterfaceOverrides
+*   A dictionary of objects and properties, indexed by the set of
+*   \link customInterface pre-defined custom interface keys\endlink,
+*   to be used by the library to customize the look and feel of the user
+*   interface and/or add a native login experience
+*
+* @note
+* Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
+* values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
+**/
+- (void)showAuthenticationDialogForProvider:(NSString*)provider
+               withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 
 ///**
 // * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,

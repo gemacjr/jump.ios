@@ -91,7 +91,7 @@ static JREngage* singletonJREngage = nil;
     if(singletonJREngage)
         return [singletonJREngage reconfigureWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
 
-    return [[((JREngage *)[super allocWithZone:nil]) initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate] autorelease]; /* autoreleasing to shut up the AppCode inspector */
+    return [((JREngage *)[super allocWithZone:nil]) initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -209,7 +209,7 @@ static JREngage* singletonJREngage = nil;
         return;
     }
 
-    if (provider && ![_sessionData.allProviders objectForKey:provider])//containsObject:provider])
+    if (provider && ![_sessionData.allProviders objectForKey:provider])
     {
         [self engageDidFailWithError:
               [JRError setError:@"You tried to authenticate on a specific provider, but this provider has not yet been configured."
@@ -218,43 +218,51 @@ static JREngage* singletonJREngage = nil;
     }
 
     if (provider)
-        _interfaceMaestro.directProvider = provider;//[sessionData setCurrentProvider:[sessionData getProviderNamed:provider]];
+        _interfaceMaestro.directProvider = provider;
 
-//    [sessionData setSkipReturningUserLandingPage:skipReturningUserLandingPage];
+//  [sessionData setSkipReturningUserLandingPage:skipReturningUserLandingPage];
     [_interfaceMaestro showAuthenticationDialogWithCustomInterface:customInterfaceOverrides];
+}
+
+- (void)showAuthenticationDialogForProvider:(NSString*)provider
+               withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+{
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides ///*skippingReturningUserLandingPage:NO*/
+                            orAuthenticatingOnJustThisProvider:provider];
+}
+
+- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+{
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides ///*skippingReturningUserLandingPage:NO*/
+                            orAuthenticatingOnJustThisProvider:nil];
+}
+
+- (void)showAuthenticationDialogForProvider:(NSString*)provider
+{
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil                      ///*skippingReturningUserLandingPage:NO*/
+                            orAuthenticatingOnJustThisProvider:provider];
+}
+
+- (void)showAuthenticationDialog
+{
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil                      ///*skippingReturningUserLandingPage:NO*/
+                            orAuthenticatingOnJustThisProvider:nil];
 }
 
 //- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 //                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
 //{
-//    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides skippingReturningUserLandingPage:skipReturningUserLandingPage orAuthenticatingOnJustThisProvider:nil];
+//    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides
+//                              skippingReturningUserLandingPage:skipReturningUserLandingPage
+//                            orAuthenticatingOnJustThisProvider:nil];
 //}
-
-- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-{
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:nil];
-}
 
 //- (void)showAuthenticationDialogSkippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
 //{
-//    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil skippingReturningUserLandingPage:skipReturningUserLandingPage orAuthenticatingOnJustThisProvider:nil];
+//    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil
+//                              skippingReturningUserLandingPage:skipReturningUserLandingPage
+//                            orAuthenticatingOnJustThisProvider:nil];
 //}
-
-/* Deprecated */
-//- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations
-//{
-//    [self showAuthenticationDialogWithCustomInterfaceOverrides:customizations /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:nil];
-//}
-
-- (void)showAuthenticationDialogForProvider:(NSString*)provider
-{
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:provider];
-}
-
-- (void)showAuthenticationDialog
-{
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil /*skippingReturningUserLandingPage:NO*/ orAuthenticatingOnJustThisProvider:nil];
-}
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
