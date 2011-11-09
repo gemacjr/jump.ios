@@ -193,7 +193,7 @@ static JRConnectionManager* singleton = nil;
 - (void)dealloc
 {
 //  DLog(@"");
-    ConnectionData* connectionData = nil;
+    ConnectionData* connectionData;
 
     for (NSURLConnection* connection in [(NSMutableDictionary*)connectionBuffers allKeys])
     {
@@ -391,7 +391,7 @@ static JRConnectionManager* singleton = nil;
 - (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse { DLog(@""); return cachedResponse; }
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten
                                                totalBytesWritten:(NSInteger)totalBytesWritten
-                                       totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite 
+                                       totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 { /*DLog(@"bytesWritten: %d, totalBytesWritten: %d, totalBytesExpected: %d", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);*/ }
 
 @end

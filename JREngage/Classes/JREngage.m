@@ -60,9 +60,9 @@ static JREngage* singletonJREngage = nil;
 {
     [_delegates removeAllObjects];
     [_delegates addObject:delegate];
-    
+
     [_sessionData reconfigureWithAppId:appId tokenUrl:tokenUrl];
-    
+
     return self;
 }
 
@@ -84,14 +84,14 @@ static JREngage* singletonJREngage = nil;
 }
 
 + (id)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
-{    
+{
     if (appId == nil || appId.length == 0)
         return nil;
 
     if(singletonJREngage)
         return [singletonJREngage reconfigureWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
-    
-    return [((JREngage *)[super allocWithZone:nil]) initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
+
+    return [[((JREngage *)[super allocWithZone:nil]) initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate] autorelease]; /* autoreleasing to shut up the AppCode inspector */
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -195,9 +195,9 @@ static JREngage* singletonJREngage = nil;
             return;
         }
         else
-        {   // TODO: The session data error doesn't get reset here.  When will this happen and what will be the expected behavior? 
+        {   // TODO: The session data error doesn't get reset here.  When will this happen and what will be the expected behavior?
             [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
-            return; 
+            return;
         }
     }
 
@@ -280,9 +280,9 @@ static JREngage* singletonJREngage = nil;
             return;
         }
         else
-        { 
+        {
             [self engageDidFailWithError:[[_sessionData.error copy] autorelease]];
-            return; 
+            return;
         }
     }
 

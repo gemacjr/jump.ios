@@ -330,7 +330,6 @@
  **/
 + (JREngage*)jrEngage;
 
-// TODO: Figure out and document what calling this does if the library is already initialized
 /**
  * @anchor engageWithAppId
  * Initializes and returns the shared instance of the JREngage library
@@ -516,7 +515,6 @@
  **/
 /*@{*/
 
-// TODO: Document exactly how this affects authentication/publishing
 /**
  * @anchor signoutProvider
  *

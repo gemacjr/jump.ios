@@ -52,8 +52,8 @@
 
     if ((self = [super initWithFrame:frame]))
     {
-        int width = self.frame.size.width;
-        int height = self.frame.size.height;
+        CGFloat width = self.frame.size.width;
+        CGFloat height = self.frame.size.height;
 
         iPad = style / 2;
         hidesPoweredBy = style % 2;
@@ -73,7 +73,6 @@
         poweredByLabel.textAlignment = UITextAlignmentRight;
         poweredByLabel.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin;
 
-        // TODO: Localize this string (and all others, of course)
         poweredByLabel.text = (hidesPoweredBy) ? @"" : @"Powered by Janrain";
 
         infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -249,11 +248,7 @@
 */
 
 // Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    // return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    return YES;
-}
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation { return YES; }
 
 - (void)dealloc
 {

@@ -83,7 +83,6 @@ static NSString * const iconNamesSocial[11] = { @"icon_%@_30x30.png",
                                                 @"button_%@_280x40.png",
                                                 @"button_%@_280x40@2x.png", nil };
 
-// TODO: Naming the encoder keys this way causes them to show up in an autocomplete when searching for custom ui keys
 #define cJRAuthenticatedUsersByProvider @"jrengage.sessionData.authenticatedUsersByProvider"
 #define cJRAllProviders                 @"jrengage.sessionData.allProviders"
 #define cJRBasicProviders               @"jrengage.sessionData.basicProviders"
@@ -632,7 +631,7 @@ static JRSessionData* singleton = nil;
     if(singleton)
         return [singleton reconfigureWithAppId:newAppId tokenUrl:newTokenUrl];
 
-    return [((JRSessionData*)[super allocWithZone:nil]) initWithAppId:newAppId tokenUrl:newTokenUrl andDelegate:newDelegate];
+    return [[((JRSessionData*)[super allocWithZone:nil]) initWithAppId:newAppId tokenUrl:newTokenUrl andDelegate:newDelegate] autorelease];
 }
 
 - (void)tryToReconfigureLibrary
@@ -775,12 +774,12 @@ static JRSessionData* singleton = nil;
 - (NSError*)finishGetConfiguration:(NSString*)dataStr
 {
     ALog (@"Configuration information needs to be updated.");
-    
+
 //    /* Make sure that the returned string can be parsed as json (which there should be no reason that this wouldn't happen) */
 //    if (![dataStr respondsToSelector:@selector(JSONValue)])
-//        return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication." 
+//        return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
 //                        withCode:JRJsonError];
-    
+
     NSDictionary *jsonDict = (NSDictionary*)[dataStr objectFromJSONString];//[dataStr JSONValue];
 
     /* Double-check the return value */
@@ -1179,11 +1178,11 @@ static JRSessionData* singleton = nil;
 
     DLog (@"activity dictionary: %@", [activityDictionary description]);
 
-    NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONString];//JSONRepresentation];                          
+    NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONString];//JSONRepresentation];
     NSString *deviceToken = user.deviceToken;
 
     DLog(@"activity json string \n %@" , activityContent);
-    
+
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"activity=%@", activityContent] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&device_token=%@", deviceToken] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -1263,9 +1262,9 @@ static JRSessionData* singleton = nil;
 - (void)finishShareActivity:(JRActivityObject*)_activity forProvider:(NSString*)providerName withResponse:(NSString*)response
 {
     ALog (@"Activity sharing response: %@", response);
-    
+
     NSDictionary *responseDict = [response objectFromJSONString];//[response JSONValue];
-    
+
     if (!responseDict)
     {
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
@@ -1791,7 +1790,6 @@ CALL_DELEGATE_SELECTOR:
     if (!currentProvider)
         return;
 
-    // TODO: TEST THIS!!!
     NSDictionary *goodies = [payloadDict objectForKey:@"rpx_result"];
     NSString *token = [goodies objectForKey:@"token"];
     NSMutableDictionary *auth_info = [NSMutableDictionary dictionaryWithDictionary:[goodies objectForKey:@"auth_info"]];

@@ -72,7 +72,7 @@
     if (!infoBar)
     {
         infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 30, self.view.frame.size.width, 30)
-                                          andStyle:[sessionData hidePoweredBy]];
+                                          andStyle:(JRInfoBarStyle)[sessionData hidePoweredBy]];
 
         if ([sessionData hidePoweredBy] == JRInfoBarStyleShowPoweredBy)
             [myWebView setFrame:CGRectMake(myWebView.frame.origin.x,
@@ -182,13 +182,24 @@
         DLog(@"payload: %@", payload);
         DLog(@"tag:     %@", tag);
 
-        if (![payload respondsToSelector:@selector(JSONValue)]) { /* TODO: Error */ }
-
         NSDictionary *payloadDict = [payload objectFromJSONString];//[payload JSONValue];
 
-        if(!payloadDict) {  /* TODO: Error */ }
+        if(!payloadDict)
+        {
+            NSError *error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
+                                      withCode:JRAuthenticationFailedError];
 
-        if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"stat"]) isEqualToString:@"ok"])
+            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Log In Failed"
+                                                             message:@"An error occurred while attempting to sign you in.  Please try again."
+                                                            delegate:self
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil] autorelease];
+            [alert show];
+
+            userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
+            [sessionData triggerAuthenticationDidFailWithError:error];
+        }
+        else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"stat"]) isEqualToString:@"ok"])
         {
             userHitTheBackButton = NO; /* Because authentication completed successfully. */
             [sessionData triggerAuthenticationDidCompleteWithPayload:payloadDict];
@@ -197,7 +208,7 @@
         {
             if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Discovery failed for the OpenID you entered"])
             {
-                NSString *message = nil;
+                NSString *message;
                 if (sessionData.currentProvider.requiresInput)
                     message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.", sessionData.currentProvider.shortText];
                 else
@@ -218,7 +229,7 @@
             }
             else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"The URL you entered does not appear to be an OpenID"])
             {
-                NSString *message = nil;
+                NSString *message;
                 if (sessionData.currentProvider.requiresInput)
                     message = [NSString stringWithFormat:@"The %@ you entered was not valid. Please try again.", sessionData.currentProvider.shortText];
                 else

@@ -40,7 +40,6 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import <UIKit/UIKit.h>
 #import "JRUserInterfaceMaestro.h"
 #import "JREngage+CustomInterface.h"
 
@@ -290,7 +289,7 @@ static JRUserInterfaceMaestro* singleton = nil;
     if (newSessionData == nil)
         return nil;
 
-    return [((JRUserInterfaceMaestro*)[super allocWithZone:nil]) initWithSessionData:newSessionData];
+    return [[((JRUserInterfaceMaestro*)[super allocWithZone:nil]) initWithSessionData:newSessionData] autorelease];
 }
 
 - (void)useApplicationNavigationController:(UINavigationController*)navigationController

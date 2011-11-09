@@ -32,6 +32,7 @@
  Date:   Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "JRSessionData.h"
 #import "JRProvidersController.h"
@@ -100,7 +101,7 @@ typedef enum
 - (void)publishingCanceled;
 - (void)publishingFailed;
 
-// QTS: Do I want to make customInterfaceDefaults nonatomic?
+// QUESTION TO SELF: Do I want to make customInterfaceDefaults nonatomic?
 @property (copy)     NSMutableDictionary         *customInterfaceDefaults;
 @property (readonly) JRProvidersController       *myProvidersController;
 @property (readonly) JRUserLandingController     *myUserLandingController;

@@ -40,8 +40,6 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import <UIKit/UIKit.h>
-#import <CoreGraphics/CoreGraphics.h>
 #import "JRPublishActivityController.h"
 #import "JREngage+CustomInterface.h"
 
@@ -293,8 +291,7 @@
     if ([customInterface objectForKey:kJRSocialSharingBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRSocialSharingBackgroundColor];
 
-    // TODO: WHY CAN'T I SET THIS IN THE NIB?
-    myContentView.backgroundColor = [UIColor clearColor];
+//    myContentView.backgroundColor = [UIColor clearColor];
 
     titleView = [[customInterface objectForKey:kJRSocialSharingTitleView] retain];
 
@@ -395,7 +392,7 @@
 //    back button until told otherwise. */
 //  userHitTheBackButton = YES;
 
-    // TODO: Why is this in viewWillAppear and not above in viewDidLoad??
+    // QUESTION TO SELF: Why is this in viewWillAppear and not above in viewDidLoad??
     if (!titleView)
     {
         UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
@@ -673,12 +670,6 @@ Please try again later."
 - (void)adjustPreviewContainerLayout
 {
     DLog(@"");
-
-    // TODO: Move somewhere else!!  Did I already??
-    //    if (!hasEditedUserContentForActivityAlready)
-    //        myUserContentTextView.text = _activity.action;
-    //    else
-    //        myUserContentTextView.text = _activity.user_generated_content;
 
     if ([selectedProvider canShareRichDataForActivity:currentActivity] && activityHasRichData)
     {
@@ -1749,7 +1740,7 @@ Please try again later."
     weHaveJustAuthenticated = NO;
 }
 
-// TODO: Probably need to comment this out, as authenticationDidCancel is something that publish activity
+// NOTE TO SELF: Probably need to comment this out, as authenticationDidCancel is something that publish activity
 // should never have to worry about
 - (void)authenticationDidCancel
 {

@@ -134,7 +134,7 @@
         else
              titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
 
-        titleView = (UIView*)titleLabel;
+        titleView = titleLabel;
     }
 
     self.navigationItem.titleView = titleView;
@@ -171,7 +171,7 @@
     if (!infoBar)
     {
         infoBar = [[JRInfoBar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 30, self.view.frame.size.width, 30)
-                                          andStyle:[sessionData hidePoweredBy]];
+                                          andStyle:(JRInfoBarStyle)[sessionData hidePoweredBy]];
 
         [self.view addSubview:infoBar];
     }
@@ -206,15 +206,21 @@
     if (tableAndSectionHeaderHeight)
     {
         DLog ("self.frame: %f %f", self.view.frame.size.width, self.view.frame.size.height);
-        int loadingLabelAndSpinnerVerticalOffset = ((self.view.frame.size.height - tableAndSectionHeaderHeight) / 2) + tableAndSectionHeaderHeight;
-        [myLoadingLabel setFrame:CGRectMake(myLoadingLabel.frame.origin.x,
-                                            loadingLabelAndSpinnerVerticalOffset - 40,
-                                            myLoadingLabel.frame.size.width,
-                                            myLoadingLabel.frame.size.height)];
-        [myActivitySpinner setFrame:CGRectMake(myActivitySpinner.frame.origin.x,
-                                               loadingLabelAndSpinnerVerticalOffset,
-                                               myActivitySpinner.frame.size.width,
-                                               myActivitySpinner.frame.size.height)];
+
+        CGFloat loadingLabelAndSpinnerVerticalOffset =
+                        ((self.view.frame.size.height - tableAndSectionHeaderHeight) / 2) + tableAndSectionHeaderHeight;
+
+        [myLoadingLabel setFrame:
+                CGRectMake(myLoadingLabel.frame.origin.x,
+                           loadingLabelAndSpinnerVerticalOffset - 40,
+                           myLoadingLabel.frame.size.width,
+                           myLoadingLabel.frame.size.height)];
+        [myActivitySpinner setFrame:
+                CGRectMake(myActivitySpinner.frame.origin.x,
+                           loadingLabelAndSpinnerVerticalOffset,
+                           myActivitySpinner.frame.size.width,
+                           myActivitySpinner.frame.size.height)];
+
         DLog ("label.frame: %f, %f", myLoadingLabel.frame.origin.x, myLoadingLabel.frame.origin.y);
     }
 
@@ -422,7 +428,7 @@ Please try again later."
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
  /* Let sessionData know which provider the user selected */
-    JRProvider *provider = [sessionData getProviderNamed:[providers objectAtIndex:indexPath.row]];//[[sessionData getBasicProviderAtIndex:indexPath.row] retain];
+    JRProvider *provider = [sessionData getProviderNamed:[providers objectAtIndex:indexPath.row]];
     [sessionData setCurrentProvider:provider];
 
     DLog(@"cell for %@ was selected", provider);
@@ -434,7 +440,7 @@ Please try again later."
     Or if the user started on the user landing page, went back to the list of providers, then selected
     the same provider as their last-used provider, go back to the user landing view. */
     if (provider.requiresInput ||
-        ([sessionData authenticatedUserForProvider:provider] && !(provider.forceReauth || sessionData.alwaysForceReauth)))//[provider isEqualToReturningProvider:sessionData.returningBasicProvider])
+        ([sessionData authenticatedUserForProvider:provider] && !(provider.forceReauth || sessionData.alwaysForceReauth)))
     {
         [[self navigationController] pushViewController:[JRUserInterfaceMaestro jrUserInterfaceMaestro].myUserLandingController
                                                animated:YES];
