@@ -1435,7 +1435,7 @@
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">AQAAAABDhAAAA</bytes>
 					</object>
-					<string>RoundedRectView</string>
+					<string>JRRoundedRect</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1443,7 +1443,7 @@
 					<string>{{455, 619}, {320, 416}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>RoundedRectView</string>
+					<string>JRRoundedRect</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>JRPreviewLabel</string>
@@ -1466,7 +1466,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>RoundedRectView</string>
+					<string>JRRoundedRect</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1959,13 +1959,13 @@
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UILabel</string>
-							<string>RoundedRectView</string>
+							<string>JRRoundedRect</string>
 							<string>JRPreviewLabel</string>
 							<string>UIButton</string>
 							<string>UIActivityIndicatorView</string>
 							<string>UIImageView</string>
 							<string>UILabel</string>
-							<string>RoundedRectView</string>
+							<string>JRRoundedRect</string>
 							<string>UIScrollView</string>
 							<string>UIView</string>
 							<string>UIImageView</string>
@@ -1974,7 +1974,7 @@
 							<string>UITabBar</string>
 							<string>UILabel</string>
 							<string>UIImageView</string>
-							<string>RoundedRectView</string>
+							<string>JRRoundedRect</string>
 							<string>UITextView</string>
 							<string>UILabel</string>
 						</object>
@@ -2086,7 +2086,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">myPreviewContainerRoundedRect</string>
-								<string key="candidateClassName">RoundedRectView</string>
+								<string key="candidateClassName">JRRoundedRect</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">myPreviewOfTheUserCommentLabel</string>
@@ -2110,7 +2110,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">myRichDataContainer</string>
-								<string key="candidateClassName">RoundedRectView</string>
+								<string key="candidateClassName">JRRoundedRect</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">myScrollView</string>
@@ -2146,7 +2146,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">myUserCommentBoundingBox</string>
-								<string key="candidateClassName">RoundedRectView</string>
+								<string key="candidateClassName">JRRoundedRect</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">myUserCommentTextView</string>
@@ -2164,7 +2164,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">RoundedRectView</string>
+					<string key="className">JRRoundedRect</string>
 					<string key="superclassName">UIView</string>
 					<reference key="sourceIdentifier" ref="149029795"/>
 				</object>
