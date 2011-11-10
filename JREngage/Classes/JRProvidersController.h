@@ -50,7 +50,7 @@
 
     BOOL iPad;
     BOOL hidesCancelButton;
-//    BOOL userHitTheBackButton;
+//  BOOL userHitTheBackButton;
 
     UIView      *titleView;
     UIView      *myBackgroundView;

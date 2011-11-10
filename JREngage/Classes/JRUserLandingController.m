@@ -619,7 +619,7 @@ enum
 }
 
 - (void)userInterfaceWillClose { }
-- (void)userInterfaceDidClose { }
+- (void)userInterfaceDidClose  { }
 
 - (void)dealloc
 {

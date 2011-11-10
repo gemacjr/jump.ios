@@ -317,102 +317,101 @@
 #define kJRRemoveProvidersFromAuthentication @"ProviderTable.RemoveProviders"
 /*@}*/
 
-
 /**
- * @name Deprecated
- * These keys have been deprecated in the current version of the JREngage library
- **/
+* @name Deprecated
+* These keys have been deprecated in the current version of the JREngage library
+**/
 /*@{*/
 
-/**
- * @deprecated
- * If you want to set the color of the navigation bar,
- * you can push the library's dialogs onto your own navigation controller, using the
- * JREngage#setCustomNavigationController: method, or create a navigation bar, set the tint,
- * and pass it to the library with the define #kJRUseCustomModalNavigationController
- **/
-#define kJRNavigationBarTintColor  @"NavigationBar.TintColor"
+///**
+// * @deprecated
+// * If you want to set the color of the navigation bar,
+// * you can push the library's dialogs onto your own navigation controller, using the
+// * JREngage#setCustomNavigationController: method, or create a navigation bar, set the tint,
+// * and pass it to the library with the define #kJRUseCustomModalNavigationController
+// **/
+//#define kJRNavigationBarTintColor  @"NavigationBar.TintColor"
+//
+///**
+// * @deprecated
+// * If you want to set the color of the navigation bar,
+// * you can push the library's dialogs onto your own navigation controller, using the
+// * JREngage#setCustomNavigationController: method, or create a navigation bar, set the tint,
+// * and pass it to the library with the define #kJRUseCustomModalNavigationController
+// **/
+//#define kJRNavigationBarTintColorRGBa  @"NavigationBar.TintColor.RGBa"
 
 /**
- * @deprecated
- * If you want to set the color of the navigation bar,
- * you can push the library's dialogs onto your own navigation controller, using the
- * JREngage#setCustomNavigationController: method, or create a navigation bar, set the tint,
- * and pass it to the library with the define #kJRUseCustomModalNavigationController
- **/
-#define kJRNavigationBarTintColorRGBa  @"NavigationBar.TintColor.RGBa"
-
-/**
- * @deprecated This value will not be used. define #kJRAuthenticationBackgroundColor will be used instead.
- **/
+* @deprecated This value will not be used. define #kJRAuthenticationBackgroundColor will be used instead.
+**/
 #define kJRAuthenticationBackgroundColorRGBa  @"Authentication.Background.Color.RGBa"
 
 /**
- * @deprecated This value will not be used. define #kJRSharingBackgroundColor will be used instead.
- **/
+* @deprecated This value will not be used. define #kJRSharingBackgroundColor will be used instead.
+**/
 #define kJRSocialSharingBackgroundColorRGBa   @"SocialSharing.Background.Color.RGBa"
 
-/**
- * @deprecated Please use define #kJRAuthenticationBackgroundImageView instead.
- **/
-#define kJRProviderTableBackgroundImageName   @"ProviderTable.Background.Image.Name"
-
-/**
- * @deprecated Please use define #kJRAuthenticationBackgroundImageView instead.
- **/
-#define kJRUserLandingBackgroundImageName     @"UserLanding.Background.Image.Name"
-
-/**
- * @deprecated Please use define #kJRSocialSharingBackgroundImageView instead.
- **/
-#define kJRSocialSharingBackgroundImageName   @"SocialSharing.Background.Image.Name"
-
-/**
- * @deprecated This value will not be used. define #kJRProviderTableBackgroundImageName will be used instead.
- **/
-#define kJRProviderTableBackgroundImageName_iPad   @"ProviderTable.Background.Image.Name-iPad"
-
-/**
- * @deprecated This value will not be used. define #kJRUserLandingBackgroundImageView will be used instead.
- **/
-#define kJRUserLandingBackgroundImageName_iPad     @"UserLanding.Background.Image.Name-iPad"
-
-/**
- * @deprecated This value will not be used. define #kJRSocialSharingBackgroundImageView will be used instead.
- **/
-#define kJRSocialSharingBackgroundImageName_iPad   @"SocialSharing.Background.Image.Name-iPad"
-
-/**
- * @deprecated This value will not be used. define #kJRProviderTableTitleView will be used instead.
- **/
-#define kJRProviderTableTitleView_iPad   @"ProviderTable.Title.View-iPad"
-
-/**
- * @deprecated This value will not be used. define #kJRSocialSharingTitleView will be used instead.
- **/
-#define kJRSocialSharingTitleView_iPad   @"SocialSharing.Title.View-iPad"
-
-/**
- * @deprecated This value will not be used. define #kJRProviderTableHeaderView will be used instead.
- **/
-#define kJRProviderTableHeaderView_iPad  @"ProviderTable.Table.Header.View-iPad"
-
-/**
- * @deprecated This value will not be used. define #kJRProviderTableFooterView will be used instead.
- **/
-#define kJRProviderTableFooterView_iPad  @"ProviderTable.Table.Footer.View-iPad"
-
-/**
- * @deprecated This value will not be used. define #kJRProviderTableSectionHeaderView will be used instead.
- **/
-#define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.Section.Header.View-iPad"
-
-/**
- * @deprecated This value will not be used. define #kJRProviderTableSectionFooterView will be used instead.
- **/
-#define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.Section.Footer.View-iPad"
-/*@}*/
-/** @} */
+///**
+// * @deprecated Please use define #kJRAuthenticationBackgroundImageView instead.
+// **/
+//#define kJRProviderTableBackgroundImageName   @"ProviderTable.Background.Image.Name"
+//
+///**
+// * @deprecated Please use define #kJRAuthenticationBackgroundImageView instead.
+// **/
+//#define kJRUserLandingBackgroundImageName     @"UserLanding.Background.Image.Name"
+//
+///**
+// * @deprecated Please use define #kJRSocialSharingBackgroundImageView instead.
+// **/
+//#define kJRSocialSharingBackgroundImageName   @"SocialSharing.Background.Image.Name"
+//
+///**
+// * @deprecated This value will not be used. define #kJRProviderTableBackgroundImageName will be used instead.
+// **/
+//#define kJRProviderTableBackgroundImageName_iPad   @"ProviderTable.Background.Image.Name-iPad"
+//
+///**
+// * @deprecated This value will not be used. define #kJRUserLandingBackgroundImageView will be used instead.
+// **/
+//#define kJRUserLandingBackgroundImageName_iPad     @"UserLanding.Background.Image.Name-iPad"
+//
+///**
+// * @deprecated This value will not be used. define #kJRSocialSharingBackgroundImageView will be used instead.
+// **/
+//#define kJRSocialSharingBackgroundImageName_iPad   @"SocialSharing.Background.Image.Name-iPad"
+//
+///**
+// * @deprecated This value will not be used. define #kJRProviderTableTitleView will be used instead.
+// **/
+//#define kJRProviderTableTitleView_iPad   @"ProviderTable.Title.View-iPad"
+//
+///**
+// * @deprecated This value will not be used. define #kJRSocialSharingTitleView will be used instead.
+// **/
+//#define kJRSocialSharingTitleView_iPad   @"SocialSharing.Title.View-iPad"
+//
+///**
+// * @deprecated This value will not be used. define #kJRProviderTableHeaderView will be used instead.
+// **/
+//#define kJRProviderTableHeaderView_iPad  @"ProviderTable.Table.Header.View-iPad"
+//
+///**
+// * @deprecated This value will not be used. define #kJRProviderTableFooterView will be used instead.
+// **/
+//#define kJRProviderTableFooterView_iPad  @"ProviderTable.Table.Footer.View-iPad"
+//
+///**
+// * @deprecated This value will not be used. define #kJRProviderTableSectionHeaderView will be used instead.
+// **/
+//#define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.Section.Header.View-iPad"
+//
+///**
+// * @deprecated This value will not be used. define #kJRProviderTableSectionFooterView will be used instead.
+// **/
+//#define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.Section.Footer.View-iPad"
+///*@}*/
+///** @} */
 
 @interface JREngage (CustomInterface)
 

@@ -56,8 +56,6 @@
 
 - (BOOL)isWellFormedAbsoluteUrl
 {
-//    return YES;
-
     NSURL *url = [NSURL URLWithString:self];
     if (url && url.scheme && url.host)
         return YES;
@@ -132,7 +130,6 @@
 
 + (id)imageMediaObjectWithSrc:(NSString*)src andHref:(NSString*)href
 {
-//    if (!src || !href)
     if (![src isWellFormedAbsoluteUrl] || ![href isWellFormedAbsoluteUrl])
         return nil;
 
@@ -203,7 +200,6 @@
 
 + (id)flashMediaObjectWithSwfsrc:(NSString*)swfsrc andImgsrc:(NSString*)imgsrc
 {
-//    if (!swfsrc || !imgsrc)
     if (![swfsrc isWellFormedAbsoluteUrl] || ![imgsrc isWellFormedAbsoluteUrl])
         return nil;
 
@@ -397,7 +393,7 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
     for (NSObject *url in urls)
         if ([url isKindOfClass:[NSString class]])
-            if ([((NSString*)url) isWellFormedAbsoluteUrl])//([NSURLConnection canHandleRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:(NSString*)url]]])
+            if ([((NSString*)url) isWellFormedAbsoluteUrl])
                 [array addObject:[[url copy] autorelease]];
 
     return array;
@@ -639,29 +635,21 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
         NSArray *songs  = [_media filteredArrayUsingPredicate:[NSPredicate predicateForMp3MediaObjectClass]];
         NSArray *videos = [_media filteredArrayUsingPredicate:[NSPredicate predicateForFlashMediaObjectClass]];
 
-//        DLog(@"images count: %d", [images count]);
-//        DLog(@"songs count : %d", [songs count]);
-//        DLog(@"videos count: %d", [videos count]);
-
         /* If we have images and either songs or videos or both */
         if ([images count] && ([songs count] || [videos count]))
         {
-//            DLog(@"([images count] && ([songs count] || [videos count]))");
-
             /* Then we only use the images; The songs or videos will be ignored */
             [_media filterUsingPredicate:[NSPredicate predicateForImageMediaObjectClass]];
         }
         /* If we don't have images, but we have both songs and videos */
         else if ([songs count] && [videos count])
         {
-//            DLog(@"([songs count] && [videos count])");
-
             /* Then we only use the songs; The videos will be ignored */
             [_media filterUsingPredicate:[NSPredicate predicateForMp3MediaObjectClass]];
         }
         /* Otherwise, we only have videos... */
 
-// NTS: Facebook says you can only use 5 pictures, but testing didn't throw an error, even though
+// Note to self: Facebook says you can only use 5 pictures, but testing didn't throw an error, even though
 // it did throw errors when using more than one song or video. Just leaving this for now...
 //        if ([images count] && [images count] > 5)
 //        {
@@ -682,7 +670,7 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
     }
 }
 
-// QTS: Is there a better way of doing this, like by using NSCoders to do the encoding?
+// Question to self: Is there a better way of doing this, like by using NSCoders to do the encoding?
 /* This function goes through all of the fields of the activity object and turns the object into
    an NSDictionary of string values and keys so that it can be converted into json by the json
    library.  It also validates the objects and escapes icky characters in the process. */
@@ -724,8 +712,6 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
     if ([_media count])
     {
-//        DLog(@"[media count] = %d", [media count]);
-
         NSMutableArray *arr = [[[NSMutableArray alloc] initWithCapacity:[_media count]] autorelease];
 
         for (id<JRMediaObjectDelegate> item in _media)

@@ -150,7 +150,6 @@ extern NSString * JREngageErrorDomain;
 - (void)authenticationDidRestart;
 - (void)authenticationDidCancel;
 
-//- (void)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider;
 - (void)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
 - (void)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
@@ -214,8 +213,8 @@ extern NSString * JREngageErrorDomain;
 
     BOOL hidePoweredBy;
 
-    // QTS: What is the behavior of this (i.e., how does it affect social publishing?)
-    //      when selected during a basic authentication call?
+    // Question to self: What is the behavior of this (i.e., how does it affect social publishing?)
+    // when selected during a basic authentication call?
     BOOL authenticatingDirectlyOnThisProvider;
     BOOL alwaysForceReauth;
     BOOL forceReauthJustThisTime;

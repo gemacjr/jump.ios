@@ -130,11 +130,6 @@ static NSString* applicationBundleDisplayName()
     return [infoPlist objectForKey:@"CFBundleDisplayName"];
 }
 
-//static void RLog (NSObject *object)
-//{
-//    NSLog(@"Object: %@\t\tRetain Count:  %d", [object class], [object retainCount]);
-//}
-
 #pragma mark JRError
 NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
@@ -264,7 +259,7 @@ NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
 - (void)dealloc
 {
-    // QTS: Are we ever going to be leaking these?  Assuming correct retain counting,
+    // Question to self: Are we ever going to be leaking these?  Assuming correct retain counting,
     // these should dealloc when the user is signed out.
     [self removeDeviceTokenFromKeychain];
 
@@ -775,12 +770,7 @@ static JRSessionData* singleton = nil;
 {
     ALog (@"Configuration information needs to be updated.");
 
-//    /* Make sure that the returned string can be parsed as json (which there should be no reason that this wouldn't happen) */
-//    if (![dataStr respondsToSelector:@selector(JSONValue)])
-//        return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
-//                        withCode:JRJsonError];
-
-    NSDictionary *jsonDict = (NSDictionary*)[dataStr objectFromJSONString];//[dataStr JSONValue];
+    NSDictionary *jsonDict = (NSDictionary*)[dataStr objectFromJSONString];
 
     /* Double-check the return value */
     if(!jsonDict)
@@ -1057,7 +1047,6 @@ static JRSessionData* singleton = nil;
     {
         if ([savedCookie.name isEqualToString:@"welcome_info"])
         {
-            //[[self getProviderNamed:providerName] setWelcomeString:[self getWelcomeMessageFromCookieString:savedCookie.value]];
             NSString *cookieString = savedCookie.value;
             NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
 
@@ -1178,7 +1167,7 @@ static JRSessionData* singleton = nil;
 
     DLog (@"activity dictionary: %@", [activityDictionary description]);
 
-    NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONString];//JSONRepresentation];
+    NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONString];
     NSString *deviceToken = user.deviceToken;
 
     DLog(@"activity json string \n %@" , activityContent);
@@ -1227,9 +1216,13 @@ static JRSessionData* singleton = nil;
     [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
+//    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
+//                                     [NSURL URLWithString:
+//                                      [NSString stringWithFormat:@"%@/api/v2/set_status", serverUrl]]] retain];
+
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/api/v2/set_status", serverUrl]]] retain];
+                                      [NSString stringWithFormat:@"%@/api/v2/set_status", serverUrl]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -1245,8 +1238,8 @@ static JRSessionData* singleton = nil;
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
         [self triggerPublishingDidFailWithError:[JRError setError:@"There was a problem connecting to the Janrain server to share this activity"
                                                          withCode:JRPublishErrorBadConnection]];
-    // TODO: don't retain/release, just do
-    [request release];
+//    // TODO: don't retain/release, just do
+//    [request release];
 }
 
 - (void)shareActivityForUser:(JRAuthenticatedUser*)user
@@ -1263,7 +1256,7 @@ static JRSessionData* singleton = nil;
 {
     ALog (@"Activity sharing response: %@", response);
 
-    NSDictionary *responseDict = [response objectFromJSONString];//[response JSONValue];
+    NSDictionary *responseDict = [response objectFromJSONString];
 
     if (!responseDict)
     {
@@ -1496,7 +1489,7 @@ static JRSessionData* singleton = nil;
     DLog ("Shortened Urls: %@", urls);
 
 //    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
-    NSDictionary *dict = [urls objectFromJSONString];//[urls JSONValue];
+    NSDictionary *dict = [urls objectFromJSONString];
 
     if (!dict)
         goto CALL_DELEGATE_SELECTOR;
@@ -1590,13 +1583,9 @@ CALL_DELEGATE_SELECTOR:
     if ([httpResponse respondsToSelector:@selector(allHeaderFields)])
         headers = [httpResponse allHeaderFields];
 
-    // QTS: We don't need to do this, do we??? >:-/
-    [payload retain];
-
     if ([tag isKindOfClass:[NSDictionary class]])
     {
         NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
-        //DLog (@"Connect did finish loading: %@", action);
 
         if ([action isEqualToString:@"callTokenUrl"])
         {
@@ -1637,7 +1626,6 @@ CALL_DELEGATE_SELECTOR:
         }
     }
 
-    [payload release];
     [tag release];
 }
 
@@ -1645,7 +1633,7 @@ CALL_DELEGATE_SELECTOR:
 {
     NSObject* tag = (NSObject*)userdata;
 
-    [payload retain];
+   // [payload retain];
 
     if ([tag isKindOfClass:[NSDictionary class]])
     {
@@ -1682,7 +1670,7 @@ CALL_DELEGATE_SELECTOR:
         }
     }
 
-    [payload release];
+   // [payload release];
     [tag release];
 }
 

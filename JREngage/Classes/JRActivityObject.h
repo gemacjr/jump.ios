@@ -211,10 +211,10 @@
     NSString *_artist;
     NSString *_album;
 }
-@property (readonly) NSString *src;   /**< The URL of the MP3 file to be rendered. */
-@property (copy)     NSString *title; /**< The title of the song. */
-@property (copy)     NSString *artist /**< The artist. */                                 ;
-@property (copy)     NSString *album; /**< The album. */
+@property (readonly) NSString *src;    /**< The URL of the MP3 file to be rendered. */
+@property (copy)     NSString *title;  /**< The title of the song. */
+@property (copy)     NSString *artist; /**< The artist. */
+@property (copy)     NSString *album;  /**< The album. */
 
 /**
  * @name Constructors

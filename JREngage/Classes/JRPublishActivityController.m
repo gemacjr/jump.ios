@@ -45,7 +45,6 @@
 
 @interface JRProvider (SOCIAL_SHARING_PROPERTIES)
 - (BOOL)willThunkPublishToStatusForActivity:(JRActivityObject*)activity;
-//- (BOOL)doesActivityUrlAffectCharacterCount;
 - (BOOL)isActivityUrlPartOfUserContent;
 - (BOOL)canShareRichDataForActivity:(JRActivityObject*)activity;
 - (BOOL)doesContentReplaceAction;
@@ -62,7 +61,7 @@
             [[self.socialSharingProperties objectForKey:@"uses_set_status_if_no_url"] isEqualToString:@"YES"]);
 }
 
-//- (BOOL)doesActivityUrlAffectCharacterCount
+
 - (BOOL)isActivityUrlPartOfUserContent
 {
     BOOL url_reduces_max_chars = [[self.socialSharingProperties objectForKey:@"url_reduces_max_chars"] isEqualToString:@"YES"];
@@ -104,7 +103,7 @@
 
 @end
 
-@implementation RoundedRectView
+@implementation JRRoundedRect
 @synthesize outerStrokeColor;
 @synthesize innerStrokeColor;
 @synthesize outerFillColor;
@@ -120,14 +119,14 @@
     DLog(@"");
     if ((self = [super initWithCoder:decoder]))
     {
-        self.outerStrokeColor  = OUTER_STROKE_COLOR;
-        self.innerStrokeColor  = INNER_STROKE_COLOR;
-        self.outerFillColor    = OUTER_FILL_COLOR;
-        self.innerFillColor    = INNER_FILL_COLOR;
-        self.outerStrokeWidth  = OUTER_STROKE_WIDTH;
-        self.innerStrokeWidth  = INNER_STROKE_WIDTH;
-        self.outerCornerRadius = OUTER_CORNER_RADIUS;
-        self.innerCornerRadius = INNER_CORNER_RADIUS;
+        self.outerStrokeColor  = JRR_OUTER_STROKE_COLOR;
+        self.innerStrokeColor  = JRR_INNER_STROKE_COLOR;
+        self.outerFillColor    = JRR_OUTER_FILL_COLOR;
+        self.innerFillColor    = JRR_INNER_FILL_COLOR;
+        self.outerStrokeWidth  = JRR_OUTER_STROKE_WIDTH;
+        self.innerStrokeWidth  = JRR_INNER_STROKE_WIDTH;
+        self.outerCornerRadius = JRR_OUTER_CORNER_RADIUS;
+        self.innerCornerRadius = JRR_INNER_CORNER_RADIUS;
         self.backgroundColor   = [UIColor clearColor];
     }
     return self;
@@ -138,55 +137,49 @@
     if ((self = [super initWithFrame:frame]))
     {
         self.opaque            = NO;
-        self.outerStrokeColor  = OUTER_STROKE_COLOR;
-        self.innerStrokeColor  = INNER_STROKE_COLOR;
-        self.outerFillColor    = OUTER_FILL_COLOR;
-        self.innerFillColor    = INNER_FILL_COLOR;
-        self.outerStrokeWidth  = OUTER_STROKE_WIDTH;
-        self.innerStrokeWidth  = INNER_STROKE_WIDTH;
-        self.outerCornerRadius = OUTER_CORNER_RADIUS;
-        self.innerCornerRadius = INNER_CORNER_RADIUS;
+        self.outerStrokeColor  = JRR_OUTER_STROKE_COLOR;
+        self.innerStrokeColor  = JRR_INNER_STROKE_COLOR;
+        self.outerFillColor    = JRR_OUTER_FILL_COLOR;
+        self.innerFillColor    = JRR_INNER_FILL_COLOR;
+        self.outerStrokeWidth  = JRR_OUTER_STROKE_WIDTH;
+        self.innerStrokeWidth  = JRR_INNER_STROKE_WIDTH;
+        self.outerCornerRadius = JRR_OUTER_CORNER_RADIUS;
+        self.innerCornerRadius = JRR_INNER_CORNER_RADIUS;
         self.backgroundColor   = [UIColor clearColor];
     }
     return self;
 }
-- (void)setBackgroundColor:(UIColor *)newBGColor
-{
-    // Ignore any attempt to set background color - backgroundColor must stay set to clearColor
-    // We could throw an exception here, but that would cause problems with IB, since backgroundColor
-    // is a palletized property, IB will attempt to set backgroundColor for any view that is loaded
-    // from a nib, so instead, we just quietly ignore this.
-    //
-    // Alternatively, we could put an NSLog statement here to tell the programmer to set rectColor...
-}
-- (void)setOpaque:(BOOL)newIsOpaque
-{
-    // Ignore attempt to set opaque to YES.
-}
 
-- (void)drawRoundedRect:(CGRect)rrect withRadius:(CGFloat)radius
-        strokeWidth:(CGFloat)strokeWidth strokeColor:(UIColor*)strokeColor andFillColor:(UIColor*)fillColor
+/* Functions are necessary for Interface Builder, but we want to ignore any attempt at changing the background color
+or opacity of our rounded rectangle. */
+- (void)setBackgroundColor:(UIColor *)newBackgroundColor { }
+- (void)setOpaque:(BOOL)newIsOpaque                      { }
+
+- (void)drawRoundedRect:(CGRect)roundedRect withRadius:(CGFloat)radius strokeWidth:(CGFloat)strokeWidth
+            strokeColor:(UIColor*)strokeColor andFillColor:(UIColor*)fillColor
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, strokeWidth);
     CGContextSetStrokeColorWithColor(context, strokeColor.CGColor);
     CGContextSetFillColorWithColor(context, fillColor.CGColor);
 
-    CGFloat width = CGRectGetWidth(rrect);
-    CGFloat height = CGRectGetHeight(rrect);
+    CGFloat width  = CGRectGetWidth(roundedRect);
+    CGFloat height = CGRectGetHeight(roundedRect);
 
-    // Make sure corner radius isn't larger than half the shorter side
-    if (radius > width/2.0)
-        radius = width/2.0;
-    if (radius > height/2.0)
-        radius = height/2.0;
+ /* We need to make sure corner radius isn't larger than half of the shorter side, or else we need to
+    set that as the corner radius*/
+    if (radius > width / 2.0)
+        radius = width / 2.0;
+    if (radius > height / 2.0)
+        radius = height / 2.0;
 
-    CGFloat minx = CGRectGetMinX(rrect);
-    CGFloat midx = CGRectGetMidX(rrect);
-    CGFloat maxx = CGRectGetMaxX(rrect);
-    CGFloat miny = CGRectGetMinY(rrect);
-    CGFloat midy = CGRectGetMidY(rrect);
-    CGFloat maxy = CGRectGetMaxY(rrect);
+    CGFloat minx = CGRectGetMinX(roundedRect);
+    CGFloat midx = CGRectGetMidX(roundedRect);
+    CGFloat maxx = CGRectGetMaxX(roundedRect);
+    CGFloat miny = CGRectGetMinY(roundedRect);
+    CGFloat midy = CGRectGetMidY(roundedRect);
+    CGFloat maxy = CGRectGetMaxY(roundedRect);
+
     CGContextMoveToPoint(context, minx, midy);
     CGContextAddArcToPoint(context, minx, miny, midx, miny, radius);
     CGContextAddArcToPoint(context, maxx, miny, maxx, midy, radius);
@@ -205,9 +198,9 @@
               strokeColor:outerStrokeColor andFillColor:outerFillColor];
 
     if (drawInnerRect)
-        [self drawRoundedRect:CGRectMake(INNER_RECT_INSET, INNER_RECT_INSET,
-                                         self.bounds.size.width - (2 * INNER_RECT_INSET),
-                                         self.bounds.size.height - (2 * INNER_RECT_INSET))
+        [self drawRoundedRect:CGRectMake(JRR_INNER_RECT_INSET, JRR_INNER_RECT_INSET,
+                                         self.bounds.size.width - (2 * JRR_INNER_RECT_INSET),
+                                         self.bounds.size.height - (2 * JRR_INNER_RECT_INSET))
                    withRadius:innerCornerRadius strokeWidth:innerStrokeWidth
                   strokeColor:innerStrokeColor andFillColor:innerFillColor];
 }
@@ -327,11 +320,8 @@
         [myInfoButton setHidden:YES];
     }
 
-
-    [myPadGrayEditingViewTop setBackgroundColor:[UIColor redColor]];
-//    [myPadGrayEditingViewMiddle setBackgroundColor:[UIColor yellowColor]];
-    [myPadGrayEditingViewBottom setBackgroundColor:[UIColor blueColor]];
-
+//    [myPadGrayEditingViewTop setBackgroundColor:[UIColor redColor]];
+//    [myPadGrayEditingViewBottom setBackgroundColor:[UIColor blueColor]];
 
  /* Set RoundedRect defaults */
     [myPreviewContainerRoundedRect setOuterFillColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]];
@@ -392,7 +382,7 @@
 //    back button until told otherwise. */
 //  userHitTheBackButton = YES;
 
-    // QUESTION TO SELF: Why is this in viewWillAppear and not above in viewDidLoad??
+    // Question to self: Why is this in viewWillAppear and not above in viewDidLoad??
     if (!titleView)
     {
         UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 44)] autorelease];
@@ -525,8 +515,6 @@ Please try again later."
             ([myTriangleIcon superview].frame.size.width - 90) :
             ([myTriangleIcon superview].frame.size.width / 2) - 9, 0, 18, 18)];
 
-//    [myTriangleIcon setFrame:CGRectMake(loggedIn ? 230 : 151, 0, 18, 18)];
-
     [myProfilePic setHidden:!loggedIn];
     [myUserName setHidden:!loggedIn];
     [mySignOutButton setHidden:!loggedIn];
@@ -547,8 +535,6 @@ Please try again later."
     [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ?
             ([myTriangleIcon superview].frame.size.width - 90) :
             ([myTriangleIcon superview].frame.size.width / 2) - 9), 0, 18, 18)];
-
-//    [myTriangleIcon setFrame:CGRectMake(shared ? 25 : ((loggedInUser) ? 230 : 151), 0, 18, 18)];
 
     if (!hidesCancelButton)
     {
@@ -591,7 +577,6 @@ Please try again later."
     [myPreviewOfTheUserCommentLabel setUsername:username];
     [myPreviewOfTheUserCommentLabel setUsertext:text];
 
-//    if ([self doesActivityUrlAffectCharacterCountForSelectedProvider:nil])
     if ([selectedProvider isActivityUrlPartOfUserContent])
     { /* Twitter/MySpace -> true */
 
@@ -703,11 +688,6 @@ Please try again later."
                            myPadGrayEditingViewTop.frame.origin.y,
                            myPadGrayEditingViewTop.frame.size.width,
                            scrollViewContentHeight)];
-
-//        [myPadGrayEditingViewMiddle setFrame:
-//                CGRectMake(myPadGrayEditingViewMiddle.frame.origin.x, scrollViewContentHeight,
-//                           myPadGrayEditingViewMiddle.frame.size.width,
-//                           myPadGrayEditingViewBottom.frame.origin.y - scrollViewContentHeight)];
     }
 
     [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];
@@ -768,13 +748,13 @@ Please try again later."
         UIActionSheet *action;
         switch (emailAndOrSmsIndex)
         {
-            case EMAIL_ONLY:
+            case JR_EMAIL_ONLY:
                 [self sendEmail];
                 break;
-            case SMS_ONLY:
+            case JR_SMS_ONLY:
                 [self sendSMS];
                 break;
-            case EMAIL_AND_SMS:
+            case JR_EMAIL_AND_SMS:
                 action = [[[UIActionSheet alloc] initWithTitle:@"Share with Email or SMS"
                                                       delegate:self
                                              cancelButtonTitle:@"Cancel"
@@ -790,9 +770,6 @@ Please try again later."
     else
 #endif
     {
-        //        [selectedProvider release];
-        //        [loggedInUser release];
-
         self.selectedProvider = [sessionData getSocialProviderAtIndex:item.tag];
         [sessionData setCurrentProvider:selectedProvider];
 
@@ -835,7 +812,7 @@ Please try again later."
                                           NSLocalizedString(@"Share on", @""),
                                           selectedProvider.friendlyName];
 
-        // Here because you can switch tabs while editing on the iPad, yes??
+        // Question to self: Here because you can switch tabs while editing on the iPad, yes??
         currentActivity.user_generated_content = myUserCommentTextView.text;
 
         if (loggedInUser)
@@ -915,12 +892,6 @@ Please try again later."
     CGFloat remainingCharacterOffset =
                 ([self shouldHideRemainingCharacterCount] ? 0 : 10);
 
-//    if (iPad)
-//        [myPadGrayEditingViewMiddle setFrame:
-//                CGRectMake(myPadGrayEditingViewMiddle.frame.origin.x, scrollViewContentHeight - EDITING_HEIGHT_OFFSET,
-//                           myPadGrayEditingViewMiddle.frame.size.width,
-//                           myPadGrayEditingViewBottom.frame.origin.y - (scrollViewContentHeight - EDITING_HEIGHT_OFFSET))];
-
     [alreadyShared removeAllObjects];
     [self showActivityAsShared:NO];
 
@@ -962,11 +933,6 @@ Please try again later."
                        myPadGrayEditingViewTop.frame.size.width,
                        scrollViewContentHeight)];
 
-//    [myPadGrayEditingViewMiddle setFrame:
-//            CGRectMake(myPadGrayEditingViewMiddle.frame.origin.x, scrollViewContentHeight,
-//                       myPadGrayEditingViewMiddle.frame.size.width,
-//                       myPadGrayEditingViewBottom.frame.origin.y - scrollViewContentHeight)];
-
     [myScrollView setContentSize:CGSizeMake(myScrollView.frame.size.width, scrollViewContentHeight)];
 
     DLog(@"scrollViewContentHeight: %f", scrollViewContentHeight);
@@ -986,13 +952,9 @@ Please try again later."
     }
     else
     {
-        //[myScrollView setBackgroundColor:[UIColor whiteColor]];
-
         [myPadGrayEditingViewTop    setHidden:NO];
-//        [myPadGrayEditingViewMiddle setHidden:NO];
         [myPadGrayEditingViewBottom setHidden:NO];
         [myPadGrayEditingViewTop    setAlpha:0.6];
-//        [myPadGrayEditingViewMiddle setAlpha:0.6];
         [myPadGrayEditingViewBottom setAlpha:0.6];
         [myUserCommentBoundingBox   setAlpha:1.0];
         [UIView commitAnimations];
@@ -1085,10 +1047,8 @@ Please try again later."
     else
     {
         [myPadGrayEditingViewTop setHidden:YES];
-//        [myPadGrayEditingViewMiddle setHidden:YES];
         [myPadGrayEditingViewBottom setHidden:YES];
         [myPadGrayEditingViewTop setAlpha:0.0];
-//        [myPadGrayEditingViewMiddle setAlpha:0.0];
         [myPadGrayEditingViewBottom setAlpha:0.0];
         [myUserCommentBoundingBox setAlpha:0.3];
         [UIView commitAnimations];
@@ -1317,9 +1277,9 @@ Please try again later."
     /* Check if the activity has an email object, sms string, or both and if we can send either or both.
      If so, emailOrSms will be 0, 1, 2, or 3, accordingly. */
     if (currentActivity.email && [mailClass canSendMail])  /* Add 1. */
-        emailAndOrSmsIndex += EMAIL;
+        emailAndOrSmsIndex += JR_EMAIL;
     if (currentActivity.sms && [messageClass canSendText]) /* Add 2. */
-        emailAndOrSmsIndex += SMS;
+        emailAndOrSmsIndex += JR_SMS;
 
     return;// emailAndOrSmsIndex;
 }
@@ -1331,7 +1291,7 @@ Please try again later."
 #define MBC_MAX_HEIGHT       73.0
 #define MBC_EXTERIOR_PADDING 10.0
 #define MBC_INTERIOR_PADDING 2.0
-- (void)loadActivityToViewForFirstTime//:(JRActivityObject*)newActivity
+- (void)loadActivityToViewForFirstTime
 {
     DLog(@"");
 
@@ -1577,7 +1537,7 @@ Please try again later."
 
     [myTabBar setItems:providerTabArr animated:YES];
 
-    // QTS: Should we make the default selected social provider be the provider most commonly used
+    // Question to self: Should we make the default selected social provider be the provider most commonly used
     if ([providerTabArr count])
     {
         myTabBar.selectedItem = [providerTabArr objectAtIndex:indexOfLastUsedProvider];
@@ -1740,7 +1700,7 @@ Please try again later."
     weHaveJustAuthenticated = NO;
 }
 
-// NOTE TO SELF: Probably need to comment this out, as authenticationDidCancel is something that publish activity
+// Note to self: Probably need to comment this out, as authenticationDidCancel is something that publish activity
 // should never have to worry about
 - (void)authenticationDidCancel
 {
@@ -1762,7 +1722,7 @@ Please try again later."
 
     loggedInUser = [[sessionData authenticatedUserForProvider:selectedProvider] retain];
 
-    // QTS: Would we ever expect this to not be the case?
+    // Question to self: Would we ever expect this to not be the case?
     if (loggedInUser)
     {
         [self showViewIsLoading:YES];

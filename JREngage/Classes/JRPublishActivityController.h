@@ -40,35 +40,35 @@
 
 typedef enum
 {
-    NEITHER = 0,
-    EMAIL_ONLY,
-    SMS_ONLY,
-    EMAIL_AND_SMS
+    JR_NEITHER = 0,
+    JR_EMAIL_ONLY,
+    JR_SMS_ONLY,
+    JR_EMAIL_AND_SMS
 } EmailOrSms;
-#define EMAIL 1
-#define SMS 2
+#define JR_EMAIL 1
+#define JR_SMS 2
 
-#define OUTER_STROKE_COLOR    [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
-#define INNER_STROKE_COLOR    JANRAIN_BLUE
-#define OUTER_FILL_COLOR      [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
-#define INNER_FILL_COLOR      [UIColor clearColor]
-#define OUTER_STROKE_WIDTH    0.1
-#define INNER_STROKE_WIDTH    0.5
-#define OUTER_CORNER_RADIUS   10.0
-#define INNER_CORNER_RADIUS   9.0
-#define INNER_RECT_INSET      6
+#define JRR_OUTER_STROKE_COLOR    [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
+#define JRR_INNER_STROKE_COLOR    JANRAIN_BLUE
+#define JRR_OUTER_FILL_COLOR      [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
+#define JRR_INNER_FILL_COLOR      [UIColor clearColor]
+#define JRR_OUTER_STROKE_WIDTH    0.1
+#define JRR_INNER_STROKE_WIDTH    0.5
+#define JRR_OUTER_CORNER_RADIUS   10.0
+#define JRR_INNER_CORNER_RADIUS   9.0
+#define JRR_INNER_RECT_INSET      6
 
-@interface RoundedRectView : UIView
+@interface JRRoundedRect : UIView
 {
-    UIColor     *outerStrokeColor;
-    UIColor     *innerStrokeColor;
-    UIColor     *outerFillColor;
-    UIColor     *innerFillColor;
-    CGFloat     outerStrokeWidth;
-    CGFloat     innerStrokeWidth;
-    CGFloat     outerCornerRadius;
-    CGFloat     innerCornerRadius;
-    BOOL        drawInnerRect;
+    UIColor *outerStrokeColor;
+    UIColor *innerStrokeColor;
+    UIColor *outerFillColor;
+    UIColor *innerFillColor;
+    CGFloat  outerStrokeWidth;
+    CGFloat  innerStrokeWidth;
+    CGFloat  outerCornerRadius;
+    CGFloat  innerCornerRadius;
+    BOOL     drawInnerRect;
 }
 @property (nonatomic, retain) UIColor *outerStrokeColor;
 @property (nonatomic, retain) UIColor *innerStrokeColor;
@@ -124,7 +124,7 @@ typedef enum
     UIView     *myBackgroundView;
     UITabBar   *myTabBar;
 
-    /* Activity Spinner and Label displayed while the list of configured providers is empty */
+ /* Activity Spinner and Label displayed while the list of configured providers is empty */
     NSTimer *timer;
     UILabel                 *myLoadingLabel;
     UIActivityIndicatorView *myLoadingActivitySpinner;
@@ -138,14 +138,14 @@ typedef enum
     UIScrollView *myScrollView;
 
     UITextView      *myUserCommentTextView;
-    RoundedRectView *myUserCommentBoundingBox;
+    JRRoundedRect   *myUserCommentBoundingBox;
 
     UILabel *myRemainingCharactersLabel;
 
     UIView                  *myEntirePreviewContainer;
-    RoundedRectView         *myPreviewContainerRoundedRect;
+    JRRoundedRect           *myPreviewContainerRoundedRect;
     JRPreviewLabel          *myPreviewOfTheUserCommentLabel;
-    RoundedRectView         *myRichDataContainer;
+    JRRoundedRect           *myRichDataContainer;
     UIButton                *myMediaThumbnailView;
     UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
     UILabel                 *myTitleLabel;
@@ -178,12 +178,12 @@ typedef enum
 @property (nonatomic, retain) IBOutlet UIView                  *myContentView;
 @property (nonatomic, retain) IBOutlet UIScrollView            *myScrollView;
 @property (nonatomic, retain) IBOutlet UITextView              *myUserCommentTextView;
-@property (nonatomic, retain) IBOutlet RoundedRectView         *myUserCommentBoundingBox;
+@property (nonatomic, retain) IBOutlet JRRoundedRect           *myUserCommentBoundingBox;
 @property (nonatomic, retain) IBOutlet UILabel                 *myRemainingCharactersLabel;
 @property (nonatomic, retain) IBOutlet UIView                  *myEntirePreviewContainer;
-@property (nonatomic, retain) IBOutlet RoundedRectView         *myPreviewContainerRoundedRect;
+@property (nonatomic, retain) IBOutlet JRRoundedRect           *myPreviewContainerRoundedRect;
 @property (nonatomic, retain) IBOutlet JRPreviewLabel          *myPreviewOfTheUserCommentLabel;
-@property (nonatomic, retain) IBOutlet RoundedRectView         *myRichDataContainer;
+@property (nonatomic, retain) IBOutlet JRRoundedRect           *myRichDataContainer;
 @property (nonatomic, retain) IBOutlet UIButton                *myMediaThumbnailView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
 @property (nonatomic, retain) IBOutlet UILabel                 *myTitleLabel;

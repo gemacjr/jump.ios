@@ -153,13 +153,10 @@ static JRConnectionManager* singleton = nil;
 
 - (NSUInteger)retainCount
 {
-    return NSUIntegerMax;  //denotes an object that cannot be released
+    return NSUIntegerMax;
 }
 
-- (oneway void)release
-{
-    //do nothing
-}
+- (oneway void)release { }
 
 - (id)autorelease
 {
@@ -216,7 +213,7 @@ static JRConnectionManager* singleton = nil;
 
 + (NSURLRequest*)aCopyOfTheRequestWithANonCrashingUserAgent:(NSURLRequest*)request
 {
-    // QTS: Am I calling this every time, and if so, will this mess up any user-agent detection?
+    // Question to self: Am I calling this every time, and if so, will this mess up any user-agent detection?
     NSMutableURLRequest* new_request = [request mutableCopyWithZone:nil];
 
     [new_request setValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.4) Gecko/20100527 Firefox/3.6.4 GTB7.1"
@@ -331,13 +328,9 @@ static JRConnectionManager* singleton = nil;
     void* userdata = [connectionData tag];
     id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 
-//    DLog(@"request: %@", [[request URL] absoluteString]);
-
     if ([connectionData fullResponse] == NO)
     {
         NSString *payload = [[[NSString alloc] initWithData:responseBody encoding:NSASCIIStringEncoding] autorelease];
-
-//        DLog(@"payload: %@", payload);
 
         if ([delegate respondsToSelector:@selector(connectionDidFinishLoadingWithPayload:request:andTag:)])
             [delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userdata];
@@ -375,9 +368,6 @@ static JRConnectionManager* singleton = nil;
                                                           redirectResponse:(NSURLResponse *)redirectResponse
 {
     DLog(@"");
-//  DLog(@"willSendRequest:  %@", [[request URL] absoluteString]);
-//  DLog(@"redirectResponse: %@", [[redirectResponse URL] absoluteString]);
-
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 
     if ([connectionData returnFullResponse])
@@ -386,9 +376,9 @@ static JRConnectionManager* singleton = nil;
     return [[JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request] autorelease];
 }
 
-- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { DLog(@""); }
+- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge  { DLog(@""); }
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { DLog(@""); }
-- (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse { DLog(@""); return cachedResponse; }
+- (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse       { DLog(@""); return cachedResponse; }
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten
                                                totalBytesWritten:(NSInteger)totalBytesWritten
                                        totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite

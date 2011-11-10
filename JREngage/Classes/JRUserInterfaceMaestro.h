@@ -101,7 +101,7 @@ typedef enum
 - (void)publishingCanceled;
 - (void)publishingFailed;
 
-// QUESTION TO SELF: Do I want to make customInterfaceDefaults nonatomic?
+// Question to self: Do I want to make customInterfaceDefaults nonatomic?
 @property (copy)     NSMutableDictionary         *customInterfaceDefaults;
 @property (readonly) JRProvidersController       *myProvidersController;
 @property (readonly) JRUserLandingController     *myUserLandingController;

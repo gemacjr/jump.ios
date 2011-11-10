@@ -83,21 +83,18 @@
         [self.view addSubview:infoBar];
     }
 
-//    UINavigationController *foo = self.navigationController;
-//    UINavigationBar *bar = foo.navigationBar;
-//    UINavigationItem *baz = bar.backItem;
-
     if (!self.navigationController.navigationBar.backItem)
     {
         DLog(@"no back button");
-        UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc]
-                                          initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                          target:sessionData
-                                          action:@selector(triggerAuthenticationDidCancel:)] autorelease];
+        UIBarButtonItem *cancelButton =
+                [[[UIBarButtonItem alloc]
+                        initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                             target:sessionData
+                                             action:@selector(triggerAuthenticationDidCancel:)] autorelease];
 
-        self.navigationItem.rightBarButtonItem = cancelButton;
+        self.navigationItem.rightBarButtonItem         = cancelButton;
         self.navigationItem.rightBarButtonItem.enabled = YES;
-        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+        self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
     }
     else
     {
@@ -182,7 +179,7 @@
         DLog(@"payload: %@", payload);
         DLog(@"tag:     %@", tag);
 
-        NSDictionary *payloadDict = [payload objectFromJSONString];//[payload JSONValue];
+        NSDictionary *payloadDict = [payload objectFromJSONString];
 
         if(!payloadDict)
         {
@@ -341,7 +338,6 @@
         DLog(@"request url has prefix: %@", [sessionData baseUrl]);
 
         NSString* tag = [[NSString stringWithFormat:@"rpx_result"] retain];
-//        [JRConnectionManager createConnectionFromRequest:[request retain] forDelegate:self withTag:tag];
         [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
 
         keepProgress = YES;
@@ -459,7 +455,7 @@
 }
 
 - (void)userInterfaceWillClose { }
-- (void)userInterfaceDidClose { }
+- (void)userInterfaceDidClose  { }
 
 - (void)dealloc {
     DLog(@"");

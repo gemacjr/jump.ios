@@ -106,13 +106,10 @@ static JREngage* singletonJREngage = nil;
 
 - (NSUInteger)retainCount
 {
-    return NSUIntegerMax;  //denotes an object that cannot be released
+    return NSUIntegerMax;
 }
 
-- (oneway void)release
-{
-    //do nothing
-}
+- (oneway void)release { }
 
 - (id)autorelease
 {

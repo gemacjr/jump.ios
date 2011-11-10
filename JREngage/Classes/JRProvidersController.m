@@ -139,33 +139,21 @@
 
     self.navigationItem.titleView = titleView;
 
-//    if ([[customInterface objectForKey:kJRProviderTableHeaderView] isKindOfClass:[UIView class]])
-         myTableView.tableHeaderView = [customInterface objectForKey:kJRProviderTableHeaderView];
+    myTableView.tableHeaderView = [customInterface objectForKey:kJRProviderTableHeaderView];
 
-//     if ([[customInterface objectForKey:kJRProviderTableFooterView] isKindOfClass:[UIView class]])
-          myTableView.tableFooterView = [customInterface objectForKey:kJRProviderTableFooterView];
+    myTableView.tableFooterView = [customInterface objectForKey:kJRProviderTableFooterView];
 
     if (!hidesCancelButton)
     {
-        UIBarButtonItem *cancelButton = [[[UIBarButtonItem alloc]
-                                          initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                          target:sessionData
-                                          action:@selector(triggerAuthenticationDidCancel:)] autorelease];
+        UIBarButtonItem *cancelButton =
+                [[[UIBarButtonItem alloc]
+                        initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                             target:sessionData
+                                             action:@selector(triggerAuthenticationDidCancel:)] autorelease];
 
-//        self.navigationItem.rightBarButtonItem = cancelButton;
-//        self.navigationItem.rightBarButtonItem.enabled = YES;
-//        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-        self.navigationItem.leftBarButtonItem = cancelButton;
+        self.navigationItem.leftBarButtonItem         = cancelButton;
         self.navigationItem.leftBarButtonItem.enabled = YES;
-        self.navigationItem.leftBarButtonItem.style = UIBarButtonItemStyleBordered;
-
-//        UIBarButtonItem *placeholderItem = [[[UIBarButtonItem alloc]
-//                                             initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                             target:nil
-//                                             action:nil] autorelease];
-//
-//        placeholderItem.width = 85;
-//        self.navigationItem.leftBarButtonItem = placeholderItem;
+        self.navigationItem.leftBarButtonItem.style   = UIBarButtonItemStyleBordered;
     }
 
     if (!infoBar)
@@ -197,7 +185,7 @@
     if ([customInterface objectForKey:kJRAuthenticationBackgroundImageView])
         [myBackgroundView addSubview:[customInterface objectForKey:kJRAuthenticationBackgroundImageView]];
 
-    int tableAndSectionHeaderHeight = 0;
+    CGFloat tableAndSectionHeaderHeight = 0;
     if (myTableView.tableHeaderView)
         tableAndSectionHeaderHeight += myTableView.tableHeaderView.frame.size.height;
 
@@ -233,24 +221,24 @@
         [myActivitySpinner setHidden:YES];
         [myLoadingLabel setHidden:YES];
 
-        /* Load the table with the list of providers. */
+     /* Load the table with the list of providers. */
         [myTableView reloadData];
     }
     else
     {
         DLog(@"prov count = %d", [[sessionData basicProviders] count]);
 
-        /* If the user calls the library before the session data object is done initializing -
-         because either the requests for the base URL or provider list haven't returned -
-         display the "Loading Providers" label and activity spinner.
-         sessionData = nil when the call to get the base URL hasn't returned
-         [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
+     /* If the user calls the library before the session data object is done initializing -
+        because either the requests for the base URL or provider list haven't returned -
+        display the "Loading Providers" label and activity spinner.
+        sessionData = nil when the call to get the base URL hasn't returned
+        [sessionData.configuredProviders count] = 0 when the provider list hasn't returned */
         [myActivitySpinner setHidden:NO];
         [myLoadingLabel setHidden:NO];
 
         [myActivitySpinner startAnimating];
 
-        /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
+     /* Now poll every few milliseconds, for about 16 seconds, until the provider list is loaded or we time out. */
         timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
     }
 }
@@ -324,7 +312,9 @@ Please try again later."
         return;
     }
 
-    timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(checkSessionDataAndProviders:) userInfo:nil repeats:NO];
+    timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self
+                                           selector:@selector(checkSessionDataAndProviders:)
+                                           userInfo:nil repeats:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -392,7 +382,7 @@ Please try again later."
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [providers count];//[[sessionData basicProviders] count];
+    return [providers count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -406,7 +396,7 @@ Please try again later."
         cell = [[[UITableViewCellProviders alloc]
                  initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 
-    JRProvider* provider = [sessionData getProviderNamed:[providers objectAtIndex:indexPath.row]];//[sessionData getBasicProviderAtIndex:indexPath.row];
+    JRProvider* provider = [sessionData getProviderNamed:[providers objectAtIndex:indexPath.row]];
 
     if (!provider)
         return cell;
@@ -452,7 +442,6 @@ Please try again later."
                                                animated:YES];
     }
 
-//    [provider release];
 }
 
 - (void)didReceiveMemoryWarning
