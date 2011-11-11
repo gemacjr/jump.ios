@@ -37,7 +37,6 @@
 #import <UIKit/UIKit.h>
 #import "JREngage.h"
 #import "JREngage+CustomInterface.h"
-//#import "FeedReaderDetail.h"
 #import "Quick_PublishAppDelegate.h"
 #import "RegexKitLite.h"
 #import "NSString+HTML.h"
@@ -45,7 +44,7 @@
 
 @interface StoryImage : NSObject <JRConnectionManagerDelegate>
 {
-    NSString *src;		/* (URL) Specifies the URL of an image (e.g., x) */
+    NSString *src;      /* (URL) Specifies the URL of an image (e.g., x) */
     NSString *fileName;
     UIImage *image;
 
@@ -61,11 +60,11 @@
 @class Feed;
 @interface Story : NSObject
 {
-	NSString *title;		/* The title of the item. (e.g., Venice Film Festival Tries to Quit Sinking) */
-	NSString *link;         /* The URL of the item. (e.g., http://nytimes.com/2004/12/07FEST.html) */
-	NSString *description;	/* The item synopsis. (e.g., Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.) */
-	NSString *author;		/* Email address of the author of the item. (e.g., oprah\@oxygen.net) */
-	NSString *pubDate;		/* Indicates when the item was published. (e.g., Sun, 19 May 2002 15:21:36 GMT) */
+    NSString *title;    /* The title of the item. (e.g., Venice Film Festival Tries to Quit Sinking) */
+    NSString *link;     /* The URL of the item. (e.g., http://nytimes.com/2004/12/07FEST.html) */
+    NSString *htmlText; /* The item synopsis. (e.g., Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.) */
+    NSString *author;   /* Email address of the author of the item. (e.g., oprah\@oxygen.net) */
+    NSString *pubDate;  /* Indicates when the item was published. (e.g., Sun, 19 May 2002 15:21:36 GMT) */
 
     NSString *plainText;
 
@@ -79,7 +78,7 @@
 @property (retain, readonly) NSString *author;
 @property (retain, readonly) NSString *plainText;
 @property (readonly) NSMutableArray *storyImages;
-@property (readonly) NSString *description;
+@property (readonly) NSString *htmlText;
 @property (readonly) NSString *pubDate;
 @end
 
@@ -108,7 +107,6 @@
 - (void)feedDidFinishDownloading;
 - (void)feedDidFailToDownload;
 @end
-
 
 @interface FeedReader : NSObject <JREngageDelegate, NSXMLParserDelegate>
 {

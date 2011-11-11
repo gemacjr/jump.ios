@@ -169,7 +169,7 @@ a:active  { color:#7AC143; }";
                         story.title,
                         story.author,
                         story.pubDate,
-                        story.description] retain];
+                        story.htmlText] retain];
 
     DLog("%@", webViewContent);
 
@@ -180,7 +180,7 @@ a:active  { color:#7AC143; }";
                                                                     target:self
                                                                     action:@selector(shareButtonPressed:)] autorelease];
 
-	self.navigationItem.rightBarButtonItem = shareButton;
+	self.navigationItem.rightBarButtonItem         = shareButton;
 	self.navigationItem.rightBarButtonItem.enabled = YES;
 
 	self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
@@ -229,11 +229,11 @@ a:active  { color:#7AC143; }";
                                   initWithAction:@"shared an article from the Janrain Blog."
                                   andUrl:story.link] autorelease];
 
-    activity.title = story.title;
+    activity.resourceTitle = story.title;
 
-    NSInteger trunk = /*(iPad)*/ 0 ? 300 : 200;
-    activity.description = [story.plainText substringToIndex:
-                            ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
+    NSUInteger trunk = /*(iPad)*/ 0 ? 300 : 300;
+    activity.resourceDescription = [story.plainText substringToIndex:
+                                        ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
 
     if ([story.storyImages count] > 0)
     {
@@ -265,19 +265,11 @@ a:active  { color:#7AC143; }";
         [[FeedReader feedReader] setLibraryDialogDelegate:self];
     }
 
-
-    // TODO: Why are we setting this??
-//    [FeedReader feedReader].feedReaderDetail = self;
-
-//    if (!iPad)
-//        [[[FeedReader feedReader] jrEngage] setCustomNavigationController:self.navigationController];
-
     NSDictionary *custom = [NSDictionary dictionaryWithObjectsAndKeys:
                             self.navigationItem.rightBarButtonItem, kJRPopoverPresentationBarButtonItem,
                             self.navigationController, kJRApplicationNavigationController, nil];
 
     [[[FeedReader feedReader] jrEngage] showSocialPublishingDialogWithActivity:activity andCustomInterfaceOverrides:custom];
-//    [[[FeedReader feedReader] jrEngage] showAuthenticationDialogWithCustomInterfaceOverrides:custom];
 }
 
 - (void)libraryDialogClosed
@@ -319,6 +311,7 @@ a:active  { color:#7AC143; }";
     [webview release];
     [feedReaderWebview release];
 
+    [webViewContent release];
     [super dealloc];
 }
 @end

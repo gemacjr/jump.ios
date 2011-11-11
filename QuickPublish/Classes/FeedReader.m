@@ -27,9 +27,9 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
- File:	 FeedReader.m
+ File:   FeedReader.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, August 24, 2010
+ Date:   Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
@@ -82,7 +82,7 @@
 
     result = [NSMutableString stringWithString:[splitString objectAtIndex:0]];
 
-    for (int i=1; i<length; i++)
+    for (NSUInteger i = 1; i < length; i++)
     {
         NSString *currentString = [splitString objectAtIndex:i];
 
@@ -223,8 +223,8 @@
 @end
 
 @interface Story ()
-- (void)setDescription:(NSString*)_description;
-- (void)setPubDate:(NSString*)_pubDate;
+- (void)setHtmlText:(NSString*)newHtmlText;
+- (void)setPubDate:(NSString*)newHtmlText;
 @property (retain) NSString *title;
 @property (retain) NSString *link;
 @property (retain) NSString *author;
@@ -235,7 +235,7 @@
 @implementation Story
 @synthesize title;
 @synthesize link;
-@synthesize description;
+@synthesize htmlText;
 @synthesize author;
 @synthesize pubDate;
 @synthesize plainText;
@@ -246,7 +246,7 @@
 {
     [coder encodeObject:title forKey:QUICK_PUBLISH_STORY_TITLE];
     [coder encodeObject:link forKey:QUICK_PUBLISH_STORY_LINK];
-    [coder encodeObject:description forKey:QUICK_PUBLISH_STORY_DESCRIPTION];
+    [coder encodeObject:htmlText forKey:QUICK_PUBLISH_STORY_DESCRIPTION];
     [coder encodeObject:author forKey:QUICK_PUBLISH_STORY_AUTHOR];
     [coder encodeObject:pubDate forKey:QUICK_PUBLISH_STORY_PUBDATE];
     [coder encodeObject:plainText forKey:QUICK_PUBLISH_STORY_PLAINTEXT];
@@ -259,13 +259,13 @@
 {
     if (self != nil)
     {
-        title = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_TITLE] retain];
-        link = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_LINK] retain];
-        description = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_DESCRIPTION] retain];
-        author = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_AUTHOR] retain];
-        pubDate = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_PUBDATE] retain];
+        title     = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_TITLE] retain];
+        link      = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_LINK] retain];
+        htmlText  = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_DESCRIPTION] retain];
+        author    = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_AUTHOR] retain];
+        pubDate   = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_PUBDATE] retain];
         plainText = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_PLAINTEXT] retain];
-        feedUrl = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_FEEDURL] retain];
+        feedUrl   = [[coder decodeObjectForKey:QUICK_PUBLISH_STORY_FEEDURL] retain];
 
         NSData *archivedImages = [coder decodeObjectForKey:QUICK_PUBLISH_STORY_IMAGES];
         if (archivedImages != nil)
@@ -285,19 +285,19 @@
         [image deleteFromDisk];
 }
 
-- (void)addStoryImage:(NSString*)_storyImage
+- (void)addStoryImage:(NSString*)newStoryImage
 {
-    DLog(@"Adding a story image: %@", _storyImage);
+    DLog(@"Adding a story image: %@", newStoryImage);
 
     if (!storyImages)
         storyImages = [[NSMutableArray alloc] initWithCapacity:1];
 
-    if (![_storyImage hasPrefix:@"http"])
+    if (![newStoryImage hasPrefix:@"http"])
     {
-        _storyImage = [NSString stringWithFormat:@"%@%@", self.feedUrl, _storyImage];
+        newStoryImage = [NSString stringWithFormat:@"%@%@", self.feedUrl, newStoryImage];
     }
 
-    StoryImage *image = [[[StoryImage alloc] initWithImageSrc:_storyImage andStoryTitle:title] autorelease];
+    StoryImage *image = [[[StoryImage alloc] initWithImageSrc:newStoryImage andStoryTitle:title] autorelease];
 
     [storyImages addObject:image];
 
@@ -320,14 +320,8 @@
                                                               range:NSMakeRange(0, [style length])
                                                               error:NULL];
 
-//    DLog(@"Height/width matchers match style (%@)?: %@%@", style,
-//            ([matcherWidth count] ? @"width=yes and " : @"width=no and "),
-//            ([matcherHeight count] ? @"height=yes" : @"height=no"));
-
     if (![matcherWidth count])
         return style;
-
-//    DLog(@"Style before: %@", style);
 
     NSString *widthString = [[matcherWidth objectAtIndex:2]
                     stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -355,15 +349,11 @@
                    [NSString stringWithFormat:@"height:%dpx", newHeight]];
     }
 
-//    DLog(@"Style after: %@", style);
-
     return style;
 }
 
 - (NSString*)descriptionWithScaledAndExtractedImages:(NSString*)oldDescription
 {
-    //DLog(@"oldDescription: %@", oldDescription);
-
     NSMutableString *newDescription;
     NSArray *splitDescription = [oldDescription componentsSeparatedByString:@"<img"];
 
@@ -380,7 +370,7 @@
 
     newDescription = [NSMutableString stringWithString:[splitDescription objectAtIndex:0]];
 
-    for (int i=1; i<length; i++)
+    for (NSUInteger i = 1; i < length; i++)
     {
         NSString *currentString = [splitDescription objectAtIndex:i];
 
@@ -394,8 +384,6 @@
                                                                    options:RKLCaseless | RKLDotAll
                                                                      range:NSMakeRange(0, [currentString length])
                                                                      error:nil];
-
-//                DLog(@"Style matches?: %@", ([styleCaptures count] == 5 ? @"yes" : @"no"));
 
                 // TODO: Will this ever be null, or just empty
                 if (!styleCaptures)
@@ -428,28 +416,24 @@
         }
     }
 
-    //DLog(@"newDescription: %@", newDescription);
-
     return [NSString stringWithString:newDescription];
 }
 
-- (void)setDescription:(NSString*)_description
+- (void)setHtmlText:(NSString*)newHtmlText
 {
-    [description release];
+    [htmlText release];
 
-    description = [[self descriptionWithScaledAndExtractedImages:_description] retain];
-    [self setPlainText:[[description stringWithCommentedOutHTMLStyleTags] stringByConvertingHTMLToPlainText]];//[[description stringByConvertingHTMLToPlainText]
-//                                     stringByTrimmingCharactersInSet:[[NSCharacterSet
-//                                         alphanumericCharacterSet] invertedSet]]];
+    htmlText = [[self descriptionWithScaledAndExtractedImages:newHtmlText] retain];
+    [self setPlainText:[[htmlText stringWithCommentedOutHTMLStyleTags] stringByConvertingHTMLToPlainText]];
 }
 
-- (void)setPubDate:(NSString*)_pubDate
+- (void)setPubDate:(NSString*)newPubDate
 {
-    NSRange rangeOfDashColonTimezone = [_pubDate rangeOfString:@"-:"];
+    NSRange rangeOfDashColonTimezone = [newPubDate rangeOfString:@"-:"];
     if (rangeOfDashColonTimezone.location == NSNotFound)
         goto JUST_FINISH;
 
-    _pubDate = [_pubDate substringToIndex:rangeOfDashColonTimezone.location];
+    newPubDate = [newPubDate substringToIndex:rangeOfDashColonTimezone.location];
 
 //    NSError *error;
 //    NSString *pattern = @"[0-9]{4}-[0-9]{2}-[0-9]{2}([A-Za-z]{3})[0-9]{2}:[0-9]{2}:[0-9]{2}";
@@ -465,25 +449,25 @@
 //
 //    _pubDate = [_pubDate stringByReplacingOccurrencesOfString:timezone withString:@"T"];
 
-    NSDate *date = [NSDate dateFromRFC3339String:_pubDate];
+    NSDate *date = [NSDate dateFromRFC3339String:newPubDate];
 
     if (!date)
         goto JUST_FINISH;
 
-    _pubDate = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
+    newPubDate = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
 
 JUST_FINISH:
     [pubDate release];
-    pubDate = [_pubDate retain];
+    pubDate = [newPubDate retain];
 }
 
 - (void)dealloc
 {
-	[title release];
-	[link release];
-	[description release];
-	[author release];
-	[pubDate release];
+    [title release];
+    [link release];
+    [htmlText release];
+    [author release];
+    [pubDate release];
     [plainText release];
 
     [feedUrl release];
@@ -507,7 +491,7 @@ JUST_FINISH:
     self = [super init];
 
     if (self)
-	{
+    {
         title = @"Janrain | Blog";
         url = @"http://www.janrain.com";
         rssUrl = @"http://www.janrain.com/feed/blogs";
@@ -515,9 +499,9 @@ JUST_FINISH:
         storyLinks = nil;
 
         [self loadStories];
-	}
+    }
 
-	return self;
+    return self;
 }
 
 - (NSMutableArray*)stories
@@ -568,7 +552,7 @@ JUST_FINISH:
 
 - (void)loadStories
 {
-    NSString *cachedVersion = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_VERSION];
+    NSString *cachedVersion  = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_VERSION];
     NSString *currentVersion = [[NSDictionary dictionaryWithContentsOfFile:
                                                  [[[NSBundle mainBundle] bundlePath]
                                                  stringByAppendingPathComponent:@"Info.plist"]]
@@ -604,7 +588,7 @@ JUST_FINISH:
 - (void)dealloc
 {
     [url release];
- 	[title release];
+    [title release];
     [link release];
 
     [stories release];
@@ -615,11 +599,11 @@ JUST_FINISH:
 @end
 
 @interface FeedReader ()
-@property (retain) NSXMLParser *parser;
-@property (retain) Story *currentStory;
-@property (retain) NSString *currentElement;
+@property (retain) NSXMLParser     *parser;
+@property (retain) Story           *currentStory;
+@property (retain) NSString        *currentElement;
 @property (retain) NSMutableString *currentContent;
-@property          NSUInteger counter;
+@property          NSUInteger       counter;
 @property (retain) id<FeedReaderDelegate>feedReaderDelegate;
 @end
 
@@ -630,12 +614,11 @@ JUST_FINISH:
 @synthesize currentContent;
 @synthesize counter;
 @synthesize feedReaderDelegate;
+@synthesize libraryDialogDelegate;
 @synthesize jrEngage;
 @synthesize currentlyReloadingBlog;
 @synthesize selectedStory;
 @dynamic dateOfLastUpdate;
-@synthesize libraryDialogDelegate;
-
 
 static FeedReader* singleton = nil;
 + (id)allocWithZone:(NSZone *)zone
@@ -655,13 +638,10 @@ static FeedReader* singleton = nil;
 
 - (NSUInteger)retainCount
 {
-    return NSUIntegerMax;  //denotes an object that cannot be released
+    return NSUIntegerMax;
 }
 
-- (oneway void)release
-{
-    //do nothing
-}
+- (oneway void)release { }
 
 - (id)autorelease
 {
@@ -674,24 +654,22 @@ static FeedReader* singleton = nil;
 - (id)init
 {
     self = [super init];
-	if (self)
-	{
+    if (self)
+    {
         singleton = self;
-        feed = [[Feed alloc] init];
-        jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:nil/*tokenUrl*/ delegate:self];
+        feed      = [[Feed alloc] init];
+        jrEngage  = [JREngage jrEngageWithAppId:appId andTokenUrl:nil/*tokenUrl*/ delegate:self];
+    }
 
-//        [self downloadFeedStories];
-	}
-
-	return self;
+    return self;
 }
 
 + (FeedReader*)feedReader
 {
-	if(singleton)
-		return singleton;
+    if(singleton)
+        return singleton;
 
-	return [[[super allocWithZone:nil] init] autorelease];
+    return [[[super allocWithZone:nil] init] autorelease];
 }
 
 - (void)downloadFeed:(id<FeedReaderDelegate>)delegate
@@ -705,15 +683,15 @@ static FeedReader* singleton = nil;
     counter = 0;
 
     DLog(@"Initializing feed");
-	NSURL *xmlURL = [NSURL URLWithString:[feed rssUrl]];
+    NSURL *xmlURL = [NSURL URLWithString:[feed rssUrl]];
 
     DLog(@"Initializing xml parser");
-	parser = [[NSXMLParser alloc] initWithContentsOfURL:xmlURL];
+    parser = [[NSXMLParser alloc] initWithContentsOfURL:xmlURL];
 
-	[parser setDelegate:self];
-	[parser setShouldProcessNamespaces:NO];
-	[parser setShouldReportNamespacePrefixes:NO];
-	[parser setShouldResolveExternalEntities:NO];
+    [parser setDelegate:self];
+    [parser setShouldProcessNamespaces:NO];
+    [parser setShouldReportNamespacePrefixes:NO];
+    [parser setShouldResolveExternalEntities:NO];
 
     DLog(@"Starting to parse the Janrain Blog feed");
     [parser parse];
@@ -721,7 +699,7 @@ static FeedReader* singleton = nil;
 
 - (void)parserDidStartDocument:(NSXMLParser*)xmlParser
 {
-	DLog(@"Found the feed and started parsing");
+    DLog(@"Found the feed and started parsing");
 }
 
 - (void)feedDidFinishDownloading
@@ -753,7 +731,7 @@ static FeedReader* singleton = nil;
 
 - (void)parser:(NSXMLParser*)xmlParser parseErrorOccurred:(NSError*)parseError
 {
-//	NSString *errorString = [NSString stringWithFormat:@"Unable to download story feed from web site (Error code %i )", [parseError code]];
+//  NSString *errorString = [NSString stringWithFormat:@"Unable to download story feed from web site (Error code %i )", [parseError code]];
     if ([parseError code] == 512)
         DLog(@"Error parsing XML: %@", [parseError description]);
     else
@@ -767,7 +745,7 @@ static FeedReader* singleton = nil;
 //                                                          delegate:self
 //                                                 cancelButtonTitle:@"OK"
 //                                                 otherButtonTitles:nil] autorelease];
-//	[errorAlert show];
+//  [errorAlert show];
 
     if ([parseError code] == 512)
         [self feedDidFinishDownloading];
@@ -775,19 +753,17 @@ static FeedReader* singleton = nil;
         [self feedDidFailToDownload];
 }
 
-- (void)parser:(NSXMLParser*)xmlParser didStartElement:(NSString*)elementName
-  namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qName
-    attributes:(NSDictionary*)attributeDict
+- (void)parser:(NSXMLParser*)xmlParser didStartElement:(NSString*)elementName namespaceURI:(NSString*)namespaceURI
+ qualifiedName:(NSString*)qName attributes:(NSDictionary*)attributeDict
 {
-	DLog(@"Started element: %@", elementName);
+    DLog(@"Started element: %@", elementName);
 
-	currentElement = [[NSString alloc] initWithString:elementName];
-	if ([elementName isEqualToString:@"item"])
-	{
-//        DLog(@"Element is a story");
+    currentElement = [[NSString alloc] initWithString:elementName];
+    if ([elementName isEqualToString:@"item"])
+    {
         currentStory = [[Story alloc] init];
         [currentStory setFeedUrl:feed.url];
-	}
+    }
     else if ([elementName isEqualToString:@"description"])
     { // TODO: This else block appears to do nothing different...
         currentContent = [[NSMutableString alloc] init];
@@ -798,33 +774,23 @@ static FeedReader* singleton = nil;
     }
 }
 
-- (void)parser:(NSXMLParser*)xmlParser didEndElement:(NSString*)elementName
-  namespaceURI:(NSString*)namespaceURI qualifiedName:(NSString*)qName
+- (void)parser:(NSXMLParser*)xmlParser didEndElement:(NSString*)elementName namespaceURI:(NSString*)namespaceURI
+ qualifiedName:(NSString*)qName
 {
-//	DLog(@"Ended element: %@", elementName);
-	if ([elementName isEqualToString:@"item"])
-	{
-//        DLog(@"Element is a story");
-
-//        if (counter >= 5)
-//            if (![feed isNewStory:currentStory addAtIndex:counter - 5])
-//                [parser abortParsing];
-
+    if ([elementName isEqualToString:@"item"])
+    {
         if (![feed isNewStory:currentStory addAtIndex:counter])
             [parser abortParsing];
-
-//		DLog(@"Adding story: %@", [currentStory title]);
-
         [currentStory release], currentStory = nil;
         counter++;
-	}
+    }
     else if ([currentElement isEqualToString:@"title"])
         [currentStory setTitle:currentContent];
-	else if ([currentElement isEqualToString:@"link"])
+    else if ([currentElement isEqualToString:@"link"])
         [currentStory setLink:currentContent];
-	else if ([currentElement isEqualToString:@"description"])
-        [currentStory setDescription:currentContent];
-	else if ([currentElement isEqualToString:@"pubDate"])
+    else if ([currentElement isEqualToString:@"description"])
+        [currentStory setHtmlText:currentContent];
+    else if ([currentElement isEqualToString:@"pubDate"])
         [currentStory setPubDate:currentContent];
     else if ([currentElement isEqualToString:@"dc:creator"])
         [currentStory setAuthor:currentContent];
@@ -838,10 +804,10 @@ static FeedReader* singleton = nil;
     if ([currentElement isEqualToString:@"dc:creator"])
         DLog(@"Found characters: %@", string);
 
-	if ([currentElement isEqualToString:@"title"] ||
-        [currentElement isEqualToString:@"link"] ||
+    if ([currentElement isEqualToString:@"title"]       ||
+        [currentElement isEqualToString:@"link"]        ||
         [currentElement isEqualToString:@"description"] ||
-        [currentElement isEqualToString:@"pubDate"] ||
+        [currentElement isEqualToString:@"pubDate"]     ||
         [currentElement isEqualToString:@"dc:creator"])
         [currentContent appendString:string];
 }
@@ -852,7 +818,7 @@ static FeedReader* singleton = nil;
     app.networkActivityIndicatorVisible = NO;
 
     DLog(@"All done!");
-	DLog(@"Stories array has %d items", [feed.stories count]);
+    DLog(@"Stories array has %d items", [feed.stories count]);
 
     [self feedDidFinishDownloading];
 }
@@ -865,7 +831,7 @@ static FeedReader* singleton = nil;
 /* Entire JREngageDelegate protocol */
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
 {
-	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sharing Failed"
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sharing Failed"
                                                      message:@"An error occurred while attempting to share this article.  Please try again."
                                                     delegate:self
                                            cancelButtonTitle:@"OK"

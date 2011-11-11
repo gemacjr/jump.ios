@@ -32,7 +32,6 @@
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import <Foundation/Foundation.h>
 #import "JRActivityObject.h"
 
 #ifdef DEBUG
@@ -148,13 +147,6 @@
 	return imageMediaObjectCopy;
 }
 
-//- (void)setPreviewImage:(UIImage*)image
-//{
-//    [image retain];
-//    [_preview release];
-//    _preview = image;
-//}
-
 - (NSDictionary*)dictionaryForObject
 {
     return [[[NSDictionary alloc] initWithObjectsAndKeys:
@@ -206,12 +198,6 @@
 
     return [[[JRFlashMediaObject alloc] initWithSwfsrc:swfsrc andImgsrc:imgsrc] autorelease];
 }
-
-//- (void)setPreviewImage:(UIImage*)image
-//{
-//    [_preview release];
-//    _preview = [image retain];
-//}
 
 - (id)copyWithZone:(NSZone*)zone
 {
@@ -739,12 +725,12 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
     return [NSDictionary dictionaryWithObject:dict forKey:@"activity"];
 }
 
-- (void)setTitle:(NSString*)title                                  { self.resourceTitle = title; }
-- (void)setDescription:(NSString*)description                      { self.resourceDescription = description; }
+- (void)setTitle:(NSString*)title                                   { self.resourceTitle = title;             }
+- (void)setDescription:(NSString*)description                       { self.resourceDescription = description; }
 - (void)setUser_generated_content:(NSString*)user_generated_content { self.userGeneratedContent = user_generated_content; }
-- (NSString *)title                  { return self.resourceTitle;  }
+- (NSString *)title                  { return self.resourceTitle;        }
 - (NSString *)description            { return self.resourceDescription;  }
-- (NSString *)user_generated_content { return self.userGeneratedContent;  }
+- (NSString *)user_generated_content { return self.userGeneratedContent; }
 
 - (void)dealloc
 {
