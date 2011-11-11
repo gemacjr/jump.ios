@@ -42,6 +42,7 @@
 
 #import "JRPublishActivityController.h"
 #import "JREngage+CustomInterface.h"
+#import "JRActivityObject.h"
 
 @interface JRProvider (SOCIAL_SHARING_PROPERTIES)
 - (BOOL)willThunkPublishToStatusForActivity:(JRActivityObject*)activity;
@@ -813,7 +814,7 @@ Please try again later."
                                           selectedProvider.friendlyName];
 
         // Question to self: Here because you can switch tabs while editing on the iPad, yes??
-        currentActivity.user_generated_content = myUserCommentTextView.text;
+        currentActivity.userGeneratedContent = myUserCommentTextView.text;
 
         if (loggedInUser)
         {
@@ -1068,7 +1069,7 @@ Please try again later."
     if (myUserCommentTextView.text.length > 0)
         [myUserCommentTextView scrollRangeToVisible:NSMakeRange(0, 1)];
 
-    currentActivity.user_generated_content = myUserCommentTextView.text;
+    currentActivity.userGeneratedContent = myUserCommentTextView.text;
 
     return YES;
 }
@@ -1307,8 +1308,8 @@ Please try again later."
     [self updatePreviewTextWhenContentReplacesAction];
 
  /* Determine if the activity has rich data (media, a title, or a description) or not */
-    if ((!currentActivity.title || [currentActivity.title isEqualToString:@""]) &&
-        (!currentActivity.description || [currentActivity.description isEqualToString:@""]) &&
+    if ((!currentActivity.resourceTitle || [currentActivity.resourceTitle isEqualToString:@""]) &&
+        (!currentActivity.resourceDescription || [currentActivity.resourceDescription isEqualToString:@""]) &&
         ([currentActivity.media count] == 0 || mediaThumbnailFailedToDownload))
         activityHasRichData = NO;
     else
@@ -1347,9 +1348,9 @@ Please try again later."
  /* If there is a title, set the title label's text and determine how much space the
     activity's title will potentially need */
     CGFloat shouldBeTitleHeight = 0;
-    if (currentActivity.title)
+    if (currentActivity.resourceTitle)
     {
-        myTitleLabel.text = currentActivity.title;
+        myTitleLabel.text = currentActivity.resourceTitle;
 
         CGSize shouldBeTitleSize =
                        [myTitleLabel.text sizeWithFont:myTitleLabel.font                        // TODO: Verify change made below
@@ -1361,9 +1362,9 @@ Please try again later."
  /* If there is a description, set the description label's text and determine how much
     space the activity's description will potentially need */
     CGFloat shouldBeDescriptionHeight = 0;
-    if (currentActivity.description)
+    if (currentActivity.resourceDescription)
     {
-        myDescriptionLabel.text = currentActivity.description;
+        myDescriptionLabel.text = currentActivity.resourceDescription;
 
         CGSize shouldBeDescriptionSize =
                        [myDescriptionLabel.text sizeWithFont:myDescriptionLabel.font
@@ -1565,7 +1566,7 @@ Please try again later."
     weAreCurrentlyPostingSomething = YES;
 
     if (myUserCommentTextView.text && hasEditedUserContentForActivityAlready)
-        currentActivity.user_generated_content = myUserCommentTextView.text;
+        currentActivity.userGeneratedContent = myUserCommentTextView.text;
 
     [sessionData setCurrentProvider:selectedProvider];
     [self showViewIsLoading:YES];
