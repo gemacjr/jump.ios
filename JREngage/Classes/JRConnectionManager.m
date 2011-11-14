@@ -214,7 +214,7 @@ static JRConnectionManager* singleton = nil;
 + (NSURLRequest*)aCopyOfTheRequestWithANonCrashingUserAgent:(NSURLRequest*)request
 {
     // Question to self: Am I calling this every time, and if so, will this mess up any user-agent detection?
-    NSMutableURLRequest* new_request = [request mutableCopyWithZone:nil];
+    NSMutableURLRequest* new_request = [[request mutableCopyWithZone:nil] autorelease];
 
     [new_request setValue:@"Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.4) Gecko/20100527 Firefox/3.6.4 GTB7.1"
        forHTTPHeaderField:@"User-Agent"];
@@ -234,7 +234,7 @@ static JRConnectionManager* singleton = nil;
     JRConnectionManager* connectionManager = [JRConnectionManager getJRConnectionManager];
     CFMutableDictionaryRef connectionBuffers = connectionManager.connectionBuffers;
 
-    request = [[JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request] autorelease];
+    request = [JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request];
 
     if (![NSURLConnection canHandleRequest:request])
         return NO;
@@ -373,7 +373,7 @@ static JRConnectionManager* singleton = nil;
     if ([connectionData returnFullResponse])
         connectionData.fullResponse = redirectResponse;
 
-    return [[JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request] autorelease];
+    return [JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request];
 }
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge  { DLog(@""); }

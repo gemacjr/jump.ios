@@ -242,13 +242,15 @@
     NSString *thirdLineOfText  = @"";
     NSString *remainingText    = @"";
 
-    CGSize sizeOfUrl = [url sizeWithFont:font
-                       constrainedToSize:CGSizeMake(urlMaxWidth, lineHeight)
-                           lineBreakMode:UILineBreakModeTailTruncation];
+    CGSize sizeOfUrl = (!url) ? CGSizeMake(0, 0) :
+                                [url sizeWithFont:font
+                                constrainedToSize:CGSizeMake(urlMaxWidth, lineHeight)
+                                    lineBreakMode:UILineBreakModeTailTruncation];
 
-    CGSize sizeOfUsername = [username sizeWithFont:boldFont
-                                 constrainedToSize:CGSizeMake(usernameMaxWidth, lineHeight)
-                                     lineBreakMode:UILineBreakModeTailTruncation];
+    CGSize sizeOfUsername = (!username) ? CGSizeMake(0, 0):
+                                          [username sizeWithFont:boldFont
+                                               constrainedToSize:CGSizeMake(usernameMaxWidth, lineHeight)
+                                                   lineBreakMode:UILineBreakModeTailTruncation];
 
 
     CGFloat remainingLineOneWidth = lineWidth - sizeOfUsername.width - usernamePadding;
@@ -259,7 +261,7 @@
 
     if (sizeOfFirstLineOfText.height <= lineHeight)
     {
-        lengthOfFirstLineOfText = usertext.length;
+//        lengthOfFirstLineOfText = usertext.length;
         firstLineOfText = usertext;
     }
     else
@@ -281,7 +283,7 @@
 
         if (sizeOfSecondLineOfText.height <= lineHeight)
         {
-            lengthOfSecondLineOfText = remainingText.length;
+//            lengthOfSecondLineOfText = remainingText.length;
             secondLineOfText = remainingText;
         }
         else

@@ -91,7 +91,8 @@ static JREngage* singletonJREngage = nil;
     if(singletonJREngage)
         return [singletonJREngage reconfigureWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
 
-    return [((JREngage *)[super allocWithZone:nil]) initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
+    return [[((JREngage *)[super allocWithZone:nil]) /* autoreleasing to stop IDE warnings; does nothing for singleton objects. */
+             initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate] autorelease]; 
 }
 
 - (id)copyWithZone:(NSZone *)zone
