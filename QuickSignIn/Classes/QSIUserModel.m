@@ -477,15 +477,14 @@ otherwise, this happens automatically.                                          
         as a "subtable", as the provider table's header view. While they are two different tables, it will appear as if
         they are different sections of the same table. */
         if (!embeddedTable)
-            self.embeddedTable = [[EmbeddedTableViewController alloc] init];
+            self.embeddedTable = [[[EmbeddedTableViewController alloc] init] autorelease];
 
         /* If you want your embeddedTable to control the navigationController, you must use your own. */
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
-            self.navigationController = [[UINavigationController alloc] init];
+            self.navigationController = [[[UINavigationController alloc] init] autorelease];
             self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
         }
-
 
         moreCustomizations = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                     embeddedTable.view, kJRProviderTableHeaderView,
