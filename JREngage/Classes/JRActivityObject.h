@@ -503,7 +503,6 @@
  * (Twitter in particular) may truncate this value.
  **/
 @property (copy) NSString *userGeneratedContent;
-@property (copy) NSString *user_generated_content;
 
 /**
  * The title of the resource being mentioned in the activity update.
@@ -513,15 +512,11 @@
  * however Yahoo truncates this value to 256 characters.
  **/
 @property (copy) NSString *resourceTitle;
-@property (copy) NSString *title;
-
 
 /**
  * A description of the resource mentioned in the activity update.
  **/
 @property (copy) NSString *resourceDescription;
-@property (copy) NSString *description;
-
 
 /**
  * An array of JRActionLink objects, each having two attributes: text and href.
@@ -546,7 +541,6 @@
  * Any objects added to this array that are not of type JRActionLink will be ignored.
  **/
 @property (copy) NSArray *actionLinks;
-@property (copy) NSArray *action_links;
 
 /**
  * An array of objects with base class \e JRMediaObject (i.e., JRImageMediaObject,
@@ -605,6 +599,32 @@
  * share via sms.
  **/
 @property (copy) JRSmsObject *sms;
+/*@}*/
+
+/**
+ * @name
+ * Deprecated properties.
+ **/
+/*@{*/
+/**
+* @deprecated Please use the JRActivityObject#userGeneratedContent property instead.
+**/
+@property (copy) NSString *user_generated_content;
+
+/**
+* @deprecated Please use the JRActivityObject#resourceTitle property instead.
+**/
+@property (copy) NSString *title;
+
+/**
+* @deprecated Please use the JRActivityObject#resourceDescription property instead.
+**/
+@property (copy) NSString *description;
+
+/**
+* @deprecated Please use the JRActivityObject#actionLinks property instead.
+**/
+@property (copy) NSArray *action_links;
 /*@}*/
 
 /**

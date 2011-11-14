@@ -44,20 +44,20 @@ Properties</h2></td></tr>
 Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_email_object.html#a0442bf634e0618b5fe0da428ae5df44c">initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a30207f2ff4219b399ca6dae94498b442"></a><!-- doxytag: member="JREmailObject::emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:" ref="a30207f2ff4219b399ca6dae94498b442" args="(NSString *_subject,[andMessageBody] NSString *_messageBody,[isHtml] BOOL _isHtml,[andUrlsToBeShortened] NSArray *_urls)" -->
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_email_object.html#aca0df72fa9da0ad8ff2636aa58c93cfc">initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa2f725489ef54f261cd819f0427b1632"></a><!-- doxytag: member="JREmailObject::emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:" ref="aa2f725489ef54f261cd819f0427b1632" args="(NSString *subject,[andMessageBody] NSString *messageBody,[isHtml] BOOL isHtml,[andUrlsToBeShortened] NSArray *urls)" -->
 (id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>emailObjectWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Object containing content to be shared by email. </p>
 <p>Create an email object, fill in the fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a3f3c485be861e61ce60d9c7a92373e19">JRActivityObject.email</a> property in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. The given content is supplied to the <em>MFMailComposeViewController</em> class when the user wants to share your activity via email.</p>
-<p>If your email message body contains URLs that you would like shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> URL (with which you can track click-throughs), add the exact URL(s) to the <em>urls</em> array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your email body.</p>
+<p>If your email message body contains URLs that you would like shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> URL (with which you can track click-throughs), add the exact URL(s), as NSString*s, to the <em>urls</em> array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your email body.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>If the user attempts to share the activity via email before the call to shorten the URLs is returned, the email will contain the original URLs and the click-throughs will not be tracked. <br/>
 </dd>
 <dd>
 Once the <em>MFMailComposeViewController</em> is displayed, the given subject and body can be modified by the user. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a0442bf634e0618b5fe0da428ae5df44c"></a><!-- doxytag: member="JREmailObject::initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:" ref="a0442bf634e0618b5fe0da428ae5df44c" args="(NSString *_subject,[andMessageBody] NSString *_messageBody,[isHtml] BOOL _isHtml,[andUrlsToBeShortened] NSArray *_urls)" -->
+<a class="anchor" id="aca0df72fa9da0ad8ff2636aa58c93cfc"></a><!-- doxytag: member="JREmailObject::initWithSubject:andMessageBody:isHtml:andUrlsToBeShortened:" ref="aca0df72fa9da0ad8ff2636aa58c93cfc" args="(NSString *subject,[andMessageBody] NSString *messageBody,[isHtml] BOOL isHtml,[andUrlsToBeShortened] NSArray *urls)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -65,25 +65,25 @@ Once the <em>MFMailComposeViewController</em> is displayed, the given subject an
           <td class="memname">- (id) initWithSubject: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_subject</em></td>
+          <td class="paramname"> <em>subject</em></td>
         </tr>
         <tr>
           <td class="paramkey">andMessageBody:</td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_messageBody</em></td>
+          <td class="paramname"> <em>messageBody</em></td>
         </tr>
         <tr>
           <td class="paramkey">isHtml:</td>
           <td></td>
           <td class="paramtype">(BOOL)&nbsp;</td>
-          <td class="paramname"> <em>_isHtml</em></td>
+          <td class="paramname"> <em>isHtml</em></td>
         </tr>
         <tr>
           <td class="paramkey">andUrlsToBeShortened:</td>
           <td></td>
           <td class="paramtype">(NSArray *)&nbsp;</td>
-          <td class="paramname"> <em>_urls</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>urls</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -96,10 +96,10 @@ Once the <em>MFMailComposeViewController</em> is displayed, the given subject an
 <p>Returns a <a class="el" href="interface_j_r_email_object.html" title="Object containing content to be shared by email.">JREmailObject</a> initialized with the given subject and message body.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_subject</em>&nbsp;</td><td>The desired subject of the email. The user can edit this value once the <em>MFMailComposeViewController</em> is displayed</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_messageBody</em>&nbsp;</td><td>The desired message body of the email. The message body can be in plain text or html, and if it is in html, this should be indicated by the argument <em>isHtml</em>. If you want to include urls that are shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> they should be added to the <em>urls</em> array. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. This value can be edited by the user once the <em>MFMailComposeViewController</em> is displayed</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_isHtml</em>&nbsp;</td><td><code>YES</code> if the message body contains HTML content or <code>NO</code> if it contains plain text</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_urls</em>&nbsp;</td><td>The array of urls that JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subject</em>&nbsp;</td><td>The desired subject of the email. The user can edit this value once the <em>MFMailComposeViewController</em> is displayed</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>messageBody</em>&nbsp;</td><td>The desired message body of the email. The message body can be in plain text or html, and if it is in html, this should be indicated by the argument <em>isHtml</em>. If you want to include urls that are shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> they should be added to the <em>urls</em> array. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. This value can be edited by the user once the <em>MFMailComposeViewController</em> is displayed</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>isHtml</em>&nbsp;</td><td><code>YES</code> if the message body contains HTML content or <code>NO</code> if it contains plain text</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>urls</em>&nbsp;</td><td>The array of urls that JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via email before the call is returned, the original urls will remain. The URLs must be an <em>NSString*</em> representation of a well-formed URL, with a scheme and host. They cannot be an empty string or <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
@@ -113,7 +113,7 @@ Once the <em>MFMailComposeViewController</em> is displayed, the given subject an
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString*) subject<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) subject<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>
@@ -127,7 +127,7 @@ Once the <em>MFMailComposeViewController</em> is displayed, the given subject an
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString*) messageBody<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) messageBody<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>
@@ -155,7 +155,7 @@ Once the <em>MFMailComposeViewController</em> is displayed, the given subject an
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSArray*) urls<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSArray*) urls<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>

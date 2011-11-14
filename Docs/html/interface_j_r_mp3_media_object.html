@@ -52,8 +52,8 @@ Constructors</h2></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Mp3 object to be included in a post to a user's stream. </p>
-<p>Create an mp3 media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a7deaa868eb6d2eb695cd8104f54b713c">JRActivityObject.media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the mp3s get presented and whether or not they are used, depend on the provider.</p>
-<p>Each mp3 must contain a <em>src</em> url, which is the URL of the MP3 file to be rendered. The mp3 can also include a <em>title</em>, <em>artist</em>, and <em>album</em>.</p>
+<p>Create an mp3 media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a1e58bd40e458355bad474de378b0b3b6">JRActivityObject.media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the mp3s get presented and whether or not they are used, depend on the provider.</p>
+<p>Each mp3 must contain an NSString* <em>src</em> url, which is the URL of the MP3 file to be rendered. The mp3 can also include a <em>title</em>, <em>artist</em>, and <em>album</em>. The <em>src</em> URL must be well-formed; that is, it must have both a scheme and host, and conform to <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>You can only include one <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> in the media array. Any others will be ignored.</dd></dl>
 <dl class="see"><dt><b>See also:</b></dt><dd>Format and rules are identical to those described on the <a href="http://developers.facebook.com/docs/guides/attachments">Facebook Developer page on Attachments</a>. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
@@ -75,11 +75,11 @@ Constructors</h2></td></tr>
 <p>Returns a <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> initialized with the given src.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>src</em>&nbsp;</td><td>The URL of the MP3 file to be rendered. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>src</em>&nbsp;</td><td>The URL of the MP3 file to be rendered. This value must be an <em>NSString*</em> representation of a well-formed URL, with a scheme and host. It cannot be an empty string or <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> initialized with the given src. If src is <em>nil</em>, returns <em>nil</em> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_mp3_media_object.html" title="Mp3 object to be included in a post to a user&#39;s stream.">JRMp3MediaObject</a> initialized with the given src. If src is malformed, empty, or <em>nil</em>, returns <em>nil</em> </dd></dl>
 
 </div>
 </div>
@@ -103,7 +103,7 @@ Constructors</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString*) title<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) title<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>
@@ -117,12 +117,12 @@ Constructors</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString*) artist<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) artist<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
-<p>&lt; The artist. </p>
+<p>The artist. </p>
 
 </div>
 </div>
@@ -131,7 +131,7 @@ Constructors</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString*) album<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) album<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>

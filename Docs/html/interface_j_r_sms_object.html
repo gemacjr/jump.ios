@@ -42,19 +42,19 @@ Properties</h2></td></tr>
 Constructors</h2></td></tr>
 <tr><td colspan="2"><p><a class="anchor" id="amgrp559a25fdb98a7d1fd1c3771ac568d5e9"></a> </p>
 <br/><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_sms_object.html#a743f35010811eaef5d5e250e7d27470c">initWithMessage:andUrlsToBeShortened:</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a471dbc5ebdf00896dcfa67b7315d0855"></a><!-- doxytag: member="JRSmsObject::smsObjectWithMessage:andUrlsToBeShortened:" ref="a471dbc5ebdf00896dcfa67b7315d0855" args="(NSString *_message,[andUrlsToBeShortened] NSArray *_urls)" -->
+<tr><td class="memItemLeft" align="right" valign="top">(id)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_j_r_sms_object.html#a1b2f6099341a828ea829c8211e0f453e">initWithMessage:andUrlsToBeShortened:</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff9a9e7ca239a62f35a55b6ef328c1ff"></a><!-- doxytag: member="JRSmsObject::smsObjectWithMessage:andUrlsToBeShortened:" ref="aff9a9e7ca239a62f35a55b6ef328c1ff" args="(NSString *message,[andUrlsToBeShortened] NSArray *urls)" -->
 (id)&nbsp;</td><td class="memItemRight" valign="bottom">+ <b>smsObjectWithMessage:andUrlsToBeShortened:</b></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Object containing the default message to be shared by sms. </p>
 <p>Create an sms object, fill in the message field, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a6be39a72508a474d9c2437058e5926a9">JRActivityObject.sms</a> property in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. The given message string is supplied to the <em>MFMessageComposeViewController</em> class when the user wants to share your activity via sms.</p>
-<p>If your sms message contains URLs that you would like shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> (with which you can track click-throughs), add the exact URL(s) to the <em>urls</em> array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your sms message.</p>
+<p>If your sms message contains URLs that you would like shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> (with which you can track click-throughs), add the exact URL(s), as NSString*s, to the <em>urls</em> array. The library will contact the Engage servers to obtain shortened URLs and replace any instance of the url in your sms message.</p>
 <dl class="note"><dt><b>Note:</b></dt><dd>If the user attempts to share the activity via sms before the call to shorten the URLs is returned, the sms will contain the original URLs and the click-throughs will not be tracked. <br/>
 <br/>
  Once the <em>MFMessageComposeViewController</em> is displayed, the given message string can be modified by the user. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a743f35010811eaef5d5e250e7d27470c"></a><!-- doxytag: member="JRSmsObject::initWithMessage:andUrlsToBeShortened:" ref="a743f35010811eaef5d5e250e7d27470c" args="(NSString *_message,[andUrlsToBeShortened] NSArray *_urls)" -->
+<a class="anchor" id="a1b2f6099341a828ea829c8211e0f453e"></a><!-- doxytag: member="JRSmsObject::initWithMessage:andUrlsToBeShortened:" ref="a1b2f6099341a828ea829c8211e0f453e" args="(NSString *message,[andUrlsToBeShortened] NSArray *urls)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -62,13 +62,13 @@ Constructors</h2></td></tr>
           <td class="memname">- (id) initWithMessage: </td>
           <td></td>
           <td class="paramtype">(NSString *)&nbsp;</td>
-          <td class="paramname"> <em>_message</em></td>
+          <td class="paramname"> <em>message</em></td>
         </tr>
         <tr>
           <td class="paramkey">andUrlsToBeShortened:</td>
           <td></td>
           <td class="paramtype">(NSArray *)&nbsp;</td>
-          <td class="paramname"> <em>_urls</em></td><td>&nbsp;</td>
+          <td class="paramname"> <em>urls</em></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -81,8 +81,8 @@ Constructors</h2></td></tr>
 <p>Returns a <a class="el" href="interface_j_r_sms_object.html" title="Object containing the default message to be shared by sms.">JRSmsObject</a> initialized with the given message and URLs that you wish to be shortened to the <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> format.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>_message</em>&nbsp;</td><td>The desired message text of the sms. If you want to include urls that are shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url, they should be added to the <em>urls</em> array. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. This value can be edited by the user once the <em>MFMessageComposeViewController</em> is displayed</td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>_urls</em>&nbsp;</td><td>The array of urls that JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>The desired message text of the sms. If you want to include urls that are shortened to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url, they should be added to the <em>urls</em> array. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. This value can be edited by the user once the <em>MFMessageComposeViewController</em> is displayed</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>urls</em>&nbsp;</td><td>The array of urls that JREngage will shorten to an <a href="http://rpxnow.com/docs/iphone#shorten_urls">http://rpx.me/</a> url. Once the call to get the shortened URLs is completed, the library will replace all occurrences of each url with its corresponding shortened url. To avoid blocking the UI, if the user tries to share via sms before the call is returned, the original urls will remain. The URLs must be an <em>NSString*</em> representation of a well-formed URL, with a scheme and host. They cannot be an empty string or <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
@@ -96,7 +96,7 @@ Constructors</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString*) message<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) message<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>
@@ -110,7 +110,7 @@ Constructors</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSArray*) urls<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSArray*) urls<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>

@@ -16,24 +16,24 @@
 <h1>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/JRUserInterfaceMaestro.h</h1>  </div>
 </div>
 <div class="contents">
-<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * </span>
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *</span>
 <a name="l00002"></a>00002 <span class="comment"> Copyright (c) 2010, Janrain, Inc.</span>
-<a name="l00003"></a>00003 <span class="comment"> </span>
+<a name="l00003"></a>00003 <span class="comment"></span>
 <a name="l00004"></a>00004 <span class="comment"> All rights reserved.</span>
-<a name="l00005"></a>00005 <span class="comment"> </span>
+<a name="l00005"></a>00005 <span class="comment"></span>
 <a name="l00006"></a>00006 <span class="comment"> Redistribution and use in source and binary forms, with or without modification,</span>
 <a name="l00007"></a>00007 <span class="comment"> are permitted provided that the following conditions are met:</span>
-<a name="l00008"></a>00008 <span class="comment"> </span>
+<a name="l00008"></a>00008 <span class="comment"></span>
 <a name="l00009"></a>00009 <span class="comment"> * Redistributions of source code must retain the above copyright notice, this</span>
-<a name="l00010"></a>00010 <span class="comment">   list of conditions and the following disclaimer. </span>
-<a name="l00011"></a>00011 <span class="comment"> * Redistributions in binary form must reproduce the above copyright notice, </span>
+<a name="l00010"></a>00010 <span class="comment">   list of conditions and the following disclaimer.</span>
+<a name="l00011"></a>00011 <span class="comment"> * Redistributions in binary form must reproduce the above copyright notice,</span>
 <a name="l00012"></a>00012 <span class="comment">   this list of conditions and the following disclaimer in the documentation and/or</span>
-<a name="l00013"></a>00013 <span class="comment">   other materials provided with the distribution. </span>
+<a name="l00013"></a>00013 <span class="comment">   other materials provided with the distribution.</span>
 <a name="l00014"></a>00014 <span class="comment"> * Neither the name of the Janrain, Inc. nor the names of its</span>
 <a name="l00015"></a>00015 <span class="comment">   contributors may be used to endorse or promote products derived from this</span>
 <a name="l00016"></a>00016 <span class="comment">   software without specific prior written permission.</span>
-<a name="l00017"></a>00017 <span class="comment"> </span>
-<a name="l00018"></a>00018 <span class="comment"> </span>
+<a name="l00017"></a>00017 <span class="comment"></span>
+<a name="l00018"></a>00018 <span class="comment"></span>
 <a name="l00019"></a>00019 <span class="comment"> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
 <a name="l00020"></a>00020 <span class="comment"> ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
 <a name="l00021"></a>00021 <span class="comment"> WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
@@ -43,89 +43,90 @@
 <a name="l00025"></a>00025 <span class="comment"> LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
 <a name="l00026"></a>00026 <span class="comment"> ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
 <a name="l00027"></a>00027 <span class="comment"> (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
-<a name="l00028"></a>00028 <span class="comment"> SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </span>
-<a name="l00029"></a>00029 <span class="comment"> </span>
+<a name="l00028"></a>00028 <span class="comment"> SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="l00029"></a>00029 <span class="comment"></span>
 <a name="l00030"></a>00030 <span class="comment"> File:   JRUserInterfaceMaestro.h</span>
 <a name="l00031"></a>00031 <span class="comment"> Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com</span>
 <a name="l00032"></a>00032 <span class="comment"> Date:   Tuesday, August 24, 2010</span>
 <a name="l00033"></a>00033 <span class="comment"> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */</span>
 <a name="l00034"></a>00034 
-<a name="l00035"></a>00035 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
-<a name="l00036"></a>00036 <span class="preprocessor">#import &quot;JRSessionData.h&quot;</span>
-<a name="l00037"></a>00037 <span class="preprocessor">#import &quot;JRProvidersController.h&quot;</span>
-<a name="l00038"></a>00038 <span class="preprocessor">#import &quot;JRUserLandingController.h&quot;</span>
-<a name="l00039"></a>00039 <span class="preprocessor">#import &quot;JRWebViewController.h&quot;</span>
-<a name="l00040"></a>00040 <span class="preprocessor">#import &quot;JRPublishActivityController.h&quot;</span>
-<a name="l00041"></a>00041 
-<a name="l00042"></a>00042 <span class="keyword">@class</span> JRSessionData;
-<a name="l00043"></a>00043 <span class="keyword">@class</span> JRModalNavigationController;
-<a name="l00044"></a>00044 <span class="keyword">@class</span> JRProvidersController;
-<a name="l00045"></a>00045 <span class="keyword">@class</span> JRUserLandingController;
-<a name="l00046"></a>00046 <span class="keyword">@class</span> JRWebViewController;
-<a name="l00047"></a>00047 <span class="keyword">@class</span> JRPublishActivityController;
-<a name="l00048"></a>00048 
-<a name="l00049"></a>00049 <span class="preprocessor">#define JANRAIN_BLUE [UIColor colorWithRed:0.102 green:0.33 blue:0.48 alpha:1.0]</span>
-<a name="l00050"></a>00050 <span class="preprocessor"></span><span class="keyword">typedef</span> <span class="keyword">enum</span>
-<a name="l00051"></a>00051 {
-<a name="l00052"></a>00052     PadPopoverModeNone,
-<a name="l00053"></a>00053     PadPopoverFromBar,
-<a name="l00054"></a>00054     PadPopoverFromFrame,
-<a name="l00055"></a>00055 } PadPopoverMode;
-<a name="l00056"></a>00056 
-<a name="l00057"></a>00057 <span class="keyword">@interface </span>JRUserInterfaceMaestro : NSObject &lt;UIPopoverControllerDelegate&gt;
-<a name="l00058"></a>00058 {
-<a name="l00059"></a>00059         JRModalNavigationController *jrModalNavController;
-<a name="l00060"></a>00060         JRSessionData   *sessionData;
-<a name="l00061"></a>00061         NSMutableArray  *delegates;    
-<a name="l00062"></a>00062 
-<a name="l00063"></a>00063     BOOL iPad;
-<a name="l00064"></a>00064     
-<a name="l00065"></a>00065     PadPopoverMode padPopoverMode;
-<a name="l00066"></a>00066     BOOL usingAppNav;
-<a name="l00067"></a>00067     BOOL usingCustomNav;
-<a name="l00068"></a>00068     
-<a name="l00069"></a>00069     NSString *directProvider;
-<a name="l00070"></a>00070     
-<a name="l00071"></a>00071     UINavigationController      *customModalNavigationController;
-<a name="l00072"></a>00072     UINavigationController      *applicationNavigationController;
-<a name="l00073"></a>00073     UINavigationController      *savedNavigationController;
-<a name="l00074"></a>00074     UIViewController        *viewControllerToPopTo;
-<a name="l00075"></a>00075 
-<a name="l00076"></a>00076     JRProvidersController       *myProvidersController;
-<a name="l00077"></a>00077         JRUserLandingController     *myUserLandingController;
-<a name="l00078"></a>00078         JRWebViewController         *myWebViewController;
-<a name="l00079"></a>00079     JRPublishActivityController *myPublishActivityController;
-<a name="l00080"></a>00080   
-<a name="l00081"></a>00081     NSDictionary        *customInterface;
-<a name="l00082"></a>00082     NSDictionary        *janrainInterfaceDefaults;
-<a name="l00083"></a>00083     NSMutableDictionary *customInterfaceDefaults;
-<a name="l00084"></a>00084 }
-<a name="l00085"></a>00085 
-<a name="l00086"></a>00086 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)_sessionData;
-<a name="l00087"></a>00087 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
-<a name="l00088"></a>00088 
-<a name="l00089"></a>00089 - (void)useApplicationNavigationController:(UINavigationController*)_navigationController;
-<a name="l00090"></a>00090 
-<a name="l00091"></a>00091 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
-<a name="l00092"></a>00092 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;
-<a name="l00093"></a>00093 
-<a name="l00094"></a>00094 - (void)authenticationRestarted;
-<a name="l00095"></a>00095 - (void)authenticationCompleted;
-<a name="l00096"></a>00096 - (void)authenticationFailed;
-<a name="l00097"></a>00097 - (void)authenticationCanceled;
-<a name="l00098"></a>00098 - (void)publishingRestarted;
-<a name="l00099"></a>00099 - (void)publishingCompleted;
-<a name="l00100"></a>00100 - (void)publishingCanceled;
-<a name="l00101"></a>00101 - (void)publishingFailed;
-<a name="l00102"></a>00102 
-<a name="l00103"></a>00103 <span class="comment">// QTS: Do I want to make customInterfaceDefaults nonatomic?</span>
-<a name="l00104"></a>00104 @property (retain)   NSMutableDictionary         *customInterfaceDefaults;
-<a name="l00105"></a>00105 @property (readonly) JRProvidersController       *myProvidersController;
-<a name="l00106"></a>00106 @property (readonly) JRUserLandingController     *myUserLandingController;
-<a name="l00107"></a>00107 @property (readonly) JRWebViewController         *myWebViewController;
-<a name="l00108"></a>00108 @property (readonly) JRPublishActivityController *myPublishActivityController;
-<a name="l00109"></a>00109 @property (retain) NSString *directProvider;
-<a name="l00110"></a>00110 @end
+<a name="l00035"></a>00035 <span class="preprocessor">#import &lt;UIKit/UIKit.h&gt;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#import &quot;JRSessionData.h&quot;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#import &quot;JRProvidersController.h&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#import &quot;JRUserLandingController.h&quot;</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#import &quot;JRWebViewController.h&quot;</span>
+<a name="l00041"></a>00041 <span class="preprocessor">#import &quot;JRPublishActivityController.h&quot;</span>
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043 <span class="keyword">@class</span> JRSessionData;
+<a name="l00044"></a>00044 <span class="keyword">@class</span> JRModalNavigationController;
+<a name="l00045"></a>00045 <span class="keyword">@class</span> JRProvidersController;
+<a name="l00046"></a>00046 <span class="keyword">@class</span> JRUserLandingController;
+<a name="l00047"></a>00047 <span class="keyword">@class</span> JRWebViewController;
+<a name="l00048"></a>00048 <span class="keyword">@class</span> JRPublishActivityController;
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050 <span class="preprocessor">#define JANRAIN_BLUE [UIColor colorWithRed:0.102 green:0.33 blue:0.48 alpha:1.0]</span>
+<a name="l00051"></a>00051 <span class="preprocessor"></span><span class="keyword">typedef</span> <span class="keyword">enum</span>
+<a name="l00052"></a>00052 {
+<a name="l00053"></a>00053     PadPopoverModeNone,
+<a name="l00054"></a>00054     PadPopoverFromBar,
+<a name="l00055"></a>00055     PadPopoverFromFrame,
+<a name="l00056"></a>00056 } PadPopoverMode;
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058 <span class="keyword">@interface </span>JRUserInterfaceMaestro : NSObject &lt;UIPopoverControllerDelegate&gt;
+<a name="l00059"></a>00059 {
+<a name="l00060"></a>00060     JRModalNavigationController *jrModalNavController;
+<a name="l00061"></a>00061     JRSessionData   *sessionData;
+<a name="l00062"></a>00062     NSMutableArray  *delegates;
+<a name="l00063"></a>00063 
+<a name="l00064"></a>00064     BOOL iPad;
+<a name="l00065"></a>00065 
+<a name="l00066"></a>00066     PadPopoverMode padPopoverMode;
+<a name="l00067"></a>00067     BOOL usingAppNav;
+<a name="l00068"></a>00068     BOOL usingCustomNav;
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070     NSString *directProvider;
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072     UINavigationController  *customModalNavigationController;
+<a name="l00073"></a>00073     UINavigationController  *applicationNavigationController;
+<a name="l00074"></a>00074     UINavigationController  *savedNavigationController;
+<a name="l00075"></a>00075     UIViewController        *viewControllerToPopTo;
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077     JRProvidersController       *myProvidersController;
+<a name="l00078"></a>00078     JRUserLandingController     *myUserLandingController;
+<a name="l00079"></a>00079     JRWebViewController         *myWebViewController;
+<a name="l00080"></a>00080     JRPublishActivityController *myPublishActivityController;
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082     NSDictionary        *customInterface;
+<a name="l00083"></a>00083     NSDictionary        *janrainInterfaceDefaults;
+<a name="l00084"></a>00084     NSMutableDictionary *customInterfaceDefaults;
+<a name="l00085"></a>00085 }
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestroWithSessionData:(JRSessionData*)newSessionData;
+<a name="l00088"></a>00088 + (JRUserInterfaceMaestro*)jrUserInterfaceMaestro;
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 <span class="comment">//- (void)useApplicationNavigationController:(UINavigationController*)navigationController;</span>
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 - (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+<a name="l00093"></a>00093 - (void)showPublishingDialogForActivityWithCustomInterface:(NSDictionary*)customizations;
+<a name="l00094"></a>00094 
+<a name="l00095"></a>00095 - (void)authenticationRestarted;
+<a name="l00096"></a>00096 - (void)authenticationCompleted;
+<a name="l00097"></a>00097 - (void)authenticationFailed;
+<a name="l00098"></a>00098 - (void)authenticationCanceled;
+<a name="l00099"></a>00099 - (void)publishingRestarted;
+<a name="l00100"></a>00100 - (void)publishingCompleted;
+<a name="l00101"></a>00101 - (void)publishingCanceled;
+<a name="l00102"></a>00102 - (void)publishingFailed;
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="comment">// Question to self: Do I want to make customInterfaceDefaults nonatomic?</span>
+<a name="l00105"></a>00105 @property (copy)     NSMutableDictionary         *customInterfaceDefaults;
+<a name="l00106"></a>00106 @property (readonly) JRProvidersController       *myProvidersController;
+<a name="l00107"></a>00107 @property (readonly) JRUserLandingController     *myUserLandingController;
+<a name="l00108"></a>00108 @property (readonly) JRWebViewController         *myWebViewController;
+<a name="l00109"></a>00109 @property (readonly) JRPublishActivityController *myPublishActivityController;
+<a name="l00110"></a>00110 @property (copy)     NSString                    *directProvider;
+<a name="l00111"></a>00111 @end
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

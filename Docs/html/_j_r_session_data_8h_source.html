@@ -16,24 +16,24 @@
 <h1>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/JRSessionData.h</h1>  </div>
 </div>
 <div class="contents">
-<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * </span>
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *</span>
 <a name="l00002"></a>00002 <span class="comment"> Copyright (c) 2010, Janrain, Inc.</span>
-<a name="l00003"></a>00003 <span class="comment"> </span>
+<a name="l00003"></a>00003 <span class="comment"></span>
 <a name="l00004"></a>00004 <span class="comment"> All rights reserved.</span>
-<a name="l00005"></a>00005 <span class="comment"> </span>
+<a name="l00005"></a>00005 <span class="comment"></span>
 <a name="l00006"></a>00006 <span class="comment"> Redistribution and use in source and binary forms, with or without modification,</span>
 <a name="l00007"></a>00007 <span class="comment"> are permitted provided that the following conditions are met:</span>
-<a name="l00008"></a>00008 <span class="comment"> </span>
+<a name="l00008"></a>00008 <span class="comment"></span>
 <a name="l00009"></a>00009 <span class="comment"> * Redistributions of source code must retain the above copyright notice, this</span>
-<a name="l00010"></a>00010 <span class="comment">         list of conditions and the following disclaimer. </span>
-<a name="l00011"></a>00011 <span class="comment"> * Redistributions in binary form must reproduce the above copyright notice, </span>
-<a name="l00012"></a>00012 <span class="comment">         this list of conditions and the following disclaimer in the documentation and/or</span>
-<a name="l00013"></a>00013 <span class="comment">         other materials provided with the distribution. </span>
+<a name="l00010"></a>00010 <span class="comment">     list of conditions and the following disclaimer.</span>
+<a name="l00011"></a>00011 <span class="comment"> * Redistributions in binary form must reproduce the above copyright notice,</span>
+<a name="l00012"></a>00012 <span class="comment">     this list of conditions and the following disclaimer in the documentation and/or</span>
+<a name="l00013"></a>00013 <span class="comment">     other materials provided with the distribution.</span>
 <a name="l00014"></a>00014 <span class="comment"> * Neither the name of the Janrain, Inc. nor the names of its</span>
-<a name="l00015"></a>00015 <span class="comment">         contributors may be used to endorse or promote products derived from this</span>
-<a name="l00016"></a>00016 <span class="comment">         software without specific prior written permission.</span>
-<a name="l00017"></a>00017 <span class="comment"> </span>
-<a name="l00018"></a>00018 <span class="comment"> </span>
+<a name="l00015"></a>00015 <span class="comment">     contributors may be used to endorse or promote products derived from this</span>
+<a name="l00016"></a>00016 <span class="comment">     software without specific prior written permission.</span>
+<a name="l00017"></a>00017 <span class="comment"></span>
+<a name="l00018"></a>00018 <span class="comment"></span>
 <a name="l00019"></a>00019 <span class="comment"> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
 <a name="l00020"></a>00020 <span class="comment"> ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
 <a name="l00021"></a>00021 <span class="comment"> WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
@@ -43,15 +43,15 @@
 <a name="l00025"></a>00025 <span class="comment"> LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON</span>
 <a name="l00026"></a>00026 <span class="comment"> ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
 <a name="l00027"></a>00027 <span class="comment"> (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
-<a name="l00028"></a>00028 <span class="comment"> SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. </span>
-<a name="l00029"></a>00029 <span class="comment"> </span>
-<a name="l00030"></a>00030 <span class="comment"> File:   JRSessionData.h </span>
+<a name="l00028"></a>00028 <span class="comment"> SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="l00029"></a>00029 <span class="comment"></span>
+<a name="l00030"></a>00030 <span class="comment"> File:   JRSessionData.h</span>
 <a name="l00031"></a>00031 <span class="comment"> Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com</span>
 <a name="l00032"></a>00032 <span class="comment"> Date:   Tuesday, June 1, 2010</span>
 <a name="l00033"></a>00033 <span class="comment">* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */</span>
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035 <span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span>
-<a name="l00036"></a>00036 <span class="preprocessor">#import &quot;JSON.h&quot;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#import &quot;JSONKit.h&quot;</span>
 <a name="l00037"></a>00037 <span class="preprocessor">#import &quot;SFHFKeychainUtils.h&quot;</span>
 <a name="l00038"></a>00038 <span class="preprocessor">#import &quot;JRConnectionManager.h&quot;</span>
 <a name="l00039"></a>00039 <span class="preprocessor">#import &quot;<a class="code" href="_j_r_activity_object_8h.html" title="Interface for creating and populating activities that you wish to publish.">JRActivityObject.h</a>&quot;</span>
@@ -70,9 +70,9 @@
 <a name="l00052"></a>00052 
 <a name="l00053"></a>00053 <span class="keyword">typedef</span> <span class="keyword">enum</span>
 <a name="l00054"></a>00054 {
-<a name="l00055"></a>00055         JRUrlError = 100,
+<a name="l00055"></a>00055     JRUrlError = 100,
 <a name="l00056"></a>00056     JRDataParsingError,
-<a name="l00057"></a>00057     JRJsonError,    
+<a name="l00057"></a>00057     JRJsonError,
 <a name="l00058"></a>00058     JRConfigurationInformationError,
 <a name="l00059"></a>00059     JRSessionDataFinishGetProvidersError,
 <a name="l00060"></a>00060     JRDialogShowingError,
@@ -88,232 +88,236 @@
 <a name="l00070"></a>00070 {
 <a name="l00071"></a>00071     JRPublishFailedError = 300,
 <a name="l00072"></a>00072     JRPublishErrorBadConnection,
-<a name="l00073"></a>00073     JRPublishErrorAcivityNil,
-<a name="l00074"></a>00074     JRPublishErrorMissingApiKey,
-<a name="l00075"></a>00075     JRPublishErrorInvalidOauthToken,
-<a name="l00076"></a>00076     JRPublishErrorDuplicateTwitter,
-<a name="l00077"></a>00077     JRPublishErrorLinkedInCharacterExceded,
-<a name="l00078"></a>00078     JRPublishErrorMissingParameter,
-<a name="l00079"></a>00079 } JREngageSocialPublishingError;
-<a name="l00080"></a>00080 
-<a name="l00081"></a>00081 <span class="keyword">extern</span> NSString * JREngageErrorDomain;
-<a name="l00082"></a>00082 
-<a name="l00083"></a>00083 <span class="keyword">@interface </span>JRError : NSObject
-<a name="l00084"></a>00084 + (NSError*)setError:(NSString*)message withCode:(NSInteger)code;
-<a name="l00085"></a>00085 <span class="keyword">@end</span>
-<a name="l00086"></a>00086 
-<a name="l00087"></a>00087 <span class="keyword">@interface </span><a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> (shortenedUrl)
-<a name="l00088"></a>00088 @property (retain) NSString *shortenedUrl;
-<a name="l00089"></a>00089 @end
-<a name="l00090"></a>00090 
-<a name="l00091"></a>00091 @interface JRAuthenticatedUser : NSObject
-<a name="l00092"></a>00092 {
-<a name="l00093"></a>00093     NSString *photo;
-<a name="l00094"></a>00094     NSString *preferred_username;
-<a name="l00095"></a>00095     NSString *device_token;
-<a name="l00096"></a>00096     NSString *provider_name;
-<a name="l00097"></a>00097         NSString *welcomeString;
-<a name="l00098"></a>00098 }
-<a name="l00099"></a>00099 @property (readonly) NSString *photo;
-<a name="l00100"></a>00100 @property (readonly) NSString *preferred_username;
-<a name="l00101"></a>00101 @property (readonly) NSString *device_token;
-<a name="l00102"></a>00102 @property (readonly) NSString *provider_name;
-<a name="l00103"></a>00103 @property (retain)   NSString *welcomeString;
-<a name="l00104"></a>00104 @end
-<a name="l00105"></a>00105 
-<a name="l00106"></a>00106 @interface JRProvider : NSObject
-<a name="l00107"></a>00107 {
-<a name="l00108"></a>00108         NSString *name;
-<a name="l00109"></a>00109     
-<a name="l00110"></a>00110         NSString *friendlyName;
-<a name="l00111"></a>00111         NSString *placeholderText;
-<a name="l00112"></a>00112         NSString *shortText;
-<a name="l00113"></a>00113         BOOL      requiresInput;
-<a name="l00114"></a>00114     
-<a name="l00115"></a>00115     NSString *openIdentifier;
-<a name="l00116"></a>00116         NSString *url;  
-<a name="l00117"></a>00117         BOOL      forceReauth;
-<a name="l00118"></a>00118     
-<a name="l00119"></a>00119     NSString *userInput;
-<a name="l00120"></a>00120 <span class="comment">//      NSString *welcomeString;</span>
-<a name="l00121"></a>00121     
-<a name="l00122"></a>00122     NSDictionary *socialSharingProperties;
-<a name="l00123"></a>00123     BOOL          social;
-<a name="l00124"></a>00124 
-<a name="l00125"></a>00125     NSArray *cookieDomains;
-<a name="l00126"></a>00126 }
+<a name="l00073"></a>00073     JRPublishErrorActivityNil,
+<a name="l00074"></a>00074     JRPublishErrorMissingParameter,
+<a name="l00075"></a>00075     JRPublishErrorMissingApiKey,
+<a name="l00076"></a>00076     JRPublishErrorCharacterLimitExceeded,
+<a name="l00077"></a>00077     JRPublishErrorFacebookGeneric,
+<a name="l00078"></a>00078     JRPublishErrorInvalidFacebookSession,
+<a name="l00079"></a>00079     JRPublishErrorInvalidFacebookMedia,
+<a name="l00080"></a>00080     <span class="comment">//JRPublishErrorInvalidFacebookActionLinks/Properties,</span>
+<a name="l00081"></a>00081     JRPublishErrorTwitterGeneric,
+<a name="l00082"></a>00082     JRPublishErrorDuplicateTwitter,
+<a name="l00083"></a>00083     JRPublishErrorLinkedInGeneric,
+<a name="l00084"></a>00084     JRPublishErrorMyspaceGeneric,
+<a name="l00085"></a>00085     JRPublishErrorYahooGeneric,
+<a name="l00086"></a>00086     JRPublishErrorInvalidOauthKey, <span class="comment">/* Will be deprecating */</span>
+<a name="l00087"></a>00087     JRPublishErrorLinkedInCharacterExceeded, <span class="comment">/* Will be deprecating */</span>
+<a name="l00088"></a>00088 } JREngageSocialPublishingError;
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090 <span class="keyword">extern</span> NSString * JREngageErrorDomain;
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 <span class="keyword">@interface </span>JRError : NSObject
+<a name="l00093"></a>00093 + (NSError*)setError:(NSString*)message withCode:(NSInteger)code;
+<a name="l00094"></a>00094 <span class="keyword">@end</span>
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096 <span class="keyword">@interface </span><a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> (shortenedUrl)
+<a name="l00097"></a>00097 @property (retain) NSString *shortenedUrl;
+<a name="l00098"></a>00098 @end
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 @interface JRAuthenticatedUser : NSObject
+<a name="l00101"></a>00101 {
+<a name="l00102"></a>00102     NSString *_photo;
+<a name="l00103"></a>00103     NSString *_preferredUsername;
+<a name="l00104"></a>00104     NSString *_deviceToken;
+<a name="l00105"></a>00105     NSString *_providerName;
+<a name="l00106"></a>00106     NSString *_welcomeString;
+<a name="l00107"></a>00107 }
+<a name="l00108"></a>00108 @property (readonly) NSString *photo;
+<a name="l00109"></a>00109 @property (readonly) NSString *preferredUsername;
+<a name="l00110"></a>00110 @property (readonly) NSString *deviceToken;
+<a name="l00111"></a>00111 @property (readonly) NSString *providerName;
+<a name="l00112"></a>00112 @property (copy)     NSString *welcomeString;
+<a name="l00113"></a>00113 @end
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 @interface JRProvider : NSObject
+<a name="l00116"></a>00116 {
+<a name="l00117"></a>00117     NSString *_name;
+<a name="l00118"></a>00118 
+<a name="l00119"></a>00119     NSString *_friendlyName;
+<a name="l00120"></a>00120     NSString *_placeholderText;
+<a name="l00121"></a>00121     NSString *_shortText;
+<a name="l00122"></a>00122     BOOL      _requiresInput;
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124     NSString *_openIdentifier;
+<a name="l00125"></a>00125     NSString *_url;
+<a name="l00126"></a>00126     BOOL      _forceReauth;
 <a name="l00127"></a>00127 
-<a name="l00128"></a>00128 @property (readonly) NSString *name;
-<a name="l00129"></a>00129 @property (readonly) NSString *friendlyName;
-<a name="l00130"></a>00130 @property (readonly) NSString *shortText;
-<a name="l00131"></a>00131 @property (readonly) NSString *placeholderText;
-<a name="l00132"></a>00132 @property (readonly) BOOL      requiresInput;
-<a name="l00133"></a>00133 @property            BOOL      forceReauth;
-<a name="l00134"></a>00134 @property (retain)   NSString *userInput;
-<a name="l00135"></a>00135 <span class="comment">//@property (retain)   NSString *welcomeString;</span>
-<a name="l00136"></a>00136 @property (readonly) NSDictionary *socialSharingProperties;
-<a name="l00137"></a>00137 @property (readonly) NSArray *cookieDomains;
-<a name="l00138"></a>00138 - (BOOL)isEqualToReturningProvider:(NSString*)returningProvider;
-<a name="l00139"></a>00139 @end
-<a name="l00140"></a>00140 
-<a name="l00141"></a>00141 @protocol JRSessionDelegate &lt;NSObject&gt;
-<a name="l00142"></a>00142 @optional
-<a name="l00143"></a>00143 - (<span class="keywordtype">void</span>)authenticationDidRestart;
-<a name="l00144"></a>00144 - (<span class="keywordtype">void</span>)authenticationDidCancel;
-<a name="l00145"></a>00145 
-<a name="l00146"></a>00146 - (<span class="keywordtype">void</span>)authenticationDidCompleteWithToken:(NSString*)token forProvider:(NSString*)provider;
-<a name="l00147"></a>00147 - (<span class="keywordtype">void</span>)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
-<a name="l00148"></a>00148 - (<span class="keywordtype">void</span>)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00149"></a>00149 
-<a name="l00150"></a>00150 - (<span class="keywordtype">void</span>)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
-<a name="l00151"></a>00151 - (<span class="keywordtype">void</span>)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00128"></a>00128     NSString *_userInput;
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130     NSDictionary *_socialSharingProperties;
+<a name="l00131"></a>00131     BOOL          _social;
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133     NSArray *_cookieDomains;
+<a name="l00134"></a>00134 }
+<a name="l00135"></a>00135 
+<a name="l00136"></a>00136 @property (readonly) NSString     *name;
+<a name="l00137"></a>00137 @property (readonly) NSString     *friendlyName;
+<a name="l00138"></a>00138 @property (readonly) NSString     *shortText;
+<a name="l00139"></a>00139 @property (readonly) NSString     *placeholderText;
+<a name="l00140"></a>00140 @property (readonly) BOOL          requiresInput;
+<a name="l00141"></a>00141 @property            BOOL          forceReauth;
+<a name="l00142"></a>00142 @property (retain)   NSString     *userInput;
+<a name="l00143"></a>00143 @property (readonly) NSDictionary *socialSharingProperties;
+<a name="l00144"></a>00144 @property (readonly) NSArray      *cookieDomains;
+<a name="l00145"></a>00145 - (BOOL)isEqualToReturningProvider:(NSString*)returningProvider;
+<a name="l00146"></a>00146 @end
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148 @protocol JRSessionDelegate &lt;NSObject&gt;
+<a name="l00149"></a>00149 @optional
+<a name="l00150"></a>00150 - (<span class="keywordtype">void</span>)authenticationDidRestart;
+<a name="l00151"></a>00151 - (<span class="keywordtype">void</span>)authenticationDidCancel;
 <a name="l00152"></a>00152 
-<a name="l00153"></a>00153 - (<span class="keywordtype">void</span>)publishingDidRestart;
-<a name="l00154"></a>00154 - (<span class="keywordtype">void</span>)publishingDidCancel;
-<a name="l00155"></a>00155 - (<span class="keywordtype">void</span>)publishingDidComplete;
-<a name="l00156"></a>00156 
-<a name="l00157"></a>00157 - (<span class="keywordtype">void</span>)publishingActivityDidSucceed:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity forProvider:(NSString*)provider;
+<a name="l00153"></a>00153 - (<span class="keywordtype">void</span>)authenticationDidCompleteForUser:(NSDictionary*)profile forProvider:(NSString*)provider;
+<a name="l00154"></a>00154 - (<span class="keywordtype">void</span>)authenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
+<a name="l00155"></a>00155 
+<a name="l00156"></a>00156 - (<span class="keywordtype">void</span>)authenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+<a name="l00157"></a>00157 - (<span class="keywordtype">void</span>)authenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 <a name="l00158"></a>00158 
-<a name="l00159"></a>00159 - (<span class="keywordtype">void</span>)publishingActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
-<a name="l00160"></a>00160 
-<a name="l00161"></a>00161 - (<span class="keywordtype">void</span>)urlShortenedToNewUrl:(NSString*)<a class="code" href="interface_j_r_activity_object.html#a43481294fa1d2f0ebe7cff14b17726cc">url</a> forActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity;
-<a name="l00162"></a>00162 @end
-<a name="l00163"></a>00163 
-<a name="l00164"></a>00164 @class <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>;
+<a name="l00159"></a>00159 - (<span class="keywordtype">void</span>)publishingDidRestart;
+<a name="l00160"></a>00160 - (<span class="keywordtype">void</span>)publishingDidCancel;
+<a name="l00161"></a>00161 - (<span class="keywordtype">void</span>)publishingDidComplete;
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163 - (<span class="keywordtype">void</span>)publishingActivityDidSucceed:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity forProvider:(NSString*)provider;
+<a name="l00164"></a>00164 - (<span class="keywordtype">void</span>)publishingActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity didFailWithError:(NSError*)error forProvider:(NSString*)provider;
 <a name="l00165"></a>00165 
-<a name="l00166"></a>00166 @interface JRSessionData : NSObject &lt;JRConnectionManagerDelegate&gt;
-<a name="l00167"></a>00167 {
-<a name="l00168"></a>00168         NSMutableArray  *delegates;
-<a name="l00169"></a>00169             
-<a name="l00170"></a>00170         JRProvider *currentProvider;
-<a name="l00171"></a>00171         NSString   *returningBasicProvider;     
-<a name="l00172"></a>00172     NSString   *returningSocialProvider;
-<a name="l00173"></a>00173     
-<a name="l00174"></a>00174 <span class="comment">/*  allProviders is a dictionary of JRProviders, where each JRProvider contains the information specific to that </span>
-<a name="l00175"></a>00175 <span class="comment">    provider. basicProviders and socialProviders are arrays of NSStrings, each string being the primary key in allProviders </span>
-<a name="l00176"></a>00176 <span class="comment">    for that provider, representing the list of providers to be used in authentication and social publishing.  </span>
-<a name="l00177"></a>00177 <span class="comment">    The arrays are in the order configured by the RP on http://rpxnow.com. */</span>
-<a name="l00178"></a>00178         NSMutableDictionary *allProviders;
-<a name="l00179"></a>00179         NSArray             *basicProviders;
-<a name="l00180"></a>00180     NSArray             *socialProviders;
-<a name="l00181"></a>00181     NSMutableDictionary *authenticatedUsersByProvider;
-<a name="l00182"></a>00182         
-<a name="l00183"></a>00183  <span class="comment">/* These values are used by sessionData to determine if the cached configuration is dirty or not.  As both the code and</span>
-<a name="l00184"></a>00184 <span class="comment">    the configuration information (mostly regarding RP&#39;s chosen providers) will rarely change, the library caches the </span>
-<a name="l00185"></a>00185 <span class="comment">    information so that it can use it immediately.  The http etag of the mobile_config_and_baseurl action indicates if the</span>
-<a name="l00186"></a>00186 <span class="comment">    downloaded configuration information has changes, and the git commit value stored in JREngage-info.plist indicates if</span>
-<a name="l00187"></a>00187 <span class="comment">    the code itself has changed. */</span>
-<a name="l00188"></a>00188     NSString *savedConfigurationBlock;
-<a name="l00189"></a>00189     NSString *newEtag;
-<a name="l00190"></a>00190     NSString *gitCommit;
-<a name="l00191"></a>00191     
-<a name="l00192"></a>00192  <span class="comment">/* So that customers can add new providers without rereleasing their code, the library dynamically downloads any of the </span>
-<a name="l00193"></a>00193 <span class="comment">    icons it may be missing.  Once the library knows that a provider has all of it&#39;s icons, it adds the provider&#39;s name</span>
-<a name="l00194"></a>00194 <span class="comment">    to the providersWithIcons set.  If a provider doesn&#39;t have its icons, the icon urls are added to the iconsStillNeeded </span>
-<a name="l00195"></a>00195 <span class="comment">    dictionary with the provider as the key.  This dictionary is saved between launches, in case the downloading of the </span>
-<a name="l00196"></a>00196 <span class="comment">    icons fails, is interrupted, etc. */</span>
-<a name="l00197"></a>00197     NSMutableSet        *providersWithIcons;
-<a name="l00198"></a>00198     NSMutableDictionary *iconsStillNeeded;
-<a name="l00199"></a>00199     
-<a name="l00200"></a>00200  <span class="comment">/* The activity that the calling application is trying to share */</span>
-<a name="l00201"></a>00201     JRActivityObject *activity;
-<a name="l00202"></a>00202     
-<a name="l00203"></a>00203  <span class="comment">/* Server and RP properties */</span>
-<a name="l00204"></a>00204     NSString *tokenUrl;
-<a name="l00205"></a>00205         NSString *baseUrl;
-<a name="l00206"></a>00206     NSString *appId;
-<a name="l00207"></a>00207     NSString *device;
-<a name="l00208"></a>00208 
-<a name="l00209"></a>00209         BOOL hidePoweredBy;
-<a name="l00210"></a>00210         
-<a name="l00211"></a>00211         <span class="comment">// QTS: What is the behavior of this (i.e., how does it affect social publishing?)</span>
-<a name="l00212"></a>00212     <span class="comment">//      when selected during a basic authentication call?</span>
-<a name="l00213"></a>00213     BOOL authenticatingDirectlyOnThisProvider;
-<a name="l00214"></a>00214     BOOL alwaysForceReauth;
-<a name="l00215"></a>00215     BOOL forceReauthJustThisTime;
-<a name="l00216"></a>00216 <span class="comment">//    BOOL forceReauth;</span>
-<a name="l00217"></a>00217 <span class="comment">//    BOOL skipReturningUserLandingPage;</span>
-<a name="l00218"></a>00218 
-<a name="l00219"></a>00219     
-<a name="l00220"></a>00220  <span class="comment">/* TRUE if the library is currently sharing an activity */</span>
-<a name="l00221"></a>00221     BOOL socialSharing;
-<a name="l00222"></a>00222 
-<a name="l00223"></a>00223  <span class="comment">/* TRUE if either of the the library&#39;s dialogs are loaded */</span>
-<a name="l00224"></a>00224     BOOL dialogIsShowing;
-<a name="l00225"></a>00225     
-<a name="l00226"></a>00226     BOOL stillNeedToShortenUrls;
-<a name="l00227"></a>00227     
-<a name="l00228"></a>00228  <span class="comment">/* Because configuration errors aren&#39;t reported until the calling application needs the library,</span>
-<a name="l00229"></a>00229 <span class="comment">    we save this event in an instance variable. */</span>
-<a name="l00230"></a>00230     NSError  *error;
-<a name="l00231"></a>00231     
-<a name="l00232"></a>00232 }
-<a name="l00233"></a>00233 @property (retain)   JRProvider *currentProvider;
-<a name="l00234"></a>00234 @property (readonly) NSString   *returningBasicProvider;
-<a name="l00235"></a>00235 @property (readonly) NSString   *returningSocialProvider;
-<a name="l00236"></a>00236 
-<a name="l00237"></a>00237 @property (readonly) NSMutableDictionary *allProviders;
-<a name="l00238"></a>00238 @property (readonly) NSArray             *basicProviders;
-<a name="l00239"></a>00239 @property (readonly) NSArray             *socialProviders;
+<a name="l00166"></a>00166 - (<span class="keywordtype">void</span>)urlShortenedToNewUrl:(NSString*)<a class="code" href="interface_j_r_activity_object.html#a43481294fa1d2f0ebe7cff14b17726cc">url</a> forActivity:(<a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>*)activity;
+<a name="l00167"></a>00167 @end
+<a name="l00168"></a>00168 
+<a name="l00169"></a>00169 @class <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a>;
+<a name="l00170"></a>00170 
+<a name="l00171"></a>00171 @interface JRSessionData : NSObject &lt;JRConnectionManagerDelegate&gt;
+<a name="l00172"></a>00172 {
+<a name="l00173"></a>00173     NSMutableArray *delegates;
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175     JRProvider *currentProvider;
+<a name="l00176"></a>00176     NSString   *returningBasicProvider;
+<a name="l00177"></a>00177     NSString   *returningSocialProvider;
+<a name="l00178"></a>00178 
+<a name="l00179"></a>00179 <span class="comment">/*  allProviders is a dictionary of JRProviders, where each JRProvider contains the information specific to that</span>
+<a name="l00180"></a>00180 <span class="comment">    provider. basicProviders and socialProviders are arrays of NSStrings, each string being the primary key in allProviders</span>
+<a name="l00181"></a>00181 <span class="comment">    for that provider, representing the list of providers to be used in authentication and social publishing.</span>
+<a name="l00182"></a>00182 <span class="comment">    The arrays are in the order configured by the RP on http://rpxnow.com. */</span>
+<a name="l00183"></a>00183     NSMutableDictionary *allProviders;
+<a name="l00184"></a>00184     NSArray             *basicProviders;
+<a name="l00185"></a>00185     NSArray             *socialProviders;
+<a name="l00186"></a>00186     NSMutableDictionary *authenticatedUsersByProvider;
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188  <span class="comment">/* These values are used by sessionData to determine if the cached configuration is dirty or not.  As both the code and</span>
+<a name="l00189"></a>00189 <span class="comment">    the configuration information (mostly regarding RP&#39;s chosen providers) will rarely change, the library caches the</span>
+<a name="l00190"></a>00190 <span class="comment">    information so that it can use it immediately.  The http etag of the mobile_config_and_baseurl action indicates if the</span>
+<a name="l00191"></a>00191 <span class="comment">    downloaded configuration information has changes, and the git commit value stored in JREngage-info.plist indicates if</span>
+<a name="l00192"></a>00192 <span class="comment">    the code itself has changed. */</span>
+<a name="l00193"></a>00193     NSString *savedConfigurationBlock;
+<a name="l00194"></a>00194     NSString *newEtag;
+<a name="l00195"></a>00195     NSString *gitCommit;
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197  <span class="comment">/* So that customers can add new providers without rereleasing their code, the library dynamically downloads any of the</span>
+<a name="l00198"></a>00198 <span class="comment">    icons it may be missing.  Once the library knows that a provider has all of it&#39;s icons, it adds the provider&#39;s name</span>
+<a name="l00199"></a>00199 <span class="comment">    to the providersWithIcons set.  If a provider doesn&#39;t have its icons, the icon urls are added to the iconsStillNeeded</span>
+<a name="l00200"></a>00200 <span class="comment">    dictionary with the provider as the key.  This dictionary is saved between launches, in case the downloading of the</span>
+<a name="l00201"></a>00201 <span class="comment">    icons fails, is interrupted, etc. */</span>
+<a name="l00202"></a>00202     NSMutableSet        *providersWithIcons;
+<a name="l00203"></a>00203     NSMutableDictionary *iconsStillNeeded;
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205  <span class="comment">/* The activity that the calling application is trying to share */</span>
+<a name="l00206"></a>00206     JRActivityObject *activity;
+<a name="l00207"></a>00207 
+<a name="l00208"></a>00208  <span class="comment">/* Server and RP properties */</span>
+<a name="l00209"></a>00209     NSString *tokenUrl;
+<a name="l00210"></a>00210     NSString *baseUrl;
+<a name="l00211"></a>00211     NSString *appId;
+<a name="l00212"></a>00212     NSString *device;
+<a name="l00213"></a>00213 
+<a name="l00214"></a>00214     BOOL hidePoweredBy;
+<a name="l00215"></a>00215 
+<a name="l00216"></a>00216     <span class="comment">// Question to self: What is the behavior of this (i.e., how does it affect social publishing?)</span>
+<a name="l00217"></a>00217     <span class="comment">// when selected during a basic authentication call?</span>
+<a name="l00218"></a>00218     BOOL authenticatingDirectlyOnThisProvider;
+<a name="l00219"></a>00219     BOOL alwaysForceReauth;
+<a name="l00220"></a>00220     BOOL forceReauthJustThisTime;
+<a name="l00221"></a>00221 
+<a name="l00222"></a>00222     BOOL canRotate;
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224  <span class="comment">/* TRUE if the library is currently sharing an activity */</span>
+<a name="l00225"></a>00225     BOOL socialSharing;
+<a name="l00226"></a>00226 
+<a name="l00227"></a>00227  <span class="comment">/* TRUE if either of the the library&#39;s dialogs are loaded */</span>
+<a name="l00228"></a>00228     BOOL dialogIsShowing;
+<a name="l00229"></a>00229 
+<a name="l00230"></a>00230     BOOL stillNeedToShortenUrls;
+<a name="l00231"></a>00231 
+<a name="l00232"></a>00232  <span class="comment">/* Because configuration errors aren&#39;t reported until the calling application needs the library,</span>
+<a name="l00233"></a>00233 <span class="comment">    we save this event in an instance variable. */</span>
+<a name="l00234"></a>00234     NSError  *error;
+<a name="l00235"></a>00235 
+<a name="l00236"></a>00236 }
+<a name="l00237"></a>00237 @property (retain)   JRProvider *currentProvider;
+<a name="l00238"></a>00238 @property (readonly) NSString   *returningBasicProvider;
+<a name="l00239"></a>00239 @property (readonly) NSString   *returningSocialProvider;
 <a name="l00240"></a>00240 
-<a name="l00241"></a>00241 @property (retain)   <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> *activity;
-<a name="l00242"></a>00242 
-<a name="l00243"></a>00243 @property (retain)   NSString *tokenUrl;
-<a name="l00244"></a>00244 @property (readonly) NSString *baseUrl;
-<a name="l00245"></a>00245 
-<a name="l00246"></a>00246 @property (readonly) BOOL hidePoweredBy;
-<a name="l00247"></a>00247 @property            BOOL alwaysForceReauth;
-<a name="l00248"></a>00248 @property            BOOL forceReauthJustThisTime;
-<a name="l00249"></a>00249 <span class="comment">//@property            BOOL forceReauth;</span>
-<a name="l00250"></a>00250 @property            BOOL authenticatingDirectlyOnThisProvider;
-<a name="l00251"></a>00251 @property            BOOL socialSharing;
-<a name="l00252"></a>00252 @property            BOOL dialogIsShowing;
-<a name="l00253"></a>00253 <span class="comment">//@property            BOOL skipReturningUserLandingPage;</span>
-<a name="l00254"></a>00254 @property (readonly) NSError *error;
-<a name="l00255"></a>00255 
-<a name="l00256"></a>00256 + (JRSessionData*)jrSessionData;
-<a name="l00257"></a>00257 + (JRSessionData*)jrSessionDataWithAppId:(NSString*)_appId tokenUrl:(NSString*)_tokenUrl andDelegate:(<span class="keywordtype">id</span>&lt;JRSessionDelegate&gt;)_delegate;
+<a name="l00241"></a>00241 @property (readonly) NSMutableDictionary *allProviders;
+<a name="l00242"></a>00242 @property (readonly) NSArray             *basicProviders;
+<a name="l00243"></a>00243 @property (readonly) NSArray             *socialProviders;
+<a name="l00244"></a>00244 
+<a name="l00245"></a>00245 @property (copy)     <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> *activity;
+<a name="l00246"></a>00246 
+<a name="l00247"></a>00247 @property (copy)     NSString *tokenUrl;
+<a name="l00248"></a>00248 @property (readonly) NSString *baseUrl;
+<a name="l00249"></a>00249 
+<a name="l00250"></a>00250 @property (readonly) BOOL hidePoweredBy;
+<a name="l00251"></a>00251 @property            BOOL alwaysForceReauth;
+<a name="l00252"></a>00252 @property            BOOL forceReauthJustThisTime;
+<a name="l00253"></a>00253 @property            BOOL authenticatingDirectlyOnThisProvider;
+<a name="l00254"></a>00254 @property            BOOL socialSharing;
+<a name="l00255"></a>00255 @property            BOOL dialogIsShowing;
+<a name="l00256"></a>00256 @property            BOOL canRotate;
+<a name="l00257"></a>00257 @property (retain, readonly) NSError *error;
 <a name="l00258"></a>00258 
-<a name="l00259"></a>00259 - (<span class="keywordtype">void</span>)tryToReconfigureLibrary;
-<a name="l00260"></a>00260 
-<a name="l00261"></a>00261 - (<span class="keywordtype">void</span>)addDelegate:(<span class="keywordtype">id</span>&lt;JRSessionDelegate&gt;)_delegate;
-<a name="l00262"></a>00262 - (<span class="keywordtype">void</span>)removeDelegate:(<span class="keywordtype">id</span>&lt;JRSessionDelegate&gt;)_delegate;
-<a name="l00263"></a>00263 
-<a name="l00264"></a>00264 - (NSURL*)startUrlForCurrentProvider;
-<a name="l00265"></a>00265 
-<a name="l00266"></a>00266 - (<span class="keywordtype">void</span>)setReturningBasicProviderToNil;
-<a name="l00267"></a>00267 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;
-<a name="l00268"></a>00268 - (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index;
-<a name="l00269"></a>00269 - (JRProvider*)getProviderNamed:(NSString*)name;
-<a name="l00270"></a>00270 
-<a name="l00271"></a>00271 - (BOOL)weShouldBeFirstResponder;
-<a name="l00272"></a>00272 
-<a name="l00273"></a>00273 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider;
-<a name="l00274"></a>00274 - (JRAuthenticatedUser*)authenticatedUserForProviderNamed:(NSString*)provider;
-<a name="l00275"></a>00275 
-<a name="l00276"></a>00276 - (<span class="keywordtype">void</span>)forgetAuthenticatedUserForProvider:(NSString*)providerName;
-<a name="l00277"></a>00277 - (<span class="keywordtype">void</span>)forgetAllAuthenticatedUsers;
-<a name="l00278"></a>00278 
-<a name="l00279"></a>00279 - (<span class="keywordtype">void</span>)shareActivityForUser:(JRAuthenticatedUser*)user;
-<a name="l00280"></a>00280 - (<span class="keywordtype">void</span>)setStatusForUser:(JRAuthenticatedUser*)user;
-<a name="l00281"></a>00281 
-<a name="l00282"></a>00282 - (<span class="keywordtype">void</span>)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict;
-<a name="l00283"></a>00283 - (<span class="keywordtype">void</span>)triggerAuthenticationDidStartOver:(<span class="keywordtype">id</span>)sender;
-<a name="l00284"></a>00284 - (<span class="keywordtype">void</span>)triggerAuthenticationDidCancel;
-<a name="l00285"></a>00285 - (<span class="keywordtype">void</span>)triggerAuthenticationDidCancel:(<span class="keywordtype">id</span>)sender;
-<a name="l00286"></a>00286 - (<span class="keywordtype">void</span>)triggerAuthenticationDidTimeOutConfiguration;
-<a name="l00287"></a>00287 - (<span class="keywordtype">void</span>)triggerAuthenticationDidFailWithError:(NSError*)_error;
-<a name="l00288"></a>00288 
-<a name="l00289"></a>00289 - (<span class="keywordtype">void</span>)triggerPublishingDidStartOver:(<span class="keywordtype">id</span>)sender;
-<a name="l00290"></a>00290 - (<span class="keywordtype">void</span>)triggerPublishingDidCancel;
-<a name="l00291"></a>00291 - (<span class="keywordtype">void</span>)triggerPublishingDidCancel:(<span class="keywordtype">id</span>)sender;
-<a name="l00292"></a>00292 - (<span class="keywordtype">void</span>)triggerPublishingDidTimeOutConfiguration;
-<a name="l00293"></a>00293 - (<span class="keywordtype">void</span>)triggerPublishingDidFailWithError:(NSError*)_error;
-<a name="l00294"></a>00294 
-<a name="l00295"></a>00295 - (<span class="keywordtype">void</span>)triggerEmailSharingDidComplete;
-<a name="l00296"></a>00296 - (<span class="keywordtype">void</span>)triggerSmsSharingDidComplete;
-<a name="l00297"></a>00297 @end
+<a name="l00259"></a>00259 + (<span class="keywordtype">id</span>)jrSessionData;
+<a name="l00260"></a>00260 + (<span class="keywordtype">id</span>)jrSessionDataWithAppId:(NSString*)newAppId tokenUrl:(NSString*)newTokenUrl andDelegate:(<span class="keywordtype">id</span>&lt;JRSessionDelegate&gt;)newDelegate;
+<a name="l00261"></a>00261 
+<a name="l00262"></a>00262 - (<span class="keywordtype">void</span>)tryToReconfigureLibrary;
+<a name="l00263"></a>00263 - (<span class="keywordtype">id</span>)reconfigureWithAppId:(NSString*)newAppId tokenUrl:(NSString*)newTokenUrl;
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265 - (<span class="keywordtype">void</span>)addDelegate:(<span class="keywordtype">id</span>&lt;JRSessionDelegate&gt;)delegateToAdd;
+<a name="l00266"></a>00266 - (<span class="keywordtype">void</span>)removeDelegate:(<span class="keywordtype">id</span>&lt;JRSessionDelegate&gt;)delegateToRemove;
+<a name="l00267"></a>00267 
+<a name="l00268"></a>00268 - (NSURL*)startUrlForCurrentProvider;
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270 - (<span class="keywordtype">void</span>)setReturningBasicProviderToNil;
+<a name="l00271"></a>00271 - (JRProvider*)getBasicProviderAtIndex:(NSUInteger)index;
+<a name="l00272"></a>00272 - (JRProvider*)getSocialProviderAtIndex:(NSUInteger)index;
+<a name="l00273"></a>00273 - (JRProvider*)getProviderNamed:(NSString*)name;
+<a name="l00274"></a>00274 
+<a name="l00275"></a>00275 - (BOOL)weShouldBeFirstResponder;
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277 - (JRAuthenticatedUser*)authenticatedUserForProvider:(JRProvider*)provider;
+<a name="l00278"></a>00278 - (JRAuthenticatedUser*)authenticatedUserForProviderNamed:(NSString*)provider;
+<a name="l00279"></a>00279 
+<a name="l00280"></a>00280 - (<span class="keywordtype">void</span>)forgetAuthenticatedUserForProvider:(NSString*)providerName;
+<a name="l00281"></a>00281 - (<span class="keywordtype">void</span>)forgetAllAuthenticatedUsers;
+<a name="l00282"></a>00282 
+<a name="l00283"></a>00283 - (<span class="keywordtype">void</span>)shareActivityForUser:(JRAuthenticatedUser*)user;
+<a name="l00284"></a>00284 - (<span class="keywordtype">void</span>)setStatusForUser:(JRAuthenticatedUser*)user;
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286 - (<span class="keywordtype">void</span>)triggerAuthenticationDidCompleteWithPayload:(NSDictionary*)payloadDict;
+<a name="l00287"></a>00287 - (<span class="keywordtype">void</span>)triggerAuthenticationDidStartOver:(<span class="keywordtype">id</span>)sender;
+<a name="l00288"></a>00288 - (<span class="keywordtype">void</span>)triggerAuthenticationDidCancel;
+<a name="l00289"></a>00289 - (<span class="keywordtype">void</span>)triggerAuthenticationDidCancel:(<span class="keywordtype">id</span>)sender;
+<a name="l00290"></a>00290 - (<span class="keywordtype">void</span>)triggerAuthenticationDidTimeOutConfiguration;
+<a name="l00291"></a>00291 - (<span class="keywordtype">void</span>)triggerAuthenticationDidFailWithError:(NSError*)theError;
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293 - (<span class="keywordtype">void</span>)triggerPublishingDidStartOver:(<span class="keywordtype">id</span>)sender;
+<a name="l00294"></a>00294 - (<span class="keywordtype">void</span>)triggerPublishingDidCancel;
+<a name="l00295"></a>00295 - (<span class="keywordtype">void</span>)triggerPublishingDidCancel:(<span class="keywordtype">id</span>)sender;
+<a name="l00296"></a>00296 - (<span class="keywordtype">void</span>)triggerPublishingDidTimeOutConfiguration;
+<a name="l00297"></a>00297 - (<span class="keywordtype">void</span>)triggerPublishingDidFailWithError:(NSError*)theError;
 <a name="l00298"></a>00298 
+<a name="l00299"></a>00299 - (<span class="keywordtype">void</span>)triggerEmailSharingDidComplete;
+<a name="l00300"></a>00300 - (<span class="keywordtype">void</span>)triggerSmsSharingDidComplete;
+<a name="l00301"></a>00301 @end
+<a name="l00302"></a>00302 
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

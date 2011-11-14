@@ -48,9 +48,9 @@ Constructors</h2></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>A link a user can use to take action on an activity update on the provider. </p>
-<p>Create an action link object, fill in the object's fields, and add the object the <a class="el" href="interface_j_r_activity_object.html#ac29192f576a02db12e144a7b864c01a0">JRActivityObject.action_links</a> array of your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
-<p>Each action link must contain a link, <em>href</em>, and some <em>text</em>, describing what action will happen if someone clicks the link.</p>
-<dl class="user"><dt><b>Example:</b></dt><dd><div class="fragment"><pre class="fragment"> action_links: 
+<p>Create an action link object, fill in the object's fields, and add the object the <a class="el" href="interface_j_r_activity_object.html#a84345ee5dcc607e797b1a722b01dc4c5">JRActivityObject.action_links</a> array of your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
+<p>Each action link must contain an NSString* representation of a link, <em>href</em>, and some <em>text</em>, describing what action will happen if someone clicks the link. The <em>href</em> link must be well-formed; that is, it must have both a scheme and host, and conform to <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>.</p>
+<dl class="user"><dt><b>Example:</b></dt><dd><div class="fragment"><pre class="fragment"> action_links:
  [
    {
      &quot;text&quot;: &quot;Rate this quiz result&quot;,
@@ -91,11 +91,11 @@ Constructors</h2></td></tr>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>text</em>&nbsp;</td><td>The text describing the link. This value cannot be <em>nil</em> </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>imgsrc</em>&nbsp;</td><td>A link a user can use to take action on an activity update on the provider. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>imgsrc</em>&nbsp;</td><td>A link a user can use to take action on an activity update on the provider. This value must be an <em>NSString*</em> representation of a well-formed URL, with a scheme and host. It cannot be an empty string or <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> initialized with the given text and href. If either text or href are <em>nil</em>, returns <em>nil</em> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_action_link.html" title="A link a user can use to take action on an activity update on the provider.">JRActionLink</a> initialized with the given text and href. If either text or href are empty or <em>nil</em>, or if href is malformed, returns <em>nil</em> </dd></dl>
 
 </div>
 </div>
@@ -105,7 +105,7 @@ Constructors</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString*) text<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) text<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>
@@ -119,7 +119,7 @@ Constructors</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">- (NSString*) href<code> [read, write, retain]</code></td>
+          <td class="memname">- (NSString*) href<code> [read, write, copy]</code></td>
         </tr>
       </table>
 </div>

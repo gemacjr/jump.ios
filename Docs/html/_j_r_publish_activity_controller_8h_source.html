@@ -51,42 +51,42 @@
 <a name="l00033"></a>00033 <span class="comment"> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */</span>
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035 <span class="preprocessor">#import &lt;UIKit/UIKit.h&gt;</span>
-<a name="l00036"></a>00036 <span class="preprocessor">#import &quot;JREngage.h&quot;</span>
-<a name="l00037"></a>00037 <span class="preprocessor">#import &lt;MessageUI/MessageUI.h&gt;</span>
-<a name="l00038"></a>00038 <span class="preprocessor">#import &lt;MessageUI/MFMailComposeViewController.h&gt;</span>
-<a name="l00039"></a>00039 <span class="preprocessor">#import &quot;NSAttributedString+Attributes.h&quot;</span>
-<a name="l00040"></a>00040 <span class="preprocessor">#import &quot;OHAttributedLabel.h&quot;</span>
-<a name="l00041"></a>00041 
-<a name="l00042"></a>00042 <span class="keyword">typedef</span> <span class="keyword">enum</span>
-<a name="l00043"></a>00043 {
-<a name="l00044"></a>00044     NEITHER = 0,
-<a name="l00045"></a>00045     EMAIL_ONLY,
-<a name="l00046"></a>00046     SMS_ONLY,
-<a name="l00047"></a>00047     EMAIL_AND_SMS
-<a name="l00048"></a>00048 } EmailOrSms;
-<a name="l00049"></a>00049 <span class="preprocessor">#define EMAIL 1</span>
-<a name="l00050"></a>00050 <span class="preprocessor"></span><span class="preprocessor">#define SMS 2</span>
-<a name="l00051"></a>00051 <span class="preprocessor"></span>
-<a name="l00052"></a>00052 <span class="preprocessor">#define OUTER_STROKE_COLOR    [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]</span>
-<a name="l00053"></a>00053 <span class="preprocessor"></span><span class="preprocessor">#define INNER_STROKE_COLOR    JANRAIN_BLUE</span>
-<a name="l00054"></a>00054 <span class="preprocessor"></span><span class="preprocessor">#define OUTER_FILL_COLOR      [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]</span>
-<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="preprocessor">#define INNER_FILL_COLOR      [UIColor clearColor]</span>
-<a name="l00056"></a>00056 <span class="preprocessor"></span><span class="preprocessor">#define OUTER_STROKE_WIDTH    0.1</span>
-<a name="l00057"></a>00057 <span class="preprocessor"></span><span class="preprocessor">#define INNER_STROKE_WIDTH    0.5</span>
-<a name="l00058"></a>00058 <span class="preprocessor"></span><span class="preprocessor">#define OUTER_CORNER_RADIUS   10.0</span>
-<a name="l00059"></a>00059 <span class="preprocessor"></span><span class="preprocessor">#define INNER_CORNER_RADIUS   9.0</span>
-<a name="l00060"></a>00060 <span class="preprocessor"></span><span class="preprocessor">#define INNER_RECT_INSET      6</span>
-<a name="l00061"></a>00061 <span class="preprocessor"></span>
-<a name="l00062"></a>00062 <span class="keyword">@interface </span>RoundedRectView : UIView {
-<a name="l00063"></a>00063     UIColor     *outerStrokeColor;
-<a name="l00064"></a>00064     UIColor     *innerStrokeColor;
-<a name="l00065"></a>00065     UIColor     *outerFillColor;
-<a name="l00066"></a>00066     UIColor     *innerFillColor;
-<a name="l00067"></a>00067     CGFloat     outerStrokeWidth;
-<a name="l00068"></a>00068     CGFloat     innerStrokeWidth;
-<a name="l00069"></a>00069     CGFloat     outerCornerRadius;
-<a name="l00070"></a>00070     CGFloat     innerCornerRadius;
-<a name="l00071"></a>00071     BOOL        drawInnerRect;
+<a name="l00036"></a>00036 <span class="preprocessor">#import &lt;MessageUI/MessageUI.h&gt;</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#import &lt;MessageUI/MFMailComposeViewController.h&gt;</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#import &quot;JREngage.h&quot;</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#import &quot;JRPreviewLabel.h&quot;</span>
+<a name="l00040"></a>00040 
+<a name="l00041"></a>00041 <span class="keyword">typedef</span> <span class="keyword">enum</span>
+<a name="l00042"></a>00042 {
+<a name="l00043"></a>00043     JR_NEITHER = 0,
+<a name="l00044"></a>00044     JR_EMAIL_ONLY,
+<a name="l00045"></a>00045     JR_SMS_ONLY,
+<a name="l00046"></a>00046     JR_EMAIL_AND_SMS
+<a name="l00047"></a>00047 } EmailOrSms;
+<a name="l00048"></a>00048 <span class="preprocessor">#define JR_EMAIL 1</span>
+<a name="l00049"></a>00049 <span class="preprocessor"></span><span class="preprocessor">#define JR_SMS 2</span>
+<a name="l00050"></a>00050 <span class="preprocessor"></span>
+<a name="l00051"></a>00051 <span class="preprocessor">#define JRR_OUTER_STROKE_COLOR    [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]</span>
+<a name="l00052"></a>00052 <span class="preprocessor"></span><span class="preprocessor">#define JRR_INNER_STROKE_COLOR    JANRAIN_BLUE</span>
+<a name="l00053"></a>00053 <span class="preprocessor"></span><span class="preprocessor">#define JRR_OUTER_FILL_COLOR      [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]</span>
+<a name="l00054"></a>00054 <span class="preprocessor"></span><span class="preprocessor">#define JRR_INNER_FILL_COLOR      [UIColor clearColor]</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="preprocessor">#define JRR_OUTER_STROKE_WIDTH    0.1</span>
+<a name="l00056"></a>00056 <span class="preprocessor"></span><span class="preprocessor">#define JRR_INNER_STROKE_WIDTH    0.5</span>
+<a name="l00057"></a>00057 <span class="preprocessor"></span><span class="preprocessor">#define JRR_OUTER_CORNER_RADIUS   10.0</span>
+<a name="l00058"></a>00058 <span class="preprocessor"></span><span class="preprocessor">#define JRR_INNER_CORNER_RADIUS   9.0</span>
+<a name="l00059"></a>00059 <span class="preprocessor"></span><span class="preprocessor">#define JRR_INNER_RECT_INSET      6</span>
+<a name="l00060"></a>00060 <span class="preprocessor"></span>
+<a name="l00061"></a>00061 <span class="keyword">@interface </span>JRRoundedRect : UIView
+<a name="l00062"></a>00062 {
+<a name="l00063"></a>00063     UIColor *outerStrokeColor;
+<a name="l00064"></a>00064     UIColor *innerStrokeColor;
+<a name="l00065"></a>00065     UIColor *outerFillColor;
+<a name="l00066"></a>00066     UIColor *innerFillColor;
+<a name="l00067"></a>00067     CGFloat  outerStrokeWidth;
+<a name="l00068"></a>00068     CGFloat  innerStrokeWidth;
+<a name="l00069"></a>00069     CGFloat  outerCornerRadius;
+<a name="l00070"></a>00070     CGFloat  innerCornerRadius;
+<a name="l00071"></a>00071     BOOL     drawInnerRect;
 <a name="l00072"></a>00072 }
 <a name="l00073"></a>00073 @property (nonatomic, retain) UIColor *outerStrokeColor;
 <a name="l00074"></a>00074 @property (nonatomic, retain) UIColor *innerStrokeColor;
@@ -101,95 +101,132 @@
 <a name="l00083"></a>00083 
 <a name="l00084"></a>00084 @interface JRPublishActivityController : UIViewController
 <a name="l00085"></a>00085                          &lt;JRSessionDelegate, JRConnectionManagerDelegate, JRUserInterfaceDelegate, UITabBarDelegate,
-<a name="l00086"></a>00086                          UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, 
-<a name="l00087"></a>00087                          OHAttributedLabelDelegate&gt;
+<a name="l00086"></a>00086                          UIActionSheetDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate,
+<a name="l00087"></a>00087                          JRPreviewLabelDelegate&gt;
 <a name="l00088"></a>00088 {
-<a name="l00089"></a>00089         JRSessionData   *sessionData;
-<a name="l00090"></a>00090     <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> *activity;
+<a name="l00089"></a>00089     JRSessionData    *sessionData;
+<a name="l00090"></a>00090     <a class="code" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&amp;#39;s activity stream.">JRActivityObject</a> *currentActivity;
 <a name="l00091"></a>00091 
 <a name="l00092"></a>00092     JRProvider          *selectedProvider;
 <a name="l00093"></a>00093     JRAuthenticatedUser *loggedInUser;
 <a name="l00094"></a>00094 
 <a name="l00095"></a>00095     BOOL iPad;
 <a name="l00096"></a>00096     BOOL hidesCancelButton;
-<a name="l00097"></a>00097 
-<a name="l00098"></a>00098     EmailOrSms emailAndOrSmsIndex;
-<a name="l00099"></a>00099     <span class="keywordtype">int</span> selectedTab;
-<a name="l00100"></a>00100     
-<a name="l00101"></a>00101     NSString *shortenedActivityUrl;
-<a name="l00102"></a>00102     NSInteger maxCharacters;
-<a name="l00103"></a>00103     
-<a name="l00104"></a>00104     NSMutableDictionary *cachedProfilePics;
-<a name="l00105"></a>00105     NSMutableSet        *alreadyShared;
-<a name="l00106"></a>00106     
-<a name="l00107"></a>00107     BOOL weAreStillWaitingOnSocialProviders;
-<a name="l00108"></a>00108     BOOL weHaveJustAuthenticated;
-<a name="l00109"></a>00109     BOOL weAreCurrentlyPostingSomething;
-<a name="l00110"></a>00110     BOOL hasEditedUserContentForActivityAlready;
-<a name="l00111"></a>00111     BOOL userIsAttemptingToSignOut;
-<a name="l00112"></a>00112     BOOL mediaThumbnailFailedToDownload;
-<a name="l00113"></a>00113     BOOL activityHasRichData;
-<a name="l00114"></a>00114 
-<a name="l00115"></a>00115     CGFloat previewLabelHeight;
-<a name="l00116"></a>00116     CGFloat mediaBoxHeight;
-<a name="l00117"></a>00117 
-<a name="l00118"></a>00118     NSDictionary *customInterface;
-<a name="l00119"></a>00119     NSDictionary *colorsDictionary;
-<a name="l00120"></a>00120     UIView               *titleView;
-<a name="l00121"></a>00121     
-<a name="l00122"></a>00122     IBOutlet UIView     *myBackgroundView;
-<a name="l00123"></a>00123         IBOutlet UITabBar   *myTabBar;
-<a name="l00124"></a>00124 
-<a name="l00125"></a>00125     <span class="comment">/* Activity Spinner and Label displayed while the list of configured providers is empty */</span>
-<a name="l00126"></a>00126     NSTimer *timer;
-<a name="l00127"></a>00127     IBOutlet UILabel                                    *myLoadingLabel;
-<a name="l00128"></a>00128     IBOutlet UIActivityIndicatorView    *myLoadingActivitySpinner;
-<a name="l00129"></a>00129     IBOutlet UIView                     *myLoadingGrayView;
-<a name="l00130"></a>00130 
-<a name="l00131"></a>00131     IBOutlet UIView *myPadGrayEditingViewTop;
-<a name="l00132"></a>00132     IBOutlet UIView *myPadGrayEditingViewBottom;
-<a name="l00133"></a>00133 
-<a name="l00134"></a>00134     IBOutlet UIView         *myContentView;
-<a name="l00135"></a>00135     IBOutlet UIScrollView   *myScrollView;
+<a name="l00097"></a>00097     BOOL hasCoreText;
+<a name="l00098"></a>00098 
+<a name="l00099"></a>00099     EmailOrSms emailAndOrSmsIndex;
+<a name="l00100"></a>00100     NSUInteger selectedTab;
+<a name="l00101"></a>00101 
+<a name="l00102"></a>00102     NSString *shortenedActivityUrl;
+<a name="l00103"></a>00103     NSInteger maxCharacters;
+<a name="l00104"></a>00104 
+<a name="l00105"></a>00105     NSMutableDictionary *cachedProfilePics;
+<a name="l00106"></a>00106     NSMutableSet        *alreadyShared;
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108     BOOL weAreStillWaitingOnSocialProviders;
+<a name="l00109"></a>00109     BOOL weHaveJustAuthenticated;
+<a name="l00110"></a>00110     BOOL weAreCurrentlyPostingSomething;
+<a name="l00111"></a>00111     BOOL weAreCurrentlyEditing;
+<a name="l00112"></a>00112     BOOL hasEditedUserContentForActivityAlready;
+<a name="l00113"></a>00113     BOOL userIsAttemptingToSignOut;
+<a name="l00114"></a>00114     BOOL mediaThumbnailFailedToDownload;
+<a name="l00115"></a>00115     BOOL activityHasRichData;
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117     CGFloat previewLabelHeight;
+<a name="l00118"></a>00118     CGFloat mediaBoxHeight;
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120     NSDictionary *customInterface;
+<a name="l00121"></a>00121     NSDictionary *colorsDictionary;
+<a name="l00122"></a>00122     UIView       *titleView;
+<a name="l00123"></a>00123 
+<a name="l00124"></a>00124     UIView     *myBackgroundView;
+<a name="l00125"></a>00125     UITabBar   *myTabBar;
+<a name="l00126"></a>00126 
+<a name="l00127"></a>00127  <span class="comment">/* Activity Spinner and Label displayed while the list of configured providers is empty */</span>
+<a name="l00128"></a>00128     NSTimer *timer;
+<a name="l00129"></a>00129     UILabel                 *myLoadingLabel;
+<a name="l00130"></a>00130     UIActivityIndicatorView *myLoadingActivitySpinner;
+<a name="l00131"></a>00131     UIView                  *myLoadingGrayView;
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133     UIView *myPadGrayEditingViewTop;
+<a name="l00134"></a>00134     UIView *myPadGrayEditingViewMiddle;
+<a name="l00135"></a>00135     UIView *myPadGrayEditingViewBottom;
 <a name="l00136"></a>00136 
-<a name="l00137"></a>00137     IBOutlet UITextView         *myUserCommentTextView;
-<a name="l00138"></a>00138     IBOutlet RoundedRectView    *myUserCommentBoundingBox;
+<a name="l00137"></a>00137     UIView       *myContentView;
+<a name="l00138"></a>00138     UIScrollView *myScrollView;
 <a name="l00139"></a>00139 
-<a name="l00140"></a>00140     IBOutlet UILabel *myRemainingCharactersLabel;
-<a name="l00141"></a>00141 
-<a name="l00142"></a>00142     IBOutlet UIView                  *myPreviewContainer;
-<a name="l00143"></a>00143     IBOutlet RoundedRectView         *myPreviewRoundedRect;
-<a name="l00144"></a>00144     IBOutlet OHAttributedLabel       *myPreviewAttributedLabel;
-<a name="l00145"></a>00145     IBOutlet RoundedRectView         *myRichDataContainer;
-<a name="l00146"></a>00146     IBOutlet UIButton                *myMediaThumbnailView;
-<a name="l00147"></a>00147     IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
-<a name="l00148"></a>00148     IBOutlet UILabel                 *myTitleLabel;
-<a name="l00149"></a>00149     IBOutlet UILabel                 *myDescriptionLabel;
-<a name="l00150"></a>00150 
-<a name="l00151"></a>00151     IBOutlet UIButton    *myInfoButton;
-<a name="l00152"></a>00152     IBOutlet UILabel     *myPoweredByLabel;
-<a name="l00153"></a>00153     IBOutlet UIImageView *myProviderIcon;
-<a name="l00154"></a>00154     
-<a name="l00155"></a>00155     IBOutlet UIView                  *myShareToView;
-<a name="l00156"></a>00156     IBOutlet UIImageView             *myTriangleIcon;
-<a name="l00157"></a>00157     IBOutlet UIButton                *myConnectAndShareButton;
-<a name="l00158"></a>00158     IBOutlet UIButton                *myJustShareButton;
-<a name="l00159"></a>00159     IBOutlet UIButton                *myProfilePic;
-<a name="l00160"></a>00160     IBOutlet UIActivityIndicatorView *myProfilePicActivityIndicator;
-<a name="l00161"></a>00161     IBOutlet UILabel                 *myUserName;
-<a name="l00162"></a>00162     IBOutlet UIButton                *mySignOutButton;
-<a name="l00163"></a>00163     IBOutlet UIImageView             *mySharedCheckMark;
-<a name="l00164"></a>00164     IBOutlet UILabel                 *mySharedLabel;
-<a name="l00165"></a>00165 }
-<a name="l00166"></a>00166 @property (assign) BOOL hidesCancelButton;
-<a name="l00167"></a>00167 
-<a name="l00168"></a>00168 - (<span class="keywordtype">id</span>)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)_customInterface;
-<a name="l00169"></a>00169 - (IBAction)signOutButtonPressed:(<span class="keywordtype">id</span>)sender;
-<a name="l00170"></a>00170 - (IBAction)shareButtonPressed:(<span class="keywordtype">id</span>)sender;
-<a name="l00171"></a>00171 - (IBAction)doneButtonPressed:(<span class="keywordtype">id</span>)sender;
-<a name="l00172"></a>00172 - (IBAction)editButtonPressed:(<span class="keywordtype">id</span>)sender;
-<a name="l00173"></a>00173 - (IBAction)infoButtonPressed:(<span class="keywordtype">id</span>)sender;
-<a name="l00174"></a>00174 @end
+<a name="l00140"></a>00140     UITextView      *myUserCommentTextView;
+<a name="l00141"></a>00141     JRRoundedRect   *myUserCommentBoundingBox;
+<a name="l00142"></a>00142 
+<a name="l00143"></a>00143     UILabel *myRemainingCharactersLabel;
+<a name="l00144"></a>00144 
+<a name="l00145"></a>00145     UIView                  *myEntirePreviewContainer;
+<a name="l00146"></a>00146     JRRoundedRect           *myPreviewContainerRoundedRect;
+<a name="l00147"></a>00147     JRPreviewLabel          *myPreviewOfTheUserCommentLabel;
+<a name="l00148"></a>00148     JRRoundedRect           *myRichDataContainer;
+<a name="l00149"></a>00149     UIButton                *myMediaThumbnailView;
+<a name="l00150"></a>00150     UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
+<a name="l00151"></a>00151     UILabel                 *myTitleLabel;
+<a name="l00152"></a>00152     UILabel                 *myDescriptionLabel;
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154     UIButton    *myInfoButton;
+<a name="l00155"></a>00155     UILabel     *myPoweredByLabel;
+<a name="l00156"></a>00156     UIImageView *myProviderIcon;
+<a name="l00157"></a>00157 
+<a name="l00158"></a>00158     UIView                  *myShareToView;
+<a name="l00159"></a>00159     UIImageView             *myTriangleIcon;
+<a name="l00160"></a>00160     UIButton                *myConnectAndShareButton;
+<a name="l00161"></a>00161     UIButton                *myJustShareButton;
+<a name="l00162"></a>00162     UIButton                *myProfilePic;
+<a name="l00163"></a>00163     UIActivityIndicatorView *myProfilePicActivityIndicator;
+<a name="l00164"></a>00164     UILabel                 *myUserName;
+<a name="l00165"></a>00165     UIButton                *mySignOutButton;
+<a name="l00166"></a>00166     UIImageView             *mySharedCheckMark;
+<a name="l00167"></a>00167     UILabel                 *mySharedLabel;
+<a name="l00168"></a>00168 }
+<a name="l00169"></a>00169 @property (assign) BOOL hidesCancelButton;
+<a name="l00170"></a>00170 @property (nonatomic, retain) IBOutlet UIView                  *myBackgroundView;
+<a name="l00171"></a>00171 @property (nonatomic, retain) IBOutlet UITabBar                *myTabBar;
+<a name="l00172"></a>00172 @property (nonatomic, retain) IBOutlet UILabel                 *myLoadingLabel;
+<a name="l00173"></a>00173 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myLoadingActivitySpinner;
+<a name="l00174"></a>00174 @property (nonatomic, retain) IBOutlet UIView                  *myLoadingGrayView;
+<a name="l00175"></a>00175 @property (nonatomic, retain) IBOutlet UIView                  *myPadGrayEditingViewTop;
+<a name="l00176"></a>00176 @property (nonatomic, retain) IBOutlet UIView                  *myPadGrayEditingViewMiddle;
+<a name="l00177"></a>00177 @property (nonatomic, retain) IBOutlet UIView                  *myPadGrayEditingViewBottom;
+<a name="l00178"></a>00178 @property (nonatomic, retain) IBOutlet UIView                  *myContentView;
+<a name="l00179"></a>00179 @property (nonatomic, retain) IBOutlet UIScrollView            *myScrollView;
+<a name="l00180"></a>00180 @property (nonatomic, retain) IBOutlet UITextView              *myUserCommentTextView;
+<a name="l00181"></a>00181 @property (nonatomic, retain) IBOutlet JRRoundedRect           *myUserCommentBoundingBox;
+<a name="l00182"></a>00182 @property (nonatomic, retain) IBOutlet UILabel                 *myRemainingCharactersLabel;
+<a name="l00183"></a>00183 @property (nonatomic, retain) IBOutlet UIView                  *myEntirePreviewContainer;
+<a name="l00184"></a>00184 @property (nonatomic, retain) IBOutlet JRRoundedRect           *myPreviewContainerRoundedRect;
+<a name="l00185"></a>00185 @property (nonatomic, retain) IBOutlet JRPreviewLabel          *myPreviewOfTheUserCommentLabel;
+<a name="l00186"></a>00186 @property (nonatomic, retain) IBOutlet JRRoundedRect           *myRichDataContainer;
+<a name="l00187"></a>00187 @property (nonatomic, retain) IBOutlet UIButton                *myMediaThumbnailView;
+<a name="l00188"></a>00188 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myMediaThumbnailActivityIndicator;
+<a name="l00189"></a>00189 @property (nonatomic, retain) IBOutlet UILabel                 *myTitleLabel;
+<a name="l00190"></a>00190 @property (nonatomic, retain) IBOutlet UILabel                 *myDescriptionLabel;
+<a name="l00191"></a>00191 @property (nonatomic, retain) IBOutlet UIButton                *myInfoButton;
+<a name="l00192"></a>00192 @property (nonatomic, retain) IBOutlet UILabel                 *myPoweredByLabel;
+<a name="l00193"></a>00193 @property (nonatomic, retain) IBOutlet UIImageView             *myProviderIcon;
+<a name="l00194"></a>00194 @property (nonatomic, retain) IBOutlet UIView                  *myShareToView;
+<a name="l00195"></a>00195 @property (nonatomic, retain) IBOutlet UIImageView             *myTriangleIcon;
+<a name="l00196"></a>00196 @property (nonatomic, retain) IBOutlet UIButton                *myConnectAndShareButton;
+<a name="l00197"></a>00197 @property (nonatomic, retain) IBOutlet UIButton                *myJustShareButton;
+<a name="l00198"></a>00198 @property (nonatomic, retain) IBOutlet UIButton                *myProfilePic;
+<a name="l00199"></a>00199 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *myProfilePicActivityIndicator;
+<a name="l00200"></a>00200 @property (nonatomic, retain) IBOutlet UILabel                 *myUserName;
+<a name="l00201"></a>00201 @property (nonatomic, retain) IBOutlet UIButton                *mySignOutButton;
+<a name="l00202"></a>00202 @property (nonatomic, retain) IBOutlet UIImageView             *mySharedCheckMark;
+<a name="l00203"></a>00203 @property (nonatomic, retain) IBOutlet UILabel                 *mySharedLabel;
+<a name="l00204"></a>00204 
+<a name="l00205"></a>00205 - (<span class="keywordtype">id</span>)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface;
+<a name="l00206"></a>00206 - (IBAction)signOutButtonPressed:(<span class="keywordtype">id</span>)sender;
+<a name="l00207"></a>00207 - (IBAction)shareButtonPressed:(<span class="keywordtype">id</span>)sender;
+<a name="l00208"></a>00208 - (IBAction)doneButtonPressed:(<span class="keywordtype">id</span>)sender;
+<a name="l00209"></a>00209 - (IBAction)editButtonPressed:(<span class="keywordtype">id</span>)sender;
+<a name="l00210"></a>00210 - (IBAction)infoButtonPressed:(<span class="keywordtype">id</span>)sender;
+<a name="l00211"></a>00211 @end
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

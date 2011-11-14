@@ -50,8 +50,8 @@ Constructors</h2></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Image object to be included in a post to a user's stream. </p>
-<p>Create an image media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a7deaa868eb6d2eb695cd8104f54b713c">JRActivityObject.media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the images get presented and whether or not they are used, depend on the provider.</p>
-<p>Each image must contain a <em>src</em> URL, which maps to the photo's URL, and an <em>href</em> URL, which maps to the URL where a user should be taken if he or she clicks the photo.</p>
+<p>Create an image media object, fill in the object's fields, and add the object to the <a class="el" href="interface_j_r_activity_object.html#a1e58bd40e458355bad474de378b0b3b6">JRActivityObject.media</a> array in your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>. How the images get presented, and whether or not they are used, depend on the provider.</p>
+<p>Each image must contain an NSString* <em>src</em> URL, which maps to the photo's URL, and an NSString* <em>href</em> URL, which maps to the URL where a user should be taken if he or she clicks the photo. Both URLs must be well-formed; that is, they must have both a scheme and host, and conform to <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>.</p>
 <dl class="see"><dt><b>See also:</b></dt><dd>Format and rules are identical to those described on the <a href="http://developers.facebook.com/docs/guides/attachments">Facebook Developer page on Attachments</a>. </dd></dl>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="adca9e47f5038553444157b6ca15f463a"></a><!-- doxytag: member="JRImageMediaObject::initWithSrc:andHref:" ref="adca9e47f5038553444157b6ca15f463a" args="(NSString *src,[andHref] NSString *href)" -->
@@ -81,12 +81,12 @@ Constructors</h2></td></tr>
 <p>Returns a <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a> initialized with the given src and href.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>src</em>&nbsp;</td><td>The photo's URL. This value cannot be <em>nil</em> </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>href</em>&nbsp;</td><td>The URL where a user should be taken if he or she clicks the photo. This value cannot be <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>src</em>&nbsp;</td><td>The photo's URL. This value must be an <em>NSString*</em> representation of a well-formed URL, with a scheme and host. It cannot be an empty string or <em>nil</em> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>href</em>&nbsp;</td><td>The URL where a user should be taken if he or she clicks the photo. This value must be an <em>NSString*</em> representation of a well-formed URL, with a scheme and host. It cannot be an empty string or <em>nil</em> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a> initialized with the given src and href. If either src or href are <em>nil</em>, returns <em>nil</em> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>A <a class="el" href="interface_j_r_image_media_object.html" title="Image object to be included in a post to a user&#39;s stream.">JRImageMediaObject</a> initialized with the given src and href. If either src or href are malformed, empty, or <em>nil</em>, returns <em>nil</em> </dd></dl>
 
 </div>
 </div>
