@@ -476,13 +476,14 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
 @implementation JRActivityObject
 @synthesize action                 = _action;
-@synthesize url                    = _url;
+//@synthesize url                    = _url;
 @synthesize userGeneratedContent   = _userGeneratedContent;
 @synthesize resourceTitle          = _resourceTitle;
 @synthesize resourceDescription    = _resourceDescription;
 @synthesize properties             = _properties;
 @synthesize email                  = _email;
 @synthesize sms                    = _sms;
+@dynamic url;
 @dynamic user_generated_content;
 @dynamic title;
 @dynamic description;

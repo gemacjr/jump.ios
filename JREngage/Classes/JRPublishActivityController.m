@@ -831,7 +831,7 @@ Please try again later."
         else
             maxCharacters = [selectedProvider maxCharactersForPublishActivity];
 
-        NSUInteger foo = (weAreCurrentlyEditing ? PREVIEW_BOX_EDITING_Y_ORIGIN : PREVIEW_BOX_DEFAULT_Y_ORIGIN);
+        //        NSUInteger foo = (weAreCurrentlyEditing ? PREVIEW_BOX_EDITING_Y_ORIGIN : PREVIEW_BOX_DEFAULT_Y_ORIGIN);
         if ([self shouldHideRemainingCharacterCount])
         {
             [myRemainingCharactersLabel setHidden:YES];

@@ -38,14 +38,6 @@
 #import "QuickSignInAppDelegate.h"
 #import "QSIEmbeddedTableViewController.h"
 
-#ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#else
-#define DLog(...)
-#endif
-
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-
 #define LILLI
 
 @protocol UserModelDelegate <NSObject>

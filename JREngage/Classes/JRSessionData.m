@@ -825,17 +825,12 @@ static JRSessionData* singleton = nil;
 
     /* Get the ordered list of basic providers */
     basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
-
+    
     /* Get the ordered list of social providers */
     socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
-
-    NSMutableArray *temp = [[NSMutableArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
-    [temp addObject:@"yahoo"];
-
-    socialProviders = [[NSArray alloc] initWithArray:temp];//[[[NSUserDefaults standardUserDefaults] objectForKey:kJRSocialProviders] retain];
-
+    
     /* yippie, yahoo! */
-
+    
     /* Then save our stuff */
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders]
                                               forKey:cJRAllProviders];
