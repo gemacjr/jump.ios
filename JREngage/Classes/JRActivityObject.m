@@ -142,7 +142,7 @@
                                [[JRImageMediaObject allocWithZone:zone] initWithSrc:_src
                                                                             andHref:_href];
 
-	imageMediaObjectCopy.preview = [[_preview copy] autorelease];
+	imageMediaObjectCopy.preview = _preview;//[[_preview copy] autorelease];
 
 	return imageMediaObjectCopy;
 }
@@ -209,7 +209,7 @@
     flashMediaObjectCopy.height          = _height;
     flashMediaObjectCopy.expanded_width  = _expanded_width;
     flashMediaObjectCopy.expanded_height = _expanded_height;
-    flashMediaObjectCopy.preview         = [[_preview copy] autorelease];
+    flashMediaObjectCopy.preview         = _preview;//[[_preview copy] autorelease];
 
 	return flashMediaObjectCopy;
 }
@@ -567,7 +567,7 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
         _url = [url copy];
 }
 
-- (NSString *)getUrl
+- (NSString *)url
 {
     return [[_url copy] autorelease];
 }

@@ -454,7 +454,8 @@
     if (!date)
         goto JUST_FINISH;
 
-    newPubDate = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
+    if ([NSDateFormatter resolveClassMethod:@selector(localizedStringFromDate:dateStyle:timeStyle:)])
+        newPubDate = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
 
 JUST_FINISH:
     [pubDate release];
