@@ -171,7 +171,7 @@ a:active  { color:#7AC143; }";
                         story.pubDate,
                         story.htmlText] retain];
 
-    DLog("%@", webViewContent);
+//    DLog("%@", webViewContent);
 
     [webview loadHTMLString:webViewContent baseURL:[NSURL URLWithString:story.feedUrl]];
 

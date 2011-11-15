@@ -1166,8 +1166,11 @@ static JRSessionData* singleton = nil;
 
     if ([currentProvider.name isEqualToString:@"linkedin"])
     {
-        [activityDictionary setObject:[activity.resourceDescription substringToIndex:256] forKey:@"description"];
-        [activityDictionary removeObjectForKey:@"media"];
+        [activityDictionary setObject:
+                [[activity.resourceDescription substringToIndex:((activity.resourceDescription.length < 256) ?
+                                                                  activity.resourceDescription.length : 256)] URLEscaped]
+                               forKey:@"description"];
+//        [activityDictionary removeObjectForKey:@"media"];
     }
 
 //    DLog (@"activity dictionary: %@", [activityDictionary description]);
