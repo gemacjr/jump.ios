@@ -231,7 +231,7 @@ a:active  { color:#7AC143; }";
 
     activity.resourceTitle = story.title;
 
-    NSUInteger trunk = /*(iPad)*/ 0 ? 300 : 300;
+    NSUInteger trunk = /*(iPad)*/ 0 ? 300 : 350;//256;
     activity.resourceDescription = [story.plainText substringToIndex:
                                         ((story.plainText.length < trunk) ? story.plainText.length : trunk)];
 

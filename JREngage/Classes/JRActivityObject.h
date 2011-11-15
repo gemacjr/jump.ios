@@ -672,5 +672,5 @@
  * This function should not be used directly.  It is intended only for use by the
  * JREngage library
  **/
-- (NSDictionary*)dictionaryForObject;
+- (NSMutableDictionary*)dictionaryForObject;
 @end

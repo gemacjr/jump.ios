@@ -723,7 +723,7 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
     if ([_properties count])
         [dict setObject:_properties forKey:@"properties"];
 
-    return [NSDictionary dictionaryWithObject:dict forKey:@"activity"];
+    return dict;//[NSDictionary dictionaryWithObject:dict forKey:@"activity"];
 }
 
 - (void)setTitle:(NSString*)title                                   { self.resourceTitle = title;             }

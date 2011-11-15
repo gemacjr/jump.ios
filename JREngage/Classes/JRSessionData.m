@@ -32,7 +32,10 @@
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#import <Foundation/Foundation.h>
 #import "JRSessionData.h"
+#import "JRActivityObject.h"
+#import "JSONKit.h"
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -825,12 +828,12 @@ static JRSessionData* singleton = nil;
 
     /* Get the ordered list of basic providers */
     basicProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"enabled_providers"]] retain];
-    
+
     /* Get the ordered list of social providers */
     socialProviders = [[NSArray arrayWithArray:[jsonDict objectForKey:@"social_providers"]] retain];
-    
+
     /* yippie, yahoo! */
-    
+
     /* Then save our stuff */
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:allProviders]
                                               forKey:cJRAllProviders];
@@ -1158,11 +1161,18 @@ static JRSessionData* singleton = nil;
 - (void)startShareActivityForUser:(JRAuthenticatedUser*)user
 {
     // TODO: Better error checking in sessionData's share activity bit
-    NSDictionary *activityDictionary = [activity dictionaryForObject];
+    NSMutableDictionary *activityDictionary = [activity dictionaryForObject];
+            //[NSMutableDictionary dictionaryWithDictionary:[activity dictionaryForObject]];
 
-    DLog (@"activity dictionary: %@", [activityDictionary description]);
+    if ([currentProvider.name isEqualToString:@"linkedin"])
+    {
+        [activityDictionary setObject:[activity.resourceDescription substringToIndex:256] forKey:@"description"];
+        [activityDictionary removeObjectForKey:@"media"];
+    }
 
-    NSString *activityContent = [[activityDictionary objectForKey:@"activity"] JSONString];
+//    DLog (@"activity dictionary: %@", [activityDictionary description]);
+
+    NSString *activityContent = [activityDictionary JSONString];//[[activityDictionary objectForKey:@"activity"] JSONString];
     NSString *deviceToken = user.deviceToken;
 
     DLog(@"activity json string \n %@" , activityContent);
@@ -1175,9 +1185,9 @@ static JRSessionData* singleton = nil;
     [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/api/v2/activity", serverUrl]]] retain];
+                                      [NSString stringWithFormat:@"%@/api/v2/activity", serverUrl]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -1193,8 +1203,6 @@ static JRSessionData* singleton = nil;
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
         [self triggerPublishingDidFailWithError:[JRError setError:@"There was a problem connecting to the Janrain server to share this activity"
                                                          withCode:JRPublishErrorBadConnection]];
-
-    [request release];
 }
 
 - (void)startSetStatusForUser:(JRAuthenticatedUser*)user
@@ -1233,8 +1241,6 @@ static JRSessionData* singleton = nil;
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
         [self triggerPublishingDidFailWithError:[JRError setError:@"There was a problem connecting to the Janrain server to share this activity"
                                                          withCode:JRPublishErrorBadConnection]];
-//    // TODO: don't retain/release, just do
-//    [request release];
 }
 
 - (void)shareActivityForUser:(JRAuthenticatedUser*)user
@@ -1529,7 +1535,7 @@ CALL_DELEGATE_SELECTOR:
 
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
-    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_tokenUrl]] retain];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:_tokenUrl]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -1550,8 +1556,6 @@ CALL_DELEGATE_SELECTOR:
                 [delegate authenticationCallToTokenUrl:_tokenUrl didFailWithError:_error forProvider:providerName];
         }
     }
-
-    [request release];
 }
 
 - (void)finishMakeCallToTokenUrl:(NSString*)_tokenUrl withResponse:(NSURLResponse*)fullResponse
