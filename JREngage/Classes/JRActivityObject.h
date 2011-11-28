@@ -113,7 +113,6 @@
 /*@}*/
 @end
 
-
 /**
  * @brief Flash object to be included in a post to a user's stream.
  *
@@ -326,8 +325,8 @@
 }
 @property (copy) NSString *subject;     /**< The desired email subject. */
 @property (copy) NSString *messageBody; /**< The desired message body. */
-@property        BOOL      isHtml;      /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text, */
-@property (copy) NSArray  *urls;        /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked @anchor emailUrls. */
+@property        BOOL      isHtml;      /**< Specify YES if the body parameter contains HTML content or specify NO if it contains plain text. */
+@property (copy) NSArray  *urls;        /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked. */
 
 /**
  * @name Constructors
@@ -394,7 +393,7 @@
     NSArray  *_urls;
 }
 @property (copy) NSString *message; /**< The desired message. */
-@property (copy) NSArray  *urls;    /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked. @anchor smsUrls*/
+@property (copy) NSArray  *urls;    /**< An array of URLs that will be shortened to the http://rpx.me domain so that click-through rates can be tracked. */
 
 /**
  * @name Constructors
@@ -585,16 +584,12 @@
 @property (copy) NSDictionary *properties;
 
 /**
- * @anchor activityEmail
- *
  * An object containing the subject and message body of an email, if the user wishes to
  * share via email.
  **/
 @property (copy) JREmailObject *email;
 
 /**
- * @anchor activitySms
- *
  * An object containing the message body of an sms, if the user wishes to
  * share via sms.
  **/
@@ -602,29 +597,39 @@
 /*@}*/
 
 /**
- * @name
- * Deprecated properties.
+ * @name Deprecated Properties
  **/
 /*@{*/
+
+#define DEPRECATED(prop) prop __attribute__((deprecated))
+
 /**
 * @deprecated Please use the JRActivityObject#userGeneratedContent property instead.
 **/
-@property (copy) NSString *user_generated_content;
+DEPRECATED(
+@property (copy) NSString *user_generated_content
+);
 
 /**
 * @deprecated Please use the JRActivityObject#resourceTitle property instead.
 **/
-@property (copy) NSString *title;
+DEPRECATED(
+@property (copy) NSString *title
+);
 
 /**
 * @deprecated Please use the JRActivityObject#resourceDescription property instead.
 **/
-@property (copy) NSString *description;
+DEPRECATED(
+@property (copy) NSString *description
+);
 
 /**
 * @deprecated Please use the JRActivityObject#actionLinks property instead.
 **/
-@property (copy) NSArray *action_links;
+DEPRECATED(
+@property (copy) NSArray *action_links
+);
 /*@}*/
 
 /**

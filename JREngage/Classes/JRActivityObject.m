@@ -577,7 +577,7 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
         _url = [url copy];
 }
 
-- (NSString *)url
+- (NSString*)url
 {
     return [[_url copy] autorelease];
 }
@@ -739,9 +739,9 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 - (void)setTitle:(NSString*)title                                   { self.resourceTitle = title;             }
 - (void)setDescription:(NSString*)description                       { self.resourceDescription = description; }
 - (void)setUser_generated_content:(NSString*)user_generated_content { self.userGeneratedContent = user_generated_content; }
-- (NSString *)title                  { return self.resourceTitle;        }
-- (NSString *)description            { return self.resourceDescription;  }
-- (NSString *)user_generated_content { return self.userGeneratedContent; }
+- (NSString*)title                  { return self.resourceTitle;        }
+- (NSString*)description            { return self.resourceDescription;  }
+- (NSString*)user_generated_content { return self.userGeneratedContent; }
 
 - (void)dealloc
 {

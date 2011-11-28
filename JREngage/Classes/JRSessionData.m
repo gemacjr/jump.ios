@@ -1210,9 +1210,9 @@ static JRSessionData* singleton = nil;
 
 - (void)startSetStatusForUser:(JRAuthenticatedUser*)user
 {
-    DLog (@"activity status: %@", [activity user_generated_content]);
+    DLog (@"activity status: %@", [activity userGeneratedContent]);
 
-    NSString *status = [activity user_generated_content];
+    NSString *status = [activity userGeneratedContent];
     NSString *deviceToken = user.deviceToken;
 
     NSMutableData* body = [NSMutableData data];

@@ -64,7 +64,6 @@
  **/
 
 /**
- * @anchor customInterfaceKeys
  * @name Navigation Controller
  * @brief Keys to customize the behavior and presentation of the library's navigation bar
  **/
@@ -142,8 +141,6 @@
 /*@}*/
 
 /**
- * @anchor titleViews
- *
  * @name Title Views
  * Keys to specify UIViews to be used as the title views of the library's dialogs
  **/
@@ -169,8 +166,6 @@
 /*@}*/
 
 /**
- * @anchor titleStrings
- *
  * @name Title Strings
  * Keys to specify NSString titles to be used as the titles of the library's dialogs
  **/
@@ -213,8 +208,6 @@
 /*@}*/
 
 /**
- * @anchor tableSectionViews
- *
  * @name Provider Table Section Header and Footer Views
  * Keys to specify UIViews to be used as the Provider Table's providers section header and footer views
  **/
@@ -240,8 +233,6 @@
 /*@}*/
 
 /**
- * @anchor tableSectionStrings
- *
  * @name Provider Table Section Header and Footer Strings
  * Keys to specify NSStrings to be used as the Provider Table's providers section header and footer text
  **/
@@ -323,6 +314,7 @@
 **/
 /*@{*/
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 ///**
 // * @deprecated
 // * If you want to set the color of the navigation bar,
@@ -331,7 +323,7 @@
 // * and pass it to the library with the define #kJRUseCustomModalNavigationController
 // **/
 //#define kJRNavigationBarTintColor  @"NavigationBar.TintColor"
-//
+
 ///**
 // * @deprecated
 // * If you want to set the color of the navigation bar,
@@ -340,6 +332,7 @@
 // * and pass it to the library with the define #kJRUseCustomModalNavigationController
 // **/
 //#define kJRNavigationBarTintColorRGBa  @"NavigationBar.TintColor.RGBa"
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 /**
 * @deprecated This value will not be used. define #kJRAuthenticationBackgroundColor will be used instead.
@@ -351,71 +344,71 @@
 **/
 #define kJRSocialSharingBackgroundColorRGBa   @"SocialSharing.Background.Color.RGBa"
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 ///**
 // * @deprecated Please use define #kJRAuthenticationBackgroundImageView instead.
 // **/
 //#define kJRProviderTableBackgroundImageName   @"ProviderTable.Background.Image.Name"
-//
+
 ///**
 // * @deprecated Please use define #kJRAuthenticationBackgroundImageView instead.
 // **/
 //#define kJRUserLandingBackgroundImageName     @"UserLanding.Background.Image.Name"
-//
+
 ///**
 // * @deprecated Please use define #kJRSocialSharingBackgroundImageView instead.
 // **/
 //#define kJRSocialSharingBackgroundImageName   @"SocialSharing.Background.Image.Name"
-//
+
 ///**
 // * @deprecated This value will not be used. define #kJRProviderTableBackgroundImageName will be used instead.
 // **/
 //#define kJRProviderTableBackgroundImageName_iPad   @"ProviderTable.Background.Image.Name-iPad"
-//
+
 ///**
 // * @deprecated This value will not be used. define #kJRUserLandingBackgroundImageView will be used instead.
 // **/
 //#define kJRUserLandingBackgroundImageName_iPad     @"UserLanding.Background.Image.Name-iPad"
-//
+
 ///**
 // * @deprecated This value will not be used. define #kJRSocialSharingBackgroundImageView will be used instead.
 // **/
 //#define kJRSocialSharingBackgroundImageName_iPad   @"SocialSharing.Background.Image.Name-iPad"
-//
+
 ///**
 // * @deprecated This value will not be used. define #kJRProviderTableTitleView will be used instead.
 // **/
 //#define kJRProviderTableTitleView_iPad   @"ProviderTable.Title.View-iPad"
-//
+
 ///**
 // * @deprecated This value will not be used. define #kJRSocialSharingTitleView will be used instead.
 // **/
 //#define kJRSocialSharingTitleView_iPad   @"SocialSharing.Title.View-iPad"
-//
+
 ///**
 // * @deprecated This value will not be used. define #kJRProviderTableHeaderView will be used instead.
 // **/
 //#define kJRProviderTableHeaderView_iPad  @"ProviderTable.Table.Header.View-iPad"
-//
+
 ///**
 // * @deprecated This value will not be used. define #kJRProviderTableFooterView will be used instead.
 // **/
 //#define kJRProviderTableFooterView_iPad  @"ProviderTable.Table.Footer.View-iPad"
-//
+
 ///**
 // * @deprecated This value will not be used. define #kJRProviderTableSectionHeaderView will be used instead.
 // **/
 //#define kJRProviderTableSectionHeaderView_iPad  @"ProviderTable.Section.Header.View-iPad"
-//
+
 ///**
 // * @deprecated This value will not be used. define #kJRProviderTableSectionFooterView will be used instead.
 // **/
 //#define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.Section.Footer.View-iPad"
-///*@}*/
-///** @} */
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+/*@}*/
 
 @interface JREngage (CustomInterface)
 
-/** @anchor customInterface **/
 /**
  * @name Configure the User Interface
  * Methods used to customize the JREngage's user interface
@@ -423,7 +416,6 @@
 /*@{*/
 
 /**
- * @anchor setCustomUI
  * Use this function if you want to customize the look and feel of the user interface or add
  * your own native login experience, by passing an \e NSMutableDictionary object indexed by the set of
  * \link customInterface pre-defined custom interface keys\endlink.
@@ -443,9 +435,12 @@
  **/
 - (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 ///**
 // * @deprecated Please use setCustomInterfaceDefaults() instead.
 // **/
-//- (void)setCustomInterface:(NSDictionary*)customizations;
+- (void)setCustomInterface:(NSDictionary*)customizations
+            __attribute__ ((deprecated)) __attribute__ ((unavailable));
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 /*@}*/
 @end

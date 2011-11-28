@@ -142,8 +142,6 @@
 - (void)jrAuthenticationDidNotComplete;
 
 /**
- * @anchor authDidSucceed
- *
  * Tells the delegate that the user has successfully authenticated with the given provider, passing to
  * the delegate an \e NSDictionary object with the user's profile data.
  *
@@ -196,15 +194,16 @@
  **/
 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 ///**
 // * @deprecated
 // * Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() instead.
 // **/
-//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
+            __attribute__ ((deprecated)) __attribute__ ((unavailable));
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 /**
- * @anchor tokenUrlReached
- *
  * Sent after JREngage has successfully posted the token to your application's token_url, containing
  * the headers and body of the response from the server.
  *
@@ -260,7 +259,6 @@
 - (void)jrSocialDidCompletePublishing;
 
 /**
- * @anchor didPublish
  * Sent after the user successfully shares an activity on the given provider.
  *
  * @param activity
@@ -331,7 +329,6 @@
 + (JREngage*)jrEngage;
 
 /**
- * @anchor engageWithAppId
  * Initializes and returns the shared instance of the JREngage library
  *
  * @param appId
@@ -377,7 +374,6 @@
 - (void)removeDelegate:(id<JREngageDelegate>)delegate;
 /*@}*/
 
-/** @anchor showMethods **/
 /**
  * @name Show the JREngage Dialogs
  * Methods that display JREngage's dialogs to initiate authentication and social publishing
@@ -385,8 +381,6 @@
 /*@{*/
 
 /**
- * @anchor showAuthDialog
- *
  * Use this function to begin authentication.  The JREngage library will
  * pop up a modal dialog and take the user through the sign-in process.
  **/
@@ -404,8 +398,6 @@
 - (void)showAuthenticationDialogForProvider:(NSString*)provider;
 
 /**
- * @anchor showAuthCustom
- *
  * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
  * configured with the given custom interface, and take the user through the sign-in process.
  *
@@ -443,6 +435,7 @@
 - (void)showAuthenticationDialogForProvider:(NSString*)provider
                withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 ///**
 // * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
 // * configured with the given custom interface, possibly skipping the user landing page,
@@ -469,7 +462,7 @@
 // **/
 //- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 //                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage;
-//
+
 ///**
 // * Use this function to begin authentication.  The JREngage library will pop up a modal dialog and
 // * take the user through the sign-in process.
@@ -489,10 +482,9 @@
 // *
 // **/
 //- (void)showAuthenticationDialogWithForcedReauthenticationOnLastUsedProvider;
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 /**
- * @anchor showPubDialog
- *
  * Use this function to begin social publishing. The JREngage library will pop up a modal dialog and
  * take the user through the sign-in process, if necessary, and share the given JRActivityObject.
  *
@@ -502,8 +494,6 @@
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
 
 /**
- * @anchor showPubCustom
- *
  * Use this function to begin social publishing.  The JREngage library will pop up a modal dialog,
  * configured with the given custom interface, take the user through the sign-in process,
  * if necessary, and share the given JRActivityObject.
@@ -523,10 +513,12 @@
  **/
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 ///**
 // * Use this function to detect if a dialog has already been loaded, so that you may cancel it.
 // **/
 //- (BOOL)isDialogLoaded;
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 /*@}*/
 
 /**
@@ -536,8 +528,6 @@
 /*@{*/
 
 /**
- * @anchor signoutProvider
- *
  * Tell JREngage to forget that a user is already signed in with the given provider.
  *
  * @param provider
@@ -547,8 +537,6 @@
 - (void)signoutUserForProvider:(NSString*)provider;
 
 /**
- * @anchor signoutAll
- *
  * Tell JREngage to forget that a user is signed in with all the
  * \ref socialProviders "Social Providers"
  **/
@@ -589,8 +577,6 @@
 /*@{*/
 
 /**
- * @anchor updateTokenUrl
- *
  * Use this function to specify a different tokenUrl than the one with which you initiated the library.
  * On this URL, you can continue any server-side authentication, and send your server's response back
  * to the library.  The library will pass your server's response back to your application with the
@@ -641,28 +627,33 @@
  *
  **/
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 ///**
 // * @name Deprecated
 // * These keys have been deprecated in the current version of the JREngage library
 // **/
 ///*@{*/
-//
+
 ///**
 // * @deprecated
 // * This method has been deprecated. If you want to push the JREngage dialogs on your pass a pointer
 // * to this object to the custom interface with the key define #kJRApplicationNavigationController.
 // **/
-//- (void)setCustomNavigationController:(UINavigationController*)navigationController;
-//
+- (void)setCustomNavigationController:(UINavigationController*)navigationController
+            __attribute__ ((deprecated)) __attribute__ ((unavailable));
+
 ///**
 // * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
 // **/
 //- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
-//
+
 ///**
 // * @deprecated Please use showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:() instead.
 // **/
-//- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations;
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
+            __attribute__ ((deprecated)) __attribute__ ((unavailable));
 ///*}*/
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+
 @end
 

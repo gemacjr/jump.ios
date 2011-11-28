@@ -40,8 +40,6 @@
 #endif
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-//#define WLog(fmt, ...) NSLog((@"*** WARNING: " fmt), ##__VA_ARGS__);
-//#define WLog(fmt, ...) NSLog((@"\n\n%s%s\n%s* WARNING: " fmt "\n%s%s\n"), TABS, STARS, TABS, TABS, STARS, ##__VA_ARGS__);
 
 @implementation JREngage
 
@@ -92,7 +90,7 @@ static JREngage* singletonJREngage = nil;
         return [singletonJREngage reconfigureWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
 
     return [[((JREngage *)[super allocWithZone:nil]) /* autoreleasing to stop IDE warnings; does nothing for singleton objects. */
-             initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate] autorelease]; 
+             initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate] autorelease];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -225,26 +223,34 @@ static JREngage* singletonJREngage = nil;
 - (void)showAuthenticationDialogForProvider:(NSString*)provider
                withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides ///*skippingReturningUserLandingPage:NO*/
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides /*skippingReturningUserLandingPage:NO*/
                             orAuthenticatingOnJustThisProvider:provider];
 }
 
 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides ///*skippingReturningUserLandingPage:NO*/
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides /*skippingReturningUserLandingPage:NO*/
                             orAuthenticatingOnJustThisProvider:nil];
 }
 
 - (void)showAuthenticationDialogForProvider:(NSString*)provider
 {
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil                      ///*skippingReturningUserLandingPage:NO*/
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil                      /*skippingReturningUserLandingPage:NO*/
                             orAuthenticatingOnJustThisProvider:provider];
 }
 
 - (void)showAuthenticationDialog
 {
-    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil                      ///*skippingReturningUserLandingPage:NO*/
+    [self showAuthenticationDialogWithCustomInterfaceOverrides:nil                      /*skippingReturningUserLandingPage:NO*/
                             orAuthenticatingOnJustThisProvider:nil];
+}
+
+- (void)setCustomNavigationController:(UINavigationController*)navigationController
+{
+ALog (
+@"This function has been deprecated and will not do anything.\
+  Please use - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides"
+     );
 }
 
 //- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
@@ -314,12 +320,15 @@ static JREngage* singletonJREngage = nil;
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
 {
-    [self showSocialPublishingDialogWithActivity:activity andCustomInterfaceOverrides:customizations];
+ALog (
+@"This function has been deprecated and will not do anything.\
+  Please use - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides instead"
+     );
 }
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
 {
-    [self showSocialPublishingDialogWithActivity:activity andCustomInterface:nil];
+    [self showSocialPublishingDialogWithActivity:activity andCustomInterfaceOverrides:nil];
 }
 
 - (void)authenticationDidRestart
@@ -378,7 +387,6 @@ static JREngage* singletonJREngage = nil;
     for (id<JREngageDelegate> delegate in delegatesCopy)
     {
 //        if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withPayload:forProvider:)])
-//            WLog (@"The function jrAuthenticationDidReachTokenUrl:withPayload:forProvider: has been deprecated. Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:");
 //          [delegate jrAuthenticationDidReachTokenUrl:tokenUrl withPayload:tokenUrlPayload forProvider:provider];
 
         if ([delegate respondsToSelector:@selector(jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:)])

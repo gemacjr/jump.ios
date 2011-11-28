@@ -32,8 +32,9 @@
  Date:   Friday, January 21, 2011
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import "JREngage+CustomInterface.h"
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
+#import "JREngage+CustomInterface.h"
 
 @implementation JREngage (CustomInterface)
 - (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
@@ -41,8 +42,11 @@
     [_interfaceMaestro setCustomInterfaceDefaults:customInterfaceDefaults];
 }
 
-//- (void)setCustomInterface:(NSMutableDictionary*)customizations
-//{
-//    [self setCustomInterfaceDefaults:customizations];
-//}
+- (void)setCustomInterface:(NSMutableDictionary*)customizations
+{
+ALog (
+@"This function has been deprecated and will not do anything.\
+  Please use - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides"
+     );
+}
 @end
