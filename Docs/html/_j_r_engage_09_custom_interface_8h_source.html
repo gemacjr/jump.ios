@@ -106,34 +106,94 @@
 <a name="l00308"></a><a class="code" href="group__custom_interface.html#ga9b63fd3dc3901bbf094fa63aa0ebf3bb">00308</a> <span class="preprocessor">#define kJRRemoveProvidersFromAuthentication @&quot;ProviderTable.RemoveProviders&quot;</span>
 <a name="l00309"></a>00309 <span class="preprocessor"></span>
 <a name="l00316"></a>00316 
-<a name="l00317"></a>00317 <span class="comment">//#define kJRNavigationBarTintColor  @&quot;NavigationBar.TintColor&quot;</span>
-<a name="l00318"></a>00318 <span class="comment">//#define kJRNavigationBarTintColorRGBa  @&quot;NavigationBar.TintColor.RGBa&quot;</span>
-<a name="l00319"></a>00319 
-<a name="l00323"></a><a class="code" href="group__custom_interface.html#gae0c84a976949aa4eccecc123786efb3c">00323</a> <span class="preprocessor">#define kJRAuthenticationBackgroundColorRGBa  @&quot;Authentication.Background.Color.RGBa&quot;</span>
-<a name="l00324"></a>00324 <span class="preprocessor"></span>
-<a name="l00328"></a><a class="code" href="group__custom_interface.html#ga6554a101f0e2e9474a77262143dc528b">00328</a> <span class="preprocessor">#define kJRSocialSharingBackgroundColorRGBa   @&quot;SocialSharing.Background.Color.RGBa&quot;</span>
-<a name="l00329"></a>00329 <span class="preprocessor"></span>
-<a name="l00330"></a>00330 <span class="comment">//#define kJRProviderTableBackgroundImageName   @&quot;ProviderTable.Background.Image.Name&quot;</span>
-<a name="l00331"></a>00331 <span class="comment">//#define kJRUserLandingBackgroundImageName     @&quot;UserLanding.Background.Image.Name&quot;</span>
-<a name="l00332"></a>00332 <span class="comment">//#define kJRSocialSharingBackgroundImageName   @&quot;SocialSharing.Background.Image.Name&quot;</span>
-<a name="l00333"></a>00333 <span class="comment">//#define kJRProviderTableBackgroundImageName_iPad   @&quot;ProviderTable.Background.Image.Name-iPad&quot;</span>
-<a name="l00334"></a>00334 <span class="comment">//#define kJRUserLandingBackgroundImageName_iPad     @&quot;UserLanding.Background.Image.Name-iPad&quot;</span>
-<a name="l00335"></a>00335 <span class="comment">//#define kJRSocialSharingBackgroundImageName_iPad   @&quot;SocialSharing.Background.Image.Name-iPad&quot;</span>
-<a name="l00336"></a>00336 <span class="comment">//#define kJRProviderTableTitleView_iPad   @&quot;ProviderTable.Title.View-iPad&quot;</span>
-<a name="l00337"></a>00337 <span class="comment">//#define kJRSocialSharingTitleView_iPad   @&quot;SocialSharing.Title.View-iPad&quot;</span>
-<a name="l00338"></a>00338 <span class="comment">//#define kJRProviderTableHeaderView_iPad  @&quot;ProviderTable.Table.Header.View-iPad&quot;</span>
-<a name="l00339"></a>00339 <span class="comment">//#define kJRProviderTableFooterView_iPad  @&quot;ProviderTable.Table.Footer.View-iPad&quot;</span>
-<a name="l00340"></a>00340 <span class="comment">//#define kJRProviderTableSectionHeaderView_iPad  @&quot;ProviderTable.Section.Header.View-iPad&quot;</span>
-<a name="l00341"></a>00341 <span class="comment">//#define kJRProviderTableSectionFooterView_iPad  @&quot;ProviderTable.Section.Footer.View-iPad&quot;</span>
-<a name="l00344"></a>00344 <span class="comment"></span><span class="keyword">@interface </span><a class="code" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> (CustomInterface)
-<a name="l00345"></a>00345 
-<a name="l00351"></a>00351 
-<a name="l00370"></a>00370 - (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
-<a name="l00371"></a>00371 
-<a name="l00373"></a>00373 <span class="comment">// * @deprecated Please use setCustomInterfaceDefaults() instead.</span>
-<a name="l00374"></a>00374 <span class="comment">// **/</span>
-<a name="l00375"></a>00375 <span class="comment">//- (void)setCustomInterface:(NSDictionary*)customizations;</span>
-<a name="l00377"></a>00377 <span class="comment"></span><span class="keyword">@end</span>
+<a name="l00317"></a>00317 <span class="preprocessor">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
+<a name="l00318"></a>00318 <span class="preprocessor"></span>
+<a name="l00319"></a>00319 <span class="comment">// * @deprecated</span>
+<a name="l00320"></a>00320 <span class="comment">// * If you want to set the color of the navigation bar,</span>
+<a name="l00321"></a>00321 <span class="comment">// * you can push the library&#39;s dialogs onto your own navigation controller, using the</span>
+<a name="l00322"></a>00322 <span class="comment">// * JREngage#setCustomNavigationController: method, or create a navigation bar, set the tint,</span>
+<a name="l00323"></a>00323 <span class="comment">// * and pass it to the library with the define #kJRUseCustomModalNavigationController</span>
+<a name="l00324"></a>00324 <span class="comment">// **/</span>
+<a name="l00325"></a>00325 <span class="comment">//#define kJRNavigationBarTintColor  @&quot;NavigationBar.TintColor&quot;</span>
+<a name="l00326"></a>00326 
+<a name="l00328"></a>00328 <span class="comment">// * @deprecated</span>
+<a name="l00329"></a>00329 <span class="comment">// * If you want to set the color of the navigation bar,</span>
+<a name="l00330"></a>00330 <span class="comment">// * you can push the library&#39;s dialogs onto your own navigation controller, using the</span>
+<a name="l00331"></a>00331 <span class="comment">// * JREngage#setCustomNavigationController: method, or create a navigation bar, set the tint,</span>
+<a name="l00332"></a>00332 <span class="comment">// * and pass it to the library with the define #kJRUseCustomModalNavigationController</span>
+<a name="l00333"></a>00333 <span class="comment">// **/</span>
+<a name="l00334"></a>00334 <span class="comment">//#define kJRNavigationBarTintColorRGBa  @&quot;NavigationBar.TintColor.RGBa&quot;</span>
+<a name="l00335"></a>00335 <span class="preprocessor">#endif </span><span class="comment">/* DOXYGEN_SHOULD_SKIP_THIS */</span>
+<a name="l00336"></a>00336 
+<a name="l00340"></a><a class="code" href="group__custom_interface.html#gae0c84a976949aa4eccecc123786efb3c">00340</a> <span class="preprocessor">#define kJRAuthenticationBackgroundColorRGBa  @&quot;Authentication.Background.Color.RGBa&quot;</span>
+<a name="l00341"></a>00341 <span class="preprocessor"></span>
+<a name="l00345"></a><a class="code" href="group__custom_interface.html#ga6554a101f0e2e9474a77262143dc528b">00345</a> <span class="preprocessor">#define kJRSocialSharingBackgroundColorRGBa   @&quot;SocialSharing.Background.Color.RGBa&quot;</span>
+<a name="l00346"></a>00346 <span class="preprocessor"></span>
+<a name="l00347"></a>00347 <span class="preprocessor">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
+<a name="l00348"></a>00348 <span class="preprocessor"></span>
+<a name="l00349"></a>00349 <span class="comment">// * @deprecated Please use define #kJRAuthenticationBackgroundImageView instead.</span>
+<a name="l00350"></a>00350 <span class="comment">// **/</span>
+<a name="l00351"></a>00351 <span class="comment">//#define kJRProviderTableBackgroundImageName   @&quot;ProviderTable.Background.Image.Name&quot;</span>
+<a name="l00352"></a>00352 
+<a name="l00354"></a>00354 <span class="comment">// * @deprecated Please use define #kJRAuthenticationBackgroundImageView instead.</span>
+<a name="l00355"></a>00355 <span class="comment">// **/</span>
+<a name="l00356"></a>00356 <span class="comment">//#define kJRUserLandingBackgroundImageName     @&quot;UserLanding.Background.Image.Name&quot;</span>
+<a name="l00357"></a>00357 
+<a name="l00359"></a>00359 <span class="comment">// * @deprecated Please use define #kJRSocialSharingBackgroundImageView instead.</span>
+<a name="l00360"></a>00360 <span class="comment">// **/</span>
+<a name="l00361"></a>00361 <span class="comment">//#define kJRSocialSharingBackgroundImageName   @&quot;SocialSharing.Background.Image.Name&quot;</span>
+<a name="l00362"></a>00362 
+<a name="l00364"></a>00364 <span class="comment">// * @deprecated This value will not be used. define #kJRProviderTableBackgroundImageName will be used instead.</span>
+<a name="l00365"></a>00365 <span class="comment">// **/</span>
+<a name="l00366"></a>00366 <span class="comment">//#define kJRProviderTableBackgroundImageName_iPad   @&quot;ProviderTable.Background.Image.Name-iPad&quot;</span>
+<a name="l00367"></a>00367 
+<a name="l00369"></a>00369 <span class="comment">// * @deprecated This value will not be used. define #kJRUserLandingBackgroundImageView will be used instead.</span>
+<a name="l00370"></a>00370 <span class="comment">// **/</span>
+<a name="l00371"></a>00371 <span class="comment">//#define kJRUserLandingBackgroundImageName_iPad     @&quot;UserLanding.Background.Image.Name-iPad&quot;</span>
+<a name="l00372"></a>00372 
+<a name="l00374"></a>00374 <span class="comment">// * @deprecated This value will not be used. define #kJRSocialSharingBackgroundImageView will be used instead.</span>
+<a name="l00375"></a>00375 <span class="comment">// **/</span>
+<a name="l00376"></a>00376 <span class="comment">//#define kJRSocialSharingBackgroundImageName_iPad   @&quot;SocialSharing.Background.Image.Name-iPad&quot;</span>
+<a name="l00377"></a>00377 
+<a name="l00379"></a>00379 <span class="comment">// * @deprecated This value will not be used. define #kJRProviderTableTitleView will be used instead.</span>
+<a name="l00380"></a>00380 <span class="comment">// **/</span>
+<a name="l00381"></a>00381 <span class="comment">//#define kJRProviderTableTitleView_iPad   @&quot;ProviderTable.Title.View-iPad&quot;</span>
+<a name="l00382"></a>00382 
+<a name="l00384"></a>00384 <span class="comment">// * @deprecated This value will not be used. define #kJRSocialSharingTitleView will be used instead.</span>
+<a name="l00385"></a>00385 <span class="comment">// **/</span>
+<a name="l00386"></a>00386 <span class="comment">//#define kJRSocialSharingTitleView_iPad   @&quot;SocialSharing.Title.View-iPad&quot;</span>
+<a name="l00387"></a>00387 
+<a name="l00389"></a>00389 <span class="comment">// * @deprecated This value will not be used. define #kJRProviderTableHeaderView will be used instead.</span>
+<a name="l00390"></a>00390 <span class="comment">// **/</span>
+<a name="l00391"></a>00391 <span class="comment">//#define kJRProviderTableHeaderView_iPad  @&quot;ProviderTable.Table.Header.View-iPad&quot;</span>
+<a name="l00392"></a>00392 
+<a name="l00394"></a>00394 <span class="comment">// * @deprecated This value will not be used. define #kJRProviderTableFooterView will be used instead.</span>
+<a name="l00395"></a>00395 <span class="comment">// **/</span>
+<a name="l00396"></a>00396 <span class="comment">//#define kJRProviderTableFooterView_iPad  @&quot;ProviderTable.Table.Footer.View-iPad&quot;</span>
+<a name="l00397"></a>00397 
+<a name="l00399"></a>00399 <span class="comment">// * @deprecated This value will not be used. define #kJRProviderTableSectionHeaderView will be used instead.</span>
+<a name="l00400"></a>00400 <span class="comment">// **/</span>
+<a name="l00401"></a>00401 <span class="comment">//#define kJRProviderTableSectionHeaderView_iPad  @&quot;ProviderTable.Section.Header.View-iPad&quot;</span>
+<a name="l00402"></a>00402 
+<a name="l00404"></a>00404 <span class="comment">// * @deprecated This value will not be used. define #kJRProviderTableSectionFooterView will be used instead.</span>
+<a name="l00405"></a>00405 <span class="comment">// **/</span>
+<a name="l00406"></a>00406 <span class="comment">//#define kJRProviderTableSectionFooterView_iPad  @&quot;ProviderTable.Section.Footer.View-iPad&quot;</span>
+<a name="l00407"></a>00407 <span class="preprocessor">#endif </span><span class="comment">/* DOXYGEN_SHOULD_SKIP_THIS */</span>
+<a name="l00408"></a>00408 
+<a name="l00410"></a>00410 <span class="keyword">@interface </span><a class="code" href="class_j_r_engage.html" title="Main API for interacting with the Janrain Engage for iOS library.">JREngage</a> (CustomInterface)
+<a name="l00411"></a>00411 
+<a name="l00417"></a>00417 
+<a name="l00436"></a>00436 - (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
+<a name="l00437"></a>00437 
+<a name="l00438"></a>00438 <span class="preprocessor">#ifndef DOXYGEN_SHOULD_SKIP_THIS</span>
+<a name="l00439"></a>00439 <span class="preprocessor"></span>
+<a name="l00440"></a>00440 <span class="comment">// * @deprecated Please use setCustomInterfaceDefaults() instead.</span>
+<a name="l00441"></a>00441 <span class="comment">// **/</span>
+<a name="l00442"></a>00442 - (void)setCustomInterface:(NSDictionary*)customizations
+<a name="l00443"></a>00443             __attribute__ ((deprecated)) __attribute__ ((unavailable));
+<a name="l00444"></a>00444 <span class="preprocessor">#endif </span><span class="comment">/* DOXYGEN_SHOULD_SKIP_THIS */</span>
+<a name="l00445"></a>00445 
+<a name="l00446"></a>00446 <span class="keyword">@end</span>
 </pre></div></div>
 </div>
 <!-- doxygen footer -->
