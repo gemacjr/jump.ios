@@ -26,11 +26,13 @@
 <h1>JRActionLink Class Reference</h1>  </div>
 </div>
 <div class="contents">
-<!-- doxytag: class="JRActionLink" -->
+<!-- doxytag: class="JRActionLink" --><!-- doxytag: inherits="NSObject" -->
 <p>A link a user can use to take action on an activity update on the provider.  
 <a href="#_details">More...</a></p>
 
 <p><code>#import &lt;<a class="el" href="_j_r_activity_object_8h_source.html">JRActivityObject.h</a>&gt;</code></p>
+
+<p>Inherits NSObject.</p>
 
 <p><a href="class_j_r_action_link-members.html">List of all members.</a></p>
 <table class="memberdecls">
@@ -48,7 +50,7 @@ Constructors</h2></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>A link a user can use to take action on an activity update on the provider. </p>
-<p>Create an action link object, fill in the object's fields, and add the object the <a class="el" href="interface_j_r_activity_object.html#a84345ee5dcc607e797b1a722b01dc4c5">JRActivityObject.action_links</a> array of your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
+<p>Create an action link object, fill in the object's fields, and add the object the <a class="el" href="interface_j_r_activity_object.html#a668486dbe6963d1fefb935b28cea1845">JRActivityObject.action_links</a> array of your <a class="el" href="interface_j_r_activity_object.html" title="An activity object you create, populate, and post to the user&#39;s activity stream.">JRActivityObject</a>.</p>
 <p>Each action link must contain an NSString* representation of a link, <em>href</em>, and some <em>text</em>, describing what action will happen if someone clicks the link. The <em>href</em> link must be well-formed; that is, it must have both a scheme and host, and conform to <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a>.</p>
 <dl class="user"><dt><b>Example:</b></dt><dd><div class="fragment"><pre class="fragment"> action_links:
  [
@@ -128,8 +130,9 @@ Constructors</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/<a class="el" href="_j_r_activity_object_8h_source.html">JRActivityObject.h</a></li>
+<li>/Users/lillialexis/iPhone/engage.iphone/JREngage/classes/JRActivityObject.m</li>
 </ul>
 </div>
 <!-- doxygen footer -->

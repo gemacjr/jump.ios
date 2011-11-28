@@ -196,23 +196,23 @@
 <a name="l00567"></a>00567 
 <a name="l00585"></a>00585 @property (copy) NSDictionary *properties;
 <a name="l00586"></a>00586 
-<a name="l00593"></a>00593 @property (copy) <a class="code" href="interface_j_r_email_object.html" title="Object containing content to be shared by email.">JREmailObject</a> *email;
-<a name="l00594"></a>00594 
-<a name="l00601"></a>00601 @property (copy) <a class="code" href="interface_j_r_sms_object.html" title="Object containing the default message to be shared by sms.">JRSmsObject</a> *sms;
-<a name="l00612"></a>00612 @property (copy) NSString *user_generated_content;
-<a name="l00613"></a>00613 
-<a name="l00617"></a>00617 @property (copy) NSString *title;
-<a name="l00618"></a><a class="code" href="interface_j_r_activity_object.html#aad0587e94c0e13834e82099ab7685f26">00618</a> 
-<a name="l00622"></a>00622 @property (copy) NSString *description;
-<a name="l00623"></a><a class="code" href="interface_j_r_activity_object.html#ad39b2fbc36bb32f1287f61db3d3477a1">00623</a> 
-<a name="l00627"></a>00627 @property (copy) NSArray *action_links;
-<a name="l00648"></a>00648 - (<span class="keywordtype">id</span>)initWithAction:(NSString*)action andUrl:(NSString*)url;
-<a name="l00649"></a>00649 + (<span class="keywordtype">id</span>)activityObjectWithAction:(NSString*)action andUrl:(NSString*)url;
-<a name="l00650"></a>00650 
-<a name="l00660"></a>00660 - (<span class="keywordtype">id</span>)initWithAction:(NSString*)action;
-<a name="l00661"></a>00661 + (<span class="keywordtype">id</span>)activityObjectWithAction:(NSString*)action;
-<a name="l00675"></a>00675 - (NSDictionary*)dictionaryForObject;
-<a name="l00676"></a>00676 @end
+<a name="l00591"></a><a class="code" href="interface_j_r_activity_object.html#a255fb86a6ea93d64fc78031a30566187">00591</a> @property (copy) <a class="code" href="interface_j_r_email_object.html" title="Object containing content to be shared by email.">JREmailObject</a> *email;
+<a name="l00592"></a>00592 
+<a name="l00597"></a><a class="code" href="interface_j_r_activity_object.html#a3f3c485be861e61ce60d9c7a92373e19">00597</a> @property (copy) <a class="code" href="interface_j_r_sms_object.html" title="Object containing the default message to be shared by sms.">JRSmsObject</a> *sms;
+<a name="l00608"></a>00608 @property (copy) NSString *user_generated_content;
+<a name="l00609"></a>00609 
+<a name="l00613"></a>00613 @property (copy) NSString *title;
+<a name="l00614"></a><a class="code" href="interface_j_r_activity_object.html#ac3afe63463692ab52c86c82db8f37b49">00614</a> 
+<a name="l00618"></a>00618 @property (copy) NSString *description;
+<a name="l00619"></a><a class="code" href="interface_j_r_activity_object.html#a6782f341812fcbe7fc1add57a80edc5c">00619</a> 
+<a name="l00623"></a>00623 @property (copy) NSArray *action_links;
+<a name="l00644"></a>00644 - (<span class="keywordtype">id</span>)initWithAction:(NSString*)action andUrl:(NSString*)url;
+<a name="l00645"></a>00645 + (<span class="keywordtype">id</span>)activityObjectWithAction:(NSString*)action andUrl:(NSString*)url;
+<a name="l00646"></a>00646 
+<a name="l00656"></a>00656 - (<span class="keywordtype">id</span>)initWithAction:(NSString*)action;
+<a name="l00657"></a>00657 + (<span class="keywordtype">id</span>)activityObjectWithAction:(NSString*)action;
+<a name="l00671"></a>00671 - (NSMutableDictionary*)dictionaryForObject;
+<a name="l00672"></a>00672 @end
 </pre></div></div>
 </div>
 <!-- doxygen footer -->
