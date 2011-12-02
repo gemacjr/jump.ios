@@ -198,31 +198,30 @@
 <a name="l00590"></a><a class="code" href="interface_j_r_activity_object.html#a255fb86a6ea93d64fc78031a30566187">00590</a> @property (copy) <a class="code" href="interface_j_r_email_object.html" title="Object containing content to be shared by email.">JREmailObject</a> *email;
 <a name="l00591"></a>00591 
 <a name="l00596"></a><a class="code" href="interface_j_r_activity_object.html#a3f3c485be861e61ce60d9c7a92373e19">00596</a> @property (copy) <a class="code" href="interface_j_r_sms_object.html" title="Object containing the default message to be shared by sms.">JRSmsObject</a> *sms;
-<a name="l00603"></a>00603 
-<a name="l00604"></a>00604 <span class="preprocessor">#define DEPRECATED(prop) prop __attribute__((deprecated))</span>
-<a name="l00605"></a>00605 <span class="preprocessor"></span>
-<a name="l00609"></a>00609 DEPRECATED(
-<a name="l00610"></a>00610 @property (copy) NSString *user_generated_content
-<a name="l00611"></a>00611 );
-<a name="l00612"></a>00612 
-<a name="l00616"></a>00616 DEPRECATED(
-<a name="l00617"></a><a class="code" href="interface_j_r_activity_object.html#ac3afe63463692ab52c86c82db8f37b49">00617</a> @property (copy) NSString *title
-<a name="l00618"></a>00618 );
-<a name="l00619"></a>00619 
-<a name="l00623"></a>00623 DEPRECATED(
-<a name="l00624"></a><a class="code" href="interface_j_r_activity_object.html#a6782f341812fcbe7fc1add57a80edc5c">00624</a> @property (copy) NSString *description
-<a name="l00625"></a>00625 );
-<a name="l00626"></a>00626 
-<a name="l00630"></a>00630 DEPRECATED(
-<a name="l00631"></a><a class="code" href="interface_j_r_activity_object.html#a46586a4960b7780373c60a4d4903b115">00631</a> @property (copy) NSArray *action_links
-<a name="l00632"></a>00632 );
-<a name="l00653"></a>00653 - (id)initWithAction:(NSString*)action andUrl:(NSString*)url;
-<a name="l00654"></a>00654 + (id)activityObjectWithAction:(NSString*)action andUrl:(NSString*)url;
-<a name="l00655"></a>00655 
-<a name="l00665"></a>00665 - (id)initWithAction:(NSString*)action;
-<a name="l00666"></a>00666 + (id)activityObjectWithAction:(NSString*)action;
-<a name="l00680"></a>00680 - (NSMutableDictionary*)dictionaryForObject;
-<a name="l00681"></a>00681 <span class="keyword">@end</span>
+<a name="l00599"></a>00599 <span class="preprocessor">#define DEPRECATED(prop) prop __attribute__((deprecated))</span>
+<a name="l00600"></a>00600 <span class="preprocessor"></span>
+<a name="l00608"></a>00608 DEPRECATED(
+<a name="l00609"></a>00609 @property (copy) NSString *user_generated_content
+<a name="l00610"></a>00610 );
+<a name="l00611"></a>00611 
+<a name="l00615"></a>00615 DEPRECATED(
+<a name="l00616"></a><a class="code" href="interface_j_r_activity_object.html#ac3afe63463692ab52c86c82db8f37b49">00616</a> @property (copy) NSString *title
+<a name="l00617"></a>00617 );
+<a name="l00618"></a>00618 
+<a name="l00622"></a>00622 DEPRECATED(
+<a name="l00623"></a><a class="code" href="interface_j_r_activity_object.html#a6782f341812fcbe7fc1add57a80edc5c">00623</a> @property (copy) NSString *description
+<a name="l00624"></a>00624 );
+<a name="l00625"></a>00625 
+<a name="l00629"></a>00629 DEPRECATED(
+<a name="l00630"></a><a class="code" href="interface_j_r_activity_object.html#a46586a4960b7780373c60a4d4903b115">00630</a> @property (copy) NSArray *action_links
+<a name="l00631"></a>00631 );
+<a name="l00652"></a>00652 - (id)initWithAction:(NSString*)action andUrl:(NSString*)url;
+<a name="l00653"></a>00653 + (id)activityObjectWithAction:(NSString*)action andUrl:(NSString*)url;
+<a name="l00654"></a>00654 
+<a name="l00664"></a>00664 - (id)initWithAction:(NSString*)action;
+<a name="l00665"></a>00665 + (id)activityObjectWithAction:(NSString*)action;
+<a name="l00679"></a>00679 - (NSMutableDictionary*)dictionaryForObject;
+<a name="l00680"></a>00680 <span class="keyword">@end</span>
 </pre></div></div>
 </div>
 <!-- doxygen footer -->

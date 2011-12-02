@@ -596,13 +596,12 @@
 @property (copy) JRSmsObject *sms;
 /*@}*/
 
+#define DEPRECATED(prop) prop __attribute__((deprecated))
 /**
  * @name Deprecated Properties
+ * The following properties have been deprecated.
  **/
 /*@{*/
-
-#define DEPRECATED(prop) prop __attribute__((deprecated))
-
 /**
 * @deprecated Please use the JRActivityObject#userGeneratedContent property instead.
 **/

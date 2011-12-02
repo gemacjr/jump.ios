@@ -309,9 +309,9 @@
 /*@}*/
 
 /**
-* @name Deprecated
-* These keys have been deprecated in the current version of the JREngage library
-**/
+ * @name Deprecated
+ * These keys have been deprecated in the current version of the JREngage library
+ **/
 /*@{*/
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -335,13 +335,13 @@
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 /**
-* @deprecated This value will not be used. define #kJRAuthenticationBackgroundColor will be used instead.
-**/
+ * @deprecated This value will not be used. define #kJRAuthenticationBackgroundColor will be used instead.
+ **/
 #define kJRAuthenticationBackgroundColorRGBa  @"Authentication.Background.Color.RGBa"
 
 /**
-* @deprecated This value will not be used. define #kJRSharingBackgroundColor will be used instead.
-**/
+ * @deprecated This value will not be used. define #kJRSharingBackgroundColor will be used instead.
+ **/
 #define kJRSocialSharingBackgroundColorRGBa   @"SocialSharing.Background.Color.RGBa"
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
