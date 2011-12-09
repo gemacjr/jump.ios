@@ -32,6 +32,14 @@
  Date:	 Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 #import "FeedReaderFeeds.h"
 
 @implementation FeedReaderFeeds
@@ -48,6 +56,25 @@
     return self;
 }
 */
+
+- (void)updateButtonEnabled:(BOOL)buttonEnabled andTitle:(NSString*)buttonTitle andDownloadNewStories:(BOOL)downloadNewStories
+{
+    DLog(@"");
+
+    [feedButton setTitle:buttonTitle forState:(buttonEnabled ? UIControlStateNormal : UIControlStateDisabled)];
+    [feedButton setEnabled:buttonEnabled];
+    
+    //    if (weNeedToLoadNewStories)
+    //        [feedButton setTitle:@"Loading the Janrain Blog..." forState:UIControlStateNormal];
+    //    else
+    //        [feedButton setTitle:@"View the Janrain Blog" forState:UIControlStateNormal];
+
+    if (downloadNewStories)
+    //{
+        //weAreDownloadingTheFeed = YES;
+        [reader downloadFeed:self];
+    //}
+}
 
 - (void)viewDidLoad
 {
@@ -66,11 +93,6 @@
     self.navigationItem.titleView = titleLabel;
 
     titleLabel.text = NSLocalizedString(@"Quick Publish!", @"");
-
-    if ([reader.allStories count] == 0)
-        [feedButton setEnabled:NO];
-    else
-        [feedButton setEnabled:YES];
 
     janrainLink.titleLabel.textColor = [UIColor colorWithRed:0.05 green:0.19 blue:0.27 alpha:1.0];
 }
@@ -104,26 +126,39 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+
     if ([reader.allStories count] == 0)
-        [reader downloadFeed:self];
+        [self updateButtonEnabled:NO andTitle:@"Loading the Janrain Blog..." andDownloadNewStories:YES]; //[feedButton setEnabled:NO];
+    else
+        [self updateButtonEnabled:YES andTitle:@"View the Janrain Blog" andDownloadNewStories:NO]; //[feedButton setEnabled:YES];
+
+
+//    if ([reader.allStories count] == 0)
+//        [reader downloadFeed:self];
 }
 
 - (IBAction)janrainBlogSelected:(id)sender
 {
     if ([reader.allStories count] == 0)
     {
-        [reader downloadFeed:self];
+        //if (!weAreDownloadingTheFeed)
+            [self updateButtonEnabled:NO andTitle:@"Loading the Janrain Blog..." andDownloadNewStories:YES];
+        //else ;
     }
     else
     {
-        [summaryViewController release];
-
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary-iPad"
-                                                                        bundle:[NSBundle mainBundle]];
-        else
-            summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary"
-                                                                        bundle:[NSBundle mainBundle]];
+        //[self needToLoadNewStories:NO];
+        //[summaryViewController release];
+        if (!summaryViewController)
+        {
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary-iPad"
+                                                                            bundle:[NSBundle mainBundle]];
+            else
+                summaryViewController = [[FeedReaderSummary alloc] initWithNibName:@"FeedReaderSummary"
+                                                                            bundle:[NSBundle mainBundle]];
+        }
 
         [self.navigationController pushViewController:summaryViewController animated:YES];
     }
@@ -138,13 +173,14 @@
 
 - (void)feedDidFinishDownloading
 {
-    [feedButton setTitle:@"View Janrain Blog" forState:UIControlStateNormal];
-    [feedButton setEnabled:YES];
+    [self updateButtonEnabled:YES andTitle:@"View the Janrain Blog" andDownloadNewStories:NO];
+//    [feedButton setTitle:@"View Janrain Blog" forState:UIControlStateNormal];
+//    [feedButton setEnabled:YES];
 }
 
 - (void)feedDidFailToDownload
 {
-    if ([[FeedReader feedReader].allStories count] == 0)
+    if ([reader.allStories count] == 0)
     {
         UIAlertView * errorAlert = [[[UIAlertView alloc] initWithTitle:@"Error loading content"
                                                                message:@"There was an error downloading the Janrain Blog"
@@ -153,8 +189,13 @@
                                                      otherButtonTitles:nil] autorelease];
         [errorAlert show];
 
-        [feedButton setTitle:@"Reload Janrain Blog" forState:UIControlStateNormal];
-        [feedButton setEnabled:YES];
+        [self updateButtonEnabled:YES andTitle:@"Reload the Janrain Blog" andDownloadNewStories:NO];
+//        [feedButton setTitle:@"Reload Janrain Blog" forState:UIControlStateNormal];
+//        [feedButton setEnabled:YES];
+    }
+    else // TODO: Test this!
+    {
+        [self updateButtonEnabled:YES andTitle:@"View the Janrain Blog" andDownloadNewStories:NO];
     }
 }
 

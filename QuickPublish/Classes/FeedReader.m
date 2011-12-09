@@ -32,30 +32,35 @@
  Date:   Tuesday, August 24, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import <Foundation/Foundation.h>
-#import "FeedReader.h"
-#import "JREngage.h"
+#ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
 
-#define QUICK_PUBLISH_CACHED_VERSION @"quickpublish.cachedversion"
-#define QUICK_PUBLISH_CACHED_STORIES @"quickpublish.feeddata.cachedstories"
-#define QUICK_PUBLISH_CACHED_STORY_LINKS @"quickpublish.feeddata.cachedstorylinks"
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#define QUICK_PUBLISH_STORY_TITLE @"quickpublish.story.title"
-#define QUICK_PUBLISH_STORY_LINK @"quickpublish.story.link"
-#define QUICK_PUBLISH_STORY_DESCRIPTION @"quickpublish.story.description"
-#define QUICK_PUBLISH_STORY_AUTHOR @"quickpublish.story.author"
-#define QUICK_PUBLISH_STORY_PUBDATE @"quickpublish.story.pubdate"
-#define QUICK_PUBLISH_STORY_PLAINTEXT @"quickpublish.story.plaintext"
-#define QUICK_PUBLISH_STORY_STORYIMAGEURLS @"quickpublish.story.storyimageurls"
-#define QUICK_PUBLISH_STORY_FEEDURL @"quickpublish.story.feedurl"
-#define QUICK_PUBLISH_STORY_IMAGES @"quickpublish.story.images"
+#import "FeedReader.h"
 
-#define QUICK_PUBLISH_STORYIMAGE_SRC @"quickpublish.storyimage.src"
-#define QUICK_PUBLISH_STORYIMAGE_FILENAME @"quickpublish.storyimage.filename"
+#define QUICK_PUBLISH_CACHED_VERSION            @"quickpublish.cachedversion"
+#define QUICK_PUBLISH_CACHED_STORIES            @"quickpublish.feeddata.cachedstories"
+#define QUICK_PUBLISH_CACHED_STORY_LINKS        @"quickpublish.feeddata.cachedstorylinks"
+
+#define QUICK_PUBLISH_STORY_TITLE               @"quickpublish.story.title"
+#define QUICK_PUBLISH_STORY_LINK                @"quickpublish.story.link"
+#define QUICK_PUBLISH_STORY_DESCRIPTION         @"quickpublish.story.description"
+#define QUICK_PUBLISH_STORY_AUTHOR              @"quickpublish.story.author"
+#define QUICK_PUBLISH_STORY_PUBDATE             @"quickpublish.story.pubdate"
+#define QUICK_PUBLISH_STORY_PLAINTEXT           @"quickpublish.story.plaintext"
+#define QUICK_PUBLISH_STORY_STORYIMAGEURLS      @"quickpublish.story.storyimageurls"
+#define QUICK_PUBLISH_STORY_FEEDURL             @"quickpublish.story.feedurl"
+#define QUICK_PUBLISH_STORY_IMAGES              @"quickpublish.story.images"
+
+#define QUICK_PUBLISH_STORYIMAGE_SRC            @"quickpublish.storyimage.src"
+#define QUICK_PUBLISH_STORYIMAGE_FILENAME       @"quickpublish.storyimage.filename"
 #define QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED @"quickpublish.storyimage.downloadfailed"
 
-#define QUICK_PUBLISH_LAST_UPDATE_DATE @"quickpublish.reader.lastupdatedate"
+#define QUICK_PUBLISH_LAST_UPDATE_DATE          @"quickpublish.reader.lastupdatedate"
 
 @interface NSString (HTML_StyleOut)
 - (NSString*)stringWithCommentedOutHTMLStyleTags;
@@ -434,28 +439,23 @@
         goto JUST_FINISH;
 
     newPubDate = [newPubDate substringToIndex:rangeOfDashColonTimezone.location];
-
-//    NSError *error;
-//    NSString *pattern = @"[0-9]{4}-[0-9]{2}-[0-9]{2}([A-Za-z]{3})[0-9]{2}:[0-9]{2}:[0-9]{2}";
-//    NSArray *matcher = [_pubDate captureComponentsMatchedByRegex:pattern
-//                                                               options:RKLCaseless
-//                                                                 range:NSMakeRange(0, [_pubDate length])
-//                                                                 error:&error];
-//
-//    if (error || [matcher count] < 2)
-//        goto JUST_FINISH;
-//
-//    NSString *timezone = [matcher objectAtIndex:1];
-//
-//    _pubDate = [_pubDate stringByReplacingOccurrencesOfString:timezone withString:@"T"];
-
     NSDate *date = [NSDate dateFromRFC3339String:newPubDate];
 
     if (!date)
         goto JUST_FINISH;
 
-    if ([NSDateFormatter resolveClassMethod:@selector(localizedStringFromDate:dateStyle:timeStyle:)])
-        newPubDate = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
+    //if ([NSDateFormatter resolveClassMethod:@selector(localizedStringFromDate:dateStyle:timeStyle:)])
+//    @try
+//    {
+//        DLog(@"trying");
+        if ([NSDateFormatter respondsToSelector:@selector(localizedStringFromDate:dateStyle:timeStyle:)])
+            newPubDate = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
+//    }
+//    @catch (NSException *exception) 
+//    {
+//        DLog(@"NSDateFormatter class method localizedStringFromDate:dateStyle:timeStyle: not available");
+//        goto JUST_FINISH;
+//    }
 
 JUST_FINISH:
     [pubDate release];
@@ -741,13 +741,6 @@ static FeedReader* singleton = nil;
     UIApplication* app = [UIApplication sharedApplication];
     app.networkActivityIndicatorVisible = NO;
 
-//    UIAlertView * errorAlert = [[[UIAlertView alloc] initWithTitle:@"Error loading content"
-//                                                           message:errorString
-//                                                          delegate:self
-//                                                 cancelButtonTitle:@"OK"
-//                                                 otherButtonTitles:nil] autorelease];
-//  [errorAlert show];
-
     if ([parseError code] == 512)
         [self feedDidFinishDownloading];
     else
@@ -779,7 +772,7 @@ static FeedReader* singleton = nil;
  qualifiedName:(NSString*)qName
 {
     if ([elementName isEqualToString:@"item"])
-    {
+    {       
         if (![feed isNewStory:currentStory addAtIndex:counter])
             [parser abortParsing];
         [currentStory release], currentStory = nil;

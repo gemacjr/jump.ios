@@ -43,8 +43,9 @@
 
     UIButton *feedButton;
     UIButton *janrainLink;
-
     UIView   *layoutView;
+    
+    BOOL weAreDownloadingTheFeed;
 
     FeedReaderSummary *summaryViewController;
 }

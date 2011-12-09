@@ -36,12 +36,12 @@
 #import "JRConnectionManager.h"
 
 #if DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
 #define DLog(...)
 #endif
 
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
 @interface ConnectionData : NSObject
@@ -307,8 +307,7 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response
 {
-  DLog(@"");
-
+    //DLog(@"");
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 
     [connectionData setResponse:[[[NSMutableData alloc] init] autorelease]];
@@ -319,7 +318,7 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
-  DLog(@"");
+    //DLog(@"");
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 
     NSURLRequest *request = [connectionData request];
@@ -367,7 +366,7 @@ static JRConnectionManager* singleton = nil;
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request
                                                           redirectResponse:(NSURLResponse *)redirectResponse
 {
-    DLog(@"");
+    //DLog(@"");
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 
     if ([connectionData returnFullResponse])
@@ -378,7 +377,7 @@ static JRConnectionManager* singleton = nil;
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge  { DLog(@""); }
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { DLog(@""); }
-- (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse       { DLog(@""); return cachedResponse; }
+- (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse       { /*DLog(@"");*/ return cachedResponse; }
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten
                                                totalBytesWritten:(NSInteger)totalBytesWritten
                                        totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
