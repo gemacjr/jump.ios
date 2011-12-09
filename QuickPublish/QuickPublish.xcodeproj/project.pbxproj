@@ -214,6 +214,7 @@
 		9FBE258512A6FAB500E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE258412A6FAB500E1F93E /* Security.framework */; };
 		9FD162851295EB770002BFEC /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD162841295EB770002BFEC /* Default-Portrait.png */; };
 		9FD1638C129733740002BFEC /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD1638B129733740002BFEC /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		9FD184961492B9C3009409A3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9FD184951492B9C3009409A3 /* Settings.bundle */; };
 		9FD54A111213726800E11512 /* FeedReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD54A101213726800E11512 /* FeedReader.m */; };
 /* End PBXBuildFile section */
 
@@ -452,6 +453,7 @@
 		9FBE258412A6FAB500E1F93E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9FD162841295EB770002BFEC /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		9FD1638B129733740002BFEC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		9FD184951492B9C3009409A3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		9FD54A0F1213726800E11512 /* FeedReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedReader.h; sourceTree = "<group>"; };
 		9FD54A101213726800E11512 /* FeedReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedReader.m; sourceTree = "<group>"; };
 		C01FCF5008A954540054247C /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMDefines.h; path = MWaterfall/GTMDefines.h; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 				9F01A8981294506100AD6899 /* xibs */,
 				9F01A89E1294506100AD6899 /* xibs-ipad */,
 				9FB409451241430500FDDA7B /* Quick_Publish-Info.plist */,
+				9FD184951492B9C3009409A3 /* Settings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -994,6 +997,7 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				9F6DE9891492C72F00B4D8C2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1211,10 +1215,27 @@
 				9F7BC163146888980068BD40 /* JRWebViewController.xib in Resources */,
 				9F7BC164146888980068BD40 /* JREngage-Info.plist in Resources */,
 				9FB692CA1492A2F500E5E956 /* dark_blue_button_disabled_280x40.png in Resources */,
+				9FD184961492B9C3009409A3 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9F6DE9891492C72F00B4D8C2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {

@@ -11,6 +11,7 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		9F0C6BB51492CF77001D6AB1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9F0C6BB41492CF77001D6AB1 /* Settings.bundle */; };
 		9F1816DD13ECC39700D9CA54 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1816DC13ECC39700D9CA54 /* CoreText.framework */; };
 		9F23062C12F24B5A00147C95 /* nav_split.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F23062912F24B5A00147C95 /* nav_split.png */; };
 		9F23062D12F24B5A00147C95 /* split_landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F23062A12F24B5A00147C95 /* split_landscape.png */; };
@@ -208,6 +209,7 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9F0C6BB41492CF77001D6AB1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = SOURCE_ROOT; };
 		9F1816DC13ECC39700D9CA54 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		9F23062912F24B5A00147C95 /* nav_split.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_split.png; sourceTree = "<group>"; };
 		9F23062A12F24B5A00147C95 /* split_landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = split_landscape.png; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 				9F521EA012B062940073ABAE /* images-ipad */,
 				9F521EA312B062940073ABAE /* xibs */,
 				9F521EA812B062940073ABAE /* xibs-ipad */,
+				9F0C6BB41492CF77001D6AB1 /* Settings.bundle */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1098,6 +1101,7 @@
 				9F7BC2B4146888A80068BD40 /* JRUserLandingController.xib in Resources */,
 				9F7BC2B5146888A80068BD40 /* JRWebViewController.xib in Resources */,
 				9F7BC2B6146888A80068BD40 /* JREngage-Info.plist in Resources */,
+				9F0C6BB51492CF77001D6AB1 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
