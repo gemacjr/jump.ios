@@ -243,7 +243,7 @@ static JRUserInterfaceMaestro* singleton = nil;
                                   objectForKey:@"DefaultValues"]];
 
     NSArray *backgroundColorRGBa = [dict objectForKey:kJRAuthenticationBackgroundColorRGBa];
-    UIColor *backgroundColor = nil;
+    UIColor *backgroundColor = JANRAIN_BLUE_20;
 
     if ([backgroundColorRGBa respondsToSelector:@selector(count)])
         if ([backgroundColorRGBa count] == 4)
@@ -253,7 +253,8 @@ static JRUserInterfaceMaestro* singleton = nil;
                                  blue:[(NSNumber*)[backgroundColorRGBa objectAtIndex:2] floatValue]
                                 alpha:[(NSNumber*)[backgroundColorRGBa objectAtIndex:3] floatValue]];
 
-    [dict setObject:backgroundColor forKey:kJRAuthenticationBackgroundColor];
+    if (backgroundColor)
+        [dict setObject:backgroundColor forKey:kJRAuthenticationBackgroundColor];
     [dict removeObjectForKey:kJRAuthenticationBackgroundColorRGBa];
 
 ///*** * * DEPRECATED * * ***/

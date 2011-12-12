@@ -682,7 +682,7 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 /* This function goes through all of the fields of the activity object and turns the object into
    an NSDictionary of string values and keys so that it can be converted into json by the json
    library.  It also validates the objects and escapes icky characters in the process. */
-- (NSDictionary*)dictionaryForObject
+- (NSMutableDictionary*)dictionaryForObject
 {
     [self validateActivity];
 
