@@ -43,8 +43,8 @@
 #import "FeedReader.h"
 
 #define QUICK_PUBLISH_CACHED_VERSION            @"quickpublish.cachedversion"
-#define QUICK_PUBLISH_CACHED_STORIES            @"quickpublish.feeddata.cachedstories"
-#define QUICK_PUBLISH_CACHED_STORY_LINKS        @"quickpublish.feeddata.cachedstorylinks"
+#define QUICK_PUBLISH_CACHED_STORIES            @"quickpublish.feeddata.cachedstories.archive"
+#define QUICK_PUBLISH_CACHED_STORY_LINKS        @"quickpublish.feeddata.cachedstorylinks.archive"
 
 #define QUICK_PUBLISH_STORY_TITLE               @"quickpublish.story.title"
 #define QUICK_PUBLISH_STORY_LINK                @"quickpublish.story.link"
@@ -139,8 +139,13 @@
         fileName = [[coder decodeObjectForKey:QUICK_PUBLISH_STORYIMAGE_FILENAME] retain];
         downloadFailed = [coder decodeBoolForKey:QUICK_PUBLISH_STORYIMAGE_DOWNLOADFAILED];
 
-        NSString  *imagePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
-            stringByAppendingPathComponent:fileName];
+        NSString *cachesDirectory =
+                [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+        NSString *imagePath       =
+                [cachesDirectory stringByAppendingPathComponent:fileName];
+
+//        NSString  *imagePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+//            stringByAppendingPathComponent:fileName];
         image = [[UIImage imageWithContentsOfFile:imagePath] retain];
     }
 
@@ -176,8 +181,13 @@
 
 - (void)deleteFromDisk
 {
-    NSString  *imagePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
-        stringByAppendingPathComponent:fileName];
+    NSString *cachesDirectory =
+            [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *imagePath       =
+            [cachesDirectory stringByAppendingPathComponent:fileName];
+
+//    NSString  *imagePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+//        stringByAppendingPathComponent:fileName];
 
     NSError *error;
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -193,8 +203,13 @@
         downloadFailed = YES;
     else
     {
-        NSString  *imagePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
-            stringByAppendingPathComponent:fileName];
+        NSString *cachesDirectory =
+                [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+        NSString *imagePath       =
+                [cachesDirectory stringByAppendingPathComponent:fileName];
+
+//        NSString  *imagePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+//            stringByAppendingPathComponent:fileName];
         [UIImagePNGRepresentation(image) writeToFile:imagePath atomically:YES];
     }
 }
@@ -451,7 +466,7 @@
         if ([NSDateFormatter respondsToSelector:@selector(localizedStringFromDate:dateStyle:timeStyle:)])
             newPubDate = [NSDateFormatter localizedStringFromDate:date dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
 //    }
-//    @catch (NSException *exception) 
+//    @catch (NSException *exception)
 //    {
 //        DLog(@"NSDateFormatter class method localizedStringFromDate:dateStyle:timeStyle: not available");
 //        goto JUST_FINISH;
@@ -538,11 +553,29 @@ JUST_FINISH:
 
 - (void)saveStories
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:stories]
-                                              forKey:QUICK_PUBLISH_CACHED_STORIES];
+    NSString *cachesDirectory       =
+            [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *storiesArchivePath    =
+            [cachesDirectory stringByAppendingPathComponent:QUICK_PUBLISH_CACHED_STORIES];
+    NSString *storyLinksArchivePath =
+            [cachesDirectory stringByAppendingPathComponent:QUICK_PUBLISH_CACHED_STORY_LINKS];
+//          [NSTemporaryDirectory() stringByAppendingPathComponent:QUICK_PUBLISH_CACHED_STORY_LINKS];
 
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:storyLinks]
-                                              forKey:QUICK_PUBLISH_CACHED_STORY_LINKS];
+    DLog(@"stories path: %@", storiesArchivePath);
+
+    //BOOL result1 =
+    [NSKeyedArchiver archiveRootObject:stories
+                                toFile:storiesArchivePath];
+
+    //BOOL result2 =
+    [NSKeyedArchiver archiveRootObject:storyLinks
+                                toFile:storyLinksArchivePath];
+
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:stories]
+//                                              forKey:QUICK_PUBLISH_CACHED_STORIES];
+//
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:storyLinks]
+//                                              forKey:QUICK_PUBLISH_CACHED_STORY_LINKS];
 
     NSString *currentVersion = [[NSDictionary dictionaryWithContentsOfFile:
                                                  [[[NSBundle mainBundle] bundlePath]
@@ -561,21 +594,46 @@ JUST_FINISH:
 
     if ([cachedVersion isEqualToString:currentVersion])
     {
-        NSData *archivedStories = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORIES];
-        if (archivedStories != nil)
-        {
-            NSArray *unarchivedStories = [NSKeyedUnarchiver unarchiveObjectWithData:archivedStories];
+        NSString *cachesDirectory       =
+                [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+        NSString *storiesArchivePath    =
+                [cachesDirectory stringByAppendingPathComponent:QUICK_PUBLISH_CACHED_STORIES];
+        NSString *storyLinksArchivePath =
+                [cachesDirectory stringByAppendingPathComponent:QUICK_PUBLISH_CACHED_STORY_LINKS];
+
+//        NSData *archivedStories = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORIES];
+//        if (archivedStories != nil)
+//        {
+            NSArray *unarchivedStories = [NSKeyedUnarchiver unarchiveObjectWithFile:storiesArchivePath];
             if (unarchivedStories != nil)
                 stories = [[NSMutableArray alloc] initWithArray:unarchivedStories];
-        }
+//        }
 
-        NSData *archivedStoryLinks = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORY_LINKS];
-        if (archivedStoryLinks != nil)
-        {
-            NSSet *unarchivedStoryLinks = [NSKeyedUnarchiver unarchiveObjectWithData:archivedStoryLinks];
+//        NSData *archivedStoryLinks = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORY_LINKS];
+//        if (archivedStoryLinks != nil)
+//        {
+            NSSet *unarchivedStoryLinks = [NSKeyedUnarchiver unarchiveObjectWithFile:storyLinksArchivePath];
             if (unarchivedStoryLinks != nil)
                 storyLinks = [[NSMutableSet alloc] initWithSet:unarchivedStoryLinks];
-        }
+//        }
+
+
+
+//        NSData *archivedStories = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORIES];
+//        if (archivedStories != nil)
+//        {
+//            NSArray *unarchivedStories = [NSKeyedUnarchiver unarchiveObjectWithData:archivedStories];
+//            if (unarchivedStories != nil)
+//                stories = [[NSMutableArray alloc] initWithArray:unarchivedStories];
+//        }
+//
+//        NSData *archivedStoryLinks = [[NSUserDefaults standardUserDefaults] objectForKey:QUICK_PUBLISH_CACHED_STORY_LINKS];
+//        if (archivedStoryLinks != nil)
+//        {
+//            NSSet *unarchivedStoryLinks = [NSKeyedUnarchiver unarchiveObjectWithData:archivedStoryLinks];
+//            if (unarchivedStoryLinks != nil)
+//                storyLinks = [[NSMutableSet alloc] initWithSet:unarchivedStoryLinks];
+//        }
     }
 
     /* If this is the first time this is running, the classes changed between versions, or anything went wrong */
@@ -772,7 +830,7 @@ static FeedReader* singleton = nil;
  qualifiedName:(NSString*)qName
 {
     if ([elementName isEqualToString:@"item"])
-    {       
+    {
         if (![feed isNewStory:currentStory addAtIndex:counter])
             [parser abortParsing];
         [currentStory release], currentStory = nil;
