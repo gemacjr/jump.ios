@@ -267,7 +267,7 @@ or opacity of our rounded rectangle. */
     [super viewDidLoad];
 
  /* There's a slight chance that their capacities could be 0, but that's OK; they're mutable. */
-    alreadyShared = [[NSMutableSet alloc] initWithCapacity:[[sessionData socialProviders] count]];
+    alreadyShared     = [[NSMutableSet alloc] initWithCapacity:[[sessionData socialProviders] count]];
     cachedProfilePics = [[NSMutableDictionary alloc] initWithCapacity:[[sessionData socialProviders] count]];
 
     if ([[customInterface objectForKey:kJRSocialSharingTitleString] isKindOfClass:[NSString class]])
@@ -1121,8 +1121,9 @@ Please try again later."
 {
     [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
     [cachedProfilePics removeObjectForKey:selectedProvider.name];
-    [loggedInUser release];
-    loggedInUser = nil;
+    [alreadyShared removeObject:provider];
+    
+    [loggedInUser release], loggedInUser = nil;
 
     [self showUserAsLoggedIn:NO];
     [self showActivityAsShared:NO];

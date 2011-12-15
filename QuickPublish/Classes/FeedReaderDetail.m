@@ -263,7 +263,6 @@ a:active  { color:#7AC143; }";
     activity.sms = [JRSmsObject smsObjectWithMessage:[NSString stringWithFormat:@"Check out this article from the Janrain Blog!\n\n%@", story.link]
                                 andUrlsToBeShortened:[NSArray arrayWithObjects:story.link, nil]];
 
-
     if (iPad)
     {
         self.navigationItem.rightBarButtonItem.enabled = NO;
