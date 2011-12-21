@@ -53,7 +53,7 @@
  *   - Provide an additional level of security with forced re-authentication when
  *     users are about to make a purchase or conduct a sensitive transaction
  *   - Configure and maintain separate lists of providers for mobile and web apps
- *   - Match the look and feel of the iPhone or iPAd app with customizable background colors,
+ *   - Match the look and feel of the iPhone or iPad app with customizable background colors,
  *     images, and navigation bar tints
  *
  * Before you begin, you need to have created a
