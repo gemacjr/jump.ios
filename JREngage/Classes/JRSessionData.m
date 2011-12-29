@@ -32,10 +32,10 @@
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import <Foundation/Foundation.h>
+//#import <Foundation/Foundation.h>
 #import "JRSessionData.h"
-#import "JRActivityObject.h"
-#import "JSONKit.h"
+//#import "JRActivityObject.h"
+//#import "JSONKit.h"
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)

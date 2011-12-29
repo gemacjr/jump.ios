@@ -33,7 +33,11 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
+
+#ifndef PHONEGAP_FRAMEWORK
 #import "JSONKit.h"
+#endif
+
 #import "SFHFKeychainUtils.h"
 #import "JRConnectionManager.h"
 #import "JRActivityObject.h"
