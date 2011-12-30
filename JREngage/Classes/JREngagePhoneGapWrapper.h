@@ -14,6 +14,9 @@
 {
     JREngage *jrEngage;
     NSString *callbackID;
+
+    NSMutableDictionary *fullAuthenticationResponse;
+//    NSDictionary        *authInfo;
 }
 
 @property (nonatomic, copy) NSString* callbackID;

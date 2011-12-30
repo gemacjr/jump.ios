@@ -34,7 +34,9 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef PHONEGAP_FRAMEWORK
+#ifdef PHONEGAP_FRAMEWORK
+#import <PhoneGap/JSONKit.h>
+#else
 #import "JSONKit.h"
 #endif
 

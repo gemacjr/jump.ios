@@ -14,10 +14,19 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+#import <PhoneGap/JSONKit.h>
 #import "JREngagePhoneGapWrapper.h"
+
+@interface JREngagePhoneGapWrapper ()
+@property (nonatomic, retain) NSMutableDictionary *fullAuthenticationResponse;
+//@property (nonatomic, retain) NSDictionary        *authInfo;
+@end
 
 @implementation JREngagePhoneGapWrapper
 @synthesize callbackID;
+@synthesize fullAuthenticationResponse;
+//@synthesize authInfo;
+
 - (id)init
 {
     self = [super init];
@@ -118,7 +127,13 @@
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
                               forProvider:(NSString*)provider
 {
-    [self sendSuccessMessage:[NSString stringWithFormat:@"AUTH SUCCESS: %@, %@", [auth_info description], provider]];
+    if (!fullAuthenticationResponse)
+        self.fullAuthenticationResponse = [NSMutableDictionary dictionaryWithCapacity:5];
+
+    [fullAuthenticationResponse setObject:auth_info forKey:@"auth_info"];
+    [fullAuthenticationResponse setObject:provider forKey:@"provider"];
+
+//    [self sendSuccessMessage:[NSString stringWithFormat:@"AUTH SUCCESS: %@, %@", [auth_info description], provider]];
 }
 
 - (void)jrAuthenticationDidFailWithError:(NSError*)error
@@ -132,8 +147,18 @@
                               andPayload:(NSData*)tokenUrlPayload
                              forProvider:(NSString*)provider
 {
-//    [self sendSuccessMessage:[NSString stringWithFormat:@"TOKEN URL SUCCESS: %@, %@", , provider]];
+    if (!fullAuthenticationResponse) /* That's not right! */;
 
+    NSString *payloadString = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
+
+    [fullAuthenticationResponse setObject:tokenUrl forKey:@"tokenUrl"];
+    [fullAuthenticationResponse setObject:(payloadString ? payloadString : (void *) kCFNull)
+                                   forKey:@"tokenUrlPayload"];
+    [fullAuthenticationResponse setObject:@"ok" forKey:@"stat"];
+
+    NSString *authResponseString = [fullAuthenticationResponse JSONString];
+
+    [self sendSuccessMessage:authResponseString];
 }
 
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl
@@ -150,6 +175,13 @@
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity
                   didFailWithError:(NSError*)error
                        forProvider:(NSString*)provider { }
+
+- (void)dealloc
+{
+    [fullAuthenticationResponse release];
+//    [_authInfo release];
+    [super dealloc];
+}
 @end
 
 
