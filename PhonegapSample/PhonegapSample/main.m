@@ -1,6 +1,6 @@
 //
 //  main.m
-//  PhoneGapSample
+//  PhonegapSample
 //
 //  Created by Lilli Szafranski on 12/27/11.
 //  Copyright __MyCompanyName__ 2011. All rights reserved.

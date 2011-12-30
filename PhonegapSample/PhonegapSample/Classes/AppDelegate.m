@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  PhoneGapSample
+//  PhonegapSample
 //
 //  Created by Lilli Szafranski on 12/27/11.
 //  Copyright __MyCompanyName__ 2011. All rights reserved.
@@ -34,14 +34,14 @@
     if (url && [url isKindOfClass:[NSURL class]])
     {
         self.invokeString = [url absoluteString];
-		NSLog(@"PhoneGapSample launchOptions = %@",url);
+		NSLog(@"PhonegapSample launchOptions = %@",url);
     }    
 		
 	return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 // this happens while we are running ( in the background, or from within our own app )
-// only valid if PhoneGapSample.plist specifies a protocol to handle
+// only valid if PhonegapSample.plist specifies a protocol to handle
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url 
 {
     // must call super so all plugins will get the notification, and their handlers will be called 
@@ -62,7 +62,7 @@
  */
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView 
 {
-	// only valid if PhoneGapSample.plist specifies a protocol to handle
+	// only valid if PhonegapSample.plist specifies a protocol to handle
 	if(self.invokeString)
 	{
 		// this is passed before the deviceready event is fired, so you can access it in js when you receive deviceready

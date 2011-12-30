@@ -391,7 +391,7 @@
 		9F2493AD14ABF2560052C730 /* JRWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JRWebViewController.xib; sourceTree = "<group>"; };
 		9F2493AF14ABF2560052C730 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		9F2493B014ABF2560052C730 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
-		9F334EDE14AA467300247A85 /* PhoneGapSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneGapSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F334EDE14AA467300247A85 /* PhonegapSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhonegapSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F334EE214AA467300247A85 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9F334EE414AA467300247A85 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F334EE614AA467300247A85 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -405,10 +405,10 @@
 		9F334EF614AA467300247A85 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9F334EF814AA467300247A85 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		9F334EFA14AA467300247A85 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		9F334EFE14AA467300247A85 /* PhoneGapSample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PhoneGapSample-Info.plist"; sourceTree = "<group>"; };
+		9F334EFE14AA467300247A85 /* PhonegapSample */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PhonegapSample-Info.plist"; sourceTree = "<group>"; };
 		9F334F0014AA467300247A85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F334F0214AA467300247A85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9F334F0414AA467300247A85 /* PhoneGapSample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PhoneGapSample-Prefix.pch"; sourceTree = "<group>"; };
+		9F334F0414AA467300247A85 /* PhonegapSample */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PhonegapSample-Prefix.pch"; sourceTree = "<group>"; };
 		9F334F0514AA467300247A85 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework; sourceTree = "<absolute>"; };
 		9F334F0A14AA467300247A85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9F334F0E14AA467300247A85 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -784,7 +784,7 @@
 			children = (
 				9F24916214AA588C0052C730 /* JREngage */,
 				9F334F2F14AA481700247A85 /* www */,
-				9F334EFC14AA467300247A85 /* PhoneGapSample */,
+				9F334EFC14AA467300247A85 /* PhonegapSample */,
 				9F334EE114AA467300247A85 /* Frameworks */,
 				9F334EDF14AA467300247A85 /* Products */,
 			);
@@ -793,7 +793,7 @@
 		9F334EDF14AA467300247A85 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9F334EDE14AA467300247A85 /* PhoneGapSample.app */,
+				9F334EDE14AA467300247A85 /* PhonegapSample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -820,7 +820,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		9F334EFC14AA467300247A85 /* PhoneGapSample */ = {
+		9F334EFC14AA467300247A85 /* PhonegapSample */ = {
 			isa = PBXGroup;
 			children = (
 				9F334F0514AA467300247A85 /* PhoneGap.framework */,
@@ -829,16 +829,16 @@
 				9F334F2414AA467300247A85 /* Plugins */,
 				9F334EFD14AA467300247A85 /* Supporting Files */,
 			);
-			path = PhoneGapSample;
+			path = PhonegapSample;
 			sourceTree = "<group>";
 		};
 		9F334EFD14AA467300247A85 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9F334EFE14AA467300247A85 /* PhoneGapSample-Info.plist */,
+				9F334EFE14AA467300247A85 /* PhonegapSample-Info.plist */,
 				9F334EFF14AA467300247A85 /* InfoPlist.strings */,
 				9F334F0214AA467300247A85 /* main.m */,
-				9F334F0414AA467300247A85 /* PhoneGapSample-Prefix.pch */,
+				9F334F0414AA467300247A85 /* PhonegapSample-Prefix.pch */,
 				9F334F1E14AA467300247A85 /* PhoneGap.plist */,
 			);
 			name = "Supporting Files";
@@ -911,9 +911,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9F334EDD14AA467300247A85 /* PhoneGapSample */ = {
+		9F334EDD14AA467300247A85 /* PhonegapSample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9F334F2814AA467300247A85 /* Build configuration list for PBXNativeTarget "PhoneGapSample" */;
+			buildConfigurationList = 9F334F2814AA467300247A85 /* Build configuration list for PBXNativeTarget "PhonegapSample" */;
 			buildPhases = (
 				9F334ED714AA467300247A85 /* Sources */,
 				9F334ED814AA467300247A85 /* Frameworks */,
@@ -926,9 +926,9 @@
 			);
 			dependencies = (
 			);
-			name = PhoneGapSample;
-			productName = PhoneGapSample;
-			productReference = 9F334EDE14AA467300247A85 /* PhoneGapSample.app */;
+			name = PhonegapSample;
+			productName = PhonegapSample;
+			productReference = 9F334EDE14AA467300247A85 /* PhonegapSample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -936,7 +936,7 @@
 /* Begin PBXProject section */
 		9F334ED214AA467300247A85 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 9F334ED514AA467300247A85 /* Build configuration list for PBXProject "PhoneGapSample" */;
+			buildConfigurationList = 9F334ED514AA467300247A85 /* Build configuration list for PBXProject "PhonegapSample" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -949,7 +949,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9F334EDD14AA467300247A85 /* PhoneGapSample */,
+				9F334EDD14AA467300247A85 /* PhonegapSample */,
 			);
 		};
 /* End PBXProject section */
@@ -1256,12 +1256,12 @@
 				FRAMEWORK_SEARCH_PATHS = /Users/Shared/PhoneGap/Frameworks;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PhoneGapSample/PhoneGapSample-Prefix.pch";
+				GCC_PREFIX_HEADER = "PhonegapSample/PhonegapSample-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"PHONEGAP_FRAMEWORK=YES",
 				);
-				INFOPLIST_FILE = "PhoneGapSample/PhoneGapSample-Info.plist";
+				INFOPLIST_FILE = "PhonegapSample/PhonegapSample-Info.plist";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					UIKit,
@@ -1286,12 +1286,12 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = /Users/Shared/PhoneGap/Frameworks;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "PhoneGapSample/PhoneGapSample-Prefix.pch";
+				GCC_PREFIX_HEADER = "PhonegapSample/PhonegapSample-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"PHONEGAP_FRAMEWORK=YES",
 				);
-				INFOPLIST_FILE = "PhoneGapSample/PhoneGapSample-Info.plist";
+				INFOPLIST_FILE = "PhonegapSample/PhonegapSample-Info.plist";
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					UIKit,
@@ -1312,7 +1312,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9F334ED514AA467300247A85 /* Build configuration list for PBXProject "PhoneGapSample" */ = {
+		9F334ED514AA467300247A85 /* Build configuration list for PBXProject "PhonegapSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F334F2614AA467300247A85 /* Debug */,
@@ -1321,7 +1321,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9F334F2814AA467300247A85 /* Build configuration list for PBXNativeTarget "PhoneGapSample" */ = {
+		9F334F2814AA467300247A85 /* Build configuration list for PBXNativeTarget "PhonegapSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F334F2914AA467300247A85 /* Debug */,
