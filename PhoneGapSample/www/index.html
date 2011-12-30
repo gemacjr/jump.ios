@@ -7,7 +7,8 @@
 	<meta charset="utf-8">
 
 
-	<!-- iPad/iPhone specific css below, add after your main css >
+
+<!-- iPad/iPhone specific css below, add after your main css >
 	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
 	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
 	-->
@@ -113,6 +114,48 @@
 //            //testPlugin();
         }
 
+        function createTwoCellTableRow(key, value)
+        {
+            var row       = document.createElement("tr");
+
+            var cell1     = document.createElement("td");
+            var cell2     = document.createElement("td");
+
+            var textNode1 = document.createTextNode(key);
+            var textNode2 = document.createTextNode(value);
+
+            cell1.appendChild(textNode1);
+            cell2.appendChild(textNode2);
+
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+
+            return row;
+        }
+
+        function createOneCellTableRow(value)
+        {
+            var row      = document.createElement("tr");
+            var cell     = document.createElement("td");
+            var textNode = document.createTextNode(value);
+
+            cell.appendChild(textNode);
+            row.appendChild(cell);
+
+            return row;
+        }
+
+        function addValueToRowInTable(value, table)
+        {
+            var row      = document.createElement("tr");
+            var cell     = document.createElement("td");
+            var textNode = document.createTextNode(value);
+
+            cell.appendChild(textNode);
+            row.appendChild(cell);
+            table.appendChild(row);
+        }
+
         function showAuthenticationDialog()
         {
             jrEngage.showAuthentication(
@@ -120,9 +163,67 @@
                 {
                     alert("Success : \r\n"+result);
 
-                    
+                    var jsonBlob = decodeURIComponent(result);
+                    var dict = JSON.parse(jsonBlob);//, functionToDoSomethingToEveryItemInJsonBlob);
+
+                    console.log(jsonBlob);
+
+                    addValueToRowInTable(dict.provider, document.getElementById("providerTable"));
+                    addValueToRowInTable(dict.tokenUrl, document.getElementById("tokenUrlTable"));
+
+                    var stat      = dict.stat;
+                    var profile   = dict.auth_info.profile;
+                    var payload   = dict.payload;
+//                    var tokenUrl  = dict.tokenUrl;
+//                    var provider  = dict.provider;
+
+                    console.log(profile);
+
+                    var atable = document.getElementById("authResponseTable");
+
+                    for (var key in profile) {
+                        if (profile.hasOwnProperty(key)) {
+                            console.log("key: " + key + "\nvalue: " + profile[key]);
+                            var row = createTwoCellTableRow(key, profile[key]);
+                            atable.appendChild(row);
+                        }
+                    }
 
 
+
+
+//                    var section;
+//                    var dict = JSON.parse(jsonBlob, function (key, value) {
+//                        if (key == "stat" || key == "auth_info" ||
+//                            key == "tokenUrl" || key == "tokenUrlPayload" || key == "provider") {
+//                            section = key;
+//                        }
+//
+//                        if (section == "stat") {
+//                        } else if (section == "auth_info") {
+//                            console.log("key: " + key + "\nvalue: " + value);
+//                            if (key != "auth_info") {
+//                                var arow = createTwoCellTableRow(key, value);
+//                                atable.appendChild(arow);
+//                            }
+//                        } else if (section == "tokenUrl") {
+//                            if (key != "auth_info") {
+//                                var trow = createOneCellTableRow(value);
+//                                ttable.appendChild(trow);
+//                            }
+//                        } else if (section == "tokenUrlPayload") {
+//                            console.log("key: " + key + "\nvalue: " + value);
+//                        } else if (section == "provider") {
+//                            if (key != "auth_info") {
+//                                var prow = createOneCellTableRow(value);
+//                                ptable.appendChild(prow);
+//                            }
+//                        }
+//
+//                        return value;
+//                    });
+
+                    console.log(dict);
                 },
 
                 function(error)
@@ -144,13 +245,9 @@
 
       <br />
 
-      <p>Don't know how to get started? Check out <em><a target="_blank" href="http://www.phonegap.com/start#ios-x4">PhoneGap Start</a></em>
+      <table id="providerTable"     border="1" width="80%"><tr><th>Provider</th></tr></table> <br />
+      <table id="tokenUrlTable"     border="1" width="80%"><tr><th>Token Url</th></tr></table><br />
+      <table id="authResponseTable" border="1" width="80%"><tr><th>Auth Info</th></tr></table><br />
 
-      <br />
-
-      <ol>
-		<li>Check your console log for any white-list rejection errors.</li>
-		<li>Add your allowed <strong>hosts</strong> in PhoneGap.plist/ExternalHosts (wildcards OK, don't enter the URL scheme)</li>
-      </ol>
   </body>
 </html>

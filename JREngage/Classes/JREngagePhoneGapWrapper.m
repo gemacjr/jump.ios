@@ -17,6 +17,33 @@
 #import <PhoneGap/JSONKit.h>
 #import "JREngagePhoneGapWrapper.h"
 
+@interface NSString (NSString_JSON_ESCAPING)
+- (NSString*)JSONEscape;
+@end
+
+@implementation NSString (NSString_JSON_ESCAPING)
+- (NSString*)JSONEscape
+{
+
+    NSString *encodedString = (NSString *)CFURLCreateStringByAddingPercentEscapes(
+                                NULL,
+                                (CFStringRef)self,
+                                NULL,
+                                (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                kCFStringEncodingUTF8);
+
+    return encodedString;
+
+//    NSString *str = [self stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
+//    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
+//    str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
+//    str = [str stringByReplacingOccurrencesOfString:@";" withString:@"%3b"];
+//
+//    return str;
+}
+@end
+
+
 @interface JREngagePhoneGapWrapper ()
 @property (nonatomic, retain) NSMutableDictionary *fullAuthenticationResponse;
 //@property (nonatomic, retain) NSDictionary        *authInfo;
@@ -111,8 +138,8 @@
 - (void)sendFailureMessage:(NSString *)message
 {
     PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:
-                                      [message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                                                messageAsString:[message JSONEscape]];
+                                      //[message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
     [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
 }
