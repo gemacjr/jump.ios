@@ -835,10 +835,10 @@
 		9F334EFD14AA467300247A85 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9F334EFE14AA467300247A85 /* PhonegapSample-Info.plist */,
+				9F334EFE14AA467300247A85 /* PhonegapSample */,
 				9F334EFF14AA467300247A85 /* InfoPlist.strings */,
 				9F334F0214AA467300247A85 /* main.m */,
-				9F334F0414AA467300247A85 /* PhonegapSample-Prefix.pch */,
+				9F334F0414AA467300247A85 /* PhonegapSample */,
 				9F334F1E14AA467300247A85 /* PhoneGap.plist */,
 			);
 			name = "Supporting Files";
