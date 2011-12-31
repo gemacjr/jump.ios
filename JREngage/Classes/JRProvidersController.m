@@ -32,7 +32,6 @@
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #import "JRProvidersController.h"
 #import "JREngage+CustomInterface.h"
 

@@ -1,3 +1,4 @@
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2010, Janrain, Inc.
 
@@ -1122,7 +1123,7 @@ Please try again later."
     [sessionData forgetAuthenticatedUserForProvider:selectedProvider.name];
     [cachedProfilePics removeObjectForKey:selectedProvider.name];
     [alreadyShared removeObject:provider];
-    
+
     [loggedInUser release], loggedInUser = nil;
 
     [self showUserAsLoggedIn:NO];

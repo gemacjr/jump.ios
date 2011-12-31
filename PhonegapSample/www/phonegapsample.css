@@ -1,0 +1,25 @@
+body
+{
+    background-color: #A5BDC8;
+}
+
+table.phonegapTable
+{
+    width: 100%;
+}
+
+table.phonegapTable th
+{
+    width: 100%;
+    height: 22px;
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 17px;
+    border-top:1px solid #d3d3d3;
+    border-bottom:1px solid #d3d3d3;
+    text-shadow: 0.1em 0.1em #333;
+
+    /*background-color: #074764;*/
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #1A557C), color-stop(1, #053044));
+}
