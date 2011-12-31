@@ -129,8 +129,8 @@
 - (void)sendSuccessMessage:(NSString *)message
 {
     PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:
-                                      [message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                                                messageAsString:[message JSONEscape]];
+                                      //[message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 
     [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
 }
@@ -146,7 +146,8 @@
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
 {
-    [self sendFailureMessage:[error description]];
+    // TODO: Build error JSON object to send that back
+    // [self sendFailureMessage:[error description]];
 }
 
 - (void)jrAuthenticationDidNotComplete { }
@@ -157,6 +158,8 @@
     if (!fullAuthenticationResponse)
         self.fullAuthenticationResponse = [NSMutableDictionary dictionaryWithCapacity:5];
 
+    // TODO: Remove the 'stat' key/value from auth_info dictionary
+
     [fullAuthenticationResponse setObject:auth_info forKey:@"auth_info"];
     [fullAuthenticationResponse setObject:provider forKey:@"provider"];
 
@@ -166,7 +169,8 @@
 - (void)jrAuthenticationDidFailWithError:(NSError*)error
                              forProvider:(NSString*)provider
 {
-    [self sendFailureMessage:[error description]];
+    // TODO: Build error JSON object to send that back
+//    [self sendFailureMessage:[error description]];
 }
 
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl
@@ -190,23 +194,25 @@
 
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl
                       didFailWithError:(NSError*)error
-                           forProvider:(NSString*)provider { }
+                           forProvider:(NSString*)provider
+{
+    // TODO: Build error JSON object to send that back
+}
 
-- (void)jrSocialDidNotCompletePublishing { }
-
-- (void)jrSocialDidCompletePublishing { }
-
-- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity
-                       forProvider:(NSString*)provider { }
-
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity
-                  didFailWithError:(NSError*)error
-                       forProvider:(NSString*)provider { }
+//- (void)jrSocialDidNotCompletePublishing { }
+//
+//- (void)jrSocialDidCompletePublishing { }
+//
+//- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity
+//                       forProvider:(NSString*)provider { }
+//
+//- (void)jrSocialPublishingActivity:(JRActivityObject*)activity
+//                  didFailWithError:(NSError*)error
+//                       forProvider:(NSString*)provider { }
 
 - (void)dealloc
 {
     [fullAuthenticationResponse release];
-//    [_authInfo release];
     [super dealloc];
 }
 @end
