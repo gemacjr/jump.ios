@@ -1,5 +1,5 @@
 //
-//  JREngagePhoneGapWrapper.m
+//  JREngagePhonegapPlugin.m
 //  JREngage
 //
 //  Created by Lilli Szafranski on 12/27/11.
@@ -15,7 +15,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import <PhoneGap/JSONKit.h>
-#import "JREngagePhoneGapWrapper.h"
+#import "JREngagePhonegapPlugin.h"
 
 @interface NSString (NSString_JSON_ESCAPING)
 - (NSString*)JSONEscape;
@@ -44,12 +44,12 @@
 @end
 
 
-@interface JREngagePhoneGapWrapper ()
+@interface JREngagePhonegapPlugin ()
 @property (nonatomic, retain) NSMutableDictionary *fullAuthenticationResponse;
 //@property (nonatomic, retain) NSDictionary        *authInfo;
 @end
 
-@implementation JREngagePhoneGapWrapper
+@implementation JREngagePhonegapPlugin
 @synthesize callbackID;
 @synthesize fullAuthenticationResponse;
 //@synthesize authInfo;
@@ -106,17 +106,29 @@
 {
     self.callbackID = [arguments pop];
 
-    NSString *appId = nil;
-    NSString *tokenUrl = nil;
 
+    NSString *appId;
     if ([arguments count])
-        appId = [arguments objectAtIndex:0];// pop];
+        appId = [arguments objectAtIndex:0];
+    else
+    {
+        PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_ERROR
+                                              messageAsString:@"Missing appId in call to initialize"];
 
+        [self writeJavascript:[result toSuccessCallbackString:self.callbackID]];
+        return;
+    }
+
+    NSString *tokenUrl = nil;
     if ([arguments count] > 1)
-        tokenUrl = [arguments objectAtIndex:1];// pop];
+        tokenUrl = [arguments objectAtIndex:1];
 
     jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
 
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                messageAsString:@"Initializing JREngage"];
+
+    [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
 }
 
 - (void)showAuthenticationDialog:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options

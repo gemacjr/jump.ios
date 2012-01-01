@@ -1,5 +1,5 @@
 //
-//  JREngagePhoneGapWrapper.h
+//  JREngagePhonegapPlugin.h
 //  JREngage
 //
 //  Created by Lilli Szafranski on 12/27/11.
@@ -10,7 +10,7 @@
 #import <PhoneGap/PGPlugin.h>
 #import "JREngage.h"
 
-@interface JREngagePhoneGapWrapper : PGPlugin <JREngageDelegate>
+@interface JREngagePhonegapPlugin : PGPlugin <JREngageDelegate>
 {
     JREngage *jrEngage;
     NSString *callbackID;
