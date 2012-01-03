@@ -20,12 +20,18 @@
 	<false/>
 	<key>ExternalHosts</key>
         <array>
-            <string>*</string>
+            <string>*.rpxnow.com</string>
+            <string>*.facebook.com</string>
+            <string>*.google.com</string>
+            <string>*.yahoo.com</string>
+            <string>*.myspace.com</string>
+            <string>*.twitter.com</string>
+            <string>*.paypal.com</string>
     	</array>
 	<key>Plugins</key>
 	<dict>
         <key>JREngagePlugin</key>
-        <string>JREngagePhoneGapWrapper</string>
+        <string>JREngagePhonegapPlugin</string>
 		<key>com.phonegap.accelerometer</key>
 		<string>PGAccelerometer</string>
 		<key>com.phonegap.camera</key>
