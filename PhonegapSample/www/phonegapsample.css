@@ -7,7 +7,7 @@ body
 
 table.phonegapTable
 {
-    width: 100%;
+    width: 320px;
     padding: 0;
     margin: 0;
     /*-webkit-border-horizontal-spacing: 0px;*/
@@ -39,6 +39,7 @@ table.phonegapTable th
 
 table.phonegapTable tr
 {
+    width: 320px;
     background-color: white;
     margin: 0;
     padding: 0;
@@ -46,21 +47,11 @@ table.phonegapTable tr
 
 table.phonegapTable tr td
 {
+    width: 300px;
     padding-left: 10px;
     padding-right: 10px;
     /*word-break:  */
     /*break-all;*/
-}
-
-table.phonegapTable tr.singleRow
-{
-    width: 100%;
-    height: 28px;
-    color: black;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
-    font-size: 18px;
-    /*text-shadow: 0.1em 0.1em #333;*/
 }
 
 div.ellipsize
@@ -72,9 +63,21 @@ div.ellipsize
 
 }
 
+table.phonegapTable tr.singleRow
+{
+    /*width: 100%;*/
+    height: 28px;
+    color: black;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    /*text-shadow: 0.1em 0.1em #333;*/
+}
+
 table.phonegapTable tr.keyRow
 {
-    width: 100%;
+    /*width: 100%;*/
+    width: 300px;
     min-height: 22px;
     color: black;
     font-family: Helvetica, Arial, sans-serif;
@@ -85,7 +88,7 @@ table.phonegapTable tr.keyRow
 
 table.phonegapTable tr.valueRow
 {
-    width: 100%;
+    /*width: 100%;*/
     min-height: 22px;
     color: #808080;
     font-family: Helvetica, Arial, sans-serif;
@@ -94,4 +97,22 @@ table.phonegapTable tr.valueRow
     /*text-shadow: 0.1em 0.1em #333;*/
 
     border-bottom: 1px solid gray;
+}
+
+table.phonegapTable tr td.levelTwo
+{
+    padding-left: 20px;
+    width: 290px;
+}
+
+table.phonegapTable tr.keyRow td.levelTwo
+{
+    font-size: 16px;
+    font-weight: normal;
+}
+
+table.phonegapTable tr.levelThree td
+{
+    padding-left: 30px;
+    width: 280px;
 }

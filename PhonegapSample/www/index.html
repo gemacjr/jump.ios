@@ -151,17 +151,21 @@
             return row;
         }
 
-        function addValueToRowInTable(value, table, classAttr)
+        function addValueToRowInTable(value, table, baseClassAttr, indentationClassAttr)
         {
             var row      = document.createElement("tr");
             var cell     = document.createElement("td");
             var textNode = document.createTextNode(value);
 
-            if (classAttr) {
-                row.className += classAttr;
+            if (baseClassAttr) {
+                row.className += baseClassAttr;
             }
 
-            if (classAttr != "keyRow") {
+            if (indentationClassAttr) {
+                cell.className += indentationClassAttr;
+            }
+
+            if (baseClassAttr != "keyRow") {
                 var div = document.createElement("div");
                 div.className += "ellipsize";
 
@@ -188,18 +192,16 @@
 //                    alert("Success : \r\n"+result);
 
                     var jsonBlob = decodeURIComponent(result);
-                    var dict = JSON.parse(jsonBlob);//, functionToDoSomethingToEveryItemInJsonBlob);
+                    var dict = JSON.parse(jsonBlob);
 
                     console.log(jsonBlob);
 
-                    addValueToRowInTable(dict.provider, document.getElementById("providerTable"), "singleRow");
-                    addValueToRowInTable(dict.tokenUrl, document.getElementById("tokenUrlTable"), "singleRow");
+                    addValueToRowInTable(dict.provider, document.getElementById("providerTable"), "singleRow", "levelOne");
+                    addValueToRowInTable(dict.tokenUrl, document.getElementById("tokenUrlTable"), "singleRow", "levelOne");
 
                     var stat      = dict.stat;
-                    var profile   = dict.auth_info.profile;
                     var payload   = dict.payload;
-//                    var tokenUrl  = dict.tokenUrl;
-//                    var provider  = dict.provider;
+                    var profile   = dict.auth_info.profile;
 
                     console.log(profile);
 
@@ -208,49 +210,24 @@
                     for (var key in profile) {
                         if (profile.hasOwnProperty(key)) {
                             console.log("key: " + key + "\nvalue: " + profile[key]);
-                            addValueToRowInTable(key, atable, "keyRow");
-                            addValueToRowInTable(profile[key], atable, "valueRow");
 
-//                            var row = createTwoCellTableRow(key, profile[key]);
-//                            atable.appendChild(row);
+                            addValueToRowInTable(key, atable, "keyRow", "levelOne");
+
+                         /* Yeah, yeah, should be recursive, but for now the auth_info profile
+                            is only ever two levels deep */
+                            if (profile[key] && typeof profile[key] === 'object') {
+                                var subobject = profile[key];
+                                for (var subkey in subobject) {
+                                    if (subobject.hasOwnProperty(subkey)) {
+                                        addValueToRowInTable(subkey, atable, "keyRow", "levelTwo");
+                                        addValueToRowInTable(subobject[subkey], atable, "valueRow", "levelTwo");
+                                    }
+                                }
+                            } else {
+                                addValueToRowInTable(profile[key], atable, "valueRow", "levelOne");
+                            }
                         }
                     }
-
-
-
-
-//                    var section;
-//                    var dict = JSON.parse(jsonBlob, function (key, value) {
-//                        if (key == "stat" || key == "auth_info" ||
-//                            key == "tokenUrl" || key == "tokenUrlPayload" || key == "provider") {
-//                            section = key;
-//                        }
-//
-//                        if (section == "stat") {
-//                        } else if (section == "auth_info") {
-//                            console.log("key: " + key + "\nvalue: " + value);
-//                            if (key != "auth_info") {
-//                                var arow = createTwoCellTableRow(key, value);
-//                                atable.appendChild(arow);
-//                            }
-//                        } else if (section == "tokenUrl") {
-//                            if (key != "auth_info") {
-//                                var trow = createOneCellTableRow(value);
-//                                ttable.appendChild(trow);
-//                            }
-//                        } else if (section == "tokenUrlPayload") {
-//                            console.log("key: " + key + "\nvalue: " + value);
-//                        } else if (section == "provider") {
-//                            if (key != "auth_info") {
-//                                var prow = createOneCellTableRow(value);
-//                                ptable.appendChild(prow);
-//                            }
-//                        }
-//
-//                        return value;
-//                    });
-
-                    console.log(dict);
                 },
 
                 function(error)
