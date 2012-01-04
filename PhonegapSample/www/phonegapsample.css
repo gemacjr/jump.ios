@@ -51,7 +51,7 @@ table.phonegapTable
     margin: 0;
 
     text-align:left;
-    /*font-family: Helvetica, Arial, sans-serif;*/
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 table.phonegapTable th

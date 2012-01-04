@@ -8,17 +8,18 @@
 
 function JREngagePlugin()
 {
-    //    navigator.notification.alert("In JREngagePlugin javascript constructor");
+
 }
 
 JREngagePlugin.prototype.print = function(message, success, fail)
 {
-//    navigator.notification.alert("In javascript print function");
+    // TODO: See about removing the success/fail callbacks from the PhoneGap.exec calls
     PhoneGap.exec(success, fail, 'JREngagePlugin', 'print', message);
 };
 
 JREngagePlugin.prototype.initialize = function(appid, tokenurl, success, fail)
 {
+    // TODO: See about removing the success/fail callbacks from the PhoneGap.exec calls
     PhoneGap.exec(success, fail, 'JREngagePlugin', 'initializeJREngage', [appid, tokenurl]);
 };
 
@@ -29,10 +30,7 @@ JREngagePlugin.prototype.showAuthentication = function(success, fail)
 
 JREngagePlugin.install = function()
 {
-    //    navigator.notification.alert("In JREngagePlugin javascript install function");
-
     if(!window.plugins)
-//    if (typeof window.plugins == "undefined")
     {
         window.plugins = {};
     }
