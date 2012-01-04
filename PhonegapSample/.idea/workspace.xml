@@ -26,7 +26,7 @@
       <file leaf-file-name="phonegapsample.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/phonegapsample.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="45" selection-start="533" selection-end="533" vertical-scroll-proportion="0.76108724">
+            <state line="19" column="17" selection-start="247" selection-end="247" vertical-scroll-proportion="0.2446352">
               <folding />
             </state>
           </provider>
@@ -35,7 +35,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="164" column="0" selection-start="5354" selection-end="5354" vertical-scroll-proportion="-9.5">
+            <state line="247" column="93" selection-start="8501" selection-end="8501" vertical-scroll-proportion="-7.0">
               <folding />
             </state>
           </provider>
@@ -522,14 +522,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="0" selection-start="5354" selection-end="5354" vertical-scroll-proportion="-9.5">
+        <state line="247" column="93" selection-start="8501" selection-end="8501" vertical-scroll-proportion="-7.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/phonegapsample.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="45" selection-start="533" selection-end="533" vertical-scroll-proportion="0.76108724">
+        <state line="19" column="17" selection-start="247" selection-end="247" vertical-scroll-proportion="0.2446352">
           <folding />
         </state>
       </provider>

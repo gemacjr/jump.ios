@@ -1,127 +1,180 @@
-body
+* {margin:0;padding:0;}
+
+html, body
 {
     background-color: #A5BDC8;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
+
+p
+{
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.button
+{
+    /*width: 320px;*/
+    /*align: center;*/
+    width: 160px;
+    margin: 0 auto;
+}
+
+.janrainLink
+{
+    width: 320px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.janrainLink a:link
+{
+    color: #127FBF;
+}
+
+.janrainLink a:visited
+{
+    color: #1A557C;
+}
+
+.janrainLink a:hover { }
+.janrainLink a:active { }
 
 table.phonegapTable
 {
     width: 320px;
-    padding: 0;
-    margin: 0;
-    /*-webkit-border-horizontal-spacing: 0px;*/
-    /*-webkit-border-vertical-spacing: 0px;*/
-    text-align:left;
-    font-family: Helvetica, Arial, sans-serif;
 
     border-collapse: collapse;
-    border-spacing: 0
+    border-spacing: 0;
+    padding: 0;
+    margin: 0;
+
+    text-align:left;
+    /*font-family: Helvetica, Arial, sans-serif;*/
 }
 
 table.phonegapTable th
 {
-    /*width: 100%;*/
+    width: 280px;
     height: 22px;
+
     color: white;
     font-weight: bold;
     font-size: 17px;
-    border-top:1px solid #000000 /*#d3d3d3*/;
-    border-bottom:1px solid #053044 /*#d3d3d3*/;
     text-shadow: 0.1em 0.1em #333;
 
+    border-top:1px solid #000000;
+    border-bottom:1px solid #053044;
     padding-left: 10px;
     padding-right: 10px;
 
-    /*background-color: #074764;*/
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #053044), color-stop(1, #1A557C));
-    width: 280px;
 }
 
 table.phonegapTable tr
 {
-    /*width: 320px;*/
-    background-color: white;
+    width: 280px;
     margin: 0;
     padding: 0;
-    width: 280px;
+    background-color: white;
 }
 
 table.phonegapTable tr td
 {
-    /*width: 300px;*/
+    width: 280px;
     padding-left: 10px;
     padding-right: 10px;
-    /*word-break:  */
-    /*break-all;*/
-    width: 280px;
 }
 
 div.ellipsize
 {
+    width: 280px;
     overflow: hidden;
     text-overflow: ellipsis;
-    /*width: 300px;*/
-    /*white-space: nowrap;*/
-    width: 280px;
-
 }
 
 table.phonegapTable tr.singleRow
 {
-    /*width: 100%;*/
+    width: 280px;
     height: 28px;
+
     color: black;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: bold;
     font-size: 18px;
-    /*text-shadow: 0.1em 0.1em #333;*/
-    width: 280px;
 }
 
 table.phonegapTable tr.keyRow
 {
-    /*width: 100%;*/
-    /*width: 300px;*/
+    width: 280px;
     min-height: 22px;
+
     color: black;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: bold;
     font-size: 18px;
-    /*text-shadow: 0.1em 0.1em #333;*/
-    width: 280px;
 }
 
 table.phonegapTable tr.valueRow
 {
-    /*width: 100%;*/
+    width: 280px;
     min-height: 22px;
+    border-bottom: 1px solid gray;
+
     color: #808080;
     font-family: Helvetica, Arial, sans-serif;
-    /*font-weight: bold;*/
     font-size: 14px;
-    /*text-shadow: 0.1em 0.1em #333;*/
-
-    border-bottom: 1px solid gray;
-    width: 280px;
 }
 
 table.phonegapTable tr td.levelTwo
 {
-    padding-left: 20px;
-    /*width: 290px;*/
     width: 280px;
+    padding-left: 20px;
 }
 
 table.phonegapTable tr.keyRow td.levelTwo
 {
-    font-size: 16px;
-    font-weight: normal;
     width: 280px;
+    font-size: 16px;
+
+    font-weight: normal;
 }
 
 table.phonegapTable tr.levelThree td
 {
-    padding-left: 30px;
     width: 280px;
+    padding-left: 30px;
+}
+
+.logo
+{
+    width: 240px;
+    height: 80px;
+    margin: 20px 40px 20px 40px;
+}
+
+.poweredBy
+{
+    font-style: italic;
+    font-size: 14px;
+}
+
+#wrapper
+{
+    min-height: 100%;
+}
+
+#main
+{
+    overflow: auto;
+    padding-bottom: 20px;
+}
+
+#footer
+{
+    position: relative;
+    margin-top: -20px;
+    height: 20px;
+    clear: both;
 }

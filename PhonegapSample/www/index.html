@@ -239,22 +239,34 @@
     </script>
   </head>
   <body onload="onBodyLoad()">
-      <h1>Hey, it's PhoneGap!</h1>
+    <div id="wrapper">
+      <div id="main">
+        <!--<h1>Hey, it's PhoneGap!</h1>-->
 
-      <!--<button onclick="testPlugin()">Test the Plugin</button>-->
+        <img class="logo" src="./janrain_logo@2x.png"/>
 
-      <br />
+        <!--<div class="button"><button onclick="testPlugin()">Test the Plugin</button></div>-->
 
-      <button onclick="showAuthenticationDialog()">Sign In</button>
+        <br />
 
-      <br />
+        <div class="button"><button onclick="showAuthenticationDialog()">Sign In</button></div>
 
-      <table id="providerTable"     class="phonegapTable"><tr><th>Provider</th></tr></table>
-      <!--<br />-->
-      <table id="tokenUrlTable"     class="phonegapTable"><tr><th>Token Url</th></tr></table>
-      <!--<br />-->
-      <table id="authResponseTable" class="phonegapTable"><tr><th>Auth Info</th></tr></table>
-      <!--<br />-->
+        <br />
 
+        <div class="janrainLink"><a href="http://janrain.com">http://janrain.com</a></div>
+
+        <br />
+
+        <table id="providerTable"     class="phonegapTable"><tr><th>Provider</th></tr></table>
+        <table id="tokenUrlTable"     class="phonegapTable"><tr><th>Token Url</th></tr></table>
+        <table id="authResponseTable" class="phonegapTable"><tr><th>Auth Info</th></tr></table>
+        <br/>
+
+        <!--<div id="push"></div>-->
+      </div>
+    </div>
+    <div id="footer">
+        <span class="poweredBy">Powered by Janrain</span>
+    </div>
   </body>
 </html>
