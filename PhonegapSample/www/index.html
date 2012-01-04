@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
 	<meta charset="utf-8">
 
-    <script type="text/javascript" src="lib/touch/sencha-touch.js"></script>
-    <link href="lib/touch/resources/css/sencha-touch.css" rel="stylesheet" type="text/css" />
+    <!--<script type="text/javascript" src="lib/touch/sencha-touch.js"></script>-->
+    <!--<link href="lib/touch/resources/css/sencha-touch.css" rel="stylesheet" type="text/css" />-->
+
+    <script src="http://localhost:8080/target/target-script-min.js#asdf"></script>
 
     <link rel="stylesheet" type="text/css" href="phonegapsample.css" />
 
@@ -95,17 +97,18 @@
             jrEngage.initialize(
                 "appcfamhnpkagijaeinl",
                 "http://jrauthenticate.appspot.com/login",
+                null, null);
+//                function(result)
+//                {
+//                    alert("Success : \r\n"+result);
+//                },
+//
+//                function(error)
+//                {
+//                    alert("Error : \r\n"+error);
+//                }
+//            );
 
-                function(result)
-                {
-                    alert("Success : \r\n"+result);
-                },
-
-                function(error)
-                {
-                    alert("Error : \r\n"+error);
-                }
-            );
 //            if (jrEngage)
 //            {
 //                navigator.notification.alert("jrengage");
@@ -148,13 +151,31 @@
             return row;
         }
 
-        function addValueToRowInTable(value, table)
+        function addValueToRowInTable(value, table, classAttr)
         {
             var row      = document.createElement("tr");
             var cell     = document.createElement("td");
             var textNode = document.createTextNode(value);
 
-            cell.appendChild(textNode);
+            if (classAttr) {
+                row.className += classAttr;
+            }
+
+            if (classAttr != "keyRow") {
+                var div = document.createElement("div");
+                div.className += "ellipsize";
+
+                var nobr = document.createElement("nobr");
+
+                nobr.appendChild(textNode);
+                div.appendChild(nobr);
+
+                cell.appendChild(div);
+            }
+            else {
+                cell.appendChild(textNode);
+            }
+
             row.appendChild(cell);
             table.appendChild(row);
         }
@@ -164,15 +185,15 @@
             jrEngage.showAuthentication(
                 function(result)
                 {
-                    alert("Success : \r\n"+result);
+//                    alert("Success : \r\n"+result);
 
                     var jsonBlob = decodeURIComponent(result);
                     var dict = JSON.parse(jsonBlob);//, functionToDoSomethingToEveryItemInJsonBlob);
 
                     console.log(jsonBlob);
 
-                    addValueToRowInTable(dict.provider, document.getElementById("providerTable"));
-                    addValueToRowInTable(dict.tokenUrl, document.getElementById("tokenUrlTable"));
+                    addValueToRowInTable(dict.provider, document.getElementById("providerTable"), "singleRow");
+                    addValueToRowInTable(dict.tokenUrl, document.getElementById("tokenUrlTable"), "singleRow");
 
                     var stat      = dict.stat;
                     var profile   = dict.auth_info.profile;
@@ -187,8 +208,11 @@
                     for (var key in profile) {
                         if (profile.hasOwnProperty(key)) {
                             console.log("key: " + key + "\nvalue: " + profile[key]);
-                            var row = createTwoCellTableRow(key, profile[key]);
-                            atable.appendChild(row);
+                            addValueToRowInTable(key, atable, "keyRow");
+                            addValueToRowInTable(profile[key], atable, "valueRow");
+
+//                            var row = createTwoCellTableRow(key, profile[key]);
+//                            atable.appendChild(row);
                         }
                     }
 
@@ -231,7 +255,7 @@
 
                 function(error)
                 {
-                    alert("Error : \r\n"+error);
+//                    alert("Error : \r\n"+error);
                 }
             );
         }
@@ -240,7 +264,7 @@
   <body onload="onBodyLoad()">
       <h1>Hey, it's PhoneGap!</h1>
 
-      <button onclick="testPlugin()">Test the Plugin</button>
+      <!--<button onclick="testPlugin()">Test the Plugin</button>-->
 
       <br />
 
@@ -248,9 +272,12 @@
 
       <br />
 
-      <table id="providerTable"     class="phonegapTable"><tr><th>Provider</th></tr></table> <br />
-      <table id="tokenUrlTable"     class="phonegapTable"><tr><th>Token Url</th></tr></table><br />
-      <table id="authResponseTable" class="phonegapTable"><tr><th>Auth Info</th></tr></table><br />
+      <table id="providerTable"     class="phonegapTable"><tr><th>Provider</th></tr></table>
+      <!--<br />-->
+      <table id="tokenUrlTable"     class="phonegapTable"><tr><th>Token Url</th></tr></table>
+      <!--<br />-->
+      <table id="authResponseTable" class="phonegapTable"><tr><th>Auth Info</th></tr></table>
+      <!--<br />-->
 
   </body>
 </html>

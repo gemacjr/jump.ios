@@ -1,11 +1,22 @@
 body
 {
     background-color: #A5BDC8;
+    margin: 0;
+    padding: 0;
 }
 
 table.phonegapTable
 {
     width: 100%;
+    padding: 0;
+    margin: 0;
+    /*-webkit-border-horizontal-spacing: 0px;*/
+    /*-webkit-border-vertical-spacing: 0px;*/
+    text-align:left;
+    font-family: Helvetica, Arial, sans-serif;
+
+    border-collapse: collapse;
+    border-spacing: 0
 }
 
 table.phonegapTable th
@@ -13,13 +24,74 @@ table.phonegapTable th
     width: 100%;
     height: 22px;
     color: white;
-    font-family: Helvetica, Arial, sans-serif;
     font-weight: bold;
     font-size: 17px;
-    border-top:1px solid #d3d3d3;
-    border-bottom:1px solid #d3d3d3;
+    border-top:1px solid #000000 /*#d3d3d3*/;
+    border-bottom:1px solid #053044 /*#d3d3d3*/;
     text-shadow: 0.1em 0.1em #333;
 
+    padding-left: 10px;
+    padding-right: 10px;
+
     /*background-color: #074764;*/
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #1A557C), color-stop(1, #053044));
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #053044), color-stop(1, #1A557C));
+}
+
+table.phonegapTable tr
+{
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+table.phonegapTable tr td
+{
+    padding-left: 10px;
+    padding-right: 10px;
+    /*word-break:  */
+    /*break-all;*/
+}
+
+table.phonegapTable tr.singleRow
+{
+    width: 100%;
+    height: 28px;
+    color: black;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    /*text-shadow: 0.1em 0.1em #333;*/
+}
+
+div.ellipsize
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 300px;
+    /*white-space: nowrap;*/
+
+}
+
+table.phonegapTable tr.keyRow
+{
+    width: 100%;
+    min-height: 22px;
+    color: black;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    /*text-shadow: 0.1em 0.1em #333;*/
+}
+
+table.phonegapTable tr.valueRow
+{
+    width: 100%;
+    min-height: 22px;
+    color: #808080;
+    font-family: Helvetica, Arial, sans-serif;
+    /*font-weight: bold;*/
+    font-size: 14px;
+    /*text-shadow: 0.1em 0.1em #333;*/
+
+    border-bottom: 1px solid gray;
 }
