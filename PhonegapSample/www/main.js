@@ -41,12 +41,12 @@ function testJREngagePlugin()
 
         function(result)
         {
-            alert("Success : \r\n"+result);
+            alert("Success: "+result);
         },
 
         function(error)
         {
-            alert("Error : \r\n"+error);
+            alert("Error: "+error);
         }
     );
 }
@@ -66,7 +66,19 @@ function onDeviceReady()
     jrEngage.initialize(
         appId,
         tokenUrl,
-        null, null); // TODO: See if I can rewrite this to only take the first args and NO callbacks
+
+        function(result)
+        {
+           var jsonBlob = decodeURIComponent(result);
+           console.log(jsonBlob);
+        },
+
+        function(error)
+        {
+           var jsonBlob = decodeURIComponent(error);
+           console.log(jsonBlob);
+        }
+    );
 }
 
 function addValueToRowInTable(value, table, baseClassAttr, indentationClassAttr)
@@ -93,8 +105,7 @@ function addValueToRowInTable(value, table, baseClassAttr, indentationClassAttr)
         div.appendChild(nobr);
 
         cell.appendChild(div);
-    }
-    else {
+    } else {
         cell.appendChild(textNode);
     }
 
@@ -105,6 +116,14 @@ function addValueToRowInTable(value, table, baseClassAttr, indentationClassAttr)
 function updateTables(resultDictionary)
 {
     // TODO: Unhide the tables...
+
+    var code = resultDictionary.code;
+
+    if (code == jrEngage.FOO)
+    {
+        alert("FOO");
+    }
+
 
     addValueToRowInTable(resultDictionary.provider, document.getElementById("providerTable"), "singleRow", "levelOne");
     addValueToRowInTable(resultDictionary.tokenUrl, document.getElementById("tokenUrlTable"), "singleRow", "levelOne");
@@ -142,12 +161,45 @@ function handleAuthenticationResult(resultDictionary)
     var stat    = resultDictionary.stat;
     var payload = resultDictionary.payload;
 
+    // TODO: Check the stat to make sure it's ok
+    // TODO: Do something with the payload
     updateTables(resultDictionary);
+}
+
+function configurationError(code, message)
+{
+
+}
+
+function authenticationError(code, message)
+{
+
 }
 
 function handleAuthenticationError(errorDictionary)
 {
+    var code    = errorDictionary.code;
+    var message = errorDictionary.message;
 
+    if (code == jrEngage.JRUrlError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRDataParsingError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRJsonError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRConfigurationInformationError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRSessionDataFinishGetProvidersError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRDialogShowingError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRProviderNotConfiguredError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRAuthenticationFailedError) {
+        authenticationError(code, message);
+    } else if (code == jrEngage.JRAuthenticationTokenUrlFailedError) {
+        authenticationError(code, message);
+    }
 }
 
 function showAuthenticationDialog()

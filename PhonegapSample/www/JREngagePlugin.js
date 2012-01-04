@@ -32,6 +32,16 @@
  Date:   Wednesday, January 4th, 2012
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+JREngagePlugin.prototype.JRUrlError                           = 100;
+JREngagePlugin.prototype.JRDataParsingError                   = 101;
+JREngagePlugin.prototype.JRJsonError                          = 102;
+JREngagePlugin.prototype.JRConfigurationInformationError      = 103;
+JREngagePlugin.prototype.JRSessionDataFinishGetProvidersError = 104;
+JREngagePlugin.prototype.JRDialogShowingError                 = 105;
+JREngagePlugin.prototype.JRProviderNotConfiguredError         = 106;
+JREngagePlugin.prototype.JRAuthenticationFailedError          = 200;
+JREngagePlugin.prototype.JRAuthenticationTokenUrlFailedError  = 201;
+
 function JREngagePlugin()
 {
 
@@ -39,13 +49,11 @@ function JREngagePlugin()
 
 JREngagePlugin.prototype.print = function(message, success, fail)
 {
-    // TODO: See about removing the success/fail callbacks from the PhoneGap.exec calls
     PhoneGap.exec(success, fail, 'JREngagePlugin', 'print', message);
 };
 
 JREngagePlugin.prototype.initialize = function(appid, tokenurl, success, fail)
 {
-    // TODO: See about removing the success/fail callbacks from the PhoneGap.exec calls
     PhoneGap.exec(success, fail, 'JREngagePlugin', 'initializeJREngage', [appid, tokenurl]);
 };
 

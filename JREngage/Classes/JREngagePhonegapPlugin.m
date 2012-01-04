@@ -59,26 +59,17 @@
                                 kCFStringEncodingUTF8);
 
     return encodedString;
-
-//    NSString *str = [self stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
-//    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
-//    str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
-//    str = [str stringByReplacingOccurrencesOfString:@";" withString:@"%3b"];
-//
-//    return str;
 }
 @end
 
 
 @interface JREngagePhonegapPlugin ()
 @property (nonatomic, retain) NSMutableDictionary *fullAuthenticationResponse;
-//@property (nonatomic, retain) NSDictionary        *authInfo;
 @end
 
 @implementation JREngagePhonegapPlugin
 @synthesize callbackID;
 @synthesize fullAuthenticationResponse;
-//@synthesize authInfo;
 
 - (id)init
 {
@@ -93,45 +84,47 @@
 
 - (void)print:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    DLog(@"Here...%@", [arguments description]);
-    ALog(@"Here, still...");
-
-    //The first argument in the arguments parameter is the callbackID.
-    //We use this to send data back to the successCallback or failureCallback
-    //through PluginResult.
     self.callbackID = [arguments pop];
 
     DLog(@"[arguments pop]: %@", callbackID);
 
-    //Get the string that javascript sent us
-    NSString *stringObtainedFromJavascript = [arguments objectAtIndex:0];
+    NSString *printString = [arguments objectAtIndex:0];
 
-    //Create the Message that we wish to send to the Javascript
-    NSMutableString *stringToReturn = [NSMutableString stringWithString: @"StringReceived:"];
-    //Append the received string to the string we plan to send out
-    [stringToReturn appendString: stringObtainedFromJavascript];
-    //Create Plugin Result
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:
-                                  [stringToReturn stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    //Checking if the string received is HelloWorld or not
-    if([stringObtainedFromJavascript isEqualToString:@"HelloWorld"]==YES)
+//    NSMutableString *stringToReturn = [NSMutableString stringWithString:@"StringReceived:"];
+//    [stringToReturn appendString:stringObtainedFromJavascript];
+
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                messageAsString:[printString JSONEscape]];
+
+    if([printString isEqualToString:@"HelloWorld"] == YES)
     {
-        //Call  the Success Javascript function
-        [self writeJavascript: [pluginResult toSuccessCallbackString:self.callbackID]];
-
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
     }
     else
     {
-        //Call  the Failure Javascript function
-        [self writeJavascript: [pluginResult toErrorCallbackString:self.callbackID]];
-
+        [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
     }
+}
+
+- (void)sendSuccessMessage:(NSString *)message
+{
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                messageAsString:[message JSONEscape]];
+
+    [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+}
+
+- (void)sendFailureMessage:(NSString *)message
+{
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
+                                                messageAsString:[message JSONEscape]];
+
+    [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
 }
 
 - (void)initializeJREngage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     self.callbackID = [arguments pop];
-
 
     NSString *appId;
     if ([arguments count])
@@ -141,7 +134,7 @@
         PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_ERROR
                                               messageAsString:@"Missing appId in call to initialize"];
 
-        [self writeJavascript:[result toSuccessCallbackString:self.callbackID]];
+        [self writeJavascript:[result toErrorCallbackString:self.callbackID]];
         return;
     }
 
@@ -151,8 +144,11 @@
 
     jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
 
+    // TODO: Check jrEngage result
+    // TODO: Standardize returned objects
+
     PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:@"Initializing JREngage"];
+                                                messageAsString:@"Initializing JREngage..."];
 
     [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
 }
@@ -164,23 +160,6 @@
     [jrEngage showAuthenticationDialog];
 }
 
-- (void)sendSuccessMessage:(NSString *)message
-{
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:[message JSONEscape]];
-                                      //[message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-
-    [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
-}
-
-- (void)sendFailureMessage:(NSString *)message
-{
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:[message JSONEscape]];
-                                      //[message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-
-    [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
-}
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
 {
