@@ -40,6 +40,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+#ifdef PHONEGAP_FRAMEWORK
 #import <PhoneGap/JSONKit.h>
 #import "JREngagePhonegapPlugin.h"
 
@@ -73,12 +74,7 @@
 
 - (id)init
 {
-    self = [super init];
-    if (self)
-    {
-
-    }
-
+    if ((self = [super init])) { }
     return self;
 }
 
@@ -88,12 +84,8 @@
 
     DLog(@"[arguments pop]: %@", callbackID);
 
-    NSString *printString = [arguments objectAtIndex:0];
-
-//    NSMutableString *stringToReturn = [NSMutableString stringWithString:@"StringReceived:"];
-//    [stringToReturn appendString:stringObtainedFromJavascript];
-
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+    NSString     *printString  = [arguments objectAtIndex:0];
+    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
                                                 messageAsString:[printString JSONEscape]];
 
     if([printString isEqualToString:@"HelloWorld"] == YES)
@@ -160,13 +152,22 @@
     [jrEngage showAuthenticationDialog];
 }
 
+- (NSString *)stringFromError:(NSError*)error
+{
+    NSMutableDictionary *errorResponse = [NSMutableDictionary dictionaryWithCapacity:2];
+
+    [errorResponse setObject:[NSString stringWithFormat:@"%d", error.code] forKey:@"code"];
+    [errorResponse setObject:error.localizedDescription forKey:@"message"];
+
+    return [errorResponse JSONString];
+}
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
 {
-    // TODO: Build error JSON object to send that back
-    // [self sendFailureMessage:[error description]];
+    [self sendFailureMessage:[self stringFromError:error]];
 }
 
+// TODO: What do we do in this case?
 - (void)jrAuthenticationDidNotComplete { }
 
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
@@ -175,19 +176,17 @@
     if (!fullAuthenticationResponse)
         self.fullAuthenticationResponse = [NSMutableDictionary dictionaryWithCapacity:5];
 
-    // TODO: Remove the 'stat' key/value from auth_info dictionary
+    NSMutableDictionary *newAuthInfo = [NSMutableDictionary dictionaryWithDictionary:auth_info];
+    [newAuthInfo removeObjectForKey:@"stat"];
 
-    [fullAuthenticationResponse setObject:auth_info forKey:@"auth_info"];
+    [fullAuthenticationResponse setObject:newAuthInfo forKey:@"auth_info"];
     [fullAuthenticationResponse setObject:provider forKey:@"provider"];
-
-//    [self sendSuccessMessage:[NSString stringWithFormat:@"AUTH SUCCESS: %@, %@", [auth_info description], provider]];
 }
 
 - (void)jrAuthenticationDidFailWithError:(NSError*)error
                              forProvider:(NSString*)provider
 {
-    // TODO: Build error JSON object to send that back
-//    [self sendFailureMessage:[error description]];
+    [self sendFailureMessage:[self stringFromError:error]];
 }
 
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl
@@ -207,13 +206,16 @@
     NSString *authResponseString = [fullAuthenticationResponse JSONString];
 
     [self sendSuccessMessage:authResponseString];
+
+    self.fullAuthenticationResponse = nil;
 }
 
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl
                       didFailWithError:(NSError*)error
                            forProvider:(NSString*)provider
 {
-    // TODO: Build error JSON object to send that back
+    // TODO: Should we also send a success with just partial (i.e., auth_info) data?
+    [self sendFailureMessage:[self stringFromError:error]];
 }
 
 //- (void)jrSocialDidNotCompletePublishing { }
@@ -233,7 +235,7 @@
     [super dealloc];
 }
 @end
-
+#endif
 
 
 

@@ -117,14 +117,6 @@ function updateTables(resultDictionary)
 {
     // TODO: Unhide the tables...
 
-    var code = resultDictionary.code;
-
-    if (code == jrEngage.FOO)
-    {
-        alert("FOO");
-    }
-
-
     addValueToRowInTable(resultDictionary.provider, document.getElementById("providerTable"), "singleRow", "levelOne");
     addValueToRowInTable(resultDictionary.tokenUrl, document.getElementById("tokenUrlTable"), "singleRow", "levelOne");
 
@@ -168,12 +160,12 @@ function handleAuthenticationResult(resultDictionary)
 
 function configurationError(code, message)
 {
-
+    alert("There was a problem configuring the JREngage library.\n" + message);
 }
 
 function authenticationError(code, message)
 {
-
+    alert("There was a problem authenticating.\n" + message);
 }
 
 function handleAuthenticationError(errorDictionary)

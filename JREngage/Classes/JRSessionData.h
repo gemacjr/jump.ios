@@ -69,9 +69,9 @@ typedef enum
 
 typedef enum
 {
-    JRAuthenticationFailedError = 200
+    JRAuthenticationFailedError = 200,
     JRAuthenticationTokenUrlFailedError,
-    // TODO:
+    // TODO: Add the token url error where appropriate
 } JREngageAuthenticationError;
 
 typedef enum

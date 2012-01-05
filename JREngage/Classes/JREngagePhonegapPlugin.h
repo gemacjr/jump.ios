@@ -32,7 +32,7 @@
  Date:   Wednesday, January 4th, 2012
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
+#ifdef PHONEGAP_FRAMEWORK
 #import <Foundation/Foundation.h>
 #import <PhoneGap/PGPlugin.h>
 #import "JREngage.h"
@@ -43,8 +43,8 @@
     NSString *callbackID;
 
     NSMutableDictionary *fullAuthenticationResponse;
-//    NSDictionary        *authInfo;
 }
 
 @property (nonatomic, copy) NSString* callbackID;
 @end
+#endif

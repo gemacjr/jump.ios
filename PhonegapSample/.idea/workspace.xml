@@ -32,10 +32,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="176" column="1" selection-start="5287" selection-end="5287" vertical-scroll-proportion="3.5825243">
+            <state line="167" column="45" selection-start="5304" selection-end="5304" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -53,16 +53,16 @@
       <file leaf-file-name="JREngagePhonegapPlugin.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="0" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.0">
+            <state line="49" column="6" selection-start="2172" selection-end="2172" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JREngagePhonegapPlugin.m" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="JREngagePhonegapPlugin.m" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="205" column="0" selection-start="7457" selection-end="7457" vertical-scroll-proportion="0.0">
+            <state line="189" column="1" selection-start="6813" selection-end="6813" vertical-scroll-proportion="0.36893204">
               <folding />
             </state>
           </provider>
@@ -71,7 +71,7 @@
       <file leaf-file-name="JRSessionData.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JRSessionData.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="12" selection-start="2623" selection-end="2623" vertical-scroll-proportion="0.0">
+            <state line="77" column="0" selection-start="2712" selection-end="2712" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -105,14 +105,14 @@
         <option value="$PROJECT_DIR$/../JREngage/Classes/JREngagePhoneGapWrapper.m" />
         <option value="$PROJECT_DIR$/PhonegapSample/PhoneGap.plist" />
         <option value="$PROJECT_DIR$/www/lib_not_using_anymore/touch/resources/css/apple.css" />
-        <option value="$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.h" />
         <option value="$PROJECT_DIR$/www/phonegapsample.css" />
         <option value="$PROJECT_DIR$/www/index.html" />
-        <option value="$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.m" />
-        <option value="$PROJECT_DIR$/../JREngage/Classes/JRSessionData.h" />
         <option value="$PROJECT_DIR$/../JREngage/Classes/JRSessionData.m" />
         <option value="$PROJECT_DIR$/www/JREngagePlugin.js" />
+        <option value="$PROJECT_DIR$/../JREngage/Classes/JRSessionData.h" />
         <option value="$PROJECT_DIR$/www/main.js" />
+        <option value="$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.m" />
+        <option value="$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.h" />
       </list>
     </option>
   </component>
@@ -446,27 +446,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="0" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="205" column="0" selection-start="7457" selection-end="7457" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JRSessionData.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="12" selection-start="2623" selection-end="2623" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JRSessionData.m">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1718" column="75" selection-start="74363" selection-end="74363" vertical-scroll-proportion="0.54908305">
@@ -497,7 +476,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="176" column="1" selection-start="5287" selection-end="5287" vertical-scroll-proportion="3.5825243">
+        <state line="167" column="45" selection-start="5304" selection-end="5304" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="6" selection-start="2172" selection-end="2172" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JRSessionData.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="0" selection-start="2712" selection-end="2712" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JREngagePhonegapPlugin.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="189" column="1" selection-start="6813" selection-end="6813" vertical-scroll-proportion="0.36893204">
           <folding />
         </state>
       </provider>
