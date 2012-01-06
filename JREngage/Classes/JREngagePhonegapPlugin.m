@@ -120,6 +120,7 @@
 
     [errorResponse setObject:[NSString stringWithFormat:@"%d", error.code] forKey:@"code"];
     [errorResponse setObject:error.localizedDescription forKey:@"message"];
+    [errorResponse setObject:@"fail" forKey:@"stat"];
 
     return [errorResponse JSONString];
 }
