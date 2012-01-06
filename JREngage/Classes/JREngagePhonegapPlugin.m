@@ -180,17 +180,7 @@
     }
 
     NSDictionary *activityDictionary = (NSDictionary*)[activityString objectFromJSONString];
-    JRActivityObject *activityObject = [JRActivityObject activityObjectWithAction:
-                                           [activityDictionary objectForKey:@"action"]];
-
-    activityObject.actionLinks = [activityDictionary objectForKey:@"actionLinks"];
-    activityObject.media = [activityDictionary objectForKey:@"media"];
-    activityObject.properties = [activityDictionary objectForKey:@"properties"];
-    activityObject.resourceDescription = [activityDictionary objectForKey:@"resourceDescription"];
-    activityObject.resourceTitle = [activityDictionary objectForKey:@"resourceTitle"];
-    activityObject.url = [activityDictionary objectForKey:@"url"];
-    //activityObject.email = [activityDictionary objectForKey:@"description"];
-    //activityObject.sms = [activityDictionary objectForKey:@"sms"];
+    JRActivityObject *activityObject = [JRActivityObject activityObjectFromDictionary:activityDictionary];
 
     [jrEngage showSocialPublishingDialogWithActivity:activityObject];
 }

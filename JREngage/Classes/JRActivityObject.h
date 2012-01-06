@@ -363,6 +363,7 @@
 - (id)initWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls;
 + (id)emailObjectWithSubject:(NSString *)subject andMessageBody:(NSString *)messageBody isHtml:(BOOL)isHtml andUrlsToBeShortened:(NSArray*)urls;
 /*@}*/
++ (JREmailObject *)emailObjectFromDictionary:(NSDictionary *)dictionary;
 @end
 
 
@@ -423,6 +424,7 @@
 - (id)initWithMessage:(NSString*)message andUrlsToBeShortened:(NSArray*)urls;
 + (id)smsObjectWithMessage:(NSString *)message andUrlsToBeShortened:(NSArray*)urls;
 /*@}*/
++ (JRSmsObject *)smsObjectFromDictionary:(NSDictionary *)dictionary;
 @end
 
 
@@ -677,4 +679,17 @@ DEPRECATED(
  * JREngage library
  **/
 - (NSMutableDictionary*)dictionaryForObject;
+
+/**
+ * @internal
+ * Returns a JRActivityObject from a given NSDictionary.
+ *
+ * @return
+ *   A JRActivityObject based on the keys/values of a NSDictionary
+ *
+ * @note
+ * This function should not be used directly.  It is intended only for use by the
+ * JREngage library and PhoneGap plugin
+ **/
++ (JRActivityObject *)activityObjectFromDictionary:(NSDictionary *)activityDictionary;
 @end

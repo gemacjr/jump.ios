@@ -224,7 +224,39 @@ function showAuthenticationDialog()
 
 function showSharingDialog()
 {
-    var activity = "{\"action\":\"this is the action\",\"url\":\"http://janrain.com\",\"resourceTitle\":\"this is the title\",\"resourceDescription\":\"this is the description\"}";
+//    var activity = "{\"action\":\"this is the action\",\"url\":\"http://janrain.com\",\"resourceTitle\":\"this is the title\",\"resourceDescription\":\"this is the description\"}";
+
+    var activity =
+            '{\
+                "action":"this is the action",\
+                "url":"http://janrain.com",\
+                "resourceTitle":"this is the title",\
+                "resourceDescription":"this is the description",\
+                "actionLinks":\
+                [\
+                    {"text":"foo","href":"http://google.com"}\
+                ],\
+                "media":\
+                [\
+                    {\
+                        "type":"image",\
+                        "src":"https://www.google.com/intl/en_com/images/srpr/logo3w.png",\
+                        "href":"http://google.com"\
+                    }\
+                ],\
+                "email":\
+                {\
+                    "subject":"subject text",\
+                    "messageBody":"body text",\
+                    "_isHtml":"NO",\
+                    "_urls":["http://google.com","http://janrain.com"]\
+                },\
+                "sms":\
+                {\
+                    "message":"",\
+                    "_urls":["http://google.com","http://janrain.com"]\
+                }\
+            }';
 
     jrEngage.showSharing(
         activity,

@@ -104,6 +104,7 @@
 
 @protocol JRMediaObjectDelegate <NSObject>
 - (NSDictionary*)dictionaryForObject;
++ (JRMediaObject*)mediaObjectFromDictionary:(NSDictionary*)dictionary;
 @end
 
 @implementation JRMediaObject
@@ -148,13 +149,13 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-	JRImageMediaObject *imageMediaObjectCopy =
-                               [[JRImageMediaObject allocWithZone:zone] initWithSrc:_src
-                                                                            andHref:_href];
+    JRImageMediaObject *imageMediaObjectCopy =
+            [[JRImageMediaObject allocWithZone:zone] initWithSrc:_src
+                                                         andHref:_href];
 
-	imageMediaObjectCopy.preview = _preview;//[[_preview copy] autorelease];
+    imageMediaObjectCopy.preview = _preview;
 
-	return imageMediaObjectCopy;
+    return imageMediaObjectCopy;
 }
 
 - (NSDictionary*)dictionaryForObject
@@ -163,6 +164,12 @@
              @"image", @"type",
              [_src URLEscaped], @"src",
              [_href URLEscaped], @"href", nil] autorelease];
+}
+
++ (JRMediaObject*)mediaObjectFromDictionary:(NSDictionary*)dictionary
+{
+    return [JRImageMediaObject imageMediaObjectWithSrc:[dictionary objectForKey:@"src"]
+                                               andHref:[dictionary objectForKey:@"href"]];
 }
 
 - (void)dealloc
@@ -180,7 +187,7 @@
 @synthesize imgsrc          = _imgsrc;
 @synthesize width           = _width;
 @synthesize height          = _height;
-@synthesize expanded_width  = _expanded_width;
+@synthesize expanded_width  = _expanded_width;  // TODO: Make these camelCase
 @synthesize expanded_height = _expanded_height;
 @synthesize preview         = _preview;
 
@@ -211,17 +218,17 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-	JRFlashMediaObject *flashMediaObjectCopy =
-                               [[JRFlashMediaObject allocWithZone:zone] initWithSwfsrc:_swfsrc
-                                                                             andImgsrc:_imgsrc];
+    JRFlashMediaObject *flashMediaObjectCopy =
+            [[JRFlashMediaObject allocWithZone:zone] initWithSwfsrc:_swfsrc
+                                                          andImgsrc:_imgsrc];
 
     flashMediaObjectCopy.width           = _width;
     flashMediaObjectCopy.height          = _height;
     flashMediaObjectCopy.expanded_width  = _expanded_width;
     flashMediaObjectCopy.expanded_height = _expanded_height;
-    flashMediaObjectCopy.preview         = _preview;//[[_preview copy] autorelease];
+    flashMediaObjectCopy.preview         = _preview;
 
-	return flashMediaObjectCopy;
+    return flashMediaObjectCopy;
 }
 
 - (NSDictionary*)dictionaryForObject
@@ -244,6 +251,20 @@
         [dict setValue:[NSString stringWithFormat:@"%d", _expanded_height] forKey:@"expanded_height"];
 
     return dict;
+}
+
++ (JRMediaObject*)mediaObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRFlashMediaObject *flashMediaObject =
+            [JRFlashMediaObject flashMediaObjectWithSwfsrc:[dictionary objectForKey:@"swfsrc"]
+                                                 andImgsrc:[dictionary objectForKey:@"imgsrc"]];
+
+    flashMediaObject.width           = [(NSNumber*)[dictionary objectForKey:@"width"] unsignedIntegerValue];
+    flashMediaObject.height          = [(NSNumber*)[dictionary objectForKey:@"height"] unsignedIntegerValue];
+    flashMediaObject.expanded_width  = [(NSNumber*)[dictionary objectForKey:@"expanded_width"] unsignedIntegerValue];
+    flashMediaObject.expanded_height = [(NSNumber*)[dictionary objectForKey:@"expanded_height"] unsignedIntegerValue];
+
+    return flashMediaObject;
 }
 
 - (void)dealloc
@@ -288,14 +309,14 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-	JRMp3MediaObject *mp3MediaObjectCopy =
-                             [[JRMp3MediaObject allocWithZone:zone] initWithSrc:_src];
+    JRMp3MediaObject *mp3MediaObjectCopy =
+            [[JRMp3MediaObject allocWithZone:zone] initWithSrc:_src];
 
     mp3MediaObjectCopy.title  = _title;
     mp3MediaObjectCopy.artist = _artist;
     mp3MediaObjectCopy.album  = _album;
 
-	return mp3MediaObjectCopy;
+    return mp3MediaObjectCopy;
 }
 
 - (NSDictionary*)dictionaryForObject
@@ -316,6 +337,17 @@
     return dict;
 }
 
++ (JRMediaObject*)mediaObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRMp3MediaObject *mp3MediaObject = [JRMp3MediaObject mp3MediaObjectWithSrc:[dictionary objectForKey:@"src"]];
+
+    mp3MediaObject.title  = [dictionary objectForKey:@"title"];
+    mp3MediaObject.artist = [dictionary objectForKey:@"artist"];
+    mp3MediaObject.album  = [dictionary objectForKey:@"album"];
+
+    return mp3MediaObject;
+}
+
 - (void)dealloc
 {
     [_src release];
@@ -330,6 +362,7 @@
 
 @interface JRActionLink ()
 - (NSDictionary*)dictionaryForObject;
++ (JRActionLink*)actionLinkFromDictionary:(NSDictionary*)dictionary;
 @end
 
 @implementation JRActionLink
@@ -363,9 +396,10 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-	JRActionLink *actionLinkCopy = [[JRActionLink allocWithZone:zone] initWithText:_text
-                                                                           andHref:_href];
-	return actionLinkCopy;
+    JRActionLink *actionLinkCopy =
+            [[JRActionLink allocWithZone:zone] initWithText:_text andHref:_href];
+
+    return actionLinkCopy;
 }
 
 - (NSDictionary*)dictionaryForObject
@@ -374,6 +408,13 @@
              [_text URLEscaped], @"text",
              [_href URLEscaped], @"href", nil] autorelease];
 }
+
++ (JRActionLink*)actionLinkFromDictionary:(NSDictionary*)dictionary
+{
+    return [JRActionLink actionLinkWithText:[dictionary objectForKey:@"text"]
+                                    andHref:[dictionary objectForKey:@"href"]];
+}
+
 
 - (void)dealloc
 {
@@ -426,12 +467,21 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
 - (id)copyWithZone:(NSZone*)zone
 {
-	JREmailObject *emailObjectCopy = [[JREmailObject allocWithZone:zone] initWithSubject:_subject
-                                                                          andMessageBody:_messageBody
-                                                                                  isHtml:_isHtml
-                                                                    andUrlsToBeShortened:_urls];
+    JREmailObject *emailObjectCopy =
+            [[JREmailObject allocWithZone:zone] initWithSubject:_subject
+                                                 andMessageBody:_messageBody
+                                                         isHtml:_isHtml
+                                           andUrlsToBeShortened:_urls];
 
-	return emailObjectCopy;
+    return emailObjectCopy;
+}
+
++ (JREmailObject *)emailObjectFromDictionary:(NSDictionary *)dictionary
+{
+    return [JREmailObject emailObjectWithSubject:[dictionary objectForKey:@"subject"]
+                                  andMessageBody:[dictionary objectForKey:@"messageBody"]
+                                          isHtml:[[dictionary objectForKey:@"isHtml"] boolValue]
+                            andUrlsToBeShortened:[dictionary objectForKey:@"urls"]];
 }
 
 - (void)dealloc
@@ -469,10 +519,17 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
 - (id)copyWithZone:(NSZone*)zone
 {
-	JRSmsObject *smsObjectCopy = [[JRSmsObject allocWithZone:zone] initWithMessage:_message
-                                                              andUrlsToBeShortened:_urls];
+    JRSmsObject *smsObjectCopy =
+            [[JRSmsObject allocWithZone:zone] initWithMessage:_message
+                                         andUrlsToBeShortened:_urls];
 
-	return smsObjectCopy;
+    return smsObjectCopy;
+}
+
++ (JRSmsObject *)smsObjectFromDictionary:(NSDictionary *)dictionary
+{
+    return [JRSmsObject smsObjectWithMessage:[dictionary objectForKey:@"message"]
+                        andUrlsToBeShortened:[dictionary objectForKey:@"urls"]];
 }
 
 - (void)dealloc
@@ -486,7 +543,7 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
 @implementation JRActivityObject
 @synthesize action                 = _action;
-//@synthesize url                    = _url;
+//@synthesize url                  = _url;
 @synthesize userGeneratedContent   = _userGeneratedContent;
 @synthesize resourceTitle          = _resourceTitle;
 @synthesize resourceDescription    = _resourceDescription;
@@ -554,16 +611,17 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
 - (id)copyWithZone:(NSZone*)zone
 {
-	JRActivityObject *activityObjectCopy = [[JRActivityObject allocWithZone:zone] initWithAction:_action
-                                                                                          andUrl:_url];
+    JRActivityObject *activityObjectCopy =
+            [[JRActivityObject allocWithZone:zone] initWithAction:_action
+                                                           andUrl:_url];
 
-    activityObjectCopy.userGeneratedContent   = _userGeneratedContent;//_user_generated_content;
-    activityObjectCopy.resourceTitle          = _resourceTitle;//_title;
-    activityObjectCopy.resourceDescription    = _resourceDescription;//_description;
+    activityObjectCopy.userGeneratedContent   = _userGeneratedContent;
+    activityObjectCopy.resourceTitle          = _resourceTitle;
+    activityObjectCopy.resourceDescription    = _resourceDescription;
     activityObjectCopy.properties             = _properties;
     activityObjectCopy.email                  = _email;
     activityObjectCopy.sms                    = _sms;
-    activityObjectCopy.actionLinks            = _actionLinks;//_action_links;
+    activityObjectCopy.actionLinks            = _actionLinks;
     activityObjectCopy.media                  = _media;
 
     return activityObjectCopy;
@@ -734,6 +792,66 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
         [dict setObject:_properties forKey:@"properties"];
 
     return dict;//[NSDictionary dictionaryWithObject:dict forKey:@"activity"];
+}
+
++ (JRActivityObject *)activityObjectFromDictionary:(NSDictionary *)activityDictionary
+{
+    JRActivityObject *activityObject =
+            [JRActivityObject activityObjectWithAction:[activityDictionary objectForKey:@"action"]];
+
+    activityObject.url                 = [activityDictionary objectForKey:@"url"];
+    activityObject.resourceDescription = [activityDictionary objectForKey:@"resourceDescription"];
+    activityObject.resourceTitle       = [activityDictionary objectForKey:@"resourceTitle"];
+
+
+    NSArray *tempArray = [activityDictionary objectForKey:@"actionLinks"];
+
+    if ([tempArray isKindOfClass:[NSArray class]])
+    {
+        NSMutableArray *actionLinksArray = [NSMutableArray arrayWithCapacity:5];
+        for (NSObject *actionLink in tempArray)
+        {
+            if ([actionLink isKindOfClass:[NSDictionary class]])
+                [actionLinksArray addObject:[JRActionLink actionLinkFromDictionary:(NSDictionary *)actionLink]];
+        }
+        activityObject.actionLinks = actionLinksArray;
+    }
+
+    tempArray = [activityDictionary objectForKey:@"media"];
+    if ([tempArray isKindOfClass:[NSArray class]])
+    {
+        NSMutableArray *mediaArray = [NSMutableArray arrayWithCapacity:5];
+        for (NSObject *mediaObject in tempArray)
+        {
+            if ([mediaObject isKindOfClass:[NSDictionary class]])
+            {
+                if ([[(NSDictionary*)mediaObject objectForKey:@"type"] isEqualToString:@"image"])
+                {
+                    [mediaArray addObject:[JRImageMediaObject mediaObjectFromDictionary:(NSDictionary*)mediaObject]];
+                }
+                else if ([[(NSDictionary*)mediaObject objectForKey:@"type"] isEqualToString:@"flash"])
+                {
+                    [mediaArray addObject:[JRFlashMediaObject mediaObjectFromDictionary:(NSDictionary*)mediaObject]];
+                }
+                else if ([[(NSDictionary*)mediaObject objectForKey:@"type"] isEqualToString:@"mp3"])
+                {
+                    [mediaArray addObject:[JRMp3MediaObject mediaObjectFromDictionary:(NSDictionary*)mediaObject]];
+                }
+            }
+        }
+
+        activityObject.media = mediaArray;
+    }
+
+    activityObject.properties = [activityDictionary objectForKey:@"properties"];
+
+    activityObject.email = [JREmailObject emailObjectFromDictionary:[activityDictionary objectForKey:@"email"]];
+    activityObject.sms   = [JRSmsObject smsObjectFromDictionary:[activityDictionary objectForKey:@"sms"]];
+
+    //activityObject.email = [activityDictionary objectForKey:@"description"];
+    //activityObject.sms = [activityDictionary objectForKey:@"sms"];
+
+    return activityObject;
 }
 
 - (void)setTitle:(NSString*)title                                   { self.resourceTitle = title;             }
