@@ -221,3 +221,13 @@ function showAuthenticationDialog()
         }
     );
 }
+
+function showSharingDialog()
+{
+    var activity = "{\"action\":\"this is the action\",\"url\":\"http://janrain.com\",\"resourceTitle\":\"this is the title\",\"resourceDescription\":\"this is the description\"}";
+
+    jrEngage.showSharing(
+        activity,
+        null, null
+    );
+}

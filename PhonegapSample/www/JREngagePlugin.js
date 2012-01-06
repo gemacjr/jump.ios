@@ -62,6 +62,11 @@ JREngagePlugin.prototype.showAuthentication = function(success, fail)
     PhoneGap.exec(success, fail, 'JREngagePlugin', 'showAuthenticationDialog', []);
 };
 
+JREngagePlugin.prototype.showSharing = function(activity, success, fail)
+{
+    PhoneGap.exec(success, fail, 'JREngagePlugin', 'showSharingDialog', [activity]);
+};
+
 JREngagePlugin.install = function()
 {
     if(!window.plugins)

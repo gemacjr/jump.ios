@@ -114,6 +114,16 @@
     [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
 }
 
+- (NSString *)stringFromError:(NSError*)error
+{
+    NSMutableDictionary *errorResponse = [NSMutableDictionary dictionaryWithCapacity:2];
+
+    [errorResponse setObject:[NSString stringWithFormat:@"%d", error.code] forKey:@"code"];
+    [errorResponse setObject:error.localizedDescription forKey:@"message"];
+
+    return [errorResponse JSONString];
+}
+
 - (void)initializeJREngage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     self.callbackID = [arguments pop];
@@ -152,14 +162,36 @@
     [jrEngage showAuthenticationDialog];
 }
 
-- (NSString *)stringFromError:(NSError*)error
+- (void)showSharingDialog:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    NSMutableDictionary *errorResponse = [NSMutableDictionary dictionaryWithCapacity:2];
+    self.callbackID = [arguments pop];
 
-    [errorResponse setObject:[NSString stringWithFormat:@"%d", error.code] forKey:@"code"];
-    [errorResponse setObject:error.localizedDescription forKey:@"message"];
+    NSString *activityString;
+    if ([arguments count])
+        activityString = [arguments objectAtIndex:0];
+    else
+    {
+        PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_ERROR
+                                              messageAsString:@"Missing appId in call to initialize"];
 
-    return [errorResponse JSONString];
+        [self writeJavascript:[result toErrorCallbackString:self.callbackID]];
+        return;
+    }
+
+    NSDictionary *activityDictionary = (NSDictionary*)[activityString objectFromJSONString];
+    JRActivityObject *activityObject = [JRActivityObject activityObjectWithAction:
+                                           [activityDictionary objectForKey:@"action"]];
+
+    activityObject.actionLinks = [activityDictionary objectForKey:@"actionLinks"];
+    activityObject.media = [activityDictionary objectForKey:@"media"];
+    activityObject.properties = [activityDictionary objectForKey:@"properties"];
+    activityObject.resourceDescription = [activityDictionary objectForKey:@"resourceDescription"];
+    activityObject.resourceTitle = [activityDictionary objectForKey:@"resourceTitle"];
+    activityObject.url = [activityDictionary objectForKey:@"url"];
+    //activityObject.email = [activityDictionary objectForKey:@"description"];
+    //activityObject.sms = [activityDictionary objectForKey:@"sms"];
+
+    [jrEngage showSocialPublishingDialogWithActivity:activityObject];
 }
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
@@ -173,11 +205,11 @@
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
                               forProvider:(NSString*)provider
 {
-    if (!fullAuthenticationResponse)
-        self.fullAuthenticationResponse = [NSMutableDictionary dictionaryWithCapacity:5];
-
     NSMutableDictionary *newAuthInfo = [NSMutableDictionary dictionaryWithDictionary:auth_info];
     [newAuthInfo removeObjectForKey:@"stat"];
+
+    if (!fullAuthenticationResponse)
+        self.fullAuthenticationResponse = [NSMutableDictionary dictionaryWithCapacity:5];
 
     [fullAuthenticationResponse setObject:newAuthInfo forKey:@"auth_info"];
     [fullAuthenticationResponse setObject:provider forKey:@"provider"];
