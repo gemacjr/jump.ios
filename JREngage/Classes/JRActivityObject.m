@@ -245,10 +245,10 @@
         [dict setValue:[NSString stringWithFormat:@"%d", _height] forKey:@"height"];
 
     if (_expanded_width)
-        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_width] forKey:@"expanded_width"];
+        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_width] forKey:@"expandedWidth"];
 
     if (_expanded_height)
-        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_height] forKey:@"expanded_height"];
+        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_height] forKey:@"expandedHeight"];
 
     return dict;
 }
@@ -800,9 +800,8 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
             [JRActivityObject activityObjectWithAction:[activityDictionary objectForKey:@"action"]];
 
     activityObject.url                 = [activityDictionary objectForKey:@"url"];
-    activityObject.resourceDescription = [activityDictionary objectForKey:@"resourceDescription"];
     activityObject.resourceTitle       = [activityDictionary objectForKey:@"resourceTitle"];
-
+    activityObject.resourceDescription = [activityDictionary objectForKey:@"resourceDescription"];
 
     NSArray *tempArray = [activityDictionary objectForKey:@"actionLinks"];
 
@@ -826,17 +825,11 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
             if ([mediaObject isKindOfClass:[NSDictionary class]])
             {
                 if ([[(NSDictionary*)mediaObject objectForKey:@"type"] isEqualToString:@"image"])
-                {
                     [mediaArray addObject:[JRImageMediaObject mediaObjectFromDictionary:(NSDictionary*)mediaObject]];
-                }
                 else if ([[(NSDictionary*)mediaObject objectForKey:@"type"] isEqualToString:@"flash"])
-                {
                     [mediaArray addObject:[JRFlashMediaObject mediaObjectFromDictionary:(NSDictionary*)mediaObject]];
-                }
                 else if ([[(NSDictionary*)mediaObject objectForKey:@"type"] isEqualToString:@"mp3"])
-                {
                     [mediaArray addObject:[JRMp3MediaObject mediaObjectFromDictionary:(NSDictionary*)mediaObject]];
-                }
             }
         }
 
@@ -847,9 +840,6 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
 
     activityObject.email = [JREmailObject emailObjectFromDictionary:[activityDictionary objectForKey:@"email"]];
     activityObject.sms   = [JRSmsObject smsObjectFromDictionary:[activityDictionary objectForKey:@"sms"]];
-
-    //activityObject.email = [activityDictionary objectForKey:@"description"];
-    //activityObject.sms = [activityDictionary objectForKey:@"sms"];
 
     return activityObject;
 }

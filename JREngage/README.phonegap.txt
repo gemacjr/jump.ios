@@ -1,7 +1,8 @@
 Using the Janrain Engage for iOS PhoneGap Plugin
 ==========================================================================
 
-If you haven't already, please download the PhoneGap SDK and create an iOS PhoneGap application (http://phonegap.com/start/#ios-x4)
+If you haven't already, please download the PhoneGap SDK and create an iOS PhoneGap application 
+(http://phonegap.com/start/#ios-x4)
 
 
 Getting Janrain Engage for iOS
@@ -20,19 +21,31 @@ Add the Library to Your Xcode Project (Xcode 4)
 
 1. Open your project in Xcode.
 
-2. Make sure the "Project Navigator" pane is showing. (View → Navigators → Show Project Navigator ⌘1)
+2. Make sure the "Project Navigator" pane is showing.
+   (View → Navigators → Show Project Navigator ⌘1)
 
-3. In the "Project Navigator" pane of your Xcode project, right-click the root project node for your application — with the blue Xcode icon — and select the menu option New Group, to create a new group in your project tree. Rename this group "JREngage".
+3. In the "Project Navigator" pane of your Xcode project, right-click the root project node for 
+   your application — with the blue Xcode icon — and select the menu option New Group, to create
+   a new group in your project tree. Rename this group "JREngage".
 
 4. Right-click the JREngage group, and select the menu option Add Files To "[your project name]"...
 
-5. Navigate to the location where you placed the engage.iphone, open that folder, and then open the JREngage subdirectory. Select the directories "Classes", "Resources", and "Security", and the file "JREngage-Info.plist".  Do NOT add the "JSONKit" directory, or, if you have already added JREngage to your project, remove this directory.
+5. Navigate to the location where you placed the engage.iphone, open that folder, and then open the
+   JREngage subdirectory. Select the directories "Classes", "Resources", and "Security", and the 
+   file "JREngage-Info.plist".  Do NOT add the "JSONKit" directory, or, if you have already added 
+   JREngage to your project, remove this directory.
 
-6. In the dialog, do NOT check the "Copy items into destination group's folder (if needed)" box*, make sure the "Create groups for any added folders" is selected, and that the "Add to targets" check box is selected for your app lication's targets. Click Add.
+6. In the dialog, do NOT check the "Copy items into destination group's folder (if needed)" box*,
+   make sure the "Create groups for any added folders" is selected, and that the "Add to targets" 
+   check box is selected for your app lication's targets. Click Add.
 
-7. You must also add the Security framework and the MessageUI framework to your project. As the MessageUI framework is not available on all iOS devices and versions, you must designate the framework as "weak-linked". Instructions for adding frameworks in Xcode 4 can be found in Apple's iOS Developer Documentation.
+7. You must also add the Security framework and the MessageUI framework to your project. As the
+   MessageUI framework is not available on all iOS devices and versions, you must designate the 
+   framework as "weak-linked". Instructions for adding frameworks in Xcode 4 can be found in 
+   Apple's iOS Developer Documentation.
 
-* If you just created a PhoneGap application, this box may still be checked.  Be sure to uncheck it.  The JREngage folder should appear yellow.
+* If you just created a PhoneGap application, this box may still be checked.  Be sure to uncheck it.
+  The JREngage folder should appear yellow.
 
 
 Add the Javascript Plugin
@@ -40,15 +53,20 @@ Add the Javascript Plugin
 
 To use the JREngage plugin, you must add the JREngagePlugin.js file to your www directory.
 
-Following PhoneGap's instructions, the www directory should have been added as a "folder reference" to your Xcode project (denoted with a blue folder).  Copying the JREngagePlugin file to this directory should add it to your Xcode project.
+Following PhoneGap's instructions, the www directory should have been added as a "folder reference" 
+to your Xcode project (denoted with a blue folder).  Copying the JREngagePlugin file to this
+directory should add it to your Xcode project.
 
 Copy* the engage.iphone/JREngage/JREngagePlugin.js file to the www directory.
 
-* If you copy the file, as opposed to moving it, updating the plugin will be easier in the future.  After you update, please make sure to copy the latest version of the file into the www directory.
+* If you copy the file, as opposed to moving it, updating the plugin will be easier in the future. 
+After you update, please make sure to copy the latest version of the file into the www directory.
 
 You will also have to whitelist the domains that are called by the JREngage library.
 
-In the file PhoneGap.plist, if it is not already present, add the ExternalHosts key to the xml dictionary, add an array as the value, and add strings to the array for each host you would like to white list.
+In the file PhoneGap.plist, if it is not already present, add the ExternalHosts key to the xml
+dictionary, add an array as the value, and add strings to the array for each host you would
+like to white list.
 
   <key>ExternalHosts</key>
     <array>
@@ -61,7 +79,8 @@ In the file PhoneGap.plist, if it is not already present, add the ExternalHosts 
         ...
     </array>
 
-You will have to add the domain for rpxnow, your token URL, and for any of the providers for which you have configured your rp.
+You will have to add the domain for rpxnow, your token URL, and for any of the providers for 
+which you have configured your rp.
   
   
 Using the Library
@@ -73,7 +92,10 @@ Load the Javascript plugin from your index.html file (or whichever html file is 
 
       <script type="text/javascript" charset="utf-8" src="JREngagePlugin.js"></script>
 
-You will want to instantiate the JREngage plugin before you need to use it, so that it can obtain your configured providers from the Engage server.  In the appropriate Javascript function, create the JREngage instance and initialize the instance with your Engage application's Application ID, your server's token URL, and callback functions:
+You will want to instantiate the JREngage plugin before you need to use it, so that it can obtain 
+your configured providers from the Engage server.  In the appropriate Javascript function, create 
+the JREngage instance and initialize the instance with your Engage application's Application ID, 
+your server's token URL, and callback functions:
 
   jrEngage = window.plugins.jrEngagePlugin;
 
@@ -98,7 +120,13 @@ You will want to instantiate the JREngage plugin before you need to use it, so t
 The jrEngage.initialize takes four arguments, your RP's Application ID, your 
 server's token URL, and success and failure callback functions.
 
-Note: Most errors that occur during initialization will not be reported to your application until you try and sign-in or share through the library.  This is an intentional optimization primarily to reduce network traffic.  If the library does fail to initialize, and you attempt to call showAuthentication or showSharing methods, you will receive an error, and the library will then attempt to reconfigure itself.  Many errors that occured during configuration, such as network issues, will be resolved by the time the library is needed.  In these cases, the library will reinitialize itself and become available for you to use.
+Note: Most errors that occur during initialization will not be reported to your application until
+you try and sign-in or share through the library.  This is an intentional optimization primarily
+to reduce network traffic.  If the library does fail to initialize, and you attempt to call
+showAuthentication or showSharing methods, you will receive an error, and the library will 
+then attempt to reconfigure itself.  Many errors that occured during configuration, such as 
+network issues, will be resolved by the time the library is needed.  In these cases, the library 
+will reinitialize itself and become available for you to use.
 
 Sign-In
 -------
@@ -117,9 +145,12 @@ To begin authentication, call the showAuthentication method on your JREngage ins
       }
   );
 
-The showAuthentication function takes two arguments, a success callback function and a failure callback function.  The callback functions should take one argument each, result and error, respectively (though you can name your arguments however you choose).
+The showAuthentication function takes two arguments, a success callback function and a failure
+callback function.  The callback functions should take one argument each, result and error, 
+respectively (though you can name your arguments however you choose).
 
-Both the result and error arguments will contain a json object that your application can parse to get the appropriate information from the JREngage plugin.
+Both the result and error arguments will contain a json object that your application can parse to 
+get the appropriate information from the JREngage plugin.
 
 The result json object contains the following keys and values:
 Key               Type        Value
@@ -217,7 +248,9 @@ To begin social sharing, call the showSharing method on your JREngage instance:
       }
   );
 
-The showSharing function takes three arguments, a json encoded activity object, a success callback function, and a failure callback function.  The callback functions should take one argument each, result and error, respectively (though you can name your arguments however you choose).
+The showSharing function takes three arguments, a json encoded activity object, a success callback
+function, and a failure callback function.  The callback functions should take one argument each, 
+result and error, respectively (though you can name your arguments however you choose).
 
 The activity object should contain the following keys and values:
 Key                 Type        Value
@@ -231,10 +264,10 @@ resourceTitle       String      The title of the resource being mentioned in the
                                 activity update.
 resourceDescription String      A description of the resource mentioned in the
                                 activity update.
-actionLinks         Array       An array of JRActionLink objects, each having two 
+actionLinks         Array       An array of action link objects, each having two 
                                 attributes: text and href. An action link is a link a user
                                 can use to take action on an activity update on the provider.
-media               Array       An array of media objects (format TBD).
+media               Array       An array of media objects, of type image, flash, or mp3.
 properties          Dictionary  An object with attributes describing properties of 
                                 the update. An attribute value can be a string or an object 
                                 with two attributes, text and href.
@@ -243,6 +276,54 @@ email               Dictionary  An object containing the subject and message bod
 sms                 Dictionary  An object containing the message body of an sms, if 
                                 the user wishes to share via sms.
  
+ 
+An action link object should contain the following keys and values:
+Key                 Type        Value
+href                String      The link URL
+text                String      The string text of the URL
+
+
+An image media object should contain the following keys and values:
+Key                 Type        Value
+src                 String      The photo's URL
+href                String      The URL where a user should be taken if he or she clicks the photo
+
+
+A flash media object should contain the following keys and values:
+Key                 Type        Value
+swfsrc              String      The URL of the Flash object to be rendered
+imgsrc              String      The URL of an photo that should be displayed in place of
+                                the flash object 
+width               Integer     Used to override the default width     
+height              Integer     Used to override the default height                                      
+expanded_width      Integer     Width the video will resize to once the user clicks it                    
+expanded_height     Integer     Height the video will resize to once the user clicks it                   
+
+
+An mp3 media object should contain the following keys and values:
+Key                 Type        Value
+src                 String      The URL of the MP3 file to be rendered
+title               String      The title of the song
+artist              String      The artist
+album               String      The album
+
+
+An email object should contain the following keys and values:
+Key                 Type        Value
+subject             String      The desired email subject
+messageBody         String      The desired message body
+isHtml              String      Specify YES if the body parameter contains HTML content or specify 
+                                NO if it contains plain text
+urls                String      An array of URLs that will be shortened to the http://rpx.me domain 
+                                so that click-through rates can be tracked
+
+
+An sms object should contain the following keys and values:
+Key                 Type        Value
+message             String      The desired message
+urls                String      An array of URLs that will be shortened to the http://rpx.me domain 
+                                so that click-through rates can be tracked
+
 
 Action Links Example:
   ...
@@ -251,13 +332,23 @@ Action Links Example:
     {
       "text": "Rate this quiz result",
       "href": "http://example.com/quiz/12345/result/6789/rate"
-    },
-    {
-      "text": "Take this quiz",
-      "href": "http://example.com/quiz/12345/take"
     }
   ]
   ... 
+
+
+Image Media Object Example:
+  ...
+  "media":
+  [
+    {
+      "type":"image",
+      "src":"http://www.google.com/logos/1998/googleburn.jpg",
+      "href":"http://www.google.com/doodles/burning-man-festival"
+    }
+  ],
+  ...
+
 
 Properties Example:
   ...
@@ -269,11 +360,35 @@ Properties Example:
       "text": "Portland",
       "href": "http://en.wikipedia.org/wiki/Portland,_Oregon"
     }
- }
+  }
  ...
+  
+
+Email Object Example:
+  ...
+  "email":
+  {
+    "subject":"subject text",
+    "messageBody":"body text",
+    "isHtml":"NO",
+    "urls":["http://google.com","http://janrain.com"]
+  },
+  ...
+  
+
+Sms Object Example:
+  ...
+  "sms":
+  {
+    "message":"",
+    "urls":["http://google.com","http://janrain.com"]
+  }
+  ...
 
 
-Both the result and error arguments will contain a json object that your application can parse to get the appropriate information from the JREngage plugin.
+
+Both the result and error arguments will contain a json object that your application can parse to
+get the appropriate information from the JREngage plugin.
 
 The result json object contains the following keys and values:
 Key               Type        Value
