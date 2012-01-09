@@ -37,7 +37,7 @@ function testJREngagePlugin()
 {
     jrEngage.print
     (
-        ["HelloxWorld"],
+        "Hello World }]%20",
 
         function(result)
         {
@@ -69,14 +69,12 @@ function onDeviceReady()
 
         function(result)
         {
-           var jsonBlob = decodeURIComponent(result);
-           console.log(jsonBlob);
+           console.log(result);
         },
 
         function(error)
         {
-           var jsonBlob = decodeURIComponent(error);
-           console.log(jsonBlob);
+           console.log(error);
         }
     );
 }
@@ -191,6 +189,10 @@ function handleAuthenticationError(errorDictionary)
         authenticationError(code, message);
     } else if (code == jrEngage.JRAuthenticationTokenUrlFailedError) {
         authenticationError(code, message);
+    } else if (code == jrEngage.JRAuthenticationCanceled) {
+        authenticationError(code, message);
+    } else {
+        authenticationError(code, message);
     }
 }
 
@@ -202,20 +204,18 @@ function showAuthenticationDialog()
     jrEngage.showAuthentication(
         function(result)
         {
-            var jsonBlob         = decodeURIComponent(result);
-            var resultDictionary = JSON.parse(jsonBlob);
+            var resultDictionary = JSON.parse(result);
 
-            console.log(jsonBlob);
+            console.log(result);
 
             handleAuthenticationResult(resultDictionary);
         },
 
         function(error)
         {
-            var jsonBlob        = decodeURIComponent(error);
-            var errorDictionary = JSON.parse(jsonBlob);
+            var errorDictionary = JSON.parse(error);
 
-            console.log(jsonBlob);
+            console.log(error);
 
             handleAuthenticationError(errorDictionary);
         }

@@ -27,7 +27,7 @@
             <string>*.myspace.com</string>
             <string>*.twitter.com</string>
             <string>*.paypal.com</string>
-            <string>jrauthenticate.appspot.com</string>
+            <string>*.jrauthenticate.appspot.com</string>
     	</array>
 	<key>Plugins</key>
 	<dict>

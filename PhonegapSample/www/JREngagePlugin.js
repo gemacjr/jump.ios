@@ -41,6 +41,7 @@ JREngagePlugin.prototype.JRDialogShowingError                 = 105;
 JREngagePlugin.prototype.JRProviderNotConfiguredError         = 106;
 JREngagePlugin.prototype.JRAuthenticationFailedError          = 200;
 JREngagePlugin.prototype.JRAuthenticationTokenUrlFailedError  = 201;
+JREngagePlugin.prototype.JRAuthenticationCanceled             = 202;
 
 function JREngagePlugin()
 {
@@ -49,7 +50,7 @@ function JREngagePlugin()
 
 JREngagePlugin.prototype.print = function(message, success, fail)
 {
-    PhoneGap.exec(success, fail, 'JREngagePlugin', 'print', message);
+    PhoneGap.exec(success, fail, 'JREngagePlugin', 'print', [message]);
 };
 
 JREngagePlugin.prototype.initialize = function(appid, tokenurl, success, fail)

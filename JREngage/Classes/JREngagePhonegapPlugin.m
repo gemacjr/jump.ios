@@ -86,9 +86,9 @@
 
     NSString     *printString  = [arguments objectAtIndex:0];
     PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:[printString JSONEscape]];
+                                                messageAsString:printString];
 
-    if([printString isEqualToString:@"HelloWorld"] == YES)
+    if([printString isEqualToString:@"Hello World }]%20"] == YES)
     {
         [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
     }
@@ -101,7 +101,7 @@
 - (void)sendSuccessMessage:(NSString *)message
 {
     PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:[message JSONEscape]];
+                                                messageAsString:message];
 
     [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
 }
@@ -109,10 +109,12 @@
 - (void)sendFailureMessage:(NSString *)message
 {
     PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
-                                                messageAsString:[message JSONEscape]];
+                                                messageAsString:message];
 
     [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
 }
+
+
 
 - (NSString *)stringFromError:(NSError*)error
 {
@@ -120,6 +122,17 @@
 
     [errorResponse setObject:[NSString stringWithFormat:@"%d", error.code] forKey:@"code"];
     [errorResponse setObject:error.localizedDescription forKey:@"message"];
+    [errorResponse setObject:@"fail" forKey:@"stat"];
+
+    return [errorResponse JSONString];
+}
+
+- (NSString *)stringFromCode:(NSInteger) code andMessage: (NSString *) message
+{
+    NSMutableDictionary *errorResponse = [NSMutableDictionary dictionaryWithCapacity:2];
+
+    [errorResponse setObject:[NSString stringWithFormat:@"%d", code] forKey:@"code"];
+    [errorResponse setObject:message forKey:@"message"];
     [errorResponse setObject:@"fail" forKey:@"stat"];
 
     return [errorResponse JSONString];
@@ -190,8 +203,13 @@
     [self sendFailureMessage:[self stringFromError:error]];
 }
 
-// TODO: What do we do in this case?
-- (void)jrAuthenticationDidNotComplete { }
+- (void)jrAuthenticationDidNotComplete
+{
+    NSString* message = [self stringFromCode:JRAuthenticationCanceledError andMessage:@"User canceled authentication"];
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
+                                                messageAsString:message];
+    [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
+}
 
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
                               forProvider:(NSString*)provider
