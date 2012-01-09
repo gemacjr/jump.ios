@@ -162,7 +162,11 @@
     // [self sendFailureMessage:[error description]];
 }
 
-- (void)jrAuthenticationDidNotComplete { }
+- (void)jrAuthenticationDidNotComplete
+{
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR]
+    [self writeJavascript:[pluginResult ]]
+}
 
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
                               forProvider:(NSString*)provider
