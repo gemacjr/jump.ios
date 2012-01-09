@@ -1550,7 +1550,7 @@ CALL_DELEGATE_SELECTOR:
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
     {
         NSError *_error = [JRError setError:@"Problem initializing the connection to the token url"
-                                   withCode:JRAuthenticationFailedError];
+                                   withCode:JRAuthenticationTokenUrlFailedError];
 
         NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
         for (id<JRSessionDelegate> delegate in delegatesCopy)
@@ -1716,7 +1716,7 @@ CALL_DELEGATE_SELECTOR:
                     [delegate authenticationCallToTokenUrl:[(NSDictionary*)tag objectForKey:@"tokenUrl"]
                                           didFailWithError:connectionError
                                                forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
-            }
+            } // TODO: Perhaps update the error code to use a JRError enum?
         }
         else if ([action isEqualToString:@"shareActivity"])
         {

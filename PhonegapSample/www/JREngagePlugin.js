@@ -1,19 +1,54 @@
-//var JREngagePlugin = {
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ Copyright (c) 2012, Janrain, Inc.
 
-//    nativeFunction: function(types, success, fail) {
-//        return PhoneGap.exec(success, fail, "JREngagePlugin", "print", types);
-//    }
-//};
+ All rights reserved.
 
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation and/or
+   other materials provided with the distribution.
+ * Neither the name of the Janrain, Inc. nor the names of its
+   contributors may be used to endorse or promote products derived from this
+   software without specific prior written permission.
+
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ File:   JREngagePlugin.js
+ Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
+ Date:   Wednesday, January 4th, 2012
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+JREngagePlugin.prototype.JRUrlError                           = 100;
+JREngagePlugin.prototype.JRDataParsingError                   = 101;
+JREngagePlugin.prototype.JRJsonError                          = 102;
+JREngagePlugin.prototype.JRConfigurationInformationError      = 103;
+JREngagePlugin.prototype.JRSessionDataFinishGetProvidersError = 104;
+JREngagePlugin.prototype.JRDialogShowingError                 = 105;
+JREngagePlugin.prototype.JRProviderNotConfiguredError         = 106;
+JREngagePlugin.prototype.JRAuthenticationFailedError          = 200;
+JREngagePlugin.prototype.JRAuthenticationTokenUrlFailedError  = 201;
 
 function JREngagePlugin()
 {
-    //    navigator.notification.alert("In JREngagePlugin javascript constructor");
+
 }
 
 JREngagePlugin.prototype.print = function(message, success, fail)
 {
-//    navigator.notification.alert("In javascript print function");
     PhoneGap.exec(success, fail, 'JREngagePlugin', 'print', message);
 };
 
@@ -27,12 +62,14 @@ JREngagePlugin.prototype.showAuthentication = function(success, fail)
     PhoneGap.exec(success, fail, 'JREngagePlugin', 'showAuthenticationDialog', []);
 };
 
+JREngagePlugin.prototype.showSharing = function(activity, success, fail)
+{
+    PhoneGap.exec(success, fail, 'JREngagePlugin', 'showSharingDialog', [activity]);
+};
+
 JREngagePlugin.install = function()
 {
-    //    navigator.notification.alert("In JREngagePlugin javascript install function");
-
     if(!window.plugins)
-//    if (typeof window.plugins == "undefined")
     {
         window.plugins = {};
     }

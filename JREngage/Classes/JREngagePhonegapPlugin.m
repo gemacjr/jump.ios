@@ -1,10 +1,36 @@
-//
-//  JREngagePhonegapPlugin.m
-//  JREngage
-//
-//  Created by Lilli Szafranski on 12/27/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ Copyright (c) 2012, Janrain, Inc.
+
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+
+ * Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation and/or
+   other materials provided with the distribution.
+ * Neither the name of the Janrain, Inc. nor the names of its
+   contributors may be used to endorse or promote products derived from this
+   software without specific prior written permission.
+
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ File:   JREngagePhonegapPlugin.m
+ Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
+ Date:   Wednesday, January 4th, 2012
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -14,6 +40,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+#ifdef PHONEGAP_FRAMEWORK
 #import <PhoneGap/JSONKit.h>
 #import "JREngagePhonegapPlugin.h"
 
@@ -33,79 +60,74 @@
                                 kCFStringEncodingUTF8);
 
     return encodedString;
-
-//    NSString *str = [self stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
-//    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
-//    str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
-//    str = [str stringByReplacingOccurrencesOfString:@";" withString:@"%3b"];
-//
-//    return str;
 }
 @end
 
 
 @interface JREngagePhonegapPlugin ()
 @property (nonatomic, retain) NSMutableDictionary *fullAuthenticationResponse;
-//@property (nonatomic, retain) NSDictionary        *authInfo;
 @end
 
 @implementation JREngagePhonegapPlugin
 @synthesize callbackID;
 @synthesize fullAuthenticationResponse;
-//@synthesize authInfo;
 
 - (id)init
 {
-    self = [super init];
-    if (self)
-    {
-
-    }
-
+    if ((self = [super init])) { }
     return self;
 }
 
 - (void)print:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    DLog(@"Here...%@", [arguments description]);
-    ALog(@"Here, still...");
-
-    //The first argument in the arguments parameter is the callbackID.
-    //We use this to send data back to the successCallback or failureCallback
-    //through PluginResult.
     self.callbackID = [arguments pop];
 
     DLog(@"[arguments pop]: %@", callbackID);
 
-    //Get the string that javascript sent us
-    NSString *stringObtainedFromJavascript = [arguments objectAtIndex:0];
+    NSString     *printString  = [arguments objectAtIndex:0];
+    PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                messageAsString:[printString JSONEscape]];
 
-    //Create the Message that we wish to send to the Javascript
-    NSMutableString *stringToReturn = [NSMutableString stringWithString: @"StringReceived:"];
-    //Append the received string to the string we plan to send out
-    [stringToReturn appendString: stringObtainedFromJavascript];
-    //Create Plugin Result
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK messageAsString:
-                                  [stringToReturn stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    //Checking if the string received is HelloWorld or not
-    if([stringObtainedFromJavascript isEqualToString:@"HelloWorld"]==YES)
+    if([printString isEqualToString:@"HelloWorld"] == YES)
     {
-        //Call  the Success Javascript function
-        [self writeJavascript: [pluginResult toSuccessCallbackString:self.callbackID]];
-
+        [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
     }
     else
     {
-        //Call  the Failure Javascript function
-        [self writeJavascript: [pluginResult toErrorCallbackString:self.callbackID]];
-
+        [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
     }
+}
+
+- (void)sendSuccessMessage:(NSString *)message
+{
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
+                                                messageAsString:[message JSONEscape]];
+
+    [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+}
+
+- (void)sendFailureMessage:(NSString *)message
+{
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
+                                                messageAsString:[message JSONEscape]];
+
+    [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
+}
+
+- (NSString *)stringFromError:(NSError*)error
+{
+    NSMutableDictionary *errorResponse = [NSMutableDictionary dictionaryWithCapacity:2];
+
+    [errorResponse setObject:[NSString stringWithFormat:@"%d", error.code] forKey:@"code"];
+    [errorResponse setObject:error.localizedDescription forKey:@"message"];
+    [errorResponse setObject:@"fail" forKey:@"stat"];
+
+    return [errorResponse JSONString];
 }
 
 - (void)initializeJREngage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
     self.callbackID = [arguments pop];
-
 
     NSString *appId;
     if ([arguments count])
@@ -115,7 +137,7 @@
         PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_ERROR
                                               messageAsString:@"Missing appId in call to initialize"];
 
-        [self writeJavascript:[result toSuccessCallbackString:self.callbackID]];
+        [self writeJavascript:[result toErrorCallbackString:self.callbackID]];
         return;
     }
 
@@ -125,8 +147,11 @@
 
     jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
 
+    // TODO: Check jrEngage result
+    // TODO: Standardize returned objects
+
     PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:@"Initializing JREngage"];
+                                                messageAsString:@"Initializing JREngage..."];
 
     [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
 }
@@ -138,55 +163,57 @@
     [jrEngage showAuthenticationDialog];
 }
 
-- (void)sendSuccessMessage:(NSString *)message
+- (void)showSharingDialog:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:[message JSONEscape]];
-                                      //[message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    self.callbackID = [arguments pop];
 
-    [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
-}
+    NSString *activityString;
+    if ([arguments count])
+        activityString = [arguments objectAtIndex:0];
+    else
+    {
+        PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_ERROR
+                                              messageAsString:@"Missing appId in call to initialize"];
 
-- (void)sendFailureMessage:(NSString *)message
-{
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:[message JSONEscape]];
-                                      //[message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self writeJavascript:[result toErrorCallbackString:self.callbackID]];
+        return;
+    }
 
-    [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
+    NSDictionary *activityDictionary = (NSDictionary*)[activityString objectFromJSONString];
+    JRActivityObject *activityObject = [JRActivityObject activityObjectFromDictionary:activityDictionary];
+
+    [jrEngage showSocialPublishingDialogWithActivity:activityObject];
 }
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
 {
-    // TODO: Build error JSON object to send that back
-    // [self sendFailureMessage:[error description]];
+    [self sendFailureMessage:[self stringFromError:error]];
 }
 
 - (void)jrAuthenticationDidNotComplete
 {
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR]
-    [self writeJavascript:[pluginResult ]]
+    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
+                                                messageAsString:@"User canceled authentication"];
+    [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
 }
 
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
                               forProvider:(NSString*)provider
 {
+    NSMutableDictionary *newAuthInfo = [NSMutableDictionary dictionaryWithDictionary:auth_info];
+    [newAuthInfo removeObjectForKey:@"stat"];
+
     if (!fullAuthenticationResponse)
         self.fullAuthenticationResponse = [NSMutableDictionary dictionaryWithCapacity:5];
 
-    // TODO: Remove the 'stat' key/value from auth_info dictionary
-
-    [fullAuthenticationResponse setObject:auth_info forKey:@"auth_info"];
+    [fullAuthenticationResponse setObject:newAuthInfo forKey:@"auth_info"];
     [fullAuthenticationResponse setObject:provider forKey:@"provider"];
-
-//    [self sendSuccessMessage:[NSString stringWithFormat:@"AUTH SUCCESS: %@, %@", [auth_info description], provider]];
 }
 
 - (void)jrAuthenticationDidFailWithError:(NSError*)error
                              forProvider:(NSString*)provider
 {
-    // TODO: Build error JSON object to send that back
-//    [self sendFailureMessage:[error description]];
+    [self sendFailureMessage:[self stringFromError:error]];
 }
 
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl
@@ -206,13 +233,16 @@
     NSString *authResponseString = [fullAuthenticationResponse JSONString];
 
     [self sendSuccessMessage:authResponseString];
+
+    self.fullAuthenticationResponse = nil;
 }
 
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl
                       didFailWithError:(NSError*)error
                            forProvider:(NSString*)provider
 {
-    // TODO: Build error JSON object to send that back
+    // TODO: Should we also send a success with just partial (i.e., auth_info) data?
+    [self sendFailureMessage:[self stringFromError:error]];
 }
 
 //- (void)jrSocialDidNotCompletePublishing { }
@@ -232,7 +262,7 @@
     [super dealloc];
 }
 @end
-
+#endif
 
 
 
