@@ -33,55 +33,10 @@ Copyright (c) 2010, Janrain, Inc.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "QSIViewControllerLevel1.h"
+#import "UserListViewController.h"
 #import "QSIUserModel.h"
 
-@interface UITableViewCellSignInHistory : UITableViewCell
-{
-//  UIImageView *icon;
-}
-//@property (nonatomic, retain) UIImageView *icon;
-@end
-
-@implementation UITableViewCellSignInHistory
-//@synthesize icon;
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
-    {
-//      [self addSubview:icon];
-    }
-
-    return self;
-}
-
-- (void) layoutSubviews
-{
-    [super layoutSubviews];
-
-//    CGRect mframe = self.frame;
-//    CGRect cframe = self.contentView.frame;
-
-//    self.contentView.frame = CGRectMake(self.contentView.frame.origin.x,
-//                                        self.contentView.frame.origin.y,
-//                                        self.frame.size.width,
-//                                        self.frame.size.height);
-
-    CGFloat titleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
-    CGFloat subtitleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
-
-    self.imageView.frame = CGRectMake(10, 10, 30, 30);
-    self.textLabel.frame = CGRectMake(50, 15, titleWidth, 22);
-    self.detailTextLabel.frame = CGRectMake(titleWidth + 60, 20, subtitleWidth, 15);
-
-//    [self.textLabel setBackgroundColor:[UIColor redColor]];
-//    [self.detailTextLabel setBackgroundColor:[UIColor redColor]];
-//    [self.contentView setBackgroundColor:[UIColor yellowColor]];
-}
-@end
-
-@interface ViewControllerLevel1 ()
+@interface UserListViewController ()
 - (void)fadeCustomNavigationBarItems:(CGFloat)alpha;
 - (void)toggleTableHeaderVisibility:(BOOL)visible;
 - (void)setSignOutButtonTitle:(NSString*)newTitle;
@@ -91,7 +46,14 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)readjustNavBarForPadRotation:(UIInterfaceOrientation)toInterfaceOrientation;
 @end
 
-@implementation ViewControllerLevel1
+@interface UserListTableViewCell : UITableViewCell
+{
+//  UIImageView *icon;
+}
+//@property (nonatomic, retain) UIImageView *icon;
+@end
+
+@implementation UserListViewController
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -215,10 +177,10 @@ Copyright (c) 2010, Janrain, Inc.
         iPad = YES;
 
     if (iPad)
-        level2ViewController = [[ViewControllerLevel2 alloc] initWithNibName:@"QSIViewControllerLevel2-iPad"
+        level2ViewController = [[UserDetailsViewController alloc] initWithNibName:@"QSIViewControllerLevel2-iPad"
                                                                       bundle:[NSBundle mainBundle]];
     else
-        level2ViewController = [[ViewControllerLevel2 alloc] initWithNibName:@"QSIViewControllerLevel2"
+        level2ViewController = [[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController"
                                                                       bundle:[NSBundle mainBundle]];
 
     if (iPad)
@@ -652,11 +614,11 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCellSignInHistory *cell =
-        (UITableViewCellSignInHistory*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
+    UserListTableViewCell*cell =
+        (UserListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
 
     if (!cell || indexPath.section == 0)
-        cell = [[[UITableViewCellSignInHistory alloc]
+        cell = [[[UserListTableViewCell alloc]
              initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 
     NSDictionary *userForCell = (indexPath.section == 0) ?
@@ -787,5 +749,43 @@ Copyright (c) 2010, Janrain, Inc.
     [level2ViewController release];
 
     [super dealloc];
+}
+@end
+
+@implementation UserListTableViewCell
+//@synthesize icon;
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
+    {
+//      [self addSubview:icon];
+    }
+
+    return self;
+}
+
+- (void) layoutSubviews
+{
+    [super layoutSubviews];
+
+//    CGRect mframe = self.frame;
+//    CGRect cframe = self.contentView.frame;
+
+//    self.contentView.frame = CGRectMake(self.contentView.frame.origin.x,
+//                                        self.contentView.frame.origin.y,
+//                                        self.frame.size.width,
+//                                        self.frame.size.height);
+
+    CGFloat titleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
+    CGFloat subtitleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
+
+    self.imageView.frame = CGRectMake(10, 10, 30, 30);
+    self.textLabel.frame = CGRectMake(50, 15, titleWidth, 22);
+    self.detailTextLabel.frame = CGRectMake(titleWidth + 60, 20, subtitleWidth, 15);
+
+//    [self.textLabel setBackgroundColor:[UIColor redColor]];
+//    [self.detailTextLabel setBackgroundColor:[UIColor redColor]];
+//    [self.contentView setBackgroundColor:[UIColor yellowColor]];
 }
 @end

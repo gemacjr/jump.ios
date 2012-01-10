@@ -40,6 +40,8 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "QSIUserModel.h"
+#import "JREngage.h"
+#import "JREngage+CustomInterface.h"
 
 @interface UserModel ()
 @property (retain) EmbeddedTableViewController *embeddedTable;
@@ -83,8 +85,9 @@ Instantiate the JRAuthenticate Library with your Engage Application's 20-charact
 library with a token URL, you must make the call yourself after you receive the token,
 otherwise, this happens automatically.                                                  */
 
-//static NSString *appId = @"<your_app_id>";
-//static NSString *tokenUrl = @"<your_token_url>";
+static NSString *appId = @"mlfeingbenjalleljkpo";
+//static NSString *appId = @"gcinoifepaljfmgcgheo";
+static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin";
 
 - (UserModel*)init
 {
@@ -399,7 +402,7 @@ otherwise, this happens automatically.                                          
 
  /* Create a dictionary of the identifier and the timestamp.  For now, save this dictionary
     as the currently logged in user. */
-    currentUser = [[NSDictionary dictionaryWithObjectsAndKeys:
+    currentUser = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
                     identifier, @"identifier",
                     currentProvider, @"provider",
                     displayName, @"displayName",
@@ -572,19 +575,30 @@ otherwise, this happens automatically.                                          
     [tokenUrlDelegate didReachTokenUrl];
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
 
-//  NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
-//
+    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
+    DLog(@"%@", payload);
+
+    NSDictionary* payloadDict = [payload objectFromJSONString];
+
+    NSDictionary* captureProfile = [payloadDict objectForKey:@"profile"];
+    NSString* captureToken = [payloadDict objectForKey:@"access_token"];
+    NSDictionary* captureCredential = [NSDictionary dictionaryWithObject:captureToken forKey:@"access_token"];
+
+    [currentUser setObject:captureProfile forKey:@"captureProfile"];
+    [currentUser setObject:captureCredential forKey:@"captureCredential"];
+
+
 //  NSRange found = [payload rangeOfString:@"{"];
 //
 //  if (found.length == 0)// Then there was an error
 //      return; // TODO: Manage error
-//
+
 //  NSString *userStr = [payload substringFromIndex:found.location];
 //  NSDictionary* user = [userStr JSONValue];
-//
+
 //  if(!user) // Then there was an error
 //      return; // TODO: Manage error
-//
+
 //  [self finishSignUserIn:user];
 }
 

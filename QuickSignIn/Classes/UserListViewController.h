@@ -34,9 +34,9 @@
 
 #import <UIKit/UIKit.h>
 #import "QSIUserModel.h"
-#import "QSIViewControllerLevel2.h"
+#import "UserDetailsViewController.h"
 
-@interface ViewControllerLevel1 : UIViewController <UINavigationBarDelegate, UserModelDelegate, LibraryDialogDelegate,
+@interface UserListViewController : UIViewController <UINavigationBarDelegate, UserModelDelegate, LibraryDialogDelegate,
 														UITableViewDelegate, UITableViewDataSource>
 {
     BOOL iPad;
@@ -59,7 +59,7 @@
     UIButton        *myDoneButtonPad;
     UIBarButtonItem *mySignOutButtonPad;
 
-	ViewControllerLevel2 *level2ViewController;
+	UserDetailsViewController *level2ViewController;
 }
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)addAnotherButtonPressed:(id)sender;

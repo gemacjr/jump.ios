@@ -36,7 +36,7 @@
 #import "JREngage.h"
 #import "JREngage+CustomInterface.h"
 #import "QuickSignInAppDelegate.h"
-#import "QSIEmbeddedTableViewController.h"
+#import "EmbeddedNativeSignInViewController.h"
 
 #define LILLI
 
@@ -71,7 +71,7 @@
 
  /* Session dictionary (and strings) containing the identifier, display name,
     current provider, and timestamp of the currently signed in user. */
-	NSDictionary	*currentUser;
+	NSMutableDictionary	*currentUser;
 	NSString		*identifier;
 	NSString		*displayName;
 	NSString		*currentProvider;

@@ -34,7 +34,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "QSIViewControllerLevel1.h"
+#import "UserListViewController.h"
 #import "QSIUserModel.h"
 
 @interface RootViewController : UIViewController <UserModelDelegate, LibraryDialogDelegate>
@@ -48,7 +48,7 @@
     IBOutlet UIView   *layoutViewOutside;
     IBOutlet UIView   *layoutViewInside;
 
-	ViewControllerLevel1 *level1ViewController;
+	UserListViewController*userListViewController;
 }
 - (IBAction)signInButtonPressed:(id)sender;
 - (IBAction)signInButtonOnEvent:(id)sender;

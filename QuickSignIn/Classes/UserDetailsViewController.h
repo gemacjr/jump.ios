@@ -35,7 +35,7 @@
 #import <UIKit/UIKit.h>
 #import "QSIUserModel.h"
 
-@interface ViewControllerLevel2 : UIViewController <UINavigationBarDelegate, UserModelDelegate,
+@interface UserDetailsViewController : UIViewController <UINavigationBarDelegate, UserModelDelegate,
 														UITableViewDelegate, UITableViewDataSource>
 {
     BOOL iPad;
@@ -45,6 +45,9 @@
     IBOutlet UILabel         *myLabel;
 
 	NSDictionary	*selectedUser;
+
+    NSDictionary    *captureProfile;
+    NSDictionary    *captureCredentials;
     
 	NSDictionary	*profile;
 	NSArray         *profileKeys;

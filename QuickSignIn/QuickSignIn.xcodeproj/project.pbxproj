@@ -18,7 +18,7 @@
 		9F23062E12F24B5A00147C95 /* split_portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F23062B12F24B5A00147C95 /* split_portrait.png */; };
 		9F25B0CD12D24CD90083BB6A /* Quick Sign-In.app in Sources */ = {isa = PBXBuildFile; fileRef = 1D6058910D05DD3D006BFB54 /* Quick Sign-In.app */; };
 		9F30A5FF12BAF1DE00A30ADF /* QSIInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */; };
-		9F30A8E412BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */; };
+		9F30A8E412BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F30A8E312BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m */; };
 		9F32496112EE43F200BEDA1F /* edit_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F32496012EE43F200BEDA1F /* edit_disabled.png */; };
 		9F521EAD12B062940073ABAE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9912B062940073ABAE /* background.png */; };
 		9F521EAE12B062940073ABAE /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9A12B062940073ABAE /* Default.png */; };
@@ -30,8 +30,8 @@
 		9F521EB512B062940073ABAE /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA212B062940073ABAE /* Default-Portrait.png */; };
 		9F521EB612B062940073ABAE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA412B062940073ABAE /* MainWindow.xib */; };
 		9F521EB712B062940073ABAE /* QSIRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA512B062940073ABAE /* QSIRootViewController.xib */; };
-		9F521EB812B062940073ABAE /* QSIViewControllerLevel1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA612B062940073ABAE /* QSIViewControllerLevel1.xib */; };
-		9F521EB912B062940073ABAE /* QSIViewControllerLevel2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA712B062940073ABAE /* QSIViewControllerLevel2.xib */; };
+		9F521EB812B062940073ABAE /* UserListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA612B062940073ABAE /* UserListViewController.xib */; };
+		9F521EB912B062940073ABAE /* UserDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA712B062940073ABAE /* UserDetailsViewController.xib */; };
 		9F521EBA12B062940073ABAE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA912B062940073ABAE /* MainWindow-iPad.xib */; };
 		9F521EBB12B062940073ABAE /* QSIRootViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EAA12B062940073ABAE /* QSIRootViewController-iPad.xib */; };
 		9F521EBC12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EAB12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib */; };
@@ -197,10 +197,10 @@
 		9F96D89112EA6347002D06B4 /* edit_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D88F12EA6347002D06B4 /* edit_selected.png */; };
 		9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */; };
 		9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */; };
-		9FB40A3412414DC500FDDA7B /* QSIViewControllerLevel1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2D12414DC500FDDA7B /* QSIViewControllerLevel1.m */; };
-		9FB40A3512414DC500FDDA7B /* QSIViewControllerLevel2.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2F12414DC500FDDA7B /* QSIViewControllerLevel2.m */; };
+		9FB40A3512414DC500FDDA7B /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2F12414DC500FDDA7B /* UserDetailsViewController.m */; };
 		9FB40A3612414DC500FDDA7B /* QuickSignInAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */; };
 		9FBE274412A713F600E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE274312A713F600E1F93E /* Security.framework */; };
+		C01FCF5008A954540054247D /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247C /* UserListViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -216,8 +216,8 @@
 		9F23062B12F24B5A00147C95 /* split_portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = split_portrait.png; sourceTree = "<group>"; };
 		9F2433CD1329974C00780E63 /* Quick_Sign_In-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quick_Sign_In-Info.plist"; sourceTree = SOURCE_ROOT; };
 		9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIInfoViewController.xib; sourceTree = "<group>"; };
-		9F30A8E212BC0C4B00A30ADF /* QSIEmbeddedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIEmbeddedTableViewController.h; sourceTree = "<group>"; };
-		9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIEmbeddedTableViewController.m; sourceTree = "<group>"; };
+		9F30A8E212BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmbeddedNativeSignInViewController.h; sourceTree = "<group>"; };
+		9F30A8E312BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmbeddedNativeSignInViewController.m; sourceTree = "<group>"; };
 		9F32496012EE43F200BEDA1F /* edit_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_disabled.png; sourceTree = "<group>"; };
 		9F521E9912B062940073ABAE /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		9F521E9A12B062940073ABAE /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -229,8 +229,8 @@
 		9F521EA212B062940073ABAE /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		9F521EA412B062940073ABAE /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		9F521EA512B062940073ABAE /* QSIRootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIRootViewController.xib; sourceTree = "<group>"; };
-		9F521EA612B062940073ABAE /* QSIViewControllerLevel1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIViewControllerLevel1.xib; sourceTree = "<group>"; };
-		9F521EA712B062940073ABAE /* QSIViewControllerLevel2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIViewControllerLevel2.xib; sourceTree = "<group>"; };
+		9F521EA612B062940073ABAE /* UserListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserListViewController.xib; sourceTree = "<group>"; };
+		9F521EA712B062940073ABAE /* UserDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserDetailsViewController.xib; sourceTree = "<group>"; };
 		9F521EA912B062940073ABAE /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		9F521EAA12B062940073ABAE /* QSIRootViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIRootViewController-iPad.xib"; sourceTree = "<group>"; };
 		9F521EAB12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIViewControllerLevel1-iPad.xib"; sourceTree = "<group>"; };
@@ -412,14 +412,14 @@
 		9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIRootViewController.m; sourceTree = "<group>"; };
 		9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIUserModel.h; sourceTree = "<group>"; };
 		9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIUserModel.m; sourceTree = "<group>"; };
-		9FB40A2C12414DC500FDDA7B /* QSIViewControllerLevel1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIViewControllerLevel1.h; sourceTree = "<group>"; };
-		9FB40A2D12414DC500FDDA7B /* QSIViewControllerLevel1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIViewControllerLevel1.m; sourceTree = "<group>"; };
-		9FB40A2E12414DC500FDDA7B /* QSIViewControllerLevel2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIViewControllerLevel2.h; sourceTree = "<group>"; };
-		9FB40A2F12414DC500FDDA7B /* QSIViewControllerLevel2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIViewControllerLevel2.m; sourceTree = "<group>"; };
+		9FB40A2C12414DC500FDDA7B /* UserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListViewController.h; sourceTree = "<group>"; };
+		9FB40A2E12414DC500FDDA7B /* UserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailsViewController.h; sourceTree = "<group>"; };
+		9FB40A2F12414DC500FDDA7B /* UserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsViewController.m; sourceTree = "<group>"; };
 		9FB40A3012414DC500FDDA7B /* QuickSignInAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickSignInAppDelegate.h; sourceTree = "<group>"; };
 		9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickSignInAppDelegate.m; sourceTree = "<group>"; };
 		9FB40A3712414DD200FDDA7B /* Quick_Sign_In_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_Sign_In_Prefix.pch; sourceTree = "<group>"; };
 		9FBE274312A713F600E1F93E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C01FCF5008A954540054247C /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListViewController.m; path = UserListViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -441,18 +441,18 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C01FCF5008A954540054247C /* UserListViewController.m */,
 				9FB40A3012414DC500FDDA7B /* QuickSignInAppDelegate.h */,
 				9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */,
 				9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */,
 				9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */,
 				9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */,
 				9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */,
-				9FB40A2C12414DC500FDDA7B /* QSIViewControllerLevel1.h */,
-				9FB40A2D12414DC500FDDA7B /* QSIViewControllerLevel1.m */,
-				9FB40A2E12414DC500FDDA7B /* QSIViewControllerLevel2.h */,
-				9FB40A2F12414DC500FDDA7B /* QSIViewControllerLevel2.m */,
-				9F30A8E212BC0C4B00A30ADF /* QSIEmbeddedTableViewController.h */,
-				9F30A8E312BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m */,
+				9FB40A2C12414DC500FDDA7B /* UserListViewController.h */,
+				9FB40A2E12414DC500FDDA7B /* UserDetailsViewController.h */,
+				9FB40A2F12414DC500FDDA7B /* UserDetailsViewController.m */,
+				9F30A8E212BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.h */,
+				9F30A8E312BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -549,8 +549,8 @@
 			children = (
 				9F521EA412B062940073ABAE /* MainWindow.xib */,
 				9F521EA512B062940073ABAE /* QSIRootViewController.xib */,
-				9F521EA612B062940073ABAE /* QSIViewControllerLevel1.xib */,
-				9F521EA712B062940073ABAE /* QSIViewControllerLevel2.xib */,
+				9F521EA612B062940073ABAE /* UserListViewController.xib */,
+				9F521EA712B062940073ABAE /* UserDetailsViewController.xib */,
 				9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */,
 			);
 			path = xibs;
@@ -945,8 +945,8 @@
 				9F521EB512B062940073ABAE /* Default-Portrait.png in Resources */,
 				9F521EB612B062940073ABAE /* MainWindow.xib in Resources */,
 				9F521EB712B062940073ABAE /* QSIRootViewController.xib in Resources */,
-				9F521EB812B062940073ABAE /* QSIViewControllerLevel1.xib in Resources */,
-				9F521EB912B062940073ABAE /* QSIViewControllerLevel2.xib in Resources */,
+				9F521EB812B062940073ABAE /* UserListViewController.xib in Resources */,
+				9F521EB912B062940073ABAE /* UserDetailsViewController.xib in Resources */,
 				9F521EBA12B062940073ABAE /* MainWindow-iPad.xib in Resources */,
 				9F521EBB12B062940073ABAE /* QSIRootViewController-iPad.xib in Resources */,
 				9F521EBC12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib in Resources */,
@@ -1132,10 +1132,9 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */,
 				9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */,
-				9FB40A3412414DC500FDDA7B /* QSIViewControllerLevel1.m in Sources */,
-				9FB40A3512414DC500FDDA7B /* QSIViewControllerLevel2.m in Sources */,
+				9FB40A3512414DC500FDDA7B /* UserDetailsViewController.m in Sources */,
 				9FB40A3612414DC500FDDA7B /* QuickSignInAppDelegate.m in Sources */,
-				9F30A8E412BC0C4B00A30ADF /* QSIEmbeddedTableViewController.m in Sources */,
+				9F30A8E412BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m in Sources */,
 				9F7BC21E146888A80068BD40 /* JSONKit.m in Sources */,
 				9F7BC21F146888A80068BD40 /* SFHFKeychainUtils.m in Sources */,
 				9F7BC220146888A80068BD40 /* JREngage.m in Sources */,
@@ -1150,6 +1149,7 @@
 				9F7BC229146888A80068BD40 /* JRWebViewController.m in Sources */,
 				9F7BC22A146888A80068BD40 /* JRInfoBar.m in Sources */,
 				9F7BC22B146888A80068BD40 /* JRPreviewLabel.m in Sources */,
+				C01FCF5008A954540054247D /* UserListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1538,6 +1538,10 @@ CALL_DELEGATE_SELECTOR:
 
     NSMutableData* body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
+//    [body appendData:[@"&client_id=d6rresj57ex24sxkybjt5qre9vj6jdhj" dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"&client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg" dataUsingEncoding:NSUTF8StringEncoding]]; 
+//    [body appendData:[@"&client_id=stc5y5a399qwfg85ap9tup5m9vfbm4a4" dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"&redirect_uri=https://example.com" dataUsingEncoding:NSUTF8StringEncoding]];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:_tokenUrl]];
 
     [request setHTTPMethod:@"POST"];

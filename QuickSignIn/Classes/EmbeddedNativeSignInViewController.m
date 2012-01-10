@@ -31,7 +31,7 @@
  Date:	 Tuesday, June 1, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import "QSIEmbeddedTableViewController.h"
+#import "EmbeddedNativeSignInViewController.h"
 
 @implementation InfoViewController
 - (void)viewWillAppear:(BOOL)animated

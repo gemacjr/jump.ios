@@ -78,10 +78,10 @@
 //#endif
 
     if (iPad)
-        level1ViewController = [[ViewControllerLevel1 alloc] initWithNibName:@"QSIViewControllerLevel1-iPad"
+        userListViewController = [[UserListViewController alloc] initWithNibName:@"QSIViewControllerLevel1-iPad"
                                                                       bundle:[NSBundle mainBundle]];
     else
-        level1ViewController = [[ViewControllerLevel1 alloc] initWithNibName:@"QSIViewControllerLevel1"
+        userListViewController = [[UserListViewController alloc] initWithNibName:@"UserListViewController"
                                                                       bundle:[NSBundle mainBundle]];
 
     [[UserModel getUserModel] setNavigationController:[self navigationController]];
@@ -119,12 +119,12 @@
 
 - (void)delaySwitchAccounts:(NSTimer*)theTimer
 {
-    [level1ViewController addAnotherButtonPressed:nil];
+    [userListViewController addAnotherButtonPressed:nil];
 }
 
 - (void)delayNavPush:(NSTimer*)theTimer
 {
-    [[self navigationController] pushViewController:level1ViewController animated:YES];
+    [[self navigationController] pushViewController:userListViewController animated:YES];
 }
 
 /* Go to www.janrain.com */
@@ -180,7 +180,7 @@
     }
     else
     {/* Drill down a level, then after half a second, sign the user in. */
-        [[self navigationController] pushViewController:level1ViewController animated:YES];
+        [[self navigationController] pushViewController:userListViewController animated:YES];
         [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySwitchAccounts:) userInfo:nil repeats:NO];
     }
 //#else
@@ -191,7 +191,7 @@
 
 - (IBAction)viewHistoryButtonPressed:(id)sender
 {
-    [[self navigationController] pushViewController:level1ViewController animated:YES];
+    [[self navigationController] pushViewController:userListViewController animated:YES];
 }
 
 - (void)didFailToSignIn:(BOOL)showMessage
@@ -295,7 +295,7 @@
 {
     [signInButton release];
     [linkButton release];
-    [level1ViewController release];
+    [userListViewController release];
 
     [super dealloc];
 }

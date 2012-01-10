@@ -32,12 +32,12 @@
  Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import "QSIViewControllerLevel2.h"
+#import "UserDetailsViewController.h"
 
-@interface ViewControllerLevel2 ()
+@interface UserDetailsViewController ()
 @end
 
-@implementation ViewControllerLevel2
+@implementation UserDetailsViewController
 
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -116,21 +116,25 @@
     animated = NO;
     
     NSLog (@"loading user, %@", animated ? @"animated" : @"not animated");
-    
+
     selectedUser = [[[UserModel getUserModel] selectedUser] retain];
 	NSString* identifier = [selectedUser objectForKey:@"identifier"];
-	
-	profile = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"] retain];
+    NSDictionary* user = [[[UserModel getUserModel] userProfiles] objectForKey:identifier];
+
+	profile = [[user objectForKey:@"profile"] retain];
 	profileKeys = [[profile allKeys] retain];
     
-    accessCredentials = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"accessCredentials"] retain];
+    accessCredentials = [[user objectForKey:@"accessCredentials"] retain];
 	accessCredentialsKeys = [[accessCredentials allKeys] retain];
     
-    mergedPoco = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"merged_poco"] retain];
+    mergedPoco = [[user objectForKey:@"merged_poco"] retain];
 	mergedPocoKeys = [[mergedPoco allKeys] retain];
     
-    friends = [[[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"friends"] retain];   
-	
+    friends = [[user objectForKey:@"friends"] retain];
+
+    captureCredentials = [[user objectForKey:@"captureCredentials"] retain];
+    captureProfile = [[user objectForKey:@"captureProfile"] retain];
+
     NSLog (@"section 1, %d rows", [profileKeys count]);
     NSLog (@"section 2, %d rows", [accessCredentialsKeys count]);
     
@@ -160,7 +164,9 @@
     [mergedPocoKeys release], mergedPocoKeys = nil;
     [friends release], friends = nil;
     [friendsKeys release], friendsKeys = nil;
-    
+    [captureProfile release], captureCredentials = nil;
+    [captureCredentials release], captureCredentials = nil;
+
     if (iPad && animated)
         [self animateAdditions];
     else
@@ -178,22 +184,30 @@
     switch (section)
     {
         case 0:
-            return @"Identifier";
+            return @"Engage Identifier";
         case 1:
             if ([profileKeys count])
-                return @"Basic Profile Information";
+                return @"Engage Profile Information";
             return nil;
         case 2:
             if ([accessCredentials count])
-                return @"Access Credentials";
+                return @"Engage Access Credentials";
             return nil;
         case 3:
             if ([mergedPocoKeys count])
-                return @"Merged Portable Contacts";
+                return @"Engage Merged Portable Contacts";
             return nil;
         case 4:
             if ([friends count])
-                return @"Friends";
+                return @"Engage Friends";
+            return nil;
+        case 5:
+            if ([[captureProfile allKeys] count])
+                return @"Capture Profile Information";
+            return nil;
+        case 6:
+            if ([[captureCredentials allKeys] count])
+                return @"Capture Access Credentials";
             return nil;
         default:
             return nil;
@@ -207,7 +221,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-    return 3;
+    return 6;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -238,7 +252,11 @@
 			return [mergedPocoKeys count];
 		case 4:
 			return [friends count];
-		default:
+        case 5:
+            return [[captureProfile allKeys] count];
+        case 6:
+            return [[captureCredentials allKeys] count];
+        default:
 			return 0;
 	}
 }
@@ -340,6 +358,16 @@
             cellTitle = [friends objectAtIndex:indexPath.row];
 			break;
 		}
+        case 5:
+        {
+            cellTitle = [[captureProfile allKeys] objectAtIndex:indexPath.row];
+            break;
+        }
+        case 6:
+        {
+            cellTitle = [[captureCredentials allKeys] objectAtIndex:indexPath.row];
+            break;
+        }
 		default:
 			break;
 	}
@@ -431,7 +459,9 @@
     [mergedPoco release], mergedPoco = nil;
     [mergedPocoKeys release], mergedPocoKeys = nil;
     [friends release], friends = nil;
-    [friendsKeys release], friendsKeys = nil;    
+    [friendsKeys release], friendsKeys = nil;
+    [captureProfile release], captureProfile = nil;
+    [captureCredentials release], captureCredentials = nil;
 }
 
 - (void)dealloc 
