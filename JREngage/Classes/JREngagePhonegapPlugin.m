@@ -66,11 +66,13 @@
 
 @interface JREngagePhonegapPlugin ()
 @property (nonatomic, retain) NSMutableDictionary *fullAuthenticationResponse;
+@property (nonatomic, retain) NSMutableDictionary *fullSharingResponse;
 @end
 
 @implementation JREngagePhonegapPlugin
 @synthesize callbackID;
 @synthesize fullAuthenticationResponse;
+@synthesize fullSharingResponse;
 
 - (id)init
 {
@@ -116,7 +118,7 @@
 
 
 
-- (NSString *)stringFromError:(NSError*)error
+- (NSString*)stringFromError:(NSError*)error
 {
     NSMutableDictionary *errorResponse = [NSMutableDictionary dictionaryWithCapacity:2];
 
@@ -127,7 +129,7 @@
     return [errorResponse JSONString];
 }
 
-- (NSString *)stringFromCode:(NSInteger) code andMessage: (NSString *) message
+- (NSString*)stringFromCode:(NSInteger)code andMessage:(NSString*)message
 {
     NSMutableDictionary *errorResponse = [NSMutableDictionary dictionaryWithCapacity:2];
 
@@ -205,10 +207,13 @@
 
 - (void)jrAuthenticationDidNotComplete
 {
-    NSString* message = [self stringFromCode:JRAuthenticationCanceledError andMessage:@"User canceled authentication"];
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
-                                                messageAsString:message];
-    [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
+    [self sendFailureMessage:[self stringFromCode:JRAuthenticationCanceledError
+                                       andMessage:@"User canceled authentication"]];
+
+//    NSString* message = [self stringFromCode:JRAuthenticationCanceledError andMessage:@"User canceled authentication"];
+//    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
+//                                                messageAsString:message];
+//    [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
 }
 
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
@@ -259,16 +264,32 @@
     [self sendFailureMessage:[self stringFromError:error]];
 }
 
-//- (void)jrSocialDidNotCompletePublishing { }
-//
-//- (void)jrSocialDidCompletePublishing { }
-//
-//- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity
-//                       forProvider:(NSString*)provider { }
-//
-//- (void)jrSocialPublishingActivity:(JRActivityObject*)activity
-//                  didFailWithError:(NSError*)error
-//                       forProvider:(NSString*)provider { }
+- (void)jrSocialDidNotCompletePublishing
+{
+    [self sendFailureMessage:[self stringFromCode:JRPublishCanceledError
+                                       andMessage:@"User canceled sharing"]];
+}
+
+- (void)jrSocialDidCompletePublishing
+{
+
+
+}
+
+- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity
+                       forProvider:(NSString*)provider
+{
+    if (!fullSharingResponse)
+        self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
+
+    [fullAuthenticationResponse setObject:activity forKey:@"activity"];
+    [fullAuthenticationResponse setObject:provider forKey:@"provider"];
+
+}
+
+- (void)jrSocialPublishingActivity:(JRActivityObject*)activity
+                  didFailWithError:(NSError*)error
+                       forProvider:(NSString*)provider { }
 
 - (void)dealloc
 {

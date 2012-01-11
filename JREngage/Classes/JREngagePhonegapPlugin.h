@@ -43,6 +43,7 @@
     NSString *callbackID;
 
     NSMutableDictionary *fullAuthenticationResponse;
+    NSMutableDictionary *fullSharingResponse;
 }
 
 @property (nonatomic, copy) NSString* callbackID;
