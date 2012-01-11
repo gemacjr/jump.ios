@@ -8,9 +8,9 @@
 
 	* Redistributions of source code must retain the above copyright notice, this
 		list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice,
-		this list of conditions and the following disclaimer in the documentation and/or
-		other materials provided with the distribution.
+	 * Redistributions in binary form must reproduce the above copyright notice,
+		 this list of conditions and the following disclaimer in the documentation and/or
+		 other materials provided with the distribution.
 	* Neither the name of the Janrain, Inc. nor the names of its
 		contributors may be used to endorse or promote products derived from this
 		software without specific prior written permission.
@@ -25,42 +25,19 @@
 	ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
- File:	 QSIViewControllerLevel1.h
- Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "QSIUserModel.h"
-#import "UserDetailsViewController.h"
 
-@interface UserListViewController : UIViewController <UINavigationBarDelegate, UserModelDelegate, LibraryDialogDelegate,
+@interface ProfileDrilldownViewController : UIViewController <UINavigationBarDelegate,
 														UITableViewDelegate, UITableViewDataSource>
 {
-    BOOL iPad;
-    BOOL libraryDialogShowing;
-
-	IBOutlet UITableView     *myTableView;
-	IBOutlet UIBarButtonItem *mySignOutButtonPhone;
-
-	IBOutlet UIView          *myLabelContainerView;
-    IBOutlet UILabel		 *myNotSignedInLabel;
-
-    IBOutlet UIView          *myRightView;
-    IBOutlet UIView          *myLeftView;
-
-    UILabel         *myTitlePad;
-    UIImageView     *mySplitViewPad;
-    UILabel         *mySelectedProfilePad;
-    UIView          *myEditButtonContainer;
-    UIButton        *myEditButtonPad;
-    UIButton        *myDoneButtonPad;
-    UIBarButtonItem *mySignOutButtonPad;
-
-	UserDetailsViewController * userDetailsViewController;
+	UITableView *myTableView;
 }
-- (IBAction)signOutButtonPressed:(id)sender;
-- (void)addAnotherButtonPressed:(id)sender;
+
+@property (retain) NSDictionary *tableViewData;
+@property (retain) NSString *header;
+
+- (id)initWithDictionary:(NSDictionary*)data header:(NSString*)header_;
+
 @end

@@ -115,6 +115,7 @@
 @property (readonly) BOOL loadingUserData;
 @property (readonly) NSDictionary *currentUser;
 @property (retain)	 NSDictionary *selectedUser;
+@property (retain)   NSMutableDictionary *authInfo;
 @property (retain)   NSMutableDictionary *customInterface;
 @property (retain)   UINavigationController *navigationController;
 

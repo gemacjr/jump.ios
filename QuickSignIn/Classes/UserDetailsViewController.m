@@ -33,6 +33,23 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "UserDetailsViewController.h"
+#import "ProfileDrilldownViewController.h"
+
+@interface NSDictionary (OrderedKeys)
+
+-(NSArray *)allKeysOrdered;
+
+@end
+
+@implementation NSDictionary (OrderedKeys)
+
+-(NSArray *)allKeysOrdered
+{
+    NSArray *allKeys = [self allKeys];
+    return [allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+}
+
+@end
 
 @interface UserDetailsViewController ()
 @end
@@ -48,6 +65,7 @@
     return self;
 }
 */
+
 
 - (void)viewDidLoad 
 {
@@ -202,11 +220,11 @@
                 return @"Engage Friends";
             return nil;
         case 5:
-            if ([[captureProfile allKeys] count])
+            if ([[captureProfile allKeysOrdered] count])
                 return @"Capture Profile Information";
             return nil;
         case 6:
-            if ([[captureCredentials allKeys] count])
+            if ([[captureCredentials allKeysOrdered] count])
                 return @"Capture Access Credentials";
             return nil;
         default:
@@ -221,17 +239,21 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-    return 6;
+    return 7;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30.0;
+    if ([self tableView:tableView titleForHeaderInSection:section])
+        return 30.0;
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 30.0;
+    if ([self tableView:tableView titleForHeaderInSection:section])
+        return 30.0;
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
@@ -253,9 +275,9 @@
 		case 4:
 			return [friends count];
         case 5:
-            return [[captureProfile allKeys] count];
+            return [[captureProfile allKeysOrdered] count];
         case 6:
-            return [[captureCredentials allKeys] count];
+            return [[captureCredentials allKeysOrdered] count];
         default:
 			return 0;
 	}
@@ -311,14 +333,16 @@
 		[cell.contentView addSubview:valueLabel];
 		[valueLabel release];
     }
-		
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
+
     UILabel *titleLabel = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
+
     NSString* subtitle = nil;
     NSString* cellTitle = nil;
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.textLabel.text = nil;
+
     switch (indexPath.section)
 	{
 		case 0:
@@ -326,7 +350,7 @@
 			NSString *identifier = [profile objectForKey:@"identifier"];
 			
 			cell.textLabel.text = identifier;
-			cell.detailTextLabel.text = nil;	
+			cell.detailTextLabel.text = nil;
 			break;
 		}	
 		case 1:
@@ -360,12 +384,23 @@
 		}
         case 5:
         {
-            cellTitle = [[captureProfile allKeys] objectAtIndex:indexPath.row];
+            cellTitle = [[captureProfile allKeysOrdered] objectAtIndex:indexPath.row];
+
+            NSObject *val = [captureProfile objectForKey:cellTitle];
+            if ([val isKindOfClass:[NSDictionary class]] || [val isKindOfClass:[NSArray class]])
+            {
+                subtitle = nil;
+            }
+            else
+            {
+                subtitle = [captureProfile objectForKey:cellTitle];
+            }
             break;
         }
         case 6:
         {
-            cellTitle = [[captureCredentials allKeys] objectAtIndex:indexPath.row];
+            cellTitle = [[captureCredentials allKeysOrdered] objectAtIndex:indexPath.row];
+            subtitle = [captureCredentials objectForKey:cellTitle];
             break;
         }
 		default:
@@ -374,24 +409,66 @@
 	
     if (indexPath.section != 0)
     {
-        if (![subtitle isKindOfClass:[NSString class]])
-            subtitle = [NSString stringWithFormat:@"%@", subtitle];
-        
-        titleLabel.text = cellTitle;
-        
+        if (subtitle == nil)
+        {
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+            cell.textLabel.text = cellTitle;
+            subtitleLabel.text = nil;
+            titleLabel.text = nil;
+        }
+        else
+        {
+            if (![subtitle isKindOfClass:[NSString class]])
+                subtitle = [NSString stringWithFormat:@"%@", subtitle];
+
+            subtitleLabel.text = subtitle;
+            titleLabel.text = cellTitle;
+        }
+
 //        if ([cellTitle isEqualToString:@"oauthTokenSecret"] || 
 //            [cellTitle isEqualToString:@"sessionKey"] || 
 //            [cellTitle isEqualToString:@"eact"] || 
 //            [cellTitle isEqualToString:@"accessToken"])
 //            subtitleLabel.text = @"***********************************";
 //        else
-            subtitleLabel.text = subtitle;
+//            subtitleLabel.text = subtitle;
     }
     
 	return cell;
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath { }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if ([indexPath section] != 5) return;
+    NSString *header = [[captureProfile allKeysOrdered] objectAtIndex:indexPath.row];
+
+    NSDictionary *dict;
+    NSObject *val = [captureProfile objectForKey:header];
+    if ([val isKindOfClass:[NSDictionary class]])
+    {
+        dict = (NSDictionary *) val;
+    }
+    else if ([val isKindOfClass:[NSArray class]])
+    {
+        NSArray *val_ = (NSArray *)val;
+        NSMutableDictionary *dict_ = [NSMutableDictionary dictionary];
+        for (NSUInteger i=0; i<[val_ count]; i++)
+        {
+            [dict_ setObject:[val_ objectAtIndex:i] forKey:[NSString stringWithFormat:@"%d", i]];
+        }
+        dict = dict_;
+    }
+    else
+    {
+        return;
+    }
+    ProfileDrilldownViewController *drillDown =
+            [[ProfileDrilldownViewController alloc] initWithDictionary:dict header:header];
+    [[self navigationController] pushViewController:drillDown animated:YES];
+}
+
 //- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath { }
 
 - (IBAction)signOutButtonPressed:(id)sender

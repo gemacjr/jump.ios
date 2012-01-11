@@ -67,7 +67,7 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)setUpNavigationBarForPad
 {
-    [myRightView addSubview:level2ViewController.view];
+    [myRightView addSubview:userDetailsViewController.view];
 
     mySignOutButtonPad =
     [[UIBarButtonItem alloc] initWithTitle:@"Sign Out"
@@ -177,10 +177,10 @@ Copyright (c) 2010, Janrain, Inc.
         iPad = YES;
 
     if (iPad)
-        level2ViewController = [[UserDetailsViewController alloc] initWithNibName:@"QSIViewControllerLevel2-iPad"
+        userDetailsViewController = [[UserDetailsViewController alloc] initWithNibName:@"QSIViewControllerLevel2-iPad"
                                                                       bundle:[NSBundle mainBundle]];
     else
-        level2ViewController = [[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController"
+        userDetailsViewController = [[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController"
                                                                       bundle:[NSBundle mainBundle]];
 
     if (iPad)
@@ -308,7 +308,7 @@ Copyright (c) 2010, Janrain, Inc.
 {
     if (iPad)
     {
-        [level2ViewController clearUser:YES];
+        [userDetailsViewController clearUser:YES];
         [mySelectedProfilePad setText:nil];
     }
 }
@@ -626,7 +626,9 @@ Copyright (c) 2010, Janrain, Inc.
                                     [[[UserModel getUserModel] signinHistory] objectAtIndex:indexPath.row];
 
     NSString *identifier = [userForCell objectForKey:@"identifier"];
-    NSDictionary* userProfile = [[[[UserModel getUserModel] userProfiles] objectForKey:identifier] objectForKey:@"profile"];
+    NSDictionary *t = [[UserModel getUserModel] userProfiles];
+    NSDictionary *t_ = [t objectForKey:identifier];
+    NSDictionary* userProfile = [t_ objectForKey:@"profile"];
 
 
     NSString* displayName = [UserModel getDisplayNameFromProfile:userProfile];
@@ -657,14 +659,14 @@ Copyright (c) 2010, Janrain, Inc.
 
     if (iPad)
     {
-        [level2ViewController clearUser:NO];
-        [level2ViewController loadUser:YES];
-        [mySelectedProfilePad setText:level2ViewController.title];
+        [userDetailsViewController clearUser:NO];
+        [userDetailsViewController loadUser:YES];
+        [mySelectedProfilePad setText:userDetailsViewController.title];
     }
     else
     {
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
-        [[self navigationController] pushViewController:level2ViewController animated:YES];
+        [[self navigationController] pushViewController:userDetailsViewController animated:YES];
     }
 }
 
@@ -719,7 +721,7 @@ Copyright (c) 2010, Janrain, Inc.
 
     if (iPad)
     {
-        [level2ViewController clearUser:YES];
+        [userDetailsViewController clearUser:YES];
         [self fadeCustomNavigationBarItems:0.0];
 
         if (libraryDialogShowing)
@@ -746,7 +748,7 @@ Copyright (c) 2010, Janrain, Inc.
     [mySplitViewPad release];
     [mySelectedProfilePad release];
     [myRightView release];
-    [level2ViewController release];
+    [userDetailsViewController release];
 
     [super dealloc];
 }

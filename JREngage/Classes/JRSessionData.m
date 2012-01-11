@@ -1600,7 +1600,7 @@ CALL_DELEGATE_SELECTOR:
                                 andPayload:payload
                                forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
         }
-        if ([action isEqualToString:@"downloadPicture"])
+        else if ([action isEqualToString:@"downloadPicture"])
         {
             // TODO: Later, make this more dynamic, and not fixed to just pngs.
             if ([[fullResponse MIMEType] isEqualToString:@"image/png"])

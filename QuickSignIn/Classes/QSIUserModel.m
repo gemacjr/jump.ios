@@ -53,6 +53,7 @@
 @implementation UserModel
 @synthesize currentUser;
 @synthesize selectedUser;
+@synthesize authInfo;
 @synthesize loadingUserData;
 @synthesize customInterface;
 @synthesize navigationController;
@@ -366,29 +367,32 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
     if (currentUser)
         [self finishSignUserOut];
 
- /* Get the identifier and normalize it (remove html escapes) */
-    identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"] stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
+    /* Get the identifier and normalize it (remove html escapes) */
+    identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"]
+            stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
 
- /* Get the display name */
+    /* Get the display name */
     displayName = [[UserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
 
  /* Store the current user's profile dictionary in the dictionary of users,
     using the identifier as the key, and then save the dictionary of users */
-    NSDictionary *tmp = [prefs objectForKey:@"userProfiles"];
+    NSDictionary *tmpProfiles = [prefs objectForKey:@"userProfiles"];
 
  /* If this profile doesn't already exist in the dictionary of saved profiles */
-    if (![tmp objectForKey:identifier])
+    if (![tmpProfiles objectForKey:identifier])
     {
      /* Create a mutable dictionary from the non-mutable NSUserDefaults dictionary, */
-        NSMutableDictionary* profiles = [[NSMutableDictionary alloc]
-                                        initWithCapacity:([tmp count] + 1)];
-        [profiles addEntriesFromDictionary:tmp];
+        NSMutableDictionary* newProfiles = [[NSMutableDictionary alloc]
+                                        initWithCapacity:([tmpProfiles count] + 1)];
+        [newProfiles addEntriesFromDictionary:tmpProfiles];
 
      /* add the user's profile to the dictionary, indexed by the identifier, and save. */
-        [profiles setObject:user forKey:identifier];
-        [prefs setObject:profiles forKey:@"userProfiles"];
+        [newProfiles setObject:user forKey:identifier];
+        [prefs setObject:newProfiles forKey:@"userProfiles"];
+        NSDictionary *t = [prefs objectForKey:@"userProfiles"];
 
-        [profiles release];
+
+        [newProfiles release];
     }
 
  /* Get the approximate timestamp of the user's log in */
@@ -560,13 +564,100 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
     if(!auth_info) // Then there was an error
         return; // TODO: Manage error
 
-    [self finishSignUserIn:auth_info];
+    authInfo = [[NSMutableDictionary dictionaryWithDictionary:auth_info] retain];
+//    [self finishSignUserIn:auth_info];
+}
+
+/**
+ * Horrible hack to remove NSNulls from profile data to allow it to be stored in an NSUserDefaults
+ * (Capture profiles can have null values and JSONKit parses them to NSNulls, but Engage profiles don't and so
+ * didn't trigger this incompatibility.)
+ */
+- (id)nullWalker:(id)structure;
+{
+    if ([structure isKindOfClass:[NSDictionary class]])
+    {
+        NSDictionary *dict = (NSDictionary *) structure;
+        NSMutableDictionary *retval = [NSMutableDictionary dictionary];
+        NSArray *keys = [dict allKeys];
+        for (NSString *key in keys) 
+        {
+            NSObject *val = [dict objectForKey:key];
+            if ([val isKindOfClass:[NSNull class]])
+            {
+                // don't add
+            }
+            else if ([val isKindOfClass:[NSDictionary class]])
+            {
+                [retval setObject:[self nullWalker:val] forKey:key];
+            }
+            else if ([val isKindOfClass:[NSArray class]])
+            {
+                [retval setObject:[self nullWalker:val] forKey:key];
+            }
+            else
+            {
+                [retval setObject:val forKey:key];
+            }
+        }
+        return retval;
+    }
+    else if ([structure isKindOfClass:[NSArray class]])
+    {
+        NSArray *array = (NSArray *) structure;
+        NSMutableArray *retval = [NSMutableArray array];
+        for (NSObject *val in array)
+        {
+            if ([val isKindOfClass:[NSNull class]])
+            {
+                // don't add
+            }
+            else if ([val isKindOfClass:[NSDictionary class]])
+            {
+                [retval addObject:[self nullWalker:val]];
+            }
+            else if ([val isKindOfClass:[NSArray class]])
+            {
+                [retval addObject:[self nullWalker:val]];
+            }
+            else
+            {
+                [retval addObject:val];
+            }
+        }
+        return retval;
+    }
+    else 
+    {
+        // crash horribly
+        assert(0);
+        return nil;
+    }
 }
 
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response
                               andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 {
     DLog(@"");
+
+    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
+//    DLog(@"%@", payload);
+
+    NSDictionary* payloadDict = [payload objectFromJSONString];
+
+    NSDictionary* captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
+    NSString* captureToken = [payloadDict objectForKey:@"access_token"];
+    NSDictionary* captureCredential = [NSDictionary dictionaryWithObject:captureToken forKey:@"access_token"];
+
+    if (captureProfile)
+        [authInfo setObject:captureProfile forKey:@"captureProfile"];
+    if (captureCredential)
+        [authInfo setObject:captureCredential forKey:@"captureCredentials"];
+
+    // XXX hack for Capture mobile demo
+    [self finishSignUserIn:authInfo];
+    authInfo = nil;
+
     UIApplication* app = [UIApplication sharedApplication];
     app.networkActivityIndicatorVisible = NO;
 
@@ -574,18 +665,6 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
 
     [tokenUrlDelegate didReachTokenUrl];
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
-
-    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
-    DLog(@"%@", payload);
-
-    NSDictionary* payloadDict = [payload objectFromJSONString];
-
-    NSDictionary* captureProfile = [payloadDict objectForKey:@"profile"];
-    NSString* captureToken = [payloadDict objectForKey:@"access_token"];
-    NSDictionary* captureCredential = [NSDictionary dictionaryWithObject:captureToken forKey:@"access_token"];
-
-    [currentUser setObject:captureProfile forKey:@"captureProfile"];
-    [currentUser setObject:captureCredential forKey:@"captureCredential"];
 
 
 //  NSRange found = [payload rangeOfString:@"{"];
