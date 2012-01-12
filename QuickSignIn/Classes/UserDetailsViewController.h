@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2010, Janrain, Inc.
 
 	All rights reserved.
@@ -7,10 +7,10 @@
 	are permitted provided that the following conditions are met:
 
 	* Redistributions of source code must retain the above copyright notice, this
-		list of conditions and the following disclaimer. 
-	 * Redistributions in binary form must reproduce the above copyright notice, 
+		list of conditions and the following disclaimer.
+	 * Redistributions in binary form must reproduce the above copyright notice,
 		 this list of conditions and the following disclaimer in the documentation and/or
-		 other materials provided with the distribution. 
+		 other materials provided with the distribution.
 	* Neither the name of the Janrain, Inc. nor the names of its
 		contributors may be used to endorse or promote products derived from this
 		software without specific prior written permission.
@@ -24,7 +24,7 @@
 	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
 	ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
  File:	 QSIViewControllerLevel2.h
@@ -39,27 +39,38 @@
 														UITableViewDelegate, UITableViewDataSource>
 {
     BOOL iPad;
-    
+
 	IBOutlet UITableView     *myTableView;
 	IBOutlet UIBarButtonItem *myToolBarButton;
     IBOutlet UILabel         *myLabel;
 
 	NSDictionary	*selectedUser;
 
-    NSDictionary    *captureProfile;
-    NSDictionary    *captureCredentials;
-    
 	NSDictionary	*profile;
 	NSArray         *profileKeys;
-    
+    NSInteger        PROFILE_SECTION_INDEX;
+
     NSDictionary	*accessCredentials;
 	NSArray         *accessCredentialsKeys;
-    
+    NSInteger        ACCESS_CREDENTIALS_SECTION_INDEX;
+
     NSDictionary	*mergedPoco;
 	NSArray         *mergedPocoKeys;
-    
+    NSInteger        MERGED_POCO_SECTION_INDEX;
+
     NSMutableArray	*friends;
 	NSArray         *friendsKeys;
+    NSInteger        FRIENDS_SECTION_INDEX;
+
+    NSDictionary    *captureProfile;
+    NSArray         *captureProfileOrderedKeys;
+    NSInteger        CAPTURE_PROFILE_SECTION_INDEX;
+
+    NSDictionary    *captureCredentials;
+    NSArray         *captureCredentialsOrderedKeys;
+    NSInteger        CAPTURE_CREDENTIALS_SECTION_INDEX;
+
+    NSInteger numberOfSections;
 }
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)loadUser:(BOOL)animated;

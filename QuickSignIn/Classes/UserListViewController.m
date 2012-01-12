@@ -32,9 +32,48 @@ Copyright (c) 2010, Janrain, Inc.
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import <UIKit/UIKit.h>
 #import "UserListViewController.h"
-#import "QSIUserModel.h"
+
+@interface UserListTableViewCell : UITableViewCell
+{
+//  UIImageView *icon;
+}
+//@property (nonatomic, retain) UIImageView *icon;
+@end
+
+@implementation UserListTableViewCell
+//@synthesize icon;
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]))
+    {
+//      [self addSubview:icon];
+    }
+
+    return self;
+}
+
+- (void) layoutSubviews
+{
+    [super layoutSubviews];
+
+//    CGRect mframe = self.frame;
+//    CGRect cframe = self.contentView.frame;
+
+//    self.contentView.frame = CGRectMake(self.contentView.frame.origin.x,
+//                                        self.contentView.frame.origin.y,
+//                                        self.frame.size.width,
+//                                        self.frame.size.height);
+
+    CGFloat titleWidth    = ((self.contentView.frame.size.width - 70) * 4) / 8;
+    CGFloat subtitleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
+
+    self.imageView.frame = CGRectMake(10, 10, 30, 30);
+    self.textLabel.frame = CGRectMake(50, 15, titleWidth, 22);
+    self.detailTextLabel.frame = CGRectMake(titleWidth + 60, 20, subtitleWidth, 15);
+}
+@end
 
 @interface UserListViewController ()
 - (void)fadeCustomNavigationBarItems:(CGFloat)alpha;
@@ -44,13 +83,6 @@ Copyright (c) 2010, Janrain, Inc.
 - (void)setDoneToEdit;
 - (void)setEditButtonEnabled:(BOOL)disabled;
 - (void)readjustNavBarForPadRotation:(UIInterfaceOrientation)toInterfaceOrientation;
-@end
-
-@interface UserListTableViewCell : UITableViewCell
-{
-//  UIImageView *icon;
-}
-//@property (nonatomic, retain) UIImageView *icon;
 @end
 
 @implementation UserListViewController
@@ -453,7 +485,6 @@ Copyright (c) 2010, Janrain, Inc.
         self.navigationItem.rightBarButtonItem.enabled = NO;
     }
 
-
 //#else
 //  [[UserModel getUserModel] startSignUserOut:self];
 //  [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(delaySignIn:) userInfo:nil repeats:NO];
@@ -617,28 +648,33 @@ Copyright (c) 2010, Janrain, Inc.
     UserListTableViewCell*cell =
         (UserListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"cachedCell"];
 
+    UserModel *sharedUserModel = [UserModel getUserModel];
+
     if (!cell || indexPath.section == 0)
         cell = [[[UserListTableViewCell alloc]
              initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cachedCell"] autorelease];
 
     NSDictionary *userForCell = (indexPath.section == 0) ?
-                                    [[UserModel getUserModel] currentUser] :
-                                    [[[UserModel getUserModel] signinHistory] objectAtIndex:indexPath.row];
+                                    [sharedUserModel currentUser] :
+                                    [[sharedUserModel signinHistory] objectAtIndex:(NSUInteger)indexPath.row];
 
-    NSString *identifier = [userForCell objectForKey:@"identifier"];
-    NSDictionary *t = [[UserModel getUserModel] userProfiles];
-    NSDictionary *t_ = [t objectForKey:identifier];
-    NSDictionary* userProfile = [t_ objectForKey:@"profile"];
+    NSString     *identifier  = [userForCell objectForKey:@"identifier"];
+    NSDictionary *userProfile = [[[sharedUserModel userProfiles]
+                                              objectForKey:identifier]
+                                              objectForKey:@"profile"];
+
+//    NSDictionary *t = [[UserModel getUserModel] userProfiles];
+//    NSDictionary *t_ = [t objectForKey:identifier];
+//    NSDictionary *userProfile = [t_ objectForKey:@"profile"];
 
 
-    NSString* displayName = [UserModel getDisplayNameFromProfile:userProfile];
-    NSString* subtitle = [userForCell objectForKey:@"timestamp"];
-    NSString *imagePath = [NSString stringWithFormat:@"icon_%@_30x30.png",
-                           [userForCell objectForKey:@"provider"]];
+    NSString *displayName = [UserModel getDisplayNameFromProfile:userProfile];
+    NSString *subtitle    = [userForCell objectForKey:@"timestamp"];
+    NSString *imagePath   = [NSString stringWithFormat:@"icon_%@_30x30.png", [userForCell objectForKey:@"provider"]];
 
-    cell.textLabel.text = displayName;
+    cell.textLabel.text       = displayName;
     cell.detailTextLabel.text = subtitle;
-    cell.imageView.image = [UIImage imageNamed:imagePath];
+    cell.imageView.image      = [UIImage imageNamed:imagePath];
 
     if (!iPad)
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -751,43 +787,5 @@ Copyright (c) 2010, Janrain, Inc.
     [userDetailsViewController release];
 
     [super dealloc];
-}
-@end
-
-@implementation UserListTableViewCell
-//@synthesize icon;
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
-    {
-//      [self addSubview:icon];
-    }
-
-    return self;
-}
-
-- (void) layoutSubviews
-{
-    [super layoutSubviews];
-
-//    CGRect mframe = self.frame;
-//    CGRect cframe = self.contentView.frame;
-
-//    self.contentView.frame = CGRectMake(self.contentView.frame.origin.x,
-//                                        self.contentView.frame.origin.y,
-//                                        self.frame.size.width,
-//                                        self.frame.size.height);
-
-    CGFloat titleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
-    CGFloat subtitleWidth = ((self.contentView.frame.size.width - 70) * 4) / 8;
-
-    self.imageView.frame = CGRectMake(10, 10, 30, 30);
-    self.textLabel.frame = CGRectMake(50, 15, titleWidth, 22);
-    self.detailTextLabel.frame = CGRectMake(titleWidth + 60, 20, subtitleWidth, 15);
-
-//    [self.textLabel setBackgroundColor:[UIColor redColor]];
-//    [self.detailTextLabel setBackgroundColor:[UIColor redColor]];
-//    [self.contentView setBackgroundColor:[UIColor yellowColor]];
 }
 @end
