@@ -78,6 +78,7 @@ typedef enum
 typedef enum
 {
     JRPublishFailedError = 300,
+    JRPublishCanceledError,
     JRPublishErrorBadConnection,
     JRPublishErrorActivityNil,
     JRPublishErrorMissingParameter,
