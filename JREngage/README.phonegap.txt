@@ -1,8 +1,8 @@
-Using the Janrain Engage for iOS PhoneGap Plugin
+Using the Janrain Engage for iOS and Android PhoneGap Plugin
 ==========================================================================
 
-If you haven't already, please download the PhoneGap SDK and create an iOS PhoneGap application 
-(http://phonegap.com/start/#ios-x4)
+If you haven't already, please download the PhoneGap SDK and create a PhoneGap application 
+(http://phonegap.com/start/#ios-x or http://phonegap.com/start/#android)
 
 
 Getting Janrain Engage for iOS
@@ -14,6 +14,18 @@ Clone the Janrain Engage for iOS library from GitHub:
 Check out the phonegap branch:
   $ git checkout phonegap
   $ git pull
+
+
+Getting Janrain Engage for Android
+--------------------------------------------------------------------------
+
+Clone the Janrain Engage for Android library from GitHub:
+  $ git clone git://github.com/janrain/engage.android.git
+  
+Check out the phonegap branch:
+  $ git checkout phonegap
+  $ git pull
+  
   
   
 Add the Library to Your Xcode Project (Xcode 4)
@@ -37,7 +49,7 @@ Add the Library to Your Xcode Project (Xcode 4)
 
 6. In the dialog, do NOT check the "Copy items into destination group's folder (if needed)" box*,
    make sure the "Create groups for any added folders" is selected, and that the "Add to targets" 
-   check box is selected for your app lication's targets. Click Add.
+   check box is selected for your app location's targets. Click Add.
 
 7. You must also add the Security framework and the MessageUI framework to your project. As the
    MessageUI framework is not available on all iOS devices and versions, you must designate the 
@@ -48,34 +60,85 @@ Add the Library to Your Xcode Project (Xcode 4)
   The JREngage folder should appear yellow.
 
 
+Add the Library to Your Eclipse Project (Eclipse Indigo)
+--------------------------------------------------------------------------
+
+1. Open your project in Eclipse.
+
+2. Import the JREngage project into your workspace:
+ 2.1 File > Import... 
+ 2.2 Choose General > Existing Projects into Workspace
+ 2.3 Click Select root directory
+ 2.4 Click Browse
+ 2.5 Browse to engage.android, click Open
+ 2.6 Click Deselect All
+ 2.7 Check JREngagePhonegapPlugin
+ 2.8 Check JREngage
+ 2.9 Click Finish
+
+3. Configure your projects build SDK to API level 13 or higher.
+   Note that the build SDK is not the lowest required version of Android, and it is not the
+   targeted version of Android, it is only the version of Android used to compile.
+
+4. Add a dependency to JREngagePhonegapPlugin: 
+ 4.1 Open the Properties dialog for your Phonegap project
+ 4.2 Select the Android section from the list on the left.
+ 4.2.1 In the Library section of the open pane click Add
+ 4.2.2 Choose JREngagePhonegapPlugin
+ 4.2.3 Click OK
+ 4.2.4 In the Library section of the open pane click Add
+ 4.2.5 Choose JREngage
+ 4.2.6 Click OK
+ 4.3 Select the Java Build Path section from the list on the left
+ 4.3.1 Select the Libraries tab
+ 4.3.2 Select Add JARs...
+ 4.3.3 Choose JREngage/libs/android-support-v4.jar
+
+5. Add the plugin declaration to res/xml/plugins.xml:
+ 5.1 Open res/xml/plugins.xml with a text editor
+ 5.2 As a child node of the <plugins> node, add the following:
+       <plugin name="JREngagePlugin" value="com.janrain.android.engage.JREngagePhonegapPlugin"/> 
+
+6. Add the JREngage activity declarations to your Phonegap project's AndroidManifest.xml:
+ 6.1 Open your Phonegap project's AndroidManifest.xml with a text editor
+ 6.2 Open JREngage/AndroidManifest.xml with a text editor
+ 6.3 Copy the activity declarations from the JREngage manifest into your project's manifest.
+     Add them as child nodes of the <application> node.
+
+
 Add the Javascript Plugin
 --------------------------------------------------------------------------
 
 To use the JREngage plugin, you must add the JREngagePlugin.js file to your www directory.
 
-Following PhoneGap's instructions, the www directory should have been added as a "folder reference" 
-to your Xcode project (denoted with a blue folder).  Copying the JREngagePlugin file to this
-directory should add it to your Xcode project.
+Xcode: 
+    Following PhoneGap's instructions, the www directory should have been added as a "folder reference" 
+    to your Xcode project (denoted with a blue folder).  Copying the JREngagePlugin file to this
+    directory should add it to your Xcode project. 
 
-Copy* the engage.iphone/JREngage/JREngagePlugin.js file to the www directory.
+    Copy* the engage.iphone/JREngage/JREngagePlugin.js file to the www directory.
+
+Eclipse: 
+    Copy engage.android/JREngagePhonegapPlugin/JREngagePlugin.js to the www directory.
 
 * If you copy the file, as opposed to moving it, updating the plugin will be easier in the future. 
 After you update, please make sure to copy the latest version of the file into the www directory.
 
 You will also have to whitelist the domains that are called by the JREngage library.
 
-In the file PhoneGap.plist, if it is not already present, add the ExternalHosts key to the xml
-dictionary, add an array as the value, and add strings to the array for each host you would
-like to white list.
+Xcode:
+    In the file PhoneGap.plist, if it is not already present, add the ExternalHosts key to the xml
+    dictionary, add an array as the value, and add strings to the array for each host you would
+    like to white list.
 
   <key>ExternalHosts</key>
     <array>
-      <string>*.rpxnow.com</string>   <!-- Engage Server -->
-      <string>*.appspot.com</string>  <!-- Token URL -->
-      <string>*.facebook.com</string> <!-- Provider -->
-      <string>*.google.com</string>   <!-- Provider -->
-      <string>*.yahoo.com</string>    <!-- Provider -->
-      <string>*.myspace.com</string>  <!-- Provider -->
+      <string>*.rpxnow.com</string>        <!-- Engage Server -->
+      <string>*.yourtokenurl.com</string>  <!-- Token URL -->
+      <string>*.facebook.com</string>      <!-- Provider -->
+      <string>*.google.com</string>        <!-- Provider -->
+      <string>*.yahoo.com</string>         <!-- Provider -->
+      <string>*.myspace.com</string>       <!-- Provider -->
         ...
     </array>
 
@@ -92,7 +155,7 @@ Load the Javascript plugin from your index.html file (or whichever html file is 
 
       <script type="text/javascript" charset="utf-8" src="JREngagePlugin.js"></script>
 
-You will want to instantiate the JREngage plugin before you need to use it, so that it can obtain 
+You will want to initialize the JREngage plugin before you need to use it, so that it can obtain 
 your configured providers from the Engage server.  In the appropriate Javascript function, create 
 the JREngage instance and initialize the instance with your Engage application's Application ID, 
 your server's token URL, and callback functions:
@@ -117,7 +180,7 @@ your server's token URL, and callback functions:
       }
   );
 
-The jrEngage.initialize takes four arguments, your RP's Application ID, your 
+The jrEngage.initialize takes four arguments, your Engage Application ID, your 
 server's token URL, and success and failure callback functions.
 
 Note: Most errors that occur during initialization will not be reported to your application until
@@ -149,19 +212,19 @@ The showAuthentication function takes two arguments, a success callback function
 callback function.  The callback functions should take one argument each, result and error, 
 respectively (though you can name your arguments however you choose).
 
-Both the result and error arguments will contain a json object that your application can parse to 
+Both the result and error arguments will contain a JSON object that your application can parse to 
 get the appropriate information from the JREngage plugin.
 
-The result json object contains the following keys and values:
+The result JSON object contains the following keys and values:
 Key               Type        Value
 stat              String      'ok'
-auth_info         Dictionary  A dictionary containing the profile data of the 
+auth_info         Object      An object containing the profile data of the 
                               authenticating user.  Detailed documentation of the
                               auth_info object can be found at 
                               http://documentation.janrain.com/engage/api/auth_info
 provider          String      The provider on which the user authenticated.
 tokenUrl          String      The token URL you provided
-tokenUrlPayload   Unknown     The data returned to the library from your token URL.    
+tokenUrlPayload   String      The response returned to the library from your token URL.    
                               What this data contains depends on your implementation 
                               of your token URL.
                               
@@ -190,7 +253,7 @@ Example:
 }
 
 
-The error json object contains the following keys and values:
+The error JSON object contains the following keys and values:
 Key               Type        Value
 stat              String      'fail'
 code              Integer     An enumerated code representing the type of error.
@@ -203,7 +266,7 @@ Example:
   "code":"103"
 }
 
-To parse the error code based on its type, do something as follows:
+To parse the error code based on its type, do as follows:
     var code = errorDictionary.code;
 
     if (code == jrEngage.JRUrlError) {
@@ -248,7 +311,7 @@ To begin social sharing, call the showSharing method on your JREngage instance:
       }
   );
 
-The showSharing function takes three arguments, a json encoded activity object, a success callback
+The showSharing function takes three arguments, a JSON encoded activity object, a success callback
 function, and a failure callback function.  The callback functions should take one argument each, 
 result and error, respectively (though you can name your arguments however you choose).
 
@@ -268,13 +331,13 @@ actionLinks         Array       An array of action link objects, each having two
                                 attributes: text and href. An action link is a link a user
                                 can use to take action on an activity update on the provider.
 media               Array       An array of media objects, of type image, flash, or mp3.
-properties          Dictionary  An object with attributes describing properties of 
+properties          Object      An object with attributes describing properties of 
                                 the update. An attribute value can be a string or an object 
                                 with two attributes, text and href.
-email               Dictionary  An object containing the subject and message body of 
+email               Object      An object containing the subject and message body of 
                                 an email, if the user wishes to share via email.
-sms                 Dictionary  An object containing the message body of an sms, if 
-                                the user wishes to share via sms.
+sms                 Object      An object containing the message body of an SMS, if 
+                                the user wishes to share via SMS.
  
  
 An action link object should contain the following keys and values:
@@ -318,7 +381,7 @@ urls                String      An array of URLs that will be shortened to the h
                                 so that click-through rates can be tracked
 
 
-An sms object should contain the following keys and values:
+An SMS object should contain the following keys and values:
 Key                 Type        Value
 message             String      The desired message
 urls                String      An array of URLs that will be shortened to the http://rpx.me domain 
@@ -387,7 +450,7 @@ Sms Object Example:
 
 
 
-Both the result and error arguments will contain a json object that your application can parse to
+Both the result and error arguments will contain a JSON object that your application can parse to
 get the appropriate information from the JREngage plugin.
 
 The result json object contains the following keys and values:
@@ -408,7 +471,6 @@ Example:
   "message":"There was a problem communicating with the Janrain server while configuring authentication.",
   "code":"103"
 }
-
 
 
 
