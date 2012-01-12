@@ -29,7 +29,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface ProfileDrilldownViewController : UIViewController <UINavigationBarDelegate,
+@interface ProfileDrillDownViewController : UIViewController <UINavigationBarDelegate,
 														UITableViewDelegate, UITableViewDataSource>
 {
 	UITableView *myTableView;

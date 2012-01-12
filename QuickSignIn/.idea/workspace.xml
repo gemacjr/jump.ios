@@ -5,7 +5,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/UserDetailsViewController.h" afterPath="$PROJECT_DIR$/Classes/UserDetailsViewController.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/UserDetailsViewController.m" afterPath="$PROJECT_DIR$/Classes/UserDetailsViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/UserListViewController.m" afterPath="$PROJECT_DIR$/Classes/UserListViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/QuickSignIn.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/QuickSignIn.xcodeproj/project.pbxproj" />
     </list>
     <ignored path="QuickSignIn.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,24 +28,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ProfileDrilldownViewController.h" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/ProfileDrilldownViewController.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="17" selection-start="1980" selection-end="1980" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProfileDrilldownViewController.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/ProfileDrilldownViewController.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="241" column="8" selection-start="7886" selection-end="7886" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="UserListViewController.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/UserListViewController.m">
           <provider selected="true" editor-type-id="text-editor">
@@ -55,10 +37,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserDetailsViewController.m" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="UserDetailsViewController.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/UserDetailsViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="138" column="52" selection-start="4479" selection-end="4479" vertical-scroll-proportion="0.32444444">
+            <state line="497" column="5" selection-start="16905" selection-end="16905" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProfileDrillDownViewController.h" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/ProfileDrillDownViewController.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="62" selection-start="1437" selection-end="1437" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProfileDrillDownViewController.m" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Classes/ProfileDrillDownViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="245" column="93" selection-start="8034" selection-end="8034" vertical-scroll-proportion="3.8484848">
               <folding />
             </state>
           </provider>
@@ -67,7 +67,7 @@
       <file leaf-file-name="UserDetailsViewController.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/UserDetailsViewController.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="31" selection-start="2967" selection-end="2967" vertical-scroll-proportion="0.0">
+            <state line="36" column="42" selection-start="1906" selection-end="1906" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -105,11 +105,13 @@
         <option value="$PROJECT_DIR$/Classes/QSIUserModel.h" />
         <option value="$PROJECT_DIR$/../JREngage/Classes/JRSessionData.m" />
         <option value="$PROJECT_DIR$/Classes/QSIUserModel.m" />
-        <option value="$PROJECT_DIR$/Classes/ProfileDrilldownViewController.h" />
-        <option value="$PROJECT_DIR$/Classes/ProfileDrilldownViewController.m" />
         <option value="$PROJECT_DIR$/Classes/UserListViewController.m" />
+        <option value="$PROJECT_DIR$/Classes/ProfileDrilldownViewController.m" />
+        <option value="$PROJECT_DIR$/Classes/ProfileDrilldownViewController.h" />
         <option value="$PROJECT_DIR$/Classes/UserDetailsViewController.h" />
         <option value="$PROJECT_DIR$/Classes/UserDetailsViewController.m" />
+        <option value="$PROJECT_DIR$/Classes/ProfileDrillDownViewController.h" />
+        <option value="$PROJECT_DIR$/Classes/ProfileDrillDownViewController.m" />
       </list>
     </option>
   </component>
@@ -353,17 +355,17 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840237" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840237" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15831344" sideWeight="0.42307693" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988167" sideWeight="0.0" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24982357" sideWeight="0.31034482" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5769231" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5769231" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988167" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891247" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -421,15 +423,11 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/Classes/UserDetailsViewController.m</url>
-          <line>582</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/Classes/ProfileDrilldownViewController.m</url>
-          <line>222</line>
+          <line>581</line>
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/Classes/UserDetailsViewController.m</url>
-          <line>174</line>
+          <line>173</line>
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -501,23 +499,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/ProfileDrilldownViewController.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="17" selection-start="1980" selection-end="1980" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/QSIUserModel.m">
       <provider selected="true" editor-type-id="text-editor">
         <state line="32" column="0" selection-start="1879" selection-end="2123" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/ProfileDrilldownViewController.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="241" column="8" selection-start="7886" selection-end="7886" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -531,14 +515,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/UserDetailsViewController.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="31" selection-start="2967" selection-end="2967" vertical-scroll-proportion="0.0">
+        <state line="36" column="42" selection-start="1906" selection-end="1906" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/UserDetailsViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="52" selection-start="4479" selection-end="4479" vertical-scroll-proportion="0.32444444">
+        <state line="497" column="5" selection-start="16905" selection-end="16905" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/ProfileDrillDownViewController.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="62" selection-start="1437" selection-end="1437" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/ProfileDrillDownViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="245" column="93" selection-start="8034" selection-end="8034" vertical-scroll-proportion="3.8484848">
           <folding />
         </state>
       </provider>

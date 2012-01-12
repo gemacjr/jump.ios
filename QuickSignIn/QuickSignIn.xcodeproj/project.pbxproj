@@ -201,7 +201,7 @@
 		9FB40A3612414DC500FDDA7B /* QuickSignInAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */; };
 		9FBE274412A713F600E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE274312A713F600E1F93E /* Security.framework */; };
 		C01FCF5008A954540054247D /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247C /* UserListViewController.m */; };
-		C01FCF5008A954540054247F /* ProfileDrilldownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247E /* ProfileDrilldownViewController.m */; };
+		C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -421,8 +421,8 @@
 		9FB40A3712414DD200FDDA7B /* Quick_Sign_In_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_Sign_In_Prefix.pch; sourceTree = "<group>"; };
 		9FBE274312A713F600E1F93E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C01FCF5008A954540054247C /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListViewController.m; path = UserListViewController.m; sourceTree = "<group>"; };
-		C01FCF5008A954540054247E /* ProfileDrilldownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDrilldownViewController.m; sourceTree = "<group>"; };
-		C01FCF5008A9545400542480 /* ProfileDrilldownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDrilldownViewController.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054247E /* ProfileDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDrillDownViewController.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDrillDownViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -444,8 +444,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				C01FCF5008A9545400542480 /* ProfileDrilldownViewController.h */,
-				C01FCF5008A954540054247E /* ProfileDrilldownViewController.m */,
+				C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */,
+				C01FCF5008A954540054247E /* ProfileDrillDownViewController.h */,
 				C01FCF5008A954540054247C /* UserListViewController.m */,
 				9FB40A3012414DC500FDDA7B /* QuickSignInAppDelegate.h */,
 				9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */,
@@ -1155,7 +1155,7 @@
 				9F7BC22A146888A80068BD40 /* JRInfoBar.m in Sources */,
 				9F7BC22B146888A80068BD40 /* JRPreviewLabel.m in Sources */,
 				C01FCF5008A954540054247D /* UserListViewController.m in Sources */,
-				C01FCF5008A954540054247F /* ProfileDrilldownViewController.m in Sources */,
+				C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

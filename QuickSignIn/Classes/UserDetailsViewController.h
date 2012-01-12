@@ -34,6 +34,7 @@
 
 #import <UIKit/UIKit.h>
 #import "QSIUserModel.h"
+#import "ProfileDrillDownViewController.h"
 
 @interface UserDetailsViewController : UIViewController <UINavigationBarDelegate, UserModelDelegate,
 														UITableViewDelegate, UITableViewDataSource>

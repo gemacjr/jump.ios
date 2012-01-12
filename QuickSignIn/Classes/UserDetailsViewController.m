@@ -33,7 +33,6 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "UserDetailsViewController.h"
-#import "ProfileDrilldownViewController.h"
 
 @interface NSDictionary (OrderedKeys)
 - (NSArray*)allKeysOrdered;
@@ -500,8 +499,8 @@
         return;
     }
 
-    ProfileDrilldownViewController *drillDown =
-            [[ProfileDrilldownViewController alloc] initWithDictionary:dict header:key];
+    ProfileDrillDownViewController *drillDown =
+            [[ProfileDrillDownViewController alloc] initWithDictionary:dict header:key];
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
 

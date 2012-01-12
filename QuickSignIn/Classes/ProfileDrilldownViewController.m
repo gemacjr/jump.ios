@@ -26,8 +26,7 @@
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#import "ProfileDrilldownViewController.h"
-#include "JREngage.h"
+#import "ProfileDrillDownViewController.h"
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -53,7 +52,7 @@
 
 @end
 
-@implementation ProfileDrilldownViewController
+@implementation ProfileDrillDownViewController
 
 @synthesize header;
 @synthesize tableViewData;
@@ -243,8 +242,8 @@
     {
         return;
     }
-    ProfileDrilldownViewController *drillDown =
-            [[ProfileDrilldownViewController alloc] initWithDictionary:dict header:header_];
+    ProfileDrillDownViewController *drillDown =
+            [[[ProfileDrillDownViewController alloc] initWithDictionary:dict header:header_] autorelease];
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
 
