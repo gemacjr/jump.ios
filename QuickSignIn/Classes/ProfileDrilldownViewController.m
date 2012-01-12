@@ -37,34 +37,31 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 @interface NSDictionary (OrderedKeys)
-
--(NSArray *)allKeysOrdered;
-
+- (NSArray*)allKeysOrdered;
 @end
 
 @implementation NSDictionary (OrderedKeys)
-
--(NSArray *)allKeysOrdered
+- (NSArray*)allKeysOrdered
 {
     NSArray *allKeys = [self allKeys];
     return [allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
-
 @end
 
 @implementation ProfileDrillDownViewController
-
-@synthesize header;
+@synthesize tableViewHeader;
 @synthesize tableViewData;
 
-- (id)initWithDictionary:(NSDictionary*)data header:(NSString*)header_
+- (id)initWithObject:(NSObject*)object forKey:(NSString*)key
 {
     if ((self = [super init]))
     {
-        DLog(@"tVD %d, h %d", [data retainCount], [header_ retainCount]);
-        [self setTableViewData:data];
-        [self setHeader:header_];
-        DLog(@"tVD %d, h %d ", [data retainCount], [header_ retainCount]);
+        self.tableViewData   = object;
+        self.tableViewHeader = key;
+        //DLog(@"tVD %d, h %d", [object retainCount], [key retainCount]);
+        //[self setTableViewData:object];
+        //[self setHeader:key];
+        //DLog(@"tVD %d, h %d ", [data retainCount], [header_ retainCount]);
     }
 
     return self;
@@ -76,9 +73,12 @@
 
     myTableView = [[[UITableView alloc] initWithFrame:[[self view] frame]
                                                 style:UITableViewStyleGrouped] autorelease];
-    myTableView.delegate = self;
+    myTableView.delegate   = self;
     myTableView.dataSource = self;
+    myTableView.backgroundColor = [UIColor clearColor];
+
     UIImage *image = [UIImage imageNamed:@"background.png"];
+
     [self.view addSubview:[[[UIImageView alloc] initWithImage:image] autorelease]];
     [self.view addSubview:myTableView];
 }
@@ -86,8 +86,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-
-    myTableView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -97,7 +95,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return header;
+    return tableViewHeader;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -112,30 +110,31 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if ([self tableView:tableView titleForHeaderInSection:section])
-        return 30.0;
-    return 0;
+    return 30.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if ([self tableView:tableView titleForHeaderInSection:section])
-        return 30.0;
     return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[tableViewData allKeysOrdered] count];
+    if ([tableViewData isKindOfClass:[NSArray class]])
+        return [((NSArray*)tableViewData) count];
+    else if ([tableViewData isKindOfClass:[NSDictionary class]])
+        return [[((NSDictionary*)tableViewData) allKeysOrdered] count];
+    else
+        return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSInteger keyLabelTag = 1;
+	static NSInteger keyLabelTag   = 1;
 	static NSInteger valueLabelTag = 2;
 
 	UITableViewCellStyle style = UITableViewCellStyleDefault;
-	NSString *reuseIdentifier = @"cachedCellSection2";
+	NSString *reuseIdentifier  = @"cachedCellSection2";
 
 	UITableViewCell *cell =
 		[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
@@ -146,33 +145,33 @@
 				 initWithStyle:style reuseIdentifier:reuseIdentifier] autorelease];
 
 		CGRect frame;
-		frame.origin.x = 10;
-		frame.origin.y = 5;
+		frame.origin.x    = 10;
+		frame.origin.y    = 5;
 		frame.size.height = 18;
-		frame.size.width = 280;
+		frame.size.width  = 280;
 
 		UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
-		keyLabel.tag = keyLabelTag;
+		keyLabel.tag      = keyLabelTag;
 
 		keyLabel.backgroundColor = [UIColor clearColor];
-		keyLabel.font = [UIFont systemFontOfSize:13.0];
-		keyLabel.textColor = [UIColor grayColor];
-		keyLabel.textAlignment = UITextAlignmentLeft;
+		keyLabel.font            = [UIFont systemFontOfSize:13.0];
+		keyLabel.textColor       = [UIColor grayColor];
+		keyLabel.textAlignment   = UITextAlignmentLeft;
 
         [keyLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
 		[cell.contentView addSubview:keyLabel];
 		[keyLabel release];
 
-		frame.origin.y += 16;
-		frame.size.height += 8;
+		frame.origin.y     += 16;
+		frame.size.height  += 8;
 		UILabel *valueLabel = [[UILabel alloc] initWithFrame:frame];
-		valueLabel.tag = valueLabelTag;
+		valueLabel.tag      = valueLabelTag;
 
 		valueLabel.backgroundColor = [UIColor clearColor];
-		valueLabel.font = [UIFont boldSystemFontOfSize:16.0];
-		valueLabel.textColor = [UIColor blackColor];
-		valueLabel.textAlignment = UITextAlignmentLeft;
+		valueLabel.font            = [UIFont boldSystemFontOfSize:16.0];
+		valueLabel.textColor       = [UIColor blackColor];
+		valueLabel.textAlignment   = UITextAlignmentLeft;
 
         [valueLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
@@ -180,39 +179,51 @@
 		[valueLabel release];
     }
 
-    UILabel *titleLabel = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
+    UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-
-    NSString* subtitle = nil;
+    NSString* subtitle  = nil;
     NSString* cellTitle = nil;
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.accessoryType  = UITableViewCellAccessoryNone;
     cell.textLabel.text = nil;
 
-    cellTitle = [[tableViewData allKeysOrdered] objectAtIndex:indexPath.row];
-    NSObject *val = [tableViewData objectForKey:cellTitle];
-    if ([val isKindOfClass:[NSDictionary class]] || [val isKindOfClass:[NSArray class]])
-        subtitle = nil;
-    else
-        subtitle = [tableViewData objectForKey:cellTitle];
-
-    if (subtitle == nil)
+    NSString *key = nil;
+    NSObject *value = nil;
+    if ([tableViewData isKindOfClass:[NSArray class]])
     {
-        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+        value = [((NSArray *)tableViewData) objectAtIndex:indexPath.row];
 
-        cell.textLabel.text = cellTitle;
-        subtitleLabel.text = nil;
-        titleLabel.text = nil;
+        if ([value isKindOfClass:[NSString class]])
+            cellTitle = (NSString *) value;
     }
-    else
+    else if ([tableViewData isKindOfClass:[NSDictionary class]])
     {
-        if (![subtitle isKindOfClass:[NSString class]])
-            subtitle = [NSString stringWithFormat:@"%@", subtitle];
+        key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:indexPath.row];
+        value = [((NSDictionary *)tableViewData) objectForKey:key];
 
-        subtitleLabel.text = subtitle;
-        titleLabel.text = cellTitle;
+        cellTitle = key;
+
+        if ([value isKindOfClass:[NSString class]])
+            subtitle = (NSString *) value;
     }
+
+    if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]])
+    {
+        if ([((NSArray *)value) count])
+        {
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+            subtitle = nil;
+        }
+        else
+        {
+            subtitle = @"[none]";
+        }
+    }
+
+    subtitleLabel.text = subtitle;
+    titleLabel.text    = cellTitle;
 
 	return cell;
 }
@@ -220,30 +231,37 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSString *header_ = [[tableViewData allKeysOrdered] objectAtIndex:indexPath.row];
 
-    NSDictionary *dict;
-    NSObject *val = [tableViewData objectForKey:header_];
-    if ([val isKindOfClass:[NSDictionary class]])
+//    if (![tableViewData isKindOfClass:[NSArray class]] && ![tableViewData isKindOfClass:[NSDictionary class]])
+//        return;
+
+    NSString *key   = nil;
+    NSObject *value = nil;
+    if ([tableViewData isKindOfClass:[NSArray class]])
     {
-        dict = (NSDictionary *) val;
+        value = [((NSArray *)tableViewData) objectAtIndex:indexPath.row];
     }
-    else if ([val isKindOfClass:[NSArray class]])
+    else if ([tableViewData isKindOfClass:[NSDictionary class]])
     {
-        NSArray *val_ = (NSArray *)val;
-        NSMutableDictionary *dict_ = [NSMutableDictionary dictionary];
-        for (NSUInteger i=0; i<[val_ count]; i++)
-        {
-            [dict_ setObject:[val_ objectAtIndex:i] forKey:[NSString stringWithFormat:@"%d", i]];
-        }
-        dict = dict_;
+        key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:indexPath.row];
+        value = [((NSDictionary *)tableViewData) objectForKey:key];
     }
-    else
-    {
+
+//    NSString *key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:indexPath.row];
+//    NSObject *value = [((NSDictionary *)tableViewData) objectForKey:key];
+
+    if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])
         return;
-    }
+
+    if (![value respondsToSelector:@selector(count)])
+        return;
+
+    if (![(NSArray *)value count])
+        return;
+
     ProfileDrillDownViewController *drillDown =
-            [[[ProfileDrillDownViewController alloc] initWithDictionary:dict header:header_] autorelease];
+            [[[ProfileDrillDownViewController alloc] initWithObject:value forKey:key] autorelease];
+
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
 
@@ -276,7 +294,7 @@
 - (void)dealloc
 {
     [myTableView release];
-    [header release], header = nil;
+    [tableViewHeader release], tableViewHeader = nil;
     [tableViewData release], tableViewData = nil;
 	[super dealloc];
 }

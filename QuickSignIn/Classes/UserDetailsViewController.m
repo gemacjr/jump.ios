@@ -423,12 +423,23 @@
         {
             cellTitle = [captureProfileOrderedKeys objectAtIndex:indexPath.row];
 
-            NSObject *val = [captureProfile objectForKey:cellTitle];
-            if ([val isKindOfClass:[NSDictionary class]] || [val isKindOfClass:[NSArray class]])
+            NSObject *value = [captureProfile objectForKey:cellTitle];
+            if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]])
             {
-                [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-                [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
-                subtitle = nil;
+                if ([((NSArray *)value) count])
+                {
+                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+                    [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+                    subtitle = nil;
+                }
+                else
+                {
+                    subtitle = @"[none]";
+                }
+
+//                [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+//                [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+//                subtitle = nil;
             }
             else
             {
@@ -458,8 +469,10 @@
 //        }
 //        else
 //        {
+
+
         if (subtitle && ![subtitle isKindOfClass:[NSString class]])
-            subtitle = [NSString stringWithFormat:@"%@", subtitle];
+            subtitle = [NSString stringWithFormat:@"%@", [subtitle description]];
 
         subtitleLabel.text = subtitle;
         titleLabel.text    = cellTitle;
@@ -476,32 +489,49 @@
 
     if ([indexPath section] != CAPTURE_PROFILE_SECTION_INDEX) return;
 
-    NSString *key = [captureProfileOrderedKeys objectAtIndex:indexPath.row];
-
-    NSDictionary *dict;
+    NSString *key   = [captureProfileOrderedKeys objectAtIndex:indexPath.row];
     NSObject *value = [captureProfile objectForKey:key];
-    if ([value isKindOfClass:[NSDictionary class]])
-    {
-        dict = (NSDictionary *) value;
-    }
-    else if ([value isKindOfClass:[NSArray class]])
-    {
-        NSArray *val_ = (NSArray *)value;
-        NSMutableDictionary *dict_ = [NSMutableDictionary dictionary];
-        for (NSUInteger i=0; i<[val_ count]; i++)
-        {
-            [dict_ setObject:[val_ objectAtIndex:i] forKey:[NSString stringWithFormat:@"%d", i]];
-        }
-        dict = dict_;
-    }
-    else
-    {
+
+    if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])
         return;
-    }
+
+    if (![value respondsToSelector:@selector(count)])
+        return;
+
+    if (![(NSArray *)value count])
+        return;
 
     ProfileDrillDownViewController *drillDown =
-            [[ProfileDrillDownViewController alloc] initWithDictionary:dict header:key];
+            [[[ProfileDrillDownViewController alloc] initWithObject:value forKey:key] autorelease];
+
     [[self navigationController] pushViewController:drillDown animated:YES];
+
+//
+//    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+//
+//
+//    if ([value isKindOfClass:[NSDictionary class]])
+//    {
+//        dict = (NSDictionary *) value;
+//    }
+//    else if ([value isKindOfClass:[NSArray class]])
+//    {
+//        NSArray *val_ = (NSArray *)value;
+//        NSMutableDictionary *dict_ = [NSMutableDictionary dictionary];
+//        for (NSUInteger i=0; i<[val_ count]; i++)
+//        {
+//            [dict_ setObject:[val_ objectAtIndex:i] forKey:[NSString stringWithFormat:@"%d", i]];
+//        }
+//        dict = dict_;
+//    }
+//    else
+//    {
+//        return;
+//    }
+//
+//    ProfileDrillDownViewController *drillDown =
+//            [[ProfileDrillDownViewController alloc] initWithDictionary:dict header:key];
+//    [[self navigationController] pushViewController:drillDown animated:YES];
 }
 
 //- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath { }

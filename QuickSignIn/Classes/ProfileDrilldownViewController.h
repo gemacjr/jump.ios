@@ -35,9 +35,8 @@
 	UITableView *myTableView;
 }
 
-@property (retain) NSDictionary *tableViewData;
-@property (retain) NSString *header;
+@property (retain) NSObject *tableViewData;
+@property (retain) NSString *tableViewHeader;
 
-- (id)initWithDictionary:(NSDictionary*)data header:(NSString*)header_;
-
+- (id)initWithObject:(NSObject*)object forKey:(NSString*)key;
 @end
