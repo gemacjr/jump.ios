@@ -1,30 +1,31 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2010, Janrain, Inc.
 
-	All rights reserved.
+ All rights reserved.
 
-	Redistribution and use in source and binary forms, with or without modification,
-	are permitted provided that the following conditions are met:
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
 
-	* Redistributions of source code must retain the above copyright notice, this
-		list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice,
-		this list of conditions and the following disclaimer in the documentation and/or
-		other materials provided with the distribution.
-	* Neither the name of the Janrain, Inc. nor the names of its
-		contributors may be used to endorse or promote products derived from this
-		software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation and/or
+   other materials provided with the distribution.
+ * Neither the name of the Janrain, Inc. nor the names of its
+   contributors may be used to endorse or promote products derived from this
+   software without specific prior written permission.
 
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-	DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-	ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-	ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #import "ProfileDrillDownViewController.h"
 
@@ -85,7 +86,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -100,7 +101,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 50;
+    return 50;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -130,53 +131,53 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSInteger keyLabelTag   = 1;
-	static NSInteger valueLabelTag = 2;
+    static NSInteger keyLabelTag   = 1;
+    static NSInteger valueLabelTag = 2;
 
-	UITableViewCellStyle style = UITableViewCellStyleDefault;
-	NSString *reuseIdentifier  = @"cachedCellSection2";
+    UITableViewCellStyle style = UITableViewCellStyleDefault;
+    NSString *reuseIdentifier  = @"cachedCellSection2";
 
-	UITableViewCell *cell =
-		[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    UITableViewCell *cell =
+        [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
-	if (cell == nil)
-	{
-		cell = [[[UITableViewCell alloc]
-				 initWithStyle:style reuseIdentifier:reuseIdentifier] autorelease];
+    if (cell == nil)
+    {
+        cell = [[[UITableViewCell alloc]
+                 initWithStyle:style reuseIdentifier:reuseIdentifier] autorelease];
 
-		CGRect frame;
-		frame.origin.x    = 10;
-		frame.origin.y    = 5;
-		frame.size.height = 18;
-		frame.size.width  = 280;
+        CGRect frame;
+        frame.origin.x    = 10;
+        frame.origin.y    = 5;
+        frame.size.height = 18;
+        frame.size.width  = 280;
 
-		UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
-		keyLabel.tag      = keyLabelTag;
+        UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
+        keyLabel.tag      = keyLabelTag;
 
-		keyLabel.backgroundColor = [UIColor clearColor];
-		keyLabel.font            = [UIFont systemFontOfSize:13.0];
-		keyLabel.textColor       = [UIColor grayColor];
-		keyLabel.textAlignment   = UITextAlignmentLeft;
+        keyLabel.backgroundColor = [UIColor clearColor];
+        keyLabel.font            = [UIFont systemFontOfSize:13.0];
+        keyLabel.textColor       = [UIColor grayColor];
+        keyLabel.textAlignment   = UITextAlignmentLeft;
 
         [keyLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
-		[cell.contentView addSubview:keyLabel];
-		[keyLabel release];
+        [cell.contentView addSubview:keyLabel];
+        [keyLabel release];
 
-		frame.origin.y     += 16;
-		frame.size.height  += 8;
-		UILabel *valueLabel = [[UILabel alloc] initWithFrame:frame];
-		valueLabel.tag      = valueLabelTag;
+        frame.origin.y     += 16;
+        frame.size.height  += 8;
+        UILabel *valueLabel = [[UILabel alloc] initWithFrame:frame];
+        valueLabel.tag      = valueLabelTag;
 
-		valueLabel.backgroundColor = [UIColor clearColor];
-		valueLabel.font            = [UIFont boldSystemFontOfSize:16.0];
-		valueLabel.textColor       = [UIColor blackColor];
-		valueLabel.textAlignment   = UITextAlignmentLeft;
+        valueLabel.backgroundColor = [UIColor clearColor];
+        valueLabel.font            = [UIFont boldSystemFontOfSize:16.0];
+        valueLabel.textColor       = [UIColor blackColor];
+        valueLabel.textAlignment   = UITextAlignmentLeft;
 
         [valueLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
-		[cell.contentView addSubview:valueLabel];
-		[valueLabel release];
+        [cell.contentView addSubview:valueLabel];
+        [valueLabel release];
     }
 
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
@@ -225,7 +226,7 @@
     subtitleLabel.text = subtitle;
     titleLabel.text    = cellTitle;
 
-	return cell;
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -284,7 +285,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
+    [super viewDidDisappear:animated];
 }
 
 - (void)viewDidUnload
@@ -296,7 +297,7 @@
     [myTableView release];
     [tableViewHeader release], tableViewHeader = nil;
     [tableViewData release], tableViewData = nil;
-	[super dealloc];
+    [super dealloc];
 }
 
 @end

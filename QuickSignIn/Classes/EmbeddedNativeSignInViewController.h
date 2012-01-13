@@ -26,9 +26,9 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
  
- File:	 QSIEmbeddedTableViewController.h
+ File:   QSIEmbeddedTableViewController.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, June 1, 2010
+ Date:   Tuesday, June 1, 2010
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
@@ -36,7 +36,7 @@
 
 @interface InfoViewController : UIViewController
 {
-	IBOutlet UIButton *linkButton;
+    IBOutlet UIButton *linkButton;
 }
 - (IBAction)janrainLinkClicked:(id)sender;
 @end

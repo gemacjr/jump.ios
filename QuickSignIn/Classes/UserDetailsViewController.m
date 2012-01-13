@@ -1,35 +1,36 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2010, Janrain, Inc.
 
-	All rights reserved.
+ All rights reserved.
 
-	Redistribution and use in source and binary forms, with or without modification,
-	are permitted provided that the following conditions are met:
+ Redistribution and use in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
 
-	* Redistributions of source code must retain the above copyright notice, this
-		list of conditions and the following disclaimer.
-	* Redistributions in binary form must reproduce the above copyright notice,
-		this list of conditions and the following disclaimer in the documentation and/or
-		other materials provided with the distribution.
-	* Neither the name of the Janrain, Inc. nor the names of its
-		contributors may be used to endorse or promote products derived from this
-		software without specific prior written permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-	DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-	ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-	ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation and/or
+   other materials provided with the distribution.
+ * Neither the name of the Janrain, Inc. nor the names of its
+   contributors may be used to endorse or promote products derived from this
+   software without specific prior written permission.
 
 
- File:	 QSIViewControllerLevel2.m
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+ File:   QSIViewControllerLevel2.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:	 Tuesday, June 1, 2010
+ Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "UserDetailsViewController.h"
@@ -81,7 +82,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
+    [super viewWillAppear:animated];
 
     if ([[UserModel getUserModel] selectedUser])
         [self loadUser:YES];
@@ -89,10 +90,10 @@
     myTableView.backgroundColor = [UIColor clearColor];
 
 #ifdef LILLI
-	if ([[UserModel getUserModel] currentUser])
-		[myToolBarButton setEnabled:YES];
-	else
-		[myToolBarButton setEnabled:NO];
+    if ([[UserModel getUserModel] currentUser])
+        [myToolBarButton setEnabled:YES];
+    else
+        [myToolBarButton setEnabled:NO];
 #endif
 }
 
@@ -157,17 +158,17 @@
     NSLog (@"loading user, %@", animated ? @"animated" : @"not animated");
 
     selectedUser         = [[[UserModel getUserModel] selectedUser] retain];
-	NSString *identifier = [selectedUser objectForKey:@"identifier"];
+    NSString *identifier = [selectedUser objectForKey:@"identifier"];
     NSDictionary *user   = [[[UserModel getUserModel] userProfiles] objectForKey:identifier];
 
-	profile     = [[user objectForKey:@"profile"] retain];
-	profileKeys = [[profile allKeys] retain];
+    profile     = [[user objectForKey:@"profile"] retain];
+    profileKeys = [[profile allKeys] retain];
 
     accessCredentials     = [[user objectForKey:@"accessCredentials"] retain];
-	accessCredentialsKeys = [[accessCredentials allKeys] retain];
+    accessCredentialsKeys = [[accessCredentials allKeys] retain];
 
     mergedPoco     = [[user objectForKey:@"merged_poco"] retain];
-	mergedPocoKeys = [[mergedPoco allKeys] retain];
+    mergedPocoKeys = [[mergedPoco allKeys] retain];
 
     friends = [[user objectForKey:@"friends"] retain];
 
@@ -199,9 +200,9 @@
 
     NSLog (@"clearing user, %@", animated ? @"animated" : @"not animated");
 
-	[selectedUser release], selectedUser = nil;
-	[profile release], profile = nil;
-	[profileKeys release], profileKeys = nil;
+    [selectedUser release], selectedUser = nil;
+    [profile release], profile = nil;
+    [profileKeys release], profileKeys = nil;
     [accessCredentials release], accessCredentials = nil;
     [accessCredentialsKeys release], accessCredentialsKeys = nil;
     [mergedPoco release], mergedPoco = nil;
@@ -269,7 +270,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 50;
+    return 50;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -297,77 +298,77 @@
     if (!selectedUser)
         return 0;
 
-//	switch (section)
-//	{
-		/*case*/ if (section == 0)//:
-//			NSLog (@"section 0: 1 row");
+//  switch (section)
+//  {
+        /*case*/ if (section == 0)//:
+//          NSLog (@"section 0: 1 row");
             return 1;
-		/*case*/ else if (section == PROFILE_SECTION_INDEX)//://1:
-			return [profileKeys count];
-		/*case*/ else if (section == ACCESS_CREDENTIALS_SECTION_INDEX)//://2:
-			return [accessCredentialsKeys count];
-		/*case*/ else if (section == MERGED_POCO_SECTION_INDEX)//://3:
-			return [mergedPocoKeys count];
-		/*case*/ else if (section == FRIENDS_SECTION_INDEX)//://4:
-			return [friends count];
+        /*case*/ else if (section == PROFILE_SECTION_INDEX)//://1:
+            return [profileKeys count];
+        /*case*/ else if (section == ACCESS_CREDENTIALS_SECTION_INDEX)//://2:
+            return [accessCredentialsKeys count];
+        /*case*/ else if (section == MERGED_POCO_SECTION_INDEX)//://3:
+            return [mergedPocoKeys count];
+        /*case*/ else if (section == FRIENDS_SECTION_INDEX)//://4:
+            return [friends count];
         /*case*/ else if (section == CAPTURE_PROFILE_SECTION_INDEX)//://5:
             return [captureProfileOrderedKeys count];//[[captureProfile allKeysOrdered] count];
         /*case*/ else if (section == CAPTURE_CREDENTIALS_SECTION_INDEX)//://6:
             return [captureCredentialsOrderedKeys count];//[[captureCredentials allKeysOrdered] count];
         /*default:*/ else
-			return 0;
-	//}
+            return 0;
+    //}
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSInteger keyLabelTag   = 1;
-	static NSInteger valueLabelTag = 2;
+    static NSInteger keyLabelTag   = 1;
+    static NSInteger valueLabelTag = 2;
 
-	UITableViewCellStyle style = UITableViewCellStyleDefault;
-	NSString *reuseIdentifier  = @"cachedCellSection";
+    UITableViewCellStyle style = UITableViewCellStyleDefault;
+    NSString *reuseIdentifier  = @"cachedCellSection";
 
-	UITableViewCell *cell =
-		[tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    UITableViewCell *cell =
+        [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
-	if (cell == nil)
-	{
-		cell = [[[UITableViewCell alloc]
-				 initWithStyle:style reuseIdentifier:reuseIdentifier] autorelease];
+    if (cell == nil)
+    {
+        cell = [[[UITableViewCell alloc]
+                 initWithStyle:style reuseIdentifier:reuseIdentifier] autorelease];
 
-		CGRect frame;
-		frame.origin.x    = 10;
-		frame.origin.y    = 5;
-		frame.size.height = 18;
-		frame.size.width  = 280;
+        CGRect frame;
+        frame.origin.x    = 10;
+        frame.origin.y    = 5;
+        frame.size.height = 18;
+        frame.size.width  = 280;
 
-		UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
-		keyLabel.tag = keyLabelTag;
+        UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
+        keyLabel.tag = keyLabelTag;
 
-		keyLabel.backgroundColor = [UIColor clearColor];
-		keyLabel.font            = [UIFont systemFontOfSize:13.0];
-		keyLabel.textColor       = [UIColor grayColor];
-		keyLabel.textAlignment   = UITextAlignmentLeft;
+        keyLabel.backgroundColor = [UIColor clearColor];
+        keyLabel.font            = [UIFont systemFontOfSize:13.0];
+        keyLabel.textColor       = [UIColor grayColor];
+        keyLabel.textAlignment   = UITextAlignmentLeft;
 
         [keyLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
-		[cell.contentView addSubview:keyLabel];
-		[keyLabel release];
+        [cell.contentView addSubview:keyLabel];
+        [keyLabel release];
 
-		frame.origin.y     += 16;
-		frame.size.height  += 8;
-		UILabel *valueLabel = [[UILabel alloc] initWithFrame:frame];
-		valueLabel.tag      = valueLabelTag;
+        frame.origin.y     += 16;
+        frame.size.height  += 8;
+        UILabel *valueLabel = [[UILabel alloc] initWithFrame:frame];
+        valueLabel.tag      = valueLabelTag;
 
-		valueLabel.backgroundColor = [UIColor clearColor];
-		valueLabel.font            = [UIFont boldSystemFontOfSize:16.0];
-		valueLabel.textColor       = [UIColor blackColor];
-		valueLabel.textAlignment   = UITextAlignmentLeft;
+        valueLabel.backgroundColor = [UIColor clearColor];
+        valueLabel.font            = [UIFont boldSystemFontOfSize:16.0];
+        valueLabel.textColor       = [UIColor blackColor];
+        valueLabel.textAlignment   = UITextAlignmentLeft;
 
         [valueLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
-		[cell.contentView addSubview:valueLabel];
-		[valueLabel release];
+        [cell.contentView addSubview:valueLabel];
+        [valueLabel release];
     }
 
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
@@ -381,44 +382,44 @@
 
     NSInteger section = indexPath.section;
 //    switch (indexPath.section)
-//	{
-		/*case*/ if (section == 0)//:
-		{
-			NSString *identifier = [profile objectForKey:@"identifier"];
+//  {
+        /*case*/ if (section == 0)//:
+        {
+            NSString *identifier = [profile objectForKey:@"identifier"];
 
-			cell.textLabel.text       = identifier;
-			cell.detailTextLabel.text = nil;
-//			break;
-		}
-		/*case*/ else if (section == PROFILE_SECTION_INDEX)//://1:
-		{
+            cell.textLabel.text       = identifier;
+            cell.detailTextLabel.text = nil;
+//          break;
+        }
+        /*case*/ else if (section == PROFILE_SECTION_INDEX)//://1:
+        {
             cellTitle = [profileKeys objectAtIndex:indexPath.row];
 
-			if ([cellTitle isEqualToString:@"name"])
-				subtitle = [UserModel getDisplayNameFromProfile:profile];
-			else if ([cellTitle isEqualToString:@"address"])
-				subtitle = [UserModel getAddressFromProfile:profile];
-			else
-				subtitle = [profile objectForKey:cellTitle];
-//			break;
-		}
-		/*case*/ else if (section == ACCESS_CREDENTIALS_SECTION_INDEX)//://2:
-		{
+            if ([cellTitle isEqualToString:@"name"])
+                subtitle = [UserModel getDisplayNameFromProfile:profile];
+            else if ([cellTitle isEqualToString:@"address"])
+                subtitle = [UserModel getAddressFromProfile:profile];
+            else
+                subtitle = [profile objectForKey:cellTitle];
+//          break;
+        }
+        /*case*/ else if (section == ACCESS_CREDENTIALS_SECTION_INDEX)//://2:
+        {
             cellTitle = [accessCredentialsKeys objectAtIndex:indexPath.row];
-			subtitle = [accessCredentials objectForKey:cellTitle];
-//			break;
-		}
-		/*case*/ else if (section == MERGED_POCO_SECTION_INDEX)//://3:
-		{
+            subtitle = [accessCredentials objectForKey:cellTitle];
+//          break;
+        }
+        /*case*/ else if (section == MERGED_POCO_SECTION_INDEX)//://3:
+        {
             cellTitle = [mergedPocoKeys objectAtIndex:indexPath.row];
-			subtitle = [mergedPoco objectForKey:cellTitle];
-//			break;
-		}
-		/*case*/ else if (section == FRIENDS_SECTION_INDEX)//://4:
-		{
+            subtitle = [mergedPoco objectForKey:cellTitle];
+//          break;
+        }
+        /*case*/ else if (section == FRIENDS_SECTION_INDEX)//://4:
+        {
             cellTitle = [friends objectAtIndex:indexPath.row];
-//			break;
-		}
+//          break;
+        }
         /*case*/ else if (section == CAPTURE_PROFILE_SECTION_INDEX)//://5:
         {
             cellTitle = [captureProfileOrderedKeys objectAtIndex:indexPath.row];
@@ -453,9 +454,9 @@
             subtitle = [captureCredentials objectForKey:cellTitle];
 //            break;
         }
-		else;//default:
-//			break;
-//	}
+        else;//default:
+//          break;
+//  }
 
     if (indexPath.section != 0)
     {
@@ -480,7 +481,7 @@
 
     }
 
-	return cell;
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -538,8 +539,8 @@
 
 - (IBAction)signOutButtonPressed:(id)sender
 {
-	[[UserModel getUserModel] startSignUserOut:nil];
-	[[self navigationController] popToRootViewControllerAnimated:YES];
+    [[UserModel getUserModel] startSignUserOut:nil];
+    [[self navigationController] popToRootViewControllerAnimated:YES];
 }
 
 - (void)didReachTokenUrl
@@ -586,16 +587,16 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
+    [super viewDidDisappear:animated];
 
     [self clearUser:NO];
 }
 
 - (void)viewDidUnload
 {
-	[selectedUser release], selectedUser = nil;
-	[profile release], profile = nil;
-	[profileKeys release], profileKeys = nil;
+    [selectedUser release], selectedUser = nil;
+    [profile release], profile = nil;
+    [profileKeys release], profileKeys = nil;
     [accessCredentials release], accessCredentials = nil;
     [accessCredentialsKeys release], accessCredentialsKeys = nil;
     [mergedPoco release], mergedPoco = nil;
