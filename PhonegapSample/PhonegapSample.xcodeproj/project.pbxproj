@@ -200,7 +200,7 @@
 		9F334F1914AA467300247A85 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F334F1814AA467300247A85 /* Default.png */; };
 		9F334F1B14AA467300247A85 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F334F1A14AA467300247A85 /* Default@2x.png */; };
 		9F334F1D14AA467300247A85 /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9F334F1C14AA467300247A85 /* Capture.bundle */; };
-		9F334F1F14AA467300247A85 /* Phonegap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F334F1E14AA467300247A85 /* Phonegap.plist */; };
+		9F334F1F14AA467300247A85 /* PhoneGap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F334F1E14AA467300247A85 /* PhoneGap.plist */; };
 		9F334F2314AA467300247A85 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F334F2214AA467300247A85 /* AppDelegate.m */; };
 		9F334F3014AA481700247A85 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 9F334F2F14AA481700247A85 /* www */; };
 		D8F8F16C14B116CB0088032A /* JREngagePhonegapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F8F16B14B116CB0088032A /* JREngagePhonegapPlugin.m */; };
@@ -416,7 +416,7 @@
 		9F334F1814AA467300247A85 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
 		9F334F1A14AA467300247A85 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
 		9F334F1C14AA467300247A85 /* Capture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Capture.bundle; path = Resources/Capture.bundle; sourceTree = "<group>"; };
-		9F334F1E14AA467300247A85 /* Phonegap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Phonegap.plist; sourceTree = "<group>"; };
+		9F334F1E14AA467300247A85 /* PhoneGap.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PhoneGap.plist; sourceTree = "<group>"; };
 		9F334F2114AA467300247A85 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		9F334F2214AA467300247A85 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		9F334F2514AA467300247A85 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; name = README; path = Plugins/README; sourceTree = "<group>"; };
@@ -839,7 +839,7 @@
 				9F334EFF14AA467300247A85 /* InfoPlist.strings */,
 				9F334F0214AA467300247A85 /* main.m */,
 				9F334F0414AA467300247A85 /* PhonegapSample-Prefix.pch */,
-				9F334F1E14AA467300247A85 /* Phonegap.plist */,
+				9F334F1E14AA467300247A85 /* PhoneGap.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -971,7 +971,7 @@
 				9F334F1914AA467300247A85 /* Default.png in Resources */,
 				9F334F1B14AA467300247A85 /* Default@2x.png in Resources */,
 				9F334F1D14AA467300247A85 /* Capture.bundle in Resources */,
-				9F334F1F14AA467300247A85 /* Phonegap.plist in Resources */,
+				9F334F1F14AA467300247A85 /* PhoneGap.plist in Resources */,
 				9F334F3014AA481700247A85 /* www in Resources */,
 				9F2493BE14ABF2560052C730 /* button_black_135x40.png in Resources */,
 				9F2493BF14ABF2560052C730 /* button_black_280x40.png in Resources */,
