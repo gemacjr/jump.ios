@@ -141,6 +141,11 @@
         return 0;
 }
 
+#define HIGHER_SUBTITLE 10
+#define NORMAL_SUBTITLE 21
+#define UP_A_LITTLE_HIGHER(r) CGRectMake(r.frame.origin.x, HIGHER_SUBTITLE, r.frame.size.width, r.frame.size.height)
+#define WHERE_IT_SHOULD_BE(r) CGRectMake(r.frame.origin.x, NORMAL_SUBTITLE, r.frame.size.width, r.frame.size.height)
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSInteger keyLabelTag   = 1;
@@ -262,6 +267,11 @@
 
     subtitleLabel.text = subtitle;
     titleLabel.text    = cellTitle;
+
+    if (!cellTitle)
+        subtitleLabel.frame = UP_A_LITTLE_HIGHER(subtitleLabel);
+    else
+        subtitleLabel.frame = WHERE_IT_SHOULD_BE(subtitleLabel);
 
     return cell;
 }
