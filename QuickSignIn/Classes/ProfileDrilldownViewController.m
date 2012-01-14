@@ -59,10 +59,6 @@
     {
         self.tableViewData   = object;
         self.tableViewHeader = key;
-        //DLog(@"tVD %d, h %d", [object retainCount], [key retainCount]);
-        //[self setTableViewData:object];
-        //[self setHeader:key];
-        //DLog(@"tVD %d, h %d ", [data retainCount], [header_ retainCount]);
     }
 
     return self;
@@ -72,15 +68,29 @@
 {
     [super viewDidLoad];
 
+    self.view.autoresizingMask = UIViewAutoresizingNone |
+                                 UIViewAutoresizingFlexibleWidth |
+                                 UIViewAutoresizingFlexibleHeight;
+
     myTableView = [[[UITableView alloc] initWithFrame:[[self view] frame]
                                                 style:UITableViewStyleGrouped] autorelease];
     myTableView.delegate   = self;
     myTableView.dataSource = self;
-    myTableView.backgroundColor = [UIColor clearColor];
 
-    UIImage *image = [UIImage imageNamed:@"background.png"];
+    myTableView.backgroundColor  = [UIColor clearColor];
+    myTableView.autoresizingMask = UIViewAutoresizingNone |
+                                   UIViewAutoresizingFlexibleWidth |
+                                   UIViewAutoresizingFlexibleHeight;
 
-    [self.view addSubview:[[[UIImageView alloc] initWithImage:image] autorelease]];
+    UIImageView *backgroundImage =
+        [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]] autorelease];
+
+    backgroundImage.autoresizingMask = UIViewAutoresizingNone |
+                                       UIViewAutoresizingFlexibleWidth |
+                                       UIViewAutoresizingFlexibleHeight;
+
+
+    [self.view addSubview:backgroundImage];
     [self.view addSubview:myTableView];
 }
 
@@ -111,7 +121,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30.0;
+    if (tableViewHeader)
+        return 30.0;
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -149,7 +161,7 @@
         frame.origin.x    = 10;
         frame.origin.y    = 5;
         frame.size.height = 18;
-        frame.size.width  = 280;
+        frame.size.width  = (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 280 : 440;;
 
         UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
         keyLabel.tag      = keyLabelTag;
@@ -185,43 +197,68 @@
     NSString* subtitle  = nil;
     NSString* cellTitle = nil;
 
+    cell.textLabel.text       = nil;
+    cell.detailTextLabel.text = nil;
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType  = UITableViewCellAccessoryNone;
-    cell.textLabel.text = nil;
 
-    NSString *key = nil;
+    NSString *key;
     NSObject *value = nil;
+
+ /* If our data is an array, */
     if ([tableViewData isKindOfClass:[NSArray class]])
     {
-        value = [((NSArray *)tableViewData) objectAtIndex:indexPath.row];
-
-        if ([value isKindOfClass:[NSString class]])
-            cellTitle = (NSString *) value;
+     /* get the current item in our array */
+        value = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
     }
+ /* If our data is a dictionary, */
     else if ([tableViewData isKindOfClass:[NSDictionary class]])
     {
-        key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:indexPath.row];
+     /* get the current key and item for that key */
+        key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:(NSUInteger)indexPath.row];
         value = [((NSDictionary *)tableViewData) objectForKey:key];
 
+     /* and set the cell title as the key */
         cellTitle = key;
-
-        if ([value isKindOfClass:[NSString class]])
-            subtitle = (NSString *) value;
     }
+    else { /* Shouldn't happen */ }
 
+ /* If our item is an array or dictionary... */
     if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]])
     {
-        if ([((NSArray *)value) count])
+     /* If our array or dictionary has 1 or more items, add the accessory view and set the subtitle. */
+        if ([((NSArray*)value) count])
         {
             [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
-            subtitle = nil;
+
+         /* Lets not say, "1 items".  That's just silly. */
+            if ([((NSArray*)value) count] == 1)
+                subtitle = @"1 item";
+            else
+                subtitle = [NSString stringWithFormat:@"%d items", [((NSDictionary*)value) count]];
         }
+     /* And, if it's empty, let's indicate that as well. */
         else
-        {
-            subtitle = @"[none]";
+        {/* cellTitle will be null if our data is an array, but why have an array of empty arrays? */
+            subtitle = cellTitle ? [NSString stringWithFormat:@"No known %@", cellTitle] : @"[none]";
         }
     }
+ /* If our item is a string, */
+    else if ([value isKindOfClass:[NSString class]])
+    {/* set the subtitle as our value, or, if empty, say so. */
+        if ([((NSString*)value) length])
+            subtitle = (NSString*)value;
+        else
+            subtitle = [NSString stringWithFormat:@"No known %@", cellTitle];
+    }
+ /* If our item is a number, */
+    else if ([value isKindOfClass:[NSNumber class]])
+    {/* make it a string, and set the subtitle as that. */
+        subtitle = [((NSNumber *)value) stringValue];
+    }
+    else { /* I dunno... Just hopin' it won't happen... */ }
 
     subtitleLabel.text = subtitle;
     titleLabel.text    = cellTitle;
@@ -233,40 +270,33 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
-//    if (![tableViewData isKindOfClass:[NSArray class]] && ![tableViewData isKindOfClass:[NSDictionary class]])
-//        return;
-
     NSString *key   = nil;
     NSObject *value = nil;
+
+ /* Get the key, if there is one, and the value. */
     if ([tableViewData isKindOfClass:[NSArray class]])
     {
-        value = [((NSArray *)tableViewData) objectAtIndex:indexPath.row];
+        value = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
     }
     else if ([tableViewData isKindOfClass:[NSDictionary class]])
     {
-        key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:indexPath.row];
+        key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:(NSUInteger)indexPath.row];
         value = [((NSDictionary *)tableViewData) objectForKey:key];
     }
 
-//    NSString *key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:indexPath.row];
-//    NSObject *value = [((NSDictionary *)tableViewData) objectForKey:key];
-
+ /* If our value isn't an array or dictionary, don't drill down. */
     if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])
         return;
 
-    if (![value respondsToSelector:@selector(count)])
-        return;
-
-    if (![(NSArray *)value count])
-        return;
+/* If our value is an *empty* array or dictionary, don't drill down. */
+    if (![(NSArray *)value count]) /* Since we know value is either an array or dictionary, and both classes respond */
+        return;                    /* to the 'count' selector, we just cast as an array to avoid IDE complaints */
 
     ProfileDrillDownViewController *drillDown =
             [[[ProfileDrillDownViewController alloc] initWithObject:value forKey:key] autorelease];
 
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
-
-//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath { }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
@@ -290,6 +320,7 @@
 
 - (void)viewDidUnload
 {
+    [super viewDidUnload];
 }
 
 - (void)dealloc
@@ -299,6 +330,5 @@
     [tableViewData release], tableViewData = nil;
     [super dealloc];
 }
-
 @end
 

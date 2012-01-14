@@ -54,7 +54,7 @@
 
     NSDictionary    *accessCredentials;
     NSArray         *accessCredentialsKeys;
-    NSInteger        ACCESS_CREDENTIALS_SECTION_INDEX;
+    NSInteger        ACCESS_CREDS_SECTION_INDEX;
 
     NSDictionary    *mergedPoco;
     NSArray         *mergedPocoKeys;
@@ -70,7 +70,7 @@
 
     NSDictionary    *captureCredentials;
     NSArray         *captureCredentialsOrderedKeys;
-    NSInteger        CAPTURE_CREDENTIALS_SECTION_INDEX;
+    NSInteger        CAPTURE_CREDS_SECTION_INDEX;
 
     NSInteger numberOfSections;
 }

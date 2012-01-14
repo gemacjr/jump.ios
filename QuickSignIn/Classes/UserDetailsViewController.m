@@ -27,11 +27,18 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
  File:   QSIViewControllerLevel2.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "UserDetailsViewController.h"
 
@@ -72,12 +79,12 @@
     if (iPad)
         myTableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 448, 30)] autorelease];
 
-    PROFILE_SECTION_INDEX             = -1;
-    ACCESS_CREDENTIALS_SECTION_INDEX  = -1;
-    MERGED_POCO_SECTION_INDEX         = -1;
-    FRIENDS_SECTION_INDEX             = -1;
-    CAPTURE_PROFILE_SECTION_INDEX     = -1;
-    CAPTURE_CREDENTIALS_SECTION_INDEX = -1;
+    PROFILE_SECTION_INDEX         = -1;
+    ACCESS_CREDS_SECTION_INDEX    = -1;
+    MERGED_POCO_SECTION_INDEX     = -1;
+    FRIENDS_SECTION_INDEX         = -1;
+    CAPTURE_PROFILE_SECTION_INDEX = -1;
+    CAPTURE_CREDS_SECTION_INDEX   = -1;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,12 +96,10 @@
 
     myTableView.backgroundColor = [UIColor clearColor];
 
-#ifdef LILLI
     if ([[UserModel getUserModel] currentUser])
         [myToolBarButton setEnabled:YES];
     else
         [myToolBarButton setEnabled:NO];
-#endif
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -131,22 +136,20 @@
     }
 }
 
+/* We need to dynamically determine both the number of sections our table will have and
+    which section index each section will be.  For example, if we have access credentials
+    (i.e., our access credential keys array has a count), make the access credentials section
+    come right after the profile section */
 - (void)dynamicallyDetermineTableSections
 {
     NSInteger sectionIndexCounter = 1;
 
-    if ([profileKeys count])
-        PROFILE_SECTION_INDEX = sectionIndexCounter;
-    if ([accessCredentialsKeys count])
-        ACCESS_CREDENTIALS_SECTION_INDEX = ++sectionIndexCounter;//++;
-    if ([mergedPocoKeys count])
-        MERGED_POCO_SECTION_INDEX = ++sectionIndexCounter;//++;
-    if ([friends count])
-        FRIENDS_SECTION_INDEX = ++sectionIndexCounter;//++;
-    if ([captureProfileOrderedKeys count])
-        CAPTURE_PROFILE_SECTION_INDEX = ++sectionIndexCounter;//++;
-    if ([captureCredentialsOrderedKeys count])
-        CAPTURE_CREDENTIALS_SECTION_INDEX = ++sectionIndexCounter;//++;
+    if ([profileKeys count])                   PROFILE_SECTION_INDEX = sectionIndexCounter;
+    if ([accessCredentialsKeys count])         ACCESS_CREDS_SECTION_INDEX    = ++sectionIndexCounter;
+    if ([mergedPocoKeys count])                MERGED_POCO_SECTION_INDEX     = ++sectionIndexCounter;
+    if ([friends count])                       FRIENDS_SECTION_INDEX         = ++sectionIndexCounter;
+    if ([captureProfileOrderedKeys count])     CAPTURE_PROFILE_SECTION_INDEX = ++sectionIndexCounter;
+    if ([captureCredentialsOrderedKeys count]) CAPTURE_CREDS_SECTION_INDEX   = ++sectionIndexCounter;
 
     numberOfSections = sectionIndexCounter + 1;
 }
@@ -155,7 +158,7 @@
 {
     animated = NO;
 
-    NSLog (@"loading user, %@", animated ? @"animated" : @"not animated");
+    //DLog (@"loading user, %@", animated ? @"animated" : @"not animated");
 
     selectedUser         = [[[UserModel getUserModel] selectedUser] retain];
     NSString *identifier = [selectedUser objectForKey:@"identifier"];
@@ -180,8 +183,10 @@
 
     [self dynamicallyDetermineTableSections];
 
-    NSLog (@"section 1, %d rows", [profileKeys count]);
-    NSLog (@"section 2, %d rows", [accessCredentialsKeys count]);
+    DLog(@"%@", [captureProfile description]);
+
+    //DLog (@"section 1, %d rows", [profileKeys count]);
+    //DLog (@"section 2, %d rows", [accessCredentialsKeys count]);
 
     self.title = [UserModel getDisplayNameFromProfile:profile];
 
@@ -198,7 +203,7 @@
 {
     animated = NO;
 
-    NSLog (@"clearing user, %@", animated ? @"animated" : @"not animated");
+    //DLog (@"clearing user, %@", animated ? @"animated" : @"not animated");
 
     [selectedUser release], selectedUser = nil;
     [profile release], profile = nil;
@@ -215,11 +220,11 @@
     [captureCredentialsOrderedKeys release], captureCredentialsOrderedKeys = nil;
 
     PROFILE_SECTION_INDEX             = -1;
-    ACCESS_CREDENTIALS_SECTION_INDEX  = -1;
+    ACCESS_CREDS_SECTION_INDEX        = -1;
     MERGED_POCO_SECTION_INDEX         = -1;
     FRIENDS_SECTION_INDEX             = -1;
     CAPTURE_PROFILE_SECTION_INDEX     = -1;
-    CAPTURE_CREDENTIALS_SECTION_INDEX = -1;
+    CAPTURE_CREDS_SECTION_INDEX       = -1;
 
     if (iPad && animated)
         [self animateAdditions];
@@ -235,37 +240,22 @@
     if (!selectedUser)
         return nil;
 
-//    switch (section)
-//    {
-        if (section == 0)//case 0:
-            return @"Engage Identifier";
-        /*case*/ else if (section == PROFILE_SECTION_INDEX)//://1:
-            //if ([profileKeys count])
-                return @"Engage Profile Information";
-            //return nil;
-        /*case*/ else if (section == ACCESS_CREDENTIALS_SECTION_INDEX)//://2:
-            //if ([accessCredentials count])
-                return @"Engage Access Credentials";
-            //return nil;
-        /*case*/ else if (section == MERGED_POCO_SECTION_INDEX)//://3:
-            //if ([mergedPocoKeys count])
-                return @"Engage Merged Portable Contacts";
-            //return nil;
-        /*case*/ else if (section == FRIENDS_SECTION_INDEX)//://4:
-            //if ([friends count])
-                return @"Engage Friends";
-            //return nil;
-        /*case*/ else if (section == CAPTURE_PROFILE_SECTION_INDEX)//://5:
-            //if ([captureProfileOrderedKeys count])//([[captureProfile allKeysOrdered] count])
-                return @"Capture Profile Information";
-            //return nil;
-        /*case*/ else if (section == CAPTURE_CREDENTIALS_SECTION_INDEX)//://6:
-            //if ([captureCredentialsOrderedKeys count])//([[captureCredentials allKeysOrdered] count])
-                return @"Capture Access Credentials";
-            //return nil;
-        else //default:
-            return nil;
-   // }
+    if (section == 0)
+        return @"Engage Identifier";
+    else if (section == PROFILE_SECTION_INDEX)
+        return @"Engage Profile Information";
+    else if (section == ACCESS_CREDS_SECTION_INDEX)
+        return @"Engage Access Credentials";
+    else if (section == MERGED_POCO_SECTION_INDEX)
+        return @"Engage Merged Portable Contacts";
+    else if (section == FRIENDS_SECTION_INDEX)
+        return @"Engage Friends";
+    else if (section == CAPTURE_PROFILE_SECTION_INDEX)
+        return @"Capture Profile Information";
+    else if (section == CAPTURE_CREDS_SECTION_INDEX)
+        return @"Capture Access Credentials";
+    else
+        return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -276,21 +266,16 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return numberOfSections;
-    //return 7;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-//    if ([self tableView:tableView titleForHeaderInSection:section])
-        return 30.0;
-//    return 0;
+    return 30.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-//    if ([self tableView:tableView titleForHeaderInSection:section])
-        return 30.0;
-//    return 0;
+    return 30.0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -298,26 +283,14 @@
     if (!selectedUser)
         return 0;
 
-//  switch (section)
-//  {
-        /*case*/ if (section == 0)//:
-//          NSLog (@"section 0: 1 row");
-            return 1;
-        /*case*/ else if (section == PROFILE_SECTION_INDEX)//://1:
-            return [profileKeys count];
-        /*case*/ else if (section == ACCESS_CREDENTIALS_SECTION_INDEX)//://2:
-            return [accessCredentialsKeys count];
-        /*case*/ else if (section == MERGED_POCO_SECTION_INDEX)//://3:
-            return [mergedPocoKeys count];
-        /*case*/ else if (section == FRIENDS_SECTION_INDEX)//://4:
-            return [friends count];
-        /*case*/ else if (section == CAPTURE_PROFILE_SECTION_INDEX)//://5:
-            return [captureProfileOrderedKeys count];//[[captureProfile allKeysOrdered] count];
-        /*case*/ else if (section == CAPTURE_CREDENTIALS_SECTION_INDEX)//://6:
-            return [captureCredentialsOrderedKeys count];//[[captureCredentials allKeysOrdered] count];
-        /*default:*/ else
-            return 0;
-    //}
+    if (section == 0)                                   return 1;
+    else if (section == PROFILE_SECTION_INDEX)          return [profileKeys count];
+    else if (section == ACCESS_CREDS_SECTION_INDEX)     return [accessCredentialsKeys count];
+    else if (section == MERGED_POCO_SECTION_INDEX)      return [mergedPocoKeys count];
+    else if (section == FRIENDS_SECTION_INDEX)          return [friends count];
+    else if (section == CAPTURE_PROFILE_SECTION_INDEX)  return [captureProfileOrderedKeys count];
+    else if (section == CAPTURE_CREDS_SECTION_INDEX)    return [captureCredentialsOrderedKeys count];
+    else                                                return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -340,7 +313,7 @@
         frame.origin.x    = 10;
         frame.origin.y    = 5;
         frame.size.height = 18;
-        frame.size.width  = 280;
+        frame.size.width  = (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 280 : 440;
 
         UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
         keyLabel.tag = keyLabelTag;
@@ -373,112 +346,97 @@
 
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-    NSString *subtitle     = nil;
     NSString *cellTitle    = nil;
+    NSString *subtitle     = nil;
+
+    cell.textLabel.text       = nil;
+    cell.detailTextLabel.text = nil;
 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType  = UITableViewCellAccessoryNone;
-    cell.textLabel.text = nil;
 
     NSInteger section = indexPath.section;
-//    switch (indexPath.section)
-//  {
-        /*case*/ if (section == 0)//:
-        {
-            NSString *identifier = [profile objectForKey:@"identifier"];
+    if (section == 0)
+    {
+        NSString *identifier = [profile objectForKey:@"identifier"];
 
-            cell.textLabel.text       = identifier;
-            cell.detailTextLabel.text = nil;
-//          break;
-        }
-        /*case*/ else if (section == PROFILE_SECTION_INDEX)//://1:
-        {
-            cellTitle = [profileKeys objectAtIndex:indexPath.row];
+        cell.textLabel.text = identifier;
+    }
+    else if (section == PROFILE_SECTION_INDEX)
+    {
+        cellTitle = [profileKeys objectAtIndex:(NSUInteger)indexPath.row];
 
-            if ([cellTitle isEqualToString:@"name"])
-                subtitle = [UserModel getDisplayNameFromProfile:profile];
-            else if ([cellTitle isEqualToString:@"address"])
-                subtitle = [UserModel getAddressFromProfile:profile];
-            else
-                subtitle = [profile objectForKey:cellTitle];
-//          break;
-        }
-        /*case*/ else if (section == ACCESS_CREDENTIALS_SECTION_INDEX)//://2:
-        {
-            cellTitle = [accessCredentialsKeys objectAtIndex:indexPath.row];
-            subtitle = [accessCredentials objectForKey:cellTitle];
-//          break;
-        }
-        /*case*/ else if (section == MERGED_POCO_SECTION_INDEX)//://3:
-        {
-            cellTitle = [mergedPocoKeys objectAtIndex:indexPath.row];
-            subtitle = [mergedPoco objectForKey:cellTitle];
-//          break;
-        }
-        /*case*/ else if (section == FRIENDS_SECTION_INDEX)//://4:
-        {
-            cellTitle = [friends objectAtIndex:indexPath.row];
-//          break;
-        }
-        /*case*/ else if (section == CAPTURE_PROFILE_SECTION_INDEX)//://5:
-        {
-            cellTitle = [captureProfileOrderedKeys objectAtIndex:indexPath.row];
+        if ([cellTitle isEqualToString:@"name"])
+            subtitle = [UserModel getDisplayNameFromProfile:profile];
+        else if ([cellTitle isEqualToString:@"address"])
+            subtitle = [UserModel getAddressFromProfile:profile];
+        else
+            subtitle = [profile objectForKey:cellTitle];
+    }
+    else if (section == ACCESS_CREDS_SECTION_INDEX)
+    {
+        cellTitle = [accessCredentialsKeys objectAtIndex:(NSUInteger)indexPath.row];
+        subtitle = [accessCredentials objectForKey:cellTitle];
+    }
+    else if (section == MERGED_POCO_SECTION_INDEX)
+    {
+        cellTitle = [mergedPocoKeys objectAtIndex:(NSUInteger)indexPath.row];
+        subtitle = [mergedPoco objectForKey:cellTitle];
+    }
+    else if (section == FRIENDS_SECTION_INDEX)
+    {
+        // TODO: Probably want to parse the dictionary (or whatever) that is returned in the friends list
+        // to create some kind of better string to display here...
+        cellTitle = [friends objectAtIndex:(NSUInteger)indexPath.row];
+    }
+    else if (section == CAPTURE_PROFILE_SECTION_INDEX)
+    {
+        cellTitle = [captureProfileOrderedKeys objectAtIndex:(NSUInteger)indexPath.row];
 
-            NSObject *value = [captureProfile objectForKey:cellTitle];
-            if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]])
+        NSObject *value = [captureProfile objectForKey:cellTitle];
+        if ([value isKindOfClass:[NSDictionary class]] || [value isKindOfClass:[NSArray class]])
+        {
+            if ([((NSArray*)value) count])
             {
-                if ([((NSArray *)value) count])
-                {
-                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-                    [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
-                    subtitle = nil;
-                }
+                [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+                [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+                if ([((NSArray*)value) count] == 1)
+                    subtitle = [NSString stringWithFormat:@"1 %@", cellTitle];
                 else
-                {
-                    subtitle = @"[none]";
-                }
-
-//                [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-//                [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
-//                subtitle = nil;
+                    subtitle = [NSString stringWithFormat:@"%d %@", [((NSArray*)value) count], cellTitle];
             }
             else
             {
-                subtitle = [captureProfile objectForKey:cellTitle];
+                subtitle = [NSString stringWithFormat:@"No known %@", cellTitle];
             }
-//            break;
         }
-        /*case*/ else if (section == CAPTURE_CREDENTIALS_SECTION_INDEX)//://6:
+        else if ([value isKindOfClass:[NSString class]])
         {
-            cellTitle = [captureCredentialsOrderedKeys objectAtIndex:indexPath.row];
-            subtitle = [captureCredentials objectForKey:cellTitle];
-//            break;
+            if ([((NSString*)value) length])
+                subtitle = [captureProfile objectForKey:cellTitle];
+            else
+                subtitle = [NSString stringWithFormat:@"No known %@", cellTitle];
         }
-        else;//default:
-//          break;
-//  }
+        else if ([value isKindOfClass:[NSNumber class]])
+        {
+            subtitle = [((NSNumber *)value) stringValue];
+        }
+        else { /* Pretty sure this won't happen... */ }
+    }
+    else if (section == CAPTURE_CREDS_SECTION_INDEX)
+    {
+        cellTitle = [captureCredentialsOrderedKeys objectAtIndex:(NSUInteger)indexPath.row];
+        subtitle = [captureCredentials objectForKey:cellTitle];
+    }
+    else;
 
     if (indexPath.section != 0)
     {
-//        if (subtitle == nil)
-//        {
-//            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-//            [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
-//            cell.textLabel.text = cellTitle;
-//            subtitleLabel.text = nil;
-//            titleLabel.text = nil;
-//        }
-//        else
-//        {
-
-
         if (subtitle && ![subtitle isKindOfClass:[NSString class]])
             subtitle = [NSString stringWithFormat:@"%@", [subtitle description]];
 
         subtitleLabel.text = subtitle;
         titleLabel.text    = cellTitle;
-//        }
-
     }
 
     return cell;
@@ -488,54 +446,25 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
-    if ([indexPath section] != CAPTURE_PROFILE_SECTION_INDEX) return;
+    if ([indexPath section] != CAPTURE_PROFILE_SECTION_INDEX)
+        return;
 
-    NSString *key   = [captureProfileOrderedKeys objectAtIndex:indexPath.row];
+    NSString *key   = [captureProfileOrderedKeys objectAtIndex:(NSUInteger)indexPath.row];
     NSObject *value = [captureProfile objectForKey:key];
 
+ /* If our value isn't an array or dictionary, don't drill down. */
     if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])
         return;
 
-    if (![value respondsToSelector:@selector(count)])
-        return;
-
-    if (![(NSArray *)value count])
-        return;
+/* If our value is an *empty* array or dictionary, don't drill down. */
+    if (![(NSArray *)value count]) /* Since we know value is either an array or dictionary, and both classes respond */
+        return;                    /* to the 'count' selector, we just cast as an array to avoid IDE complaints */
 
     ProfileDrillDownViewController *drillDown =
             [[[ProfileDrillDownViewController alloc] initWithObject:value forKey:key] autorelease];
 
     [[self navigationController] pushViewController:drillDown animated:YES];
-
-//
-//    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-//
-//
-//    if ([value isKindOfClass:[NSDictionary class]])
-//    {
-//        dict = (NSDictionary *) value;
-//    }
-//    else if ([value isKindOfClass:[NSArray class]])
-//    {
-//        NSArray *val_ = (NSArray *)value;
-//        NSMutableDictionary *dict_ = [NSMutableDictionary dictionary];
-//        for (NSUInteger i=0; i<[val_ count]; i++)
-//        {
-//            [dict_ setObject:[val_ objectAtIndex:i] forKey:[NSString stringWithFormat:@"%d", i]];
-//        }
-//        dict = dict_;
-//    }
-//    else
-//    {
-//        return;
-//    }
-//
-//    ProfileDrillDownViewController *drillDown =
-//            [[ProfileDrillDownViewController alloc] initWithDictionary:dict header:key];
-//    [[self navigationController] pushViewController:drillDown animated:YES];
 }
-
-//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath { }
 
 - (IBAction)signOutButtonPressed:(id)sender
 {
@@ -582,7 +511,6 @@
 
     if ([[UserModel getUserModel] pendingCallToTokenUrl])
         [[UserModel getUserModel] setTokenUrlDelegate:nil];
-
 }
 
 - (void)viewDidDisappear:(BOOL)animated
