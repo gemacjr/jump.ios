@@ -68,7 +68,7 @@
     NSArray         *captureProfileOrderedKeys;
     NSInteger        CAPTURE_PROFILE_SECTION_INDEX;
 
-    NSDictionary    *captureCredentials;
+    NSMutableDictionary    *captureCredentials;
     NSArray         *captureCredentialsOrderedKeys;
     NSInteger        CAPTURE_CREDS_SECTION_INDEX;
 

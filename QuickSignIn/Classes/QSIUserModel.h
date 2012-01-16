@@ -36,6 +36,7 @@
 #import <Foundation/Foundation.h>
 #import "JREngage.h"
 #import "JREngage+CustomInterface.h"
+#import "JRConnectionManager.h"
 #import "QuickSignInAppDelegate.h"
 #import "EmbeddedNativeSignInViewController.h"
 
@@ -136,7 +137,7 @@
 @property (readonly) BOOL iPad;
 /* Function that removes specific sessions from the signinHistory array, and
    periodically purges the removed profiles from the userProfile dictionary. */
-- (void)removeUserFromHistory:(int)index;
+- (void)removeUserFromHistory:(NSUInteger)index;
 
 /* Functions to initiate signing in/out of a user. */
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn
