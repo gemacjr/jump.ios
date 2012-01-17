@@ -67,12 +67,16 @@
 @interface JREngagePhonegapPlugin ()
 @property (nonatomic, retain) NSMutableDictionary *fullAuthenticationResponse;
 @property (nonatomic, retain) NSMutableDictionary *fullSharingResponse;
+@property (nonatomic, retain) NSMutableArray      *authenticationBlobs;
+@property (nonatomic, retain) NSMutableArray      *shareBlobs;
 @end
 
 @implementation JREngagePhonegapPlugin
 @synthesize callbackID;
 @synthesize fullAuthenticationResponse;
 @synthesize fullSharingResponse;
+@synthesize authenticationBlobs;
+@synthesize shareBlobs;
 
 - (id)init
 {
@@ -100,23 +104,32 @@
     }
 }
 
-- (void)sendSuccessMessage:(NSString *)message
+- (void)thenFinish
+{
+    weAreSharing                    = NO;
+    self.fullAuthenticationResponse = nil;
+    self.fullSharingResponse        = nil;
+    self.authenticationBlobs        = nil;
+    self.shareBlobs                 = nil;
+}
+
+- (void)finishWithSuccessMessage:(NSString *)message
 {
     PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
                                                 messageAsString:message];
 
     [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+    [self thenFinish];
 }
 
-- (void)sendFailureMessage:(NSString *)message
+- (void)finishWithFailureMessage:(NSString *)message
 {
     PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
                                                 messageAsString:message];
 
     [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
+    [self thenFinish];
 }
-
-
 
 - (NSString*)stringFromError:(NSError*)error
 {
@@ -138,6 +151,16 @@
     [errorResponse setObject:@"fail" forKey:@"stat"];
 
     return [errorResponse JSONString];
+}
+
+- (void)saveTheAuthenticationBlobForLater
+{
+    if (!authenticationBlobs)
+        self.authenticationBlobs = [NSMutableArray arrayWithCapacity:5];
+
+    [authenticationBlobs addObject:fullAuthenticationResponse];
+
+    self.fullAuthenticationResponse = nil;
 }
 
 - (void)initializeJREngage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
@@ -187,12 +210,15 @@
         activityString = [arguments objectAtIndex:0];
     else
     {
+        // TODO: Standardize this error
         PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_ERROR
-                                              messageAsString:@"Missing appId in call to initialize"];
+                                              messageAsString:@"Missing activity"];
 
         [self writeJavascript:[result toErrorCallbackString:self.callbackID]];
         return;
     }
+
+    weAreSharing = YES;
 
     NSDictionary *activityDictionary = (NSDictionary*)[activityString objectFromJSONString];
     JRActivityObject *activityObject = [JRActivityObject activityObjectFromDictionary:activityDictionary];
@@ -202,23 +228,22 @@
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
 {
-    [self sendFailureMessage:[self stringFromError:error]];
+    [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
 - (void)jrAuthenticationDidNotComplete
 {
-    [self sendFailureMessage:[self stringFromCode:JRAuthenticationCanceledError
+    [self finishWithFailureMessage:[self stringFromCode:JRAuthenticationCanceledError
                                        andMessage:@"User canceled authentication"]];
-
-//    NSString* message = [self stringFromCode:JRAuthenticationCanceledError andMessage:@"User canceled authentication"];
-//    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_ERROR
-//                                                messageAsString:message];
-//    [self writeJavascript:[pluginResult toErrorCallbackString:self.callbackID]];
 }
 
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
                               forProvider:(NSString*)provider
 {
+    // TODO: What if they authenticate during sharing?  Should we include this stuff with the sharing response?
+    // Or are we hijacking the sharing callback with the auth call backs??? (Looks like this is the case; adding
+    // a boolean to stop the hijacking
+
     NSMutableDictionary *newAuthInfo = [NSMutableDictionary dictionaryWithDictionary:auth_info];
     [newAuthInfo removeObjectForKey:@"stat"];
 
@@ -232,7 +257,7 @@
 - (void)jrAuthenticationDidFailWithError:(NSError*)error
                              forProvider:(NSString*)provider
 {
-    [self sendFailureMessage:[self stringFromError:error]];
+    [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl
@@ -251,9 +276,12 @@
 
     NSString *authResponseString = [fullAuthenticationResponse JSONString];
 
-    [self sendSuccessMessage:authResponseString];
+    if (weAreSharing)
+        [self saveTheAuthenticationBlobForLater];
+    else
+        [self finishWithSuccessMessage:authResponseString];
 
-    self.fullAuthenticationResponse = nil;
+//    self.fullAuthenticationResponse = nil;
 }
 
 - (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl
@@ -261,39 +289,72 @@
                            forProvider:(NSString*)provider
 {
     // TODO: Should we also send a success with just partial (i.e., auth_info) data?
-    [self sendFailureMessage:[self stringFromError:error]];
+    [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
 - (void)jrSocialDidNotCompletePublishing
 {
-    [self sendFailureMessage:[self stringFromCode:JRPublishCanceledError
+    [self finishWithFailureMessage:[self stringFromCode:JRPublishCanceledError
                                        andMessage:@"User canceled sharing"]];
 }
 
 - (void)jrSocialDidCompletePublishing
 {
+    if (!fullSharingResponse)
+        self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
 
+    if (authenticationBlobs)
+        [fullSharingResponse setObject:authenticationBlobs forKey:@"sign-ins"];
 
+    if (shareBlobs)
+        [fullSharingResponse setObject:shareBlobs forKey:@"shares"];
+
+    [self finishWithSuccessMessage:[fullSharingResponse JSONString]];
+
+//    self.fullSharingResponse = nil;
 }
 
 - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity
                        forProvider:(NSString*)provider
 {
-    if (!fullSharingResponse)
-        self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
+//    if (!fullSharingResponse)
+//        self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
 
-    [fullAuthenticationResponse setObject:activity forKey:@"activity"];
-    [fullAuthenticationResponse setObject:provider forKey:@"provider"];
+//    if (![fullSharingResponse objectForKey:@"activity"])
+//        [fullSharingResponse setObject:activity forKey:@"activity"];
 
+    NSDictionary *shareBlob = [NSDictionary dictionaryWithObjectsAndKeys:provider, @"provider", @"ok", @"stat", nil];
+
+    if (!shareBlobs)
+        self.shareBlobs = [NSMutableArray arrayWithCapacity:5];
+
+    [shareBlobs addObject:shareBlob];
+
+//    [fullSharingResponse setObject:provider forKey:@"provider"];
 }
 
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity
                   didFailWithError:(NSError*)error
-                       forProvider:(NSString*)provider { }
+                       forProvider:(NSString*)provider
+{
+    NSDictionary *shareBlob =
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                    provider, @"provider",
+                    @"fail", @"stat",
+                    [NSString stringWithFormat:@"%d", error.code], @"code",
+                    error.localizedDescription, @"message", nil];
+
+    if (!shareBlobs)
+        self.shareBlobs = [NSMutableArray arrayWithCapacity:5];
+
+    [shareBlobs addObject:shareBlob];
+}
 
 - (void)dealloc
 {
     [fullAuthenticationResponse release];
+    [fullSharingResponse release];
+    [authenticationBlobs release];
     [super dealloc];
 }
 @end

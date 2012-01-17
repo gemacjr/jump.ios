@@ -260,6 +260,23 @@ function showSharingDialog()
 
     jrEngage.showSharing(
         activity,
-        null, null
+        function(result)
+        {
+            var resultDictionary = JSON.parse(result);
+
+            console.log(result);
+
+            //handleAuthenticationResult(resultDictionary);
+        },
+
+        function(error)
+        {
+            var errorDictionary = JSON.parse(error);
+
+            console.log(error);
+
+            //handleAuthenticationError(errorDictionary);
+        }
+
     );
 }

@@ -22,10 +22,12 @@
         <array>
             <string>*.rpxnow.com</string>
             <string>*.facebook.com</string>
+            <string>*.fbcdn.net</string>
             <string>*.google.com</string>
             <string>*.yahoo.com</string>
             <string>*.myspace.com</string>
             <string>*.twitter.com</string>
+            <string>*.twimg.com</string>
             <string>*.paypal.com</string>
             <string>*.jrauthenticate.appspot.com</string>
     	</array>

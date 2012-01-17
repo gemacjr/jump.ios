@@ -44,6 +44,10 @@
 
     NSMutableDictionary *fullAuthenticationResponse;
     NSMutableDictionary *fullSharingResponse;
+    NSMutableArray      *authenticationBlobs;
+    NSMutableArray      *shareBlobs;
+
+    BOOL weAreSharing;
 }
 
 @property (nonatomic, copy) NSString* callbackID;
