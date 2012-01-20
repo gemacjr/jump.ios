@@ -78,9 +78,9 @@ typedef enum
 typedef enum
 {
     JRPublishFailedError = 300,
+    JRPublishErrorActivityNil,
     JRPublishCanceledError,
     JRPublishErrorBadConnection,
-    JRPublishErrorActivityNil,
     JRPublishErrorMissingParameter,
     JRPublishErrorMissingApiKey,
     JRPublishErrorCharacterLimitExceeded,
@@ -93,6 +93,7 @@ typedef enum
     JRPublishErrorLinkedInGeneric,
     JRPublishErrorMyspaceGeneric,
     JRPublishErrorYahooGeneric,
+    JRPublishErrorFeedActionRequestLimit, // TODO: Add a test for this
     JRPublishErrorInvalidOauthKey, /* Will be deprecating */
     JRPublishErrorLinkedInCharacterExceeded, /* Will be deprecating */
 } JREngageSocialPublishingError;

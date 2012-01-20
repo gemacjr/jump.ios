@@ -237,12 +237,30 @@
                                        andMessage:@"User canceled authentication"]];
 }
 
+- (void)jrAuthenticationDidFailWithError:(NSError*)error
+                             forProvider:(NSString*)provider
+{
+    // TODO: What if they fail during sharing??
+    // TODO: Make sure the dialog doesn't close in this case if there's an error during sharing
+    if (!weAreSharing)
+        [self finishWithFailureMessage:[self stringFromError:error]];
+}
+
+- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl
+                      didFailWithError:(NSError*)error
+                           forProvider:(NSString*)provider
+{
+    // TODO: Should we also send a success with just partial (i.e., auth_info) data?
+    if (!weAreSharing)
+        [self finishWithFailureMessage:[self stringFromError:error]];
+}
+
 - (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
                               forProvider:(NSString*)provider
 {
     // TODO: What if they authenticate during sharing?  Should we include this stuff with the sharing response?
-    // Or are we hijacking the sharing callback with the auth call backs??? (Looks like this is the case; adding
-    // a boolean to stop the hijacking
+    // Or are we hijacking the sharing callback with the auth call backs??? (Looks like it this is the case; adding
+    // a boolean to stop the hijacking)
 
     NSMutableDictionary *newAuthInfo = [NSMutableDictionary dictionaryWithDictionary:auth_info];
     [newAuthInfo removeObjectForKey:@"stat"];
@@ -252,12 +270,6 @@
 
     [fullAuthenticationResponse setObject:newAuthInfo forKey:@"auth_info"];
     [fullAuthenticationResponse setObject:provider forKey:@"provider"];
-}
-
-- (void)jrAuthenticationDidFailWithError:(NSError*)error
-                             forProvider:(NSString*)provider
-{
-    [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl
@@ -284,13 +296,6 @@
 //    self.fullAuthenticationResponse = nil;
 }
 
-- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl
-                      didFailWithError:(NSError*)error
-                           forProvider:(NSString*)provider
-{
-    // TODO: Should we also send a success with just partial (i.e., auth_info) data?
-    [self finishWithFailureMessage:[self stringFromError:error]];
-}
 
 - (void)jrSocialDidNotCompletePublishing
 {
@@ -298,20 +303,21 @@
                                        andMessage:@"User canceled sharing"]];
 }
 
-- (void)jrSocialDidCompletePublishing
+- (void)jrSocialPublishingActivity:(JRActivityObject*)activity
+                  didFailWithError:(NSError*)error
+                       forProvider:(NSString*)provider
 {
-    if (!fullSharingResponse)
-        self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
+    NSDictionary *shareBlob =
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                    provider, @"provider",
+                    @"fail", @"stat",
+                    [NSString stringWithFormat:@"%d", error.code], @"code",
+                    error.localizedDescription, @"message", nil];
 
-    if (authenticationBlobs)
-        [fullSharingResponse setObject:authenticationBlobs forKey:@"sign-ins"];
+    if (!shareBlobs)
+        self.shareBlobs = [NSMutableArray arrayWithCapacity:5];
 
-    if (shareBlobs)
-        [fullSharingResponse setObject:shareBlobs forKey:@"shares"];
-
-    [self finishWithSuccessMessage:[fullSharingResponse JSONString]];
-
-//    self.fullSharingResponse = nil;
+    [shareBlobs addObject:shareBlob];
 }
 
 - (void)jrSocialDidPublishActivity:(JRActivityObject*)activity
@@ -333,21 +339,39 @@
 //    [fullSharingResponse setObject:provider forKey:@"provider"];
 }
 
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity
-                  didFailWithError:(NSError*)error
+- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity
                        forProvider:(NSString*)provider
 {
-    NSDictionary *shareBlob =
-            [NSDictionary dictionaryWithObjectsAndKeys:
-                    provider, @"provider",
-                    @"fail", @"stat",
-                    [NSString stringWithFormat:@"%d", error.code], @"code",
-                    error.localizedDescription, @"message", nil];
+//    if (!fullSharingResponse)
+//        self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
+
+//    if (![fullSharingResponse objectForKey:@"activity"])
+//        [fullSharingResponse setObject:activity forKey:@"activity"];
+
+    NSDictionary *shareBlob = [NSDictionary dictionaryWithObjectsAndKeys:provider, @"provider", @"ok", @"stat", nil];
 
     if (!shareBlobs)
         self.shareBlobs = [NSMutableArray arrayWithCapacity:5];
 
     [shareBlobs addObject:shareBlob];
+
+//    [fullSharingResponse setObject:provider forKey:@"provider"];
+}
+
+- (void)jrSocialDidCompletePublishing
+{
+    if (!fullSharingResponse)
+        self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
+
+    if (authenticationBlobs)
+        [fullSharingResponse setObject:authenticationBlobs forKey:@"sign-ins"];
+
+    if (shareBlobs)
+        [fullSharingResponse setObject:shareBlobs forKey:@"shares"];
+
+    [self finishWithSuccessMessage:[fullSharingResponse JSONString]];
+
+//    self.fullSharingResponse = nil;
 }
 
 - (void)dealloc

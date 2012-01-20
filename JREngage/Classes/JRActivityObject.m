@@ -325,6 +325,7 @@
                                   @"mp3", @"type",
                                   [_src URLEscaped], @"src", nil] autorelease];
 
+    // TODO: Use setObject instead????
     if (_title)
         [dict setValue:[_title URLEscaped] forKey:@"title"];
 
