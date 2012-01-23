@@ -65,6 +65,8 @@ typedef enum
     JRSessionDataFinishGetProvidersError,
     JRDialogShowingError,
     JRProviderNotConfiguredError,
+    JRMissingAppIdError,
+    JRGenericConfigurationError,
 } JREngageConfigurationError;
 
 typedef enum
@@ -79,6 +81,7 @@ typedef enum
 {
     JRPublishFailedError = 300,
     JRPublishErrorActivityNil,
+    JRPublishErrorBadActivityJson,
     JRPublishCanceledError,
     JRPublishErrorBadConnection,
     JRPublishErrorMissingParameter,

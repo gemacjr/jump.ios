@@ -64,6 +64,7 @@ static JREngage* singletonJREngage = nil;
     return self;
 }
 
+// TODO: Should we fail right away if appId is null?
 - (id)initWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
 {
     ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);

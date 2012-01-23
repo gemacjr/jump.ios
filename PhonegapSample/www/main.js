@@ -185,12 +185,16 @@ function handleAuthenticationError(errorDictionary)
         configurationError(code, message);
     } else if (code == jrEngage.JRProviderNotConfiguredError) {
         configurationError(code, message);
+    } else if (code == jrEngage.JRMissingAppIdError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRGenericConfigurationError) {
+        configurationError(code, message);
     } else if (code == jrEngage.JRAuthenticationFailedError) {
         authenticationError(code, message);
     } else if (code == jrEngage.JRAuthenticationTokenUrlFailedError) {
         authenticationError(code, message);
     } else if (code == jrEngage.JRAuthenticationCanceled) {
-        authenticationError(code, message);
+        /* Do nothing in this case */
     } else {
         authenticationError(code, message);
     }

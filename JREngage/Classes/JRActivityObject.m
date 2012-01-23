@@ -811,8 +811,9 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
         NSMutableArray *actionLinksArray = [NSMutableArray arrayWithCapacity:5];
         for (NSObject *actionLink in tempArray)
         {
+            // TODO: This will throw an exception if there's a bad media object (e.g., href not url; returns null) by adding null to an array
             if ([actionLink isKindOfClass:[NSDictionary class]])
-                [actionLinksArray addObject:[JRActionLink actionLinkFromDictionary:(NSDictionary *)actionLink]];
+                [actionLinksArray addObject:[JRActionLink actionLinkFromDictionary:(NSDictionary*)actionLink]];
         }
         activityObject.actionLinks = actionLinksArray;
     }
@@ -823,6 +824,7 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
         NSMutableArray *mediaArray = [NSMutableArray arrayWithCapacity:5];
         for (NSObject *mediaObject in tempArray)
         {
+            // TODO: This will throw an exception if there's a bad media object (e.g., src not url; returns null) by adding null to an array
             if ([mediaObject isKindOfClass:[NSDictionary class]])
             {
                 if ([[(NSDictionary*)mediaObject objectForKey:@"type"] isEqualToString:@"image"])

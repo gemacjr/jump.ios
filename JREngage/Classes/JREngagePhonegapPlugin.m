@@ -88,13 +88,15 @@
 {
     self.callbackID = [arguments pop];
 
-    DLog(@"[arguments pop]: %@", callbackID);
+    DLog(@"print arguments: %@", callbackID);
 
     NSString     *printString  = [arguments objectAtIndex:0];
     PluginResult *pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
                                                 messageAsString:printString];
 
-    if([printString isEqualToString:@"Hello World }]%20"] == YES)
+    // TODO: Nathan, what were you testing here?
+    // if([printString isEqualToString:@"Hello World }]%20"] == YES)
+    if([printString isEqualToString:@"Hello World"] == YES)
     {
         [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
     }
@@ -135,7 +137,7 @@
 {
     NSMutableDictionary *errorResponse = [NSMutableDictionary dictionaryWithCapacity:2];
 
-    [errorResponse setObject:[NSString stringWithFormat:@"%d", error.code] forKey:@"code"];
+    [errorResponse setObject:[NSNumber numberWithInt:error.code] forKey:@"code"];
     [errorResponse setObject:error.localizedDescription forKey:@"message"];
     [errorResponse setObject:@"fail" forKey:@"stat"];
 
@@ -146,7 +148,7 @@
 {
     NSMutableDictionary *errorResponse = [NSMutableDictionary dictionaryWithCapacity:2];
 
-    [errorResponse setObject:[NSString stringWithFormat:@"%d", code] forKey:@"code"];
+    [errorResponse setObject:[NSNumber numberWithInt:code] forKey:@"code"];
     [errorResponse setObject:message forKey:@"message"];
     [errorResponse setObject:@"fail" forKey:@"stat"];
 
@@ -165,6 +167,8 @@
 
 - (void)initializeJREngage:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
+    DLog(@"");
+
     self.callbackID = [arguments pop];
 
     NSString *appId;
@@ -172,10 +176,9 @@
         appId = [arguments objectAtIndex:0];
     else
     {
-        PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_ERROR
-                                              messageAsString:@"Missing appId in call to initialize"];
+        [self finishWithFailureMessage:[self stringFromCode:JRMissingAppIdError
+                                                 andMessage:@"Missing appId in call to initialize"]];
 
-        [self writeJavascript:[result toErrorCallbackString:self.callbackID]];
         return;
     }
 
@@ -184,18 +187,21 @@
         tokenUrl = [arguments objectAtIndex:1];
 
     jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
+    if (!jrEngage)
+    {
+        [self finishWithFailureMessage:[self stringFromCode:JRGenericConfigurationError
+                                                 andMessage:@"There was an error initializing JREngage: returned JREngage object was null"]];
 
-    // TODO: Check jrEngage result
-    // TODO: Standardize returned objects
+        return;
+    }
 
-    PluginResult* pluginResult = [PluginResult resultWithStatus:PGCommandStatus_OK
-                                                messageAsString:@"Initializing JREngage..."];
-
-    [self writeJavascript:[pluginResult toSuccessCallbackString:self.callbackID]];
+    [self finishWithSuccessMessage:@"{'stat':'ok','message':'Initializing JREngage...'}"];
 }
 
 - (void)showAuthenticationDialog:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
+    DLog(@"");
+
     self.callbackID = [arguments pop];
 
     [jrEngage showAuthenticationDialog];
@@ -203,64 +209,76 @@
 
 - (void)showSharingDialog:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
+    DLog(@"");
+
     self.callbackID = [arguments pop];
+    weAreSharing    = YES;
 
     NSString *activityString;
     if ([arguments count])
         activityString = [arguments objectAtIndex:0];
     else
     {
-        // TODO: Standardize this error
-        PluginResult* result = [PluginResult resultWithStatus:PGCommandStatus_ERROR
-                                              messageAsString:@"Missing activity"];
+        [self finishWithFailureMessage:[self stringFromCode:JRPublishErrorActivityNil
+                                                 andMessage:@"Activity object is required and cannot be null"]];
 
-        [self writeJavascript:[result toErrorCallbackString:self.callbackID]];
         return;
     }
 
-    weAreSharing = YES;
-
     NSDictionary *activityDictionary = (NSDictionary*)[activityString objectFromJSONString];
+    if (!activityDictionary)
+    {
+        [self finishWithFailureMessage:[self stringFromCode:JRPublishErrorBadActivityJson
+                                                 andMessage:@"The activity object passed was not valid JSON"]];
+
+        return;
+    }
+
     JRActivityObject *activityObject = [JRActivityObject activityObjectFromDictionary:activityDictionary];
+    if (!activityObject)
+    {
+        [self finishWithFailureMessage:[self stringFromCode:JRPublishErrorBadActivityJson
+                                                 andMessage:@"The JSON passed was not a valid activity object"]];
+
+        return;
+    }
 
     [jrEngage showSocialPublishingDialogWithActivity:activityObject];
 }
 
 - (void)jrEngageDialogDidFailToShowWithError:(NSError*)error
 {
+    DLog(@"");
     [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
 - (void)jrAuthenticationDidNotComplete
 {
+    DLog(@"");
     [self finishWithFailureMessage:[self stringFromCode:JRAuthenticationCanceledError
-                                       andMessage:@"User canceled authentication"]];
+                                             andMessage:@"User canceled authentication"]];
 }
 
-- (void)jrAuthenticationDidFailWithError:(NSError*)error
-                             forProvider:(NSString*)provider
+- (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider
 {
-    // TODO: What if they fail during sharing??
-    // TODO: Make sure the dialog doesn't close in this case if there's an error during sharing
+    DLog(@"");
+
     if (!weAreSharing)
         [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
-- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl
-                      didFailWithError:(NSError*)error
+- (void)jrAuthenticationCallToTokenUrl:(NSString*)tokenUrl didFailWithError:(NSError*)error
                            forProvider:(NSString*)provider
 {
-    // TODO: Should we also send a success with just partial (i.e., auth_info) data?
+    DLog(@"");
+
     if (!weAreSharing)
         [self finishWithFailureMessage:[self stringFromError:error]];
 }
 
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info
-                              forProvider:(NSString*)provider
+- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)auth_info forProvider:(NSString*)provider
 {
-    // TODO: What if they authenticate during sharing?  Should we include this stuff with the sharing response?
-    // Or are we hijacking the sharing callback with the auth call backs??? (Looks like it this is the case; adding
-    // a boolean to stop the hijacking)
+    DLog(@"");
 
     NSMutableDictionary *newAuthInfo = [NSMutableDictionary dictionaryWithDictionary:auth_info];
     [newAuthInfo removeObjectForKey:@"stat"];
@@ -272,12 +290,12 @@
     [fullAuthenticationResponse setObject:provider forKey:@"provider"];
 }
 
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl
-                            withResponse:(NSURLResponse*)response
-                              andPayload:(NSData*)tokenUrlPayload
-                             forProvider:(NSString*)provider
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response
+                              andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
 {
-    if (!fullAuthenticationResponse) /* That's not right! */;
+    DLog(@"");
+
+    if (!fullAuthenticationResponse) /* That's not right! */; // TODO: Will this ever happen, and if so, what should we do?
 
     NSString *payloadString = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSASCIIStringEncoding] autorelease];
 
@@ -292,21 +310,22 @@
         [self saveTheAuthenticationBlobForLater];
     else
         [self finishWithSuccessMessage:authResponseString];
-
-//    self.fullAuthenticationResponse = nil;
 }
 
 
 - (void)jrSocialDidNotCompletePublishing
 {
+    DLog(@"");
+
     [self finishWithFailureMessage:[self stringFromCode:JRPublishCanceledError
-                                       andMessage:@"User canceled sharing"]];
+                                             andMessage:@"User canceled sharing"]];
 }
 
-- (void)jrSocialPublishingActivity:(JRActivityObject*)activity
-                  didFailWithError:(NSError*)error
+- (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error
                        forProvider:(NSString*)provider
 {
+    DLog(@"");
+
     NSDictionary *shareBlob =
             [NSDictionary dictionaryWithObjectsAndKeys:
                     provider, @"provider",
@@ -320,14 +339,9 @@
     [shareBlobs addObject:shareBlob];
 }
 
-- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity
-                       forProvider:(NSString*)provider
+- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity forProvider:(NSString*)provider
 {
-//    if (!fullSharingResponse)
-//        self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
-
-//    if (![fullSharingResponse objectForKey:@"activity"])
-//        [fullSharingResponse setObject:activity forKey:@"activity"];
+    DLog(@"");
 
     NSDictionary *shareBlob = [NSDictionary dictionaryWithObjectsAndKeys:provider, @"provider", @"ok", @"stat", nil];
 
@@ -335,12 +349,12 @@
         self.shareBlobs = [NSMutableArray arrayWithCapacity:5];
 
     [shareBlobs addObject:shareBlob];
-
-//    [fullSharingResponse setObject:provider forKey:@"provider"];
 }
 
 - (void)jrSocialDidCompletePublishing
 {
+    DLog(@"");
+
     if (!fullSharingResponse)
         self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
 
@@ -351,8 +365,6 @@
         [fullSharingResponse setObject:shareBlobs forKey:@"shares"];
 
     [self finishWithSuccessMessage:[fullSharingResponse JSONString]];
-
-//    self.fullSharingResponse = nil;
 }
 
 - (void)dealloc

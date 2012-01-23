@@ -32,11 +32,6 @@
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-//#import <Foundation/Foundation.h>
-#import "JRSessionData.h"
-//#import "JRActivityObject.h"
-//#import "JSONKit.h"
-
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
@@ -44,6 +39,8 @@
 #endif
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+#import "JRSessionData.h"
 
 #pragma mark server_urls
 //#define ENGAGE_STAGING_SERVER
@@ -1832,31 +1829,21 @@ CALL_DELEGATE_SELECTOR:
 //    else if ([currentProvider.name isEqualToString:@"live_id"])
 //        [self deleteLiveCookies];
 
-    [currentProvider release];
-    currentProvider = nil;
-
-    [returningBasicProvider release];
-    returningBasicProvider = nil;
-
-    [returningSocialProvider release];
-    returningSocialProvider = nil;
-
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(authenticationDidFailWithError:forProvider:)])
             [delegate authenticationDidFailWithError:authError forProvider:currentProvider.name];
     }
+
+    [currentProvider release],         currentProvider         = nil;
+    [returningBasicProvider release],  returningBasicProvider  = nil;
+    [returningSocialProvider release], returningSocialProvider = nil;
 }
 
 - (void)triggerAuthenticationDidCancel
 {
     DLog (@"");
-    [currentProvider release];
-    currentProvider = nil;
-
-//    [returningBasicProvider release];
-//    returningBasicProvider = nil;
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy)
@@ -1864,6 +1851,8 @@ CALL_DELEGATE_SELECTOR:
         if ([delegate respondsToSelector:@selector(authenticationDidCancel)])
             [delegate authenticationDidCancel];
     }
+
+    [currentProvider release], currentProvider = nil;
 }
 
 - (void)triggerAuthenticationDidCancel:(id)sender
@@ -1874,8 +1863,6 @@ CALL_DELEGATE_SELECTOR:
 - (void)triggerAuthenticationDidTimeOutConfiguration
 {
     DLog (@"");
-    [currentProvider release];
-    currentProvider = nil;
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy)
@@ -1883,6 +1870,8 @@ CALL_DELEGATE_SELECTOR:
         if ([delegate respondsToSelector:@selector(authenticationDidCancel)])
             [delegate authenticationDidCancel];
     }
+
+    [currentProvider release], currentProvider = nil;
 }
 
 - (void)triggerAuthenticationDidStartOver:(id)sender
@@ -1900,8 +1889,6 @@ CALL_DELEGATE_SELECTOR:
 - (void)triggerPublishingDidCancel
 {
     DLog (@"");
-    [currentProvider release];
-    currentProvider = nil;
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy)
@@ -1910,6 +1897,7 @@ CALL_DELEGATE_SELECTOR:
             [delegate publishingDidCancel];
     }
 
+    [currentProvider release], currentProvider = nil;
     socialSharing = NO;
 }
 
@@ -1921,8 +1909,6 @@ CALL_DELEGATE_SELECTOR:
 - (void)triggerPublishingDidTimeOutConfiguration
 {
     DLog (@"");
-   [currentProvider release];
-    currentProvider = nil;
 
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy)
@@ -1931,14 +1917,12 @@ CALL_DELEGATE_SELECTOR:
             [delegate publishingDidCancel];
     }
 
+    [currentProvider release], currentProvider = nil;
     socialSharing = NO;
 }
 
 - (void)triggerPublishingDidComplete
 {
-    [currentProvider release];
-    currentProvider = nil;
-
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy)
     {
@@ -1946,6 +1930,7 @@ CALL_DELEGATE_SELECTOR:
             [delegate publishingDidComplete];
     }
 
+    [currentProvider release], currentProvider = nil;
     socialSharing = NO;
 }
 
@@ -1956,13 +1941,14 @@ CALL_DELEGATE_SELECTOR:
 
 - (void)triggerPublishingDidFailWithError:(NSError*)pubError
 {
-    // QTS: When will this ever be called and what do we do when it happens?
     NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     for (id<JRSessionDelegate> delegate in delegatesCopy)
     {
         if ([delegate respondsToSelector:@selector(publishingActivity:didFailWithError:forProvider:)])
             [delegate publishingActivity:activity didFailWithError:pubError forProvider:currentProvider.name];
     }
+
+    // TODO: Do we want to set currentProvider to nil?
 }
 
 - (void)triggerPublishingDidStartOver:(id)sender
