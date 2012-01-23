@@ -42,6 +42,23 @@ JREngagePlugin.prototype.JRProviderNotConfiguredError         = 106;
 JREngagePlugin.prototype.JRAuthenticationFailedError          = 200;
 JREngagePlugin.prototype.JRAuthenticationTokenUrlFailedError  = 201;
 JREngagePlugin.prototype.JRAuthenticationCanceled             = 202;
+JREngagePlugin.prototype.JRPublishFailedError                 = 300;
+JREngagePlugin.prototype.JRPublishErrorActivityNil            = 301;
+JREngagePlugin.prototype.JRPublishCanceledError               = 302;
+JREngagePlugin.prototype.JRPublishErrorBadConnection          = 303;
+JREngagePlugin.prototype.JRPublishErrorMissingParameter       = 304;
+JREngagePlugin.prototype.JRPublishErrorMissingApiKey          = 305;
+JREngagePlugin.prototype.JRPublishErrorCharacterLimitExceeded = 306;
+JREngagePlugin.prototype.JRPublishErrorFacebookGeneric        = 307;
+JREngagePlugin.prototype.JRPublishErrorInvalidFacebookSession = 308;
+JREngagePlugin.prototype.JRPublishErrorInvalidFacebookMedia   = 309;
+JREngagePlugin.prototype.JRPublishErrorTwitterGeneric         = 310;
+JREngagePlugin.prototype.JRPublishErrorDuplicateTwitter       = 311;
+JREngagePlugin.prototype.JRPublishErrorLinkedInGeneric        = 312;
+JREngagePlugin.prototype.JRPublishErrorMyspaceGeneric         = 313;
+JREngagePlugin.prototype.JRPublishErrorYahooGeneric           = 314;
+JREngagePlugin.prototype.JRPublishErrorFeedActionRequestLimit = 315;
+
 
 function JREngagePlugin()
 {
