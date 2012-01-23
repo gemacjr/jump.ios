@@ -339,25 +339,6 @@
 //    [fullSharingResponse setObject:provider forKey:@"provider"];
 }
 
-- (void)jrSocialDidPublishActivity:(JRActivityObject*)activity
-                       forProvider:(NSString*)provider
-{
-//    if (!fullSharingResponse)
-//        self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
-
-//    if (![fullSharingResponse objectForKey:@"activity"])
-//        [fullSharingResponse setObject:activity forKey:@"activity"];
-
-    NSDictionary *shareBlob = [NSDictionary dictionaryWithObjectsAndKeys:provider, @"provider", @"ok", @"stat", nil];
-
-    if (!shareBlobs)
-        self.shareBlobs = [NSMutableArray arrayWithCapacity:5];
-
-    [shareBlobs addObject:shareBlob];
-
-//    [fullSharingResponse setObject:provider forKey:@"provider"];
-}
-
 - (void)jrSocialDidCompletePublishing
 {
     if (!fullSharingResponse)
