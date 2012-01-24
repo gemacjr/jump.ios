@@ -101,10 +101,17 @@ function makeSectionVisible(sectionId, visible)
     }
 }
 
-function removeTheChildren(sectionId)
-{
+function removeTheChildren(sectionId) {
     var section = document.getElementById(sectionId);
 
+    for (var i = 0; i < 3; i++) {
+        var table   = section.children[i];
+        var numRows = table.rows.length;
+
+        for (var j = numRows - 1; j > 0; j--) {
+            table.deleteRow(j);
+        }
+    }
 }
 
 function addValueToRowInTable(value, table, baseClassAttr, indentationClassAttr)
@@ -305,7 +312,7 @@ function handleSharingError(errorDictionary)
     }
 }
 
-function scrubTheUI()
+function cleanTheUI()
 {
     removeTheChildren("authTables");
     removeTheChildren("shareTables");
@@ -316,7 +323,7 @@ function scrubTheUI()
 
 function showAuthenticationDialog()
 {
-    scrubTheUI();
+    cleanTheUI();
 
     jrEngage.showAuthentication(
         function(result)
@@ -341,7 +348,7 @@ function showAuthenticationDialog()
 
 function showSharingDialog()
 {
-    scrubTheUI();
+    cleanTheUI();
 
     var activity =
         '{\
