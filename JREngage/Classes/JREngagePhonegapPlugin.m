@@ -312,15 +312,6 @@
         [self finishWithSuccessMessage:authResponseString];
 }
 
-
-- (void)jrSocialDidNotCompletePublishing
-{
-    DLog(@"");
-
-    [self finishWithFailureMessage:[self stringFromCode:JRPublishCanceledError
-                                             andMessage:@"User canceled sharing"]];
-}
-
 - (void)jrSocialPublishingActivity:(JRActivityObject*)activity didFailWithError:(NSError*)error
                        forProvider:(NSString*)provider
 {
@@ -365,6 +356,19 @@
         [fullSharingResponse setObject:shareBlobs forKey:@"shares"];
 
     [self finishWithSuccessMessage:[fullSharingResponse JSONString]];
+}
+
+- (void)jrSocialDidNotCompletePublishing
+{
+    DLog(@"");
+
+    /* If there have been ANY shares (successful or otherwise) or any auths, call jrSocialDidCompletePublishing */
+    if (authenticationBlobs || shareBlobs)
+        return [self jrSocialDidCompletePublishing];
+
+
+    [self finishWithFailureMessage:[self stringFromCode:JRPublishCanceledError
+                                             andMessage:@"User canceled sharing"]];
 }
 
 - (void)dealloc

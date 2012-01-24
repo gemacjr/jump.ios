@@ -187,7 +187,7 @@ function updateShareTables(resultDictionary)
     var signins = resultDictionary.signIns;
     var shares  = resultDictionary.shares;
 
-    if (signins.length) {
+    if (signins) {
         makeSectionVisible("signInsTable", true);
 
         for (var i = 0; i < signins.length; i++) {
@@ -200,8 +200,8 @@ function updateShareTables(resultDictionary)
             else if (profile.name.givenName) name = profile.name.givenName;
             else name = profile.identifier;
 
-            addValueToRowInTable(provider, document.getElementById("signInsTable"), "keyRow", "levelOne");
-            addValueToRowInTable(name, document.getElementById("signInsTable"), "valueRow", "levelOne");
+            addValueToRowInTable(provider, document.getElementById("signInsTable"), "valueRow", "levelOne");
+            addValueToRowInTable(name, document.getElementById("signInsTable"), "keyRow", "levelOne");
         }
     } else {
         makeSectionVisible("signInsTable", false);
@@ -210,21 +210,21 @@ function updateShareTables(resultDictionary)
     var numGoodShares = 0;
     var numBadShares  = 0;
 
-    if (shares.length) {
+    if (shares) {
         for (i = 0; i < shares.length; i++) {
             var share = shares[i];
 
             if (share.stat == "ok") {
-                addValueToRowInTable("Activity Shared On", document.getElementById("goodSharesTable"), "keyRow", "levelOne");
-                addValueToRowInTable(share.provider, document.getElementById("goodSharesTable"), "valueRow", "levelOne");
+                addValueToRowInTable("Activity Shared On", document.getElementById("goodSharesTable"), "valueRow", "levelOne");
+                addValueToRowInTable(share.provider, document.getElementById("goodSharesTable"), "keyRow", "levelOne");
 
                 numGoodShares++;
             } else { /* if (share.stat == "fail") */
-                addValueToRowInTable("Activity Failed On", document.getElementById("badSharesTable"), "keyRow", "levelOne");
-                addValueToRowInTable(share.provider, document.getElementById("badSharesTable"), "valueRow", "levelOne");
+                addValueToRowInTable("Activity Failed On", document.getElementById("badSharesTable"), "valueRow", "levelOne");
+                addValueToRowInTable(share.provider, document.getElementById("badSharesTable"), "keyRow", "levelOne");
 
-                addValueToRowInTable("Reason", document.getElementById("badSharesTable"), "keyRow", "levelOne");
-                addValueToRowInTable(share.message, document.getElementById("badSharesTable"), "valueRow", "levelOne");
+                addValueToRowInTable("Reason", document.getElementById("badSharesTable"), "valueRow", "levelOne");
+                addValueToRowInTable(share.message, document.getElementById("badSharesTable"), "keyRow", "levelOne");
 
                 numBadShares++;
             }
