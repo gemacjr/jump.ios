@@ -32,6 +32,7 @@
  Date:   Wednesday, January 4th, 2012
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+JREngagePlugin.prototype.JREngagePhonegapError                =  -1;
 JREngagePlugin.prototype.JRUrlError                           = 100;
 JREngagePlugin.prototype.JRDataParsingError                   = 101;
 JREngagePlugin.prototype.JRJsonError                          = 102;

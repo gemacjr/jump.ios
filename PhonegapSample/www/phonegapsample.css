@@ -36,7 +36,9 @@
 
 html, body
 {
-    background-color: #A5BDC8;
+    /*background-color: #A5BDC8;*/
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #3FB8F7));
+
     margin: 0;
     padding: 0;
     height: 100%;
@@ -47,12 +49,53 @@ p
     font-family: Helvetica, Arial, sans-serif;
 }
 
+.logo
+{
+    width: 240px;
+    height: 80px;
+    margin: 100px 40px 30px 40px;
+}
+
 .button
 {
     /*width: 320px;*/
     /*align: center;*/
-    width: 160px;
-    margin: 0 auto;
+
+    /*width: 160px;*/
+    /*margin: 0 auto;*/
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #1A557C), color-stop(1, #053044));
+
+    border: 1px solid black;/*0 none;*/
+    border-radius: 15px 15px 15px 15px;
+    box-shadow: 0 2px 4px #999;
+
+
+    width: 180px;
+    height: 35px;
+    margin: 0 70px 15px 70px;
+    padding: 0;
+
+    /*clear: both;*/
+    /*height: 35px;*/
+    /*width: 290px;*/
+    /*margin: 15px;*/
+    /*padding: 3px;*/
+    /*position: relative;*/
+    /*z-index: 100;*/
+}
+
+.button p
+{
+    padding: 0;
+    padding-top: 5px;
+    margin: 0;
+    height: 35px;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 22px;
+    text-shadow: 0.1em 0.1em #333;
 }
 
 .janrainLink
@@ -60,6 +103,7 @@ p
     width: 320px;
     font-size: 14px;
     text-align: center;
+    margin-top: 20px;
 }
 
 .janrainLink a:link
@@ -74,6 +118,11 @@ p
 
 .janrainLink a:hover { }
 .janrainLink a:active { }
+
+#tables
+{
+    display: none;
+}
 
 table.phonegapTable
 {
@@ -179,13 +228,6 @@ table.phonegapTable tr.levelThree td
 {
     width: 280px;
     padding-left: 30px;
-}
-
-.logo
-{
-    width: 240px;
-    height: 80px;
-    margin: 20px 40px 20px 40px;
 }
 
 .poweredBy

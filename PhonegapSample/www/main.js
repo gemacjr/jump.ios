@@ -37,16 +37,16 @@ function testJREngagePlugin()
 {
     jrEngage.print
     (
-        "Hello World }]%20",
+        "Hello World", //"Hello World }]%20",
 
         function(result)
         {
-            alert("Success: "+result);
+            alert("Success: " + result);
         },
 
         function(error)
         {
-            alert("Error: "+error);
+            alert("Error: " + error);
         }
     );
 }
