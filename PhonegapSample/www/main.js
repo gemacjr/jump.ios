@@ -79,6 +79,34 @@ function onDeviceReady()
     );
 }
 
+function moveLogo(upOrDown)
+{
+    var logo = document.getElementById("logo");
+
+    if (upOrDown == "up") {
+        logo.style.marginTop = 40;
+    } else { /* if (upOrDown == "down") */
+        logo.style.marginTop = 100;
+    }
+}
+
+function makeSectionVisible(sectionId, visible)
+{
+    var section = document.getElementById(sectionId);
+
+    if (visible) {
+        section.style.display = "block";
+    } else {
+        section.style.display = "none";
+    }
+}
+
+function removeTheChildren(sectionId)
+{
+    var section = document.getElementById(sectionId);
+
+}
+
 function addValueToRowInTable(value, table, baseClassAttr, indentationClassAttr)
 {
     var row      = document.createElement("tr");
@@ -111,10 +139,8 @@ function addValueToRowInTable(value, table, baseClassAttr, indentationClassAttr)
     table.appendChild(row);
 }
 
-function updateTables(resultDictionary)
+function updateAuthTables(resultDictionary)
 {
-    // TODO: Unhide the tables...
-
     addValueToRowInTable(resultDictionary.provider, document.getElementById("providerTable"), "singleRow", "levelOne");
     addValueToRowInTable(resultDictionary.tokenUrl, document.getElementById("tokenUrlTable"), "singleRow", "levelOne");
 
@@ -144,16 +170,60 @@ function updateTables(resultDictionary)
             }
         }
     }
+
+    moveLogo("up");
+    makeSectionVisible("authTables", true);
+}
+
+function updateShareTables(resultDictionary)
+{
+    addValueToRowInTable(resultDictionary.provider, document.getElementById("providerTable"), "singleRow", "levelOne");
+    addValueToRowInTable(resultDictionary.tokenUrl, document.getElementById("tokenUrlTable"), "singleRow", "levelOne");
+
+    var profile = resultDictionary.auth_info.profile;
+
+    console.log(profile);
+
+    var profileTable = document.getElementById("profileTable");
+
+    for (var key in profile) {
+        if (profile.hasOwnProperty(key)) {
+
+            addValueToRowInTable(key, profileTable, "keyRow", "levelOne");
+
+         /* Yeah, yeah, should be recursive, but for now the auth_info profile
+            is only ever two levels deep */
+            if (profile[key] && typeof profile[key] === 'object') {
+                var subobject = profile[key];
+                for (var subkey in subobject) {
+                    if (subobject.hasOwnProperty(subkey)) {
+                        addValueToRowInTable(subkey, profileTable, "keyRow", "levelTwo");
+                        addValueToRowInTable(subobject[subkey], profileTable, "valueRow", "levelTwo");
+                    }
+                }
+            } else {
+                addValueToRowInTable(profile[key], profileTable, "valueRow", "levelOne");
+            }
+        }
+    }
+
+    moveLogo("up");
+    makeSectionVisible("shareTables", true);
 }
 
 function handleAuthenticationResult(resultDictionary)
 {
-    var stat    = resultDictionary.stat;
-    var payload = resultDictionary.payload;
-
     // TODO: Check the stat to make sure it's ok
     // TODO: Do something with the payload
-    updateTables(resultDictionary);
+    // var stat    = resultDictionary.stat;
+    // var payload = resultDictionary.payload;
+
+    updateAuthTables(resultDictionary);
+}
+
+function handleSharingResult(resultDictionary)
+{
+    updateShareTables(resultDictionary);
 }
 
 function configurationError(code, message)
@@ -164,6 +234,11 @@ function configurationError(code, message)
 function authenticationError(code, message)
 {
     alert("There was a problem authenticating.\n" + message);
+}
+
+function sharingError(code, message)
+{
+    alert("There was a problem sharing.\n" + message);
 }
 
 function handleAuthenticationError(errorDictionary)
@@ -200,10 +275,48 @@ function handleAuthenticationError(errorDictionary)
     }
 }
 
+function handleSharingError(errorDictionary)
+{
+    var code    = errorDictionary.code;
+    var message = errorDictionary.message;
+
+    if (code == jrEngage.JRUrlError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRDataParsingError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRJsonError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRConfigurationInformationError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRSessionDataFinishGetProvidersError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRDialogShowingError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRProviderNotConfiguredError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRMissingAppIdError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRGenericConfigurationError) {
+        configurationError(code, message);
+    } else if (code == jrEngage.JRPublishCanceledError) {
+        /* Do nothing in this case */
+    } else {
+        sharingError(code, message);
+    }
+}
+
+function scrubTheUI()
+{
+    removeTheChildren("authTables");
+    removeTheChildren("shareTables");
+    makeSectionVisible("authTables", false);
+    makeSectionVisible("shareTables", false);
+    moveLogo("down");
+}
+
 function showAuthenticationDialog()
 {
-    // TODO: Remove children elements from the tables...
-    // TODO: Hide the tables...
+    scrubTheUI();
 
     jrEngage.showAuthentication(
         function(result)
@@ -228,7 +341,7 @@ function showAuthenticationDialog()
 
 function showSharingDialog()
 {
-//    var activity = "{\"action\":\"this is the action\",\"url\":\"http://janrain.com\",\"resourceTitle\":\"this is the title\",\"resourceDescription\":\"this is the description\"}";
+    scrubTheUI();
 
     var activity =
         '{\
@@ -270,7 +383,7 @@ function showSharingDialog()
 
             console.log(result);
 
-            //handleAuthenticationResult(resultDictionary);
+            handleSharingResult(resultDictionary);
         },
 
         function(error)
@@ -279,7 +392,7 @@ function showSharingDialog()
 
             console.log(error);
 
-            //handleAuthenticationError(errorDictionary);
+            handleSharingError(errorDictionary);
         }
 
     );

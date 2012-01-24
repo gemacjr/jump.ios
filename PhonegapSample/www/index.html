@@ -60,7 +60,7 @@
     <div id="main">
       <!--<h1>Hey, it's PhoneGap!</h1>-->
 
-      <img class="logo" src="./janrain_logo.png"/>
+      <img id="logo" src="./janrain_logo.png"/>
 
       <!--<div class="button"><button onclick="testJREngagePlugin()">Test the Plugin</button></div>-->
 
@@ -86,10 +86,16 @@
 
       <br />
 
-      <div id="tables">
+      <div id="authTables">
         <table id="providerTable" class="phonegapTable"><tr><th>Provider</th></tr></table>
         <table id="tokenUrlTable" class="phonegapTable"><tr><th>Token Url</th></tr></table>
         <table id="profileTable"  class="phonegapTable"><tr><th>User Profile</th></tr></table>
+      </div>
+
+      <div id="shareTables">
+        <table id="sharingAuthsTable"     class="phonegapTable"><tr><th>Sign-Ins</th></tr></table>
+        <table id="successfulSharesTable" class="phonegapTable"><tr><th>Successful Shares</th></tr></table>
+        <table id="failedSharesTable"     class="phonegapTable"><tr><th>Failed Shares</th></tr></table>
       </div>
 
       <!--<br/>-->
