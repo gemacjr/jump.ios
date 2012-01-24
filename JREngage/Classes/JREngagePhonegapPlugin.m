@@ -359,7 +359,7 @@
         self.fullSharingResponse = [NSMutableDictionary dictionaryWithCapacity:5];
 
     if (authenticationBlobs)
-        [fullSharingResponse setObject:authenticationBlobs forKey:@"sign-ins"];
+        [fullSharingResponse setObject:authenticationBlobs forKey:@"signIns"];
 
     if (shareBlobs)
         [fullSharingResponse setObject:shareBlobs forKey:@"shares"];

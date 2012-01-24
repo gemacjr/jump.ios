@@ -184,35 +184,58 @@ function updateAuthTables(resultDictionary)
 
 function updateShareTables(resultDictionary)
 {
-    addValueToRowInTable(resultDictionary.provider, document.getElementById("providerTable"), "singleRow", "levelOne");
-    addValueToRowInTable(resultDictionary.tokenUrl, document.getElementById("tokenUrlTable"), "singleRow", "levelOne");
+    var signins = resultDictionary.signIns;
+    var shares  = resultDictionary.shares;
 
-    var profile = resultDictionary.auth_info.profile;
+    if (signins.length) {
+        makeSectionVisible("signInsTable", true);
 
-    console.log(profile);
+        for (var i = 0; i < signins.length; i++) {
+            var provider = signins[i].provider;
+            var profile = signins[i].auth_info.profile;
+            var name;
 
-    var profileTable = document.getElementById("profileTable");
+            if (profile.displayName) name = profile.displayName;
+            else if (profile.name.formatted) name = profile.name.formatted;
+            else if (profile.name.givenName) name = profile.name.givenName;
+            else name = profile.identifier;
 
-    for (var key in profile) {
-        if (profile.hasOwnProperty(key)) {
+            addValueToRowInTable(provider, document.getElementById("signInsTable"), "keyRow", "levelOne");
+            addValueToRowInTable(name, document.getElementById("signInsTable"), "valueRow", "levelOne");
+        }
+    } else {
+        makeSectionVisible("signInsTable", false);
+    }
 
-            addValueToRowInTable(key, profileTable, "keyRow", "levelOne");
+    var numGoodShares = 0;
+    var numBadShares  = 0;
 
-         /* Yeah, yeah, should be recursive, but for now the auth_info profile
-            is only ever two levels deep */
-            if (profile[key] && typeof profile[key] === 'object') {
-                var subobject = profile[key];
-                for (var subkey in subobject) {
-                    if (subobject.hasOwnProperty(subkey)) {
-                        addValueToRowInTable(subkey, profileTable, "keyRow", "levelTwo");
-                        addValueToRowInTable(subobject[subkey], profileTable, "valueRow", "levelTwo");
-                    }
-                }
-            } else {
-                addValueToRowInTable(profile[key], profileTable, "valueRow", "levelOne");
+    if (shares.length) {
+        for (i = 0; i < shares.length; i++) {
+            var share = shares[i];
+
+            if (share.stat == "ok") {
+                addValueToRowInTable("Activity Shared On", document.getElementById("goodSharesTable"), "keyRow", "levelOne");
+                addValueToRowInTable(share.provider, document.getElementById("goodSharesTable"), "valueRow", "levelOne");
+
+                numGoodShares++;
+            } else { /* if (share.stat == "fail") */
+                addValueToRowInTable("Activity Failed On", document.getElementById("badSharesTable"), "keyRow", "levelOne");
+                addValueToRowInTable(share.provider, document.getElementById("badSharesTable"), "valueRow", "levelOne");
+
+                addValueToRowInTable("Reason", document.getElementById("badSharesTable"), "keyRow", "levelOne");
+                addValueToRowInTable(share.message, document.getElementById("badSharesTable"), "valueRow", "levelOne");
+
+                numBadShares++;
             }
         }
     }
+
+    if (numGoodShares) makeSectionVisible("goodSharesTable", true);
+    else makeSectionVisible("goodSharesTable", false);
+
+    if (numBadShares) makeSectionVisible("badSharesTable", true);
+    else makeSectionVisible("badSharesTable", false);
 
     moveLogo("up");
     makeSectionVisible("shareTables", true);
