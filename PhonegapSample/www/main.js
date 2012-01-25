@@ -84,9 +84,9 @@ function moveLogo(upOrDown)
     var logo = document.getElementById("logo");
 
     if (upOrDown == "up") {
-        logo.style.marginTop = 40;
+        logo.style.marginTop = "40px";
     } else { /* if (upOrDown == "down") */
-        logo.style.marginTop = 100;
+        logo.style.marginTop = "100px";
     }
 }
 
