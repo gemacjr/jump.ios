@@ -49,19 +49,18 @@
     NSURLRequest    *_request;
     NSMutableData   *_response;
     NSURLResponse   *_fullResponse;
+    NSObject        *_tag;
 
     BOOL _returnFullResponse;
-
-    void *_tag;
 
     id<JRConnectionManagerDelegate> _delegate;
 }
 
-@property (retain) NSURLRequest     *request;
-@property (retain) NSMutableData    *response;
-@property (retain) NSURLResponse *fullResponse;
+@property (retain)   NSURLRequest  *request;
+@property (retain)   NSMutableData *response;
+@property (retain)   NSURLResponse *fullResponse;
+@property (readonly) NSObject      *tag;
 @property (readonly) BOOL returnFullResponse;
-@property (readonly) void *tag;
 @property (readonly) id<JRConnectionManagerDelegate> delegate;
 @end
 
@@ -76,21 +75,20 @@
 - (id)initWithRequest:(NSURLRequest*)request
           forDelegate:(id<JRConnectionManagerDelegate>)delegate
    returnFullResponse:(BOOL)returnFullResponse
-              withTag:(void*)userdata
+              withTag:(NSObject*)userdata
 {
 //  DLog(@"");
 
     if ((self = [super init]))
     {
-        _request  = [request retain];
-        _response = nil;
-        _fullResponse = nil;
-
+        _request            = [request retain];
+        _tag                = [userdata retain];
         _returnFullResponse = returnFullResponse;
 
-        _delegate = [delegate retain];
+        _response     = nil;
+        _fullResponse = nil;
 
-        _tag = userdata;
+        _delegate = [delegate retain];
     }
 
     return self;
@@ -104,6 +102,7 @@
     [_response release];
     [_fullResponse release];
     [_delegate release];
+    [_tag release];
 
     [super dealloc];
 }
@@ -227,7 +226,7 @@ static JRConnectionManager* singleton = nil;
 + (bool)createConnectionFromRequest:(NSURLRequest*)request
                         forDelegate:(id<JRConnectionManagerDelegate>)delegate
                  returnFullResponse:(BOOL)returnFullResponse
-                            withTag:(void*)userdata
+                            withTag:(NSObject*)userdata
 {
 //    DLog(@"request: %@", [[request URL] absoluteString]);
 
@@ -265,7 +264,7 @@ static JRConnectionManager* singleton = nil;
 
 + (bool)createConnectionFromRequest:(NSURLRequest*)request
                         forDelegate:(id<JRConnectionManagerDelegate>)delegate
-                            withTag:(void*)userdata
+                            withTag:(NSObject*)userdata
 {
     return [JRConnectionManager createConnectionFromRequest:request forDelegate:delegate returnFullResponse:NO withTag:userdata];
 }
@@ -324,7 +323,7 @@ static JRConnectionManager* singleton = nil;
     NSURLRequest *request = [connectionData request];
     NSURLResponse *fullResponse = [connectionData fullResponse];
     NSData *responseBody = [connectionData response];
-    void* userdata = [connectionData tag];
+    NSObject* userdata = [connectionData tag];
     id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 
     if ([connectionData fullResponse] == NO)
@@ -351,8 +350,8 @@ static JRConnectionManager* singleton = nil;
 
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 
-    NSURLRequest *request = [connectionData request];
-    void* userdata = [connectionData tag];
+    NSURLRequest *request  = [connectionData request];
+    NSObject     *userdata = [connectionData tag];
     id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 
     if ([delegate respondsToSelector:@selector(connectionDidFailWithError:request:andTag:)])

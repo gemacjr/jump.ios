@@ -6,7 +6,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import "JRConnectionManager.h"
 
-
-@interface CaptureInterface : NSObject
+@interface CaptureInterface : NSObject <JRConnectionManagerDelegate>
 @end

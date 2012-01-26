@@ -204,6 +204,7 @@
 		9FD5942D14D0BDA900AD7829 /* CaptureNewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD5942C14D0BDA900AD7829 /* CaptureNewUserViewController.xib */; };
 		C01FCF5008A954540054247D /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247C /* UserListViewController.m */; };
 		C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */; };
+		C01FCF5008A9545400542482 /* CaptureInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542481 /* CaptureInterface.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -428,6 +429,8 @@
 		C01FCF5008A954540054247C /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListViewController.m; sourceTree = "<group>"; };
 		C01FCF5008A954540054247E /* ProfileDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDrillDownViewController.h; sourceTree = "<group>"; };
 		C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDrillDownViewController.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542481 /* CaptureInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureInterface.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542483 /* CaptureInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureInterface.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -449,6 +452,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C01FCF5008A9545400542483 /* CaptureInterface.h */,
+				C01FCF5008A9545400542481 /* CaptureInterface.m */,
 				C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */,
 				C01FCF5008A954540054247E /* ProfileDrillDownViewController.h */,
 				C01FCF5008A954540054247C /* UserListViewController.m */,
@@ -1166,6 +1171,7 @@
 				C01FCF5008A954540054247D /* UserListViewController.m in Sources */,
 				C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */,
 				9FD5942914D0BD6C00AD7829 /* CaptureNewUserViewController.m in Sources */,
+				C01FCF5008A9545400542482 /* CaptureInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
