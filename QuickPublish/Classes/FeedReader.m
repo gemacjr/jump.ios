@@ -195,7 +195,7 @@
     [fileManager removeItemAtPath:imagePath error:&error];
 }
 
-- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(NSObject*)userdata
 {
     image = [[UIImage imageWithData:payload] retain];
 
@@ -214,9 +214,9 @@
     }
 }
 
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
-- (void)connectionDidFailWithError:(NSError*)_error request:(NSURLRequest*)request andTag:(void*)userdata { downloadFailed = YES; }
-- (void)connectionWasStoppedWithTag:(void*)userdata { }
+- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(NSObject*)userdata { }
+- (void)connectionDidFailWithError:(NSError*)_error request:(NSURLRequest*)request andTag:(NSObject*)userdata { downloadFailed = YES; }
+- (void)connectionWasStoppedWithTag:(NSObject*)userdata { }
 
 /* To save memory, image will only download itself if prompted to do so by the story. */
 - (void)downloadImage
