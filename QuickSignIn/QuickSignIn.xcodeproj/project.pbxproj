@@ -200,6 +200,8 @@
 		9FB40A3512414DC500FDDA7B /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2F12414DC500FDDA7B /* UserDetailsViewController.m */; };
 		9FB40A3612414DC500FDDA7B /* QuickSignInAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */; };
 		9FBE274412A713F600E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE274312A713F600E1F93E /* Security.framework */; };
+		9FD5942914D0BD6C00AD7829 /* CaptureNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5942714D0BD6C00AD7829 /* CaptureNewUserViewController.m */; };
+		9FD5942D14D0BDA900AD7829 /* CaptureNewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD5942C14D0BDA900AD7829 /* CaptureNewUserViewController.xib */; };
 		C01FCF5008A954540054247D /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247C /* UserListViewController.m */; };
 		C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */; };
 /* End PBXBuildFile section */
@@ -420,7 +422,10 @@
 		9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickSignInAppDelegate.m; sourceTree = "<group>"; };
 		9FB40A3712414DD200FDDA7B /* Quick_Sign_In_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quick_Sign_In_Prefix.pch; sourceTree = "<group>"; };
 		9FBE274312A713F600E1F93E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		C01FCF5008A954540054247C /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListViewController.m; path = UserListViewController.m; sourceTree = "<group>"; };
+		9FD5942614D0BD6C00AD7829 /* CaptureNewUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureNewUserViewController.h; sourceTree = "<group>"; };
+		9FD5942714D0BD6C00AD7829 /* CaptureNewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureNewUserViewController.m; sourceTree = "<group>"; };
+		9FD5942C14D0BDA900AD7829 /* CaptureNewUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureNewUserViewController.xib; sourceTree = "<group>"; };
+		C01FCF5008A954540054247C /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListViewController.m; sourceTree = "<group>"; };
 		C01FCF5008A954540054247E /* ProfileDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDrillDownViewController.h; sourceTree = "<group>"; };
 		C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDrillDownViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -458,6 +463,8 @@
 				9FB40A2F12414DC500FDDA7B /* UserDetailsViewController.m */,
 				9F30A8E212BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.h */,
 				9F30A8E312BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m */,
+				9FD5942614D0BD6C00AD7829 /* CaptureNewUserViewController.h */,
+				9FD5942714D0BD6C00AD7829 /* CaptureNewUserViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -552,6 +559,7 @@
 		9F521EA312B062940073ABAE /* xibs */ = {
 			isa = PBXGroup;
 			children = (
+				9FD5942C14D0BDA900AD7829 /* CaptureNewUserViewController.xib */,
 				9F521EA412B062940073ABAE /* MainWindow.xib */,
 				9F521EA512B062940073ABAE /* QSIRootViewController.xib */,
 				9F521EA612B062940073ABAE /* UserListViewController.xib */,
@@ -1107,6 +1115,7 @@
 				9F7BC2B5146888A80068BD40 /* JRWebViewController.xib in Resources */,
 				9F7BC2B6146888A80068BD40 /* JREngage-Info.plist in Resources */,
 				9F0C6BB51492CF77001D6AB1 /* Settings.bundle in Resources */,
+				9FD5942D14D0BDA900AD7829 /* CaptureNewUserViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1156,6 +1165,7 @@
 				9F7BC22B146888A80068BD40 /* JRPreviewLabel.m in Sources */,
 				C01FCF5008A954540054247D /* UserListViewController.m in Sources */,
 				C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */,
+				9FD5942914D0BD6C00AD7829 /* CaptureNewUserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

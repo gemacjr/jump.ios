@@ -34,6 +34,7 @@ Copyright (c) 2010, Janrain, Inc.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "UserListViewController.h"
+#import "CaptureNewUserViewController.h"
 
 @interface UserListTableViewCell : UITableViewCell
 {
@@ -748,6 +749,14 @@ Copyright (c) 2010, Janrain, Inc.
 
         myTableView.tableHeaderView.alpha = headerAlpha;
     }
+}
+
+- (void)showCaptureScreen
+{
+    CaptureNewUserViewController *viewController = [[[CaptureNewUserViewController alloc]
+            initWithNibName:@"CaptureNewUserViewController" bundle:[NSBundle mainBundle]] autorelease];
+
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }

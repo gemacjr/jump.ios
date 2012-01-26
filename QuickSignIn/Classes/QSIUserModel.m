@@ -45,7 +45,6 @@
 #import "JREngage+CustomInterface.h"
 
 @interface UserModel ()
-
 @property (retain) EmbeddedTableViewController *embeddedTable;
 - (void)loadSignedInUser;
 - (void)finishSignUserIn:(NSDictionary *)user;
@@ -88,17 +87,22 @@ Instantiate the JRAuthenticate Library with your Engage Application's 20-charact
 library with a token URL, you must make the call yourself after you receive the token,
 otherwise, this happens automatically.                                                  */
 
+// TODO: Get this out of here... belongs in its super secret hiding place
 static NSString *appId = @"mlfeingbenjalleljkpo";
 //static NSString *appId = @"gcinoifepaljfmgcgheo";
 //static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin";
 static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin?client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg&redirect_uri=https://example.com";
+static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
+
+
 //    [body appendData:[@"&client_id=d6rresj57ex24sxkybjt5qre9vj6jdhj" dataUsingEncoding:NSUTF8StringEncoding]];
 //    [body appendData:[@"&client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg" dataUsingEncoding:NSUTF8StringEncoding]];
 //    [body appendData:[@"&client_id=stc5y5a399qwfg85ap9tup5m9vfbm4a4" dataUsingEncoding:NSUTF8StringEncoding]];
 //    [body appendData:[@"&redirect_uri=https://example.com" dataUsingEncoding:NSUTF8StringEncoding]];
+
 - (UserModel*)init
 {
-    if (self = [super init])
+    if ((self = [super init]))
     {
      /* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
         jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
@@ -111,7 +115,7 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
         currentProvider = nil;
         displayName = nil;
 
-        historyCountSnapShot = [prefs integerForKey:@"historyCount"];
+        historyCountSnapShot = (NSUInteger) [prefs integerForKey:@"historyCount"];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             iPad = YES;
@@ -150,13 +154,10 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
 
 - (NSUInteger)retainCount
 {
-    return NSUIntegerMax;  //denotes an object that cannot be released
+    return NSUIntegerMax;  /* Denotes an object that cannot be released */
 }
 
-- (oneway void)release
-{
-    //do nothing
-}
+- (oneway void)release { /* Do nothing */ }
 
 - (id)autorelease
 {
@@ -329,8 +330,8 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
         return;
 
  /* If there is, load the displayName and identifier */
-    identifier = [[currentUser objectForKey:@"identifier"] retain];
-    displayName = [[currentUser objectForKey:@"displayName"] retain];
+    identifier      = [[currentUser objectForKey:@"identifier"] retain];
+    displayName     = [[currentUser objectForKey:@"displayName"] retain];
     currentProvider = [[currentUser objectForKey:@"provider"] retain];
 
  /* Then check the cookies to make sure the saved user's identifier matches any cookie returned from
@@ -373,11 +374,12 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
     if (currentUser)
         [self finishSignUserOut];
 
-    /* Get the identifier and normalize it (remove html escapes) */
-    identifier = [[[[user objectForKey:@"profile"] objectForKey:@"identifier"]
-            stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
+ /* Get the identifier and normalize it (remove html escapes) */
+    identifier =
+            [[[[user objectForKey:@"profile"] objectForKey:@"identifier"]
+                     stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"] retain];
 
-    /* Get the display name */
+ /* Get the display name */
     displayName = [[UserModel getDisplayNameFromProfile:[user objectForKey:@"profile"]] retain];
 
  /* Store the current user's profile dictionary in the dictionary of users,
@@ -388,17 +390,13 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
     if (![tmpProfiles objectForKey:identifier])
     {
      /* Create a mutable dictionary from the non-mutable NSUserDefaults dictionary, */
-        NSMutableDictionary* newProfiles = [[NSMutableDictionary alloc]
-                                        initWithCapacity:([tmpProfiles count] + 1)];
-        [newProfiles addEntriesFromDictionary:tmpProfiles];
+        NSMutableDictionary* newProfiles = [NSMutableDictionary dictionaryWithDictionary:tmpProfiles];
 
-     /* add the user's profile to the dictionary, indexed by the identifier, and save. */
+     /* add the user's profile to the dictionary, indexed by the identifier, */
         [newProfiles setObject:user forKey:identifier];
+
+     /* and save. */
         [prefs setObject:newProfiles forKey:@"userProfiles"];
-        NSDictionary *t = [prefs objectForKey:@"userProfiles"];
-
-
-        [newProfiles release];
     }
 
  /* Get the approximate timestamp of the user's log in */
@@ -412,7 +410,7 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
 
  /* Create a dictionary of the identifier and the timestamp.  For now, save this dictionary
     as the currently logged in user. */
-    currentUser = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+    currentUser = [[NSDictionary dictionaryWithObjectsAndKeys:
                     identifier, @"identifier",
                     currentProvider, @"provider",
                     displayName, @"displayName",
@@ -580,7 +578,7 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
  * (Capture profiles can have null values and JSONKit parses them to NSNulls, but Engage profiles don't and so
  * didn't trigger this incompatibility.)
  */
-- (id)nullWalker:(id)structure;
+- (id)nullWalker:(id)structure
 {
     if ([structure isKindOfClass:[NSDictionary class]])
     {
@@ -591,7 +589,7 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
         {
             NSObject *val = [dict objectForKey:key];
             if ([val isKindOfClass:[NSNull class]])
-                ;// don't add
+                /* don't add */;
             else if ([val isKindOfClass:[NSDictionary class]])
                 [retval setObject:[self nullWalker:val] forKey:key];
             else if ([val isKindOfClass:[NSArray class]])
@@ -607,7 +605,7 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
         NSMutableArray *retval = [NSMutableArray array];
         for (NSObject *val in array)
             if ([val isKindOfClass:[NSNull class]])
-                ;// don't add
+                /* don't add */;
             else if ([val isKindOfClass:[NSDictionary class]])
                 [retval addObject:[self nullWalker:val]];
             else if ([val isKindOfClass:[NSArray class]])
@@ -630,7 +628,7 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
 
     NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
     NSDictionary* payloadDict = [payload objectFromJSONString];
-    
+
     if (!payloadDict)
     {
         ALog(@"Unable to parse token URL response: @%", payload);
@@ -639,32 +637,36 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
     }
 
     NSDictionary* captureProfile = [payloadDict objectForKey:@"profile"];
-    captureProfile = captureProfile ? 
+    captureProfile = captureProfile ?
             [self nullWalker:captureProfile]
             : nil;
 
-    NSString *captureToken = [payloadDict objectForKey:@"access_token"];
-    NSDictionary* captureCredential = (captureToken) ?
-            [NSDictionary dictionaryWithObject:captureToken forKey:@"access_token"]
-            : nil;
+    NSString *captureAccessToken   = [payloadDict objectForKey:@"access_token"];
+    NSString *captureCreationToken = [payloadDict objectForKey:@"creation_token"];
+    NSDictionary* captureCredentials;
 
-    NSString *creationToken = [payloadDict objectForKey:@"creation_token"];
-    captureCredential = (creationToken) ?
-            [NSDictionary dictionaryWithObject:creationToken forKey:@"creation_token"]
-            : nil;
+    if (captureAccessToken)
+        captureCredentials = [NSDictionary dictionaryWithObject:captureAccessToken
+                                                         forKey:@"access_token"];
+    else if (captureCreationToken)
+        captureCredentials =  [NSDictionary dictionaryWithObject:captureCreationToken
+                                                          forKey:@"creation_token"];
+    else
+        captureCredentials = nil;
 
     if (captureProfile)
         [authInfo setObject:captureProfile forKey:@"captureProfile"];
-    if (captureCredential)
-        [authInfo setObject:captureCredential forKey:@"captureCredentials"];
-    
-    if (creationToken)
-    {
-    }
+    if (captureCredentials)
+        [authInfo setObject:captureCredentials forKey:@"captureCredentials"];
+
+    if (captureCreationToken)
+        if ([tokenUrlDelegate respondsToSelector:@selector(showCaptureScreen)])
+                [tokenUrlDelegate showCaptureScreen];
+
 
     // XXX hack for Capture mobile demo
     [self finishSignUserIn:authInfo];
-    authInfo = nil;
+    [self setAuthInfo:nil];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
@@ -672,8 +674,9 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
 
     [tokenUrlDelegate didReachTokenUrl];
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
-    
-    // now pass the capture access token to the backend server in exchange for an app access token  
+
+    // now pass the capture access token to the backend server in exchange for an app access token
+    // (Lilli) ???
 }
 
 - (void)jrAuthenticationDidNotComplete
@@ -703,7 +706,23 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
 
     [tokenUrlDelegate didFailToReachTokenUrl];
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
+
 //  [signInDelegate didFailToSignIn:YES];
 //  [signInDelegate release], signInDelegate = nil;
+}
+
+- (void)dealloc
+{
+    [displayName release];
+    [identifier release];
+    [currentProvider release];
+
+    [customInterface release];
+    [signOutDelegate release];
+    [signOutDelegate release];
+    [signInDelegate release];
+    [currentUser release];
+    [prefs release];
+    [super dealloc];
 }
 @end

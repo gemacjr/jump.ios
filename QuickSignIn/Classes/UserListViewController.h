@@ -60,7 +60,7 @@
     UIButton        *myDoneButtonPad;
     UIBarButtonItem *mySignOutButtonPad;
 
-    UserDetailsViewController * userDetailsViewController;
+    UserDetailsViewController *userDetailsViewController;
 }
 - (IBAction)signOutButtonPressed:(id)sender;
 - (void)addAnotherButtonPressed:(id)sender;

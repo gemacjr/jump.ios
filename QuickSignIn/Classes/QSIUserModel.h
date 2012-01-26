@@ -50,6 +50,7 @@
 - (void)userDidSignOut;
 - (void)didReachTokenUrl;
 - (void)didFailToReachTokenUrl;
+- (void)showCaptureScreen;
 @end
 
 @protocol LibraryDialogDelegate <NSObject>
@@ -73,7 +74,7 @@
 
  /* Session dictionary (and strings) containing the identifier, display name,
     current provider, and timestamp of the currently signed in user. */
-    NSMutableDictionary *currentUser;
+    NSDictionary    *currentUser;
     NSString        *identifier;
     NSString        *displayName;
     NSString        *currentProvider;
