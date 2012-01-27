@@ -46,9 +46,17 @@ static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
 static NSString *clientId   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
 static NSString *typeName   = @"demo_user";
 
+
 - (CaptureInterface*)init
 {
-    if ((self = [super init])) { }
+    if ((self = [super init]))
+    {
+        acceptibleAttributes = [[NSArray arrayWithObjects:
+                                             @"displayName",
+                                             @"email",
+                                             @"emailVerified",
+                                             nil] retain];
+    }
 
     return self;
 }
@@ -104,19 +112,33 @@ static NSString *typeName   = @"demo_user";
     self.captureInterfaceDelegate = nil;
 }
 
+- (NSDictionary *)makeCaptureUserFromEngageUser:(NSDictionary *)engageUser
+{
+    NSMutableDictionary *captureDicionary = [NSMutableDictionary dictionaryWithCapacity:10];
+    NSDictionary *profile                 = [engageUser objectForKey:@"profile"];
+    NSDictionary *captureAdditions        = [engageUser objectForKey:@"captureAdditions"];
+
+    for (NSString *key in [profile allKeys])
+        if ([acceptibleAttributes containsObject:key])
+            [captureDicionary setObject:[profile objectForKey:key] forKey:key];
+
+    return captureDicionary;
+}
+
 - (void)startCreateCaptureUser:(NSDictionary*)user
 {
     DLog(@"");
 
-    NSString *userString = [[user JSONString] URLEscaped];
-    NSString *creationToken = [[user objectForKey:@"captureCredentials"] objectForKey:@"creation_token"];
+    NSDictionary *captureUser   = [self makeCaptureUserFromEngageUser:user];
+    NSString     *attributes    = [[captureUser JSONString] URLEscaped];
+    NSString     *creationToken = [[user objectForKey:@"captureCredentials"] objectForKey:@"creation_token"];
 
     DLog(@"%@", creationToken);
 
     NSMutableData* body = [NSMutableData data];
 
     [body appendData:[[NSString stringWithFormat:@"type_name=%@", typeName] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&attributes=%@", userString] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&creation_token=%@", creationToken] dataUsingEncoding:NSUTF8StringEncoding]];
 
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
@@ -184,6 +206,7 @@ static NSString *typeName   = @"demo_user";
 - (void)dealloc
 {
     [captureInterfaceDelegate release];
+    [acceptibleAttributes release];
     [super dealloc];
 }
 

@@ -16,6 +16,7 @@
 
 @interface CaptureInterface : NSObject <JRConnectionManagerDelegate>
 {
+    NSArray *acceptibleAttributes;
     id<CaptureInterfaceDelegate> captureInterfaceDelegate;
 }
 + (void)createCaptureUser:(NSDictionary*)user forDelegate:(id<CaptureInterfaceDelegate>)delegate;

@@ -16,6 +16,10 @@
 
 #import "CaptureNewUserViewController.h"
 
+@interface CaptureNewUserViewController ()
+@property (nonatomic, retain) NSMutableDictionary *newUser;
+@end
+
 @implementation CaptureNewUserViewController
 @synthesize myHometownTextView;
 @synthesize myGenderIdentitySegControl;
@@ -23,6 +27,8 @@
 @synthesize myBirthdayPicker;
 @synthesize myPickerToolbar;
 @synthesize myAgreeSwitch;
+@synthesize newUser;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,7 +45,8 @@
 
     NSDictionary *user   = [[UserModel getUserModel] currentUser];
     NSString *identifier = [user objectForKey:@"identifier"];
-    newUser              = [[[UserModel getUserModel] userProfiles] objectForKey:identifier];
+    self.newUser         = [NSMutableDictionary dictionaryWithDictionary:
+                                   [[[UserModel getUserModel] userProfiles] objectForKey:identifier]];
 }
 
 - (IBAction)birthdayButtonClicked:(id)sender
@@ -60,6 +67,15 @@
 - (IBAction)doneButtonPressed:(id)sender
 {
     DLog(@"");
+
+    //    NSMutableDictionary *newCaptureStuff =
+    //                                [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    //                                                            myHometownTextView.text, @"hometown",
+    //                                                            myBirthdayButton.titleLabel.text, @"birthday",
+    //                                                            myGenderIdentitySegControl.selectedSegmentIndex ?
+    //                                                                    @"male" : @"female", @"gender", nil];
+    //    [newUser setObject:newCaptureStuff forKey:@"captureAdditions"];
+
     [CaptureInterface createCaptureUser:newUser
                             forDelegate:self];
 }
@@ -91,6 +107,7 @@
     [myBirthdayPicker release];
     [myAgreeSwitch release];
     [myPickerToolbar release];
+    [newUser release];
     [super dealloc];
 }
 @end
