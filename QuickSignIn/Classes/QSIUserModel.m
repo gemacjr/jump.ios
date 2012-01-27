@@ -32,6 +32,7 @@
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
@@ -92,7 +93,6 @@ static NSString *appId = @"mlfeingbenjalleljkpo";
 //static NSString *appId = @"gcinoifepaljfmgcgheo";
 //static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin";
 static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin?client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg&redirect_uri=https://example.com";
-static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
 
 
 //    [body appendData:[@"&client_id=d6rresj57ex24sxkybjt5qre9vj6jdhj" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -386,9 +386,10 @@ static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
     using the identifier as the key, and then save the dictionary of users */
     NSDictionary *tmpProfiles = [prefs objectForKey:@"userProfiles"];
 
- /* If this profile doesn't already exist in the dictionary of saved profiles */
-    if (![tmpProfiles objectForKey:identifier])
-    {
+// TODO: Not saving the dictionary causes problems with the capture token; investigate a better way?
+// /* If this profile doesn't already exist in the dictionary of saved profiles */
+//    if (![tmpProfiles objectForKey:identifier])
+//    {
      /* Create a mutable dictionary from the non-mutable NSUserDefaults dictionary, */
         NSMutableDictionary* newProfiles = [NSMutableDictionary dictionaryWithDictionary:tmpProfiles];
 
@@ -397,7 +398,7 @@ static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
 
      /* and save. */
         [prefs setObject:newProfiles forKey:@"userProfiles"];
-    }
+//    }
 
  /* Get the approximate timestamp of the user's log in */
     NSDate *today = [NSDate date];
@@ -659,11 +660,6 @@ static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
     if (captureCredentials)
         [authInfo setObject:captureCredentials forKey:@"captureCredentials"];
 
-    if (captureCreationToken)
-        if ([tokenUrlDelegate respondsToSelector:@selector(showCaptureScreen)])
-                [tokenUrlDelegate showCaptureScreen];
-
-
     // XXX hack for Capture mobile demo
     [self finishSignUserIn:authInfo];
     [self setAuthInfo:nil];
@@ -672,6 +668,12 @@ static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
 
     pendingCallToTokenUrl = NO;
 
+    // TODO: Fix this delegation crap; maybe add show stuff to didReachTokenUrl or something
+    if (captureCreationToken)
+        if ([tokenUrlDelegate respondsToSelector:@selector(showCaptureScreen)])
+                [tokenUrlDelegate showCaptureScreen];
+
+    // TODO: delegate function is optional
     [tokenUrlDelegate didReachTokenUrl];
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
 

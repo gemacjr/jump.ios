@@ -8,5 +8,15 @@
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
 
+@protocol CaptureInterfaceDelegate <NSObject>
+@optional
+- (void)createCaptureUserDidSucceed;
+- (void)createCaptureUserDidFail;
+@end
+
 @interface CaptureInterface : NSObject <JRConnectionManagerDelegate>
+{
+    id<CaptureInterfaceDelegate> captureInterfaceDelegate;
+}
++ (void)createCaptureUser:(NSDictionary*)user forDelegate:(id<CaptureInterfaceDelegate>)delegate;
 @end

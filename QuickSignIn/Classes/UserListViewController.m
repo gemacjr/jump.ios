@@ -582,6 +582,7 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)didReachTokenUrl
 {
+#ifndef CAPTURE_DEMO
 //    DLog(@"");
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign-In Complete"
                                                      message:@"You have successfully signed-in to the Quick Sign-In application and server."
@@ -589,16 +590,19 @@ Copyright (c) 2010, Janrain, Inc.
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil] autorelease];
     [alert show];
+#endif
 }
 
 - (void)didFailToReachTokenUrl
 {
+#ifndef CAPTURE_DEMO
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Sign-In Error"
                                                      message:@"An error occurred while attempting to sign you in to the Quick Sign-In server."
                                                     delegate:self
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil] autorelease];
     [alert show];
+#endif
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

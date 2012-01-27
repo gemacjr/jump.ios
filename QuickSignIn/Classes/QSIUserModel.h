@@ -41,6 +41,8 @@
 #import "EmbeddedNativeSignInViewController.h"
 
 #define LILLI
+#define CAPTURE_DEMO
+
 
 @protocol UserModelDelegate <NSObject>
 @optional

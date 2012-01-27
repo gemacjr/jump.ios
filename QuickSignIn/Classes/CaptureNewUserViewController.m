@@ -6,6 +6,14 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 #import "CaptureNewUserViewController.h"
 
 @implementation CaptureNewUserViewController
@@ -28,6 +36,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    NSDictionary *user   = [[UserModel getUserModel] currentUser];
+    NSString *identifier = [user objectForKey:@"identifier"];
+    newUser              = [[[UserModel getUserModel] userProfiles] objectForKey:identifier];
 }
 
 - (IBAction)birthdayButtonClicked:(id)sender
@@ -47,7 +59,19 @@
 
 - (IBAction)doneButtonPressed:(id)sender
 {
+    DLog(@"");
+    [CaptureInterface createCaptureUser:newUser
+                            forDelegate:self];
+}
 
+- (void)createCaptureUserDidSucceed
+{
+    ;
+}
+
+- (void)createCaptureUserDidFail
+{
+    ;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

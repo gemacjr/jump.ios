@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSIUserModel.h"
+#import "CaptureInterface.h"
 
-@interface CaptureNewUserViewController : UIViewController
+@interface CaptureNewUserViewController : UIViewController <CaptureInterfaceDelegate>
 {
-    NSDictionary    *selectedUser;
+    NSDictionary    *newUser;
 
     UIDatePicker *myBirthdayPicker;
     UIButton     *myBirthdayButton;
