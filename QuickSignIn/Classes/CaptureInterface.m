@@ -14,6 +14,7 @@
 
 #import "CaptureInterface.h"
 #import "JSONKit.h"
+#import "JRUserObject.h"
 
 @interface NSString (NSString_JSON_ESCAPE)
 - (NSString*)URLEscaped;
@@ -114,6 +115,7 @@ static NSString *typeName   = @"demo_user";
 
 - (NSDictionary *)makeCaptureUserFromEngageUser:(NSDictionary *)engageUser
 {
+    JRUserObject *userObject = [JRUserObject userObject];
     NSMutableDictionary *captureDicionary = [NSMutableDictionary dictionaryWithCapacity:10];
     NSDictionary *profile                 = [engageUser objectForKey:@"profile"];
     NSDictionary *captureAdditions        = [engageUser objectForKey:@"captureAdditions"];
