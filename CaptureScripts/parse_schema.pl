@@ -5,8 +5,8 @@ use warnings;
 use JSON; # imports encode_json, decode_json, to_json and from_json.
 
 
-my @hFiles = ();
-my @mFiles = ();
+my %hFiles = ();
+my %mFiles = ();
 
 ###################################################################
 #  Section only here when there are required properties     
@@ -28,48 +28,45 @@ my @mFiles = ();
 #     return self;
 # }
 ################################################################
+#
+#+ (id)actionLinkWithText:(NSString*)text andHref:(NSString*)href
+#{
+#    return [[[JRActionLink alloc] initWithText:text andHref:href] autorelease];
+#}
+#
+#- (id)copyWithZone:(NSZone*)zone
+#{
+#	JRMp3MediaObject *mp3MediaObjectCopy =
+#                             [[JRMp3MediaObject allocWithZone:zone] initWithSrc:_src];
+#
+#    mp3MediaObjectCopy.title  = _title;
+#    mp3MediaObjectCopy.artist = _artist;
+#    mp3MediaObjectCopy.album  = _album;
+#
+#	return mp3MediaObjectCopy;
+#}
 
-my @constructorParts     = ("- (id)init", "",
-                            "{\n\tif (", "", ")\n",
-                               "\t{\n\t\t[self release];\n\t\treturn nil;\n\t}\n\n",
-                               "\tif ((self = [super init]))\n\t{\n", "",
-                               "\t}\n\treturn self;\n}\n\n");
-my @copyConstructorParts = (); 
-my @jsonifyParts         = ("- (NSDictionary*)jsonFromObject\n{\n\tNSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
-                            "", "", "\n\treturn dict;\n}\n");
-my @destructorParts      = ("- (void)dealloc\n{", "", "\n\t[super dealloc];\n}\n");
+
+my @constructorParts      = ("- (id)init", "",
+                             "\n{\n",
+                                "\tif (", "", ")\n",
+                                "\t{\n\t\t[self release];\n\t\treturn nil;\n\t}\n\n",
+                                "\tif ((self = [super init]))\n\t{\n", "",
+                                "\t}\n\treturn self;\n}\n\n");
+
+my @classConstructorParts = ("+ (id)", "", "", 
+                             "\n{\n\treturn [[[", "", " alloc] init", "", "] autorelease];\n}\n\n"); 
+
+my @copyConstructorParts  = ("- (id)copyWithZone:(NSZone*)zone\n{\n", 
+                             "", " allocWithZone:zone] init", "", "];\n\n",
+                             "", "\n\treturn ", "", ";\n}\n\n");
+
+my @jsonifyParts          = ("- (NSDictionary*)jsonFromObject\n{\n\tNSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
+                            "", "", "\n\treturn dict;\n}\n\n");
+
+my @destructorParts       = ("- (void)dealloc\n{\n", "", "\n\t[super dealloc];\n}\n");
 
   
-
- 
-#sub hFileStartForObject {
-#  my $objectName = $_[0];
-#
-#  return "\@interface JR" . $objectName . "Object : NSObject <NSCopying, JRJsonifying>";
-#}
-#
-#sub mFileStartForObject {
-#  my $objectName = $_[0];
-#
-#  return "\@implementation JR" . $objectName . "Object";
-#}
-#
-#sub hFileFinish {
-#  return $_[0] . "\n\@end\n";
-#}
-#
-#sub mFileFinish {
-#  return $_[0] . "\n\@end\n";
-#}
-#
-#sub hFileSave {
-#  push (@hFiles, $_);
-#}
-#
-#sub mFileSave {
-#  push (@mFiles, $_);
-#}
-
 sub getIsRequired {
   my $hashRef = $_[0];
   my %propertyHash = %$hashRef;
@@ -103,14 +100,26 @@ sub recursiveParse {
 #  print "recursiveParse array: $arrRef\n";
 #  print "array length: " . @propertyList . "\n";
     
-  my $propertiesSection      = "";
-  my $synthesizeSection      = "";
-  my @constructorSection     = @constructorParts;
-  my @copyConstructorSection = @copyConstructorParts;
-  my @destructorSection      = @destructorParts;
-  my @jsonifySection         = @jsonifyParts;
+  my $extraImportsSection     = "";
+  my $propertiesSection       = "";
+  my $synthesizeSection       = "";
+  my @constructorSection      = @constructorParts;
+  my @classConstructorSection = @classConstructorParts;
+  my @copyConstructorSection  = @copyConstructorParts;
+  my @destructorSection       = @destructorParts;
+  my @jsonifySection          = @jsonifyParts;
   
-  my %requiredProperties = ();
+  my $className = "JR" . ucfirst($objectName) . "Object";
+ 
+  $classConstructorSection[1] = $objectName . "Object";
+  $classConstructorSection[4] = $className;
+  
+  $copyConstructorSection[1]  = "\t" . $className . " *" . $objectName . "ObjectCopy =\n\t\t\t\t[[" . $className;
+  $copyConstructorSection[7]  = $objectName . "ObjectCopy";
+  
+  
+#  my %requiredProperties = ();
+  my $requiredProperties = 0;
   
   my $i = 0;
   foreach my $hashRef (@propertyList) {
@@ -131,7 +140,8 @@ sub recursiveParse {
     my $isRequired = getIsRequired (\%propertyHash); 
     if ($isRequired) {
       print "REQUIRED PROPERTY\n";
-      $requiredProperties{$propertyName} = $propertyType;
+      $requiredProperties++;
+      #$requiredProperties{$propertyName} = $propertyType;
     }
     
     if ($propertyType eq "string") {
@@ -158,36 +168,49 @@ sub recursiveParse {
       $objectiveType = "NSString *";
 
     } elsif ($propertyType eq "plural") { # RECURSE!!
-      $isComplexType = 1;
       $objectiveType = "JR" . ucfirst($propertyName) . " *";
       $dictionaryStr = "[$propertyName jsonFromObject]";
+      $extraImportsSection = "#import \"$objectiveType.h\"\n";
 
     } elsif ($propertyType eq "object") { # RECURSE!!
-      $isComplexType = 1;
       $objectiveType = "JR" . ucfirst($propertyName) . " *";
       $dictionaryStr = "[$propertyName jsonFromObject]";
+      $extraImportsSection = "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
       
     } else {
       print "PROPERTY TYPE NOT BEING CAUGHT: " . $propertyName . "\n";
     }
 
     if ($isRequired) {
-      if (%requiredProperties eq 1) { # If it's the first required property
+      if ($requiredProperties == 1) { # If it's the first required property
         $constructorSection[1] .= "With" . ucfirst($propertyName) . ":(" . $objectiveType . ")new" . ucfirst($propertyName);
-        $constructorSection[3] .= "!new" . ucfirst($propertyName);
+        $constructorSection[4] .= "!new" . ucfirst($propertyName);
+        
+        $classConstructorSection[2] .= "With" . ucfirst($propertyName) . ":(" . $objectiveType . ")" . ucfirst($propertyName);
+        $classConstructorSection[6] .= "With" . ucfirst($propertyName) . ":" . ucfirst($propertyName);
+
+        $copyConstructorSection[3]  .= "With" . ucfirst($propertyName) . ":" . ucfirst($propertyName);
 
         # TODO: some copy constructor stuff                 
         
       } else {
         $constructorSection[1] .= " and" . ucfirst($propertyName) . ":(" . $objectiveType . ")new" . ucfirst($propertyName);
-        $constructorSection[3] .= " && !new" . ucfirst($propertyName);
+        $constructorSection[4] .= " && !new" . ucfirst($propertyName);
+
+        $classConstructorSection[2] .= " and" . ucfirst($propertyName) . ":(" . $objectiveType . ")" . ucfirst($propertyName);
+        $classConstructorSection[6] .= " and" . ucfirst($propertyName) . ":" . ucfirst($propertyName);
+
+        $copyConstructorSection[3]  .= " and" . ucfirst($propertyName) . ":" . ucfirst($propertyName);
       }        
       
-      $constructorSection[7] .= "\t\t" . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
+      $constructorSection[8] .= "\t\t" . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
       $jsonifySection[1] .= "\t\t[dict setObject:" . $dictionaryStr . " forKey:\@\"" . $propertyName . "\"];\n";
+      
     } else {
-      $jsonifySection[2] .= "\t\tif (" . $propertyName . ")\n";
+      $jsonifySection[2] .= "\tif (" . $propertyName . ")\n";
       $jsonifySection[2] .= "\t\t\t[dict setObject:" . $dictionaryStr . " forKey:\@\"" . $propertyName . "\"];\n\n";
+      
+      $copyConstructorSection[5] .= "\t" . $objectName . "ObjectCopy." . $propertyName . " = self." . $propertyName . ";\n";
     }
     
     if ($isBooleanType) {
@@ -195,25 +218,33 @@ sub recursiveParse {
       $synthesizeSection    .= "\@synthesize $propertyName;\n";    
     } else {
       $destructorSection[1] .= "\t[$propertyName release];\n";
-      $propertiesSection    .= "\@property (nonatomic, copy) $objectiveType $propertyName;\n";
+      $propertiesSection    .= "\@property (nonatomic, copy) $objectiveType$propertyName;\n";
       $synthesizeSection    .= "\@synthesize $propertyName;\n";
     }      
 
     $i++;
   }
+  
+  
 
-  my $hFile = "\@interface JR" . ucfirst($objectName) . "Object : NSObject <NSCopying, JRJsonifying>"; #hFileStartForObject(ucfirst($objectName));
-
+  #$objectName = "JR" . ucfirst($objectName) . "Object";
+  
+  my $hFile = "\n#import <Foundation/Foundation.h>\n#import \"JRCapture.h\"\n";
+  
+  $hFile .= $extraImportsSection . "\n";
+  $hFile .= "\@interface $className : NSObject <NSCopying, JRJsonifying>\n"; #hFileStartForObject(ucfirst($objectName));
   $hFile .= $propertiesSection;
   $hFile .= "\@end\n";
 
-  my $mFile = "\@implementation JR" . ucfirst($objectName) . "Object";                                 #mFileStartForObject(ucfirst($objectName));
+  my $mFile = "\n#import \"$className.h\"\n\n";
+  
+  $mFile .= "\@implementation $className\n";                                 #mFileStartForObject(ucfirst($objectName));
 
   $mFile .= $synthesizeSection . "\n";
   
   for (my $i = 0; $i < @constructorSection; $i++) {
-    if ($i == 1 || $i == 3 || $i == 7) {
-      if (%requiredProperties) {     
+    if ($i == 1 || $i == 3 || $i == 4 || $i == 5 || $i == 6 || $i == 8) {
+      if ($requiredProperties) {     
         $mFile .= $constructorSection[$i];
       }
     } else {
@@ -221,14 +252,18 @@ sub recursiveParse {
     }
   }
 
+  for (my $i = 0; $i < @classConstructorSection; $i++) {
+    $mFile .= $classConstructorSection[$i];
+  }
+
   for (my $i = 0; $i < @copyConstructorSection; $i++) {
-    if (0) {
-      if (%requiredProperties) {     
-        $mFile .= $copyConstructorSection[$i];
-      }
-    } else {
+#    if (0) {
+#      if (%requiredProperties) {     
+#        $mFile .= $copyConstructorSection[$i];
+#      }
+#    } else {
       $mFile .= $copyConstructorSection[$i];
-    }
+#    }
   }
   
   for (my $i = 0; $i < @jsonifySection; $i++) {
@@ -241,8 +276,10 @@ sub recursiveParse {
 
   $mFile .= "\@end\n";  
   
-  push (@hFiles, $hFile);
-  push (@mFiles, $mFile);
+#  $hFileName = 
+#  $hFiles{$propertyName} = $propertyType;
+#  push (@hFiles, $hFile);
+#  push (@mFiles, $mFile);
   
   print $hFile;
   print $mFile;
@@ -264,7 +301,7 @@ my $perl_scalar = $json->decode( $json_text );
 
 #print "perl_scalar: " . $perl_scalar . "\n";
 
-recursiveParse ("User", $perl_scalar);
+recursiveParse ("user", $perl_scalar);
 
 
 #my $hFile = hFileStartForObject("User");
