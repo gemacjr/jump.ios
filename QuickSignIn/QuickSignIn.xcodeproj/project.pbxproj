@@ -205,23 +205,6 @@
 		C01FCF5008A954540054247D /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247C /* UserListViewController.m */; };
 		C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */; };
 		C01FCF5008A9545400542482 /* CaptureInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542481 /* CaptureInterface.m */; };
-		C01FCF5008A95454005424AC /* JRAccountsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424AB /* JRAccountsObject.m */; };
-		C01FCF5008A95454005424AE /* JRAddressesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424AD /* JRAddressesObject.m */; };
-		C01FCF5008A95454005424B0 /* JRBodyTypeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424AF /* JRBodyTypeObject.m */; };
-		C01FCF5008A95454005424B8 /* JRCurrentLocationObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424B7 /* JRCurrentLocationObject.m */; };
-		C01FCF5008A95454005424BA /* JREmailsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424B9 /* JREmailsObject.m */; };
-		C01FCF5008A95454005424C2 /* JRImsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424C1 /* JRImsObject.m */; };
-		C01FCF5008A95454005424CC /* JRLocationObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424CB /* JRLocationObject.m */; };
-		C01FCF5008A95454005424D4 /* JRNameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D3 /* JRNameObject.m */; };
-		C01FCF5008A95454005424D6 /* JROrganizationsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D5 /* JROrganizationsObject.m */; };
-		C01FCF5008A95454005424DA /* JRPhoneNumbersObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D9 /* JRPhoneNumbersObject.m */; };
-		C01FCF5008A95454005424DC /* JRPhotosObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424DB /* JRPhotosObject.m */; };
-		C01FCF5008A95454005424DE /* JRPrimaryAddressObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424DD /* JRPrimaryAddressObject.m */; };
-		C01FCF5008A95454005424E0 /* JRProfileObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424DF /* JRProfileObject.m */; };
-		C01FCF5008A95454005424E2 /* JRProfilesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424E1 /* JRProfilesObject.m */; };
-		C01FCF5008A95454005424EA /* JRStatusesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424E9 /* JRStatusesObject.m */; };
-		C01FCF5008A95454005424F4 /* JRUrlsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424F3 /* JRUrlsObject.m */; };
-		C01FCF5008A95454005424F6 /* JRUserObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424F5 /* JRUserObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -448,41 +431,6 @@
 		C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDrillDownViewController.m; sourceTree = "<group>"; };
 		C01FCF5008A9545400542481 /* CaptureInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureInterface.m; sourceTree = "<group>"; };
 		C01FCF5008A9545400542483 /* CaptureInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureInterface.h; sourceTree = "<group>"; };
-		C01FCF5008A9545400542485 /* JRAccountsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRAccountsObject.h; sourceTree = "<group>"; };
-		C01FCF5008A9545400542486 /* JRAddressesObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRAddressesObject.h; sourceTree = "<group>"; };
-		C01FCF5008A9545400542487 /* JRBodyTypeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRBodyTypeObject.h; sourceTree = "<group>"; };
-		C01FCF5008A954540054248B /* JRCurrentLocationObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCurrentLocationObject.h; sourceTree = "<group>"; };
-		C01FCF5008A954540054248C /* JREmailsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JREmailsObject.h; sourceTree = "<group>"; };
-		C01FCF5008A9545400542490 /* JRImsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRImsObject.h; sourceTree = "<group>"; };
-		C01FCF5008A9545400542495 /* JRLocationObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRLocationObject.h; sourceTree = "<group>"; };
-		C01FCF5008A9545400542499 /* JRNameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRNameObject.h; sourceTree = "<group>"; };
-		C01FCF5008A954540054249A /* JROrganizationsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JROrganizationsObject.h; sourceTree = "<group>"; };
-		C01FCF5008A954540054249C /* JRPhoneNumbersObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRPhoneNumbersObject.h; sourceTree = "<group>"; };
-		C01FCF5008A954540054249D /* JRPhotosObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRPhotosObject.h; sourceTree = "<group>"; };
-		C01FCF5008A954540054249E /* JRPrimaryAddressObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRPrimaryAddressObject.h; sourceTree = "<group>"; };
-		C01FCF5008A954540054249F /* JRProfileObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRProfileObject.h; sourceTree = "<group>"; };
-		C01FCF5008A95454005424A0 /* JRProfilesObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRProfilesObject.h; sourceTree = "<group>"; };
-		C01FCF5008A95454005424A4 /* JRStatusesObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRStatusesObject.h; sourceTree = "<group>"; };
-		C01FCF5008A95454005424A9 /* JRUrlsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRUrlsObject.h; sourceTree = "<group>"; };
-		C01FCF5008A95454005424AA /* JRUserObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRUserObject.h; sourceTree = "<group>"; };
-		C01FCF5008A95454005424AB /* JRAccountsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRAccountsObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424AD /* JRAddressesObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRAddressesObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424AF /* JRBodyTypeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRBodyTypeObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424B7 /* JRCurrentLocationObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCurrentLocationObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424B9 /* JREmailsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JREmailsObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424C1 /* JRImsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRImsObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424CB /* JRLocationObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRLocationObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424D3 /* JRNameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRNameObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424D5 /* JROrganizationsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JROrganizationsObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424D9 /* JRPhoneNumbersObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRPhoneNumbersObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424DB /* JRPhotosObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRPhotosObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424DD /* JRPrimaryAddressObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRPrimaryAddressObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424DF /* JRProfileObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRProfileObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424E1 /* JRProfilesObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRProfilesObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424E9 /* JRStatusesObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRStatusesObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424F3 /* JRUrlsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRUrlsObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424F5 /* JRUserObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRUserObject.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424F7 /* JRCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCapture.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -543,7 +491,6 @@
 				9F521E9712B062940073ABAE /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				C01FCF5008A9545400542484 /* Capture */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -952,48 +899,6 @@
 			path = ../JREngage/Resources/xibs;
 			sourceTree = SOURCE_ROOT;
 		};
-		C01FCF5008A9545400542484 /* Capture */ = {
-			isa = PBXGroup;
-			children = (
-				C01FCF5008A95454005424F7 /* JRCapture.h */,
-				C01FCF5008A95454005424F5 /* JRUserObject.m */,
-				C01FCF5008A95454005424F3 /* JRUrlsObject.m */,
-				C01FCF5008A95454005424E9 /* JRStatusesObject.m */,
-				C01FCF5008A95454005424E1 /* JRProfilesObject.m */,
-				C01FCF5008A95454005424DF /* JRProfileObject.m */,
-				C01FCF5008A95454005424DD /* JRPrimaryAddressObject.m */,
-				C01FCF5008A95454005424DB /* JRPhotosObject.m */,
-				C01FCF5008A95454005424D9 /* JRPhoneNumbersObject.m */,
-				C01FCF5008A95454005424D5 /* JROrganizationsObject.m */,
-				C01FCF5008A95454005424D3 /* JRNameObject.m */,
-				C01FCF5008A95454005424CB /* JRLocationObject.m */,
-				C01FCF5008A95454005424C1 /* JRImsObject.m */,
-				C01FCF5008A95454005424B9 /* JREmailsObject.m */,
-				C01FCF5008A95454005424B7 /* JRCurrentLocationObject.m */,
-				C01FCF5008A95454005424AF /* JRBodyTypeObject.m */,
-				C01FCF5008A95454005424AD /* JRAddressesObject.m */,
-				C01FCF5008A95454005424AB /* JRAccountsObject.m */,
-				C01FCF5008A95454005424AA /* JRUserObject.h */,
-				C01FCF5008A95454005424A9 /* JRUrlsObject.h */,
-				C01FCF5008A95454005424A4 /* JRStatusesObject.h */,
-				C01FCF5008A95454005424A0 /* JRProfilesObject.h */,
-				C01FCF5008A954540054249F /* JRProfileObject.h */,
-				C01FCF5008A954540054249E /* JRPrimaryAddressObject.h */,
-				C01FCF5008A954540054249D /* JRPhotosObject.h */,
-				C01FCF5008A954540054249C /* JRPhoneNumbersObject.h */,
-				C01FCF5008A954540054249A /* JROrganizationsObject.h */,
-				C01FCF5008A9545400542499 /* JRNameObject.h */,
-				C01FCF5008A9545400542495 /* JRLocationObject.h */,
-				C01FCF5008A9545400542490 /* JRImsObject.h */,
-				C01FCF5008A954540054248C /* JREmailsObject.h */,
-				C01FCF5008A954540054248B /* JRCurrentLocationObject.h */,
-				C01FCF5008A9545400542487 /* JRBodyTypeObject.h */,
-				C01FCF5008A9545400542486 /* JRAddressesObject.h */,
-				C01FCF5008A9545400542485 /* JRAccountsObject.h */,
-			);
-			path = Capture;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1267,23 +1172,6 @@
 				C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */,
 				9FD5942914D0BD6C00AD7829 /* CaptureNewUserViewController.m in Sources */,
 				C01FCF5008A9545400542482 /* CaptureInterface.m in Sources */,
-				C01FCF5008A95454005424AC /* JRAccountsObject.m in Sources */,
-				C01FCF5008A95454005424AE /* JRAddressesObject.m in Sources */,
-				C01FCF5008A95454005424B0 /* JRBodyTypeObject.m in Sources */,
-				C01FCF5008A95454005424B8 /* JRCurrentLocationObject.m in Sources */,
-				C01FCF5008A95454005424BA /* JREmailsObject.m in Sources */,
-				C01FCF5008A95454005424C2 /* JRImsObject.m in Sources */,
-				C01FCF5008A95454005424CC /* JRLocationObject.m in Sources */,
-				C01FCF5008A95454005424D4 /* JRNameObject.m in Sources */,
-				C01FCF5008A95454005424D6 /* JROrganizationsObject.m in Sources */,
-				C01FCF5008A95454005424DA /* JRPhoneNumbersObject.m in Sources */,
-				C01FCF5008A95454005424DC /* JRPhotosObject.m in Sources */,
-				C01FCF5008A95454005424DE /* JRPrimaryAddressObject.m in Sources */,
-				C01FCF5008A95454005424E0 /* JRProfileObject.m in Sources */,
-				C01FCF5008A95454005424E2 /* JRProfilesObject.m in Sources */,
-				C01FCF5008A95454005424EA /* JRStatusesObject.m in Sources */,
-				C01FCF5008A95454005424F4 /* JRUrlsObject.m in Sources */,
-				C01FCF5008A95454005424F6 /* JRUserObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
