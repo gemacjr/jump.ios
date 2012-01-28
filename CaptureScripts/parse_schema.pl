@@ -146,12 +146,18 @@ sub recursiveParse {
       $objectiveType = "JR" . ucfirst($propertyName) . " *";
       $dictionaryStr = "[$propertyName jsonFromObject]";
       $extraImportsSection = "#import \"$objectiveType.h\"\n";
+      
+      my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
+      recursiveParse ($propertyName, $propertyAttrDefsRef);
 
     } elsif ($propertyType eq "object") { # RECURSE!!
       $objectiveType = "JR" . ucfirst($propertyName) . " *";
       $dictionaryStr = "[$propertyName jsonFromObject]";
       $extraImportsSection = "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
-      
+
+      my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
+      recursiveParse ($propertyName, $propertyAttrDefsRef);
+
     } else {
       print "PROPERTY TYPE NOT BEING CAUGHT: " . $propertyName . "\n";
     }
