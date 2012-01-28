@@ -4,12 +4,27 @@ use warnings;
 
 use JSON; # imports encode_json, decode_json, to_json and from_json.
 
+############################################
+# CONSTANTS
+############################################
+my $IS_PLURAL_TYPE     = 1;
+my $IS_NOT_PLURAL_TYPE = 0;
 
+############################################
+# HASHES OF .M AND .H FILES
+############################################
 my %hFiles = ();
 my %mFiles = ();
 
+############################################
+# FUNCTION PROTOTYPES
+############################################
+
+
 ###################################################################
-#  Section only here when there are required properties     
+# INSTANCE CONSTRUCTOR (W REQUIRED PROPERTIES)
+#
+# Section only here when there are required properties     
 #                     |
 #                     V
 # - (id)init<requiredProperties>
@@ -43,12 +58,37 @@ my @copyConstructorParts  = ("- (id)copyWithZone:(NSZone*)zone\n{\n",
                              "", " allocWithZone:zone] init", "", "];\n\n",
                              "", "\n\treturn ", "", ";\n}\n\n");
 
-my @jsonifyParts          = ("- (NSDictionary*)jsonFromObject\n{\n\tNSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
+my @makeDictionaryParts   = ("- (NSDictionary*)dictionaryFromObject\n{\n\tNSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
                             "", "", "\n\treturn dict;\n}\n\n");
 
 my @destructorParts       = ("- (void)dealloc\n{\n", "", "\n\t[super dealloc];\n}\n");
 
+sub createArrayCategoryForSubobject { 
+  my $propertyName = $_[0];
   
+  my $arrayCategoryIntf = "\@interface NSArray (" . ucfirst($propertyName) . "ToDictionary)\n";
+  my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToDictionary)\n";
+
+  my $methodName = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects";
+  
+  $arrayCategoryIntf .= "$methodName;\n\@end\n\n";
+  $arrayCategoryImpl .= "$methodName\n{\n";
+  
+#  $arrayCategoryImpl .=  
+#      "NSPredicate    *predicate =
+#      [NSPredicate predicateWithFormat:\@\"cf_className = \%\@\", NSStringFromClass([JR" . ucfirst($propertyName) . "Object class])];";
+
+  $arrayCategoryImpl .=        
+       "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self length]];\n" . 
+       "    foreach (NSObject *object in self)\n" . 
+       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . "Object class]])\n" . 
+       "            [filteredDictionaryArray addObject:[object dictionaryFromObject]];\n" . 
+       "    return filteredDictionaryArray;\n}\n@end\n\n"
+
+  return $arrayCategoryIntf . $arrayCategoryImpl;
+}
+
+
 sub getIsRequired {
   my $hashRef = $_[0];
   my %propertyHash = %$hashRef;
@@ -70,55 +110,125 @@ sub getIsRequired {
   return 0;  
 }
 
+######################################################################
+# RECURSIVE PARSING METHOD
+#
+# Method takes 3 arguments, the object name, a list of the 
+# object's properties (as a reference to an array of properties),
+# and whether the object (or sub-object) is an "plural object".
+#
+# *Properties* that are sub-objects themselves, or lists of 
+# sub-objects (plural properties), have their sub-objects 
+# recursively parsed.
+#
+# For each object/sub-object, method will write the appropriate
+# .h and .m files.  The .h/.m files include an instance constructor, 
+# class constructor, copy constructor, destructor, a method to 
+# convert the object to NSArrays/NSDictionaries for easy
+# jsonification, and synthesized accessors for all of its properties.
+# Required properties are treated as such in the constructors, etc.
+#
+# Arguments:
+#   0:  The name of the object, with a lower-cased first letter and
+#       camel-cased rest
+#   1:  A reference (pointer) to the array of properties.  Each 
+#       property is a hash of attributes
+#   2:  If the sub-object is a 'plural' it is treated ???
+######################################################################
+
 sub recursiveParse {
 
   my $objectName = $_[0];
   my $arrRef     = $_[1];
+  #my $isPlural   = $_[2];
 
+
+  ################################################
+  # Dereference the list of properties
+  ################################################
   my @propertyList = @$arrRef;
 
+
+  ################################################
+  # Initialize the sections of the .h/.m files
+  ################################################
   my $extraImportsSection     = "";
   my $propertiesSection       = "";
+  my $arrayCategoriesSection  = "";
   my $synthesizeSection       = "";
   my @constructorSection      = @constructorParts;
   my @classConstructorSection = @classConstructorParts;
   my @copyConstructorSection  = @copyConstructorParts;
   my @destructorSection       = @destructorParts;
-  my @jsonifySection          = @jsonifyParts;
+  my @makeDictionarySection   = @makeDictionaryParts;
+
   
+  ######################################################
+  # Create the class name of an object
+  # e.g., 'primaryAddress' becomes 'JRPrimaryObject'
+  ######################################################
   my $className = "JR" . ucfirst($objectName) . "Object";
  
+ 
+  ######################################################
+  # Parts of the class constructor and copy constructor
+  # references the object name and class name
+  # e.g., 
+  # JRUserObject *userObjectCopy =
+	#			[[JRUserObject allocWithZone:zone] init];
+  ######################################################
   $classConstructorSection[1] = $objectName . "Object";
   $classConstructorSection[4] = $className;
   
   $copyConstructorSection[1]  = "\t" . $className . " *" . $objectName . "ObjectCopy =\n\t\t\t\t[[" . $className;
   $copyConstructorSection[7]  = $objectName . "ObjectCopy";
   
-
+  ######################################################
+  # Keep track of how many properties are required
+  ######################################################
   my $requiredProperties = 0;
-  
-  my $i = 0;
+
+  ######################################################
+  # Properties list contains references (pointers) to
+  # property hashes.  Loop through, dereference, and 
+  # parse...
+  ######################################################
   foreach my $hashRef (@propertyList) {
-    print "hashRef[$i]: $hashRef\n";
-    
+
+    ################################################
+    # Dereference the property hash
+    ################################################    
     my %propertyHash = %$hashRef;
+    
+    ################################################
+    # Get the property's name and type
+    ################################################
     my $propertyName = $propertyHash{"name"};
     my $propertyType = $propertyHash{"type"};
-    
-    print "property name: $propertyName\n";
-    print "property type: $propertyType\n";
 
-    my $objectiveType = "";
+    ################################################
+    # Initialize property attributes to default 
+    # values
+    ################################################
+    my $objectiveType = "";            # Property type in Objective-C (e.g., NSString*)
     my $dictionaryStr = $propertyName; # Default operation is to just stick the NSObject into an NSMutableDictionary
-    my $isBooleanType = 0;
-    my $isComplexType = 0;
+    my $isBooleanType = 0;             # If it's a boolean, we do things differently
+    my $isArrayType   = 0;             # If it's an array (plural), we do things differently
     
+    ################################################
+    # Find out if it's a required property
+    ################################################
     my $isRequired = getIsRequired (\%propertyHash); 
     if ($isRequired) {
-      print "REQUIRED PROPERTY\n";
       $requiredProperties++;
     }
-    
+
+    ##########################################################
+    # Determine the property's ObjC type and what to do when 
+    # creating a dictionary of the property's object
+    # (i.e., how to we store each property in an 
+    # NSMutableDictionary so that it can be turned into JSON
+    ##########################################################
     if ($propertyType eq "string") {
       $objectiveType = "NSString *";
 
@@ -142,15 +252,31 @@ sub recursiveParse {
     } elsif ($propertyType eq "json") { #???
       $objectiveType = "NSString *";
 
-    } elsif ($propertyType eq "plural") { # RECURSE!!
-      $objectiveType = "JR" . ucfirst($propertyName) . " *";
-      $dictionaryStr = "[$propertyName jsonFromObject]";
+    } elsif ($propertyType eq "plural") {
+      ##################################################
+      # If the property is an 'plural' (i.e., a list of
+      # sub-object's recurse plural's 'attr_defs',
+      # creating the sub-object.  Also, add an NSArray
+      # category to the current object's .m file, so that
+      # the NSArray of sub-objects can properly turn
+      # themselves into an NSArray of NSDictionaries
+      ##################################################
+
+      $objectiveType = "NSArray";                               
       $extraImportsSection = "#import \"$objectiveType.h\"\n";
+      
+      $arrayCategoriesSection .= createArrayCategoryForSubobject($propertyName);
+      $dictionaryStr = "[$propertyName arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
       
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
       recursiveParse ($propertyName, $propertyAttrDefsRef);
 
     } elsif ($propertyType eq "object") { # RECURSE!!
+      ##################################################
+      # If the property is an object itself, recurse on 
+      # the sub-object's 'attr_defs'
+      ##################################################
+  
       $objectiveType = "JR" . ucfirst($propertyName) . " *";
       $dictionaryStr = "[$propertyName jsonFromObject]";
       $extraImportsSection = "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
@@ -214,8 +340,8 @@ sub recursiveParse {
 
   my $mFile = "\n#import \"$className.h\"\n\n";
   
+  $mFile .= $arrayCategoriesSection;
   $mFile .= "\@implementation $className\n";
-
   $mFile .= $synthesizeSection . "\n";
   
   for (my $i = 0; $i < @constructorSection; $i++) {
