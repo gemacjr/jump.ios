@@ -14,7 +14,7 @@
 
 #import "CaptureInterface.h"
 #import "JSONKit.h"
-#import "JRCaptureUserObject.h"
+#import "JRCaptureUser.h"
 
 @interface NSString (NSString_JSON_ESCAPE)
 - (NSString*)URLEscaped;
@@ -120,13 +120,13 @@ static NSString *typeName   = @"demo_user";
     NSDictionary *captureAdditions        = [engageUser objectForKey:@"captureAdditions"];
 
 
-    JRCaptureUserObject *captureUserObject = [JRCaptureUserObject captureUserObject];
+    JRCaptureUser *captureUserObject = [JRCaptureUser captureUser];
 
-    JRProfileObject *profileObject = [JRProfileObject profileObject];
+    JRProfile *profileObject = [JRProfile profile];
 
 
     captureUserObject.displayName = @"testing";
-    captureUserObject.primaryAddress = [JRPrimaryAddressObject primaryAddressObject];
+    captureUserObject.primaryAddress = [JRPrimaryAddress primaryAddress];
     captureUserObject.primaryAddress.address1 = @"blah blah blah";
 
     return [captureUserObject dictionaryFromObject];
