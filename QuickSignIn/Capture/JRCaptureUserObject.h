@@ -26,4 +26,5 @@
 @property (nonatomic, copy) NSArray *statuses; /* This is an array of JRStatusesObjects */ 
 - (id)init;
 + (id)captureUserObject;
++ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
 @end

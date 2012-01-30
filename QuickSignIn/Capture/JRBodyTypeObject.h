@@ -10,4 +10,5 @@
 @property (nonatomic, copy) NSNumber *height;  
 - (id)init;
 + (id)bodyTypeObject;
++ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary;
 @end

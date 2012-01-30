@@ -31,6 +31,18 @@
     return urlsObjectCopy;
 }
 
++ (id)urlsObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRUrlsObject *urlsObject =
+        [JRUrlsObject urlsObject];
+
+    urlsObject.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    urlsObject.type = [dictionary objectForKey:@"type"];
+    urlsObject.value = [dictionary objectForKey:@"value"];
+
+    return urlsObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

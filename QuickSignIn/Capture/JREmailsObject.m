@@ -31,6 +31,18 @@
     return emailsObjectCopy;
 }
 
++ (id)emailsObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JREmailsObject *emailsObject =
+        [JREmailsObject emailsObject];
+
+    emailsObject.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    emailsObject.type = [dictionary objectForKey:@"type"];
+    emailsObject.value = [dictionary objectForKey:@"value"];
+
+    return emailsObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

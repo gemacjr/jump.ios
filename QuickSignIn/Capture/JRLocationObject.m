@@ -47,6 +47,26 @@
     return locationObjectCopy;
 }
 
++ (id)locationObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRLocationObject *locationObject =
+        [JRLocationObject locationObject];
+
+    locationObject.country = [dictionary objectForKey:@"country"];
+    locationObject.extendedAddress = [dictionary objectForKey:@"extendedAddress"];
+    locationObject.formatted = [dictionary objectForKey:@"formatted"];
+    locationObject.latitude = [dictionary objectForKey:@"latitude"];
+    locationObject.locality = [dictionary objectForKey:@"locality"];
+    locationObject.longitude = [dictionary objectForKey:@"longitude"];
+    locationObject.poBox = [dictionary objectForKey:@"poBox"];
+    locationObject.postalCode = [dictionary objectForKey:@"postalCode"];
+    locationObject.region = [dictionary objectForKey:@"region"];
+    locationObject.streetAddress = [dictionary objectForKey:@"streetAddress"];
+    locationObject.type = [dictionary objectForKey:@"type"];
+
+    return locationObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

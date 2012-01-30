@@ -7,4 +7,5 @@
 @property (nonatomic, copy) NSDate *statusCreated;  
 - (id)init;
 + (id)statusesObject;
++ (id)statusesObjectFromDictionary:(NSDictionary*)dictionary;
 @end

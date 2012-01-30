@@ -72,11 +72,6 @@
 
     return NO;
 }
-
-- (NSArray*)arrayOfFooDictionariesFromFooObjects
-{
-
-}
 @end
 
 /* Added the CF_Class_Name_Additions category to NSObject to filter objects in our media array based on their base class (JRMediaObject) */

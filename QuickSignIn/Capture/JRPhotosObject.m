@@ -31,6 +31,18 @@
     return photosObjectCopy;
 }
 
++ (id)photosObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRPhotosObject *photosObject =
+        [JRPhotosObject photosObject];
+
+    photosObject.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    photosObject.type = [dictionary objectForKey:@"type"];
+    photosObject.value = [dictionary objectForKey:@"value"];
+
+    return photosObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

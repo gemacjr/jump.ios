@@ -15,4 +15,5 @@
 @property (nonatomic, copy) NSString *type;  
 - (id)init;
 + (id)organizationsObject;
++ (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary;
 @end

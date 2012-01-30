@@ -8,4 +8,5 @@
 @property (nonatomic, copy) NSString *value;  
 - (id)init;
 + (id)emailsObject;
++ (id)emailsObjectFromDictionary:(NSDictionary*)dictionary;
 @end

@@ -76,4 +76,5 @@
 @property (nonatomic, copy) NSString *utcOffset;  
 - (id)init;
 + (id)profileObject;
++ (id)profileObjectFromDictionary:(NSDictionary*)dictionary;
 @end

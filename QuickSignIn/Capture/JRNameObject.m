@@ -37,6 +37,21 @@
     return nameObjectCopy;
 }
 
++ (id)nameObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRNameObject *nameObject =
+        [JRNameObject nameObject];
+
+    nameObject.familyName = [dictionary objectForKey:@"familyName"];
+    nameObject.formatted = [dictionary objectForKey:@"formatted"];
+    nameObject.givenName = [dictionary objectForKey:@"givenName"];
+    nameObject.honorificPrefix = [dictionary objectForKey:@"honorificPrefix"];
+    nameObject.honorificSuffix = [dictionary objectForKey:@"honorificSuffix"];
+    nameObject.middleName = [dictionary objectForKey:@"middleName"];
+
+    return nameObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

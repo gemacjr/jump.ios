@@ -29,6 +29,17 @@
     return statusesObjectCopy;
 }
 
++ (id)statusesObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRStatusesObject *statusesObject =
+        [JRStatusesObject statusesObject];
+
+    statusesObject.status = [dictionary objectForKey:@"status"];
+    statusesObject.statusCreated = [dictionary objectForKey:@"statusCreated"];
+
+    return statusesObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

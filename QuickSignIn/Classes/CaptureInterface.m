@@ -122,6 +122,9 @@ static NSString *typeName   = @"demo_user";
 
     JRCaptureUserObject *captureUserObject = [JRCaptureUserObject captureUserObject];
 
+    JRProfileObject *profileObject = [JRProfileObject profileObject];
+
+
     captureUserObject.displayName = @"testing";
     captureUserObject.primaryAddress = [JRPrimaryAddressObject primaryAddressObject];
     captureUserObject.primaryAddress.address1 = @"blah blah blah";

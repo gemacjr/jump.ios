@@ -11,4 +11,5 @@
 @property (nonatomic, copy) NSString *middleName;  
 - (id)init;
 + (id)nameObject;
++ (id)nameObjectFromDictionary:(NSDictionary*)dictionary;
 @end

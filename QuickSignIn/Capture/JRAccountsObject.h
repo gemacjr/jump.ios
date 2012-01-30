@@ -9,4 +9,5 @@
 @property (nonatomic, copy) NSString *username;  
 - (id)init;
 + (id)accountsObject;
++ (id)accountsObjectFromDictionary:(NSDictionary*)dictionary;
 @end

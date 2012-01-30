@@ -45,6 +45,20 @@
     return profilesObjectCopy;
 }
 
++ (id)profilesObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRProfilesObject *profilesObject =
+        [JRProfilesObject profilesObjectWithDomain:[dictionary objectForKey:@"domain"] andIdentifier:[dictionary objectForKey:@"identifier"]];
+
+    profilesObject.accessCredentials = [dictionary objectForKey:@"accessCredentials"];
+    profilesObject.friends = [dictionary objectForKey:@"friends"];
+    profilesObject.profile = [JRProfileObject profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]];
+    profilesObject.provider = [dictionary objectForKey:@"provider"];
+    profilesObject.remote_key = [dictionary objectForKey:@"remote_key"];
+
+    return profilesObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

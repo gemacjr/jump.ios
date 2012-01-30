@@ -49,6 +49,27 @@
     return addressesObjectCopy;
 }
 
++ (id)addressesObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRAddressesObject *addressesObject =
+        [JRAddressesObject addressesObject];
+
+    addressesObject.country = [dictionary objectForKey:@"country"];
+    addressesObject.extendedAddress = [dictionary objectForKey:@"extendedAddress"];
+    addressesObject.formatted = [dictionary objectForKey:@"formatted"];
+    addressesObject.latitude = [dictionary objectForKey:@"latitude"];
+    addressesObject.locality = [dictionary objectForKey:@"locality"];
+    addressesObject.longitude = [dictionary objectForKey:@"longitude"];
+    addressesObject.poBox = [dictionary objectForKey:@"poBox"];
+    addressesObject.postalCode = [dictionary objectForKey:@"postalCode"];
+    addressesObject.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    addressesObject.region = [dictionary objectForKey:@"region"];
+    addressesObject.streetAddress = [dictionary objectForKey:@"streetAddress"];
+    addressesObject.type = [dictionary objectForKey:@"type"];
+
+    return addressesObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

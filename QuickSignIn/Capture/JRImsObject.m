@@ -31,6 +31,18 @@
     return imsObjectCopy;
 }
 
++ (id)imsObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRImsObject *imsObject =
+        [JRImsObject imsObject];
+
+    imsObject.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    imsObject.type = [dictionary objectForKey:@"type"];
+    imsObject.value = [dictionary objectForKey:@"value"];
+
+    return imsObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

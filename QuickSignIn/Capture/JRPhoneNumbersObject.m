@@ -31,6 +31,18 @@
     return phoneNumbersObjectCopy;
 }
 
++ (id)phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRPhoneNumbersObject *phoneNumbersObject =
+        [JRPhoneNumbersObject phoneNumbersObject];
+
+    phoneNumbersObject.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    phoneNumbersObject.type = [dictionary objectForKey:@"type"];
+    phoneNumbersObject.value = [dictionary objectForKey:@"value"];
+
+    return phoneNumbersObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

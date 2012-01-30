@@ -17,4 +17,5 @@
 @property (nonatomic, copy) NSString *type;  
 - (id)init;
 + (id)addressesObject;
++ (id)addressesObjectFromDictionary:(NSDictionary*)dictionary;
 @end

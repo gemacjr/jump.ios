@@ -69,31 +69,44 @@ my @copyConstructorParts  = ("- (id)copyWithZone:(NSZone*)zone\n{\n",
 my @makeDictionaryParts   = ("- (NSDictionary*)dictionaryFromObject\n{\n    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
                             "", "", "\n    return dict;\n}\n\n");
 
+my @makeObjectParts       = (
+"+ (id)","","ObjectFromDictionary:(NSDictionary*)dictionary",
+"\n{\n",
+"","        [","","","];\n",
+"",
+"\n\n    return ", "", ";\n}\n\n");
+
+
 my @destructorParts       = ("- (void)dealloc\n{\n", "", "\n    [super dealloc];\n}\n");
 
 sub createArrayCategoryForSubobject { 
   my $propertyName = $_[0];
   
-  my $arrayCategoryIntf = "\@interface NSArray (" . ucfirst($propertyName) . "ToDictionary)\n";
-  my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToDictionary)\n";
+  my $arrayCategoryIntf = "\@interface NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
+  my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
 
-  my $methodName = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects";
+  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects";
+  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "Dictionaries";
   
-  $arrayCategoryIntf .= "$methodName;\n\@end\n\n";
-  $arrayCategoryImpl .= "$methodName\n{\n";
-  
-#  $arrayCategoryImpl .=  
-#      "NSPredicate    *predicate =
-#      [NSPredicate predicateWithFormat:\@\"cf_className = \%\@\", NSStringFromClass([JR" . ucfirst($propertyName) . "Object class])];";
+  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n\@end\n\n";
+  $arrayCategoryImpl .= "$methodName1\n{\n";
 
   $arrayCategoryImpl .=        
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *object in self)\n" . 
-       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . "Object class]])\n" . 
-       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Object*)object dictionaryFromObject]];\n\n" . 
+       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . " class]])\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "*)object dictionaryFromObject]];\n\n" . 
+       "    return filteredDictionaryArray;\n}\n\n";
+       
+  $arrayCategoryImpl .= "$methodName2\n{\n";
+
+  $arrayCategoryImpl .=        
+       "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
+       "    for (NSObject *dictionary in self)\n" . 
+       "        if ([dictionary isKindOfClass:[NSDictionary class]])\n" . 
+       "            [filteredDictionaryArray addObject:[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)dictionary]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\@end\n\n";
 
-#  my $category = $arrayCategoryIntf . $arrayCategoryImpl;
   return "$arrayCategoryIntf$arrayCategoryImpl";
 }
 
@@ -167,7 +180,6 @@ sub recursiveParse {
 
   my $objectName = $_[0];
   my $arrRef     = $_[1];
-  #my $isPlural   = $_[2];
 
 
   ################################################
@@ -188,13 +200,14 @@ sub recursiveParse {
   my @copyConstructorSection  = @copyConstructorParts;
   my @destructorSection       = @destructorParts;
   my @makeDictionarySection   = @makeDictionaryParts;
+  my @makeObjectSection       = @makeObjectParts;
 
   
   ######################################################
   # Create the class name of an object
   # e.g., 'primaryAddress' becomes 'JRPrimaryObject'
   ######################################################
-  my $className = "JR" . ucfirst($objectName) . "Object";
+  my $className = "JR" . ucfirst($objectName);
  
  
   ######################################################
@@ -204,11 +217,17 @@ sub recursiveParse {
   # JRUserObject *userObjectCopy =
 	#			[[JRUserObject allocWithZone:zone] init];
   ######################################################
-  $classConstructorSection[1] = $objectName . "Object";
+  $classConstructorSection[1] = $objectName;
   $classConstructorSection[4] = $className;
   
-  $copyConstructorSection[1]  = "    " . $className . " *" . $objectName . "ObjectCopy =\n                [[" . $className;
-  $copyConstructorSection[7]  = $objectName . "ObjectCopy";
+  $copyConstructorSection[1]  = "    " . $className . " *" . $objectName . "Copy =\n                [[" . $className;
+  $copyConstructorSection[7]  = $objectName . "Copy";
+  
+  $makeObjectSection[1]       = $objectName;
+  $makeObjectSection[4]       = "    " . $className . " *" . $objectName . " =\n";
+  $makeObjectSection[6]       = $className . " " . $objectName;
+  $makeObjectSection[11]      = $objectName;
+
   
   ######################################################
   # Keep track of how many properties are required
@@ -238,7 +257,9 @@ sub recursiveParse {
     # values
     ################################################
     my $objectiveType = "";            # Property type in Objective-C (e.g., NSString*)
-    my $dictionaryStr = $propertyName; # Default operation is to just stick the NSObject into an NSMutableDictionary
+    my $toDictionary  = $propertyName; # Default operation is to just stick the NSObject into an NSMutableDictionary
+    my $frDictionary  =                 # Default operation is to just pull the NSObject from the dictionary and stick it into the property
+          "[dictionary objectForKey:\@\"$propertyName\"]";
     my $isBooleanType = 0;             # If it's a boolean, we do things differently
     my $isArrayType   = 0;             # If it's an array (plural), we do things differently
     my $propertyNotes = "";            # Comment that provides more infomation if necessary (e.g., in the 
@@ -264,7 +285,8 @@ sub recursiveParse {
     } elsif ($propertyType eq "boolean") {
       $isBooleanType = 1;
       $objectiveType = "BOOL";
-      $dictionaryStr = "[NSNumber numberWithBool:$propertyName]";
+      $toDictionary = "[NSNumber numberWithBool:$propertyName]";
+      $frDictionary = "[(NSNumber*)[dictionary objectForKey:\@\"$propertyName\"] boolValue]";
 
     } elsif ($propertyType eq "decimal") {
       $objectiveType = "NSNumber *";
@@ -276,7 +298,7 @@ sub recursiveParse {
       $objectiveType = "NSDate *";
 
     } elsif ($propertyType eq "password-crypt-sha256") {
-      $objectiveType = "NSString *";
+      $objectiveType = "NSString *"; # TODO
 
     } elsif ($propertyType eq "json") { # What the hell is a 'json'?  A string?
       $objectiveType = "NSString *";
@@ -300,26 +322,25 @@ sub recursiveParse {
         $propertyNotes = "/* This is an array of strings */";      
         
       } else {
-        $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . "Object.h\"\n";
+        $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
         $arrayCategoriesSection .= createArrayCategoryForSubobject($propertyName);
-        $dictionaryStr = "[$propertyName arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
-        $propertyNotes = "/* This is an array of JR" . ucfirst($propertyName) . "Objects */";
+        $toDictionary  = "[$propertyName arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
+        $propertyNotes = "/* This is an array of JR" . ucfirst($propertyName) . " */";
         
         recursiveParse ($propertyName, $propertyAttrDefsRef);
         
-
       }
       
-
     } elsif ($propertyType eq "object") {
       ##################################################
       # If the property is an object itself, recurse on 
       # the sub-object's 'attr_defs'
       ##################################################
   
-      $objectiveType = "JR" . ucfirst($propertyName) . "Object *";
-      $dictionaryStr = "[$propertyName dictionaryFromObject]";
-      $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . "Object.h\"\n";
+      $objectiveType = "JR" . ucfirst($propertyName) . " *";
+      $toDictionary  = "[$propertyName dictionaryFromObject]";
+      $frDictionary  = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $propertyName . "\"]]";
+      $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
 
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
       recursiveParse ($propertyName, $propertyAttrDefsRef);
@@ -337,6 +358,8 @@ sub recursiveParse {
         $classConstructorSection[6] .= "With" . ucfirst($propertyName) . ":" . $propertyName;
 
         $copyConstructorSection[3]  .= "With" . ucfirst($propertyName) . ":self.$propertyName";
+
+        $makeObjectSection[7] .= "With" . ucfirst($propertyName) . ":" . $frDictionary;
         
       } else {
         $constructorSection[1] .= " and" . ucfirst($propertyName) . ":(" . $objectiveType . ")new" . ucfirst($propertyName);
@@ -346,16 +369,20 @@ sub recursiveParse {
         $classConstructorSection[6] .= " and" . ucfirst($propertyName) . ":" . $propertyName;
 
         $copyConstructorSection[3]  .= " and" . ucfirst($propertyName) . ":self.$propertyName";
+
+        $makeObjectSection[7] .= " and" . ucfirst($propertyName) . ":" . $frDictionary;
       }        
       
       $constructorSection[8] .= "        " . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
-      $makeDictionarySection[1] .= "    [dict setObject:" . $dictionaryStr . " forKey:\@\"" . $propertyName . "\"];\n";
+      $makeDictionarySection[1] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
       
     } else {
       $makeDictionarySection[2] .= "\n    if (" . $propertyName . ")\n";
-      $makeDictionarySection[2] .= "        [dict setObject:" . $dictionaryStr . " forKey:\@\"" . $propertyName . "\"];\n";
+      $makeDictionarySection[2] .= "        [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
       
-      $copyConstructorSection[5] .= "    " . $objectName . "ObjectCopy." . $propertyName . " = self." . $propertyName . ";\n";
+      $copyConstructorSection[5] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
+      
+      $makeObjectSection[8] .= "\n    " . $objectName . "." . $propertyName . " = " . $frDictionary . ";";
     }
     
     if ($isBooleanType) {
@@ -376,6 +403,7 @@ sub recursiveParse {
   $hFile .= $propertiesSection;
   $hFile .= "$constructorSection[0]$constructorSection[1];\n";
   $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n";
+  $hFile .= "$makeObjectSection[0]$makeObjectSection[1]$makeObjectSection[2];\n";
   $hFile .= "\@end\n";
 
   my $mFile = "\n#import \"$className.h\"\n\n";
@@ -400,6 +428,10 @@ sub recursiveParse {
 
   for (my $i = 0; $i < @copyConstructorSection; $i++) {
       $mFile .= $copyConstructorSection[$i];
+  }
+
+  for (my $i = 0; $i < @makeObjectSection; $i++) {
+    $mFile .= $makeObjectSection[$i];
   }
   
   for (my $i = 0; $i < @makeDictionarySection; $i++) {

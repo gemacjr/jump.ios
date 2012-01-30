@@ -14,4 +14,5 @@
 @property (nonatomic, copy) NSString *zipPlus4;  
 - (id)init;
 + (id)primaryAddressObject;
++ (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary;
 @end

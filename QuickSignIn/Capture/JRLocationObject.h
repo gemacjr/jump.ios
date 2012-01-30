@@ -16,4 +16,5 @@
 @property (nonatomic, copy) NSString *type;  
 - (id)init;
 + (id)locationObject;
++ (id)locationObjectFromDictionary:(NSDictionary*)dictionary;
 @end

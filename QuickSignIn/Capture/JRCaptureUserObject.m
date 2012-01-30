@@ -1,11 +1,12 @@
 
 #import "JRCaptureUserObject.h"
 
-@interface NSArray (PhotosToDictionary)
+@interface NSArray (PhotosToFromDictionary)
 - (NSArray*)arrayOfPhotosDictionariesFromPhotosObjects;
+- (NSArray*)arrayOfPhotosObjectsFromPhotosDictionaries;
 @end
 
-@implementation NSArray (PhotosToDictionary)
+@implementation NSArray (PhotosToFromDictionary)
 - (NSArray*)arrayOfPhotosDictionariesFromPhotosObjects
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -15,13 +16,23 @@
 
     return filteredDictionaryArray;
 }
+
+- (NSArray*)arrayOfPhotosObjectsFromPhotosDictionaries
+{
+    NSMutableArray *filteredObjectArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])            [filteredDictionaryArray addObject:[JRPhotos photosObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
 @end
 
-@interface NSArray (ProfilesToDictionary)
+@interface NSArray (ProfilesToFromDictionary)
 - (NSArray*)arrayOfProfilesDictionariesFromProfilesObjects;
+- (NSArray*)arrayOfProfilesObjectsFromProfilesDictionaries;
 @end
 
-@implementation NSArray (ProfilesToDictionary)
+@implementation NSArray (ProfilesToFromDictionary)
 - (NSArray*)arrayOfProfilesDictionariesFromProfilesObjects
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -31,19 +42,38 @@
 
     return filteredDictionaryArray;
 }
+
+- (NSArray*)arrayOfProfilesObjectsFromProfilesDictionaries
+{
+    NSMutableArray *filteredObjectArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])            [filteredDictionaryArray addObject:[JRProfiles profilesObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
 @end
 
-@interface NSArray (StatusesToDictionary)
+@interface NSArray (StatusesToFromDictionary)
 - (NSArray*)arrayOfStatusesDictionariesFromStatusesObjects;
+- (NSArray*)arrayOfStatusesObjectsFromStatusesDictionaries;
 @end
 
-@implementation NSArray (StatusesToDictionary)
+@implementation NSArray (StatusesToFromDictionary)
 - (NSArray*)arrayOfStatusesDictionariesFromStatusesObjects
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStatusesObject class]])
             [filteredDictionaryArray addObject:[(JRStatusesObject*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfStatusesObjectsFromStatusesDictionaries
+{
+    NSMutableArray *filteredObjectArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])            [filteredDictionaryArray addObject:[JRStatuses statusesObjectFromDictionary:(NSDictionary*)dictionary]];
 
     return filteredDictionaryArray;
 }
@@ -105,6 +135,32 @@
     captureUserObjectCopy.statuses = self.statuses;
 
     return captureUserObjectCopy;
+}
+
++ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRCaptureUserObject *captureUserObject =
+        [JRCaptureUserObject captureUserObject];
+
+    captureUserObject.aboutMe = [dictionary objectForKey:@"aboutMe"];
+    captureUserObject.birthday = [dictionary objectForKey:@"birthday"];
+    captureUserObject.currentLocation = [dictionary objectForKey:@"currentLocation"];
+    captureUserObject.display = [dictionary objectForKey:@"display"];
+    captureUserObject.displayName = [dictionary objectForKey:@"displayName"];
+    captureUserObject.email = [dictionary objectForKey:@"email"];
+    captureUserObject.emailVerified = [dictionary objectForKey:@"emailVerified"];
+    captureUserObject.familyName = [dictionary objectForKey:@"familyName"];
+    captureUserObject.gender = [dictionary objectForKey:@"gender"];
+    captureUserObject.givenName = [dictionary objectForKey:@"givenName"];
+    captureUserObject.lastLogin = [dictionary objectForKey:@"lastLogin"];
+    captureUserObject.middleName = [dictionary objectForKey:@"middleName"];
+    captureUserObject.password = [dictionary objectForKey:@"password"];
+    captureUserObject.photos = [dictionary objectForKey:@"photos"];
+    captureUserObject.primaryAddress = [JRPrimaryAddressObject primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]];
+    captureUserObject.profiles = [dictionary objectForKey:@"profiles"];
+    captureUserObject.statuses = [dictionary objectForKey:@"statuses"];
+
+    return captureUserObject;
 }
 
 - (NSDictionary*)dictionaryFromObject

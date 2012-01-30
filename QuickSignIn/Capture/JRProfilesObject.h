@@ -13,4 +13,5 @@
 @property (nonatomic, copy) NSString *remote_key;  
 - (id)initWithDomain:(NSString *)newDomain andIdentifier:(NSString *)newIdentifier;
 + (id)profilesObjectWithDomain:(NSString *)domain andIdentifier:(NSString *)identifier;
++ (id)profilesObjectFromDictionary:(NSDictionary*)dictionary;
 @end

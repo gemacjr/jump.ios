@@ -35,6 +35,20 @@
     return bodyTypeObjectCopy;
 }
 
++ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRBodyTypeObject *bodyTypeObject =
+        [JRBodyTypeObject bodyTypeObject];
+
+    bodyTypeObject.build = [dictionary objectForKey:@"build"];
+    bodyTypeObject.color = [dictionary objectForKey:@"color"];
+    bodyTypeObject.eyeColor = [dictionary objectForKey:@"eyeColor"];
+    bodyTypeObject.hairColor = [dictionary objectForKey:@"hairColor"];
+    bodyTypeObject.height = [dictionary objectForKey:@"height"];
+
+    return bodyTypeObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

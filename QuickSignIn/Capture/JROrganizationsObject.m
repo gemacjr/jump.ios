@@ -43,6 +43,24 @@
     return organizationsObjectCopy;
 }
 
++ (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JROrganizationsObject *organizationsObject =
+        [JROrganizationsObject organizationsObject];
+
+    organizationsObject.department = [dictionary objectForKey:@"department"];
+    organizationsObject.description = [dictionary objectForKey:@"description"];
+    organizationsObject.endDate = [dictionary objectForKey:@"endDate"];
+    organizationsObject.location = [JRLocationObject locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]];
+    organizationsObject.name = [dictionary objectForKey:@"name"];
+    organizationsObject.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    organizationsObject.startDate = [dictionary objectForKey:@"startDate"];
+    organizationsObject.title = [dictionary objectForKey:@"title"];
+    organizationsObject.type = [dictionary objectForKey:@"type"];
+
+    return organizationsObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

@@ -43,6 +43,24 @@
     return primaryAddressObjectCopy;
 }
 
++ (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRPrimaryAddressObject *primaryAddressObject =
+        [JRPrimaryAddressObject primaryAddressObject];
+
+    primaryAddressObject.address1 = [dictionary objectForKey:@"address1"];
+    primaryAddressObject.address2 = [dictionary objectForKey:@"address2"];
+    primaryAddressObject.city = [dictionary objectForKey:@"city"];
+    primaryAddressObject.company = [dictionary objectForKey:@"company"];
+    primaryAddressObject.mobile = [dictionary objectForKey:@"mobile"];
+    primaryAddressObject.phone = [dictionary objectForKey:@"phone"];
+    primaryAddressObject.stateAbbreviation = [dictionary objectForKey:@"stateAbbreviation"];
+    primaryAddressObject.zip = [dictionary objectForKey:@"zip"];
+    primaryAddressObject.zipPlus4 = [dictionary objectForKey:@"zipPlus4"];
+
+    return primaryAddressObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];

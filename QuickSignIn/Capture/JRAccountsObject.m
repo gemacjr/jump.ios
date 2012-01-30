@@ -33,6 +33,19 @@
     return accountsObjectCopy;
 }
 
++ (id)accountsObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRAccountsObject *accountsObject =
+        [JRAccountsObject accountsObject];
+
+    accountsObject.domain = [dictionary objectForKey:@"domain"];
+    accountsObject.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    accountsObject.userid = [dictionary objectForKey:@"userid"];
+    accountsObject.username = [dictionary objectForKey:@"username"];
+
+    return accountsObject;
+}
+
 - (NSDictionary*)dictionaryFromObject
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
