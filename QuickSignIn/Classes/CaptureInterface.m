@@ -14,7 +14,6 @@
 
 #import "CaptureInterface.h"
 #import "JSONKit.h"
-#import "JRCaptureUser.h"
 
 @interface NSString (NSString_JSON_ESCAPE)
 - (NSString*)URLEscaped;
@@ -37,10 +36,13 @@
 
 @interface CaptureInterface ()
 @property (nonatomic, retain) id<CaptureInterfaceDelegate> captureInterfaceDelegate;
+@property (nonatomic, retain) JRCaptureUser *captureUser;
 @end
 
 @implementation CaptureInterface
 @synthesize captureInterfaceDelegate;
+@synthesize captureUser;
+
 static CaptureInterface* singleton = nil;
 
 static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
@@ -52,7 +54,7 @@ static NSString *typeName   = @"demo_user";
 {
     if ((self = [super init]))
     {
-        acceptibleAttributes = [[NSArray arrayWithObjects:
+        acceptableAttributes = [[NSArray arrayWithObjects:
                                              @"displayName",
                                              @"email",
                                              @"emailVerified",
@@ -115,7 +117,7 @@ static NSString *typeName   = @"demo_user";
 
 - (NSDictionary *)makeCaptureUserFromEngageUser:(NSDictionary *)engageUser
 {
-//    NSMutableDictionary *captureDicionary = [NSMutableDictionary dictionaryWithCapacity:10];
+//    NSMutableDictionary *captureDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
     NSDictionary *profile                 = [engageUser objectForKey:@"profile"];
     NSDictionary *captureAdditions        = [engageUser objectForKey:@"captureAdditions"];
 
@@ -132,19 +134,19 @@ static NSString *typeName   = @"demo_user";
     return [captureUserObject dictionaryFromObject];
 
 //    for (NSString *key in [profile allKeys])
-//        if ([acceptibleAttributes containsObject:key])
-//            [captureDicionary setObject:[profile objectForKey:key] forKey:key];
+//        if ([acceptableAttributes containsObject:key])
+//            [captureDictionary setObject:[profile objectForKey:key] forKey:key];
 //
-//    return captureDicionary;
+//    return captureDictionary;
 }
 
 - (void)startCreateCaptureUser:(NSDictionary*)user
 {
     DLog(@"");
 
-    NSDictionary *captureUser   = [self makeCaptureUserFromEngageUser:user];
-    NSString     *attributes    = [[captureUser JSONString] URLEscaped];
-    NSString     *creationToken = [[user objectForKey:@"captureCredentials"] objectForKey:@"creation_token"];
+    NSDictionary *newCaptureUser = [self makeCaptureUserFromEngageUser:user];
+    NSString     *attributes     = [[newCaptureUser JSONString] URLEscaped];
+    NSString     *creationToken  = [[user objectForKey:@"captureCredentials"] objectForKey:@"creation_token"];
 
     DLog(@"%@", creationToken);
 
@@ -167,6 +169,12 @@ static NSString *typeName   = @"demo_user";
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
         [self finishCreateCaptureUser:@"fail"];
+}
+
++ (void)captureUserObjectFromDictionary:(NSDictionary *)dictionary
+{
+    CaptureInterface* captureInterface = [CaptureInterface captureInterfaceInstance];
+    captureInterface.captureUser = [JRCaptureUser captureUserObjectFromDictionary:dictionary];
 }
 
 + (void)createCaptureUser:(NSDictionary *)user forDelegate:(id<CaptureInterfaceDelegate>)delegate
@@ -219,7 +227,8 @@ static NSString *typeName   = @"demo_user";
 - (void)dealloc
 {
     [captureInterfaceDelegate release];
-    [acceptibleAttributes release];
+    [acceptableAttributes release];
+    [captureUser release];
     [super dealloc];
 }
 

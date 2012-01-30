@@ -44,6 +44,7 @@
 #import "QSIUserModel.h"
 #import "JREngage.h"
 #import "JREngage+CustomInterface.h"
+#import "CaptureInterface.h"
 
 @interface UserModel ()
 @property (retain) EmbeddedTableViewController *embeddedTable;
@@ -641,6 +642,8 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
     captureProfile = captureProfile ?
             [self nullWalker:captureProfile]
             : nil;
+
+    [CaptureInterface captureUserObjectFromDictionary:captureProfile];
 
     NSString *captureAccessToken   = [payloadDict objectForKey:@"access_token"];
     NSString *captureCreationToken = [payloadDict objectForKey:@"creation_token"];
