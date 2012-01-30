@@ -367,8 +367,8 @@
         [JRProfile profile];
 
     profile.aboutMe = [dictionary objectForKey:@"aboutMe"];
-    profile.accounts = [dictionary objectForKey:@"accounts"];
-    profile.addresses = [dictionary objectForKey:@"addresses"];
+    profile.accounts = [(NSArray*)[dictionary objectForKey:@"accounts"] arrayOfAccountsObjectsFromAccountsDictionaries];
+    profile.addresses = [(NSArray*)[dictionary objectForKey:@"addresses"] arrayOfAddressesObjectsFromAddressesDictionaries];
     profile.anniversary = [dictionary objectForKey:@"anniversary"];
     profile.birthday = [dictionary objectForKey:@"birthday"];
     profile.bodyType = [JRBodyType bodyTypeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"bodyType"]];
@@ -378,7 +378,7 @@
     profile.currentLocation = [JRCurrentLocation currentLocationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"currentLocation"]];
     profile.displayName = [dictionary objectForKey:@"displayName"];
     profile.drinker = [dictionary objectForKey:@"drinker"];
-    profile.emails = [dictionary objectForKey:@"emails"];
+    profile.emails = [(NSArray*)[dictionary objectForKey:@"emails"] arrayOfEmailsObjectsFromEmailsDictionaries];
     profile.ethnicity = [dictionary objectForKey:@"ethnicity"];
     profile.fashion = [dictionary objectForKey:@"fashion"];
     profile.food = [dictionary objectForKey:@"food"];
@@ -386,7 +386,7 @@
     profile.happiestWhen = [dictionary objectForKey:@"happiestWhen"];
     profile.heroes = [dictionary objectForKey:@"heroes"];
     profile.humor = [dictionary objectForKey:@"humor"];
-    profile.ims = [dictionary objectForKey:@"ims"];
+    profile.ims = [(NSArray*)[dictionary objectForKey:@"ims"] arrayOfImsObjectsFromImsDictionaries];
     profile.interestedInMeeting = [dictionary objectForKey:@"interestedInMeeting"];
     profile.interests = [dictionary objectForKey:@"interests"];
     profile.jobInterests = [dictionary objectForKey:@"jobInterests"];
@@ -399,10 +399,10 @@
     profile.name = [JRName nameObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"name"]];
     profile.nickname = [dictionary objectForKey:@"nickname"];
     profile.note = [dictionary objectForKey:@"note"];
-    profile.organizations = [dictionary objectForKey:@"organizations"];
+    profile.organizations = [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsObjectsFromOrganizationsDictionaries];
     profile.pets = [dictionary objectForKey:@"pets"];
-    profile.phoneNumbers = [dictionary objectForKey:@"phoneNumbers"];
-    profile.photos = [dictionary objectForKey:@"photos"];
+    profile.phoneNumbers = [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersObjectsFromPhoneNumbersDictionaries];
+    profile.photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
     profile.politicalViews = [dictionary objectForKey:@"politicalViews"];
     profile.preferredUsername = [dictionary objectForKey:@"preferredUsername"];
     profile.profileSong = [dictionary objectForKey:@"profileSong"];
@@ -424,7 +424,7 @@
     profile.turnOns = [dictionary objectForKey:@"turnOns"];
     profile.tvShows = [dictionary objectForKey:@"tvShows"];
     profile.updated = [dictionary objectForKey:@"updated"];
-    profile.urls = [dictionary objectForKey:@"urls"];
+    profile.urls = [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsObjectsFromUrlsDictionaries];
     profile.utcOffset = [dictionary objectForKey:@"utcOffset"];
 
     return profile;

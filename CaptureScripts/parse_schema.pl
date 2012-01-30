@@ -325,6 +325,7 @@ sub recursiveParse {
         $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
         $arrayCategoriesSection .= createArrayCategoryForSubobject($propertyName);
         $toDictionary  = "[$propertyName arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
+        $frDictionary  = "[(NSArray*)[dictionary objectForKey:\@\"" . $propertyName . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "Dictionaries]";
         $propertyNotes = "/* This is an array of JR" . ucfirst($propertyName) . " */";
         
         recursiveParse ($propertyName, $propertyAttrDefsRef);

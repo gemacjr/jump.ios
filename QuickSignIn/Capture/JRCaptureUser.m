@@ -158,10 +158,10 @@
     captureUser.lastLogin = [dictionary objectForKey:@"lastLogin"];
     captureUser.middleName = [dictionary objectForKey:@"middleName"];
     captureUser.password = [dictionary objectForKey:@"password"];
-    captureUser.photos = [dictionary objectForKey:@"photos"];
+    captureUser.photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
     captureUser.primaryAddress = [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]];
-    captureUser.profiles = [dictionary objectForKey:@"profiles"];
-    captureUser.statuses = [dictionary objectForKey:@"statuses"];
+    captureUser.profiles = [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionaries];
+    captureUser.statuses = [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionaries];
 
     return captureUser;
 }
