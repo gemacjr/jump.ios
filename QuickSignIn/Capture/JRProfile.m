@@ -369,7 +369,7 @@
     profile.aboutMe = [dictionary objectForKey:@"aboutMe"];
     profile.accounts = [(NSArray*)[dictionary objectForKey:@"accounts"] arrayOfAccountsObjectsFromAccountsDictionaries];
     profile.addresses = [(NSArray*)[dictionary objectForKey:@"addresses"] arrayOfAddressesObjectsFromAddressesDictionaries];
-    profile.anniversary = [dictionary objectForKey:@"anniversary"];
+    profile.anniversary = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]];
     profile.birthday = [dictionary objectForKey:@"birthday"];
     profile.bodyType = [JRBodyType bodyTypeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"bodyType"]];
     profile.books = [dictionary objectForKey:@"books"];
@@ -408,7 +408,7 @@
     profile.profileSong = [dictionary objectForKey:@"profileSong"];
     profile.profileUrl = [dictionary objectForKey:@"profileUrl"];
     profile.profileVideo = [dictionary objectForKey:@"profileVideo"];
-    profile.published = [dictionary objectForKey:@"published"];
+    profile.published = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]];
     profile.quotes = [dictionary objectForKey:@"quotes"];
     profile.relationshipStatus = [dictionary objectForKey:@"relationshipStatus"];
     profile.relationships = [dictionary objectForKey:@"relationships"];
@@ -423,7 +423,7 @@
     profile.turnOffs = [dictionary objectForKey:@"turnOffs"];
     profile.turnOns = [dictionary objectForKey:@"turnOns"];
     profile.tvShows = [dictionary objectForKey:@"tvShows"];
-    profile.updated = [dictionary objectForKey:@"updated"];
+    profile.updated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]];
     profile.urls = [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsObjectsFromUrlsDictionaries];
     profile.utcOffset = [dictionary objectForKey:@"utcOffset"];
 
@@ -445,7 +445,7 @@
         [dict setObject:[addresses arrayOfAddressesDictionariesFromAddressesObjects] forKey:@"addresses"];
 
     if (anniversary)
-        [dict setObject:anniversary forKey:@"anniversary"];
+        [dict setObject:[anniversary stringFromISO8601Date] forKey:@"anniversary"];
 
     if (birthday)
         [dict setObject:birthday forKey:@"birthday"];
@@ -562,7 +562,7 @@
         [dict setObject:profileVideo forKey:@"profileVideo"];
 
     if (published)
-        [dict setObject:published forKey:@"published"];
+        [dict setObject:[published stringFromISO8601DateTime] forKey:@"published"];
 
     if (quotes)
         [dict setObject:quotes forKey:@"quotes"];
@@ -607,7 +607,7 @@
         [dict setObject:tvShows forKey:@"tvShows"];
 
     if (updated)
-        [dict setObject:updated forKey:@"updated"];
+        [dict setObject:[updated stringFromISO8601DateTime] forKey:@"updated"];
 
     if (urls)
         [dict setObject:[urls arrayOfUrlsDictionariesFromUrlsObjects] forKey:@"urls"];

@@ -146,16 +146,16 @@
         [JRCaptureUser captureUser];
 
     captureUser.aboutMe = [dictionary objectForKey:@"aboutMe"];
-    captureUser.birthday = [dictionary objectForKey:@"birthday"];
+    captureUser.birthday = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]];
     captureUser.currentLocation = [dictionary objectForKey:@"currentLocation"];
     captureUser.display = [dictionary objectForKey:@"display"];
     captureUser.displayName = [dictionary objectForKey:@"displayName"];
     captureUser.email = [dictionary objectForKey:@"email"];
-    captureUser.emailVerified = [dictionary objectForKey:@"emailVerified"];
+    captureUser.emailVerified = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]];
     captureUser.familyName = [dictionary objectForKey:@"familyName"];
     captureUser.gender = [dictionary objectForKey:@"gender"];
     captureUser.givenName = [dictionary objectForKey:@"givenName"];
-    captureUser.lastLogin = [dictionary objectForKey:@"lastLogin"];
+    captureUser.lastLogin = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]];
     captureUser.middleName = [dictionary objectForKey:@"middleName"];
     captureUser.password = [dictionary objectForKey:@"password"];
     captureUser.photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
@@ -175,7 +175,7 @@
         [dict setObject:aboutMe forKey:@"aboutMe"];
 
     if (birthday)
-        [dict setObject:birthday forKey:@"birthday"];
+        [dict setObject:[birthday stringFromISO8601Date] forKey:@"birthday"];
 
     if (currentLocation)
         [dict setObject:currentLocation forKey:@"currentLocation"];
@@ -190,7 +190,7 @@
         [dict setObject:email forKey:@"email"];
 
     if (emailVerified)
-        [dict setObject:emailVerified forKey:@"emailVerified"];
+        [dict setObject:[emailVerified stringFromISO8601DateTime] forKey:@"emailVerified"];
 
     if (familyName)
         [dict setObject:familyName forKey:@"familyName"];
@@ -202,7 +202,7 @@
         [dict setObject:givenName forKey:@"givenName"];
 
     if (lastLogin)
-        [dict setObject:lastLogin forKey:@"lastLogin"];
+        [dict setObject:[lastLogin stringFromISO8601DateTime] forKey:@"lastLogin"];
 
     if (middleName)
         [dict setObject:middleName forKey:@"middleName"];

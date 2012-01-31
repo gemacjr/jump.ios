@@ -28,12 +28,20 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
- File:   QSIUserModel.h
+ File:   JRCapture.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
- Date:   Tuesday, June 1, 2010
+ Date:   Tuesday, January 31, 2012
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
+
+@interface NSDate (CaptureDateTime)
++ (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
++ (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
+- (NSString *)stringFromISO8601Date;
+- (NSString *)stringFromISO8601DateTime;
+@end
+
 @protocol JRJsonifying <NSObject>
 @optional
 - (NSDictionary*)dictionaryFromObject;

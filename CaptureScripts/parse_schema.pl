@@ -288,20 +288,28 @@ sub recursiveParse {
       $toDictionary = "[NSNumber numberWithBool:$propertyName]";
       $frDictionary = "[(NSNumber*)[dictionary objectForKey:\@\"$propertyName\"] boolValue]";
 
+    } elsif ($propertyType eq "integer") {
+      $objectiveType = "NSNumber *";
+
     } elsif ($propertyType eq "decimal") {
       $objectiveType = "NSNumber *";
 
     } elsif ($propertyType eq "date") {
       $objectiveType = "NSDate *";
+      $toDictionary = "[$propertyName stringFromISO8601Date]";
+      $frDictionary = "[NSDate dateFromISO8601DateString:[dictionary objectForKey:\@\"$propertyName\"]]";
 
     } elsif ($propertyType eq "dateTime") {
       $objectiveType = "NSDate *";
+      $toDictionary = "[$propertyName stringFromISO8601DateTime]";
+      $frDictionary = "[NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"$propertyName\"]]";
 
-    } elsif ($propertyType eq "password-crypt-sha256") {
-      $objectiveType = "NSString *"; # TODO
+    } elsif ($propertyType =~ m/^password/) { # 'password' types all start with the string 'password' (e.g., "password-crypt-sha256")          #($propertyType eq "password-crypt-sha256") {
+      $objectiveType = "NSObject *"; # TODO
 
     } elsif ($propertyType eq "json") { # What the hell is a 'json'?  A string?
-      $objectiveType = "NSString *";
+      $objectiveType = "NSObject *";
+      $propertyNotes = "/* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */";      
 
     } elsif ($propertyType eq "plural") {
       ##################################################################

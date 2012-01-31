@@ -10,7 +10,7 @@
 @property (nonatomic, copy) NSString *aboutMe;  
 @property (nonatomic, copy) NSDate *birthday;  
 @property (nonatomic, copy) NSString *currentLocation;  
-@property (nonatomic, copy) NSString *display;  
+@property (nonatomic, copy) NSObject *display; /* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */ 
 @property (nonatomic, copy) NSString *displayName;  
 @property (nonatomic, copy) NSString *email;  
 @property (nonatomic, copy) NSDate *emailVerified;  
@@ -19,7 +19,7 @@
 @property (nonatomic, copy) NSString *givenName;  
 @property (nonatomic, copy) NSDate *lastLogin;  
 @property (nonatomic, copy) NSString *middleName;  
-@property (nonatomic, copy) NSString *password;  
+@property (nonatomic, copy) NSObject *password;  
 @property (nonatomic, copy) NSArray *photos; /* This is an array of JRPhotos */ 
 @property (nonatomic, copy) JRPrimaryAddress *primaryAddress;  
 @property (nonatomic, copy) NSArray *profiles; /* This is an array of JRProfiles */ 

@@ -35,7 +35,7 @@
         [JRStatuses statuses];
 
     statuses.status = [dictionary objectForKey:@"status"];
-    statuses.statusCreated = [dictionary objectForKey:@"statusCreated"];
+    statuses.statusCreated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]];
 
     return statuses;
 }
@@ -49,7 +49,7 @@
         [dict setObject:status forKey:@"status"];
 
     if (statusCreated)
-        [dict setObject:statusCreated forKey:@"statusCreated"];
+        [dict setObject:[statusCreated stringFromISO8601DateTime] forKey:@"statusCreated"];
 
     return dict;
 }
