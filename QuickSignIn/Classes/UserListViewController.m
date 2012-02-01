@@ -230,7 +230,7 @@ Copyright (c) 2010, Janrain, Inc.
     if (!iPad)
         self.title = @"Profiles";
 
-    myTableView.backgroundColor = [UIColor clearColor];
+    //myTableView.backgroundColor = [UIColor clearColor];
 
     UIBarButtonItem *addAnotherButton = [[[UIBarButtonItem alloc]
                                           initWithTitle:@"Add a Profile"

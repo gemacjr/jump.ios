@@ -49,13 +49,16 @@
 }
 @end
 
-@implementation ProfileDrillDownViewController
+@implementation UserDrillDownViewController
 @synthesize tableViewHeader;
 @synthesize tableViewData;
+@synthesize myTableView;
 
-- (id)initWithObject:(NSObject*)object forKey:(NSString*)key
+
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
+        andDataObject:(NSObject*)object forKey:(NSString*)key
 {
-    if ((self = [super init]))
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
         self.tableViewData   = object;
         self.tableViewHeader = key;
@@ -64,34 +67,45 @@
     return self;
 }
 
+//- (id)initWithObject:(NSObject*)object forKey:(NSString*)key
+//{
+//    if ((self = [super init]))
+//    {
+//        self.tableViewData   = object;
+//        self.tableViewHeader = key;
+//    }
+//
+//    return self;
+//}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    self.view.autoresizingMask = UIViewAutoresizingNone |
-                                 UIViewAutoresizingFlexibleWidth |
-                                 UIViewAutoresizingFlexibleHeight;
+//    self.view.autoresizingMask = UIViewAutoresizingNone |
+//                                 UIViewAutoresizingFlexibleWidth |
+//                                 UIViewAutoresizingFlexibleHeight;
 
-    myTableView = [[[UITableView alloc] initWithFrame:[[self view] frame]
-                                                style:UITableViewStyleGrouped] autorelease];
-    myTableView.delegate   = self;
-    myTableView.dataSource = self;
+//    myTableView = [[[UITableView alloc] initWithFrame:[[self view] frame]
+//                                                style:UITableViewStyleGrouped] autorelease];
+//    myTableView.delegate   = self;
+//    myTableView.dataSource = self;
+//
+//    myTableView.backgroundColor  = [UIColor clearColor];
+//    myTableView.autoresizingMask = UIViewAutoresizingNone |
+//                                   UIViewAutoresizingFlexibleWidth |
+//                                   UIViewAutoresizingFlexibleHeight;
 
-    myTableView.backgroundColor  = [UIColor clearColor];
-    myTableView.autoresizingMask = UIViewAutoresizingNone |
-                                   UIViewAutoresizingFlexibleWidth |
-                                   UIViewAutoresizingFlexibleHeight;
-
-    UIImageView *backgroundImage =
-        [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]] autorelease];
-
-    backgroundImage.autoresizingMask = UIViewAutoresizingNone |
-                                       UIViewAutoresizingFlexibleWidth |
-                                       UIViewAutoresizingFlexibleHeight;
-
-
-    [self.view addSubview:backgroundImage];
-    [self.view addSubview:myTableView];
+//    UIImageView *backgroundImage =
+//        [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]] autorelease];
+//
+//    backgroundImage.autoresizingMask = UIViewAutoresizingNone |
+//                                       UIViewAutoresizingFlexibleWidth |
+//                                       UIViewAutoresizingFlexibleHeight;
+//
+//
+//    [self.view addSubview:backgroundImage];
+//    [self.view addSubview:myTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -298,12 +312,15 @@
     if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])
         return;
 
-/* If our value is an *empty* array or dictionary, don't drill down. */
+ /* If our value is an *empty* array or dictionary, don't drill down. */
     if (![(NSArray *)value count]) /* Since we know value is either an array or dictionary, and both classes respond */
         return;                    /* to the 'count' selector, we just cast as an array to avoid IDE complaints */
 
-    ProfileDrillDownViewController *drillDown =
-            [[[ProfileDrillDownViewController alloc] initWithObject:value forKey:key] autorelease];
+    UserDrillDownViewController *drillDown =
+            [[[UserDrillDownViewController alloc] initWithNibName:@"UserDrillDownViewController"
+                                                           bundle:[NSBundle mainBundle]
+                                                    andDataObject:value
+                                                           forKey:key] autorelease];
 
     [[self navigationController] pushViewController:drillDown animated:YES];
 }

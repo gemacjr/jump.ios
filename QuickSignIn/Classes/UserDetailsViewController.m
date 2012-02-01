@@ -94,7 +94,7 @@
     if ([[UserModel getUserModel] selectedUser])
         [self loadUser:YES];
 
-    myTableView.backgroundColor = [UIColor clearColor];
+//    myTableView.backgroundColor = [UIColor clearColor];
 
     if ([[UserModel getUserModel] currentUser])
         [myToolBarButton setEnabled:YES];
@@ -183,7 +183,7 @@
 
     [self dynamicallyDetermineTableSections];
 
-    DLog(@"%@", [captureProfile description]);
+    //DLog(@"%@", [captureProfile description]);
 
     //DLog (@"section 1, %d rows", [profileKeys count]);
     //DLog (@"section 2, %d rows", [accessCredentialsKeys count]);
@@ -460,8 +460,11 @@
     if (![(NSArray *)value count]) /* Since we know value is either an array or dictionary, and both classes respond */
         return;                    /* to the 'count' selector, we just cast as an array to avoid IDE complaints */
 
-    ProfileDrillDownViewController *drillDown =
-            [[[ProfileDrillDownViewController alloc] initWithObject:value forKey:key] autorelease];
+    UserDrillDownViewController *drillDown =
+            [[[UserDrillDownViewController alloc] initWithNibName:@"UserDrillDownViewController"
+                                                           bundle:[NSBundle mainBundle]
+                                                    andDataObject:value
+                                                           forKey:key] autorelease];
 
     [[self navigationController] pushViewController:drillDown animated:YES];
 }

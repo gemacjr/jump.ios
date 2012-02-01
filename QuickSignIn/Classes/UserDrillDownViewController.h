@@ -29,7 +29,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface ProfileDrillDownViewController : UIViewController <UINavigationBarDelegate,
+@interface UserDrillDownViewController : UIViewController <UINavigationBarDelegate,
                                                         UITableViewDelegate, UITableViewDataSource>
 {
     UITableView *myTableView;
@@ -37,6 +37,9 @@
 
 @property (retain) NSObject *tableViewData;
 @property (retain) NSString *tableViewHeader;
+@property (nonatomic, retain) IBOutlet UITableView *myTableView;
 
-- (id)initWithObject:(NSObject*)object forKey:(NSString*)key;
+//- (id)initWithObject:(NSObject*)object forKey:(NSString*)key;
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
+        andDataObject:(NSObject*)object forKey:(NSString*)key;
 @end
