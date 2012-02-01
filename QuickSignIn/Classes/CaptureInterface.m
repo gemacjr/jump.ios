@@ -124,12 +124,14 @@ static NSString *typeName   = @"demo_user";
 
     JRCaptureUser *captureUserObject = [JRCaptureUser captureUser];
 
-    JRProfile *profileObject = [JRProfile profile];
+    captureUserObject.profiles = [NSArray arrayWithObject:[JRProfiles profilesObjectFromEngageProfileDictionary:engageUser]];
 
-
-    captureUserObject.displayName = @"testing";
-    captureUserObject.primaryAddress = [JRPrimaryAddress primaryAddress];
-    captureUserObject.primaryAddress.address1 = @"blah blah blah";
+//    JRProfile *profileObject = [JRProfile profile];
+//
+//
+//    captureUserObject.displayName = @"testing";
+//    captureUserObject.primaryAddress = [JRPrimaryAddress primaryAddress];
+//    captureUserObject.primaryAddress.address1 = @"blah blah blah";
 
     return [captureUserObject dictionaryFromObject];
 

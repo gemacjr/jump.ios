@@ -40,6 +40,8 @@
 // YYYY-MM-DD
 + (NSDate *)dateFromISO8601DateString:(NSString *)dateString
 {
+    if (!dateString) return nil;
+
     /* Create date formatter */
     static NSDateFormatter *dateFormatter = nil;
     if (!dateFormatter) {
@@ -76,6 +78,7 @@
 
 + (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString
 {
+    if (!dateTimeString) return nil;
 
     // Create date formatter
     static NSDateFormatter *dateFormatter = nil;
