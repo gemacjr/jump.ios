@@ -17,7 +17,6 @@
 		9F23062D12F24B5A00147C95 /* split_landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F23062A12F24B5A00147C95 /* split_landscape.png */; };
 		9F23062E12F24B5A00147C95 /* split_portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F23062B12F24B5A00147C95 /* split_portrait.png */; };
 		9F25B0CD12D24CD90083BB6A /* Quick Sign-In.app in Sources */ = {isa = PBXBuildFile; fileRef = 1D6058910D05DD3D006BFB54 /* Quick Sign-In.app */; };
-		9F30A5FF12BAF1DE00A30ADF /* QSIInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */; };
 		9F30A8E412BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F30A8E312BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m */; };
 		9F32496112EE43F200BEDA1F /* edit_disabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F32496012EE43F200BEDA1F /* edit_disabled.png */; };
 		9F521EAD12B062940073ABAE /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521E9912B062940073ABAE /* background.png */; };
@@ -29,13 +28,9 @@
 		9F521EB412B062940073ABAE /* background-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA112B062940073ABAE /* background-ipad.png */; };
 		9F521EB512B062940073ABAE /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA212B062940073ABAE /* Default-Portrait.png */; };
 		9F521EB612B062940073ABAE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA412B062940073ABAE /* MainWindow.xib */; };
-		9F521EB712B062940073ABAE /* QSIRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA512B062940073ABAE /* QSIRootViewController.xib */; };
 		9F521EB812B062940073ABAE /* UserListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA612B062940073ABAE /* UserListViewController.xib */; };
 		9F521EB912B062940073ABAE /* UserDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA712B062940073ABAE /* UserDetailsViewController.xib */; };
 		9F521EBA12B062940073ABAE /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EA912B062940073ABAE /* MainWindow-iPad.xib */; };
-		9F521EBB12B062940073ABAE /* QSIRootViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EAA12B062940073ABAE /* QSIRootViewController-iPad.xib */; };
-		9F521EBC12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EAB12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib */; };
-		9F521EBD12B062940073ABAE /* QSIViewControllerLevel2-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F521EAC12B062940073ABAE /* QSIViewControllerLevel2-iPad.xib */; };
 		9F7BC21E146888A80068BD40 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7BC168146888A70068BD40 /* JSONKit.m */; };
 		9F7BC21F146888A80068BD40 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7BC16B146888A70068BD40 /* SFHFKeychainUtils.m */; };
 		9F7BC220146888A80068BD40 /* JREngage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7BC16E146888A70068BD40 /* JREngage.m */; };
@@ -195,15 +190,12 @@
 		9F96D80512EA5236002D06B4 /* edit.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D80312EA5236002D06B4 /* edit.png */; };
 		9F96D89012EA6347002D06B4 /* done_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D88E12EA6347002D06B4 /* done_selected.png */; };
 		9F96D89112EA6347002D06B4 /* edit_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F96D88F12EA6347002D06B4 /* edit_selected.png */; };
-		9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */; };
-		9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */; };
 		9FB40A3512414DC500FDDA7B /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A2F12414DC500FDDA7B /* UserDetailsViewController.m */; };
 		9FB40A3612414DC500FDDA7B /* QuickSignInAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */; };
 		9FBE274412A713F600E1F93E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBE274312A713F600E1F93E /* Security.framework */; };
 		9FD5942914D0BD6C00AD7829 /* CaptureNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5942714D0BD6C00AD7829 /* CaptureNewUserViewController.m */; };
 		9FD5942D14D0BDA900AD7829 /* CaptureNewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD5942C14D0BDA900AD7829 /* CaptureNewUserViewController.xib */; };
 		C01FCF5008A954540054247D /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247C /* UserListViewController.m */; };
-		C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */; };
 		C01FCF5008A9545400542482 /* CaptureInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542481 /* CaptureInterface.m */; };
 		C01FCF5008A954540054249B /* JRAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054249A /* JRAccounts.m */; };
 		C01FCF5008A954540054249D /* JRAddresses.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054249C /* JRAddresses.m */; };
@@ -225,6 +217,16 @@
 		C01FCF5008A95454005424BD /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424BC /* JRCapture.m */; };
 		C01FCF5008A95454005424C0 /* JRProfiles+EngageProfileParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424BF /* JRProfiles+EngageProfileParsing.m */; };
 		C01FCF5008A95454005424C2 /* JREngage+Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424C1 /* JREngage+Capture.m */; };
+		C01FCF5008A95454005424C8 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424C7 /* RootViewController.m */; };
+		C01FCF5008A95454005424CA /* UserDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424C9 /* UserDrillDownViewController.m */; };
+		C01FCF5008A95454005424CC /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424CB /* UserModel.m */; };
+		C01FCF5008A95454005424CE /* InfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424CD /* InfoViewController.xib */; };
+		C01FCF5008A95454005424D0 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424CF /* RootViewController.xib */; };
+		C01FCF5008A95454005424D2 /* UserDrillDownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D1 /* UserDrillDownViewController.xib */; };
+		C01FCF5008A95454005424D4 /* RootViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D3 /* RootViewController-iPad.xib */; };
+		C01FCF5008A95454005424D6 /* UserDetailViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D5 /* UserDetailViewController-iPad.xib */; };
+		C01FCF5008A95454005424D8 /* UserDrillDownViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D7 /* UserDrillDownViewController-iPad.xib */; };
+		C01FCF5008A95454005424DA /* UserListViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D9 /* UserListViewController-iPad.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -239,7 +241,6 @@
 		9F23062A12F24B5A00147C95 /* split_landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = split_landscape.png; sourceTree = "<group>"; };
 		9F23062B12F24B5A00147C95 /* split_portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = split_portrait.png; sourceTree = "<group>"; };
 		9F2433CD1329974C00780E63 /* Quick_Sign_In-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Quick_Sign_In-Info.plist"; sourceTree = SOURCE_ROOT; };
-		9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIInfoViewController.xib; sourceTree = "<group>"; };
 		9F30A8E212BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmbeddedNativeSignInViewController.h; sourceTree = "<group>"; };
 		9F30A8E312BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmbeddedNativeSignInViewController.m; sourceTree = "<group>"; };
 		9F32496012EE43F200BEDA1F /* edit_disabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_disabled.png; sourceTree = "<group>"; };
@@ -252,13 +253,9 @@
 		9F521EA112B062940073ABAE /* background-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-ipad.png"; sourceTree = "<group>"; };
 		9F521EA212B062940073ABAE /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		9F521EA412B062940073ABAE /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		9F521EA512B062940073ABAE /* QSIRootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QSIRootViewController.xib; sourceTree = "<group>"; };
 		9F521EA612B062940073ABAE /* UserListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserListViewController.xib; sourceTree = "<group>"; };
 		9F521EA712B062940073ABAE /* UserDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserDetailsViewController.xib; sourceTree = "<group>"; };
 		9F521EA912B062940073ABAE /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
-		9F521EAA12B062940073ABAE /* QSIRootViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIRootViewController-iPad.xib"; sourceTree = "<group>"; };
-		9F521EAB12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIViewControllerLevel1-iPad.xib"; sourceTree = "<group>"; };
-		9F521EAC12B062940073ABAE /* QSIViewControllerLevel2-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "QSIViewControllerLevel2-iPad.xib"; sourceTree = "<group>"; };
 		9F7BC167146888A70068BD40 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = ../JREngage/JSONKit/JSONKit.h; sourceTree = SOURCE_ROOT; };
 		9F7BC168146888A70068BD40 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = ../JREngage/JSONKit/JSONKit.m; sourceTree = SOURCE_ROOT; };
 		9F7BC16A146888A70068BD40 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFHFKeychainUtils.h; path = ../JREngage/Security/SFHFKeychainUtils.h; sourceTree = SOURCE_ROOT; };
@@ -432,10 +429,6 @@
 		9F96D80312EA5236002D06B4 /* edit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit.png; sourceTree = "<group>"; };
 		9F96D88E12EA6347002D06B4 /* done_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done_selected.png; sourceTree = "<group>"; };
 		9F96D88F12EA6347002D06B4 /* edit_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_selected.png; sourceTree = "<group>"; };
-		9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIRootViewController.h; sourceTree = "<group>"; };
-		9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIRootViewController.m; sourceTree = "<group>"; };
-		9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSIUserModel.h; sourceTree = "<group>"; };
-		9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSIUserModel.m; sourceTree = "<group>"; };
 		9FB40A2C12414DC500FDDA7B /* UserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListViewController.h; sourceTree = "<group>"; };
 		9FB40A2E12414DC500FDDA7B /* UserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailsViewController.h; sourceTree = "<group>"; };
 		9FB40A2F12414DC500FDDA7B /* UserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsViewController.m; sourceTree = "<group>"; };
@@ -447,8 +440,6 @@
 		9FD5942714D0BD6C00AD7829 /* CaptureNewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureNewUserViewController.m; sourceTree = "<group>"; };
 		9FD5942C14D0BDA900AD7829 /* CaptureNewUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureNewUserViewController.xib; sourceTree = "<group>"; };
 		C01FCF5008A954540054247C /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListViewController.m; sourceTree = "<group>"; };
-		C01FCF5008A954540054247E /* ProfileDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDrillDownViewController.h; sourceTree = "<group>"; };
-		C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDrillDownViewController.m; sourceTree = "<group>"; };
 		C01FCF5008A9545400542481 /* CaptureInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureInterface.m; sourceTree = "<group>"; };
 		C01FCF5008A9545400542483 /* CaptureInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureInterface.h; sourceTree = "<group>"; };
 		C01FCF5008A9545400542488 /* JRCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCapture.h; sourceTree = "<group>"; };
@@ -491,6 +482,19 @@
 		C01FCF5008A95454005424BF /* JRProfiles+EngageProfileParsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRProfiles+EngageProfileParsing.m"; sourceTree = "<group>"; };
 		C01FCF5008A95454005424C1 /* JREngage+Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JREngage+Capture.m"; sourceTree = "<group>"; };
 		C01FCF5008A95454005424C3 /* JREngage+Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JREngage+Capture.h"; sourceTree = "<group>"; };
+		C01FCF5008A95454005424C4 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		C01FCF5008A95454005424C5 /* UserDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDrillDownViewController.h; sourceTree = "<group>"; };
+		C01FCF5008A95454005424C6 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		C01FCF5008A95454005424C7 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		C01FCF5008A95454005424C9 /* UserDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDrillDownViewController.m; sourceTree = "<group>"; };
+		C01FCF5008A95454005424CB /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		C01FCF5008A95454005424CD /* InfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoViewController.xib; sourceTree = "<group>"; };
+		C01FCF5008A95454005424CF /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
+		C01FCF5008A95454005424D1 /* UserDrillDownViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserDrillDownViewController.xib; sourceTree = "<group>"; };
+		C01FCF5008A95454005424D3 /* RootViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "RootViewController-iPad.xib"; sourceTree = "<group>"; };
+		C01FCF5008A95454005424D5 /* UserDetailViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "UserDetailViewController-iPad.xib"; sourceTree = "<group>"; };
+		C01FCF5008A95454005424D7 /* UserDrillDownViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "UserDrillDownViewController-iPad.xib"; sourceTree = "<group>"; };
+		C01FCF5008A95454005424D9 /* UserListViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "UserListViewController-iPad.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -512,17 +516,17 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C01FCF5008A95454005424CB /* UserModel.m */,
+				C01FCF5008A95454005424C9 /* UserDrillDownViewController.m */,
+				C01FCF5008A95454005424C7 /* RootViewController.m */,
+				C01FCF5008A95454005424C6 /* UserModel.h */,
+				C01FCF5008A95454005424C5 /* UserDrillDownViewController.h */,
+				C01FCF5008A95454005424C4 /* RootViewController.h */,
 				C01FCF5008A9545400542483 /* CaptureInterface.h */,
 				C01FCF5008A9545400542481 /* CaptureInterface.m */,
-				C01FCF5008A954540054247F /* ProfileDrillDownViewController.m */,
-				C01FCF5008A954540054247E /* ProfileDrillDownViewController.h */,
 				C01FCF5008A954540054247C /* UserListViewController.m */,
 				9FB40A3012414DC500FDDA7B /* QuickSignInAppDelegate.h */,
 				9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */,
-				9FB40A2A12414DC500FDDA7B /* QSIUserModel.h */,
-				9FB40A2B12414DC500FDDA7B /* QSIUserModel.m */,
-				9FB40A2812414DC500FDDA7B /* QSIRootViewController.h */,
-				9FB40A2912414DC500FDDA7B /* QSIRootViewController.m */,
 				9FB40A2C12414DC500FDDA7B /* UserListViewController.h */,
 				9FB40A2E12414DC500FDDA7B /* UserDetailsViewController.h */,
 				9FB40A2F12414DC500FDDA7B /* UserDetailsViewController.m */,
@@ -625,12 +629,13 @@
 		9F521EA312B062940073ABAE /* xibs */ = {
 			isa = PBXGroup;
 			children = (
+				C01FCF5008A95454005424D1 /* UserDrillDownViewController.xib */,
+				C01FCF5008A95454005424CF /* RootViewController.xib */,
+				C01FCF5008A95454005424CD /* InfoViewController.xib */,
 				9FD5942C14D0BDA900AD7829 /* CaptureNewUserViewController.xib */,
 				9F521EA412B062940073ABAE /* MainWindow.xib */,
-				9F521EA512B062940073ABAE /* QSIRootViewController.xib */,
 				9F521EA612B062940073ABAE /* UserListViewController.xib */,
 				9F521EA712B062940073ABAE /* UserDetailsViewController.xib */,
-				9F30A5FE12BAF1DE00A30ADF /* QSIInfoViewController.xib */,
 			);
 			path = xibs;
 			sourceTree = "<group>";
@@ -638,10 +643,11 @@
 		9F521EA812B062940073ABAE /* xibs-ipad */ = {
 			isa = PBXGroup;
 			children = (
+				C01FCF5008A95454005424D9 /* UserListViewController-iPad.xib */,
+				C01FCF5008A95454005424D7 /* UserDrillDownViewController-iPad.xib */,
+				C01FCF5008A95454005424D5 /* UserDetailViewController-iPad.xib */,
+				C01FCF5008A95454005424D3 /* RootViewController-iPad.xib */,
 				9F521EA912B062940073ABAE /* MainWindow-iPad.xib */,
-				9F521EAA12B062940073ABAE /* QSIRootViewController-iPad.xib */,
-				9F521EAB12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib */,
-				9F521EAC12B062940073ABAE /* QSIViewControllerLevel2-iPad.xib */,
 			);
 			path = "xibs-ipad";
 			sourceTree = "<group>";
@@ -1070,14 +1076,9 @@
 				9F521EB412B062940073ABAE /* background-ipad.png in Resources */,
 				9F521EB512B062940073ABAE /* Default-Portrait.png in Resources */,
 				9F521EB612B062940073ABAE /* MainWindow.xib in Resources */,
-				9F521EB712B062940073ABAE /* QSIRootViewController.xib in Resources */,
 				9F521EB812B062940073ABAE /* UserListViewController.xib in Resources */,
 				9F521EB912B062940073ABAE /* UserDetailsViewController.xib in Resources */,
 				9F521EBA12B062940073ABAE /* MainWindow-iPad.xib in Resources */,
-				9F521EBB12B062940073ABAE /* QSIRootViewController-iPad.xib in Resources */,
-				9F521EBC12B062940073ABAE /* QSIViewControllerLevel1-iPad.xib in Resources */,
-				9F521EBD12B062940073ABAE /* QSIViewControllerLevel2-iPad.xib in Resources */,
-				9F30A5FF12BAF1DE00A30ADF /* QSIInfoViewController.xib in Resources */,
 				9F96D44B12E8B458002D06B4 /* janrain_logo@2x.png in Resources */,
 				9F96D44D12E8B462002D06B4 /* janrain_logo-ipad.png in Resources */,
 				9F96D80412EA5236002D06B4 /* done.png in Resources */,
@@ -1229,6 +1230,13 @@
 				9F7BC2B6146888A80068BD40 /* JREngage-Info.plist in Resources */,
 				9F0C6BB51492CF77001D6AB1 /* Settings.bundle in Resources */,
 				9FD5942D14D0BDA900AD7829 /* CaptureNewUserViewController.xib in Resources */,
+				C01FCF5008A95454005424CE /* InfoViewController.xib in Resources */,
+				C01FCF5008A95454005424D0 /* RootViewController.xib in Resources */,
+				C01FCF5008A95454005424D2 /* UserDrillDownViewController.xib in Resources */,
+				C01FCF5008A95454005424D4 /* RootViewController-iPad.xib in Resources */,
+				C01FCF5008A95454005424D6 /* UserDetailViewController-iPad.xib in Resources */,
+				C01FCF5008A95454005424D8 /* UserDrillDownViewController-iPad.xib in Resources */,
+				C01FCF5008A95454005424DA /* UserListViewController-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1257,8 +1265,6 @@
 			files = (
 				9F25B0CD12D24CD90083BB6A /* Quick Sign-In.app in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				9FB40A3212414DC500FDDA7B /* QSIRootViewController.m in Sources */,
-				9FB40A3312414DC500FDDA7B /* QSIUserModel.m in Sources */,
 				9FB40A3512414DC500FDDA7B /* UserDetailsViewController.m in Sources */,
 				9FB40A3612414DC500FDDA7B /* QuickSignInAppDelegate.m in Sources */,
 				9F30A8E412BC0C4B00A30ADF /* EmbeddedNativeSignInViewController.m in Sources */,
@@ -1277,7 +1283,6 @@
 				9F7BC22A146888A80068BD40 /* JRInfoBar.m in Sources */,
 				9F7BC22B146888A80068BD40 /* JRPreviewLabel.m in Sources */,
 				C01FCF5008A954540054247D /* UserListViewController.m in Sources */,
-				C01FCF5008A9545400542480 /* ProfileDrillDownViewController.m in Sources */,
 				9FD5942914D0BD6C00AD7829 /* CaptureNewUserViewController.m in Sources */,
 				C01FCF5008A9545400542482 /* CaptureInterface.m in Sources */,
 				C01FCF5008A954540054249B /* JRAccounts.m in Sources */,
@@ -1300,6 +1305,9 @@
 				C01FCF5008A95454005424BD /* JRCapture.m in Sources */,
 				C01FCF5008A95454005424C0 /* JRProfiles+EngageProfileParsing.m in Sources */,
 				C01FCF5008A95454005424C2 /* JREngage+Capture.m in Sources */,
+				C01FCF5008A95454005424C8 /* RootViewController.m in Sources */,
+				C01FCF5008A95454005424CA /* UserDrillDownViewController.m in Sources */,
+				C01FCF5008A95454005424CC /* UserModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

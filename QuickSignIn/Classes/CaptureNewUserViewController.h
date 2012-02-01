@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSIUserModel.h"
+#import "UserModel.h"
 #import "CaptureInterface.h"
 
 @interface CaptureNewUserViewController : UIViewController <CaptureInterfaceDelegate>

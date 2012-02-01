@@ -35,7 +35,7 @@
 
 #import <UIKit/UIKit.h>
 #import "UserListViewController.h"
-#import "QSIUserModel.h"
+#import "UserModel.h"
 
 @interface RootViewController : UIViewController <UserModelDelegate, LibraryDialogDelegate>
 {
@@ -48,7 +48,7 @@
     IBOutlet UIView   *layoutViewOutside;
     IBOutlet UIView   *layoutViewInside;
 
-    UserListViewController*userListViewController;
+    UserListViewController *userListViewController;
 }
 - (IBAction)signInButtonPressed:(id)sender;
 - (IBAction)signInButtonOnEvent:(id)sender;

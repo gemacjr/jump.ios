@@ -211,7 +211,7 @@ Copyright (c) 2010, Janrain, Inc.
         iPad = YES;
 
     if (iPad)
-        userDetailsViewController = [[UserDetailsViewController alloc] initWithNibName:@"QSIViewControllerLevel2-iPad"
+        userDetailsViewController = [[UserDetailsViewController alloc] initWithNibName:@"UserDetailViewController-iPad"
                                                                       bundle:[NSBundle mainBundle]];
     else
         userDetailsViewController = [[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController"
@@ -757,8 +757,14 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (void)showCaptureScreen
 {
-    CaptureNewUserViewController *viewController = [[[CaptureNewUserViewController alloc]
-            initWithNibName:@"CaptureNewUserViewController" bundle:[NSBundle mainBundle]] autorelease];
+    CaptureNewUserViewController *viewController = nil;
+
+    if (iPad)
+        ;//viewController = [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController-iPad"
+         //                                                             bundle:[NSBundle mainBundle]] autorelease];
+    else
+        viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
+                                                                      bundle:[NSBundle mainBundle]] autorelease];
 
     [self.navigationController pushViewController:viewController animated:YES];
 }

@@ -170,7 +170,7 @@
 
 - (void)signInButtonTouchUpInside:(UIButton*)button
 {
-    InfoViewController *info = [[[InfoViewController alloc] initWithNibName:@"QSIInfoViewController"
+    InfoViewController *info = [[[InfoViewController alloc] initWithNibName:@"InfoViewController"
                                                                      bundle:[NSBundle mainBundle]] autorelease];
 
     [[UserModel getUserModel].navigationController pushViewController:info animated:YES];

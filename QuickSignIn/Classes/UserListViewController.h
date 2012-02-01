@@ -34,7 +34,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "QSIUserModel.h"
+#import "UserModel.h"
 #import "UserDetailsViewController.h"
 
 @interface UserListViewController : UIViewController <UINavigationBarDelegate, UserModelDelegate, LibraryDialogDelegate,

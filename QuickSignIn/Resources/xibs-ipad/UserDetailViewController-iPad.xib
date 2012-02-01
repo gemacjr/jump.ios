@@ -247,7 +247,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">ViewControllerLevel2</string>
+					<string key="className">UserDetailViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">signOutButtonPressed:</string>
@@ -301,7 +301,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/QSIViewControllerLevel2.h</string>
+						<string key="minorKey">Classes/UserDetailViewController.h</string>
 					</object>
 				</object>
 			</object>

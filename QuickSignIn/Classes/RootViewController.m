@@ -33,8 +33,7 @@
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import "QSIRootViewController.h"
-#import "QSIUserModel.h"
+#import "RootViewController.h"
 
 @implementation RootViewController
 
@@ -79,7 +78,7 @@
 //#endif
 
     if (iPad)
-        userListViewController = [[UserListViewController alloc] initWithNibName:@"QSIViewControllerLevel1-iPad"
+        userListViewController = [[UserListViewController alloc] initWithNibName:@"UserListViewController-iPad"
                                                                       bundle:[NSBundle mainBundle]];
     else
         userListViewController = [[UserListViewController alloc] initWithNibName:@"UserListViewController"

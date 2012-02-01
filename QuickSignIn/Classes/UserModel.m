@@ -41,9 +41,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import "QSIUserModel.h"
-#import "JREngage.h"
-#import "JREngage+CustomInterface.h"
+#import "UserModel.h"
 #import "CaptureInterface.h"
 
 @interface UserModel ()
