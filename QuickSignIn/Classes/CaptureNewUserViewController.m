@@ -142,6 +142,7 @@
     captureUser.birthday = myBirthdate;
     captureUser.currentLocation = myLocationTextView.text;
 
+
     if (myGenderIdentitySegControl.selectedSegmentIndex == 0)
         captureUser.gender = @"female";
     else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)

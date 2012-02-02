@@ -42,33 +42,24 @@
 {
     if (!dateString) return nil;
 
-    /* Create date formatter */
     static NSDateFormatter *dateFormatter = nil;
-    if (!dateFormatter) {
-        NSLocale *en_US_POSIX = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    if (!dateFormatter)
+    {
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setLocale:en_US_POSIX];
+        [dateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-        [en_US_POSIX release];
     }
 
-    /* Process */
     NSDate *date = nil;
     NSString *ISO8601String = [[NSString stringWithString:dateString] uppercaseString];
-    if (!date) { // YYYY-MM-DD
+    if (!date) /* 1983-03-12 */
+    {
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         date = [dateFormatter dateFromString:ISO8601String];
     }
-    if (!date) { // YYYYMMDD
+    if (!date) /* 19830312 */
+    {
         [dateFormatter setDateFormat:@"YYYYMMDD"];
-        date = [dateFormatter dateFromString:ISO8601String];
-    }
-    if (!date) { // Sun, 19 May 2002 15:21:36
-        [dateFormatter setDateFormat:@"EEE, d MMM yyyy HH:mm:ss"];
-        date = [dateFormatter dateFromString:ISO8601String];
-    }
-    if (!date) { // Sun, 19 May 2002 15:21
-        [dateFormatter setDateFormat:@"EEE, d MMM yyyy HH:mm"];
         date = [dateFormatter dateFromString:ISO8601String];
     }
 
@@ -80,88 +71,85 @@
 {
     if (!dateTimeString) return nil;
 
-    // Create date formatter
     static NSDateFormatter *dateFormatter = nil;
-    if (!dateFormatter) {
-        NSLocale *en_US_POSIX = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    if (!dateFormatter)
+    {
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setLocale:en_US_POSIX];
+        [dateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-        [en_US_POSIX release];
     }
 
-    // Process
     NSDate *date = nil;
     NSString *ISO8601String = [[NSString stringWithString:dateTimeString] uppercaseString];
-    if ([ISO8601String rangeOfString:@","].location != NSNotFound) {
-        if (!date) { // Sun, 19 May 2002 15:21:36 GMT
-            [dateFormatter setDateFormat:@"EEE, d MMM yyyy HH:mm:ss zzz"];
-            date = [dateFormatter dateFromString:ISO8601String];
-        }
-        if (!date) { // Sun, 19 May 2002 15:21 GMT
-            [dateFormatter setDateFormat:@"EEE, d MMM yyyy HH:mm zzz"];
-            date = [dateFormatter dateFromString:ISO8601String];
-        }
-        if (!date) { // Sun, 19 May 2002 15:21:36
-            [dateFormatter setDateFormat:@"EEE, d MMM yyyy HH:mm:ss"];
-            date = [dateFormatter dateFromString:ISO8601String];
-        }
-        if (!date) { // Sun, 19 May 2002 15:21
-            [dateFormatter setDateFormat:@"EEE, d MMM yyyy HH:mm"];
-            date = [dateFormatter dateFromString:ISO8601String];
-        }
-    } else {
-        if (!date) { // 19 May 2002 15:21:36 GMT
-            [dateFormatter setDateFormat:@"d MMM yyyy HH:mm:ss zzz"];
-            date = [dateFormatter dateFromString:ISO8601String];
-        }
-        if (!date) { // 19 May 2002 15:21 GMT
-            [dateFormatter setDateFormat:@"d MMM yyyy HH:mm zzz"];
-            date = [dateFormatter dateFromString:ISO8601String];
-        }
-        if (!date) { // 19 May 2002 15:21:36
-            [dateFormatter setDateFormat:@"d MMM yyyy HH:mm:ss"];
-            date = [dateFormatter dateFromString:ISO8601String];
-        }
-        if (!date) { // 19 May 2002 15:21
-            [dateFormatter setDateFormat:@"d MMM yyyy HH:mm"];
-            date = [dateFormatter dateFromString:ISO8601String];
-        }
+    if (!date) /* Full ISO8601; e.g., 2012-02-02 01:33:20.122198 +0000 */
+    {
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ"];
+        date = [dateFormatter dateFromString:ISO8601String];
     }
-    if (!date) NSLog(@"Could not parse RFC822 date: \"%@\" Possibly invalid format.", dateTimeString);
+    if (!date) /* With a 'T'; e.g., 2012-02-02T01:33:20.122198 +0000 */
+    {
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSSSS ZZZ"];
+        date = [dateFormatter dateFromString:ISO8601String];
+    }
+    if (!date) /* No timezone; e.g., 2012-02-02 01:33:20.122198 */
+    {
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSSSSS"];
+        date = [dateFormatter dateFromString:ISO8601String];
+    }
+    if (!date) /* No timezone and a 'T'; e.g., 2012-02-02T01:33:20.122198 */
+    {
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSSSS"];
+        date = [dateFormatter dateFromString:ISO8601String];
+    }
+    if (!date) /* No milis; e.g., 2012-02-02 01:33:20 +0000 */
+    {
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss ZZZ"];
+        date = [dateFormatter dateFromString:ISO8601String];
+    }
+    if (!date) /* No milis and a 'T'; e.g., 2012-02-02T01:33:20 +0000 */
+    {
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss ZZZ"];
+        date = [dateFormatter dateFromString:ISO8601String];
+    }
+    if (!date) /* No milis or timezone; e.g., 2012-02-02 01:33:20 */
+    {
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        date = [dateFormatter dateFromString:ISO8601String];
+    }
+    if (!date) /* No milis or timezone and a 'T'; e.g., 2012-02-02T01:33:20 */
+    {
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+        date = [dateFormatter dateFromString:ISO8601String];
+    }
+    // TODO: Test for and come up with any more!!!
+
+    if (!date) NSLog(@"Could not parse ISO8601 date: \"%@\" Possibly invalid format.", dateTimeString);
     return date;
 }
 
 - (NSString *)stringFromISO8601Date
 {
     static NSDateFormatter *dateFormatter = nil;
-    if (!dateFormatter) {
-        NSLocale *en_US_POSIX = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    if (!dateFormatter)
+    {
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setLocale:en_US_POSIX];
+        [dateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-        [en_US_POSIX release];
-        [dateFormatter setDateFormat:@"d MMM yyyy"];
     }
 
     return [dateFormatter stringFromDate:self];
-    //return @"FOO";
 }
 
 - (NSString *)stringFromISO8601DateTime
 {
     static NSDateFormatter *dateFormatter = nil;
-    if (!dateFormatter) {
-        NSLocale *en_US_POSIX = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    if (!dateFormatter)
+    {
         dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setLocale:en_US_POSIX];
+        [dateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-        [en_US_POSIX release];
-
-        [dateFormatter setDateFormat:@"d MMM yyyy HH:mm:ss"];
     }
 
     return [dateFormatter stringFromDate:self];
-//    return @"FOO";
 }
 @end

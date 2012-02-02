@@ -37,6 +37,7 @@
 #import "UserListViewController.h"
 #import "UserModel.h"
 
+
 @interface RootViewController : UIViewController <UserModelDelegate, LibraryDialogDelegate>
 {
     BOOL iPad;
