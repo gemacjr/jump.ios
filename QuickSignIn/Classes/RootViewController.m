@@ -34,6 +34,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import "RootViewController.h"
+#import "CaptureNewUserViewController.h"
 
 @implementation RootViewController
 
@@ -191,7 +192,14 @@
 
 - (IBAction)viewHistoryButtonPressed:(id)sender
 {
-    [[self navigationController] pushViewController:userListViewController animated:YES];
+    // TODO: Temporarily here for testing
+    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
+                                                                  bundle:[NSBundle mainBundle]] autorelease];
+
+    [self.navigationController pushViewController:viewController animated:YES];
+    // TODO: Remove when done
+
+    //[[self navigationController] pushViewController:userListViewController animated:YES];
 }
 
 - (void)didFailToSignIn:(BOOL)showMessage

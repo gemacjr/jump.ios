@@ -763,8 +763,8 @@ Copyright (c) 2010, Janrain, Inc.
         ;//viewController = [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController-iPad"
          //                                                             bundle:[NSBundle mainBundle]] autorelease];
     else
-        viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
-                                                                      bundle:[NSBundle mainBundle]] autorelease];
+        viewController = [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
+                                                                         bundle:[NSBundle mainBundle]] autorelease];
 
     [self.navigationController pushViewController:viewController animated:YES];
 }

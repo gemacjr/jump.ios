@@ -18,17 +18,21 @@
 
 @interface CaptureNewUserViewController ()
 @property (nonatomic, retain) NSMutableDictionary *newUser;
+@property (nonatomic, retain) UITextView          *firstResponder;
 @end
 
 @implementation CaptureNewUserViewController
-@synthesize myHometownTextView;
+@synthesize myLocationTextView;
 @synthesize myGenderIdentitySegControl;
 @synthesize myBirthdayButton;
 @synthesize myBirthdayPicker;
 @synthesize myPickerToolbar;
-@synthesize myAgreeSwitch;
 @synthesize newUser;
-
+@synthesize myAboutMeTextView;
+@synthesize myPickerView;
+@synthesize myScrollView;
+@synthesize myKeyboardToolbar;
+@synthesize firstResponder;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,21 +51,87 @@
     NSString *identifier = [user objectForKey:@"identifier"];
     self.newUser         = [NSMutableDictionary dictionaryWithDictionary:
                                    [[[UserModel getUserModel] userProfiles] objectForKey:identifier]];
+
+
+    [myPickerView setFrame:CGRectMake(0, 416, 320, 260)];
+    [self.view addSubview:myPickerView];
+
+    [myAboutMeTextView setInputAccessoryView:myKeyboardToolbar];
+    [myLocationTextView setInputAccessoryView:myKeyboardToolbar];
+
+    
+    //[myBirthdayButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+
+    //[myBirthdayButton.titleLabel setTextAlignment:UITextAlignmentRight];
+}
+
+- (void)slidePickerUp
+{
+    [UIView beginAnimations:@"slidePickerUp" context:nil];
+//    [UIView setAnimationDuration:0.3];
+//    [UIView setAnimationDelay:0.9];
+    [myPickerView setFrame:CGRectMake(0, 156, 320, 260)];
+    [UIView commitAnimations];
+}
+
+- (void)sliderPickerDown
+{
+    [UIView beginAnimations:@"slidePickerDown" context:nil];
+//    [UIView setAnimationDuration:0.3];
+//    [UIView setAnimationDelay:0.9];
+    [myPickerView setFrame:CGRectMake(0, 416, 320, 260)];
+    [UIView commitAnimations];
+
+}
+
+- (void)scrollUpBy:(NSInteger)scrollOffset
+{
+    [myScrollView setContentOffset:CGPointMake(0, scrollOffset)];
+    [myScrollView setContentSize:CGSizeMake(320, 416 + scrollOffset)];
+}
+
+- (void)scrollBack
+{
+    [myScrollView setContentOffset:CGPointZero];
+    [myScrollView setContentSize:CGSizeMake(320, 416)];
 }
 
 - (IBAction)birthdayButtonClicked:(id)sender
 {
-
-}
-
-- (IBAction)birthdayPickerChanged:(id)sender
-{
-
+    [self slidePickerUp];
+    [self scrollUpBy:40];
 }
 
 - (IBAction)hidePickerButtonPressed:(id)sender
 {
+    [self sliderPickerDown];
+    [self scrollBack];
+}
 
+- (IBAction)birthdayPickerChanged:(id)sender
+{
+    DLog(@"");
+    [myBirthdayButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+
+    static NSDateFormatter *dateFormatter = nil;
+    if (!dateFormatter)
+    {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    }
+
+    NSDate   *pickerDate = myBirthdayPicker.date;
+    NSString *dateString = [dateFormatter stringFromDate:pickerDate];
+
+    [myBirthdayButton setTitle:dateString forState:UIControlStateNormal];
+}
+
+- (IBAction)doneEditingButtonPressed:(id)sender
+{
+    [firstResponder resignFirstResponder];
+    [self setFirstResponder:nil];
 }
 
 - (IBAction)doneButtonPressed:(id)sender
@@ -79,6 +149,31 @@
     [CaptureInterface createCaptureUser:newUser
                             forDelegate:self];
 }
+
+#define LOCATION_TEXT_VIEW_TAG 10
+#define ABOUT_ME_TEXT_VIEW_TAG 20
+
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    self.firstResponder = textView;
+    if (textView.tag == ABOUT_ME_TEXT_VIEW_TAG)
+    {
+        [self scrollUpBy:210];
+    }
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    [self scrollBack];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text { return YES; }
+- (void)textViewDidChange:(UITextView *)textView { }
+- (void)textViewDidChangeSelection:(UITextView *)textView { }
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView { return YES; }
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView { return YES; }
+
 
 - (void)createCaptureUserDidSucceed
 {
@@ -101,13 +196,17 @@
 
 - (void)dealloc
 {
-    [myHometownTextView release];
+    [myLocationTextView release];
     [myGenderIdentitySegControl release];
     [myBirthdayButton release];
     [myBirthdayPicker release];
-    [myAgreeSwitch release];
     [myPickerToolbar release];
+    [myAboutMeTextView release];
     [newUser release];
+    [myPickerView release];
+    [myScrollView release];
+    [myKeyboardToolbar release];
+    [firstResponder release];
     [super dealloc];
 }
 @end
