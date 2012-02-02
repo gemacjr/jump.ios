@@ -18,11 +18,12 @@
 
 @interface CaptureInterface : NSObject <JRConnectionManagerDelegate>
 {
-    NSArray       *acceptableAttributes;
+    //NSArray       *acceptableAttributes;
     JRCaptureUser *captureUser;
 
     id<CaptureInterfaceDelegate> captureInterfaceDelegate;
 }
-+ (void)createCaptureUser:(NSDictionary*)user forDelegate:(id<CaptureInterfaceDelegate>)delegate;
++ (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
+              forDelegate:(id<CaptureInterfaceDelegate>)delegate;
 + (void)captureUserObjectFromDictionary:(NSDictionary *)dictionary;
 @end

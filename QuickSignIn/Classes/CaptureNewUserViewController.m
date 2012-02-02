@@ -17,8 +17,9 @@
 #import "CaptureNewUserViewController.h"
 
 @interface CaptureNewUserViewController ()
-@property (nonatomic, retain) NSMutableDictionary *newUser;
+@property (nonatomic, retain) NSMutableDictionary *engageUser;
 @property (nonatomic, retain) UITextView          *firstResponder;
+@property (nonatomic, retain) NSDate              *myBirthdate;
 @end
 
 @implementation CaptureNewUserViewController
@@ -27,12 +28,13 @@
 @synthesize myBirthdayButton;
 @synthesize myBirthdayPicker;
 @synthesize myPickerToolbar;
-@synthesize newUser;
+@synthesize engageUser;
 @synthesize myAboutMeTextView;
 @synthesize myPickerView;
 @synthesize myScrollView;
 @synthesize myKeyboardToolbar;
 @synthesize firstResponder;
+@synthesize myBirthdate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,7 +51,7 @@
 
     NSDictionary *user   = [[UserModel getUserModel] currentUser];
     NSString *identifier = [user objectForKey:@"identifier"];
-    self.newUser         = [NSMutableDictionary dictionaryWithDictionary:
+    self.engageUser      = [NSMutableDictionary dictionaryWithDictionary:
                                    [[[UserModel getUserModel] userProfiles] objectForKey:identifier]];
 
 
@@ -58,11 +60,6 @@
 
     [myAboutMeTextView setInputAccessoryView:myKeyboardToolbar];
     [myLocationTextView setInputAccessoryView:myKeyboardToolbar];
-
-    
-    //[myBirthdayButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
-
-    //[myBirthdayButton.titleLabel setTextAlignment:UITextAlignmentRight];
 }
 
 - (void)slidePickerUp
@@ -126,6 +123,8 @@
     NSString *dateString = [dateFormatter stringFromDate:pickerDate];
 
     [myBirthdayButton setTitle:dateString forState:UIControlStateNormal];
+
+    self.myBirthdate = pickerDate;
 }
 
 - (IBAction)doneEditingButtonPressed:(id)sender
@@ -136,18 +135,41 @@
 
 - (IBAction)doneButtonPressed:(id)sender
 {
-    DLog(@"");
+    DLog(@"engageUser: %@", [engageUser description]);
 
-    //    NSMutableDictionary *newCaptureStuff =
-    //                                [NSMutableDictionary dictionaryWithObjectsAndKeys:
-    //                                                            myHometownTextView.text, @"hometown",
-    //                                                            myBirthdayButton.titleLabel.text, @"birthday",
-    //                                                            myGenderIdentitySegControl.selectedSegmentIndex ?
-    //                                                                    @"male" : @"female", @"gender", nil];
-    //    [newUser setObject:newCaptureStuff forKey:@"captureAdditions"];
+    JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+    captureUser.aboutMe  = myAboutMeTextView.text;
+    captureUser.birthday = myBirthdate;
+    captureUser.currentLocation = myLocationTextView.text;
 
-    [CaptureInterface createCaptureUser:newUser
+    if (myGenderIdentitySegControl.selectedSegmentIndex == 0)
+        captureUser.gender = @"female";
+    else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)
+        captureUser.gender = @"male";
+
+    captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
+
+    NSString *provider   = [[engageUser objectForKey:@"profile"] objectForKey:@"providerName"];
+    NSString *identifier = [[engageUser objectForKey:@"profile"] objectForKey:@"identifier"];
+    if (provider && identifier)
+    {
+        NSMutableDictionary *mutableUser =
+                    [NSMutableDictionary dictionaryWithDictionary:engageUser];
+        [mutableUser setObject:provider forKey:@"domain"];
+        [mutableUser setObject:identifier forKey:@"identifier"];
+        [self setEngageUser:mutableUser];
+    }
+
+    JRProfiles *profilesObject = [JRProfiles profilesObjectFromDictionary:engageUser];
+    if (profilesObject)
+        captureUser.profiles = [NSArray arrayWithObject:profilesObject];
+
+    DLog(@"captureUser: %@", [[captureUser dictionaryFromObject] description]);
+
+    [CaptureInterface createCaptureUser:[captureUser dictionaryFromObject]
+                      withCreationToken:[[engageUser objectForKey:@"captureCredentials"] objectForKey:@"creation_token"]
                             forDelegate:self];
+
 }
 
 #define LOCATION_TEXT_VIEW_TAG 10
@@ -202,11 +224,12 @@
     [myBirthdayPicker release];
     [myPickerToolbar release];
     [myAboutMeTextView release];
-    [newUser release];
     [myPickerView release];
     [myScrollView release];
     [myKeyboardToolbar release];
     [firstResponder release];
+    [engageUser release];
+    [myBirthdate release];
     [super dealloc];
 }
 @end

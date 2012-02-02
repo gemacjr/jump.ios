@@ -131,12 +131,37 @@
     if (!date) NSLog(@"Could not parse RFC822 date: \"%@\" Possibly invalid format.", dateTimeString);
     return date;
 }
+
 - (NSString *)stringFromISO8601Date
 {
-    return @"FOO";
+    static NSDateFormatter *dateFormatter = nil;
+    if (!dateFormatter) {
+        NSLocale *en_US_POSIX = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setLocale:en_US_POSIX];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        [en_US_POSIX release];
+        [dateFormatter setDateFormat:@"d MMM yyyy"];
+    }
+
+    return [dateFormatter stringFromDate:self];
+    //return @"FOO";
 }
+
 - (NSString *)stringFromISO8601DateTime
 {
-    return @"FOO";
+    static NSDateFormatter *dateFormatter = nil;
+    if (!dateFormatter) {
+        NSLocale *en_US_POSIX = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setLocale:en_US_POSIX];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        [en_US_POSIX release];
+
+        [dateFormatter setDateFormat:@"d MMM yyyy HH:mm:ss"];
+    }
+
+    return [dateFormatter stringFromDate:self];
+//    return @"FOO";
 }
 @end

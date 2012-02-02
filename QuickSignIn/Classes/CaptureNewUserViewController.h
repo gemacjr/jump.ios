@@ -12,9 +12,10 @@
 
 @interface CaptureNewUserViewController : UIViewController <CaptureInterfaceDelegate, UITextViewDelegate>
 {
-    NSMutableDictionary    *newUser;
+    NSMutableDictionary *engageUser;
     UIScrollView *myScrollView;
 
+    NSDate       *myBirthdate;
     UIButton     *myBirthdayButton;
 
     UIDatePicker *myBirthdayPicker;

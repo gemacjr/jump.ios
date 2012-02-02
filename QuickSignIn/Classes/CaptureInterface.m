@@ -37,11 +37,13 @@
 @interface CaptureInterface ()
 @property (nonatomic, retain) id<CaptureInterfaceDelegate> captureInterfaceDelegate;
 @property (nonatomic, retain) JRCaptureUser *captureUser;
+@property (nonatomic, copy)   NSString      *captureCreationToken;
 @end
 
 @implementation CaptureInterface
 @synthesize captureInterfaceDelegate;
 @synthesize captureUser;
+@synthesize captureCreationToken;
 
 static CaptureInterface* singleton = nil;
 
@@ -54,11 +56,11 @@ static NSString *typeName   = @"demo_user";
 {
     if ((self = [super init]))
     {
-        acceptableAttributes = [[NSArray arrayWithObjects:
-                                             @"displayName",
-                                             @"email",
-                                             @"emailVerified",
-                                             nil] retain];
+//        acceptableAttributes = [[NSArray arrayWithObjects:
+//                                             @"displayName",
+//                                             @"email",
+//                                             @"emailVerified",
+//                                             nil] retain];
     }
 
     return self;
@@ -117,46 +119,48 @@ static NSString *typeName   = @"demo_user";
 
 - (NSDictionary *)makeCaptureUserFromEngageUser:(NSDictionary *)engageUser
 {
-//    NSMutableDictionary *captureDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
-    NSDictionary *profile                 = [engageUser objectForKey:@"profile"];
-    NSDictionary *captureAdditions        = [engageUser objectForKey:@"captureAdditions"];
-
-
-    JRCaptureUser *captureUserObject = [JRCaptureUser captureUser];
-
-    captureUserObject.profiles = [NSArray arrayWithObject:[JRProfiles profilesObjectFromEngageProfileDictionary:engageUser]];
-
-//    JRProfile *profileObject = [JRProfile profile];
+////    NSMutableDictionary *captureDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
+//    NSDictionary *profile                 = [engageUser objectForKey:@"profile"];
+//    NSDictionary *captureAdditions        = [engageUser objectForKey:@"captureAdditions"];
 //
 //
-//    captureUserObject.displayName = @"testing";
-//    captureUserObject.primaryAddress = [JRPrimaryAddress primaryAddress];
-//    captureUserObject.primaryAddress.address1 = @"blah blah blah";
-
-    return [captureUserObject dictionaryFromObject];
-
-//    for (NSString *key in [profile allKeys])
-//        if ([acceptableAttributes containsObject:key])
-//            [captureDictionary setObject:[profile objectForKey:key] forKey:key];
+//    JRCaptureUser *captureUserObject = [JRCaptureUser captureUser];
 //
-//    return captureDictionary;
+//    captureUserObject.profiles = [NSArray arrayWithObject:[JRProfiles profilesObjectFromEngageProfileDictionary:engageUser]];
+//
+////    JRProfile *profileObject = [JRProfile profile];
+////
+////
+////    captureUserObject.displayName = @"testing";
+////    captureUserObject.primaryAddress = [JRPrimaryAddress primaryAddress];
+////    captureUserObject.primaryAddress.address1 = @"blah blah blah";
+//
+//    return [captureUserObject dictionaryFromObject];
+//
+////    for (NSString *key in [profile allKeys])
+////        if ([acceptableAttributes containsObject:key])
+////            [captureDictionary setObject:[profile objectForKey:key] forKey:key];
+////
+////    return captureDictionary;
+
+    return nil;
 }
 
 - (void)startCreateCaptureUser:(NSDictionary*)user
 {
     DLog(@"");
 
-    NSDictionary *newCaptureUser = [self makeCaptureUserFromEngageUser:user];
-    NSString     *attributes     = [[newCaptureUser JSONString] URLEscaped];
-    NSString     *creationToken  = [[user objectForKey:@"captureCredentials"] objectForKey:@"creation_token"];
+//    NSDictionary *newCaptureUser = [self makeCaptureUserFromEngageUser:user];
+    NSString     *attributes     = [[user JSONString] URLEscaped];
+//    NSString     *creationToken  = [[user objectForKey:@"captureCredentials"] objectForKey:@"creation_token"];
 
-    DLog(@"%@", creationToken);
+//    DLog(@"%@", creationToken);
 
     NSMutableData* body = [NSMutableData data];
 
     [body appendData:[[NSString stringWithFormat:@"type_name=%@", typeName] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"&creation_token=%@", creationToken] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&creation_token=%@", captureCreationToken] dataUsingEncoding:NSUTF8StringEncoding]];
 
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -179,11 +183,14 @@ static NSString *typeName   = @"demo_user";
     captureInterface.captureUser = [JRCaptureUser captureUserObjectFromDictionary:dictionary];
 }
 
-+ (void)createCaptureUser:(NSDictionary *)user forDelegate:(id<CaptureInterfaceDelegate>)delegate
++ (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
+              forDelegate:(id<CaptureInterfaceDelegate>)delegate
 {
     DLog(@"");
     CaptureInterface* captureInterface = [CaptureInterface captureInterfaceInstance];
+
     captureInterface.captureInterfaceDelegate = delegate;
+    captureInterface.captureCreationToken       = creationToken;
 
     [captureInterface startCreateCaptureUser:user];
 }
@@ -229,8 +236,9 @@ static NSString *typeName   = @"demo_user";
 - (void)dealloc
 {
     [captureInterfaceDelegate release];
-    [acceptableAttributes release];
+//    [acceptableAttributes release];
     [captureUser release];
+    [captureCreationToken release];
     [super dealloc];
 }
 
