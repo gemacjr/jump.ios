@@ -170,7 +170,6 @@
     [CaptureInterface createCaptureUser:[captureUser dictionaryFromObject]
                       withCreationToken:[[engageUser objectForKey:@"captureCredentials"] objectForKey:@"creation_token"]
                             forDelegate:self];
-
 }
 
 #define LOCATION_TEXT_VIEW_TAG 10
@@ -200,12 +199,26 @@
 
 - (void)createCaptureUserDidSucceed
 {
-    ;
+    UIAlertView *uav = [[[UIAlertView alloc] initWithTitle:@"Success"
+                                                  message:@"Profile created"
+                                                 delegate:self
+                                        cancelButtonTitle:nil
+                                        otherButtonTitles:@"OK", nil] autorelease];
+    [uav show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != 0) [[self navigationController] popViewControllerAnimated:YES];
 }
 
 - (void)createCaptureUserDidFail
 {
-    ;
+    UIAlertView *uav = [[[UIAlertView alloc] initWithTitle:@"Failure"
+                                                  message:@"Profile not created"
+                                                 delegate:self
+                                        cancelButtonTitle:@"Dismiss"
+                                        otherButtonTitles:nil] autorelease];
+    [uav show];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

@@ -10,7 +10,8 @@
 #import "UserModel.h"
 #import "CaptureInterface.h"
 
-@interface CaptureNewUserViewController : UIViewController <CaptureInterfaceDelegate, UITextViewDelegate>
+@interface CaptureNewUserViewController : UIViewController <CaptureInterfaceDelegate, UITextViewDelegate,
+        UIAlertViewDelegate>
 {
     NSMutableDictionary *engageUser;
     UIScrollView *myScrollView;

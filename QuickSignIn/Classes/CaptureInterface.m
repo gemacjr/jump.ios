@@ -108,11 +108,15 @@ static NSString *typeName   = @"demo_user";
     // blah blah blah
 
     if ([message isEqualToString:@"ok"])
+    {
         if ([captureInterfaceDelegate respondsToSelector:@selector(createCaptureUserDidSucceed)])
             [captureInterfaceDelegate createCaptureUserDidSucceed];
+    }
     else
+    {
         if ([captureInterfaceDelegate respondsToSelector:@selector(createCaptureUserDidFail)])
             [captureInterfaceDelegate createCaptureUserDidFail];
+    }
 
     self.captureInterfaceDelegate = nil;
 }
@@ -204,8 +208,18 @@ static NSString *typeName   = @"demo_user";
 
     if ([action isEqualToString:@"createUser"])
     {
-        // ...
-        [self finishCreateCaptureUser:@"ok"];
+        NSDictionary *response = [payload objectFromJSONString];
+        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
+        {
+            DLog(@"Capture creation success: %@", payload);
+            [self finishCreateCaptureUser:@"ok"];
+            // TODO populate user model with result, and result of user profile query
+        }
+        else
+        {
+            DLog(@"Capture creation failure: %@", payload);
+            [self finishCreateCaptureUser:@"fail"];
+        }
     }
 }
 
