@@ -199,12 +199,14 @@
 
 - (void)createCaptureUserDidSucceed
 {
-    UIAlertView *uav = [[[UIAlertView alloc] initWithTitle:@"Success"
-                                                  message:@"Profile created"
-                                                 delegate:self
-                                        cancelButtonTitle:nil
-                                        otherButtonTitles:@"OK", nil] autorelease];
-    [uav show];
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Success"
+                                                     message:@"Profile created"
+                                                    delegate:nil
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:@"OK", nil] autorelease];
+    [alert show];
+
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -213,12 +215,14 @@
 
 - (void)createCaptureUserDidFail
 {
-    UIAlertView *uav = [[[UIAlertView alloc] initWithTitle:@"Failure"
-                                                  message:@"Profile not created"
-                                                 delegate:self
-                                        cancelButtonTitle:@"Dismiss"
-                                        otherButtonTitles:nil] autorelease];
-    [uav show];
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Failure"
+                                                     message:@"Profile not created"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"Dismiss"
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];
+
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
