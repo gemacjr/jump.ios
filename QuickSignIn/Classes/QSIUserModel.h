@@ -110,7 +110,7 @@
 @property (retain) id<UserModelDelegate>     tokenUrlDelegate;
 @property (retain) id<LibraryDialogDelegate> libraryDialogDelegate;
 
-@property          BOOL pendingCallToTokenUrl;
+@property            BOOL pendingCallToTokenUrl;
 
 @property (readonly) BOOL loadingUserData;
 @property (readonly) NSDictionary *currentUser;

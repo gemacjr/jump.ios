@@ -1533,14 +1533,14 @@ CALL_DELEGATE_SELECTOR:
 {
     ALog (@"Calling token URL for %@:\n%@", providerName, _tokenUrl);
 
-    NSMutableData* body = [NSMutableData data];
+    NSMutableData *body = [NSMutableData data];
     [body appendData:[[NSString stringWithFormat:@"token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:_tokenUrl]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:_tokenUrl]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
 
-    NSDictionary* tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl",
+    NSDictionary *tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl",
                                                                     providerName, @"providerName",
                                                                     @"callTokenUrl", @"action", nil] retain];
 
