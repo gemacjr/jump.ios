@@ -2,7 +2,11 @@
 use strict;
 use warnings;
 
-use JSON; # imports encode_json, decode_json, to_json and from_json.
+require './ObjCMethodParts.pl';
+
+use JSON;            # imports encode_json, decode_json, to_json and from_json.
+#use ObjCMethodParts; # imports the predefined objC method arrays, to be filled in dynamically as properties are parsed
+
 
 ############################################
 # CONSTANTS
@@ -16,68 +20,7 @@ my $IS_NOT_PLURAL_TYPE = 0;
 my %hFiles = ();
 my %mFiles = ();
 
-############################################
-# FUNCTION PROTOTYPES
-############################################
 
-
-###################################################################
-# INSTANCE CONSTRUCTOR (W REQUIRED PROPERTIES)
-#
-# Section only here when there are required properties     
-#                     |
-#                     V
-# - (id)init<requiredProperties>
-# {
-#     if(!<requriredProperties) <-
-#     {                         <- Section only here
-#       [self release];         <- when there are 
-#       return nil;             <- required properties
-#     }                         <-          |
-#                                           |
-#     if ((self = [super init]))            |
-#     {                                     |
-#          <copy required properties> <-----+
-#     }
-#
-#     return self;
-# }
-################################################################
-
-my @constructorParts      = 
-("- (id)init", "",
-"\n{\n",
-"    if (", "", ")\n",
-"    {
-        [self release];
-        return nil;
-     }\n\n",
-"    if ((self = [super init]))
-    {\n",
-    "",
-"    }
-    return self;
-}\n\n");
-
-my @classConstructorParts = ("+ (id)", "", "", 
-                             "\n{\n    return [[[", "", " alloc] init", "", "] autorelease];\n}\n\n"); 
-
-my @copyConstructorParts  = ("- (id)copyWithZone:(NSZone*)zone\n{\n", 
-                             "", " allocWithZone:zone] init", "", "];\n\n",
-                             "", "\n    return ", "", ";\n}\n\n");
-
-my @makeDictionaryParts   = ("- (NSDictionary*)dictionaryFromObject\n{\n    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
-                            "", "", "\n    return dict;\n}\n\n");
-
-my @makeObjectParts       = (
-"+ (id)","","ObjectFromDictionary:(NSDictionary*)dictionary",
-"\n{\n",
-"","        [","","","];\n",
-"",
-"\n\n    return ", "", ";\n}\n\n");
-
-
-my @destructorParts       = ("- (void)dealloc\n{\n", "", "\n    [super dealloc];\n}\n");
 
 sub createArrayCategoryForSubobject { 
   my $propertyName = $_[0];
@@ -195,33 +138,35 @@ sub recursiveParse {
   my $propertiesSection       = "";
   my $arrayCategoriesSection  = "";
   my $synthesizeSection       = "";
-  my @constructorSection      = @constructorParts;
-  my @classConstructorSection = @classConstructorParts;
-  my @copyConstructorSection  = @copyConstructorParts;
-  my @destructorSection       = @destructorParts;
-  my @makeDictionarySection   = @makeDictionaryParts;
-  my @makeObjectSection       = @makeObjectParts;
+  my @constructorSection      = getConstructorParts();
+  my @classConstructorSection = getClassConstructorParts();
+  my @copyConstructorSection  = getCopyConstructorParts();
+  my @destructorSection       = getDestructorParts();
+  my @makeDictionarySection   = getToDictionaryParts();
+  my @makeObjectSection       = getFromDictionaryParts();
 
   
   ######################################################
   # Create the class name of an object
-  # e.g., 'primaryAddress' becomes 'JRPrimaryObject'
+  # e.g., 'primaryAddress' becomes 'JRPrimaryAddress'
   ######################################################
   my $className = "JR" . ucfirst($objectName);
  
  
-  ######################################################
-  # Parts of the class constructor and copy constructor
-  # references the object name and class name
+  ##############################################################
+  # Parts of the class constructor, copy constructor, and other 
+  # methods reference the object name and class name in a 
+  # few, specific places in their implementation
+  #
   # e.g., 
   # JRUserObject *userObjectCopy =
 	#			[[JRUserObject allocWithZone:zone] init];
   ######################################################
   $classConstructorSection[1] = $objectName;
-  $classConstructorSection[4] = $className;
+  $classConstructorSection[5] = $className;
   
-  $copyConstructorSection[1]  = "    " . $className . " *" . $objectName . "Copy =\n                [[" . $className;
-  $copyConstructorSection[7]  = $objectName . "Copy";
+  $copyConstructorSection[2]  = "    " . $className . " *" . $objectName . "Copy =\n                [[" . $className;
+  $copyConstructorSection[8]  = $objectName . "Copy";
   
   $makeObjectSection[1]       = $objectName;
   $makeObjectSection[4]       = "    " . $className . " *" . $objectName . " =\n";
@@ -234,11 +179,10 @@ sub recursiveParse {
   ######################################################
   my $requiredProperties = 0;
 
-  ######################################################
-  # Properties list contains references (pointers) to
-  # property hashes.  Loop through, dereference, and 
-  # parse...
-  ######################################################
+  ########################################################################
+  # A property list contains references (pointers) to property hashes.
+  # Loop through the properties, dereference, and parse...
+  ########################################################################
   foreach my $hashRef (@propertyList) {
 
     ################################################
@@ -252,76 +196,109 @@ sub recursiveParse {
     my $propertyName = $propertyHash{"name"};
     my $propertyType = $propertyHash{"type"};
 
-    ################################################
-    # Initialize property attributes to default 
-    # values
-    ################################################
+    ######################################################
+    # Initialize property attributes to default values
+    ######################################################
     my $objectiveType = "";            # Property type in Objective-C (e.g., NSString*)
     my $toDictionary  = $propertyName; # Default operation is to just stick the NSObject into an NSMutableDictionary
-    my $frDictionary  =                 # Default operation is to just pull the NSObject from the dictionary and stick it into the property
+    my $frDictionary  =                # Default operation is to just pull the NSObject from the dictionary and stick it into the property
           "[dictionary objectForKey:\@\"$propertyName\"]";
     my $isBooleanType = 0;             # If it's a boolean, we do things differently
     my $isArrayType   = 0;             # If it's an array (plural), we do things differently
-    my $propertyNotes = "";            # Comment that provides more infomation if necessary (e.g., in the 
-                                       # case of an array of objects versus and array of strings
+    my $propertyNotes = "";            # Comment that provides more infomation if necessary for a property 
+                                       # (e.g., in the case of an array of objects versus and array of strings)
     
-    ################################################
-    # Find out if it's a required property
-    ################################################
+    ######################################################
+    # Find out if it's a required property, and
+    # increase the requiredProperties counter if it is
+    ######################################################
     my $isRequired = getIsRequired (\%propertyHash); 
     if ($isRequired) {
       $requiredProperties++;
     }
 
-    ##########################################################
-    # Determine the property's ObjC type and what to do when 
-    # creating a dictionary of the property's object
-    # (i.e., how to we store each property in an 
-    # NSMutableDictionary so that it can be turned into JSON
-    ##########################################################
+    ##########################################################################
+    # Determine the property's ObjC type.  Also determine how the property 
+    # should be serialized/deserialized to/from and NSDictionary 
+    # (e.g., do we store the property in an NSMutableDictionary as is, or do
+    # we need to do something first so that it can stored in the dictionary)
+    ##########################################################################
     if ($propertyType eq "string") {
+    ##################
+    # STRING
+    ##################
       $objectiveType = "NSString *";
 
     } elsif ($propertyType eq "boolean") {
+    ##################
+    # BOOLEAN
+    ##################
       $isBooleanType = 1;
       $objectiveType = "BOOL";
       $toDictionary = "[NSNumber numberWithBool:$propertyName]";
       $frDictionary = "[(NSNumber*)[dictionary objectForKey:\@\"$propertyName\"] boolValue]";
 
     } elsif ($propertyType eq "integer") {
+    ##################
+    # INTEGER
+    ##################
       $objectiveType = "NSNumber *";
 
     } elsif ($propertyType eq "decimal") {
+    ##################
+    # NUMBER
+    ##################
       $objectiveType = "NSNumber *";
 
     } elsif ($propertyType eq "date") {
+    ##################
+    # DATE
+    ##################
       $objectiveType = "NSDate *";
       $toDictionary = "[$propertyName stringFromISO8601Date]";
       $frDictionary = "[NSDate dateFromISO8601DateString:[dictionary objectForKey:\@\"$propertyName\"]]";
 
     } elsif ($propertyType eq "dateTime") {
+    ##################
+    # DATETIME
+    ##################
+
       $objectiveType = "NSDate *";
       $toDictionary = "[$propertyName stringFromISO8601DateTime]";
       $frDictionary = "[NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"$propertyName\"]]";
 
-    } elsif ($propertyType =~ m/^password/) { # 'password' types all start with the string 'password' (e.g., "password-crypt-sha256")          #($propertyType eq "password-crypt-sha256") {
-      $objectiveType = "NSObject *"; # TODO
+    } elsif ($propertyType =~ m/^password/) { 
+    ##########################################################################
+    # PASSWORD
+    #'password' types all start with the string 'password' (e.g., "password-crypt-sha256") 
+    # Passwords are typically string representations of a json object, and 
+    # since we don't know the type of object it could be (e.g., array, string, etc.),
+    # we store it as an NSObject
+    ##########################################################################
+      $objectiveType = "NSObject *";          
 
-    } elsif ($propertyType eq "json") { # What the hell is a 'json'?  A string?
+    } elsif ($propertyType eq "json") {
+    ##########################################################################
+    # JSON
+    # Properties of type 'json' are typically string representations
+    # of a basic json object or primitive type. Since we don't know what
+    # type of object the property could be (e.g., array, string, etc.), 
+    # we store it as an NSObject
+    ##########################################################################
+      
       $objectiveType = "NSObject *";
       $propertyNotes = "/* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */";      
 
     } elsif ($propertyType eq "plural") {
-      ##################################################################
-      # If the property is a 'plural' (i.e., a list of strings or 
-      # sub-objects), first decide if it's a list of strings or
-      # sub-objects by checking the property's 'attr_defs'.
-      # If it's a list of sub-objects, recurse on the plural's 
-      #'attr_defs', creating the sub-object.  Also, add an NSArray
-      # category to the current object's .m file, so that the NSArray
-      # of sub-objects can properly turn themselves into an NSArray 
-      # of NSDictionaries
-      ##################################################################
+    ##########################################################################
+    # PLURAL (ARRAY)
+    # If the property is a 'plural' (i.e., a list of strings or sub-objects), 
+    # first decide if it's a list of strings or sub-objects by checking the 
+    # property's 'attr_defs'. If it's a list of sub-objects, recurse on the 
+    # plural's attr_defs', creating the sub-object.  Also, add an NSArray category
+    # to the current object's .m file, so that the NSArray of sub-objects can 
+    # properly turn themselves into an NSArray of NSDictionaries
+    ##########################################################################
 
       $objectiveType = "NSArray *";                               
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
@@ -341,10 +318,10 @@ sub recursiveParse {
       }
       
     } elsif ($propertyType eq "object") {
-      ##################################################
-      # If the property is an object itself, recurse on 
-      # the sub-object's 'attr_defs'
-      ##################################################
+    ##########################################################################
+    # OBJECT (DICTIONARY)
+    # If the property is an object itself, recurse on the sub-object's 'attr_defs'
+    ##########################################################################
   
       $objectiveType = "JR" . ucfirst($propertyName) . " *";
       $toDictionary  = "[$propertyName dictionaryFromObject]";
@@ -355,50 +332,108 @@ sub recursiveParse {
       recursiveParse ($propertyName, $propertyAttrDefsRef);
 
     } else {
+    ##################
+    # ERROR
+    ##################
       print "PROPERTY TYPE NOT BEING CAUGHT: " . $propertyName . "\n";
     }
 
+
+
+    ##########################################################################
+    # Now, to take the property, and add it to all those function's in the 
+    # object's .h/.m files
+    ##########################################################################
+
     if ($isRequired) {
-      if ($requiredProperties == 1) { # If it's the first required property
+    ######################################################
+    # If the property *is* required...
+    ######################################################
+
+      if ($requiredProperties == 1) { 
+      ##########################################################################
+      # If the property is the *first* required property, we usually precede it
+      # with 'With' in method names
+      ##########################################################################
+
+        # e.g., - (id)initWithFoo:(NSObject *)newFoo ...
         $constructorSection[1] .= "With" . ucfirst($propertyName) . ":(" . $objectiveType . ")new" . ucfirst($propertyName);
+
+        # e.g., if (!newFoo ...
         $constructorSection[4] .= "!new" . ucfirst($propertyName);
-        
+
+        # e.g., + (id)objWithFoo:(NSObject *)foo ...
         $classConstructorSection[2] .= "With" . ucfirst($propertyName) . ":(" . $objectiveType . ")" . $propertyName;
-        $classConstructorSection[6] .= "With" . ucfirst($propertyName) . ":" . $propertyName;
 
-        $copyConstructorSection[3]  .= "With" . ucfirst($propertyName) . ":self.$propertyName";
+        # e.g., return [[[JRObj alloc] initWithFoo:foo ...
+        $classConstructorSection[7] .= "With" . ucfirst($propertyName) . ":" . $propertyName;
 
+        # e.g., JRObj *objCopy = [[JRObj allocWithZone:zone] initWithFoo:self.foo ...
+        $copyConstructorSection[4]  .= "With" . ucfirst($propertyName) . ":self.$propertyName";
+
+        # e.g., JRObj *obj = [JRObj objWithFoo:[dictionary objectForKey:@"foo"] ...
         $makeObjectSection[7] .= "With" . ucfirst($propertyName) . ":" . $frDictionary;
         
       } else {
+      ##########################################################################
+      # If the property is *not* the first required property, we usually 
+      # precede it with 'And' in method names
+      ##########################################################################
+        
+        # e.g., - (id)initWithFoo:(NSObject *)newFoo andBar:(NSObject *)newBar ...
         $constructorSection[1] .= " and" . ucfirst($propertyName) . ":(" . $objectiveType . ")new" . ucfirst($propertyName);
+
+        # e.g., if (!newFoo || !newBar ...
         $constructorSection[4] .= " || !new" . ucfirst($propertyName);
 
+        # e.g., + (id)objWithFoo:(NSObject *)foo andBar:(NSObject *)bar ...
         $classConstructorSection[2] .= " and" . ucfirst($propertyName) . ":(" . $objectiveType . ")" . $propertyName;
-        $classConstructorSection[6] .= " and" . ucfirst($propertyName) . ":" . $propertyName;
 
-        $copyConstructorSection[3]  .= " and" . ucfirst($propertyName) . ":self.$propertyName";
+        # e.g., return [[[JRObj alloc] initWithFoo:foo andBar:bar ...
+        $classConstructorSection[7] .= " and" . ucfirst($propertyName) . ":" . $propertyName;
 
+        # e.g., JRObj *objCopy = [[JRObj allocWithZone:zone] initWithFoo:self.foo andBar:self.bar ...
+        $copyConstructorSection[4]  .= " and" . ucfirst($propertyName) . ":self.$propertyName";
+
+        # e.g., JRObj *obj = [JRObj objWithFoo:[dictionary objectForKey:@"foo"] andBar:[dictionary objectForKey:@"bar"] ...
         $makeObjectSection[7] .= " and" . ucfirst($propertyName) . ":" . $frDictionary;
       }        
+      ##########################################################################
+      # For *all* required properties...
+      ##########################################################################
       
+      # e.g., foo = [newFoo copy];
       $constructorSection[8] .= "        " . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
-      $makeDictionarySection[1] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
+      
+      # e.g., [dict setObject:foo forKey:@"foo"];
+      $makeDictionarySection[3] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
       
     } else {
-      $makeDictionarySection[2] .= "\n    if (" . $propertyName . ")\n";
-      $makeDictionarySection[2] .= "        [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
+    ######################################################
+    # If the property is *not* required...
+    ######################################################
+
+      # e.g., if (baz)
+      $makeDictionarySection[4] .= "\n    if (" . $propertyName . ")\n";
+
+      # e.g., [dict setObject:baz forKey:@"baz"];
+      $makeDictionarySection[4] .= "        [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
       
-      $copyConstructorSection[5] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
+      # e.g., objCopy.baz = self.baz;
+      $copyConstructorSection[6] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
       
+      # e.g., obj.baz = [dictionary objectForKey:@"baz"];
       $makeObjectSection[8] .= "\n    " . $objectName . "." . $propertyName . " = " . $frDictionary . ";";
     }
-    
+    ##########################################################################
+    # For *all* properties...
+    ##########################################################################
+
     if ($isBooleanType) {
       $propertiesSection    .= "\@property                   $objectiveType $propertyName;\n";
       $synthesizeSection    .= "\@synthesize $propertyName;\n";    
     } else {
-      $destructorSection[1] .= "    [$propertyName release];\n";
+      $destructorSection[2] .= "    [$propertyName release];\n";
       $propertiesSection    .= "\@property (nonatomic, copy) $objectiveType$propertyName; $propertyNotes \n";
       $synthesizeSection    .= "\@synthesize $propertyName;\n";
     }      
@@ -422,7 +457,7 @@ sub recursiveParse {
   $mFile .= $synthesizeSection . "\n";
   
   for (my $i = 0; $i < @constructorSection; $i++) {
-    if ($i == 1 || $i == 3 || $i == 4 || $i == 5 || $i == 6 || $i == 8) {
+    if ($i != 0 && $i != 2 && $i != 7 && $i != 9) { # || $i == 6 || $i == 8) {
       if ($requiredProperties) {     
         $mFile .= $constructorSection[$i];
       }
