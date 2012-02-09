@@ -552,15 +552,26 @@ recursiveParse ("captureUser", $perl_scalar);
 my @hFileNames = keys (%hFiles);
 my @mFileNames = keys (%mFiles);
 
+my $captureDir = "Capture";
+unless(-d $captureDir){
+    mkdir $captureDir or die "[ERROR] Unable to make the directory 'Capture'\n\n";
+}
+
+my $copyResult = `cp ./ObjCFiles/* $captureDir/ 2>&1`;
+
+if ($copyResult) {
+  die "[ERROR] Unable to copy necessary files to the '$captureDir': $copyResult\n\n";
+}
+
 foreach my $fileName (@hFileNames) {
-  open (FILE, ">CaptureObjects/$fileName") or die "[ERROR] Unable to open Capture/$fileName for writing\n";
+  open (FILE, ">$captureDir/$fileName") or die "[ERROR] Unable to open '$captureDir/$fileName' for writing\n\n";
   print "Writing $fileName... ";
   print FILE $hFiles{$fileName};
   print "Finished $fileName.\n";
 }
 
 foreach my $fileName (@mFileNames) {
-  open (FILE, ">CaptureObjects/$fileName") or die "[ERROR] Unable to open Capture/$fileName for writing\n";
+  open (FILE, ">$captureDir/$fileName") or die "[ERROR] Unable to open '$captureDir/$fileName' for writing\n\n";
   print "Writing $fileName... ";
   print FILE $mFiles{$fileName};
   print "Finished $fileName.\n";
