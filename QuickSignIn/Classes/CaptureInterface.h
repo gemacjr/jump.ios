@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
 #import "JRCaptureUser.h"
-#import "JRProfiles+EngageProfileParsing.h"
+//#import "JRProfiles+EngageProfileParsing.h"
 
 @protocol CaptureInterfaceDelegate <NSObject>
 @optional

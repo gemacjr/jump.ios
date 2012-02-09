@@ -215,8 +215,6 @@
 		C01FCF5008A95454005424B9 /* JRStatuses.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424B8 /* JRStatuses.m */; };
 		C01FCF5008A95454005424BB /* JRUrls.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424BA /* JRUrls.m */; };
 		C01FCF5008A95454005424BD /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424BC /* JRCapture.m */; };
-		C01FCF5008A95454005424C0 /* JRProfiles+EngageProfileParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424BF /* JRProfiles+EngageProfileParsing.m */; };
-		C01FCF5008A95454005424C2 /* JREngage+Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424C1 /* JREngage+Capture.m */; };
 		C01FCF5008A95454005424C8 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424C7 /* RootViewController.m */; };
 		C01FCF5008A95454005424CA /* UserDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424C9 /* UserDrillDownViewController.m */; };
 		C01FCF5008A95454005424CC /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424CB /* UserModel.m */; };
@@ -478,10 +476,6 @@
 		C01FCF5008A95454005424B8 /* JRStatuses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRStatuses.m; sourceTree = "<group>"; };
 		C01FCF5008A95454005424BA /* JRUrls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRUrls.m; sourceTree = "<group>"; };
 		C01FCF5008A95454005424BC /* JRCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCapture.m; sourceTree = "<group>"; };
-		C01FCF5008A95454005424BE /* JRProfiles+EngageProfileParsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRProfiles+EngageProfileParsing.h"; sourceTree = "<group>"; };
-		C01FCF5008A95454005424BF /* JRProfiles+EngageProfileParsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRProfiles+EngageProfileParsing.m"; sourceTree = "<group>"; };
-		C01FCF5008A95454005424C1 /* JREngage+Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JREngage+Capture.m"; sourceTree = "<group>"; };
-		C01FCF5008A95454005424C3 /* JREngage+Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JREngage+Capture.h"; sourceTree = "<group>"; };
 		C01FCF5008A95454005424C4 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		C01FCF5008A95454005424C5 /* UserDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDrillDownViewController.h; sourceTree = "<group>"; };
 		C01FCF5008A95454005424C6 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
@@ -969,10 +963,6 @@
 		C01FCF5008A9545400542484 /* Capture */ = {
 			isa = PBXGroup;
 			children = (
-				C01FCF5008A95454005424C3 /* JREngage+Capture.h */,
-				C01FCF5008A95454005424C1 /* JREngage+Capture.m */,
-				C01FCF5008A95454005424BF /* JRProfiles+EngageProfileParsing.m */,
-				C01FCF5008A95454005424BE /* JRProfiles+EngageProfileParsing.h */,
 				C01FCF5008A95454005424BC /* JRCapture.m */,
 				C01FCF5008A95454005424BA /* JRUrls.m */,
 				C01FCF5008A95454005424B8 /* JRStatuses.m */,
@@ -1303,8 +1293,6 @@
 				C01FCF5008A95454005424B9 /* JRStatuses.m in Sources */,
 				C01FCF5008A95454005424BB /* JRUrls.m in Sources */,
 				C01FCF5008A95454005424BD /* JRCapture.m in Sources */,
-				C01FCF5008A95454005424C0 /* JRProfiles+EngageProfileParsing.m in Sources */,
-				C01FCF5008A95454005424C2 /* JREngage+Capture.m in Sources */,
 				C01FCF5008A95454005424C8 /* RootViewController.m in Sources */,
 				C01FCF5008A95454005424CA /* UserDrillDownViewController.m in Sources */,
 				C01FCF5008A95454005424CC /* UserModel.m in Sources */,
