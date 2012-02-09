@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
 #import "JRCaptureUser.h"
-//#import "JRProfiles+EngageProfileParsing.h"
 
 @protocol CaptureInterfaceDelegate <NSObject>
 @optional
@@ -18,12 +17,12 @@
 
 @interface CaptureInterface : NSObject <JRConnectionManagerDelegate>
 {
-    //NSArray       *acceptableAttributes;
     JRCaptureUser *captureUser;
 
     id<CaptureInterfaceDelegate> captureInterfaceDelegate;
 }
 + (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
               forDelegate:(id<CaptureInterfaceDelegate>)delegate;
-+ (void)captureUserObjectFromDictionary:(NSDictionary *)dictionary;
+//+ (void)captureUserObjectFromDictionary:(NSDictionary *)dictionary;
++ (void)setCaptureUrlString:(NSString *)captureUrlString andEntityTypeName:(NSString *)entityTypeName;
 @end

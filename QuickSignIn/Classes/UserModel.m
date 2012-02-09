@@ -93,6 +93,9 @@ static NSString *appId = @"mlfeingbenjalleljkpo";
 //static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin";
 static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin?client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg&redirect_uri=https://example.com";
 
+static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
+//static NSString *clientId   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
+static NSString *typeName   = @"demo_user";
 
 //    [body appendData:[@"&client_id=d6rresj57ex24sxkybjt5qre9vj6jdhj" dataUsingEncoding:NSUTF8StringEncoding]];
 //    [body appendData:[@"&client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -105,6 +108,8 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
     {
      /* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
         jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
+
+        [CaptureInterface setCaptureUrlString:captureUrl andEntityTypeName:typeName];
 
         prefs = [[NSUserDefaults standardUserDefaults] retain];
 
@@ -130,7 +135,7 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
 + (UserModel*)getUserModel
 {
     if (singleton == nil) {
-        singleton = [[super allocWithZone:NULL] init];
+        singleton = (UserModel *) [[super allocWithZone:NULL] init];
     }
 
     return singleton;
@@ -482,7 +487,7 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
 
     NSMutableDictionary *moreCustomizations = nil;
 
-    if (YES)//(NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
+    if (NO) /* Change this to "if (YES)" to see an example of how you can add native login to the list of providers. */
     {
      /* EmbeddedTableViewController acts as the delegate and datasource of the embeddedTable, whose view will be added
         as a "subtable", as the provider table's header view. While they are two different tables, it will appear as if
@@ -641,11 +646,11 @@ static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobi
             [self nullWalker:captureProfile]
             : nil;
 
-    [CaptureInterface captureUserObjectFromDictionary:captureProfile];
+    //[CaptureInterface captureUserObjectFromDictionary:captureProfile];
 
-    NSString *captureAccessToken   = [payloadDict objectForKey:@"access_token"];
-    NSString *captureCreationToken = [payloadDict objectForKey:@"creation_token"];
-    NSDictionary* captureCredentials;
+    NSString     *captureAccessToken   = [payloadDict objectForKey:@"access_token"];
+    NSString     *captureCreationToken = [payloadDict objectForKey:@"creation_token"];
+    NSDictionary *captureCredentials;
 
     if (captureAccessToken)
         captureCredentials = [NSDictionary dictionaryWithObject:captureAccessToken

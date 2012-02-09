@@ -46,3 +46,12 @@
 @optional
 - (NSDictionary*)dictionaryFromObject;
 @end
+
+@protocol JRProfilesAssumedPresence <NSObject>
+@optional
++ (id)profilesObjectFromDictionary:(NSDictionary *)dictionary;
+@end
+
+@interface JRCapture
++ (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo;
+@end

@@ -142,7 +142,6 @@
     captureUser.birthday = myBirthdate;
     captureUser.currentLocation = myLocationTextView.text;
 
-
     if (myGenderIdentitySegControl.selectedSegmentIndex == 0)
         captureUser.gender = @"female";
     else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)
@@ -150,18 +149,21 @@
 
     captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
 
-    NSString *provider   = [[engageUser objectForKey:@"profile"] objectForKey:@"providerName"];
-    NSString *identifier = [[engageUser objectForKey:@"profile"] objectForKey:@"identifier"];
-    if (provider && identifier)
-    {
-        NSMutableDictionary *mutableUser =
-                    [NSMutableDictionary dictionaryWithDictionary:engageUser];
-        [mutableUser setObject:provider forKey:@"domain"];
-        [mutableUser setObject:identifier forKey:@"identifier"];
-        [self setEngageUser:mutableUser];
-    }
+//    NSString *provider   = [[engageUser objectForKey:@"profile"] objectForKey:@"providerName"];
+//    NSString *identifier = [[engageUser objectForKey:@"profile"] objectForKey:@"identifier"];
+//    if (provider && identifier)
+//    {
+//        NSMutableDictionary *mutableUser =
+//                    [NSMutableDictionary dictionaryWithDictionary:engageUser];
+//        [mutableUser setObject:provider forKey:@"domain"];
+//        [mutableUser setObject:identifier forKey:@"identifier"];
+//        [self setEngageUser:mutableUser];
+//    }
 
-    JRProfiles *profilesObject = [JRProfiles profilesObjectFromDictionary:engageUser];
+    JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
+
+    //[JRProfiles profilesObjectFromDictionary:engageUser];
+
     if (profilesObject)
         captureUser.profiles = [NSArray arrayWithObject:profilesObject];
 

@@ -157,3 +157,26 @@
     return [dateFormatter stringFromDate:self];
 }
 @end
+
+@implementation JRCapture
++ (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo
+{
+    NSString *provider   = [[engageAuthInfo objectForKey:@"profile"] objectForKey:@"providerName"];
+    NSString *identifier = [[engageAuthInfo objectForKey:@"profile"] objectForKey:@"identifier"];
+
+    NSMutableDictionary *newEngageAuthInfo = nil;
+    if (provider && identifier)
+    {
+        newEngageAuthInfo =
+                    [NSMutableDictionary dictionaryWithDictionary:engageAuthInfo];
+        [newEngageAuthInfo setObject:provider forKey:@"domain"];
+        [newEngageAuthInfo setObject:identifier forKey:@"identifier"];
+        //[self setEngageUser:mutableUser];
+    }
+
+    Class JRProfilesClass = NSClassFromString(@"JRProfiles");
+    id profilesObject = [JRProfilesClass profilesObjectFromDictionary:newEngageAuthInfo];
+
+    return profilesObject;
+}
+@end

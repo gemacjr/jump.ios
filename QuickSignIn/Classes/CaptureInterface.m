@@ -38,30 +38,28 @@
 @property (nonatomic, retain) id<CaptureInterfaceDelegate> captureInterfaceDelegate;
 @property (nonatomic, retain) JRCaptureUser *captureUser;
 @property (nonatomic, copy)   NSString      *captureCreationToken;
+@property (nonatomic, copy)   NSString      *captureUrl;// = @"https://demo.staging.janraincapture.com/";
+@property (nonatomic, copy)   NSString      *clientId;//   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
+@property (nonatomic, copy)   NSString      *typeName;//   = @"demo_user";
 @end
 
 @implementation CaptureInterface
 @synthesize captureInterfaceDelegate;
 @synthesize captureUser;
 @synthesize captureCreationToken;
-
+@synthesize captureUrl;
+@synthesize clientId;
+@synthesize typeName;
 static CaptureInterface* singleton = nil;
 
-static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
-static NSString *clientId   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
-static NSString *typeName   = @"demo_user";
+//static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
+//static NSString *clientId   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
+//static NSString *typeName   = @"demo_user";
 
 
 - (CaptureInterface*)init
 {
-    if ((self = [super init]))
-    {
-//        acceptableAttributes = [[NSArray arrayWithObjects:
-//                                             @"displayName",
-//                                             @"email",
-//                                             @"emailVerified",
-//                                             nil] retain];
-    }
+    if ((self = [super init])) { }
 
     return self;
 }
@@ -102,6 +100,13 @@ static NSString *typeName   = @"demo_user";
     return self;
 }
 
++ (void)setCaptureUrlString:(NSString *)captureUrlString andEntityTypeName:(NSString *)entityTypeName
+{
+    CaptureInterface* captureInterface = [CaptureInterface captureInterfaceInstance];
+    captureInterface.captureUrl = captureUrlString;
+    captureInterface.typeName   = entityTypeName;
+}
+
 - (void)finishCreateCaptureUser:(NSString*)message
 {
     DLog(@"");
@@ -121,46 +126,12 @@ static NSString *typeName   = @"demo_user";
     self.captureInterfaceDelegate = nil;
 }
 
-- (NSDictionary *)makeCaptureUserFromEngageUser:(NSDictionary *)engageUser
-{
-////    NSMutableDictionary *captureDictionary = [NSMutableDictionary dictionaryWithCapacity:10];
-//    NSDictionary *profile                 = [engageUser objectForKey:@"profile"];
-//    NSDictionary *captureAdditions        = [engageUser objectForKey:@"captureAdditions"];
-//
-//
-//    JRCaptureUser *captureUserObject = [JRCaptureUser captureUser];
-//
-//    captureUserObject.profiles = [NSArray arrayWithObject:[JRProfiles profilesObjectFromEngageProfileDictionary:engageUser]];
-//
-////    JRProfile *profileObject = [JRProfile profile];
-////
-////
-////    captureUserObject.displayName = @"testing";
-////    captureUserObject.primaryAddress = [JRPrimaryAddress primaryAddress];
-////    captureUserObject.primaryAddress.address1 = @"blah blah blah";
-//
-//    return [captureUserObject dictionaryFromObject];
-//
-////    for (NSString *key in [profile allKeys])
-////        if ([acceptableAttributes containsObject:key])
-////            [captureDictionary setObject:[profile objectForKey:key] forKey:key];
-////
-////    return captureDictionary;
-
-    return nil;
-}
-
 - (void)startCreateCaptureUser:(NSDictionary*)user
 {
     DLog(@"");
 
-//    NSDictionary *newCaptureUser = [self makeCaptureUserFromEngageUser:user];
-    NSString     *attributes     = [[user JSONString] URLEscaped];
-//    NSString     *creationToken  = [[user objectForKey:@"captureCredentials"] objectForKey:@"creation_token"];
-
-//    DLog(@"%@", creationToken);
-
-    NSMutableData* body = [NSMutableData data];
+    NSString      *attributes = [[user JSONString] URLEscaped];
+    NSMutableData *body       = [NSMutableData data];
 
     [body appendData:[[NSString stringWithFormat:@"type_name=%@", typeName] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -181,11 +152,11 @@ static NSString *typeName   = @"demo_user";
         [self finishCreateCaptureUser:@"fail"];
 }
 
-+ (void)captureUserObjectFromDictionary:(NSDictionary *)dictionary
-{
-    CaptureInterface* captureInterface = [CaptureInterface captureInterfaceInstance];
-    captureInterface.captureUser = [JRCaptureUser captureUserObjectFromDictionary:dictionary];
-}
+//+ (void)captureUserObjectFromDictionary:(NSDictionary *)dictionary
+//{
+//    CaptureInterface* captureInterface = [CaptureInterface captureInterfaceInstance];
+//    captureInterface.captureUser       = [JRCaptureUser captureUserObjectFromDictionary:dictionary];
+//}
 
 + (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
               forDelegate:(id<CaptureInterfaceDelegate>)delegate
@@ -194,7 +165,7 @@ static NSString *typeName   = @"demo_user";
     CaptureInterface* captureInterface = [CaptureInterface captureInterfaceInstance];
 
     captureInterface.captureInterfaceDelegate = delegate;
-    captureInterface.captureCreationToken       = creationToken;
+    captureInterface.captureCreationToken     = creationToken;
 
     [captureInterface startCreateCaptureUser:user];
 }
@@ -250,9 +221,12 @@ static NSString *typeName   = @"demo_user";
 - (void)dealloc
 {
     [captureInterfaceDelegate release];
-//    [acceptableAttributes release];
     [captureUser release];
     [captureCreationToken release];
+
+    [captureUrl release];
+    [clientId release];
+    [typeName release];
     [super dealloc];
 }
 
