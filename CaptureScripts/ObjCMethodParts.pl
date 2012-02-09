@@ -1,18 +1,5 @@
 #!/usr/bin/perl
 
-#package ObjCMethodParts;
-#use Exporter;
-#
-#@ISA = ('Exporter');
-#@EXPORT = ('hello');
-#
-#@EXPORT = ('getConstructorParts');
-#@EXPORT = ('getClassConstructorParts');
-#@EXPORT = ('getCopyConstructorParts');
-#@EXPORT = ('getToDictionaryParts');
-#@EXPORT = ('getToObjectParts');
-#@EXPORT = ('getDestructorParts');
-
 ###################################################################
 # OBJC METHODS TO BE POPULATED WITH PROPERTIES
 ###################################################################
@@ -184,6 +171,36 @@ my @destructorParts = (
 "\n    [super dealloc];",
 "\n}\n");
 
+sub createArrayCategoryForSubobject { 
+  my $propertyName = $_[0];
+  
+  my $arrayCategoryIntf = "\@interface NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
+  my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
+
+  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects";
+  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "Dictionaries";
+  
+  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n\@end\n\n";
+  $arrayCategoryImpl .= "$methodName1\n{\n";
+
+  $arrayCategoryImpl .=        
+       "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
+       "    for (NSObject *object in self)\n" . 
+       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . " class]])\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "*)object dictionaryFromObject]];\n\n" . 
+       "    return filteredDictionaryArray;\n}\n\n";
+       
+  $arrayCategoryImpl .= "$methodName2\n{\n";
+
+  $arrayCategoryImpl .=        
+       "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
+       "    for (NSObject *dictionary in self)\n" . 
+       "        if ([dictionary isKindOfClass:[NSDictionary class]])\n" . 
+       "            [filteredDictionaryArray addObject:[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)dictionary]];\n\n" . 
+       "    return filteredDictionaryArray;\n}\n\@end\n\n";
+
+  return "$arrayCategoryIntf$arrayCategoryImpl";
+}
 
 sub getConstructorParts {
   return @constructorParts;
@@ -209,8 +226,8 @@ sub getDestructorParts {
   return @destructorParts;
 }
 
-sub hello {
-  print "Hello, world\n";
-}
+#sub hello {
+#  print "Hello, world\n";
+#}
 
 1;
