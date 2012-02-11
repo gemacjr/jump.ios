@@ -196,7 +196,6 @@
 		9FD5942914D0BD6C00AD7829 /* CaptureNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD5942714D0BD6C00AD7829 /* CaptureNewUserViewController.m */; };
 		9FD5942D14D0BDA900AD7829 /* CaptureNewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD5942C14D0BDA900AD7829 /* CaptureNewUserViewController.xib */; };
 		C01FCF5008A954540054247D /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054247C /* UserListViewController.m */; };
-		C01FCF5008A9545400542482 /* CaptureInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542481 /* CaptureInterface.m */; };
 		C01FCF5008A954540054249B /* JRAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054249A /* JRAccounts.m */; };
 		C01FCF5008A954540054249D /* JRAddresses.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054249C /* JRAddresses.m */; };
 		C01FCF5008A954540054249F /* JRBodyType.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054249E /* JRBodyType.m */; };
@@ -225,6 +224,7 @@
 		C01FCF5008A95454005424D6 /* UserDetailViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D5 /* UserDetailViewController-iPad.xib */; };
 		C01FCF5008A95454005424D8 /* UserDrillDownViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D7 /* UserDrillDownViewController-iPad.xib */; };
 		C01FCF5008A95454005424DA /* UserListViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D9 /* UserListViewController-iPad.xib */; };
+		C01FCF5008A95454005424DD /* JRCaptureInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424DC /* JRCaptureInterface.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -438,8 +438,6 @@
 		9FD5942714D0BD6C00AD7829 /* CaptureNewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureNewUserViewController.m; sourceTree = "<group>"; };
 		9FD5942C14D0BDA900AD7829 /* CaptureNewUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptureNewUserViewController.xib; sourceTree = "<group>"; };
 		C01FCF5008A954540054247C /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListViewController.m; sourceTree = "<group>"; };
-		C01FCF5008A9545400542481 /* CaptureInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureInterface.m; sourceTree = "<group>"; };
-		C01FCF5008A9545400542483 /* CaptureInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureInterface.h; sourceTree = "<group>"; };
 		C01FCF5008A9545400542488 /* JRCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCapture.h; sourceTree = "<group>"; };
 		C01FCF5008A9545400542489 /* JRAccounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRAccounts.h; sourceTree = "<group>"; };
 		C01FCF5008A954540054248A /* JRAddresses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRAddresses.h; sourceTree = "<group>"; };
@@ -489,6 +487,8 @@
 		C01FCF5008A95454005424D5 /* UserDetailViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "UserDetailViewController-iPad.xib"; sourceTree = "<group>"; };
 		C01FCF5008A95454005424D7 /* UserDrillDownViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "UserDrillDownViewController-iPad.xib"; sourceTree = "<group>"; };
 		C01FCF5008A95454005424D9 /* UserListViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "UserListViewController-iPad.xib"; sourceTree = "<group>"; };
+		C01FCF5008A95454005424DB /* JRCaptureInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureInterface.h; sourceTree = "<group>"; };
+		C01FCF5008A95454005424DC /* JRCaptureInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureInterface.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -516,8 +516,6 @@
 				C01FCF5008A95454005424C6 /* UserModel.h */,
 				C01FCF5008A95454005424C5 /* UserDrillDownViewController.h */,
 				C01FCF5008A95454005424C4 /* RootViewController.h */,
-				C01FCF5008A9545400542483 /* CaptureInterface.h */,
-				C01FCF5008A9545400542481 /* CaptureInterface.m */,
 				C01FCF5008A954540054247C /* UserListViewController.m */,
 				9FB40A3012414DC500FDDA7B /* QuickSignInAppDelegate.h */,
 				9FB40A3112414DC500FDDA7B /* QuickSignInAppDelegate.m */,
@@ -963,6 +961,8 @@
 		C01FCF5008A9545400542484 /* Capture */ = {
 			isa = PBXGroup;
 			children = (
+				C01FCF5008A95454005424DC /* JRCaptureInterface.m */,
+				C01FCF5008A95454005424DB /* JRCaptureInterface.h */,
 				C01FCF5008A95454005424BC /* JRCapture.m */,
 				C01FCF5008A95454005424BA /* JRUrls.m */,
 				C01FCF5008A95454005424B8 /* JRStatuses.m */,
@@ -1274,7 +1274,6 @@
 				9F7BC22B146888A80068BD40 /* JRPreviewLabel.m in Sources */,
 				C01FCF5008A954540054247D /* UserListViewController.m in Sources */,
 				9FD5942914D0BD6C00AD7829 /* CaptureNewUserViewController.m in Sources */,
-				C01FCF5008A9545400542482 /* CaptureInterface.m in Sources */,
 				C01FCF5008A954540054249B /* JRAccounts.m in Sources */,
 				C01FCF5008A954540054249D /* JRAddresses.m in Sources */,
 				C01FCF5008A954540054249F /* JRBodyType.m in Sources */,
@@ -1296,6 +1295,7 @@
 				C01FCF5008A95454005424C8 /* RootViewController.m in Sources */,
 				C01FCF5008A95454005424CA /* UserDrillDownViewController.m in Sources */,
 				C01FCF5008A95454005424CC /* UserModel.m in Sources */,
+				C01FCF5008A95454005424DD /* JRCaptureInterface.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

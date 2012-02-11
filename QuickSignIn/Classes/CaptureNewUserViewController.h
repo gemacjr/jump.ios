@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "UserModel.h"
-#import "CaptureInterface.h"
+#import "JRCaptureInterface.h"
 
-@interface CaptureNewUserViewController : UIViewController <CaptureInterfaceDelegate, UITextViewDelegate,
+@interface CaptureNewUserViewController : UIViewController <JRCaptureInterfaceDelegate, UITextViewDelegate,
         UIAlertViewDelegate>
 {
     NSMutableDictionary *engageUser;

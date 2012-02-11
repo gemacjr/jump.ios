@@ -42,7 +42,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "UserModel.h"
-#import "CaptureInterface.h"
+#import "JRCaptureInterface.h"
 
 @interface UserModel ()
 @property (retain) EmbeddedTableViewController *embeddedTable;
@@ -106,7 +106,7 @@ static NSString *typeName   = nil;//@"demo_user";
         if (captureUrl && typeName)
         {
             captureDemo = YES;
-            [CaptureInterface setCaptureUrlString:captureUrl andEntityTypeName:typeName];
+            [JRCaptureInterface setCaptureUrlString:captureUrl andEntityTypeName:typeName];
         }
 
         prefs = [[NSUserDefaults standardUserDefaults] retain];

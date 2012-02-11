@@ -148,31 +148,17 @@
         captureUser.gender = @"male";
 
     captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
-    
-
-//    NSString *provider   = [[engageUser objectForKey:@"profile"] objectForKey:@"providerName"];
-//    NSString *identifier = [[engageUser objectForKey:@"profile"] objectForKey:@"identifier"];
-//    if (provider && identifier)
-//    {
-//        NSMutableDictionary *mutableUser =
-//                    [NSMutableDictionary dictionaryWithDictionary:engageUser];
-//        [mutableUser setObject:provider forKey:@"domain"];
-//        [mutableUser setObject:identifier forKey:@"identifier"];
-//        [self setEngageUser:mutableUser];
-//    }
 
     JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
-
-    //[JRProfiles profilesObjectFromDictionary:engageUser];
 
     if (profilesObject)
         captureUser.profiles = [NSArray arrayWithObject:profilesObject];
 
     DLog(@"captureUser: %@", [[captureUser dictionaryFromObject] description]);
 
-    [CaptureInterface createCaptureUser:[captureUser dictionaryFromObject]
-                      withCreationToken:[[engageUser objectForKey:@"captureCredentials"] objectForKey:@"creation_token"]
-                            forDelegate:self];
+    [JRCaptureInterface createCaptureUser:[captureUser dictionaryFromObject]
+                        withCreationToken:[[engageUser objectForKey:@"captureCredentials"] objectForKey:@"creation_token"]
+                              forDelegate:self];
 }
 
 #define LOCATION_TEXT_VIEW_TAG 10
