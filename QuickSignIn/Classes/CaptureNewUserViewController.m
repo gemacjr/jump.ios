@@ -148,6 +148,7 @@
         captureUser.gender = @"male";
 
     captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
+    
 
 //    NSString *provider   = [[engageUser objectForKey:@"profile"] objectForKey:@"providerName"];
 //    NSString *identifier = [[engageUser objectForKey:@"profile"] objectForKey:@"identifier"];

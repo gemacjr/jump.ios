@@ -159,10 +159,11 @@
     animated = NO;
 
     //DLog (@"loading user, %@", animated ? @"animated" : @"not animated");
-
     selectedUser         = [[[UserModel getUserModel] selectedUser] retain];
     NSString *identifier = [selectedUser objectForKey:@"identifier"];
     NSDictionary *user   = [[[UserModel getUserModel] userProfiles] objectForKey:identifier];
+
+    DLog(@"user: %@", [user description]);
 
     profile     = [[user objectForKey:@"profile"] retain];
     profileKeys = [[profile allKeys] retain];

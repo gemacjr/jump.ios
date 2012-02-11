@@ -67,6 +67,8 @@
  /* Instance of the JRAuthenticate library */
     JREngage *jrEngage;
 
+    BOOL captureDemo;
+
     NSMutableDictionary         *customInterface;
     UINavigationController      *navigationController;
     EmbeddedTableViewController *embeddedTable;

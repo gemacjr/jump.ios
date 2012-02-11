@@ -164,6 +164,8 @@
     NSString *provider   = [[engageAuthInfo objectForKey:@"profile"] objectForKey:@"providerName"];
     NSString *identifier = [[engageAuthInfo objectForKey:@"profile"] objectForKey:@"identifier"];
 
+    // TODO: Figure out exactly what the required domain needs to be!!
+
     NSMutableDictionary *newEngageAuthInfo = nil;
     if (provider && identifier)
     {
@@ -171,7 +173,6 @@
                     [NSMutableDictionary dictionaryWithDictionary:engageAuthInfo];
         [newEngageAuthInfo setObject:provider forKey:@"domain"];
         [newEngageAuthInfo setObject:identifier forKey:@"identifier"];
-        //[self setEngageUser:mutableUser];
     }
 
     Class JRProfilesClass = NSClassFromString(@"JRProfiles");

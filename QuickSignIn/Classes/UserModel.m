@@ -88,19 +88,13 @@ library with a token URL, you must make the call yourself after you receive the 
 otherwise, this happens automatically.                                                  */
 
 // TODO: Get this out of here... belongs in its super secret hiding place
-static NSString *appId = @"mlfeingbenjalleljkpo";
-//static NSString *appId = @"gcinoifepaljfmgcgheo";
-//static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin";
-static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin?client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg&redirect_uri=https://example.com";
-
-static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
+//static NSString *appId = @"mlfeingbenjalleljkpo";
+//static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin?client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg&redirect_uri=https://example.com";
+static NSString * const appId = @"appcfamhnpkagijaeinl";
+static NSString * const tokenUrl = @"http://jrauthenticate.appspot.com/login";
+static NSString *captureUrl = nil;//@"https://demo.staging.janraincapture.com/";
+static NSString *typeName   = nil;//@"demo_user";
 //static NSString *clientId   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
-static NSString *typeName   = @"demo_user";
-
-//    [body appendData:[@"&client_id=d6rresj57ex24sxkybjt5qre9vj6jdhj" dataUsingEncoding:NSUTF8StringEncoding]];
-//    [body appendData:[@"&client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg" dataUsingEncoding:NSUTF8StringEncoding]];
-//    [body appendData:[@"&client_id=stc5y5a399qwfg85ap9tup5m9vfbm4a4" dataUsingEncoding:NSUTF8StringEncoding]];
-//    [body appendData:[@"&redirect_uri=https://example.com" dataUsingEncoding:NSUTF8StringEncoding]];
 
 - (UserModel*)init
 {
@@ -109,7 +103,11 @@ static NSString *typeName   = @"demo_user";
      /* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
         jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
 
-        [CaptureInterface setCaptureUrlString:captureUrl andEntityTypeName:typeName];
+        if (captureUrl && typeName)
+        {
+            captureDemo = YES;
+            [CaptureInterface setCaptureUrlString:captureUrl andEntityTypeName:typeName];
+        }
 
         prefs = [[NSUserDefaults standardUserDefaults] retain];
 
@@ -555,7 +553,7 @@ static NSString *typeName   = @"demo_user";
 {
     if (!tokenUrl)
     {
-        UIApplication* app = [UIApplication sharedApplication];
+        UIApplication *app = [UIApplication sharedApplication];
         app.networkActivityIndicatorVisible = NO;
     }
     else
@@ -631,8 +629,10 @@ static NSString *typeName   = @"demo_user";
 {
     DLog(@"");
 
-    NSString *payload = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
-    NSDictionary* payloadDict = [payload objectFromJSONString];
+    NSString     *payload     = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
+    NSDictionary *payloadDict = [payload objectFromJSONString];
+
+    DLog(@"token url payload: %@", [payload description]);
 
     if (!payloadDict)
     {
@@ -640,13 +640,6 @@ static NSString *typeName   = @"demo_user";
         [self finishSignUserIn:authInfo]; // call this to keep avoid missing data in user registry
         exit(1);
     }
-
-    NSDictionary* captureProfile = [payloadDict objectForKey:@"profile"];
-    captureProfile = captureProfile ?
-            [self nullWalker:captureProfile]
-            : nil;
-
-    //[CaptureInterface captureUserObjectFromDictionary:captureProfile];
 
     NSString     *captureAccessToken   = [payloadDict objectForKey:@"access_token"];
     NSString     *captureCreationToken = [payloadDict objectForKey:@"creation_token"];
@@ -660,6 +653,14 @@ static NSString *typeName   = @"demo_user";
                                                           forKey:@"creation_token"];
     else
         captureCredentials = nil;
+
+    NSDictionary *captureProfile = nil;//[payloadDict objectForKey:@"profile"];
+    if (captureDemo && captureAccessToken)
+        captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
+
+//    captureProfile = captureProfile ?
+//            [self nullWalker:captureProfile]
+//            : nil;
 
     if (captureProfile)
         [authInfo setObject:captureProfile forKey:@"captureProfile"];
@@ -684,7 +685,7 @@ static NSString *typeName   = @"demo_user";
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
 
     // now pass the capture access token to the backend server in exchange for an app access token
-    // (Lilli) ???
+    // Lilli says ???
 }
 
 - (void)jrAuthenticationDidNotComplete

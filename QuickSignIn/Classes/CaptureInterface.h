@@ -21,8 +21,7 @@
 
     id<CaptureInterfaceDelegate> captureInterfaceDelegate;
 }
++ (void)setCaptureUrlString:(NSString *)captureUrlString andEntityTypeName:(NSString *)entityTypeName;
 + (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
               forDelegate:(id<CaptureInterfaceDelegate>)delegate;
-//+ (void)captureUserObjectFromDictionary:(NSDictionary *)dictionary;
-+ (void)setCaptureUrlString:(NSString *)captureUrlString andEntityTypeName:(NSString *)entityTypeName;
 @end

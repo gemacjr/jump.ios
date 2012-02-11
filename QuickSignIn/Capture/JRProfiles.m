@@ -4,6 +4,8 @@
 @implementation JRProfiles
 @synthesize accessCredentials;
 @synthesize domain;
+@synthesize followers;
+@synthesize following;
 @synthesize friends;
 @synthesize identifier;
 @synthesize profile;
@@ -37,6 +39,8 @@
                 [[JRProfiles allocWithZone:zone] initWithDomain:self.domain andIdentifier:self.identifier];
 
     profilesCopy.accessCredentials = self.accessCredentials;
+    profilesCopy.followers = self.followers;
+    profilesCopy.following = self.following;
     profilesCopy.friends = self.friends;
     profilesCopy.profile = self.profile;
     profilesCopy.provider = self.provider;
@@ -51,6 +55,8 @@
         [JRProfiles profilesWithDomain:[dictionary objectForKey:@"domain"] andIdentifier:[dictionary objectForKey:@"identifier"]];
 
     profiles.accessCredentials = [dictionary objectForKey:@"accessCredentials"];
+    profiles.followers = [dictionary objectForKey:@"followers"];
+    profiles.following = [dictionary objectForKey:@"following"];
     profiles.friends = [dictionary objectForKey:@"friends"];
     profiles.profile = [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]];
     profiles.provider = [dictionary objectForKey:@"provider"];
@@ -68,6 +74,12 @@
 
     if (accessCredentials)
         [dict setObject:accessCredentials forKey:@"accessCredentials"];
+
+    if (followers)
+        [dict setObject:followers forKey:@"followers"];
+
+    if (following)
+        [dict setObject:following forKey:@"following"];
 
     if (friends)
         [dict setObject:friends forKey:@"friends"];
@@ -88,6 +100,8 @@
 {
     [accessCredentials release];
     [domain release];
+    [followers release];
+    [following release];
     [friends release];
     [identifier release];
     [profile release];
