@@ -87,14 +87,11 @@ Instantiate the JRAuthenticate Library with your Engage Application's 20-charact
 library with a token URL, you must make the call yourself after you receive the token,
 otherwise, this happens automatically.                                                  */
 
-// TODO: Get this out of here... belongs in its super secret hiding place
-//static NSString *appId = @"mlfeingbenjalleljkpo";
-//static NSString *tokenUrl = @"https://demo.staging.janraincapture.com/oauth/mobile_signin?client_id=svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg&redirect_uri=https://example.com";
-static NSString * const appId = @"appcfamhnpkagijaeinl";
-static NSString * const tokenUrl = @"http://jrauthenticate.appspot.com/login";
-static NSString *captureUrl = nil;//@"https://demo.staging.janraincapture.com/";
-static NSString *typeName   = nil;//@"demo_user";
-//static NSString *clientId   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
+//static NSString *appId    = @"<your_app_id>";
+//static NSString *tokenUrl = @"<your_token_url>";
+
+//static NSString *captureUrl     = @"<you_capture_mobile_end_point_url_or_nil>";
+//static NSString *entityTypeName = @"<you_capture_entity_type_or_nil>";
 
 - (UserModel*)init
 {
@@ -103,10 +100,10 @@ static NSString *typeName   = nil;//@"demo_user";
      /* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
         jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
 
-        if (captureUrl && typeName)
+        if (captureUrl && entityTypeName)
         {
             captureDemo = YES;
-            [JRCaptureInterface setCaptureUrlString:captureUrl andEntityTypeName:typeName];
+            [JRCaptureInterface setCaptureUrlString:captureUrl andEntityTypeName:entityTypeName];
         }
 
         prefs = [[NSUserDefaults standardUserDefaults] retain];
@@ -156,7 +153,7 @@ static NSString *typeName   = nil;//@"demo_user";
 
 - (NSUInteger)retainCount
 {
-    return NSUIntegerMax;  /* Denotes an object that cannot be released */
+    return NSUIntegerMax; /* Denotes an object that cannot be released */
 }
 
 - (oneway void)release { /* Do nothing */ }
