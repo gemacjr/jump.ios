@@ -42,7 +42,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "UserModel.h"
-#import "JRCaptureInterface.h"
+
 
 @interface UserModel ()
 @property (retain) EmbeddedTableViewController *embeddedTable;
@@ -88,23 +88,29 @@ library with a token URL, you must make the call yourself after you receive the 
 otherwise, this happens automatically.                                                  */
 
 // TODO: Document this!
+//static NSString *captureDomain  = @"<you_capture_domain_or_nil>";
+//static NSString *clientId       = @"<you_capture_client_id_or_nil>";
+//static NSString *entityTypeName = @"<you_capture_entity_type_or_nil>";
+
 //static NSString *appId    = @"<your_app_id>";
 //static NSString *tokenUrl = @"<your_token_url>";
-
-//static NSString *captureUrl     = @"<you_capture_mobile_end_point_url_or_nil>";
-//static NSString *entityTypeName = @"<you_capture_entity_type_or_nil>";
 
 - (UserModel*)init
 {
     if ((self = [super init]))
     {
-     /* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
-        jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
-
-        if (captureUrl && entityTypeName)
+        if (captureDomain && clientId && entityTypeName)
         {
             captureDemo = YES;
-            [JRCaptureInterface setCaptureUrlString:captureUrl andEntityTypeName:entityTypeName];
+            [JRCaptureInterface setCaptureDomain:captureDomain clientId:clientId andEntityTypeName:entityTypeName];
+            jrEngage = [JREngage jrEngageWithAppId:appId
+                                       andTokenUrl:[JRCaptureInterface captureMobileEndpointUrl]
+                                          delegate:self];
+        }
+        else
+        {
+         /* Instantiate an instance of the JRAuthenticate library with your application ID and token URL */
+            jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
         }
 
         prefs = [[NSUserDefaults standardUserDefaults] retain];

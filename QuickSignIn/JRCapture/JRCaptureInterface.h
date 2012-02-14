@@ -21,7 +21,9 @@
 
     id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
 }
-+ (void)setCaptureUrlString:(NSString *)captureUrlString andEntityTypeName:(NSString *)entityTypeName;
++ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
+       andEntityTypeName:(NSString *)newEntityTypeName;
 + (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
               forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
++ (NSString *)captureMobileEndpointUrl;
 @end
