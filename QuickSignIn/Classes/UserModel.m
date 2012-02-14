@@ -87,6 +87,7 @@ Instantiate the JRAuthenticate Library with your Engage Application's 20-charact
 library with a token URL, you must make the call yourself after you receive the token,
 otherwise, this happens automatically.                                                  */
 
+// TODO: Document this!
 //static NSString *appId    = @"<your_app_id>";
 //static NSString *tokenUrl = @"<your_token_url>";
 
@@ -500,7 +501,7 @@ otherwise, this happens automatically.                                          
         moreCustomizations = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                     embeddedTable.view, kJRProviderTableHeaderView,
                                     @"Sign in with a social provider", kJRProviderTableSectionHeaderTitleString,
-                                    navigationController, ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ?
+                                    navigationController, (iPad ?
                                                kJRCustomModalNavigationController : kJRApplicationNavigationController),
                                     nil] autorelease];
     }
@@ -617,7 +618,9 @@ otherwise, this happens automatically.                                          
     else
     {
         ALog(@"Unrecognized stucture: @%", [structure description]);
-        exit(1);
+        return nil;
+        // TODO: Better error handling
+        //exit(1);
     }
 }
 
@@ -635,7 +638,9 @@ otherwise, this happens automatically.                                          
     {
         ALog(@"Unable to parse token URL response: @%", payload);
         [self finishSignUserIn:authInfo]; // call this to keep avoid missing data in user registry
-        exit(1);
+        return;
+        // TODO: Better error handling (Add a GOTO)
+        //exit(1);
     }
 
     NSString     *captureAccessToken   = [payloadDict objectForKey:@"access_token"];

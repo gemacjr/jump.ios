@@ -444,16 +444,16 @@ sub recursiveParse {
   ##########################################################################
   $hFile .= $extraImportsSection . "\n";
   
-  my $extraDelegates = "";
-  if ($className eq 'JRProfiles') {
-    $extraDelegates = ", JRProfilesAssumedPresence";
-  }
+#  my $extraDelegates = "";
+#  if ($className eq 'JRProfiles') {
+#    $extraDelegates = ", JRProfilesAssumedPresence";
+#  }
   
   ##########################################################################
   # Declare the interface, add the properties, and add the function
   # declarations
   ##########################################################################
-  $hFile .= "\@interface $className : NSObject <NSCopying, JRJsonifying" . $extraDelegates . ">\n";
+  $hFile .= "\@interface $className : NSObject <NSCopying, JRJsonifying>\n";
   $hFile .= $propertiesSection;
   $hFile .= "$constructorSection[0]$constructorSection[1];\n";
   $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n";
@@ -557,26 +557,33 @@ recursiveParse ("captureUser", $perl_scalar);
 my @hFileNames = keys (%hFiles);
 my @mFileNames = keys (%mFiles);
 
-my $captureDir = "Capture";
-unless(-d $captureDir){
-    mkdir $captureDir or die "[ERROR] Unable to make the directory 'Capture'\n\n";
+my $deviceDir  = "iOS";
+my $filesDir   = "iOSFiles";
+my $captureDir = "JRCapture";
+
+unless (-d $deviceDir) {
+    mkdir $deviceDir or die "[ERROR] Unable to make the directory '$deviceDir'\n\n";
 }
 
-my $copyResult = `cp ./ObjCFiles/* $captureDir/ 2>&1`;
+unless (-d "$deviceDir/$captureDir") {
+    mkdir "$deviceDir/$captureDir" or die "[ERROR] Unable to make the directory '$deviceDir/$captureDir'\n\n";
+}
+
+my $copyResult = `cp ./iOSFiles/* $deviceDir/$captureDir/ 2>&1`;
 
 if ($copyResult) {
-  die "[ERROR] Unable to copy necessary files to the '$captureDir': $copyResult\n\n";
+  die "[ERROR] Unable to copy necessary files to the '$deviceDir/$captureDir': $copyResult\n\n";
 }
 
 foreach my $fileName (@hFileNames) {
-  open (FILE, ">$captureDir/$fileName") or die "[ERROR] Unable to open '$captureDir/$fileName' for writing\n\n";
+  open (FILE, ">$deviceDir/$captureDir/$fileName") or die "[ERROR] Unable to open '$deviceDir/$captureDir/$fileName' for writing\n\n";
   print "Writing $fileName... ";
   print FILE $hFiles{$fileName};
   print "Finished $fileName.\n";
 }
 
 foreach my $fileName (@mFileNames) {
-  open (FILE, ">$captureDir/$fileName") or die "[ERROR] Unable to open '$captureDir/$fileName' for writing\n\n";
+  open (FILE, ">$deviceDir/$captureDir/$fileName") or die "[ERROR] Unable to open '$deviceDir/$captureDir/$fileName' for writing\n\n";
   print "Writing $fileName... ";
   print FILE $mFiles{$fileName};
   print "Finished $fileName.\n";
