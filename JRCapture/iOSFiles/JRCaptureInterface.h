@@ -9,19 +9,19 @@
 #import "JRConnectionManager.h"
 #import "JRCaptureUser.h"
 
-@protocol CaptureInterfaceDelegate <NSObject>
+@protocol JRCaptureInterfaceDelegate <NSObject>
 @optional
 - (void)createCaptureUserDidSucceed;
 - (void)createCaptureUserDidFail;
 @end
 
-@interface CaptureInterface : NSObject <JRConnectionManagerDelegate>
+@interface JRCaptureInterface : NSObject <JRConnectionManagerDelegate>
 {
     JRCaptureUser *captureUser;
 
-    id<CaptureInterfaceDelegate> captureInterfaceDelegate;
+    id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
 }
 + (void)setCaptureUrlString:(NSString *)captureUrlString andEntityTypeName:(NSString *)entityTypeName;
 + (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
-              forDelegate:(id<CaptureInterfaceDelegate>)delegate;
+              forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
 @end

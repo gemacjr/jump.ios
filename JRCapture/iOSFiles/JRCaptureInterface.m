@@ -12,7 +12,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import "CaptureInterface.h"
+#import "JRCaptureInterface.h"
 #import "JSONKit.h"
 
 @interface NSString (NSString_JSON_ESCAPE)
@@ -34,8 +34,8 @@
 }
 @end
 
-@interface CaptureInterface ()
-@property (nonatomic, retain) id<CaptureInterfaceDelegate> captureInterfaceDelegate;
+@interface JRCaptureInterface ()
+@property (nonatomic, retain) id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
 @property (nonatomic, retain) JRCaptureUser *captureUser;
 @property (nonatomic, copy)   NSString      *captureCreationToken;
 @property (nonatomic, copy)   NSString      *captureUrl;// = @"https://demo.staging.janraincapture.com/";
@@ -43,21 +43,21 @@
 @property (nonatomic, copy)   NSString      *typeName;//   = @"demo_user";
 @end
 
-@implementation CaptureInterface
+@implementation JRCaptureInterface
 @synthesize captureInterfaceDelegate;
 @synthesize captureUser;
 @synthesize captureCreationToken;
 @synthesize captureUrl;
 @synthesize clientId;
 @synthesize typeName;
-static CaptureInterface* singleton = nil;
+static JRCaptureInterface *singleton = nil;
 
 //static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
 //static NSString *clientId   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
 //static NSString *typeName   = @"demo_user";
 
 
-- (CaptureInterface*)init
+- (JRCaptureInterface*)init
 {
     if ((self = [super init])) { }
 
@@ -67,7 +67,7 @@ static CaptureInterface* singleton = nil;
 + (id)captureInterfaceInstance
 {
     if (singleton == nil) {
-        singleton = [((CaptureInterface*)[super allocWithZone:NULL]) init];
+        singleton = [((JRCaptureInterface*)[super allocWithZone:NULL]) init];
     }
 
     return singleton;
@@ -102,7 +102,7 @@ static CaptureInterface* singleton = nil;
 
 + (void)setCaptureUrlString:(NSString *)captureUrlString andEntityTypeName:(NSString *)entityTypeName
 {
-    CaptureInterface* captureInterface = [CaptureInterface captureInterfaceInstance];
+    JRCaptureInterface *captureInterface = [JRCaptureInterface captureInterfaceInstance];
     captureInterface.captureUrl = captureUrlString;
     captureInterface.typeName   = entityTypeName;
 }
@@ -137,14 +137,14 @@ static CaptureInterface* singleton = nil;
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&creation_token=%@", captureCreationToken] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
                                       [NSString stringWithFormat:@"%@/entity.create", captureUrl]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
 
-    NSDictionary* tag = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSDictionary *tag = [NSDictionary dictionaryWithObjectsAndKeys:
                                         @"createUser", @"action",
                                         user, @"user", nil];
 
@@ -159,10 +159,10 @@ static CaptureInterface* singleton = nil;
 //}
 
 + (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
-              forDelegate:(id<CaptureInterfaceDelegate>)delegate
+              forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
 {
     DLog(@"");
-    CaptureInterface* captureInterface = [CaptureInterface captureInterfaceInstance];
+   JRCaptureInterface *captureInterface = [JRCaptureInterface captureInterfaceInstance];
 
     captureInterface.captureInterfaceDelegate = delegate;
     captureInterface.captureCreationToken     = creationToken;

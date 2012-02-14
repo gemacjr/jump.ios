@@ -63,7 +63,7 @@
         date = [dateFormatter dateFromString:ISO8601String];
     }
 
-    if (!date) NSLog(@"Could not parse RFC822 date: \"%@\" Possibly invalid format.", dateString);
+    if (!date) NSLog(@"Could not parse IS8601 date: \"%@\" Possibly invalid format.", dateString);
     return date;
 }
 
@@ -165,18 +165,21 @@
     NSString *identifier = [[engageAuthInfo objectForKey:@"profile"] objectForKey:@"identifier"];
 
     // TODO: Figure out exactly what the required domain needs to be!!
+    // TODO: Do property 'coercion' for other mismatched fields
 
     NSMutableDictionary *newEngageAuthInfo = nil;
     if (provider && identifier)
     {
-        newEngageAuthInfo =
-                    [NSMutableDictionary dictionaryWithDictionary:engageAuthInfo];
+        newEngageAuthInfo = [NSMutableDictionary dictionaryWithDictionary:engageAuthInfo];
         [newEngageAuthInfo setObject:provider forKey:@"domain"];
         [newEngageAuthInfo setObject:identifier forKey:@"identifier"];
     }
 
-    Class JRProfilesClass = NSClassFromString(@"JRProfiles");
-    id profilesObject = [JRProfilesClass profilesObjectFromDictionary:newEngageAuthInfo];
+    Class JRProfilesClass            = NSClassFromString(@"JRProfiles");
+    SEL profilesObjectFromDictionary = NSSelectorFromString(@"profilesObjectFromDictionary:");
+
+    id profilesObject = [JRProfilesClass performSelector:profilesObjectFromDictionary withObject:newEngageAuthInfo];
+    //id profilesObject = [JRProfilesClass profilesObjectFromDictionary:newEngageAuthInfo];
 
     return profilesObject;
 }
