@@ -64,7 +64,7 @@ Hit Enter to edit all the files at once, and in the floating text-box add the -f
 
 
 Using the Janrain Engage Library with Capture
-----------------------------------------------
+==============================================
 Here is a basic overview of using the Janrain Engage for iOS library with Capture:
 1. Instantiate the JRCapture library with your Capture application's Client ID, your Capture Url, and the name of your Capture entity type
 2. Instantiate the JREngage library with your Engage application's Application ID, your Capture Mobile Endpoint Url, and the delegate class that implements the JREngageDelegate protocol
@@ -76,7 +76,7 @@ Here is a basic overview of using the Janrain Engage for iOS library with Captur
 
 
 Quick Start Guide
---------------------
+----------------------------------------------
 To begin, sign in to Engage and configure the providers you wish to use for authentication and/or social sharing. You will also need your 20-character Application ID from the Engage Dashboard.
 
 TODO: Fill out Capture stuff
@@ -88,7 +88,7 @@ Import the Janrain headers:
 
 
 Initialize
-------------
+----------------------
 First, initialize Capture with your Capture Client ID, Capture domain, and entity type:
 
 NSString *captureDomain  = @"<you_capture_domain_or_nil>";
@@ -109,13 +109,66 @@ NSString *captureMobileEndpointUrl = [JRCaptureInterface captureMobileEndpointUr
 
 JREngage *jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:nil delegate:self];
 
+Start Authentication
+----------------------
+In the section of code where you wish to launch the library's authentication process, send the showAuthenticationDialog message to your JREngage object:
+
+[jrEngage showAuthenticationDialog];
+
+To receive the user's basic profile data, as returned by Engage, implement the jrAuthenticationDidSucceedForUser:forProvider: method from the JREngageDelegate protocol:
+
+- (void)jrAuthenticationDidSucceedForUser:(NSDictionary*)engageUser
+                              forProvider:(NSString*)provider
+{
+  self.engageUser = engageUser;
+  
+  NSDictionary *engageUserProfile = [engageUser objectForKey:@"profile"];
+  NSString     *preferredUserName = [engageUserProfile objectForKey:@"preferredUserName"];
+    
+  NSLog (@"%@ signing in to %@", preferredUserName, provider);
+}
+
+The engageUser dictionary, or auth_info, contains the following information: http://documentation.janrain.com/engage/api/auth_info
+
+The Capture library makes it very easy for your add the Engage user's information into your Capture user.  Therefore, we recommend that you save this dictionary for later.
+
+After this point, the JREngage library will post the auth_info token to the Capture Mobile End Point URL you supplied as the token URL when you configured the JREngage library.  Once this step is complete, your application will be notifed in the jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider: method from the JREngageDelegate protocol.
+
+The tokenUrlPayload will contain a json object from Capture containing either a creation_token or an access_token and a Capture user object.  You will first need to convert the tokenUrlPayload argument to an NSString and then you can parse with the JSONKit library that comes with JREngage or any other JSON library.
+
+- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response
+                              andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
+{
+  NSString     *payload           = [[[NSString alloc] initWithData:tokenUrlPayload encoding:NSUTF8StringEncoding] autorelease];
+  NSDictionary *payloadDictionary = [payload objectFromJSONString];
+
+If a record already exists for this user, the tokenUrlPayload dictionary will contain the key "access_token".  If a record does not exist, the tokenUrlPayload dictionary will contain the key "creation_token".
+
+...
+   
+  NSString     *captureAccessToken   = [payloadDictionary objectForKey:@"access_token"];
+  NSString     *captureCreationToken = [payloadDictionary objectForKey:@"creation_token"];
+
+...
+
+
+Finish Authentication
+----------------------
+
+Access Token
+------------
+
+If the tokenUrlPayload dictionary contains an access_token, then this user has already been created.  
+
+If this is the case, then the tokenUrlPayload dictionary will also contain a key, "profile"*, which is mapped to an NSDictionary representation of a Capture user.
+
+The generated JRCaptureUser class is an Objective-C representation of a user in your Capture instance, and should map perfectly to the dictionary.  As a convenience to you, this class provides methods which serialize/deserialize a JRCaptureUser object to/from an NSDictionary. If you are interested in writing your code to work with the object and its properties, as opposed to the keys and values of an NSDictionary, you can easily do so.
+
+To deserialize the NSDictionary under the key "profile"*, 
 
 
 
-
-
-
-
+* This key will likely change in the future to "captureUser".
 
 
 

@@ -129,6 +129,7 @@ sub recursiveParse {
   my @destructorSection       = getDestructorParts();
   my @makeDictionarySection   = getToDictionaryParts();
   my @makeObjectSection       = getFromDictionaryParts();
+  my @updateObjectSection     = getUpFromDictionaryParts();
 
   
   ######################################################
@@ -415,6 +416,11 @@ sub recursiveParse {
     # For *all* properties...
     ##########################################################################
 
+      # e.g., if ([dictionary objectForKey:@"foo"])
+      #           self.foo = [dictionary objectForKey:@"foo"];
+      $updateObjectSection[2] .= "\n    if ([dictionary objectForKey:\@\"" . $propertyName . "\"])";
+      $updateObjectSection[2] .= "\n        self." . $propertyName . " = " . $frDictionary . ";\n";
+      
     if ($isBooleanType) {
       $propertiesSection    .= "\@property                   $objectiveType $propertyName;\n";
       $synthesizeSection    .= "\@synthesize $propertyName;\n";    
@@ -458,6 +464,7 @@ sub recursiveParse {
   $hFile .= "$constructorSection[0]$constructorSection[1];\n";
   $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n";
   $hFile .= "$makeObjectSection[0]$makeObjectSection[1]$makeObjectSection[2];\n";
+  $hFile .= "$updateObjectSection[0];\n";
   $hFile .= "\@end\n";
 
   ##########################################################################
@@ -516,6 +523,10 @@ sub recursiveParse {
 
   for (my $i = 0; $i < @makeDictionarySection; $i++) {
     $mFile .= $makeDictionarySection[$i];
+  }
+  
+  for (my $i = 0; $i < @updateObjectSection; $i++) {
+    $mFile .= $updateObjectSection[$i];
   }
   
   for (my $i = 0; $i < @destructorSection; $i++) {

@@ -100,7 +100,7 @@ my @copyConstructorParts = (
 # 
 #     <object>.<property> = [dictionary objectForKey:@"<property>"];
 #       OR
-#     <object>.<property> = [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"profile"]];
+#     <object>.<property> = [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]];
 #       ...
 #
 #     return <object>;
@@ -127,9 +127,9 @@ my @fromDictionaryParts = (
 #     Section only here when there are required properties     
 #                              |                         
 #                              V                         
-#     [dict setObject:<requiredProperty> forKey:@"<requiredProperty"];
+#     [dict setObject:<requiredProperty> forKey:@"<requiredProperty>"];
 #       OR
-#     [dict setObject:<requiredPropertyToDictionaryMethod> forKey:@"<requiredProperty"];
+#     [dict setObject:<requiredPropertyToDictionaryMethod> forKey:@"<requiredProperty>"];
 #       ...
 #
 #     if (<property>)
@@ -150,6 +150,26 @@ my @toDictionaryParts = (
 "", 
 "\n    return dict;",
 "\n}\n\n");
+
+
+###################################################################
+# UPDATE OBJECT FROM DICTIONARY
+#
+# - (void)updateObjectFromDictionary:(NSDictionary *)dictionary
+# {
+#     if ([dictionary objectForKey:@"<property>"])
+#         self.<property> = [dictionary objectForKey:@"<property>"];
+#           OR
+#         self.<property> = [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]];
+#           ...
+# }
+###################################################################
+
+my @upFrDictionaryParts = (
+"- (void)updateFromDictionary:(NSDictionary*)dictionary",
+"\n{",
+"",
+"}\n\n");
 
 
 ###################################################################
@@ -220,6 +240,10 @@ sub getToDictionaryParts {
 
 sub getFromDictionaryParts {
   return @fromDictionaryParts;
+}
+
+sub getUpFromDictionaryParts {
+  return @upFrDictionaryParts;
 }
 
 sub getDestructorParts {

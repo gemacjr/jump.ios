@@ -138,6 +138,7 @@
     DLog(@"engageUser: %@", [engageUser description]);
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+
     captureUser.aboutMe  = myAboutMeTextView.text;
     captureUser.birthday = myBirthdate;
     captureUser.currentLocation = myLocationTextView.text;
