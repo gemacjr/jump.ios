@@ -38,24 +38,19 @@
 @property (nonatomic, retain) id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
 @property (nonatomic, retain) JRCaptureUser *captureUser;
 @property (nonatomic, copy)   NSString      *captureCreationToken;
-@property (nonatomic, copy)   NSString      *captureUrl;// = @"https://demo.staging.janraincapture.com/";
-@property (nonatomic, copy)   NSString      *clientId;//   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
-@property (nonatomic, copy)   NSString      *typeName;//   = @"demo_user";
+@property (nonatomic, copy)   NSString      *captureDomain;
+@property (nonatomic, copy)   NSString      *clientId;
+@property (nonatomic, copy)   NSString      *entityTypeName;
 @end
 
 @implementation JRCaptureInterface
 @synthesize captureInterfaceDelegate;
 @synthesize captureUser;
 @synthesize captureCreationToken;
-@synthesize captureUrl;
+@synthesize captureDomain;
 @synthesize clientId;
-@synthesize typeName;
+@synthesize entityTypeName;
 static JRCaptureInterface *singleton = nil;
-
-//static NSString *captureUrl = @"https://demo.staging.janraincapture.com/";
-//static NSString *clientId   = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
-//static NSString *typeName   = @"demo_user";
-
 
 - (JRCaptureInterface*)init
 {
@@ -100,11 +95,19 @@ static JRCaptureInterface *singleton = nil;
     return self;
 }
 
-+ (void)setCaptureUrlString:(NSString *)captureUrlString andEntityTypeName:(NSString *)entityTypeName
++ (NSString *)captureMobileEndpointUrl
 {
     JRCaptureInterface *captureInterface = [JRCaptureInterface captureInterfaceInstance];
-    captureInterface.captureUrl = captureUrlString;
-    captureInterface.typeName   = entityTypeName;
+    return [NSString stringWithFormat:@"%@/oauth/mobile_signin?client_id=%@&redirect_uri=https://example.com",
+                     captureInterface.captureDomain, captureInterface.clientId];
+}
+
++ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
+{
+    JRCaptureInterface *captureInterface = [JRCaptureInterface captureInterfaceInstance];
+    captureInterface.clientId       = newClientId;
+    captureInterface.captureDomain  = newCaptureDomain;
+    captureInterface.entityTypeName = newEntityTypeName;
 }
 
 - (void)finishCreateCaptureUser:(NSString*)message
@@ -133,13 +136,13 @@ static JRCaptureInterface *singleton = nil;
     NSString      *attributes = [[user JSONString] URLEscaped];
     NSMutableData *body       = [NSMutableData data];
 
-    [body appendData:[[NSString stringWithFormat:@"type_name=%@", typeName] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"type_name=%@", entityTypeName] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&creation_token=%@", captureCreationToken] dataUsingEncoding:NSUTF8StringEncoding]];
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity.create", captureUrl]]];
+                                      [NSString stringWithFormat:@"%@/entity.create", captureDomain]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -224,9 +227,9 @@ static JRCaptureInterface *singleton = nil;
     [captureUser release];
     [captureCreationToken release];
 
-    [captureUrl release];
     [clientId release];
-    [typeName release];
+    [captureDomain release];
+    [entityTypeName release];
     [super dealloc];
 }
 

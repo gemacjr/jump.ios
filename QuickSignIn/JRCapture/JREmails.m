@@ -60,6 +60,18 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"primary"])
+        self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+
+    if ([dictionary objectForKey:@"type"])
+        self.type = [dictionary objectForKey:@"type"];
+
+    if ([dictionary objectForKey:@"value"])
+        self.value = [dictionary objectForKey:@"value"];
+}
+
 - (void)dealloc
 {
     [type release];

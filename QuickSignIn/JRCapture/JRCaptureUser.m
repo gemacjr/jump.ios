@@ -225,6 +225,60 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"aboutMe"])
+        self.aboutMe = [dictionary objectForKey:@"aboutMe"];
+
+    if ([dictionary objectForKey:@"birthday"])
+        self.birthday = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]];
+
+    if ([dictionary objectForKey:@"currentLocation"])
+        self.currentLocation = [dictionary objectForKey:@"currentLocation"];
+
+    if ([dictionary objectForKey:@"display"])
+        self.display = [dictionary objectForKey:@"display"];
+
+    if ([dictionary objectForKey:@"displayName"])
+        self.displayName = [dictionary objectForKey:@"displayName"];
+
+    if ([dictionary objectForKey:@"email"])
+        self.email = [dictionary objectForKey:@"email"];
+
+    if ([dictionary objectForKey:@"emailVerified"])
+        self.emailVerified = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]];
+
+    if ([dictionary objectForKey:@"familyName"])
+        self.familyName = [dictionary objectForKey:@"familyName"];
+
+    if ([dictionary objectForKey:@"gender"])
+        self.gender = [dictionary objectForKey:@"gender"];
+
+    if ([dictionary objectForKey:@"givenName"])
+        self.givenName = [dictionary objectForKey:@"givenName"];
+
+    if ([dictionary objectForKey:@"lastLogin"])
+        self.lastLogin = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]];
+
+    if ([dictionary objectForKey:@"middleName"])
+        self.middleName = [dictionary objectForKey:@"middleName"];
+
+    if ([dictionary objectForKey:@"password"])
+        self.password = [dictionary objectForKey:@"password"];
+
+    if ([dictionary objectForKey:@"photos"])
+        self.photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
+
+    if ([dictionary objectForKey:@"primaryAddress"])
+        self.primaryAddress = [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]];
+
+    if ([dictionary objectForKey:@"profiles"])
+        self.profiles = [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionaries];
+
+    if ([dictionary objectForKey:@"statuses"])
+        self.statuses = [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionaries];
+}
+
 - (void)dealloc
 {
     [aboutMe release];

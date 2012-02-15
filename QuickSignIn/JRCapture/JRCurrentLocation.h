@@ -17,4 +17,5 @@
 - (id)init;
 + (id)currentLocation;
 + (id)currentLocationObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

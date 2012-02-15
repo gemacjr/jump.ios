@@ -96,6 +96,36 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"accessCredentials"])
+        self.accessCredentials = [dictionary objectForKey:@"accessCredentials"];
+
+    if ([dictionary objectForKey:@"domain"])
+        self.domain = [dictionary objectForKey:@"domain"];
+
+    if ([dictionary objectForKey:@"followers"])
+        self.followers = [dictionary objectForKey:@"followers"];
+
+    if ([dictionary objectForKey:@"following"])
+        self.following = [dictionary objectForKey:@"following"];
+
+    if ([dictionary objectForKey:@"friends"])
+        self.friends = [dictionary objectForKey:@"friends"];
+
+    if ([dictionary objectForKey:@"identifier"])
+        self.identifier = [dictionary objectForKey:@"identifier"];
+
+    if ([dictionary objectForKey:@"profile"])
+        self.profile = [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]];
+
+    if ([dictionary objectForKey:@"provider"])
+        self.provider = [dictionary objectForKey:@"provider"];
+
+    if ([dictionary objectForKey:@"remote_key"])
+        self.remote_key = [dictionary objectForKey:@"remote_key"];
+}
+
 - (void)dealloc
 {
     [accessCredentials release];

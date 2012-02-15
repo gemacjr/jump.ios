@@ -8,4 +8,5 @@
 - (id)init;
 + (id)statuses;
 + (id)statusesObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

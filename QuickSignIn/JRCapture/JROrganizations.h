@@ -16,4 +16,5 @@
 - (id)init;
 + (id)organizations;
 + (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

@@ -27,4 +27,5 @@
 - (id)init;
 + (id)captureUser;
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

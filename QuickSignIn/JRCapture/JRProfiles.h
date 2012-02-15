@@ -16,4 +16,5 @@
 - (id)initWithDomain:(NSString *)newDomain andIdentifier:(NSString *)newIdentifier;
 + (id)profilesWithDomain:(NSString *)domain andIdentifier:(NSString *)identifier;
 + (id)profilesObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

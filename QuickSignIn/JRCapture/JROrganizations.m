@@ -96,6 +96,36 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"department"])
+        self.department = [dictionary objectForKey:@"department"];
+
+    if ([dictionary objectForKey:@"description"])
+        self.description = [dictionary objectForKey:@"description"];
+
+    if ([dictionary objectForKey:@"endDate"])
+        self.endDate = [dictionary objectForKey:@"endDate"];
+
+    if ([dictionary objectForKey:@"location"])
+        self.location = [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]];
+
+    if ([dictionary objectForKey:@"name"])
+        self.name = [dictionary objectForKey:@"name"];
+
+    if ([dictionary objectForKey:@"primary"])
+        self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+
+    if ([dictionary objectForKey:@"startDate"])
+        self.startDate = [dictionary objectForKey:@"startDate"];
+
+    if ([dictionary objectForKey:@"title"])
+        self.title = [dictionary objectForKey:@"title"];
+
+    if ([dictionary objectForKey:@"type"])
+        self.type = [dictionary objectForKey:@"type"];
+}
+
 - (void)dealloc
 {
     [department release];

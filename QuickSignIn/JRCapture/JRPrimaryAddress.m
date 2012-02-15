@@ -96,6 +96,36 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"address1"])
+        self.address1 = [dictionary objectForKey:@"address1"];
+
+    if ([dictionary objectForKey:@"address2"])
+        self.address2 = [dictionary objectForKey:@"address2"];
+
+    if ([dictionary objectForKey:@"city"])
+        self.city = [dictionary objectForKey:@"city"];
+
+    if ([dictionary objectForKey:@"company"])
+        self.company = [dictionary objectForKey:@"company"];
+
+    if ([dictionary objectForKey:@"mobile"])
+        self.mobile = [dictionary objectForKey:@"mobile"];
+
+    if ([dictionary objectForKey:@"phone"])
+        self.phone = [dictionary objectForKey:@"phone"];
+
+    if ([dictionary objectForKey:@"stateAbbreviation"])
+        self.stateAbbreviation = [dictionary objectForKey:@"stateAbbreviation"];
+
+    if ([dictionary objectForKey:@"zip"])
+        self.zip = [dictionary objectForKey:@"zip"];
+
+    if ([dictionary objectForKey:@"zipPlus4"])
+        self.zipPlus4 = [dictionary objectForKey:@"zipPlus4"];
+}
+
 - (void)dealloc
 {
     [address1 release];

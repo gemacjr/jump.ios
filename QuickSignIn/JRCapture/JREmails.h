@@ -9,4 +9,5 @@
 - (id)init;
 + (id)emails;
 + (id)emailsObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

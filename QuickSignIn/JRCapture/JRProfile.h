@@ -77,4 +77,5 @@
 - (id)init;
 + (id)profile;
 + (id)profileObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

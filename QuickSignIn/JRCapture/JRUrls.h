@@ -9,4 +9,5 @@
 - (id)init;
 + (id)urls;
 + (id)urlsObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

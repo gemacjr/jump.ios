@@ -9,4 +9,5 @@
 - (id)init;
 + (id)photos;
 + (id)photosObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

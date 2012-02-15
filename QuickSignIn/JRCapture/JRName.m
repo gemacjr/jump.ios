@@ -78,6 +78,27 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"familyName"])
+        self.familyName = [dictionary objectForKey:@"familyName"];
+
+    if ([dictionary objectForKey:@"formatted"])
+        self.formatted = [dictionary objectForKey:@"formatted"];
+
+    if ([dictionary objectForKey:@"givenName"])
+        self.givenName = [dictionary objectForKey:@"givenName"];
+
+    if ([dictionary objectForKey:@"honorificPrefix"])
+        self.honorificPrefix = [dictionary objectForKey:@"honorificPrefix"];
+
+    if ([dictionary objectForKey:@"honorificSuffix"])
+        self.honorificSuffix = [dictionary objectForKey:@"honorificSuffix"];
+
+    if ([dictionary objectForKey:@"middleName"])
+        self.middleName = [dictionary objectForKey:@"middleName"];
+}
+
 - (void)dealloc
 {
     [familyName release];

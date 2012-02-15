@@ -108,6 +108,42 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"country"])
+        self.country = [dictionary objectForKey:@"country"];
+
+    if ([dictionary objectForKey:@"extendedAddress"])
+        self.extendedAddress = [dictionary objectForKey:@"extendedAddress"];
+
+    if ([dictionary objectForKey:@"formatted"])
+        self.formatted = [dictionary objectForKey:@"formatted"];
+
+    if ([dictionary objectForKey:@"latitude"])
+        self.latitude = [dictionary objectForKey:@"latitude"];
+
+    if ([dictionary objectForKey:@"locality"])
+        self.locality = [dictionary objectForKey:@"locality"];
+
+    if ([dictionary objectForKey:@"longitude"])
+        self.longitude = [dictionary objectForKey:@"longitude"];
+
+    if ([dictionary objectForKey:@"poBox"])
+        self.poBox = [dictionary objectForKey:@"poBox"];
+
+    if ([dictionary objectForKey:@"postalCode"])
+        self.postalCode = [dictionary objectForKey:@"postalCode"];
+
+    if ([dictionary objectForKey:@"region"])
+        self.region = [dictionary objectForKey:@"region"];
+
+    if ([dictionary objectForKey:@"streetAddress"])
+        self.streetAddress = [dictionary objectForKey:@"streetAddress"];
+
+    if ([dictionary objectForKey:@"type"])
+        self.type = [dictionary objectForKey:@"type"];
+}
+
 - (void)dealloc
 {
     [country release];

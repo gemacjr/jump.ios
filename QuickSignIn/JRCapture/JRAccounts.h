@@ -10,4 +10,5 @@
 - (id)init;
 + (id)accounts;
 + (id)accountsObjectFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

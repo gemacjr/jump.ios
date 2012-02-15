@@ -72,6 +72,24 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"build"])
+        self.build = [dictionary objectForKey:@"build"];
+
+    if ([dictionary objectForKey:@"color"])
+        self.color = [dictionary objectForKey:@"color"];
+
+    if ([dictionary objectForKey:@"eyeColor"])
+        self.eyeColor = [dictionary objectForKey:@"eyeColor"];
+
+    if ([dictionary objectForKey:@"hairColor"])
+        self.hairColor = [dictionary objectForKey:@"hairColor"];
+
+    if ([dictionary objectForKey:@"height"])
+        self.height = [dictionary objectForKey:@"height"];
+}
+
 - (void)dealloc
 {
     [build release];

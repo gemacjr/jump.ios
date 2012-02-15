@@ -54,6 +54,15 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"status"])
+        self.status = [dictionary objectForKey:@"status"];
+
+    if ([dictionary objectForKey:@"statusCreated"])
+        self.statusCreated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]];
+}
+
 - (void)dealloc
 {
     [status release];

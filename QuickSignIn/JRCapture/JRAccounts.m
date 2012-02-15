@@ -66,6 +66,21 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"domain"])
+        self.domain = [dictionary objectForKey:@"domain"];
+
+    if ([dictionary objectForKey:@"primary"])
+        self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+
+    if ([dictionary objectForKey:@"userid"])
+        self.userid = [dictionary objectForKey:@"userid"];
+
+    if ([dictionary objectForKey:@"username"])
+        self.username = [dictionary objectForKey:@"username"];
+}
+
 - (void)dealloc
 {
     [domain release];

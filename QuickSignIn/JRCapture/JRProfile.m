@@ -618,6 +618,189 @@
     return dict;
 }
 
+- (void)updateFromDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"aboutMe"])
+        self.aboutMe = [dictionary objectForKey:@"aboutMe"];
+
+    if ([dictionary objectForKey:@"accounts"])
+        self.accounts = [(NSArray*)[dictionary objectForKey:@"accounts"] arrayOfAccountsObjectsFromAccountsDictionaries];
+
+    if ([dictionary objectForKey:@"addresses"])
+        self.addresses = [(NSArray*)[dictionary objectForKey:@"addresses"] arrayOfAddressesObjectsFromAddressesDictionaries];
+
+    if ([dictionary objectForKey:@"anniversary"])
+        self.anniversary = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]];
+
+    if ([dictionary objectForKey:@"birthday"])
+        self.birthday = [dictionary objectForKey:@"birthday"];
+
+    if ([dictionary objectForKey:@"bodyType"])
+        self.bodyType = [JRBodyType bodyTypeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"bodyType"]];
+
+    if ([dictionary objectForKey:@"books"])
+        self.books = [dictionary objectForKey:@"books"];
+
+    if ([dictionary objectForKey:@"cars"])
+        self.cars = [dictionary objectForKey:@"cars"];
+
+    if ([dictionary objectForKey:@"children"])
+        self.children = [dictionary objectForKey:@"children"];
+
+    if ([dictionary objectForKey:@"currentLocation"])
+        self.currentLocation = [JRCurrentLocation currentLocationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"currentLocation"]];
+
+    if ([dictionary objectForKey:@"displayName"])
+        self.displayName = [dictionary objectForKey:@"displayName"];
+
+    if ([dictionary objectForKey:@"drinker"])
+        self.drinker = [dictionary objectForKey:@"drinker"];
+
+    if ([dictionary objectForKey:@"emails"])
+        self.emails = [(NSArray*)[dictionary objectForKey:@"emails"] arrayOfEmailsObjectsFromEmailsDictionaries];
+
+    if ([dictionary objectForKey:@"ethnicity"])
+        self.ethnicity = [dictionary objectForKey:@"ethnicity"];
+
+    if ([dictionary objectForKey:@"fashion"])
+        self.fashion = [dictionary objectForKey:@"fashion"];
+
+    if ([dictionary objectForKey:@"food"])
+        self.food = [dictionary objectForKey:@"food"];
+
+    if ([dictionary objectForKey:@"gender"])
+        self.gender = [dictionary objectForKey:@"gender"];
+
+    if ([dictionary objectForKey:@"happiestWhen"])
+        self.happiestWhen = [dictionary objectForKey:@"happiestWhen"];
+
+    if ([dictionary objectForKey:@"heroes"])
+        self.heroes = [dictionary objectForKey:@"heroes"];
+
+    if ([dictionary objectForKey:@"humor"])
+        self.humor = [dictionary objectForKey:@"humor"];
+
+    if ([dictionary objectForKey:@"ims"])
+        self.ims = [(NSArray*)[dictionary objectForKey:@"ims"] arrayOfImsObjectsFromImsDictionaries];
+
+    if ([dictionary objectForKey:@"interestedInMeeting"])
+        self.interestedInMeeting = [dictionary objectForKey:@"interestedInMeeting"];
+
+    if ([dictionary objectForKey:@"interests"])
+        self.interests = [dictionary objectForKey:@"interests"];
+
+    if ([dictionary objectForKey:@"jobInterests"])
+        self.jobInterests = [dictionary objectForKey:@"jobInterests"];
+
+    if ([dictionary objectForKey:@"languages"])
+        self.languages = [dictionary objectForKey:@"languages"];
+
+    if ([dictionary objectForKey:@"languagesSpoken"])
+        self.languagesSpoken = [dictionary objectForKey:@"languagesSpoken"];
+
+    if ([dictionary objectForKey:@"livingArrangement"])
+        self.livingArrangement = [dictionary objectForKey:@"livingArrangement"];
+
+    if ([dictionary objectForKey:@"lookingFor"])
+        self.lookingFor = [dictionary objectForKey:@"lookingFor"];
+
+    if ([dictionary objectForKey:@"movies"])
+        self.movies = [dictionary objectForKey:@"movies"];
+
+    if ([dictionary objectForKey:@"music"])
+        self.music = [dictionary objectForKey:@"music"];
+
+    if ([dictionary objectForKey:@"name"])
+        self.name = [JRName nameObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"name"]];
+
+    if ([dictionary objectForKey:@"nickname"])
+        self.nickname = [dictionary objectForKey:@"nickname"];
+
+    if ([dictionary objectForKey:@"note"])
+        self.note = [dictionary objectForKey:@"note"];
+
+    if ([dictionary objectForKey:@"organizations"])
+        self.organizations = [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsObjectsFromOrganizationsDictionaries];
+
+    if ([dictionary objectForKey:@"pets"])
+        self.pets = [dictionary objectForKey:@"pets"];
+
+    if ([dictionary objectForKey:@"phoneNumbers"])
+        self.phoneNumbers = [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersObjectsFromPhoneNumbersDictionaries];
+
+    if ([dictionary objectForKey:@"photos"])
+        self.photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
+
+    if ([dictionary objectForKey:@"politicalViews"])
+        self.politicalViews = [dictionary objectForKey:@"politicalViews"];
+
+    if ([dictionary objectForKey:@"preferredUsername"])
+        self.preferredUsername = [dictionary objectForKey:@"preferredUsername"];
+
+    if ([dictionary objectForKey:@"profileSong"])
+        self.profileSong = [dictionary objectForKey:@"profileSong"];
+
+    if ([dictionary objectForKey:@"profileUrl"])
+        self.profileUrl = [dictionary objectForKey:@"profileUrl"];
+
+    if ([dictionary objectForKey:@"profileVideo"])
+        self.profileVideo = [dictionary objectForKey:@"profileVideo"];
+
+    if ([dictionary objectForKey:@"published"])
+        self.published = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]];
+
+    if ([dictionary objectForKey:@"quotes"])
+        self.quotes = [dictionary objectForKey:@"quotes"];
+
+    if ([dictionary objectForKey:@"relationshipStatus"])
+        self.relationshipStatus = [dictionary objectForKey:@"relationshipStatus"];
+
+    if ([dictionary objectForKey:@"relationships"])
+        self.relationships = [dictionary objectForKey:@"relationships"];
+
+    if ([dictionary objectForKey:@"religion"])
+        self.religion = [dictionary objectForKey:@"religion"];
+
+    if ([dictionary objectForKey:@"romance"])
+        self.romance = [dictionary objectForKey:@"romance"];
+
+    if ([dictionary objectForKey:@"scaredOf"])
+        self.scaredOf = [dictionary objectForKey:@"scaredOf"];
+
+    if ([dictionary objectForKey:@"sexualOrientation"])
+        self.sexualOrientation = [dictionary objectForKey:@"sexualOrientation"];
+
+    if ([dictionary objectForKey:@"smoker"])
+        self.smoker = [dictionary objectForKey:@"smoker"];
+
+    if ([dictionary objectForKey:@"sports"])
+        self.sports = [dictionary objectForKey:@"sports"];
+
+    if ([dictionary objectForKey:@"status"])
+        self.status = [dictionary objectForKey:@"status"];
+
+    if ([dictionary objectForKey:@"tags"])
+        self.tags = [dictionary objectForKey:@"tags"];
+
+    if ([dictionary objectForKey:@"turnOffs"])
+        self.turnOffs = [dictionary objectForKey:@"turnOffs"];
+
+    if ([dictionary objectForKey:@"turnOns"])
+        self.turnOns = [dictionary objectForKey:@"turnOns"];
+
+    if ([dictionary objectForKey:@"tvShows"])
+        self.tvShows = [dictionary objectForKey:@"tvShows"];
+
+    if ([dictionary objectForKey:@"updated"])
+        self.updated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]];
+
+    if ([dictionary objectForKey:@"urls"])
+        self.urls = [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsObjectsFromUrlsDictionaries];
+
+    if ([dictionary objectForKey:@"utcOffset"])
+        self.utcOffset = [dictionary objectForKey:@"utcOffset"];
+}
+
 - (void)dealloc
 {
     [aboutMe release];
