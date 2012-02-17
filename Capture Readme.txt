@@ -164,21 +164,77 @@ If this is the case, then the tokenUrlPayload dictionary will also contain a key
 
 The generated JRCaptureUser class is an Objective-C representation of a user in your Capture instance, and should map perfectly to the dictionary.  As a convenience to you, this class provides methods which serialize/deserialize a JRCaptureUser object to/from an NSDictionary. If you are interested in writing your code to work with the object and its properties, as opposed to the keys and values of an NSDictionary, you can easily do so.
 
-To deserialize the NSDictionary under the key "profile"*, 
+To deserialize the NSDictionary, under the key "profile"*, into a JRCaptureUser object, you can use the method captureUserObjectFromDictionary: 
+
+...
+
+  NSDictionary  *captureUserDictionary = [payloadDictionary objectForKey:@"profile"];
+  JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+
+...
+
+      * This key will likely change in the future to "capture_user".
 
 
+Creation Token
+--------------
 
-* This key will likely change in the future to "captureUser".
+If the tokenUrlPayload dictionary contains a creation_token, then this user has *not* been created.  
+
+Version 1.0: If this is the case, then the tokenUrlPayload dictionary will *not* contain the "profile" key* or the NSDictionary representation of a Capture user.
+Version 2.0 (coming soon): Future releases of the Capture for iOS will contain a key, "profile" or "capture_user", which is mapped to an NSDictionary representation of a Capture user.
+
+Version 1.0: It is your responsibility to map the Engage user data to the Capture user before creating a new record in your database.  Fortunately, the Capture library provides a function that makes this step very easy to do.  Unfortunately, not all of the data associated with the Engage user (merged_poco, access_credentials, etc.) is available to you.  All of this will be getting added soon, and you will no longer need to perform this step.
+
+A JRCaptureUser object _should_ have an NSArray property called "profiles", which is an array of JRProfiles objects.  A JRProfiles object _should_ have a JRProfile property called "profile".  The method [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser] takes an NSDictionary representation of the Engage user's auth_info, and creates a JRProfiles object (and JRProfile sub-object) that you can add to your JRCaptureUser object.  If this fails for any reason, the JRPRofiles object is 'nil':
+
+  JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+  JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
+
+  if (profilesObject)
+      captureUser.profiles = [NSArray arrayWithObject:profilesObject];
 
 
+Version 2.0:  As we release continue to improve mobile Capture, this step will handled by the Capture server, and a pre-populated Capture user object will be passed to your delegate method along with a creation_token.
+
+That is, the tokenUrlPayload dictionary, of the jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider: method, will contain two keys, "capture_user" and "creation_token".  The "capture_user" key will be mapped to an NSDictionary representation of a Capture user, prepopulated with all of the information (including the extended fields such as merger_poco, etc.) returned by Engage.
+
+This dictionary should map perfectly to the generated JRCaptureUser object. To deserialize the NSDictionary into a JRCaptureUser object, you can use the method captureUserObjectFromDictionary: 
+
+...
+
+  NSDictionary  *captureUserDictionary = [payloadDictionary objectForKey:@"capture_user"];
+  JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+
+...
+
+In both versions, you will still need to collect any additional information that you require and create the record in the Capture database:
+1. Create a view controller/view to collect any other infomation (i.e., a form, with native UIKit controls, and a 'done' button)
+2. When the user is done filling out the form, populate the fields of the JRCaptureUser object with the newly obtained information
+3. Pass the JRCaptureUser and the creation token to the JRCaptureInterface class to create the user
 
 
+- (IBAction)doneButtonPressed:(id)sender
+{
+    JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+    JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
 
+    if (profilesObject)
+        captureUser.profiles = [NSArray arrayWithObject:profilesObject];
 
+    captureUser.aboutMe         = myAboutMeTextView.text;
+    captureUser.birthday        = myBirthdate;
+    captureUser.currentLocation = myLocationTextView.text;
 
+    if (myGenderIdentitySegControl.selectedSegmentIndex == 0)
+        captureUser.gender = @"female";
+    else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)
+        captureUser.gender = @"male";
 
-
-
+    [JRCaptureInterface createCaptureUser:[captureUser dictionaryFromObject]
+                        withCreationToken:[[engageUser objectForKey:@"captureCredentials"] objectForKey:@"creation_token"]
+                              forDelegate:self];
+}
 
 
 

@@ -113,7 +113,6 @@ static JRCaptureInterface *singleton = nil;
 - (void)finishCreateCaptureUser:(NSString*)message
 {
     DLog(@"");
-    // blah blah blah
 
     if ([message isEqualToString:@"ok"])
     {

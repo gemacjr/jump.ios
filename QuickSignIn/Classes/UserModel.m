@@ -662,9 +662,11 @@ otherwise, this happens automatically.                                          
     else
         captureCredentials = nil;
 
-    NSDictionary *captureProfile = nil;//[payloadDict objectForKey:@"profile"];
+    NSDictionary *captureProfile = nil;
     if (captureDemo && captureAccessToken)
         captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
+
+    JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
 
 //    captureProfile = captureProfile ?
 //            [self nullWalker:captureProfile]

@@ -33,6 +33,14 @@
  Date:   Tuesday, January 31, 2012
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 #import "JRCapture.h"
 
 
@@ -159,19 +167,33 @@
 @end
 
 @implementation JRCapture
+/* Only here until the Capture server populates this field for us */
++ (NSString *)domainFromIdentifier:(NSString *)identifier
+{
+    NSURL    *url  = [NSURL URLWithString:identifier];
+    NSString *host = url.host;
+
+    if (!host)
+        return identifier;
+
+    NSArray *parts = [host componentsSeparatedByString:@"."];
+
+    if (!parts || [parts count] < 3)
+        return host;
+
+    return [NSString stringWithFormat:@"%@.%@", [parts objectAtIndex:1], [parts objectAtIndex:2]];
+}
+
 + (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo
 {
-    NSString *provider   = [[engageAuthInfo objectForKey:@"profile"] objectForKey:@"providerName"];
     NSString *identifier = [[engageAuthInfo objectForKey:@"profile"] objectForKey:@"identifier"];
-
-    // TODO: Figure out exactly what the required domain needs to be!!
-    // TODO: Do property 'coercion' for other mismatched fields
+    NSString *domain     = [self domainFromIdentifier:identifier];
 
     NSMutableDictionary *newEngageAuthInfo = nil;
-    if (provider && identifier)
+    if (domain && identifier)
     {
         newEngageAuthInfo = [NSMutableDictionary dictionaryWithDictionary:engageAuthInfo];
-        [newEngageAuthInfo setObject:provider forKey:@"domain"];
+        [newEngageAuthInfo setObject:domain forKey:@"domain"];
         [newEngageAuthInfo setObject:identifier forKey:@"identifier"];
     }
 
@@ -179,7 +201,6 @@
     SEL profilesObjectFromDictionary = NSSelectorFromString(@"profilesObjectFromDictionary:");
 
     id profilesObject = [JRProfilesClass performSelector:profilesObjectFromDictionary withObject:newEngageAuthInfo];
-    //id profilesObject = [JRProfilesClass profilesObjectFromDictionary:newEngageAuthInfo];
 
     return profilesObject;
 }
