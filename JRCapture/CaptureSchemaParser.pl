@@ -475,9 +475,15 @@ sub recursiveParse {
   ##########################################################################
   
   ##########################################################################
+  # Add the copyrights ...
+  ##########################################################################
+  my $hFile = getCopyrightHeader();
+  my $mFile = getCopyrightHeader();
+  
+  ##########################################################################
   # Add the imports ...
   ##########################################################################
-  my $hFile = "\n#import <Foundation/Foundation.h>\n#import \"JRCapture.h\"\n";
+  $hFile .= "\n#import <Foundation/Foundation.h>\n#import \"JRCapture.h\"\n";
   
   ##########################################################################
   # Add any extra imports ...
@@ -504,7 +510,7 @@ sub recursiveParse {
   ##########################################################################
   # Import the header
   ##########################################################################
-  my $mFile = "\n#import \"$className.h\"\n\n";
+  $mFile .= "\n#import \"$className.h\"\n\n";
 
   ##########################################################################
   # Add any of the array categories, if needed to parse an array of objects
