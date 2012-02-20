@@ -28,7 +28,7 @@ Copyright (c) 2010, Janrain, Inc.
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
- File:   QSIViewControllerLevel1.m
+ File:   UserListViewController.m
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

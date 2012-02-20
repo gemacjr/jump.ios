@@ -28,7 +28,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
- File:   QSIViewControllerLevel1.h
+ File:   UserListViewController.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
