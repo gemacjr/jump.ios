@@ -63,6 +63,7 @@
 @synthesize tokenUrlDelegate;
 @synthesize pendingCallToTokenUrl;
 @synthesize libraryDialogDelegate;
+@synthesize latestAccessToken;
 
 /* Singleton instance of UserModel */
 static UserModel *singleton = nil;
@@ -652,6 +653,10 @@ otherwise, this happens automatically.                                          
     NSString     *captureAccessToken   = [payloadDict objectForKey:@"access_token"];
     NSString     *captureCreationToken = [payloadDict objectForKey:@"creation_token"];
     NSDictionary *captureCredentials;
+
+    // TODO: Temp test for Cypress
+    self.latestAccessToken = captureAccessToken;
+
 
     if (captureAccessToken)
         captureCredentials = [NSDictionary dictionaryWithObject:captureAccessToken

@@ -67,6 +67,7 @@
 @property (nonatomic, retain) id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
 @property (nonatomic, retain) JRCaptureUser *captureUser;
 @property (nonatomic, copy)   NSString      *captureCreationToken;
+@property (nonatomic, copy)   NSString      *captureAccessToken;
 @property (nonatomic, copy)   NSString      *captureDomain;
 @property (nonatomic, copy)   NSString      *clientId;
 @property (nonatomic, copy)   NSString      *entityTypeName;
@@ -76,9 +77,11 @@
 @synthesize captureInterfaceDelegate;
 @synthesize captureUser;
 @synthesize captureCreationToken;
+@synthesize captureAccessToken;
 @synthesize captureDomain;
 @synthesize clientId;
 @synthesize entityTypeName;
+
 static JRCaptureInterface *singleton = nil;
 
 - (JRCaptureInterface*)init
@@ -139,19 +142,25 @@ static JRCaptureInterface *singleton = nil;
     captureInterface.entityTypeName = newEntityTypeName;
 }
 
-- (void)finishCreateCaptureUser:(NSString*)message
+typedef enum CaptureInterfaceStatEnum
+{
+    StatOk,
+    StatFail,
+} CaptureInterfaceStat;
+
+- (void)finishCreateCaptureUserWithStat:(CaptureInterfaceStat)stat andResult:(NSString*)result
 {
     DLog(@"");
 
-    if ([message isEqualToString:@"ok"])
+    if (stat == StatOk)
     {
-        if ([captureInterfaceDelegate respondsToSelector:@selector(createCaptureUserDidSucceed)])
-            [captureInterfaceDelegate createCaptureUserDidSucceed];
+        if ([captureInterfaceDelegate respondsToSelector:@selector(createCaptureUserDidSucceedWithResult:)])
+            [captureInterfaceDelegate createCaptureUserDidSucceedWithResult:result];
     }
     else
     {
-        if ([captureInterfaceDelegate respondsToSelector:@selector(createCaptureUserDidFail)])
-            [captureInterfaceDelegate createCaptureUserDidFail];
+        if ([captureInterfaceDelegate respondsToSelector:@selector(createCaptureUserDidFailWithResult:)])
+            [captureInterfaceDelegate createCaptureUserDidFailWithResult:result];
     }
 
     self.captureInterfaceDelegate = nil;
@@ -179,8 +188,58 @@ static JRCaptureInterface *singleton = nil;
                                         @"createUser", @"action",
                                         user, @"user", nil];
 
+    // TODO: Better error format
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
-        [self finishCreateCaptureUser:@"fail"];
+        [self finishCreateCaptureUserWithStat:StatFail andResult:@"url failed"];
+
+    DLog(@"request: %@, user: %@", request, attributes);
+}
+
+- (void)finishUpdateCaptureUserWithStat:(CaptureInterfaceStat)stat andResult:(NSString*)result
+{
+    DLog(@"");
+
+    if (stat == StatOk)
+    {
+        if ([captureInterfaceDelegate respondsToSelector:@selector(updateCaptureUserDidSucceedWithResult:)])
+            [captureInterfaceDelegate updateCaptureUserDidSucceedWithResult:result];
+    }
+    else
+    {
+        if ([captureInterfaceDelegate respondsToSelector:@selector(updateCaptureUserDidFailWithResult:)])
+            [captureInterfaceDelegate updateCaptureUserDidFailWithResult:result];
+    }
+
+    self.captureInterfaceDelegate = nil;
+}
+
+- (void)startUpdateCaptureUser:(NSDictionary*)user
+{
+    DLog(@"");
+
+    NSString      *attributes = [[user JSONString] URLEscaped];
+    NSMutableData *body       = [NSMutableData data];
+
+    [body appendData:[[NSString stringWithFormat:@"type_name=%@", entityTypeName] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&access_token=%@", captureAccessToken] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
+                                     [NSURL URLWithString:
+                                      [NSString stringWithFormat:@"%@/entity.update", captureDomain]]];
+
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+
+    NSDictionary *tag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"updateUser", @"action",
+                                        user, @"user", nil];
+
+    // TODO: Better error format
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
+        [self finishUpdateCaptureUserWithStat:StatFail andResult:@"url failed"];
+
+    DLog(@"request: %@, user: %@", request, attributes);
 }
 
 //+ (void)captureUserObjectFromDictionary:(NSDictionary *)dictionary
@@ -201,6 +260,18 @@ static JRCaptureInterface *singleton = nil;
     [captureInterface startCreateCaptureUser:user];
 }
 
++ (void)updateCaptureUser:(NSDictionary *)user withAccessToken:(NSString *)accessToken
+              forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
+{
+    DLog(@"");
+   JRCaptureInterface *captureInterface = [JRCaptureInterface captureInterfaceInstance];
+
+    captureInterface.captureInterfaceDelegate = delegate;
+    captureInterface.captureAccessToken       = accessToken;
+
+    [captureInterface startUpdateCaptureUser:user];
+}
+
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(NSObject*)userdata
 {
     DLog(@"%@", payload);
@@ -214,13 +285,26 @@ static JRCaptureInterface *singleton = nil;
         if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
         {
             DLog(@"Capture creation success: %@", payload);
-            [self finishCreateCaptureUser:@"ok"];
-            // TODO populate user model with result, and result of user profile query
+            [self finishCreateCaptureUserWithStat:StatOk andResult:payload];
         }
         else
         {
             DLog(@"Capture creation failure: %@", payload);
-            [self finishCreateCaptureUser:@"fail"];
+            [self finishCreateCaptureUserWithStat:StatFail andResult:payload];
+        }
+    }
+    else if ([action isEqualToString:@"updateUser"])
+    {
+        NSDictionary *response = [payload objectFromJSONString];
+        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
+        {
+            DLog(@"Capture update success: %@", payload);
+            [self finishUpdateCaptureUserWithStat:StatOk andResult:payload];
+        }
+        else
+        {
+            DLog(@"Capture update failure: %@", payload);
+            [self finishUpdateCaptureUserWithStat:StatFail andResult:payload];
         }
     }
 }
@@ -240,10 +324,16 @@ static JRCaptureInterface *singleton = nil;
     NSDictionary *tag = (NSDictionary*)userdata;
     NSString *action  = [tag objectForKey:@"action"];
 
+    // TODO: Better error format
+    NSString *result = @"connection failed";
+
     if ([action isEqualToString:@"createUser"])
     {
-        // ...
-        [self finishCreateCaptureUser:@"fail"];
+        [self finishCreateCaptureUserWithStat:StatFail andResult:result];
+    }
+    else if ([action isEqualToString:@"updateUser"])
+    {
+        [self finishUpdateCaptureUserWithStat:StatFail andResult:result];
     }
 }
 
@@ -258,6 +348,7 @@ static JRCaptureInterface *singleton = nil;
     [clientId release];
     [captureDomain release];
     [entityTypeName release];
+    [captureAccessToken release];
     [super dealloc];
 }
 

@@ -288,7 +288,6 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-
 }
 
 - (void)didReceiveMemoryWarning

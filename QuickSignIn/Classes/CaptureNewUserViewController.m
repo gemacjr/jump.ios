@@ -160,9 +160,35 @@
     [self setFirstResponder:nil];
 }
 
+- (void)updateUser
+{
+    JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+
+    captureUser.aboutMe  = myAboutMeTextView.text;
+    captureUser.birthday = myBirthdate;
+    captureUser.currentLocation = myLocationTextView.text;
+
+    if (myGenderIdentitySegControl.selectedSegmentIndex == 0)
+        captureUser.gender = @"female";
+    else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)
+        captureUser.gender = @"male";
+
+    captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
+
+    [JRCaptureInterface updateCaptureUser:[captureUser dictionaryFromObject]
+                          withAccessToken:[[UserModel getUserModel] latestAccessToken]
+                              forDelegate:self];
+}
+
 - (IBAction)doneButtonPressed:(id)sender
 {
     DLog(@"engageUser: %@", [engageUser description]);
+
+    if ([[UserModel getUserModel] latestAccessToken])
+    {
+        [self updateUser];
+        return;
+    }
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
 
@@ -214,8 +240,9 @@
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView { return YES; }
 
 
-- (void)createCaptureUserDidSucceed
+- (void)createCaptureUserDidSucceedWithResult:(NSString *)result
 {
+    DLog(@"%@", result);
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Success"
                                                      message:@"Profile created"
                                                     delegate:nil
@@ -226,14 +253,37 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != 0) [[self navigationController] popViewControllerAnimated:YES];
-}
-
-- (void)createCaptureUserDidFail
+- (void)createCaptureUserDidFailWithResult:(NSString *)result
 {
+    DLog(@"%@", result);
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Failure"
                                                      message:@"Profile not created"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"Dismiss"
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Success"
+                                                     message:@"Profile updated"
+                                                    delegate:nil
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:@"OK", nil] autorelease];
+    [alert show];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)updateCaptureUserDidFailWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Failure"
+                                                     message:@"Profile not updated"
                                                     delegate:nil
                                            cancelButtonTitle:@"Dismiss"
                                            otherButtonTitles:nil] autorelease];

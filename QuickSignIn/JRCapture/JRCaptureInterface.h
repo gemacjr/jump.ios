@@ -38,8 +38,10 @@
 
 @protocol JRCaptureInterfaceDelegate <NSObject>
 @optional
-- (void)createCaptureUserDidSucceed;
-- (void)createCaptureUserDidFail;
+- (void)createCaptureUserDidSucceedWithResult:(NSString *)result;
+- (void)createCaptureUserDidFailWithResult:(NSString *)result;
+- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result;
+- (void)updateCaptureUserDidFailWithResult:(NSString *)result;
 @end
 
 @interface JRCaptureInterface : NSObject <JRConnectionManagerDelegate>
@@ -53,4 +55,6 @@
 + (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
               forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
 + (NSString *)captureMobileEndpointUrl;
++ (void)updateCaptureUser:(NSDictionary *)user withAccessToken:(NSString *)accessToken
+              forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
 @end

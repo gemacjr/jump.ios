@@ -127,6 +127,9 @@
 @property (retain)   NSMutableDictionary *customInterface;
 @property (retain)   UINavigationController *navigationController;
 
+// TODO: Temp test for Cypress
+@property (retain) NSString *latestAccessToken;
+
 /* This is a dictionary of dictionaries, where each dictionary represents the
    full profile returned by the token URL on http://jrauthenticate.appspot.com/login.
    Each time a new user is signed in, an entry is added to the userProfiles
