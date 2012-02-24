@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JRCaptureInterface.h"
+#import "JREngage.h"
+#import "JREngage+CustomInterface.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <JREngageDelegate>
 - (IBAction)browseButtonPressed:(id)sender;
 - (IBAction)updateButtonPressed:(id)sender;
 - (IBAction)deleteButtonPressed:(id)sender;
 - (IBAction)signInButtonPressed:(id)sender;
+
+@property (weak) IBOutlet UILabel *currentUserLabel;
+@property (weak) IBOutlet UIImageView *currentUserProviderIcon;
 @end
