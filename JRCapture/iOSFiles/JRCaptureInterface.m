@@ -298,13 +298,13 @@ typedef enum CaptureInterfaceStatEnum
 
     if (stat == StatOk)
     {
-        if ([captureInterfaceDelegate respondsToSelector:@selector(getCaptureEntityDidSucceedWithResult:)])
-            [captureInterfaceDelegate getCaptureEntityDidSucceedWithResult:result];
+        if ([captureInterfaceDelegate respondsToSelector:@selector(getCaptureUserDidSucceedWithResult:)])
+            [captureInterfaceDelegate getCaptureUserDidSucceedWithResult:result];
     }
     else
     {
-        if ([captureInterfaceDelegate respondsToSelector:@selector(getCaptureEntityDidFailWithResult:)])
-            [captureInterfaceDelegate getCaptureEntityDidFailWithResult:result];
+        if ([captureInterfaceDelegate respondsToSelector:@selector(getCaptureUserDidFailWithResult:)])
+            [captureInterfaceDelegate getCaptureUserDidFailWithResult:result];
     }
 
     self.captureInterfaceDelegate = nil;
