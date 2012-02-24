@@ -226,6 +226,16 @@ sub recursiveParse {
     my $propertyName = $propertyHash{"name"};
     my $propertyType = $propertyHash{"type"};
 
+
+    ######################################################
+    # Make sure the property name isn't an ObjC keyword
+    ######################################################
+    if ($propertyName eq "id") {
+        $propertyName = $objectName . ucfirst($propertyName);
+    }
+    
+    # TODO: Check for other keywords!
+
     ######################################################
     # Initialize property attributes to default values
     ######################################################
@@ -360,7 +370,6 @@ sub recursiveParse {
       
       if ($repeatNamesHash{$propertyName}) {
         $propertyName = $objectName . ucfirst($propertyName);
-        print "$propertyName REEEEEEEEEEEPEAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
       }
       
       $objectiveType = "JR" . ucfirst($propertyName) . " *";
