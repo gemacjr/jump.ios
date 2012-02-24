@@ -72,6 +72,14 @@ my $IS_NOT_PLURAL_TYPE = 0;
 my %hFiles = ();
 my %mFiles = ();
 
+############################################
+# HASH TO KEEP TRACK OF OBJECT NAMES
+############################################
+my %repeatNamesHash = ();
+
+############################################
+# HELPER METHODS
+############################################
 sub isAnArrayOfStrings {
   my $arrayRef    = $_[0];
   my @attrDefsArr = @$arrayRef;
@@ -143,7 +151,8 @@ sub recursiveParse {
   my $objectName = $_[0];
   my $arrRef     = $_[1];
 
-
+  $repeatNamesHash{$objectName} = 1;
+  
   ################################################
   # Dereference the list of properties
   ################################################
@@ -328,6 +337,11 @@ sub recursiveParse {
         $propertyNotes = "/* This is an array of strings */";      
         
       } else {
+        
+        if ($repeatNamesHash{$propertyName}) {
+          $propertyName = $objectName . ucfirst($propertyName);
+        }
+        
         $extraImportsSection    .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
         $arrayCategoriesSection .= createArrayCategoryForSubobject ($propertyName);
         $toDictionary  = "[$propertyName arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
@@ -343,7 +357,12 @@ sub recursiveParse {
     # OBJECT (DICTIONARY)
     # If the property is an object itself, recurse on the sub-object's 'attr_defs'
     ##########################################################################
-  
+      
+      if ($repeatNamesHash{$propertyName}) {
+        $propertyName = $objectName . ucfirst($propertyName);
+        print "$propertyName REEEEEEEEEEEPEAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+      }
+      
       $objectiveType = "JR" . ucfirst($propertyName) . " *";
       $toDictionary  = "[$propertyName dictionaryFromObject]";
       $frDictionary  = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $propertyName . "\"]]";
@@ -353,9 +372,9 @@ sub recursiveParse {
       recursiveParse ($propertyName, $propertyAttrDefsRef);
 
     } else {
-    ##################
-    # JUST MAKE IT A STRING
-    ##################
+    ################################
+    # OTHER - JUST MAKE IT A STRING
+    ################################
       $objectiveType = "NSString *";
     }
 
