@@ -354,9 +354,9 @@ sub recursiveParse {
 
     } else {
     ##################
-    # ERROR
+    # JUST MAKE IT A STRING
     ##################
-      print "PROPERTY TYPE NOT BEING CAUGHT: " . $propertyName . "\n";
+      $objectiveType = "NSString *";
     }
 
 
