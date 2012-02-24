@@ -85,6 +85,87 @@
 }
 @end
 
+@interface NSArray (BooksToFromDictionary)
+- (NSArray*)arrayOfBooksDictionariesFromBooksObjects;
+- (NSArray*)arrayOfBooksObjectsFromBooksDictionaries;
+@end
+
+@implementation NSArray (BooksToFromDictionary)
+- (NSArray*)arrayOfBooksDictionariesFromBooksObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRBooks class]])
+            [filteredDictionaryArray addObject:[(JRBooks*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfBooksObjectsFromBooksDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRBooks booksObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (CarsToFromDictionary)
+- (NSArray*)arrayOfCarsDictionariesFromCarsObjects;
+- (NSArray*)arrayOfCarsObjectsFromCarsDictionaries;
+@end
+
+@implementation NSArray (CarsToFromDictionary)
+- (NSArray*)arrayOfCarsDictionariesFromCarsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRCars class]])
+            [filteredDictionaryArray addObject:[(JRCars*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfCarsObjectsFromCarsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRCars carsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (ChildrenToFromDictionary)
+- (NSArray*)arrayOfChildrenDictionariesFromChildrenObjects;
+- (NSArray*)arrayOfChildrenObjectsFromChildrenDictionaries;
+@end
+
+@implementation NSArray (ChildrenToFromDictionary)
+- (NSArray*)arrayOfChildrenDictionariesFromChildrenObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRChildren class]])
+            [filteredDictionaryArray addObject:[(JRChildren*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfChildrenObjectsFromChildrenDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRChildren childrenObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
 @interface NSArray (EmailsToFromDictionary)
 - (NSArray*)arrayOfEmailsDictionariesFromEmailsObjects;
 - (NSArray*)arrayOfEmailsObjectsFromEmailsDictionaries;
@@ -107,6 +188,60 @@
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
             [filteredDictionaryArray addObject:[JREmails emailsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (FoodToFromDictionary)
+- (NSArray*)arrayOfFoodDictionariesFromFoodObjects;
+- (NSArray*)arrayOfFoodObjectsFromFoodDictionaries;
+@end
+
+@implementation NSArray (FoodToFromDictionary)
+- (NSArray*)arrayOfFoodDictionariesFromFoodObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRFood class]])
+            [filteredDictionaryArray addObject:[(JRFood*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfFoodObjectsFromFoodDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRFood foodObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (HeroesToFromDictionary)
+- (NSArray*)arrayOfHeroesDictionariesFromHeroesObjects;
+- (NSArray*)arrayOfHeroesObjectsFromHeroesDictionaries;
+@end
+
+@implementation NSArray (HeroesToFromDictionary)
+- (NSArray*)arrayOfHeroesDictionariesFromHeroesObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRHeroes class]])
+            [filteredDictionaryArray addObject:[(JRHeroes*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfHeroesObjectsFromHeroesDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRHeroes heroesObjectFromDictionary:(NSDictionary*)dictionary]];
 
     return filteredDictionaryArray;
 }
@@ -139,6 +274,195 @@
 }
 @end
 
+@interface NSArray (InterestsToFromDictionary)
+- (NSArray*)arrayOfInterestsDictionariesFromInterestsObjects;
+- (NSArray*)arrayOfInterestsObjectsFromInterestsDictionaries;
+@end
+
+@implementation NSArray (InterestsToFromDictionary)
+- (NSArray*)arrayOfInterestsDictionariesFromInterestsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRInterests class]])
+            [filteredDictionaryArray addObject:[(JRInterests*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfInterestsObjectsFromInterestsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRInterests interestsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (JobInterestsToFromDictionary)
+- (NSArray*)arrayOfJobInterestsDictionariesFromJobInterestsObjects;
+- (NSArray*)arrayOfJobInterestsObjectsFromJobInterestsDictionaries;
+@end
+
+@implementation NSArray (JobInterestsToFromDictionary)
+- (NSArray*)arrayOfJobInterestsDictionariesFromJobInterestsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRJobInterests class]])
+            [filteredDictionaryArray addObject:[(JRJobInterests*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfJobInterestsObjectsFromJobInterestsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRJobInterests jobInterestsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (LanguagesToFromDictionary)
+- (NSArray*)arrayOfLanguagesDictionariesFromLanguagesObjects;
+- (NSArray*)arrayOfLanguagesObjectsFromLanguagesDictionaries;
+@end
+
+@implementation NSArray (LanguagesToFromDictionary)
+- (NSArray*)arrayOfLanguagesDictionariesFromLanguagesObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRLanguages class]])
+            [filteredDictionaryArray addObject:[(JRLanguages*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfLanguagesObjectsFromLanguagesDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRLanguages languagesObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (LanguagesSpokenToFromDictionary)
+- (NSArray*)arrayOfLanguagesSpokenDictionariesFromLanguagesSpokenObjects;
+- (NSArray*)arrayOfLanguagesSpokenObjectsFromLanguagesSpokenDictionaries;
+@end
+
+@implementation NSArray (LanguagesSpokenToFromDictionary)
+- (NSArray*)arrayOfLanguagesSpokenDictionariesFromLanguagesSpokenObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRLanguagesSpoken class]])
+            [filteredDictionaryArray addObject:[(JRLanguagesSpoken*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfLanguagesSpokenObjectsFromLanguagesSpokenDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRLanguagesSpoken languagesSpokenObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (LookingForToFromDictionary)
+- (NSArray*)arrayOfLookingForDictionariesFromLookingForObjects;
+- (NSArray*)arrayOfLookingForObjectsFromLookingForDictionaries;
+@end
+
+@implementation NSArray (LookingForToFromDictionary)
+- (NSArray*)arrayOfLookingForDictionariesFromLookingForObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRLookingFor class]])
+            [filteredDictionaryArray addObject:[(JRLookingFor*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfLookingForObjectsFromLookingForDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRLookingFor lookingForObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (MoviesToFromDictionary)
+- (NSArray*)arrayOfMoviesDictionariesFromMoviesObjects;
+- (NSArray*)arrayOfMoviesObjectsFromMoviesDictionaries;
+@end
+
+@implementation NSArray (MoviesToFromDictionary)
+- (NSArray*)arrayOfMoviesDictionariesFromMoviesObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRMovies class]])
+            [filteredDictionaryArray addObject:[(JRMovies*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfMoviesObjectsFromMoviesDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRMovies moviesObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (MusicToFromDictionary)
+- (NSArray*)arrayOfMusicDictionariesFromMusicObjects;
+- (NSArray*)arrayOfMusicObjectsFromMusicDictionaries;
+@end
+
+@implementation NSArray (MusicToFromDictionary)
+- (NSArray*)arrayOfMusicDictionariesFromMusicObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRMusic class]])
+            [filteredDictionaryArray addObject:[(JRMusic*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfMusicObjectsFromMusicDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRMusic musicObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
 @interface NSArray (OrganizationsToFromDictionary)
 - (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsObjects;
 - (NSArray*)arrayOfOrganizationsObjectsFromOrganizationsDictionaries;
@@ -161,6 +485,33 @@
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
             [filteredDictionaryArray addObject:[JROrganizations organizationsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (PetsToFromDictionary)
+- (NSArray*)arrayOfPetsDictionariesFromPetsObjects;
+- (NSArray*)arrayOfPetsObjectsFromPetsDictionaries;
+@end
+
+@implementation NSArray (PetsToFromDictionary)
+- (NSArray*)arrayOfPetsDictionariesFromPetsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRPets class]])
+            [filteredDictionaryArray addObject:[(JRPets*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPetsObjectsFromPetsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRPets petsObjectFromDictionary:(NSDictionary*)dictionary]];
 
     return filteredDictionaryArray;
 }
@@ -193,28 +544,217 @@
 }
 @end
 
-@interface NSArray (PhotosToFromDictionary)
-- (NSArray*)arrayOfPhotosDictionariesFromPhotosObjects;
-- (NSArray*)arrayOfPhotosObjectsFromPhotosDictionaries;
+@interface NSArray (ProfilePhotosToFromDictionary)
+- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosObjects;
+- (NSArray*)arrayOfProfilePhotosObjectsFromProfilePhotosDictionaries;
 @end
 
-@implementation NSArray (PhotosToFromDictionary)
-- (NSArray*)arrayOfPhotosDictionariesFromPhotosObjects
+@implementation NSArray (ProfilePhotosToFromDictionary)
+- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosObjects
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRPhotos class]])
-            [filteredDictionaryArray addObject:[(JRPhotos*)object dictionaryFromObject]];
+        if ([object isKindOfClass:[JRProfilePhotos class]])
+            [filteredDictionaryArray addObject:[(JRProfilePhotos*)object dictionaryFromObject]];
 
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPhotosObjectsFromPhotosDictionaries
+- (NSArray*)arrayOfProfilePhotosObjectsFromProfilePhotosDictionaries
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredDictionaryArray addObject:[JRPhotos photosObjectFromDictionary:(NSDictionary*)dictionary]];
+            [filteredDictionaryArray addObject:[JRProfilePhotos profilePhotosObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (QuotesToFromDictionary)
+- (NSArray*)arrayOfQuotesDictionariesFromQuotesObjects;
+- (NSArray*)arrayOfQuotesObjectsFromQuotesDictionaries;
+@end
+
+@implementation NSArray (QuotesToFromDictionary)
+- (NSArray*)arrayOfQuotesDictionariesFromQuotesObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRQuotes class]])
+            [filteredDictionaryArray addObject:[(JRQuotes*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfQuotesObjectsFromQuotesDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRQuotes quotesObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (RelationshipsToFromDictionary)
+- (NSArray*)arrayOfRelationshipsDictionariesFromRelationshipsObjects;
+- (NSArray*)arrayOfRelationshipsObjectsFromRelationshipsDictionaries;
+@end
+
+@implementation NSArray (RelationshipsToFromDictionary)
+- (NSArray*)arrayOfRelationshipsDictionariesFromRelationshipsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRRelationships class]])
+            [filteredDictionaryArray addObject:[(JRRelationships*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfRelationshipsObjectsFromRelationshipsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRRelationships relationshipsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (SportsToFromDictionary)
+- (NSArray*)arrayOfSportsDictionariesFromSportsObjects;
+- (NSArray*)arrayOfSportsObjectsFromSportsDictionaries;
+@end
+
+@implementation NSArray (SportsToFromDictionary)
+- (NSArray*)arrayOfSportsDictionariesFromSportsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRSports class]])
+            [filteredDictionaryArray addObject:[(JRSports*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfSportsObjectsFromSportsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRSports sportsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (TagsToFromDictionary)
+- (NSArray*)arrayOfTagsDictionariesFromTagsObjects;
+- (NSArray*)arrayOfTagsObjectsFromTagsDictionaries;
+@end
+
+@implementation NSArray (TagsToFromDictionary)
+- (NSArray*)arrayOfTagsDictionariesFromTagsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRTags class]])
+            [filteredDictionaryArray addObject:[(JRTags*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfTagsObjectsFromTagsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRTags tagsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (TurnOffsToFromDictionary)
+- (NSArray*)arrayOfTurnOffsDictionariesFromTurnOffsObjects;
+- (NSArray*)arrayOfTurnOffsObjectsFromTurnOffsDictionaries;
+@end
+
+@implementation NSArray (TurnOffsToFromDictionary)
+- (NSArray*)arrayOfTurnOffsDictionariesFromTurnOffsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRTurnOffs class]])
+            [filteredDictionaryArray addObject:[(JRTurnOffs*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfTurnOffsObjectsFromTurnOffsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRTurnOffs turnOffsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (TurnOnsToFromDictionary)
+- (NSArray*)arrayOfTurnOnsDictionariesFromTurnOnsObjects;
+- (NSArray*)arrayOfTurnOnsObjectsFromTurnOnsDictionaries;
+@end
+
+@implementation NSArray (TurnOnsToFromDictionary)
+- (NSArray*)arrayOfTurnOnsDictionariesFromTurnOnsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRTurnOns class]])
+            [filteredDictionaryArray addObject:[(JRTurnOns*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfTurnOnsObjectsFromTurnOnsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRTurnOns turnOnsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (TvShowsToFromDictionary)
+- (NSArray*)arrayOfTvShowsDictionariesFromTvShowsObjects;
+- (NSArray*)arrayOfTvShowsObjectsFromTvShowsDictionaries;
+@end
+
+@implementation NSArray (TvShowsToFromDictionary)
+- (NSArray*)arrayOfTvShowsDictionariesFromTvShowsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRTvShows class]])
+            [filteredDictionaryArray addObject:[(JRTvShows*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfTvShowsObjectsFromTvShowsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRTvShows tvShowsObjectFromDictionary:(NSDictionary*)dictionary]];
 
     return filteredDictionaryArray;
 }
@@ -284,7 +824,7 @@
 @synthesize organizations;
 @synthesize pets;
 @synthesize phoneNumbers;
-@synthesize photos;
+@synthesize profilePhotos;
 @synthesize politicalViews;
 @synthesize preferredUsername;
 @synthesize profileSong;
@@ -363,7 +903,7 @@
     profileCopy.organizations = self.organizations;
     profileCopy.pets = self.pets;
     profileCopy.phoneNumbers = self.phoneNumbers;
-    profileCopy.photos = self.photos;
+    profileCopy.profilePhotos = self.profilePhotos;
     profileCopy.politicalViews = self.politicalViews;
     profileCopy.preferredUsername = self.preferredUsername;
     profileCopy.profileSong = self.profileSong;
@@ -402,57 +942,57 @@
     profile.anniversary = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]];
     profile.birthday = [dictionary objectForKey:@"birthday"];
     profile.bodyType = [JRBodyType bodyTypeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"bodyType"]];
-    profile.books = [dictionary objectForKey:@"books"];
-    profile.cars = [dictionary objectForKey:@"cars"];
-    profile.children = [dictionary objectForKey:@"children"];
+    profile.books = [(NSArray*)[dictionary objectForKey:@"books"] arrayOfBooksObjectsFromBooksDictionaries];
+    profile.cars = [(NSArray*)[dictionary objectForKey:@"cars"] arrayOfCarsObjectsFromCarsDictionaries];
+    profile.children = [(NSArray*)[dictionary objectForKey:@"children"] arrayOfChildrenObjectsFromChildrenDictionaries];
     profile.currentLocation = [JRCurrentLocation currentLocationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"currentLocation"]];
     profile.displayName = [dictionary objectForKey:@"displayName"];
     profile.drinker = [dictionary objectForKey:@"drinker"];
     profile.emails = [(NSArray*)[dictionary objectForKey:@"emails"] arrayOfEmailsObjectsFromEmailsDictionaries];
     profile.ethnicity = [dictionary objectForKey:@"ethnicity"];
     profile.fashion = [dictionary objectForKey:@"fashion"];
-    profile.food = [dictionary objectForKey:@"food"];
+    profile.food = [(NSArray*)[dictionary objectForKey:@"food"] arrayOfFoodObjectsFromFoodDictionaries];
     profile.gender = [dictionary objectForKey:@"gender"];
     profile.happiestWhen = [dictionary objectForKey:@"happiestWhen"];
-    profile.heroes = [dictionary objectForKey:@"heroes"];
+    profile.heroes = [(NSArray*)[dictionary objectForKey:@"heroes"] arrayOfHeroesObjectsFromHeroesDictionaries];
     profile.humor = [dictionary objectForKey:@"humor"];
     profile.ims = [(NSArray*)[dictionary objectForKey:@"ims"] arrayOfImsObjectsFromImsDictionaries];
     profile.interestedInMeeting = [dictionary objectForKey:@"interestedInMeeting"];
-    profile.interests = [dictionary objectForKey:@"interests"];
-    profile.jobInterests = [dictionary objectForKey:@"jobInterests"];
-    profile.languages = [dictionary objectForKey:@"languages"];
-    profile.languagesSpoken = [dictionary objectForKey:@"languagesSpoken"];
+    profile.interests = [(NSArray*)[dictionary objectForKey:@"interests"] arrayOfInterestsObjectsFromInterestsDictionaries];
+    profile.jobInterests = [(NSArray*)[dictionary objectForKey:@"jobInterests"] arrayOfJobInterestsObjectsFromJobInterestsDictionaries];
+    profile.languages = [(NSArray*)[dictionary objectForKey:@"languages"] arrayOfLanguagesObjectsFromLanguagesDictionaries];
+    profile.languagesSpoken = [(NSArray*)[dictionary objectForKey:@"languagesSpoken"] arrayOfLanguagesSpokenObjectsFromLanguagesSpokenDictionaries];
     profile.livingArrangement = [dictionary objectForKey:@"livingArrangement"];
-    profile.lookingFor = [dictionary objectForKey:@"lookingFor"];
-    profile.movies = [dictionary objectForKey:@"movies"];
-    profile.music = [dictionary objectForKey:@"music"];
+    profile.lookingFor = [(NSArray*)[dictionary objectForKey:@"lookingFor"] arrayOfLookingForObjectsFromLookingForDictionaries];
+    profile.movies = [(NSArray*)[dictionary objectForKey:@"movies"] arrayOfMoviesObjectsFromMoviesDictionaries];
+    profile.music = [(NSArray*)[dictionary objectForKey:@"music"] arrayOfMusicObjectsFromMusicDictionaries];
     profile.name = [JRName nameObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"name"]];
     profile.nickname = [dictionary objectForKey:@"nickname"];
     profile.note = [dictionary objectForKey:@"note"];
     profile.organizations = [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsObjectsFromOrganizationsDictionaries];
-    profile.pets = [dictionary objectForKey:@"pets"];
+    profile.pets = [(NSArray*)[dictionary objectForKey:@"pets"] arrayOfPetsObjectsFromPetsDictionaries];
     profile.phoneNumbers = [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersObjectsFromPhoneNumbersDictionaries];
-    profile.photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
+    profile.profilePhotos = [(NSArray*)[dictionary objectForKey:@"profilePhotos"] arrayOfProfilePhotosObjectsFromProfilePhotosDictionaries];
     profile.politicalViews = [dictionary objectForKey:@"politicalViews"];
     profile.preferredUsername = [dictionary objectForKey:@"preferredUsername"];
     profile.profileSong = [dictionary objectForKey:@"profileSong"];
     profile.profileUrl = [dictionary objectForKey:@"profileUrl"];
     profile.profileVideo = [dictionary objectForKey:@"profileVideo"];
     profile.published = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]];
-    profile.quotes = [dictionary objectForKey:@"quotes"];
+    profile.quotes = [(NSArray*)[dictionary objectForKey:@"quotes"] arrayOfQuotesObjectsFromQuotesDictionaries];
     profile.relationshipStatus = [dictionary objectForKey:@"relationshipStatus"];
-    profile.relationships = [dictionary objectForKey:@"relationships"];
+    profile.relationships = [(NSArray*)[dictionary objectForKey:@"relationships"] arrayOfRelationshipsObjectsFromRelationshipsDictionaries];
     profile.religion = [dictionary objectForKey:@"religion"];
     profile.romance = [dictionary objectForKey:@"romance"];
     profile.scaredOf = [dictionary objectForKey:@"scaredOf"];
     profile.sexualOrientation = [dictionary objectForKey:@"sexualOrientation"];
     profile.smoker = [dictionary objectForKey:@"smoker"];
-    profile.sports = [dictionary objectForKey:@"sports"];
+    profile.sports = [(NSArray*)[dictionary objectForKey:@"sports"] arrayOfSportsObjectsFromSportsDictionaries];
     profile.status = [dictionary objectForKey:@"status"];
-    profile.tags = [dictionary objectForKey:@"tags"];
-    profile.turnOffs = [dictionary objectForKey:@"turnOffs"];
-    profile.turnOns = [dictionary objectForKey:@"turnOns"];
-    profile.tvShows = [dictionary objectForKey:@"tvShows"];
+    profile.tags = [(NSArray*)[dictionary objectForKey:@"tags"] arrayOfTagsObjectsFromTagsDictionaries];
+    profile.turnOffs = [(NSArray*)[dictionary objectForKey:@"turnOffs"] arrayOfTurnOffsObjectsFromTurnOffsDictionaries];
+    profile.turnOns = [(NSArray*)[dictionary objectForKey:@"turnOns"] arrayOfTurnOnsObjectsFromTurnOnsDictionaries];
+    profile.tvShows = [(NSArray*)[dictionary objectForKey:@"tvShows"] arrayOfTvShowsObjectsFromTvShowsDictionaries];
     profile.updated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]];
     profile.urls = [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsObjectsFromUrlsDictionaries];
     profile.utcOffset = [dictionary objectForKey:@"utcOffset"];
@@ -484,13 +1024,13 @@
         [dict setObject:[bodyType dictionaryFromObject] forKey:@"bodyType"];
 
     if (books)
-        [dict setObject:books forKey:@"books"];
+        [dict setObject:[books arrayOfBooksDictionariesFromBooksObjects] forKey:@"books"];
 
     if (cars)
-        [dict setObject:cars forKey:@"cars"];
+        [dict setObject:[cars arrayOfCarsDictionariesFromCarsObjects] forKey:@"cars"];
 
     if (children)
-        [dict setObject:children forKey:@"children"];
+        [dict setObject:[children arrayOfChildrenDictionariesFromChildrenObjects] forKey:@"children"];
 
     if (currentLocation)
         [dict setObject:[currentLocation dictionaryFromObject] forKey:@"currentLocation"];
@@ -511,7 +1051,7 @@
         [dict setObject:fashion forKey:@"fashion"];
 
     if (food)
-        [dict setObject:food forKey:@"food"];
+        [dict setObject:[food arrayOfFoodDictionariesFromFoodObjects] forKey:@"food"];
 
     if (gender)
         [dict setObject:gender forKey:@"gender"];
@@ -520,7 +1060,7 @@
         [dict setObject:happiestWhen forKey:@"happiestWhen"];
 
     if (heroes)
-        [dict setObject:heroes forKey:@"heroes"];
+        [dict setObject:[heroes arrayOfHeroesDictionariesFromHeroesObjects] forKey:@"heroes"];
 
     if (humor)
         [dict setObject:humor forKey:@"humor"];
@@ -532,28 +1072,28 @@
         [dict setObject:interestedInMeeting forKey:@"interestedInMeeting"];
 
     if (interests)
-        [dict setObject:interests forKey:@"interests"];
+        [dict setObject:[interests arrayOfInterestsDictionariesFromInterestsObjects] forKey:@"interests"];
 
     if (jobInterests)
-        [dict setObject:jobInterests forKey:@"jobInterests"];
+        [dict setObject:[jobInterests arrayOfJobInterestsDictionariesFromJobInterestsObjects] forKey:@"jobInterests"];
 
     if (languages)
-        [dict setObject:languages forKey:@"languages"];
+        [dict setObject:[languages arrayOfLanguagesDictionariesFromLanguagesObjects] forKey:@"languages"];
 
     if (languagesSpoken)
-        [dict setObject:languagesSpoken forKey:@"languagesSpoken"];
+        [dict setObject:[languagesSpoken arrayOfLanguagesSpokenDictionariesFromLanguagesSpokenObjects] forKey:@"languagesSpoken"];
 
     if (livingArrangement)
         [dict setObject:livingArrangement forKey:@"livingArrangement"];
 
     if (lookingFor)
-        [dict setObject:lookingFor forKey:@"lookingFor"];
+        [dict setObject:[lookingFor arrayOfLookingForDictionariesFromLookingForObjects] forKey:@"lookingFor"];
 
     if (movies)
-        [dict setObject:movies forKey:@"movies"];
+        [dict setObject:[movies arrayOfMoviesDictionariesFromMoviesObjects] forKey:@"movies"];
 
     if (music)
-        [dict setObject:music forKey:@"music"];
+        [dict setObject:[music arrayOfMusicDictionariesFromMusicObjects] forKey:@"music"];
 
     if (name)
         [dict setObject:[name dictionaryFromObject] forKey:@"name"];
@@ -568,13 +1108,13 @@
         [dict setObject:[organizations arrayOfOrganizationsDictionariesFromOrganizationsObjects] forKey:@"organizations"];
 
     if (pets)
-        [dict setObject:pets forKey:@"pets"];
+        [dict setObject:[pets arrayOfPetsDictionariesFromPetsObjects] forKey:@"pets"];
 
     if (phoneNumbers)
         [dict setObject:[phoneNumbers arrayOfPhoneNumbersDictionariesFromPhoneNumbersObjects] forKey:@"phoneNumbers"];
 
-    if (photos)
-        [dict setObject:[photos arrayOfPhotosDictionariesFromPhotosObjects] forKey:@"photos"];
+    if (profilePhotos)
+        [dict setObject:[profilePhotos arrayOfProfilePhotosDictionariesFromProfilePhotosObjects] forKey:@"profilePhotos"];
 
     if (politicalViews)
         [dict setObject:politicalViews forKey:@"politicalViews"];
@@ -595,13 +1135,13 @@
         [dict setObject:[published stringFromISO8601DateTime] forKey:@"published"];
 
     if (quotes)
-        [dict setObject:quotes forKey:@"quotes"];
+        [dict setObject:[quotes arrayOfQuotesDictionariesFromQuotesObjects] forKey:@"quotes"];
 
     if (relationshipStatus)
         [dict setObject:relationshipStatus forKey:@"relationshipStatus"];
 
     if (relationships)
-        [dict setObject:relationships forKey:@"relationships"];
+        [dict setObject:[relationships arrayOfRelationshipsDictionariesFromRelationshipsObjects] forKey:@"relationships"];
 
     if (religion)
         [dict setObject:religion forKey:@"religion"];
@@ -619,22 +1159,22 @@
         [dict setObject:smoker forKey:@"smoker"];
 
     if (sports)
-        [dict setObject:sports forKey:@"sports"];
+        [dict setObject:[sports arrayOfSportsDictionariesFromSportsObjects] forKey:@"sports"];
 
     if (status)
         [dict setObject:status forKey:@"status"];
 
     if (tags)
-        [dict setObject:tags forKey:@"tags"];
+        [dict setObject:[tags arrayOfTagsDictionariesFromTagsObjects] forKey:@"tags"];
 
     if (turnOffs)
-        [dict setObject:turnOffs forKey:@"turnOffs"];
+        [dict setObject:[turnOffs arrayOfTurnOffsDictionariesFromTurnOffsObjects] forKey:@"turnOffs"];
 
     if (turnOns)
-        [dict setObject:turnOns forKey:@"turnOns"];
+        [dict setObject:[turnOns arrayOfTurnOnsDictionariesFromTurnOnsObjects] forKey:@"turnOns"];
 
     if (tvShows)
-        [dict setObject:tvShows forKey:@"tvShows"];
+        [dict setObject:[tvShows arrayOfTvShowsDictionariesFromTvShowsObjects] forKey:@"tvShows"];
 
     if (updated)
         [dict setObject:[updated stringFromISO8601DateTime] forKey:@"updated"];
@@ -669,13 +1209,13 @@
         self.bodyType = [JRBodyType bodyTypeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"bodyType"]];
 
     if ([dictionary objectForKey:@"books"])
-        self.books = [dictionary objectForKey:@"books"];
+        self.books = [(NSArray*)[dictionary objectForKey:@"books"] arrayOfBooksObjectsFromBooksDictionaries];
 
     if ([dictionary objectForKey:@"cars"])
-        self.cars = [dictionary objectForKey:@"cars"];
+        self.cars = [(NSArray*)[dictionary objectForKey:@"cars"] arrayOfCarsObjectsFromCarsDictionaries];
 
     if ([dictionary objectForKey:@"children"])
-        self.children = [dictionary objectForKey:@"children"];
+        self.children = [(NSArray*)[dictionary objectForKey:@"children"] arrayOfChildrenObjectsFromChildrenDictionaries];
 
     if ([dictionary objectForKey:@"currentLocation"])
         self.currentLocation = [JRCurrentLocation currentLocationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"currentLocation"]];
@@ -696,7 +1236,7 @@
         self.fashion = [dictionary objectForKey:@"fashion"];
 
     if ([dictionary objectForKey:@"food"])
-        self.food = [dictionary objectForKey:@"food"];
+        self.food = [(NSArray*)[dictionary objectForKey:@"food"] arrayOfFoodObjectsFromFoodDictionaries];
 
     if ([dictionary objectForKey:@"gender"])
         self.gender = [dictionary objectForKey:@"gender"];
@@ -705,7 +1245,7 @@
         self.happiestWhen = [dictionary objectForKey:@"happiestWhen"];
 
     if ([dictionary objectForKey:@"heroes"])
-        self.heroes = [dictionary objectForKey:@"heroes"];
+        self.heroes = [(NSArray*)[dictionary objectForKey:@"heroes"] arrayOfHeroesObjectsFromHeroesDictionaries];
 
     if ([dictionary objectForKey:@"humor"])
         self.humor = [dictionary objectForKey:@"humor"];
@@ -717,28 +1257,28 @@
         self.interestedInMeeting = [dictionary objectForKey:@"interestedInMeeting"];
 
     if ([dictionary objectForKey:@"interests"])
-        self.interests = [dictionary objectForKey:@"interests"];
+        self.interests = [(NSArray*)[dictionary objectForKey:@"interests"] arrayOfInterestsObjectsFromInterestsDictionaries];
 
     if ([dictionary objectForKey:@"jobInterests"])
-        self.jobInterests = [dictionary objectForKey:@"jobInterests"];
+        self.jobInterests = [(NSArray*)[dictionary objectForKey:@"jobInterests"] arrayOfJobInterestsObjectsFromJobInterestsDictionaries];
 
     if ([dictionary objectForKey:@"languages"])
-        self.languages = [dictionary objectForKey:@"languages"];
+        self.languages = [(NSArray*)[dictionary objectForKey:@"languages"] arrayOfLanguagesObjectsFromLanguagesDictionaries];
 
     if ([dictionary objectForKey:@"languagesSpoken"])
-        self.languagesSpoken = [dictionary objectForKey:@"languagesSpoken"];
+        self.languagesSpoken = [(NSArray*)[dictionary objectForKey:@"languagesSpoken"] arrayOfLanguagesSpokenObjectsFromLanguagesSpokenDictionaries];
 
     if ([dictionary objectForKey:@"livingArrangement"])
         self.livingArrangement = [dictionary objectForKey:@"livingArrangement"];
 
     if ([dictionary objectForKey:@"lookingFor"])
-        self.lookingFor = [dictionary objectForKey:@"lookingFor"];
+        self.lookingFor = [(NSArray*)[dictionary objectForKey:@"lookingFor"] arrayOfLookingForObjectsFromLookingForDictionaries];
 
     if ([dictionary objectForKey:@"movies"])
-        self.movies = [dictionary objectForKey:@"movies"];
+        self.movies = [(NSArray*)[dictionary objectForKey:@"movies"] arrayOfMoviesObjectsFromMoviesDictionaries];
 
     if ([dictionary objectForKey:@"music"])
-        self.music = [dictionary objectForKey:@"music"];
+        self.music = [(NSArray*)[dictionary objectForKey:@"music"] arrayOfMusicObjectsFromMusicDictionaries];
 
     if ([dictionary objectForKey:@"name"])
         self.name = [JRName nameObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"name"]];
@@ -753,13 +1293,13 @@
         self.organizations = [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsObjectsFromOrganizationsDictionaries];
 
     if ([dictionary objectForKey:@"pets"])
-        self.pets = [dictionary objectForKey:@"pets"];
+        self.pets = [(NSArray*)[dictionary objectForKey:@"pets"] arrayOfPetsObjectsFromPetsDictionaries];
 
     if ([dictionary objectForKey:@"phoneNumbers"])
         self.phoneNumbers = [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersObjectsFromPhoneNumbersDictionaries];
 
-    if ([dictionary objectForKey:@"photos"])
-        self.photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
+    if ([dictionary objectForKey:@"profilePhotos"])
+        self.profilePhotos = [(NSArray*)[dictionary objectForKey:@"profilePhotos"] arrayOfProfilePhotosObjectsFromProfilePhotosDictionaries];
 
     if ([dictionary objectForKey:@"politicalViews"])
         self.politicalViews = [dictionary objectForKey:@"politicalViews"];
@@ -780,13 +1320,13 @@
         self.published = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]];
 
     if ([dictionary objectForKey:@"quotes"])
-        self.quotes = [dictionary objectForKey:@"quotes"];
+        self.quotes = [(NSArray*)[dictionary objectForKey:@"quotes"] arrayOfQuotesObjectsFromQuotesDictionaries];
 
     if ([dictionary objectForKey:@"relationshipStatus"])
         self.relationshipStatus = [dictionary objectForKey:@"relationshipStatus"];
 
     if ([dictionary objectForKey:@"relationships"])
-        self.relationships = [dictionary objectForKey:@"relationships"];
+        self.relationships = [(NSArray*)[dictionary objectForKey:@"relationships"] arrayOfRelationshipsObjectsFromRelationshipsDictionaries];
 
     if ([dictionary objectForKey:@"religion"])
         self.religion = [dictionary objectForKey:@"religion"];
@@ -804,22 +1344,22 @@
         self.smoker = [dictionary objectForKey:@"smoker"];
 
     if ([dictionary objectForKey:@"sports"])
-        self.sports = [dictionary objectForKey:@"sports"];
+        self.sports = [(NSArray*)[dictionary objectForKey:@"sports"] arrayOfSportsObjectsFromSportsDictionaries];
 
     if ([dictionary objectForKey:@"status"])
         self.status = [dictionary objectForKey:@"status"];
 
     if ([dictionary objectForKey:@"tags"])
-        self.tags = [dictionary objectForKey:@"tags"];
+        self.tags = [(NSArray*)[dictionary objectForKey:@"tags"] arrayOfTagsObjectsFromTagsDictionaries];
 
     if ([dictionary objectForKey:@"turnOffs"])
-        self.turnOffs = [dictionary objectForKey:@"turnOffs"];
+        self.turnOffs = [(NSArray*)[dictionary objectForKey:@"turnOffs"] arrayOfTurnOffsObjectsFromTurnOffsDictionaries];
 
     if ([dictionary objectForKey:@"turnOns"])
-        self.turnOns = [dictionary objectForKey:@"turnOns"];
+        self.turnOns = [(NSArray*)[dictionary objectForKey:@"turnOns"] arrayOfTurnOnsObjectsFromTurnOnsDictionaries];
 
     if ([dictionary objectForKey:@"tvShows"])
-        self.tvShows = [dictionary objectForKey:@"tvShows"];
+        self.tvShows = [(NSArray*)[dictionary objectForKey:@"tvShows"] arrayOfTvShowsObjectsFromTvShowsDictionaries];
 
     if ([dictionary objectForKey:@"updated"])
         self.updated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]];
@@ -869,7 +1409,7 @@
     [organizations release];
     [pets release];
     [phoneNumbers release];
-    [photos release];
+    [profilePhotos release];
     [politicalViews release];
     [preferredUsername release];
     [profileSong release];

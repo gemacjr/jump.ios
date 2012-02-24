@@ -32,6 +32,7 @@
 #import "JREmails.h"
 
 @implementation JREmails
+@synthesize emailsId;
 @synthesize primary;
 @synthesize type;
 @synthesize value;
@@ -54,6 +55,7 @@
     JREmails *emailsCopy =
                 [[JREmails allocWithZone:zone] init];
 
+    emailsCopy.emailsId = self.emailsId;
     emailsCopy.primary = self.primary;
     emailsCopy.type = self.type;
     emailsCopy.value = self.value;
@@ -66,6 +68,7 @@
     JREmails *emails =
         [JREmails emails];
 
+    emails.emailsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     emails.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
     emails.type = [dictionary objectForKey:@"type"];
     emails.value = [dictionary objectForKey:@"value"];
@@ -77,6 +80,9 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
+
+    if (emailsId)
+        [dict setObject:[NSNumber numberWithInt:emailsId] forKey:@"id"];
 
     if (primary)
         [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
@@ -92,6 +98,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"emailsId"])
+        self.emailsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"primary"])
         self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
 

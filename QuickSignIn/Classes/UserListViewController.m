@@ -495,24 +495,25 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (IBAction)signOutButtonPressed:(id)sender
 {
-//#ifdef LILLI
-    [self clearSelectedProfile];
 
-    if ([[UserModel getUserModel] currentUser])
-    {
-        myNotSignedInLabel.text = @"You are not currently signed in.";
-        [[UserModel getUserModel] startSignUserOut:self];
-    }
-    else
-    {
-        [[self navigationController] popToRootViewControllerAnimated:YES];
-    }
+    // TODO: Temporarily here for testing
+    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
+                                                                  bundle:[NSBundle mainBundle]] autorelease];
 
-//#else
-//  [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySignOut:) userInfo:nil repeats:NO];
-//  [[self navigationController] popToRootViewControllerAnimated:YES];
-//#endif
+    [self.navigationController pushViewController:viewController animated:YES];
+    // TODO: Remove when done
 
+//    [self clearSelectedProfile];
+//
+//    if ([[UserModel getUserModel] currentUser])
+//    {
+//        myNotSignedInLabel.text = @"You are not currently signed in.";
+//        [[UserModel getUserModel] startSignUserOut:self];
+//    }
+//    else
+//    {
+//        [[self navigationController] popToRootViewControllerAnimated:YES];
+//    }
 }
 
 - (void)userDidSignIn

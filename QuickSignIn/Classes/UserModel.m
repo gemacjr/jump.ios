@@ -624,7 +624,7 @@ otherwise, this happens automatically.                                          
     }
     else
     {
-        ALog(@"Unrecognized stucture: @%", [structure description]);
+        ALog(@"Unrecognized stucture: %@", [structure description]);
         return nil;
         // TODO: Better error handling
         //exit(1);
@@ -643,7 +643,7 @@ otherwise, this happens automatically.                                          
 
     if (!payloadDict)
     {
-        ALog(@"Unable to parse token URL response: @%", payload);
+        ALog(@"Unable to parse token URL response: %@", payload);
         [self finishSignUserIn:authInfo]; // call this to keep avoid missing data in user registry
         return;
         // TODO: Better error handling (Add a GOTO)

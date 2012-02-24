@@ -33,6 +33,7 @@
 #import "JRCapture.h"
 
 @interface JRAddresses : NSObject <NSCopying, JRJsonifying>
+@property                   NSInteger addressesId;
 @property (nonatomic, copy) NSString *country;  
 @property (nonatomic, copy) NSString *extendedAddress;  
 @property (nonatomic, copy) NSString *formatted;  

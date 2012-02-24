@@ -32,6 +32,7 @@
 #import "JRAccounts.h"
 
 @implementation JRAccounts
+@synthesize accountsId;
 @synthesize domain;
 @synthesize primary;
 @synthesize userid;
@@ -55,6 +56,7 @@
     JRAccounts *accountsCopy =
                 [[JRAccounts allocWithZone:zone] init];
 
+    accountsCopy.accountsId = self.accountsId;
     accountsCopy.domain = self.domain;
     accountsCopy.primary = self.primary;
     accountsCopy.userid = self.userid;
@@ -68,6 +70,7 @@
     JRAccounts *accounts =
         [JRAccounts accounts];
 
+    accounts.accountsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     accounts.domain = [dictionary objectForKey:@"domain"];
     accounts.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
     accounts.userid = [dictionary objectForKey:@"userid"];
@@ -80,6 +83,9 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
+
+    if (accountsId)
+        [dict setObject:[NSNumber numberWithInt:accountsId] forKey:@"id"];
 
     if (domain)
         [dict setObject:domain forKey:@"domain"];
@@ -98,6 +104,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"accountsId"])
+        self.accountsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"domain"])
         self.domain = [dictionary objectForKey:@"domain"];
 

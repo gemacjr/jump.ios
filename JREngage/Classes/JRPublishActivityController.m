@@ -1669,7 +1669,7 @@ Please try again later."
     }
 }
 
-- (void)connectionWasStoppedWithTag:(void*)userdata { }
+- (void)connectionWasStoppedWithTag:(NSObject *)userdata { }
 
 - (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)activity
 {

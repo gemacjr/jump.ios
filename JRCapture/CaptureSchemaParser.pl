@@ -226,15 +226,10 @@ sub recursiveParse {
     my $propertyName = $propertyHash{"name"};
     my $propertyType = $propertyHash{"type"};
 
+    ######################################################
+    # TODO: Check for other keywords!!!!
+    ######################################################
 
-    ######################################################
-    # Make sure the property name isn't an ObjC keyword
-    ######################################################
-    if ($propertyName eq "id") {
-        $propertyName = $objectName . ucfirst($propertyName);
-    }
-    
-    # TODO: Check for other keywords!
 
     ######################################################
     # Initialize property attributes to default values
@@ -243,8 +238,9 @@ sub recursiveParse {
     my $toDictionary  = $propertyName; # Default operation is to just stick the NSObject into an NSMutableDictionary
     my $frDictionary  =                # Default operation is to just pull the NSObject from the dictionary and stick it into the property
           "[dictionary objectForKey:\@\"$propertyName\"]";
-    my $isBooleanType = 0;             # If it's a boolean, we do things differently
+    my $isNotNSObject = 0;             # If it's a boolean or integer, we don't retain/release, etc.
     my $isArrayType   = 0;             # If it's an array (plural), we do things differently
+    my $isIdName      = 0;             # If the name of the property is 'id', we also do things differently
     my $propertyNotes = "";            # Comment that provides more infomation if necessary for a property 
                                        # (e.g., in the case of an array of objects versus and array of strings)
     
@@ -273,17 +269,20 @@ sub recursiveParse {
     ##################
     # BOOLEAN
     ##################
-      $isBooleanType = 1;
+      $isNotNSObject = 1;
       $objectiveType = "BOOL";
-      $toDictionary = "[NSNumber numberWithBool:$propertyName]";
-      $frDictionary = "[(NSNumber*)[dictionary objectForKey:\@\"$propertyName\"] boolValue]";
+      $toDictionary  = "[NSNumber numberWithBool:$propertyName]";
+      $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"$propertyName\"] boolValue]";
 
     } elsif ($propertyType eq "integer") {
     ##################
     # INTEGER
     ##################
-      $objectiveType = "NSNumber *";
-
+      $isNotNSObject = 1;
+      $objectiveType = "NSInteger";
+      $toDictionary  = "[NSNumber numberWithInt:$propertyName]";
+      $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"$propertyName\"] intValue]";
+      
     } elsif ($propertyType eq "decimal") {
     ##################
     # NUMBER
@@ -380,14 +379,29 @@ sub recursiveParse {
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
       recursiveParse ($propertyName, $propertyAttrDefsRef);
 
+    } elsif ($propertyType eq "id") {
+    ##########################################################################
+    # ID
+    # If the property is type 'id' and has the name 'id', change the property
+    # name to compile in ObjC
+    ##########################################################################
+
+      if ($propertyName eq "id") {
+          $propertyName = $objectName . ucfirst($propertyName);
+          $isIdName = 1;
+      }      
+      
+      $isNotNSObject = 1;
+      $objectiveType = "NSInteger";
+      $toDictionary  = "[NSNumber numberWithInt:$propertyName]";
+      $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"id\"] intValue]";
+
     } else {
     ################################
     # OTHER - JUST MAKE IT A STRING
     ################################
       $objectiveType = "NSString *";
     }
-
-
 
     ##########################################################################
     # Now, to take the property, and add it to all those function's in the 
@@ -454,8 +468,17 @@ sub recursiveParse {
       # e.g., foo = [newFoo copy];
       $constructorSection[8] .= "        " . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
       
-      # e.g., [dict setObject:foo forKey:@"foo"];
-      $makeDictionarySection[3] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
+      ##########################################################################
+      # Object ids needs to be serialized/deserialized with the key 'id', even 
+      # though that's not what the propertyName is
+      ##########################################################################
+      if ($isIdName) {
+        # e.g., [dict setObject:fooId forKey:@"id"];
+        $makeDictionarySection[3] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"id\"];\n";
+      } else {
+        # e.g., [dict setObject:foo forKey:@"foo"];
+        $makeDictionarySection[3] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
+      }
       
     } else {
     ######################################################
@@ -465,8 +488,17 @@ sub recursiveParse {
       # e.g., if (baz)
       $makeDictionarySection[4] .= "\n    if (" . $propertyName . ")\n";
 
-      # e.g., [dict setObject:baz forKey:@"baz"];
-      $makeDictionarySection[4] .= "        [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
+      ##########################################################################
+      # Object ids needs to be serialized/deserialized with the key 'id', even 
+      # though that's not what the propertyName is
+      ##########################################################################
+      if ($isIdName) {
+        # e.g., [dict setObject:baz forKey:@"baz"];
+        $makeDictionarySection[4] .= "        [dict setObject:" . $toDictionary . " forKey:\@\"id\"];\n";
+      } else {
+        # e.g., [dict setObject:baz forKey:@"baz"];
+        $makeDictionarySection[4] .= "        [dict setObject:" . $toDictionary . " forKey:\@\"" . $propertyName . "\"];\n";
+      }      
       
       # e.g., objCopy.baz = self.baz;
       $copyConstructorSection[6] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
@@ -483,7 +515,7 @@ sub recursiveParse {
       $updateObjectSection[2] .= "\n    if ([dictionary objectForKey:\@\"" . $propertyName . "\"])";
       $updateObjectSection[2] .= "\n        self." . $propertyName . " = " . $frDictionary . ";\n";
       
-    if ($isBooleanType) {
+    if ($isNotNSObject == 1) {
       $propertiesSection    .= "\@property                   $objectiveType $propertyName;\n";
       $synthesizeSection    .= "\@synthesize $propertyName;\n";    
     } else {

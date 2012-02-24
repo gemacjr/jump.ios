@@ -164,6 +164,8 @@
 {
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
 
+//    JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
+
     captureUser.aboutMe  = myAboutMeTextView.text;
     captureUser.birthday = myBirthdate;
     captureUser.currentLocation = myLocationTextView.text;
@@ -174,6 +176,19 @@
         captureUser.gender = @"male";
 
     captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
+
+//    JRBooks *book1 = [JRBooks books];
+//    book1.book = @"fdadfafszadfas";
+//    book1.booksId = 178808;
+//
+//    JRBooks *book2 = [JRBooks books];
+//    book2.book = @"bar";
+
+//    profilesObject.profile.books = [NSArray arrayWithObjects:book1, book2, nil];
+//    profilesObject.profilesId = 174721;
+
+//    if (profilesObject)
+//        captureUser.profiles = [NSArray arrayWithObject:profilesObject];
 
     [JRCaptureInterface updateCaptureUser:[captureUser dictionaryFromObject]
                           withAccessToken:[[UserModel getUserModel] latestAccessToken]
@@ -204,6 +219,16 @@
     captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
 
     JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
+
+    JRBooks *book1 = [JRBooks books];
+    book1.book = @"foo";
+//    book1.booksId = [NSNumber numberWithInt:1];
+
+    JRBooks *book2 = [JRBooks books];
+    book2.book = @"bar";
+//    book2.booksId = [NSNumber numberWithInt:2];
+
+    profilesObject.profile.books = [NSArray arrayWithObjects:book1, book2, nil];
 
     if (profilesObject)
         captureUser.profiles = [NSArray arrayWithObject:profilesObject];

@@ -32,6 +32,7 @@
 #import "JRStatuses.h"
 
 @implementation JRStatuses
+@synthesize statusesId;
 @synthesize status;
 @synthesize statusCreated;
 
@@ -53,6 +54,7 @@
     JRStatuses *statusesCopy =
                 [[JRStatuses allocWithZone:zone] init];
 
+    statusesCopy.statusesId = self.statusesId;
     statusesCopy.status = self.status;
     statusesCopy.statusCreated = self.statusCreated;
 
@@ -64,6 +66,7 @@
     JRStatuses *statuses =
         [JRStatuses statuses];
 
+    statuses.statusesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     statuses.status = [dictionary objectForKey:@"status"];
     statuses.statusCreated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]];
 
@@ -74,6 +77,9 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
+
+    if (statusesId)
+        [dict setObject:[NSNumber numberWithInt:statusesId] forKey:@"id"];
 
     if (status)
         [dict setObject:status forKey:@"status"];
@@ -86,6 +92,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"statusesId"])
+        self.statusesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"status"])
         self.status = [dictionary objectForKey:@"status"];
 

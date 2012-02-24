@@ -32,6 +32,7 @@
 #import "JRPhoneNumbers.h"
 
 @implementation JRPhoneNumbers
+@synthesize phoneNumbersId;
 @synthesize primary;
 @synthesize type;
 @synthesize value;
@@ -54,6 +55,7 @@
     JRPhoneNumbers *phoneNumbersCopy =
                 [[JRPhoneNumbers allocWithZone:zone] init];
 
+    phoneNumbersCopy.phoneNumbersId = self.phoneNumbersId;
     phoneNumbersCopy.primary = self.primary;
     phoneNumbersCopy.type = self.type;
     phoneNumbersCopy.value = self.value;
@@ -66,6 +68,7 @@
     JRPhoneNumbers *phoneNumbers =
         [JRPhoneNumbers phoneNumbers];
 
+    phoneNumbers.phoneNumbersId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     phoneNumbers.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
     phoneNumbers.type = [dictionary objectForKey:@"type"];
     phoneNumbers.value = [dictionary objectForKey:@"value"];
@@ -77,6 +80,9 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
+
+    if (phoneNumbersId)
+        [dict setObject:[NSNumber numberWithInt:phoneNumbersId] forKey:@"id"];
 
     if (primary)
         [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
@@ -92,6 +98,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"phoneNumbersId"])
+        self.phoneNumbersId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"primary"])
         self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
 

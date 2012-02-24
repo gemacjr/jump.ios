@@ -33,7 +33,7 @@
 #import "JRCapture.h"
 
 @interface JRPhotos : NSObject <NSCopying, JRJsonifying>
-@property                   BOOL primary;
+@property                   NSInteger photosId;
 @property (nonatomic, copy) NSString *type;  
 @property (nonatomic, copy) NSString *value;  
 - (id)init;

@@ -192,7 +192,7 @@ typedef enum CaptureInterfaceStatEnum
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
         [self finishCreateCaptureUserWithStat:StatFail andResult:@"url failed"];
 
-    DLog(@"request: %@, user: %@", request, attributes);
+    DLog(@"request: %@, user: %@", request, [user JSONString]);
 }
 
 - (void)finishUpdateCaptureUserWithStat:(CaptureInterfaceStat)stat andResult:(NSString*)result
@@ -239,7 +239,7 @@ typedef enum CaptureInterfaceStatEnum
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
         [self finishUpdateCaptureUserWithStat:StatFail andResult:@"url failed"];
 
-    DLog(@"request: %@, user: %@", request, attributes);
+    DLog(@"request: %@, user: %@", request, [user JSONString]);
 }
 
 //+ (void)captureUserObjectFromDictionary:(NSDictionary *)dictionary

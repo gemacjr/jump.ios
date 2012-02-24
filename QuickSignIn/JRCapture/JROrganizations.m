@@ -32,6 +32,7 @@
 #import "JROrganizations.h"
 
 @implementation JROrganizations
+@synthesize organizationsId;
 @synthesize department;
 @synthesize description;
 @synthesize endDate;
@@ -60,6 +61,7 @@
     JROrganizations *organizationsCopy =
                 [[JROrganizations allocWithZone:zone] init];
 
+    organizationsCopy.organizationsId = self.organizationsId;
     organizationsCopy.department = self.department;
     organizationsCopy.description = self.description;
     organizationsCopy.endDate = self.endDate;
@@ -78,6 +80,7 @@
     JROrganizations *organizations =
         [JROrganizations organizations];
 
+    organizations.organizationsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     organizations.department = [dictionary objectForKey:@"department"];
     organizations.description = [dictionary objectForKey:@"description"];
     organizations.endDate = [dictionary objectForKey:@"endDate"];
@@ -95,6 +98,9 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
+
+    if (organizationsId)
+        [dict setObject:[NSNumber numberWithInt:organizationsId] forKey:@"id"];
 
     if (department)
         [dict setObject:department forKey:@"department"];
@@ -128,6 +134,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"organizationsId"])
+        self.organizationsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"department"])
         self.department = [dictionary objectForKey:@"department"];
 

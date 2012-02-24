@@ -33,6 +33,7 @@
 #import "JRCapture.h"
 
 @interface JRUrls : NSObject <NSCopying, JRJsonifying>
+@property                   NSInteger urlsId;
 @property                   BOOL primary;
 @property (nonatomic, copy) NSString *type;  
 @property (nonatomic, copy) NSString *value;  

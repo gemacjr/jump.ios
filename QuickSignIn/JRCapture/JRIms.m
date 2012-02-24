@@ -32,6 +32,7 @@
 #import "JRIms.h"
 
 @implementation JRIms
+@synthesize imsId;
 @synthesize primary;
 @synthesize type;
 @synthesize value;
@@ -54,6 +55,7 @@
     JRIms *imsCopy =
                 [[JRIms allocWithZone:zone] init];
 
+    imsCopy.imsId = self.imsId;
     imsCopy.primary = self.primary;
     imsCopy.type = self.type;
     imsCopy.value = self.value;
@@ -66,6 +68,7 @@
     JRIms *ims =
         [JRIms ims];
 
+    ims.imsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     ims.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
     ims.type = [dictionary objectForKey:@"type"];
     ims.value = [dictionary objectForKey:@"value"];
@@ -77,6 +80,9 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
+
+    if (imsId)
+        [dict setObject:[NSNumber numberWithInt:imsId] forKey:@"id"];
 
     if (primary)
         [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
@@ -92,6 +98,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"imsId"])
+        self.imsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"primary"])
         self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
 

@@ -33,6 +33,7 @@
 #import "JRCapture.h"
 
 @interface JRAccounts : NSObject <NSCopying, JRJsonifying>
+@property                   NSInteger accountsId;
 @property (nonatomic, copy) NSString *domain;  
 @property                   BOOL primary;
 @property (nonatomic, copy) NSString *userid;  
