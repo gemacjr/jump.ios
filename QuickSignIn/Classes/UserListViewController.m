@@ -33,6 +33,14 @@ Copyright (c) 2010, Janrain, Inc.
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 #import "UserListViewController.h"
 #import "CaptureNewUserViewController.h"
 
@@ -497,10 +505,18 @@ Copyright (c) 2010, Janrain, Inc.
 {
 
     // TODO: Temporarily here for testing
-    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
-                                                                  bundle:[NSBundle mainBundle]] autorelease];
+//    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
+//                                                                  bundle:[NSBundle mainBundle]] autorelease];
+//
+//    [self.navigationController pushViewController:viewController animated:YES];
 
-    [self.navigationController pushViewController:viewController animated:YES];
+    [JRCaptureInterface getCaptureEntityNamed:@"profiles"
+                                 withEntityId:174721
+                               andAccessToken:[[UserModel getUserModel] latestAccessToken]
+                                  forDelegate:self];
+
+    [JRCaptureInterface getCaptureUserWithAccessToken:[[UserModel getUserModel] latestAccessToken]
+                                          forDelegate:self];
     // TODO: Remove when done
 
 //    [self clearSelectedProfile];
@@ -515,6 +531,27 @@ Copyright (c) 2010, Janrain, Inc.
 //        [[self navigationController] popToRootViewControllerAnimated:YES];
 //    }
 }
+
+- (void)updateCaptureUserDidFailWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+}
+
+- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+}
+
+- (void)getCaptureUserDidSucceedWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+}
+
+- (void)getCaptureUserDidFailWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+}
+
 
 - (void)userDidSignIn
 {

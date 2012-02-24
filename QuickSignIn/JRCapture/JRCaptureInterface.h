@@ -42,6 +42,10 @@
 - (void)createCaptureUserDidFailWithResult:(NSString *)result;
 - (void)updateCaptureUserDidSucceedWithResult:(NSString *)result;
 - (void)updateCaptureUserDidFailWithResult:(NSString *)result;
+- (void)getCaptureEntityDidSucceedWithResult:(NSString *)result;
+- (void)getCaptureEntityDidFailWithResult:(NSString *)result;
+- (void)getCaptureUserDidSucceedWithResult:(NSString *)result;
+- (void)getCaptureUserDidFailWithResult:(NSString *)result;
 @end
 
 @interface JRCaptureInterface : NSObject <JRConnectionManagerDelegate>
@@ -52,9 +56,14 @@
 }
 + (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
        andEntityTypeName:(NSString *)newEntityTypeName;
++ (NSString *)captureMobileEndpointUrl;
+
 + (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
               forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
-+ (NSString *)captureMobileEndpointUrl;
 + (void)updateCaptureUser:(NSDictionary *)user withAccessToken:(NSString *)accessToken
               forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
++ (void)getCaptureEntityNamed:(NSString *)entityName withEntityId:(NSInteger)entityId
+               andAccessToken:(NSString *)accessToken forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
++ (void)getCaptureUserWithAccessToken:(NSString *)accessToken
+                          forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
 @end
