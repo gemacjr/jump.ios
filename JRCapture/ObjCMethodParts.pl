@@ -206,6 +206,45 @@ my @upFrDictionaryParts = (
 "}\n\n");
 
 
+# ###################################################################
+# # - (void)encodeWithCoder:(NSCoder*)coder
+# # {
+# #     [coder encode<encodeMethod>:self.<property> forKey:@"<property>"];
+# #       ...
+# # }
+# ###################################################################
+# 
+# my @encoderParts = (
+# "- (void)encodeWithCoder:(NSCoder*)coder",
+# "\n{",
+# "",
+# "}\n\n");
+# 
+# 
+# ###################################################################
+# # - (id)initWithCoder:(NSCoder*)coder
+# # {
+# #     if (self != nil)
+# #     {
+# #         self.<property> = [coder decode<decodeMethod>ForKey:@"<property>"];
+# #           ...
+# #     }
+# #
+# #     return self;
+# # }
+# ###################################################################
+# 
+# my @decoderParts = (
+# " - (id)initWithCoder:(NSCoder*)coder",
+# "\n{\n",
+# "     if (self != nil)\n",
+# "     {\n",
+# "",
+# "     }\n",
+# "}\n\n");
+# );
+
+
 ###################################################################
 # DESTRUCTOR
 #
@@ -310,6 +349,14 @@ sub getFromDictionaryParts {
 sub getUpFromDictionaryParts {
   return @upFrDictionaryParts;
 }
+
+# sub getEncoderParts {
+#   return @encoderParts;
+# }
+# 
+# sub getDecoderParts {
+#   return @decoderParts;
+# }
 
 sub getDestructorParts {
   return @destructorParts;

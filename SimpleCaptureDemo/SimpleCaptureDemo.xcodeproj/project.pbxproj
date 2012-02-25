@@ -235,6 +235,7 @@
 		9FD2B6BF14F8387100053EA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6BE14F8387100053EA2 /* Security.framework */; };
 		9FD2B6C114F8387B00053EA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6C014F8387B00053EA2 /* MessageUI.framework */; };
 		9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EA3 /* SharedData.m */; };
+		9FD2B6C114F8387B00053EA7 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EA6 /* JRCaptureUser+Extras.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -540,6 +541,8 @@
 		9FD2B6C014F8387B00053EA2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9FD2B6C114F8387B00053EA3 /* SharedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedData.m; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EA5 /* SharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedData.h; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053EA6 /* JRCaptureUser+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRCaptureUser+Extras.m"; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053EA8 /* JRCaptureUser+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRCaptureUser+Extras.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -650,6 +653,8 @@
 		9FD2B44814F8366500053EA2 /* JRCapture */ = {
 			isa = PBXGroup;
 			children = (
+				9FD2B6C114F8387B00053EA8 /* JRCaptureUser+Extras.h */,
+				9FD2B6C114F8387B00053EA6 /* JRCaptureUser+Extras.m */,
 				9FD2B63D14F8380F00053EA2 /* JRAccounts.h */,
 				9FD2B63E14F8380F00053EA2 /* JRAccounts.m */,
 				9FD2B63F14F8380F00053EA2 /* JRAddresses.h */,
@@ -1389,6 +1394,7 @@
 				9FD2B6BC14F8380F00053EA2 /* JRTvShows.m in Sources */,
 				9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */,
 				9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */,
+				9FD2B6C114F8387B00053EA7 /* JRCaptureUser+Extras.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
