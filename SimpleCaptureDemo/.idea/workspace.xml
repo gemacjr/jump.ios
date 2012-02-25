@@ -26,7 +26,25 @@
       <file leaf-file-name="ViewController.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="40" selection-start="2539" selection-end="2539" vertical-scroll-proportion="0.0">
+            <state line="74" column="0" selection-start="1913" selection-end="1913" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SharedData.m" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="97" column="0" selection-start="2571" selection-end="2618" vertical-scroll-proportion="0.4916318">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SharedData.h" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="29" column="119" selection-start="927" selection-end="1048" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -41,10 +59,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JRCaptureUser.m" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="JRCaptureUser.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="210" column="17" selection-start="8634" selection-end="8654" vertical-scroll-proportion="0.3359116">
+            <state line="220" column="0" selection-start="8902" selection-end="8902" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -53,7 +71,7 @@
       <file leaf-file-name="UserModel.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../QuickSignIn/Classes/UserModel.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="598" column="51" selection-start="23670" selection-end="23670" vertical-scroll-proportion="0.0">
+            <state line="68" column="0" selection-start="2673" selection-end="2673" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -62,7 +80,7 @@
       <file leaf-file-name="ViewController.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="49" selection-start="607" selection-end="607" vertical-scroll-proportion="0.0">
+            <state line="13" column="0" selection-start="290" selection-end="290" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -82,15 +100,17 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h" />
         <option value="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.h" />
         <option value="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m" />
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1920" />
-    <option name="height" value="1054" />
+    <option name="width" value="1440" />
+    <option name="height" value="874" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -145,49 +165,22 @@
               <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodePBXReferenceNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SimpleCaptureDemo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JREngage" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodePBXReferenceNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SimpleCaptureDemo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JRCapture" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodePBXReferenceNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors" />
     <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../QuickSignIn/Classes" />
-    <property name="MemberChooser.showClasses" value="true" />
-    <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="OBJC.PRESERVED_TARGET_SELECTION" value="" />
+    <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
   </component>
@@ -223,18 +216,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
+    <frame x="0" y="22" width="1440" height="874" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891247" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12177122" sideWeight="0.6702356" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16302046" sideWeight="0.6710875" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32891247" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -296,20 +289,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="49" selection-start="607" selection-end="607" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="40" selection-start="2539" selection-end="2539" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.h">
       <provider selected="true" editor-type-id="text-editor">
         <state line="63" column="55" selection-start="3322" selection-end="3322" vertical-scroll-proportion="0.0">
@@ -317,16 +296,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../QuickSignIn/Classes/UserModel.m">
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="598" column="51" selection-start="23670" selection-end="23670" vertical-scroll-proportion="0.0">
+        <state line="220" column="0" selection-start="8902" selection-end="8902" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.m">
+    <entry file="file://$PROJECT_DIR$/../QuickSignIn/Classes/UserModel.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="210" column="17" selection-start="8634" selection-end="8654" vertical-scroll-proportion="0.3359116">
+        <state line="68" column="0" selection-start="2673" selection-end="2673" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="0" selection-start="290" selection-end="290" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="119" selection-start="927" selection-end="1048" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="0" selection-start="1913" selection-end="1913" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="0" selection-start="2571" selection-end="2618" vertical-scroll-proportion="0.4916318">
           <folding />
         </state>
       </provider>

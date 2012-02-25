@@ -234,6 +234,7 @@
 		9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B69214F8380F00053EA2 /* JRUrls.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6BF14F8387100053EA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6BE14F8387100053EA2 /* Security.framework */; };
 		9FD2B6C114F8387B00053EA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6C014F8387B00053EA2 /* MessageUI.framework */; };
+		9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EA3 /* SharedData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -537,6 +538,8 @@
 		9FD2B69214F8380F00053EA2 /* JRUrls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRUrls.m; path = JRCapture/iOS/JRCapture/JRUrls.m; sourceTree = "<group>"; };
 		9FD2B6BE14F8387100053EA2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9FD2B6C014F8387B00053EA2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		9FD2B6C114F8387B00053EA3 /* SharedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedData.m; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053EA5 /* SharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedData.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -602,6 +605,8 @@
 		90C36B6B7717AA0C893E08EF /* SimpleCaptureDemo */ = {
 			isa = PBXGroup;
 			children = (
+				9FD2B6C114F8387B00053EA5 /* SharedData.h */,
+				9FD2B6C114F8387B00053EA3 /* SharedData.m */,
 				90C36B6B7717AA0C893E08FF /* ViewController.m */,
 				90C36B6B7717AA0C893E08FE /* ViewController.h */,
 				90C36B6B7717AA0C893E08FC /* MainStoryboard.storyboard */,
@@ -1383,6 +1388,7 @@
 				9FD2B6BB14F8380F00053EA2 /* JRTurnOns.m in Sources */,
 				9FD2B6BC14F8380F00053EA2 /* JRTvShows.m in Sources */,
 				9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */,
+				9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

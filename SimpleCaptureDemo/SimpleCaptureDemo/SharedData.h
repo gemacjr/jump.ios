@@ -1,0 +1,32 @@
+//
+//  Created by lillialexis on 2/25/12.
+//
+// To change the template use AppCode | Preferences | File Templates.
+//
+
+
+#import <Foundation/Foundation.h>
+#import "JRCaptureInterface.h"
+#import "JRCaptureUser.h"
+#import "JREngage.h"
+
+@protocol SignInDelegate <NSObject>
+@optional
+- (void)engageSignInDidSucceed;
+- (void)engageSignInDidFailWithError:(NSError *)error;
+- (void)captureSignInDidSucceed;
+- (void)captureSignInDidFailWithError:(NSError *)error;
+@end
+
+@interface SharedData : NSObject <JREngageDelegate>
+@property (strong) NSMutableDictionary *engageUser;
+@property (strong) JRCaptureUser       *captureUser;
+@property (strong) NSString            *accessToken;
+@property (strong) NSString            *creationToken;
+@property (strong) NSString            *currentDisplayName;
+@property (strong) NSString            *currentProvider;
+@property (weak)   id<SignInDelegate>   signInDelegate;
++ (SharedData *)sharedData;
+- (void)startAuthenticationWithCustomInterface:(NSDictionary *)customInterface forDelegate:(id<SignInDelegate>)delegate;
+@end
+

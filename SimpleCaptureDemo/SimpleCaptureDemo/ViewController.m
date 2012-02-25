@@ -18,57 +18,25 @@
 #import "ViewController.h"
 
 @interface ViewController ()
-@property (nonatomic, retain) JREngage *jrEngage;
-@property (strong) NSDictionary   *engageUser;
-@property (strong) JRCaptureUser  *captureUser;
-@property (strong) NSString       *accessToken;
-@property (strong) NSString       *creationToken;
-@property (strong) NSUserDefaults *prefs;
+@property (strong) SharedData *sharedData;
 @end
 
 @implementation ViewController
-@synthesize jrEngage;
-@synthesize accessToken;
-@synthesize captureUser;
-@synthesize engageUser;
-@synthesize creationToken;
-@synthesize prefs;
+@synthesize sharedData;
 @synthesize currentUserLabel;
 @synthesize currentUserProviderIcon;
-
-
-static NSString *appId    = @"mlfeingbenjalleljkpo";
-static NSString *tokenUrl = nil;
-
-static NSString *captureDomain  = @"https://demo.staging.janraincapture.com/";
-static NSString *clientId       = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
-static NSString *entityTypeName = @"demo_user";
-
-//static NSString * const appId = @"appcfamhnpkagijaeinl";
-//static NSString * const tokenUrl = @"http://jrauthenticate.appspot.com/login";
-
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.sharedData = [SharedData sharedData];
 
-    [JRCaptureInterface setCaptureDomain:captureDomain clientId:clientId andEntityTypeName:entityTypeName];
-    self.jrEngage = [JREngage jrEngageWithAppId:appId
-                                    andTokenUrl:[JRCaptureInterface captureMobileEndpointUrl]
-                                       delegate:self];
+    if (sharedData.currentDisplayName)
+        currentUserLabel.text = [NSString stringWithFormat:@"Current user: %@", sharedData.currentDisplayName];
 
-    self.prefs = [NSUserDefaults standardUserDefaults];
-    self.engageUser = [prefs objectForKey:@"engageUser"];
-    self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:[prefs objectForKey:@"captureUser"]];
-    self.accessToken = [prefs objectForKey:@"accessToken"];
-    self.creationToken = [prefs objectForKey:@"creationToken"];
-
-    if ([prefs objectForKey:@"displayName"])
-        currentUserLabel.text = [NSString stringWithFormat:@"Current user: %@", [prefs objectForKey:@"displayName"]];
-
-    if ([prefs objectForKey:@"provider"])
+    if (sharedData.currentProvider)
         currentUserProviderIcon.image = [UIImage imageNamed:
-                     [NSString stringWithFormat:@"icon_%@_30x30@2x.png", [prefs objectForKey:@"provider"]]];
+                     [NSString stringWithFormat:@"icon_%@_30x30@2x.png", sharedData.currentProvider]];
 }
 
 - (IBAction)browseButtonPressed:(id)sender
@@ -88,82 +56,43 @@ static NSString *entityTypeName = @"demo_user";
 
 - (IBAction)signInButtonPressed:(id)sender
 {
-    NSDictionary *customUI = [NSDictionary dictionaryWithObject:self.navigationController
-                                                         forKey:kJRApplicationNavigationController];
+    NSDictionary *customInterface = [NSDictionary dictionaryWithObject:self.navigationController
+                                                                forKey:kJRApplicationNavigationController];
 
-    [jrEngage showAuthenticationDialogWithCustomInterfaceOverrides:customUI];
+    [sharedData startAuthenticationWithCustomInterface:customInterface forDelegate:self];
 }
 
-+ (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
+- (void)engageSignInDidSucceed
 {
-    NSString *name = nil;
-
-    if ([profile objectForKey:@"preferredUsername"])
-        name = [NSString stringWithFormat:@"%@", [profile objectForKey:@"preferredUsername"]];
-    else if ([[profile objectForKey:@"name"] objectForKey:@"formatted"])
-        name = [NSString stringWithFormat:@"%@",
-                [[profile objectForKey:@"name"] objectForKey:@"formatted"]];
-    else
-        name = [NSString stringWithFormat:@"%@%@%@%@%@",
-                ([[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"honorificPrefix"]] : @"",
-                ([[profile objectForKey:@"name"] objectForKey:@"givenName"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"givenName"]] : @"",
-                ([[profile objectForKey:@"name"] objectForKey:@"middleName"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"middleName"]] : @"",
-                ([[profile objectForKey:@"name"] objectForKey:@"familyName"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"familyName"]] : @"",
-                ([[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]) ?
-                [NSString stringWithFormat:@"%@ ",
-                 [[profile objectForKey:@"name"] objectForKey:@"honorificSuffix"]] : @""];
-
-    return name;
+    currentUserLabel.text         =
+            [NSString stringWithFormat:@"Current user: %@", sharedData.currentDisplayName];
+    currentUserProviderIcon.image =
+            [UIImage imageNamed:[NSString stringWithFormat:@"icon_%@_30x30@2x.png", sharedData.currentProvider]];
 }
 
-
-- (void)jrAuthenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error forProvider:(NSString *)provider
+- (void)captureSignInDidSucceed
 {
 
 }
 
-- (void)jrAuthenticationDidFailWithError:(NSError *)error forProvider:(NSString *)provider
+- (void)engageSignInDidFailWithError:(NSError *)error
 {
-
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:error ? @"Error" : @"Canceled"
+                                                        message:error ? [error description] : @"Authentication was canceled"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Dismiss"
+                                              otherButtonTitles:nil];
+    [alertView show];
 }
 
-- (void)jrAuthenticationDidNotComplete
+- (void)captureSignInDidFailWithError:(NSError *)error
 {
-
-}
-
-- (void)jrAuthenticationDidSucceedForUser:(NSDictionary *)auth_info forProvider:(NSString *)provider
-{
-    self.engageUser = auth_info;
-
- /* Get the display name */
-    NSString *displayName = [ViewController getDisplayNameFromProfile:[engageUser objectForKey:@"profile"]];
-
-    currentUserLabel.text = [NSString stringWithFormat:@"Current user: %@", displayName];
-    currentUserProviderIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"icon_%@_30x30@2x.png", provider]];
-
-    [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:displayName forKey:@"displayName"];
-    [prefs setObject:provider forKey:@"provider"];
-}
-
-- (void)jrAuthenticationDidReachTokenUrl:(NSString *)tokenUrl withResponse:(NSURLResponse *)response
-                              andPayload:(NSData *)tokenUrlPayload forProvider:(NSString *)provider
-{
-
-}
-
-- (void)jrEngageDialogDidFailToShowWithError:(NSError *)error
-{
-
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:[error description]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Dismiss"
+                                              otherButtonTitles:nil];
+    [alertView show];
 }
 
 - (void)viewDidUnload

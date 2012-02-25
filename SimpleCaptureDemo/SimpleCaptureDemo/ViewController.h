@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JRCaptureInterface.h"
-#import "JREngage.h"
+#import "SharedData.h"
 #import "JREngage+CustomInterface.h"
+//#import "JREngage.h"
+//#import "JRCaptureInterface.h"
 
-@interface ViewController : UIViewController <JREngageDelegate>
+
+@interface ViewController : UIViewController <SignInDelegate>
 - (IBAction)browseButtonPressed:(id)sender;
 - (IBAction)updateButtonPressed:(id)sender;
 - (IBAction)deleteButtonPressed:(id)sender;

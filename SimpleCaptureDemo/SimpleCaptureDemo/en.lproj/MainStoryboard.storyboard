@@ -45,7 +45,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="signInButtonPressed:" destination="2" eventType="touchUpInside" id="wgu-sr-NFu"/>
+                                    <action selector="signInButtonPressed:" destination="2" eventType="touchUpInside" id="k8r-X0-qFv"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3Ab-Cb-7AE">
