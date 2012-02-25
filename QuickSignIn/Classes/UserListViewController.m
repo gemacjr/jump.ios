@@ -505,18 +505,18 @@ Copyright (c) 2010, Janrain, Inc.
 {
 
     // TODO: Temporarily here for testing
-//    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
-//                                                                  bundle:[NSBundle mainBundle]] autorelease];
+    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
+                                                                  bundle:[NSBundle mainBundle]] autorelease];
+
+    [self.navigationController pushViewController:viewController animated:YES];
+
+//    [JRCaptureInterface getCaptureEntityNamed:@"profiles"
+//                                 withEntityId:174721
+//                               andAccessToken:[[UserModel getUserModel] latestAccessToken]
+//                                  forDelegate:self];
 //
-//    [self.navigationController pushViewController:viewController animated:YES];
-
-    [JRCaptureInterface getCaptureEntityNamed:@"profiles"
-                                 withEntityId:174721
-                               andAccessToken:[[UserModel getUserModel] latestAccessToken]
-                                  forDelegate:self];
-
-    [JRCaptureInterface getCaptureUserWithAccessToken:[[UserModel getUserModel] latestAccessToken]
-                                          forDelegate:self];
+//    [JRCaptureInterface getCaptureUserWithAccessToken:[[UserModel getUserModel] latestAccessToken]
+//                                          forDelegate:self];
     // TODO: Remove when done
 
 //    [self clearSelectedProfile];
