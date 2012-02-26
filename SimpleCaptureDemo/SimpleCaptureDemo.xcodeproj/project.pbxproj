@@ -235,7 +235,9 @@
 		9FD2B6BF14F8387100053EA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6BE14F8387100053EA2 /* Security.framework */; };
 		9FD2B6C114F8387B00053EA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6C014F8387B00053EA2 /* MessageUI.framework */; };
 		9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EA3 /* SharedData.m */; };
-		9FD2B6C114F8387B00053EA7 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EA6 /* JRCaptureUser+Extras.m */; };
+		9FD2B6C114F8387B00053EAB /* CaptureNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAA /* CaptureNewUserViewController.m */; };
+		9FD2B6C114F8387B00053EAE /* CaptureNewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAD /* CaptureNewUserViewController.xib */; };
+		9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D414F9AC5900053EA2 /* JRCaptureUser+Extras.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -541,8 +543,11 @@
 		9FD2B6C014F8387B00053EA2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9FD2B6C114F8387B00053EA3 /* SharedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedData.m; sourceTree = "<group>"; };
 		9FD2B6C114F8387B00053EA5 /* SharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedData.h; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EA6 /* JRCaptureUser+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRCaptureUser+Extras.m"; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EA8 /* JRCaptureUser+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRCaptureUser+Extras.h"; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053EA9 /* CaptureNewUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureNewUserViewController.h; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053EAA /* CaptureNewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureNewUserViewController.m; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053EAC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CaptureNewUserViewController.xib; sourceTree = "<group>"; };
+		9FD2B6D314F9AC5800053EA2 /* JRCaptureUser+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JRCaptureUser+Extras.h"; path = "JRCapture/iOS/JRCapture/JRCaptureUser+Extras.h"; sourceTree = "<group>"; };
+		9FD2B6D414F9AC5900053EA2 /* JRCaptureUser+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "JRCaptureUser+Extras.m"; path = "JRCapture/iOS/JRCapture/JRCaptureUser+Extras.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -608,6 +613,9 @@
 		90C36B6B7717AA0C893E08EF /* SimpleCaptureDemo */ = {
 			isa = PBXGroup;
 			children = (
+				9FD2B6C114F8387B00053EAD /* CaptureNewUserViewController.xib */,
+				9FD2B6C114F8387B00053EAA /* CaptureNewUserViewController.m */,
+				9FD2B6C114F8387B00053EA9 /* CaptureNewUserViewController.h */,
 				9FD2B6C114F8387B00053EA5 /* SharedData.h */,
 				9FD2B6C114F8387B00053EA3 /* SharedData.m */,
 				90C36B6B7717AA0C893E08FF /* ViewController.m */,
@@ -653,8 +661,8 @@
 		9FD2B44814F8366500053EA2 /* JRCapture */ = {
 			isa = PBXGroup;
 			children = (
-				9FD2B6C114F8387B00053EA8 /* JRCaptureUser+Extras.h */,
-				9FD2B6C114F8387B00053EA6 /* JRCaptureUser+Extras.m */,
+				9FD2B6D314F9AC5800053EA2 /* JRCaptureUser+Extras.h */,
+				9FD2B6D414F9AC5900053EA2 /* JRCaptureUser+Extras.m */,
 				9FD2B63D14F8380F00053EA2 /* JRAccounts.h */,
 				9FD2B63E14F8380F00053EA2 /* JRAccounts.m */,
 				9FD2B63F14F8380F00053EA2 /* JRAddresses.h */,
@@ -1299,6 +1307,7 @@
 				9FD2B63914F836D100053EA2 /* JRPublishActivityController.xib in Resources */,
 				9FD2B63A14F836D100053EA2 /* JRUserLandingController.xib in Resources */,
 				9FD2B63B14F836D100053EA2 /* JRWebViewController.xib in Resources */,
+				9FD2B6C114F8387B00053EAE /* CaptureNewUserViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1394,7 +1403,8 @@
 				9FD2B6BC14F8380F00053EA2 /* JRTvShows.m in Sources */,
 				9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */,
 				9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */,
-				9FD2B6C114F8387B00053EA7 /* JRCaptureUser+Extras.m in Sources */,
+				9FD2B6C114F8387B00053EAB /* CaptureNewUserViewController.m in Sources */,
+				9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1439,6 +1449,14 @@
 				90C36B6B7717AA0C893E0913 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9FD2B6C114F8387B00053EAD /* CaptureNewUserViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9FD2B6C114F8387B00053EAC /* en */,
+			);
+			name = CaptureNewUserViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

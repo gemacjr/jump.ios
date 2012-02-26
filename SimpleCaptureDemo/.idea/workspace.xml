@@ -26,29 +26,66 @@
       <file leaf-file-name="ViewController.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="0" selection-start="1913" selection-end="1913" vertical-scroll-proportion="0.0">
+            <state line="81" column="5" selection-start="2272" selection-end="2272" vertical-scroll-proportion="0.0">
               <folding>
-                <marker date="1330208695000" expanded="true" signature="531:3113" placeholder="..." />
-                <marker date="1330208695000" expanded="true" signature="1264:1563" placeholder="{...}" />
-                <marker date="1330208695000" expanded="true" signature="1971:2429" placeholder="{...}" />
+                <marker date="1330212604000" expanded="true" signature="492:536" placeholder="..." />
+                <marker date="1330212604000" expanded="true" signature="572:3472" placeholder="..." />
+                <marker date="1330212604000" expanded="true" signature="585:663" placeholder="..." />
+                <marker date="1330212604000" expanded="true" signature="685:1113" placeholder="{...}" />
+                <marker date="1330212604000" expanded="true" signature="1637:1918" placeholder="{...}" />
+                <marker date="1330212604000" expanded="true" signature="1952:2274" placeholder="{...}" />
+                <marker date="1330212604000" expanded="true" signature="2845:3240" placeholder="{...}" />
+                <marker date="1330212604000" expanded="true" signature="3264:3294" placeholder="{...}" />
+                <marker date="1330212604000" expanded="true" signature="3388:3470" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SharedData.m" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CaptureNewUserViewController.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="0" selection-start="2314" selection-end="2314" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1330214192000" expanded="true" signature="2181:2378" placeholder="..." />
+                <marker date="1330214192000" expanded="false" signature="2441:2782" placeholder="..." />
+                <marker date="1330214192000" expanded="true" signature="2865:2974" placeholder="{...}" />
+                <marker date="1330214192000" expanded="true" signature="3027:3287" placeholder="{...}" />
+                <marker date="1330214192000" expanded="true" signature="3311:3462" placeholder="{...}" />
+                <marker date="1330214192000" expanded="true" signature="3489:3642" placeholder="{...}" />
+                <marker date="1330214192000" expanded="true" signature="3687:3827" placeholder="{...}" />
+                <marker date="1330214192000" expanded="true" signature="3848:3956" placeholder="{...}" />
+                <marker date="1330214192000" expanded="true" signature="4003:4058" placeholder="{...}" />
+                <marker date="1330214192000" expanded="true" signature="4107:4162" placeholder="{...}" />
+                <marker date="1330214192000" expanded="true" signature="4209:4915" placeholder="{...}" />
+                <marker date="1330214192000" expanded="true" signature="4965:5045" placeholder="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SharedData.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="3" selection-start="2442" selection-end="2442" vertical-scroll-proportion="-4.255319">
+            <state line="30" column="23" selection-start="893" selection-end="893" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JRCaptureUser+Extras.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JRCaptureUser+Extras.m">
+      <file leaf-file-name="JRCaptureInterface.m" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="0" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0">
+            <state line="489" column="6" selection-start="17953" selection-end="17953" vertical-scroll-proportion="0.529927">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CaptureNewUserViewController.h" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="0" selection-start="1853" selection-end="1853" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -57,7 +94,7 @@
       <file leaf-file-name="JRCaptureInterface.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="0" selection-start="2996" selection-end="3151" vertical-scroll-proportion="0.0">
+            <state line="36" column="0" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -66,16 +103,7 @@
       <file leaf-file-name="JRCapture.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCapture.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="4" selection-start="2337" selection-end="2337" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JRCaptureUser+Extras.h" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JRCaptureUser+Extras.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="398" selection-end="398" vertical-scroll-proportion="0.0">
+            <state line="54" column="11" selection-start="2323" selection-end="2323" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -95,7 +123,7 @@
       <file leaf-file-name="JRCaptureUser.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="61" selection-start="1929" selection-end="1929" vertical-scroll-proportion="0.0">
+            <state line="37" column="0" selection-start="1836" selection-end="1836" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -104,7 +132,25 @@
       <file leaf-file-name="JRCaptureUser.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="220" column="0" selection-start="8902" selection-end="8902" vertical-scroll-proportion="0.0">
+            <state line="31" column="0" selection-start="1684" selection-end="1684" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JRCaptureUser+Extras.h" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser+Extras.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="62" selection-start="651" selection-end="651" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JRCaptureUser+Extras.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser+Extras.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="40" selection-start="490" selection-end="490" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -153,14 +199,18 @@
       <list>
         <option value="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h" />
         <option value="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.h" />
-        <option value="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m" />
         <option value="$PROJECT_DIR$/../JREngage/Classes/JRSessionData.m" />
-        <option value="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m" />
         <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCapture.h" />
-        <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h" />
         <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.h" />
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m" />
         <option value="$PROJECT_DIR$/JRCaptureUser+Extras.h" />
         <option value="$PROJECT_DIR$/JRCaptureUser+Extras.m" />
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.m" />
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m" />
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.h" />
+        <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser+Extras.h" />
+        <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h" />
+        <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.m" />
       </list>
     </option>
   </component>
@@ -219,38 +269,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="SimpleCaptureDemo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodePBXReferenceNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SimpleCaptureDemo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JREngage" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodePBXReferenceNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SimpleCaptureDemo" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JREngage" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodePBXReferenceNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Classes" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodePBXReferenceNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -392,6 +410,73 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="5" selection-start="2272" selection-end="2272" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1330212604000" expanded="true" signature="492:536" placeholder="..." />
+            <marker date="1330212604000" expanded="true" signature="572:3472" placeholder="..." />
+            <marker date="1330212604000" expanded="true" signature="585:663" placeholder="..." />
+            <marker date="1330212604000" expanded="true" signature="685:1113" placeholder="{...}" />
+            <marker date="1330212604000" expanded="true" signature="1637:1918" placeholder="{...}" />
+            <marker date="1330212604000" expanded="true" signature="1952:2274" placeholder="{...}" />
+            <marker date="1330212604000" expanded="true" signature="2845:3240" placeholder="{...}" />
+            <marker date="1330212604000" expanded="true" signature="3264:3294" placeholder="{...}" />
+            <marker date="1330212604000" expanded="true" signature="3388:3470" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="0" selection-start="2314" selection-end="2314" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1330214192000" expanded="true" signature="2181:2378" placeholder="..." />
+            <marker date="1330214192000" expanded="false" signature="2441:2782" placeholder="..." />
+            <marker date="1330214192000" expanded="true" signature="2865:2974" placeholder="{...}" />
+            <marker date="1330214192000" expanded="true" signature="3027:3287" placeholder="{...}" />
+            <marker date="1330214192000" expanded="true" signature="3311:3462" placeholder="{...}" />
+            <marker date="1330214192000" expanded="true" signature="3489:3642" placeholder="{...}" />
+            <marker date="1330214192000" expanded="true" signature="3687:3827" placeholder="{...}" />
+            <marker date="1330214192000" expanded="true" signature="3848:3956" placeholder="{...}" />
+            <marker date="1330214192000" expanded="true" signature="4003:4058" placeholder="{...}" />
+            <marker date="1330214192000" expanded="true" signature="4107:4162" placeholder="{...}" />
+            <marker date="1330214192000" expanded="true" signature="4209:4915" placeholder="{...}" />
+            <marker date="1330214192000" expanded="true" signature="4965:5045" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="23" selection-start="893" selection-end="893" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="0" selection-start="1853" selection-end="1853" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="119" selection-start="927" selection-end="1048" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1330208168000" expanded="true" signature="257:455" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JRSessionData.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="387" column="11" selection-start="16093" selection-end="16093" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../QuickSignIn/Classes/UserModel.m">
       <provider selected="true" editor-type-id="text-editor">
         <state line="68" column="0" selection-start="2673" selection-end="2673" vertical-scroll-proportion="0.0">
@@ -406,78 +491,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h">
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser+Extras.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="119" selection-start="927" selection-end="1048" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1330208168000" expanded="true" signature="257:455" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="1913" selection-end="1913" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1330208695000" expanded="true" signature="531:3113" placeholder="..." />
-            <marker date="1330208695000" expanded="true" signature="1264:1563" placeholder="{...}" />
-            <marker date="1330208695000" expanded="true" signature="1971:2429" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JRSessionData.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="387" column="11" selection-start="16093" selection-end="16093" vertical-scroll-proportion="0.0">
+        <state line="20" column="40" selection-start="490" selection-end="490" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.m">
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser+Extras.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="220" column="0" selection-start="8902" selection-end="8902" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCapture.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="4" selection-start="2337" selection-end="2337" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="0" selection-start="2996" selection-end="3151" vertical-scroll-proportion="0.0">
+        <state line="17" column="62" selection-start="651" selection-end="651" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="61" selection-start="1929" selection-end="1929" vertical-scroll-proportion="0.0">
+        <state line="37" column="0" selection-start="1836" selection-end="1836" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JRCaptureUser+Extras.h">
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCapture.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="398" selection-end="398" vertical-scroll-proportion="0.0">
+        <state line="54" column="11" selection-start="2323" selection-end="2323" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JRCaptureUser+Extras.m">
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="0" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0">
+        <state line="31" column="0" selection-start="1684" selection-end="1684" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m">
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="3" selection-start="2442" selection-end="2442" vertical-scroll-proportion="-4.255319">
+        <state line="36" column="0" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="489" column="6" selection-start="17953" selection-end="17953" vertical-scroll-proportion="0.529927">
           <folding />
         </state>
       </provider>

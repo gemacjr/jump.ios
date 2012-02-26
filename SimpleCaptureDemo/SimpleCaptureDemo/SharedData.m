@@ -13,6 +13,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "SharedData.h"
+#import "JRCaptureUser+Extras.h"
 
 @interface SharedData ()
 @property (nonatomic, retain) JREngage *jrEngage;
@@ -22,7 +23,7 @@
 @implementation SharedData
 static SharedData *singleton = nil;
 
-static NSString *appId    = @"mlfeingbenjalleljkpo";
+static NSString *appId          = @"mlfeingbenjalleljkpo";
 static NSString *captureDomain  = @"https://demo.staging.janraincapture.com/";
 static NSString *clientId       = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
 static NSString *entityTypeName = @"demo_user";
@@ -236,25 +237,43 @@ static NSString *entityTypeName = @"demo_user";
 
     self.accessToken   = [payloadDict objectForKey:@"access_token"];
     self.creationToken = [payloadDict objectForKey:@"creation_token"];
-    NSDictionary *captureCredentials;
+//    NSDictionary *captureCredentials;
 
-    if (self.accessToken)
-        captureCredentials = [NSDictionary dictionaryWithObject:self.accessToken
-                                                         forKey:@"access_token"];
-    else if (self.creationToken)
-        captureCredentials =  [NSDictionary dictionaryWithObject:self.creationToken
-                                                          forKey:@"creation_token"];
-    else
-        captureCredentials = nil;
+//    if (self.accessToken)
+//        captureCredentials = [NSDictionary dictionaryWithObject:self.accessToken
+//                                                         forKey:@"access_token"];
+//    else if (self.creationToken)
+//        captureCredentials =  [NSDictionary dictionaryWithObject:self.creationToken
+//                                                          forKey:@"creation_token"];
+//    else
+//        captureCredentials = nil;
 
-    NSDictionary *captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
 
-    self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+    if (accessToken)
+    {
+        NSDictionary *captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
 
-    if (captureProfile)
-        [self.engageUser setObject:captureProfile forKey:@"captureUser"];
-    if (captureCredentials)
-        [self.engageUser setObject:captureCredentials forKey:@"captureCredentials"];
+        self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+    }
+    else if (creationToken)
+    {
+        self.captureUser = [JRCaptureUser captureUser];
+
+        captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
+
+        JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
+
+        if (profilesObject)
+            captureUser.profiles = [NSArray arrayWithObject:profilesObject];
+    }
+
+    [captureUser setAccessToken:accessToken];
+    [captureUser setCreationToken:creationToken];
+
+//    if (captureProfile)
+//        [self.engageUser setObject:captureProfile forKey:@"captureUser"];
+//    if (captureCredentials)
+//        [self.engageUser setObject:captureCredentials forKey:@"captureCredentials"];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 

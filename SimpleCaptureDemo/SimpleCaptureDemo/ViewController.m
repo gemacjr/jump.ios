@@ -16,6 +16,7 @@
 
 
 #import "ViewController.h"
+#import "CaptureNewUserViewController.h"
 
 @interface ViewController ()
 @property (strong) SharedData *sharedData;
@@ -72,7 +73,13 @@
 
 - (void)captureSignInDidSucceed
 {
+    if (sharedData.creationToken)
+    {
+        CaptureNewUserViewController *viewController = [[CaptureNewUserViewController alloc]
+                initWithNibName:@"CaptureNewUserViewController" bundle:[NSBundle mainBundle]];
 
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
 }
 
 - (void)engageSignInDidFailWithError:(NSError *)error

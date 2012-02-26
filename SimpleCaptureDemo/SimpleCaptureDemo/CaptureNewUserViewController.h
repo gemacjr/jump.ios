@@ -27,43 +27,40 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
- File:   JRCaptureInterface.h
+ File:   CaptureNewUserViewController.h
  Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
  Date:   Thursday, January 26, 2012
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#import <Foundation/Foundation.h>
-#import "JRConnectionManager.h"
+#import <UIKit/UIKit.h>
+#import "JRCaptureInterface.h"
+#import "JRCaptureUser+Extras.h"
 
-
-@protocol JRCaptureInterfaceDelegate <NSObject>
-@optional
-- (void)createCaptureUserDidSucceedWithResult:(NSString *)result;
-- (void)createCaptureUserDidFailWithResult:(NSString *)result;
-- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result;
-- (void)updateCaptureUserDidFailWithResult:(NSString *)result;
-- (void)getCaptureEntityDidSucceedWithResult:(NSString *)result;
-- (void)getCaptureEntityDidFailWithResult:(NSString *)result;
-- (void)getCaptureUserDidSucceedWithResult:(NSString *)result;
-- (void)getCaptureUserDidFailWithResult:(NSString *)result;
-@end
-
-@interface JRCaptureInterface : NSObject <JRConnectionManagerDelegate>
+@interface CaptureNewUserViewController : UIViewController <JRCaptureInterfaceDelegate, UITextViewDelegate,
+        UIAlertViewDelegate, JRCaptureUserDelegate>
 {
-//    JRCaptureUser *captureUser;
+    NSMutableDictionary *engageUser;
+    UIScrollView *myScrollView;
 
-    id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
+    NSDate       *myBirthdate;
+    UIButton     *myBirthdayButton;
+
+    UIDatePicker *myBirthdayPicker;
+    UIToolbar    *myPickerToolbar;
+    UIView       *myPickerView;
 }
-+ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
-       andEntityTypeName:(NSString *)newEntityTypeName;
-+ (NSString *)captureMobileEndpointUrl;
-
-+ (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
-              forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
-+ (void)updateCaptureUser:(NSDictionary *)user withAccessToken:(NSString *)accessToken
-              forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
-+ (void)getCaptureEntityNamed:(NSString *)entityName withEntityId:(NSInteger)entityId
-               andAccessToken:(NSString *)accessToken forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
-+ (void)getCaptureUserWithAccessToken:(NSString *)accessToken
-                          forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
+@property (nonatomic, retain) IBOutlet UITextView         *myLocationTextView;
+@property (nonatomic, retain) IBOutlet UISegmentedControl *myGenderIdentitySegControl;
+@property (nonatomic, retain) IBOutlet UIButton           *myBirthdayButton;
+@property (nonatomic, retain) IBOutlet UIDatePicker       *myBirthdayPicker;
+@property (nonatomic, retain) IBOutlet UIToolbar          *myPickerToolbar;
+@property (nonatomic, retain) IBOutlet UITextView         *myAboutMeTextView;
+@property (nonatomic, retain) IBOutlet UIView             *myPickerView;
+@property (nonatomic, retain) IBOutlet UIScrollView       *myScrollView;
+@property (nonatomic, retain) IBOutlet UIToolbar          *myKeyboardToolbar;
+- (IBAction)birthdayButtonClicked:(id)sender;
+- (IBAction)birthdayPickerChanged:(id)sender;
+- (IBAction)hidePickerButtonPressed:(id)sender;
+- (IBAction)doneButtonPressed:(id)sender;
+- (IBAction)doneEditingButtonPressed:(id)sender;
 @end

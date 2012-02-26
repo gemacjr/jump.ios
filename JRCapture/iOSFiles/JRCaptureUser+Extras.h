@@ -9,8 +9,10 @@
 #import "JRCaptureUser.h"
 @protocol JRCaptureUserDelegate <NSObject>
 @optional
-- (void)captureUserCreated:(JRCaptureUser *)user withResult:(NSString *)result;
-- (void)captureUserUpdated:(JRCaptureUser *)user withResult:(NSString *)result;
+- (void)createCaptureUser:(JRCaptureUser *)user didSucceedWithResult:(NSString *)result;
+- (void)createCaptureUser:(JRCaptureUser *)user didFailWithResult:(NSString *)result;
+- (void)updateCaptureUser:(JRCaptureUser *)user didSucceedWithResult:(NSString *)result;
+- (void)updateCaptureUser:(JRCaptureUser *)user didFailWithResult:(NSString *)result;
 @end
 
 @interface JRCaptureUser (Extras) <JRCaptureInterfaceDelegate>

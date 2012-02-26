@@ -109,8 +109,8 @@ static JRCaptureUserExtras *singleton = nil;
 {
     id<JRCaptureUserDelegate> delegate = [[JRCaptureUserExtras captureUserExtras] delegate];
 
-    if ([delegate respondsToSelector:@selector(captureUserCreated:withResult:)])
-        [delegate captureUserCreated:self withResult:result];
+    if ([delegate respondsToSelector:@selector(createCaptureUser:didFailWithResult:)])
+        [delegate createCaptureUser:self didFailWithResult:result];
 
     [[JRCaptureUserExtras captureUserExtras] setDelegate:nil];
 }
@@ -119,8 +119,8 @@ static JRCaptureUserExtras *singleton = nil;
 {
     id<JRCaptureUserDelegate> delegate = [[JRCaptureUserExtras captureUserExtras] delegate];
 
-    if ([delegate respondsToSelector:@selector(captureUserCreated:withResult:)])
-        [delegate captureUserCreated:self withResult:result];
+    if ([delegate respondsToSelector:@selector(createCaptureUser:didSucceedWithResult:)])
+        [delegate createCaptureUser:self didSucceedWithResult:result];
 
     [[JRCaptureUserExtras captureUserExtras] setDelegate:nil];
 }
@@ -129,8 +129,8 @@ static JRCaptureUserExtras *singleton = nil;
 {
     id<JRCaptureUserDelegate> delegate = [[JRCaptureUserExtras captureUserExtras] delegate];
 
-    if ([delegate respondsToSelector:@selector(captureUserUpdated:withResult:)])
-        [delegate captureUserUpdated:self withResult:result];
+    if ([delegate respondsToSelector:@selector(updateCaptureUser:didFailWithResult:)])
+        [delegate updateCaptureUser:self didFailWithResult:result];
 
     [[JRCaptureUserExtras captureUserExtras] setDelegate:nil];
 }
@@ -139,8 +139,8 @@ static JRCaptureUserExtras *singleton = nil;
 {
     id<JRCaptureUserDelegate> delegate = [[JRCaptureUserExtras captureUserExtras] delegate];
 
-    if ([delegate respondsToSelector:@selector(captureUserCreated:withResult:)])
-        [delegate captureUserUpdated:self withResult:result];
+    if ([delegate respondsToSelector:@selector(updateCaptureUser:didSucceedWithResult:)])
+        [delegate updateCaptureUser:self didSucceedWithResult:result];
 
     [[JRCaptureUserExtras captureUserExtras] setDelegate:nil];
 }
