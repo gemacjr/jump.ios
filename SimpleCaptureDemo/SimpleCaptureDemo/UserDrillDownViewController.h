@@ -29,10 +29,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface UserDrillDownViewController : UIViewController <UINavigationBarDelegate,
-                                                        UITableViewDelegate, UITableViewDataSource>
+@interface UserDrillDownViewController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
+                                                           UITableViewDataSource, UITextFieldDelegate>
 {
     UITableView *myTableView;
+    NSMutableArray *propertyArray;
+    BOOL isEditing;
+    UITextField *firstResponder;
 }
 @property (strong) NSObject *captureData;
 @property (strong) NSObject *tableViewData;

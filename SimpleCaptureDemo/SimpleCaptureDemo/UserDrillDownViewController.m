@@ -28,7 +28,6 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #import "UserDrillDownViewController.h"
-#import "JRActivityObject.h"
 #import "JRCapture.h"
 
 #ifdef DEBUG
@@ -49,6 +48,35 @@
     NSArray *allKeys = [self allKeys];
     return [allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
+@end
+
+typedef enum propertyTypes
+{
+    PTString,
+    PTDate,
+    PTBool,
+    PTNumber,
+    PTInteger,
+    PTObject,
+} PropertyType;
+
+@interface EntityData : NSObject
+@property (strong) UITextField *textField;
+@property (strong) UILabel     *label;
+@property          PropertyType propertyType;
+@property (strong) NSString    *propertyValue;
+@property          BOOL         canEdit;
+@property          BOOL         wasChanged;
+@end
+
+@implementation EntityData
+@synthesize textField;
+@synthesize propertyType;
+@synthesize propertyValue;
+@synthesize wasChanged;
+@synthesize canEdit;
+@synthesize label;
+
 @end
 
 @implementation UserDrillDownViewController
@@ -76,6 +104,7 @@
             self.tableViewData = nil;
 
         self.tableViewHeader = key;//NSStringFromClass([object class]);
+        propertyArray = [NSMutableArray arrayWithCapacity:10];
     }
 
     return self;
@@ -111,6 +140,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
+                                initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                     target:self
+                                                     action:@selector(editButtonPressed:)];
+
+    self.navigationItem.rightBarButtonItem         = editButton;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+
+    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -121,6 +160,97 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+}
+
+- (void)editButtonPressed:(id)sender
+{
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
+                                initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                     target:self
+                                                     action:@selector(doneButtonPressed:)];
+
+    self.navigationItem.rightBarButtonItem         = doneButton;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+
+    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
+
+    for (EntityData *data in propertyArray)
+    {
+        if (data.canEdit)
+        {
+            data.textField.hidden      = NO;
+            data.label.hidden          = YES;
+            data.textField.placeholder = data.label.text;
+        }
+    }
+
+    isEditing = YES;
+    [myTableView reloadData];
+
+}
+
+- (void)doneButtonPressed:(id)sender
+{
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
+                                initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                     target:self
+                                                     action:@selector(editButtonPressed:)];
+
+    self.navigationItem.rightBarButtonItem         = editButton;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+
+    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
+
+    for (EntityData *data in propertyArray)
+    {
+        if (data.canEdit)
+        {
+            data.textField.hidden      = YES;
+            data.label.hidden          = NO;
+            if (data.textField.text && ![data.textField.text isEqualToString:@""])
+                data.label.text = data.textField.placeholder;
+        }
+    }
+
+    isEditing = NO;
+    [firstResponder resignFirstResponder];
+    firstResponder = nil;
+    [myTableView reloadData];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    return YES;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    firstResponder = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    return YES;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    return YES;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -147,6 +277,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if (isEditing)
+        return 260;
     return 0;
 }
 
@@ -169,9 +301,10 @@
 {
     static NSInteger keyLabelTag   = 1;
     static NSInteger valueLabelTag = 2;
+    static NSInteger textFieldTag  = 3;
 
     UITableViewCellStyle style = UITableViewCellStyleDefault;
-    NSString *reuseIdentifier  = @"cachedCellSection2";
+    NSString *reuseIdentifier  = [NSString stringWithFormat:@"cachedCell_%d", indexPath.row];
 
     UITableViewCell *cell =
         [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
@@ -211,10 +344,33 @@
         [valueLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
         [cell.contentView addSubview:valueLabel];
+
+        UITextField *textField = [[UITextField alloc] initWithFrame:frame];
+        textField.tag          = textFieldTag;
+
+        textField.backgroundColor = [UIColor clearColor];
+        textField.font            = [UIFont boldSystemFontOfSize:16.0];
+        textField.textColor       = [UIColor blackColor];
+        textField.textAlignment   = UITextAlignmentLeft;
+        textField.hidden          = YES;
+        textField.borderStyle     = UITextBorderStyleLine;
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.delegate        = self;
+
+        [textField setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+
+        [cell.contentView addSubview:textField];
+
+        EntityData *data = [[EntityData alloc] init];
+        [propertyArray insertObject:data atIndex:(NSUInteger)indexPath.row];
     }
+
+    EntityData *data = [propertyArray objectAtIndex:(NSUInteger)indexPath.row];
 
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
+    UITextField *textField = (UITextField*)[cell.contentView viewWithTag:textFieldTag];
+
     NSString* subtitle  = nil;
     NSString* cellTitle = nil;
 
@@ -271,6 +427,9 @@
         {/* cellTitle will be null if our data is an array, but why have an array of empty arrays? */
             subtitle = cellTitle ? [NSString stringWithFormat:@"No known %@", cellTitle] : @"[none]";
         }
+
+        data.propertyType = PTObject;
+        data.canEdit      = NO;
     }
  /* If our item is a string, */
     else if ([value isKindOfClass:[NSString class]])
@@ -279,16 +438,33 @@
             subtitle = (NSString*)value;
         else
             subtitle = [NSString stringWithFormat:@"No known %@", cellTitle];
+
+        data.propertyType = PTString;
+        data.canEdit      = YES;
+        data.propertyValue    = subtitle;
+        textField.placeholder = subtitle;
     }
  /* If our item is a number, */
     else if ([value isKindOfClass:[NSNumber class]])
     {/* make it a string, and set the subtitle as that. */
         subtitle = [((NSNumber *)value) stringValue];
+
+        data.propertyType     = PTNumber;
+        data.canEdit          = YES;
+        data.propertyValue    = subtitle;
+        textField.placeholder = subtitle;
     }
     else { /* I dunno... Just hopin' it won't happen... */ }
 
-    subtitleLabel.text = subtitle;
+    if (textField.text)
+        subtitleLabel.text = textField.text;
+    else
+        subtitleLabel.text = subtitle;
+
     titleLabel.text    = cellTitle;
+
+    data.textField = textField;
+    data.label     = subtitleLabel;
 
     if (!cellTitle)
         subtitleLabel.frame = UP_A_LITTLE_HIGHER(subtitleLabel);

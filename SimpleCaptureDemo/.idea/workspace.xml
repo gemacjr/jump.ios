@@ -63,7 +63,7 @@
       <file leaf-file-name="UserDrillDownViewController.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="28" selection-start="2118" selection-end="2118" vertical-scroll-proportion="0.0">
+            <state line="32" column="59" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -72,7 +72,16 @@
       <file leaf-file-name="UserDrillDownViewController.m" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="320" column="0" selection-start="11505" selection-end="11505" vertical-scroll-proportion="0.956621">
+            <state line="458" column="8" selection-start="15534" selection-end="15534" vertical-scroll-proportion="0.47945204">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JRPublishActivityController.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JRPublishActivityController.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="316" column="0" selection-start="12662" selection-end="13186" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -144,15 +153,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JRCaptureInterface.h" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="0" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="JRCaptureUser+Extras.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser+Extras.m">
           <provider selected="true" editor-type-id="text-editor">
@@ -194,7 +194,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../JREngage/Classes/JRSessionData.m" />
         <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCapture.h" />
         <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser.h" />
         <option value="$PROJECT_DIR$/JRCaptureUser+Extras.h" />
@@ -207,8 +206,9 @@
         <option value="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m" />
         <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureUser+Extras.m" />
         <option value="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.h" />
-        <option value="$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.h" />
         <option value="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m" />
+        <option value="$PROJECT_DIR$/../JREngage/Classes/JRPublishActivityController.m" />
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.h" />
         <option value="$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.m" />
       </list>
     </option>
@@ -444,23 +444,16 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.m</url>
-          <line>318</line>
+          <line>494</line>
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.m</url>
-          <line>63</line>
+          <line>91</line>
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="0" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m">
       <provider selected="true" editor-type-id="text-editor">
         <state line="199" column="0" selection-start="6989" selection-end="6989" vertical-scroll-proportion="0.0">
@@ -536,13 +529,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="28" selection-start="2118" selection-end="2118" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m">
       <provider selected="true" editor-type-id="text-editor">
         <state line="46" column="0" selection-start="1315" selection-end="1315" vertical-scroll-proportion="0.0">
@@ -581,9 +567,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../JREngage/Classes/JRPublishActivityController.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="316" column="0" selection-start="12662" selection-end="13186" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="59" selection-start="1904" selection-end="1904" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/UserDrillDownViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="320" column="0" selection-start="11505" selection-end="11505" vertical-scroll-proportion="0.956621">
+        <state line="458" column="8" selection-start="15534" selection-end="15534" vertical-scroll-proportion="0.47945204">
           <folding />
         </state>
       </provider>
