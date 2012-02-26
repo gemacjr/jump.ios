@@ -47,7 +47,10 @@
 
 - (IBAction)updateButtonPressed:(id)sender
 {
+    CaptureNewUserViewController *viewController = [[CaptureNewUserViewController alloc]
+            initWithNibName:@"CaptureNewUserViewController" bundle:[NSBundle mainBundle]];
 
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (IBAction)deleteButtonPressed:(id)sender

@@ -91,7 +91,13 @@ static JRCaptureUserExtras *singleton = nil;
 {
     [[JRCaptureUserExtras captureUserExtras] setDelegate:delegate];
 
-    [JRCaptureInterface updateCaptureUser:[self dictionaryFromObject]
+    NSMutableDictionary *captureUserDictionary =
+                                [NSMutableDictionary dictionaryWithDictionary:[self dictionaryFromObject]];
+    [captureUserDictionary removeObjectForKey:@"created"];
+    [captureUserDictionary removeObjectForKey:@"lastUpdated"];
+    [captureUserDictionary removeObjectForKey:@"uuid"];
+
+    [JRCaptureInterface updateCaptureUser:captureUserDictionary
                           withAccessToken:[[JRCaptureUserExtras captureUserExtras] accessToken]
                               forDelegate:self];
 }

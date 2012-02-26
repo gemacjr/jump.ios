@@ -55,6 +55,9 @@ static NSString *entityTypeName = @"demo_user";
         self.creationToken = [prefs objectForKey:@"creationToken"];
         self.currentDisplayName = [prefs objectForKey:@"currentDisplayName"];
         self.currentProvider = [prefs objectForKey:@"currentProvider"];
+
+        captureUser.accessToken = accessToken;
+        captureUser.creationToken = creationToken;
     }
 
     return self;

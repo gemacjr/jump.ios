@@ -56,13 +56,13 @@
 @synthesize myBirthdayButton;
 @synthesize myBirthdayPicker;
 @synthesize myPickerToolbar;
-//@synthesize engageUser;
 @synthesize myAboutMeTextView;
 @synthesize myPickerView;
 @synthesize myScrollView;
 @synthesize myKeyboardToolbar;
 @synthesize firstResponder;
 @synthesize myBirthdate;
+//@synthesize engageUser;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -185,8 +185,6 @@
 
 - (IBAction)doneButtonPressed:(id)sender
 {
-    DLog(@"engageUser: %@", [engageUser description]);
-
     JRCaptureUser *captureUser = [[SharedData sharedData] captureUser];
 
     captureUser.aboutMe  = myAboutMeTextView.text;

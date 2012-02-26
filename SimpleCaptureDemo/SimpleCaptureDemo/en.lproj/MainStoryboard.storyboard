@@ -59,6 +59,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="updateButtonPressed:" destination="2" eventType="touchUpInside" id="0Gk-aQ-4fZ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9l8-Zj-RBh">
                                 <rect key="frame" x="20" y="154" width="280" height="37"/>
