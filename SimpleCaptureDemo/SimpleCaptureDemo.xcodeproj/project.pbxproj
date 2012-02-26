@@ -238,6 +238,8 @@
 		9FD2B6C114F8387B00053EAB /* CaptureNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAA /* CaptureNewUserViewController.m */; };
 		9FD2B6C114F8387B00053EAE /* CaptureNewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAD /* CaptureNewUserViewController.xib */; };
 		9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D414F9AC5900053EA2 /* JRCaptureUser+Extras.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6D514F9AC5900053EA5 /* UserDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */; };
+		9FD2B6D514F9AC5900053EA8 /* UserDrillDownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D514F9AC5900053EA7 /* UserDrillDownViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -548,6 +550,9 @@
 		9FD2B6C114F8387B00053EAC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CaptureNewUserViewController.xib; sourceTree = "<group>"; };
 		9FD2B6D314F9AC5800053EA2 /* JRCaptureUser+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JRCaptureUser+Extras.h"; path = "JRCapture/iOS/JRCapture/JRCaptureUser+Extras.h"; sourceTree = "<group>"; };
 		9FD2B6D414F9AC5900053EA2 /* JRCaptureUser+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "JRCaptureUser+Extras.m"; path = "JRCapture/iOS/JRCapture/JRCaptureUser+Extras.m"; sourceTree = "<group>"; };
+		9FD2B6D514F9AC5900053EA3 /* UserDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDrillDownViewController.h; sourceTree = "<group>"; };
+		9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDrillDownViewController.m; sourceTree = "<group>"; };
+		9FD2B6D514F9AC5900053EA6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserDrillDownViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -613,6 +618,9 @@
 		90C36B6B7717AA0C893E08EF /* SimpleCaptureDemo */ = {
 			isa = PBXGroup;
 			children = (
+				9FD2B6D514F9AC5900053EA7 /* UserDrillDownViewController.xib */,
+				9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */,
+				9FD2B6D514F9AC5900053EA3 /* UserDrillDownViewController.h */,
 				9FD2B6C114F8387B00053EAD /* CaptureNewUserViewController.xib */,
 				9FD2B6C114F8387B00053EAA /* CaptureNewUserViewController.m */,
 				9FD2B6C114F8387B00053EA9 /* CaptureNewUserViewController.h */,
@@ -1308,6 +1316,7 @@
 				9FD2B63A14F836D100053EA2 /* JRUserLandingController.xib in Resources */,
 				9FD2B63B14F836D100053EA2 /* JRWebViewController.xib in Resources */,
 				9FD2B6C114F8387B00053EAE /* CaptureNewUserViewController.xib in Resources */,
+				9FD2B6D514F9AC5900053EA8 /* UserDrillDownViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1405,6 +1414,7 @@
 				9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */,
 				9FD2B6C114F8387B00053EAB /* CaptureNewUserViewController.m in Sources */,
 				9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */,
+				9FD2B6D514F9AC5900053EA5 /* UserDrillDownViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1457,6 +1467,14 @@
 				9FD2B6C114F8387B00053EAC /* en */,
 			);
 			name = CaptureNewUserViewController.xib;
+			sourceTree = "<group>";
+		};
+		9FD2B6D514F9AC5900053EA7 /* UserDrillDownViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9FD2B6D514F9AC5900053EA6 /* en */,
+			);
+			name = UserDrillDownViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

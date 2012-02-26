@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SharedData.h"
 #import "JREngage+CustomInterface.h"
+#import "CaptureNewUserViewController.h"
+#import "UserDrillDownViewController.h"
 //#import "JREngage.h"
 //#import "JRCaptureInterface.h"
 

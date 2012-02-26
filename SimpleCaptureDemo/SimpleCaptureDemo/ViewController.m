@@ -16,7 +16,6 @@
 
 
 #import "ViewController.h"
-#import "CaptureNewUserViewController.h"
 
 @interface ViewController ()
 @property (strong) SharedData *sharedData;
@@ -42,7 +41,12 @@
 
 - (IBAction)browseButtonPressed:(id)sender
 {
+    UserDrillDownViewController *viewController = [[UserDrillDownViewController alloc]
+            initWithNibName:@"UserDrillDownViewController"
+                     bundle:[NSBundle mainBundle]
+              andDataObject:sharedData.captureUser forKey:@"CaptureUser"];
 
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (IBAction)updateButtonPressed:(id)sender

@@ -25,6 +25,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="browseButtonPressed:" destination="2" eventType="touchUpInside" id="0c4-dy-IVB"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No current user" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Hq8-yJ-Rmg">
                                 <rect key="frame" x="20" y="16" width="242" height="30"/>
