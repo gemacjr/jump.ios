@@ -34,6 +34,7 @@
 {
     UITableView *myTableView;
     NSMutableArray *propertyArray;
+
     BOOL isEditing;
     UITextField *firstResponder;
 }

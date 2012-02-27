@@ -57,26 +57,46 @@ typedef enum propertyTypes
     PTBool,
     PTNumber,
     PTInteger,
+    PTArray,
     PTObject,
 } PropertyType;
 
 @interface EntityData : NSObject
-@property (strong) UITextField *textField;
-@property (strong) UILabel     *label;
+@property (strong) UITextField *editValueTextField;
+@property (strong) UILabel     *subtitleLabel;
+@property (strong) UIButton    *addMoreButton;
 @property          PropertyType propertyType;
+@property (strong) NSString    *propertyKey;
 @property (strong) NSString    *propertyValue;
 @property          BOOL         canEdit;
+@property          BOOL         canDrillDownToEdit;
 @property          BOOL         wasChanged;
 @end
 
 @implementation EntityData
-@synthesize textField;
+@synthesize editValueTextField;
+@synthesize subtitleLabel;
+@synthesize addMoreButton;
 @synthesize propertyType;
+@synthesize propertyKey;
 @synthesize propertyValue;
-@synthesize wasChanged;
 @synthesize canEdit;
-@synthesize label;
+@synthesize canDrillDownToEdit;
+@synthesize wasChanged;
+@end
 
+SEL selectorFromKey(NSString *key)
+{
+    if (!key || [key length] < 1)
+        return nil;
+
+    return NSSelectorFromString([NSString stringWithFormat:@"set%@:",
+                  [key stringByReplacingCharactersInRange:NSMakeRange(0,1)
+                                               withString:[[key substringToIndex:1] capitalizedString]]]);
+}
+
+@interface UserDrillDownViewController ()
+@property (strong) EntityData *currentlyEditingData;
 @end
 
 @implementation UserDrillDownViewController
@@ -85,6 +105,7 @@ typedef enum propertyTypes
 @synthesize myTableView;
 @synthesize captureData;
 @synthesize myUpdateButton;
+@synthesize currentlyEditingData;
 
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
@@ -92,9 +113,6 @@ typedef enum propertyTypes
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
-//        self.tableViewData   = object;
-//        self.tableViewHeader = key;
-
         self.captureData = object;
 
         if ([object isKindOfClass:[NSArray class]])
@@ -104,7 +122,7 @@ typedef enum propertyTypes
         else
             self.tableViewData = nil;
 
-        self.tableViewHeader = key;//NSStringFromClass([object class]);
+        self.tableViewHeader = key;
         propertyArray = [NSMutableArray arrayWithCapacity:10];
     }
 
@@ -150,11 +168,15 @@ typedef enum propertyTypes
 
     for (EntityData *data in propertyArray)
     {
-        if (data.canEdit)
+        if (data.canEdit || data.canDrillDownToEdit)
         {
-            data.textField.hidden      = NO;
-            data.label.hidden          = YES;
-            data.textField.placeholder = data.label.text;
+            if (data.canDrillDownToEdit)
+                data.addMoreButton.hidden = NO;
+            else
+                data.editValueTextField.hidden = NO;
+
+            data.subtitleLabel.hidden = YES;
+            //data.textField.placeholder = data.label.text;
         }
     }
 
@@ -177,12 +199,17 @@ typedef enum propertyTypes
 
     for (EntityData *data in propertyArray)
     {
-        if (data.canEdit)
+        if (data.canEdit || data.canDrillDownToEdit)
         {
-            data.textField.hidden      = YES;
-            data.label.hidden          = NO;
-            if (data.textField.text && ![data.textField.text isEqualToString:@""])
-                data.label.text = data.textField.placeholder;
+            if (data.canDrillDownToEdit)
+                data.addMoreButton.hidden = YES;
+            else
+                data.editValueTextField.hidden = YES;
+
+            data.subtitleLabel.hidden = NO;
+
+//            if (data.textField.text && ![data.editValueTextField.text isEqualToString:@""])
+//                data.label.text = data.textField.placeholder;
         }
     }
 
@@ -195,8 +222,14 @@ typedef enum propertyTypes
 
 - (IBAction)updateButtonPressed:(id)sender
 {
+    DLog(@"%@", [[(id<JRJsonifying>)captureData dictionaryFromObject] description]);
+}
+
+- (void)addMoreButtonPressed:(id)sender
+{
 
 }
+
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -206,11 +239,26 @@ typedef enum propertyTypes
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     firstResponder = textField;
+
+    NSUInteger itemIndex = (NSUInteger) (textField.tag - 100);
+    currentlyEditingData = [propertyArray objectAtIndex:itemIndex];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    NSUInteger itemIndex = (NSUInteger) (textField.tag - 100);
+    currentlyEditingData = [propertyArray objectAtIndex:itemIndex];
 
+    if (![textField.text isEqualToString:currentlyEditingData.propertyValue])
+    {
+        currentlyEditingData.propertyValue = textField.text;
+
+        SEL setKeySelector = selectorFromKey(currentlyEditingData.propertyKey);
+        if ([captureData respondsToSelector:setKeySelector])
+        {
+            [captureData performSelector:setKeySelector withObject:currentlyEditingData.propertyValue];
+        }
+    }
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
@@ -281,7 +329,8 @@ typedef enum propertyTypes
 {
     static NSInteger keyLabelTag   = 1;
     static NSInteger valueLabelTag = 2;
-    static NSInteger textFieldTag  = 3;
+    NSInteger textFieldTag         = 100 + indexPath.row;
+    NSInteger addMoreButtonTag     = 200 + indexPath.row;
 
     UITableViewCellStyle style = UITableViewCellStyleDefault;
     NSString *reuseIdentifier  = [NSString stringWithFormat:@"cachedCell_%d", indexPath.row];
@@ -328,6 +377,26 @@ typedef enum propertyTypes
         frame.origin.y     += 2;
         frame.size.height  -= 4;
 
+        UIButton *addMoreButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        addMoreButton.frame     = frame;
+        addMoreButton.tag       = addMoreButtonTag;
+
+        [addMoreButton setTitle:@"Add" forState:UIControlStateNormal];
+        [addMoreButton setTitleColor:[UIColor blackColor]
+                                    forState:UIControlStateNormal];
+        [addMoreButton setTitleShadowColor:[UIColor grayColor]
+                                          forState:UIControlStateNormal];
+        [addMoreButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0]];
+        [addMoreButton setHidden:YES];
+
+        [addMoreButton addTarget:self
+                          action:@selector(addMoreButtonPressed:)
+                forControlEvents:UIControlEventTouchUpInside];
+
+        [addMoreButton setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+
+        [cell.contentView addSubview:addMoreButton];
+
         UITextField *textField = [[UITextField alloc] initWithFrame:frame];
         textField.tag          = textFieldTag;
 
@@ -353,6 +422,7 @@ typedef enum propertyTypes
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
     UITextField *textField = (UITextField*)[cell.contentView viewWithTag:textFieldTag];
+    UIButton    *button    = (UIButton*)[cell.contentView viewWithTag:addMoreButtonTag];
 
     NSString* subtitle  = nil;
     NSString* cellTitle = nil;
@@ -409,10 +479,20 @@ typedef enum propertyTypes
         else
         {/* cellTitle will be null if our data is an array, but why have an array of empty arrays? */
             subtitle = cellTitle ? [NSString stringWithFormat:@"No known %@", cellTitle] : @"[none]";
+            data.canDrillDownToEdit = YES;
         }
 
-        data.propertyType = PTObject;
-        data.canEdit      = NO;
+        /* Also, if our item is an array ... */
+        if ([value isKindOfClass:[NSArray class]])
+        {
+            data.propertyType       = PTArray;
+            data.canEdit            = NO;
+        }
+        else /* if ([value isKindOfClass:[NSDictionary class]]) */
+        {
+            data.propertyType       = PTObject;
+            data.canEdit            = NO;
+        }
     }
  /* If our item is a string, */
     else if ([value isKindOfClass:[NSString class]])
@@ -446,8 +526,14 @@ typedef enum propertyTypes
 
     titleLabel.text    = cellTitle;
 
-    data.textField = textField;
-    data.label     = subtitleLabel;
+    if ([key isEqualToString:@"id"] || [key isEqualToString:@"uuid"] ||
+        [key isEqualToString:@"created"] || [key isEqualToString:@"lastUpdated"])
+        data.canEdit = NO;
+
+    data.subtitleLabel      = subtitleLabel;
+    data.editValueTextField = textField;
+    data.addMoreButton      = button;
+    data.propertyKey        = key;
 
     if (!cellTitle)
         subtitleLabel.frame = UP_A_LITTLE_HIGHER(subtitleLabel);
@@ -490,10 +576,10 @@ typedef enum propertyTypes
         return;                    /* to the 'count' selector, we just cast as an array to avoid IDE complaints */
 
     UserDrillDownViewController *drillDown =
-                                        [[UserDrillDownViewController alloc] initWithNibName:@"UserDrillDownViewController"
-                                                                                       bundle:[NSBundle mainBundle]
-                                                                                andDataObject:captureObj
-                                                                                       forKey:key];
+                [[UserDrillDownViewController alloc] initWithNibName:@"UserDrillDownViewController"
+                                                               bundle:[NSBundle mainBundle]
+                                                        andDataObject:captureObj
+                                                               forKey:key];
 
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
@@ -525,8 +611,8 @@ typedef enum propertyTypes
 
 - (void)dealloc
 {
-    tableViewHeader, tableViewHeader = nil;
-    tableViewData, tableViewData = nil;
+//    tableViewHeader, tableViewHeader = nil;
+//    tableViewData, tableViewData = nil;
 }
 @end
 
