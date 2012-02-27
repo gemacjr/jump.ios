@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRUrls : NSObject <NSCopying, JRJsonifying>
+@interface JRUrls : JRCaptureObject
 @property                   NSInteger urlsId;
 @property                   BOOL primary;
 @property (nonatomic, copy) NSString *type;  

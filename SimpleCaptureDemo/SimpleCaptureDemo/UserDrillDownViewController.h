@@ -45,10 +45,6 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *myUpdateButton;
 - (IBAction)updateButtonPressed:(id)sender;
 
-//- (id)initWithObject:(NSObject*)object forKey:(NSString*)key;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
         andDataObject:(NSObject*)object forKey:(NSString*)key;
-//- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
-//            andObject:(NSObject *)object;//andDataObject:(NSObject*)object forKey:(NSString*)key;
-
 @end

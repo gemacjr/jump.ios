@@ -33,7 +33,7 @@
 #import "JRCapture.h"
 #import "JRLocation.h"
 
-@interface JROrganizations : NSObject <NSCopying, JRJsonifying>
+@interface JROrganizations : JRCaptureObject
 @property                   NSInteger organizationsId;
 @property (nonatomic, copy) NSString *department;  
 @property (nonatomic, copy) NSString *description;  

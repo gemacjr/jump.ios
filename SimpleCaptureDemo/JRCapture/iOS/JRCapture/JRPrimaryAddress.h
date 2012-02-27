@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRPrimaryAddress : NSObject <NSCopying, JRJsonifying>
+@interface JRPrimaryAddress : JRCaptureObject
 @property (nonatomic, copy) NSString *address1;  
 @property (nonatomic, copy) NSString *address2;  
 @property (nonatomic, copy) NSString *city;  

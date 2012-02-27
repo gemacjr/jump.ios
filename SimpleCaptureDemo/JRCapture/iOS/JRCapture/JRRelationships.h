@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRRelationships : NSObject <NSCopying, JRJsonifying>
+@interface JRRelationships : JRCaptureObject
 @property                   NSInteger relationshipsId;
 @property (nonatomic, copy) NSString *relationship;  
 - (id)init;

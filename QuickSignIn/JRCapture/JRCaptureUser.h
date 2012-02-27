@@ -36,7 +36,7 @@
 #import "JRProfiles.h"
 #import "JRStatuses.h"
 
-@interface JRCaptureUser : NSObject <NSCopying, JRJsonifying>
+@interface JRCaptureUser : JRCaptureObject
 @property                   NSInteger captureUserId;
 @property (nonatomic, copy) NSString *uuid;  
 @property (nonatomic, copy) NSDate *created;  

@@ -34,7 +34,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
-#import "JRCaptureUser.h"
+
 
 @protocol JRCaptureInterfaceDelegate <NSObject>
 @optional
@@ -50,7 +50,7 @@
 
 @interface JRCaptureInterface : NSObject <JRConnectionManagerDelegate>
 {
-    JRCaptureUser *captureUser;
+//    JRCaptureUser *captureUser;
 
     id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
 }

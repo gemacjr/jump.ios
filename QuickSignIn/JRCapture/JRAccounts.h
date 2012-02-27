@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRAccounts : NSObject <NSCopying, JRJsonifying>
+@interface JRAccounts : JRCaptureObject
 @property                   NSInteger accountsId;
 @property (nonatomic, copy) NSString *domain;  
 @property                   BOOL primary;

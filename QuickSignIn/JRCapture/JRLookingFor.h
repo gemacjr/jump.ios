@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRLookingFor : NSObject <NSCopying, JRJsonifying>
+@interface JRLookingFor : JRCaptureObject
 @property                   NSInteger lookingForId;
 @property (nonatomic, copy) NSString *value;  
 - (id)init;

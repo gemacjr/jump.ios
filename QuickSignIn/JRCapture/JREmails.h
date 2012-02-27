@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JREmails : NSObject <NSCopying, JRJsonifying>
+@interface JREmails : JRCaptureObject
 @property                   NSInteger emailsId;
 @property                   BOOL primary;
 @property (nonatomic, copy) NSString *type;  

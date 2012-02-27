@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRFollowers : NSObject <NSCopying, JRJsonifying>
+@interface JRFollowers : JRCaptureObject
 @property                   NSInteger followersId;
 @property (nonatomic, copy) NSString *identifier;  
 - (id)initWithIdentifier:(NSString *)newIdentifier;

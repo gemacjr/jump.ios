@@ -565,7 +565,7 @@ sub recursiveParse {
   # Declare the interface, add the properties, and add the function
   # declarations
   ##########################################################################
-  $hFile .= "\@interface $className : NSObject <NSCopying, JRJsonifying>\n";
+  $hFile .= "\@interface $className : JRCaptureObject\n";# <NSCopying, JRJsonifying>\n";
   $hFile .= $propertiesSection;
   $hFile .= "$constructorSection[0]$constructorSection[1];\n";
   $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n";

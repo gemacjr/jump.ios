@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRLanguagesSpoken : NSObject <NSCopying, JRJsonifying>
+@interface JRLanguagesSpoken : JRCaptureObject
 @property                   NSInteger languagesSpokenId;
 @property (nonatomic, copy) NSString *languageSpoken;  
 - (id)init;

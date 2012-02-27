@@ -234,15 +234,17 @@ sub recursiveParse {
     ######################################################
     # Initialize property attributes to default values
     ######################################################
-    my $objectiveType = "";            # Property type in Objective-C (e.g., NSString*)
-    my $toDictionary  = $propertyName; # Default operation is to just stick the NSObject into an NSMutableDictionary
-    my $frDictionary  =                # Default operation is to just pull the NSObject from the dictionary and stick it into the property
+    my $objectiveType = "";             # Property type in Objective-C (e.g., NSString*)
+    my $toDictionary  = $propertyName;  # Default operation is to just stick the NSObject into an NSMutableDictionary
+    my $frDictionary  =                 # Default operation is to just pull the NSObject from the dictionary and stick it into the property
           "[dictionary objectForKey:\@\"$propertyName\"]";
-    my $isNotNSObject = 0;             # If it's a boolean or integer, we don't retain/release, etc.
-    my $isArrayType   = 0;             # If it's an array (plural), we do things differently
-    my $isIdName      = 0;             # If the name of the property is 'id', we also do things differently
-    my $propertyNotes = "";            # Comment that provides more infomation if necessary for a property 
-                                       # (e.g., in the case of an array of objects versus and array of strings)
+#     my $encoderMethod = "encodeObject"; # Default method
+#     my $decoderMethod = "decodeObject"; # Default method
+    my $isNotNSObject = 0;              # If it's a boolean or integer, we don't retain/release, etc.
+    my $isArrayType   = 0;              # If it's an array (plural), we do things differently
+    my $isIdName      = 0;              # If the name of the property is 'id', we also do things differently
+    my $propertyNotes = "";             # Comment that provides more infomation if necessary for a property 
+                                        # (e.g., in the case of an array of objects versus and array of strings)
     
     ######################################################
     # Find out if it's a required property, and
@@ -273,6 +275,8 @@ sub recursiveParse {
       $objectiveType = "BOOL";
       $toDictionary  = "[NSNumber numberWithBool:$propertyName]";
       $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"$propertyName\"] boolValue]";
+#       $encoderMethod = "encodeBool";
+#       $decoderMethod = "decodeBool";
 
     } elsif ($propertyType eq "integer") {
     ##################
@@ -282,7 +286,9 @@ sub recursiveParse {
       $objectiveType = "NSInteger";
       $toDictionary  = "[NSNumber numberWithInt:$propertyName]";
       $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"$propertyName\"] intValue]";
-      
+#       $encoderMethod = "encodeInt";
+#       $decoderMethod = "decodeInt";
+
     } elsif ($propertyType eq "decimal") {
     ##################
     # NUMBER
@@ -559,7 +565,7 @@ sub recursiveParse {
   # Declare the interface, add the properties, and add the function
   # declarations
   ##########################################################################
-  $hFile .= "\@interface $className : NSObject <NSCopying, JRJsonifying>\n";
+  $hFile .= "\@interface $className : JRCaptureObject\n";# <NSCopying, JRJsonifying>\n";
   $hFile .= $propertiesSection;
   $hFile .= "$constructorSection[0]$constructorSection[1];\n";
   $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n";

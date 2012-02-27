@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRTurnOffs : NSObject <NSCopying, JRJsonifying>
+@interface JRTurnOffs : JRCaptureObject
 @property                   NSInteger turnOffsId;
 @property (nonatomic, copy) NSString *turnOff;  
 - (id)init;

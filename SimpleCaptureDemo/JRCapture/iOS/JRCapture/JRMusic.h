@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRMusic : NSObject <NSCopying, JRJsonifying>
+@interface JRMusic : JRCaptureObject
 @property                   NSInteger musicId;
 @property (nonatomic, copy) NSString *music;  
 - (id)init;

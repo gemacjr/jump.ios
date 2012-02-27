@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRBodyType : NSObject <NSCopying, JRJsonifying>
+@interface JRBodyType : JRCaptureObject
 @property (nonatomic, copy) NSString *build;  
 @property (nonatomic, copy) NSString *color;  
 @property (nonatomic, copy) NSString *eyeColor;  

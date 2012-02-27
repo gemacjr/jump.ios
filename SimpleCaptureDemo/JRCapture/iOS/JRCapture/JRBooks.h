@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRBooks : NSObject <NSCopying, JRJsonifying>
+@interface JRBooks : JRCaptureObject
 @property                   NSInteger booksId;
 @property (nonatomic, copy) NSString *book;  
 - (id)init;

@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRFood : NSObject <NSCopying, JRJsonifying>
+@interface JRFood : JRCaptureObject
 @property                   NSInteger foodId;
 @property (nonatomic, copy) NSString *food;  
 - (id)init;

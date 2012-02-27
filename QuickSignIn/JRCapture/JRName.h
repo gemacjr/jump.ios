@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRName : NSObject <NSCopying, JRJsonifying>
+@interface JRName : JRCaptureObject
 @property (nonatomic, copy) NSString *familyName;  
 @property (nonatomic, copy) NSString *formatted;  
 @property (nonatomic, copy) NSString *givenName;  

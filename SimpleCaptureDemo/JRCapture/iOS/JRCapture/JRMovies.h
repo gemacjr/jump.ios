@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRMovies : NSObject <NSCopying, JRJsonifying>
+@interface JRMovies : JRCaptureObject
 @property                   NSInteger moviesId;
 @property (nonatomic, copy) NSString *movie;  
 - (id)init;

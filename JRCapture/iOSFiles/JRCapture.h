@@ -47,6 +47,9 @@
 - (NSDictionary*)dictionaryFromObject;
 @end
 
+@interface JRCaptureObject : NSObject <NSCopying, JRJsonifying>
+@end
+
 @protocol JRProfilesAssumedPresence <NSObject>
 @optional
 + (id)profilesObjectFromDictionary:(NSDictionary *)dictionary;

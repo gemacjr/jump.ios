@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRPhotos : NSObject <NSCopying, JRJsonifying>
+@interface JRPhotos : JRCaptureObject
 @property                   NSInteger photosId;
 @property (nonatomic, copy) NSString *type;  
 @property (nonatomic, copy) NSString *value;  

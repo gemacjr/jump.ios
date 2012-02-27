@@ -166,6 +166,9 @@
 }
 @end
 
+@implementation JRCaptureObject
+@end
+
 @implementation JRCapture
 /* Only here until the Capture server populates this field for us */
 + (NSString *)domainFromIdentifier:(NSString *)identifier

@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRSports : NSObject <NSCopying, JRJsonifying>
+@interface JRSports : JRCaptureObject
 @property                   NSInteger sportsId;
 @property (nonatomic, copy) NSString *sport;  
 - (id)init;

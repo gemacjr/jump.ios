@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRFriends : NSObject <NSCopying, JRJsonifying>
+@interface JRFriends : JRCaptureObject
 @property                   NSInteger friendsId;
 @property (nonatomic, copy) NSString *identifier;  
 - (id)initWithIdentifier:(NSString *)newIdentifier;

@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRTvShows : NSObject <NSCopying, JRJsonifying>
+@interface JRTvShows : JRCaptureObject
 @property                   NSInteger tvShowsId;
 @property (nonatomic, copy) NSString *tvShow;  
 - (id)init;

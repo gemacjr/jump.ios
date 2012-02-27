@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRCars : NSObject <NSCopying, JRJsonifying>
+@interface JRCars : JRCaptureObject
 @property                   NSInteger carsId;
 @property (nonatomic, copy) NSString *car;  
 - (id)init;

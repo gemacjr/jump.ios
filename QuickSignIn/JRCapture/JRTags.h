@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRTags : NSObject <NSCopying, JRJsonifying>
+@interface JRTags : JRCaptureObject
 @property                   NSInteger tagsId;
 @property (nonatomic, copy) NSString *tag;  
 - (id)init;

@@ -63,7 +63,7 @@
 #import "JRTvShows.h"
 #import "JRUrls.h"
 
-@interface JRProfile : NSObject <NSCopying, JRJsonifying>
+@interface JRProfile : JRCaptureObject
 @property (nonatomic, copy) NSString *aboutMe;  
 @property (nonatomic, copy) NSArray *accounts; /* This is an array of JRAccounts */ 
 @property (nonatomic, copy) NSArray *addresses; /* This is an array of JRAddresses */ 

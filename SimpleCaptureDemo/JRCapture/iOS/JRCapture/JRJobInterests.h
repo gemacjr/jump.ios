@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRJobInterests : NSObject <NSCopying, JRJsonifying>
+@interface JRJobInterests : JRCaptureObject
 @property                   NSInteger jobInterestsId;
 @property (nonatomic, copy) NSString *jobInterest;  
 - (id)init;

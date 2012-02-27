@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRLocation : NSObject <NSCopying, JRJsonifying>
+@interface JRLocation : JRCaptureObject
 @property (nonatomic, copy) NSString *country;  
 @property (nonatomic, copy) NSString *extendedAddress;  
 @property (nonatomic, copy) NSString *formatted;  

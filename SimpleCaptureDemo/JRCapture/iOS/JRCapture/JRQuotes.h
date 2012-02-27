@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRQuotes : NSObject <NSCopying, JRJsonifying>
+@interface JRQuotes : JRCaptureObject
 @property                   NSInteger quotesId;
 @property (nonatomic, copy) NSString *quote;  
 - (id)init;

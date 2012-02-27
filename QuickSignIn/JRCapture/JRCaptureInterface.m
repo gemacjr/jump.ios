@@ -43,7 +43,6 @@
 
 #import "JRCaptureInterface.h"
 #import "JSONKit.h"
-#import "QuickSignInAppDelegate.h"
 
 @interface NSString (NSString_JSON_ESCAPE)
 - (NSString*)URLEscaped;
@@ -66,7 +65,7 @@
 
 @interface JRCaptureInterface ()
 @property (nonatomic, retain) id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
-@property (nonatomic, retain) JRCaptureUser *captureUser;
+//@property (nonatomic, retain) JRCaptureUser *captureUser;
 @property (nonatomic, copy)   NSString      *captureCreationToken;
 @property (nonatomic, copy)   NSString      *captureAccessToken;
 @property (nonatomic, copy)   NSString      *captureDomain;
@@ -76,7 +75,7 @@
 
 @implementation JRCaptureInterface
 @synthesize captureInterfaceDelegate;
-@synthesize captureUser;
+//@synthesize captureUser;
 @synthesize captureCreationToken;
 @synthesize captureAccessToken;
 @synthesize captureDomain;
@@ -488,7 +487,7 @@ typedef enum CaptureInterfaceStatEnum
 - (void)dealloc
 {
     [captureInterfaceDelegate release];
-    [captureUser release];
+    //[captureUser release];
     [captureCreationToken release];
 
     [clientId release];

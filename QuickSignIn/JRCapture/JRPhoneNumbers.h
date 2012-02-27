@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRPhoneNumbers : NSObject <NSCopying, JRJsonifying>
+@interface JRPhoneNumbers : JRCaptureObject
 @property                   NSInteger phoneNumbersId;
 @property                   BOOL primary;
 @property (nonatomic, copy) NSString *type;  

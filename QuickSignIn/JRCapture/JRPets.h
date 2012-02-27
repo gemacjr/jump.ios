@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRPets : NSObject <NSCopying, JRJsonifying>
+@interface JRPets : JRCaptureObject
 @property                   NSInteger petsId;
 @property (nonatomic, copy) NSString *value;  
 - (id)init;

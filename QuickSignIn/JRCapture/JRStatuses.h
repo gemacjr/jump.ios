@@ -32,7 +32,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
-@interface JRStatuses : NSObject <NSCopying, JRJsonifying>
+@interface JRStatuses : JRCaptureObject
 @property                   NSInteger statusesId;
 @property (nonatomic, copy) NSString *status;  
 @property (nonatomic, copy) NSDate *statusCreated;  
