@@ -41,6 +41,8 @@
 @property (strong) NSObject *tableViewData;
 @property (strong) NSString *tableViewHeader;
 @property (nonatomic, strong) IBOutlet UITableView *myTableView;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *myUpdateButton;
+- (IBAction)updateButtonPressed:(id)sender;
 
 //- (id)initWithObject:(NSObject*)object forKey:(NSString*)key;
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil

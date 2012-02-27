@@ -84,6 +84,7 @@ typedef enum propertyTypes
 @synthesize tableViewData;
 @synthesize myTableView;
 @synthesize captureData;
+@synthesize myUpdateButton;
 
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
@@ -109,33 +110,6 @@ typedef enum propertyTypes
 
     return self;
 }
-
-//- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
-//            andObject:(NSObject *)object forKey:(NSString *)key
-//{
-//    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
-//    {
-//        if ([object isKindOfClass:[NSArray class]])
-//            self.tableViewData = object;
-//        else if ([object respondsToSelector:@selector(dictionaryForObject)])
-//            self.tableViewData = [(id<JRJsonifying>)object dictionaryForObject];
-//
-//        self.tableViewHeader = key;//NSStringFromClass([object class]);
-//    }
-//
-//    return self;
-//}
-
-//- (id)initWithObject:(NSObject*)object forKey:(NSString*)key
-//{
-//    if ((self = [super init]))
-//    {
-//        self.tableViewData   = object;
-//        self.tableViewHeader = key;
-//    }
-//
-//    return self;
-//}
 
 - (void)viewDidLoad
 {
@@ -184,9 +158,9 @@ typedef enum propertyTypes
         }
     }
 
+    //myUpdateButton.enabled = NO;
     isEditing = YES;
     [myTableView reloadData];
-
 }
 
 - (void)doneButtonPressed:(id)sender
@@ -212,10 +186,16 @@ typedef enum propertyTypes
         }
     }
 
+    //myUpdateButton.enabled = NO;
     isEditing = NO;
-    [firstResponder resignFirstResponder];
-    firstResponder = nil;
+
+    [firstResponder resignFirstResponder], firstResponder = nil;
     [myTableView reloadData];
+}
+
+- (IBAction)updateButtonPressed:(id)sender
+{
+
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -345,11 +325,14 @@ typedef enum propertyTypes
 
         [cell.contentView addSubview:valueLabel];
 
+        frame.origin.y     += 2;
+        frame.size.height  -= 4;
+
         UITextField *textField = [[UITextField alloc] initWithFrame:frame];
         textField.tag          = textFieldTag;
 
         textField.backgroundColor = [UIColor clearColor];
-        textField.font            = [UIFont boldSystemFontOfSize:16.0];
+        textField.font            = [UIFont systemFontOfSize:14.0];
         textField.textColor       = [UIColor blackColor];
         textField.textAlignment   = UITextAlignmentLeft;
         textField.hidden          = YES;
@@ -456,7 +439,7 @@ typedef enum propertyTypes
     }
     else { /* I dunno... Just hopin' it won't happen... */ }
 
-    if (textField.text)
+    if (textField.text && ![textField.text isEqualToString:@""])
         subtitleLabel.text = textField.text;
     else
         subtitleLabel.text = subtitle;

@@ -212,7 +212,7 @@ static NSString *entityTypeName = @"demo_user";
     currentProvider    = [provider copy];
 
     [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:currentProvider forKey:@"currentDisplayName"];
+    [prefs setObject:currentDisplayName forKey:@"currentDisplayName"];
     [prefs setObject:currentProvider forKey:@"currentProvider"];
 
     if ([signInDelegate respondsToSelector:@selector(engageSignInDidSucceed)])

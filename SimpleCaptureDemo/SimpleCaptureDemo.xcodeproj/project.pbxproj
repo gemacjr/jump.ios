@@ -240,6 +240,7 @@
 		9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D414F9AC5900053EA2 /* JRCaptureUser+Extras.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6D514F9AC5900053EA5 /* UserDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */; };
 		9FD2B6D514F9AC5900053EA8 /* UserDrillDownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D514F9AC5900053EA7 /* UserDrillDownViewController.xib */; };
+		9FD2B6DC14FAFF9100053EA2 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DA14FAFF9100053EA2 /* background.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -553,6 +554,7 @@
 		9FD2B6D514F9AC5900053EA3 /* UserDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDrillDownViewController.h; sourceTree = "<group>"; };
 		9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDrillDownViewController.m; sourceTree = "<group>"; };
 		9FD2B6D514F9AC5900053EA6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserDrillDownViewController.xib; sourceTree = "<group>"; };
+		9FD2B6DB14FAFF9100053EA2 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/background.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -618,6 +620,7 @@
 		90C36B6B7717AA0C893E08EF /* SimpleCaptureDemo */ = {
 			isa = PBXGroup;
 			children = (
+				9FD2B6DA14FAFF9100053EA2 /* background.png */,
 				9FD2B6D514F9AC5900053EA7 /* UserDrillDownViewController.xib */,
 				9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */,
 				9FD2B6D514F9AC5900053EA3 /* UserDrillDownViewController.h */,
@@ -1317,6 +1320,7 @@
 				9FD2B63B14F836D100053EA2 /* JRWebViewController.xib in Resources */,
 				9FD2B6C114F8387B00053EAE /* CaptureNewUserViewController.xib in Resources */,
 				9FD2B6D514F9AC5900053EA8 /* UserDrillDownViewController.xib in Resources */,
+				9FD2B6DC14FAFF9100053EA2 /* background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1475,6 +1479,14 @@
 				9FD2B6D514F9AC5900053EA6 /* en */,
 			);
 			name = UserDrillDownViewController.xib;
+			sourceTree = "<group>";
+		};
+		9FD2B6DA14FAFF9100053EA2 /* background.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9FD2B6DB14FAFF9100053EA2 /* en */,
+			);
+			name = background.png;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
