@@ -167,6 +167,43 @@
 @end
 
 @implementation JRCaptureObject
+@synthesize accessToken;
+@synthesize updateDelegate;
+
+- (void)updateForDelegate:(id<JRCaptureObjectDelegate>)delegate
+{
+    self.updateDelegate = delegate;
+
+    [JRCaptureInterface updateCaptureUser:[self dictionaryFromObject]
+                          withAccessToken:self.accessToken
+                              forDelegate:self];
+
+//            createCaptureUser:[self dictionaryFromObject]
+//                        withCreationToken:[[JRCaptureUserExtras captureUserExtras] creationToken]
+//                              forDelegate:self];
+
+}
+
+- (void)updateCaptureUserDidFailWithResult:(NSString *)result
+{
+    if ([self.updateDelegate respondsToSelector:@selector(updateCaptureEntity:didFailWithResult:)])
+        [self.updateDelegate updateCaptureEntity:self didFailWithResult:result];
+
+    self.updateDelegate = nil;
+}
+
+- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result
+{
+    if ([self.updateDelegate respondsToSelector:@selector(updateCaptureEntity:didSucceedWithResult:)])
+        [self.updateDelegate updateCaptureEntity:self didSucceedWithResult:result];
+}
+
+- (void)dealloc
+{
+    [updateDelegate release];
+    [accessToken release];
+    [super dealloc];
+}
 @end
 
 @implementation JRCapture

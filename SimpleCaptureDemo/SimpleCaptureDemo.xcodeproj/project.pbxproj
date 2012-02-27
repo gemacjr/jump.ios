@@ -241,7 +241,6 @@
 		9FD2B6D514F9AC5900053EA5 /* UserDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */; };
 		9FD2B6D514F9AC5900053EA8 /* UserDrillDownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D514F9AC5900053EA7 /* UserDrillDownViewController.xib */; };
 		9FD2B6DC14FAFF9100053EA2 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DA14FAFF9100053EA2 /* background.png */; };
-		9FD2B6DC14FAFF9100053EA4 /* JRCaptureObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EA3 /* JRCaptureObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -556,7 +555,6 @@
 		9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDrillDownViewController.m; sourceTree = "<group>"; };
 		9FD2B6D514F9AC5900053EA6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserDrillDownViewController.xib; sourceTree = "<group>"; };
 		9FD2B6DB14FAFF9100053EA2 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/background.png; sourceTree = "<group>"; };
-		9FD2B6DC14FAFF9100053EA3 /* JRCaptureObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRCaptureObject.m; path = JRCapture/iOS/JRCapture/JRCaptureObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -588,7 +586,6 @@
 		90C36B6B7717AA0C893E08DC = {
 			isa = PBXGroup;
 			children = (
-				9FD2B6DC14FAFF9100053EA3 /* JRCaptureObject.m */,
 				9FD2B6C014F8387B00053EA2 /* MessageUI.framework */,
 				9FD2B6BE14F8387100053EA2 /* Security.framework */,
 				9FD2B44A14F8366C00053EA2 /* JREngage */,
@@ -1422,7 +1419,6 @@
 				9FD2B6C114F8387B00053EAB /* CaptureNewUserViewController.m in Sources */,
 				9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */,
 				9FD2B6D514F9AC5900053EA5 /* UserDrillDownViewController.m in Sources */,
-				9FD2B6DC14FAFF9100053EA4 /* JRCaptureObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,7 +28,8 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #import "UserDrillDownViewController.h"
-#import "JRCapture.h"
+#import "objc/runtime.h"
+#import "SharedData.h"
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -37,6 +38,86 @@
 #endif
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+
+@interface PropertyUtil : NSObject
++ (NSDictionary *)classPropsFor:(Class)klass;
+@end
+
+@implementation PropertyUtil
+static const char * getPropertyType(objc_property_t property) {
+//static NSString* getPropertyType(objc_property_t property) {
+    const char *attributes = property_getAttributes(property);
+    printf("attributes=%s\n", attributes);
+    char buffer[1 + strlen(attributes)];
+    strcpy(buffer, attributes);
+    char *state = buffer, *attribute;
+    while ((attribute = strsep(&state, ",")) != NULL) {
+        if (attribute[0] == 'T' && attribute[1] != '@') {
+            // it's a C primitive type:
+            /*
+                if you want a list of what will be returned for these primitives, search online for
+                "objective-c" "Property Attribute Description Examples"
+                apple docs list plenty of examples of what you get for int "i", long "l", unsigned "I", struct, etc.
+            */
+
+//            char propType = attribute[1];
+//            printf("%s", propType);
+//
+//            if (attribute[1] == 'i')
+//                return "NSInteger";
+//            else if (attribute[1] == 'b')
+//                return "BOOL";
+//            else
+//                return "NO IDEA";
+
+            return (const char *)[[NSData dataWithBytes:attribute length:strlen(attribute)] bytes];
+//            return (const char *)[[NSData dataWithBytes:(attribute + 1) length:strlen(attribute) - 1] bytes];
+//            return (const char *)[[NSData dataWithBytes:(attribute) length:strlen(attribute) - 1] bytes];
+            //[[NSString stringWithCharacters:attribute length:1] substringFromIndex:1];
+        }
+        else if (attribute[0] == 'T' && attribute[1] == '@' && strlen(attribute) == 2) {
+            // it's an ObjC id type:
+            return "id";
+        }
+        else if (attribute[0] == 'T' && attribute[1] == '@') {
+            // it's another ObjC object type:
+            return (const char *)[[NSData dataWithBytes:attribute length:strlen(attribute)] bytes];
+//            return (const char *)[[NSData dataWithBytes:(attribute + 3) length:strlen(attribute) - 4] bytes];
+//            /return (const char *)[[NSData dataWithBytes:(attribute) length:strlen(attribute) - 4] bytes];
+//            return "Something else";
+        }
+    }
+    return "";
+}
+
++ (NSDictionary *)classPropsFor:(Class)klass
+{
+    if (klass == NULL) {
+        return nil;
+    }
+
+    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+
+    unsigned int outCount, i;
+    objc_property_t *properties = class_copyPropertyList(klass, &outCount);
+    for (i = 0; i < outCount; i++) {
+        objc_property_t property = properties[i];
+        const char *propName = property_getName(property);
+        if(propName) {
+            const char *propType = getPropertyType(property);
+            NSString *propertyName = [NSString stringWithUTF8String:propName];
+            NSString *propertyType = [NSString stringWithUTF8String:propType];
+            [results setObject:propertyType forKey:propertyName];
+        }
+    }
+    free(properties);
+
+    // returning a copy here to make sure the dictionary is immutable
+    return [NSDictionary dictionaryWithDictionary:results];
+}
+@end
+
 
 @interface NSDictionary (OrderedKeys)
 - (NSArray*)allKeysOrdered;
@@ -95,35 +176,74 @@ SEL selectorFromKey(NSString *key)
                                                withString:[[key substringToIndex:1] capitalizedString]]]);
 }
 
+Class classNameFromKey(NSString *key)
+{
+    if (!key || [key length] < 1)
+        return nil;
+
+    return NSClassFromString([NSString stringWithFormat:@"JR%@",
+                  [key stringByReplacingCharactersInRange:NSMakeRange(0,1)
+                                               withString:[[key substringToIndex:1] capitalizedString]]]);
+}
+
+typedef enum
+{
+    DataTypeNone,
+    DataTypeObject,
+    DataTypeArray,
+} DataType;
+
 @interface UserDrillDownViewController ()
+@property          DataType         dataType;
+@property          NSUInteger       dataCount;
+@property (strong) JRCaptureObject *captureObject;
+@property (strong) JRCaptureObject *parentCaptureObject;
+@property (strong) NSObject *tableViewData;
+@property (strong) NSString *tableViewHeader;
 @property (strong) EntityData *currentlyEditingData;
 @end
 
 @implementation UserDrillDownViewController
+@synthesize dataType;
+@synthesize dataCount;
+@synthesize captureObject;
+@synthesize parentCaptureObject;
 @synthesize tableViewHeader;
 @synthesize tableViewData;
 @synthesize myTableView;
-@synthesize captureData;
 @synthesize myUpdateButton;
 @synthesize currentlyEditingData;
 
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
-        andDataObject:(NSObject*)object forKey:(NSString*)key
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forCaptureObject:(JRCaptureObject*)object
+  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
-        self.captureData = object;
+        self.captureObject       = object;
+        self.parentCaptureObject = parentObject;
 
         if ([object isKindOfClass:[NSArray class]])
+        {
+            self.dataType = DataTypeArray;
             self.tableViewData = object;
-        else if ([object respondsToSelector:@selector(dictionaryFromObject)])
-            self.tableViewData = [(id<JRJsonifying>)object dictionaryFromObject];
+            self.dataCount = [(NSArray *)tableViewData count];
+        }
+        else if ([NSStringFromClass([object superclass]) isEqualToString:@"JRCaptureObject"])//respondsToSelector:@selector(dictionaryFromObject)])
+        {
+            self.dataType = DataTypeObject;
+            self.tableViewData = [object dictionaryFromObject];
+            self.dataCount = [[(NSDictionary *)tableViewData allKeys] count];
+        }
         else
+        {
+            self.dataType = DataTypeNone;
             self.tableViewData = nil;
+            self.dataCount = 0;
+        }
 
         self.tableViewHeader = key;
-        propertyArray = [NSMutableArray arrayWithCapacity:10];
+        propertyArray = [NSMutableArray arrayWithCapacity:dataCount];
     }
 
     return self;
@@ -222,12 +342,83 @@ SEL selectorFromKey(NSString *key)
 
 - (IBAction)updateButtonPressed:(id)sender
 {
-    DLog(@"%@", [[(id<JRJsonifying>)captureData dictionaryFromObject] description]);
+    DLog(@"%@", [[captureObject dictionaryFromObject] description]);
+
+    parentCaptureObject.accessToken = [[SharedData sharedData] accessToken];
+    captureObject.accessToken = [[SharedData sharedData] accessToken];
+
+    if (parentCaptureObject)
+        [parentCaptureObject updateForDelegate:self];
+    else
+        [captureObject updateForDelegate:self];
 }
 
-- (void)addMoreButtonPressed:(id)sender
+- (void)updateCaptureEntity:(JRCaptureObject *)entity didFailWithResult:(NSString *)result
 {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:result
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Dismiss"
+                                              otherButtonTitles:nil];
+    [alertView show];
+}
 
+- (void)updateCaptureEntity:(JRCaptureObject *)entity didSucceedWithResult:(NSString *)result
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
+                                                        message:result
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+}
+
+
+- (void)addMoreButtonPressed:(UIButton *)sender
+{
+    NSUInteger itemIndex = (NSUInteger) (sender.tag - 200);
+    currentlyEditingData = [propertyArray objectAtIndex:itemIndex];
+
+    NSObject *propertyWithAddButton        =
+                [captureObject performSelector:NSSelectorFromString(currentlyEditingData.propertyKey)];
+    JRCaptureObject *newPropertySubObject  =
+                [[classNameFromKey(currentlyEditingData.propertyKey) alloc] init];
+    NSDictionary *newPropertySubProperties =
+                [PropertyUtil classPropsFor:classNameFromKey(currentlyEditingData.propertyKey)];
+
+    for (NSString *propertyString in [newPropertySubProperties allKeys])
+    {
+        DLog(@"name: %@ type: %@", propertyString, [newPropertySubProperties objectForKey:propertyString]);
+
+        // TODO: Check for all property types
+        if ([(NSString*)[newPropertySubProperties objectForKey:propertyString] isEqualToString:@"T@\"NSString\""])
+            [newPropertySubObject performSelector:selectorFromKey(propertyString) withObject:@"xxx"];
+    }
+
+    DLog(@"%@", [[newPropertySubObject dictionaryFromObject] description]);
+
+    JRCaptureObject *newParentObject;
+    if ([propertyWithAddButton isKindOfClass:[NSArray class]])
+    {
+        newParentObject = captureObject;
+        [captureObject performSelector:selectorFromKey(currentlyEditingData.propertyKey)
+                                  withObject:[NSArray arrayWithObject:newPropertySubObject]];
+    }
+    else if (dataType == DataTypeObject)
+    {
+        newParentObject = captureObject;
+        [captureObject performSelector:selectorFromKey(currentlyEditingData.propertyKey)
+                            withObject:newPropertySubObject];
+    }
+
+    UserDrillDownViewController *drillDown =
+                [[UserDrillDownViewController alloc] initWithNibName:@"UserDrillDownViewController"
+                                                              bundle:[NSBundle mainBundle]
+                                                    forCaptureObject:newPropertySubObject
+                                                 captureParentObject:newParentObject
+                                                              andKey:currentlyEditingData.propertyKey];
+
+    [[self navigationController] pushViewController:drillDown animated:YES];
 }
 
 
@@ -254,9 +445,10 @@ SEL selectorFromKey(NSString *key)
         currentlyEditingData.propertyValue = textField.text;
 
         SEL setKeySelector = selectorFromKey(currentlyEditingData.propertyKey);
-        if ([captureData respondsToSelector:setKeySelector])
+        if ([captureObject respondsToSelector:setKeySelector])
         {
-            [captureData performSelector:setKeySelector withObject:currentlyEditingData.propertyValue];
+            // TODO: Check for all property types
+            [captureObject performSelector:setKeySelector withObject:currentlyEditingData.propertyValue];
         }
     }
 }
@@ -312,12 +504,13 @@ SEL selectorFromKey(NSString *key)
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([tableViewData isKindOfClass:[NSArray class]])
-        return [((NSArray*)tableViewData) count];
-    else if ([tableViewData isKindOfClass:[NSDictionary class]])
-        return [[((NSDictionary*)tableViewData) allKeysOrdered] count];
-    else
-        return 0;
+//    if ([tableViewData isKindOfClass:[NSArray class]])
+//        return [((NSArray*)tableViewData) count];
+//    else if ([tableViewData isKindOfClass:[NSDictionary class]])
+//        return [[((NSDictionary*)tableViewData) allKeysOrdered] count];
+//    else
+//        return 0;
+    return dataCount;
 }
 
 #define HIGHER_SUBTITLE 10
@@ -547,21 +740,21 @@ SEL selectorFromKey(NSString *key)
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
-    NSString *key        = nil;
-    NSObject *value      = nil;
-    NSObject *captureObj = nil;
+    NSString *key                  = nil;
+    NSObject *value                = nil;
+    JRCaptureObject *captureSubObj = nil;
 
  /* Get the key, if there is one, and the value. */
     if ([tableViewData isKindOfClass:[NSArray class]])
     {
-        value      = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
-        captureObj = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
+        value         = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
+        captureSubObj = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
     }
     else if ([tableViewData isKindOfClass:[NSDictionary class]])
     {
-        key        = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:(NSUInteger)indexPath.row];
-        value      = [((NSDictionary *)tableViewData) objectForKey:key];
-        captureObj = [captureData performSelector:NSSelectorFromString(key)];
+        key           = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:(NSUInteger)indexPath.row];
+        value         = [((NSDictionary *)tableViewData) objectForKey:key];
+        captureSubObj = [captureObject performSelector:NSSelectorFromString(key)];
     }
 
     if ([value respondsToSelector:@selector(dictionaryFromObject)])
@@ -577,9 +770,13 @@ SEL selectorFromKey(NSString *key)
 
     UserDrillDownViewController *drillDown =
                 [[UserDrillDownViewController alloc] initWithNibName:@"UserDrillDownViewController"
-                                                               bundle:[NSBundle mainBundle]
-                                                        andDataObject:captureObj
-                                                               forKey:key];
+                                                              bundle:[NSBundle mainBundle]
+                                                    forCaptureObject:captureSubObj
+                                                 captureParentObject:captureObject
+                                                              andKey:key];
+
+//                                                       andDataObject:captureObj
+//                                                              forKey:key];
 
     [[self navigationController] pushViewController:drillDown animated:YES];
 }

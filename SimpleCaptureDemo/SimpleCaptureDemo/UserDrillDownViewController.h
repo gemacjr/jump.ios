@@ -28,9 +28,10 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "JRCapture.h"
 
 @interface UserDrillDownViewController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
-                                                           UITableViewDataSource, UITextFieldDelegate>
+                                                           UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 {
     UITableView *myTableView;
     NSMutableArray *propertyArray;
@@ -38,13 +39,12 @@
     BOOL isEditing;
     UITextField *firstResponder;
 }
-@property (strong) NSObject *captureData;
-@property (strong) NSObject *tableViewData;
-@property (strong) NSString *tableViewHeader;
 @property (nonatomic, strong) IBOutlet UITableView *myTableView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *myUpdateButton;
 - (IBAction)updateButtonPressed:(id)sender;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
-        andDataObject:(NSObject*)object forKey:(NSString*)key;
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forCaptureObject:(JRCaptureObject*)object
+  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key;
+//- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
+//        andDataObject:(JRCaptureObject*)object forKey:(NSString*)key;
 @end

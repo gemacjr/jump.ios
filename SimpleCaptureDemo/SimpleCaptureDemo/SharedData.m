@@ -23,10 +23,15 @@
 @implementation SharedData
 static SharedData *singleton = nil;
 
-static NSString *appId          = @"mlfeingbenjalleljkpo";
-static NSString *captureDomain  = @"https://demo.staging.janraincapture.com/";
-static NSString *clientId       = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
-static NSString *entityTypeName = @"demo_user";
+static NSString *appId          = @"appcfamhnpkagijaeinl";
+static NSString *captureDomain  = @"https://mobile.dev.janraincapture.com";
+static NSString *clientId       = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
+static NSString *entityTypeName = @"user";
+
+//static NSString *appId          = @"mlfeingbenjalleljkpo";
+//static NSString *captureDomain  = @"https://demo.staging.janraincapture.com/";
+//static NSString *clientId       = @"svaf3gxsmcvyfpx5vcrdwyv2axvy9zqg";
+//static NSString *entityTypeName = @"demo_user";
 
 @synthesize engageUser;
 @synthesize captureUser;

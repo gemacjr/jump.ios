@@ -41,12 +41,21 @@
 
 - (IBAction)browseButtonPressed:(id)sender
 {
-    UserDrillDownViewController *viewController = [[UserDrillDownViewController alloc]
-            initWithNibName:@"UserDrillDownViewController"
-                     bundle:[NSBundle mainBundle]
-              andDataObject:sharedData.captureUser forKey:@"CaptureUser"];
+    UserDrillDownViewController *drillDown =
+                [[UserDrillDownViewController alloc] initWithNibName:@"UserDrillDownViewController"
+                                                              bundle:[NSBundle mainBundle]
+                                                    forCaptureObject:sharedData.captureUser
+                                                 captureParentObject:nil
+                                                              andKey:@"CaptureUser"];
 
-    [self.navigationController pushViewController:viewController animated:YES];
+    [[self navigationController] pushViewController:drillDown animated:YES];
+
+//    UserDrillDownViewController *viewController = [[UserDrillDownViewController alloc]
+//            initWithNibName:@"UserDrillDownViewController"
+//                     bundle:[NSBundle mainBundle]
+//              andDataObject:sharedData.captureUser forKey:@"CaptureUser"];
+//
+//    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (IBAction)updateButtonPressed:(id)sender

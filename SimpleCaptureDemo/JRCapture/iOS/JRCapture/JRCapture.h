@@ -34,6 +34,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
+#import "JRCaptureInterface.h"
 
 @interface NSDate (CaptureDateTime)
 + (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
@@ -47,7 +48,17 @@
 - (NSDictionary*)dictionaryFromObject;
 @end
 
-@interface JRCaptureObject : NSObject <NSCopying, JRJsonifying>
+@class JRCaptureObject;
+@protocol JRCaptureObjectDelegate <NSObject>
+@optional
+- (void)updateCaptureEntity:(JRCaptureObject *)entity didSucceedWithResult:(NSString *)result;
+- (void)updateCaptureEntity:(JRCaptureObject *)entity didFailWithResult:(NSString *)result;
+@end
+
+@interface JRCaptureObject : NSObject <NSCopying, JRJsonifying, JRCaptureInterfaceDelegate>
+@property (copy) NSString *accessToken;
+@property (retain) id<JRCaptureObjectDelegate> updateDelegate;
+- (void)updateForDelegate:(id<JRCaptureObjectDelegate>)delegate;
 @end
 
 @protocol JRProfilesAssumedPresence <NSObject>
