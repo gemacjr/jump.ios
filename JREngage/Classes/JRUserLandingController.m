@@ -83,25 +83,13 @@
     DLog(@"");
     [super viewDidLoad];
 
-///*** * * DEPRECATED * * ***/
-///**/NSArray *backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColorRGBa];
-///*** * * DEPRECATED * * ***/
-
  /* If there is a UIColor object set for the background color, use this */
     if ([customInterface objectForKey:kJRAuthenticationBackgroundColor])
         myBackgroundView.backgroundColor = [customInterface objectForKey:kJRAuthenticationBackgroundColor];
-//    else
-///*** * * * * * * DEPRECATED * * * * * * ***/
-///**/    if ([backgroundColor respondsToSelector:@selector(count)])
-///**/        if ([backgroundColor count] == 4)
-///**/            myBackgroundView.backgroundColor =
-///**/                [UIColor colorWithRed:[(NSNumber*)[backgroundColor objectAtIndex:0] doubleValue]
-///**/                                green:[(NSNumber*)[backgroundColor objectAtIndex:1] doubleValue]
-///**/                                 blue:[(NSNumber*)[backgroundColor objectAtIndex:2] doubleValue]
-///**/                                alpha:[(NSNumber*)[backgroundColor objectAtIndex:3] doubleValue]];
-///*** * * * * * * DEPRECATED * * * * * * ***/
 
-    myTableView.backgroundColor = [UIColor clearColor];
+ /* Weird hack necessary on the iPad, as the iPad table views have some background view that is always gray */
+    if ([myTableView respondsToSelector:@selector(setBackgroundView:)])
+        [myTableView setBackgroundView:nil];
 
     if (!infoBar)
     {
