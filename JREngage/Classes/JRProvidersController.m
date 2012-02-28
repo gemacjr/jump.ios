@@ -352,15 +352,7 @@ Please try again later."
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    // TODO: Don't include height of infobar if infobar is hidden
     CGFloat infoBarHeight = sessionData.hidePoweredBy ? 0.0 : infoBar.frame.size.height;
-
-    DLog(@"section: %d, footer height: %f", section,
-        ((UIView*)[customInterface objectForKey:kJRProviderTableSectionFooterView]).frame.size.height +
-                    infoBarHeight);
-
-    DLog(@"infobar height: %f", infoBarHeight);
-    DLog(@"view height: %f", ((UIView*)[customInterface objectForKey:kJRProviderTableSectionFooterView]).frame.size.height);
 
     if ([customInterface objectForKey:kJRProviderTableSectionFooterView])
         return ((UIView*)[customInterface objectForKey:kJRProviderTableSectionFooterView]).frame.size.height +
