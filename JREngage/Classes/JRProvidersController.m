@@ -352,21 +352,33 @@ Please try again later."
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    // TODO: Don't include height of infobar if infobar is hidden
+    CGFloat infoBarHeight = sessionData.hidePoweredBy ? 0.0 : infoBar.frame.size.height;
+
+    DLog(@"section: %d, footer height: %f", section,
+        ((UIView*)[customInterface objectForKey:kJRProviderTableSectionFooterView]).frame.size.height +
+                    infoBarHeight);
+
+    DLog(@"infobar height: %f", infoBarHeight);
+    DLog(@"view height: %f", ((UIView*)[customInterface objectForKey:kJRProviderTableSectionFooterView]).frame.size.height);
+
     if ([customInterface objectForKey:kJRProviderTableSectionFooterView])
         return ((UIView*)[customInterface objectForKey:kJRProviderTableSectionFooterView]).frame.size.height +
-                infoBar.frame.size.height;
+                infoBarHeight;
     else if ([customInterface objectForKey:kJRProviderTableSectionFooterTitleString])
-        return 35 + infoBar.frame.size.height;
+        return 35 + infoBarHeight;
 
-    return 0 + infoBar.frame.size.height;
+    return 0 + infoBarHeight;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if ([customInterface objectForKey:kJRProviderTableSectionFooterView])
         return [customInterface objectForKey:kJRProviderTableSectionFooterView];
-    else
+    else if (![customInterface objectForKey:kJRProviderTableSectionFooterTitleString])
         return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, myTableView.frame.size.width, infoBar.frame.size.height)] autorelease];
+    else
+        return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

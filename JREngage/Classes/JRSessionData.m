@@ -608,7 +608,10 @@ static JRSessionData* singleton = nil;
 
         /* Load the base url and whether or not we need to hide the tagline */
         baseUrl = [[[NSUserDefaults standardUserDefaults] stringForKey:cJRBaseUrl] retain];
-        hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:cJRHidePoweredBy];
+        if (!baseUrl) /* The we assume this is the first time running the library ever */
+            hidePoweredBy = YES; /* And say that hidePoweredBy is 'YES' for our Pro/Enterprise customers */
+        else
+            hidePoweredBy = [[NSUserDefaults standardUserDefaults] boolForKey:cJRHidePoweredBy];
 
         /* And load the last used basic and social providers */
         returningSocialProvider = [[[NSUserDefaults standardUserDefaults] stringForKey:cJRLastUsedSocialProvider] retain];
