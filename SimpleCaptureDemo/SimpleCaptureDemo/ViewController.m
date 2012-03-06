@@ -17,6 +17,31 @@
 
 #import "ViewController.h"
 
+int factorial(int n) {
+    DLog(@"Calculating the factorial of %d", n);
+
+    if (n == 1) {
+        DLog(@"Base case reached; returning 1");
+        return 1;
+    }
+    else
+    {
+        DLog(@"Need to calculate %d * factorial(%d - 1)", n, n);
+        DLog(@"Drilling down to find the answer to factorial(%d - 1)", n);
+
+        int subanswer = factorial(n - 1);
+        int answer = n * subanswer;
+
+        DLog(@"Going back up");
+        DLog(@"factorial(%d - 1) = %d", n, subanswer);
+        DLog(@"factorial(%d) = %d", n, answer);
+
+        return answer;
+    }
+
+}
+
+
 @interface ViewController ()
 @property (strong) SharedData *sharedData;
 @end
@@ -30,6 +55,10 @@
 {
     [super viewDidLoad];
     self.sharedData = [SharedData sharedData];
+
+    int ourFactorial = factorial(15);
+
+    DLog(@"Answer: %d", ourFactorial);
 
     if (sharedData.currentDisplayName)
         currentUserLabel.text = [NSString stringWithFormat:@"Current user: %@", sharedData.currentDisplayName];

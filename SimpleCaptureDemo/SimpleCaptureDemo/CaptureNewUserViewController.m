@@ -91,7 +91,7 @@
     [UIView commitAnimations];
 }
 
-- (void)sliderPickerDown
+- (void)slidePickerDown
 {
     [UIView beginAnimations:@"slidePickerDown" context:nil];
     [myPickerView setFrame:CGRectMake(0, 416, 320, 260)];
@@ -118,7 +118,7 @@
 
 - (IBAction)hidePickerButtonPressed:(id)sender
 {
-    [self sliderPickerDown];
+    [self slidePickerDown];
     [self scrollBack];
 }
 

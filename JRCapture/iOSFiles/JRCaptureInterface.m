@@ -331,7 +331,7 @@ typedef enum CaptureInterfaceStatEnum
 
     // TODO: Better error format
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
-        [self finishCreateCaptureUserWithStat:StatFail andResult:@"url failed"];
+        [self finishGetCaptureUserWithStat:StatFail andResult:@"url failed"];
 
 //    DLog(@"request: %@, access token: %@, attribute name: %@", request, captureAccessToken, attributeName);
 }
