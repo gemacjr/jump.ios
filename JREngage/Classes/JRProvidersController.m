@@ -117,9 +117,9 @@
         titleLabel.textColor = [UIColor whiteColor];
 
         if ([customInterface objectForKey:kJRProviderTableTitleString])
-             titleLabel.text = NSLocalizedString([customInterface objectForKey:kJRProviderTableTitleString], @"");
+            titleLabel.text = NSLocalizedString([customInterface objectForKey:kJRProviderTableTitleString], @"");
         else
-             titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
+            titleLabel.text = NSLocalizedString(@"Sign in with...", @"");
 
         titleView = titleLabel;
     }
