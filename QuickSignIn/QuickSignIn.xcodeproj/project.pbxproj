@@ -1133,7 +1133,6 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				7DACF06B11C1FA8F004A4EF8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1351,22 +1350,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		7DACF06B11C1FA8F004A4EF8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\n# (c) 2010 James Briant, binaryfinery.com\n\n\nif [[ $TARGET_BUILD_DIR == *Release-iphoneos* ]]\nthen\n\necho \"Rebuilding library as proper multiarch file\"\n\n\nmv $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.a $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.temp.a\nlipo -extract armv6 $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.temp.a -o $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.a\nmv $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.a $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.temp.a\nlipo -extract armv7 $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.temp.a -o $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.a\n\nlibtool -static $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.a $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.a -o $BUILT_PRODUCTS_DIR/libThree20.a\nelse\necho \"Skipping arm multi-architecture rebuild\"\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
