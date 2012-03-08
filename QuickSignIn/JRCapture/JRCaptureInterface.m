@@ -60,7 +60,7 @@
                                 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                 kCFStringEncodingUTF8);
 
-    return encodedString;
+    return [encodedString autorelease];
 }
 @end
 
