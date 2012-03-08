@@ -54,7 +54,7 @@
                                 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                 kCFStringEncodingUTF8);
 
-    return encodedString;
+    return [encodedString autorelease];
 
 //    NSString *str = [self stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
 //    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
