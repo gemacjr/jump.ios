@@ -40,6 +40,7 @@
 #import "JRConnectionManager.h"
 #import "QuickSignInAppDelegate.h"
 #import "EmbeddedNativeSignInViewController.h"
+#import "JRCaptureUser.h"
 
 #define LILLI
 #define CAPTURE_DEMO

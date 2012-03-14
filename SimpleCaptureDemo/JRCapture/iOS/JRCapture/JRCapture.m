@@ -42,6 +42,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRCapture.h"
+#import "JRCaptureData.h"
 
 
 @implementation NSDate (CaptureDateTime)
@@ -243,5 +244,16 @@
     id profilesObject = [JRProfilesClass performSelector:profilesObjectFromDictionary withObject:newEngageAuthInfo];
 
     return profilesObject;
+}
+
++ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
+       andEntityTypeName:(NSString *)newEntityTypeName
+{
+    [JRCaptureData setCaptureDomain:newCaptureDomain clientId:newClientId andEntityTypeName:newEntityTypeName];
+}
+
++ (NSString *)captureMobileEndpointUrl
+{
+    return [JRCaptureData captureMobileEndpointUrl];
 }
 @end

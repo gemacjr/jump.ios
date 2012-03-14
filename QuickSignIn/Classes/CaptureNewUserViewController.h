@@ -35,6 +35,7 @@
 #import <UIKit/UIKit.h>
 #import "UserModel.h"
 #import "JRCaptureInterface.h"
+#import "JRCaptureUser.h"
 
 @interface CaptureNewUserViewController : UIViewController <JRCaptureInterfaceDelegate, UITextViewDelegate,
         UIAlertViewDelegate>

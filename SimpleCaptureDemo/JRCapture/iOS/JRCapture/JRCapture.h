@@ -68,4 +68,7 @@
 
 @interface JRCapture
 + (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo;
++ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
+       andEntityTypeName:(NSString *)newEntityTypeName;
++ (NSString *)captureMobileEndpointUrl;
 @end

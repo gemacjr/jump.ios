@@ -112,6 +112,32 @@
 }
 @end
 
+@interface JRCaptureUser ()
+{
+   BOOL captureUserIdHasChanged;
+   BOOL uuidHasChanged;
+   BOOL createdHasChanged;
+   BOOL lastUpdatedHasChanged;
+   BOOL aboutMeHasChanged;
+   BOOL birthdayHasChanged;
+   BOOL currentLocationHasChanged;
+   BOOL displayHasChanged;
+   BOOL displayNameHasChanged;
+   BOOL emailHasChanged;
+   BOOL emailVerifiedHasChanged;
+   BOOL familyNameHasChanged;
+   BOOL genderHasChanged;
+   BOOL givenNameHasChanged;
+   BOOL lastLoginHasChanged;
+   BOOL middleNameHasChanged;
+   BOOL passwordHasChanged;
+   BOOL photosHasChanged;
+   BOOL primaryAddressHasChanged;
+   BOOL profilesHasChanged;
+   BOOL statusesHasChanged;
+}
+@end
+
 @implementation JRCaptureUser
 @synthesize captureUserId;
 @synthesize uuid;
