@@ -1162,20 +1162,16 @@ static JRSessionData* singleton = nil;
 {
     // TODO: Better error checking in sessionData's share activity bit
     NSMutableDictionary *activityDictionary = [activity dictionaryForObject];
-            //[NSMutableDictionary dictionaryWithDictionary:[activity dictionaryForObject]];
 
     if ([currentProvider.name isEqualToString:@"linkedin"])
     {
         [activityDictionary setObject:
-                [[activity.resourceDescription substringToIndex:((activity.resourceDescription.length < 256) ?
-                                                                  activity.resourceDescription.length : 256)] URLEscaped]
+                [activity.resourceDescription substringToIndex:((activity.resourceDescription.length < 256) ?
+                                                                  activity.resourceDescription.length : 256)]
                                forKey:@"description"];
-//        [activityDictionary removeObjectForKey:@"media"];
     }
 
-//    DLog (@"activity dictionary: %@", [activityDictionary description]);
-
-    NSString *activityContent = [activityDictionary JSONString];//[[activityDictionary objectForKey:@"activity"] JSONString];
+    NSString *activityContent = [[activityDictionary JSONString] URLEscaped];
     NSString *deviceToken = user.deviceToken;
 
     DLog(@"activity json string \n %@" , activityContent);
@@ -1212,7 +1208,7 @@ static JRSessionData* singleton = nil;
 {
     DLog (@"activity status: %@", [activity userGeneratedContent]);
 
-    NSString *status = [activity userGeneratedContent];
+    NSString *status = [[activity userGeneratedContent] URLEscaped];
     NSString *deviceToken = user.deviceToken;
 
     NSMutableData* body = [NSMutableData data];
