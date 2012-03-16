@@ -162,8 +162,8 @@
 {
     return [[[NSDictionary alloc] initWithObjectsAndKeys:
              @"image", @"type",
-             [_src URLEscaped], @"src",
-             [_href URLEscaped], @"href", nil] autorelease];
+             _src, @"src",
+             _href, @"href", nil] autorelease];
 }
 
 + (JRMediaObject*)mediaObjectFromDictionary:(NSDictionary*)dictionary
@@ -235,20 +235,21 @@
 {
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                   @"flash", @"type",
-                                  [_swfsrc URLEscaped], @"swfsrc",
-                                  [_imgsrc URLEscaped], @"imgsrc", nil] autorelease];
+                                  _swfsrc, @"swfsrc",
+                                  _imgsrc, @"imgsrc", nil] autorelease];
 
+    // TODO: Should I be setting these as numbers and not strings?
     if (_width)
         [dict setObject:[NSString stringWithFormat:@"%d", _width] forKey:@"width"];
 
     if (_height)
-        [dict setValue:[NSString stringWithFormat:@"%d", _height] forKey:@"height"];
+        [dict setObject:[NSString stringWithFormat:@"%d", _height] forKey:@"height"];
 
     if (_expanded_width)
-        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_width] forKey:@"expandedWidth"];
+        [dict setObject:[NSString stringWithFormat:@"%d", _expanded_width] forKey:@"expandedWidth"];
 
     if (_expanded_height)
-        [dict setValue:[NSString stringWithFormat:@"%d", _expanded_height] forKey:@"expandedHeight"];
+        [dict setObject:[NSString stringWithFormat:@"%d", _expanded_height] forKey:@"expandedHeight"];
 
     return dict;
 }
@@ -323,17 +324,16 @@
 {
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                   @"mp3", @"type",
-                                  [_src URLEscaped], @"src", nil] autorelease];
+                                  _src, @"src", nil] autorelease];
 
-    // TODO: Use setObject instead????
     if (_title)
-        [dict setValue:[_title URLEscaped] forKey:@"title"];
+        [dict setObject:_title forKey:@"title"];
 
     if (_artist)
-        [dict setValue:[_artist URLEscaped] forKey:@"artist"];
+        [dict setObject:_artist forKey:@"artist"];
 
     if (_album)
-        [dict setValue:[_album URLEscaped] forKey:@"album"];
+        [dict setObject:_album forKey:@"album"];
 
     return dict;
 }
@@ -406,8 +406,8 @@
 - (NSDictionary*)dictionaryForObject
 {
     return [[[NSDictionary alloc] initWithObjectsAndKeys:
-             [_text URLEscaped], @"text",
-             [_href URLEscaped], @"href", nil] autorelease];
+             _text, @"text",
+             _href, @"href", nil] autorelease];
 }
 
 + (JRActionLink*)actionLinkFromDictionary:(NSDictionary*)dictionary
@@ -746,24 +746,24 @@ static NSArray* filteredArrayOfValidUrls (NSArray *urls)
     [self validateActivity];
 
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithCapacity:7] autorelease];
-    [dict setValue:[_action URLEscaped] forKey:@"action"];
+    [dict setObject:_action forKey:@"action"];
 
     // Question to self: Figure out why Engage fails if there is no url, but accepts an empty one.  Shouldn't it ignore the no-url
     // when coming from mobile?  (It doesn't, so we just send a @"" when there isn't a url for the providers that can
     // handle that and thunk to set_status for those that don't.)
     if (_url)
-        [dict setValue:[_url URLEscaped] forKey:@"url"];
+        [dict setObject:_url forKey:@"url"];
     else
-        [dict setValue:@"" forKey:@"url"];
+        [dict setObject:@"" forKey:@"url"];
 
     if (_userGeneratedContent)
-        [dict setValue:[_userGeneratedContent URLEscaped] forKey:@"user_generated_content"];
+        [dict setObject:_userGeneratedContent forKey:@"user_generated_content"];
 
     if (_resourceTitle)
-        [dict setValue:[_resourceTitle URLEscaped] forKey:@"title"];
+        [dict setObject:_resourceTitle forKey:@"title"];
 
     if (_resourceDescription)
-        [dict setValue:[_resourceDescription URLEscaped] forKey:@"description"];
+        [dict setObject:_resourceDescription forKey:@"description"];
 
     if ([_actionLinks count])
     {
