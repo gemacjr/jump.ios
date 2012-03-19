@@ -100,7 +100,10 @@ otherwise, this happens automatically.                                          
 {
     if ((self = [super init]))
     {
-        if (captureDomain && clientId && entityTypeName)
+        /* Capture demo is not currently built for the iPad. */
+        /* For an Engage only demo, simply add the appId and tokenUrl.  For a Capture, add a captureDomain,
+           clientId, and entityTypeName */
+        if (captureDomain && clientId && entityTypeName && !(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad))
         {
             captureDemo = YES;
             [JRCaptureInterface setCaptureDomain:captureDomain clientId:clientId andEntityTypeName:entityTypeName];

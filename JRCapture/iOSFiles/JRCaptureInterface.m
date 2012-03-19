@@ -59,7 +59,7 @@
                                 (CFStringRef)@"!*'();:@&=+$,/?%#[]",
                                 kCFStringEncodingUTF8);
 
-    return encodedString;
+    return [encodedString autorelease];
 }
 @end
 
@@ -176,6 +176,7 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"type_name=%@", entityTypeName] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&creation_token=%@", captureCreationToken] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"&include_record=true" dataUsingEncoding:NSUTF8StringEncoding]];
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -466,6 +467,7 @@ typedef enum CaptureInterfaceStatEnum
 
     if ([action isEqualToString:@"createUser"])
     {
+        // ...
         [self finishCreateCaptureUserWithStat:StatFail andResult:result];
     }
     else if ([action isEqualToString:@"updateUser"])
