@@ -43,7 +43,6 @@
 
 #import "JRCaptureInterface.h"
 #import "JSONKit.h"
-#import "QuickSignInAppDelegate.h"
 
 @interface NSString (NSString_JSON_ESCAPE)
 - (NSString*)URLEscaped;

@@ -43,7 +43,6 @@
 
 #import "JRCaptureInterface.h"
 #import "JSONKit.h"
-#import "QuickSignInAppDelegate.h"
 
 @interface NSString (NSString_JSON_ESCAPE)
 - (NSString*)URLEscaped;
@@ -468,6 +467,7 @@ typedef enum CaptureInterfaceStatEnum
 
     if ([action isEqualToString:@"createUser"])
     {
+        // ...
         [self finishCreateCaptureUserWithStat:StatFail andResult:result];
     }
     else if ([action isEqualToString:@"updateUser"])
