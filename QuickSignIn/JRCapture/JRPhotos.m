@@ -32,7 +32,7 @@
 #import "JRPhotos.h"
 
 @implementation JRPhotos
-@synthesize primary;
+@synthesize photosId;
 @synthesize type;
 @synthesize value;
 
@@ -54,7 +54,7 @@
     JRPhotos *photosCopy =
                 [[JRPhotos allocWithZone:zone] init];
 
-    photosCopy.primary = self.primary;
+    photosCopy.photosId = self.photosId;
     photosCopy.type = self.type;
     photosCopy.value = self.value;
 
@@ -66,7 +66,7 @@
     JRPhotos *photos =
         [JRPhotos photos];
 
-    photos.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    photos.photosId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     photos.type = [dictionary objectForKey:@"type"];
     photos.value = [dictionary objectForKey:@"value"];
 
@@ -78,8 +78,8 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (primary)
-        [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
+    if (photosId)
+        [dict setObject:[NSNumber numberWithInt:photosId] forKey:@"id"];
 
     if (type)
         [dict setObject:type forKey:@"type"];
@@ -92,8 +92,8 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"primary"])
-        self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    if ([dictionary objectForKey:@"photosId"])
+        self.photosId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
 
     if ([dictionary objectForKey:@"type"])
         self.type = [dictionary objectForKey:@"type"];

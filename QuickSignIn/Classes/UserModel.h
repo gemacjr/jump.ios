@@ -118,7 +118,7 @@
 @property (retain) id<UserModelDelegate>     tokenUrlDelegate;
 @property (retain) id<LibraryDialogDelegate> libraryDialogDelegate;
 
-@property          BOOL pendingCallToTokenUrl;
+@property            BOOL pendingCallToTokenUrl;
 
 @property (readonly) BOOL loadingUserData;
 @property (readonly) NSDictionary *currentUser;
@@ -126,6 +126,9 @@
 @property (retain)   NSMutableDictionary *authInfo;
 @property (retain)   NSMutableDictionary *customInterface;
 @property (retain)   UINavigationController *navigationController;
+
+// TODO: Temp test for Cypress
+@property (retain) NSString *latestAccessToken;
 
 /* This is a dictionary of dictionaries, where each dictionary represents the
    full profile returned by the token URL on http://jrauthenticate.appspot.com/login.

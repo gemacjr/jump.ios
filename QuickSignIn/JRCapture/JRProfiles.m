@@ -31,7 +31,89 @@
 
 #import "JRProfiles.h"
 
+@interface NSArray (FollowersToFromDictionary)
+- (NSArray*)arrayOfFollowersDictionariesFromFollowersObjects;
+- (NSArray*)arrayOfFollowersObjectsFromFollowersDictionaries;
+@end
+
+@implementation NSArray (FollowersToFromDictionary)
+- (NSArray*)arrayOfFollowersDictionariesFromFollowersObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRFollowers class]])
+            [filteredDictionaryArray addObject:[(JRFollowers*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfFollowersObjectsFromFollowersDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRFollowers followersObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (FollowingToFromDictionary)
+- (NSArray*)arrayOfFollowingDictionariesFromFollowingObjects;
+- (NSArray*)arrayOfFollowingObjectsFromFollowingDictionaries;
+@end
+
+@implementation NSArray (FollowingToFromDictionary)
+- (NSArray*)arrayOfFollowingDictionariesFromFollowingObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRFollowing class]])
+            [filteredDictionaryArray addObject:[(JRFollowing*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfFollowingObjectsFromFollowingDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRFollowing followingObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
+@interface NSArray (FriendsToFromDictionary)
+- (NSArray*)arrayOfFriendsDictionariesFromFriendsObjects;
+- (NSArray*)arrayOfFriendsObjectsFromFriendsDictionaries;
+@end
+
+@implementation NSArray (FriendsToFromDictionary)
+- (NSArray*)arrayOfFriendsDictionariesFromFriendsObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRFriends class]])
+            [filteredDictionaryArray addObject:[(JRFriends*)object dictionaryFromObject]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfFriendsObjectsFromFriendsDictionaries
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredDictionaryArray addObject:[JRFriends friendsObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredDictionaryArray;
+}
+@end
+
 @implementation JRProfiles
+@synthesize profilesId;
 @synthesize accessCredentials;
 @synthesize domain;
 @synthesize followers;
@@ -68,6 +150,7 @@
     JRProfiles *profilesCopy =
                 [[JRProfiles allocWithZone:zone] initWithDomain:self.domain andIdentifier:self.identifier];
 
+    profilesCopy.profilesId = self.profilesId;
     profilesCopy.accessCredentials = self.accessCredentials;
     profilesCopy.followers = self.followers;
     profilesCopy.following = self.following;
@@ -84,10 +167,11 @@
     JRProfiles *profiles =
         [JRProfiles profilesWithDomain:[dictionary objectForKey:@"domain"] andIdentifier:[dictionary objectForKey:@"identifier"]];
 
+    profiles.profilesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     profiles.accessCredentials = [dictionary objectForKey:@"accessCredentials"];
-    profiles.followers = [dictionary objectForKey:@"followers"];
-    profiles.following = [dictionary objectForKey:@"following"];
-    profiles.friends = [dictionary objectForKey:@"friends"];
+    profiles.followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfFollowersObjectsFromFollowersDictionaries];
+    profiles.following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfFollowingObjectsFromFollowingDictionaries];
+    profiles.friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfFriendsObjectsFromFriendsDictionaries];
     profiles.profile = [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]];
     profiles.provider = [dictionary objectForKey:@"provider"];
     profiles.remote_key = [dictionary objectForKey:@"remote_key"];
@@ -102,17 +186,20 @@
     [dict setObject:domain forKey:@"domain"];
     [dict setObject:identifier forKey:@"identifier"];
 
+    if (profilesId)
+        [dict setObject:[NSNumber numberWithInt:profilesId] forKey:@"id"];
+
     if (accessCredentials)
         [dict setObject:accessCredentials forKey:@"accessCredentials"];
 
     if (followers)
-        [dict setObject:followers forKey:@"followers"];
+        [dict setObject:[followers arrayOfFollowersDictionariesFromFollowersObjects] forKey:@"followers"];
 
     if (following)
-        [dict setObject:following forKey:@"following"];
+        [dict setObject:[following arrayOfFollowingDictionariesFromFollowingObjects] forKey:@"following"];
 
     if (friends)
-        [dict setObject:friends forKey:@"friends"];
+        [dict setObject:[friends arrayOfFriendsDictionariesFromFriendsObjects] forKey:@"friends"];
 
     if (profile)
         [dict setObject:[profile dictionaryFromObject] forKey:@"profile"];
@@ -128,6 +215,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"profilesId"])
+        self.profilesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"accessCredentials"])
         self.accessCredentials = [dictionary objectForKey:@"accessCredentials"];
 
@@ -135,13 +225,13 @@
         self.domain = [dictionary objectForKey:@"domain"];
 
     if ([dictionary objectForKey:@"followers"])
-        self.followers = [dictionary objectForKey:@"followers"];
+        self.followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfFollowersObjectsFromFollowersDictionaries];
 
     if ([dictionary objectForKey:@"following"])
-        self.following = [dictionary objectForKey:@"following"];
+        self.following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfFollowingObjectsFromFollowingDictionaries];
 
     if ([dictionary objectForKey:@"friends"])
-        self.friends = [dictionary objectForKey:@"friends"];
+        self.friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfFriendsObjectsFromFriendsDictionaries];
 
     if ([dictionary objectForKey:@"identifier"])
         self.identifier = [dictionary objectForKey:@"identifier"];

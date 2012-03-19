@@ -33,6 +33,14 @@ Copyright (c) 2010, Janrain, Inc.
  Date:   Tuesday, June 1, 2010
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 #import "UserListViewController.h"
 #import "CaptureNewUserViewController.h"
 
@@ -463,7 +471,6 @@ Copyright (c) 2010, Janrain, Inc.
 
 //#ifdef LILLI
     [self clearSelectedProfile];
-
     [myTableView deselectRowAtIndexPath:[myTableView indexPathForSelectedRow] animated:YES];
 
     if ([[UserModel getUserModel] currentUser])
@@ -495,7 +502,22 @@ Copyright (c) 2010, Janrain, Inc.
 
 - (IBAction)signOutButtonPressed:(id)sender
 {
-//#ifdef LILLI
+
+    // TODO: Temporarily here for testing
+//    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
+//                                                                  bundle:[NSBundle mainBundle]] autorelease];
+//
+//    [self.navigationController pushViewController:viewController animated:YES];
+//
+////    [JRCaptureInterface getCaptureEntityNamed:@"profiles"
+////                                 withEntityId:174721
+////                               andAccessToken:[[UserModel getUserModel] latestAccessToken]
+////                                  forDelegate:self];
+////
+////    [JRCaptureInterface getCaptureUserWithAccessToken:[[UserModel getUserModel] latestAccessToken]
+////                                          forDelegate:self];
+    // TODO: Remove when done
+
     [self clearSelectedProfile];
 
     if ([[UserModel getUserModel] currentUser])
@@ -507,12 +529,26 @@ Copyright (c) 2010, Janrain, Inc.
     {
         [[self navigationController] popToRootViewControllerAnimated:YES];
     }
+}
 
-//#else
-//  [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(delaySignOut:) userInfo:nil repeats:NO];
-//  [[self navigationController] popToRootViewControllerAnimated:YES];
-//#endif
+- (void)updateCaptureUserDidFailWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+}
 
+- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+}
+
+- (void)getCaptureUserDidSucceedWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+}
+
+- (void)getCaptureUserDidFailWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
 }
 
 - (void)userDidSignIn

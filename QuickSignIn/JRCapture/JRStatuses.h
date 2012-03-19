@@ -33,6 +33,7 @@
 #import "JRCapture.h"
 
 @interface JRStatuses : NSObject <NSCopying, JRJsonifying>
+@property                   NSInteger statusesId;
 @property (nonatomic, copy) NSString *status;  
 @property (nonatomic, copy) NSDate *statusCreated;  
 - (id)init;

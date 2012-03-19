@@ -113,6 +113,10 @@
 @end
 
 @implementation JRCaptureUser
+@synthesize captureUserId;
+@synthesize uuid;
+@synthesize created;
+@synthesize lastUpdated;
 @synthesize aboutMe;
 @synthesize birthday;
 @synthesize currentLocation;
@@ -149,6 +153,10 @@
     JRCaptureUser *captureUserCopy =
                 [[JRCaptureUser allocWithZone:zone] init];
 
+    captureUserCopy.captureUserId = self.captureUserId;
+    captureUserCopy.uuid = self.uuid;
+    captureUserCopy.created = self.created;
+    captureUserCopy.lastUpdated = self.lastUpdated;
     captureUserCopy.aboutMe = self.aboutMe;
     captureUserCopy.birthday = self.birthday;
     captureUserCopy.currentLocation = self.currentLocation;
@@ -175,6 +183,10 @@
     JRCaptureUser *captureUser =
         [JRCaptureUser captureUser];
 
+    captureUser.captureUserId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    captureUser.uuid = [dictionary objectForKey:@"uuid"];
+    captureUser.created = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]];
+    captureUser.lastUpdated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]];
     captureUser.aboutMe = [dictionary objectForKey:@"aboutMe"];
     captureUser.birthday = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]];
     captureUser.currentLocation = [dictionary objectForKey:@"currentLocation"];
@@ -200,6 +212,18 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
+
+    if (captureUserId)
+        [dict setObject:[NSNumber numberWithInt:captureUserId] forKey:@"id"];
+
+    if (uuid)
+        [dict setObject:uuid forKey:@"uuid"];
+
+    if (created)
+        [dict setObject:[created stringFromISO8601DateTime] forKey:@"created"];
+
+    if (lastUpdated)
+        [dict setObject:[lastUpdated stringFromISO8601DateTime] forKey:@"lastUpdated"];
 
     if (aboutMe)
         [dict setObject:aboutMe forKey:@"aboutMe"];
@@ -257,6 +281,18 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"captureUserId"])
+        self.captureUserId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
+    if ([dictionary objectForKey:@"uuid"])
+        self.uuid = [dictionary objectForKey:@"uuid"];
+
+    if ([dictionary objectForKey:@"created"])
+        self.created = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]];
+
+    if ([dictionary objectForKey:@"lastUpdated"])
+        self.lastUpdated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]];
+
     if ([dictionary objectForKey:@"aboutMe"])
         self.aboutMe = [dictionary objectForKey:@"aboutMe"];
 
@@ -311,6 +347,9 @@
 
 - (void)dealloc
 {
+    [uuid release];
+    [created release];
+    [lastUpdated release];
     [aboutMe release];
     [birthday release];
     [currentLocation release];

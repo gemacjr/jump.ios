@@ -63,6 +63,7 @@
 @synthesize tokenUrlDelegate;
 @synthesize pendingCallToTokenUrl;
 @synthesize libraryDialogDelegate;
+@synthesize latestAccessToken;
 
 /* Singleton instance of UserModel */
 static UserModel *singleton = nil;
@@ -99,7 +100,10 @@ otherwise, this happens automatically.                                          
 {
     if ((self = [super init]))
     {
-        if (captureDomain && clientId && entityTypeName)
+        /* Capture demo is not currently built for the iPad. */
+        /* For an Engage only demo, simply add the appId and tokenUrl.  For a Capture, add a captureDomain,
+           clientId, and entityTypeName */
+        if (captureDomain && clientId && entityTypeName && !(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad))
         {
             captureDemo = YES;
             [JRCaptureInterface setCaptureDomain:captureDomain clientId:clientId andEntityTypeName:entityTypeName];
@@ -623,7 +627,7 @@ otherwise, this happens automatically.                                          
     }
     else
     {
-        ALog(@"Unrecognized stucture: @%", [structure description]);
+        ALog(@"Unrecognized stucture: %@", [structure description]);
         return nil;
         // TODO: Better error handling
         //exit(1);
@@ -642,7 +646,7 @@ otherwise, this happens automatically.                                          
 
     if (!payloadDict)
     {
-        ALog(@"Unable to parse token URL response: @%", payload);
+        ALog(@"Unable to parse token URL response: %@", payload);
         [self finishSignUserIn:authInfo]; // call this to keep avoid missing data in user registry
         return;
         // TODO: Better error handling (Add a GOTO)
@@ -652,6 +656,10 @@ otherwise, this happens automatically.                                          
     NSString     *captureAccessToken   = [payloadDict objectForKey:@"access_token"];
     NSString     *captureCreationToken = [payloadDict objectForKey:@"creation_token"];
     NSDictionary *captureCredentials;
+
+    // TODO: Temp test for Cypress
+    self.latestAccessToken = captureAccessToken;
+
 
     if (captureAccessToken)
         captureCredentials = [NSDictionary dictionaryWithObject:captureAccessToken

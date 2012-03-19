@@ -33,6 +33,7 @@
 #import "JRCapture.h"
 
 @interface JRPhoneNumbers : NSObject <NSCopying, JRJsonifying>
+@property                   NSInteger phoneNumbersId;
 @property                   BOOL primary;
 @property (nonatomic, copy) NSString *type;  
 @property (nonatomic, copy) NSString *value;  

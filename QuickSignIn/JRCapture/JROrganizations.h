@@ -34,6 +34,7 @@
 #import "JRLocation.h"
 
 @interface JROrganizations : NSObject <NSCopying, JRJsonifying>
+@property                   NSInteger organizationsId;
 @property (nonatomic, copy) NSString *department;  
 @property (nonatomic, copy) NSString *description;  
 @property (nonatomic, copy) NSString *endDate;  

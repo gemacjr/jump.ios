@@ -33,7 +33,13 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
+
+#ifdef PHONEGAP_FRAMEWORK
+#import <PhoneGap/JSONKit.h>
+#else
 #import "JSONKit.h"
+#endif
+
 #import "SFHFKeychainUtils.h"
 #import "JRConnectionManager.h"
 #import "JRActivityObject.h"
@@ -59,18 +65,25 @@ typedef enum
     JRSessionDataFinishGetProvidersError,
     JRDialogShowingError,
     JRProviderNotConfiguredError,
+    JRMissingAppIdError,
+    JRGenericConfigurationError,
 } JREngageConfigurationError;
 
 typedef enum
 {
-    JRAuthenticationFailedError = 200
+    JRAuthenticationFailedError = 200,
+    JRAuthenticationTokenUrlFailedError,
+    JRAuthenticationCanceledError,
+    // TODO: Add the token url error where appropriate
 } JREngageAuthenticationError;
 
 typedef enum
 {
     JRPublishFailedError = 300,
-    JRPublishErrorBadConnection,
     JRPublishErrorActivityNil,
+    JRPublishErrorBadActivityJson,
+    JRPublishCanceledError,
+    JRPublishErrorBadConnection,
     JRPublishErrorMissingParameter,
     JRPublishErrorMissingApiKey,
     JRPublishErrorCharacterLimitExceeded,
@@ -83,6 +96,7 @@ typedef enum
     JRPublishErrorLinkedInGeneric,
     JRPublishErrorMyspaceGeneric,
     JRPublishErrorYahooGeneric,
+    JRPublishErrorFeedActionRequestLimit, // TODO: Add a test for this
     JRPublishErrorInvalidOauthKey, /* Will be deprecating */
     JRPublishErrorLinkedInCharacterExceeded, /* Will be deprecating */
 } JREngageSocialPublishingError;

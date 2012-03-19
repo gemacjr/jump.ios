@@ -160,9 +160,50 @@
     [self setFirstResponder:nil];
 }
 
+- (void)updateUser
+{
+    JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+
+//    JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
+
+    captureUser.aboutMe  = myAboutMeTextView.text;
+    captureUser.birthday = myBirthdate;
+    captureUser.currentLocation = myLocationTextView.text;
+
+    if (myGenderIdentitySegControl.selectedSegmentIndex == 0)
+        captureUser.gender = @"female";
+    else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)
+        captureUser.gender = @"male";
+
+    captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
+
+//    JRBooks *book1 = [JRBooks books];
+//    book1.book = @"fdadfafszadfas";
+//    book1.booksId = 178808;
+//
+//    JRBooks *book2 = [JRBooks books];
+//    book2.book = @"bar";
+
+//    profilesObject.profile.books = [NSArray arrayWithObjects:book1, book2, nil];
+//    profilesObject.profilesId = 174721;
+
+//    if (profilesObject)
+//        captureUser.profiles = [NSArray arrayWithObject:profilesObject];
+
+    [JRCaptureInterface updateCaptureUser:[captureUser dictionaryFromObject]
+                          withAccessToken:[[UserModel getUserModel] latestAccessToken]
+                              forDelegate:self];
+}
+
 - (IBAction)doneButtonPressed:(id)sender
 {
     DLog(@"engageUser: %@", [engageUser description]);
+
+    if ([[UserModel getUserModel] latestAccessToken])
+    {
+        [self updateUser];
+        return;
+    }
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
 
@@ -178,6 +219,16 @@
     captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
 
     JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
+
+    JRBooks *book1 = [JRBooks books];
+    book1.book = @"foo";
+//    book1.booksId = [NSNumber numberWithInt:1];
+
+    JRBooks *book2 = [JRBooks books];
+    book2.book = @"bar";
+//    book2.booksId = [NSNumber numberWithInt:2];
+
+    profilesObject.profile.books = [NSArray arrayWithObjects:book1, book2, nil];
 
     if (profilesObject)
         captureUser.profiles = [NSArray arrayWithObject:profilesObject];
@@ -214,8 +265,9 @@
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView { return YES; }
 
 
-- (void)createCaptureUserDidSucceed
+- (void)createCaptureUserDidSucceedWithResult:(NSString *)result
 {
+    DLog(@"%@", result);
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Success"
                                                      message:@"Profile created"
                                                     delegate:nil
@@ -226,14 +278,37 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != 0) [[self navigationController] popViewControllerAnimated:YES];
-}
-
-- (void)createCaptureUserDidFail
+- (void)createCaptureUserDidFailWithResult:(NSString *)result
 {
+    DLog(@"%@", result);
     UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Failure"
                                                      message:@"Profile not created"
+                                                    delegate:nil
+                                           cancelButtonTitle:@"Dismiss"
+                                           otherButtonTitles:nil] autorelease];
+    [alert show];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Success"
+                                                     message:@"Profile updated"
+                                                    delegate:nil
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles:@"OK", nil] autorelease];
+    [alert show];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)updateCaptureUserDidFailWithResult:(NSString *)result
+{
+    DLog(@"%@", result);
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Failure"
+                                                     message:@"Profile not updated"
                                                     delegate:nil
                                            cancelButtonTitle:@"Dismiss"
                                            otherButtonTitles:nil] autorelease];

@@ -225,6 +225,30 @@
 		C01FCF5008A95454005424D6 /* UserDetailViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D5 /* UserDetailViewController-iPad.xib */; };
 		C01FCF5008A95454005424D8 /* UserDrillDownViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D7 /* UserDrillDownViewController-iPad.xib */; };
 		C01FCF5008A95454005424DA /* UserListViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A95454005424D9 /* UserListViewController-iPad.xib */; };
+		C01FCF5008A954540054250A /* JRPets.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542509 /* JRPets.m */; };
+		C01FCF5008A954540054250D /* JRProfilePhotos.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054250C /* JRProfilePhotos.m */; };
+		C01FCF5008A9545400542510 /* JRQuotes.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054250F /* JRQuotes.m */; };
+		C01FCF5008A9545400542513 /* JRRelationships.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542512 /* JRRelationships.m */; };
+		C01FCF5008A9545400542516 /* JRSports.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542515 /* JRSports.m */; };
+		C01FCF5008A9545400542519 /* JRTags.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542518 /* JRTags.m */; };
+		C01FCF5008A954540054251C /* JRTurnOffs.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054251B /* JRTurnOffs.m */; };
+		C01FCF5008A954540054251F /* JRTurnOns.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054251E /* JRTurnOns.m */; };
+		C01FCF5008A9545400542522 /* JRTvShows.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542521 /* JRTvShows.m */; };
+		C01FCF5008A9545400542525 /* JRBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542524 /* JRBooks.m */; };
+		C01FCF5008A9545400542528 /* JRCars.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542527 /* JRCars.m */; };
+		C01FCF5008A954540054252B /* JRChildren.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054252A /* JRChildren.m */; };
+		C01FCF5008A954540054252E /* JRFollowers.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054252D /* JRFollowers.m */; };
+		C01FCF5008A9545400542531 /* JRFollowing.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542530 /* JRFollowing.m */; };
+		C01FCF5008A9545400542534 /* JRFood.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542533 /* JRFood.m */; };
+		C01FCF5008A9545400542537 /* JRFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542536 /* JRFriends.m */; };
+		C01FCF5008A954540054253A /* JRHeroes.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542539 /* JRHeroes.m */; };
+		C01FCF5008A954540054253D /* JRInterests.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054253C /* JRInterests.m */; };
+		C01FCF5008A9545400542540 /* JRJobInterests.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054253F /* JRJobInterests.m */; };
+		C01FCF5008A9545400542543 /* JRLanguages.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542542 /* JRLanguages.m */; };
+		C01FCF5008A9545400542546 /* JRLanguagesSpoken.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542545 /* JRLanguagesSpoken.m */; };
+		C01FCF5008A9545400542549 /* JRLookingFor.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A9545400542548 /* JRLookingFor.m */; };
+		C01FCF5008A954540054254C /* JRMovies.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054254B /* JRMovies.m */; };
+		C01FCF5008A954540054254F /* JRMusic.m in Sources */ = {isa = PBXBuildFile; fileRef = C01FCF5008A954540054254E /* JRMusic.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -489,6 +513,54 @@
 		C01FCF5008A95454005424D5 /* UserDetailViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "UserDetailViewController-iPad.xib"; sourceTree = "<group>"; };
 		C01FCF5008A95454005424D7 /* UserDrillDownViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "UserDrillDownViewController-iPad.xib"; sourceTree = "<group>"; };
 		C01FCF5008A95454005424D9 /* UserListViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "UserListViewController-iPad.xib"; sourceTree = "<group>"; };
+		C01FCF5008A9545400542508 /* JRPets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRPets.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542509 /* JRPets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRPets.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054250B /* JRProfilePhotos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRProfilePhotos.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054250C /* JRProfilePhotos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRProfilePhotos.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054250E /* JRQuotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRQuotes.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054250F /* JRQuotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRQuotes.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542511 /* JRRelationships.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRRelationships.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542512 /* JRRelationships.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRRelationships.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542514 /* JRSports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSports.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542515 /* JRSports.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSports.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542517 /* JRTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRTags.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542518 /* JRTags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRTags.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054251A /* JRTurnOffs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRTurnOffs.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054251B /* JRTurnOffs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRTurnOffs.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054251D /* JRTurnOns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRTurnOns.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054251E /* JRTurnOns.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRTurnOns.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542520 /* JRTvShows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRTvShows.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542521 /* JRTvShows.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRTvShows.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542523 /* JRBooks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRBooks.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542524 /* JRBooks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRBooks.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542526 /* JRCars.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCars.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542527 /* JRCars.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCars.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542529 /* JRChildren.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRChildren.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054252A /* JRChildren.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRChildren.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054252C /* JRFollowers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRFollowers.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054252D /* JRFollowers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRFollowers.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054252F /* JRFollowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRFollowing.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542530 /* JRFollowing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRFollowing.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542532 /* JRFood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRFood.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542533 /* JRFood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRFood.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542535 /* JRFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRFriends.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542536 /* JRFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRFriends.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542538 /* JRHeroes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRHeroes.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542539 /* JRHeroes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRHeroes.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054253B /* JRInterests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRInterests.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054253C /* JRInterests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRInterests.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054253E /* JRJobInterests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRJobInterests.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054253F /* JRJobInterests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRJobInterests.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542541 /* JRLanguages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRLanguages.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542542 /* JRLanguages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRLanguages.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542544 /* JRLanguagesSpoken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRLanguagesSpoken.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542545 /* JRLanguagesSpoken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRLanguagesSpoken.m; sourceTree = "<group>"; };
+		C01FCF5008A9545400542547 /* JRLookingFor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRLookingFor.h; sourceTree = "<group>"; };
+		C01FCF5008A9545400542548 /* JRLookingFor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRLookingFor.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054254A /* JRMovies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRMovies.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054254B /* JRMovies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRMovies.m; sourceTree = "<group>"; };
+		C01FCF5008A954540054254D /* JRMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRMusic.h; sourceTree = "<group>"; };
+		C01FCF5008A954540054254E /* JRMusic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRMusic.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -961,6 +1033,54 @@
 		9FA768C214EAE41C008E0DEE /* JRCapture */ = {
 			isa = PBXGroup;
 			children = (
+				C01FCF5008A954540054254E /* JRMusic.m */,
+				C01FCF5008A954540054254D /* JRMusic.h */,
+				C01FCF5008A954540054254B /* JRMovies.m */,
+				C01FCF5008A954540054254A /* JRMovies.h */,
+				C01FCF5008A9545400542548 /* JRLookingFor.m */,
+				C01FCF5008A9545400542547 /* JRLookingFor.h */,
+				C01FCF5008A9545400542545 /* JRLanguagesSpoken.m */,
+				C01FCF5008A9545400542544 /* JRLanguagesSpoken.h */,
+				C01FCF5008A9545400542542 /* JRLanguages.m */,
+				C01FCF5008A9545400542541 /* JRLanguages.h */,
+				C01FCF5008A954540054253F /* JRJobInterests.m */,
+				C01FCF5008A954540054253E /* JRJobInterests.h */,
+				C01FCF5008A954540054253C /* JRInterests.m */,
+				C01FCF5008A954540054253B /* JRInterests.h */,
+				C01FCF5008A9545400542539 /* JRHeroes.m */,
+				C01FCF5008A9545400542538 /* JRHeroes.h */,
+				C01FCF5008A9545400542536 /* JRFriends.m */,
+				C01FCF5008A9545400542535 /* JRFriends.h */,
+				C01FCF5008A9545400542533 /* JRFood.m */,
+				C01FCF5008A9545400542532 /* JRFood.h */,
+				C01FCF5008A9545400542530 /* JRFollowing.m */,
+				C01FCF5008A954540054252F /* JRFollowing.h */,
+				C01FCF5008A954540054252D /* JRFollowers.m */,
+				C01FCF5008A954540054252C /* JRFollowers.h */,
+				C01FCF5008A954540054252A /* JRChildren.m */,
+				C01FCF5008A9545400542529 /* JRChildren.h */,
+				C01FCF5008A9545400542527 /* JRCars.m */,
+				C01FCF5008A9545400542526 /* JRCars.h */,
+				C01FCF5008A9545400542524 /* JRBooks.m */,
+				C01FCF5008A9545400542523 /* JRBooks.h */,
+				C01FCF5008A9545400542521 /* JRTvShows.m */,
+				C01FCF5008A9545400542520 /* JRTvShows.h */,
+				C01FCF5008A954540054251E /* JRTurnOns.m */,
+				C01FCF5008A954540054251D /* JRTurnOns.h */,
+				C01FCF5008A954540054251B /* JRTurnOffs.m */,
+				C01FCF5008A954540054251A /* JRTurnOffs.h */,
+				C01FCF5008A9545400542518 /* JRTags.m */,
+				C01FCF5008A9545400542517 /* JRTags.h */,
+				C01FCF5008A9545400542515 /* JRSports.m */,
+				C01FCF5008A9545400542514 /* JRSports.h */,
+				C01FCF5008A9545400542512 /* JRRelationships.m */,
+				C01FCF5008A9545400542511 /* JRRelationships.h */,
+				C01FCF5008A954540054250F /* JRQuotes.m */,
+				C01FCF5008A954540054250E /* JRQuotes.h */,
+				C01FCF5008A954540054250C /* JRProfilePhotos.m */,
+				C01FCF5008A954540054250B /* JRProfilePhotos.h */,
+				C01FCF5008A9545400542509 /* JRPets.m */,
+				C01FCF5008A9545400542508 /* JRPets.h */,
 				9FA768C314EAE41C008E0DEE /* JRAccounts.h */,
 				9FA768C414EAE41C008E0DEE /* JRAccounts.m */,
 				9FA768C514EAE41C008E0DEE /* JRAddresses.h */,
@@ -1013,7 +1133,6 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				7DACF06B11C1FA8F004A4EF8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1232,22 +1351,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		7DACF06B11C1FA8F004A4EF8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "#!/bin/bash\n# (c) 2010 James Briant, binaryfinery.com\n\n\nif [[ $TARGET_BUILD_DIR == *Release-iphoneos* ]]\nthen\n\necho \"Rebuilding library as proper multiarch file\"\n\n\nmv $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.a $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.temp.a\nlipo -extract armv6 $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.temp.a -o $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.a\nmv $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.a $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.temp.a\nlipo -extract armv7 $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.temp.a -o $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.a\n\nlibtool -static $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv6/libThree20.a $TEMP_FILES_DIR/Objects-$BUILD_VARIANTS/armv7/libThree20.a -o $BUILT_PRODUCTS_DIR/libThree20.a\nelse\necho \"Skipping arm multi-architecture rebuild\"\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1296,6 +1399,30 @@
 				9FA768F914EAE41C008E0DEE /* JRProfiles.m in Sources */,
 				9FA768FA14EAE41C008E0DEE /* JRStatuses.m in Sources */,
 				9FA768FB14EAE41C008E0DEE /* JRUrls.m in Sources */,
+				C01FCF5008A954540054250A /* JRPets.m in Sources */,
+				C01FCF5008A954540054250D /* JRProfilePhotos.m in Sources */,
+				C01FCF5008A9545400542510 /* JRQuotes.m in Sources */,
+				C01FCF5008A9545400542513 /* JRRelationships.m in Sources */,
+				C01FCF5008A9545400542516 /* JRSports.m in Sources */,
+				C01FCF5008A9545400542519 /* JRTags.m in Sources */,
+				C01FCF5008A954540054251C /* JRTurnOffs.m in Sources */,
+				C01FCF5008A954540054251F /* JRTurnOns.m in Sources */,
+				C01FCF5008A9545400542522 /* JRTvShows.m in Sources */,
+				C01FCF5008A9545400542525 /* JRBooks.m in Sources */,
+				C01FCF5008A9545400542528 /* JRCars.m in Sources */,
+				C01FCF5008A954540054252B /* JRChildren.m in Sources */,
+				C01FCF5008A954540054252E /* JRFollowers.m in Sources */,
+				C01FCF5008A9545400542531 /* JRFollowing.m in Sources */,
+				C01FCF5008A9545400542534 /* JRFood.m in Sources */,
+				C01FCF5008A9545400542537 /* JRFriends.m in Sources */,
+				C01FCF5008A954540054253A /* JRHeroes.m in Sources */,
+				C01FCF5008A954540054253D /* JRInterests.m in Sources */,
+				C01FCF5008A9545400542540 /* JRJobInterests.m in Sources */,
+				C01FCF5008A9545400542543 /* JRLanguages.m in Sources */,
+				C01FCF5008A9545400542546 /* JRLanguagesSpoken.m in Sources */,
+				C01FCF5008A9545400542549 /* JRLookingFor.m in Sources */,
+				C01FCF5008A954540054254C /* JRMovies.m in Sources */,
+				C01FCF5008A954540054254F /* JRMusic.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1309,7 +1436,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1329,7 +1455,6 @@
 					"$(OBJC_LIBRARY)",
 				);
 				PRODUCT_NAME = "Quick Sign-In";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";

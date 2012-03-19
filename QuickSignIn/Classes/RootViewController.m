@@ -194,20 +194,13 @@
 - (IBAction)viewHistoryButtonPressed:(id)sender
 {
     // TODO: Temporarily here for testing
-//    NSDate *date = [NSDate dateFromISO8601DateTimeString:@"2012-02-02 01:33:20"];
+//    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
+//                                                                  bundle:[NSBundle mainBundle]] autorelease];
 //
-//    if (date)
-//        NSLog(@"IT WORKED!!");
-//    else
-//        NSLog(@"NOOOOOOOO!!");
-
-    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
-                                                                  bundle:[NSBundle mainBundle]] autorelease];
-
-    [self.navigationController pushViewController:viewController animated:YES];
+//    [self.navigationController pushViewController:viewController animated:YES];
     // TODO: Remove when done
 
-    //[[self navigationController] pushViewController:userListViewController animated:YES];
+    [[self navigationController] pushViewController:userListViewController animated:YES];
 }
 
 - (void)didFailToSignIn:(BOOL)showMessage
@@ -288,7 +281,6 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-
 }
 
 - (void)didReceiveMemoryWarning

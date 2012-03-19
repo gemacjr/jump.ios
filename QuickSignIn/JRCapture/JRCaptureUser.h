@@ -37,6 +37,10 @@
 #import "JRStatuses.h"
 
 @interface JRCaptureUser : NSObject <NSCopying, JRJsonifying>
+@property                   NSInteger captureUserId;
+@property (nonatomic, copy) NSString *uuid;  
+@property (nonatomic, copy) NSDate *created;  
+@property (nonatomic, copy) NSDate *lastUpdated;  
 @property (nonatomic, copy) NSString *aboutMe;  
 @property (nonatomic, copy) NSDate *birthday;  
 @property (nonatomic, copy) NSString *currentLocation;  

@@ -32,6 +32,7 @@
 #import "JRAddresses.h"
 
 @implementation JRAddresses
+@synthesize addressesId;
 @synthesize country;
 @synthesize extendedAddress;
 @synthesize formatted;
@@ -63,6 +64,7 @@
     JRAddresses *addressesCopy =
                 [[JRAddresses allocWithZone:zone] init];
 
+    addressesCopy.addressesId = self.addressesId;
     addressesCopy.country = self.country;
     addressesCopy.extendedAddress = self.extendedAddress;
     addressesCopy.formatted = self.formatted;
@@ -84,6 +86,7 @@
     JRAddresses *addresses =
         [JRAddresses addresses];
 
+    addresses.addressesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     addresses.country = [dictionary objectForKey:@"country"];
     addresses.extendedAddress = [dictionary objectForKey:@"extendedAddress"];
     addresses.formatted = [dictionary objectForKey:@"formatted"];
@@ -104,6 +107,9 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
+
+    if (addressesId)
+        [dict setObject:[NSNumber numberWithInt:addressesId] forKey:@"id"];
 
     if (country)
         [dict setObject:country forKey:@"country"];
@@ -146,6 +152,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"addressesId"])
+        self.addressesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"country"])
         self.country = [dictionary objectForKey:@"country"];
 

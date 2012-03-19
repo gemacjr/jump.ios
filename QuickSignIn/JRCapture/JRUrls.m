@@ -32,6 +32,7 @@
 #import "JRUrls.h"
 
 @implementation JRUrls
+@synthesize urlsId;
 @synthesize primary;
 @synthesize type;
 @synthesize value;
@@ -54,6 +55,7 @@
     JRUrls *urlsCopy =
                 [[JRUrls allocWithZone:zone] init];
 
+    urlsCopy.urlsId = self.urlsId;
     urlsCopy.primary = self.primary;
     urlsCopy.type = self.type;
     urlsCopy.value = self.value;
@@ -66,6 +68,7 @@
     JRUrls *urls =
         [JRUrls urls];
 
+    urls.urlsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     urls.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
     urls.type = [dictionary objectForKey:@"type"];
     urls.value = [dictionary objectForKey:@"value"];
@@ -77,6 +80,9 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
+
+    if (urlsId)
+        [dict setObject:[NSNumber numberWithInt:urlsId] forKey:@"id"];
 
     if (primary)
         [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
@@ -92,6 +98,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"urlsId"])
+        self.urlsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"primary"])
         self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
 

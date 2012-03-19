@@ -34,13 +34,33 @@
 #import "JRAccounts.h"
 #import "JRAddresses.h"
 #import "JRBodyType.h"
+#import "JRBooks.h"
+#import "JRCars.h"
+#import "JRChildren.h"
 #import "JRCurrentLocation.h"
 #import "JREmails.h"
+#import "JRFood.h"
+#import "JRHeroes.h"
 #import "JRIms.h"
+#import "JRInterests.h"
+#import "JRJobInterests.h"
+#import "JRLanguages.h"
+#import "JRLanguagesSpoken.h"
+#import "JRLookingFor.h"
+#import "JRMovies.h"
+#import "JRMusic.h"
 #import "JRName.h"
 #import "JROrganizations.h"
+#import "JRPets.h"
 #import "JRPhoneNumbers.h"
-#import "JRPhotos.h"
+#import "JRProfilePhotos.h"
+#import "JRQuotes.h"
+#import "JRRelationships.h"
+#import "JRSports.h"
+#import "JRTags.h"
+#import "JRTurnOffs.h"
+#import "JRTurnOns.h"
+#import "JRTvShows.h"
 #import "JRUrls.h"
 
 @interface JRProfile : NSObject <NSCopying, JRJsonifying>
@@ -50,57 +70,57 @@
 @property (nonatomic, copy) NSDate *anniversary;  
 @property (nonatomic, copy) NSString *birthday;  
 @property (nonatomic, copy) JRBodyType *bodyType;  
-@property (nonatomic, copy) NSArray *books; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *cars; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *children; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *books; /* This is an array of JRBooks */ 
+@property (nonatomic, copy) NSArray *cars; /* This is an array of JRCars */ 
+@property (nonatomic, copy) NSArray *children; /* This is an array of JRChildren */ 
 @property (nonatomic, copy) JRCurrentLocation *currentLocation;  
 @property (nonatomic, copy) NSString *displayName;  
 @property (nonatomic, copy) NSString *drinker;  
 @property (nonatomic, copy) NSArray *emails; /* This is an array of JREmails */ 
 @property (nonatomic, copy) NSString *ethnicity;  
 @property (nonatomic, copy) NSString *fashion;  
-@property (nonatomic, copy) NSArray *food; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *food; /* This is an array of JRFood */ 
 @property (nonatomic, copy) NSString *gender;  
 @property (nonatomic, copy) NSString *happiestWhen;  
-@property (nonatomic, copy) NSArray *heroes; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *heroes; /* This is an array of JRHeroes */ 
 @property (nonatomic, copy) NSString *humor;  
 @property (nonatomic, copy) NSArray *ims; /* This is an array of JRIms */ 
 @property (nonatomic, copy) NSString *interestedInMeeting;  
-@property (nonatomic, copy) NSArray *interests; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *jobInterests; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *languages; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *languagesSpoken; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *interests; /* This is an array of JRInterests */ 
+@property (nonatomic, copy) NSArray *jobInterests; /* This is an array of JRJobInterests */ 
+@property (nonatomic, copy) NSArray *languages; /* This is an array of JRLanguages */ 
+@property (nonatomic, copy) NSArray *languagesSpoken; /* This is an array of JRLanguagesSpoken */ 
 @property (nonatomic, copy) NSString *livingArrangement;  
-@property (nonatomic, copy) NSArray *lookingFor; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *movies; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *music; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *lookingFor; /* This is an array of JRLookingFor */ 
+@property (nonatomic, copy) NSArray *movies; /* This is an array of JRMovies */ 
+@property (nonatomic, copy) NSArray *music; /* This is an array of JRMusic */ 
 @property (nonatomic, copy) JRName *name;  
 @property (nonatomic, copy) NSString *nickname;  
 @property (nonatomic, copy) NSString *note;  
 @property (nonatomic, copy) NSArray *organizations; /* This is an array of JROrganizations */ 
-@property (nonatomic, copy) NSArray *pets; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *pets; /* This is an array of JRPets */ 
 @property (nonatomic, copy) NSArray *phoneNumbers; /* This is an array of JRPhoneNumbers */ 
-@property (nonatomic, copy) NSArray *photos; /* This is an array of JRPhotos */ 
+@property (nonatomic, copy) NSArray *profilePhotos; /* This is an array of JRProfilePhotos */ 
 @property (nonatomic, copy) NSString *politicalViews;  
 @property (nonatomic, copy) NSString *preferredUsername;  
 @property (nonatomic, copy) NSString *profileSong;  
 @property (nonatomic, copy) NSString *profileUrl;  
 @property (nonatomic, copy) NSString *profileVideo;  
 @property (nonatomic, copy) NSDate *published;  
-@property (nonatomic, copy) NSArray *quotes; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *quotes; /* This is an array of JRQuotes */ 
 @property (nonatomic, copy) NSString *relationshipStatus;  
-@property (nonatomic, copy) NSArray *relationships; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *relationships; /* This is an array of JRRelationships */ 
 @property (nonatomic, copy) NSString *religion;  
 @property (nonatomic, copy) NSString *romance;  
 @property (nonatomic, copy) NSString *scaredOf;  
 @property (nonatomic, copy) NSString *sexualOrientation;  
 @property (nonatomic, copy) NSString *smoker;  
-@property (nonatomic, copy) NSArray *sports; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *sports; /* This is an array of JRSports */ 
 @property (nonatomic, copy) NSString *status;  
-@property (nonatomic, copy) NSArray *tags; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *turnOffs; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *turnOns; /* This is an array of strings */ 
-@property (nonatomic, copy) NSArray *tvShows; /* This is an array of strings */ 
+@property (nonatomic, copy) NSArray *tags; /* This is an array of JRTags */ 
+@property (nonatomic, copy) NSArray *turnOffs; /* This is an array of JRTurnOffs */ 
+@property (nonatomic, copy) NSArray *turnOns; /* This is an array of JRTurnOns */ 
+@property (nonatomic, copy) NSArray *tvShows; /* This is an array of JRTvShows */ 
 @property (nonatomic, copy) NSDate *updated;  
 @property (nonatomic, copy) NSArray *urls; /* This is an array of JRUrls */ 
 @property (nonatomic, copy) NSString *utcOffset;  

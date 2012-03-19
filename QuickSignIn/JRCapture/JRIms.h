@@ -33,6 +33,7 @@
 #import "JRCapture.h"
 
 @interface JRIms : NSObject <NSCopying, JRJsonifying>
+@property                   NSInteger imsId;
 @property                   BOOL primary;
 @property (nonatomic, copy) NSString *type;  
 @property (nonatomic, copy) NSString *value;  
