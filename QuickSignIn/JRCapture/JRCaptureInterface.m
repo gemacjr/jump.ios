@@ -163,7 +163,7 @@ typedef enum CaptureInterfaceStatEnum
             [captureInterfaceDelegate createCaptureUserDidFailWithResult:result];
     }
 
-    self.captureInterfaceDelegate = nil;
+    //self.captureInterfaceDelegate = nil;
 }
 
 - (void)startCreateCaptureUser:(NSDictionary*)user
@@ -211,7 +211,7 @@ typedef enum CaptureInterfaceStatEnum
             [captureInterfaceDelegate updateCaptureUserDidFailWithResult:result];
     }
 
-    self.captureInterfaceDelegate = nil;
+    //self.captureInterfaceDelegate = nil;
 }
 
 - (void)startUpdateCaptureUser:(NSDictionary*)user
@@ -258,7 +258,7 @@ typedef enum CaptureInterfaceStatEnum
             [captureInterfaceDelegate getCaptureEntityDidFailWithResult:result];
     }
 
-    self.captureInterfaceDelegate = nil;
+    //self.captureInterfaceDelegate = nil;
 }
 
 - (void)startGetEntityWithName:(NSString*)entityName andId:(NSInteger)entityId
@@ -292,25 +292,25 @@ typedef enum CaptureInterfaceStatEnum
     DLog(@"request: %@, access token: %@, attribute name: %@", request, captureAccessToken, attributeName);
 }
 
-- (void)finishGetCaptureUserWithStat:(CaptureInterfaceStat)stat andResult:(NSString*)result
+- (void)finishGetCaptureUserWithStat:(CaptureInterfaceStat)stat result:(NSString*)result andTag:(NSObject*)tag
 {
     DLog(@"");
 
     if (stat == StatOk)
     {
-        if ([captureInterfaceDelegate respondsToSelector:@selector(getCaptureUserDidSucceedWithResult:)])
-            [captureInterfaceDelegate getCaptureUserDidSucceedWithResult:result];
+        if ([captureInterfaceDelegate respondsToSelector:@selector(getCaptureUserDidSucceedWithResult:andTag:)])
+            [captureInterfaceDelegate getCaptureUserDidSucceedWithResult:result andTag:tag];
     }
     else
     {
-        if ([captureInterfaceDelegate respondsToSelector:@selector(getCaptureUserDidFailWithResult:)])
-            [captureInterfaceDelegate getCaptureUserDidFailWithResult:result];
+        if ([captureInterfaceDelegate respondsToSelector:@selector(getCaptureUserDidFailWithResult:andTag:)])
+            [captureInterfaceDelegate getCaptureUserDidFailWithResult:result andTag:tag];
     }
 
-    self.captureInterfaceDelegate = nil;
+    //self.captureInterfaceDelegate = nil;
 }
 
-- (void)startGetCaptureUser
+- (void)startGetCaptureUserWithTag:(NSObject *)tag
 {
     DLog(@"");
 
@@ -326,13 +326,14 @@ typedef enum CaptureInterfaceStatEnum
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
 
-    NSDictionary *tag = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        @"getUser", @"action", nil];
+    NSDictionary *newTag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"getUser", @"action",
+                                        tag, @"callerTag", nil];
             //attributeName, @"attributeName", nil];
 
     // TODO: Better error format
-    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
-        [self finishGetCaptureUserWithStat:StatFail andResult:@"url failed"];
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:newTag])
+        [self finishGetCaptureUserWithStat:StatFail result:@"url failed" andTag:tag];
 
 //    DLog(@"request: %@, access token: %@, attribute name: %@", request, captureAccessToken, attributeName);
 }
@@ -373,21 +374,23 @@ typedef enum CaptureInterfaceStatEnum
 }
 
 + (void)getCaptureUserWithAccessToken:(NSString *)accessToken forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
+                              withTag:(NSObject *)tag
 {
     JRCaptureInterface *captureInterface = [JRCaptureInterface captureInterfaceInstance];
 
      captureInterface.captureInterfaceDelegate = delegate;
      captureInterface.captureAccessToken       = accessToken;
 
-     [captureInterface startGetCaptureUser];
+     [captureInterface startGetCaptureUserWithTag:tag];
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(NSObject*)userdata
 {
     DLog(@"%@", payload);
 
-    NSDictionary *tag = (NSDictionary*)userdata;
-    NSString *action  = [tag objectForKey:@"action"];
+    NSDictionary *tag       = (NSDictionary*)userdata;
+    NSString     *action    = [tag objectForKey:@"action"];
+    NSObject     *callerTag = [tag objectForKey:@"callerTag"];
 
     if ([action isEqualToString:@"createUser"])
     {
@@ -437,12 +440,12 @@ typedef enum CaptureInterfaceStatEnum
         if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
         {
             DLog(@"Get entity success: %@", payload);
-            [self finishGetCaptureUserWithStat:StatOk andResult:payload];
+            [self finishGetCaptureUserWithStat:StatOk result:payload andTag:callerTag];
         }
         else
         {
             DLog(@"Get entity failure: %@", payload);
-            [self finishGetCaptureUserWithStat:StatFail andResult:payload];
+            [self finishGetCaptureUserWithStat:StatFail result:payload andTag:callerTag];
         }
     }
 }
@@ -459,8 +462,9 @@ typedef enum CaptureInterfaceStatEnum
 {
     DLog(@"");
 
-    NSDictionary *tag = (NSDictionary*)userdata;
-    NSString *action  = [tag objectForKey:@"action"];
+    NSDictionary *tag       = (NSDictionary*)userdata;
+    NSString     *action    = [tag objectForKey:@"action"];
+    NSObject     *callerTag = [tag objectForKey:@"callerTag"];
 
     // TODO: Better error format
     NSString *result = @"connection failed";
@@ -479,7 +483,7 @@ typedef enum CaptureInterfaceStatEnum
     }
     else if ([action isEqualToString:@"getUser"])
     {
-        [self finishGetCaptureUserWithStat:StatFail andResult:result];
+        [self finishGetCaptureUserWithStat:StatFail result:result andTag:callerTag];
     }
 }
 

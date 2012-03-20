@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureUser.h"
+#import "JRCaptureInterface.h"
+
 @protocol JRCaptureUserDelegate <NSObject>
 @optional
 - (void)createCaptureUser:(JRCaptureUser *)user didSucceedWithResult:(NSString *)result;
