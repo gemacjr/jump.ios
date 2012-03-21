@@ -275,6 +275,8 @@
                                            otherButtonTitles:@"OK", nil] autorelease];
     [alert show];
 
+    [[UserModel getUserModel] addCaptureUserFromCaptureResult:result];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 

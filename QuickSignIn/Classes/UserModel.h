@@ -156,7 +156,7 @@
 - (void)startSignUserOut:(id<UserModelDelegate>)interestedParty;
 
 - (void)triggerAuthenticationDidCancel:(id)sender;
-
+- (void)addCaptureUserFromCaptureResult:(NSString *)captureResult;
 //- (void)setNavigationController:(UINavigationController*)navigationController;
 
 /* Returns singleton instance of class. */
