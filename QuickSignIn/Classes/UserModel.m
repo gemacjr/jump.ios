@@ -232,6 +232,56 @@ otherwise, this happens automatically.                                          
     return addr;
 }
 
+/**
+ * Horrible hack to remove NSNulls from profile data to allow it to be stored in an NSUserDefaults
+ * (Capture profiles can have null values and JSONKit parses them to NSNulls, but Engage profiles don't and so
+ * didn't trigger this incompatibility.)
+ */
+- (id)nullWalker:(id)structure
+{
+    if ([structure isKindOfClass:[NSDictionary class]])
+    {
+        NSDictionary *dict = (NSDictionary *) structure;
+        NSMutableDictionary *retval = [NSMutableDictionary dictionary];
+        NSArray *keys = [dict allKeys];
+        for (NSString *key in keys)
+        {
+            NSObject *val = [dict objectForKey:key];
+            if ([val isKindOfClass:[NSNull class]])
+                /* don't add */;
+            else if ([val isKindOfClass:[NSDictionary class]])
+                [retval setObject:[self nullWalker:val] forKey:key];
+            else if ([val isKindOfClass:[NSArray class]])
+                [retval setObject:[self nullWalker:val] forKey:key];
+            else
+                [retval setObject:val forKey:key];
+        }
+        return retval;
+    }
+    else if ([structure isKindOfClass:[NSArray class]])
+    {
+        NSArray *array = (NSArray *) structure;
+        NSMutableArray *retval = [NSMutableArray array];
+        for (NSObject *val in array)
+            if ([val isKindOfClass:[NSNull class]])
+                /* don't add */;
+            else if ([val isKindOfClass:[NSDictionary class]])
+                [retval addObject:[self nullWalker:val]];
+            else if ([val isKindOfClass:[NSArray class]])
+                [retval addObject:[self nullWalker:val]];
+            else
+                [retval addObject:val];
+        return retval;
+    }
+    else
+    {
+        ALog(@"Unrecognized stucture: %@", [structure description]);
+        return nil;
+        // TODO: Better error handling
+        //exit(1);
+    }
+}
+
 /* Returns the sign-in history as an ordered array of sessions, store as dictionaries.
    Each session's dictionary contains the identifier, display name, provider, and timestamp
    for that particular session.  As one user may log in many times, identifiers are not unique. */
@@ -379,6 +429,106 @@ otherwise, this happens automatically.                                          
     return;
 }
 
+- (void)addCaptureUserFromCaptureResult:(NSString *)captureResult
+{
+    DLog(@"");
+
+    NSDictionary        *tmpProfiles = [prefs objectForKey:@"userProfiles"];
+    NSMutableDictionary *newProfiles = [NSMutableDictionary dictionaryWithDictionary:tmpProfiles];
+    NSMutableDictionary *userProfile = [NSMutableDictionary dictionaryWithDictionary:
+                                                   [newProfiles objectForKey:
+                                                               [currentUser objectForKey:@"identifier"]]];
+    NSDictionary        *captureDictionary  = [captureResult objectFromJSONString];
+
+    if (!captureDictionary)
+    {
+        ALog(@"Unable to parse token URL response: %@", captureResult);
+        return; // TODO: Better error handling (Add a GOTO?)
+    }
+
+    NSString     *captureAccessToken   = [captureDictionary objectForKey:@"access_token"];
+    NSDictionary *captureCredentials;
+
+    // TODO: Temp test for Cypress
+    self.latestAccessToken = captureAccessToken;
+
+    if (captureAccessToken)
+        captureCredentials = [NSDictionary dictionaryWithObject:captureAccessToken
+                                                         forKey:@"access_token"];
+    else
+        captureCredentials = nil;
+
+    NSDictionary *captureProfile = nil;
+    if (captureDemo && captureAccessToken)
+        captureProfile = [self nullWalker:[captureDictionary objectForKey:@"result"]];
+
+    if (captureProfile)
+        [userProfile setObject:captureProfile forKey:@"captureProfile"];
+    if (captureCredentials)
+        [userProfile setObject:captureCredentials forKey:@"captureCredentials"];
+
+    [newProfiles setObject:userProfile forKey:[currentUser objectForKey:@"identifier"]];
+    [prefs setObject:newProfiles forKey:@"userProfiles"];
+
+//    [tokenUrlDelegate didReachTokenUrl];
+//    [tokenUrlDelegate release], tokenUrlDelegate = nil;
+}
+
+
+- (void)finishSignUserOut
+{
+ /* Save the currentUser's session dictionary (identifier, display name, provider and timestamp)
+    at the beginning of the sign-in history array.  One specific user may have multiple distinct
+    sessions saved in this array, which is why we're saving minimal session data in this array
+    and keeping their full profiles in the separate userProfiles dictionary. */
+
+ /* Create a mutable array from the non-mutable NSUserDefaults array, */
+    NSArray *tmp = [prefs arrayForKey:@"signinHistory"];
+    NSMutableArray *signinHistory = [[NSMutableArray alloc]
+                                     initWithCapacity:([tmp count] + 1)];
+    [signinHistory addObjectsFromArray:tmp];
+
+ /* Insert the currentUser's session dictionary at the beginning of the array, */
+    [signinHistory insertObject:currentUser atIndex:0];
+
+ /* save the array, and nullify the currentUser. */
+    [prefs setObject:signinHistory forKey:@"signinHistory"];
+    [prefs setObject:nil forKey:@"currentUser"];
+
+    [signinHistory release];
+
+    [currentUser release];
+    currentUser = nil;
+
+    [displayName release];
+    displayName = nil;
+
+    [identifier release];
+    identifier = nil;
+
+    [currentProvider release];
+    currentProvider = nil;
+
+    [signOutDelegate userDidSignOut];
+    [signOutDelegate release], signOutDelegate = nil;
+
+ /* As we remove sign-in sessions from the history, eventually we need to prune the profiles from the
+    userProfiles dictionary.  We do this when the size of the signinHistory array is half
+    of the historyCountSnapShot.  As the array grows, so does historyCountSnapShot, but
+    historyCountSnapShot only shrinks after a pruning. */
+    historyCountSnapShot++;
+
+ /* Save the historyCountSnapShot, as it may be bigger than the current array count. */
+    [prefs setInteger:historyCountSnapShot forKey:@"historyCount"];
+}
+
+- (void)startSignUserOut:(id<UserModelDelegate>)interestedParty
+{
+    signOutDelegate = [interestedParty retain];
+
+    [self finishSignUserOut];
+}
+
 - (void)finishSignUserIn:(NSDictionary*)user
 {
     if (currentUser)
@@ -437,53 +587,6 @@ otherwise, this happens automatically.                                          
     [signInDelegate release], signInDelegate = nil;
 }
 
-- (void)finishSignUserOut
-{
- /* Save the currentUser's session dictionary (identifier, display name, provider and timestamp)
-    at the beginning of the sign-in history array.  One specific user may have multiple distinct
-    sessions saved in this array, which is why we're saving minimal session data in this array
-    and keeping their full profiles in the separate userProfiles dictionary. */
-
- /* Create a mutable array from the non-mutable NSUserDefaults array, */
-    NSArray *tmp = [prefs arrayForKey:@"signinHistory"];
-    NSMutableArray *signinHistory = [[NSMutableArray alloc]
-                                     initWithCapacity:([tmp count] + 1)];
-    [signinHistory addObjectsFromArray:tmp];
-
- /* Insert the currentUser's session dictionary at the beginning of the array, */
-    [signinHistory insertObject:currentUser atIndex:0];
-
- /* save the array, and nullify the currentUser. */
-    [prefs setObject:signinHistory forKey:@"signinHistory"];
-    [prefs setObject:nil forKey:@"currentUser"];
-
-    [signinHistory release];
-
-    [currentUser release];
-    currentUser = nil;
-
-    [displayName release];
-    displayName = nil;
-
-    [identifier release];
-    identifier = nil;
-
-    [currentProvider release];
-    currentProvider = nil;
-
-    [signOutDelegate userDidSignOut];
-    [signOutDelegate release], signOutDelegate = nil;
-
- /* As we remove sign-in sessions from the history, eventually we need to prune the profiles from the
-    userProfiles dictionary.  We do this when the size of the signinHistory array is half
-    of the historyCountSnapShot.  As the array grows, so does historyCountSnapShot, but
-    historyCountSnapShot only shrinks after a pruning. */
-    historyCountSnapShot++;
-
- /* Save the historyCountSnapShot, as it may be bigger than the current array count. */
-    [prefs setInteger:historyCountSnapShot forKey:@"historyCount"];
-}
-
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedParty
 {
     DLog(@"");
@@ -525,18 +628,12 @@ otherwise, this happens automatically.                                          
     [jrEngage showAuthenticationDialogWithCustomInterfaceOverrides:customInterface];
 }
 
+
 - (void)startSignUserIn:(id<UserModelDelegate>)interestedPartySignIn
            afterSignOut:(id<UserModelDelegate>)interestedPartySignOut
 {
     signOutDelegate = [interestedPartySignOut retain];
     [self startSignUserIn:interestedPartySignIn];
-}
-
-- (void)startSignUserOut:(id<UserModelDelegate>)interestedParty
-{
-    signOutDelegate = [interestedParty retain];
-
-    [self finishSignUserOut];
 }
 
 - (void)triggerAuthenticationDidCancel:(id)sender
@@ -584,56 +681,6 @@ otherwise, this happens automatically.                                          
 //    [self finishSignUserIn:auth_info];
 }
 
-/**
- * Horrible hack to remove NSNulls from profile data to allow it to be stored in an NSUserDefaults
- * (Capture profiles can have null values and JSONKit parses them to NSNulls, but Engage profiles don't and so
- * didn't trigger this incompatibility.)
- */
-- (id)nullWalker:(id)structure
-{
-    if ([structure isKindOfClass:[NSDictionary class]])
-    {
-        NSDictionary *dict = (NSDictionary *) structure;
-        NSMutableDictionary *retval = [NSMutableDictionary dictionary];
-        NSArray *keys = [dict allKeys];
-        for (NSString *key in keys)
-        {
-            NSObject *val = [dict objectForKey:key];
-            if ([val isKindOfClass:[NSNull class]])
-                /* don't add */;
-            else if ([val isKindOfClass:[NSDictionary class]])
-                [retval setObject:[self nullWalker:val] forKey:key];
-            else if ([val isKindOfClass:[NSArray class]])
-                [retval setObject:[self nullWalker:val] forKey:key];
-            else
-                [retval setObject:val forKey:key];
-        }
-        return retval;
-    }
-    else if ([structure isKindOfClass:[NSArray class]])
-    {
-        NSArray *array = (NSArray *) structure;
-        NSMutableArray *retval = [NSMutableArray array];
-        for (NSObject *val in array)
-            if ([val isKindOfClass:[NSNull class]])
-                /* don't add */;
-            else if ([val isKindOfClass:[NSDictionary class]])
-                [retval addObject:[self nullWalker:val]];
-            else if ([val isKindOfClass:[NSArray class]])
-                [retval addObject:[self nullWalker:val]];
-            else
-                [retval addObject:val];
-        return retval;
-    }
-    else
-    {
-        ALog(@"Unrecognized stucture: %@", [structure description]);
-        return nil;
-        // TODO: Better error handling
-        //exit(1);
-    }
-}
-
 - (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withResponse:(NSURLResponse*)response
                               andPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider;
 {
@@ -674,7 +721,7 @@ otherwise, this happens automatically.                                          
     if (captureDemo && captureAccessToken)
         captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
 
-    JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+//    JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
 
 //    captureProfile = captureProfile ?
 //            [self nullWalker:captureProfile]
@@ -701,9 +748,6 @@ otherwise, this happens automatically.                                          
     // TODO: delegate function is optional
     [tokenUrlDelegate didReachTokenUrl];
     [tokenUrlDelegate release], tokenUrlDelegate = nil;
-
-    // now pass the capture access token to the backend server in exchange for an app access token
-    // Lilli says ???
 }
 
 - (void)jrAuthenticationDidNotComplete
