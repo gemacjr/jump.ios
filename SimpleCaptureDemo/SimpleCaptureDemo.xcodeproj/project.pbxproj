@@ -1150,6 +1150,9 @@
 /* Begin PBXProject section */
 		90C36B6B7717AA0C893E08DA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 90C36B6B7717AA0C893E08DB /* Build configuration list for PBXProject "SimpleCaptureDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;

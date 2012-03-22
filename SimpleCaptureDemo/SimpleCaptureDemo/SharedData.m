@@ -23,10 +23,17 @@
 @implementation SharedData
 static SharedData *singleton = nil;
 
-static NSString *appId          = @"appcfamhnpkagijaeinl";
-static NSString *captureDomain  = @"https://mobile.dev.janraincapture.com";
-static NSString *clientId       = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
-static NSString *entityTypeName = @"user";
+//static NSString *appId          = @"appcfamhnpkagijaeinl";
+//static NSString *captureDomain  = @"https://mobile.dev.janraincapture.com";
+//static NSString *clientId       = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
+//static NSString *entityTypeName = @"user_dev";
+
+/* Carl's local instance */
+static NSString *appId             = @"pgfjodcppiaifejikhmh";
+static NSString *captureApidDomain = @"http://10.0.10.47:8000";
+static NSString *captureUIDomain   = @"http://10.0.10.47:5000";
+static NSString *clientId          = @"puh6d29gb94mn9ek4v3w8f7w9hp58g2z";
+static NSString *entityTypeName    = @"user2";
 
 //static NSString *appId          = @"mlfeingbenjalleljkpo";
 //static NSString *captureDomain  = @"https://demo.staging.janraincapture.com/";
@@ -48,7 +55,8 @@ static NSString *entityTypeName = @"user";
 {
     if ((self = [super init]))
     {
-        [JRCaptureInterface setCaptureDomain:captureDomain clientId:clientId andEntityTypeName:entityTypeName];
+        [JRCaptureInterface setCaptureApidDomain:captureApidDomain captureUIDomain:captureUIDomain
+                                        clientId:clientId andEntityTypeName:entityTypeName];
         self.jrEngage = [JREngage jrEngageWithAppId:appId
                                         andTokenUrl:[JRCaptureInterface captureMobileEndpointUrl]
                                            delegate:self];

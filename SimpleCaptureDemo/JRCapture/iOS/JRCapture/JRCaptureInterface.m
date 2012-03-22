@@ -68,7 +68,8 @@
 //@property (nonatomic, retain) JRCaptureUser *captureUser;
 @property (nonatomic, copy)   NSString      *captureCreationToken;
 @property (nonatomic, copy)   NSString      *captureAccessToken;
-@property (nonatomic, copy)   NSString      *captureDomain;
+@property (nonatomic, copy)   NSString      *captureApidDomain;
+@property (nonatomic, copy)   NSString      *captureUIDomain;
 @property (nonatomic, copy)   NSString      *clientId;
 @property (nonatomic, copy)   NSString      *entityTypeName;
 @end
@@ -78,10 +79,12 @@
 //@synthesize captureUser;
 @synthesize captureCreationToken;
 @synthesize captureAccessToken;
-@synthesize captureDomain;
+@synthesize captureUIDomain;
+@synthesize captureApidDomain;
 @synthesize clientId;
 @synthesize entityTypeName;
 
+static NSString *appIdArg = @"&application_id=qx3ss262yufnmpb3ck93jr3zfs";
 static JRCaptureInterface *singleton = nil;
 
 - (JRCaptureInterface*)init
@@ -131,15 +134,17 @@ static JRCaptureInterface *singleton = nil;
 {
     JRCaptureInterface *captureInterface = [JRCaptureInterface captureInterfaceInstance];
     return [NSString stringWithFormat:@"%@/oauth/mobile_signin?client_id=%@&redirect_uri=https://example.com",
-                     captureInterface.captureDomain, captureInterface.clientId];
+                     captureInterface.captureUIDomain, captureInterface.clientId];
 }
 
-+ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
++ (void)setCaptureApidDomain:(NSString *)newCaptureApidDomain captureUIDomain:newCaptureUIDomain
+                    clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
 {
     JRCaptureInterface *captureInterface = [JRCaptureInterface captureInterfaceInstance];
-    captureInterface.clientId       = newClientId;
-    captureInterface.captureDomain  = newCaptureDomain;
-    captureInterface.entityTypeName = newEntityTypeName;
+    captureInterface.clientId           = newClientId;
+    captureInterface.captureApidDomain  = newCaptureApidDomain;
+    captureInterface.captureUIDomain    = newCaptureUIDomain;
+    captureInterface.entityTypeName     = newEntityTypeName;
 }
 
 typedef enum CaptureInterfaceStatEnum
@@ -178,9 +183,12 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"&creation_token=%@", captureCreationToken] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[@"&include_record=true" dataUsingEncoding:NSUTF8StringEncoding]];
 
+    if (appIdArg)
+        [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity.create", captureDomain]]];
+                                      [NSString stringWithFormat:@"%@/entity.create", captureApidDomain]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -225,9 +233,12 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", captureAccessToken] dataUsingEncoding:NSUTF8StringEncoding]];
 
+    if (appIdArg)
+        [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity.update", captureDomain]]];
+                                      [NSString stringWithFormat:@"%@/entity.update", captureApidDomain]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -274,9 +285,12 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[attributeName dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", captureAccessToken] dataUsingEncoding:NSUTF8StringEncoding]];
 
+    if (appIdArg)
+        [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity", captureDomain]]];
+                                      [NSString stringWithFormat:@"%@/entity", captureApidDomain]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -319,9 +333,12 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"type_name=%@", entityTypeName] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", captureAccessToken] dataUsingEncoding:NSUTF8StringEncoding]];
 
+    if (appIdArg)
+        [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
-                                      [NSString stringWithFormat:@"%@/entity", captureDomain]]];
+                                      [NSString stringWithFormat:@"%@/entity", captureApidDomain]]];
 
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
@@ -496,9 +513,10 @@ typedef enum CaptureInterfaceStatEnum
     [captureCreationToken release];
 
     [clientId release];
-    [captureDomain release];
     [entityTypeName release];
     [captureAccessToken release];
+    [captureUIDomain release];
+    [captureApidDomain release];
     [super dealloc];
 }
 

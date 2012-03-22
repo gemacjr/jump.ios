@@ -189,7 +189,7 @@
 
     captureUser.aboutMe  = myAboutMeTextView.text;
     captureUser.birthday = myBirthdate;
-    captureUser.currentLocation = myLocationTextView.text;
+    captureUser.email    = myLocationTextView.text;
 
     if (myGenderIdentitySegControl.selectedSegmentIndex == 0)
         captureUser.gender = @"female";

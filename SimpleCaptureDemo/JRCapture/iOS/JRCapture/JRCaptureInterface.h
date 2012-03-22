@@ -54,8 +54,8 @@
 
     id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
 }
-+ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
-       andEntityTypeName:(NSString *)newEntityTypeName;
++ (void)setCaptureApidDomain:(NSString *)newCaptureApidDomain captureUIDomain:newCaptureUIDomain
+                    clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName;
 + (NSString *)captureMobileEndpointUrl;
 
 + (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
