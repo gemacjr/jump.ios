@@ -44,11 +44,15 @@
 
 #pragma mark server_urls
 //#define ENGAGE_STAGING_SERVER
+#define ENGAGE_TESTING_SERVER
 //#define LOCAL_ENGAGE_SERVER
 //#define NATHAN_ENGAGE_SERVER
 //#define OLEG_ENGAGE_SERVER
 #ifdef ENGAGE_STAGING_SERVER
 static NSString * const serverUrl = @"https://rpxstaging.com";
+#else
+#ifdef ENGAGE_TESTING_SERVER
+static NSString * const serverUrl = @"https://rpxtesting.com";
 #else
 #ifdef LOCAL_ENGAGE_SERVER
 static NSString * const serverUrl = @"http://lilli.janrain.com:8080";
@@ -60,6 +64,7 @@ static NSString * const serverUrl = @"http://nathan-dev.janrain.com:8080";
 static NSString * const serverUrl = @"http://oleg.janrain.com:8080";
 #else
 static NSString * const serverUrl = @"https://rpxnow.com";
+#endif
 #endif
 #endif
 #endif
@@ -1057,7 +1062,7 @@ static JRSessionData* singleton = nil;
     return nil;
 }
 
-- (void) deleteWebviewCookiesForDomains:(NSArray*)domains
+- (void)deleteWebviewCookiesForDomains:(NSArray*)domains
 {
     NSHTTPCookieStorage* cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 
@@ -1573,11 +1578,12 @@ CALL_DELEGATE_SELECTOR:
 }
 
 #pragma mark connection_manager_delegate_protocol
-- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload
+                                           request:(NSURLRequest*)request andTag:(void*)userdata
 {
     NSObject *tag = (NSObject*)userdata;
 
-    NSDictionary *headers = nil;
+    NSDictionary      *headers      = nil;
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)fullResponse;
     if ([httpResponse respondsToSelector:@selector(allHeaderFields)])
         headers = [httpResponse allHeaderFields];
