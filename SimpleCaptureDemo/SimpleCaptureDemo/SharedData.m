@@ -259,7 +259,7 @@ static NSString *entityTypeName = @"user";
 
     if (accessToken)
     {
-        NSDictionary *captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
+        NSDictionary *captureProfile = [self nullWalker:[payloadDict objectForKey:@"capture_user"]];
 
         self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
     }
