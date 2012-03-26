@@ -719,7 +719,7 @@ otherwise, this happens automatically.                                          
 
     NSDictionary *captureProfile = nil;
     if (captureDemo && captureAccessToken)
-        captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
+        captureProfile = [self nullWalker:[payloadDict objectForKey:@"capture_user"]];
 
 //    JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
 

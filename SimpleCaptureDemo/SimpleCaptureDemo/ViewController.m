@@ -14,7 +14,6 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-
 #import "ViewController.h"
 
 @interface ViewController ()
@@ -49,13 +48,6 @@
                                                               andKey:@"CaptureUser"];
 
     [[self navigationController] pushViewController:drillDown animated:YES];
-
-//    UserDrillDownViewController *viewController = [[UserDrillDownViewController alloc]
-//            initWithNibName:@"UserDrillDownViewController"
-//                     bundle:[NSBundle mainBundle]
-//              andDataObject:sharedData.captureUser forKey:@"CaptureUser"];
-//
-//    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (IBAction)updateButtonPressed:(id)sender
