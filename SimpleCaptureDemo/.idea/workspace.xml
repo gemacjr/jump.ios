@@ -3,16 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="5c4cbd9f-fa6a-4d57-b507-53a2f7f6c45b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimpleCaptureDemo.xcodeproj/project.xcworkspace/xcuserdata/lillialexis.xcuserdatad/UserInterfaceState.xcuserstate" afterPath="$PROJECT_DIR$/SimpleCaptureDemo.xcodeproj/project.xcworkspace/xcuserdata/lillialexis.xcuserdatad/UserInterfaceState.xcuserstate" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h" afterPath="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.m" afterPath="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimpleCaptureDemo.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/SimpleCaptureDemo.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.m" afterPath="$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h" afterPath="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m" afterPath="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m" afterPath="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimpleCaptureDemo/en.lproj/CaptureNewUserViewController.xib" afterPath="$PROJECT_DIR$/SimpleCaptureDemo/en.lproj/CaptureNewUserViewController.xib" />
     </list>
     <ignored path="SimpleCaptureDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,10 +29,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="JRCaptureInterface.m" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="JRCaptureInterface.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="31" selection-start="3517" selection-end="3517" vertical-scroll-proportion="-3.0167599">
+            <state line="86" column="21" selection-start="3507" selection-end="3507" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -92,16 +86,43 @@
       <file leaf-file-name="SharedData.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="43" selection-start="1209" selection-end="1209" vertical-scroll-proportion="0.0">
+            <state line="94" column="1" selection-start="3284" selection-end="3284" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CaptureNewUserViewController.m" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="JRProfilePhotos.h" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRProfilePhotos.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JRProfilePhotos.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRProfilePhotos.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="71" column="88" selection-start="2619" selection-end="2679" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SharedData.h" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="54" selection-start="827" selection-end="827" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CaptureNewUserViewController.m" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="230" column="71" selection-start="7802" selection-end="7802" vertical-scroll-proportion="0.0">
+            <state line="224" column="1" selection-start="7412" selection-end="7412" vertical-scroll-proportion="0.81697905">
               <folding />
             </state>
           </provider>
@@ -110,7 +131,7 @@
       <file leaf-file-name="ViewController.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="0" selection-start="2406" selection-end="2406" vertical-scroll-proportion="0.0">
+            <state line="87" column="1" selection-start="3066" selection-end="3066" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -130,7 +151,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCapture.m" />
         <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterfaceTwo.h" />
         <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterfaceTwo.m" />
         <option value="$PROJECT_DIR$/JRCapture/iOSFiles/JRCaptureInterface.m" />
@@ -141,11 +161,12 @@
         <option value="$PROJECT_DIR$/../JRCapture/iOSFiles/JRCaptureInterface.h" />
         <option value="$PROJECT_DIR$/../JRCapture/iOSFiles/JRCapture.h" />
         <option value="$PROJECT_DIR$/JRCapture/ObjCMethodParts.pl" />
-        <option value="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m" />
-        <option value="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m" />
         <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h" />
         <option value="$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.m" />
         <option value="$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.m" />
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h" />
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m" />
+        <option value="$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m" />
       </list>
     </option>
   </component>
@@ -254,8 +275,8 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="OBJC.PRESERVED_TARGET_SELECTION" value="" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Application.SimpleCaptureDemo - iPhone Simulator">
     <configuration default="false" name="SimpleCaptureDemo - iPhone Simulator" type="AppleRunConfiguration" factoryName="Application" temporary="true" PROJECT_NAME="SimpleCaptureDemo" TARGET_NAME="SimpleCaptureDemo" CONFIG_NAME="Debug" SDK_NAME="iphonesimulator5.0" ARCH_ID="Standard" DEVICE="IPHONE" DEBUGGER="GDB" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" MAKE_ACTIVE="TRUE" WAIT_FOR="FALSE">
@@ -310,7 +331,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32635984" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -320,7 +341,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.397878" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38807532" sideWeight="0.95782816" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38807532" sideWeight="0.95782816" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -401,21 +422,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../JRCapture/iOSFiles/JRCaptureInterface.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/iOSFiles/JRCapture.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1954" selection-end="1954" vertical-scroll-proportion="0.020496225" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/iOSFiles/JRCaptureInterface.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../JRCapture/iOSFiles/JRCapture.h">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="81" selection-start="1142" selection-end="1142" vertical-scroll-proportion="0.020496225" />
@@ -434,6 +440,13 @@
     <entry file="file://$PROJECT_DIR$/JRCapture/iOSFiles/JRCaptureUser+Extras.h">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="21" selection-start="3507" selection-end="3507" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.h">
@@ -463,30 +476,44 @@
         <state line="1081" column="0" selection-start="45534" selection-end="45534" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m">
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRProfilePhotos.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="43" selection-start="1209" selection-end="1209" vertical-scroll-proportion="0.0">
+        <state line="71" column="88" selection-start="2619" selection-end="2679" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRProfilePhotos.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="54" selection-start="827" selection-end="827" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/ViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="0" selection-start="2406" selection-end="2406" vertical-scroll-proportion="0.0">
+        <state line="87" column="1" selection-start="3066" selection-end="3066" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/SharedData.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="1" selection-start="3284" selection-end="3284" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SimpleCaptureDemo/CaptureNewUserViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="230" column="71" selection-start="7802" selection-end="7802" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JRCapture/iOS/JRCapture/JRCaptureInterface.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="31" selection-start="3517" selection-end="3517" vertical-scroll-proportion="-3.0167599">
+        <state line="224" column="1" selection-start="7412" selection-end="7412" vertical-scroll-proportion="0.81697905">
           <folding />
         </state>
       </provider>

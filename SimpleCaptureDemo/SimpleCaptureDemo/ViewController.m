@@ -89,7 +89,7 @@
 
 - (void)captureSignInDidSucceed
 {
-    if (sharedData.creationToken)
+    if (sharedData.notYetCreated || sharedData.isNew)
     {
         CaptureNewUserViewController *viewController = [[CaptureNewUserViewController alloc]
                 initWithNibName:@"CaptureNewUserViewController" bundle:[NSBundle mainBundle]];

@@ -23,17 +23,18 @@
 @implementation SharedData
 static SharedData *singleton = nil;
 
-//static NSString *appId          = @"appcfamhnpkagijaeinl";
-//static NSString *captureDomain  = @"https://mobile.dev.janraincapture.com";
-//static NSString *clientId       = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
-//static NSString *entityTypeName = @"user_dev";
+static NSString *appId              = @"appcfamhnpkagijaeinl";
+static NSString *captureApidDomain  = @"https://mobile.dev.janraincapture.com";
+static NSString *captureUIDomain    = @"https://mobile.dev.janraincapture.com";
+static NSString *clientId           = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
+static NSString *entityTypeName     = @"user_dev";
 
-/* Carl's local instance */
-static NSString *appId             = @"pgfjodcppiaifejikhmh";
-static NSString *captureApidDomain = @"http://10.0.10.47:8000";
-static NSString *captureUIDomain   = @"http://10.0.10.47:5000";
-static NSString *clientId          = @"puh6d29gb94mn9ek4v3w8f7w9hp58g2z";
-static NSString *entityTypeName    = @"user2";
+///* Carl's local instance */
+//static NSString *appId             = @"pgfjodcppiaifejikhmh";
+//static NSString *captureApidDomain = @"http://10.0.10.47:8000";
+//static NSString *captureUIDomain   = @"http://10.0.10.47:5000";
+//static NSString *clientId          = @"puh6d29gb94mn9ek4v3w8f7w9hp58g2z";
+//static NSString *entityTypeName    = @"user2";
 
 //static NSString *appId          = @"mlfeingbenjalleljkpo";
 //static NSString *captureDomain  = @"https://demo.staging.janraincapture.com/";
@@ -49,6 +50,8 @@ static NSString *entityTypeName    = @"user2";
 @synthesize currentDisplayName;
 @synthesize currentProvider;
 @synthesize signInDelegate;
+@synthesize isNew;
+@synthesize notYetCreated;
 
 
 - (id)init
@@ -253,6 +256,9 @@ static NSString *entityTypeName    = @"user2";
 
     self.accessToken   = [payloadDict objectForKey:@"access_token"];
     self.creationToken = [payloadDict objectForKey:@"creation_token"];
+    self.isNew         = [(NSNumber*)[payloadDict objectForKey:@"is_new"] boolValue];
+    self.notYetCreated = creationToken ? YES: NO;
+
 //    NSDictionary *captureCredentials;
 
 //    if (self.accessToken)
@@ -264,24 +270,8 @@ static NSString *entityTypeName    = @"user2";
 //    else
 //        captureCredentials = nil;
 
-
-    if (accessToken)
-    {
-        NSDictionary *captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
-
-        self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
-    }
-    else if (creationToken)
-    {
-        self.captureUser = [JRCaptureUser captureUser];
-
-        captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
-
-        JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
-
-        if (profilesObject)
-            captureUser.profiles = [NSArray arrayWithObject:profilesObject];
-    }
+    NSDictionary *captureProfile = [self nullWalker:[payloadDict objectForKey:@"capture_user"]];
+    self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
 
     [captureUser setAccessToken:accessToken];
     [captureUser setCreationToken:creationToken];
