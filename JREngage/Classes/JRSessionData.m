@@ -778,11 +778,18 @@ static JRSessionData* singleton = nil;
     NSDictionary *jsonDict = (NSDictionary*)[dataStr objectFromJSONString];
 
     /* Double-check the return value */
-    if(!jsonDict)
+    if (!jsonDict)
     {
         DLog(@"%@", dataStr);
         return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
                         withCode:JRJsonError];
+    }
+
+    if (![jsonDict objectForKey:@"baseurl"] || ![jsonDict objectForKey:@"provider_info"])
+    {
+        DLog(@"%@", dataStr);
+        return [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
+                        withCode:JRConfigurationInformationError];
     }
 
     [baseUrl release];
@@ -1138,14 +1145,6 @@ static JRSessionData* singleton = nil;
     if (weNeedToForceReauth)
         [self deleteWebviewCookiesForDomains:currentProvider.cookieDomains];
 
-//    if ([currentProvider.name isEqualToString:@"facebook"])
-//        if (alwaysForceReauth || currentProvider.forceReauth)
-//            [self deleteFacebookCookies];
-//
-//    if ([currentProvider.name isEqualToString:@"live_id"])
-//        if (alwaysForceReauth || currentProvider.forceReauth)
-//            [self deleteLiveCookies];
-
     str = [NSString stringWithFormat:@"%@%@?%@%@device=%@&extended=true",
            baseUrl,
            currentProvider.url,
@@ -1164,7 +1163,6 @@ static JRSessionData* singleton = nil;
 {
     // TODO: Better error checking in sessionData's share activity bit
     NSMutableDictionary *activityDictionary = [activity dictionaryForObject];
-            //[NSMutableDictionary dictionaryWithDictionary:[activity dictionaryForObject]];
 
     if ([currentProvider.name isEqualToString:@"linkedin"])
     {
@@ -1172,12 +1170,9 @@ static JRSessionData* singleton = nil;
                 [[activity.resourceDescription substringToIndex:((activity.resourceDescription.length < 256) ?
                                                                   activity.resourceDescription.length : 256)] URLEscaped]
                                forKey:@"description"];
-//        [activityDictionary removeObjectForKey:@"media"];
     }
 
-//    DLog (@"activity dictionary: %@", [activityDictionary description]);
-
-    NSString *activityContent = [activityDictionary JSONString];//[[activityDictionary objectForKey:@"activity"] JSONString];
+    NSString *activityContent = [activityDictionary JSONString];
     NSString *deviceToken = user.deviceToken;
 
     DLog(@"activity json string \n %@" , activityContent);
@@ -1223,10 +1218,6 @@ static JRSessionData* singleton = nil;
     [body appendData:[[NSString stringWithFormat:@"&device=%@", device] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&app_name=%@", applicationBundleDisplayName()] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&provider=%@", currentProvider.name] dataUsingEncoding:NSUTF8StringEncoding]];
-
-//    NSMutableURLRequest* request = [[NSMutableURLRequest requestWithURL:
-//                                     [NSURL URLWithString:
-//                                      [NSString stringWithFormat:@"%@/api/v2/set_status", serverUrl]]] retain];
 
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                      [NSURL URLWithString:
@@ -1494,7 +1485,6 @@ static JRSessionData* singleton = nil;
 {
     DLog ("Shortened Urls: %@", urls);
 
-//    NSArray *delegatesCopy = [NSArray arrayWithArray:delegates];
     NSDictionary *dict = [urls objectFromJSONString];
 
     if (!dict)
@@ -1617,17 +1607,9 @@ CALL_DELEGATE_SELECTOR:
         if ([(NSString*)tag isEqualToString:@"getConfiguration"])
         {
             NSString *payloadString = [[[NSString alloc] initWithData:payload encoding:NSASCIIStringEncoding] autorelease];
+            self.error = [self finishGetConfiguration:payloadString
+                                             withEtag:[headers objectForKey:@"Etag"]];
 
-            if ([payloadString rangeOfString:@"\"provider_info\":{"].length != 0)
-            {
-                self.error = [self finishGetConfiguration:payloadString
-                                                 withEtag:[headers objectForKey:@"Etag"]];
-            }
-            else // There was an error...
-            {
-                self.error = [JRError setError:@"There was a problem communicating with the Janrain server while configuring authentication."
-                                      withCode:JRConfigurationInformationError];
-            }
         }
     }
 
@@ -1675,7 +1657,6 @@ CALL_DELEGATE_SELECTOR:
         }
     }
 
-   // [payload release];
     [tag release];
 }
 
