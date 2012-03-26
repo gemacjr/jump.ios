@@ -44,7 +44,7 @@
 
 #pragma mark server_urls
 //#define ENGAGE_STAGING_SERVER
-#define ENGAGE_TESTING_SERVER
+//#define ENGAGE_TESTING_SERVER
 //#define LOCAL_ENGAGE_SERVER
 //#define NATHAN_ENGAGE_SERVER
 //#define OLEG_ENGAGE_SERVER
