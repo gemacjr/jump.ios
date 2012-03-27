@@ -46,12 +46,12 @@
 
 @interface CaptureNewUserViewController ()
 //@property (nonatomic, retain) NSMutableDictionary *engageUser;
-@property (nonatomic, retain) UITextView          *firstResponder;
-@property (nonatomic, retain) NSDate              *myBirthdate;
+@property (nonatomic, retain) id      firstResponder;
+@property (nonatomic, retain) NSDate *myBirthdate;
 @end
 
 @implementation CaptureNewUserViewController
-@synthesize myLocationTextView;
+@synthesize myEmailTextField;
 @synthesize myGenderIdentitySegControl;
 @synthesize myBirthdayButton;
 @synthesize myBirthdayPicker;
@@ -81,7 +81,21 @@
     [self.view addSubview:myPickerView];
 
     [myAboutMeTextView setInputAccessoryView:myKeyboardToolbar];
-    [myLocationTextView setInputAccessoryView:myKeyboardToolbar];
+    [myEmailTextField setInputAccessoryView:myKeyboardToolbar];
+
+    JRCaptureUser *captureUser = [[SharedData sharedData] captureUser];
+    if (captureUser.email)
+        myEmailTextField.text  = captureUser.email;
+    if (captureUser.aboutMe)
+        myAboutMeTextView.text = captureUser.aboutMe;
+    if ([captureUser.gender isEqualToString:@"F"] ||
+        [captureUser.gender isEqualToString:@"f"] ||
+        [captureUser.gender isEqualToString:@"female"] ||
+        [captureUser.gender isEqualToString:@"Female"] ||
+        [captureUser.gender isEqualToString:@"FEMALE"])
+        [myGenderIdentitySegControl setSelectedSegmentIndex:0];
+    if (captureUser.birthday)
+        [myBirthdayPicker setDate:captureUser.birthday];
 }
 
 - (void)slidePickerUp
@@ -108,6 +122,11 @@
 {
     [myScrollView setContentOffset:CGPointZero];
     [myScrollView setContentSize:CGSizeMake(320, 416)];
+}
+
+- (IBAction)emailTextFieldClicked:(id)sender
+{
+    [myEmailTextField becomeFirstResponder];
 }
 
 - (IBAction)birthdayButtonClicked:(id)sender
@@ -189,14 +208,14 @@
 
     captureUser.aboutMe  = myAboutMeTextView.text;
     captureUser.birthday = myBirthdate;
-    captureUser.email    = myLocationTextView.text;
+    captureUser.email    = myEmailTextField.text;
 
     if (myGenderIdentitySegControl.selectedSegmentIndex == 0)
         captureUser.gender = @"female";
     else if (myGenderIdentitySegControl.selectedSegmentIndex == 1)
         captureUser.gender = @"male";
 
-    captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
+//    captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
 
     DLog(@"captureUser: %@", [[captureUser dictionaryFromObject] description]);
 
@@ -209,6 +228,10 @@
 #define LOCATION_TEXT_VIEW_TAG 10
 #define ABOUT_ME_TEXT_VIEW_TAG 20
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    self.firstResponder = textField;
+}
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {

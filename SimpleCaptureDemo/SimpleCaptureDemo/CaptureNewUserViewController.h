@@ -37,7 +37,7 @@
 #import "JRCaptureUser+Extras.h"
 
 @interface CaptureNewUserViewController : UIViewController <JRCaptureInterfaceDelegate, UITextViewDelegate,
-        UIAlertViewDelegate, JRCaptureUserDelegate>
+        UIAlertViewDelegate, JRCaptureUserDelegate, UITextFieldDelegate>
 {
     NSMutableDictionary *engageUser;
     UIScrollView *myScrollView;
@@ -49,7 +49,7 @@
     UIToolbar    *myPickerToolbar;
     UIView       *myPickerView;
 }
-@property (nonatomic, retain) IBOutlet UITextView         *myLocationTextView;
+@property (nonatomic, retain) IBOutlet UITextField        *myEmailTextField;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *myGenderIdentitySegControl;
 @property (nonatomic, retain) IBOutlet UIButton           *myBirthdayButton;
 @property (nonatomic, retain) IBOutlet UIDatePicker       *myBirthdayPicker;
@@ -58,6 +58,7 @@
 @property (nonatomic, retain) IBOutlet UIView             *myPickerView;
 @property (nonatomic, retain) IBOutlet UIScrollView       *myScrollView;
 @property (nonatomic, retain) IBOutlet UIToolbar          *myKeyboardToolbar;
+- (IBAction)emailTextFieldClicked:(id)sender;
 - (IBAction)birthdayButtonClicked:(id)sender;
 - (IBAction)birthdayPickerChanged:(id)sender;
 - (IBAction)hidePickerButtonPressed:(id)sender;

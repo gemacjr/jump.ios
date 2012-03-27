@@ -84,7 +84,7 @@
 @synthesize clientId;
 @synthesize entityTypeName;
 
-static NSString *appIdArg = @"&application_id=qx3ss262yufnmpb3ck93jr3zfs";
+static NSString *appIdArg = nil;// @"&application_id=qx3ss262yufnmpb3ck93jr3zfs";
 static JRCaptureInterface *singleton = nil;
 
 - (JRCaptureInterface*)init
