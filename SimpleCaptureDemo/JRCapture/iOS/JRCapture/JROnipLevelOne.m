@@ -37,24 +37,22 @@
     NSString *_level;
     NSString *_name;
     JROnipLevelTwo *_onipLevelTwo;
-
 }
 @dynamic onipLevelOneId;
 @dynamic level;
 @dynamic name;
 @dynamic onipLevelTwo;
 
-- (NSInteger )onipLevelOneId
+- (NSInteger)onipLevelOneId
 {
     return _onipLevelOneId;
 }
 
-- (void)setOnipLevelOneId:(NSInteger )newOnipLevelOneId
+- (void)setOnipLevelOneId:(NSInteger)newOnipLevelOneId
 {
     [self.dirtyPropertySet addObject:@"onipLevelOneId"];
 
     _onipLevelOneId = newOnipLevelOneId;
-
 }
 
 - (NSString *)level
@@ -133,10 +131,10 @@
     return onipLevelOne;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromOnipLevelOneObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.onipLevelOneId)
         [dict setObject:[NSNumber numberWithInt:self.onipLevelOneId] forKey:@"id"];
@@ -148,16 +146,13 @@
         [dict setObject:self.name forKey:@"name"];
 
     if (self.onipLevelTwo)
-        [dict setObject:[self.onipLevelTwo dictionaryFromObject] forKey:@"onipLevelTwo"];
+        [dict setObject:[self.onipLevelTwo dictionaryFromOnipLevelTwoObject] forKey:@"onipLevelTwo"];
 
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"onipLevelOneId"])
-        self.onipLevelOneId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"level"])
         self.level = [dictionary objectForKey:@"level"];
 
@@ -166,6 +161,63 @@
 
     if ([dictionary objectForKey:@"onipLevelTwo"])
         self.onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"]];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.onipLevelOneId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.level = [dictionary objectForKey:@"level"];
+    self.name = [dictionary objectForKey:@"name"];
+    self.onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"]];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"level"])
+        [dict setObject:self.level forKey:@"level"];
+
+    if ([self.dirtyPropertySet containsObject:@"name"])
+        [dict setObject:self.name forKey:@"name"];
+
+    if ([self.dirtyPropertySet containsObject:@"onipLevelTwo"])
+        [dict setObject:[self.onipLevelTwo dictionaryFromOnipLevelTwoObject] forKey:@"onipLevelTwo"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.onipLevelOneId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.level forKey:@"level"];
+    [dict setObject:self.name forKey:@"name"];
+    [dict setObject:[self.onipLevelTwo dictionaryFromOnipLevelTwoObject] forKey:@"onipLevelTwo"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.onipLevelOneId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

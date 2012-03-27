@@ -39,7 +39,6 @@
     NSString *_honorificPrefix;
     NSString *_honorificSuffix;
     NSString *_middleName;
-
 }
 @dynamic familyName;
 @dynamic formatted;
@@ -164,10 +163,10 @@
     return name;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromNameObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.familyName)
         [dict setObject:self.familyName forKey:@"familyName"];
@@ -190,7 +189,7 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"familyName"])
         self.familyName = [dictionary objectForKey:@"familyName"];
@@ -209,6 +208,77 @@
 
     if ([dictionary objectForKey:@"middleName"])
         self.middleName = [dictionary objectForKey:@"middleName"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.familyName = [dictionary objectForKey:@"familyName"];
+    self.formatted = [dictionary objectForKey:@"formatted"];
+    self.givenName = [dictionary objectForKey:@"givenName"];
+    self.honorificPrefix = [dictionary objectForKey:@"honorificPrefix"];
+    self.honorificSuffix = [dictionary objectForKey:@"honorificSuffix"];
+    self.middleName = [dictionary objectForKey:@"middleName"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"familyName"])
+        [dict setObject:self.familyName forKey:@"familyName"];
+
+    if ([self.dirtyPropertySet containsObject:@"formatted"])
+        [dict setObject:self.formatted forKey:@"formatted"];
+
+    if ([self.dirtyPropertySet containsObject:@"givenName"])
+        [dict setObject:self.givenName forKey:@"givenName"];
+
+    if ([self.dirtyPropertySet containsObject:@"honorificPrefix"])
+        [dict setObject:self.honorificPrefix forKey:@"honorificPrefix"];
+
+    if ([self.dirtyPropertySet containsObject:@"honorificSuffix"])
+        [dict setObject:self.honorificSuffix forKey:@"honorificSuffix"];
+
+    if ([self.dirtyPropertySet containsObject:@"middleName"])
+        [dict setObject:self.middleName forKey:@"middleName"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:nil
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.familyName forKey:@"familyName"];
+    [dict setObject:self.formatted forKey:@"formatted"];
+    [dict setObject:self.givenName forKey:@"givenName"];
+    [dict setObject:self.honorificPrefix forKey:@"honorificPrefix"];
+    [dict setObject:self.honorificSuffix forKey:@"honorificSuffix"];
+    [dict setObject:self.middleName forKey:@"middleName"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:nil
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

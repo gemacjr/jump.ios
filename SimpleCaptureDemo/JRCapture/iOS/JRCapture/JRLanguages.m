@@ -35,22 +35,20 @@
 {
     NSInteger _languagesId;
     NSString *_language;
-
 }
 @dynamic languagesId;
 @dynamic language;
 
-- (NSInteger )languagesId
+- (NSInteger)languagesId
 {
     return _languagesId;
 }
 
-- (void)setLanguagesId:(NSInteger )newLanguagesId
+- (void)setLanguagesId:(NSInteger)newLanguagesId
 {
     [self.dirtyPropertySet addObject:@"languagesId"];
 
     _languagesId = newLanguagesId;
-
 }
 
 - (NSString *)language
@@ -101,10 +99,10 @@
     return languages;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromLanguagesObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.languagesId)
         [dict setObject:[NSNumber numberWithInt:self.languagesId] forKey:@"id"];
@@ -115,13 +113,57 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"languagesId"])
-        self.languagesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"language"])
         self.language = [dictionary objectForKey:@"language"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.languagesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.language = [dictionary objectForKey:@"language"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"language"])
+        [dict setObject:self.language forKey:@"language"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.languagesId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.language forKey:@"language"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.languagesId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

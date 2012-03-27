@@ -9,9 +9,12 @@
 #import "JRCaptureData.h"
 
 @interface JRCaptureData ()
-@property (nonatomic, copy) NSString *captureDomain;
+@property (nonatomic, copy) NSString *captureApidDomain;
+@property (nonatomic, copy) NSString *captureUIDomain;
 @property (nonatomic, copy) NSString *clientId;
 @property (nonatomic, copy) NSString *entityTypeName;
+@property (nonatomic, copy) NSString *accessToken;
+@property (nonatomic, copy) NSString *creationToken;
 @end
 
 @implementation JRCaptureData
@@ -19,7 +22,10 @@ static JRCaptureData *singleton = nil;
 
 @synthesize clientId;
 @synthesize entityTypeName;
-@synthesize captureDomain;
+@synthesize captureApidDomain;
+@synthesize captureUIDomain;
+@synthesize accessToken;
+@synthesize creationToken;
 
 
 - (JRCaptureData *)init
@@ -69,20 +75,38 @@ static JRCaptureData *singleton = nil;
 {
     JRCaptureData *captureDataInstance = [JRCaptureData captureDataInstance];
     return [NSString stringWithFormat:@"%@/oauth/mobile_signin?client_id=%@&redirect_uri=https://example.com",
-                     captureDataInstance.captureDomain, captureDataInstance.clientId];
+                     captureDataInstance.captureUIDomain, captureDataInstance.clientId];
 }
 
-+ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
++ (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
+                   clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
 {
-    JRCaptureData *captureDataInstance = [JRCaptureData captureDataInstance];
-    captureDataInstance.clientId       = newClientId;
-    captureDataInstance.captureDomain  = newCaptureDomain;
-    captureDataInstance.entityTypeName = newEntityTypeName;
+    JRCaptureData *captureDataInstance    = [JRCaptureData captureDataInstance];
+    captureDataInstance.captureApidDomain = newCaptureApidDomain;
+    captureDataInstance.captureUIDomain   = newCaptureUIDomain;
+    captureDataInstance.clientId          = newClientId;
+    captureDataInstance.entityTypeName    = newEntityTypeName;
 }
 
-+ (NSString *)captureDomain
++ (NSString *)accessToken
 {
-    return [[JRCaptureData captureDataInstance] captureDomain];
+    return [[JRCaptureData captureDataInstance] accessToken];
+}
+
++ (NSString *)creationToken
+{
+    return [[JRCaptureData captureDataInstance] creationToken];
+}
+
+
++ (NSString *)captureApidDomain
+{
+    return [[JRCaptureData captureDataInstance] captureApidDomain];
+}
+
++ (NSString *)captureUIDomain
+{
+    return [[JRCaptureData captureDataInstance] captureUIDomain];
 }
 
 + (NSString *)clientId
@@ -99,7 +123,10 @@ static JRCaptureData *singleton = nil;
 {
     [clientId release];
     [entityTypeName release];
-    [captureDomain release];
+    [captureApidDomain release];
+    [captureUIDomain release];
+    [accessToken release];
+    [creationToken release];
     [super dealloc];
 }
 

@@ -35,6 +35,9 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureInterface.h"
+#import "JRCaptureInterfaceTwo.h"
+#import "JRCaptureData.h"
+#import "JSONKit.h"
 
 @interface NSDate (CaptureDateTime)
 + (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
@@ -43,24 +46,30 @@
 - (NSString *)stringFromISO8601DateTime;
 @end
 
-@protocol JRJsonifying <NSObject>
-@optional
-- (NSDictionary*)dictionaryFromObject;
-@end
+//@protocol JRJsonifying <NSObject>
+//@optional
+//- (NSDictionary*)dictionaryFromObject;
+//@end
 
 @class JRCaptureObject;
 @protocol JRCaptureObjectDelegate <NSObject>
 @optional
-- (void)updateCaptureEntity:(JRCaptureObject *)entity didSucceedWithResult:(NSString *)result;
-- (void)updateCaptureEntity:(JRCaptureObject *)entity didFailWithResult:(NSString *)result;
+- (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
 
-@interface JRCaptureObject : NSObject <NSCopying, JRJsonifying, JRCaptureInterfaceDelegate>
+@interface JRCaptureObject : NSObject <NSCopying, /*JRJsonifying,*/ JRCaptureInterfaceDelegate, JRCaptureInterfaceTwoDelegate>
 @property (retain)   NSString     *captureObjectPath;
 @property (readonly) NSMutableSet *dirtyPropertySet;
-@property (copy)     NSString     *accessToken;
-@property (retain) id<JRCaptureObjectDelegate> updateDelegate;
-- (void)updateForDelegate:(id<JRCaptureObjectDelegate>)delegate;
+//@property (copy)     NSString     *accessToken;
+//@property (retain) id<JRCaptureObjectDelegate> updateDelegate;
+//- (void)updateForDelegate:(id<JRCaptureObjectDelegate>)delegate;
+- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary;
+- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary;
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 @end
 
 @protocol JRProfilesAssumedPresence <NSObject>

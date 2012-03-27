@@ -35,22 +35,20 @@
 {
     NSInteger _heroesId;
     NSString *_hero;
-
 }
 @dynamic heroesId;
 @dynamic hero;
 
-- (NSInteger )heroesId
+- (NSInteger)heroesId
 {
     return _heroesId;
 }
 
-- (void)setHeroesId:(NSInteger )newHeroesId
+- (void)setHeroesId:(NSInteger)newHeroesId
 {
     [self.dirtyPropertySet addObject:@"heroesId"];
 
     _heroesId = newHeroesId;
-
 }
 
 - (NSString *)hero
@@ -101,10 +99,10 @@
     return heroes;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromHeroesObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.heroesId)
         [dict setObject:[NSNumber numberWithInt:self.heroesId] forKey:@"id"];
@@ -115,13 +113,57 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"heroesId"])
-        self.heroesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"hero"])
         self.hero = [dictionary objectForKey:@"hero"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.heroesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.hero = [dictionary objectForKey:@"hero"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"hero"])
+        [dict setObject:self.hero forKey:@"hero"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.heroesId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.hero forKey:@"hero"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.heroesId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

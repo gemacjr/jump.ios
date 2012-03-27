@@ -42,5 +42,6 @@
 - (id)init;
 + (id)games;
 + (id)gamesObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromGamesObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

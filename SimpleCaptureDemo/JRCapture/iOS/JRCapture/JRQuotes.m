@@ -35,22 +35,20 @@
 {
     NSInteger _quotesId;
     NSString *_quote;
-
 }
 @dynamic quotesId;
 @dynamic quote;
 
-- (NSInteger )quotesId
+- (NSInteger)quotesId
 {
     return _quotesId;
 }
 
-- (void)setQuotesId:(NSInteger )newQuotesId
+- (void)setQuotesId:(NSInteger)newQuotesId
 {
     [self.dirtyPropertySet addObject:@"quotesId"];
 
     _quotesId = newQuotesId;
-
 }
 
 - (NSString *)quote
@@ -101,10 +99,10 @@
     return quotes;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromQuotesObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.quotesId)
         [dict setObject:[NSNumber numberWithInt:self.quotesId] forKey:@"id"];
@@ -115,13 +113,57 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"quotesId"])
-        self.quotesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"quote"])
         self.quote = [dictionary objectForKey:@"quote"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.quotesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.quote = [dictionary objectForKey:@"quote"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"quote"])
+        [dict setObject:self.quote forKey:@"quote"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.quotesId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.quote forKey:@"quote"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.quotesId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

@@ -38,5 +38,6 @@
 - (id)init;
 + (id)lookingFor;
 + (id)lookingForObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromLookingForObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

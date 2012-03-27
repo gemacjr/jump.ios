@@ -38,5 +38,6 @@
 - (id)initWithIdentifier:(NSString *)newIdentifier;
 + (id)friendsWithIdentifier:(NSString *)identifier;
 + (id)friendsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromFriendsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

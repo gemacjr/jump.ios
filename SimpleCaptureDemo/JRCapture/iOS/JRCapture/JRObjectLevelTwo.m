@@ -36,7 +36,6 @@
     NSString *_level;
     NSString *_name;
     JRObjectLevelThree *_objectLevelThree;
-
 }
 @dynamic level;
 @dynamic name;
@@ -116,10 +115,10 @@
     return objectLevelTwo;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromObjectLevelTwoObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.level)
         [dict setObject:self.level forKey:@"level"];
@@ -128,12 +127,12 @@
         [dict setObject:self.name forKey:@"name"];
 
     if (self.objectLevelThree)
-        [dict setObject:[self.objectLevelThree dictionaryFromObject] forKey:@"objectLevelThree"];
+        [dict setObject:[self.objectLevelThree dictionaryFromObjectLevelThreeObject] forKey:@"objectLevelThree"];
 
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"level"])
         self.level = [dictionary objectForKey:@"level"];
@@ -143,6 +142,62 @@
 
     if ([dictionary objectForKey:@"objectLevelThree"])
         self.objectLevelThree = [JRObjectLevelThree objectLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelThree"]];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.level = [dictionary objectForKey:@"level"];
+    self.name = [dictionary objectForKey:@"name"];
+    self.objectLevelThree = [JRObjectLevelThree objectLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelThree"]];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"level"])
+        [dict setObject:self.level forKey:@"level"];
+
+    if ([self.dirtyPropertySet containsObject:@"name"])
+        [dict setObject:self.name forKey:@"name"];
+
+    if ([self.dirtyPropertySet containsObject:@"objectLevelThree"])
+        [dict setObject:[self.objectLevelThree dictionaryFromObjectLevelThreeObject] forKey:@"objectLevelThree"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:nil
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.level forKey:@"level"];
+    [dict setObject:self.name forKey:@"name"];
+    [dict setObject:[self.objectLevelThree dictionaryFromObjectLevelThreeObject] forKey:@"objectLevelThree"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:nil
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

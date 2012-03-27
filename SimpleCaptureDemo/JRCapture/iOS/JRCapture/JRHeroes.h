@@ -38,5 +38,6 @@
 - (id)init;
 + (id)heroes;
 + (id)heroesObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromHeroesObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

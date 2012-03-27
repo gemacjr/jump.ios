@@ -38,5 +38,6 @@
 - (id)init;
 + (id)children;
 + (id)childrenObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromChildrenObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

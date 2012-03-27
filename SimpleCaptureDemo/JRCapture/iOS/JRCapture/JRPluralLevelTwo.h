@@ -41,5 +41,6 @@
 - (id)init;
 + (id)pluralLevelTwo;
 + (id)pluralLevelTwoObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromPluralLevelTwoObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

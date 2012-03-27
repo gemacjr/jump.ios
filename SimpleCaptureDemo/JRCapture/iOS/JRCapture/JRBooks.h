@@ -38,5 +38,6 @@
 - (id)init;
 + (id)books;
 + (id)booksObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromBooksObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

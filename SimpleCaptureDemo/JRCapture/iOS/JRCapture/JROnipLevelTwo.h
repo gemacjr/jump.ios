@@ -40,5 +40,6 @@
 - (id)init;
 + (id)onipLevelTwo;
 + (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromOnipLevelTwoObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

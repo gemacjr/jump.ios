@@ -71,5 +71,6 @@
 - (id)initWithEmail:(NSString *)newEmail;
 + (id)captureUserWithEmail:(NSString *)email;
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromCaptureUserObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

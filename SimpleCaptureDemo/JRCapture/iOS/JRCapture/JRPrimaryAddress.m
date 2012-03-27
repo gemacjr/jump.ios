@@ -43,7 +43,6 @@
     NSString *_stateAbbreviation;
     NSString *_zip;
     NSString *_zipPlus4;
-
 }
 @dynamic address1;
 @dynamic address2;
@@ -228,10 +227,10 @@
     return primaryAddress;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromPrimaryAddressObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.address1)
         [dict setObject:self.address1 forKey:@"address1"];
@@ -266,7 +265,7 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"address1"])
         self.address1 = [dictionary objectForKey:@"address1"];
@@ -297,6 +296,97 @@
 
     if ([dictionary objectForKey:@"zipPlus4"])
         self.zipPlus4 = [dictionary objectForKey:@"zipPlus4"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.address1 = [dictionary objectForKey:@"address1"];
+    self.address2 = [dictionary objectForKey:@"address2"];
+    self.city = [dictionary objectForKey:@"city"];
+    self.company = [dictionary objectForKey:@"company"];
+    self.country = [dictionary objectForKey:@"country"];
+    self.mobile = [dictionary objectForKey:@"mobile"];
+    self.phone = [dictionary objectForKey:@"phone"];
+    self.stateAbbreviation = [dictionary objectForKey:@"stateAbbreviation"];
+    self.zip = [dictionary objectForKey:@"zip"];
+    self.zipPlus4 = [dictionary objectForKey:@"zipPlus4"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"address1"])
+        [dict setObject:self.address1 forKey:@"address1"];
+
+    if ([self.dirtyPropertySet containsObject:@"address2"])
+        [dict setObject:self.address2 forKey:@"address2"];
+
+    if ([self.dirtyPropertySet containsObject:@"city"])
+        [dict setObject:self.city forKey:@"city"];
+
+    if ([self.dirtyPropertySet containsObject:@"company"])
+        [dict setObject:self.company forKey:@"company"];
+
+    if ([self.dirtyPropertySet containsObject:@"country"])
+        [dict setObject:self.country forKey:@"country"];
+
+    if ([self.dirtyPropertySet containsObject:@"mobile"])
+        [dict setObject:self.mobile forKey:@"mobile"];
+
+    if ([self.dirtyPropertySet containsObject:@"phone"])
+        [dict setObject:self.phone forKey:@"phone"];
+
+    if ([self.dirtyPropertySet containsObject:@"stateAbbreviation"])
+        [dict setObject:self.stateAbbreviation forKey:@"stateAbbreviation"];
+
+    if ([self.dirtyPropertySet containsObject:@"zip"])
+        [dict setObject:self.zip forKey:@"zip"];
+
+    if ([self.dirtyPropertySet containsObject:@"zipPlus4"])
+        [dict setObject:self.zipPlus4 forKey:@"zipPlus4"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:nil
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.address1 forKey:@"address1"];
+    [dict setObject:self.address2 forKey:@"address2"];
+    [dict setObject:self.city forKey:@"city"];
+    [dict setObject:self.company forKey:@"company"];
+    [dict setObject:self.country forKey:@"country"];
+    [dict setObject:self.mobile forKey:@"mobile"];
+    [dict setObject:self.phone forKey:@"phone"];
+    [dict setObject:self.stateAbbreviation forKey:@"stateAbbreviation"];
+    [dict setObject:self.zip forKey:@"zip"];
+    [dict setObject:self.zipPlus4 forKey:@"zipPlus4"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:nil
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

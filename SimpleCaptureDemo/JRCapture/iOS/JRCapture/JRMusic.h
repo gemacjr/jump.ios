@@ -38,5 +38,6 @@
 - (id)init;
 + (id)music;
 + (id)musicObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromMusicObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

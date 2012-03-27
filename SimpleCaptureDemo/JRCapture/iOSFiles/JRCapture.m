@@ -172,8 +172,8 @@
 //@end
 
 @implementation JRCaptureObject
-@synthesize accessToken;
-@synthesize updateDelegate;
+//@synthesize accessToken;
+//@synthesize updateDelegate;
 @synthesize dirtyPropertySet;
 @synthesize captureObjectPath;
 
@@ -199,38 +199,104 @@
     return objectCopy;
 }
 
-- (void)updateForDelegate:(id<JRCaptureObjectDelegate>)delegate
+- (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
 {
-    self.updateDelegate = delegate;
+    NSDictionary    *myContext     = (NSDictionary *)context;
+    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+    id<JRCaptureObjectDelegate>
+                     delegate      = [myContext objectForKey:@"delegate"];
 
-    [JRCaptureInterface updateCaptureUser:[self dictionaryFromObject]
-                          withAccessToken:self.accessToken
-                              forDelegate:self];
-
-//            createCaptureUser:[self dictionaryFromObject]
-//                        withCreationToken:[[JRCaptureUserExtras captureUserExtras] creationToken]
-//                              forDelegate:self];
-
+    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didFailWithResult:context:)])
+        [delegate replaceCaptureObject:captureObject didFailWithResult:result context:callerContext];
 }
 
-- (void)updateCaptureUserDidFailWithResult:(NSString *)result
+- (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
-    if ([self.updateDelegate respondsToSelector:@selector(updateCaptureEntity:didFailWithResult:)])
-        [self.updateDelegate updateCaptureEntity:self didFailWithResult:result];
+    NSDictionary    *myContext     = (NSDictionary *)context;
+    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+    id<JRCaptureObjectDelegate>
+                     delegate      = [myContext objectForKey:@"delegate"];
 
-    self.updateDelegate = nil;
+    NSDictionary *resultDictionary = [result objectFromJSONString];
+
+    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
+        [self updateCaptureObjectDidFailWithResult:result context:context];
+
+    if (![resultDictionary objectForKey:@"result"])
+        [self updateCaptureObjectDidFailWithResult:result context:context];
+
+    [captureObject replaceLocallyFromNewDictionary:[resultDictionary objectForKey:@"result"]];
+    [captureObject.dirtyPropertySet removeAllObjects];
+
+    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didSucceedWithResult:context:)])
+        [delegate replaceCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
 }
 
-- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result
+- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
 {
-    if ([self.updateDelegate respondsToSelector:@selector(updateCaptureEntity:didSucceedWithResult:)])
-        [self.updateDelegate updateCaptureEntity:self didSucceedWithResult:result];
+    NSDictionary    *myContext     = (NSDictionary *)context;
+    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+    id<JRCaptureObjectDelegate>
+                     delegate      = [myContext objectForKey:@"delegate"];
+
+    if ([delegate respondsToSelector:@selector(updateCaptureObject:didFailWithResult:context:)])
+        [delegate updateCaptureObject:captureObject didFailWithResult:result context:callerContext];
+}
+
+- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+{
+    NSDictionary    *myContext     = (NSDictionary *)context;
+    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+    id<JRCaptureObjectDelegate>
+                     delegate      = [myContext objectForKey:@"delegate"];
+
+    NSDictionary *resultDictionary = [result objectFromJSONString];
+
+    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
+        [self updateCaptureObjectDidFailWithResult:result context:context];
+
+    if (![resultDictionary objectForKey:@"result"])
+        [self updateCaptureObjectDidFailWithResult:result context:context];
+
+    [captureObject updateLocallyFromNewDictionary:[resultDictionary objectForKey:@"result"]];
+    [captureObject.dirtyPropertySet removeAllObjects];
+
+    if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
+        [delegate updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
+}
+
+- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 }
 
 - (void)dealloc
 {
-    [updateDelegate release];
-    [accessToken release];
+//    [updateDelegate release];
+//    [accessToken release];
     [captureObjectPath release];
     [dirtyPropertySet release];
 

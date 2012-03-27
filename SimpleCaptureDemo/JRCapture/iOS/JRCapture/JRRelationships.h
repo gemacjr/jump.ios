@@ -38,5 +38,6 @@
 - (id)init;
 + (id)relationships;
 + (id)relationshipsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromRelationshipsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

@@ -40,5 +40,6 @@
 - (id)init;
 + (id)objectLevelTwo;
 + (id)objectLevelTwoObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromObjectLevelTwoObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

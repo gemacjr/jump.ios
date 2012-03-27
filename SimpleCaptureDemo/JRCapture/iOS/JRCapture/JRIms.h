@@ -40,5 +40,6 @@
 - (id)init;
 + (id)ims;
 + (id)imsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromImsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

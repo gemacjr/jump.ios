@@ -38,5 +38,6 @@
 - (id)init;
 + (id)pets;
 + (id)petsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromPetsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

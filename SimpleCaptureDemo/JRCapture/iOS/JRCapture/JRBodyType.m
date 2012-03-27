@@ -38,7 +38,6 @@
     NSString *_eyeColor;
     NSString *_hairColor;
     NSNumber *_height;
-
 }
 @dynamic build;
 @dynamic color;
@@ -148,10 +147,10 @@
     return bodyType;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromBodyTypeObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.build)
         [dict setObject:self.build forKey:@"build"];
@@ -171,7 +170,7 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"build"])
         self.build = [dictionary objectForKey:@"build"];
@@ -187,6 +186,72 @@
 
     if ([dictionary objectForKey:@"height"])
         self.height = [dictionary objectForKey:@"height"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.build = [dictionary objectForKey:@"build"];
+    self.color = [dictionary objectForKey:@"color"];
+    self.eyeColor = [dictionary objectForKey:@"eyeColor"];
+    self.hairColor = [dictionary objectForKey:@"hairColor"];
+    self.height = [dictionary objectForKey:@"height"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"build"])
+        [dict setObject:self.build forKey:@"build"];
+
+    if ([self.dirtyPropertySet containsObject:@"color"])
+        [dict setObject:self.color forKey:@"color"];
+
+    if ([self.dirtyPropertySet containsObject:@"eyeColor"])
+        [dict setObject:self.eyeColor forKey:@"eyeColor"];
+
+    if ([self.dirtyPropertySet containsObject:@"hairColor"])
+        [dict setObject:self.hairColor forKey:@"hairColor"];
+
+    if ([self.dirtyPropertySet containsObject:@"height"])
+        [dict setObject:self.height forKey:@"height"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:nil
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.build forKey:@"build"];
+    [dict setObject:self.color forKey:@"color"];
+    [dict setObject:self.eyeColor forKey:@"eyeColor"];
+    [dict setObject:self.hairColor forKey:@"hairColor"];
+    [dict setObject:self.height forKey:@"height"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:nil
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

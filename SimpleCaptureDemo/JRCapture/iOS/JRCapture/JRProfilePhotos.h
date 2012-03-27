@@ -40,5 +40,6 @@
 - (id)init;
 + (id)profilePhotos;
 + (id)profilePhotosObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromProfilePhotosObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

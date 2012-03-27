@@ -36,23 +36,21 @@
     NSInteger _photosId;
     NSString *_type;
     NSString *_value;
-
 }
 @dynamic photosId;
 @dynamic type;
 @dynamic value;
 
-- (NSInteger )photosId
+- (NSInteger)photosId
 {
     return _photosId;
 }
 
-- (void)setPhotosId:(NSInteger )newPhotosId
+- (void)setPhotosId:(NSInteger)newPhotosId
 {
     [self.dirtyPropertySet addObject:@"photosId"];
 
     _photosId = newPhotosId;
-
 }
 
 - (NSString *)type
@@ -117,10 +115,10 @@
     return photos;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromPhotosObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.photosId)
         [dict setObject:[NSNumber numberWithInt:self.photosId] forKey:@"id"];
@@ -134,16 +132,65 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"photosId"])
-        self.photosId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"type"])
         self.type = [dictionary objectForKey:@"type"];
 
     if ([dictionary objectForKey:@"value"])
         self.value = [dictionary objectForKey:@"value"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.photosId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.type = [dictionary objectForKey:@"type"];
+    self.value = [dictionary objectForKey:@"value"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"type"])
+        [dict setObject:self.type forKey:@"type"];
+
+    if ([self.dirtyPropertySet containsObject:@"value"])
+        [dict setObject:self.value forKey:@"value"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.photosId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.type forKey:@"type"];
+    [dict setObject:self.value forKey:@"value"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.photosId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

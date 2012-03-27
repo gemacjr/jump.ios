@@ -36,23 +36,21 @@
     NSInteger _statusesId;
     NSString *_status;
     NSDate *_statusCreated;
-
 }
 @dynamic statusesId;
 @dynamic status;
 @dynamic statusCreated;
 
-- (NSInteger )statusesId
+- (NSInteger)statusesId
 {
     return _statusesId;
 }
 
-- (void)setStatusesId:(NSInteger )newStatusesId
+- (void)setStatusesId:(NSInteger)newStatusesId
 {
     [self.dirtyPropertySet addObject:@"statusesId"];
 
     _statusesId = newStatusesId;
-
 }
 
 - (NSString *)status
@@ -117,10 +115,10 @@
     return statuses;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromStatusesObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.statusesId)
         [dict setObject:[NSNumber numberWithInt:self.statusesId] forKey:@"id"];
@@ -134,16 +132,65 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"statusesId"])
-        self.statusesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"status"])
         self.status = [dictionary objectForKey:@"status"];
 
     if ([dictionary objectForKey:@"statusCreated"])
         self.statusCreated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.statusesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.status = [dictionary objectForKey:@"status"];
+    self.statusCreated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"status"])
+        [dict setObject:self.status forKey:@"status"];
+
+    if ([self.dirtyPropertySet containsObject:@"statusCreated"])
+        [dict setObject:[self.statusCreated stringFromISO8601DateTime] forKey:@"statusCreated"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.statusesId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.status forKey:@"status"];
+    [dict setObject:[self.statusCreated stringFromISO8601DateTime] forKey:@"statusCreated"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.statusesId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

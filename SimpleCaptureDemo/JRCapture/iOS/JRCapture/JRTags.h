@@ -38,5 +38,6 @@
 - (id)init;
 + (id)tags;
 + (id)tagsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromTagsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

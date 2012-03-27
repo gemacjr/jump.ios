@@ -38,5 +38,6 @@
 - (id)init;
 + (id)jobInterests;
 + (id)jobInterestsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromJobInterestsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

@@ -38,5 +38,6 @@
 - (id)init;
 + (id)turnOns;
 + (id)turnOnsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromTurnOnsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

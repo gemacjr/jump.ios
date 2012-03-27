@@ -12,14 +12,14 @@
 
 @protocol JRCaptureInterfaceTwoDelegate <NSObject>
 @optional
-- (void)getCaptureUserDidSucceedWithResult:(NSString *)result andContext:(NSObject *)context;
-- (void)getCaptureUserDidFailWithResult:(NSString *)result andContext:(NSObject *)context;
-- (void)createCaptureUserDidSucceedWithResult:(NSString *)result andContext:(NSObject *)context;
-- (void)createCaptureUserDidFailWithResult:(NSString *)result andContext:(NSObject *)context;
-- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result andContext:(NSObject *)context;
-- (void)updateCaptureObjectDidFailWithResult:(NSString *)result andContext:(NSObject *)context;
-- (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result andContext:(NSObject *)context;
-- (void)replaceCaptureObjectDidFailWithResult:(NSString *)result andContext:(NSObject *)context;
+- (void)getCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)getCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)createCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)createCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
 
 @interface JRCaptureInterfaceTwo : NSObject <JRConnectionManagerDelegate>

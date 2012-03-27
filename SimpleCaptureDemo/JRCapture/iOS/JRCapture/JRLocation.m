@@ -44,7 +44,6 @@
     NSString *_region;
     NSString *_streetAddress;
     NSString *_type;
-
 }
 @dynamic country;
 @dynamic extendedAddress;
@@ -244,10 +243,10 @@
     return location;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromLocationObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.country)
         [dict setObject:self.country forKey:@"country"];
@@ -285,7 +284,7 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"country"])
         self.country = [dictionary objectForKey:@"country"];
@@ -319,6 +318,102 @@
 
     if ([dictionary objectForKey:@"type"])
         self.type = [dictionary objectForKey:@"type"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.country = [dictionary objectForKey:@"country"];
+    self.extendedAddress = [dictionary objectForKey:@"extendedAddress"];
+    self.formatted = [dictionary objectForKey:@"formatted"];
+    self.latitude = [dictionary objectForKey:@"latitude"];
+    self.locality = [dictionary objectForKey:@"locality"];
+    self.longitude = [dictionary objectForKey:@"longitude"];
+    self.poBox = [dictionary objectForKey:@"poBox"];
+    self.postalCode = [dictionary objectForKey:@"postalCode"];
+    self.region = [dictionary objectForKey:@"region"];
+    self.streetAddress = [dictionary objectForKey:@"streetAddress"];
+    self.type = [dictionary objectForKey:@"type"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"country"])
+        [dict setObject:self.country forKey:@"country"];
+
+    if ([self.dirtyPropertySet containsObject:@"extendedAddress"])
+        [dict setObject:self.extendedAddress forKey:@"extendedAddress"];
+
+    if ([self.dirtyPropertySet containsObject:@"formatted"])
+        [dict setObject:self.formatted forKey:@"formatted"];
+
+    if ([self.dirtyPropertySet containsObject:@"latitude"])
+        [dict setObject:self.latitude forKey:@"latitude"];
+
+    if ([self.dirtyPropertySet containsObject:@"locality"])
+        [dict setObject:self.locality forKey:@"locality"];
+
+    if ([self.dirtyPropertySet containsObject:@"longitude"])
+        [dict setObject:self.longitude forKey:@"longitude"];
+
+    if ([self.dirtyPropertySet containsObject:@"poBox"])
+        [dict setObject:self.poBox forKey:@"poBox"];
+
+    if ([self.dirtyPropertySet containsObject:@"postalCode"])
+        [dict setObject:self.postalCode forKey:@"postalCode"];
+
+    if ([self.dirtyPropertySet containsObject:@"region"])
+        [dict setObject:self.region forKey:@"region"];
+
+    if ([self.dirtyPropertySet containsObject:@"streetAddress"])
+        [dict setObject:self.streetAddress forKey:@"streetAddress"];
+
+    if ([self.dirtyPropertySet containsObject:@"type"])
+        [dict setObject:self.type forKey:@"type"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:nil
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.country forKey:@"country"];
+    [dict setObject:self.extendedAddress forKey:@"extendedAddress"];
+    [dict setObject:self.formatted forKey:@"formatted"];
+    [dict setObject:self.latitude forKey:@"latitude"];
+    [dict setObject:self.locality forKey:@"locality"];
+    [dict setObject:self.longitude forKey:@"longitude"];
+    [dict setObject:self.poBox forKey:@"poBox"];
+    [dict setObject:self.postalCode forKey:@"postalCode"];
+    [dict setObject:self.region forKey:@"region"];
+    [dict setObject:self.streetAddress forKey:@"streetAddress"];
+    [dict setObject:self.type forKey:@"type"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:nil
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

@@ -38,5 +38,6 @@
 - (id)init;
 + (id)tvShows;
 + (id)tvShowsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromTvShowsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

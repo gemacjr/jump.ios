@@ -37,37 +37,34 @@
     BOOL _primary;
     NSString *_type;
     NSString *_value;
-
 }
 @dynamic emailsId;
 @dynamic primary;
 @dynamic type;
 @dynamic value;
 
-- (NSInteger )emailsId
+- (NSInteger)emailsId
 {
     return _emailsId;
 }
 
-- (void)setEmailsId:(NSInteger )newEmailsId
+- (void)setEmailsId:(NSInteger)newEmailsId
 {
     [self.dirtyPropertySet addObject:@"emailsId"];
 
     _emailsId = newEmailsId;
-
 }
 
-- (BOOL )primary
+- (BOOL)primary
 {
     return _primary;
 }
 
-- (void)setPrimary:(BOOL )newPrimary
+- (void)setPrimary:(BOOL)newPrimary
 {
     [self.dirtyPropertySet addObject:@"primary"];
 
     _primary = newPrimary;
-
 }
 
 - (NSString *)type
@@ -134,10 +131,10 @@
     return emails;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromEmailsObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.emailsId)
         [dict setObject:[NSNumber numberWithInt:self.emailsId] forKey:@"id"];
@@ -154,11 +151,8 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"emailsId"])
-        self.emailsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"primary"])
         self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
 
@@ -167,6 +161,63 @@
 
     if ([dictionary objectForKey:@"value"])
         self.value = [dictionary objectForKey:@"value"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.emailsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    self.type = [dictionary objectForKey:@"type"];
+    self.value = [dictionary objectForKey:@"value"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"primary"])
+        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
+
+    if ([self.dirtyPropertySet containsObject:@"type"])
+        [dict setObject:self.type forKey:@"type"];
+
+    if ([self.dirtyPropertySet containsObject:@"value"])
+        [dict setObject:self.value forKey:@"value"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.emailsId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
+    [dict setObject:self.type forKey:@"type"];
+    [dict setObject:self.value forKey:@"value"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.emailsId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

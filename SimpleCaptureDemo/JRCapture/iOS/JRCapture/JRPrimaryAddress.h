@@ -46,5 +46,6 @@
 - (id)init;
 + (id)primaryAddress;
 + (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromPrimaryAddressObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

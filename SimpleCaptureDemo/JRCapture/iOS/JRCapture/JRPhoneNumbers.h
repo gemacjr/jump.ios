@@ -40,5 +40,6 @@
 - (id)init;
 + (id)phoneNumbers;
 + (id)phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromPhoneNumbersObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

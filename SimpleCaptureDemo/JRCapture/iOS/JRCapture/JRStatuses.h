@@ -39,5 +39,6 @@
 - (id)init;
 + (id)statuses;
 + (id)statusesObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromStatusesObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

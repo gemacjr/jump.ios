@@ -38,5 +38,6 @@
 - (id)init;
 + (id)turnOffs;
 + (id)turnOffsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromTurnOffsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

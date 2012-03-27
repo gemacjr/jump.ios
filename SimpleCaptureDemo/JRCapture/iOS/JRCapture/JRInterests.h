@@ -38,5 +38,6 @@
 - (id)init;
 + (id)interests;
 + (id)interestsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromInterestsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

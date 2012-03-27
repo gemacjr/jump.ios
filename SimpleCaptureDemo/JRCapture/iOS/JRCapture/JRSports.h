@@ -38,5 +38,6 @@
 - (id)init;
 + (id)sports;
 + (id)sportsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromSportsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

@@ -38,5 +38,6 @@
 - (id)init;
 + (id)food;
 + (id)foodObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromFoodObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

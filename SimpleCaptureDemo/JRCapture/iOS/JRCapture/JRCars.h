@@ -38,5 +38,6 @@
 - (id)init;
 + (id)cars;
 + (id)carsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromCarsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

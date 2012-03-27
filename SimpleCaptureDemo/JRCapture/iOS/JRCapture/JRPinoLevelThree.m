@@ -36,23 +36,21 @@
     NSInteger _pinoLevelThreeId;
     NSString *_level;
     NSString *_name;
-
 }
 @dynamic pinoLevelThreeId;
 @dynamic level;
 @dynamic name;
 
-- (NSInteger )pinoLevelThreeId
+- (NSInteger)pinoLevelThreeId
 {
     return _pinoLevelThreeId;
 }
 
-- (void)setPinoLevelThreeId:(NSInteger )newPinoLevelThreeId
+- (void)setPinoLevelThreeId:(NSInteger)newPinoLevelThreeId
 {
     [self.dirtyPropertySet addObject:@"pinoLevelThreeId"];
 
     _pinoLevelThreeId = newPinoLevelThreeId;
-
 }
 
 - (NSString *)level
@@ -117,10 +115,10 @@
     return pinoLevelThree;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromPinoLevelThreeObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.pinoLevelThreeId)
         [dict setObject:[NSNumber numberWithInt:self.pinoLevelThreeId] forKey:@"id"];
@@ -134,16 +132,65 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"pinoLevelThreeId"])
-        self.pinoLevelThreeId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"level"])
         self.level = [dictionary objectForKey:@"level"];
 
     if ([dictionary objectForKey:@"name"])
         self.name = [dictionary objectForKey:@"name"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.pinoLevelThreeId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.level = [dictionary objectForKey:@"level"];
+    self.name = [dictionary objectForKey:@"name"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"level"])
+        [dict setObject:self.level forKey:@"level"];
+
+    if ([self.dirtyPropertySet containsObject:@"name"])
+        [dict setObject:self.name forKey:@"name"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.pinoLevelThreeId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.level forKey:@"level"];
+    [dict setObject:self.name forKey:@"name"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.pinoLevelThreeId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

@@ -42,5 +42,6 @@
 - (id)init;
 + (id)name;
 + (id)nameObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromNameObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

@@ -38,5 +38,6 @@
 - (id)init;
 + (id)quotes;
 + (id)quotesObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromQuotesObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

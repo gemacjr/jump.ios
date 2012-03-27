@@ -38,7 +38,6 @@
     BOOL _primary;
     NSString *_userid;
     NSString *_username;
-
 }
 @dynamic accountsId;
 @dynamic domain;
@@ -46,17 +45,16 @@
 @dynamic userid;
 @dynamic username;
 
-- (NSInteger )accountsId
+- (NSInteger)accountsId
 {
     return _accountsId;
 }
 
-- (void)setAccountsId:(NSInteger )newAccountsId
+- (void)setAccountsId:(NSInteger)newAccountsId
 {
     [self.dirtyPropertySet addObject:@"accountsId"];
 
     _accountsId = newAccountsId;
-
 }
 
 - (NSString *)domain
@@ -71,17 +69,16 @@
     _domain = [newDomain copy];
 }
 
-- (BOOL )primary
+- (BOOL)primary
 {
     return _primary;
 }
 
-- (void)setPrimary:(BOOL )newPrimary
+- (void)setPrimary:(BOOL)newPrimary
 {
     [self.dirtyPropertySet addObject:@"primary"];
 
     _primary = newPrimary;
-
 }
 
 - (NSString *)userid
@@ -150,10 +147,10 @@
     return accounts;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromAccountsObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.accountsId)
         [dict setObject:[NSNumber numberWithInt:self.accountsId] forKey:@"id"];
@@ -173,11 +170,8 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"accountsId"])
-        self.accountsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"domain"])
         self.domain = [dictionary objectForKey:@"domain"];
 
@@ -189,6 +183,68 @@
 
     if ([dictionary objectForKey:@"username"])
         self.username = [dictionary objectForKey:@"username"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.accountsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.domain = [dictionary objectForKey:@"domain"];
+    self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    self.userid = [dictionary objectForKey:@"userid"];
+    self.username = [dictionary objectForKey:@"username"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"domain"])
+        [dict setObject:self.domain forKey:@"domain"];
+
+    if ([self.dirtyPropertySet containsObject:@"primary"])
+        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
+
+    if ([self.dirtyPropertySet containsObject:@"userid"])
+        [dict setObject:self.userid forKey:@"userid"];
+
+    if ([self.dirtyPropertySet containsObject:@"username"])
+        [dict setObject:self.username forKey:@"username"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.accountsId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.domain forKey:@"domain"];
+    [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
+    [dict setObject:self.userid forKey:@"userid"];
+    [dict setObject:self.username forKey:@"username"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.accountsId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

@@ -38,5 +38,6 @@
 - (id)init;
 + (id)opponents;
 + (id)opponentsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromOpponentsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

@@ -38,5 +38,6 @@
 - (id)init;
 + (id)movies;
 + (id)moviesObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromMoviesObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

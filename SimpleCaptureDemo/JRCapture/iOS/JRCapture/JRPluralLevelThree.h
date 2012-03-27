@@ -39,5 +39,6 @@
 - (id)init;
 + (id)pluralLevelThree;
 + (id)pluralLevelThreeObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromPluralLevelThreeObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

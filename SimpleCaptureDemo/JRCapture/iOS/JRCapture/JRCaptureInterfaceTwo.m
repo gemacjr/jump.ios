@@ -97,13 +97,13 @@ typedef enum CaptureInterfaceStatEnum
 
     if (stat == StatOk)
     {
-        if ([delegate respondsToSelector:@selector(getCaptureUserDidSucceedWithResult:andContext:)])
-            [delegate getCaptureUserDidSucceedWithResult:result andContext:context];
+        if ([delegate respondsToSelector:@selector(getCaptureUserDidSucceedWithResult:context:)])
+            [delegate getCaptureUserDidSucceedWithResult:result context:context];
     }
     else
     {
-        if ([delegate respondsToSelector:@selector(getCaptureUserDidFailWithResult:andContext:)])
-            [delegate getCaptureUserDidFailWithResult:result andContext:context];
+        if ([delegate respondsToSelector:@selector(getCaptureUserDidFailWithResult:context:)])
+            [delegate getCaptureUserDidFailWithResult:result context:context];
     }
 
     //self.captureInterfaceDelegate = nil;
@@ -144,13 +144,13 @@ typedef enum CaptureInterfaceStatEnum
 
     if (stat == StatOk)
     {
-        if ([delegate respondsToSelector:@selector(createCaptureUserDidSucceedWithResult:andContext:)])
-            [delegate createCaptureUserDidSucceedWithResult:result andContext:context];
+        if ([delegate respondsToSelector:@selector(createCaptureUserDidSucceedWithResult:context:)])
+            [delegate createCaptureUserDidSucceedWithResult:result context:context];
     }
     else
     {
-        if ([delegate respondsToSelector:@selector(createCaptureUserDidFailWithResult:andContext:)])
-            [delegate createCaptureUserDidFailWithResult:result andContext:context];
+        if ([delegate respondsToSelector:@selector(createCaptureUserDidFailWithResult:context:)])
+            [delegate createCaptureUserDidFailWithResult:result context:context];
     }
 
     //self.captureInterfaceDelegate = nil;
@@ -192,13 +192,13 @@ typedef enum CaptureInterfaceStatEnum
 
     if (stat == StatOk)
     {
-        if ([delegate respondsToSelector:@selector(updateCaptureObjectDidSucceedWithResult:andContext:)])
-            [delegate updateCaptureObjectDidSucceedWithResult:result andContext:context];
+        if ([delegate respondsToSelector:@selector(updateCaptureObjectDidSucceedWithResult:context:)])
+            [delegate updateCaptureObjectDidSucceedWithResult:result context:context];
     }
     else
     {
-        if ([delegate respondsToSelector:@selector(updateCaptureObjectDidFailWithResult:andContext:)])
-            [delegate updateCaptureObjectDidFailWithResult:result andContext:context];
+        if ([delegate respondsToSelector:@selector(updateCaptureObjectDidFailWithResult:context:)])
+            [delegate updateCaptureObjectDidFailWithResult:result context:context];
     }
 }
 
@@ -248,13 +248,13 @@ typedef enum CaptureInterfaceStatEnum
 
     if (stat == StatOk)
     {
-        if ([delegate respondsToSelector:@selector(replaceCaptureObjectDidSucceedWithResult:andContext:)])
-            [delegate replaceCaptureObjectDidSucceedWithResult:result andContext:context];
+        if ([delegate respondsToSelector:@selector(replaceCaptureObjectDidSucceedWithResult:context:)])
+            [delegate replaceCaptureObjectDidSucceedWithResult:result context:context];
     }
     else
     {
-        if ([delegate respondsToSelector:@selector(replaceCaptureObjectDidFailWithResult:andContext:)])
-            [delegate replaceCaptureObjectDidFailWithResult:result andContext:context];
+        if ([delegate respondsToSelector:@selector(replaceCaptureObjectDidFailWithResult:context:)])
+            [delegate replaceCaptureObjectDidFailWithResult:result context:context];
     }
 }
 

@@ -38,5 +38,6 @@
 - (id)init;
 + (id)languagesSpoken;
 + (id)languagesSpokenObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromLanguagesSpokenObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

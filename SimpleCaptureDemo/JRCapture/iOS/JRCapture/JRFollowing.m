@@ -35,22 +35,20 @@
 {
     NSInteger _followingId;
     NSString *_identifier;
-
 }
 @dynamic followingId;
 @dynamic identifier;
 
-- (NSInteger )followingId
+- (NSInteger)followingId
 {
     return _followingId;
 }
 
-- (void)setFollowingId:(NSInteger )newFollowingId
+- (void)setFollowingId:(NSInteger)newFollowingId
 {
     [self.dirtyPropertySet addObject:@"followingId"];
 
     _followingId = newFollowingId;
-
 }
 
 - (NSString *)identifier
@@ -106,9 +104,10 @@
     return following;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromFollowingObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:self.identifier forKey:@"identifier"];
 
@@ -118,13 +117,57 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"followingId"])
-        self.followingId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"identifier"])
         self.identifier = [dictionary objectForKey:@"identifier"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.followingId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.identifier = [dictionary objectForKey:@"identifier"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"identifier"])
+        [dict setObject:self.identifier forKey:@"identifier"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.followingId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.identifier forKey:@"identifier"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.followingId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc

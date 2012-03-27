@@ -41,5 +41,6 @@
 - (id)init;
 + (id)accounts;
 + (id)accountsObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)dictionaryFromAccountsObject;
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
 @end

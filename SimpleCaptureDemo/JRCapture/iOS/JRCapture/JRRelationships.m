@@ -35,22 +35,20 @@
 {
     NSInteger _relationshipsId;
     NSString *_relationship;
-
 }
 @dynamic relationshipsId;
 @dynamic relationship;
 
-- (NSInteger )relationshipsId
+- (NSInteger)relationshipsId
 {
     return _relationshipsId;
 }
 
-- (void)setRelationshipsId:(NSInteger )newRelationshipsId
+- (void)setRelationshipsId:(NSInteger)newRelationshipsId
 {
     [self.dirtyPropertySet addObject:@"relationshipsId"];
 
     _relationshipsId = newRelationshipsId;
-
 }
 
 - (NSString *)relationship
@@ -101,10 +99,10 @@
     return relationships;
 }
 
-- (NSDictionary*)dictionaryFromObject
+- (NSDictionary*)dictionaryFromRelationshipsObject
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
     if (self.relationshipsId)
         [dict setObject:[NSNumber numberWithInt:self.relationshipsId] forKey:@"id"];
@@ -115,13 +113,57 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    if ([dictionary objectForKey:@"relationshipsId"])
-        self.relationshipsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-
     if ([dictionary objectForKey:@"relationship"])
         self.relationship = [dictionary objectForKey:@"relationship"];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    self.relationshipsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    self.relationship = [dictionary objectForKey:@"relationship"];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"relationship"])
+        [dict setObject:self.relationship forKey:@"relationship"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo updateCaptureObject:dict
+                                        withId:self.relationshipsId
+                                        atPath:self.captureObjectPath
+                                     withToken:[JRCaptureData accessToken]
+                                   forDelegate:super
+                                   withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:self.relationship forKey:@"relationship"];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     context, @"callerContext",
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate", nil];
+
+    [JRCaptureInterfaceTwo replaceCaptureObject:dict
+                                         withId:self.relationshipsId
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:super
+                                    withContext:newContext];
 }
 
 - (void)dealloc
