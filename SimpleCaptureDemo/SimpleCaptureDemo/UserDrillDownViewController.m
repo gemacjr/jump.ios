@@ -186,6 +186,16 @@ Class classNameFromKey(NSString *key)
                                                withString:[[key substringToIndex:1] capitalizedString]]]);
 }
 
+SEL toDictionarySelector(NSString *objectName)
+{
+    if (!objectName || [objectName length] < 1)
+        return nil;
+
+    return NSSelectorFromString([NSString stringWithFormat:@"dictionaryFrom%@Object",
+                  [objectName stringByReplacingCharactersInRange:NSMakeRange(0,1)
+                                                      withString:[[objectName substringToIndex:1] capitalizedString]]]);
+}
+
 typedef enum
 {
     DataTypeNone,
@@ -229,10 +239,10 @@ typedef enum
             self.tableViewData = object;
             self.dataCount = [(NSArray *)tableViewData count];
         }
-        else if ([NSStringFromClass([object superclass]) isEqualToString:@"JRCaptureObject"])//respondsToSelector:@selector(dictionaryFromObject)])
+        else if ([NSStringFromClass([object superclass]) isEqualToString:@"JRCaptureObject"])
         {
             self.dataType = DataTypeObject;
-            self.tableViewData = [object dictionaryFromObject];
+            self.tableViewData = [object performSelector:toDictionarySelector(key)];
             self.dataCount = [[(NSDictionary *)tableViewData allKeys] count];
         }
         else
@@ -342,15 +352,15 @@ typedef enum
 
 - (IBAction)updateButtonPressed:(id)sender
 {
-    DLog(@"%@", [[captureObject dictionaryFromObject] description]);
+//    DLog(@"%@", [[captureObject dictionaryFromObject] description]);
 
-    parentCaptureObject.accessToken = [[SharedData sharedData] accessToken];
-    captureObject.accessToken = [[SharedData sharedData] accessToken];
+//    parentCaptureObject.accessToken = [[SharedData sharedData] accessToken];
+//    captureObject.accessToken = [[SharedData sharedData] accessToken];
 
     if (parentCaptureObject)
-        [parentCaptureObject updateForDelegate:self];
+        [parentCaptureObject updateObjectOnCaptureForDelegate:self withContext:nil];
     else
-        [captureObject updateForDelegate:self];
+        [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
 }
 
 - (void)updateCaptureEntity:(JRCaptureObject *)entity didFailWithResult:(NSString *)result
@@ -395,7 +405,7 @@ typedef enum
             [newPropertySubObject performSelector:selectorFromKey(propertyString) withObject:@"xxx"];
     }
 
-    DLog(@"%@", [[newPropertySubObject dictionaryFromObject] description]);
+    DLog(@"%@", [[newPropertySubObject performSelector:toDictionarySelector(tableViewHeader)] description]);
 
     JRCaptureObject *newParentObject;
     if ([propertyWithAddButton isKindOfClass:[NSArray class]])
@@ -635,8 +645,8 @@ typedef enum
      /* get the current item in our array */
         value = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
 
-        if ([value respondsToSelector:@selector(dictionaryFromObject)])
-            value = [(id<JRJsonifying>)value dictionaryFromObject];
+        if ([value respondsToSelector:toDictionarySelector(tableViewHeader)])
+            value = [value performSelector:toDictionarySelector(tableViewHeader)];
     }
  /* If our data is a dictionary, */
     else if ([tableViewData isKindOfClass:[NSDictionary class]])
@@ -645,8 +655,8 @@ typedef enum
         key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:(NSUInteger)indexPath.row];
         value = [((NSDictionary *)tableViewData) objectForKey:key];
 
-        if ([value respondsToSelector:@selector(dictionaryFromObject)])
-            value = [(id<JRJsonifying>)value dictionaryFromObject];
+        if ([value respondsToSelector:toDictionarySelector(tableViewHeader)])
+            value = [value performSelector:toDictionarySelector(tableViewHeader)];
 
      /* and set the cell title as the key */
         cellTitle = key;
@@ -757,8 +767,8 @@ typedef enum
         captureSubObj = [captureObject performSelector:NSSelectorFromString(key)];
     }
 
-    if ([value respondsToSelector:@selector(dictionaryFromObject)])
-        value = [(id<JRJsonifying>)value dictionaryFromObject];
+    if ([value respondsToSelector:toDictionarySelector(tableViewHeader)])
+        value = [value performSelector:toDictionarySelector(tableViewHeader)];
 
  /* If our value isn't an array or dictionary, don't drill down. */
     if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])

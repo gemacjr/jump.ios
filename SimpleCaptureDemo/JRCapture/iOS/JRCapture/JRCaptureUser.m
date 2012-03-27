@@ -932,7 +932,7 @@
                                         withId:self.captureUserId
                                         atPath:self.captureObjectPath
                                      withToken:[JRCaptureData accessToken]
-                                   forDelegate:super
+                                   forDelegate:self
                                    withContext:newContext];
 }
 
@@ -976,7 +976,7 @@
                                          withId:self.captureUserId
                                          atPath:self.captureObjectPath
                                       withToken:[JRCaptureData accessToken]
-                                    forDelegate:super
+                                    forDelegate:self
                                     withContext:newContext];
 }
 

@@ -428,7 +428,7 @@
                                         withId:self.addressesId
                                         atPath:self.captureObjectPath
                                      withToken:[JRCaptureData accessToken]
-                                   forDelegate:super
+                                   forDelegate:self
                                    withContext:newContext];
 }
 
@@ -459,7 +459,7 @@
                                          withId:self.addressesId
                                          atPath:self.captureObjectPath
                                       withToken:[JRCaptureData accessToken]
-                                    forDelegate:super
+                                    forDelegate:self
                                     withContext:newContext];
 }
 

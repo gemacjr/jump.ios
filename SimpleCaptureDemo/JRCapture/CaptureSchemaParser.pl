@@ -555,7 +555,7 @@ sub recursiveParse {
         #                                           withId:self.fooId
         # instead of the default
         #       [JRCaptureInterfaceTwo updateCaptureObject:dict
-        #                                           withId:nil
+        #                                           withId:0
         $updateRemotelySection[5] = "self.$propertyName";
         $replaceRemotelySection[5] = "self.$propertyName";
       }

@@ -343,10 +343,11 @@
     return profilesObject;
 }
 
-+ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
-       andEntityTypeName:(NSString *)newEntityTypeName
++ (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
+                   clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
 {
-    [JRCaptureData setCaptureDomain:newCaptureDomain clientId:newClientId andEntityTypeName:newEntityTypeName];
+    [JRCaptureData setCaptureApiDomain:newCaptureApidDomain captureUIDomain:newCaptureUIDomain
+                              clientId:newClientId andEntityTypeName:newEntityTypeName];
 }
 
 + (NSString *)captureMobileEndpointUrl
@@ -354,9 +355,19 @@
     return [JRCaptureData captureMobileEndpointUrl];
 }
 
++ (void)setAccessToken:(NSString *)newAccessToken
+{
+    [JRCaptureData setAccessToken:newAccessToken];
+}
+
++ (void)setCreationToken:(NSString *)newCreationToken
+{
+    [JRCaptureData setCreationToken:newCreationToken];
+}
+
+
 - (void)dealloc
 {
-    [captureObjectPath release];
     [super dealloc];
 }
 @end

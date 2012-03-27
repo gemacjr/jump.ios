@@ -194,7 +194,7 @@
                                         withId:self.phoneNumbersId
                                         atPath:self.captureObjectPath
                                      withToken:[JRCaptureData accessToken]
-                                   forDelegate:super
+                                   forDelegate:self
                                    withContext:newContext];
 }
 
@@ -216,7 +216,7 @@
                                          withId:self.phoneNumbersId
                                          atPath:self.captureObjectPath
                                       withToken:[JRCaptureData accessToken]
-                                    forDelegate:super
+                                    forDelegate:self
                                     withContext:newContext];
 }
 

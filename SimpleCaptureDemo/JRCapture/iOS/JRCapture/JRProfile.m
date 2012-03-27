@@ -2409,10 +2409,10 @@
                                                      delegate, @"delegate", nil];
 
     [JRCaptureInterfaceTwo updateCaptureObject:dict
-                                        withId:nil
+                                        withId:0
                                         atPath:self.captureObjectPath
                                      withToken:[JRCaptureData accessToken]
-                                   forDelegate:super
+                                   forDelegate:self
                                    withContext:newContext];
 }
 
@@ -2488,10 +2488,10 @@
                                                      delegate, @"delegate", nil];
 
     [JRCaptureInterfaceTwo replaceCaptureObject:dict
-                                         withId:nil
+                                         withId:0
                                          atPath:self.captureObjectPath
                                       withToken:[JRCaptureData accessToken]
-                                    forDelegate:super
+                                    forDelegate:self
                                     withContext:newContext];
 }
 

@@ -6,9 +6,10 @@
 
 
 #import <Foundation/Foundation.h>
-#import "JRCaptureInterface.h"
+//#import "JRCaptureInterface.h"
 #import "JRCaptureUser.h"
 #import "JREngage.h"
+#import "JRCapture.h"
 
 @protocol SignInDelegate <NSObject>
 @optional

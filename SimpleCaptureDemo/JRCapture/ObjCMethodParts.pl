@@ -272,8 +272,8 @@ my @replaceFrDictParts = (
 #     NSMutableDictionary *dict =
 #         [NSMutableDictionary dictionaryWithCapacity:10];
 # 
-#     if ([self.dirtyPropertySet containsObject:@"car"])
-#         [dict setObject:self.car forKey:@"car"];
+#     if ([self.dirtyPropertySet containsObject:@"<property>"])
+#         [dict setObject:self.<property> forKey:@"<property>"];
 # 
 #     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
 #                                                      context, @"callerContext",
@@ -281,10 +281,10 @@ my @replaceFrDictParts = (
 #                                                      delegate, @"delegate", nil];
 # 
 #     [JRCaptureInterfaceTwo updateCaptureObject:dict
-#                                         withId:self.carsId
+#                                         withId:self.<objectName>Id OR 0
 #                                         atPath:self.captureObjectPath
 #                                      withToken:[JRCaptureData accessToken]
-#                                    forDelegate:super
+#                                    forDelegate:self
 #                                    withContext:newContext];
 # }
 ###################################################################
@@ -301,10 +301,10 @@ my @updateRemotelyParts = (
                                                      delegate, \@\"delegate\", nil];
 
     [JRCaptureInterfaceTwo updateCaptureObject:dict
-                                        withId:", "nil", "
+                                        withId:", "0", "
                                         atPath:self.captureObjectPath
                                      withToken:[JRCaptureData accessToken]
-                                   forDelegate:super
+                                   forDelegate:self
                                    withContext:newContext];",
 "\n}\n\n");
 
@@ -312,12 +312,24 @@ my @updateRemotelyParts = (
 ###################################################################
 # REPLACE OBJECT ON CAPTURE
 #
-# - (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary
+# - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 # {
-#     self.<property> = [dictionary objectForKey:@"<property>"];
-#       OR
-#     self.<property> = [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]];
-#       ...
+#     NSMutableDictionary *dict =
+#         [NSMutableDictionary dictionaryWithCapacity:10];
+# 
+#     [dict setObject:self.<property> forKey:@"<property>"];
+# 
+#     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+#                                                      context, @"callerContext",
+#                                                      self, @"captureObject",
+#                                                      delegate, @"delegate", nil];
+# 
+#     [JRCaptureInterfaceTwo updateCaptureObject:dict
+#                                         withId:self.<objectName>Id OR 0
+#                                         atPath:self.captureObjectPath
+#                                      withToken:[JRCaptureData accessToken]
+#                                    forDelegate:self
+#                                    withContext:newContext];
 # }
 ###################################################################
 
@@ -333,10 +345,10 @@ my @replaceRemotelyParts = (
                                                      delegate, \@\"delegate\", nil];
 
     [JRCaptureInterfaceTwo replaceCaptureObject:dict
-                                         withId:", "nil", "
+                                         withId:", "0", "
                                          atPath:self.captureObjectPath
                                       withToken:[JRCaptureData accessToken]
-                                    forDelegate:super
+                                    forDelegate:self
                                     withContext:newContext];",
 "\n}\n\n");
 

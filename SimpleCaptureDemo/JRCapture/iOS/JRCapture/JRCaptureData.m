@@ -88,6 +88,18 @@ static JRCaptureData *singleton = nil;
     captureDataInstance.entityTypeName    = newEntityTypeName;
 }
 
++ (void)setAccessToken:(NSString *)newAccessToken
+{
+    JRCaptureData *captureDataInstance = [JRCaptureData captureDataInstance];
+    captureDataInstance.accessToken    = newAccessToken;
+}
+
++ (void)setCreationToken:(NSString *)newCreationToken
+{
+    JRCaptureData *captureDataInstance = [JRCaptureData captureDataInstance];
+    captureDataInstance.creationToken  = newCreationToken;
+}
+
 + (NSString *)accessToken
 {
     return [[JRCaptureData captureDataInstance] accessToken];
@@ -97,7 +109,6 @@ static JRCaptureData *singleton = nil;
 {
     return [[JRCaptureData captureDataInstance] creationToken];
 }
-
 
 + (NSString *)captureApidDomain
 {

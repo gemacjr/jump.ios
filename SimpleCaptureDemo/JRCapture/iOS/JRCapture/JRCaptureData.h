@@ -15,6 +15,8 @@
 + (NSString *)captureUIDomain;
 + (NSString *)clientId;
 + (NSString *)entityTypeName;
++ (void)setAccessToken:(NSString *)newAccessToken;
++ (void)setCreationToken:(NSString *)newCreationToken;
 + (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain
             captureUIDomain:(NSString *)newCaptureUIDomain
                    clientId:(NSString *)newClientId

@@ -142,7 +142,7 @@
                                         withId:self.petsId
                                         atPath:self.captureObjectPath
                                      withToken:[JRCaptureData accessToken]
-                                   forDelegate:super
+                                   forDelegate:self
                                    withContext:newContext];
 }
 
@@ -162,7 +162,7 @@
                                          withId:self.petsId
                                          atPath:self.captureObjectPath
                                       withToken:[JRCaptureData accessToken]
-                                    forDelegate:super
+                                    forDelegate:self
                                     withContext:newContext];
 }
 
