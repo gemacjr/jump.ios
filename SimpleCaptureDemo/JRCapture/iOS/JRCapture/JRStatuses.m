@@ -32,14 +32,58 @@
 #import "JRStatuses.h"
 
 @implementation JRStatuses
-@synthesize statusesId;
-@synthesize status;
-@synthesize statusCreated;
+{
+    NSInteger _statusesId;
+    NSString *_status;
+    NSDate *_statusCreated;
+
+}
+@dynamic statusesId;
+@dynamic status;
+@dynamic statusCreated;
+
+- (NSInteger )statusesId
+{
+    return _statusesId;
+}
+
+- (void)setStatusesId:(NSInteger )newStatusesId
+{
+    [self.dirtyPropertySet addObject:@"statusesId"];
+
+    _statusesId = newStatusesId;
+
+}
+
+- (NSString *)status
+{
+    return _status;
+}
+
+- (void)setStatus:(NSString *)newStatus
+{
+    [self.dirtyPropertySet addObject:@"status"];
+
+    _status = [newStatus copy];
+}
+
+- (NSDate *)statusCreated
+{
+    return _statusCreated;
+}
+
+- (void)setStatusCreated:(NSDate *)newStatusCreated
+{
+    [self.dirtyPropertySet addObject:@"statusCreated"];
+
+    _statusCreated = [newStatusCreated copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/statuses";
     }
     return self;
 }
@@ -78,14 +122,14 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (statusesId)
-        [dict setObject:[NSNumber numberWithInt:statusesId] forKey:@"id"];
+    if (self.statusesId)
+        [dict setObject:[NSNumber numberWithInt:self.statusesId] forKey:@"id"];
 
-    if (status)
-        [dict setObject:status forKey:@"status"];
+    if (self.status)
+        [dict setObject:self.status forKey:@"status"];
 
-    if (statusCreated)
-        [dict setObject:[statusCreated stringFromISO8601DateTime] forKey:@"statusCreated"];
+    if (self.statusCreated)
+        [dict setObject:[self.statusCreated stringFromISO8601DateTime] forKey:@"statusCreated"];
 
     return dict;
 }
@@ -104,8 +148,8 @@
 
 - (void)dealloc
 {
-    [status release];
-    [statusCreated release];
+    [_status release];
+    [_statusCreated release];
 
     [super dealloc];
 }

@@ -32,13 +32,44 @@
 #import "JRTvShows.h"
 
 @implementation JRTvShows
-@synthesize tvShowsId;
-@synthesize tvShow;
+{
+    NSInteger _tvShowsId;
+    NSString *_tvShow;
+
+}
+@dynamic tvShowsId;
+@dynamic tvShow;
+
+- (NSInteger )tvShowsId
+{
+    return _tvShowsId;
+}
+
+- (void)setTvShowsId:(NSInteger )newTvShowsId
+{
+    [self.dirtyPropertySet addObject:@"tvShowsId"];
+
+    _tvShowsId = newTvShowsId;
+
+}
+
+- (NSString *)tvShow
+{
+    return _tvShow;
+}
+
+- (void)setTvShow:(NSString *)newTvShow
+{
+    [self.dirtyPropertySet addObject:@"tvShow"];
+
+    _tvShow = [newTvShow copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/tvShows";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (tvShowsId)
-        [dict setObject:[NSNumber numberWithInt:tvShowsId] forKey:@"id"];
+    if (self.tvShowsId)
+        [dict setObject:[NSNumber numberWithInt:self.tvShowsId] forKey:@"id"];
 
-    if (tvShow)
-        [dict setObject:tvShow forKey:@"tvShow"];
+    if (self.tvShow)
+        [dict setObject:self.tvShow forKey:@"tvShow"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [tvShow release];
+    [_tvShow release];
 
     [super dealloc];
 }

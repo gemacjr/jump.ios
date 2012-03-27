@@ -32,13 +32,44 @@
 #import "JRRelationships.h"
 
 @implementation JRRelationships
-@synthesize relationshipsId;
-@synthesize relationship;
+{
+    NSInteger _relationshipsId;
+    NSString *_relationship;
+
+}
+@dynamic relationshipsId;
+@dynamic relationship;
+
+- (NSInteger )relationshipsId
+{
+    return _relationshipsId;
+}
+
+- (void)setRelationshipsId:(NSInteger )newRelationshipsId
+{
+    [self.dirtyPropertySet addObject:@"relationshipsId"];
+
+    _relationshipsId = newRelationshipsId;
+
+}
+
+- (NSString *)relationship
+{
+    return _relationship;
+}
+
+- (void)setRelationship:(NSString *)newRelationship
+{
+    [self.dirtyPropertySet addObject:@"relationship"];
+
+    _relationship = [newRelationship copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/relationships";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (relationshipsId)
-        [dict setObject:[NSNumber numberWithInt:relationshipsId] forKey:@"id"];
+    if (self.relationshipsId)
+        [dict setObject:[NSNumber numberWithInt:self.relationshipsId] forKey:@"id"];
 
-    if (relationship)
-        [dict setObject:relationship forKey:@"relationship"];
+    if (self.relationship)
+        [dict setObject:self.relationship forKey:@"relationship"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [relationship release];
+    [_relationship release];
 
     [super dealloc];
 }

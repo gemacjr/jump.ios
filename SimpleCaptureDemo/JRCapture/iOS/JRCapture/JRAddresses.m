@@ -32,24 +32,199 @@
 #import "JRAddresses.h"
 
 @implementation JRAddresses
-@synthesize addressesId;
-@synthesize country;
-@synthesize extendedAddress;
-@synthesize formatted;
-@synthesize latitude;
-@synthesize locality;
-@synthesize longitude;
-@synthesize poBox;
-@synthesize postalCode;
-@synthesize primary;
-@synthesize region;
-@synthesize streetAddress;
-@synthesize type;
+{
+    NSInteger _addressesId;
+    NSString *_country;
+    NSString *_extendedAddress;
+    NSString *_formatted;
+    NSNumber *_latitude;
+    NSString *_locality;
+    NSNumber *_longitude;
+    NSString *_poBox;
+    NSString *_postalCode;
+    BOOL _primary;
+    NSString *_region;
+    NSString *_streetAddress;
+    NSString *_type;
+
+}
+@dynamic addressesId;
+@dynamic country;
+@dynamic extendedAddress;
+@dynamic formatted;
+@dynamic latitude;
+@dynamic locality;
+@dynamic longitude;
+@dynamic poBox;
+@dynamic postalCode;
+@dynamic primary;
+@dynamic region;
+@dynamic streetAddress;
+@dynamic type;
+
+- (NSInteger )addressesId
+{
+    return _addressesId;
+}
+
+- (void)setAddressesId:(NSInteger )newAddressesId
+{
+    [self.dirtyPropertySet addObject:@"addressesId"];
+
+    _addressesId = newAddressesId;
+
+}
+
+- (NSString *)country
+{
+    return _country;
+}
+
+- (void)setCountry:(NSString *)newCountry
+{
+    [self.dirtyPropertySet addObject:@"country"];
+
+    _country = [newCountry copy];
+}
+
+- (NSString *)extendedAddress
+{
+    return _extendedAddress;
+}
+
+- (void)setExtendedAddress:(NSString *)newExtendedAddress
+{
+    [self.dirtyPropertySet addObject:@"extendedAddress"];
+
+    _extendedAddress = [newExtendedAddress copy];
+}
+
+- (NSString *)formatted
+{
+    return _formatted;
+}
+
+- (void)setFormatted:(NSString *)newFormatted
+{
+    [self.dirtyPropertySet addObject:@"formatted"];
+
+    _formatted = [newFormatted copy];
+}
+
+- (NSNumber *)latitude
+{
+    return _latitude;
+}
+
+- (void)setLatitude:(NSNumber *)newLatitude
+{
+    [self.dirtyPropertySet addObject:@"latitude"];
+
+    _latitude = [newLatitude copy];
+}
+
+- (NSString *)locality
+{
+    return _locality;
+}
+
+- (void)setLocality:(NSString *)newLocality
+{
+    [self.dirtyPropertySet addObject:@"locality"];
+
+    _locality = [newLocality copy];
+}
+
+- (NSNumber *)longitude
+{
+    return _longitude;
+}
+
+- (void)setLongitude:(NSNumber *)newLongitude
+{
+    [self.dirtyPropertySet addObject:@"longitude"];
+
+    _longitude = [newLongitude copy];
+}
+
+- (NSString *)poBox
+{
+    return _poBox;
+}
+
+- (void)setPoBox:(NSString *)newPoBox
+{
+    [self.dirtyPropertySet addObject:@"poBox"];
+
+    _poBox = [newPoBox copy];
+}
+
+- (NSString *)postalCode
+{
+    return _postalCode;
+}
+
+- (void)setPostalCode:(NSString *)newPostalCode
+{
+    [self.dirtyPropertySet addObject:@"postalCode"];
+
+    _postalCode = [newPostalCode copy];
+}
+
+- (BOOL )primary
+{
+    return _primary;
+}
+
+- (void)setPrimary:(BOOL )newPrimary
+{
+    [self.dirtyPropertySet addObject:@"primary"];
+
+    _primary = newPrimary;
+
+}
+
+- (NSString *)region
+{
+    return _region;
+}
+
+- (void)setRegion:(NSString *)newRegion
+{
+    [self.dirtyPropertySet addObject:@"region"];
+
+    _region = [newRegion copy];
+}
+
+- (NSString *)streetAddress
+{
+    return _streetAddress;
+}
+
+- (void)setStreetAddress:(NSString *)newStreetAddress
+{
+    [self.dirtyPropertySet addObject:@"streetAddress"];
+
+    _streetAddress = [newStreetAddress copy];
+}
+
+- (NSString *)type
+{
+    return _type;
+}
+
+- (void)setType:(NSString *)newType
+{
+    [self.dirtyPropertySet addObject:@"type"];
+
+    _type = [newType copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/addresses";
     }
     return self;
 }
@@ -108,44 +283,44 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (addressesId)
-        [dict setObject:[NSNumber numberWithInt:addressesId] forKey:@"id"];
+    if (self.addressesId)
+        [dict setObject:[NSNumber numberWithInt:self.addressesId] forKey:@"id"];
 
-    if (country)
-        [dict setObject:country forKey:@"country"];
+    if (self.country)
+        [dict setObject:self.country forKey:@"country"];
 
-    if (extendedAddress)
-        [dict setObject:extendedAddress forKey:@"extendedAddress"];
+    if (self.extendedAddress)
+        [dict setObject:self.extendedAddress forKey:@"extendedAddress"];
 
-    if (formatted)
-        [dict setObject:formatted forKey:@"formatted"];
+    if (self.formatted)
+        [dict setObject:self.formatted forKey:@"formatted"];
 
-    if (latitude)
-        [dict setObject:latitude forKey:@"latitude"];
+    if (self.latitude)
+        [dict setObject:self.latitude forKey:@"latitude"];
 
-    if (locality)
-        [dict setObject:locality forKey:@"locality"];
+    if (self.locality)
+        [dict setObject:self.locality forKey:@"locality"];
 
-    if (longitude)
-        [dict setObject:longitude forKey:@"longitude"];
+    if (self.longitude)
+        [dict setObject:self.longitude forKey:@"longitude"];
 
-    if (poBox)
-        [dict setObject:poBox forKey:@"poBox"];
+    if (self.poBox)
+        [dict setObject:self.poBox forKey:@"poBox"];
 
-    if (postalCode)
-        [dict setObject:postalCode forKey:@"postalCode"];
+    if (self.postalCode)
+        [dict setObject:self.postalCode forKey:@"postalCode"];
 
-    if (primary)
-        [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
+    if (self.primary)
+        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
 
-    if (region)
-        [dict setObject:region forKey:@"region"];
+    if (self.region)
+        [dict setObject:self.region forKey:@"region"];
 
-    if (streetAddress)
-        [dict setObject:streetAddress forKey:@"streetAddress"];
+    if (self.streetAddress)
+        [dict setObject:self.streetAddress forKey:@"streetAddress"];
 
-    if (type)
-        [dict setObject:type forKey:@"type"];
+    if (self.type)
+        [dict setObject:self.type forKey:@"type"];
 
     return dict;
 }
@@ -194,17 +369,17 @@
 
 - (void)dealloc
 {
-    [country release];
-    [extendedAddress release];
-    [formatted release];
-    [latitude release];
-    [locality release];
-    [longitude release];
-    [poBox release];
-    [postalCode release];
-    [region release];
-    [streetAddress release];
-    [type release];
+    [_country release];
+    [_extendedAddress release];
+    [_formatted release];
+    [_latitude release];
+    [_locality release];
+    [_longitude release];
+    [_poBox release];
+    [_postalCode release];
+    [_region release];
+    [_streetAddress release];
+    [_type release];
 
     [super dealloc];
 }

@@ -32,8 +32,38 @@
 #import "JRFollowing.h"
 
 @implementation JRFollowing
-@synthesize followingId;
-@synthesize identifier;
+{
+    NSInteger _followingId;
+    NSString *_identifier;
+
+}
+@dynamic followingId;
+@dynamic identifier;
+
+- (NSInteger )followingId
+{
+    return _followingId;
+}
+
+- (void)setFollowingId:(NSInteger )newFollowingId
+{
+    [self.dirtyPropertySet addObject:@"followingId"];
+
+    _followingId = newFollowingId;
+
+}
+
+- (NSString *)identifier
+{
+    return _identifier;
+}
+
+- (void)setIdentifier:(NSString *)newIdentifier
+{
+    [self.dirtyPropertySet addObject:@"identifier"];
+
+    _identifier = [newIdentifier copy];
+}
 
 - (id)initWithIdentifier:(NSString *)newIdentifier
 {
@@ -45,7 +75,8 @@
 
     if ((self = [super init]))
     {
-        identifier = [newIdentifier copy];
+        self.captureObjectPath = @"/profiles/following";
+        _identifier = [newIdentifier copy];
     }
     return self;
 }
@@ -79,10 +110,10 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:identifier forKey:@"identifier"];
+    [dict setObject:self.identifier forKey:@"identifier"];
 
-    if (followingId)
-        [dict setObject:[NSNumber numberWithInt:followingId] forKey:@"id"];
+    if (self.followingId)
+        [dict setObject:[NSNumber numberWithInt:self.followingId] forKey:@"id"];
 
     return dict;
 }
@@ -98,7 +129,7 @@
 
 - (void)dealloc
 {
-    [identifier release];
+    [_identifier release];
 
     [super dealloc];
 }

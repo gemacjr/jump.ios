@@ -32,16 +32,87 @@
 #import "JRAccounts.h"
 
 @implementation JRAccounts
-@synthesize accountsId;
-@synthesize domain;
-@synthesize primary;
-@synthesize userid;
-@synthesize username;
+{
+    NSInteger _accountsId;
+    NSString *_domain;
+    BOOL _primary;
+    NSString *_userid;
+    NSString *_username;
+
+}
+@dynamic accountsId;
+@dynamic domain;
+@dynamic primary;
+@dynamic userid;
+@dynamic username;
+
+- (NSInteger )accountsId
+{
+    return _accountsId;
+}
+
+- (void)setAccountsId:(NSInteger )newAccountsId
+{
+    [self.dirtyPropertySet addObject:@"accountsId"];
+
+    _accountsId = newAccountsId;
+
+}
+
+- (NSString *)domain
+{
+    return _domain;
+}
+
+- (void)setDomain:(NSString *)newDomain
+{
+    [self.dirtyPropertySet addObject:@"domain"];
+
+    _domain = [newDomain copy];
+}
+
+- (BOOL )primary
+{
+    return _primary;
+}
+
+- (void)setPrimary:(BOOL )newPrimary
+{
+    [self.dirtyPropertySet addObject:@"primary"];
+
+    _primary = newPrimary;
+
+}
+
+- (NSString *)userid
+{
+    return _userid;
+}
+
+- (void)setUserid:(NSString *)newUserid
+{
+    [self.dirtyPropertySet addObject:@"userid"];
+
+    _userid = [newUserid copy];
+}
+
+- (NSString *)username
+{
+    return _username;
+}
+
+- (void)setUsername:(NSString *)newUsername
+{
+    [self.dirtyPropertySet addObject:@"username"];
+
+    _username = [newUsername copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/accounts";
     }
     return self;
 }
@@ -84,20 +155,20 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (accountsId)
-        [dict setObject:[NSNumber numberWithInt:accountsId] forKey:@"id"];
+    if (self.accountsId)
+        [dict setObject:[NSNumber numberWithInt:self.accountsId] forKey:@"id"];
 
-    if (domain)
-        [dict setObject:domain forKey:@"domain"];
+    if (self.domain)
+        [dict setObject:self.domain forKey:@"domain"];
 
-    if (primary)
-        [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
+    if (self.primary)
+        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
 
-    if (userid)
-        [dict setObject:userid forKey:@"userid"];
+    if (self.userid)
+        [dict setObject:self.userid forKey:@"userid"];
 
-    if (username)
-        [dict setObject:username forKey:@"username"];
+    if (self.username)
+        [dict setObject:self.username forKey:@"username"];
 
     return dict;
 }
@@ -122,9 +193,9 @@
 
 - (void)dealloc
 {
-    [domain release];
-    [userid release];
-    [username release];
+    [_domain release];
+    [_userid release];
+    [_username release];
 
     [super dealloc];
 }

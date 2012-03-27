@@ -32,13 +32,44 @@
 #import "JRCars.h"
 
 @implementation JRCars
-@synthesize carsId;
-@synthesize car;
+{
+    NSInteger _carsId;
+    NSString *_car;
+
+}
+@dynamic carsId;
+@dynamic car;
+
+- (NSInteger )carsId
+{
+    return _carsId;
+}
+
+- (void)setCarsId:(NSInteger )newCarsId
+{
+    [self.dirtyPropertySet addObject:@"carsId"];
+
+    _carsId = newCarsId;
+
+}
+
+- (NSString *)car
+{
+    return _car;
+}
+
+- (void)setCar:(NSString *)newCar
+{
+    [self.dirtyPropertySet addObject:@"car"];
+
+    _car = [newCar copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/cars";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (carsId)
-        [dict setObject:[NSNumber numberWithInt:carsId] forKey:@"id"];
+    if (self.carsId)
+        [dict setObject:[NSNumber numberWithInt:self.carsId] forKey:@"id"];
 
-    if (car)
-        [dict setObject:car forKey:@"car"];
+    if (self.car)
+        [dict setObject:self.car forKey:@"car"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [car release];
+    [_car release];
 
     [super dealloc];
 }

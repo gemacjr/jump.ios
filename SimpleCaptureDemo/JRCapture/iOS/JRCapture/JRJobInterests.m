@@ -32,13 +32,44 @@
 #import "JRJobInterests.h"
 
 @implementation JRJobInterests
-@synthesize jobInterestsId;
-@synthesize jobInterest;
+{
+    NSInteger _jobInterestsId;
+    NSString *_jobInterest;
+
+}
+@dynamic jobInterestsId;
+@dynamic jobInterest;
+
+- (NSInteger )jobInterestsId
+{
+    return _jobInterestsId;
+}
+
+- (void)setJobInterestsId:(NSInteger )newJobInterestsId
+{
+    [self.dirtyPropertySet addObject:@"jobInterestsId"];
+
+    _jobInterestsId = newJobInterestsId;
+
+}
+
+- (NSString *)jobInterest
+{
+    return _jobInterest;
+}
+
+- (void)setJobInterest:(NSString *)newJobInterest
+{
+    [self.dirtyPropertySet addObject:@"jobInterest"];
+
+    _jobInterest = [newJobInterest copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/jobInterests";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (jobInterestsId)
-        [dict setObject:[NSNumber numberWithInt:jobInterestsId] forKey:@"id"];
+    if (self.jobInterestsId)
+        [dict setObject:[NSNumber numberWithInt:self.jobInterestsId] forKey:@"id"];
 
-    if (jobInterest)
-        [dict setObject:jobInterest forKey:@"jobInterest"];
+    if (self.jobInterest)
+        [dict setObject:self.jobInterest forKey:@"jobInterest"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [jobInterest release];
+    [_jobInterest release];
 
     [super dealloc];
 }

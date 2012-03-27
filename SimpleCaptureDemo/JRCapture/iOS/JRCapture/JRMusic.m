@@ -32,13 +32,44 @@
 #import "JRMusic.h"
 
 @implementation JRMusic
-@synthesize musicId;
-@synthesize music;
+{
+    NSInteger _musicId;
+    NSString *_music;
+
+}
+@dynamic musicId;
+@dynamic music;
+
+- (NSInteger )musicId
+{
+    return _musicId;
+}
+
+- (void)setMusicId:(NSInteger )newMusicId
+{
+    [self.dirtyPropertySet addObject:@"musicId"];
+
+    _musicId = newMusicId;
+
+}
+
+- (NSString *)music
+{
+    return _music;
+}
+
+- (void)setMusic:(NSString *)newMusic
+{
+    [self.dirtyPropertySet addObject:@"music"];
+
+    _music = [newMusic copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/music";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (musicId)
-        [dict setObject:[NSNumber numberWithInt:musicId] forKey:@"id"];
+    if (self.musicId)
+        [dict setObject:[NSNumber numberWithInt:self.musicId] forKey:@"id"];
 
-    if (music)
-        [dict setObject:music forKey:@"music"];
+    if (self.music)
+        [dict setObject:self.music forKey:@"music"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [music release];
+    [_music release];
 
     [super dealloc];
 }

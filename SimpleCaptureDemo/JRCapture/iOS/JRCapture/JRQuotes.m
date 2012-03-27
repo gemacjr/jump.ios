@@ -32,13 +32,44 @@
 #import "JRQuotes.h"
 
 @implementation JRQuotes
-@synthesize quotesId;
-@synthesize quote;
+{
+    NSInteger _quotesId;
+    NSString *_quote;
+
+}
+@dynamic quotesId;
+@dynamic quote;
+
+- (NSInteger )quotesId
+{
+    return _quotesId;
+}
+
+- (void)setQuotesId:(NSInteger )newQuotesId
+{
+    [self.dirtyPropertySet addObject:@"quotesId"];
+
+    _quotesId = newQuotesId;
+
+}
+
+- (NSString *)quote
+{
+    return _quote;
+}
+
+- (void)setQuote:(NSString *)newQuote
+{
+    [self.dirtyPropertySet addObject:@"quote"];
+
+    _quote = [newQuote copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/quotes";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (quotesId)
-        [dict setObject:[NSNumber numberWithInt:quotesId] forKey:@"id"];
+    if (self.quotesId)
+        [dict setObject:[NSNumber numberWithInt:self.quotesId] forKey:@"id"];
 
-    if (quote)
-        [dict setObject:quote forKey:@"quote"];
+    if (self.quote)
+        [dict setObject:self.quote forKey:@"quote"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [quote release];
+    [_quote release];
 
     [super dealloc];
 }

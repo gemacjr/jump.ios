@@ -32,13 +32,44 @@
 #import "JRBooks.h"
 
 @implementation JRBooks
-@synthesize booksId;
-@synthesize book;
+{
+    NSInteger _booksId;
+    NSString *_book;
+
+}
+@dynamic booksId;
+@dynamic book;
+
+- (NSInteger )booksId
+{
+    return _booksId;
+}
+
+- (void)setBooksId:(NSInteger )newBooksId
+{
+    [self.dirtyPropertySet addObject:@"booksId"];
+
+    _booksId = newBooksId;
+
+}
+
+- (NSString *)book
+{
+    return _book;
+}
+
+- (void)setBook:(NSString *)newBook
+{
+    [self.dirtyPropertySet addObject:@"book"];
+
+    _book = [newBook copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/books";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (booksId)
-        [dict setObject:[NSNumber numberWithInt:booksId] forKey:@"id"];
+    if (self.booksId)
+        [dict setObject:[NSNumber numberWithInt:self.booksId] forKey:@"id"];
 
-    if (book)
-        [dict setObject:book forKey:@"book"];
+    if (self.book)
+        [dict setObject:self.book forKey:@"book"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [book release];
+    [_book release];
 
     [super dealloc];
 }

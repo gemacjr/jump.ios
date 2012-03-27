@@ -32,16 +32,85 @@
 #import "JRBodyType.h"
 
 @implementation JRBodyType
-@synthesize build;
-@synthesize color;
-@synthesize eyeColor;
-@synthesize hairColor;
-@synthesize height;
+{
+    NSString *_build;
+    NSString *_color;
+    NSString *_eyeColor;
+    NSString *_hairColor;
+    NSNumber *_height;
+
+}
+@dynamic build;
+@dynamic color;
+@dynamic eyeColor;
+@dynamic hairColor;
+@dynamic height;
+
+- (NSString *)build
+{
+    return _build;
+}
+
+- (void)setBuild:(NSString *)newBuild
+{
+    [self.dirtyPropertySet addObject:@"build"];
+
+    _build = [newBuild copy];
+}
+
+- (NSString *)color
+{
+    return _color;
+}
+
+- (void)setColor:(NSString *)newColor
+{
+    [self.dirtyPropertySet addObject:@"color"];
+
+    _color = [newColor copy];
+}
+
+- (NSString *)eyeColor
+{
+    return _eyeColor;
+}
+
+- (void)setEyeColor:(NSString *)newEyeColor
+{
+    [self.dirtyPropertySet addObject:@"eyeColor"];
+
+    _eyeColor = [newEyeColor copy];
+}
+
+- (NSString *)hairColor
+{
+    return _hairColor;
+}
+
+- (void)setHairColor:(NSString *)newHairColor
+{
+    [self.dirtyPropertySet addObject:@"hairColor"];
+
+    _hairColor = [newHairColor copy];
+}
+
+- (NSNumber *)height
+{
+    return _height;
+}
+
+- (void)setHeight:(NSNumber *)newHeight
+{
+    [self.dirtyPropertySet addObject:@"height"];
+
+    _height = [newHeight copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/bodyType";
     }
     return self;
 }
@@ -84,20 +153,20 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (build)
-        [dict setObject:build forKey:@"build"];
+    if (self.build)
+        [dict setObject:self.build forKey:@"build"];
 
-    if (color)
-        [dict setObject:color forKey:@"color"];
+    if (self.color)
+        [dict setObject:self.color forKey:@"color"];
 
-    if (eyeColor)
-        [dict setObject:eyeColor forKey:@"eyeColor"];
+    if (self.eyeColor)
+        [dict setObject:self.eyeColor forKey:@"eyeColor"];
 
-    if (hairColor)
-        [dict setObject:hairColor forKey:@"hairColor"];
+    if (self.hairColor)
+        [dict setObject:self.hairColor forKey:@"hairColor"];
 
-    if (height)
-        [dict setObject:height forKey:@"height"];
+    if (self.height)
+        [dict setObject:self.height forKey:@"height"];
 
     return dict;
 }
@@ -122,11 +191,11 @@
 
 - (void)dealloc
 {
-    [build release];
-    [color release];
-    [eyeColor release];
-    [hairColor release];
-    [height release];
+    [_build release];
+    [_color release];
+    [_eyeColor release];
+    [_hairColor release];
+    [_height release];
 
     [super dealloc];
 }

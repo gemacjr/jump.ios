@@ -32,13 +32,44 @@
 #import "JRPets.h"
 
 @implementation JRPets
-@synthesize petsId;
-@synthesize value;
+{
+    NSInteger _petsId;
+    NSString *_value;
+
+}
+@dynamic petsId;
+@dynamic value;
+
+- (NSInteger )petsId
+{
+    return _petsId;
+}
+
+- (void)setPetsId:(NSInteger )newPetsId
+{
+    [self.dirtyPropertySet addObject:@"petsId"];
+
+    _petsId = newPetsId;
+
+}
+
+- (NSString *)value
+{
+    return _value;
+}
+
+- (void)setValue:(NSString *)newValue
+{
+    [self.dirtyPropertySet addObject:@"value"];
+
+    _value = [newValue copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/pets";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (petsId)
-        [dict setObject:[NSNumber numberWithInt:petsId] forKey:@"id"];
+    if (self.petsId)
+        [dict setObject:[NSNumber numberWithInt:self.petsId] forKey:@"id"];
 
-    if (value)
-        [dict setObject:value forKey:@"value"];
+    if (self.value)
+        [dict setObject:self.value forKey:@"value"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [value release];
+    [_value release];
 
     [super dealloc];
 }

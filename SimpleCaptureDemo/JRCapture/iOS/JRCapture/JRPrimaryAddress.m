@@ -32,20 +32,155 @@
 #import "JRPrimaryAddress.h"
 
 @implementation JRPrimaryAddress
-@synthesize address1;
-@synthesize address2;
-@synthesize city;
-@synthesize company;
-@synthesize mobile;
-@synthesize phone;
-@synthesize stateAbbreviation;
-@synthesize zip;
-@synthesize zipPlus4;
+{
+    NSString *_address1;
+    NSString *_address2;
+    NSString *_city;
+    NSString *_company;
+    NSString *_country;
+    NSString *_mobile;
+    NSString *_phone;
+    NSString *_stateAbbreviation;
+    NSString *_zip;
+    NSString *_zipPlus4;
+
+}
+@dynamic address1;
+@dynamic address2;
+@dynamic city;
+@dynamic company;
+@dynamic country;
+@dynamic mobile;
+@dynamic phone;
+@dynamic stateAbbreviation;
+@dynamic zip;
+@dynamic zipPlus4;
+
+- (NSString *)address1
+{
+    return _address1;
+}
+
+- (void)setAddress1:(NSString *)newAddress1
+{
+    [self.dirtyPropertySet addObject:@"address1"];
+
+    _address1 = [newAddress1 copy];
+}
+
+- (NSString *)address2
+{
+    return _address2;
+}
+
+- (void)setAddress2:(NSString *)newAddress2
+{
+    [self.dirtyPropertySet addObject:@"address2"];
+
+    _address2 = [newAddress2 copy];
+}
+
+- (NSString *)city
+{
+    return _city;
+}
+
+- (void)setCity:(NSString *)newCity
+{
+    [self.dirtyPropertySet addObject:@"city"];
+
+    _city = [newCity copy];
+}
+
+- (NSString *)company
+{
+    return _company;
+}
+
+- (void)setCompany:(NSString *)newCompany
+{
+    [self.dirtyPropertySet addObject:@"company"];
+
+    _company = [newCompany copy];
+}
+
+- (NSString *)country
+{
+    return _country;
+}
+
+- (void)setCountry:(NSString *)newCountry
+{
+    [self.dirtyPropertySet addObject:@"country"];
+
+    _country = [newCountry copy];
+}
+
+- (NSString *)mobile
+{
+    return _mobile;
+}
+
+- (void)setMobile:(NSString *)newMobile
+{
+    [self.dirtyPropertySet addObject:@"mobile"];
+
+    _mobile = [newMobile copy];
+}
+
+- (NSString *)phone
+{
+    return _phone;
+}
+
+- (void)setPhone:(NSString *)newPhone
+{
+    [self.dirtyPropertySet addObject:@"phone"];
+
+    _phone = [newPhone copy];
+}
+
+- (NSString *)stateAbbreviation
+{
+    return _stateAbbreviation;
+}
+
+- (void)setStateAbbreviation:(NSString *)newStateAbbreviation
+{
+    [self.dirtyPropertySet addObject:@"stateAbbreviation"];
+
+    _stateAbbreviation = [newStateAbbreviation copy];
+}
+
+- (NSString *)zip
+{
+    return _zip;
+}
+
+- (void)setZip:(NSString *)newZip
+{
+    [self.dirtyPropertySet addObject:@"zip"];
+
+    _zip = [newZip copy];
+}
+
+- (NSString *)zipPlus4
+{
+    return _zipPlus4;
+}
+
+- (void)setZipPlus4:(NSString *)newZipPlus4
+{
+    [self.dirtyPropertySet addObject:@"zipPlus4"];
+
+    _zipPlus4 = [newZipPlus4 copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/primaryAddress";
     }
     return self;
 }
@@ -64,6 +199,7 @@
     primaryAddressCopy.address2 = self.address2;
     primaryAddressCopy.city = self.city;
     primaryAddressCopy.company = self.company;
+    primaryAddressCopy.country = self.country;
     primaryAddressCopy.mobile = self.mobile;
     primaryAddressCopy.phone = self.phone;
     primaryAddressCopy.stateAbbreviation = self.stateAbbreviation;
@@ -82,6 +218,7 @@
     primaryAddress.address2 = [dictionary objectForKey:@"address2"];
     primaryAddress.city = [dictionary objectForKey:@"city"];
     primaryAddress.company = [dictionary objectForKey:@"company"];
+    primaryAddress.country = [dictionary objectForKey:@"country"];
     primaryAddress.mobile = [dictionary objectForKey:@"mobile"];
     primaryAddress.phone = [dictionary objectForKey:@"phone"];
     primaryAddress.stateAbbreviation = [dictionary objectForKey:@"stateAbbreviation"];
@@ -96,32 +233,35 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (address1)
-        [dict setObject:address1 forKey:@"address1"];
+    if (self.address1)
+        [dict setObject:self.address1 forKey:@"address1"];
 
-    if (address2)
-        [dict setObject:address2 forKey:@"address2"];
+    if (self.address2)
+        [dict setObject:self.address2 forKey:@"address2"];
 
-    if (city)
-        [dict setObject:city forKey:@"city"];
+    if (self.city)
+        [dict setObject:self.city forKey:@"city"];
 
-    if (company)
-        [dict setObject:company forKey:@"company"];
+    if (self.company)
+        [dict setObject:self.company forKey:@"company"];
 
-    if (mobile)
-        [dict setObject:mobile forKey:@"mobile"];
+    if (self.country)
+        [dict setObject:self.country forKey:@"country"];
 
-    if (phone)
-        [dict setObject:phone forKey:@"phone"];
+    if (self.mobile)
+        [dict setObject:self.mobile forKey:@"mobile"];
 
-    if (stateAbbreviation)
-        [dict setObject:stateAbbreviation forKey:@"stateAbbreviation"];
+    if (self.phone)
+        [dict setObject:self.phone forKey:@"phone"];
 
-    if (zip)
-        [dict setObject:zip forKey:@"zip"];
+    if (self.stateAbbreviation)
+        [dict setObject:self.stateAbbreviation forKey:@"stateAbbreviation"];
 
-    if (zipPlus4)
-        [dict setObject:zipPlus4 forKey:@"zipPlus4"];
+    if (self.zip)
+        [dict setObject:self.zip forKey:@"zip"];
+
+    if (self.zipPlus4)
+        [dict setObject:self.zipPlus4 forKey:@"zipPlus4"];
 
     return dict;
 }
@@ -139,6 +279,9 @@
 
     if ([dictionary objectForKey:@"company"])
         self.company = [dictionary objectForKey:@"company"];
+
+    if ([dictionary objectForKey:@"country"])
+        self.country = [dictionary objectForKey:@"country"];
 
     if ([dictionary objectForKey:@"mobile"])
         self.mobile = [dictionary objectForKey:@"mobile"];
@@ -158,15 +301,16 @@
 
 - (void)dealloc
 {
-    [address1 release];
-    [address2 release];
-    [city release];
-    [company release];
-    [mobile release];
-    [phone release];
-    [stateAbbreviation release];
-    [zip release];
-    [zipPlus4 release];
+    [_address1 release];
+    [_address2 release];
+    [_city release];
+    [_company release];
+    [_country release];
+    [_mobile release];
+    [_phone release];
+    [_stateAbbreviation release];
+    [_zip release];
+    [_zipPlus4 release];
 
     [super dealloc];
 }

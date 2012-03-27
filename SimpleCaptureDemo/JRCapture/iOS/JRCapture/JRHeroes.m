@@ -32,13 +32,44 @@
 #import "JRHeroes.h"
 
 @implementation JRHeroes
-@synthesize heroesId;
-@synthesize hero;
+{
+    NSInteger _heroesId;
+    NSString *_hero;
+
+}
+@dynamic heroesId;
+@dynamic hero;
+
+- (NSInteger )heroesId
+{
+    return _heroesId;
+}
+
+- (void)setHeroesId:(NSInteger )newHeroesId
+{
+    [self.dirtyPropertySet addObject:@"heroesId"];
+
+    _heroesId = newHeroesId;
+
+}
+
+- (NSString *)hero
+{
+    return _hero;
+}
+
+- (void)setHero:(NSString *)newHero
+{
+    [self.dirtyPropertySet addObject:@"hero"];
+
+    _hero = [newHero copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/heroes";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (heroesId)
-        [dict setObject:[NSNumber numberWithInt:heroesId] forKey:@"id"];
+    if (self.heroesId)
+        [dict setObject:[NSNumber numberWithInt:self.heroesId] forKey:@"id"];
 
-    if (hero)
-        [dict setObject:hero forKey:@"hero"];
+    if (self.hero)
+        [dict setObject:self.hero forKey:@"hero"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [hero release];
+    [_hero release];
 
     [super dealloc];
 }

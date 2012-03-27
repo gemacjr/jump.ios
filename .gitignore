@@ -6,4 +6,5 @@
 JREngage/JREngage.xcodeproj/xcuserdata/
 QuickPublish/QuickPublish.xcodeproj/xcuserdata/
 QuickSignIn/QuickSignIn.xcodeproj/xcuserdata/
+*.DS_Store
 

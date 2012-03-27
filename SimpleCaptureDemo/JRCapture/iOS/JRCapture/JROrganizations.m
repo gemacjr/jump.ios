@@ -32,21 +32,157 @@
 #import "JROrganizations.h"
 
 @implementation JROrganizations
-@synthesize organizationsId;
-@synthesize department;
-@synthesize description;
-@synthesize endDate;
-@synthesize location;
-@synthesize name;
-@synthesize primary;
-@synthesize startDate;
-@synthesize title;
-@synthesize type;
+{
+    NSInteger _organizationsId;
+    NSString *_department;
+    NSString *_description;
+    NSString *_endDate;
+    JRLocation *_location;
+    NSString *_name;
+    BOOL _primary;
+    NSString *_startDate;
+    NSString *_title;
+    NSString *_type;
+
+}
+@dynamic organizationsId;
+@dynamic department;
+@dynamic description;
+@dynamic endDate;
+@dynamic location;
+@dynamic name;
+@dynamic primary;
+@dynamic startDate;
+@dynamic title;
+@dynamic type;
+
+- (NSInteger )organizationsId
+{
+    return _organizationsId;
+}
+
+- (void)setOrganizationsId:(NSInteger )newOrganizationsId
+{
+    [self.dirtyPropertySet addObject:@"organizationsId"];
+
+    _organizationsId = newOrganizationsId;
+
+}
+
+- (NSString *)department
+{
+    return _department;
+}
+
+- (void)setDepartment:(NSString *)newDepartment
+{
+    [self.dirtyPropertySet addObject:@"department"];
+
+    _department = [newDepartment copy];
+}
+
+- (NSString *)description
+{
+    return _description;
+}
+
+- (void)setDescription:(NSString *)newDescription
+{
+    [self.dirtyPropertySet addObject:@"description"];
+
+    _description = [newDescription copy];
+}
+
+- (NSString *)endDate
+{
+    return _endDate;
+}
+
+- (void)setEndDate:(NSString *)newEndDate
+{
+    [self.dirtyPropertySet addObject:@"endDate"];
+
+    _endDate = [newEndDate copy];
+}
+
+- (JRLocation *)location
+{
+    return _location;
+}
+
+- (void)setLocation:(JRLocation *)newLocation
+{
+    [self.dirtyPropertySet addObject:@"location"];
+
+    _location = [newLocation copy];
+}
+
+- (NSString *)name
+{
+    return _name;
+}
+
+- (void)setName:(NSString *)newName
+{
+    [self.dirtyPropertySet addObject:@"name"];
+
+    _name = [newName copy];
+}
+
+- (BOOL )primary
+{
+    return _primary;
+}
+
+- (void)setPrimary:(BOOL )newPrimary
+{
+    [self.dirtyPropertySet addObject:@"primary"];
+
+    _primary = newPrimary;
+
+}
+
+- (NSString *)startDate
+{
+    return _startDate;
+}
+
+- (void)setStartDate:(NSString *)newStartDate
+{
+    [self.dirtyPropertySet addObject:@"startDate"];
+
+    _startDate = [newStartDate copy];
+}
+
+- (NSString *)title
+{
+    return _title;
+}
+
+- (void)setTitle:(NSString *)newTitle
+{
+    [self.dirtyPropertySet addObject:@"title"];
+
+    _title = [newTitle copy];
+}
+
+- (NSString *)type
+{
+    return _type;
+}
+
+- (void)setType:(NSString *)newType
+{
+    [self.dirtyPropertySet addObject:@"type"];
+
+    _type = [newType copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/organizations";
     }
     return self;
 }
@@ -99,35 +235,35 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (organizationsId)
-        [dict setObject:[NSNumber numberWithInt:organizationsId] forKey:@"id"];
+    if (self.organizationsId)
+        [dict setObject:[NSNumber numberWithInt:self.organizationsId] forKey:@"id"];
 
-    if (department)
-        [dict setObject:department forKey:@"department"];
+    if (self.department)
+        [dict setObject:self.department forKey:@"department"];
 
-    if (description)
-        [dict setObject:description forKey:@"description"];
+    if (self.description)
+        [dict setObject:self.description forKey:@"description"];
 
-    if (endDate)
-        [dict setObject:endDate forKey:@"endDate"];
+    if (self.endDate)
+        [dict setObject:self.endDate forKey:@"endDate"];
 
-    if (location)
-        [dict setObject:[location dictionaryFromObject] forKey:@"location"];
+    if (self.location)
+        [dict setObject:[self.location dictionaryFromObject] forKey:@"location"];
 
-    if (name)
-        [dict setObject:name forKey:@"name"];
+    if (self.name)
+        [dict setObject:self.name forKey:@"name"];
 
-    if (primary)
-        [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
+    if (self.primary)
+        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
 
-    if (startDate)
-        [dict setObject:startDate forKey:@"startDate"];
+    if (self.startDate)
+        [dict setObject:self.startDate forKey:@"startDate"];
 
-    if (title)
-        [dict setObject:title forKey:@"title"];
+    if (self.title)
+        [dict setObject:self.title forKey:@"title"];
 
-    if (type)
-        [dict setObject:type forKey:@"type"];
+    if (self.type)
+        [dict setObject:self.type forKey:@"type"];
 
     return dict;
 }
@@ -167,14 +303,14 @@
 
 - (void)dealloc
 {
-    [department release];
-    [description release];
-    [endDate release];
-    [location release];
-    [name release];
-    [startDate release];
-    [title release];
-    [type release];
+    [_department release];
+    [_description release];
+    [_endDate release];
+    [_location release];
+    [_name release];
+    [_startDate release];
+    [_title release];
+    [_type release];
 
     [super dealloc];
 }

@@ -32,13 +32,44 @@
 #import "JRTurnOffs.h"
 
 @implementation JRTurnOffs
-@synthesize turnOffsId;
-@synthesize turnOff;
+{
+    NSInteger _turnOffsId;
+    NSString *_turnOff;
+
+}
+@dynamic turnOffsId;
+@dynamic turnOff;
+
+- (NSInteger )turnOffsId
+{
+    return _turnOffsId;
+}
+
+- (void)setTurnOffsId:(NSInteger )newTurnOffsId
+{
+    [self.dirtyPropertySet addObject:@"turnOffsId"];
+
+    _turnOffsId = newTurnOffsId;
+
+}
+
+- (NSString *)turnOff
+{
+    return _turnOff;
+}
+
+- (void)setTurnOff:(NSString *)newTurnOff
+{
+    [self.dirtyPropertySet addObject:@"turnOff"];
+
+    _turnOff = [newTurnOff copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/turnOffs";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (turnOffsId)
-        [dict setObject:[NSNumber numberWithInt:turnOffsId] forKey:@"id"];
+    if (self.turnOffsId)
+        [dict setObject:[NSNumber numberWithInt:self.turnOffsId] forKey:@"id"];
 
-    if (turnOff)
-        [dict setObject:turnOff forKey:@"turnOff"];
+    if (self.turnOff)
+        [dict setObject:self.turnOff forKey:@"turnOff"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [turnOff release];
+    [_turnOff release];
 
     [super dealloc];
 }

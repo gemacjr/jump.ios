@@ -32,13 +32,44 @@
 #import "JRTags.h"
 
 @implementation JRTags
-@synthesize tagsId;
-@synthesize tag;
+{
+    NSInteger _tagsId;
+    NSString *_tag;
+
+}
+@dynamic tagsId;
+@dynamic tag;
+
+- (NSInteger )tagsId
+{
+    return _tagsId;
+}
+
+- (void)setTagsId:(NSInteger )newTagsId
+{
+    [self.dirtyPropertySet addObject:@"tagsId"];
+
+    _tagsId = newTagsId;
+
+}
+
+- (NSString *)tag
+{
+    return _tag;
+}
+
+- (void)setTag:(NSString *)newTag
+{
+    [self.dirtyPropertySet addObject:@"tag"];
+
+    _tag = [newTag copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/tags";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (tagsId)
-        [dict setObject:[NSNumber numberWithInt:tagsId] forKey:@"id"];
+    if (self.tagsId)
+        [dict setObject:[NSNumber numberWithInt:self.tagsId] forKey:@"id"];
 
-    if (tag)
-        [dict setObject:tag forKey:@"tag"];
+    if (self.tag)
+        [dict setObject:self.tag forKey:@"tag"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [tag release];
+    [_tag release];
 
     [super dealloc];
 }

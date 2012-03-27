@@ -32,13 +32,44 @@
 #import "JRLookingFor.h"
 
 @implementation JRLookingFor
-@synthesize lookingForId;
-@synthesize value;
+{
+    NSInteger _lookingForId;
+    NSString *_value;
+
+}
+@dynamic lookingForId;
+@dynamic value;
+
+- (NSInteger )lookingForId
+{
+    return _lookingForId;
+}
+
+- (void)setLookingForId:(NSInteger )newLookingForId
+{
+    [self.dirtyPropertySet addObject:@"lookingForId"];
+
+    _lookingForId = newLookingForId;
+
+}
+
+- (NSString *)value
+{
+    return _value;
+}
+
+- (void)setValue:(NSString *)newValue
+{
+    [self.dirtyPropertySet addObject:@"value"];
+
+    _value = [newValue copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/lookingFor";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (lookingForId)
-        [dict setObject:[NSNumber numberWithInt:lookingForId] forKey:@"id"];
+    if (self.lookingForId)
+        [dict setObject:[NSNumber numberWithInt:self.lookingForId] forKey:@"id"];
 
-    if (value)
-        [dict setObject:value forKey:@"value"];
+    if (self.value)
+        [dict setObject:self.value forKey:@"value"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [value release];
+    [_value release];
 
     [super dealloc];
 }

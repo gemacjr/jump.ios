@@ -42,6 +42,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRCapture.h"
+#import "JRCaptureData.h"
 
 
 @implementation NSDate (CaptureDateTime)
@@ -166,9 +167,37 @@
 }
 @end
 
+//@interface JRCaptureObject ()
+//@property (retain) NSMutableSet *dirtyPropertySet;
+//@end
+
 @implementation JRCaptureObject
 @synthesize accessToken;
 @synthesize updateDelegate;
+@synthesize dirtyPropertySet;
+@synthesize captureObjectPath;
+
+- (id)init
+{
+    if ((self = [super init]))
+    {
+        dirtyPropertySet = [[NSMutableSet alloc] init];
+    }
+    return self;
+}
+
+- (id)copyWithZone:(NSZone*)zone
+{
+    JRCaptureObject *objectCopy =
+                [[JRCaptureObject allocWithZone:zone] init];
+
+    for (NSString *dirtyProperty in [self.dirtyPropertySet allObjects])
+        [objectCopy.dirtyPropertySet addObject:dirtyProperty];
+
+    objectCopy.captureObjectPath = self.captureObjectPath;
+
+    return objectCopy;
+}
 
 - (void)updateForDelegate:(id<JRCaptureObjectDelegate>)delegate
 {
@@ -202,6 +231,9 @@
 {
     [updateDelegate release];
     [accessToken release];
+    [captureObjectPath release];
+    [dirtyPropertySet release];
+
     [super dealloc];
 }
 @end
@@ -243,5 +275,22 @@
     id profilesObject = [JRProfilesClass performSelector:profilesObjectFromDictionary withObject:newEngageAuthInfo];
 
     return profilesObject;
+}
+
++ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
+       andEntityTypeName:(NSString *)newEntityTypeName
+{
+    [JRCaptureData setCaptureDomain:newCaptureDomain clientId:newClientId andEntityTypeName:newEntityTypeName];
+}
+
++ (NSString *)captureMobileEndpointUrl
+{
+    return [JRCaptureData captureMobileEndpointUrl];
+}
+
+- (void)dealloc
+{
+    [captureObjectPath release];
+    [super dealloc];
 }
 @end

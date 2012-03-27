@@ -32,13 +32,44 @@
 #import "JRSports.h"
 
 @implementation JRSports
-@synthesize sportsId;
-@synthesize sport;
+{
+    NSInteger _sportsId;
+    NSString *_sport;
+
+}
+@dynamic sportsId;
+@dynamic sport;
+
+- (NSInteger )sportsId
+{
+    return _sportsId;
+}
+
+- (void)setSportsId:(NSInteger )newSportsId
+{
+    [self.dirtyPropertySet addObject:@"sportsId"];
+
+    _sportsId = newSportsId;
+
+}
+
+- (NSString *)sport
+{
+    return _sport;
+}
+
+- (void)setSport:(NSString *)newSport
+{
+    [self.dirtyPropertySet addObject:@"sport"];
+
+    _sport = [newSport copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/sports";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (sportsId)
-        [dict setObject:[NSNumber numberWithInt:sportsId] forKey:@"id"];
+    if (self.sportsId)
+        [dict setObject:[NSNumber numberWithInt:self.sportsId] forKey:@"id"];
 
-    if (sport)
-        [dict setObject:sport forKey:@"sport"];
+    if (self.sport)
+        [dict setObject:self.sport forKey:@"sport"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [sport release];
+    [_sport release];
 
     [super dealloc];
 }

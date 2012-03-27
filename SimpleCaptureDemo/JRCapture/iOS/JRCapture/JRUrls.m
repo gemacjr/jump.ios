@@ -32,15 +32,73 @@
 #import "JRUrls.h"
 
 @implementation JRUrls
-@synthesize urlsId;
-@synthesize primary;
-@synthesize type;
-@synthesize value;
+{
+    NSInteger _urlsId;
+    BOOL _primary;
+    NSString *_type;
+    NSString *_value;
+
+}
+@dynamic urlsId;
+@dynamic primary;
+@dynamic type;
+@dynamic value;
+
+- (NSInteger )urlsId
+{
+    return _urlsId;
+}
+
+- (void)setUrlsId:(NSInteger )newUrlsId
+{
+    [self.dirtyPropertySet addObject:@"urlsId"];
+
+    _urlsId = newUrlsId;
+
+}
+
+- (BOOL )primary
+{
+    return _primary;
+}
+
+- (void)setPrimary:(BOOL )newPrimary
+{
+    [self.dirtyPropertySet addObject:@"primary"];
+
+    _primary = newPrimary;
+
+}
+
+- (NSString *)type
+{
+    return _type;
+}
+
+- (void)setType:(NSString *)newType
+{
+    [self.dirtyPropertySet addObject:@"type"];
+
+    _type = [newType copy];
+}
+
+- (NSString *)value
+{
+    return _value;
+}
+
+- (void)setValue:(NSString *)newValue
+{
+    [self.dirtyPropertySet addObject:@"value"];
+
+    _value = [newValue copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/urls";
     }
     return self;
 }
@@ -81,17 +139,17 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (urlsId)
-        [dict setObject:[NSNumber numberWithInt:urlsId] forKey:@"id"];
+    if (self.urlsId)
+        [dict setObject:[NSNumber numberWithInt:self.urlsId] forKey:@"id"];
 
-    if (primary)
-        [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
+    if (self.primary)
+        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
 
-    if (type)
-        [dict setObject:type forKey:@"type"];
+    if (self.type)
+        [dict setObject:self.type forKey:@"type"];
 
-    if (value)
-        [dict setObject:value forKey:@"value"];
+    if (self.value)
+        [dict setObject:self.value forKey:@"value"];
 
     return dict;
 }
@@ -113,8 +171,8 @@
 
 - (void)dealloc
 {
-    [type release];
-    [value release];
+    [_type release];
+    [_value release];
 
     [super dealloc];
 }

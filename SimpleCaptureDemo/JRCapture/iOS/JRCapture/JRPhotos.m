@@ -32,14 +32,58 @@
 #import "JRPhotos.h"
 
 @implementation JRPhotos
-@synthesize photosId;
-@synthesize type;
-@synthesize value;
+{
+    NSInteger _photosId;
+    NSString *_type;
+    NSString *_value;
+
+}
+@dynamic photosId;
+@dynamic type;
+@dynamic value;
+
+- (NSInteger )photosId
+{
+    return _photosId;
+}
+
+- (void)setPhotosId:(NSInteger )newPhotosId
+{
+    [self.dirtyPropertySet addObject:@"photosId"];
+
+    _photosId = newPhotosId;
+
+}
+
+- (NSString *)type
+{
+    return _type;
+}
+
+- (void)setType:(NSString *)newType
+{
+    [self.dirtyPropertySet addObject:@"type"];
+
+    _type = [newType copy];
+}
+
+- (NSString *)value
+{
+    return _value;
+}
+
+- (void)setValue:(NSString *)newValue
+{
+    [self.dirtyPropertySet addObject:@"value"];
+
+    _value = [newValue copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/photos";
     }
     return self;
 }
@@ -78,14 +122,14 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (photosId)
-        [dict setObject:[NSNumber numberWithInt:photosId] forKey:@"id"];
+    if (self.photosId)
+        [dict setObject:[NSNumber numberWithInt:self.photosId] forKey:@"id"];
 
-    if (type)
-        [dict setObject:type forKey:@"type"];
+    if (self.type)
+        [dict setObject:self.type forKey:@"type"];
 
-    if (value)
-        [dict setObject:value forKey:@"value"];
+    if (self.value)
+        [dict setObject:self.value forKey:@"value"];
 
     return dict;
 }
@@ -104,8 +148,8 @@
 
 - (void)dealloc
 {
-    [type release];
-    [value release];
+    [_type release];
+    [_value release];
 
     [super dealloc];
 }

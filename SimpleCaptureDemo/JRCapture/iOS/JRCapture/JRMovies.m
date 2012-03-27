@@ -32,13 +32,44 @@
 #import "JRMovies.h"
 
 @implementation JRMovies
-@synthesize moviesId;
-@synthesize movie;
+{
+    NSInteger _moviesId;
+    NSString *_movie;
+
+}
+@dynamic moviesId;
+@dynamic movie;
+
+- (NSInteger )moviesId
+{
+    return _moviesId;
+}
+
+- (void)setMoviesId:(NSInteger )newMoviesId
+{
+    [self.dirtyPropertySet addObject:@"moviesId"];
+
+    _moviesId = newMoviesId;
+
+}
+
+- (NSString *)movie
+{
+    return _movie;
+}
+
+- (void)setMovie:(NSString *)newMovie
+{
+    [self.dirtyPropertySet addObject:@"movie"];
+
+    _movie = [newMovie copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/movies";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (moviesId)
-        [dict setObject:[NSNumber numberWithInt:moviesId] forKey:@"id"];
+    if (self.moviesId)
+        [dict setObject:[NSNumber numberWithInt:self.moviesId] forKey:@"id"];
 
-    if (movie)
-        [dict setObject:movie forKey:@"movie"];
+    if (self.movie)
+        [dict setObject:self.movie forKey:@"movie"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [movie release];
+    [_movie release];
 
     [super dealloc];
 }

@@ -32,8 +32,38 @@
 #import "JRFriends.h"
 
 @implementation JRFriends
-@synthesize friendsId;
-@synthesize identifier;
+{
+    NSInteger _friendsId;
+    NSString *_identifier;
+
+}
+@dynamic friendsId;
+@dynamic identifier;
+
+- (NSInteger )friendsId
+{
+    return _friendsId;
+}
+
+- (void)setFriendsId:(NSInteger )newFriendsId
+{
+    [self.dirtyPropertySet addObject:@"friendsId"];
+
+    _friendsId = newFriendsId;
+
+}
+
+- (NSString *)identifier
+{
+    return _identifier;
+}
+
+- (void)setIdentifier:(NSString *)newIdentifier
+{
+    [self.dirtyPropertySet addObject:@"identifier"];
+
+    _identifier = [newIdentifier copy];
+}
 
 - (id)initWithIdentifier:(NSString *)newIdentifier
 {
@@ -45,7 +75,8 @@
 
     if ((self = [super init]))
     {
-        identifier = [newIdentifier copy];
+        self.captureObjectPath = @"/profiles/friends";
+        _identifier = [newIdentifier copy];
     }
     return self;
 }
@@ -79,10 +110,10 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:identifier forKey:@"identifier"];
+    [dict setObject:self.identifier forKey:@"identifier"];
 
-    if (friendsId)
-        [dict setObject:[NSNumber numberWithInt:friendsId] forKey:@"id"];
+    if (self.friendsId)
+        [dict setObject:[NSNumber numberWithInt:self.friendsId] forKey:@"id"];
 
     return dict;
 }
@@ -98,7 +129,7 @@
 
 - (void)dealloc
 {
-    [identifier release];
+    [_identifier release];
 
     [super dealloc];
 }

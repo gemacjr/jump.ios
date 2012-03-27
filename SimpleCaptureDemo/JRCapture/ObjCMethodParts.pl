@@ -38,6 +38,44 @@
 # OBJC METHODS TO BE POPULATED WITH PROPERTIES
 ###################################################################
 
+###################################################################
+# INSTANCE CONSTRUCTOR (W REQUIRED PROPERTIES)
+#
+# Section only here when there are required properties     
+#                     |
+#                     V
+# - (id)init<requiredProperties>
+# {
+#     if(!<requriredProperties>) <---------
+#     {                          <-------------------- Section only here
+#       [self release];          <-------------------- when there are 
+#       return nil;              <-------------------- required properties
+#     }                          <---------                      |
+#                                                                |
+#     if ((self = [super init]))                                 |
+#     {                                                          |
+#         <requiredProperty> = [new<requiredProperty> copy]; <---+
+#           ...
+#     }
+#
+#     return self;
+# }
+###################################################################
+
+my @constructorParts = (
+"- (id)init", "",
+"\n{\n",
+"    if (", "", ")\n",
+"    {
+        [self release];
+        return nil;
+     }\n\n",
+"    if ((self = [super init]))
+    {\n",
+    "",
+"    }
+    return self;
+}\n\n");
 
 ###################################################################
 # INSTANCE CONSTRUCTOR (W REQUIRED PROPERTIES)
@@ -225,6 +263,7 @@ my @destructorParts = (
 "\n    [super dealloc];",
 "\n}\n");
 
+
 my $copyrightHeader = 
 "/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2012, Janrain, Inc.
@@ -285,6 +324,32 @@ sub createArrayCategoryForSubobject {
        "    return filteredDictionaryArray;\n}\n\@end\n\n";
 
   return "$arrayCategoryIntf$arrayCategoryImpl";
+}
+
+sub createGetterSetterForProperty {
+  my $propertyName  = $_[0];
+  my $propertyType  = $_[1];
+  my $isNotNSObject = $_[2];
+  
+  my $getterSetter = "- (" . $propertyType . ")" . $propertyName;
+  
+  $getterSetter .= "\n{\n";
+  $getterSetter .= "    return _" . $propertyName . ";";
+  $getterSetter .= "\n}\n\n";
+  
+  $getterSetter .= "- (void)set". ucfirst($propertyName) . ":(" . $propertyType . ")new" . ucfirst($propertyName); 
+  $getterSetter .= "\n{\n";
+  $getterSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
+
+  if ($isNotNSObject) {
+    $getterSetter .= "    _" . $propertyName .  " = new" . ucfirst($propertyName) . ";\n";  
+  } else {
+    $getterSetter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";  
+  }
+  
+  $getterSetter .= "\n}\n\n";
+
+  return $getterSetter;
 }
 
 sub getConstructorParts {

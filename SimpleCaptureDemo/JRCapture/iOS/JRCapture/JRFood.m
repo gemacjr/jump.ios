@@ -32,13 +32,44 @@
 #import "JRFood.h"
 
 @implementation JRFood
-@synthesize foodId;
-@synthesize food;
+{
+    NSInteger _foodId;
+    NSString *_food;
+
+}
+@dynamic foodId;
+@dynamic food;
+
+- (NSInteger )foodId
+{
+    return _foodId;
+}
+
+- (void)setFoodId:(NSInteger )newFoodId
+{
+    [self.dirtyPropertySet addObject:@"foodId"];
+
+    _foodId = newFoodId;
+
+}
+
+- (NSString *)food
+{
+    return _food;
+}
+
+- (void)setFood:(NSString *)newFood
+{
+    [self.dirtyPropertySet addObject:@"food"];
+
+    _food = [newFood copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/food";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (foodId)
-        [dict setObject:[NSNumber numberWithInt:foodId] forKey:@"id"];
+    if (self.foodId)
+        [dict setObject:[NSNumber numberWithInt:self.foodId] forKey:@"id"];
 
-    if (food)
-        [dict setObject:food forKey:@"food"];
+    if (self.food)
+        [dict setObject:self.food forKey:@"food"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [food release];
+    [_food release];
 
     [super dealloc];
 }

@@ -32,13 +32,44 @@
 #import "JRChildren.h"
 
 @implementation JRChildren
-@synthesize childrenId;
-@synthesize value;
+{
+    NSInteger _childrenId;
+    NSString *_value;
+
+}
+@dynamic childrenId;
+@dynamic value;
+
+- (NSInteger )childrenId
+{
+    return _childrenId;
+}
+
+- (void)setChildrenId:(NSInteger )newChildrenId
+{
+    [self.dirtyPropertySet addObject:@"childrenId"];
+
+    _childrenId = newChildrenId;
+
+}
+
+- (NSString *)value
+{
+    return _value;
+}
+
+- (void)setValue:(NSString *)newValue
+{
+    [self.dirtyPropertySet addObject:@"value"];
+
+    _value = [newValue copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/children";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (childrenId)
-        [dict setObject:[NSNumber numberWithInt:childrenId] forKey:@"id"];
+    if (self.childrenId)
+        [dict setObject:[NSNumber numberWithInt:self.childrenId] forKey:@"id"];
 
-    if (value)
-        [dict setObject:value forKey:@"value"];
+    if (self.value)
+        [dict setObject:self.value forKey:@"value"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [value release];
+    [_value release];
 
     [super dealloc];
 }

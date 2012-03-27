@@ -113,16 +113,150 @@
 @end
 
 @implementation JRProfiles
-@synthesize profilesId;
-@synthesize accessCredentials;
-@synthesize domain;
-@synthesize followers;
-@synthesize following;
-@synthesize friends;
-@synthesize identifier;
-@synthesize profile;
-@synthesize provider;
-@synthesize remote_key;
+{
+    NSInteger _profilesId;
+    NSObject *_accessCredentials;
+    NSString *_domain;
+    NSArray *_followers;
+    NSArray *_following;
+    NSArray *_friends;
+    NSString *_identifier;
+    JRProfile *_profile;
+    NSObject *_provider;
+    NSString *_remote_key;
+
+}
+@dynamic profilesId;
+@dynamic accessCredentials;
+@dynamic domain;
+@dynamic followers;
+@dynamic following;
+@dynamic friends;
+@dynamic identifier;
+@dynamic profile;
+@dynamic provider;
+@dynamic remote_key;
+
+- (NSInteger )profilesId
+{
+    return _profilesId;
+}
+
+- (void)setProfilesId:(NSInteger )newProfilesId
+{
+    [self.dirtyPropertySet addObject:@"profilesId"];
+
+    _profilesId = newProfilesId;
+
+}
+
+- (NSObject *)accessCredentials
+{
+    return _accessCredentials;
+}
+
+- (void)setAccessCredentials:(NSObject *)newAccessCredentials
+{
+    [self.dirtyPropertySet addObject:@"accessCredentials"];
+
+    _accessCredentials = [newAccessCredentials copy];
+}
+
+- (NSString *)domain
+{
+    return _domain;
+}
+
+- (void)setDomain:(NSString *)newDomain
+{
+    [self.dirtyPropertySet addObject:@"domain"];
+
+    _domain = [newDomain copy];
+}
+
+- (NSArray *)followers
+{
+    return _followers;
+}
+
+- (void)setFollowers:(NSArray *)newFollowers
+{
+    [self.dirtyPropertySet addObject:@"followers"];
+
+    _followers = [newFollowers copy];
+}
+
+- (NSArray *)following
+{
+    return _following;
+}
+
+- (void)setFollowing:(NSArray *)newFollowing
+{
+    [self.dirtyPropertySet addObject:@"following"];
+
+    _following = [newFollowing copy];
+}
+
+- (NSArray *)friends
+{
+    return _friends;
+}
+
+- (void)setFriends:(NSArray *)newFriends
+{
+    [self.dirtyPropertySet addObject:@"friends"];
+
+    _friends = [newFriends copy];
+}
+
+- (NSString *)identifier
+{
+    return _identifier;
+}
+
+- (void)setIdentifier:(NSString *)newIdentifier
+{
+    [self.dirtyPropertySet addObject:@"identifier"];
+
+    _identifier = [newIdentifier copy];
+}
+
+- (JRProfile *)profile
+{
+    return _profile;
+}
+
+- (void)setProfile:(JRProfile *)newProfile
+{
+    [self.dirtyPropertySet addObject:@"profile"];
+
+    _profile = [newProfile copy];
+}
+
+- (NSObject *)provider
+{
+    return _provider;
+}
+
+- (void)setProvider:(NSObject *)newProvider
+{
+    [self.dirtyPropertySet addObject:@"provider"];
+
+    _provider = [newProvider copy];
+}
+
+- (NSString *)remote_key
+{
+    return _remote_key;
+}
+
+- (void)setRemote_key:(NSString *)newRemote_key
+{
+    [self.dirtyPropertySet addObject:@"remote_key"];
+
+    _remote_key = [newRemote_key copy];
+}
 
 - (id)initWithDomain:(NSString *)newDomain andIdentifier:(NSString *)newIdentifier
 {
@@ -134,8 +268,9 @@
 
     if ((self = [super init]))
     {
-        domain = [newDomain copy];
-        identifier = [newIdentifier copy];
+        self.captureObjectPath = @"/profiles";
+        _domain = [newDomain copy];
+        _identifier = [newIdentifier copy];
     }
     return self;
 }
@@ -183,32 +318,32 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:domain forKey:@"domain"];
-    [dict setObject:identifier forKey:@"identifier"];
+    [dict setObject:self.domain forKey:@"domain"];
+    [dict setObject:self.identifier forKey:@"identifier"];
 
-    if (profilesId)
-        [dict setObject:[NSNumber numberWithInt:profilesId] forKey:@"id"];
+    if (self.profilesId)
+        [dict setObject:[NSNumber numberWithInt:self.profilesId] forKey:@"id"];
 
-    if (accessCredentials)
-        [dict setObject:accessCredentials forKey:@"accessCredentials"];
+    if (self.accessCredentials)
+        [dict setObject:self.accessCredentials forKey:@"accessCredentials"];
 
-    if (followers)
-        [dict setObject:[followers arrayOfFollowersDictionariesFromFollowersObjects] forKey:@"followers"];
+    if (self.followers)
+        [dict setObject:[self.followers arrayOfFollowersDictionariesFromFollowersObjects] forKey:@"followers"];
 
-    if (following)
-        [dict setObject:[following arrayOfFollowingDictionariesFromFollowingObjects] forKey:@"following"];
+    if (self.following)
+        [dict setObject:[self.following arrayOfFollowingDictionariesFromFollowingObjects] forKey:@"following"];
 
-    if (friends)
-        [dict setObject:[friends arrayOfFriendsDictionariesFromFriendsObjects] forKey:@"friends"];
+    if (self.friends)
+        [dict setObject:[self.friends arrayOfFriendsDictionariesFromFriendsObjects] forKey:@"friends"];
 
-    if (profile)
-        [dict setObject:[profile dictionaryFromObject] forKey:@"profile"];
+    if (self.profile)
+        [dict setObject:[self.profile dictionaryFromObject] forKey:@"profile"];
 
-    if (provider)
-        [dict setObject:provider forKey:@"provider"];
+    if (self.provider)
+        [dict setObject:self.provider forKey:@"provider"];
 
-    if (remote_key)
-        [dict setObject:remote_key forKey:@"remote_key"];
+    if (self.remote_key)
+        [dict setObject:self.remote_key forKey:@"remote_key"];
 
     return dict;
 }
@@ -248,15 +383,15 @@
 
 - (void)dealloc
 {
-    [accessCredentials release];
-    [domain release];
-    [followers release];
-    [following release];
-    [friends release];
-    [identifier release];
-    [profile release];
-    [provider release];
-    [remote_key release];
+    [_accessCredentials release];
+    [_domain release];
+    [_followers release];
+    [_following release];
+    [_friends release];
+    [_identifier release];
+    [_profile release];
+    [_provider release];
+    [_remote_key release];
 
     [super dealloc];
 }

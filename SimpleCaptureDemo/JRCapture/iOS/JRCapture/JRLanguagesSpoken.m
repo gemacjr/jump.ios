@@ -32,13 +32,44 @@
 #import "JRLanguagesSpoken.h"
 
 @implementation JRLanguagesSpoken
-@synthesize languagesSpokenId;
-@synthesize languageSpoken;
+{
+    NSInteger _languagesSpokenId;
+    NSString *_languageSpoken;
+
+}
+@dynamic languagesSpokenId;
+@dynamic languageSpoken;
+
+- (NSInteger )languagesSpokenId
+{
+    return _languagesSpokenId;
+}
+
+- (void)setLanguagesSpokenId:(NSInteger )newLanguagesSpokenId
+{
+    [self.dirtyPropertySet addObject:@"languagesSpokenId"];
+
+    _languagesSpokenId = newLanguagesSpokenId;
+
+}
+
+- (NSString *)languageSpoken
+{
+    return _languageSpoken;
+}
+
+- (void)setLanguageSpoken:(NSString *)newLanguageSpoken
+{
+    [self.dirtyPropertySet addObject:@"languageSpoken"];
+
+    _languageSpoken = [newLanguageSpoken copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/languagesSpoken";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (languagesSpokenId)
-        [dict setObject:[NSNumber numberWithInt:languagesSpokenId] forKey:@"id"];
+    if (self.languagesSpokenId)
+        [dict setObject:[NSNumber numberWithInt:self.languagesSpokenId] forKey:@"id"];
 
-    if (languageSpoken)
-        [dict setObject:languageSpoken forKey:@"languageSpoken"];
+    if (self.languageSpoken)
+        [dict setObject:self.languageSpoken forKey:@"languageSpoken"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [languageSpoken release];
+    [_languageSpoken release];
 
     [super dealloc];
 }

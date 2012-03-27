@@ -32,13 +32,44 @@
 #import "JRTurnOns.h"
 
 @implementation JRTurnOns
-@synthesize turnOnsId;
-@synthesize turnOn;
+{
+    NSInteger _turnOnsId;
+    NSString *_turnOn;
+
+}
+@dynamic turnOnsId;
+@dynamic turnOn;
+
+- (NSInteger )turnOnsId
+{
+    return _turnOnsId;
+}
+
+- (void)setTurnOnsId:(NSInteger )newTurnOnsId
+{
+    [self.dirtyPropertySet addObject:@"turnOnsId"];
+
+    _turnOnsId = newTurnOnsId;
+
+}
+
+- (NSString *)turnOn
+{
+    return _turnOn;
+}
+
+- (void)setTurnOn:(NSString *)newTurnOn
+{
+    [self.dirtyPropertySet addObject:@"turnOn"];
+
+    _turnOn = [newTurnOn copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/turnOns";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (turnOnsId)
-        [dict setObject:[NSNumber numberWithInt:turnOnsId] forKey:@"id"];
+    if (self.turnOnsId)
+        [dict setObject:[NSNumber numberWithInt:self.turnOnsId] forKey:@"id"];
 
-    if (turnOn)
-        [dict setObject:turnOn forKey:@"turnOn"];
+    if (self.turnOn)
+        [dict setObject:self.turnOn forKey:@"turnOn"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [turnOn release];
+    [_turnOn release];
 
     [super dealloc];
 }

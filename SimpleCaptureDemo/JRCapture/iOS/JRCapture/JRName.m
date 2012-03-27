@@ -32,17 +32,99 @@
 #import "JRName.h"
 
 @implementation JRName
-@synthesize familyName;
-@synthesize formatted;
-@synthesize givenName;
-@synthesize honorificPrefix;
-@synthesize honorificSuffix;
-@synthesize middleName;
+{
+    NSString *_familyName;
+    NSString *_formatted;
+    NSString *_givenName;
+    NSString *_honorificPrefix;
+    NSString *_honorificSuffix;
+    NSString *_middleName;
+
+}
+@dynamic familyName;
+@dynamic formatted;
+@dynamic givenName;
+@dynamic honorificPrefix;
+@dynamic honorificSuffix;
+@dynamic middleName;
+
+- (NSString *)familyName
+{
+    return _familyName;
+}
+
+- (void)setFamilyName:(NSString *)newFamilyName
+{
+    [self.dirtyPropertySet addObject:@"familyName"];
+
+    _familyName = [newFamilyName copy];
+}
+
+- (NSString *)formatted
+{
+    return _formatted;
+}
+
+- (void)setFormatted:(NSString *)newFormatted
+{
+    [self.dirtyPropertySet addObject:@"formatted"];
+
+    _formatted = [newFormatted copy];
+}
+
+- (NSString *)givenName
+{
+    return _givenName;
+}
+
+- (void)setGivenName:(NSString *)newGivenName
+{
+    [self.dirtyPropertySet addObject:@"givenName"];
+
+    _givenName = [newGivenName copy];
+}
+
+- (NSString *)honorificPrefix
+{
+    return _honorificPrefix;
+}
+
+- (void)setHonorificPrefix:(NSString *)newHonorificPrefix
+{
+    [self.dirtyPropertySet addObject:@"honorificPrefix"];
+
+    _honorificPrefix = [newHonorificPrefix copy];
+}
+
+- (NSString *)honorificSuffix
+{
+    return _honorificSuffix;
+}
+
+- (void)setHonorificSuffix:(NSString *)newHonorificSuffix
+{
+    [self.dirtyPropertySet addObject:@"honorificSuffix"];
+
+    _honorificSuffix = [newHonorificSuffix copy];
+}
+
+- (NSString *)middleName
+{
+    return _middleName;
+}
+
+- (void)setMiddleName:(NSString *)newMiddleName
+{
+    [self.dirtyPropertySet addObject:@"middleName"];
+
+    _middleName = [newMiddleName copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/name";
     }
     return self;
 }
@@ -87,23 +169,23 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (familyName)
-        [dict setObject:familyName forKey:@"familyName"];
+    if (self.familyName)
+        [dict setObject:self.familyName forKey:@"familyName"];
 
-    if (formatted)
-        [dict setObject:formatted forKey:@"formatted"];
+    if (self.formatted)
+        [dict setObject:self.formatted forKey:@"formatted"];
 
-    if (givenName)
-        [dict setObject:givenName forKey:@"givenName"];
+    if (self.givenName)
+        [dict setObject:self.givenName forKey:@"givenName"];
 
-    if (honorificPrefix)
-        [dict setObject:honorificPrefix forKey:@"honorificPrefix"];
+    if (self.honorificPrefix)
+        [dict setObject:self.honorificPrefix forKey:@"honorificPrefix"];
 
-    if (honorificSuffix)
-        [dict setObject:honorificSuffix forKey:@"honorificSuffix"];
+    if (self.honorificSuffix)
+        [dict setObject:self.honorificSuffix forKey:@"honorificSuffix"];
 
-    if (middleName)
-        [dict setObject:middleName forKey:@"middleName"];
+    if (self.middleName)
+        [dict setObject:self.middleName forKey:@"middleName"];
 
     return dict;
 }
@@ -131,12 +213,12 @@
 
 - (void)dealloc
 {
-    [familyName release];
-    [formatted release];
-    [givenName release];
-    [honorificPrefix release];
-    [honorificSuffix release];
-    [middleName release];
+    [_familyName release];
+    [_formatted release];
+    [_givenName release];
+    [_honorificPrefix release];
+    [_honorificSuffix release];
+    [_middleName release];
 
     [super dealloc];
 }

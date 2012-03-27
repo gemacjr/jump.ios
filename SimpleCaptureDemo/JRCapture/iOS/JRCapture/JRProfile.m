@@ -788,71 +788,855 @@
 @end
 
 @implementation JRProfile
-@synthesize aboutMe;
-@synthesize accounts;
-@synthesize addresses;
-@synthesize anniversary;
-@synthesize birthday;
-@synthesize bodyType;
-@synthesize books;
-@synthesize cars;
-@synthesize children;
-@synthesize currentLocation;
-@synthesize displayName;
-@synthesize drinker;
-@synthesize emails;
-@synthesize ethnicity;
-@synthesize fashion;
-@synthesize food;
-@synthesize gender;
-@synthesize happiestWhen;
-@synthesize heroes;
-@synthesize humor;
-@synthesize ims;
-@synthesize interestedInMeeting;
-@synthesize interests;
-@synthesize jobInterests;
-@synthesize languages;
-@synthesize languagesSpoken;
-@synthesize livingArrangement;
-@synthesize lookingFor;
-@synthesize movies;
-@synthesize music;
-@synthesize name;
-@synthesize nickname;
-@synthesize note;
-@synthesize organizations;
-@synthesize pets;
-@synthesize phoneNumbers;
-@synthesize profilePhotos;
-@synthesize politicalViews;
-@synthesize preferredUsername;
-@synthesize profileSong;
-@synthesize profileUrl;
-@synthesize profileVideo;
-@synthesize published;
-@synthesize quotes;
-@synthesize relationshipStatus;
-@synthesize relationships;
-@synthesize religion;
-@synthesize romance;
-@synthesize scaredOf;
-@synthesize sexualOrientation;
-@synthesize smoker;
-@synthesize sports;
-@synthesize status;
-@synthesize tags;
-@synthesize turnOffs;
-@synthesize turnOns;
-@synthesize tvShows;
-@synthesize updated;
-@synthesize urls;
-@synthesize utcOffset;
+{
+    NSString *_aboutMe;
+    NSArray *_accounts;
+    NSArray *_addresses;
+    NSDate *_anniversary;
+    NSString *_birthday;
+    JRBodyType *_bodyType;
+    NSArray *_books;
+    NSArray *_cars;
+    NSArray *_children;
+    JRCurrentLocation *_currentLocation;
+    NSString *_displayName;
+    NSString *_drinker;
+    NSArray *_emails;
+    NSString *_ethnicity;
+    NSString *_fashion;
+    NSArray *_food;
+    NSString *_gender;
+    NSString *_happiestWhen;
+    NSArray *_heroes;
+    NSString *_humor;
+    NSArray *_ims;
+    NSString *_interestedInMeeting;
+    NSArray *_interests;
+    NSArray *_jobInterests;
+    NSArray *_languages;
+    NSArray *_languagesSpoken;
+    NSString *_livingArrangement;
+    NSArray *_lookingFor;
+    NSArray *_movies;
+    NSArray *_music;
+    JRName *_name;
+    NSString *_nickname;
+    NSString *_note;
+    NSArray *_organizations;
+    NSArray *_pets;
+    NSArray *_phoneNumbers;
+    NSArray *_profilePhotos;
+    NSString *_politicalViews;
+    NSString *_preferredUsername;
+    NSString *_profileSong;
+    NSString *_profileUrl;
+    NSString *_profileVideo;
+    NSDate *_published;
+    NSArray *_quotes;
+    NSString *_relationshipStatus;
+    NSArray *_relationships;
+    NSString *_religion;
+    NSString *_romance;
+    NSString *_scaredOf;
+    NSString *_sexualOrientation;
+    NSString *_smoker;
+    NSArray *_sports;
+    NSString *_status;
+    NSArray *_tags;
+    NSArray *_turnOffs;
+    NSArray *_turnOns;
+    NSArray *_tvShows;
+    NSDate *_updated;
+    NSArray *_urls;
+    NSString *_utcOffset;
+
+}
+@dynamic aboutMe;
+@dynamic accounts;
+@dynamic addresses;
+@dynamic anniversary;
+@dynamic birthday;
+@dynamic bodyType;
+@dynamic books;
+@dynamic cars;
+@dynamic children;
+@dynamic currentLocation;
+@dynamic displayName;
+@dynamic drinker;
+@dynamic emails;
+@dynamic ethnicity;
+@dynamic fashion;
+@dynamic food;
+@dynamic gender;
+@dynamic happiestWhen;
+@dynamic heroes;
+@dynamic humor;
+@dynamic ims;
+@dynamic interestedInMeeting;
+@dynamic interests;
+@dynamic jobInterests;
+@dynamic languages;
+@dynamic languagesSpoken;
+@dynamic livingArrangement;
+@dynamic lookingFor;
+@dynamic movies;
+@dynamic music;
+@dynamic name;
+@dynamic nickname;
+@dynamic note;
+@dynamic organizations;
+@dynamic pets;
+@dynamic phoneNumbers;
+@dynamic profilePhotos;
+@dynamic politicalViews;
+@dynamic preferredUsername;
+@dynamic profileSong;
+@dynamic profileUrl;
+@dynamic profileVideo;
+@dynamic published;
+@dynamic quotes;
+@dynamic relationshipStatus;
+@dynamic relationships;
+@dynamic religion;
+@dynamic romance;
+@dynamic scaredOf;
+@dynamic sexualOrientation;
+@dynamic smoker;
+@dynamic sports;
+@dynamic status;
+@dynamic tags;
+@dynamic turnOffs;
+@dynamic turnOns;
+@dynamic tvShows;
+@dynamic updated;
+@dynamic urls;
+@dynamic utcOffset;
+
+- (NSString *)aboutMe
+{
+    return _aboutMe;
+}
+
+- (void)setAboutMe:(NSString *)newAboutMe
+{
+    [self.dirtyPropertySet addObject:@"aboutMe"];
+
+    _aboutMe = [newAboutMe copy];
+}
+
+- (NSArray *)accounts
+{
+    return _accounts;
+}
+
+- (void)setAccounts:(NSArray *)newAccounts
+{
+    [self.dirtyPropertySet addObject:@"accounts"];
+
+    _accounts = [newAccounts copy];
+}
+
+- (NSArray *)addresses
+{
+    return _addresses;
+}
+
+- (void)setAddresses:(NSArray *)newAddresses
+{
+    [self.dirtyPropertySet addObject:@"addresses"];
+
+    _addresses = [newAddresses copy];
+}
+
+- (NSDate *)anniversary
+{
+    return _anniversary;
+}
+
+- (void)setAnniversary:(NSDate *)newAnniversary
+{
+    [self.dirtyPropertySet addObject:@"anniversary"];
+
+    _anniversary = [newAnniversary copy];
+}
+
+- (NSString *)birthday
+{
+    return _birthday;
+}
+
+- (void)setBirthday:(NSString *)newBirthday
+{
+    [self.dirtyPropertySet addObject:@"birthday"];
+
+    _birthday = [newBirthday copy];
+}
+
+- (JRBodyType *)bodyType
+{
+    return _bodyType;
+}
+
+- (void)setBodyType:(JRBodyType *)newBodyType
+{
+    [self.dirtyPropertySet addObject:@"bodyType"];
+
+    _bodyType = [newBodyType copy];
+}
+
+- (NSArray *)books
+{
+    return _books;
+}
+
+- (void)setBooks:(NSArray *)newBooks
+{
+    [self.dirtyPropertySet addObject:@"books"];
+
+    _books = [newBooks copy];
+}
+
+- (NSArray *)cars
+{
+    return _cars;
+}
+
+- (void)setCars:(NSArray *)newCars
+{
+    [self.dirtyPropertySet addObject:@"cars"];
+
+    _cars = [newCars copy];
+}
+
+- (NSArray *)children
+{
+    return _children;
+}
+
+- (void)setChildren:(NSArray *)newChildren
+{
+    [self.dirtyPropertySet addObject:@"children"];
+
+    _children = [newChildren copy];
+}
+
+- (JRCurrentLocation *)currentLocation
+{
+    return _currentLocation;
+}
+
+- (void)setCurrentLocation:(JRCurrentLocation *)newCurrentLocation
+{
+    [self.dirtyPropertySet addObject:@"currentLocation"];
+
+    _currentLocation = [newCurrentLocation copy];
+}
+
+- (NSString *)displayName
+{
+    return _displayName;
+}
+
+- (void)setDisplayName:(NSString *)newDisplayName
+{
+    [self.dirtyPropertySet addObject:@"displayName"];
+
+    _displayName = [newDisplayName copy];
+}
+
+- (NSString *)drinker
+{
+    return _drinker;
+}
+
+- (void)setDrinker:(NSString *)newDrinker
+{
+    [self.dirtyPropertySet addObject:@"drinker"];
+
+    _drinker = [newDrinker copy];
+}
+
+- (NSArray *)emails
+{
+    return _emails;
+}
+
+- (void)setEmails:(NSArray *)newEmails
+{
+    [self.dirtyPropertySet addObject:@"emails"];
+
+    _emails = [newEmails copy];
+}
+
+- (NSString *)ethnicity
+{
+    return _ethnicity;
+}
+
+- (void)setEthnicity:(NSString *)newEthnicity
+{
+    [self.dirtyPropertySet addObject:@"ethnicity"];
+
+    _ethnicity = [newEthnicity copy];
+}
+
+- (NSString *)fashion
+{
+    return _fashion;
+}
+
+- (void)setFashion:(NSString *)newFashion
+{
+    [self.dirtyPropertySet addObject:@"fashion"];
+
+    _fashion = [newFashion copy];
+}
+
+- (NSArray *)food
+{
+    return _food;
+}
+
+- (void)setFood:(NSArray *)newFood
+{
+    [self.dirtyPropertySet addObject:@"food"];
+
+    _food = [newFood copy];
+}
+
+- (NSString *)gender
+{
+    return _gender;
+}
+
+- (void)setGender:(NSString *)newGender
+{
+    [self.dirtyPropertySet addObject:@"gender"];
+
+    _gender = [newGender copy];
+}
+
+- (NSString *)happiestWhen
+{
+    return _happiestWhen;
+}
+
+- (void)setHappiestWhen:(NSString *)newHappiestWhen
+{
+    [self.dirtyPropertySet addObject:@"happiestWhen"];
+
+    _happiestWhen = [newHappiestWhen copy];
+}
+
+- (NSArray *)heroes
+{
+    return _heroes;
+}
+
+- (void)setHeroes:(NSArray *)newHeroes
+{
+    [self.dirtyPropertySet addObject:@"heroes"];
+
+    _heroes = [newHeroes copy];
+}
+
+- (NSString *)humor
+{
+    return _humor;
+}
+
+- (void)setHumor:(NSString *)newHumor
+{
+    [self.dirtyPropertySet addObject:@"humor"];
+
+    _humor = [newHumor copy];
+}
+
+- (NSArray *)ims
+{
+    return _ims;
+}
+
+- (void)setIms:(NSArray *)newIms
+{
+    [self.dirtyPropertySet addObject:@"ims"];
+
+    _ims = [newIms copy];
+}
+
+- (NSString *)interestedInMeeting
+{
+    return _interestedInMeeting;
+}
+
+- (void)setInterestedInMeeting:(NSString *)newInterestedInMeeting
+{
+    [self.dirtyPropertySet addObject:@"interestedInMeeting"];
+
+    _interestedInMeeting = [newInterestedInMeeting copy];
+}
+
+- (NSArray *)interests
+{
+    return _interests;
+}
+
+- (void)setInterests:(NSArray *)newInterests
+{
+    [self.dirtyPropertySet addObject:@"interests"];
+
+    _interests = [newInterests copy];
+}
+
+- (NSArray *)jobInterests
+{
+    return _jobInterests;
+}
+
+- (void)setJobInterests:(NSArray *)newJobInterests
+{
+    [self.dirtyPropertySet addObject:@"jobInterests"];
+
+    _jobInterests = [newJobInterests copy];
+}
+
+- (NSArray *)languages
+{
+    return _languages;
+}
+
+- (void)setLanguages:(NSArray *)newLanguages
+{
+    [self.dirtyPropertySet addObject:@"languages"];
+
+    _languages = [newLanguages copy];
+}
+
+- (NSArray *)languagesSpoken
+{
+    return _languagesSpoken;
+}
+
+- (void)setLanguagesSpoken:(NSArray *)newLanguagesSpoken
+{
+    [self.dirtyPropertySet addObject:@"languagesSpoken"];
+
+    _languagesSpoken = [newLanguagesSpoken copy];
+}
+
+- (NSString *)livingArrangement
+{
+    return _livingArrangement;
+}
+
+- (void)setLivingArrangement:(NSString *)newLivingArrangement
+{
+    [self.dirtyPropertySet addObject:@"livingArrangement"];
+
+    _livingArrangement = [newLivingArrangement copy];
+}
+
+- (NSArray *)lookingFor
+{
+    return _lookingFor;
+}
+
+- (void)setLookingFor:(NSArray *)newLookingFor
+{
+    [self.dirtyPropertySet addObject:@"lookingFor"];
+
+    _lookingFor = [newLookingFor copy];
+}
+
+- (NSArray *)movies
+{
+    return _movies;
+}
+
+- (void)setMovies:(NSArray *)newMovies
+{
+    [self.dirtyPropertySet addObject:@"movies"];
+
+    _movies = [newMovies copy];
+}
+
+- (NSArray *)music
+{
+    return _music;
+}
+
+- (void)setMusic:(NSArray *)newMusic
+{
+    [self.dirtyPropertySet addObject:@"music"];
+
+    _music = [newMusic copy];
+}
+
+- (JRName *)name
+{
+    return _name;
+}
+
+- (void)setName:(JRName *)newName
+{
+    [self.dirtyPropertySet addObject:@"name"];
+
+    _name = [newName copy];
+}
+
+- (NSString *)nickname
+{
+    return _nickname;
+}
+
+- (void)setNickname:(NSString *)newNickname
+{
+    [self.dirtyPropertySet addObject:@"nickname"];
+
+    _nickname = [newNickname copy];
+}
+
+- (NSString *)note
+{
+    return _note;
+}
+
+- (void)setNote:(NSString *)newNote
+{
+    [self.dirtyPropertySet addObject:@"note"];
+
+    _note = [newNote copy];
+}
+
+- (NSArray *)organizations
+{
+    return _organizations;
+}
+
+- (void)setOrganizations:(NSArray *)newOrganizations
+{
+    [self.dirtyPropertySet addObject:@"organizations"];
+
+    _organizations = [newOrganizations copy];
+}
+
+- (NSArray *)pets
+{
+    return _pets;
+}
+
+- (void)setPets:(NSArray *)newPets
+{
+    [self.dirtyPropertySet addObject:@"pets"];
+
+    _pets = [newPets copy];
+}
+
+- (NSArray *)phoneNumbers
+{
+    return _phoneNumbers;
+}
+
+- (void)setPhoneNumbers:(NSArray *)newPhoneNumbers
+{
+    [self.dirtyPropertySet addObject:@"phoneNumbers"];
+
+    _phoneNumbers = [newPhoneNumbers copy];
+}
+
+- (NSArray *)profilePhotos
+{
+    return _profilePhotos;
+}
+
+- (void)setProfilePhotos:(NSArray *)newProfilePhotos
+{
+    [self.dirtyPropertySet addObject:@"profilePhotos"];
+
+    _profilePhotos = [newProfilePhotos copy];
+}
+
+- (NSString *)politicalViews
+{
+    return _politicalViews;
+}
+
+- (void)setPoliticalViews:(NSString *)newPoliticalViews
+{
+    [self.dirtyPropertySet addObject:@"politicalViews"];
+
+    _politicalViews = [newPoliticalViews copy];
+}
+
+- (NSString *)preferredUsername
+{
+    return _preferredUsername;
+}
+
+- (void)setPreferredUsername:(NSString *)newPreferredUsername
+{
+    [self.dirtyPropertySet addObject:@"preferredUsername"];
+
+    _preferredUsername = [newPreferredUsername copy];
+}
+
+- (NSString *)profileSong
+{
+    return _profileSong;
+}
+
+- (void)setProfileSong:(NSString *)newProfileSong
+{
+    [self.dirtyPropertySet addObject:@"profileSong"];
+
+    _profileSong = [newProfileSong copy];
+}
+
+- (NSString *)profileUrl
+{
+    return _profileUrl;
+}
+
+- (void)setProfileUrl:(NSString *)newProfileUrl
+{
+    [self.dirtyPropertySet addObject:@"profileUrl"];
+
+    _profileUrl = [newProfileUrl copy];
+}
+
+- (NSString *)profileVideo
+{
+    return _profileVideo;
+}
+
+- (void)setProfileVideo:(NSString *)newProfileVideo
+{
+    [self.dirtyPropertySet addObject:@"profileVideo"];
+
+    _profileVideo = [newProfileVideo copy];
+}
+
+- (NSDate *)published
+{
+    return _published;
+}
+
+- (void)setPublished:(NSDate *)newPublished
+{
+    [self.dirtyPropertySet addObject:@"published"];
+
+    _published = [newPublished copy];
+}
+
+- (NSArray *)quotes
+{
+    return _quotes;
+}
+
+- (void)setQuotes:(NSArray *)newQuotes
+{
+    [self.dirtyPropertySet addObject:@"quotes"];
+
+    _quotes = [newQuotes copy];
+}
+
+- (NSString *)relationshipStatus
+{
+    return _relationshipStatus;
+}
+
+- (void)setRelationshipStatus:(NSString *)newRelationshipStatus
+{
+    [self.dirtyPropertySet addObject:@"relationshipStatus"];
+
+    _relationshipStatus = [newRelationshipStatus copy];
+}
+
+- (NSArray *)relationships
+{
+    return _relationships;
+}
+
+- (void)setRelationships:(NSArray *)newRelationships
+{
+    [self.dirtyPropertySet addObject:@"relationships"];
+
+    _relationships = [newRelationships copy];
+}
+
+- (NSString *)religion
+{
+    return _religion;
+}
+
+- (void)setReligion:(NSString *)newReligion
+{
+    [self.dirtyPropertySet addObject:@"religion"];
+
+    _religion = [newReligion copy];
+}
+
+- (NSString *)romance
+{
+    return _romance;
+}
+
+- (void)setRomance:(NSString *)newRomance
+{
+    [self.dirtyPropertySet addObject:@"romance"];
+
+    _romance = [newRomance copy];
+}
+
+- (NSString *)scaredOf
+{
+    return _scaredOf;
+}
+
+- (void)setScaredOf:(NSString *)newScaredOf
+{
+    [self.dirtyPropertySet addObject:@"scaredOf"];
+
+    _scaredOf = [newScaredOf copy];
+}
+
+- (NSString *)sexualOrientation
+{
+    return _sexualOrientation;
+}
+
+- (void)setSexualOrientation:(NSString *)newSexualOrientation
+{
+    [self.dirtyPropertySet addObject:@"sexualOrientation"];
+
+    _sexualOrientation = [newSexualOrientation copy];
+}
+
+- (NSString *)smoker
+{
+    return _smoker;
+}
+
+- (void)setSmoker:(NSString *)newSmoker
+{
+    [self.dirtyPropertySet addObject:@"smoker"];
+
+    _smoker = [newSmoker copy];
+}
+
+- (NSArray *)sports
+{
+    return _sports;
+}
+
+- (void)setSports:(NSArray *)newSports
+{
+    [self.dirtyPropertySet addObject:@"sports"];
+
+    _sports = [newSports copy];
+}
+
+- (NSString *)status
+{
+    return _status;
+}
+
+- (void)setStatus:(NSString *)newStatus
+{
+    [self.dirtyPropertySet addObject:@"status"];
+
+    _status = [newStatus copy];
+}
+
+- (NSArray *)tags
+{
+    return _tags;
+}
+
+- (void)setTags:(NSArray *)newTags
+{
+    [self.dirtyPropertySet addObject:@"tags"];
+
+    _tags = [newTags copy];
+}
+
+- (NSArray *)turnOffs
+{
+    return _turnOffs;
+}
+
+- (void)setTurnOffs:(NSArray *)newTurnOffs
+{
+    [self.dirtyPropertySet addObject:@"turnOffs"];
+
+    _turnOffs = [newTurnOffs copy];
+}
+
+- (NSArray *)turnOns
+{
+    return _turnOns;
+}
+
+- (void)setTurnOns:(NSArray *)newTurnOns
+{
+    [self.dirtyPropertySet addObject:@"turnOns"];
+
+    _turnOns = [newTurnOns copy];
+}
+
+- (NSArray *)tvShows
+{
+    return _tvShows;
+}
+
+- (void)setTvShows:(NSArray *)newTvShows
+{
+    [self.dirtyPropertySet addObject:@"tvShows"];
+
+    _tvShows = [newTvShows copy];
+}
+
+- (NSDate *)updated
+{
+    return _updated;
+}
+
+- (void)setUpdated:(NSDate *)newUpdated
+{
+    [self.dirtyPropertySet addObject:@"updated"];
+
+    _updated = [newUpdated copy];
+}
+
+- (NSArray *)urls
+{
+    return _urls;
+}
+
+- (void)setUrls:(NSArray *)newUrls
+{
+    [self.dirtyPropertySet addObject:@"urls"];
+
+    _urls = [newUrls copy];
+}
+
+- (NSString *)utcOffset
+{
+    return _utcOffset;
+}
+
+- (void)setUtcOffset:(NSString *)newUtcOffset
+{
+    [self.dirtyPropertySet addObject:@"utcOffset"];
+
+    _utcOffset = [newUtcOffset copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile";
     }
     return self;
 }
@@ -1005,185 +1789,185 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (aboutMe)
-        [dict setObject:aboutMe forKey:@"aboutMe"];
+    if (self.aboutMe)
+        [dict setObject:self.aboutMe forKey:@"aboutMe"];
 
-    if (accounts)
-        [dict setObject:[accounts arrayOfAccountsDictionariesFromAccountsObjects] forKey:@"accounts"];
+    if (self.accounts)
+        [dict setObject:[self.accounts arrayOfAccountsDictionariesFromAccountsObjects] forKey:@"accounts"];
 
-    if (addresses)
-        [dict setObject:[addresses arrayOfAddressesDictionariesFromAddressesObjects] forKey:@"addresses"];
+    if (self.addresses)
+        [dict setObject:[self.addresses arrayOfAddressesDictionariesFromAddressesObjects] forKey:@"addresses"];
 
-    if (anniversary)
-        [dict setObject:[anniversary stringFromISO8601Date] forKey:@"anniversary"];
+    if (self.anniversary)
+        [dict setObject:[self.anniversary stringFromISO8601Date] forKey:@"anniversary"];
 
-    if (birthday)
-        [dict setObject:birthday forKey:@"birthday"];
+    if (self.birthday)
+        [dict setObject:self.birthday forKey:@"birthday"];
 
-    if (bodyType)
-        [dict setObject:[bodyType dictionaryFromObject] forKey:@"bodyType"];
+    if (self.bodyType)
+        [dict setObject:[self.bodyType dictionaryFromObject] forKey:@"bodyType"];
 
-    if (books)
-        [dict setObject:[books arrayOfBooksDictionariesFromBooksObjects] forKey:@"books"];
+    if (self.books)
+        [dict setObject:[self.books arrayOfBooksDictionariesFromBooksObjects] forKey:@"books"];
 
-    if (cars)
-        [dict setObject:[cars arrayOfCarsDictionariesFromCarsObjects] forKey:@"cars"];
+    if (self.cars)
+        [dict setObject:[self.cars arrayOfCarsDictionariesFromCarsObjects] forKey:@"cars"];
 
-    if (children)
-        [dict setObject:[children arrayOfChildrenDictionariesFromChildrenObjects] forKey:@"children"];
+    if (self.children)
+        [dict setObject:[self.children arrayOfChildrenDictionariesFromChildrenObjects] forKey:@"children"];
 
-    if (currentLocation)
-        [dict setObject:[currentLocation dictionaryFromObject] forKey:@"currentLocation"];
+    if (self.currentLocation)
+        [dict setObject:[self.currentLocation dictionaryFromObject] forKey:@"currentLocation"];
 
-    if (displayName)
-        [dict setObject:displayName forKey:@"displayName"];
+    if (self.displayName)
+        [dict setObject:self.displayName forKey:@"displayName"];
 
-    if (drinker)
-        [dict setObject:drinker forKey:@"drinker"];
+    if (self.drinker)
+        [dict setObject:self.drinker forKey:@"drinker"];
 
-    if (emails)
-        [dict setObject:[emails arrayOfEmailsDictionariesFromEmailsObjects] forKey:@"emails"];
+    if (self.emails)
+        [dict setObject:[self.emails arrayOfEmailsDictionariesFromEmailsObjects] forKey:@"emails"];
 
-    if (ethnicity)
-        [dict setObject:ethnicity forKey:@"ethnicity"];
+    if (self.ethnicity)
+        [dict setObject:self.ethnicity forKey:@"ethnicity"];
 
-    if (fashion)
-        [dict setObject:fashion forKey:@"fashion"];
+    if (self.fashion)
+        [dict setObject:self.fashion forKey:@"fashion"];
 
-    if (food)
-        [dict setObject:[food arrayOfFoodDictionariesFromFoodObjects] forKey:@"food"];
+    if (self.food)
+        [dict setObject:[self.food arrayOfFoodDictionariesFromFoodObjects] forKey:@"food"];
 
-    if (gender)
-        [dict setObject:gender forKey:@"gender"];
+    if (self.gender)
+        [dict setObject:self.gender forKey:@"gender"];
 
-    if (happiestWhen)
-        [dict setObject:happiestWhen forKey:@"happiestWhen"];
+    if (self.happiestWhen)
+        [dict setObject:self.happiestWhen forKey:@"happiestWhen"];
 
-    if (heroes)
-        [dict setObject:[heroes arrayOfHeroesDictionariesFromHeroesObjects] forKey:@"heroes"];
+    if (self.heroes)
+        [dict setObject:[self.heroes arrayOfHeroesDictionariesFromHeroesObjects] forKey:@"heroes"];
 
-    if (humor)
-        [dict setObject:humor forKey:@"humor"];
+    if (self.humor)
+        [dict setObject:self.humor forKey:@"humor"];
 
-    if (ims)
-        [dict setObject:[ims arrayOfImsDictionariesFromImsObjects] forKey:@"ims"];
+    if (self.ims)
+        [dict setObject:[self.ims arrayOfImsDictionariesFromImsObjects] forKey:@"ims"];
 
-    if (interestedInMeeting)
-        [dict setObject:interestedInMeeting forKey:@"interestedInMeeting"];
+    if (self.interestedInMeeting)
+        [dict setObject:self.interestedInMeeting forKey:@"interestedInMeeting"];
 
-    if (interests)
-        [dict setObject:[interests arrayOfInterestsDictionariesFromInterestsObjects] forKey:@"interests"];
+    if (self.interests)
+        [dict setObject:[self.interests arrayOfInterestsDictionariesFromInterestsObjects] forKey:@"interests"];
 
-    if (jobInterests)
-        [dict setObject:[jobInterests arrayOfJobInterestsDictionariesFromJobInterestsObjects] forKey:@"jobInterests"];
+    if (self.jobInterests)
+        [dict setObject:[self.jobInterests arrayOfJobInterestsDictionariesFromJobInterestsObjects] forKey:@"jobInterests"];
 
-    if (languages)
-        [dict setObject:[languages arrayOfLanguagesDictionariesFromLanguagesObjects] forKey:@"languages"];
+    if (self.languages)
+        [dict setObject:[self.languages arrayOfLanguagesDictionariesFromLanguagesObjects] forKey:@"languages"];
 
-    if (languagesSpoken)
-        [dict setObject:[languagesSpoken arrayOfLanguagesSpokenDictionariesFromLanguagesSpokenObjects] forKey:@"languagesSpoken"];
+    if (self.languagesSpoken)
+        [dict setObject:[self.languagesSpoken arrayOfLanguagesSpokenDictionariesFromLanguagesSpokenObjects] forKey:@"languagesSpoken"];
 
-    if (livingArrangement)
-        [dict setObject:livingArrangement forKey:@"livingArrangement"];
+    if (self.livingArrangement)
+        [dict setObject:self.livingArrangement forKey:@"livingArrangement"];
 
-    if (lookingFor)
-        [dict setObject:[lookingFor arrayOfLookingForDictionariesFromLookingForObjects] forKey:@"lookingFor"];
+    if (self.lookingFor)
+        [dict setObject:[self.lookingFor arrayOfLookingForDictionariesFromLookingForObjects] forKey:@"lookingFor"];
 
-    if (movies)
-        [dict setObject:[movies arrayOfMoviesDictionariesFromMoviesObjects] forKey:@"movies"];
+    if (self.movies)
+        [dict setObject:[self.movies arrayOfMoviesDictionariesFromMoviesObjects] forKey:@"movies"];
 
-    if (music)
-        [dict setObject:[music arrayOfMusicDictionariesFromMusicObjects] forKey:@"music"];
+    if (self.music)
+        [dict setObject:[self.music arrayOfMusicDictionariesFromMusicObjects] forKey:@"music"];
 
-    if (name)
-        [dict setObject:[name dictionaryFromObject] forKey:@"name"];
+    if (self.name)
+        [dict setObject:[self.name dictionaryFromObject] forKey:@"name"];
 
-    if (nickname)
-        [dict setObject:nickname forKey:@"nickname"];
+    if (self.nickname)
+        [dict setObject:self.nickname forKey:@"nickname"];
 
-    if (note)
-        [dict setObject:note forKey:@"note"];
+    if (self.note)
+        [dict setObject:self.note forKey:@"note"];
 
-    if (organizations)
-        [dict setObject:[organizations arrayOfOrganizationsDictionariesFromOrganizationsObjects] forKey:@"organizations"];
+    if (self.organizations)
+        [dict setObject:[self.organizations arrayOfOrganizationsDictionariesFromOrganizationsObjects] forKey:@"organizations"];
 
-    if (pets)
-        [dict setObject:[pets arrayOfPetsDictionariesFromPetsObjects] forKey:@"pets"];
+    if (self.pets)
+        [dict setObject:[self.pets arrayOfPetsDictionariesFromPetsObjects] forKey:@"pets"];
 
-    if (phoneNumbers)
-        [dict setObject:[phoneNumbers arrayOfPhoneNumbersDictionariesFromPhoneNumbersObjects] forKey:@"phoneNumbers"];
+    if (self.phoneNumbers)
+        [dict setObject:[self.phoneNumbers arrayOfPhoneNumbersDictionariesFromPhoneNumbersObjects] forKey:@"phoneNumbers"];
 
-    if (profilePhotos)
-        [dict setObject:[profilePhotos arrayOfProfilePhotosDictionariesFromProfilePhotosObjects] forKey:@"profilePhotos"];
+    if (self.profilePhotos)
+        [dict setObject:[self.profilePhotos arrayOfProfilePhotosDictionariesFromProfilePhotosObjects] forKey:@"profilePhotos"];
 
-    if (politicalViews)
-        [dict setObject:politicalViews forKey:@"politicalViews"];
+    if (self.politicalViews)
+        [dict setObject:self.politicalViews forKey:@"politicalViews"];
 
-    if (preferredUsername)
-        [dict setObject:preferredUsername forKey:@"preferredUsername"];
+    if (self.preferredUsername)
+        [dict setObject:self.preferredUsername forKey:@"preferredUsername"];
 
-    if (profileSong)
-        [dict setObject:profileSong forKey:@"profileSong"];
+    if (self.profileSong)
+        [dict setObject:self.profileSong forKey:@"profileSong"];
 
-    if (profileUrl)
-        [dict setObject:profileUrl forKey:@"profileUrl"];
+    if (self.profileUrl)
+        [dict setObject:self.profileUrl forKey:@"profileUrl"];
 
-    if (profileVideo)
-        [dict setObject:profileVideo forKey:@"profileVideo"];
+    if (self.profileVideo)
+        [dict setObject:self.profileVideo forKey:@"profileVideo"];
 
-    if (published)
-        [dict setObject:[published stringFromISO8601DateTime] forKey:@"published"];
+    if (self.published)
+        [dict setObject:[self.published stringFromISO8601DateTime] forKey:@"published"];
 
-    if (quotes)
-        [dict setObject:[quotes arrayOfQuotesDictionariesFromQuotesObjects] forKey:@"quotes"];
+    if (self.quotes)
+        [dict setObject:[self.quotes arrayOfQuotesDictionariesFromQuotesObjects] forKey:@"quotes"];
 
-    if (relationshipStatus)
-        [dict setObject:relationshipStatus forKey:@"relationshipStatus"];
+    if (self.relationshipStatus)
+        [dict setObject:self.relationshipStatus forKey:@"relationshipStatus"];
 
-    if (relationships)
-        [dict setObject:[relationships arrayOfRelationshipsDictionariesFromRelationshipsObjects] forKey:@"relationships"];
+    if (self.relationships)
+        [dict setObject:[self.relationships arrayOfRelationshipsDictionariesFromRelationshipsObjects] forKey:@"relationships"];
 
-    if (religion)
-        [dict setObject:religion forKey:@"religion"];
+    if (self.religion)
+        [dict setObject:self.religion forKey:@"religion"];
 
-    if (romance)
-        [dict setObject:romance forKey:@"romance"];
+    if (self.romance)
+        [dict setObject:self.romance forKey:@"romance"];
 
-    if (scaredOf)
-        [dict setObject:scaredOf forKey:@"scaredOf"];
+    if (self.scaredOf)
+        [dict setObject:self.scaredOf forKey:@"scaredOf"];
 
-    if (sexualOrientation)
-        [dict setObject:sexualOrientation forKey:@"sexualOrientation"];
+    if (self.sexualOrientation)
+        [dict setObject:self.sexualOrientation forKey:@"sexualOrientation"];
 
-    if (smoker)
-        [dict setObject:smoker forKey:@"smoker"];
+    if (self.smoker)
+        [dict setObject:self.smoker forKey:@"smoker"];
 
-    if (sports)
-        [dict setObject:[sports arrayOfSportsDictionariesFromSportsObjects] forKey:@"sports"];
+    if (self.sports)
+        [dict setObject:[self.sports arrayOfSportsDictionariesFromSportsObjects] forKey:@"sports"];
 
-    if (status)
-        [dict setObject:status forKey:@"status"];
+    if (self.status)
+        [dict setObject:self.status forKey:@"status"];
 
-    if (tags)
-        [dict setObject:[tags arrayOfTagsDictionariesFromTagsObjects] forKey:@"tags"];
+    if (self.tags)
+        [dict setObject:[self.tags arrayOfTagsDictionariesFromTagsObjects] forKey:@"tags"];
 
-    if (turnOffs)
-        [dict setObject:[turnOffs arrayOfTurnOffsDictionariesFromTurnOffsObjects] forKey:@"turnOffs"];
+    if (self.turnOffs)
+        [dict setObject:[self.turnOffs arrayOfTurnOffsDictionariesFromTurnOffsObjects] forKey:@"turnOffs"];
 
-    if (turnOns)
-        [dict setObject:[turnOns arrayOfTurnOnsDictionariesFromTurnOnsObjects] forKey:@"turnOns"];
+    if (self.turnOns)
+        [dict setObject:[self.turnOns arrayOfTurnOnsDictionariesFromTurnOnsObjects] forKey:@"turnOns"];
 
-    if (tvShows)
-        [dict setObject:[tvShows arrayOfTvShowsDictionariesFromTvShowsObjects] forKey:@"tvShows"];
+    if (self.tvShows)
+        [dict setObject:[self.tvShows arrayOfTvShowsDictionariesFromTvShowsObjects] forKey:@"tvShows"];
 
-    if (updated)
-        [dict setObject:[updated stringFromISO8601DateTime] forKey:@"updated"];
+    if (self.updated)
+        [dict setObject:[self.updated stringFromISO8601DateTime] forKey:@"updated"];
 
-    if (urls)
-        [dict setObject:[urls arrayOfUrlsDictionariesFromUrlsObjects] forKey:@"urls"];
+    if (self.urls)
+        [dict setObject:[self.urls arrayOfUrlsDictionariesFromUrlsObjects] forKey:@"urls"];
 
-    if (utcOffset)
-        [dict setObject:utcOffset forKey:@"utcOffset"];
+    if (self.utcOffset)
+        [dict setObject:self.utcOffset forKey:@"utcOffset"];
 
     return dict;
 }
@@ -1373,66 +2157,66 @@
 
 - (void)dealloc
 {
-    [aboutMe release];
-    [accounts release];
-    [addresses release];
-    [anniversary release];
-    [birthday release];
-    [bodyType release];
-    [books release];
-    [cars release];
-    [children release];
-    [currentLocation release];
-    [displayName release];
-    [drinker release];
-    [emails release];
-    [ethnicity release];
-    [fashion release];
-    [food release];
-    [gender release];
-    [happiestWhen release];
-    [heroes release];
-    [humor release];
-    [ims release];
-    [interestedInMeeting release];
-    [interests release];
-    [jobInterests release];
-    [languages release];
-    [languagesSpoken release];
-    [livingArrangement release];
-    [lookingFor release];
-    [movies release];
-    [music release];
-    [name release];
-    [nickname release];
-    [note release];
-    [organizations release];
-    [pets release];
-    [phoneNumbers release];
-    [profilePhotos release];
-    [politicalViews release];
-    [preferredUsername release];
-    [profileSong release];
-    [profileUrl release];
-    [profileVideo release];
-    [published release];
-    [quotes release];
-    [relationshipStatus release];
-    [relationships release];
-    [religion release];
-    [romance release];
-    [scaredOf release];
-    [sexualOrientation release];
-    [smoker release];
-    [sports release];
-    [status release];
-    [tags release];
-    [turnOffs release];
-    [turnOns release];
-    [tvShows release];
-    [updated release];
-    [urls release];
-    [utcOffset release];
+    [_aboutMe release];
+    [_accounts release];
+    [_addresses release];
+    [_anniversary release];
+    [_birthday release];
+    [_bodyType release];
+    [_books release];
+    [_cars release];
+    [_children release];
+    [_currentLocation release];
+    [_displayName release];
+    [_drinker release];
+    [_emails release];
+    [_ethnicity release];
+    [_fashion release];
+    [_food release];
+    [_gender release];
+    [_happiestWhen release];
+    [_heroes release];
+    [_humor release];
+    [_ims release];
+    [_interestedInMeeting release];
+    [_interests release];
+    [_jobInterests release];
+    [_languages release];
+    [_languagesSpoken release];
+    [_livingArrangement release];
+    [_lookingFor release];
+    [_movies release];
+    [_music release];
+    [_name release];
+    [_nickname release];
+    [_note release];
+    [_organizations release];
+    [_pets release];
+    [_phoneNumbers release];
+    [_profilePhotos release];
+    [_politicalViews release];
+    [_preferredUsername release];
+    [_profileSong release];
+    [_profileUrl release];
+    [_profileVideo release];
+    [_published release];
+    [_quotes release];
+    [_relationshipStatus release];
+    [_relationships release];
+    [_religion release];
+    [_romance release];
+    [_scaredOf release];
+    [_sexualOrientation release];
+    [_smoker release];
+    [_sports release];
+    [_status release];
+    [_tags release];
+    [_turnOffs release];
+    [_turnOns release];
+    [_tvShows release];
+    [_updated release];
+    [_urls release];
+    [_utcOffset release];
 
     [super dealloc];
 }

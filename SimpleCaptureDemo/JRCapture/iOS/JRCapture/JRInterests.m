@@ -32,13 +32,44 @@
 #import "JRInterests.h"
 
 @implementation JRInterests
-@synthesize interestsId;
-@synthesize interest;
+{
+    NSInteger _interestsId;
+    NSString *_interest;
+
+}
+@dynamic interestsId;
+@dynamic interest;
+
+- (NSInteger )interestsId
+{
+    return _interestsId;
+}
+
+- (void)setInterestsId:(NSInteger )newInterestsId
+{
+    [self.dirtyPropertySet addObject:@"interestsId"];
+
+    _interestsId = newInterestsId;
+
+}
+
+- (NSString *)interest
+{
+    return _interest;
+}
+
+- (void)setInterest:(NSString *)newInterest
+{
+    [self.dirtyPropertySet addObject:@"interest"];
+
+    _interest = [newInterest copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/interests";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (interestsId)
-        [dict setObject:[NSNumber numberWithInt:interestsId] forKey:@"id"];
+    if (self.interestsId)
+        [dict setObject:[NSNumber numberWithInt:self.interestsId] forKey:@"id"];
 
-    if (interest)
-        [dict setObject:interest forKey:@"interest"];
+    if (self.interest)
+        [dict setObject:self.interest forKey:@"interest"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [interest release];
+    [_interest release];
 
     [super dealloc];
 }

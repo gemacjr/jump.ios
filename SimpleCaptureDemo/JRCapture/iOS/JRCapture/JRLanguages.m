@@ -32,13 +32,44 @@
 #import "JRLanguages.h"
 
 @implementation JRLanguages
-@synthesize languagesId;
-@synthesize language;
+{
+    NSInteger _languagesId;
+    NSString *_language;
+
+}
+@dynamic languagesId;
+@dynamic language;
+
+- (NSInteger )languagesId
+{
+    return _languagesId;
+}
+
+- (void)setLanguagesId:(NSInteger )newLanguagesId
+{
+    [self.dirtyPropertySet addObject:@"languagesId"];
+
+    _languagesId = newLanguagesId;
+
+}
+
+- (NSString *)language
+{
+    return _language;
+}
+
+- (void)setLanguage:(NSString *)newLanguage
+{
+    [self.dirtyPropertySet addObject:@"language"];
+
+    _language = [newLanguage copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/languages";
     }
     return self;
 }
@@ -75,11 +106,11 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 
 
-    if (languagesId)
-        [dict setObject:[NSNumber numberWithInt:languagesId] forKey:@"id"];
+    if (self.languagesId)
+        [dict setObject:[NSNumber numberWithInt:self.languagesId] forKey:@"id"];
 
-    if (language)
-        [dict setObject:language forKey:@"language"];
+    if (self.language)
+        [dict setObject:self.language forKey:@"language"];
 
     return dict;
 }
@@ -95,7 +126,7 @@
 
 - (void)dealloc
 {
-    [language release];
+    [_language release];
 
     [super dealloc];
 }

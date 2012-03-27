@@ -37,6 +37,7 @@
 @property (nonatomic, copy) NSString *address2;  
 @property (nonatomic, copy) NSString *city;  
 @property (nonatomic, copy) NSString *company;  
+@property (nonatomic, copy) NSString *country;  
 @property (nonatomic, copy) NSString *mobile;  
 @property (nonatomic, copy) NSString *phone;  
 @property (nonatomic, copy) NSString *stateAbbreviation;  

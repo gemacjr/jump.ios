@@ -56,7 +56,9 @@
 @end
 
 @interface JRCaptureObject : NSObject <NSCopying, JRJsonifying, JRCaptureInterfaceDelegate>
-@property (copy) NSString *accessToken;
+@property (retain)   NSString     *captureObjectPath;
+@property (readonly) NSMutableSet *dirtyPropertySet;
+@property (copy)     NSString     *accessToken;
 @property (retain) id<JRCaptureObjectDelegate> updateDelegate;
 - (void)updateForDelegate:(id<JRCaptureObjectDelegate>)delegate;
 @end
@@ -66,7 +68,7 @@
 + (id)profilesObjectFromDictionary:(NSDictionary *)dictionary;
 @end
 
-@interface JRCapture
+@interface JRCapture : NSObject
 + (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo;
 + (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
        andEntityTypeName:(NSString *)newEntityTypeName;
