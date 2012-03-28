@@ -28,6 +28,15 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+
 
 #import "JRCaptureUser.h"
 
@@ -652,7 +661,7 @@
 
 - (NSDictionary*)dictionaryFromCaptureUserObject
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:self.email forKey:@"email"];
@@ -845,33 +854,35 @@
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
+    static int i = 0;
+    DLog(@"%d", ++i);
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
-
+    DLog(@"%d", ++i);
     if ([self.dirtyPropertySet containsObject:@"uuid"])
         [dict setObject:self.uuid forKey:@"uuid"];
-
+    DLog(@"%d", ++i);
     if ([self.dirtyPropertySet containsObject:@"created"])
         [dict setObject:[self.created stringFromISO8601DateTime] forKey:@"created"];
-
+    DLog(@"%d", ++i);
     if ([self.dirtyPropertySet containsObject:@"lastUpdated"])
         [dict setObject:[self.lastUpdated stringFromISO8601DateTime] forKey:@"lastUpdated"];
-
+    DLog(@"%d", ++i);
     if ([self.dirtyPropertySet containsObject:@"aboutMe"])
-        [dict setObject:self.aboutMe forKey:@"aboutMe"];
-
-    if ([self.dirtyPropertySet containsObject:@"birthday"])
-        [dict setObject:[self.birthday stringFromISO8601Date] forKey:@"birthday"];
-
+        [dict setObject:(self.aboutMe ? (NSObject *)self.aboutMe : (NSObject *)[NSNull null]) forKey:@"aboutMe"];
+    DLog(@"%d", ++i);
+//    if ([self.dirtyPropertySet containsObject:@"birthday"])
+//        [dict setObject:[self.birthday stringFromISO8601Date] forKey:@"birthday"];
+    DLog(@"%d", ++i);
     if ([self.dirtyPropertySet containsObject:@"currentLocation"])
         [dict setObject:self.currentLocation forKey:@"currentLocation"];
-
+    DLog(@"%d", ++i);
     if ([self.dirtyPropertySet containsObject:@"display"])
         [dict setObject:self.display forKey:@"display"];
-
+    DLog(@"%d", ++i);
     if ([self.dirtyPropertySet containsObject:@"displayName"])
         [dict setObject:self.displayName forKey:@"displayName"];
-
+    DLog(@"%d", ++i);
     if ([self.dirtyPropertySet containsObject:@"email"])
         [dict setObject:self.email forKey:@"email"];
 
@@ -923,6 +934,7 @@
     if ([self.dirtyPropertySet containsObject:@"statuses"])
         [dict setObject:[self.statuses arrayOfStatusesDictionariesFromStatusesObjects] forKey:@"statuses"];
 
+    DLog(@"dict: %@", [dict description]);
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",

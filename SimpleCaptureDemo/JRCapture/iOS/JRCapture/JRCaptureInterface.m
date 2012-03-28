@@ -351,6 +351,7 @@ typedef enum CaptureInterfaceStatEnum
 + (void)updateCaptureObject:(NSDictionary *)captureObject withId:(NSInteger)objectId atPath:(NSString *)entityPath withToken:(NSString *)token
                 forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
+    DLog(@"");
     [[JRCaptureInterface captureInterfaceInstance]
             startUpdateObject:captureObject withId:objectId atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }

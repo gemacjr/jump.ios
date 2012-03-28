@@ -228,6 +228,7 @@ typedef enum
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forCaptureObject:(JRCaptureObject*)object
   captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key
 {
+    DLog(@"object: %@, parent: %@, key: %@", [captureObject description], [parentObject description], key);
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
         self.captureObject       = object;
@@ -286,6 +287,7 @@ typedef enum
 
 - (void)editButtonPressed:(id)sender
 {
+    DLog(@"");
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
                                 initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                      target:self
@@ -317,6 +319,7 @@ typedef enum
 
 - (void)doneButtonPressed:(id)sender
 {
+    DLog(@"");
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
                                 initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
                                                      target:self
@@ -352,6 +355,7 @@ typedef enum
 
 - (IBAction)updateButtonPressed:(id)sender
 {
+    DLog(@"");
 //    DLog(@"%@", [[captureObject dictionaryFromObject] description]);
 
 //    parentCaptureObject.accessToken = [[SharedData sharedData] accessToken];
@@ -365,6 +369,7 @@ typedef enum
 
 - (void)updateCaptureEntity:(JRCaptureObject *)entity didFailWithResult:(NSString *)result
 {
+    DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                         message:result
                                                        delegate:nil
@@ -375,6 +380,7 @@ typedef enum
 
 - (void)updateCaptureEntity:(JRCaptureObject *)entity didSucceedWithResult:(NSString *)result
 {
+    DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
                                                         message:result
                                                        delegate:nil
@@ -386,6 +392,7 @@ typedef enum
 
 - (void)addMoreButtonPressed:(UIButton *)sender
 {
+    DLog(@"");
     NSUInteger itemIndex = (NSUInteger) (sender.tag - 200);
     currentlyEditingData = [propertyArray objectAtIndex:itemIndex];
 
@@ -530,6 +537,7 @@ typedef enum
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DLog(@"");
     static NSInteger keyLabelTag   = 1;
     static NSInteger valueLabelTag = 2;
     NSInteger textFieldTag         = 100 + indexPath.row;
@@ -748,6 +756,7 @@ typedef enum
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DLog(@"");
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
     NSString *key                  = nil;
@@ -767,8 +776,8 @@ typedef enum
         captureSubObj = [captureObject performSelector:NSSelectorFromString(key)];
     }
 
-    if ([value respondsToSelector:toDictionarySelector(tableViewHeader)])
-        value = [value performSelector:toDictionarySelector(tableViewHeader)];
+    if ([value respondsToSelector:toDictionarySelector(key ? key : tableViewHeader)])
+        value = [value performSelector:toDictionarySelector(key ? key : tableViewHeader)];
 
  /* If our value isn't an array or dictionary, don't drill down. */
     if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])
@@ -783,7 +792,7 @@ typedef enum
                                                               bundle:[NSBundle mainBundle]
                                                     forCaptureObject:captureSubObj
                                                  captureParentObject:captureObject
-                                                              andKey:key];
+                                                              andKey:key ? key : tableViewHeader];
 
 //                                                       andDataObject:captureObj
 //                                                              forKey:key];

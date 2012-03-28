@@ -136,6 +136,7 @@
 
 - (NSString *)stringFromISO8601Date
 {
+    DLog(@"");
     static NSDateFormatter *dateFormatter = nil;
     if (!dateFormatter)
     {

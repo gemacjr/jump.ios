@@ -19,7 +19,8 @@
 - (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
 
-@interface JRCaptureObject : NSObject <NSCopying, /*JRJsonifying,*/ JRCaptureInterfaceDelegate>
+@protocol JRCaptureInterfaceDelegate;
+@interface JRCaptureObject : NSObject <NSCopying, JRCaptureInterfaceDelegate>
 @property (retain)   NSString     *captureObjectPath;
 @property (readonly) NSMutableSet *dirtyPropertySet;
 - (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary;
