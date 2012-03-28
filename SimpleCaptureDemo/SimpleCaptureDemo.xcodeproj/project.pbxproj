@@ -20,8 +20,6 @@
 		90C36B6B7717AA0C893E090D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08EB /* Foundation.framework */; };
 		90C36B6B7717AA0C893E0915 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E0914 /* InfoPlist.strings */; };
 		90C36B6B7717AA0C893E0918 /* SimpleCaptureDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E0917 /* SimpleCaptureDemoTests.m */; };
-		9F5FA1CC150FE9770012D7EC /* JRCaptureInterfaceTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FA1CB150FE9770012D7EC /* JRCaptureInterfaceTwo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9F5FA1D0150FE9900012D7EC /* JRCaptureData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5FA1CF150FE9900012D7EC /* JRCaptureData.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B59414F836D100053EA2 /* JRActivityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B4CE14F836D100053EA2 /* JRActivityObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B59514F836D100053EA2 /* JRConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B4D014F836D100053EA2 /* JRConnectionManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B59614F836D100053EA2 /* JREngage+CustomInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B4D214F836D100053EA2 /* JREngage+CustomInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -257,6 +255,7 @@
 		9FD2B6DC14FAFF9100053EC8 /* JRPluralLevelOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EC7 /* JRPluralLevelOne.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6DC14FAFF9100053ECA /* JRPluralLevelThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EC9 /* JRPluralLevelThree.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6DC14FAFF9100053ECC /* JRPluralLevelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053ECB /* JRPluralLevelTwo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053ECF /* JRCaptureInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053ECE /* JRCaptureInternal.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -289,10 +288,6 @@
 		90C36B6B7717AA0C893E0913 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E0916 /* SimpleCaptureDemoTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleCaptureDemoTests.h; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E0917 /* SimpleCaptureDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleCaptureDemoTests.m; sourceTree = "<group>"; };
-		9F5FA1CA150FE9770012D7EC /* JRCaptureInterfaceTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRCaptureInterfaceTwo.h; path = JRCapture/iOS/JRCapture/JRCaptureInterfaceTwo.h; sourceTree = "<group>"; };
-		9F5FA1CB150FE9770012D7EC /* JRCaptureInterfaceTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRCaptureInterfaceTwo.m; path = JRCapture/iOS/JRCapture/JRCaptureInterfaceTwo.m; sourceTree = "<group>"; };
-		9F5FA1CE150FE9900012D7EC /* JRCaptureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRCaptureData.h; path = JRCapture/iOS/JRCapture/JRCaptureData.h; sourceTree = "<group>"; };
-		9F5FA1CF150FE9900012D7EC /* JRCaptureData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRCaptureData.m; path = JRCapture/iOS/JRCapture/JRCaptureData.m; sourceTree = "<group>"; };
 		9F9506FE14FEA79000335A12 /* SimpleCaptureDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimpleCaptureDemo.entitlements; sourceTree = "<group>"; };
 		9FD2B4CD14F836D100053EA2 /* JRActivityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActivityObject.h; sourceTree = "<group>"; };
 		9FD2B4CE14F836D100053EA2 /* JRActivityObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRActivityObject.m; sourceTree = "<group>"; };
@@ -604,6 +599,8 @@
 		9FD2B6DC14FAFF9100053EC7 /* JRPluralLevelOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPluralLevelOne.m; path = JRCapture/iOS/JRCapture/JRPluralLevelOne.m; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EC9 /* JRPluralLevelThree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPluralLevelThree.m; path = JRCapture/iOS/JRCapture/JRPluralLevelThree.m; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053ECB /* JRPluralLevelTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPluralLevelTwo.m; path = JRCapture/iOS/JRCapture/JRPluralLevelTwo.m; sourceTree = "<group>"; };
+		9FD2B6DC14FAFF9100053ECD /* JRCaptureInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRCaptureInternal.h; path = JRCapture/iOS/JRCapture/JRCaptureInternal.h; sourceTree = "<group>"; };
+		9FD2B6DC14FAFF9100053ECE /* JRCaptureInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRCaptureInternal.m; path = JRCapture/iOS/JRCapture/JRCaptureInternal.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -722,6 +719,8 @@
 		9FD2B44814F8366500053EA2 /* JRCapture */ = {
 			isa = PBXGroup;
 			children = (
+				9FD2B6DC14FAFF9100053ECE /* JRCaptureInternal.m */,
+				9FD2B6DC14FAFF9100053ECD /* JRCaptureInternal.h */,
 				9FD2B6DC14FAFF9100053ECB /* JRPluralLevelTwo.m */,
 				9FD2B6DC14FAFF9100053EC9 /* JRPluralLevelThree.m */,
 				9FD2B6DC14FAFF9100053EC7 /* JRPluralLevelOne.m */,
@@ -838,10 +837,6 @@
 				9FD2B69014F8380F00053EA2 /* JRTvShows.m */,
 				9FD2B69114F8380F00053EA2 /* JRUrls.h */,
 				9FD2B69214F8380F00053EA2 /* JRUrls.m */,
-				9F5FA1CA150FE9770012D7EC /* JRCaptureInterfaceTwo.h */,
-				9F5FA1CB150FE9770012D7EC /* JRCaptureInterfaceTwo.m */,
-				9F5FA1CE150FE9900012D7EC /* JRCaptureData.h */,
-				9F5FA1CF150FE9900012D7EC /* JRCaptureData.m */,
 			);
 			name = JRCapture;
 			sourceTree = "<group>";
@@ -1504,8 +1499,6 @@
 				9FD2B6C114F8387B00053EAB /* CaptureNewUserViewController.m in Sources */,
 				9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */,
 				9FD2B6D514F9AC5900053EA5 /* UserDrillDownViewController.m in Sources */,
-				9F5FA1CC150FE9770012D7EC /* JRCaptureInterfaceTwo.m in Sources */,
-				9F5FA1D0150FE9900012D7EC /* JRCaptureData.m in Sources */,
 				9FD2B6DC14FAFF9100053EB2 /* JRGames.m in Sources */,
 				9FD2B6DC14FAFF9100053EB4 /* JRObjectLevelOne.m in Sources */,
 				9FD2B6DC14FAFF9100053EB6 /* JRObjectLevelThree.m in Sources */,
@@ -1520,6 +1513,7 @@
 				9FD2B6DC14FAFF9100053EC8 /* JRPluralLevelOne.m in Sources */,
 				9FD2B6DC14FAFF9100053ECA /* JRPluralLevelThree.m in Sources */,
 				9FD2B6DC14FAFF9100053ECC /* JRPluralLevelTwo.m in Sources */,
+				9FD2B6DC14FAFF9100053ECF /* JRCaptureInternal.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

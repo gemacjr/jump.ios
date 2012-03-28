@@ -42,8 +42,6 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRCapture.h"
-#import "JRCaptureData.h"
-
 
 @implementation NSDate (CaptureDateTime)
 // YYYY-MM-DD
@@ -167,143 +165,6 @@
 }
 @end
 
-//@interface JRCaptureObject ()
-//@property (retain) NSMutableSet *dirtyPropertySet;
-//@end
-
-@implementation JRCaptureObject
-//@synthesize accessToken;
-//@synthesize updateDelegate;
-@synthesize dirtyPropertySet;
-@synthesize captureObjectPath;
-
-- (id)init
-{
-    if ((self = [super init]))
-    {
-        dirtyPropertySet = [[NSMutableSet alloc] init];
-    }
-    return self;
-}
-
-- (id)copyWithZone:(NSZone*)zone
-{
-    JRCaptureObject *objectCopy =
-                [[JRCaptureObject allocWithZone:zone] init];
-
-    for (NSString *dirtyProperty in [self.dirtyPropertySet allObjects])
-        [objectCopy.dirtyPropertySet addObject:dirtyProperty];
-
-    objectCopy.captureObjectPath = self.captureObjectPath;
-
-    return objectCopy;
-}
-
-- (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
-{
-    NSDictionary    *myContext     = (NSDictionary *)context;
-    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
-    id<JRCaptureObjectDelegate>
-                     delegate      = [myContext objectForKey:@"delegate"];
-
-    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didFailWithResult:context:)])
-        [delegate replaceCaptureObject:captureObject didFailWithResult:result context:callerContext];
-}
-
-- (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
-{
-    NSDictionary    *myContext     = (NSDictionary *)context;
-    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
-    id<JRCaptureObjectDelegate>
-                     delegate      = [myContext objectForKey:@"delegate"];
-
-    NSDictionary *resultDictionary = [result objectFromJSONString];
-
-    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
-
-    if (![resultDictionary objectForKey:@"result"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
-
-    [captureObject replaceLocallyFromNewDictionary:[resultDictionary objectForKey:@"result"]];
-    [captureObject.dirtyPropertySet removeAllObjects];
-
-    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didSucceedWithResult:context:)])
-        [delegate replaceCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
-}
-
-- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
-{
-    NSDictionary    *myContext     = (NSDictionary *)context;
-    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
-    id<JRCaptureObjectDelegate>
-                     delegate      = [myContext objectForKey:@"delegate"];
-
-    if ([delegate respondsToSelector:@selector(updateCaptureObject:didFailWithResult:context:)])
-        [delegate updateCaptureObject:captureObject didFailWithResult:result context:callerContext];
-}
-
-- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
-{
-    NSDictionary    *myContext     = (NSDictionary *)context;
-    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
-    id<JRCaptureObjectDelegate>
-                     delegate      = [myContext objectForKey:@"delegate"];
-
-    NSDictionary *resultDictionary = [result objectFromJSONString];
-
-    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
-
-    if (![resultDictionary objectForKey:@"result"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
-
-    [captureObject updateLocallyFromNewDictionary:[resultDictionary objectForKey:@"result"]];
-    [captureObject.dirtyPropertySet removeAllObjects];
-
-    if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
-        [delegate updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
-}
-
-- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary
-{
-    [NSException raise:NSInternalInconsistencyException
-                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
-}
-
-- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary
-{
-    [NSException raise:NSInternalInconsistencyException
-                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
-}
-
-- (void)updateObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    [NSException raise:NSInternalInconsistencyException
-                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
-}
-
-- (void)replaceObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    [NSException raise:NSInternalInconsistencyException
-                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
-}
-
-- (void)dealloc
-{
-//    [updateDelegate release];
-//    [accessToken release];
-    [captureObjectPath release];
-    [dirtyPropertySet release];
-
-    [super dealloc];
-}
-@end
-
 @implementation JRCapture
 /* Only here until the Capture server populates this field for us */
 + (NSString *)domainFromIdentifier:(NSString *)identifier
@@ -364,7 +225,6 @@
 {
     [JRCaptureData setCreationToken:newCreationToken];
 }
-
 
 - (void)dealloc
 {

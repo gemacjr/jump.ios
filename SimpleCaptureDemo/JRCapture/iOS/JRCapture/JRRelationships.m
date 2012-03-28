@@ -134,16 +134,16 @@
         [dict setObject:self.relationship forKey:@"relationship"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     context, @"callerContext",
                                                      self, @"captureObject",
-                                                     delegate, @"delegate", nil];
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
 
-    [JRCaptureInterfaceTwo updateCaptureObject:dict
-                                        withId:self.relationshipsId
-                                        atPath:self.captureObjectPath
-                                     withToken:[JRCaptureData accessToken]
-                                   forDelegate:self
-                                   withContext:newContext];
+    [JRCaptureInterface updateCaptureObject:dict
+                                     withId:self.relationshipsId
+                                     atPath:self.captureObjectPath
+                                  withToken:[JRCaptureData accessToken]
+                                forDelegate:self
+                                withContext:newContext];
 }
 
 - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
@@ -154,16 +154,16 @@
     [dict setObject:self.relationship forKey:@"relationship"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     context, @"callerContext",
                                                      self, @"captureObject",
-                                                     delegate, @"delegate", nil];
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
 
-    [JRCaptureInterfaceTwo replaceCaptureObject:dict
-                                         withId:self.relationshipsId
-                                         atPath:self.captureObjectPath
-                                      withToken:[JRCaptureData accessToken]
-                                    forDelegate:self
-                                    withContext:newContext];
+    [JRCaptureInterface replaceCaptureObject:dict
+                                      withId:self.relationshipsId
+                                      atPath:self.captureObjectPath
+                                   withToken:[JRCaptureData accessToken]
+                                 forDelegate:self
+                                 withContext:newContext];
 }
 
 - (void)dealloc
