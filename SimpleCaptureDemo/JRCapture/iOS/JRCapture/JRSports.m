@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"sport"];
 
-    _sport = [newSport copy];
+    if (!newSport)
+        _sport = [NSNull null];
+    else
+        _sport = [newSport copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.sportsId)
         [dict setObject:[NSNumber numberWithInt:self.sportsId] forKey:@"id"];
 
-    if (self.sport)
+    if (self.sport && self.sport != [NSNull null])
         [dict setObject:self.sport forKey:@"sport"];
+    else
+        [dict setObject:[NSNull null] forKey:@"sport"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _sportsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"sport"])
-        self.sport = [dictionary objectForKey:@"sport"];
+        _sport = [dictionary objectForKey:@"sport"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.sportsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.sport = [dictionary objectForKey:@"sport"];
+    _sportsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _sport = [dictionary objectForKey:@"sport"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"sportsId"])
+        [dict setObject:[NSNumber numberWithInt:self.sportsId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"sport"])
         [dict setObject:self.sport forKey:@"sport"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.sportsId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.sportsId] forKey:@"id"];
     [dict setObject:self.sport forKey:@"sport"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.sportsId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

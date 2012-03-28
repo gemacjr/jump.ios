@@ -62,7 +62,10 @@
 {
     [self.dirtyPropertySet addObject:@"type"];
 
-    _type = [newType copy];
+    if (!newType)
+        _type = [NSNull null];
+    else
+        _type = [newType copy];
 }
 
 - (NSString *)value
@@ -74,7 +77,10 @@
 {
     [self.dirtyPropertySet addObject:@"value"];
 
-    _value = [newValue copy];
+    if (!newValue)
+        _value = [NSNull null];
+    else
+        _value = [newValue copy];
 }
 
 - (id)init
@@ -123,35 +129,45 @@
     if (self.photosId)
         [dict setObject:[NSNumber numberWithInt:self.photosId] forKey:@"id"];
 
-    if (self.type)
+    if (self.type && self.type != [NSNull null])
         [dict setObject:self.type forKey:@"type"];
+    else
+        [dict setObject:[NSNull null] forKey:@"type"];
 
-    if (self.value)
+    if (self.value && self.value != [NSNull null])
         [dict setObject:self.value forKey:@"value"];
+    else
+        [dict setObject:[NSNull null] forKey:@"value"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _photosId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"];
+        _type = [dictionary objectForKey:@"type"];
 
     if ([dictionary objectForKey:@"value"])
-        self.value = [dictionary objectForKey:@"value"];
+        _value = [dictionary objectForKey:@"value"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.photosId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.type = [dictionary objectForKey:@"type"];
-    self.value = [dictionary objectForKey:@"value"];
+    _photosId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _type = [dictionary objectForKey:@"type"];
+    _value = [dictionary objectForKey:@"value"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"photosId"])
+        [dict setObject:[NSNumber numberWithInt:self.photosId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"type"])
         [dict setObject:self.type forKey:@"type"];
@@ -165,7 +181,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.photosId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -177,6 +193,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.photosId] forKey:@"id"];
     [dict setObject:self.type forKey:@"type"];
     [dict setObject:self.value forKey:@"value"];
 
@@ -186,7 +203,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.photosId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

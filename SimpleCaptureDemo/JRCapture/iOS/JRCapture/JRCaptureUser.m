@@ -28,15 +28,6 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#else
-#define DLog(...)
-#endif
-
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-
-
 
 #import "JRCaptureUser.h"
 
@@ -279,7 +270,10 @@
 {
     [self.dirtyPropertySet addObject:@"uuid"];
 
-    _uuid = [newUuid copy];
+    if (!newUuid)
+        _uuid = [NSNull null];
+    else
+        _uuid = [newUuid copy];
 }
 
 - (NSDate *)created
@@ -291,7 +285,10 @@
 {
     [self.dirtyPropertySet addObject:@"created"];
 
-    _created = [newCreated copy];
+    if (!newCreated)
+        _created = [NSNull null];
+    else
+        _created = [newCreated copy];
 }
 
 - (NSDate *)lastUpdated
@@ -303,7 +300,10 @@
 {
     [self.dirtyPropertySet addObject:@"lastUpdated"];
 
-    _lastUpdated = [newLastUpdated copy];
+    if (!newLastUpdated)
+        _lastUpdated = [NSNull null];
+    else
+        _lastUpdated = [newLastUpdated copy];
 }
 
 - (NSString *)aboutMe
@@ -315,7 +315,10 @@
 {
     [self.dirtyPropertySet addObject:@"aboutMe"];
 
-    _aboutMe = [newAboutMe copy];
+    if (!newAboutMe)
+        _aboutMe = [NSNull null];
+    else
+        _aboutMe = [newAboutMe copy];
 }
 
 - (NSDate *)birthday
@@ -327,7 +330,10 @@
 {
     [self.dirtyPropertySet addObject:@"birthday"];
 
-    _birthday = [newBirthday copy];
+    if (!newBirthday)
+        _birthday = [NSNull null];
+    else
+        _birthday = [newBirthday copy];
 }
 
 - (NSString *)currentLocation
@@ -339,7 +345,10 @@
 {
     [self.dirtyPropertySet addObject:@"currentLocation"];
 
-    _currentLocation = [newCurrentLocation copy];
+    if (!newCurrentLocation)
+        _currentLocation = [NSNull null];
+    else
+        _currentLocation = [newCurrentLocation copy];
 }
 
 - (NSObject *)display
@@ -351,7 +360,10 @@
 {
     [self.dirtyPropertySet addObject:@"display"];
 
-    _display = [newDisplay copy];
+    if (!newDisplay)
+        _display = [NSNull null];
+    else
+        _display = [newDisplay copy];
 }
 
 - (NSString *)displayName
@@ -363,7 +375,10 @@
 {
     [self.dirtyPropertySet addObject:@"displayName"];
 
-    _displayName = [newDisplayName copy];
+    if (!newDisplayName)
+        _displayName = [NSNull null];
+    else
+        _displayName = [newDisplayName copy];
 }
 
 - (NSString *)email
@@ -375,7 +390,10 @@
 {
     [self.dirtyPropertySet addObject:@"email"];
 
-    _email = [newEmail copy];
+    if (!newEmail)
+        _email = [NSNull null];
+    else
+        _email = [newEmail copy];
 }
 
 - (NSDate *)emailVerified
@@ -387,7 +405,10 @@
 {
     [self.dirtyPropertySet addObject:@"emailVerified"];
 
-    _emailVerified = [newEmailVerified copy];
+    if (!newEmailVerified)
+        _emailVerified = [NSNull null];
+    else
+        _emailVerified = [newEmailVerified copy];
 }
 
 - (NSString *)familyName
@@ -399,7 +420,10 @@
 {
     [self.dirtyPropertySet addObject:@"familyName"];
 
-    _familyName = [newFamilyName copy];
+    if (!newFamilyName)
+        _familyName = [NSNull null];
+    else
+        _familyName = [newFamilyName copy];
 }
 
 - (NSArray *)games
@@ -411,7 +435,10 @@
 {
     [self.dirtyPropertySet addObject:@"games"];
 
-    _games = [newGames copy];
+    if (!newGames)
+        _games = [NSNull null];
+    else
+        _games = [newGames copy];
 }
 
 - (NSString *)gender
@@ -423,7 +450,10 @@
 {
     [self.dirtyPropertySet addObject:@"gender"];
 
-    _gender = [newGender copy];
+    if (!newGender)
+        _gender = [NSNull null];
+    else
+        _gender = [newGender copy];
 }
 
 - (NSString *)givenName
@@ -435,7 +465,10 @@
 {
     [self.dirtyPropertySet addObject:@"givenName"];
 
-    _givenName = [newGivenName copy];
+    if (!newGivenName)
+        _givenName = [NSNull null];
+    else
+        _givenName = [newGivenName copy];
 }
 
 - (NSDate *)lastLogin
@@ -447,7 +480,10 @@
 {
     [self.dirtyPropertySet addObject:@"lastLogin"];
 
-    _lastLogin = [newLastLogin copy];
+    if (!newLastLogin)
+        _lastLogin = [NSNull null];
+    else
+        _lastLogin = [newLastLogin copy];
 }
 
 - (NSString *)middleName
@@ -459,7 +495,10 @@
 {
     [self.dirtyPropertySet addObject:@"middleName"];
 
-    _middleName = [newMiddleName copy];
+    if (!newMiddleName)
+        _middleName = [NSNull null];
+    else
+        _middleName = [newMiddleName copy];
 }
 
 - (JRObjectLevelOne *)objectLevelOne
@@ -471,7 +510,10 @@
 {
     [self.dirtyPropertySet addObject:@"objectLevelOne"];
 
-    _objectLevelOne = [newObjectLevelOne copy];
+    if (!newObjectLevelOne)
+        _objectLevelOne = [NSNull null];
+    else
+        _objectLevelOne = [newObjectLevelOne copy];
 }
 
 - (NSArray *)onipLevelOne
@@ -483,7 +525,10 @@
 {
     [self.dirtyPropertySet addObject:@"onipLevelOne"];
 
-    _onipLevelOne = [newOnipLevelOne copy];
+    if (!newOnipLevelOne)
+        _onipLevelOne = [NSNull null];
+    else
+        _onipLevelOne = [newOnipLevelOne copy];
 }
 
 - (NSObject *)password
@@ -495,7 +540,10 @@
 {
     [self.dirtyPropertySet addObject:@"password"];
 
-    _password = [newPassword copy];
+    if (!newPassword)
+        _password = [NSNull null];
+    else
+        _password = [newPassword copy];
 }
 
 - (NSArray *)photos
@@ -507,7 +555,10 @@
 {
     [self.dirtyPropertySet addObject:@"photos"];
 
-    _photos = [newPhotos copy];
+    if (!newPhotos)
+        _photos = [NSNull null];
+    else
+        _photos = [newPhotos copy];
 }
 
 - (JRPinoLevelOne *)pinoLevelOne
@@ -519,7 +570,10 @@
 {
     [self.dirtyPropertySet addObject:@"pinoLevelOne"];
 
-    _pinoLevelOne = [newPinoLevelOne copy];
+    if (!newPinoLevelOne)
+        _pinoLevelOne = [NSNull null];
+    else
+        _pinoLevelOne = [newPinoLevelOne copy];
 }
 
 - (NSArray *)pluralLevelOne
@@ -531,7 +585,10 @@
 {
     [self.dirtyPropertySet addObject:@"pluralLevelOne"];
 
-    _pluralLevelOne = [newPluralLevelOne copy];
+    if (!newPluralLevelOne)
+        _pluralLevelOne = [NSNull null];
+    else
+        _pluralLevelOne = [newPluralLevelOne copy];
 }
 
 - (JRPrimaryAddress *)primaryAddress
@@ -543,7 +600,10 @@
 {
     [self.dirtyPropertySet addObject:@"primaryAddress"];
 
-    _primaryAddress = [newPrimaryAddress copy];
+    if (!newPrimaryAddress)
+        _primaryAddress = [NSNull null];
+    else
+        _primaryAddress = [newPrimaryAddress copy];
 }
 
 - (NSArray *)profiles
@@ -555,7 +615,10 @@
 {
     [self.dirtyPropertySet addObject:@"profiles"];
 
-    _profiles = [newProfiles copy];
+    if (!newProfiles)
+        _profiles = [NSNull null];
+    else
+        _profiles = [newProfiles copy];
 }
 
 - (NSArray *)statuses
@@ -567,7 +630,10 @@
 {
     [self.dirtyPropertySet addObject:@"statuses"];
 
-    _statuses = [newStatuses copy];
+    if (!newStatuses)
+        _statuses = [NSNull null];
+    else
+        _statuses = [newStatuses copy];
 }
 
 - (id)initWithEmail:(NSString *)newEmail
@@ -661,7 +727,7 @@
 
 - (NSDictionary*)dictionaryFromCaptureUserObject
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:self.email forKey:@"email"];
@@ -669,220 +735,272 @@
     if (self.captureUserId)
         [dict setObject:[NSNumber numberWithInt:self.captureUserId] forKey:@"id"];
 
-    if (self.uuid)
+    if (self.uuid && self.uuid != [NSNull null])
         [dict setObject:self.uuid forKey:@"uuid"];
+    else
+        [dict setObject:[NSNull null] forKey:@"uuid"];
 
-    if (self.created)
+    if (self.created && self.created != [NSNull null])
         [dict setObject:[self.created stringFromISO8601DateTime] forKey:@"created"];
+    else
+        [dict setObject:[NSNull null] forKey:@"created"];
 
-    if (self.lastUpdated)
+    if (self.lastUpdated && self.lastUpdated != [NSNull null])
         [dict setObject:[self.lastUpdated stringFromISO8601DateTime] forKey:@"lastUpdated"];
+    else
+        [dict setObject:[NSNull null] forKey:@"lastUpdated"];
 
-    if (self.aboutMe)
+    if (self.aboutMe && self.aboutMe != [NSNull null])
         [dict setObject:self.aboutMe forKey:@"aboutMe"];
+    else
+        [dict setObject:[NSNull null] forKey:@"aboutMe"];
 
-    if (self.birthday)
+    if (self.birthday && self.birthday != [NSNull null])
         [dict setObject:[self.birthday stringFromISO8601Date] forKey:@"birthday"];
+    else
+        [dict setObject:[NSNull null] forKey:@"birthday"];
 
-    if (self.currentLocation)
+    if (self.currentLocation && self.currentLocation != [NSNull null])
         [dict setObject:self.currentLocation forKey:@"currentLocation"];
+    else
+        [dict setObject:[NSNull null] forKey:@"currentLocation"];
 
-    if (self.display)
+    if (self.display && self.display != [NSNull null])
         [dict setObject:self.display forKey:@"display"];
+    else
+        [dict setObject:[NSNull null] forKey:@"display"];
 
-    if (self.displayName)
+    if (self.displayName && self.displayName != [NSNull null])
         [dict setObject:self.displayName forKey:@"displayName"];
+    else
+        [dict setObject:[NSNull null] forKey:@"displayName"];
 
-    if (self.emailVerified)
+    if (self.emailVerified && self.emailVerified != [NSNull null])
         [dict setObject:[self.emailVerified stringFromISO8601DateTime] forKey:@"emailVerified"];
+    else
+        [dict setObject:[NSNull null] forKey:@"emailVerified"];
 
-    if (self.familyName)
+    if (self.familyName && self.familyName != [NSNull null])
         [dict setObject:self.familyName forKey:@"familyName"];
+    else
+        [dict setObject:[NSNull null] forKey:@"familyName"];
 
-    if (self.games)
+    if (self.games && self.games != [NSNull null])
         [dict setObject:[self.games arrayOfGamesDictionariesFromGamesObjects] forKey:@"games"];
+    else
+        [dict setObject:[NSNull null] forKey:@"games"];
 
-    if (self.gender)
+    if (self.gender && self.gender != [NSNull null])
         [dict setObject:self.gender forKey:@"gender"];
+    else
+        [dict setObject:[NSNull null] forKey:@"gender"];
 
-    if (self.givenName)
+    if (self.givenName && self.givenName != [NSNull null])
         [dict setObject:self.givenName forKey:@"givenName"];
+    else
+        [dict setObject:[NSNull null] forKey:@"givenName"];
 
-    if (self.lastLogin)
+    if (self.lastLogin && self.lastLogin != [NSNull null])
         [dict setObject:[self.lastLogin stringFromISO8601DateTime] forKey:@"lastLogin"];
+    else
+        [dict setObject:[NSNull null] forKey:@"lastLogin"];
 
-    if (self.middleName)
+    if (self.middleName && self.middleName != [NSNull null])
         [dict setObject:self.middleName forKey:@"middleName"];
+    else
+        [dict setObject:[NSNull null] forKey:@"middleName"];
 
-    if (self.objectLevelOne)
+    if (self.objectLevelOne && self.objectLevelOne != [NSNull null])
         [dict setObject:[self.objectLevelOne dictionaryFromObjectLevelOneObject] forKey:@"objectLevelOne"];
+    else
+        [dict setObject:[NSNull null] forKey:@"objectLevelOne"];
 
-    if (self.onipLevelOne)
+    if (self.onipLevelOne && self.onipLevelOne != [NSNull null])
         [dict setObject:[self.onipLevelOne arrayOfOnipLevelOneDictionariesFromOnipLevelOneObjects] forKey:@"onipLevelOne"];
+    else
+        [dict setObject:[NSNull null] forKey:@"onipLevelOne"];
 
-    if (self.password)
+    if (self.password && self.password != [NSNull null])
         [dict setObject:self.password forKey:@"password"];
+    else
+        [dict setObject:[NSNull null] forKey:@"password"];
 
-    if (self.photos)
+    if (self.photos && self.photos != [NSNull null])
         [dict setObject:[self.photos arrayOfPhotosDictionariesFromPhotosObjects] forKey:@"photos"];
+    else
+        [dict setObject:[NSNull null] forKey:@"photos"];
 
-    if (self.pinoLevelOne)
+    if (self.pinoLevelOne && self.pinoLevelOne != [NSNull null])
         [dict setObject:[self.pinoLevelOne dictionaryFromPinoLevelOneObject] forKey:@"pinoLevelOne"];
+    else
+        [dict setObject:[NSNull null] forKey:@"pinoLevelOne"];
 
-    if (self.pluralLevelOne)
+    if (self.pluralLevelOne && self.pluralLevelOne != [NSNull null])
         [dict setObject:[self.pluralLevelOne arrayOfPluralLevelOneDictionariesFromPluralLevelOneObjects] forKey:@"pluralLevelOne"];
+    else
+        [dict setObject:[NSNull null] forKey:@"pluralLevelOne"];
 
-    if (self.primaryAddress)
+    if (self.primaryAddress && self.primaryAddress != [NSNull null])
         [dict setObject:[self.primaryAddress dictionaryFromPrimaryAddressObject] forKey:@"primaryAddress"];
+    else
+        [dict setObject:[NSNull null] forKey:@"primaryAddress"];
 
-    if (self.profiles)
+    if (self.profiles && self.profiles != [NSNull null])
         [dict setObject:[self.profiles arrayOfProfilesDictionariesFromProfilesObjects] forKey:@"profiles"];
+    else
+        [dict setObject:[NSNull null] forKey:@"profiles"];
 
-    if (self.statuses)
+    if (self.statuses && self.statuses != [NSNull null])
         [dict setObject:[self.statuses arrayOfStatusesDictionariesFromStatusesObjects] forKey:@"statuses"];
+    else
+        [dict setObject:[NSNull null] forKey:@"statuses"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _captureUserId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"uuid"])
-        self.uuid = [dictionary objectForKey:@"uuid"];
+        _uuid = [dictionary objectForKey:@"uuid"];
 
     if ([dictionary objectForKey:@"created"])
-        self.created = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]];
+        _created = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]];
 
     if ([dictionary objectForKey:@"lastUpdated"])
-        self.lastUpdated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]];
+        _lastUpdated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]];
 
     if ([dictionary objectForKey:@"aboutMe"])
-        self.aboutMe = [dictionary objectForKey:@"aboutMe"];
+        _aboutMe = [dictionary objectForKey:@"aboutMe"];
 
     if ([dictionary objectForKey:@"birthday"])
-        self.birthday = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]];
+        _birthday = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]];
 
     if ([dictionary objectForKey:@"currentLocation"])
-        self.currentLocation = [dictionary objectForKey:@"currentLocation"];
+        _currentLocation = [dictionary objectForKey:@"currentLocation"];
 
     if ([dictionary objectForKey:@"display"])
-        self.display = [dictionary objectForKey:@"display"];
+        _display = [dictionary objectForKey:@"display"];
 
     if ([dictionary objectForKey:@"displayName"])
-        self.displayName = [dictionary objectForKey:@"displayName"];
+        _displayName = [dictionary objectForKey:@"displayName"];
 
     if ([dictionary objectForKey:@"email"])
-        self.email = [dictionary objectForKey:@"email"];
+        _email = [dictionary objectForKey:@"email"];
 
     if ([dictionary objectForKey:@"emailVerified"])
-        self.emailVerified = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]];
+        _emailVerified = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]];
 
     if ([dictionary objectForKey:@"familyName"])
-        self.familyName = [dictionary objectForKey:@"familyName"];
+        _familyName = [dictionary objectForKey:@"familyName"];
 
     if ([dictionary objectForKey:@"games"])
-        self.games = [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionaries];
+        _games = [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionaries];
 
     if ([dictionary objectForKey:@"gender"])
-        self.gender = [dictionary objectForKey:@"gender"];
+        _gender = [dictionary objectForKey:@"gender"];
 
     if ([dictionary objectForKey:@"givenName"])
-        self.givenName = [dictionary objectForKey:@"givenName"];
+        _givenName = [dictionary objectForKey:@"givenName"];
 
     if ([dictionary objectForKey:@"lastLogin"])
-        self.lastLogin = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]];
+        _lastLogin = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]];
 
     if ([dictionary objectForKey:@"middleName"])
-        self.middleName = [dictionary objectForKey:@"middleName"];
+        _middleName = [dictionary objectForKey:@"middleName"];
 
     if ([dictionary objectForKey:@"objectLevelOne"])
-        self.objectLevelOne = [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"]];
+        _objectLevelOne = [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"]];
 
     if ([dictionary objectForKey:@"onipLevelOne"])
-        self.onipLevelOne = [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionaries];
+        _onipLevelOne = [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionaries];
 
     if ([dictionary objectForKey:@"password"])
-        self.password = [dictionary objectForKey:@"password"];
+        _password = [dictionary objectForKey:@"password"];
 
     if ([dictionary objectForKey:@"photos"])
-        self.photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
+        _photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
 
     if ([dictionary objectForKey:@"pinoLevelOne"])
-        self.pinoLevelOne = [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"]];
+        _pinoLevelOne = [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"]];
 
     if ([dictionary objectForKey:@"pluralLevelOne"])
-        self.pluralLevelOne = [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionaries];
+        _pluralLevelOne = [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionaries];
 
     if ([dictionary objectForKey:@"primaryAddress"])
-        self.primaryAddress = [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]];
+        _primaryAddress = [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]];
 
     if ([dictionary objectForKey:@"profiles"])
-        self.profiles = [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionaries];
+        _profiles = [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionaries];
 
     if ([dictionary objectForKey:@"statuses"])
-        self.statuses = [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionaries];
+        _statuses = [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionaries];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.captureUserId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.uuid = [dictionary objectForKey:@"uuid"];
-    self.created = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]];
-    self.lastUpdated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]];
-    self.aboutMe = [dictionary objectForKey:@"aboutMe"];
-    self.birthday = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]];
-    self.currentLocation = [dictionary objectForKey:@"currentLocation"];
-    self.display = [dictionary objectForKey:@"display"];
-    self.displayName = [dictionary objectForKey:@"displayName"];
-    self.email = [dictionary objectForKey:@"email"];
-    self.emailVerified = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]];
-    self.familyName = [dictionary objectForKey:@"familyName"];
-    self.games = [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionaries];
-    self.gender = [dictionary objectForKey:@"gender"];
-    self.givenName = [dictionary objectForKey:@"givenName"];
-    self.lastLogin = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]];
-    self.middleName = [dictionary objectForKey:@"middleName"];
-    self.objectLevelOne = [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"]];
-    self.onipLevelOne = [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionaries];
-    self.password = [dictionary objectForKey:@"password"];
-    self.photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
-    self.pinoLevelOne = [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"]];
-    self.pluralLevelOne = [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionaries];
-    self.primaryAddress = [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]];
-    self.profiles = [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionaries];
-    self.statuses = [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionaries];
+    _captureUserId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _uuid = [dictionary objectForKey:@"uuid"];
+    _created = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]];
+    _lastUpdated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]];
+    _aboutMe = [dictionary objectForKey:@"aboutMe"];
+    _birthday = [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]];
+    _currentLocation = [dictionary objectForKey:@"currentLocation"];
+    _display = [dictionary objectForKey:@"display"];
+    _displayName = [dictionary objectForKey:@"displayName"];
+    _email = [dictionary objectForKey:@"email"];
+    _emailVerified = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]];
+    _familyName = [dictionary objectForKey:@"familyName"];
+    _games = [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionaries];
+    _gender = [dictionary objectForKey:@"gender"];
+    _givenName = [dictionary objectForKey:@"givenName"];
+    _lastLogin = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]];
+    _middleName = [dictionary objectForKey:@"middleName"];
+    _objectLevelOne = [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"]];
+    _onipLevelOne = [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionaries];
+    _password = [dictionary objectForKey:@"password"];
+    _photos = [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries];
+    _pinoLevelOne = [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"]];
+    _pluralLevelOne = [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionaries];
+    _primaryAddress = [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]];
+    _profiles = [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionaries];
+    _statuses = [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionaries];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    static int i = 0;
-    DLog(@"%d", ++i);
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
-    DLog(@"%d", ++i);
+
+    if ([self.dirtyPropertySet containsObject:@"captureUserId"])
+        [dict setObject:[NSNumber numberWithInt:self.captureUserId] forKey:@"id"];
+
     if ([self.dirtyPropertySet containsObject:@"uuid"])
         [dict setObject:self.uuid forKey:@"uuid"];
-    DLog(@"%d", ++i);
+
     if ([self.dirtyPropertySet containsObject:@"created"])
         [dict setObject:[self.created stringFromISO8601DateTime] forKey:@"created"];
-    DLog(@"%d", ++i);
+
     if ([self.dirtyPropertySet containsObject:@"lastUpdated"])
         [dict setObject:[self.lastUpdated stringFromISO8601DateTime] forKey:@"lastUpdated"];
-    DLog(@"%d", ++i);
+
     if ([self.dirtyPropertySet containsObject:@"aboutMe"])
-        [dict setObject:(self.aboutMe ? (NSObject *)self.aboutMe : (NSObject *)[NSNull null]) forKey:@"aboutMe"];
-    DLog(@"%d", ++i);
-//    if ([self.dirtyPropertySet containsObject:@"birthday"])
-//        [dict setObject:[self.birthday stringFromISO8601Date] forKey:@"birthday"];
-    DLog(@"%d", ++i);
+        [dict setObject:self.aboutMe forKey:@"aboutMe"];
+
+    if ([self.dirtyPropertySet containsObject:@"birthday"])
+        [dict setObject:[self.birthday stringFromISO8601Date] forKey:@"birthday"];
+
     if ([self.dirtyPropertySet containsObject:@"currentLocation"])
         [dict setObject:self.currentLocation forKey:@"currentLocation"];
-    DLog(@"%d", ++i);
+
     if ([self.dirtyPropertySet containsObject:@"display"])
         [dict setObject:self.display forKey:@"display"];
-    DLog(@"%d", ++i);
+
     if ([self.dirtyPropertySet containsObject:@"displayName"])
         [dict setObject:self.displayName forKey:@"displayName"];
-    DLog(@"%d", ++i);
+
     if ([self.dirtyPropertySet containsObject:@"email"])
         [dict setObject:self.email forKey:@"email"];
 
@@ -934,14 +1052,13 @@
     if ([self.dirtyPropertySet containsObject:@"statuses"])
         [dict setObject:[self.statuses arrayOfStatusesDictionariesFromStatusesObjects] forKey:@"statuses"];
 
-    DLog(@"dict: %@", [dict description]);
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.captureUserId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -953,6 +1070,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.captureUserId] forKey:@"id"];
     [dict setObject:self.uuid forKey:@"uuid"];
     [dict setObject:[self.created stringFromISO8601DateTime] forKey:@"created"];
     [dict setObject:[self.lastUpdated stringFromISO8601DateTime] forKey:@"lastUpdated"];
@@ -985,7 +1103,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.captureUserId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

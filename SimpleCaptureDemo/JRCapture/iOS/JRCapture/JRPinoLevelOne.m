@@ -50,7 +50,10 @@
 {
     [self.dirtyPropertySet addObject:@"level"];
 
-    _level = [newLevel copy];
+    if (!newLevel)
+        _level = [NSNull null];
+    else
+        _level = [newLevel copy];
 }
 
 - (NSString *)name
@@ -62,7 +65,10 @@
 {
     [self.dirtyPropertySet addObject:@"name"];
 
-    _name = [newName copy];
+    if (!newName)
+        _name = [NSNull null];
+    else
+        _name = [newName copy];
 }
 
 - (JRPinoLevelTwo *)pinoLevelTwo
@@ -74,7 +80,10 @@
 {
     [self.dirtyPropertySet addObject:@"pinoLevelTwo"];
 
-    _pinoLevelTwo = [newPinoLevelTwo copy];
+    if (!newPinoLevelTwo)
+        _pinoLevelTwo = [NSNull null];
+    else
+        _pinoLevelTwo = [newPinoLevelTwo copy];
 }
 
 - (id)init
@@ -120,14 +129,20 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if (self.level)
+    if (self.level && self.level != [NSNull null])
         [dict setObject:self.level forKey:@"level"];
+    else
+        [dict setObject:[NSNull null] forKey:@"level"];
 
-    if (self.name)
+    if (self.name && self.name != [NSNull null])
         [dict setObject:self.name forKey:@"name"];
+    else
+        [dict setObject:[NSNull null] forKey:@"name"];
 
-    if (self.pinoLevelTwo)
+    if (self.pinoLevelTwo && self.pinoLevelTwo != [NSNull null])
         [dict setObject:[self.pinoLevelTwo dictionaryFromPinoLevelTwoObject] forKey:@"pinoLevelTwo"];
+    else
+        [dict setObject:[NSNull null] forKey:@"pinoLevelTwo"];
 
     return dict;
 }
@@ -135,20 +150,20 @@
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"];
+        _level = [dictionary objectForKey:@"level"];
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"];
+        _name = [dictionary objectForKey:@"name"];
 
     if ([dictionary objectForKey:@"pinoLevelTwo"])
-        self.pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelTwo"]];
+        _pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelTwo"]];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.level = [dictionary objectForKey:@"level"];
-    self.name = [dictionary objectForKey:@"name"];
-    self.pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelTwo"]];
+    _level = [dictionary objectForKey:@"level"];
+    _name = [dictionary objectForKey:@"name"];
+    _pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelTwo"]];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context

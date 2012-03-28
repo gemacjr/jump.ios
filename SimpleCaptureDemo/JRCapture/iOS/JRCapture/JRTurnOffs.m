@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"turnOff"];
 
-    _turnOff = [newTurnOff copy];
+    if (!newTurnOff)
+        _turnOff = [NSNull null];
+    else
+        _turnOff = [newTurnOff copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.turnOffsId)
         [dict setObject:[NSNumber numberWithInt:self.turnOffsId] forKey:@"id"];
 
-    if (self.turnOff)
+    if (self.turnOff && self.turnOff != [NSNull null])
         [dict setObject:self.turnOff forKey:@"turnOff"];
+    else
+        [dict setObject:[NSNull null] forKey:@"turnOff"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _turnOffsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"turnOff"])
-        self.turnOff = [dictionary objectForKey:@"turnOff"];
+        _turnOff = [dictionary objectForKey:@"turnOff"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.turnOffsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.turnOff = [dictionary objectForKey:@"turnOff"];
+    _turnOffsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _turnOff = [dictionary objectForKey:@"turnOff"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"turnOffsId"])
+        [dict setObject:[NSNumber numberWithInt:self.turnOffsId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"turnOff"])
         [dict setObject:self.turnOff forKey:@"turnOff"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.turnOffsId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.turnOffsId] forKey:@"id"];
     [dict setObject:self.turnOff forKey:@"turnOff"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.turnOffsId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"tvShow"];
 
-    _tvShow = [newTvShow copy];
+    if (!newTvShow)
+        _tvShow = [NSNull null];
+    else
+        _tvShow = [newTvShow copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.tvShowsId)
         [dict setObject:[NSNumber numberWithInt:self.tvShowsId] forKey:@"id"];
 
-    if (self.tvShow)
+    if (self.tvShow && self.tvShow != [NSNull null])
         [dict setObject:self.tvShow forKey:@"tvShow"];
+    else
+        [dict setObject:[NSNull null] forKey:@"tvShow"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _tvShowsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"tvShow"])
-        self.tvShow = [dictionary objectForKey:@"tvShow"];
+        _tvShow = [dictionary objectForKey:@"tvShow"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.tvShowsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.tvShow = [dictionary objectForKey:@"tvShow"];
+    _tvShowsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _tvShow = [dictionary objectForKey:@"tvShow"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"tvShowsId"])
+        [dict setObject:[NSNumber numberWithInt:self.tvShowsId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"tvShow"])
         [dict setObject:self.tvShow forKey:@"tvShow"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.tvShowsId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.tvShowsId] forKey:@"id"];
     [dict setObject:self.tvShow forKey:@"tvShow"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.tvShowsId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

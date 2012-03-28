@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"music"];
 
-    _music = [newMusic copy];
+    if (!newMusic)
+        _music = [NSNull null];
+    else
+        _music = [newMusic copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.musicId)
         [dict setObject:[NSNumber numberWithInt:self.musicId] forKey:@"id"];
 
-    if (self.music)
+    if (self.music && self.music != [NSNull null])
         [dict setObject:self.music forKey:@"music"];
+    else
+        [dict setObject:[NSNull null] forKey:@"music"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _musicId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"music"])
-        self.music = [dictionary objectForKey:@"music"];
+        _music = [dictionary objectForKey:@"music"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.musicId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.music = [dictionary objectForKey:@"music"];
+    _musicId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _music = [dictionary objectForKey:@"music"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"musicId"])
+        [dict setObject:[NSNumber numberWithInt:self.musicId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"music"])
         [dict setObject:self.music forKey:@"music"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.musicId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.musicId] forKey:@"id"];
     [dict setObject:self.music forKey:@"music"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.musicId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

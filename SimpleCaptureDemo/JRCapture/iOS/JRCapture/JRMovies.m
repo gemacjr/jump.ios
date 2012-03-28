@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"movie"];
 
-    _movie = [newMovie copy];
+    if (!newMovie)
+        _movie = [NSNull null];
+    else
+        _movie = [newMovie copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.moviesId)
         [dict setObject:[NSNumber numberWithInt:self.moviesId] forKey:@"id"];
 
-    if (self.movie)
+    if (self.movie && self.movie != [NSNull null])
         [dict setObject:self.movie forKey:@"movie"];
+    else
+        [dict setObject:[NSNull null] forKey:@"movie"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _moviesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"movie"])
-        self.movie = [dictionary objectForKey:@"movie"];
+        _movie = [dictionary objectForKey:@"movie"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.moviesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.movie = [dictionary objectForKey:@"movie"];
+    _moviesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _movie = [dictionary objectForKey:@"movie"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"moviesId"])
+        [dict setObject:[NSNumber numberWithInt:self.moviesId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"movie"])
         [dict setObject:self.movie forKey:@"movie"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.moviesId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.moviesId] forKey:@"id"];
     [dict setObject:self.movie forKey:@"movie"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.moviesId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

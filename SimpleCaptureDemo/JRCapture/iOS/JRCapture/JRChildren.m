@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"value"];
 
-    _value = [newValue copy];
+    if (!newValue)
+        _value = [NSNull null];
+    else
+        _value = [newValue copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.childrenId)
         [dict setObject:[NSNumber numberWithInt:self.childrenId] forKey:@"id"];
 
-    if (self.value)
+    if (self.value && self.value != [NSNull null])
         [dict setObject:self.value forKey:@"value"];
+    else
+        [dict setObject:[NSNull null] forKey:@"value"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _childrenId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"value"])
-        self.value = [dictionary objectForKey:@"value"];
+        _value = [dictionary objectForKey:@"value"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.childrenId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.value = [dictionary objectForKey:@"value"];
+    _childrenId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _value = [dictionary objectForKey:@"value"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"childrenId"])
+        [dict setObject:[NSNumber numberWithInt:self.childrenId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"value"])
         [dict setObject:self.value forKey:@"value"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.childrenId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.childrenId] forKey:@"id"];
     [dict setObject:self.value forKey:@"value"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.childrenId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

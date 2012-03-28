@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"jobInterest"];
 
-    _jobInterest = [newJobInterest copy];
+    if (!newJobInterest)
+        _jobInterest = [NSNull null];
+    else
+        _jobInterest = [newJobInterest copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.jobInterestsId)
         [dict setObject:[NSNumber numberWithInt:self.jobInterestsId] forKey:@"id"];
 
-    if (self.jobInterest)
+    if (self.jobInterest && self.jobInterest != [NSNull null])
         [dict setObject:self.jobInterest forKey:@"jobInterest"];
+    else
+        [dict setObject:[NSNull null] forKey:@"jobInterest"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _jobInterestsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"jobInterest"])
-        self.jobInterest = [dictionary objectForKey:@"jobInterest"];
+        _jobInterest = [dictionary objectForKey:@"jobInterest"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.jobInterestsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.jobInterest = [dictionary objectForKey:@"jobInterest"];
+    _jobInterestsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _jobInterest = [dictionary objectForKey:@"jobInterest"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"jobInterestsId"])
+        [dict setObject:[NSNumber numberWithInt:self.jobInterestsId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"jobInterest"])
         [dict setObject:self.jobInterest forKey:@"jobInterest"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.jobInterestsId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.jobInterestsId] forKey:@"id"];
     [dict setObject:self.jobInterest forKey:@"jobInterest"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.jobInterestsId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

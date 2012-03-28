@@ -54,7 +54,10 @@
 {
     [self.dirtyPropertySet addObject:@"build"];
 
-    _build = [newBuild copy];
+    if (!newBuild)
+        _build = [NSNull null];
+    else
+        _build = [newBuild copy];
 }
 
 - (NSString *)color
@@ -66,7 +69,10 @@
 {
     [self.dirtyPropertySet addObject:@"color"];
 
-    _color = [newColor copy];
+    if (!newColor)
+        _color = [NSNull null];
+    else
+        _color = [newColor copy];
 }
 
 - (NSString *)eyeColor
@@ -78,7 +84,10 @@
 {
     [self.dirtyPropertySet addObject:@"eyeColor"];
 
-    _eyeColor = [newEyeColor copy];
+    if (!newEyeColor)
+        _eyeColor = [NSNull null];
+    else
+        _eyeColor = [newEyeColor copy];
 }
 
 - (NSString *)hairColor
@@ -90,7 +99,10 @@
 {
     [self.dirtyPropertySet addObject:@"hairColor"];
 
-    _hairColor = [newHairColor copy];
+    if (!newHairColor)
+        _hairColor = [NSNull null];
+    else
+        _hairColor = [newHairColor copy];
 }
 
 - (NSNumber *)height
@@ -102,7 +114,10 @@
 {
     [self.dirtyPropertySet addObject:@"height"];
 
-    _height = [newHeight copy];
+    if (!newHeight)
+        _height = [NSNull null];
+    else
+        _height = [newHeight copy];
 }
 
 - (id)init
@@ -152,20 +167,30 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if (self.build)
+    if (self.build && self.build != [NSNull null])
         [dict setObject:self.build forKey:@"build"];
+    else
+        [dict setObject:[NSNull null] forKey:@"build"];
 
-    if (self.color)
+    if (self.color && self.color != [NSNull null])
         [dict setObject:self.color forKey:@"color"];
+    else
+        [dict setObject:[NSNull null] forKey:@"color"];
 
-    if (self.eyeColor)
+    if (self.eyeColor && self.eyeColor != [NSNull null])
         [dict setObject:self.eyeColor forKey:@"eyeColor"];
+    else
+        [dict setObject:[NSNull null] forKey:@"eyeColor"];
 
-    if (self.hairColor)
+    if (self.hairColor && self.hairColor != [NSNull null])
         [dict setObject:self.hairColor forKey:@"hairColor"];
+    else
+        [dict setObject:[NSNull null] forKey:@"hairColor"];
 
-    if (self.height)
+    if (self.height && self.height != [NSNull null])
         [dict setObject:self.height forKey:@"height"];
+    else
+        [dict setObject:[NSNull null] forKey:@"height"];
 
     return dict;
 }
@@ -173,28 +198,28 @@
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"build"])
-        self.build = [dictionary objectForKey:@"build"];
+        _build = [dictionary objectForKey:@"build"];
 
     if ([dictionary objectForKey:@"color"])
-        self.color = [dictionary objectForKey:@"color"];
+        _color = [dictionary objectForKey:@"color"];
 
     if ([dictionary objectForKey:@"eyeColor"])
-        self.eyeColor = [dictionary objectForKey:@"eyeColor"];
+        _eyeColor = [dictionary objectForKey:@"eyeColor"];
 
     if ([dictionary objectForKey:@"hairColor"])
-        self.hairColor = [dictionary objectForKey:@"hairColor"];
+        _hairColor = [dictionary objectForKey:@"hairColor"];
 
     if ([dictionary objectForKey:@"height"])
-        self.height = [dictionary objectForKey:@"height"];
+        _height = [dictionary objectForKey:@"height"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.build = [dictionary objectForKey:@"build"];
-    self.color = [dictionary objectForKey:@"color"];
-    self.eyeColor = [dictionary objectForKey:@"eyeColor"];
-    self.hairColor = [dictionary objectForKey:@"hairColor"];
-    self.height = [dictionary objectForKey:@"height"];
+    _build = [dictionary objectForKey:@"build"];
+    _color = [dictionary objectForKey:@"color"];
+    _eyeColor = [dictionary objectForKey:@"eyeColor"];
+    _hairColor = [dictionary objectForKey:@"hairColor"];
+    _height = [dictionary objectForKey:@"height"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context

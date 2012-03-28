@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"identifier"];
 
-    _identifier = [newIdentifier copy];
+    if (!newIdentifier)
+        _identifier = [NSNull null];
+    else
+        _identifier = [newIdentifier copy];
 }
 
 - (id)initWithIdentifier:(NSString *)newIdentifier
@@ -119,20 +122,26 @@
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _followersId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"identifier"])
-        self.identifier = [dictionary objectForKey:@"identifier"];
+        _identifier = [dictionary objectForKey:@"identifier"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.followersId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.identifier = [dictionary objectForKey:@"identifier"];
+    _followersId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _identifier = [dictionary objectForKey:@"identifier"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"followersId"])
+        [dict setObject:[NSNumber numberWithInt:self.followersId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"identifier"])
         [dict setObject:self.identifier forKey:@"identifier"];
@@ -143,7 +152,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.followersId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -155,6 +164,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.followersId] forKey:@"id"];
     [dict setObject:self.identifier forKey:@"identifier"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -163,7 +173,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.followersId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

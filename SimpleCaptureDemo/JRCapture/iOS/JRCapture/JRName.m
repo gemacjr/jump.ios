@@ -56,7 +56,10 @@
 {
     [self.dirtyPropertySet addObject:@"familyName"];
 
-    _familyName = [newFamilyName copy];
+    if (!newFamilyName)
+        _familyName = [NSNull null];
+    else
+        _familyName = [newFamilyName copy];
 }
 
 - (NSString *)formatted
@@ -68,7 +71,10 @@
 {
     [self.dirtyPropertySet addObject:@"formatted"];
 
-    _formatted = [newFormatted copy];
+    if (!newFormatted)
+        _formatted = [NSNull null];
+    else
+        _formatted = [newFormatted copy];
 }
 
 - (NSString *)givenName
@@ -80,7 +86,10 @@
 {
     [self.dirtyPropertySet addObject:@"givenName"];
 
-    _givenName = [newGivenName copy];
+    if (!newGivenName)
+        _givenName = [NSNull null];
+    else
+        _givenName = [newGivenName copy];
 }
 
 - (NSString *)honorificPrefix
@@ -92,7 +101,10 @@
 {
     [self.dirtyPropertySet addObject:@"honorificPrefix"];
 
-    _honorificPrefix = [newHonorificPrefix copy];
+    if (!newHonorificPrefix)
+        _honorificPrefix = [NSNull null];
+    else
+        _honorificPrefix = [newHonorificPrefix copy];
 }
 
 - (NSString *)honorificSuffix
@@ -104,7 +116,10 @@
 {
     [self.dirtyPropertySet addObject:@"honorificSuffix"];
 
-    _honorificSuffix = [newHonorificSuffix copy];
+    if (!newHonorificSuffix)
+        _honorificSuffix = [NSNull null];
+    else
+        _honorificSuffix = [newHonorificSuffix copy];
 }
 
 - (NSString *)middleName
@@ -116,7 +131,10 @@
 {
     [self.dirtyPropertySet addObject:@"middleName"];
 
-    _middleName = [newMiddleName copy];
+    if (!newMiddleName)
+        _middleName = [NSNull null];
+    else
+        _middleName = [newMiddleName copy];
 }
 
 - (id)init
@@ -168,23 +186,35 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if (self.familyName)
+    if (self.familyName && self.familyName != [NSNull null])
         [dict setObject:self.familyName forKey:@"familyName"];
+    else
+        [dict setObject:[NSNull null] forKey:@"familyName"];
 
-    if (self.formatted)
+    if (self.formatted && self.formatted != [NSNull null])
         [dict setObject:self.formatted forKey:@"formatted"];
+    else
+        [dict setObject:[NSNull null] forKey:@"formatted"];
 
-    if (self.givenName)
+    if (self.givenName && self.givenName != [NSNull null])
         [dict setObject:self.givenName forKey:@"givenName"];
+    else
+        [dict setObject:[NSNull null] forKey:@"givenName"];
 
-    if (self.honorificPrefix)
+    if (self.honorificPrefix && self.honorificPrefix != [NSNull null])
         [dict setObject:self.honorificPrefix forKey:@"honorificPrefix"];
+    else
+        [dict setObject:[NSNull null] forKey:@"honorificPrefix"];
 
-    if (self.honorificSuffix)
+    if (self.honorificSuffix && self.honorificSuffix != [NSNull null])
         [dict setObject:self.honorificSuffix forKey:@"honorificSuffix"];
+    else
+        [dict setObject:[NSNull null] forKey:@"honorificSuffix"];
 
-    if (self.middleName)
+    if (self.middleName && self.middleName != [NSNull null])
         [dict setObject:self.middleName forKey:@"middleName"];
+    else
+        [dict setObject:[NSNull null] forKey:@"middleName"];
 
     return dict;
 }
@@ -192,32 +222,32 @@
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"familyName"])
-        self.familyName = [dictionary objectForKey:@"familyName"];
+        _familyName = [dictionary objectForKey:@"familyName"];
 
     if ([dictionary objectForKey:@"formatted"])
-        self.formatted = [dictionary objectForKey:@"formatted"];
+        _formatted = [dictionary objectForKey:@"formatted"];
 
     if ([dictionary objectForKey:@"givenName"])
-        self.givenName = [dictionary objectForKey:@"givenName"];
+        _givenName = [dictionary objectForKey:@"givenName"];
 
     if ([dictionary objectForKey:@"honorificPrefix"])
-        self.honorificPrefix = [dictionary objectForKey:@"honorificPrefix"];
+        _honorificPrefix = [dictionary objectForKey:@"honorificPrefix"];
 
     if ([dictionary objectForKey:@"honorificSuffix"])
-        self.honorificSuffix = [dictionary objectForKey:@"honorificSuffix"];
+        _honorificSuffix = [dictionary objectForKey:@"honorificSuffix"];
 
     if ([dictionary objectForKey:@"middleName"])
-        self.middleName = [dictionary objectForKey:@"middleName"];
+        _middleName = [dictionary objectForKey:@"middleName"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.familyName = [dictionary objectForKey:@"familyName"];
-    self.formatted = [dictionary objectForKey:@"formatted"];
-    self.givenName = [dictionary objectForKey:@"givenName"];
-    self.honorificPrefix = [dictionary objectForKey:@"honorificPrefix"];
-    self.honorificSuffix = [dictionary objectForKey:@"honorificSuffix"];
-    self.middleName = [dictionary objectForKey:@"middleName"];
+    _familyName = [dictionary objectForKey:@"familyName"];
+    _formatted = [dictionary objectForKey:@"formatted"];
+    _givenName = [dictionary objectForKey:@"givenName"];
+    _honorificPrefix = [dictionary objectForKey:@"honorificPrefix"];
+    _honorificSuffix = [dictionary objectForKey:@"honorificSuffix"];
+    _middleName = [dictionary objectForKey:@"middleName"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context

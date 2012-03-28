@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"food"];
 
-    _food = [newFood copy];
+    if (!newFood)
+        _food = [NSNull null];
+    else
+        _food = [newFood copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.foodId)
         [dict setObject:[NSNumber numberWithInt:self.foodId] forKey:@"id"];
 
-    if (self.food)
+    if (self.food && self.food != [NSNull null])
         [dict setObject:self.food forKey:@"food"];
+    else
+        [dict setObject:[NSNull null] forKey:@"food"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _foodId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"food"])
-        self.food = [dictionary objectForKey:@"food"];
+        _food = [dictionary objectForKey:@"food"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.foodId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.food = [dictionary objectForKey:@"food"];
+    _foodId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _food = [dictionary objectForKey:@"food"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"foodId"])
+        [dict setObject:[NSNumber numberWithInt:self.foodId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"food"])
         [dict setObject:self.food forKey:@"food"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.foodId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.foodId] forKey:@"id"];
     [dict setObject:self.food forKey:@"food"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.foodId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

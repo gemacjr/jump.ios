@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"car"];
 
-    _car = [newCar copy];
+    if (!newCar)
+        _car = [NSNull null];
+    else
+        _car = [newCar copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.carsId)
         [dict setObject:[NSNumber numberWithInt:self.carsId] forKey:@"id"];
 
-    if (self.car)
+    if (self.car && self.car != [NSNull null])
         [dict setObject:self.car forKey:@"car"];
+    else
+        [dict setObject:[NSNull null] forKey:@"car"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _carsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"car"])
-        self.car = [dictionary objectForKey:@"car"];
+        _car = [dictionary objectForKey:@"car"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.carsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.car = [dictionary objectForKey:@"car"];
+    _carsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _car = [dictionary objectForKey:@"car"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"carsId"])
+        [dict setObject:[NSNumber numberWithInt:self.carsId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"car"])
         [dict setObject:self.car forKey:@"car"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.carsId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.carsId] forKey:@"id"];
     [dict setObject:self.car forKey:@"car"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.carsId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

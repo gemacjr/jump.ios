@@ -91,7 +91,10 @@
 {
     [self.dirtyPropertySet addObject:@"level"];
 
-    _level = [newLevel copy];
+    if (!newLevel)
+        _level = [NSNull null];
+    else
+        _level = [newLevel copy];
 }
 
 - (NSString *)name
@@ -103,7 +106,10 @@
 {
     [self.dirtyPropertySet addObject:@"name"];
 
-    _name = [newName copy];
+    if (!newName)
+        _name = [NSNull null];
+    else
+        _name = [newName copy];
 }
 
 - (NSArray *)pluralLevelThree
@@ -115,7 +121,10 @@
 {
     [self.dirtyPropertySet addObject:@"pluralLevelThree"];
 
-    _pluralLevelThree = [newPluralLevelThree copy];
+    if (!newPluralLevelThree)
+        _pluralLevelThree = [NSNull null];
+    else
+        _pluralLevelThree = [newPluralLevelThree copy];
 }
 
 - (id)init
@@ -166,42 +175,54 @@
     if (self.pluralLevelTwoId)
         [dict setObject:[NSNumber numberWithInt:self.pluralLevelTwoId] forKey:@"id"];
 
-    if (self.level)
+    if (self.level && self.level != [NSNull null])
         [dict setObject:self.level forKey:@"level"];
+    else
+        [dict setObject:[NSNull null] forKey:@"level"];
 
-    if (self.name)
+    if (self.name && self.name != [NSNull null])
         [dict setObject:self.name forKey:@"name"];
+    else
+        [dict setObject:[NSNull null] forKey:@"name"];
 
-    if (self.pluralLevelThree)
+    if (self.pluralLevelThree && self.pluralLevelThree != [NSNull null])
         [dict setObject:[self.pluralLevelThree arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeObjects] forKey:@"pluralLevelThree"];
+    else
+        [dict setObject:[NSNull null] forKey:@"pluralLevelThree"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _pluralLevelTwoId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"];
+        _level = [dictionary objectForKey:@"level"];
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"];
+        _name = [dictionary objectForKey:@"name"];
 
     if ([dictionary objectForKey:@"pluralLevelThree"])
-        self.pluralLevelThree = [(NSArray*)[dictionary objectForKey:@"pluralLevelThree"] arrayOfPluralLevelThreeObjectsFromPluralLevelThreeDictionaries];
+        _pluralLevelThree = [(NSArray*)[dictionary objectForKey:@"pluralLevelThree"] arrayOfPluralLevelThreeObjectsFromPluralLevelThreeDictionaries];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.pluralLevelTwoId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.level = [dictionary objectForKey:@"level"];
-    self.name = [dictionary objectForKey:@"name"];
-    self.pluralLevelThree = [(NSArray*)[dictionary objectForKey:@"pluralLevelThree"] arrayOfPluralLevelThreeObjectsFromPluralLevelThreeDictionaries];
+    _pluralLevelTwoId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _level = [dictionary objectForKey:@"level"];
+    _name = [dictionary objectForKey:@"name"];
+    _pluralLevelThree = [(NSArray*)[dictionary objectForKey:@"pluralLevelThree"] arrayOfPluralLevelThreeObjectsFromPluralLevelThreeDictionaries];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"pluralLevelTwoId"])
+        [dict setObject:[NSNumber numberWithInt:self.pluralLevelTwoId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"level"])
         [dict setObject:self.level forKey:@"level"];
@@ -218,7 +239,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.pluralLevelTwoId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -230,6 +251,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.pluralLevelTwoId] forKey:@"id"];
     [dict setObject:self.level forKey:@"level"];
     [dict setObject:self.name forKey:@"name"];
     [dict setObject:[self.pluralLevelThree arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeObjects] forKey:@"pluralLevelThree"];
@@ -240,7 +262,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.pluralLevelTwoId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

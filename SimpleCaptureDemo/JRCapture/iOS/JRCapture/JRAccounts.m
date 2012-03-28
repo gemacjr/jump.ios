@@ -66,7 +66,10 @@
 {
     [self.dirtyPropertySet addObject:@"domain"];
 
-    _domain = [newDomain copy];
+    if (!newDomain)
+        _domain = [NSNull null];
+    else
+        _domain = [newDomain copy];
 }
 
 - (BOOL)primary
@@ -90,7 +93,10 @@
 {
     [self.dirtyPropertySet addObject:@"userid"];
 
-    _userid = [newUserid copy];
+    if (!newUserid)
+        _userid = [NSNull null];
+    else
+        _userid = [newUserid copy];
 }
 
 - (NSString *)username
@@ -102,7 +108,10 @@
 {
     [self.dirtyPropertySet addObject:@"username"];
 
-    _username = [newUsername copy];
+    if (!newUsername)
+        _username = [NSNull null];
+    else
+        _username = [newUsername copy];
 }
 
 - (id)init
@@ -155,49 +164,61 @@
     if (self.accountsId)
         [dict setObject:[NSNumber numberWithInt:self.accountsId] forKey:@"id"];
 
-    if (self.domain)
+    if (self.domain && self.domain != [NSNull null])
         [dict setObject:self.domain forKey:@"domain"];
+    else
+        [dict setObject:[NSNull null] forKey:@"domain"];
 
     if (self.primary)
         [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
 
-    if (self.userid)
+    if (self.userid && self.userid != [NSNull null])
         [dict setObject:self.userid forKey:@"userid"];
+    else
+        [dict setObject:[NSNull null] forKey:@"userid"];
 
-    if (self.username)
+    if (self.username && self.username != [NSNull null])
         [dict setObject:self.username forKey:@"username"];
+    else
+        [dict setObject:[NSNull null] forKey:@"username"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _accountsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"domain"])
-        self.domain = [dictionary objectForKey:@"domain"];
+        _domain = [dictionary objectForKey:@"domain"];
 
     if ([dictionary objectForKey:@"primary"])
-        self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+        _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
 
     if ([dictionary objectForKey:@"userid"])
-        self.userid = [dictionary objectForKey:@"userid"];
+        _userid = [dictionary objectForKey:@"userid"];
 
     if ([dictionary objectForKey:@"username"])
-        self.username = [dictionary objectForKey:@"username"];
+        _username = [dictionary objectForKey:@"username"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.accountsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.domain = [dictionary objectForKey:@"domain"];
-    self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
-    self.userid = [dictionary objectForKey:@"userid"];
-    self.username = [dictionary objectForKey:@"username"];
+    _accountsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _domain = [dictionary objectForKey:@"domain"];
+    _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    _userid = [dictionary objectForKey:@"userid"];
+    _username = [dictionary objectForKey:@"username"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"accountsId"])
+        [dict setObject:[NSNumber numberWithInt:self.accountsId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"domain"])
         [dict setObject:self.domain forKey:@"domain"];
@@ -217,7 +238,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.accountsId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -229,6 +250,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.accountsId] forKey:@"id"];
     [dict setObject:self.domain forKey:@"domain"];
     [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
     [dict setObject:self.userid forKey:@"userid"];
@@ -240,7 +262,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.accountsId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

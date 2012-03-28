@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"book"];
 
-    _book = [newBook copy];
+    if (!newBook)
+        _book = [NSNull null];
+    else
+        _book = [newBook copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.booksId)
         [dict setObject:[NSNumber numberWithInt:self.booksId] forKey:@"id"];
 
-    if (self.book)
+    if (self.book && self.book != [NSNull null])
         [dict setObject:self.book forKey:@"book"];
+    else
+        [dict setObject:[NSNull null] forKey:@"book"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _booksId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"book"])
-        self.book = [dictionary objectForKey:@"book"];
+        _book = [dictionary objectForKey:@"book"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.booksId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.book = [dictionary objectForKey:@"book"];
+    _booksId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _book = [dictionary objectForKey:@"book"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"booksId"])
+        [dict setObject:[NSNumber numberWithInt:self.booksId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"book"])
         [dict setObject:self.book forKey:@"book"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.booksId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.booksId] forKey:@"id"];
     [dict setObject:self.book forKey:@"book"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.booksId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

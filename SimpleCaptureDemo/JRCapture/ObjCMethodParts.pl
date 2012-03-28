@@ -439,26 +439,31 @@ sub createGetterSetterForProperty {
   my $propertyName  = $_[0];
   my $propertyType  = $_[1];
   my $isNotNSObject = $_[2];
+  my $getter;
+  my $setter;
   
-  my $getterSetter = "- (" . $propertyType . ")" . $propertyName;
+  $getter = "- (" . $propertyType . ")" . $propertyName;
   
-  $getterSetter .= "\n{\n";
-  $getterSetter .= "    return _" . $propertyName . ";";
-  $getterSetter .= "\n}\n\n";
+  $getter .= "\n{\n";
+  $getter .= "    return _" . $propertyName . ";";
+  $getter .= "\n}\n\n";
   
-  $getterSetter .= "- (void)set". ucfirst($propertyName) . ":(" . $propertyType . ")new" . ucfirst($propertyName); 
-  $getterSetter .= "\n{\n";
-  $getterSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
+  $setter .= "- (void)set". ucfirst($propertyName) . ":(" . $propertyType . ")new" . ucfirst($propertyName); 
+  $setter .= "\n{\n";
+  $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
 
   if ($isNotNSObject) {
-    $getterSetter .= "    _" . $propertyName .  " = new" . ucfirst($propertyName) . ";";  
+    $setter .= "    _" . $propertyName .  " = new" . ucfirst($propertyName) . ";";  
   } else {
-    $getterSetter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";  
+    $setter .= "    if (!new" . ucfirst($propertyName) . ")\n";
+    $setter .= "        _" . $propertyName .  " = [NSNull null];\n";  
+    $setter .= "    else\n";
+    $setter .= "        _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";  
   }
   
-  $getterSetter .= "\n}\n\n";
+  $setter .= "\n}\n\n";
 
-  return $getterSetter;
+  return $getter . $setter;
 }
 
 sub getConstructorParts {
@@ -503,6 +508,18 @@ sub getDestructorParts {
 
 sub getCopyrightHeader {
   return $copyrightHeader;
+}
+
+sub getObjcKeywords {
+  my @keywords = ("auto", "_Bool", "_Complex", "_Imaginery", "atomic", "BOOL", "break", "bycopy", "byref", 
+                  "case", "char", "Class", "const", "continue", "default", "do", "double", "else", "enum", 
+                  "extern", "float", "for", "goto", "id", "if", "IMP", "in", "inline", "inout", "int", "long", 
+                  "nil", "NO", "nonatomic", "NULL", "oneway", "out", "Protocol", "register", "restrict", 
+                  "retain", "return", "SEL", "self", "short", "signed", "sizeof", "static", "struct", 
+                  "super", "switch", "typedef", "union", "unsigned", "void", "volatile", "while", "YES");
+  my %keywords = map { $_ => 1 } @keywords;
+  
+  return %keywords;
 }
 
 1;

@@ -64,7 +64,10 @@
 {
     [self.dirtyPropertySet addObject:@"level"];
 
-    _level = [newLevel copy];
+    if (!newLevel)
+        _level = [NSNull null];
+    else
+        _level = [newLevel copy];
 }
 
 - (NSString *)name
@@ -76,7 +79,10 @@
 {
     [self.dirtyPropertySet addObject:@"name"];
 
-    _name = [newName copy];
+    if (!newName)
+        _name = [NSNull null];
+    else
+        _name = [newName copy];
 }
 
 - (JROnipLevelTwo *)onipLevelTwo
@@ -88,7 +94,10 @@
 {
     [self.dirtyPropertySet addObject:@"onipLevelTwo"];
 
-    _onipLevelTwo = [newOnipLevelTwo copy];
+    if (!newOnipLevelTwo)
+        _onipLevelTwo = [NSNull null];
+    else
+        _onipLevelTwo = [newOnipLevelTwo copy];
 }
 
 - (id)init
@@ -139,42 +148,54 @@
     if (self.onipLevelOneId)
         [dict setObject:[NSNumber numberWithInt:self.onipLevelOneId] forKey:@"id"];
 
-    if (self.level)
+    if (self.level && self.level != [NSNull null])
         [dict setObject:self.level forKey:@"level"];
+    else
+        [dict setObject:[NSNull null] forKey:@"level"];
 
-    if (self.name)
+    if (self.name && self.name != [NSNull null])
         [dict setObject:self.name forKey:@"name"];
+    else
+        [dict setObject:[NSNull null] forKey:@"name"];
 
-    if (self.onipLevelTwo)
+    if (self.onipLevelTwo && self.onipLevelTwo != [NSNull null])
         [dict setObject:[self.onipLevelTwo dictionaryFromOnipLevelTwoObject] forKey:@"onipLevelTwo"];
+    else
+        [dict setObject:[NSNull null] forKey:@"onipLevelTwo"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _onipLevelOneId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"];
+        _level = [dictionary objectForKey:@"level"];
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"];
+        _name = [dictionary objectForKey:@"name"];
 
     if ([dictionary objectForKey:@"onipLevelTwo"])
-        self.onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"]];
+        _onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"]];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.onipLevelOneId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.level = [dictionary objectForKey:@"level"];
-    self.name = [dictionary objectForKey:@"name"];
-    self.onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"]];
+    _onipLevelOneId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _level = [dictionary objectForKey:@"level"];
+    _name = [dictionary objectForKey:@"name"];
+    _onipLevelTwo = [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"]];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"onipLevelOneId"])
+        [dict setObject:[NSNumber numberWithInt:self.onipLevelOneId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"level"])
         [dict setObject:self.level forKey:@"level"];
@@ -191,7 +212,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.onipLevelOneId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -203,6 +224,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.onipLevelOneId] forKey:@"id"];
     [dict setObject:self.level forKey:@"level"];
     [dict setObject:self.name forKey:@"name"];
     [dict setObject:[self.onipLevelTwo dictionaryFromOnipLevelTwoObject] forKey:@"onipLevelTwo"];
@@ -213,7 +235,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.onipLevelOneId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

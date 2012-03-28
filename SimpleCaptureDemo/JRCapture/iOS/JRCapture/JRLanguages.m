@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"language"];
 
-    _language = [newLanguage copy];
+    if (!newLanguage)
+        _language = [NSNull null];
+    else
+        _language = [newLanguage copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.languagesId)
         [dict setObject:[NSNumber numberWithInt:self.languagesId] forKey:@"id"];
 
-    if (self.language)
+    if (self.language && self.language != [NSNull null])
         [dict setObject:self.language forKey:@"language"];
+    else
+        [dict setObject:[NSNull null] forKey:@"language"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _languagesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"language"])
-        self.language = [dictionary objectForKey:@"language"];
+        _language = [dictionary objectForKey:@"language"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.languagesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.language = [dictionary objectForKey:@"language"];
+    _languagesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _language = [dictionary objectForKey:@"language"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"languagesId"])
+        [dict setObject:[NSNumber numberWithInt:self.languagesId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"language"])
         [dict setObject:self.language forKey:@"language"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.languagesId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.languagesId] forKey:@"id"];
     [dict setObject:self.language forKey:@"language"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.languagesId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

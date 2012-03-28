@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"tag"];
 
-    _tag = [newTag copy];
+    if (!newTag)
+        _tag = [NSNull null];
+    else
+        _tag = [newTag copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.tagsId)
         [dict setObject:[NSNumber numberWithInt:self.tagsId] forKey:@"id"];
 
-    if (self.tag)
+    if (self.tag && self.tag != [NSNull null])
         [dict setObject:self.tag forKey:@"tag"];
+    else
+        [dict setObject:[NSNull null] forKey:@"tag"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _tagsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"tag"])
-        self.tag = [dictionary objectForKey:@"tag"];
+        _tag = [dictionary objectForKey:@"tag"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.tagsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.tag = [dictionary objectForKey:@"tag"];
+    _tagsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _tag = [dictionary objectForKey:@"tag"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"tagsId"])
+        [dict setObject:[NSNumber numberWithInt:self.tagsId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"tag"])
         [dict setObject:self.tag forKey:@"tag"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.tagsId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.tagsId] forKey:@"id"];
     [dict setObject:self.tag forKey:@"tag"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.tagsId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

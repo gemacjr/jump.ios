@@ -76,7 +76,10 @@
 {
     [self.dirtyPropertySet addObject:@"type"];
 
-    _type = [newType copy];
+    if (!newType)
+        _type = [NSNull null];
+    else
+        _type = [newType copy];
 }
 
 - (NSString *)value
@@ -88,7 +91,10 @@
 {
     [self.dirtyPropertySet addObject:@"value"];
 
-    _value = [newValue copy];
+    if (!newValue)
+        _value = [NSNull null];
+    else
+        _value = [newValue copy];
 }
 
 - (id)init
@@ -142,39 +148,49 @@
     if (self.primary)
         [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
 
-    if (self.type)
+    if (self.type && self.type != [NSNull null])
         [dict setObject:self.type forKey:@"type"];
+    else
+        [dict setObject:[NSNull null] forKey:@"type"];
 
-    if (self.value)
+    if (self.value && self.value != [NSNull null])
         [dict setObject:self.value forKey:@"value"];
+    else
+        [dict setObject:[NSNull null] forKey:@"value"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _phoneNumbersId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"primary"])
-        self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+        _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
 
     if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"];
+        _type = [dictionary objectForKey:@"type"];
 
     if ([dictionary objectForKey:@"value"])
-        self.value = [dictionary objectForKey:@"value"];
+        _value = [dictionary objectForKey:@"value"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.phoneNumbersId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
-    self.type = [dictionary objectForKey:@"type"];
-    self.value = [dictionary objectForKey:@"value"];
+    _phoneNumbersId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    _type = [dictionary objectForKey:@"type"];
+    _value = [dictionary objectForKey:@"value"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"phoneNumbersId"])
+        [dict setObject:[NSNumber numberWithInt:self.phoneNumbersId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"primary"])
         [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
@@ -191,7 +207,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.phoneNumbersId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -203,6 +219,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.phoneNumbersId] forKey:@"id"];
     [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
     [dict setObject:self.type forKey:@"type"];
     [dict setObject:self.value forKey:@"value"];
@@ -213,7 +230,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.phoneNumbersId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

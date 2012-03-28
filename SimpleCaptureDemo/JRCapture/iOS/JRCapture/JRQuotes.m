@@ -60,7 +60,10 @@
 {
     [self.dirtyPropertySet addObject:@"quote"];
 
-    _quote = [newQuote copy];
+    if (!newQuote)
+        _quote = [NSNull null];
+    else
+        _quote = [newQuote copy];
 }
 
 - (id)init
@@ -107,28 +110,36 @@
     if (self.quotesId)
         [dict setObject:[NSNumber numberWithInt:self.quotesId] forKey:@"id"];
 
-    if (self.quote)
+    if (self.quote && self.quote != [NSNull null])
         [dict setObject:self.quote forKey:@"quote"];
+    else
+        [dict setObject:[NSNull null] forKey:@"quote"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _quotesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"quote"])
-        self.quote = [dictionary objectForKey:@"quote"];
+        _quote = [dictionary objectForKey:@"quote"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.quotesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.quote = [dictionary objectForKey:@"quote"];
+    _quotesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _quote = [dictionary objectForKey:@"quote"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"quotesId"])
+        [dict setObject:[NSNumber numberWithInt:self.quotesId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"quote"])
         [dict setObject:self.quote forKey:@"quote"];
@@ -139,7 +150,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.quotesId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -151,6 +162,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.quotesId] forKey:@"id"];
     [dict setObject:self.quote forKey:@"quote"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -159,7 +171,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.quotesId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

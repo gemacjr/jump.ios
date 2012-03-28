@@ -76,7 +76,10 @@
 {
     [self.dirtyPropertySet addObject:@"department"];
 
-    _department = [newDepartment copy];
+    if (!newDepartment)
+        _department = [NSNull null];
+    else
+        _department = [newDepartment copy];
 }
 
 - (NSString *)description
@@ -88,7 +91,10 @@
 {
     [self.dirtyPropertySet addObject:@"description"];
 
-    _description = [newDescription copy];
+    if (!newDescription)
+        _description = [NSNull null];
+    else
+        _description = [newDescription copy];
 }
 
 - (NSString *)endDate
@@ -100,7 +106,10 @@
 {
     [self.dirtyPropertySet addObject:@"endDate"];
 
-    _endDate = [newEndDate copy];
+    if (!newEndDate)
+        _endDate = [NSNull null];
+    else
+        _endDate = [newEndDate copy];
 }
 
 - (JRLocation *)location
@@ -112,7 +121,10 @@
 {
     [self.dirtyPropertySet addObject:@"location"];
 
-    _location = [newLocation copy];
+    if (!newLocation)
+        _location = [NSNull null];
+    else
+        _location = [newLocation copy];
 }
 
 - (NSString *)name
@@ -124,7 +136,10 @@
 {
     [self.dirtyPropertySet addObject:@"name"];
 
-    _name = [newName copy];
+    if (!newName)
+        _name = [NSNull null];
+    else
+        _name = [newName copy];
 }
 
 - (BOOL)primary
@@ -148,7 +163,10 @@
 {
     [self.dirtyPropertySet addObject:@"startDate"];
 
-    _startDate = [newStartDate copy];
+    if (!newStartDate)
+        _startDate = [NSNull null];
+    else
+        _startDate = [newStartDate copy];
 }
 
 - (NSString *)title
@@ -160,7 +178,10 @@
 {
     [self.dirtyPropertySet addObject:@"title"];
 
-    _title = [newTitle copy];
+    if (!newTitle)
+        _title = [NSNull null];
+    else
+        _title = [newTitle copy];
 }
 
 - (NSString *)type
@@ -172,7 +193,10 @@
 {
     [self.dirtyPropertySet addObject:@"type"];
 
-    _type = [newType copy];
+    if (!newType)
+        _type = [NSNull null];
+    else
+        _type = [newType copy];
 }
 
 - (id)init
@@ -235,84 +259,106 @@
     if (self.organizationsId)
         [dict setObject:[NSNumber numberWithInt:self.organizationsId] forKey:@"id"];
 
-    if (self.department)
+    if (self.department && self.department != [NSNull null])
         [dict setObject:self.department forKey:@"department"];
+    else
+        [dict setObject:[NSNull null] forKey:@"department"];
 
-    if (self.description)
+    if (self.description && self.description != [NSNull null])
         [dict setObject:self.description forKey:@"description"];
+    else
+        [dict setObject:[NSNull null] forKey:@"description"];
 
-    if (self.endDate)
+    if (self.endDate && self.endDate != [NSNull null])
         [dict setObject:self.endDate forKey:@"endDate"];
+    else
+        [dict setObject:[NSNull null] forKey:@"endDate"];
 
-    if (self.location)
+    if (self.location && self.location != [NSNull null])
         [dict setObject:[self.location dictionaryFromLocationObject] forKey:@"location"];
+    else
+        [dict setObject:[NSNull null] forKey:@"location"];
 
-    if (self.name)
+    if (self.name && self.name != [NSNull null])
         [dict setObject:self.name forKey:@"name"];
+    else
+        [dict setObject:[NSNull null] forKey:@"name"];
 
     if (self.primary)
         [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
 
-    if (self.startDate)
+    if (self.startDate && self.startDate != [NSNull null])
         [dict setObject:self.startDate forKey:@"startDate"];
+    else
+        [dict setObject:[NSNull null] forKey:@"startDate"];
 
-    if (self.title)
+    if (self.title && self.title != [NSNull null])
         [dict setObject:self.title forKey:@"title"];
+    else
+        [dict setObject:[NSNull null] forKey:@"title"];
 
-    if (self.type)
+    if (self.type && self.type != [NSNull null])
         [dict setObject:self.type forKey:@"type"];
+    else
+        [dict setObject:[NSNull null] forKey:@"type"];
 
     return dict;
 }
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _organizationsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"department"])
-        self.department = [dictionary objectForKey:@"department"];
+        _department = [dictionary objectForKey:@"department"];
 
     if ([dictionary objectForKey:@"description"])
-        self.description = [dictionary objectForKey:@"description"];
+        _description = [dictionary objectForKey:@"description"];
 
     if ([dictionary objectForKey:@"endDate"])
-        self.endDate = [dictionary objectForKey:@"endDate"];
+        _endDate = [dictionary objectForKey:@"endDate"];
 
     if ([dictionary objectForKey:@"location"])
-        self.location = [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]];
+        _location = [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]];
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"];
+        _name = [dictionary objectForKey:@"name"];
 
     if ([dictionary objectForKey:@"primary"])
-        self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+        _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
 
     if ([dictionary objectForKey:@"startDate"])
-        self.startDate = [dictionary objectForKey:@"startDate"];
+        _startDate = [dictionary objectForKey:@"startDate"];
 
     if ([dictionary objectForKey:@"title"])
-        self.title = [dictionary objectForKey:@"title"];
+        _title = [dictionary objectForKey:@"title"];
 
     if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"];
+        _type = [dictionary objectForKey:@"type"];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.organizationsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.department = [dictionary objectForKey:@"department"];
-    self.description = [dictionary objectForKey:@"description"];
-    self.endDate = [dictionary objectForKey:@"endDate"];
-    self.location = [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]];
-    self.name = [dictionary objectForKey:@"name"];
-    self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
-    self.startDate = [dictionary objectForKey:@"startDate"];
-    self.title = [dictionary objectForKey:@"title"];
-    self.type = [dictionary objectForKey:@"type"];
+    _organizationsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _department = [dictionary objectForKey:@"department"];
+    _description = [dictionary objectForKey:@"description"];
+    _endDate = [dictionary objectForKey:@"endDate"];
+    _location = [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]];
+    _name = [dictionary objectForKey:@"name"];
+    _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+    _startDate = [dictionary objectForKey:@"startDate"];
+    _title = [dictionary objectForKey:@"title"];
+    _type = [dictionary objectForKey:@"type"];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"organizationsId"])
+        [dict setObject:[NSNumber numberWithInt:self.organizationsId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"department"])
         [dict setObject:self.department forKey:@"department"];
@@ -347,7 +393,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.organizationsId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -359,6 +405,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.organizationsId] forKey:@"id"];
     [dict setObject:self.department forKey:@"department"];
     [dict setObject:self.description forKey:@"description"];
     [dict setObject:self.endDate forKey:@"endDate"];
@@ -375,7 +422,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.organizationsId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

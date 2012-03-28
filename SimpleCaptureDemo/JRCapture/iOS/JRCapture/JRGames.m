@@ -105,7 +105,10 @@
 {
     [self.dirtyPropertySet addObject:@"name"];
 
-    _name = [newName copy];
+    if (!newName)
+        _name = [NSNull null];
+    else
+        _name = [newName copy];
 }
 
 - (NSArray *)opponents
@@ -117,7 +120,10 @@
 {
     [self.dirtyPropertySet addObject:@"opponents"];
 
-    _opponents = [newOpponents copy];
+    if (!newOpponents)
+        _opponents = [NSNull null];
+    else
+        _opponents = [newOpponents copy];
 }
 
 - (NSInteger)rating
@@ -185,11 +191,15 @@
     if (self.isFavorite)
         [dict setObject:[NSNumber numberWithBool:self.isFavorite] forKey:@"isFavorite"];
 
-    if (self.name)
+    if (self.name && self.name != [NSNull null])
         [dict setObject:self.name forKey:@"name"];
+    else
+        [dict setObject:[NSNull null] forKey:@"name"];
 
-    if (self.opponents)
+    if (self.opponents && self.opponents != [NSNull null])
         [dict setObject:[self.opponents arrayOfOpponentsDictionariesFromOpponentsObjects] forKey:@"opponents"];
+    else
+        [dict setObject:[NSNull null] forKey:@"opponents"];
 
     if (self.rating)
         [dict setObject:[NSNumber numberWithInt:self.rating] forKey:@"rating"];
@@ -199,32 +209,38 @@
 
 - (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
+    if ([dictionary objectForKey:@"id"])
+        _gamesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
     if ([dictionary objectForKey:@"isFavorite"])
-        self.isFavorite = [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue];
+        _isFavorite = [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue];
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"];
+        _name = [dictionary objectForKey:@"name"];
 
     if ([dictionary objectForKey:@"opponents"])
-        self.opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfOpponentsObjectsFromOpponentsDictionaries];
+        _opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfOpponentsObjectsFromOpponentsDictionaries];
 
     if ([dictionary objectForKey:@"rating"])
-        self.rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
+        _rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
 }
 
 - (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
 {
-    self.gamesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    self.isFavorite = [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue];
-    self.name = [dictionary objectForKey:@"name"];
-    self.opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfOpponentsObjectsFromOpponentsDictionaries];
-    self.rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
+    _gamesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _isFavorite = [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue];
+    _name = [dictionary objectForKey:@"name"];
+    _opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfOpponentsObjectsFromOpponentsDictionaries];
+    _rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
 }
 
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"gamesId"])
+        [dict setObject:[NSNumber numberWithInt:self.gamesId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"isFavorite"])
         [dict setObject:[NSNumber numberWithBool:self.isFavorite] forKey:@"isFavorite"];
@@ -244,7 +260,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:dict
-                                     withId:self.gamesId
+                                     withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -256,6 +272,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
+    [dict setObject:[NSNumber numberWithInt:self.gamesId] forKey:@"id"];
     [dict setObject:[NSNumber numberWithBool:self.isFavorite] forKey:@"isFavorite"];
     [dict setObject:self.name forKey:@"name"];
     [dict setObject:[self.opponents arrayOfOpponentsDictionariesFromOpponentsObjects] forKey:@"opponents"];
@@ -267,7 +284,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:dict
-                                      withId:self.gamesId
+                                      withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
