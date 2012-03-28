@@ -31,87 +31,6 @@
 
 #import "JRProfiles.h"
 
-@interface NSArray (FollowersToFromDictionary)
-- (NSArray*)arrayOfFollowersDictionariesFromFollowersObjects;
-- (NSArray*)arrayOfFollowersObjectsFromFollowersDictionaries;
-@end
-
-@implementation NSArray (FollowersToFromDictionary)
-- (NSArray*)arrayOfFollowersDictionariesFromFollowersObjects
-{
-    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *object in self)
-        if ([object isKindOfClass:[JRFollowers class]])
-            [filteredDictionaryArray addObject:[(JRFollowers*)object dictionaryFromFollowersObject]];
-
-    return filteredDictionaryArray;
-}
-
-- (NSArray*)arrayOfFollowersObjectsFromFollowersDictionaries
-{
-    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *dictionary in self)
-        if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredDictionaryArray addObject:[JRFollowers followersObjectFromDictionary:(NSDictionary*)dictionary]];
-
-    return filteredDictionaryArray;
-}
-@end
-
-@interface NSArray (FollowingToFromDictionary)
-- (NSArray*)arrayOfFollowingDictionariesFromFollowingObjects;
-- (NSArray*)arrayOfFollowingObjectsFromFollowingDictionaries;
-@end
-
-@implementation NSArray (FollowingToFromDictionary)
-- (NSArray*)arrayOfFollowingDictionariesFromFollowingObjects
-{
-    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *object in self)
-        if ([object isKindOfClass:[JRFollowing class]])
-            [filteredDictionaryArray addObject:[(JRFollowing*)object dictionaryFromFollowingObject]];
-
-    return filteredDictionaryArray;
-}
-
-- (NSArray*)arrayOfFollowingObjectsFromFollowingDictionaries
-{
-    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *dictionary in self)
-        if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredDictionaryArray addObject:[JRFollowing followingObjectFromDictionary:(NSDictionary*)dictionary]];
-
-    return filteredDictionaryArray;
-}
-@end
-
-@interface NSArray (FriendsToFromDictionary)
-- (NSArray*)arrayOfFriendsDictionariesFromFriendsObjects;
-- (NSArray*)arrayOfFriendsObjectsFromFriendsDictionaries;
-@end
-
-@implementation NSArray (FriendsToFromDictionary)
-- (NSArray*)arrayOfFriendsDictionariesFromFriendsObjects
-{
-    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *object in self)
-        if ([object isKindOfClass:[JRFriends class]])
-            [filteredDictionaryArray addObject:[(JRFriends*)object dictionaryFromFriendsObject]];
-
-    return filteredDictionaryArray;
-}
-
-- (NSArray*)arrayOfFriendsObjectsFromFriendsDictionaries
-{
-    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *dictionary in self)
-        if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredDictionaryArray addObject:[JRFriends friendsObjectFromDictionary:(NSDictionary*)dictionary]];
-
-    return filteredDictionaryArray;
-}
-@end
-
 @implementation JRProfiles
 {
     NSInteger _profilesId;
@@ -190,7 +109,7 @@
     if (!newFollowers)
         _followers = [NSNull null];
     else
-        _followers = [newFollowers copy];
+        _followers = [newFollowers copyArrayOfStringPluralElementsWithType:@"identifier"];
 }
 
 - (NSArray *)following
@@ -205,7 +124,7 @@
     if (!newFollowing)
         _following = [NSNull null];
     else
-        _following = [newFollowing copy];
+        _following = [newFollowing copyArrayOfStringPluralElementsWithType:@"identifier"];
 }
 
 - (NSArray *)friends
@@ -220,7 +139,7 @@
     if (!newFriends)
         _friends = [NSNull null];
     else
-        _friends = [newFriends copy];
+        _friends = [newFriends copyArrayOfStringPluralElementsWithType:@"identifier"];
 }
 
 - (NSString *)identifier
@@ -329,9 +248,9 @@
 
     profiles.profilesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     profiles.accessCredentials = [dictionary objectForKey:@"accessCredentials"];
-    profiles.followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfFollowersObjectsFromFollowersDictionaries];
-    profiles.following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfFollowingObjectsFromFollowingDictionaries];
-    profiles.friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfFriendsObjectsFromFriendsDictionaries];
+    profiles.followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
+    profiles.following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
+    profiles.friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
     profiles.profile = [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]];
     profiles.provider = [dictionary objectForKey:@"provider"];
     profiles.remote_key = [dictionary objectForKey:@"remote_key"];
@@ -356,17 +275,17 @@
         [dict setObject:[NSNull null] forKey:@"accessCredentials"];
 
     if (self.followers && self.followers != [NSNull null])
-        [dict setObject:[self.followers arrayOfFollowersDictionariesFromFollowersObjects] forKey:@"followers"];
+        [dict setObject:[self.followers arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"followers"];
     else
         [dict setObject:[NSNull null] forKey:@"followers"];
 
     if (self.following && self.following != [NSNull null])
-        [dict setObject:[self.following arrayOfFollowingDictionariesFromFollowingObjects] forKey:@"following"];
+        [dict setObject:[self.following arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"following"];
     else
         [dict setObject:[NSNull null] forKey:@"following"];
 
     if (self.friends && self.friends != [NSNull null])
-        [dict setObject:[self.friends arrayOfFriendsDictionariesFromFriendsObjects] forKey:@"friends"];
+        [dict setObject:[self.friends arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"friends"];
     else
         [dict setObject:[NSNull null] forKey:@"friends"];
 
@@ -400,13 +319,13 @@
         _domain = [dictionary objectForKey:@"domain"];
 
     if ([dictionary objectForKey:@"followers"])
-        _followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfFollowersObjectsFromFollowersDictionaries];
+        _followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
 
     if ([dictionary objectForKey:@"following"])
-        _following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfFollowingObjectsFromFollowingDictionaries];
+        _following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
 
     if ([dictionary objectForKey:@"friends"])
-        _friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfFriendsObjectsFromFriendsDictionaries];
+        _friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
 
     if ([dictionary objectForKey:@"identifier"])
         _identifier = [dictionary objectForKey:@"identifier"];
@@ -426,9 +345,9 @@
     _profilesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     _accessCredentials = [dictionary objectForKey:@"accessCredentials"];
     _domain = [dictionary objectForKey:@"domain"];
-    _followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfFollowersObjectsFromFollowersDictionaries];
-    _following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfFollowingObjectsFromFollowingDictionaries];
-    _friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfFriendsObjectsFromFriendsDictionaries];
+    _followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
+    _following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
+    _friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
     _identifier = [dictionary objectForKey:@"identifier"];
     _profile = [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]];
     _provider = [dictionary objectForKey:@"provider"];
@@ -450,13 +369,13 @@
         [dict setObject:self.domain forKey:@"domain"];
 
     if ([self.dirtyPropertySet containsObject:@"followers"])
-        [dict setObject:[self.followers arrayOfFollowersDictionariesFromFollowersObjects] forKey:@"followers"];
+        [dict setObject:[self.followers arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"followers"];
 
     if ([self.dirtyPropertySet containsObject:@"following"])
-        [dict setObject:[self.following arrayOfFollowingDictionariesFromFollowingObjects] forKey:@"following"];
+        [dict setObject:[self.following arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"following"];
 
     if ([self.dirtyPropertySet containsObject:@"friends"])
-        [dict setObject:[self.friends arrayOfFriendsDictionariesFromFriendsObjects] forKey:@"friends"];
+        [dict setObject:[self.friends arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"friends"];
 
     if ([self.dirtyPropertySet containsObject:@"identifier"])
         [dict setObject:self.identifier forKey:@"identifier"];
@@ -491,9 +410,9 @@
     [dict setObject:[NSNumber numberWithInt:self.profilesId] forKey:@"id"];
     [dict setObject:self.accessCredentials forKey:@"accessCredentials"];
     [dict setObject:self.domain forKey:@"domain"];
-    [dict setObject:[self.followers arrayOfFollowersDictionariesFromFollowersObjects] forKey:@"followers"];
-    [dict setObject:[self.following arrayOfFollowingDictionariesFromFollowingObjects] forKey:@"following"];
-    [dict setObject:[self.friends arrayOfFriendsDictionariesFromFriendsObjects] forKey:@"friends"];
+    [dict setObject:[self.followers arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"followers"];
+    [dict setObject:[self.following arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"following"];
+    [dict setObject:[self.friends arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"friends"];
     [dict setObject:self.identifier forKey:@"identifier"];
     [dict setObject:[self.profile dictionaryFromProfileObject] forKey:@"profile"];
     [dict setObject:self.provider forKey:@"provider"];

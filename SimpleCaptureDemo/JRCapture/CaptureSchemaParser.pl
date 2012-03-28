@@ -85,19 +85,45 @@ sub isAnArrayOfStrings {
   my $arrayRef    = $_[0];
   my @attrDefsArr = @$arrayRef;
 
-  if (@attrDefsArr > 1) {
+  if (@attrDefsArr != 2) {
     return 0;
   }
   
-  my $hashRef = $attrDefsArr[0];
-  my %propertyHash = %$hashRef;
-  my $propertyType = $propertyHash{"type"};
+  my $foundString = 0, my $foundId = 0;
 
-  if ($propertyType eq "string") {
+  foreach my $hashRef (@attrDefsArr) {
+    my %propertyHash = %$hashRef;
+    my $propertyType = $propertyHash{"type"};
+
+    if ($propertyType eq "string") {
+      $foundString = 1;
+    } elsif ($propertyType eq "id") {
+      $foundId     = 1;
+    }
+  }
+  
+  if ($foundString && $foundId) {
     return 1;
   } else {
     return 0;
   }
+}
+
+sub getSimplePluralType {
+  my $arrayRef    = $_[0];
+  my @attrDefsArr = @$arrayRef;
+
+  foreach my $hashRef (@attrDefsArr) {
+    my %propertyHash = %$hashRef;
+    my $propertyType = $propertyHash{"type"};
+    my $propertyName = $propertyHash{"name"};
+    
+    if ($propertyType eq "string") {
+      return $propertyName;
+    }
+  }
+
+  die "Error getting string plural element type";
 }
 
 sub getIsRequired {
@@ -257,12 +283,13 @@ sub recursiveParse {
     ######################################################
     # Initialize property attributes to default values
     ######################################################
-    my $objectiveType = "";             # Property type in Objective-C (e.g., NSString*)
-    my $isNotNSObject = 0;              # If it's a boolean or integer, we don't retain/release, etc.
-    my $isArrayType   = 0;              # If it's an array (plural), we do things differently
-    my $isIdName      = 0;              # If the name of the property is 'id', we also do things differently
-    my $dictionaryKey = $propertyName;  # Set the dictionary key as the property name, and change the property name if it is an objc keyword
-    my $propertyNotes = "";             # Comment that provides more infomation if necessary for a property 
+    my $objectiveType   = "";             # Property type in Objective-C (e.g., NSString*)
+    my $isNotNSObject   = 0;              # If it's a boolean or integer, we don't retain/release, etc.
+    my $isSimpleArray   = 0;              # If it's a simple array (plural) of strings, we do things differently
+    my $simpleArrayType = "";             # And if it is, get its type
+    my $isIdName        = 0;              # If the name of the property is 'id', we also do things differently
+    my $dictionaryKey   = $propertyName;  # Set the dictionary key as the property name, and change the property name if it is an objc keyword
+    my $propertyNotes   = "";             # Comment that provides more infomation if necessary for a property 
                                         # (e.g., in the case of an array of objects versus and array of strings)
 
     ##########################################################
@@ -380,7 +407,13 @@ sub recursiveParse {
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
       
       if (isAnArrayOfStrings($propertyAttrDefsRef)) {
-        $propertyNotes = "/* This is an array of strings */";      
+        $isSimpleArray   = 1;
+        
+        $simpleArrayType = getSimplePluralType($propertyAttrDefsRef);
+        
+        $toDictionary    = "[self.$propertyName arrayOfStringPluralDictionariesFromStringPluralElements]";
+        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\"]";
+        $propertyNotes   = "/* This is an array of JRStringPluralElements with type " . $simpleArrayType . " */";      
         
       } else {
         
@@ -395,7 +428,7 @@ sub recursiveParse {
         $propertyNotes = "/* This is an array of JR" . ucfirst($propertyName) . " */";
         
         recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $propertyName);
-        
+       
       }
       
     } elsif ($propertyType eq "object") {
@@ -586,7 +619,11 @@ sub recursiveParse {
         $replaceRemotelySection[5] = "_" . $propertyName;
       }
       
-      $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isNotNSObject); 
+      if ($isSimpleArray) {
+        $getterSettersSection .= createGetterSetterForSimpleArray ($propertyName, $simpleArrayType);
+      } else {
+        $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isNotNSObject); 
+      }
       
     if ($isNotNSObject) {
       $propertiesSection    .= "\@property                   $objectiveType $propertyName;\n";

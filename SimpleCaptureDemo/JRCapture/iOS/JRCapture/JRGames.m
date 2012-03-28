@@ -31,33 +31,6 @@
 
 #import "JRGames.h"
 
-@interface NSArray (OpponentsToFromDictionary)
-- (NSArray*)arrayOfOpponentsDictionariesFromOpponentsObjects;
-- (NSArray*)arrayOfOpponentsObjectsFromOpponentsDictionaries;
-@end
-
-@implementation NSArray (OpponentsToFromDictionary)
-- (NSArray*)arrayOfOpponentsDictionariesFromOpponentsObjects
-{
-    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *object in self)
-        if ([object isKindOfClass:[JROpponents class]])
-            [filteredDictionaryArray addObject:[(JROpponents*)object dictionaryFromOpponentsObject]];
-
-    return filteredDictionaryArray;
-}
-
-- (NSArray*)arrayOfOpponentsObjectsFromOpponentsDictionaries
-{
-    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *dictionary in self)
-        if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredDictionaryArray addObject:[JROpponents opponentsObjectFromDictionary:(NSDictionary*)dictionary]];
-
-    return filteredDictionaryArray;
-}
-@end
-
 @implementation JRGames
 {
     NSInteger _gamesId;
@@ -123,7 +96,7 @@
     if (!newOpponents)
         _opponents = [NSNull null];
     else
-        _opponents = [newOpponents copy];
+        _opponents = [newOpponents copyArrayOfStringPluralElementsWithType:@"name"];
 }
 
 - (NSInteger)rating
@@ -174,7 +147,7 @@
     games.gamesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     games.isFavorite = [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue];
     games.name = [dictionary objectForKey:@"name"];
-    games.opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfOpponentsObjectsFromOpponentsDictionaries];
+    games.opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"];
     games.rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
 
     return games;
@@ -197,7 +170,7 @@
         [dict setObject:[NSNull null] forKey:@"name"];
 
     if (self.opponents && self.opponents != [NSNull null])
-        [dict setObject:[self.opponents arrayOfOpponentsDictionariesFromOpponentsObjects] forKey:@"opponents"];
+        [dict setObject:[self.opponents arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"opponents"];
     else
         [dict setObject:[NSNull null] forKey:@"opponents"];
 
@@ -219,7 +192,7 @@
         _name = [dictionary objectForKey:@"name"];
 
     if ([dictionary objectForKey:@"opponents"])
-        _opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfOpponentsObjectsFromOpponentsDictionaries];
+        _opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"];
 
     if ([dictionary objectForKey:@"rating"])
         _rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
@@ -230,7 +203,7 @@
     _gamesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     _isFavorite = [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue];
     _name = [dictionary objectForKey:@"name"];
-    _opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfOpponentsObjectsFromOpponentsDictionaries];
+    _opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"];
     _rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
 }
 
@@ -249,7 +222,7 @@
         [dict setObject:self.name forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"opponents"])
-        [dict setObject:[self.opponents arrayOfOpponentsDictionariesFromOpponentsObjects] forKey:@"opponents"];
+        [dict setObject:[self.opponents arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"opponents"];
 
     if ([self.dirtyPropertySet containsObject:@"rating"])
         [dict setObject:[NSNumber numberWithInt:self.rating] forKey:@"rating"];
@@ -275,7 +248,7 @@
     [dict setObject:[NSNumber numberWithInt:self.gamesId] forKey:@"id"];
     [dict setObject:[NSNumber numberWithBool:self.isFavorite] forKey:@"isFavorite"];
     [dict setObject:self.name forKey:@"name"];
-    [dict setObject:[self.opponents arrayOfOpponentsDictionariesFromOpponentsObjects] forKey:@"opponents"];
+    [dict setObject:[self.opponents arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"opponents"];
     [dict setObject:[NSNumber numberWithInt:self.rating] forKey:@"rating"];
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:

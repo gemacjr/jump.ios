@@ -29,6 +29,19 @@
 - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 @end
 
+@interface JRStringPluralElement : JRCaptureObject
+@property                       NSInteger elementId;
+@property (nonatomic, readonly) NSString *type;
+@property (nonatomic, copy)     NSString *value;
+@end
+
+@interface NSArray (JRStringPluralElement)
+- (NSArray*)arrayOfStringPluralDictionariesFromStringPluralElements;
+- (NSArray*)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType;
+//- (NSArray*)copyArrayOfStringsIntoArrayOfStringPluralElementsWithType:(NSString *)elementType;
+- (NSArray*)copyArrayOfStringPluralElementsWithType:(NSString *)elementType;
+@end
+
 @interface JRCaptureData : NSObject
 + (NSString *)accessToken;
 + (NSString *)creationToken;

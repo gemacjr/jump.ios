@@ -466,6 +466,34 @@ sub createGetterSetterForProperty {
   return $getter . $setter;
 }
 
+sub createGetterSetterForSimpleArray {
+  my $propertyName  = $_[0];
+  my $pluralType    = $_[1];
+  my $getter;
+  my $setter;
+  
+  $getter = "- (NSArray *)" . $propertyName;
+  
+  $getter .= "\n{\n";
+  $getter .= "    return _" . $propertyName . ";";
+  $getter .= "\n}\n\n";
+  
+  $setter .= "- (void)set". ucfirst($propertyName) . ":(NSArray *)new" . ucfirst($propertyName); 
+  $setter .= "\n{\n";
+  $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
+
+  $setter .= "    if (!new" . ucfirst($propertyName) . ")\n";
+  $setter .= "        _" . $propertyName .  " = [NSNull null];\n";  
+  $setter .= "    else\n";
+  $setter .= "        _" . $propertyName .  " = ";
+  $setter .= "[new" . ucfirst($propertyName) . " copyArrayOfStringPluralElementsWithType:\@\"" . $pluralType . "\"];";  
+  
+  $setter .= "\n}\n\n";
+
+  return $getter . $setter;
+}
+
+
 sub getConstructorParts {
   return @constructorParts;
 }

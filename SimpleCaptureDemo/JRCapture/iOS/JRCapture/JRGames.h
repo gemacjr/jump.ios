@@ -31,13 +31,12 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
-#import "JROpponents.h"
 
 @interface JRGames : JRCaptureObject
 @property                   NSInteger gamesId;
 @property                   BOOL isFavorite;
 @property (nonatomic, copy) NSString *name;  
-@property (nonatomic, copy) NSArray *opponents; /* This is an array of JROpponents */ 
+@property (nonatomic, copy) NSArray *opponents; /* This is an array of JRStringPluralElements with type name */ 
 @property                   NSInteger rating;
 - (id)init;
 + (id)games;

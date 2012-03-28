@@ -192,45 +192,22 @@
 		9FD2B69314F8380F00053EA2 /* JRAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B63E14F8380F00053EA2 /* JRAccounts.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B69414F8380F00053EA2 /* JRAddresses.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B64014F8380F00053EA2 /* JRAddresses.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B69514F8380F00053EA2 /* JRBodyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B64214F8380F00053EA2 /* JRBodyType.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69614F8380F00053EA2 /* JRBooks.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B64414F8380F00053EA2 /* JRBooks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B69714F8380F00053EA2 /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B64614F8380F00053EA2 /* JRCapture.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B69814F8380F00053EA2 /* JRCaptureInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B64814F8380F00053EA2 /* JRCaptureInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B69914F8380F00053EA2 /* JRCaptureUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B64A14F8380F00053EA2 /* JRCaptureUser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69A14F8380F00053EA2 /* JRCars.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B64C14F8380F00053EA2 /* JRCars.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69B14F8380F00053EA2 /* JRChildren.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B64E14F8380F00053EA2 /* JRChildren.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B69C14F8380F00053EA2 /* JRCurrentLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B65014F8380F00053EA2 /* JRCurrentLocation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B69D14F8380F00053EA2 /* JREmails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B65214F8380F00053EA2 /* JREmails.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69E14F8380F00053EA2 /* JRFollowers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B65414F8380F00053EA2 /* JRFollowers.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69F14F8380F00053EA2 /* JRFollowing.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B65614F8380F00053EA2 /* JRFollowing.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A014F8380F00053EA2 /* JRFood.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B65814F8380F00053EA2 /* JRFood.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A114F8380F00053EA2 /* JRFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B65A14F8380F00053EA2 /* JRFriends.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A214F8380F00053EA2 /* JRHeroes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B65C14F8380F00053EA2 /* JRHeroes.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6A314F8380F00053EA2 /* JRIms.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B65E14F8380F00053EA2 /* JRIms.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A414F8380F00053EA2 /* JRInterests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B66014F8380F00053EA2 /* JRInterests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A514F8380F00053EA2 /* JRJobInterests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B66214F8380F00053EA2 /* JRJobInterests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A614F8380F00053EA2 /* JRLanguages.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B66414F8380F00053EA2 /* JRLanguages.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A714F8380F00053EA2 /* JRLanguagesSpoken.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B66614F8380F00053EA2 /* JRLanguagesSpoken.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6A814F8380F00053EA2 /* JRLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B66814F8380F00053EA2 /* JRLocation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A914F8380F00053EA2 /* JRLookingFor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B66A14F8380F00053EA2 /* JRLookingFor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6AA14F8380F00053EA2 /* JRMovies.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B66C14F8380F00053EA2 /* JRMovies.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6AB14F8380F00053EA2 /* JRMusic.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B66E14F8380F00053EA2 /* JRMusic.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6AC14F8380F00053EA2 /* JRName.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B67014F8380F00053EA2 /* JRName.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6AD14F8380F00053EA2 /* JROrganizations.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B67214F8380F00053EA2 /* JROrganizations.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6AE14F8380F00053EA2 /* JRPets.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B67414F8380F00053EA2 /* JRPets.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6AF14F8380F00053EA2 /* JRPhoneNumbers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B67614F8380F00053EA2 /* JRPhoneNumbers.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6B014F8380F00053EA2 /* JRPhotos.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B67814F8380F00053EA2 /* JRPhotos.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6B114F8380F00053EA2 /* JRPrimaryAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B67A14F8380F00053EA2 /* JRPrimaryAddress.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6B214F8380F00053EA2 /* JRProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B67C14F8380F00053EA2 /* JRProfile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6B314F8380F00053EA2 /* JRProfilePhotos.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B67E14F8380F00053EA2 /* JRProfilePhotos.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6B414F8380F00053EA2 /* JRProfiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B68014F8380F00053EA2 /* JRProfiles.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B514F8380F00053EA2 /* JRQuotes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B68214F8380F00053EA2 /* JRQuotes.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B614F8380F00053EA2 /* JRRelationships.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B68414F8380F00053EA2 /* JRRelationships.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B714F8380F00053EA2 /* JRSports.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B68614F8380F00053EA2 /* JRSports.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6B814F8380F00053EA2 /* JRStatuses.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B68814F8380F00053EA2 /* JRStatuses.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B914F8380F00053EA2 /* JRTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B68A14F8380F00053EA2 /* JRTags.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6BA14F8380F00053EA2 /* JRTurnOffs.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B68C14F8380F00053EA2 /* JRTurnOffs.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6BB14F8380F00053EA2 /* JRTurnOns.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B68E14F8380F00053EA2 /* JRTurnOns.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6BC14F8380F00053EA2 /* JRTvShows.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B69014F8380F00053EA2 /* JRTvShows.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B69214F8380F00053EA2 /* JRUrls.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6BF14F8387100053EA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6BE14F8387100053EA2 /* Security.framework */; };
 		9FD2B6C114F8387B00053EA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6C014F8387B00053EA2 /* MessageUI.framework */; };
@@ -248,7 +225,6 @@
 		9FD2B6DC14FAFF9100053EBA /* JROnipLevelOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EB9 /* JROnipLevelOne.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6DC14FAFF9100053EBC /* JROnipLevelThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EBB /* JROnipLevelThree.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6DC14FAFF9100053EBE /* JROnipLevelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EBD /* JROnipLevelTwo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EC0 /* JROpponents.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EBF /* JROpponents.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6DC14FAFF9100053EC2 /* JRPinoLevelOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EC1 /* JRPinoLevelOne.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6DC14FAFF9100053EC4 /* JRPinoLevelThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EC3 /* JRPinoLevelThree.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6DC14FAFF9100053EC6 /* JRPinoLevelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EC5 /* JRPinoLevelTwo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -478,56 +454,24 @@
 		9FD2B64014F8380F00053EA2 /* JRAddresses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRAddresses.m; path = JRCapture/iOS/JRCapture/JRAddresses.m; sourceTree = "<group>"; };
 		9FD2B64114F8380F00053EA2 /* JRBodyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRBodyType.h; path = JRCapture/iOS/JRCapture/JRBodyType.h; sourceTree = "<group>"; };
 		9FD2B64214F8380F00053EA2 /* JRBodyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRBodyType.m; path = JRCapture/iOS/JRCapture/JRBodyType.m; sourceTree = "<group>"; };
-		9FD2B64314F8380F00053EA2 /* JRBooks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRBooks.h; path = JRCapture/iOS/JRCapture/JRBooks.h; sourceTree = "<group>"; };
-		9FD2B64414F8380F00053EA2 /* JRBooks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRBooks.m; path = JRCapture/iOS/JRCapture/JRBooks.m; sourceTree = "<group>"; };
 		9FD2B64514F8380F00053EA2 /* JRCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRCapture.h; path = JRCapture/iOS/JRCapture/JRCapture.h; sourceTree = "<group>"; };
 		9FD2B64614F8380F00053EA2 /* JRCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRCapture.m; path = JRCapture/iOS/JRCapture/JRCapture.m; sourceTree = "<group>"; };
 		9FD2B64714F8380F00053EA2 /* JRCaptureInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRCaptureInterface.h; path = JRCapture/iOS/JRCapture/JRCaptureInterface.h; sourceTree = "<group>"; };
 		9FD2B64814F8380F00053EA2 /* JRCaptureInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRCaptureInterface.m; path = JRCapture/iOS/JRCapture/JRCaptureInterface.m; sourceTree = "<group>"; };
 		9FD2B64914F8380F00053EA2 /* JRCaptureUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRCaptureUser.h; path = JRCapture/iOS/JRCapture/JRCaptureUser.h; sourceTree = "<group>"; };
 		9FD2B64A14F8380F00053EA2 /* JRCaptureUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRCaptureUser.m; path = JRCapture/iOS/JRCapture/JRCaptureUser.m; sourceTree = "<group>"; };
-		9FD2B64B14F8380F00053EA2 /* JRCars.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRCars.h; path = JRCapture/iOS/JRCapture/JRCars.h; sourceTree = "<group>"; };
-		9FD2B64C14F8380F00053EA2 /* JRCars.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRCars.m; path = JRCapture/iOS/JRCapture/JRCars.m; sourceTree = "<group>"; };
-		9FD2B64D14F8380F00053EA2 /* JRChildren.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRChildren.h; path = JRCapture/iOS/JRCapture/JRChildren.h; sourceTree = "<group>"; };
-		9FD2B64E14F8380F00053EA2 /* JRChildren.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRChildren.m; path = JRCapture/iOS/JRCapture/JRChildren.m; sourceTree = "<group>"; };
 		9FD2B64F14F8380F00053EA2 /* JRCurrentLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRCurrentLocation.h; path = JRCapture/iOS/JRCapture/JRCurrentLocation.h; sourceTree = "<group>"; };
 		9FD2B65014F8380F00053EA2 /* JRCurrentLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRCurrentLocation.m; path = JRCapture/iOS/JRCapture/JRCurrentLocation.m; sourceTree = "<group>"; };
 		9FD2B65114F8380F00053EA2 /* JREmails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JREmails.h; path = JRCapture/iOS/JRCapture/JREmails.h; sourceTree = "<group>"; };
 		9FD2B65214F8380F00053EA2 /* JREmails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JREmails.m; path = JRCapture/iOS/JRCapture/JREmails.m; sourceTree = "<group>"; };
-		9FD2B65314F8380F00053EA2 /* JRFollowers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRFollowers.h; path = JRCapture/iOS/JRCapture/JRFollowers.h; sourceTree = "<group>"; };
-		9FD2B65414F8380F00053EA2 /* JRFollowers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRFollowers.m; path = JRCapture/iOS/JRCapture/JRFollowers.m; sourceTree = "<group>"; };
-		9FD2B65514F8380F00053EA2 /* JRFollowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRFollowing.h; path = JRCapture/iOS/JRCapture/JRFollowing.h; sourceTree = "<group>"; };
-		9FD2B65614F8380F00053EA2 /* JRFollowing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRFollowing.m; path = JRCapture/iOS/JRCapture/JRFollowing.m; sourceTree = "<group>"; };
-		9FD2B65714F8380F00053EA2 /* JRFood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRFood.h; path = JRCapture/iOS/JRCapture/JRFood.h; sourceTree = "<group>"; };
-		9FD2B65814F8380F00053EA2 /* JRFood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRFood.m; path = JRCapture/iOS/JRCapture/JRFood.m; sourceTree = "<group>"; };
-		9FD2B65914F8380F00053EA2 /* JRFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRFriends.h; path = JRCapture/iOS/JRCapture/JRFriends.h; sourceTree = "<group>"; };
-		9FD2B65A14F8380F00053EA2 /* JRFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRFriends.m; path = JRCapture/iOS/JRCapture/JRFriends.m; sourceTree = "<group>"; };
-		9FD2B65B14F8380F00053EA2 /* JRHeroes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRHeroes.h; path = JRCapture/iOS/JRCapture/JRHeroes.h; sourceTree = "<group>"; };
-		9FD2B65C14F8380F00053EA2 /* JRHeroes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRHeroes.m; path = JRCapture/iOS/JRCapture/JRHeroes.m; sourceTree = "<group>"; };
 		9FD2B65D14F8380F00053EA2 /* JRIms.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRIms.h; path = JRCapture/iOS/JRCapture/JRIms.h; sourceTree = "<group>"; };
 		9FD2B65E14F8380F00053EA2 /* JRIms.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRIms.m; path = JRCapture/iOS/JRCapture/JRIms.m; sourceTree = "<group>"; };
-		9FD2B65F14F8380F00053EA2 /* JRInterests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRInterests.h; path = JRCapture/iOS/JRCapture/JRInterests.h; sourceTree = "<group>"; };
-		9FD2B66014F8380F00053EA2 /* JRInterests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRInterests.m; path = JRCapture/iOS/JRCapture/JRInterests.m; sourceTree = "<group>"; };
-		9FD2B66114F8380F00053EA2 /* JRJobInterests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRJobInterests.h; path = JRCapture/iOS/JRCapture/JRJobInterests.h; sourceTree = "<group>"; };
-		9FD2B66214F8380F00053EA2 /* JRJobInterests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRJobInterests.m; path = JRCapture/iOS/JRCapture/JRJobInterests.m; sourceTree = "<group>"; };
-		9FD2B66314F8380F00053EA2 /* JRLanguages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRLanguages.h; path = JRCapture/iOS/JRCapture/JRLanguages.h; sourceTree = "<group>"; };
-		9FD2B66414F8380F00053EA2 /* JRLanguages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRLanguages.m; path = JRCapture/iOS/JRCapture/JRLanguages.m; sourceTree = "<group>"; };
-		9FD2B66514F8380F00053EA2 /* JRLanguagesSpoken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRLanguagesSpoken.h; path = JRCapture/iOS/JRCapture/JRLanguagesSpoken.h; sourceTree = "<group>"; };
-		9FD2B66614F8380F00053EA2 /* JRLanguagesSpoken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRLanguagesSpoken.m; path = JRCapture/iOS/JRCapture/JRLanguagesSpoken.m; sourceTree = "<group>"; };
 		9FD2B66714F8380F00053EA2 /* JRLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRLocation.h; path = JRCapture/iOS/JRCapture/JRLocation.h; sourceTree = "<group>"; };
 		9FD2B66814F8380F00053EA2 /* JRLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRLocation.m; path = JRCapture/iOS/JRCapture/JRLocation.m; sourceTree = "<group>"; };
-		9FD2B66914F8380F00053EA2 /* JRLookingFor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRLookingFor.h; path = JRCapture/iOS/JRCapture/JRLookingFor.h; sourceTree = "<group>"; };
-		9FD2B66A14F8380F00053EA2 /* JRLookingFor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRLookingFor.m; path = JRCapture/iOS/JRCapture/JRLookingFor.m; sourceTree = "<group>"; };
-		9FD2B66B14F8380F00053EA2 /* JRMovies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRMovies.h; path = JRCapture/iOS/JRCapture/JRMovies.h; sourceTree = "<group>"; };
-		9FD2B66C14F8380F00053EA2 /* JRMovies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRMovies.m; path = JRCapture/iOS/JRCapture/JRMovies.m; sourceTree = "<group>"; };
-		9FD2B66D14F8380F00053EA2 /* JRMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRMusic.h; path = JRCapture/iOS/JRCapture/JRMusic.h; sourceTree = "<group>"; };
-		9FD2B66E14F8380F00053EA2 /* JRMusic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRMusic.m; path = JRCapture/iOS/JRCapture/JRMusic.m; sourceTree = "<group>"; };
 		9FD2B66F14F8380F00053EA2 /* JRName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRName.h; path = JRCapture/iOS/JRCapture/JRName.h; sourceTree = "<group>"; };
 		9FD2B67014F8380F00053EA2 /* JRName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRName.m; path = JRCapture/iOS/JRCapture/JRName.m; sourceTree = "<group>"; };
 		9FD2B67114F8380F00053EA2 /* JROrganizations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JROrganizations.h; path = JRCapture/iOS/JRCapture/JROrganizations.h; sourceTree = "<group>"; };
 		9FD2B67214F8380F00053EA2 /* JROrganizations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JROrganizations.m; path = JRCapture/iOS/JRCapture/JROrganizations.m; sourceTree = "<group>"; };
-		9FD2B67314F8380F00053EA2 /* JRPets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPets.h; path = JRCapture/iOS/JRCapture/JRPets.h; sourceTree = "<group>"; };
-		9FD2B67414F8380F00053EA2 /* JRPets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPets.m; path = JRCapture/iOS/JRCapture/JRPets.m; sourceTree = "<group>"; };
 		9FD2B67514F8380F00053EA2 /* JRPhoneNumbers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPhoneNumbers.h; path = JRCapture/iOS/JRCapture/JRPhoneNumbers.h; sourceTree = "<group>"; };
 		9FD2B67614F8380F00053EA2 /* JRPhoneNumbers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPhoneNumbers.m; path = JRCapture/iOS/JRCapture/JRPhoneNumbers.m; sourceTree = "<group>"; };
 		9FD2B67714F8380F00053EA2 /* JRPhotos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPhotos.h; path = JRCapture/iOS/JRCapture/JRPhotos.h; sourceTree = "<group>"; };
@@ -540,22 +484,8 @@
 		9FD2B67E14F8380F00053EA2 /* JRProfilePhotos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRProfilePhotos.m; path = JRCapture/iOS/JRCapture/JRProfilePhotos.m; sourceTree = "<group>"; };
 		9FD2B67F14F8380F00053EA2 /* JRProfiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRProfiles.h; path = JRCapture/iOS/JRCapture/JRProfiles.h; sourceTree = "<group>"; };
 		9FD2B68014F8380F00053EA2 /* JRProfiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRProfiles.m; path = JRCapture/iOS/JRCapture/JRProfiles.m; sourceTree = "<group>"; };
-		9FD2B68114F8380F00053EA2 /* JRQuotes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRQuotes.h; path = JRCapture/iOS/JRCapture/JRQuotes.h; sourceTree = "<group>"; };
-		9FD2B68214F8380F00053EA2 /* JRQuotes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRQuotes.m; path = JRCapture/iOS/JRCapture/JRQuotes.m; sourceTree = "<group>"; };
-		9FD2B68314F8380F00053EA2 /* JRRelationships.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRRelationships.h; path = JRCapture/iOS/JRCapture/JRRelationships.h; sourceTree = "<group>"; };
-		9FD2B68414F8380F00053EA2 /* JRRelationships.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRRelationships.m; path = JRCapture/iOS/JRCapture/JRRelationships.m; sourceTree = "<group>"; };
-		9FD2B68514F8380F00053EA2 /* JRSports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRSports.h; path = JRCapture/iOS/JRCapture/JRSports.h; sourceTree = "<group>"; };
-		9FD2B68614F8380F00053EA2 /* JRSports.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSports.m; path = JRCapture/iOS/JRCapture/JRSports.m; sourceTree = "<group>"; };
 		9FD2B68714F8380F00053EA2 /* JRStatuses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRStatuses.h; path = JRCapture/iOS/JRCapture/JRStatuses.h; sourceTree = "<group>"; };
 		9FD2B68814F8380F00053EA2 /* JRStatuses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRStatuses.m; path = JRCapture/iOS/JRCapture/JRStatuses.m; sourceTree = "<group>"; };
-		9FD2B68914F8380F00053EA2 /* JRTags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRTags.h; path = JRCapture/iOS/JRCapture/JRTags.h; sourceTree = "<group>"; };
-		9FD2B68A14F8380F00053EA2 /* JRTags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRTags.m; path = JRCapture/iOS/JRCapture/JRTags.m; sourceTree = "<group>"; };
-		9FD2B68B14F8380F00053EA2 /* JRTurnOffs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRTurnOffs.h; path = JRCapture/iOS/JRCapture/JRTurnOffs.h; sourceTree = "<group>"; };
-		9FD2B68C14F8380F00053EA2 /* JRTurnOffs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRTurnOffs.m; path = JRCapture/iOS/JRCapture/JRTurnOffs.m; sourceTree = "<group>"; };
-		9FD2B68D14F8380F00053EA2 /* JRTurnOns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRTurnOns.h; path = JRCapture/iOS/JRCapture/JRTurnOns.h; sourceTree = "<group>"; };
-		9FD2B68E14F8380F00053EA2 /* JRTurnOns.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRTurnOns.m; path = JRCapture/iOS/JRCapture/JRTurnOns.m; sourceTree = "<group>"; };
-		9FD2B68F14F8380F00053EA2 /* JRTvShows.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRTvShows.h; path = JRCapture/iOS/JRCapture/JRTvShows.h; sourceTree = "<group>"; };
-		9FD2B69014F8380F00053EA2 /* JRTvShows.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRTvShows.m; path = JRCapture/iOS/JRCapture/JRTvShows.m; sourceTree = "<group>"; };
 		9FD2B69114F8380F00053EA2 /* JRUrls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRUrls.h; path = JRCapture/iOS/JRCapture/JRUrls.h; sourceTree = "<group>"; };
 		9FD2B69214F8380F00053EA2 /* JRUrls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRUrls.m; path = JRCapture/iOS/JRCapture/JRUrls.m; sourceTree = "<group>"; };
 		9FD2B6BE14F8387100053EA2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -578,7 +508,6 @@
 		9FD2B6DC14FAFF9100053EA7 /* JROnipLevelOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JROnipLevelOne.h; path = JRCapture/iOS/JRCapture/JROnipLevelOne.h; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EA8 /* JROnipLevelThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JROnipLevelThree.h; path = JRCapture/iOS/JRCapture/JROnipLevelThree.h; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EA9 /* JROnipLevelTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JROnipLevelTwo.h; path = JRCapture/iOS/JRCapture/JROnipLevelTwo.h; sourceTree = "<group>"; };
-		9FD2B6DC14FAFF9100053EAA /* JROpponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JROpponents.h; path = JRCapture/iOS/JRCapture/JROpponents.h; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EAB /* JRPinoLevelOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPinoLevelOne.h; path = JRCapture/iOS/JRCapture/JRPinoLevelOne.h; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EAC /* JRPinoLevelThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPinoLevelThree.h; path = JRCapture/iOS/JRCapture/JRPinoLevelThree.h; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EAD /* JRPinoLevelTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPinoLevelTwo.h; path = JRCapture/iOS/JRCapture/JRPinoLevelTwo.h; sourceTree = "<group>"; };
@@ -592,7 +521,6 @@
 		9FD2B6DC14FAFF9100053EB9 /* JROnipLevelOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JROnipLevelOne.m; path = JRCapture/iOS/JRCapture/JROnipLevelOne.m; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EBB /* JROnipLevelThree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JROnipLevelThree.m; path = JRCapture/iOS/JRCapture/JROnipLevelThree.m; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EBD /* JROnipLevelTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JROnipLevelTwo.m; path = JRCapture/iOS/JRCapture/JROnipLevelTwo.m; sourceTree = "<group>"; };
-		9FD2B6DC14FAFF9100053EBF /* JROpponents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JROpponents.m; path = JRCapture/iOS/JRCapture/JROpponents.m; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EC1 /* JRPinoLevelOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPinoLevelOne.m; path = JRCapture/iOS/JRCapture/JRPinoLevelOne.m; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EC3 /* JRPinoLevelThree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPinoLevelThree.m; path = JRCapture/iOS/JRCapture/JRPinoLevelThree.m; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EC5 /* JRPinoLevelTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPinoLevelTwo.m; path = JRCapture/iOS/JRCapture/JRPinoLevelTwo.m; sourceTree = "<group>"; };
@@ -727,7 +655,6 @@
 				9FD2B6DC14FAFF9100053EC5 /* JRPinoLevelTwo.m */,
 				9FD2B6DC14FAFF9100053EC3 /* JRPinoLevelThree.m */,
 				9FD2B6DC14FAFF9100053EC1 /* JRPinoLevelOne.m */,
-				9FD2B6DC14FAFF9100053EBF /* JROpponents.m */,
 				9FD2B6DC14FAFF9100053EBD /* JROnipLevelTwo.m */,
 				9FD2B6DC14FAFF9100053EBB /* JROnipLevelThree.m */,
 				9FD2B6DC14FAFF9100053EB9 /* JROnipLevelOne.m */,
@@ -741,7 +668,6 @@
 				9FD2B6DC14FAFF9100053EAD /* JRPinoLevelTwo.h */,
 				9FD2B6DC14FAFF9100053EAC /* JRPinoLevelThree.h */,
 				9FD2B6DC14FAFF9100053EAB /* JRPinoLevelOne.h */,
-				9FD2B6DC14FAFF9100053EAA /* JROpponents.h */,
 				9FD2B6DC14FAFF9100053EA9 /* JROnipLevelTwo.h */,
 				9FD2B6DC14FAFF9100053EA8 /* JROnipLevelThree.h */,
 				9FD2B6DC14FAFF9100053EA7 /* JROnipLevelOne.h */,
@@ -757,56 +683,24 @@
 				9FD2B64014F8380F00053EA2 /* JRAddresses.m */,
 				9FD2B64114F8380F00053EA2 /* JRBodyType.h */,
 				9FD2B64214F8380F00053EA2 /* JRBodyType.m */,
-				9FD2B64314F8380F00053EA2 /* JRBooks.h */,
-				9FD2B64414F8380F00053EA2 /* JRBooks.m */,
 				9FD2B64514F8380F00053EA2 /* JRCapture.h */,
 				9FD2B64614F8380F00053EA2 /* JRCapture.m */,
 				9FD2B64714F8380F00053EA2 /* JRCaptureInterface.h */,
 				9FD2B64814F8380F00053EA2 /* JRCaptureInterface.m */,
 				9FD2B64914F8380F00053EA2 /* JRCaptureUser.h */,
 				9FD2B64A14F8380F00053EA2 /* JRCaptureUser.m */,
-				9FD2B64B14F8380F00053EA2 /* JRCars.h */,
-				9FD2B64C14F8380F00053EA2 /* JRCars.m */,
-				9FD2B64D14F8380F00053EA2 /* JRChildren.h */,
-				9FD2B64E14F8380F00053EA2 /* JRChildren.m */,
 				9FD2B64F14F8380F00053EA2 /* JRCurrentLocation.h */,
 				9FD2B65014F8380F00053EA2 /* JRCurrentLocation.m */,
 				9FD2B65114F8380F00053EA2 /* JREmails.h */,
 				9FD2B65214F8380F00053EA2 /* JREmails.m */,
-				9FD2B65314F8380F00053EA2 /* JRFollowers.h */,
-				9FD2B65414F8380F00053EA2 /* JRFollowers.m */,
-				9FD2B65514F8380F00053EA2 /* JRFollowing.h */,
-				9FD2B65614F8380F00053EA2 /* JRFollowing.m */,
-				9FD2B65714F8380F00053EA2 /* JRFood.h */,
-				9FD2B65814F8380F00053EA2 /* JRFood.m */,
-				9FD2B65914F8380F00053EA2 /* JRFriends.h */,
-				9FD2B65A14F8380F00053EA2 /* JRFriends.m */,
-				9FD2B65B14F8380F00053EA2 /* JRHeroes.h */,
-				9FD2B65C14F8380F00053EA2 /* JRHeroes.m */,
 				9FD2B65D14F8380F00053EA2 /* JRIms.h */,
 				9FD2B65E14F8380F00053EA2 /* JRIms.m */,
-				9FD2B65F14F8380F00053EA2 /* JRInterests.h */,
-				9FD2B66014F8380F00053EA2 /* JRInterests.m */,
-				9FD2B66114F8380F00053EA2 /* JRJobInterests.h */,
-				9FD2B66214F8380F00053EA2 /* JRJobInterests.m */,
-				9FD2B66314F8380F00053EA2 /* JRLanguages.h */,
-				9FD2B66414F8380F00053EA2 /* JRLanguages.m */,
-				9FD2B66514F8380F00053EA2 /* JRLanguagesSpoken.h */,
-				9FD2B66614F8380F00053EA2 /* JRLanguagesSpoken.m */,
 				9FD2B66714F8380F00053EA2 /* JRLocation.h */,
 				9FD2B66814F8380F00053EA2 /* JRLocation.m */,
-				9FD2B66914F8380F00053EA2 /* JRLookingFor.h */,
-				9FD2B66A14F8380F00053EA2 /* JRLookingFor.m */,
-				9FD2B66B14F8380F00053EA2 /* JRMovies.h */,
-				9FD2B66C14F8380F00053EA2 /* JRMovies.m */,
-				9FD2B66D14F8380F00053EA2 /* JRMusic.h */,
-				9FD2B66E14F8380F00053EA2 /* JRMusic.m */,
 				9FD2B66F14F8380F00053EA2 /* JRName.h */,
 				9FD2B67014F8380F00053EA2 /* JRName.m */,
 				9FD2B67114F8380F00053EA2 /* JROrganizations.h */,
 				9FD2B67214F8380F00053EA2 /* JROrganizations.m */,
-				9FD2B67314F8380F00053EA2 /* JRPets.h */,
-				9FD2B67414F8380F00053EA2 /* JRPets.m */,
 				9FD2B67514F8380F00053EA2 /* JRPhoneNumbers.h */,
 				9FD2B67614F8380F00053EA2 /* JRPhoneNumbers.m */,
 				9FD2B67714F8380F00053EA2 /* JRPhotos.h */,
@@ -819,22 +713,8 @@
 				9FD2B67E14F8380F00053EA2 /* JRProfilePhotos.m */,
 				9FD2B67F14F8380F00053EA2 /* JRProfiles.h */,
 				9FD2B68014F8380F00053EA2 /* JRProfiles.m */,
-				9FD2B68114F8380F00053EA2 /* JRQuotes.h */,
-				9FD2B68214F8380F00053EA2 /* JRQuotes.m */,
-				9FD2B68314F8380F00053EA2 /* JRRelationships.h */,
-				9FD2B68414F8380F00053EA2 /* JRRelationships.m */,
-				9FD2B68514F8380F00053EA2 /* JRSports.h */,
-				9FD2B68614F8380F00053EA2 /* JRSports.m */,
 				9FD2B68714F8380F00053EA2 /* JRStatuses.h */,
 				9FD2B68814F8380F00053EA2 /* JRStatuses.m */,
-				9FD2B68914F8380F00053EA2 /* JRTags.h */,
-				9FD2B68A14F8380F00053EA2 /* JRTags.m */,
-				9FD2B68B14F8380F00053EA2 /* JRTurnOffs.h */,
-				9FD2B68C14F8380F00053EA2 /* JRTurnOffs.m */,
-				9FD2B68D14F8380F00053EA2 /* JRTurnOns.h */,
-				9FD2B68E14F8380F00053EA2 /* JRTurnOns.m */,
-				9FD2B68F14F8380F00053EA2 /* JRTvShows.h */,
-				9FD2B69014F8380F00053EA2 /* JRTvShows.m */,
 				9FD2B69114F8380F00053EA2 /* JRUrls.h */,
 				9FD2B69214F8380F00053EA2 /* JRUrls.m */,
 			);
@@ -1455,45 +1335,22 @@
 				9FD2B69314F8380F00053EA2 /* JRAccounts.m in Sources */,
 				9FD2B69414F8380F00053EA2 /* JRAddresses.m in Sources */,
 				9FD2B69514F8380F00053EA2 /* JRBodyType.m in Sources */,
-				9FD2B69614F8380F00053EA2 /* JRBooks.m in Sources */,
 				9FD2B69714F8380F00053EA2 /* JRCapture.m in Sources */,
 				9FD2B69814F8380F00053EA2 /* JRCaptureInterface.m in Sources */,
 				9FD2B69914F8380F00053EA2 /* JRCaptureUser.m in Sources */,
-				9FD2B69A14F8380F00053EA2 /* JRCars.m in Sources */,
-				9FD2B69B14F8380F00053EA2 /* JRChildren.m in Sources */,
 				9FD2B69C14F8380F00053EA2 /* JRCurrentLocation.m in Sources */,
 				9FD2B69D14F8380F00053EA2 /* JREmails.m in Sources */,
-				9FD2B69E14F8380F00053EA2 /* JRFollowers.m in Sources */,
-				9FD2B69F14F8380F00053EA2 /* JRFollowing.m in Sources */,
-				9FD2B6A014F8380F00053EA2 /* JRFood.m in Sources */,
-				9FD2B6A114F8380F00053EA2 /* JRFriends.m in Sources */,
-				9FD2B6A214F8380F00053EA2 /* JRHeroes.m in Sources */,
 				9FD2B6A314F8380F00053EA2 /* JRIms.m in Sources */,
-				9FD2B6A414F8380F00053EA2 /* JRInterests.m in Sources */,
-				9FD2B6A514F8380F00053EA2 /* JRJobInterests.m in Sources */,
-				9FD2B6A614F8380F00053EA2 /* JRLanguages.m in Sources */,
-				9FD2B6A714F8380F00053EA2 /* JRLanguagesSpoken.m in Sources */,
 				9FD2B6A814F8380F00053EA2 /* JRLocation.m in Sources */,
-				9FD2B6A914F8380F00053EA2 /* JRLookingFor.m in Sources */,
-				9FD2B6AA14F8380F00053EA2 /* JRMovies.m in Sources */,
-				9FD2B6AB14F8380F00053EA2 /* JRMusic.m in Sources */,
 				9FD2B6AC14F8380F00053EA2 /* JRName.m in Sources */,
 				9FD2B6AD14F8380F00053EA2 /* JROrganizations.m in Sources */,
-				9FD2B6AE14F8380F00053EA2 /* JRPets.m in Sources */,
 				9FD2B6AF14F8380F00053EA2 /* JRPhoneNumbers.m in Sources */,
 				9FD2B6B014F8380F00053EA2 /* JRPhotos.m in Sources */,
 				9FD2B6B114F8380F00053EA2 /* JRPrimaryAddress.m in Sources */,
 				9FD2B6B214F8380F00053EA2 /* JRProfile.m in Sources */,
 				9FD2B6B314F8380F00053EA2 /* JRProfilePhotos.m in Sources */,
 				9FD2B6B414F8380F00053EA2 /* JRProfiles.m in Sources */,
-				9FD2B6B514F8380F00053EA2 /* JRQuotes.m in Sources */,
-				9FD2B6B614F8380F00053EA2 /* JRRelationships.m in Sources */,
-				9FD2B6B714F8380F00053EA2 /* JRSports.m in Sources */,
 				9FD2B6B814F8380F00053EA2 /* JRStatuses.m in Sources */,
-				9FD2B6B914F8380F00053EA2 /* JRTags.m in Sources */,
-				9FD2B6BA14F8380F00053EA2 /* JRTurnOffs.m in Sources */,
-				9FD2B6BB14F8380F00053EA2 /* JRTurnOns.m in Sources */,
-				9FD2B6BC14F8380F00053EA2 /* JRTvShows.m in Sources */,
 				9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */,
 				9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */,
 				9FD2B6C114F8387B00053EAB /* CaptureNewUserViewController.m in Sources */,
@@ -1506,7 +1363,6 @@
 				9FD2B6DC14FAFF9100053EBA /* JROnipLevelOne.m in Sources */,
 				9FD2B6DC14FAFF9100053EBC /* JROnipLevelThree.m in Sources */,
 				9FD2B6DC14FAFF9100053EBE /* JROnipLevelTwo.m in Sources */,
-				9FD2B6DC14FAFF9100053EC0 /* JROpponents.m in Sources */,
 				9FD2B6DC14FAFF9100053EC2 /* JRPinoLevelOne.m in Sources */,
 				9FD2B6DC14FAFF9100053EC4 /* JRPinoLevelThree.m in Sources */,
 				9FD2B6DC14FAFF9100053EC6 /* JRPinoLevelTwo.m in Sources */,

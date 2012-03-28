@@ -31,18 +31,15 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
-#import "JRFollowers.h"
-#import "JRFollowing.h"
-#import "JRFriends.h"
 #import "JRProfile.h"
 
 @interface JRProfiles : JRCaptureObject
 @property                   NSInteger profilesId;
 @property (nonatomic, copy) NSObject *accessCredentials; /* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */ 
 @property (nonatomic, copy) NSString *domain;  
-@property (nonatomic, copy) NSArray *followers; /* This is an array of JRFollowers */ 
-@property (nonatomic, copy) NSArray *following; /* This is an array of JRFollowing */ 
-@property (nonatomic, copy) NSArray *friends; /* This is an array of JRFriends */ 
+@property (nonatomic, copy) NSArray *followers; /* This is an array of JRStringPluralElements with type identifier */ 
+@property (nonatomic, copy) NSArray *following; /* This is an array of JRStringPluralElements with type identifier */ 
+@property (nonatomic, copy) NSArray *friends; /* This is an array of JRStringPluralElements with type identifier */ 
 @property (nonatomic, copy) NSString *identifier;  
 @property (nonatomic, copy) JRProfile *profile;  
 @property (nonatomic, copy) NSObject *provider; /* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */ 

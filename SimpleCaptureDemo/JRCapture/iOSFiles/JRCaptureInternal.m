@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#import <c++/4.2.1/bits/locale_facets.h>
 #import "JRCaptureInternal.h"
 
 @implementation JRCaptureObject
@@ -134,6 +135,221 @@
     [dirtyPropertySet release];
 
     [super dealloc];
+}
+@end
+
+@implementation JRStringPluralElement
+{
+    NSInteger _elementId;
+    NSString *_value;
+}
+@synthesize type = _type;
+@dynamic    elementId;
+@dynamic    value;
+
+- (NSInteger)elementId
+{
+    return _elementId;
+}
+
+- (void)setElementId:(NSInteger)newElementId
+{
+    [self.dirtyPropertySet addObject:@"elementId"];
+
+    _elementId = newElementId;
+}
+
+- (NSString *)value
+{
+    return _value;
+}
+
+- (void)setValue:(NSString *)newValue
+{
+    [self.dirtyPropertySet addObject:@"value"];
+
+    if (!newValue)
+        _value = [NSNull null];
+    else
+        _value = [newValue copy];
+}
+
+- (id)initWithType:(NSString *)elementType
+{
+    if ((self = [super init]))
+    {
+        self.captureObjectPath = @"/";
+        _type = elementType;
+    }
+    return self;
+}
+
++ (id)stringElementWithType:(NSString *)elementType
+{
+    return [[[JRStringPluralElement alloc] initWithType:elementType] autorelease];
+}
+
+- (id)copyWithZone:(NSZone*)zone
+{
+    JRStringPluralElement *stringElementCopy =
+                [[JRStringPluralElement allocWithZone:zone] initWithType:self.type];
+
+    stringElementCopy.elementId = self.elementId;
+    stringElementCopy.value     = self.value;
+
+    return stringElementCopy;
+}
+
++ (id)stringElementFromDictionary:(NSDictionary*)dictionary withType:(NSString *)elementType
+{
+    JRStringPluralElement *stringElement =
+        [JRStringPluralElement stringElementWithType:elementType];
+
+    stringElement.elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    stringElement.value = [dictionary objectForKey:elementType];
+
+    return stringElement;
+}
+
++ (id)stringElementFromString:(NSString*)valueString withType:(NSString *)elementType
+{
+    JRStringPluralElement *stringElement =
+        [JRStringPluralElement stringElementWithType:elementType];
+
+    stringElement.value = valueString;
+
+    return stringElement;
+}
+
+- (NSDictionary*)dictionaryFromStringElement
+{
+    NSMutableDictionary *dict =
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if (self.elementId)
+        [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
+
+    if (self.value && self.value != [NSNull null])
+        [dict setObject:self.value forKey:self.type];
+    else
+        [dict setObject:[NSNull null] forKey:self.type];
+
+    return dict;
+}
+
+- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    if ([dictionary objectForKey:@"id"])
+        _elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+
+    if ([dictionary objectForKey:_type])
+        _value = [dictionary objectForKey:_type];
+}
+
+- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+{
+    _elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    _value = [dictionary objectForKey:_type];
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"elementId"])
+        [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
+
+    if ([self.dirtyPropertySet containsObject:@"value"])
+        [dict setObject:self.value forKey:self.type];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface updateCaptureObject:dict
+                                     withId:0
+                                     atPath:self.captureObjectPath
+                                  withToken:[JRCaptureData accessToken]
+                                forDelegate:self
+                                withContext:newContext];
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
+    [dict setObject:self.value forKey:self.type];
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface replaceCaptureObject:dict
+                                      withId:0
+                                      atPath:self.captureObjectPath
+                                   withToken:[JRCaptureData accessToken]
+                                 forDelegate:self
+                                 withContext:newContext];
+}
+
+- (void)dealloc
+{
+    [_value release];
+    [_type release];
+
+    [super dealloc];
+}
+@end
+
+@implementation NSArray (JRStringPluralElement)
+- (NSArray*)arrayOfStringPluralDictionariesFromStringPluralElements
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRStringPluralElement class]])
+            [filteredDictionaryArray addObject:[(JRStringPluralElement*)object dictionaryFromStringElement]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType
+{
+    NSMutableArray *filteredPluralArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredPluralArray addObject:[JRStringPluralElement stringElementFromDictionary:(NSDictionary*)dictionary
+                                                                                     withType:elementType]];
+
+    return filteredPluralArray;
+}
+
+//- (NSArray*)arrayOfStringPluralElementsFromArrayOfStringsWithType:(NSString *)elementType
+//{
+//    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+//    for (NSString *valueString in self)
+//        if ([valueString isKindOfClass:[NSString class]])
+//            [filteredDictionaryArray addObject:[JRStringPluralElement stringElementFromString:valueString
+//                                                                                     withType:elementType]];
+//
+//    return filteredDictionaryArray;
+//}
+
+- (NSArray*)copyArrayOfStringPluralElementsWithType:(NSString *)elementType
+{
+    NSMutableArray *filteredArrayCopy = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[NSString class]])
+            [filteredArrayCopy addObject:[JRStringPluralElement stringElementFromString:(NSString *)object
+                                                                               withType:elementType]];
+        else if ([object isKindOfClass:[JRStringPluralElement class]]) // TODO: Copy or not???
+            [filteredArrayCopy addObject:[[(JRStringPluralElement *)object copy] autorelease]];
+
+    return [filteredArrayCopy retain];
 }
 @end
 
