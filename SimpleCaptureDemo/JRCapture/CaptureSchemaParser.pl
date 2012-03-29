@@ -271,12 +271,28 @@ sub recursiveParse {
   $objFromDictSection[1]      = $objectName;
   $objFromDictSection[4]      = "    " . $className . " *" . $objectName;
   $objFromDictSection[6]      = $className . " " . $objectName;
-  $objFromDictSection[10]     = $objectName;
-  $objFromDictSection[12]     = $objectName;
+  $objFromDictSection[9]      = $objectName;
+  $objFromDictSection[13]     = "\@\"" . $objectName . "\"";  
+  $objFromDictSection[18]     = $objectName;
+  $objFromDictSection[20]     = $objectName;
+
+  $updateFromDictSection[5]   = "\@\"" . $objectName . "\"";  
+  $replaceFromDictSection[5]  = "\@\"" . $objectName . "\"";  
       
   $minConstructorSection[3]   = "        self.captureObjectPath = \@\"" . $objectPath . "\";\n";
   $constructorSection[8]      = "        self.captureObjectPath = \@\"" . $objectPath . "\";\n";
 
+
+  if ($objectName eq "captureUser") {
+    $objFromDictSection[8]      = "//" . $objFromDictSection[8];
+    $updateFromDictSection[2]   = "//" . $updateFromDictSection[2];
+    $replaceFromDictSection[2]  = "//" . $replaceFromDictSection[2];    
+    
+    $objFromDictSection[16]    .= "\n    captureUser.captureObjectPath = \@\"\";\n";
+    $updateFromDictSection[8]  .= "\n    self.captureObjectPath = \@\"\";\n";
+    $replaceFromDictSection[8] .= "\n    self.captureObjectPath = \@\"\";\n"; 
+  }
+  
   ######################################################
   # Keep track of how many properties are required
   ######################################################
@@ -330,11 +346,15 @@ sub recursiveParse {
     ######################################################
     my $toDictionary    =                                   # Default operation is to just stick the NSObject 
           "self.$propertyName";                             # into an NSMutableDictionary
-    my $frDictionary    =                                   # Default operation is to just pull the NSObject from 
-          "[dictionary objectForKey:\@\"$dictionaryKey\"]"; # the dictionary and stick it into the property
     my $toUpDictionary  = "self.$propertyName";             # Default operation for toUpdateDictionary                                        
     my $toRplDictionary = "self.$propertyName";             # Default operation for toReplaceDictionary 
-          
+    my $frDictionary    =                                   # Default operation is to just pull the NSObject from 
+          "[dictionary objectForKey:\@\"$dictionaryKey\"]"; # the dictionary and stick it into the property
+    my $frUpDictionary  = 
+          "[dictionary objectForKey:\@\"$dictionaryKey\"]";
+    my $frRplDictionary  = 
+          "[dictionary objectForKey:\@\"$dictionaryKey\"]";
+    
     ######################################################
     # Find out if it's a required property, and
     # increase the requiredProperties counter if it is
@@ -363,7 +383,7 @@ sub recursiveParse {
       $isNotNSObject = 1;
       $objectiveType = "BOOL";
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithBool:self." . $propertyName . "]";
-      $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] boolValue]";
+      $frDictionary  = $frUpDictionary = $frRplDictionary = "[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] boolValue]";
 
     } elsif ($propertyType eq "integer") {
     ##################
@@ -372,7 +392,7 @@ sub recursiveParse {
       $isNotNSObject = 1;
       $objectiveType = "NSInteger";
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInt:self." . $propertyName . "]";
-      $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
+      $frDictionary  = $frUpDictionary = $frRplDictionary = "[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
 
     } elsif ($propertyType eq "decimal") {
     ##################
@@ -386,7 +406,7 @@ sub recursiveParse {
     ##################
       $objectiveType = "NSDate *";
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601Date]";
-      $frDictionary  = "[NSDate dateFromISO8601DateString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
+      $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSDate dateFromISO8601DateString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
 
     } elsif ($propertyType eq "dateTime") {
     ##################
@@ -394,7 +414,7 @@ sub recursiveParse {
     ##################
       $objectiveType = "NSDate *";
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601DateTime]";
-      $frDictionary  = "[NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
+      $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
 
     } elsif ($propertyType =~ m/^password/) { 
     ##########################################################################
@@ -439,7 +459,9 @@ sub recursiveParse {
         $toDictionary    = "[self." . $propertyName . " arrayOfStringPluralDictionariesFromStringPluralElements]";
         $toUpDictionary  = "[self." . $propertyName . " arrayOfStringPluralUpdateDictionariesFromStringPluralElements]";
         $toRplDictionary = "[self." . $propertyName . " arrayOfStringPluralReplaceDictionariesFromStringPluralElements]";
-        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\"]";
+        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" andPath:" . $objectName . ".captureObjectPath]";
+        $frUpDictionary  = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" andPath:self.captureObjectPath]";
+        $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" andPath:self.captureObjectPath]";
         $propertyNotes   = "/* This is an array of JRStringPluralElements with type " . $simpleArrayType . " */";      
         
       } else {
@@ -453,7 +475,9 @@ sub recursiveParse {
         $toDictionary    = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
         $toUpDictionary  = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "UpdateDictionariesFrom" . ucfirst($propertyName) . "Objects]";
         $toRplDictionary = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Objects]";
-        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "Dictionaries]";
+        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:" . $objectName . ".captureObjectPath]";
+        $frUpDictionary  = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:self.captureObjectPath]";
+        $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:self.captureObjectPath]";
         $propertyNotes   = "/* This is an array of JR" . ucfirst($propertyName) . " */";
         
         ################
@@ -477,7 +501,9 @@ sub recursiveParse {
       $toDictionary    = "[self." . $propertyName . " toDictionary]";
       $toUpDictionary  = "[self." . $propertyName . " toUpdateDictionary]";
       $toRplDictionary = "[self." . $propertyName . " toReplaceDictionary]";
-      $frDictionary    = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
+      $frDictionary    = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:" . $objectName . ".captureObjectPath]";
+      $frUpDictionary  = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
+      $frRplDictionary = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
       $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
 
       ################
@@ -497,7 +523,7 @@ sub recursiveParse {
       $isNotNSObject = 1;
       $objectiveType = "NSInteger";
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInt:self." . $propertyName . "]";
-      $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
+      $frDictionary  = $frUpDictionary = $frRplDictionary = "[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
 
     } else {
     ################################
@@ -581,21 +607,21 @@ sub recursiveParse {
 
       if ($isNotNSObject) {
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $objFromDictSection[8]     .= "\n    " . $objectName . "." . $propertyName . " =\n";
-        $objFromDictSection[8]     .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-        $objFromDictSection[8]     .= "        " . $frDictionary . " : 0;\n";
+        $objFromDictSection[16]    .= "\n    " . $objectName . "." . $propertyName . " =\n";
+        $objFromDictSection[16]    .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $objFromDictSection[16]    .= "        " . $frDictionary . " : 0;\n";
         
         # e.g., if ([dictionary objectForKey:@"foo"])
-        $updateFromDictSection[2]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
+        $updateFromDictSection[8]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $updateFromDictSection[2]  .= "\n        _" . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-        $updateFromDictSection[2]  .=  "            " . $frDictionary . " : 0;\n";
+        $updateFromDictSection[8]  .= "\n        _" . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $updateFromDictSection[8]  .=  "            " . $frUpDictionary . " : 0;\n";
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $replaceFromDictSection[2] .= "\n    _" . $propertyName . " =\n";
-        $replaceFromDictSection[2] .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-        $replaceFromDictSection[2] .= "        " . $frDictionary . " : 0;\n";
+        $replaceFromDictSection[8] .= "\n    _" . $propertyName . " =\n";
+        $replaceFromDictSection[8] .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $replaceFromDictSection[8] .= "        " . $frRplDictionary . " : 0;\n";
         
         ##########################################################################
         # Object ids needs to be serialized/deserialized with the key 'id', even 
@@ -614,21 +640,21 @@ sub recursiveParse {
       } else {
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $objFromDictSection[8]     .= "\n    " . $objectName . "." . $propertyName . " =\n";
-        $objFromDictSection[8]     .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-        $objFromDictSection[8]     .= "        " . $frDictionary . " : nil;\n";
+        $objFromDictSection[16]    .= "\n    " . $objectName . "." . $propertyName . " =\n";
+        $objFromDictSection[16]    .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $objFromDictSection[16]    .= "        " . $frDictionary . " : nil;\n";
         
         # e.g., if ([dictionary objectForKey:@"foo"])
-        $updateFromDictSection[2]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
+        $updateFromDictSection[8]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $updateFromDictSection[2]  .= "\n        _" . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-        $updateFromDictSection[2]  .= "            " . $frDictionary . " : nil;\n";
+        $updateFromDictSection[8]  .= "\n        _" . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $updateFromDictSection[8]  .= "            " . $frUpDictionary . " : nil;\n";
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $replaceFromDictSection[2] .= "\n    _" . $propertyName . " =\n";
-        $replaceFromDictSection[2] .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-        $replaceFromDictSection[2] .= "        " . $frDictionary . " : nil;\n";
+        $replaceFromDictSection[8] .= "\n    _" . $propertyName . " =\n";
+        $replaceFromDictSection[8] .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $replaceFromDictSection[8] .= "        " . $frRplDictionary . " : nil;\n";
         
         # e.g., [dict setObject:(self.baz ? self.baz : [NSNull null]) forKey:@"baz"];
         $dictFromObjSection[3]     .= "    [dict setObject:(self." . $propertyName . " ? " . $toDictionary . " : [NSNull null])\n";
@@ -650,8 +676,17 @@ sub recursiveParse {
       }
 
       if ($isId) {
-        $updateRemotelySection[3]  = "_" . $propertyName;
-        $replaceRemotelySection[3] = "_" . $propertyName;
+        $updateRemotelySection[3]  = "self." . $propertyName;
+        $replaceRemotelySection[3] = "self." . $propertyName;
+        
+        $objFromDictSection[11]    = "#%d";
+        $objFromDictSection[14]    = ", " . $objectName . "." . $propertyName;
+        
+        $updateFromDictSection[3]  = "#%d";
+        $updateFromDictSection[6] = ", self." . $propertyName;
+        
+        $replaceFromDictSection[3]  = "#%d";
+        $replaceFromDictSection[6] = ", self." . $propertyName;
       }
 
       if ($isSimpleArray) {

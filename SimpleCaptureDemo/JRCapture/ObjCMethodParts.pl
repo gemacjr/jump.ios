@@ -191,9 +191,10 @@ my @copyConstructorParts = (
 ###################################################################
 
 my @fromDictionaryParts = (
-"+ (id)","","ObjectFromDictionary:(NSDictionary*)dictionary",
+"+ (id)","","ObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
 "\n{\n",
 "", " = [","","];\n",
+"    ", "", ".captureObjectPath = [NSString stringWithFormat:\@\"%@/%@", "", "\", capturePath, ", "", "", "];\n",
 "",
 "\n    [","",".dirtyPropertySet removeAllObjects];
     
@@ -245,8 +246,9 @@ my @toDictionaryParts = (
 ###################################################################
 
 my @updateFrDictParts = (
-"- (void)updateFromDictionary:(NSDictionary*)dictionary",
-"\n{",
+"- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
+"\n{\n",
+"    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@", "", "\", capturePath, ", "", "", "];\n",
 "",
 "}\n\n");
 
@@ -266,8 +268,9 @@ my @updateFrDictParts = (
 ###################################################################
 
 my @replaceFrDictParts = (
-"- (void)replaceFromDictionary:(NSDictionary*)dictionary",
-"\n{",
+"- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
+"\n{\n",
+"    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@", "", "\", capturePath, ", "", "", "];\n",
 "",
 "}\n\n");
 
@@ -318,6 +321,7 @@ my @updateRemotelyParts = (
 "\n{\n",
 "    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, \@\"captureObject\",
+                                                     self.captureObjectPath, \@\"capturePath\",
                                                      delegate, \@\"delegate\",
                                                      context, \@\"callerContext\", nil];
 
@@ -378,6 +382,7 @@ my @replaceRemotelyParts = (
 "\n{\n",
 "    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, \@\"captureObject\",
+                                                     self.captureObjectPath, \@\"capturePath\",
                                                      delegate, \@\"delegate\",
                                                      context, \@\"callerContext\", nil];
 
@@ -447,7 +452,7 @@ sub createArrayCategoryForSubobject {
   my $arrayCategoryIntf = "\@interface NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
   my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
 
-  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "Dictionaries";
+  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath";
   my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects";
   my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "UpdateDictionariesFrom" . ucfirst($propertyName) . "Objects";
   my $methodName4 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Objects";
@@ -459,7 +464,7 @@ sub createArrayCategoryForSubobject {
        "    NSMutableArray *filtered" . ucfirst($propertyName) . "Array = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *dictionary in self)\n" . 
        "        if ([dictionary isKindOfClass:[NSDictionary class]])\n" . 
-       "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)dictionary]];\n\n" . 
+       "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];\n\n" . 
        "    return filtered" . ucfirst($propertyName) . "Array;\n}\n\n";
        
   $arrayCategoryImpl .= "$methodName2\n{\n";

@@ -134,9 +134,10 @@
     return dict;
 }
 
-+ (id)onipLevelOneObjectFromDictionary:(NSDictionary*)dictionary
++ (id)onipLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JROnipLevelOne *onipLevelOne = [JROnipLevelOne onipLevelOne];
+    onipLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", onipLevelOne.onipLevelOneId];
 
     onipLevelOne.onipLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -152,15 +153,17 @@
 
     onipLevelOne.onipLevelTwo =
         [dictionary objectForKey:@"onipLevelTwo"] != [NSNull null] ? 
-        [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"]] : nil;
+        [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"] withPath:onipLevelOne.captureObjectPath] : nil;
 
     [onipLevelOne.dirtyPropertySet removeAllObjects];
     
     return onipLevelOne;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", self.onipLevelOneId];
+
     if ([dictionary objectForKey:@"id"])
         _onipLevelOneId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -175,11 +178,13 @@
 
     if ([dictionary objectForKey:@"onipLevelTwo"])
         _onipLevelTwo = [dictionary objectForKey:@"onipLevelTwo"] != [NSNull null] ? 
-            [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"]] : nil;
+            [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", self.onipLevelOneId];
+
     _onipLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -194,7 +199,7 @@
 
     _onipLevelTwo =
         [dictionary objectForKey:@"onipLevelTwo"] != [NSNull null] ? 
-        [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"]] : nil;
+        [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath] : nil;
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -218,11 +223,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:_onipLevelOneId
+                                     withId:self.onipLevelOneId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -245,11 +251,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:_onipLevelOneId
+                                      withId:self.onipLevelOneId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

@@ -39,7 +39,7 @@
 @property (nonatomic, copy) NSArray *pinoLevelThree; /* This is an array of JRPinoLevelThree */ 
 - (id)init;
 + (id)pinoLevelTwo;
-+ (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

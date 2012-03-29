@@ -118,9 +118,10 @@
     return dict;
 }
 
-+ (id)statusesObjectFromDictionary:(NSDictionary*)dictionary
++ (id)statusesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRStatuses *statuses = [JRStatuses statuses];
+    statuses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", statuses.statusesId];
 
     statuses.statusesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -139,8 +140,10 @@
     return statuses;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", self.statusesId];
+
     if ([dictionary objectForKey:@"id"])
         _statusesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -154,8 +157,10 @@
             [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", self.statusesId];
+
     _statusesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -187,11 +192,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:_statusesId
+                                     withId:self.statusesId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -213,11 +219,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:_statusesId
+                                      withId:self.statusesId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

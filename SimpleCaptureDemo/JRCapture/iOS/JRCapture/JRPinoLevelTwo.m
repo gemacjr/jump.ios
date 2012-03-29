@@ -32,19 +32,19 @@
 #import "JRPinoLevelTwo.h"
 
 @interface NSArray (PinoLevelThreeToFromDictionary)
-- (NSArray*)arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries;
+- (NSArray*)arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects;
 - (NSArray*)arrayOfPinoLevelThreeUpdateDictionariesFromPinoLevelThreeObjects;
 - (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeObjects;
 @end
 
 @implementation NSArray (PinoLevelThreeToFromDictionary)
-- (NSArray*)arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries
+- (NSArray*)arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPinoLevelThreeArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPinoLevelThreeArray addObject:[JRPinoLevelThree pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary]];
+            [filteredPinoLevelThreeArray addObject:[JRPinoLevelThree pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPinoLevelThreeArray;
 }
@@ -167,9 +167,10 @@
     return dict;
 }
 
-+ (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary
++ (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRPinoLevelTwo *pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwo];
+    pinoLevelTwo.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelTwo"];
 
     pinoLevelTwo.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -181,15 +182,17 @@
 
     pinoLevelTwo.pinoLevelThree =
         [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:pinoLevelTwo.captureObjectPath] : nil;
 
     [pinoLevelTwo.dirtyPropertySet removeAllObjects];
     
     return pinoLevelTwo;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelTwo"];
+
     if ([dictionary objectForKey:@"level"])
         _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
@@ -200,11 +203,13 @@
 
     if ([dictionary objectForKey:@"pinoLevelThree"])
         _pinoLevelThree = [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries] : nil;
+            [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:self.captureObjectPath] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelTwo"];
+
     _level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
@@ -215,7 +220,7 @@
 
     _pinoLevelThree =
         [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:self.captureObjectPath] : nil;
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -239,6 +244,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
@@ -266,6 +272,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 

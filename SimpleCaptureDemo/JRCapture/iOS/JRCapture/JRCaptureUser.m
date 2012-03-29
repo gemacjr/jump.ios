@@ -32,19 +32,19 @@
 #import "JRCaptureUser.h"
 
 @interface NSArray (GamesToFromDictionary)
-- (NSArray*)arrayOfGamesObjectsFromGamesDictionaries;
+- (NSArray*)arrayOfGamesObjectsFromGamesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfGamesDictionariesFromGamesObjects;
 - (NSArray*)arrayOfGamesUpdateDictionariesFromGamesObjects;
 - (NSArray*)arrayOfGamesReplaceDictionariesFromGamesObjects;
 @end
 
 @implementation NSArray (GamesToFromDictionary)
-- (NSArray*)arrayOfGamesObjectsFromGamesDictionaries
+- (NSArray*)arrayOfGamesObjectsFromGamesDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredGamesArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredGamesArray addObject:[JRGames gamesObjectFromDictionary:(NSDictionary*)dictionary]];
+            [filteredGamesArray addObject:[JRGames gamesObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredGamesArray;
 }
@@ -81,19 +81,19 @@
 @end
 
 @interface NSArray (OnipLevelOneToFromDictionary)
-- (NSArray*)arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionaries;
+- (NSArray*)arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOnipLevelOneDictionariesFromOnipLevelOneObjects;
 - (NSArray*)arrayOfOnipLevelOneUpdateDictionariesFromOnipLevelOneObjects;
 - (NSArray*)arrayOfOnipLevelOneReplaceDictionariesFromOnipLevelOneObjects;
 @end
 
 @implementation NSArray (OnipLevelOneToFromDictionary)
-- (NSArray*)arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionaries
+- (NSArray*)arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredOnipLevelOneArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredOnipLevelOneArray addObject:[JROnipLevelOne onipLevelOneObjectFromDictionary:(NSDictionary*)dictionary]];
+            [filteredOnipLevelOneArray addObject:[JROnipLevelOne onipLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredOnipLevelOneArray;
 }
@@ -130,19 +130,19 @@
 @end
 
 @interface NSArray (PhotosToFromDictionary)
-- (NSArray*)arrayOfPhotosObjectsFromPhotosDictionaries;
+- (NSArray*)arrayOfPhotosObjectsFromPhotosDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPhotosDictionariesFromPhotosObjects;
 - (NSArray*)arrayOfPhotosUpdateDictionariesFromPhotosObjects;
 - (NSArray*)arrayOfPhotosReplaceDictionariesFromPhotosObjects;
 @end
 
 @implementation NSArray (PhotosToFromDictionary)
-- (NSArray*)arrayOfPhotosObjectsFromPhotosDictionaries
+- (NSArray*)arrayOfPhotosObjectsFromPhotosDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPhotosArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPhotosArray addObject:[JRPhotos photosObjectFromDictionary:(NSDictionary*)dictionary]];
+            [filteredPhotosArray addObject:[JRPhotos photosObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPhotosArray;
 }
@@ -179,19 +179,19 @@
 @end
 
 @interface NSArray (PluralLevelOneToFromDictionary)
-- (NSArray*)arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionaries;
+- (NSArray*)arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralLevelOneDictionariesFromPluralLevelOneObjects;
 - (NSArray*)arrayOfPluralLevelOneUpdateDictionariesFromPluralLevelOneObjects;
 - (NSArray*)arrayOfPluralLevelOneReplaceDictionariesFromPluralLevelOneObjects;
 @end
 
 @implementation NSArray (PluralLevelOneToFromDictionary)
-- (NSArray*)arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionaries
+- (NSArray*)arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPluralLevelOneArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPluralLevelOneArray addObject:[JRPluralLevelOne pluralLevelOneObjectFromDictionary:(NSDictionary*)dictionary]];
+            [filteredPluralLevelOneArray addObject:[JRPluralLevelOne pluralLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPluralLevelOneArray;
 }
@@ -228,19 +228,19 @@
 @end
 
 @interface NSArray (ProfilesToFromDictionary)
-- (NSArray*)arrayOfProfilesObjectsFromProfilesDictionaries;
+- (NSArray*)arrayOfProfilesObjectsFromProfilesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfProfilesDictionariesFromProfilesObjects;
 - (NSArray*)arrayOfProfilesUpdateDictionariesFromProfilesObjects;
 - (NSArray*)arrayOfProfilesReplaceDictionariesFromProfilesObjects;
 @end
 
 @implementation NSArray (ProfilesToFromDictionary)
-- (NSArray*)arrayOfProfilesObjectsFromProfilesDictionaries
+- (NSArray*)arrayOfProfilesObjectsFromProfilesDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredProfilesArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredProfilesArray addObject:[JRProfiles profilesObjectFromDictionary:(NSDictionary*)dictionary]];
+            [filteredProfilesArray addObject:[JRProfiles profilesObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredProfilesArray;
 }
@@ -277,19 +277,19 @@
 @end
 
 @interface NSArray (StatusesToFromDictionary)
-- (NSArray*)arrayOfStatusesObjectsFromStatusesDictionaries;
+- (NSArray*)arrayOfStatusesObjectsFromStatusesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfStatusesDictionariesFromStatusesObjects;
 - (NSArray*)arrayOfStatusesUpdateDictionariesFromStatusesObjects;
 - (NSArray*)arrayOfStatusesReplaceDictionariesFromStatusesObjects;
 @end
 
 @implementation NSArray (StatusesToFromDictionary)
-- (NSArray*)arrayOfStatusesObjectsFromStatusesDictionaries
+- (NSArray*)arrayOfStatusesObjectsFromStatusesDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredStatusesArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredStatusesArray addObject:[JRStatuses statusesObjectFromDictionary:(NSDictionary*)dictionary]];
+            [filteredStatusesArray addObject:[JRStatuses statusesObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredStatusesArray;
 }
@@ -800,9 +800,12 @@
     return dict;
 }
 
-+ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary
++ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+//    captureUser.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", captureUser.captureUserId];
+
+    captureUser.captureObjectPath = @"";
 
     captureUser.captureUserId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -854,7 +857,7 @@
 
     captureUser.games =
         [dictionary objectForKey:@"games"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.gender =
         [dictionary objectForKey:@"gender"] != [NSNull null] ? 
@@ -874,11 +877,11 @@
 
     captureUser.objectLevelOne =
         [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ? 
-        [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"]] : nil;
+        [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"] withPath:captureUser.captureObjectPath] : nil;
 
     captureUser.onipLevelOne =
         [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.password =
         [dictionary objectForKey:@"password"] != [NSNull null] ? 
@@ -886,35 +889,39 @@
 
     captureUser.photos =
         [dictionary objectForKey:@"photos"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.pinoLevelOne =
         [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ? 
-        [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"]] : nil;
+        [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"] withPath:captureUser.captureObjectPath] : nil;
 
     captureUser.pluralLevelOne =
         [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.primaryAddress =
         [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ? 
-        [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]] : nil;
+        [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"] withPath:captureUser.captureObjectPath] : nil;
 
     captureUser.profiles =
         [dictionary objectForKey:@"profiles"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.statuses =
         [dictionary objectForKey:@"statuses"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     [captureUser.dirtyPropertySet removeAllObjects];
     
     return captureUser;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", self.captureUserId];
+
+    self.captureObjectPath = @"";
+
     if ([dictionary objectForKey:@"id"])
         _captureUserId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -965,7 +972,7 @@
 
     if ([dictionary objectForKey:@"games"])
         _games = [dictionary objectForKey:@"games"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionaries] : nil;
+            [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"gender"])
         _gender = [dictionary objectForKey:@"gender"] != [NSNull null] ? 
@@ -985,11 +992,11 @@
 
     if ([dictionary objectForKey:@"objectLevelOne"])
         _objectLevelOne = [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ? 
-            [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"]] : nil;
+            [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"onipLevelOne"])
         _onipLevelOne = [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionaries] : nil;
+            [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"password"])
         _password = [dictionary objectForKey:@"password"] != [NSNull null] ? 
@@ -997,31 +1004,35 @@
 
     if ([dictionary objectForKey:@"photos"])
         _photos = [dictionary objectForKey:@"photos"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries] : nil;
+            [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"pinoLevelOne"])
         _pinoLevelOne = [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ? 
-            [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"]] : nil;
+            [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"pluralLevelOne"])
         _pluralLevelOne = [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionaries] : nil;
+            [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"primaryAddress"])
         _primaryAddress = [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ? 
-            [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]] : nil;
+            [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"profiles"])
         _profiles = [dictionary objectForKey:@"profiles"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionaries] : nil;
+            [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"statuses"])
         _statuses = [dictionary objectForKey:@"statuses"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionaries] : nil;
+            [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionariesWithPath:self.captureObjectPath] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", self.captureUserId];
+
+    self.captureObjectPath = @"";
+
     _captureUserId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -1072,7 +1083,7 @@
 
     _games =
         [dictionary objectForKey:@"games"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionariesWithPath:self.captureObjectPath] : nil;
 
     _gender =
         [dictionary objectForKey:@"gender"] != [NSNull null] ? 
@@ -1092,11 +1103,11 @@
 
     _objectLevelOne =
         [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ? 
-        [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"]] : nil;
+        [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"] withPath:self.captureObjectPath] : nil;
 
     _onipLevelOne =
         [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionariesWithPath:self.captureObjectPath] : nil;
 
     _password =
         [dictionary objectForKey:@"password"] != [NSNull null] ? 
@@ -1104,27 +1115,27 @@
 
     _photos =
         [dictionary objectForKey:@"photos"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionariesWithPath:self.captureObjectPath] : nil;
 
     _pinoLevelOne =
         [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ? 
-        [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"]] : nil;
+        [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"] withPath:self.captureObjectPath] : nil;
 
     _pluralLevelOne =
         [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionariesWithPath:self.captureObjectPath] : nil;
 
     _primaryAddress =
         [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ? 
-        [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"]] : nil;
+        [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"] withPath:self.captureObjectPath] : nil;
 
     _profiles =
         [dictionary objectForKey:@"profiles"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionariesWithPath:self.captureObjectPath] : nil;
 
     _statuses =
         [dictionary objectForKey:@"statuses"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionaries] : nil;
+        [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionariesWithPath:self.captureObjectPath] : nil;
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -1205,11 +1216,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:_captureUserId
+                                     withId:self.captureUserId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -1251,11 +1263,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:_captureUserId
+                                      withId:self.captureUserId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

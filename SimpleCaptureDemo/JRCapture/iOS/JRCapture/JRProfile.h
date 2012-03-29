@@ -106,7 +106,7 @@
 @property (nonatomic, copy) NSString *utcOffset;  
 - (id)init;
 + (id)profile;
-+ (id)profileObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)profileObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

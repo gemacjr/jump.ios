@@ -134,9 +134,10 @@
     return dict;
 }
 
-+ (id)profilePhotosObjectFromDictionary:(NSDictionary*)dictionary
++ (id)profilePhotosObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRProfilePhotos *profilePhotos = [JRProfilePhotos profilePhotos];
+    profilePhotos.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", profilePhotos.profilePhotosId];
 
     profilePhotos.profilePhotosId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -159,8 +160,10 @@
     return profilePhotos;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", self.profilePhotosId];
+
     if ([dictionary objectForKey:@"id"])
         _profilePhotosId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -178,8 +181,10 @@
             [dictionary objectForKey:@"value"] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", self.profilePhotosId];
+
     _profilePhotosId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -218,11 +223,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:_profilePhotosId
+                                     withId:self.profilePhotosId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -245,11 +251,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:_profilePhotosId
+                                      withId:self.profilePhotosId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

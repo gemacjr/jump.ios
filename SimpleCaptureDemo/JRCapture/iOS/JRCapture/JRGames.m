@@ -150,9 +150,10 @@
     return dict;
 }
 
-+ (id)gamesObjectFromDictionary:(NSDictionary*)dictionary
++ (id)gamesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRGames *games = [JRGames games];
+    games.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", games.gamesId];
 
     games.gamesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -168,7 +169,7 @@
 
     games.opponents =
         [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"] : nil;
+        [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" andPath:games.captureObjectPath] : nil;
 
     games.rating =
         [dictionary objectForKey:@"rating"] != [NSNull null] ? 
@@ -179,8 +180,10 @@
     return games;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", self.gamesId];
+
     if ([dictionary objectForKey:@"id"])
         _gamesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -195,15 +198,17 @@
 
     if ([dictionary objectForKey:@"opponents"])
         _opponents = [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"] : nil;
+            [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" andPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"rating"])
         _rating = [dictionary objectForKey:@"rating"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"rating"] intValue] : 0;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", self.gamesId];
+
     _gamesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -218,7 +223,7 @@
 
     _opponents =
         [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"] : nil;
+        [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" andPath:self.captureObjectPath] : nil;
 
     _rating =
         [dictionary objectForKey:@"rating"] != [NSNull null] ? 
@@ -249,11 +254,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:_gamesId
+                                     withId:self.gamesId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -277,11 +283,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:_gamesId
+                                      withId:self.gamesId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

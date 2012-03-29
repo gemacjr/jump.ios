@@ -219,10 +219,11 @@
 
     DLog(@"captureUser: %@", [[captureUser toDictionary] description]);
 
-    if ([captureUser creationToken])
-        [captureUser createForDelegate:self];
-    else if ([captureUser accessToken])
-        [captureUser updateForDelegate:self];
+//    if ([captureUser creationToken])
+//        [captureUser createForDelegate:self];
+//    else if ([captureUser accessToken])
+//        [captureUser updateForDelegate:self];
+    [captureUser createUserOnCaptureForDelegate:self withContext:nil];
 }
 
 #define LOCATION_TEXT_VIEW_TAG 10
@@ -253,8 +254,7 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView { return YES; }
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView { return YES; }
 
-
-- (void)createCaptureUser:(JRCaptureUser *)user didSucceedWithResult:(NSString *)result
+- (void)createCaptureUser:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"%@", result);
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success"
@@ -267,7 +267,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)createCaptureUser:(JRCaptureUser *)user didFailWithResult:(NSString *)result
+- (void)createCaptureUser:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"%@", result);
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failure"

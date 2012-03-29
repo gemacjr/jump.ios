@@ -102,9 +102,10 @@
     return dict;
 }
 
-+ (id)objectLevelThreeObjectFromDictionary:(NSDictionary*)dictionary
++ (id)objectLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRObjectLevelThree *objectLevelThree = [JRObjectLevelThree objectLevelThree];
+    objectLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelThree"];
 
     objectLevelThree.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -119,8 +120,10 @@
     return objectLevelThree;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelThree"];
+
     if ([dictionary objectForKey:@"level"])
         _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
@@ -130,8 +133,10 @@
             [dictionary objectForKey:@"name"] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelThree"];
+
     _level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
@@ -159,6 +164,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
@@ -185,6 +191,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 

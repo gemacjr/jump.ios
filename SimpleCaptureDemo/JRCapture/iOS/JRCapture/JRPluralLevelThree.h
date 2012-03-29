@@ -38,7 +38,7 @@
 @property (nonatomic, copy) NSString *name;  
 - (id)init;
 + (id)pluralLevelThree;
-+ (id)pluralLevelThreeObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)pluralLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

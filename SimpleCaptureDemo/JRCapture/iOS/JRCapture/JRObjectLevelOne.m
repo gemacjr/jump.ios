@@ -118,9 +118,10 @@
     return dict;
 }
 
-+ (id)objectLevelOneObjectFromDictionary:(NSDictionary*)dictionary
++ (id)objectLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRObjectLevelOne *objectLevelOne = [JRObjectLevelOne objectLevelOne];
+    objectLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelOne"];
 
     objectLevelOne.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -132,15 +133,17 @@
 
     objectLevelOne.objectLevelTwo =
         [dictionary objectForKey:@"objectLevelTwo"] != [NSNull null] ? 
-        [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelTwo"]] : nil;
+        [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelTwo"] withPath:objectLevelOne.captureObjectPath] : nil;
 
     [objectLevelOne.dirtyPropertySet removeAllObjects];
     
     return objectLevelOne;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelOne"];
+
     if ([dictionary objectForKey:@"level"])
         _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
@@ -151,11 +154,13 @@
 
     if ([dictionary objectForKey:@"objectLevelTwo"])
         _objectLevelTwo = [dictionary objectForKey:@"objectLevelTwo"] != [NSNull null] ? 
-            [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelTwo"]] : nil;
+            [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelTwo"] withPath:self.captureObjectPath] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelOne"];
+
     _level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
@@ -166,7 +171,7 @@
 
     _objectLevelTwo =
         [dictionary objectForKey:@"objectLevelTwo"] != [NSNull null] ? 
-        [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelTwo"]] : nil;
+        [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelTwo"] withPath:self.captureObjectPath] : nil;
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -190,6 +195,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
@@ -217,6 +223,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 

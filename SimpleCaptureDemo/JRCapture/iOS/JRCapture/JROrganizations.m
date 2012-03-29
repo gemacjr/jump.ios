@@ -230,9 +230,10 @@
     return dict;
 }
 
-+ (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary
++ (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JROrganizations *organizations = [JROrganizations organizations];
+    organizations.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", organizations.organizationsId];
 
     organizations.organizationsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -252,7 +253,7 @@
 
     organizations.location =
         [dictionary objectForKey:@"location"] != [NSNull null] ? 
-        [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]] : nil;
+        [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"] withPath:organizations.captureObjectPath] : nil;
 
     organizations.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
@@ -279,8 +280,10 @@
     return organizations;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", self.organizationsId];
+
     if ([dictionary objectForKey:@"id"])
         _organizationsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -299,7 +302,7 @@
 
     if ([dictionary objectForKey:@"location"])
         _location = [dictionary objectForKey:@"location"] != [NSNull null] ? 
-            [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]] : nil;
+            [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"name"])
         _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
@@ -322,8 +325,10 @@
             [dictionary objectForKey:@"type"] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", self.organizationsId];
+
     _organizationsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -342,7 +347,7 @@
 
     _location =
         [dictionary objectForKey:@"location"] != [NSNull null] ? 
-        [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]] : nil;
+        [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"] withPath:self.captureObjectPath] : nil;
 
     _name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
@@ -404,11 +409,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:_organizationsId
+                                     withId:self.organizationsId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -437,11 +443,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:_organizationsId
+                                      withId:self.organizationsId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

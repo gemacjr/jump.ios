@@ -72,7 +72,7 @@
 + (id)captureUser;
 - (id)initWithEmail:(NSString *)newEmail;
 + (id)captureUserWithEmail:(NSString *)email;
-+ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

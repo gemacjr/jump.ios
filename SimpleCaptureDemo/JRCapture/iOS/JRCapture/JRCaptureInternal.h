@@ -26,8 +26,8 @@
 - (NSDictionary *)toDictionary;
 - (NSDictionary *)toUpdateDictionary;
 - (NSDictionary *)toReplaceDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
-- (void)replaceFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 //- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary;
 //- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary;
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
@@ -41,10 +41,10 @@
 @end
 
 @interface NSArray (JRStringPluralElement)
-- (NSArray*)arrayOfStringPluralDictionariesFromStringPluralElements;
+- (NSArray *)arrayOfStringPluralDictionariesFromStringPluralElements;
 - (NSArray *)arrayOfStringPluralUpdateDictionariesFromStringPluralElements;
 - (NSArray *)arrayOfStringPluralReplaceDictionariesFromStringPluralElements;
-- (NSArray*)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType;
+- (NSArray *)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andPath:(NSString *)capturePath;
 //- (NSArray*)copyArrayOfStringsIntoArrayOfStringPluralElementsWithType:(NSString *)elementType;
 - (NSArray*)copyArrayOfStringPluralElementsWithType:(NSString *)elementType;
 @end

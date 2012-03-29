@@ -249,15 +249,19 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    if (objectId)
-    {
-        [body appendData:[[NSString stringWithFormat:@"&entity_path=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"&id=%@", [NSString stringWithFormat:@"%d", objectId]] dataUsingEncoding:NSUTF8StringEncoding]];
-    }
+//    if (objectId)
+//    {
+//        [body appendData:[[NSString stringWithFormat:@"&entity_path=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
+//        [body appendData:[[NSString stringWithFormat:@"&id=%@", [NSString stringWithFormat:@"%d", objectId]] dataUsingEncoding:NSUTF8StringEncoding]];
+//    }
+//    else
+//    {
+
+    if (!entityPath || [entityPath isEqualToString:@""]) ;
     else
-    {
         [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
-    }
+
+//    }
 
     if (appIdArg)
         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
@@ -274,9 +278,9 @@ typedef enum CaptureInterfaceStatEnum
                                         delegate, @"delegate",
                                         context, @"context", nil];
 
-    if (objectId)
-        DLog(@"%@ attributes=%@ access_token=%@ entity_path=%@ id=%d", [[request URL] absoluteString], attributes, token, entityPath, objectId);
-    else
+//    if (objectId)
+//        DLog(@"%@ attributes=%@ access_token=%@ entity_path=%@ id=%d", [[request URL] absoluteString], attributes, token, entityPath, objectId);
+//    else
         DLog(@"%@ attributes=%@ access_token=%@ attribute_name=%@", [[request URL] absoluteString], attributes, token, entityPath);
 
     // TODO: Better error format
@@ -313,15 +317,19 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
 
-    if (objectId)
-    {
-        [body appendData:[[NSString stringWithFormat:@"&entity_path=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"&id=%@", [NSString stringWithFormat:@"%d", objectId]] dataUsingEncoding:NSUTF8StringEncoding]];
-    }
+//    if (objectId)
+//    {
+//        [body appendData:[[NSString stringWithFormat:@"&entity_path=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
+//        [body appendData:[[NSString stringWithFormat:@"&id=%@", [NSString stringWithFormat:@"%d", objectId]] dataUsingEncoding:NSUTF8StringEncoding]];
+//    }
+//    else
+//    {
+
+    if (!entityPath || [entityPath isEqualToString:@""]) ;
     else
-    {
         [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
-    }
+
+//    }
 
     if (appIdArg)
          [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
@@ -338,9 +346,9 @@ typedef enum CaptureInterfaceStatEnum
                                         delegate, @"delegate",
                                         context, @"context", nil];
 
-    if (objectId)
-        DLog(@"%@ attributes=%@ access_token=%@ entity_path=%@ id=%d", [[request URL] absoluteString], attributes, token, entityPath, objectId);
-    else
+//    if (objectId)
+//        DLog(@"%@ attributes=%@ access_token=%@ entity_path=%@ id=%d", [[request URL] absoluteString], attributes, token, entityPath, objectId);
+//    else
         DLog(@"%@ attributes=%@ access_token=%@ attribute_name=%@", [[request URL] absoluteString], attributes, token, entityPath);
 
     // TODO: Better error format

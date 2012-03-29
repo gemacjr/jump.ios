@@ -166,9 +166,10 @@
     return dict;
 }
 
-+ (id)nameObjectFromDictionary:(NSDictionary*)dictionary
++ (id)nameObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRName *name = [JRName name];
+    name.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"name"];
 
     name.familyName =
         [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
@@ -199,8 +200,10 @@
     return name;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"name"];
+
     if ([dictionary objectForKey:@"familyName"])
         _familyName = [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
             [dictionary objectForKey:@"familyName"] : nil;
@@ -226,8 +229,10 @@
             [dictionary objectForKey:@"middleName"] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"name"];
+
     _familyName =
         [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
         [dictionary objectForKey:@"familyName"] : nil;
@@ -283,6 +288,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
@@ -313,6 +319,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 

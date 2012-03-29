@@ -246,9 +246,10 @@
     return dict;
 }
 
-+ (id)locationObjectFromDictionary:(NSDictionary*)dictionary
++ (id)locationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRLocation *location = [JRLocation location];
+    location.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
 
     location.country =
         [dictionary objectForKey:@"country"] != [NSNull null] ? 
@@ -299,8 +300,10 @@
     return location;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
+
     if ([dictionary objectForKey:@"country"])
         _country = [dictionary objectForKey:@"country"] != [NSNull null] ? 
             [dictionary objectForKey:@"country"] : nil;
@@ -346,8 +349,10 @@
             [dictionary objectForKey:@"type"] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
+
     _country =
         [dictionary objectForKey:@"country"] != [NSNull null] ? 
         [dictionary objectForKey:@"country"] : nil;
@@ -438,6 +443,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
@@ -473,6 +479,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 

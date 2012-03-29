@@ -39,7 +39,7 @@
 @property (nonatomic, copy) JROnipLevelThree *onipLevelThree;  
 - (id)init;
 + (id)onipLevelTwo;
-+ (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

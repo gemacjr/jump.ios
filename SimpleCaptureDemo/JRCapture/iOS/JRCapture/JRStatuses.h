@@ -38,7 +38,7 @@
 @property (nonatomic, copy) NSDate *statusCreated;  
 - (id)init;
 + (id)statuses;
-+ (id)statusesObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)statusesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

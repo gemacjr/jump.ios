@@ -40,7 +40,7 @@
 @property (nonatomic, copy) NSString *username;  
 - (id)init;
 + (id)accounts;
-+ (id)accountsObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)accountsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

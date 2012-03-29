@@ -48,7 +48,7 @@
 + (id)profiles;
 - (id)initWithDomain:(NSString *)newDomain andIdentifier:(NSString *)newIdentifier;
 + (id)profilesWithDomain:(NSString *)domain andIdentifier:(NSString *)identifier;
-+ (id)profilesObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)profilesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

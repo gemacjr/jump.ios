@@ -38,7 +38,7 @@
 @property (nonatomic, copy) NSString *name;  
 - (id)init;
 + (id)pinoLevelThree;
-+ (id)pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

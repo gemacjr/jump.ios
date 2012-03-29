@@ -40,7 +40,7 @@
 @property (nonatomic, copy) NSArray *pluralLevelTwo; /* This is an array of JRPluralLevelTwo */ 
 - (id)init;
 + (id)pluralLevelOne;
-+ (id)pluralLevelOneObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)pluralLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

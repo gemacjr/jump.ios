@@ -134,9 +134,10 @@
     return dict;
 }
 
-+ (id)emailsObjectFromDictionary:(NSDictionary*)dictionary
++ (id)emailsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JREmails *emails = [JREmails emails];
+    emails.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", emails.emailsId];
 
     emails.emailsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -159,8 +160,10 @@
     return emails;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", self.emailsId];
+
     if ([dictionary objectForKey:@"id"])
         _emailsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -178,8 +181,10 @@
             [dictionary objectForKey:@"value"] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", self.emailsId];
+
     _emailsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -218,11 +223,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:_emailsId
+                                     withId:self.emailsId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -245,11 +251,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:_emailsId
+                                      withId:self.emailsId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

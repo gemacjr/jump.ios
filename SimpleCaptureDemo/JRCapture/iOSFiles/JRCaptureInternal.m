@@ -44,6 +44,7 @@
 - (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
+    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureObjectDelegate>
@@ -57,6 +58,7 @@
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
@@ -64,12 +66,12 @@
     NSDictionary *resultDictionary = [result objectFromJSONString];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
+        [self replaceCaptureObjectDidFailWithResult:result context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
+        [self replaceCaptureObjectDidFailWithResult:result context:context];
 
-    [captureObject replaceFromDictionary:[resultDictionary objectForKey:@"result"]];
+    [captureObject replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
     [captureObject.dirtyPropertySet removeAllObjects];
 
     if ([delegate respondsToSelector:@selector(replaceCaptureObject:didSucceedWithResult:context:)])
@@ -80,6 +82,7 @@
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
@@ -92,6 +95,7 @@
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
@@ -104,7 +108,7 @@
     if (![resultDictionary objectForKey:@"result"])
         [self updateCaptureObjectDidFailWithResult:result context:context];
 
-    [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"]];
+    [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
     [captureObject.dirtyPropertySet removeAllObjects];
 
     if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
@@ -135,13 +139,13 @@
     return nil; // TODO: What's the better way to raise the exception in a method w a return?
 }
 
-- (void)updateFromDictionary:(NSDictionary *)dictionary
+- (void)updateFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 }
 
-- (void)replaceFromDictionary:(NSDictionary *)dictionary
+- (void)replaceFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
@@ -233,10 +237,12 @@
     return stringElementCopy;
 }
 
-+ (id)stringElementFromDictionary:(NSDictionary*)dictionary withType:(NSString *)elementType
++ (id)stringElementFromDictionary:(NSDictionary*)dictionary withType:(NSString *)elementType andPath:(NSString *)capturePath
 {
     JRStringPluralElement *stringElement =
         [JRStringPluralElement stringElementWithType:elementType];
+
+    stringElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", stringElement.elementId];
 
     stringElement.elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     stringElement.value = [dictionary objectForKey:elementType];
@@ -274,8 +280,10 @@
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", self.elementId];
+
     if ([dictionary objectForKey:@"id"])
         _elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
 
@@ -283,8 +291,10 @@
         _value = [dictionary objectForKey:_type];
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", self.elementId];
+
     _elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     _value = [dictionary objectForKey:_type];
 }
@@ -307,6 +317,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
@@ -325,7 +336,7 @@
 
 //    [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
     [dict setObject:(self.value ? self.value : [NSNull null]) forKey:self.type];
-    
+
     return dict;
 }
 
@@ -333,6 +344,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
@@ -384,13 +396,14 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType
+- (NSArray*)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andPath:(NSString *)capturePath
 {
     NSMutableArray *filteredPluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
             [filteredPluralArray addObject:[JRStringPluralElement stringElementFromDictionary:(NSDictionary*)dictionary
-                                                                                     withType:elementType]];
+                                                                                     withType:elementType
+                                                                                      andPath:capturePath]];
 
     return filteredPluralArray;
 }

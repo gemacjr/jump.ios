@@ -134,9 +134,10 @@
     return dict;
 }
 
-+ (id)imsObjectFromDictionary:(NSDictionary*)dictionary
++ (id)imsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRIms *ims = [JRIms ims];
+    ims.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", ims.imsId];
 
     ims.imsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -159,8 +160,10 @@
     return ims;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", self.imsId];
+
     if ([dictionary objectForKey:@"id"])
         _imsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -178,8 +181,10 @@
             [dictionary objectForKey:@"value"] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", self.imsId];
+
     _imsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -218,11 +223,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:_imsId
+                                     withId:self.imsId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -245,11 +251,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:_imsId
+                                      withId:self.imsId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

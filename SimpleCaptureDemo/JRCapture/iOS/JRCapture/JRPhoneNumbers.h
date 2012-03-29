@@ -39,7 +39,7 @@
 @property (nonatomic, copy) NSString *value;  
 - (id)init;
 + (id)phoneNumbers;
-+ (id)phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary;
++ (id)phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

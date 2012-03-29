@@ -150,9 +150,10 @@
     return dict;
 }
 
-+ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary
++ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRBodyType *bodyType = [JRBodyType bodyType];
+    bodyType.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
 
     bodyType.build =
         [dictionary objectForKey:@"build"] != [NSNull null] ? 
@@ -179,8 +180,10 @@
     return bodyType;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
+
     if ([dictionary objectForKey:@"build"])
         _build = [dictionary objectForKey:@"build"] != [NSNull null] ? 
             [dictionary objectForKey:@"build"] : nil;
@@ -202,8 +205,10 @@
             [dictionary objectForKey:@"height"] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
+
     _build =
         [dictionary objectForKey:@"build"] != [NSNull null] ? 
         [dictionary objectForKey:@"build"] : nil;
@@ -252,6 +257,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
@@ -281,6 +287,7 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 

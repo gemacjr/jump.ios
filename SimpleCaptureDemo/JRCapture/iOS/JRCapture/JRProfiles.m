@@ -250,9 +250,10 @@
     return dict;
 }
 
-+ (id)profilesObjectFromDictionary:(NSDictionary*)dictionary
++ (id)profilesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRProfiles *profiles = [JRProfiles profiles];
+    profiles.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", profiles.profilesId];
 
     profiles.profilesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -268,15 +269,15 @@
 
     profiles.followers =
         [dictionary objectForKey:@"followers"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+        [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:profiles.captureObjectPath] : nil;
 
     profiles.following =
         [dictionary objectForKey:@"following"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+        [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:profiles.captureObjectPath] : nil;
 
     profiles.friends =
         [dictionary objectForKey:@"friends"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+        [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:profiles.captureObjectPath] : nil;
 
     profiles.identifier =
         [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
@@ -284,7 +285,7 @@
 
     profiles.profile =
         [dictionary objectForKey:@"profile"] != [NSNull null] ? 
-        [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]] : nil;
+        [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"] withPath:profiles.captureObjectPath] : nil;
 
     profiles.provider =
         [dictionary objectForKey:@"provider"] != [NSNull null] ? 
@@ -299,8 +300,10 @@
     return profiles;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", self.profilesId];
+
     if ([dictionary objectForKey:@"id"])
         _profilesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -315,15 +318,15 @@
 
     if ([dictionary objectForKey:@"followers"])
         _followers = [dictionary objectForKey:@"followers"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+            [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"following"])
         _following = [dictionary objectForKey:@"following"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+            [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"friends"])
         _friends = [dictionary objectForKey:@"friends"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+            [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"identifier"])
         _identifier = [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
@@ -331,7 +334,7 @@
 
     if ([dictionary objectForKey:@"profile"])
         _profile = [dictionary objectForKey:@"profile"] != [NSNull null] ? 
-            [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]] : nil;
+            [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"provider"])
         _provider = [dictionary objectForKey:@"provider"] != [NSNull null] ? 
@@ -342,8 +345,10 @@
             [dictionary objectForKey:@"remote_key"] : nil;
 }
 
-- (void)replaceFromDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", self.profilesId];
+
     _profilesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
@@ -358,15 +363,15 @@
 
     _followers =
         [dictionary objectForKey:@"followers"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+        [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
     _following =
         [dictionary objectForKey:@"following"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+        [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
     _friends =
         [dictionary objectForKey:@"friends"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+        [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
     _identifier =
         [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
@@ -374,7 +379,7 @@
 
     _profile =
         [dictionary objectForKey:@"profile"] != [NSNull null] ? 
-        [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]] : nil;
+        [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath] : nil;
 
     _provider =
         [dictionary objectForKey:@"provider"] != [NSNull null] ? 
@@ -424,11 +429,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:_profilesId
+                                     withId:self.profilesId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -457,11 +463,12 @@
 {
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:_profilesId
+                                      withId:self.profilesId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
