@@ -49,7 +49,6 @@
 - (void)setStatusesId:(NSInteger)newStatusesId
 {
     [self.dirtyPropertySet addObject:@"statusesId"];
-
     _statusesId = newStatusesId;
 }
 
@@ -61,11 +60,7 @@
 - (void)setStatus:(NSString *)newStatus
 {
     [self.dirtyPropertySet addObject:@"status"];
-
-    if (!newStatus)
-        _status = [NSNull null];
-    else
-        _status = [newStatus copy];
+    _status = [newStatus copy];
 }
 
 - (NSDate *)statusCreated
@@ -76,11 +71,7 @@
 - (void)setStatusCreated:(NSDate *)newStatusCreated
 {
     [self.dirtyPropertySet addObject:@"statusCreated"];
-
-    if (!newStatusCreated)
-        _statusCreated = [NSNull null];
-    else
-        _statusCreated = [newStatusCreated copy];
+    _statusCreated = [newStatusCreated copy];
 }
 
 - (id)init
@@ -98,7 +89,7 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JRStatuses *statusesCopy =
                 [[JRStatuses allocWithZone:zone] init];
 
@@ -106,81 +97,100 @@
     statusesCopy.status = self.status;
     statusesCopy.statusCreated = self.statusCreated;
 
+    [statusesCopy.dirtyPropertySet removeAllObjects];
+    [statusesCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return statusesCopy;
 }
 
-+ (id)statusesObjectFromDictionary:(NSDictionary*)dictionary
-{
-    JRStatuses *statuses =
-        [JRStatuses statuses];
-
-    statuses.statusesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    statuses.status = [dictionary objectForKey:@"status"];
-    statuses.statusCreated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]];
-
-    return statuses;
-}
-
-- (NSDictionary*)dictionaryFromStatusesObject
+- (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if (self.statusesId)
-        [dict setObject:[NSNumber numberWithInt:self.statusesId] forKey:@"id"];
-
-    if (self.status && self.status != [NSNull null])
-        [dict setObject:self.status forKey:@"status"];
-    else
-        [dict setObject:[NSNull null] forKey:@"status"];
-
-    if (self.statusCreated && self.statusCreated != [NSNull null])
-        [dict setObject:[self.statusCreated stringFromISO8601DateTime] forKey:@"statusCreated"];
-    else
-        [dict setObject:[NSNull null] forKey:@"statusCreated"];
+    [dict setObject:[NSNumber numberWithInt:self.statusesId]
+             forKey:@"id"];
+    [dict setObject:(self.status ? self.status : [NSNull null])
+             forKey:@"status"];
+    [dict setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null])
+             forKey:@"statusCreated"];
 
     return dict;
 }
 
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
++ (id)statusesObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRStatuses *statuses = [JRStatuses statuses];
+
+    statuses.statusesId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    statuses.status =
+        [dictionary objectForKey:@"status"] != [NSNull null] ? 
+        [dictionary objectForKey:@"status"] : nil;
+
+    statuses.statusCreated =
+        [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
+        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
+
+    [statuses.dirtyPropertySet removeAllObjects];
+    
+    return statuses;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"])
-        _statusesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+        _statusesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"status"])
-        _status = [dictionary objectForKey:@"status"];
+        _status = [dictionary objectForKey:@"status"] != [NSNull null] ? 
+            [dictionary objectForKey:@"status"] : nil;
 
     if ([dictionary objectForKey:@"statusCreated"])
-        _statusCreated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]];
+        _statusCreated = [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
+            [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 }
 
-- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary
 {
-    _statusesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    _status = [dictionary objectForKey:@"status"];
-    _statusCreated = [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]];
+    _statusesId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    _status =
+        [dictionary objectForKey:@"status"] != [NSNull null] ? 
+        [dictionary objectForKey:@"status"] : nil;
+
+    _statusCreated =
+        [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
+        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if ([self.dirtyPropertySet containsObject:@"statusesId"])
-        [dict setObject:[NSNumber numberWithInt:self.statusesId] forKey:@"id"];
-
     if ([self.dirtyPropertySet containsObject:@"status"])
-        [dict setObject:self.status forKey:@"status"];
+        [dict setObject:(self.status ? self.status : [NSNull null]) forKey:@"status"];
 
     if ([self.dirtyPropertySet containsObject:@"statusCreated"])
-        [dict setObject:[self.statusCreated stringFromISO8601DateTime] forKey:@"statusCreated"];
+        [dict setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null]) forKey:@"statusCreated"];
 
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface updateCaptureObject:dict
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -188,21 +198,25 @@
                                 withContext:newContext];
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.statusesId] forKey:@"id"];
-    [dict setObject:self.status forKey:@"status"];
-    [dict setObject:[self.statusCreated stringFromISO8601DateTime] forKey:@"statusCreated"];
+    [dict setObject:(self.status ? self.status : [NSNull null]) forKey:@"status"];
+    [dict setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null]) forKey:@"statusCreated"];
 
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureObject:dict
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

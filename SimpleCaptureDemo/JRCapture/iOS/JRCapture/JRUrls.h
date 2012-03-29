@@ -40,6 +40,6 @@
 - (id)init;
 + (id)urls;
 + (id)urlsObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromUrlsObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

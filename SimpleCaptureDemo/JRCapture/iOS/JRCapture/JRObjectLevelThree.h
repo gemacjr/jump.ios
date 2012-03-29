@@ -38,6 +38,6 @@
 - (id)init;
 + (id)objectLevelThree;
 + (id)objectLevelThreeObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromObjectLevelThreeObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

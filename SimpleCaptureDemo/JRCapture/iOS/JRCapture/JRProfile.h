@@ -107,6 +107,6 @@
 - (id)init;
 + (id)profile;
 + (id)profileObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromProfileObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

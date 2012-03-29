@@ -63,7 +63,6 @@
 - (void)setProfilesId:(NSInteger)newProfilesId
 {
     [self.dirtyPropertySet addObject:@"profilesId"];
-
     _profilesId = newProfilesId;
 }
 
@@ -75,11 +74,7 @@
 - (void)setAccessCredentials:(NSObject *)newAccessCredentials
 {
     [self.dirtyPropertySet addObject:@"accessCredentials"];
-
-    if (!newAccessCredentials)
-        _accessCredentials = [NSNull null];
-    else
-        _accessCredentials = [newAccessCredentials copy];
+    _accessCredentials = [newAccessCredentials copy];
 }
 
 - (NSString *)domain
@@ -90,11 +85,7 @@
 - (void)setDomain:(NSString *)newDomain
 {
     [self.dirtyPropertySet addObject:@"domain"];
-
-    if (!newDomain)
-        _domain = [NSNull null];
-    else
-        _domain = [newDomain copy];
+    _domain = [newDomain copy];
 }
 
 - (NSArray *)followers
@@ -105,11 +96,7 @@
 - (void)setFollowers:(NSArray *)newFollowers
 {
     [self.dirtyPropertySet addObject:@"followers"];
-
-    if (!newFollowers)
-        _followers = [NSNull null];
-    else
-        _followers = [newFollowers copyArrayOfStringPluralElementsWithType:@"identifier"];
+    _followers = [newFollowers copyArrayOfStringPluralElementsWithType:@"identifier"];
 }
 
 - (NSArray *)following
@@ -120,11 +107,7 @@
 - (void)setFollowing:(NSArray *)newFollowing
 {
     [self.dirtyPropertySet addObject:@"following"];
-
-    if (!newFollowing)
-        _following = [NSNull null];
-    else
-        _following = [newFollowing copyArrayOfStringPluralElementsWithType:@"identifier"];
+    _following = [newFollowing copyArrayOfStringPluralElementsWithType:@"identifier"];
 }
 
 - (NSArray *)friends
@@ -135,11 +118,7 @@
 - (void)setFriends:(NSArray *)newFriends
 {
     [self.dirtyPropertySet addObject:@"friends"];
-
-    if (!newFriends)
-        _friends = [NSNull null];
-    else
-        _friends = [newFriends copyArrayOfStringPluralElementsWithType:@"identifier"];
+    _friends = [newFriends copyArrayOfStringPluralElementsWithType:@"identifier"];
 }
 
 - (NSString *)identifier
@@ -150,11 +129,7 @@
 - (void)setIdentifier:(NSString *)newIdentifier
 {
     [self.dirtyPropertySet addObject:@"identifier"];
-
-    if (!newIdentifier)
-        _identifier = [NSNull null];
-    else
-        _identifier = [newIdentifier copy];
+    _identifier = [newIdentifier copy];
 }
 
 - (JRProfile *)profile
@@ -165,11 +140,7 @@
 - (void)setProfile:(JRProfile *)newProfile
 {
     [self.dirtyPropertySet addObject:@"profile"];
-
-    if (!newProfile)
-        _profile = [NSNull null];
-    else
-        _profile = [newProfile copy];
+    _profile = [newProfile copy];
 }
 
 - (NSObject *)provider
@@ -180,11 +151,7 @@
 - (void)setProvider:(NSObject *)newProvider
 {
     [self.dirtyPropertySet addObject:@"provider"];
-
-    if (!newProvider)
-        _provider = [NSNull null];
-    else
-        _provider = [newProvider copy];
+    _provider = [newProvider copy];
 }
 
 - (NSString *)remote_key
@@ -195,11 +162,16 @@
 - (void)setRemote_key:(NSString *)newRemote_key
 {
     [self.dirtyPropertySet addObject:@"remote_key"];
+    _remote_key = [newRemote_key copy];
+}
 
-    if (!newRemote_key)
-        _remote_key = [NSNull null];
-    else
-        _remote_key = [newRemote_key copy];
+- (id)init
+{
+    if ((self = [super init]))
+    {
+        self.captureObjectPath = @"/profiles";
+    }
+    return self;
 }
 
 - (id)initWithDomain:(NSString *)newDomain andIdentifier:(NSString *)newIdentifier
@@ -219,13 +191,18 @@
     return self;
 }
 
++ (id)profiles
+{
+    return [[[JRProfiles alloc] init] autorelease];
+}
+
 + (id)profilesWithDomain:(NSString *)domain andIdentifier:(NSString *)identifier
 {
     return [[[JRProfiles alloc] initWithDomain:domain andIdentifier:identifier] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JRProfiles *profilesCopy =
                 [[JRProfiles allocWithZone:zone] initWithDomain:self.domain andIdentifier:self.identifier];
 
@@ -238,163 +215,219 @@
     profilesCopy.provider = self.provider;
     profilesCopy.remote_key = self.remote_key;
 
+    [profilesCopy.dirtyPropertySet removeAllObjects];
+    [profilesCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return profilesCopy;
 }
 
-+ (id)profilesObjectFromDictionary:(NSDictionary*)dictionary
-{
-    JRProfiles *profiles =
-        [JRProfiles profilesWithDomain:[dictionary objectForKey:@"domain"] andIdentifier:[dictionary objectForKey:@"identifier"]];
-
-    profiles.profilesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    profiles.accessCredentials = [dictionary objectForKey:@"accessCredentials"];
-    profiles.followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
-    profiles.following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
-    profiles.friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
-    profiles.profile = [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]];
-    profiles.provider = [dictionary objectForKey:@"provider"];
-    profiles.remote_key = [dictionary objectForKey:@"remote_key"];
-
-    return profiles;
-}
-
-- (NSDictionary*)dictionaryFromProfilesObject
+- (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:self.domain forKey:@"domain"];
-    [dict setObject:self.identifier forKey:@"identifier"];
-
-    if (self.profilesId)
-        [dict setObject:[NSNumber numberWithInt:self.profilesId] forKey:@"id"];
-
-    if (self.accessCredentials && self.accessCredentials != [NSNull null])
-        [dict setObject:self.accessCredentials forKey:@"accessCredentials"];
-    else
-        [dict setObject:[NSNull null] forKey:@"accessCredentials"];
-
-    if (self.followers && self.followers != [NSNull null])
-        [dict setObject:[self.followers arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"followers"];
-    else
-        [dict setObject:[NSNull null] forKey:@"followers"];
-
-    if (self.following && self.following != [NSNull null])
-        [dict setObject:[self.following arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"following"];
-    else
-        [dict setObject:[NSNull null] forKey:@"following"];
-
-    if (self.friends && self.friends != [NSNull null])
-        [dict setObject:[self.friends arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"friends"];
-    else
-        [dict setObject:[NSNull null] forKey:@"friends"];
-
-    if (self.profile && self.profile != [NSNull null])
-        [dict setObject:[self.profile dictionaryFromProfileObject] forKey:@"profile"];
-    else
-        [dict setObject:[NSNull null] forKey:@"profile"];
-
-    if (self.provider && self.provider != [NSNull null])
-        [dict setObject:self.provider forKey:@"provider"];
-    else
-        [dict setObject:[NSNull null] forKey:@"provider"];
-
-    if (self.remote_key && self.remote_key != [NSNull null])
-        [dict setObject:self.remote_key forKey:@"remote_key"];
-    else
-        [dict setObject:[NSNull null] forKey:@"remote_key"];
+    [dict setObject:[NSNumber numberWithInt:self.profilesId]
+             forKey:@"id"];
+    [dict setObject:(self.accessCredentials ? self.accessCredentials : [NSNull null])
+             forKey:@"accessCredentials"];
+    [dict setObject:(self.domain ? self.domain : [NSNull null])
+             forKey:@"domain"];
+    [dict setObject:(self.followers ? [self.followers arrayOfStringPluralDictionariesFromStringPluralElements] : [NSNull null])
+             forKey:@"followers"];
+    [dict setObject:(self.following ? [self.following arrayOfStringPluralDictionariesFromStringPluralElements] : [NSNull null])
+             forKey:@"following"];
+    [dict setObject:(self.friends ? [self.friends arrayOfStringPluralDictionariesFromStringPluralElements] : [NSNull null])
+             forKey:@"friends"];
+    [dict setObject:(self.identifier ? self.identifier : [NSNull null])
+             forKey:@"identifier"];
+    [dict setObject:(self.profile ? [self.profile toDictionary] : [NSNull null])
+             forKey:@"profile"];
+    [dict setObject:(self.provider ? self.provider : [NSNull null])
+             forKey:@"provider"];
+    [dict setObject:(self.remote_key ? self.remote_key : [NSNull null])
+             forKey:@"remote_key"];
 
     return dict;
 }
 
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
++ (id)profilesObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRProfiles *profiles = [JRProfiles profiles];
+
+    profiles.profilesId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    profiles.accessCredentials =
+        [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
+        [dictionary objectForKey:@"accessCredentials"] : nil;
+
+    profiles.domain =
+        [dictionary objectForKey:@"domain"] != [NSNull null] ? 
+        [dictionary objectForKey:@"domain"] : nil;
+
+    profiles.followers =
+        [dictionary objectForKey:@"followers"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+
+    profiles.following =
+        [dictionary objectForKey:@"following"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+
+    profiles.friends =
+        [dictionary objectForKey:@"friends"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+
+    profiles.identifier =
+        [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
+        [dictionary objectForKey:@"identifier"] : nil;
+
+    profiles.profile =
+        [dictionary objectForKey:@"profile"] != [NSNull null] ? 
+        [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]] : nil;
+
+    profiles.provider =
+        [dictionary objectForKey:@"provider"] != [NSNull null] ? 
+        [dictionary objectForKey:@"provider"] : nil;
+
+    profiles.remote_key =
+        [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
+        [dictionary objectForKey:@"remote_key"] : nil;
+
+    [profiles.dirtyPropertySet removeAllObjects];
+    
+    return profiles;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"])
-        _profilesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+        _profilesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"accessCredentials"])
-        _accessCredentials = [dictionary objectForKey:@"accessCredentials"];
+        _accessCredentials = [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
+            [dictionary objectForKey:@"accessCredentials"] : nil;
 
     if ([dictionary objectForKey:@"domain"])
-        _domain = [dictionary objectForKey:@"domain"];
+        _domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
+            [dictionary objectForKey:@"domain"] : nil;
 
     if ([dictionary objectForKey:@"followers"])
-        _followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
+        _followers = [dictionary objectForKey:@"followers"] != [NSNull null] ? 
+            [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
 
     if ([dictionary objectForKey:@"following"])
-        _following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
+        _following = [dictionary objectForKey:@"following"] != [NSNull null] ? 
+            [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
 
     if ([dictionary objectForKey:@"friends"])
-        _friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
+        _friends = [dictionary objectForKey:@"friends"] != [NSNull null] ? 
+            [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
 
     if ([dictionary objectForKey:@"identifier"])
-        _identifier = [dictionary objectForKey:@"identifier"];
+        _identifier = [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
+            [dictionary objectForKey:@"identifier"] : nil;
 
     if ([dictionary objectForKey:@"profile"])
-        _profile = [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]];
+        _profile = [dictionary objectForKey:@"profile"] != [NSNull null] ? 
+            [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]] : nil;
 
     if ([dictionary objectForKey:@"provider"])
-        _provider = [dictionary objectForKey:@"provider"];
+        _provider = [dictionary objectForKey:@"provider"] != [NSNull null] ? 
+            [dictionary objectForKey:@"provider"] : nil;
 
     if ([dictionary objectForKey:@"remote_key"])
-        _remote_key = [dictionary objectForKey:@"remote_key"];
+        _remote_key = [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
+            [dictionary objectForKey:@"remote_key"] : nil;
 }
 
-- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary
 {
-    _profilesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    _accessCredentials = [dictionary objectForKey:@"accessCredentials"];
-    _domain = [dictionary objectForKey:@"domain"];
-    _followers = [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
-    _following = [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
-    _friends = [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"];
-    _identifier = [dictionary objectForKey:@"identifier"];
-    _profile = [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]];
-    _provider = [dictionary objectForKey:@"provider"];
-    _remote_key = [dictionary objectForKey:@"remote_key"];
+    _profilesId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    _accessCredentials =
+        [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
+        [dictionary objectForKey:@"accessCredentials"] : nil;
+
+    _domain =
+        [dictionary objectForKey:@"domain"] != [NSNull null] ? 
+        [dictionary objectForKey:@"domain"] : nil;
+
+    _followers =
+        [dictionary objectForKey:@"followers"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+
+    _following =
+        [dictionary objectForKey:@"following"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+
+    _friends =
+        [dictionary objectForKey:@"friends"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier"] : nil;
+
+    _identifier =
+        [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
+        [dictionary objectForKey:@"identifier"] : nil;
+
+    _profile =
+        [dictionary objectForKey:@"profile"] != [NSNull null] ? 
+        [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"]] : nil;
+
+    _provider =
+        [dictionary objectForKey:@"provider"] != [NSNull null] ? 
+        [dictionary objectForKey:@"provider"] : nil;
+
+    _remote_key =
+        [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
+        [dictionary objectForKey:@"remote_key"] : nil;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if ([self.dirtyPropertySet containsObject:@"profilesId"])
-        [dict setObject:[NSNumber numberWithInt:self.profilesId] forKey:@"id"];
-
     if ([self.dirtyPropertySet containsObject:@"accessCredentials"])
-        [dict setObject:self.accessCredentials forKey:@"accessCredentials"];
+        [dict setObject:(self.accessCredentials ? self.accessCredentials : [NSNull null]) forKey:@"accessCredentials"];
 
     if ([self.dirtyPropertySet containsObject:@"domain"])
-        [dict setObject:self.domain forKey:@"domain"];
+        [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
 
     if ([self.dirtyPropertySet containsObject:@"followers"])
-        [dict setObject:[self.followers arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"followers"];
+        [dict setObject:(self.followers ? self.followers : [NSNull null]) forKey:@"followers"];
 
     if ([self.dirtyPropertySet containsObject:@"following"])
-        [dict setObject:[self.following arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"following"];
+        [dict setObject:(self.following ? self.following : [NSNull null]) forKey:@"following"];
 
     if ([self.dirtyPropertySet containsObject:@"friends"])
-        [dict setObject:[self.friends arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"friends"];
+        [dict setObject:(self.friends ? self.friends : [NSNull null]) forKey:@"friends"];
 
     if ([self.dirtyPropertySet containsObject:@"identifier"])
-        [dict setObject:self.identifier forKey:@"identifier"];
+        [dict setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
 
     if ([self.dirtyPropertySet containsObject:@"profile"])
-        [dict setObject:[self.profile dictionaryFromProfileObject] forKey:@"profile"];
+        [dict setObject:(self.profile ? [self.profile toUpdateDictionary] : [NSNull null]) forKey:@"profile"];
 
     if ([self.dirtyPropertySet containsObject:@"provider"])
-        [dict setObject:self.provider forKey:@"provider"];
+        [dict setObject:(self.provider ? self.provider : [NSNull null]) forKey:@"provider"];
 
     if ([self.dirtyPropertySet containsObject:@"remote_key"])
-        [dict setObject:self.remote_key forKey:@"remote_key"];
+        [dict setObject:(self.remote_key ? self.remote_key : [NSNull null]) forKey:@"remote_key"];
 
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface updateCaptureObject:dict
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -402,28 +435,32 @@
                                 withContext:newContext];
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.profilesId] forKey:@"id"];
-    [dict setObject:self.accessCredentials forKey:@"accessCredentials"];
-    [dict setObject:self.domain forKey:@"domain"];
-    [dict setObject:[self.followers arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"followers"];
-    [dict setObject:[self.following arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"following"];
-    [dict setObject:[self.friends arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"friends"];
-    [dict setObject:self.identifier forKey:@"identifier"];
-    [dict setObject:[self.profile dictionaryFromProfileObject] forKey:@"profile"];
-    [dict setObject:self.provider forKey:@"provider"];
-    [dict setObject:self.remote_key forKey:@"remote_key"];
+    [dict setObject:(self.accessCredentials ? self.accessCredentials : [NSNull null]) forKey:@"accessCredentials"];
+    [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
+    [dict setObject:(self.followers ? self.followers : [NSNull null]) forKey:@"followers"];
+    [dict setObject:(self.following ? self.following : [NSNull null]) forKey:@"following"];
+    [dict setObject:(self.friends ? self.friends : [NSNull null]) forKey:@"friends"];
+    [dict setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
+    [dict setObject:(self.profile ? [self.profile toReplaceDictionary] : [NSNull null]) forKey:@"profile"];
+    [dict setObject:(self.provider ? self.provider : [NSNull null]) forKey:@"provider"];
+    [dict setObject:(self.remote_key ? self.remote_key : [NSNull null]) forKey:@"remote_key"];
 
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureObject:dict
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

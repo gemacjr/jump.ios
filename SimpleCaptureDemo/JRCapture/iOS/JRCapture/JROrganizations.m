@@ -63,7 +63,6 @@
 - (void)setOrganizationsId:(NSInteger)newOrganizationsId
 {
     [self.dirtyPropertySet addObject:@"organizationsId"];
-
     _organizationsId = newOrganizationsId;
 }
 
@@ -75,11 +74,7 @@
 - (void)setDepartment:(NSString *)newDepartment
 {
     [self.dirtyPropertySet addObject:@"department"];
-
-    if (!newDepartment)
-        _department = [NSNull null];
-    else
-        _department = [newDepartment copy];
+    _department = [newDepartment copy];
 }
 
 - (NSString *)description
@@ -90,11 +85,7 @@
 - (void)setDescription:(NSString *)newDescription
 {
     [self.dirtyPropertySet addObject:@"description"];
-
-    if (!newDescription)
-        _description = [NSNull null];
-    else
-        _description = [newDescription copy];
+    _description = [newDescription copy];
 }
 
 - (NSString *)endDate
@@ -105,11 +96,7 @@
 - (void)setEndDate:(NSString *)newEndDate
 {
     [self.dirtyPropertySet addObject:@"endDate"];
-
-    if (!newEndDate)
-        _endDate = [NSNull null];
-    else
-        _endDate = [newEndDate copy];
+    _endDate = [newEndDate copy];
 }
 
 - (JRLocation *)location
@@ -120,11 +107,7 @@
 - (void)setLocation:(JRLocation *)newLocation
 {
     [self.dirtyPropertySet addObject:@"location"];
-
-    if (!newLocation)
-        _location = [NSNull null];
-    else
-        _location = [newLocation copy];
+    _location = [newLocation copy];
 }
 
 - (NSString *)name
@@ -135,11 +118,7 @@
 - (void)setName:(NSString *)newName
 {
     [self.dirtyPropertySet addObject:@"name"];
-
-    if (!newName)
-        _name = [NSNull null];
-    else
-        _name = [newName copy];
+    _name = [newName copy];
 }
 
 - (BOOL)primary
@@ -150,7 +129,6 @@
 - (void)setPrimary:(BOOL)newPrimary
 {
     [self.dirtyPropertySet addObject:@"primary"];
-
     _primary = newPrimary;
 }
 
@@ -162,11 +140,7 @@
 - (void)setStartDate:(NSString *)newStartDate
 {
     [self.dirtyPropertySet addObject:@"startDate"];
-
-    if (!newStartDate)
-        _startDate = [NSNull null];
-    else
-        _startDate = [newStartDate copy];
+    _startDate = [newStartDate copy];
 }
 
 - (NSString *)title
@@ -177,11 +151,7 @@
 - (void)setTitle:(NSString *)newTitle
 {
     [self.dirtyPropertySet addObject:@"title"];
-
-    if (!newTitle)
-        _title = [NSNull null];
-    else
-        _title = [newTitle copy];
+    _title = [newTitle copy];
 }
 
 - (NSString *)type
@@ -192,11 +162,7 @@
 - (void)setType:(NSString *)newType
 {
     [self.dirtyPropertySet addObject:@"type"];
-
-    if (!newType)
-        _type = [NSNull null];
-    else
-        _type = [newType copy];
+    _type = [newType copy];
 }
 
 - (id)init
@@ -214,7 +180,7 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JROrganizations *organizationsCopy =
                 [[JROrganizations allocWithZone:zone] init];
 
@@ -229,170 +195,219 @@
     organizationsCopy.title = self.title;
     organizationsCopy.type = self.type;
 
+    [organizationsCopy.dirtyPropertySet removeAllObjects];
+    [organizationsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return organizationsCopy;
 }
 
-+ (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary
-{
-    JROrganizations *organizations =
-        [JROrganizations organizations];
-
-    organizations.organizationsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    organizations.department = [dictionary objectForKey:@"department"];
-    organizations.description = [dictionary objectForKey:@"description"];
-    organizations.endDate = [dictionary objectForKey:@"endDate"];
-    organizations.location = [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]];
-    organizations.name = [dictionary objectForKey:@"name"];
-    organizations.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
-    organizations.startDate = [dictionary objectForKey:@"startDate"];
-    organizations.title = [dictionary objectForKey:@"title"];
-    organizations.type = [dictionary objectForKey:@"type"];
-
-    return organizations;
-}
-
-- (NSDictionary*)dictionaryFromOrganizationsObject
+- (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if (self.organizationsId)
-        [dict setObject:[NSNumber numberWithInt:self.organizationsId] forKey:@"id"];
-
-    if (self.department && self.department != [NSNull null])
-        [dict setObject:self.department forKey:@"department"];
-    else
-        [dict setObject:[NSNull null] forKey:@"department"];
-
-    if (self.description && self.description != [NSNull null])
-        [dict setObject:self.description forKey:@"description"];
-    else
-        [dict setObject:[NSNull null] forKey:@"description"];
-
-    if (self.endDate && self.endDate != [NSNull null])
-        [dict setObject:self.endDate forKey:@"endDate"];
-    else
-        [dict setObject:[NSNull null] forKey:@"endDate"];
-
-    if (self.location && self.location != [NSNull null])
-        [dict setObject:[self.location dictionaryFromLocationObject] forKey:@"location"];
-    else
-        [dict setObject:[NSNull null] forKey:@"location"];
-
-    if (self.name && self.name != [NSNull null])
-        [dict setObject:self.name forKey:@"name"];
-    else
-        [dict setObject:[NSNull null] forKey:@"name"];
-
-    if (self.primary)
-        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
-
-    if (self.startDate && self.startDate != [NSNull null])
-        [dict setObject:self.startDate forKey:@"startDate"];
-    else
-        [dict setObject:[NSNull null] forKey:@"startDate"];
-
-    if (self.title && self.title != [NSNull null])
-        [dict setObject:self.title forKey:@"title"];
-    else
-        [dict setObject:[NSNull null] forKey:@"title"];
-
-    if (self.type && self.type != [NSNull null])
-        [dict setObject:self.type forKey:@"type"];
-    else
-        [dict setObject:[NSNull null] forKey:@"type"];
+    [dict setObject:[NSNumber numberWithInt:self.organizationsId]
+             forKey:@"id"];
+    [dict setObject:(self.department ? self.department : [NSNull null])
+             forKey:@"department"];
+    [dict setObject:(self.description ? self.description : [NSNull null])
+             forKey:@"description"];
+    [dict setObject:(self.endDate ? self.endDate : [NSNull null])
+             forKey:@"endDate"];
+    [dict setObject:(self.location ? [self.location toDictionary] : [NSNull null])
+             forKey:@"location"];
+    [dict setObject:(self.name ? self.name : [NSNull null])
+             forKey:@"name"];
+    [dict setObject:[NSNumber numberWithBool:self.primary]
+             forKey:@"primary"];
+    [dict setObject:(self.startDate ? self.startDate : [NSNull null])
+             forKey:@"startDate"];
+    [dict setObject:(self.title ? self.title : [NSNull null])
+             forKey:@"title"];
+    [dict setObject:(self.type ? self.type : [NSNull null])
+             forKey:@"type"];
 
     return dict;
 }
 
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
++ (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JROrganizations *organizations = [JROrganizations organizations];
+
+    organizations.organizationsId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    organizations.department =
+        [dictionary objectForKey:@"department"] != [NSNull null] ? 
+        [dictionary objectForKey:@"department"] : nil;
+
+    organizations.description =
+        [dictionary objectForKey:@"description"] != [NSNull null] ? 
+        [dictionary objectForKey:@"description"] : nil;
+
+    organizations.endDate =
+        [dictionary objectForKey:@"endDate"] != [NSNull null] ? 
+        [dictionary objectForKey:@"endDate"] : nil;
+
+    organizations.location =
+        [dictionary objectForKey:@"location"] != [NSNull null] ? 
+        [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]] : nil;
+
+    organizations.name =
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] : nil;
+
+    organizations.primary =
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+
+    organizations.startDate =
+        [dictionary objectForKey:@"startDate"] != [NSNull null] ? 
+        [dictionary objectForKey:@"startDate"] : nil;
+
+    organizations.title =
+        [dictionary objectForKey:@"title"] != [NSNull null] ? 
+        [dictionary objectForKey:@"title"] : nil;
+
+    organizations.type =
+        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] : nil;
+
+    [organizations.dirtyPropertySet removeAllObjects];
+    
+    return organizations;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"])
-        _organizationsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+        _organizationsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"department"])
-        _department = [dictionary objectForKey:@"department"];
+        _department = [dictionary objectForKey:@"department"] != [NSNull null] ? 
+            [dictionary objectForKey:@"department"] : nil;
 
     if ([dictionary objectForKey:@"description"])
-        _description = [dictionary objectForKey:@"description"];
+        _description = [dictionary objectForKey:@"description"] != [NSNull null] ? 
+            [dictionary objectForKey:@"description"] : nil;
 
     if ([dictionary objectForKey:@"endDate"])
-        _endDate = [dictionary objectForKey:@"endDate"];
+        _endDate = [dictionary objectForKey:@"endDate"] != [NSNull null] ? 
+            [dictionary objectForKey:@"endDate"] : nil;
 
     if ([dictionary objectForKey:@"location"])
-        _location = [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]];
+        _location = [dictionary objectForKey:@"location"] != [NSNull null] ? 
+            [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"];
+        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+            [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"primary"])
-        _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+        _primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
 
     if ([dictionary objectForKey:@"startDate"])
-        _startDate = [dictionary objectForKey:@"startDate"];
+        _startDate = [dictionary objectForKey:@"startDate"] != [NSNull null] ? 
+            [dictionary objectForKey:@"startDate"] : nil;
 
     if ([dictionary objectForKey:@"title"])
-        _title = [dictionary objectForKey:@"title"];
+        _title = [dictionary objectForKey:@"title"] != [NSNull null] ? 
+            [dictionary objectForKey:@"title"] : nil;
 
     if ([dictionary objectForKey:@"type"])
-        _type = [dictionary objectForKey:@"type"];
+        _type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
+            [dictionary objectForKey:@"type"] : nil;
 }
 
-- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary
 {
-    _organizationsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    _department = [dictionary objectForKey:@"department"];
-    _description = [dictionary objectForKey:@"description"];
-    _endDate = [dictionary objectForKey:@"endDate"];
-    _location = [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]];
-    _name = [dictionary objectForKey:@"name"];
-    _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
-    _startDate = [dictionary objectForKey:@"startDate"];
-    _title = [dictionary objectForKey:@"title"];
-    _type = [dictionary objectForKey:@"type"];
+    _organizationsId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    _department =
+        [dictionary objectForKey:@"department"] != [NSNull null] ? 
+        [dictionary objectForKey:@"department"] : nil;
+
+    _description =
+        [dictionary objectForKey:@"description"] != [NSNull null] ? 
+        [dictionary objectForKey:@"description"] : nil;
+
+    _endDate =
+        [dictionary objectForKey:@"endDate"] != [NSNull null] ? 
+        [dictionary objectForKey:@"endDate"] : nil;
+
+    _location =
+        [dictionary objectForKey:@"location"] != [NSNull null] ? 
+        [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"]] : nil;
+
+    _name =
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] : nil;
+
+    _primary =
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+
+    _startDate =
+        [dictionary objectForKey:@"startDate"] != [NSNull null] ? 
+        [dictionary objectForKey:@"startDate"] : nil;
+
+    _title =
+        [dictionary objectForKey:@"title"] != [NSNull null] ? 
+        [dictionary objectForKey:@"title"] : nil;
+
+    _type =
+        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] : nil;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if ([self.dirtyPropertySet containsObject:@"organizationsId"])
-        [dict setObject:[NSNumber numberWithInt:self.organizationsId] forKey:@"id"];
-
     if ([self.dirtyPropertySet containsObject:@"department"])
-        [dict setObject:self.department forKey:@"department"];
+        [dict setObject:(self.department ? self.department : [NSNull null]) forKey:@"department"];
 
     if ([self.dirtyPropertySet containsObject:@"description"])
-        [dict setObject:self.description forKey:@"description"];
+        [dict setObject:(self.description ? self.description : [NSNull null]) forKey:@"description"];
 
     if ([self.dirtyPropertySet containsObject:@"endDate"])
-        [dict setObject:self.endDate forKey:@"endDate"];
+        [dict setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
 
     if ([self.dirtyPropertySet containsObject:@"location"])
-        [dict setObject:[self.location dictionaryFromLocationObject] forKey:@"location"];
+        [dict setObject:(self.location ? [self.location toUpdateDictionary] : [NSNull null]) forKey:@"location"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
-        [dict setObject:self.name forKey:@"name"];
+        [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"primary"])
-        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
+        [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
 
     if ([self.dirtyPropertySet containsObject:@"startDate"])
-        [dict setObject:self.startDate forKey:@"startDate"];
+        [dict setObject:(self.startDate ? self.startDate : [NSNull null]) forKey:@"startDate"];
 
     if ([self.dirtyPropertySet containsObject:@"title"])
-        [dict setObject:self.title forKey:@"title"];
+        [dict setObject:(self.title ? self.title : [NSNull null]) forKey:@"title"];
 
     if ([self.dirtyPropertySet containsObject:@"type"])
-        [dict setObject:self.type forKey:@"type"];
+        [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface updateCaptureObject:dict
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -400,28 +415,32 @@
                                 withContext:newContext];
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.organizationsId] forKey:@"id"];
-    [dict setObject:self.department forKey:@"department"];
-    [dict setObject:self.description forKey:@"description"];
-    [dict setObject:self.endDate forKey:@"endDate"];
-    [dict setObject:[self.location dictionaryFromLocationObject] forKey:@"location"];
-    [dict setObject:self.name forKey:@"name"];
-    [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
-    [dict setObject:self.startDate forKey:@"startDate"];
-    [dict setObject:self.title forKey:@"title"];
-    [dict setObject:self.type forKey:@"type"];
+    [dict setObject:(self.department ? self.department : [NSNull null]) forKey:@"department"];
+    [dict setObject:(self.description ? self.description : [NSNull null]) forKey:@"description"];
+    [dict setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
+    [dict setObject:(self.location ? [self.location toReplaceDictionary] : [NSNull null]) forKey:@"location"];
+    [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+    [dict setObject:(self.startDate ? self.startDate : [NSNull null]) forKey:@"startDate"];
+    [dict setObject:(self.title ? self.title : [NSNull null]) forKey:@"title"];
+    [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureObject:dict
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

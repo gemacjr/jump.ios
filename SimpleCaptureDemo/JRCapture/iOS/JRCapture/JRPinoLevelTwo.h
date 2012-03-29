@@ -40,6 +40,6 @@
 - (id)init;
 + (id)pinoLevelTwo;
 + (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromPinoLevelTwoObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

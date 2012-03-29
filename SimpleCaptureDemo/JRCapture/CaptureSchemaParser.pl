@@ -116,14 +116,12 @@ sub getSimplePluralType {
   foreach my $hashRef (@attrDefsArr) {
     my %propertyHash = %$hashRef;
     my $propertyType = $propertyHash{"type"};
-    my $propertyName = $propertyHash{"name"};
+    my $propertyName = $propertyHash{"name"}; # TODO: Assumes presence; return "value" if not there or just assume it always is
     
     if ($propertyType eq "string") {
       return $propertyName;
     }
   }
-
-  die "Error getting string plural element type";
 }
 
 sub getIsRequired {
@@ -145,6 +143,17 @@ sub getIsRequired {
   }
 
   return 0;  
+}
+
+sub getShouldIgnore {
+  my $propertyName = $_[0];
+  my %ignoredProperties = map { $_ => 1 } ("id", "uuid", "created", "lastUpdated");
+
+  if(exists($ignoredProperties{$propertyName})) { 
+    return 1;
+  }
+  
+  return 0;
 }
 
 sub isPropertyNameObjcKeyword {
@@ -209,23 +218,27 @@ sub recursiveParse {
   ################################################
   # Initialize the sections of the .h/.m files
   ################################################
-  my $extraImportsSection     = "";
-  my $propertiesSection       = "";
-  my $arrayCategoriesSection  = "";
-  my $synthesizeSection       = "";
-  my $privateIvarsSection     = "";
-  my $getterSettersSection    = "";
-  my @constructorSection      = getConstructorParts();
-  my @classConstructorSection = getClassConstructorParts();
-  my @copyConstructorSection  = getCopyConstructorParts();
-  my @destructorSection       = getDestructorParts();
-  my @dictFromObjSection      = getToDictionaryParts();
-  my @objFromDictSection      = getFromDictionaryParts();
-  my @updateFromDictSection   = getUpdateFromDictParts();
-  my @replaceFromDictSection  = getReplaceFromDictParts();
-  my @updateRemotelySection   = getUpdateRemotelyParts();
-  my @replaceRemotelySection  = getReplaceRemotelyParts();
-  
+  my $extraImportsSection        = "";
+  my $propertiesSection          = "";
+  my $arrayCategoriesSection     = "";
+  my $synthesizeSection          = "";
+  my $privateIvarsSection        = "";
+  my $getterSettersSection       = "";
+  my @minConstructorSection      = getMinConstructorParts();
+  my @constructorSection         = getConstructorParts();
+  my @minClassConstructorSection = getMinClassConstructorParts();
+  my @classConstructorSection    = getClassConstructorParts();
+  my @copyConstructorSection     = getCopyConstructorParts();
+  my @destructorSection          = getDestructorParts();
+  my @dictFromObjSection         = getToDictionaryParts();
+  my @objFromDictSection         = getFromDictionaryParts();
+  my @updateFromDictSection      = getUpdateFromDictParts();
+  my @replaceFromDictSection     = getReplaceFromDictParts();
+  my @toUpdateDictSection        = getToUpdateDictParts();
+  my @updateRemotelySection      = getUpdateRemotelyParts();
+  my @toReplaceDictSection       = getToReplaceDictParts();
+  my @replaceRemotelySection     = getReplaceRemotelyParts();  
+
   ######################################################
   # Create the class name of an object
   # e.g., 'primaryAddress' becomes 'JRPrimaryAddress'
@@ -243,19 +256,24 @@ sub recursiveParse {
   # JRUserObject *userObjectCopy =
 	#			[[JRUserObject allocWithZone:zone] init];
   ######################################################
+  $minClassConstructorSection[1] = $objectName;
+  $minClassConstructorSection[4] = $className;
+
   $classConstructorSection[1] = $objectName;
   $classConstructorSection[5] = $className;
   
   $copyConstructorSection[2]  = "    " . $className . " *" . $objectName . "Copy =\n                [[" . $className;
   $copyConstructorSection[8]  = $objectName . "Copy";
+  $copyConstructorSection[10]  = $objectName . "Copy";
+  $copyConstructorSection[13]  = $objectName . "Copy";
   
   $objFromDictSection[1]      = $objectName;
-  $objFromDictSection[4]      = "    " . $className . " *" . $objectName . " =\n";
+  $objFromDictSection[4]      = "    " . $className . " *" . $objectName;
   $objFromDictSection[6]      = $className . " " . $objectName;
-  $objFromDictSection[11]     = $objectName;
-  
-  $dictFromObjSection[1]      = ucfirst($objectName);
-  
+  $objFromDictSection[10]     = $objectName;
+  $objFromDictSection[12]     = $objectName;
+      
+  $minConstructorSection[3]   = "        self.captureObjectPath = \@\"" . $objectPath . "\";\n";
   $constructorSection[8]      = "        self.captureObjectPath = \@\"" . $objectPath . "\";\n";
 
   ######################################################
@@ -290,7 +308,13 @@ sub recursiveParse {
     my $isIdName        = 0;              # If the name of the property is 'id', we also do things differently
     my $dictionaryKey   = $propertyName;  # Set the dictionary key as the property name, and change the property name if it is an objc keyword
     my $propertyNotes   = "";             # Comment that provides more infomation if necessary for a property 
-                                        # (e.g., in the case of an array of objects versus and array of strings)
+                                          # (e.g., in the case of an array of objects versus and array of strings)
+
+    ##########################################################
+    # Calls to the Capture server should not contain id, uuid, 
+    # created, and lastUpdated
+    ##########################################################
+    my $shouldIgnore = getShouldIgnore($propertyName);
 
     ##########################################################
     # Before setting the default to/from dictionary methods, 
@@ -303,11 +327,13 @@ sub recursiveParse {
     ######################################################
     # Finish initializing property defaults
     ######################################################
-    my $toDictionary  =                                     # Default operation is to just stick the NSObject 
+    my $toDictionary    =                                   # Default operation is to just stick the NSObject 
           "self.$propertyName";                             # into an NSMutableDictionary
-    my $frDictionary  =                                     # Default operation is to just pull the NSObject from 
+    my $frDictionary    =                                   # Default operation is to just pull the NSObject from 
           "[dictionary objectForKey:\@\"$dictionaryKey\"]"; # the dictionary and stick it into the property
-    
+    my $toUpDictionary  = "self.$propertyName";             # Default operation for toUpdateDictionary                                        
+    my $toRplDictionary = "self.$propertyName";             # Default operation for toReplaceDictionary 
+          
     ######################################################
     # Find out if it's a required property, and
     # increase the requiredProperties counter if it is
@@ -316,7 +342,7 @@ sub recursiveParse {
     if ($isRequired) {
       $requiredProperties++;
     }
-
+    
     ##########################################################################
     # Determine the property's ObjC type.  Also determine how the property 
     # should be serialized/deserialized to/from and NSDictionary 
@@ -335,7 +361,7 @@ sub recursiveParse {
     ##################
       $isNotNSObject = 1;
       $objectiveType = "BOOL";
-      $toDictionary  = "[NSNumber numberWithBool:self.$propertyName]";
+      $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithBool:self.$propertyName]";
       $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"$dictionaryKey\"] boolValue]";
 
     } elsif ($propertyType eq "integer") {
@@ -344,7 +370,7 @@ sub recursiveParse {
     ##################
       $isNotNSObject = 1;
       $objectiveType = "NSInteger";
-      $toDictionary  = "[NSNumber numberWithInt:self.$propertyName]";
+      $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInt:self.$propertyName]";
       $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"$dictionaryKey\"] intValue]";
 
     } elsif ($propertyType eq "decimal") {
@@ -358,8 +384,8 @@ sub recursiveParse {
     # DATE
     ##################
       $objectiveType = "NSDate *";
-      $toDictionary = "[self.$propertyName stringFromISO8601Date]";
-      $frDictionary = "[NSDate dateFromISO8601DateString:[dictionary objectForKey:\@\"$dictionaryKey\"]]";
+      $toDictionary  = $toUpDictionary = $toRplDictionary = "[self.$propertyName stringFromISO8601Date]";
+      $frDictionary  = "[NSDate dateFromISO8601DateString:[dictionary objectForKey:\@\"$dictionaryKey\"]]";
 
     } elsif ($propertyType eq "dateTime") {
     ##################
@@ -367,8 +393,8 @@ sub recursiveParse {
     ##################
 
       $objectiveType = "NSDate *";
-      $toDictionary = "[self.$propertyName stringFromISO8601DateTime]";
-      $frDictionary = "[NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"$dictionaryKey\"]]";
+      $toDictionary  = $toUpDictionary = $toRplDictionary = "[self.$propertyName stringFromISO8601DateTime]";
+      $frDictionary  = "[NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"$dictionaryKey\"]]";
 
     } elsif ($propertyType =~ m/^password/) { 
     ##########################################################################
@@ -423,9 +449,11 @@ sub recursiveParse {
         
         $extraImportsSection    .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
         $arrayCategoriesSection .= createArrayCategoryForSubobject ($propertyName);
-        $toDictionary  = "[self.$propertyName arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
-        $frDictionary  = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "Dictionaries]";
-        $propertyNotes = "/* This is an array of JR" . ucfirst($propertyName) . " */";
+        $toDictionary     = "[self.$propertyName arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
+        $toUpDictionary   = "[self.$propertyName arrayOf" . ucfirst($propertyName) . "UpdateDictionariesFrom" . ucfirst($propertyName) . "Objects]";
+        $toRplDictionary  = "[self.$propertyName arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Objects]";
+        $frDictionary     = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "Dictionaries]";
+        $propertyNotes    = "/* This is an array of JR" . ucfirst($propertyName) . " */";
         
         recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $propertyName);
        
@@ -441,9 +469,11 @@ sub recursiveParse {
         $propertyName = $objectName . ucfirst($propertyName);
       }
       
-      $objectiveType = "JR" . ucfirst($propertyName) . " *";
-      $toDictionary  = "[self." . $propertyName . " dictionaryFrom" . ucfirst($propertyName) . "Object]";
-      $frDictionary  = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
+      $objectiveType   = "JR" . ucfirst($propertyName) . " *";
+      $toDictionary    = "[self." . $propertyName . " toDictionary]";
+      $toUpDictionary  = "[self." . $propertyName . " toUpdateDictionary]";
+      $toRplDictionary = "[self." . $propertyName . " toReplaceDictionary]";
+      $frDictionary    = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
       $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
 
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
@@ -463,7 +493,7 @@ sub recursiveParse {
       
       $isNotNSObject = 1;
       $objectiveType = "NSInteger";
-      $toDictionary  = "[NSNumber numberWithInt:self.$propertyName]";
+      $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInt:self.$propertyName]";
       $frDictionary  = "[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
 
     } else {
@@ -504,11 +534,11 @@ sub recursiveParse {
         # e.g., JRObj *objCopy = [[JRObj allocWithZone:zone] initWithFoo:self.foo ...
         $copyConstructorSection[4]  .= "With" . ucfirst($propertyName) . ":self.$propertyName";
 
-        # e.g., JRObj *obj = [JRObj objWithFoo:[dictionary objectForKey:@"foo"] ...
-        $objFromDictSection[7] .= "With" . ucfirst($propertyName) . ":" . $frDictionary;
+#         # e.g., JRObj *obj = [JRObj objWithFoo:[dictionary objectForKey:@"foo"] ...
+#         $objFromDictSection[7] .= "With" . ucfirst($propertyName) . ":" . $frDictionary;
         
-        # adding an extra newline
-        $dictFromObjSection[5] .= "\n";
+#         # adding an extra newline
+#         $dictFromObjSection[3] .= "\n";
         
       } else {
       ##########################################################################
@@ -531,8 +561,8 @@ sub recursiveParse {
         # e.g., JRObj *objCopy = [[JRObj allocWithZone:zone] initWithFoo:self.foo andBar:self.bar ...
         $copyConstructorSection[4]  .= " and" . ucfirst($propertyName) . ":self.$propertyName";
 
-        # e.g., JRObj *obj = [JRObj objWithFoo:[dictionary objectForKey:@"foo"] andBar:[dictionary objectForKey:@"bar"] ...
-        $objFromDictSection[7] .= " and" . ucfirst($propertyName) . ":" . $frDictionary;
+#         # e.g., JRObj *obj = [JRObj objWithFoo:[dictionary objectForKey:@"foo"] andBar:[dictionary objectForKey:@"bar"] ...
+#         $objFromDictSection[7] .= " and" . ucfirst($propertyName) . ":" . $frDictionary;
       }        
       ##########################################################################
       # For *all* required properties...
@@ -541,23 +571,60 @@ sub recursiveParse {
       # e.g., foo = [newFoo copy];
       $constructorSection[8] .= "        _" . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
       
-      ##########################################################################
-      # Object ids needs to be serialized/deserialized with the key 'id', even 
-      # though that's not what the propertyName is
-      # e.g., [dict setObject:foo forKey:@"foo"];
-      #         OR
-      #       [dict setObject:fooId forKey:@"id"];
-      ##########################################################################
-      $dictFromObjSection[5] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $dictionaryKey . "\"];\n";
+#       ##########################################################################
+#       # Object ids needs to be serialized/deserialized with the key 'id', even 
+#       # though that's not what the propertyName is
+#       # e.g., [dict setObject:foo forKey:@"foo"];
+#       #         OR
+#       #       [dict setObject:fooId forKey:@"id"];
+#       ##########################################################################
+#       $dictFromObjSection[3] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $dictionaryKey . "\"];\n";
       
     } else {
     ######################################################
     # If the property is *not* required...
-    ######################################################
+    ######################################################  
+      
+      # e.g., objCopy.baz = self.baz;
+      $copyConstructorSection[6] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
+
+    }
+    ##########################################################################
+    # For *all* properties...
+    ##########################################################################
 
       if ($isNotNSObject) {
-        # e.g., if (self.baz)
-        $dictFromObjSection[6] .= "\n    if (self." . $propertyName . ")\n";
+        # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
+        $objFromDictSection[8]     .= "\n    " . $objectName . "." . $propertyName . " =\n";
+        $objFromDictSection[8]     .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $objFromDictSection[8]     .= "        " . $frDictionary . " : 0;\n";
+        
+        # e.g., if ([dictionary objectForKey:@"foo"])
+        $updateFromDictSection[2]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
+
+        # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
+        $updateFromDictSection[2]  .= "\n        _" . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $updateFromDictSection[2]  .=  "            " . $frDictionary . " : 0;\n";
+
+        # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
+        $replaceFromDictSection[2] .= "\n    _" . $propertyName . " =\n";
+        $replaceFromDictSection[2] .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $replaceFromDictSection[2] .= "        " . $frDictionary . " : 0;\n";
+
+        
+        if (!$shouldIgnore) {
+          # e.g., if ([self.dirtyPropertySet containsObject:@"foo"])
+          #           [dict setObject:self.car forKey:@"foo"];
+          $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
+          $toUpdateDictSection[3]  .= "        [dict setObject:(self." . $propertyName . " ? " . $toUpDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+  
+          $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+        }
+        
+
+        
+#         # e.g., if (self.baz)
+#         $dictFromObjSection[3] .= "\n    if (self." . $propertyName . ")\n";
         
         ##########################################################################
         # Object ids needs to be serialized/deserialized with the key 'id', even 
@@ -566,49 +633,68 @@ sub recursiveParse {
         #         OR
         #       [dict setObject:bazId forKey:@"id"];
         ##########################################################################
-        $dictFromObjSection[6] .= "        [dict setObject:" . $toDictionary . " forKey:\@\"" . $dictionaryKey . "\"];\n";
+        $dictFromObjSection[3] .= "    [dict setObject:" . $toDictionary . "\n";
+        $dictFromObjSection[3] .= "             forKey:\@\"" . $dictionaryKey . "\"];\n";
 
       } else {
-        # e.g., if (self.baz && self.baz != [NSNull null])
-        $dictFromObjSection[6] .= "\n    if (self." . $propertyName . " && self." . $propertyName . " != [NSNull null])\n";
+
+        # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
+        $objFromDictSection[8]     .= "\n    " . $objectName . "." . $propertyName . " =\n";
+        $objFromDictSection[8]     .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $objFromDictSection[8]     .= "        " . $frDictionary . " : nil;\n";
         
-        # e.g., [dict setObject:self.baz forKey:@"baz"];
-        $dictFromObjSection[6] .= "        [dict setObject:" . $toDictionary . " forKey:\@\"" . $dictionaryKey . "\"];\n";
+        # e.g., if ([dictionary objectForKey:@"foo"])
+        $updateFromDictSection[2]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
+
+        # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
+        $updateFromDictSection[2]  .= "\n        _" . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $updateFromDictSection[2]  .= "            " . $frDictionary . " : nil;\n";
+
+        # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
+        $replaceFromDictSection[2] .= "\n    _" . $propertyName . " =\n";
+        $replaceFromDictSection[2] .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $replaceFromDictSection[2] .= "        " . $frDictionary . " : nil;\n";
+
+#         # e.g., if (self.baz && self.baz != [NSNull null])
+#         $dictFromObjSection[4]  .= "\n    if (self." . $propertyName . " && self." . $propertyName . " != [NSNull null])\n";
         
-        # e.g., else [dict setObject:self.baz forKey:@"baz"];
-        $dictFromObjSection[6] .= "    else\n";
-        $dictFromObjSection[6] .= "        [dict setObject:[NSNull null] forKey:\@\"" . $dictionaryKey . "\"];\n";             
-      }     
-      
-      # e.g., objCopy.baz = self.baz;
-      $copyConstructorSection[6] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
-      
-      # e.g., obj.baz = [dictionary objectForKey:@"baz"];
-      $objFromDictSection[8] .= "\n    " . $objectName . "." . $propertyName . " = " . $frDictionary . ";";
-    }
-    ##########################################################################
-    # For *all* properties...
-    ##########################################################################
+        # e.g., [dict setObject:(self.baz ? self.baz : [NSNull null]) forKey:@"baz"];
+        $dictFromObjSection[3]     .= "    [dict setObject:(self." . $propertyName . " ? " . $toDictionary . " : [NSNull null])\n";
+        $dictFromObjSection[3]     .= "             forKey:\@\"" . $dictionaryKey . "\"];\n";
+        
+        if (!$shouldIgnore) {
+          # e.g., if ([self.dirtyPropertySet containsObject:@"foo"])
+          #           [dict setObject:self.car forKey:@"foo"];
+          $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
+          $toUpdateDictSection[3]  .= "        [dict setObject:(self." . $propertyName . " ? " . $toUpDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+  
+          $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+        }
+        
+#         # e.g., else [dict setObject:self.baz forKey:@"baz"];
+#         $dictFromObjSection[4] .= "    else\n";
+#         $dictFromObjSection[4] .= "        [dict setObject:[NSNull null] forKey:\@\"" . $dictionaryKey . "\"];\n";             
+      }   
 
       if (!$isIdName) {
-        # e.g., if ([dictionary objectForKey:@"foo"])
-        #           self.foo = [dictionary objectForKey:@"foo"];
-        $updateFromDictSection[2]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
-        $updateFromDictSection[2]  .= "\n        _" . $propertyName . " = " . $frDictionary . ";\n";
+#         # e.g., if ([dictionary objectForKey:@"foo"])
+#         #           self.foo = [dictionary objectForKey:@"foo"];
+#         $updateFromDictSection[2]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
+#         $updateFromDictSection[2]  .= "\n        _" . $propertyName . " = " . $frDictionary . ";\n";
 
-        # e.g., self.foo = [dictionary objectForKey:@"foo"];
-        $replaceFromDictSection[2] .= "    _" . $propertyName . " = " . $frDictionary . ";\n";
+#         # e.g., self.foo = [dictionary objectForKey:@"foo"];
+#         $replaceFromDictSection[2] .= "    _" . $propertyName . " = " . $frDictionary . ";\n";
         
-        # e.g., if ([self.dirtyPropertySet containsObject:@"foo"])
-        #           [dict setObject:self.car forKey:@"foo"];
-        $updateRemotelySection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])";
-        $updateRemotelySection[3]  .= "\n        [dict setObject:" . $toDictionary . " forKey:\@\"" . $dictionaryKey . "\"];\n";
+#         # e.g., if ([self.dirtyPropertySet containsObject:@"foo"])
+#         #           [dict setObject:self.car forKey:@"foo"];
+#         $updateRemotelySection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])";
+#         $updateRemotelySection[3]  .= "\n        [dict setObject:" . $toDictionary . " forKey:\@\"" . $dictionaryKey . "\"];\n";
 
-        # e.g., [dict setObject:self.car forKey:@"foo"];        
-        $replaceRemotelySection[3] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $dictionaryKey . "\"];\n";
-      } else {
-        # e.g., self.foo = [dictionary objectForKey:@"foo"];
-        $replaceFromDictSection[2] .= "    _" . $propertyName . " = " . $frDictionary . ";\n";      
+#         # e.g., [dict setObject:self.car forKey:@"foo"];        
+#         $replaceRemotelySection[3] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $dictionaryKey . "\"];\n";
+       } else {
+#         # e.g., self.foo = [dictionary objectForKey:@"foo"];
+#         $replaceFromDictSection[2] .= "    _" . $propertyName . " = " . $frDictionary . ";\n";      
         
         # e.g., [JRCaptureInterfaceTwo updateCaptureObject:dict
         #                                           withId:self.fooId
@@ -673,10 +759,16 @@ sub recursiveParse {
   ##########################################################################
   $hFile .= "\@interface $className : JRCaptureObject\n";# <NSCopying, JRJsonifying>\n";
   $hFile .= $propertiesSection;
-  $hFile .= "$constructorSection[0]$constructorSection[1];\n";
-  $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n";
+  $hFile .= "$minConstructorSection[0];\n";
+  $hFile .= "$minClassConstructorSection[0]$minClassConstructorSection[1];\n";
+
+  if ($requiredProperties) {
+    $hFile .= "$constructorSection[0]$constructorSection[1];\n";
+    $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n";
+  }
+
   $hFile .= "$objFromDictSection[0]$objFromDictSection[1]$objFromDictSection[2];\n";
-  $hFile .= "$dictFromObjSection[0]$dictFromObjSection[1]$dictFromObjSection[2];\n";
+  $hFile .= "$dictFromObjSection[0];\n";
   $hFile .= "$updateFromDictSection[0];\n";
   $hFile .= "\@end\n";
 
@@ -703,25 +795,41 @@ sub recursiveParse {
   # If there are any required properties, add the additional sections, 
   # otherwise, skip them
   ##########################################################################
-  for (my $i = 0; $i < @constructorSection; $i++) {
-    if ($i != 0 && $i != 2 && $i != 7 && $i != 8 && $i != 9) {
-      if ($requiredProperties) {     
-        $mFile .= $constructorSection[$i];
-      }
-    } else {
+  for (my $i = 0; $i < @minConstructorSection; $i++) {
+    $mFile .= $minConstructorSection[$i];
+  }
+
+  if ($requiredProperties) {
+    for (my $i = 0; $i < @constructorSection; $i++) {  
       $mFile .= $constructorSection[$i];
     }
   }
+
+#   for (my $i = 0; $i < @constructorSection; $i++) {
+#     if ($i != 0 && $i != 2 && $i != 7 && $i != 8 && $i != 9) {
+#       if ($requiredProperties) {     
+#         $mFile .= $constructorSection[$i];
+#       }
+#     } else {
+#       $mFile .= $constructorSection[$i];
+#     }
+#   }
 
   ##########################################################################
   # Loop through our class constructor pieces...
   # If there are *no* required properties, those sections should be empty,
   # so we can safely loop through all the sections 
   ##########################################################################
-  for (my $i = 0; $i < @classConstructorSection; $i++) {
-    $mFile .= $classConstructorSection[$i];
+  for (my $i = 0; $i < @minClassConstructorSection; $i++) {
+    $mFile .= $minClassConstructorSection[$i];
   }
 
+  if ($requiredProperties) {
+    for (my $i = 0; $i < @classConstructorSection; $i++) {
+      $mFile .= $classConstructorSection[$i];
+    }
+  }
+  
   ##########################################################################
   # Loop through our copy constructor pieces...
   ##########################################################################
@@ -732,12 +840,12 @@ sub recursiveParse {
   ##########################################################################
   # Loop through the rest of our methods, and add '@end'
   ##########################################################################
-  for (my $i = 0; $i < @objFromDictSection; $i++) {
-    $mFile .= $objFromDictSection[$i];
-  }
-
   for (my $i = 0; $i < @dictFromObjSection; $i++) {
     $mFile .= $dictFromObjSection[$i];
+  }
+  
+  for (my $i = 0; $i < @objFromDictSection; $i++) {
+    $mFile .= $objFromDictSection[$i];
   }
   
   for (my $i = 0; $i < @updateFromDictSection; $i++) {
@@ -747,11 +855,19 @@ sub recursiveParse {
   for (my $i = 0; $i < @replaceFromDictSection; $i++) {
     $mFile .= $replaceFromDictSection[$i];
   }
+
+  for (my $i = 0; $i < @toUpdateDictSection; $i++) {
+    $mFile .= $toUpdateDictSection[$i];
+  }
     
   for (my $i = 0; $i < @updateRemotelySection; $i++) {
     $mFile .= $updateRemotelySection[$i];
   }
   
+  for (my $i = 0; $i < @toReplaceDictSection; $i++) {
+    $mFile .= $toReplaceDictSection[$i];
+  }
+
   for (my $i = 0; $i < @replaceRemotelySection; $i++) {
     $mFile .= $replaceRemotelySection[$i];
   }
@@ -759,7 +875,7 @@ sub recursiveParse {
   for (my $i = 0; $i < @destructorSection; $i++) {
     $mFile .= $destructorSection[$i];
   }
-
+  
   $mFile .= "\@end\n";  
   
   ##########################################################################

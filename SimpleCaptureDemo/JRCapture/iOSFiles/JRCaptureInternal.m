@@ -6,8 +6,14 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import <c++/4.2.1/bits/locale_facets.h>
 #import "JRCaptureInternal.h"
+
+@interface JRCaptureObject (Internal)
+//- (NSDictionary *)toUpdateDictionary;
+//- (NSDictionary *)toReplaceDictionary;
+//- (void)updateFromDictionary:(NSDictionary*)dictionary;
+//- (void)replaceFromDictionary:(NSDictionary*)dictionary;
+@end
 
 @implementation JRCaptureObject
 @synthesize dirtyPropertySet;
@@ -63,7 +69,7 @@
     if (![resultDictionary objectForKey:@"result"])
         [self updateCaptureObjectDidFailWithResult:result context:context];
 
-    [captureObject replaceLocallyFromNewDictionary:[resultDictionary objectForKey:@"result"]];
+    [captureObject replaceFromDictionary:[resultDictionary objectForKey:@"result"]];
     [captureObject.dirtyPropertySet removeAllObjects];
 
     if ([delegate respondsToSelector:@selector(replaceCaptureObject:didSucceedWithResult:context:)])
@@ -98,20 +104,44 @@
     if (![resultDictionary objectForKey:@"result"])
         [self updateCaptureObjectDidFailWithResult:result context:context];
 
-    [captureObject updateLocallyFromNewDictionary:[resultDictionary objectForKey:@"result"]];
+    [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"]];
     [captureObject.dirtyPropertySet removeAllObjects];
 
     if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
         [delegate updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
 }
 
-- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary
+- (NSDictionary *)toDictionary
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+
+    return nil; // TODO: What's the better way to raise the exception in a method w a return?
+}
+
+- (NSDictionary *)toUpdateDictionary
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+
+    return nil; // TODO: What's the better way to raise the exception in a method w a return?
+}
+
+- (NSDictionary *)toReplaceDictionary
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+
+    return nil; // TODO: What's the better way to raise the exception in a method w a return?
+}
+
+- (void)updateFromDictionary:(NSDictionary *)dictionary
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 }
 
-- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary
+- (void)replaceFromDictionary:(NSDictionary *)dictionary
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
@@ -168,9 +198,9 @@
 {
     [self.dirtyPropertySet addObject:@"value"];
 
-    if (!newValue)
-        _value = [NSNull null];
-    else
+//    if (!newValue)
+//        _value = [NSNull null];
+//    else
         _value = [newValue copy];
 }
 
@@ -197,6 +227,9 @@
     stringElementCopy.elementId = self.elementId;
     stringElementCopy.value     = self.value;
 
+    [stringElementCopy.dirtyPropertySet removeAllObjects];
+    [stringElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return stringElementCopy;
 }
 
@@ -208,6 +241,8 @@
     stringElement.elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     stringElement.value = [dictionary objectForKey:elementType];
 
+    [stringElement.dirtyPropertySet removeAllObjects];
+
     return stringElement;
 }
 
@@ -218,10 +253,12 @@
 
     stringElement.value = valueString;
 
+    [stringElement.dirtyPropertySet removeAllObjects];
+
     return stringElement;
 }
 
-- (NSDictionary*)dictionaryFromStringElement
+- (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
@@ -237,7 +274,7 @@
     return dict;
 }
 
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
+- (void)updateFromDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"])
         _elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
@@ -246,13 +283,13 @@
         _value = [dictionary objectForKey:_type];
 }
 
-- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary
 {
     _elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
     _value = [dictionary objectForKey:_type];
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -263,12 +300,17 @@
     if ([self.dirtyPropertySet containsObject:@"value"])
         [dict setObject:self.value forKey:self.type];
 
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface updateCaptureObject:dict
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -276,7 +318,7 @@
                                 withContext:newContext];
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -284,12 +326,17 @@
     [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
     [dict setObject:self.value forKey:self.type];
 
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureObject:dict
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

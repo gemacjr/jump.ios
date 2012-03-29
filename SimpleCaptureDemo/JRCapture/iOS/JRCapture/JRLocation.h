@@ -47,6 +47,6 @@
 - (id)init;
 + (id)location;
 + (id)locationObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromLocationObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

@@ -39,6 +39,6 @@
 - (id)init;
 + (id)pinoLevelThree;
 + (id)pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromPinoLevelThreeObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

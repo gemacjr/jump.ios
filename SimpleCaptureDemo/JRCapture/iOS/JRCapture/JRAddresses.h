@@ -49,6 +49,6 @@
 - (id)init;
 + (id)addresses;
 + (id)addressesObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromAddressesObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

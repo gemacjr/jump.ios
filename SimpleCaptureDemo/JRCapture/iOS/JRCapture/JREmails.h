@@ -40,6 +40,6 @@
 - (id)init;
 + (id)emails;
 + (id)emailsObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromEmailsObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

@@ -272,7 +272,7 @@ static NSString *entityTypeName     = @"user_dev";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:[captureUser dictionaryFromCaptureUserObject] forKey:@"captureUser"];
+    [prefs setObject:[captureUser toDictionary] forKey:@"captureUser"];
     [prefs setObject:accessToken forKey:@"accessToken"];
     [prefs setObject:creationToken forKey:@"creationToken"];
 

@@ -39,6 +39,31 @@
 ###################################################################
 
 ###################################################################
+# MINIMUM INSTANCE CONSTRUCTOR (W/O REQUIRED PROPERTIES)
+#
+# - (id)init
+# {                                                              
+#     if ((self = [super init]))                                 
+#     {     
+#         self.captureObjectPath = @"<entity_path>";
+#     }
+#
+#     return self;
+# }
+###################################################################
+
+my @minConstructorParts = (
+"- (id)init",
+"\n{\n",
+"    if ((self = [super init]))
+    {\n",
+    "",
+"    }
+    return self;
+}\n\n");
+
+
+###################################################################
 # INSTANCE CONSTRUCTOR (W REQUIRED PROPERTIES)
 #
 # Section only here when there are required properties     
@@ -54,6 +79,8 @@
 #                                                                |
 #     if ((self = [super init]))                                 |
 #     {                                                          |
+#         self.captureObjectPath = @"<entity_path>";             |
+#                                                                |
 #         <requiredProperty> = [new<requiredProperty> copy]; <---+
 #           ...
 #     }
@@ -77,45 +104,21 @@ my @constructorParts = (
     return self;
 }\n\n");
 
+
 ###################################################################
-# INSTANCE CONSTRUCTOR (W REQUIRED PROPERTIES)
+# MINIMUN CLASS CONSTRUCTOR (W/O REQUIRED PROPERTIES)
 #
-# Section only here when there are required properties     
-#                     |
-#                     V
-# - (id)init<requiredProperties>
-# {
-#     if(!<requriredProperties>) <---------
-#     {                          <-------------------- Section only here
-#       [self release];          <-------------------- when there are 
-#       return nil;              <-------------------- required properties
-#     }                          <---------                      |
-#                                                                |
-#     if ((self = [super init]))                                 |
-#     {                                                          |
-#         <requiredProperty> = [new<requiredProperty> copy]; <---+
-#           ...
-#     }
-#
-#     return self;
+# + (id)<objectName>    
+# {                                             
+#     return [[[<className> alloc] init] autorelease]; 
 # }
 ###################################################################
 
-my @constructorParts = (
-"- (id)init", "",
+my @minClassConstructorParts = (
+"+ (id)", "",
 "\n{\n",
-"    if (", "", ")\n",
-"    {
-        [self release];
-        return nil;
-     }\n\n",
-"    if ((self = [super init]))
-    {\n",
-    "",
-"    }
-    return self;
-}\n\n");
-
+"    return [[[", "", " alloc] init] autorelease];",
+"\n}\n\n"); 
 
 ###################################################################
 # CLASS CONSTRUCTOR (W REQUIRED PROPERTIES)
@@ -147,33 +150,41 @@ my @classConstructorParts = (
 #     <object>Copy.<property> = self.<property>;
 #       ...
 #
+#     [<object>Copy.dirtyPropertySet removeAllObjects];
+#     [<object>Copy.dirtyPropertySet setSet:self.dirtyPropertySet];
+#
 #     return <object>Copy;
 # }
 ###################################################################
 
 my @copyConstructorParts = (
 "- (id)copyWithZone:(NSZone*)zone",
-"\n{\n", 
+"\n{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS\n", 
 "", " allocWithZone:zone] init", "", "];\n\n",
-"", "\n    return ", "", ";",
+"", 
+"
+    [","",".dirtyPropertySet removeAllObjects];
+    [","",".dirtyPropertySet setSet:self.dirtyPropertySet];
+",
+"\n    return ", "", ";",
 "\n}\n\n");
 
 
 ###################################################################
-# MAKE OBJECT FROM DICTIONARY (W REQUIRED PROPERTIES)
+# MAKE OBJECT FROM DICTIONARY
 #
 # + (id)<objectName>ObjectFromDictionary:(NSDictionary*)dictionary
 # {
-#                        Section only here when there are required properties     
-#                                                  |                         
-#                                                  V         
-#     <className> *<object> =
-#         [<className> <object><requiredProperties/requiredPropertiesFromDictionaryMethods>];
+#     <className> *<object> = [<className> <object>];
 # 
-#     <object>.<property> = [dictionary objectForKey:@"<property>"];
+#     <object>.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
+#                                   [dictionary objectForKey:@"<property>"] : nil;
 #       OR
-#     <object>.<property> = [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]];
+#     <object>.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
+#                                   [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]] : nil;
 #       ...
+#
+#     [<object>.dirtyPropertySet removeAllObjects];
 #
 #     return <object>;
 # }
@@ -182,32 +193,26 @@ my @copyConstructorParts = (
 my @fromDictionaryParts = (
 "+ (id)","","ObjectFromDictionary:(NSDictionary*)dictionary",
 "\n{\n",
+"", " = [","","];\n",
 "",
-"        [","","","];\n",
-"",
-"\n\n    return ", "", ";",
+"\n    [","",".dirtyPropertySet removeAllObjects];
+    
+    return ", "", ";",
 "\n}\n\n");
 
 
 ###################################################################
-# MAKE DICTIONARY FROM OBJECT (W REQUIRED PROPERTIES)
+# MAKE DICTIONARY FROM OBJECT
 #
-# - (NSDictionary*)dictionaryFrom<objectName>Object
+# - (NSDictionary*)toDictionary
 # {
 #     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 #
-#     Section only here when there are required properties     
-#                              |                         
-#                              V                         
-#     [dict setObject:<requiredProperty> forKey:@"<requiredProperty>"];
+#     [dict setObject:<propertyToDictionaryMethod> forKey:@"<propertyKey>"]; <- For non NSObject types
 #       OR
-#     [dict setObject:<requiredPropertyToDictionaryMethod> forKey:@"<requiredProperty>"];
-#       ...
-#
-#     if (<property>)
-#         [dict setObject:<property> forKey:@"<property>"];
-#           OR
-#         [dict setObject:<propertyToDictionaryMethod> forKey:@"<property>"];
+#     [dict setObject:(<property> ? <property> : [NSNull null]) forKey:@"<propertyKey>"];
+#       OR
+#     [dict setObject:(<property> ? <propertyToDictionaryMethod> : [NSNull null]) forKey:@"<propertyKey>"];
 #       ...
 #
 #     return dict;
@@ -215,11 +220,10 @@ my @fromDictionaryParts = (
 ###################################################################
 
 my @toDictionaryParts = (
-"- (NSDictionary*)dictionaryFrom", "", "Object",
+"- (NSDictionary*)toDictionary",
 "\n{\n",
 "    NSMutableDictionary *dict = 
-        [NSMutableDictionary dictionaryWithCapacity:10];\n",
-"", 
+        [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
 "", 
 "\n    return dict;",
 "\n}\n\n");
@@ -228,18 +232,20 @@ my @toDictionaryParts = (
 ###################################################################
 # UPDATE CURRENT OBJECT FROM A NEW DICTIONARY
 #
-# - (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary
+# - (void)updateFromDictionary:(NSDictionary *)dictionary
 # {
 #     if ([dictionary objectForKey:@"<property>"])
-#         self.<property> = [dictionary objectForKey:@"<property>"];
+#         self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
+#                                       [dictionary objectForKey:@"<property>"] : nil;
 #           OR
-#         self.<property> = [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]];
+#         self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
+#                                       [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]] : nil;
 #           ...
 # }
 ###################################################################
 
 my @updateFrDictParts = (
-"- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary",
+"- (void)updateFromDictionary:(NSDictionary*)dictionary",
 "\n{",
 "",
 "}\n\n");
@@ -248,18 +254,20 @@ my @updateFrDictParts = (
 ###################################################################
 # REPLACE CURRENT OBJECT FROM A NEW DICTIONARY
 #
-# - (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary
+# - (void)replaceFromDictionary:(NSDictionary *)dictionary
 # {
-#     self.<property> = [dictionary objectForKey:@"<property>"];
+#     self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
+#                                   [dictionary objectForKey:@"<property>"] : nil;
 #       OR
-#     self.<property> = [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]];
+#     self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
+#                                   [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]] : nil;
 #       ...
 # }
 ###################################################################
 
 my @replaceFrDictParts = (
-"- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary",
-"\n{\n",
+"- (void)replaceFromDictionary:(NSDictionary*)dictionary",
+"\n{",
 "",
 "}\n\n");
 
@@ -267,20 +275,27 @@ my @replaceFrDictParts = (
 ###################################################################
 # UPDATE OBJECT ON CAPTURE
 #
-# - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+# - (NSDictionary *)toUpdateDictionary
 # {
 #     NSMutableDictionary *dict =
-#         [NSMutableDictionary dictionaryWithCapacity:10];
+#          [NSMutableDictionary dictionaryWithCapacity:10];
 # 
 #     if ([self.dirtyPropertySet containsObject:@"<property>"])
-#         [dict setObject:self.<property> forKey:@"<property>"];
+#         [dict setObject:(self.<property> ? self.<property> : [NSNull null]) forKey:@"<property>"];
+#           OR
+#         [dict setObject:(self.<property> ? <propertyToUpdateDictionaryMethod> : [NSNull null]) forKey:@"<property>"];
 # 
+#     return dict;
+# }
+# 
+# - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+# {
 #     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
 #                                                      context, @"callerContext",
 #                                                      delegate, @"delegate",
 #                                                      context, @"callerContext", nil];
 # 
-#     [JRCaptureInterface updateCaptureObject:dict
+#     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
 #                                      withId:self.<objectName>Id OR 0
 #                                      atPath:self.captureObjectPath
 #                                   withToken:[JRCaptureData accessToken]
@@ -289,18 +304,24 @@ my @replaceFrDictParts = (
 # }
 ###################################################################
 
-my @updateRemotelyParts = (
-"- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context",
+my @toUpdateDictionaryParts = (
+"- (NSDictionary *)toUpdateDictionary",
 "\n{\n",
 "    NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];\n",
-"",
-"\n    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+"",         
+"\n    return dict;",
+"\n}\n\n");
+
+my @updateRemotelyParts = (
+"- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context",
+"\n{\n",
+"    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, \@\"captureObject\",
                                                      delegate, \@\"delegate\",
                                                      context, \@\"callerContext\", nil];
 
-    [JRCaptureInterface updateCaptureObject:dict
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:", "0", "
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -312,19 +333,29 @@ my @updateRemotelyParts = (
 ###################################################################
 # REPLACE OBJECT ON CAPTURE
 #
+# - (NSDictionary *)toReplaceDictionary
+# {
+#     NSMutableDictionary *dict =
+#          [NSMutableDictionary dictionaryWithCapacity:10];
+# 
+#     [dict setObject:(self.<property> ? self.<property> : [NSNull null]) forKey:@"<property>"];
+#       OR
+#     [dict setObject:(self.<property> ? <propertyToUpdateDictionaryMethod> : [NSNull null]) forKey:@"<property>"];
+# 
+#     return dict;
+# }
+# 
 # - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 # {
 #     NSMutableDictionary *dict =
 #         [NSMutableDictionary dictionaryWithCapacity:10];
-# 
-#     [dict setObject:self.<property> forKey:@"<property>"];
 # 
 #     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
 #                                                      self, @"captureObject",
 #                                                      delegate, @"delegate",
 #                                                      context, @"callerContext", nil];
 # 
-#     [JRCaptureInterface updateCaptureObject:dict
+#     [JRCaptureInterface updateCaptureObject:[self toReplaceDictionary]
 #                                      withId:self.<objectName>Id OR 0
 #                                      atPath:self.captureObjectPath
 #                                   withToken:[JRCaptureData accessToken]
@@ -333,18 +364,24 @@ my @updateRemotelyParts = (
 # }
 ###################################################################
 
-my @replaceRemotelyParts = (
-"- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context",
+my @toReplaceDictionaryParts = (
+"- (NSDictionary *)toReplaceDictionary",
 "\n{\n",
 "    NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
-"",
-"\n    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+"",         
+"\n    return dict;",
+"\n}\n\n");
+
+my @replaceRemotelyParts = (
+"- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context",
+"\n{\n",
+"    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, \@\"captureObject\",
                                                      delegate, \@\"delegate\",
                                                      context, \@\"callerContext\", nil];
 
-    [JRCaptureInterface replaceCaptureObject:dict
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:", "0", "
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
@@ -410,26 +447,43 @@ sub createArrayCategoryForSubobject {
   my $arrayCategoryIntf = "\@interface NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
   my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
 
-  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects";
-  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "Dictionaries";
+  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "Dictionaries";
+  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects";
+  my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "UpdateDictionariesFrom" . ucfirst($propertyName) . "Objects";
+  my $methodName4 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Objects";
   
-  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n\@end\n\n";
+  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName3;\n$methodName4;\n\@end\n\n";
+  
   $arrayCategoryImpl .= "$methodName1\n{\n";
-
+  $arrayCategoryImpl .=        
+       "    NSMutableArray *filtered" . ucfirst($propertyName) . "Array = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
+       "    for (NSObject *dictionary in self)\n" . 
+       "        if ([dictionary isKindOfClass:[NSDictionary class]])\n" . 
+       "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)dictionary]];\n\n" . 
+       "    return filtered" . ucfirst($propertyName) . "Array;\n}\n\n";
+       
+  $arrayCategoryImpl .= "$methodName2\n{\n";
   $arrayCategoryImpl .=        
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *object in self)\n" . 
        "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . " class]])\n" . 
-       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "*)object dictionaryFrom" . ucfirst($propertyName) . "Object]];\n\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "*)object toDictionary]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\n";
-       
-  $arrayCategoryImpl .= "$methodName2\n{\n";
 
+  $arrayCategoryImpl .= "$methodName3\n{\n";
   $arrayCategoryImpl .=        
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
-       "    for (NSObject *dictionary in self)\n" . 
-       "        if ([dictionary isKindOfClass:[NSDictionary class]])\n" . 
-       "            [filteredDictionaryArray addObject:[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)dictionary]];\n\n" . 
+       "    for (NSObject *object in self)\n" . 
+       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . " class]])\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "*)object toUpdateDictionary]];\n\n" . 
+       "    return filteredDictionaryArray;\n}\n\n";
+
+  $arrayCategoryImpl .= "$methodName4\n{\n";
+  $arrayCategoryImpl .=        
+       "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
+       "    for (NSObject *object in self)\n" . 
+       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . " class]])\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "*)object toReplaceDictionary]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\@end\n\n";
 
   return "$arrayCategoryIntf$arrayCategoryImpl";
@@ -450,15 +504,15 @@ sub createGetterSetterForProperty {
   
   $setter .= "- (void)set". ucfirst($propertyName) . ":(" . $propertyType . ")new" . ucfirst($propertyName); 
   $setter .= "\n{\n";
-  $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
+  $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
 
   if ($isNotNSObject) {
     $setter .= "    _" . $propertyName .  " = new" . ucfirst($propertyName) . ";";  
   } else {
-    $setter .= "    if (!new" . ucfirst($propertyName) . ")\n";
-    $setter .= "        _" . $propertyName .  " = [NSNull null];\n";  
-    $setter .= "    else\n";
-    $setter .= "        _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";  
+#     $setter .= "    if (!new" . ucfirst($propertyName) . ")\n";
+#     $setter .= "        _" . $propertyName .  " = [NSNull null];\n";  
+#     $setter .= "    else\n";
+    $setter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";  
   }
   
   $setter .= "\n}\n\n";
@@ -480,12 +534,12 @@ sub createGetterSetterForSimpleArray {
   
   $setter .= "- (void)set". ucfirst($propertyName) . ":(NSArray *)new" . ucfirst($propertyName); 
   $setter .= "\n{\n";
-  $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
+  $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
 
-  $setter .= "    if (!new" . ucfirst($propertyName) . ")\n";
-  $setter .= "        _" . $propertyName .  " = [NSNull null];\n";  
-  $setter .= "    else\n";
-  $setter .= "        _" . $propertyName .  " = ";
+#   $setter .= "    if (!new" . ucfirst($propertyName) . ")\n";
+#   $setter .= "        _" . $propertyName .  " = [NSNull null];\n";  
+#   $setter .= "    else\n";
+  $setter .= "    _" . $propertyName .  " = ";
   $setter .= "[new" . ucfirst($propertyName) . " copyArrayOfStringPluralElementsWithType:\@\"" . $pluralType . "\"];";  
   
   $setter .= "\n}\n\n";
@@ -493,9 +547,16 @@ sub createGetterSetterForSimpleArray {
   return $getter . $setter;
 }
 
+sub getMinConstructorParts {
+  return @minConstructorParts;
+}
 
 sub getConstructorParts {
   return @constructorParts;
+}
+
+sub getMinClassConstructorParts {
+  return @minClassConstructorParts;
 }
 
 sub getClassConstructorParts {
@@ -522,8 +583,16 @@ sub getReplaceFromDictParts {
   return @replaceFrDictParts;
 }
 
+sub getToUpdateDictParts {
+  return @toUpdateDictionaryParts;
+}
+
 sub getUpdateRemotelyParts {
   return @updateRemotelyParts;
+}
+
+sub getToReplaceDictParts {
+  return @toReplaceDictionaryParts;
 }
 
 sub getReplaceRemotelyParts {

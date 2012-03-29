@@ -53,7 +53,6 @@
 - (void)setGamesId:(NSInteger)newGamesId
 {
     [self.dirtyPropertySet addObject:@"gamesId"];
-
     _gamesId = newGamesId;
 }
 
@@ -65,7 +64,6 @@
 - (void)setIsFavorite:(BOOL)newIsFavorite
 {
     [self.dirtyPropertySet addObject:@"isFavorite"];
-
     _isFavorite = newIsFavorite;
 }
 
@@ -77,11 +75,7 @@
 - (void)setName:(NSString *)newName
 {
     [self.dirtyPropertySet addObject:@"name"];
-
-    if (!newName)
-        _name = [NSNull null];
-    else
-        _name = [newName copy];
+    _name = [newName copy];
 }
 
 - (NSArray *)opponents
@@ -92,11 +86,7 @@
 - (void)setOpponents:(NSArray *)newOpponents
 {
     [self.dirtyPropertySet addObject:@"opponents"];
-
-    if (!newOpponents)
-        _opponents = [NSNull null];
-    else
-        _opponents = [newOpponents copyArrayOfStringPluralElementsWithType:@"name"];
+    _opponents = [newOpponents copyArrayOfStringPluralElementsWithType:@"name"];
 }
 
 - (NSInteger)rating
@@ -107,7 +97,6 @@
 - (void)setRating:(NSInteger)newRating
 {
     [self.dirtyPropertySet addObject:@"rating"];
-
     _rating = newRating;
 }
 
@@ -126,7 +115,7 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JRGames *gamesCopy =
                 [[JRGames allocWithZone:zone] init];
 
@@ -136,103 +125,134 @@
     gamesCopy.opponents = self.opponents;
     gamesCopy.rating = self.rating;
 
+    [gamesCopy.dirtyPropertySet removeAllObjects];
+    [gamesCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return gamesCopy;
 }
 
-+ (id)gamesObjectFromDictionary:(NSDictionary*)dictionary
-{
-    JRGames *games =
-        [JRGames games];
-
-    games.gamesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    games.isFavorite = [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue];
-    games.name = [dictionary objectForKey:@"name"];
-    games.opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"];
-    games.rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
-
-    return games;
-}
-
-- (NSDictionary*)dictionaryFromGamesObject
+- (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if (self.gamesId)
-        [dict setObject:[NSNumber numberWithInt:self.gamesId] forKey:@"id"];
-
-    if (self.isFavorite)
-        [dict setObject:[NSNumber numberWithBool:self.isFavorite] forKey:@"isFavorite"];
-
-    if (self.name && self.name != [NSNull null])
-        [dict setObject:self.name forKey:@"name"];
-    else
-        [dict setObject:[NSNull null] forKey:@"name"];
-
-    if (self.opponents && self.opponents != [NSNull null])
-        [dict setObject:[self.opponents arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"opponents"];
-    else
-        [dict setObject:[NSNull null] forKey:@"opponents"];
-
-    if (self.rating)
-        [dict setObject:[NSNumber numberWithInt:self.rating] forKey:@"rating"];
+    [dict setObject:[NSNumber numberWithInt:self.gamesId]
+             forKey:@"id"];
+    [dict setObject:[NSNumber numberWithBool:self.isFavorite]
+             forKey:@"isFavorite"];
+    [dict setObject:(self.name ? self.name : [NSNull null])
+             forKey:@"name"];
+    [dict setObject:(self.opponents ? [self.opponents arrayOfStringPluralDictionariesFromStringPluralElements] : [NSNull null])
+             forKey:@"opponents"];
+    [dict setObject:[NSNumber numberWithInt:self.rating]
+             forKey:@"rating"];
 
     return dict;
 }
 
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
++ (id)gamesObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRGames *games = [JRGames games];
+
+    games.gamesId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    games.isFavorite =
+        [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue] : 0;
+
+    games.name =
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] : nil;
+
+    games.opponents =
+        [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"] : nil;
+
+    games.rating =
+        [dictionary objectForKey:@"rating"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"rating"] intValue] : 0;
+
+    [games.dirtyPropertySet removeAllObjects];
+    
+    return games;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"])
-        _gamesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+        _gamesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"isFavorite"])
-        _isFavorite = [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue];
+        _isFavorite = [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue] : 0;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"];
+        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+            [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"opponents"])
-        _opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"];
+        _opponents = [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
+            [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"] : nil;
 
     if ([dictionary objectForKey:@"rating"])
-        _rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
+        _rating = [dictionary objectForKey:@"rating"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"rating"] intValue] : 0;
 }
 
-- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary
 {
-    _gamesId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    _isFavorite = [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue];
-    _name = [dictionary objectForKey:@"name"];
-    _opponents = [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"];
-    _rating = [(NSNumber*)[dictionary objectForKey:@"rating"] intValue];
+    _gamesId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    _isFavorite =
+        [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue] : 0;
+
+    _name =
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] : nil;
+
+    _opponents =
+        [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name"] : nil;
+
+    _rating =
+        [dictionary objectForKey:@"rating"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"rating"] intValue] : 0;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if ([self.dirtyPropertySet containsObject:@"gamesId"])
-        [dict setObject:[NSNumber numberWithInt:self.gamesId] forKey:@"id"];
-
     if ([self.dirtyPropertySet containsObject:@"isFavorite"])
-        [dict setObject:[NSNumber numberWithBool:self.isFavorite] forKey:@"isFavorite"];
+        [dict setObject:(self.isFavorite ? [NSNumber numberWithBool:self.isFavorite] : [NSNull null]) forKey:@"isFavorite"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
-        [dict setObject:self.name forKey:@"name"];
+        [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"opponents"])
-        [dict setObject:[self.opponents arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"opponents"];
+        [dict setObject:(self.opponents ? self.opponents : [NSNull null]) forKey:@"opponents"];
 
     if ([self.dirtyPropertySet containsObject:@"rating"])
-        [dict setObject:[NSNumber numberWithInt:self.rating] forKey:@"rating"];
+        [dict setObject:(self.rating ? [NSNumber numberWithInt:self.rating] : [NSNull null]) forKey:@"rating"];
 
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface updateCaptureObject:dict
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -240,23 +260,27 @@
                                 withContext:newContext];
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.gamesId] forKey:@"id"];
-    [dict setObject:[NSNumber numberWithBool:self.isFavorite] forKey:@"isFavorite"];
-    [dict setObject:self.name forKey:@"name"];
-    [dict setObject:[self.opponents arrayOfStringPluralDictionariesFromStringPluralElements] forKey:@"opponents"];
-    [dict setObject:[NSNumber numberWithInt:self.rating] forKey:@"rating"];
+    [dict setObject:(self.isFavorite ? [NSNumber numberWithBool:self.isFavorite] : [NSNull null]) forKey:@"isFavorite"];
+    [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+    [dict setObject:(self.opponents ? self.opponents : [NSNull null]) forKey:@"opponents"];
+    [dict setObject:(self.rating ? [NSNumber numberWithInt:self.rating] : [NSNull null]) forKey:@"rating"];
 
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureObject:dict
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

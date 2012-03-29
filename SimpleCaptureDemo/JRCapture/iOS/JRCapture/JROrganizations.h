@@ -47,6 +47,6 @@
 - (id)init;
 + (id)organizations;
 + (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromOrganizationsObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

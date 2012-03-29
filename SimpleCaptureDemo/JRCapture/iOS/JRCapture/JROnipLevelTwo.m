@@ -49,11 +49,7 @@
 - (void)setLevel:(NSString *)newLevel
 {
     [self.dirtyPropertySet addObject:@"level"];
-
-    if (!newLevel)
-        _level = [NSNull null];
-    else
-        _level = [newLevel copy];
+    _level = [newLevel copy];
 }
 
 - (NSString *)name
@@ -64,11 +60,7 @@
 - (void)setName:(NSString *)newName
 {
     [self.dirtyPropertySet addObject:@"name"];
-
-    if (!newName)
-        _name = [NSNull null];
-    else
-        _name = [newName copy];
+    _name = [newName copy];
 }
 
 - (JROnipLevelThree *)onipLevelThree
@@ -79,11 +71,7 @@
 - (void)setOnipLevelThree:(JROnipLevelThree *)newOnipLevelThree
 {
     [self.dirtyPropertySet addObject:@"onipLevelThree"];
-
-    if (!newOnipLevelThree)
-        _onipLevelThree = [NSNull null];
-    else
-        _onipLevelThree = [newOnipLevelThree copy];
+    _onipLevelThree = [newOnipLevelThree copy];
 }
 
 - (id)init
@@ -101,7 +89,7 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JROnipLevelTwo *onipLevelTwoCopy =
                 [[JROnipLevelTwo allocWithZone:zone] init];
 
@@ -109,83 +97,103 @@
     onipLevelTwoCopy.name = self.name;
     onipLevelTwoCopy.onipLevelThree = self.onipLevelThree;
 
+    [onipLevelTwoCopy.dirtyPropertySet removeAllObjects];
+    [onipLevelTwoCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return onipLevelTwoCopy;
 }
 
-+ (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary
-{
-    JROnipLevelTwo *onipLevelTwo =
-        [JROnipLevelTwo onipLevelTwo];
-
-    onipLevelTwo.level = [dictionary objectForKey:@"level"];
-    onipLevelTwo.name = [dictionary objectForKey:@"name"];
-    onipLevelTwo.onipLevelThree = [JROnipLevelThree onipLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelThree"]];
-
-    return onipLevelTwo;
-}
-
-- (NSDictionary*)dictionaryFromOnipLevelTwoObject
+- (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if (self.level && self.level != [NSNull null])
-        [dict setObject:self.level forKey:@"level"];
-    else
-        [dict setObject:[NSNull null] forKey:@"level"];
-
-    if (self.name && self.name != [NSNull null])
-        [dict setObject:self.name forKey:@"name"];
-    else
-        [dict setObject:[NSNull null] forKey:@"name"];
-
-    if (self.onipLevelThree && self.onipLevelThree != [NSNull null])
-        [dict setObject:[self.onipLevelThree dictionaryFromOnipLevelThreeObject] forKey:@"onipLevelThree"];
-    else
-        [dict setObject:[NSNull null] forKey:@"onipLevelThree"];
+    [dict setObject:(self.level ? self.level : [NSNull null])
+             forKey:@"level"];
+    [dict setObject:(self.name ? self.name : [NSNull null])
+             forKey:@"name"];
+    [dict setObject:(self.onipLevelThree ? [self.onipLevelThree toDictionary] : [NSNull null])
+             forKey:@"onipLevelThree"];
 
     return dict;
 }
 
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
++ (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JROnipLevelTwo *onipLevelTwo = [JROnipLevelTwo onipLevelTwo];
+
+    onipLevelTwo.level =
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        [dictionary objectForKey:@"level"] : nil;
+
+    onipLevelTwo.name =
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] : nil;
+
+    onipLevelTwo.onipLevelThree =
+        [dictionary objectForKey:@"onipLevelThree"] != [NSNull null] ? 
+        [JROnipLevelThree onipLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelThree"]] : nil;
+
+    [onipLevelTwo.dirtyPropertySet removeAllObjects];
+    
+    return onipLevelTwo;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"level"])
-        _level = [dictionary objectForKey:@"level"];
+        _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
+            [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"];
+        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+            [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"onipLevelThree"])
-        _onipLevelThree = [JROnipLevelThree onipLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelThree"]];
+        _onipLevelThree = [dictionary objectForKey:@"onipLevelThree"] != [NSNull null] ? 
+            [JROnipLevelThree onipLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelThree"]] : nil;
 }
 
-- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary
 {
-    _level = [dictionary objectForKey:@"level"];
-    _name = [dictionary objectForKey:@"name"];
-    _onipLevelThree = [JROnipLevelThree onipLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelThree"]];
+    _level =
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        [dictionary objectForKey:@"level"] : nil;
+
+    _name =
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] : nil;
+
+    _onipLevelThree =
+        [dictionary objectForKey:@"onipLevelThree"] != [NSNull null] ? 
+        [JROnipLevelThree onipLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelThree"]] : nil;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"level"])
-        [dict setObject:self.level forKey:@"level"];
+        [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
-        [dict setObject:self.name forKey:@"name"];
+        [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"onipLevelThree"])
-        [dict setObject:[self.onipLevelThree dictionaryFromOnipLevelThreeObject] forKey:@"onipLevelThree"];
+        [dict setObject:(self.onipLevelThree ? [self.onipLevelThree toUpdateDictionary] : [NSNull null]) forKey:@"onipLevelThree"];
 
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface updateCaptureObject:dict
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -193,21 +201,26 @@
                                 withContext:newContext];
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:self.level forKey:@"level"];
-    [dict setObject:self.name forKey:@"name"];
-    [dict setObject:[self.onipLevelThree dictionaryFromOnipLevelThreeObject] forKey:@"onipLevelThree"];
+    [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
+    [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+    [dict setObject:(self.onipLevelThree ? [self.onipLevelThree toReplaceDictionary] : [NSNull null]) forKey:@"onipLevelThree"];
 
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureObject:dict
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

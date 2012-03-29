@@ -23,8 +23,13 @@
 @interface JRCaptureObject : NSObject <NSCopying, JRCaptureInterfaceDelegate>
 @property (retain)   NSString     *captureObjectPath;
 @property (readonly) NSMutableSet *dirtyPropertySet;
-- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary;
-- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary;
+- (NSDictionary *)toDictionary;
+- (NSDictionary *)toUpdateDictionary;
+- (NSDictionary *)toReplaceDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (void)replaceFromDictionary:(NSDictionary*)dictionary;
+//- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary;
+//- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary;
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 @end

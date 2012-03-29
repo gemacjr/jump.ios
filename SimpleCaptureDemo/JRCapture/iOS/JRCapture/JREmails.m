@@ -51,7 +51,6 @@
 - (void)setEmailsId:(NSInteger)newEmailsId
 {
     [self.dirtyPropertySet addObject:@"emailsId"];
-
     _emailsId = newEmailsId;
 }
 
@@ -63,7 +62,6 @@
 - (void)setPrimary:(BOOL)newPrimary
 {
     [self.dirtyPropertySet addObject:@"primary"];
-
     _primary = newPrimary;
 }
 
@@ -75,11 +73,7 @@
 - (void)setType:(NSString *)newType
 {
     [self.dirtyPropertySet addObject:@"type"];
-
-    if (!newType)
-        _type = [NSNull null];
-    else
-        _type = [newType copy];
+    _type = [newType copy];
 }
 
 - (NSString *)value
@@ -90,11 +84,7 @@
 - (void)setValue:(NSString *)newValue
 {
     [self.dirtyPropertySet addObject:@"value"];
-
-    if (!newValue)
-        _value = [NSNull null];
-    else
-        _value = [newValue copy];
+    _value = [newValue copy];
 }
 
 - (id)init
@@ -112,7 +102,7 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JREmails *emailsCopy =
                 [[JREmails allocWithZone:zone] init];
 
@@ -121,92 +111,117 @@
     emailsCopy.type = self.type;
     emailsCopy.value = self.value;
 
+    [emailsCopy.dirtyPropertySet removeAllObjects];
+    [emailsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return emailsCopy;
 }
 
-+ (id)emailsObjectFromDictionary:(NSDictionary*)dictionary
-{
-    JREmails *emails =
-        [JREmails emails];
-
-    emails.emailsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    emails.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
-    emails.type = [dictionary objectForKey:@"type"];
-    emails.value = [dictionary objectForKey:@"value"];
-
-    return emails;
-}
-
-- (NSDictionary*)dictionaryFromEmailsObject
+- (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if (self.emailsId)
-        [dict setObject:[NSNumber numberWithInt:self.emailsId] forKey:@"id"];
-
-    if (self.primary)
-        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
-
-    if (self.type && self.type != [NSNull null])
-        [dict setObject:self.type forKey:@"type"];
-    else
-        [dict setObject:[NSNull null] forKey:@"type"];
-
-    if (self.value && self.value != [NSNull null])
-        [dict setObject:self.value forKey:@"value"];
-    else
-        [dict setObject:[NSNull null] forKey:@"value"];
+    [dict setObject:[NSNumber numberWithInt:self.emailsId]
+             forKey:@"id"];
+    [dict setObject:[NSNumber numberWithBool:self.primary]
+             forKey:@"primary"];
+    [dict setObject:(self.type ? self.type : [NSNull null])
+             forKey:@"type"];
+    [dict setObject:(self.value ? self.value : [NSNull null])
+             forKey:@"value"];
 
     return dict;
 }
 
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
++ (id)emailsObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JREmails *emails = [JREmails emails];
+
+    emails.emailsId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    emails.primary =
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+
+    emails.type =
+        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] : nil;
+
+    emails.value =
+        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] : nil;
+
+    [emails.dirtyPropertySet removeAllObjects];
+    
+    return emails;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"id"])
-        _emailsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+        _emailsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"primary"])
-        _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+        _primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
 
     if ([dictionary objectForKey:@"type"])
-        _type = [dictionary objectForKey:@"type"];
+        _type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
+            [dictionary objectForKey:@"type"] : nil;
 
     if ([dictionary objectForKey:@"value"])
-        _value = [dictionary objectForKey:@"value"];
+        _value = [dictionary objectForKey:@"value"] != [NSNull null] ? 
+            [dictionary objectForKey:@"value"] : nil;
 }
 
-- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary
 {
-    _emailsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    _primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
-    _type = [dictionary objectForKey:@"type"];
-    _value = [dictionary objectForKey:@"value"];
+    _emailsId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    _primary =
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+
+    _type =
+        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] : nil;
+
+    _value =
+        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] : nil;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if ([self.dirtyPropertySet containsObject:@"emailsId"])
-        [dict setObject:[NSNumber numberWithInt:self.emailsId] forKey:@"id"];
-
     if ([self.dirtyPropertySet containsObject:@"primary"])
-        [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
+        [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
 
     if ([self.dirtyPropertySet containsObject:@"type"])
-        [dict setObject:self.type forKey:@"type"];
+        [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
     if ([self.dirtyPropertySet containsObject:@"value"])
-        [dict setObject:self.value forKey:@"value"];
+        [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
 
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface updateCaptureObject:dict
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -214,22 +229,26 @@
                                 withContext:newContext];
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.emailsId] forKey:@"id"];
-    [dict setObject:[NSNumber numberWithBool:self.primary] forKey:@"primary"];
-    [dict setObject:self.type forKey:@"type"];
-    [dict setObject:self.value forKey:@"value"];
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+    [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
+    [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
 
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureObject:dict
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

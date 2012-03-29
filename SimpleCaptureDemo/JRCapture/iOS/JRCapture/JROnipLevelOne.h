@@ -41,6 +41,6 @@
 - (id)init;
 + (id)onipLevelOne;
 + (id)onipLevelOneObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromOnipLevelOneObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

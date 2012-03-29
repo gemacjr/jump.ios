@@ -32,27 +32,49 @@
 #import "JRPinoLevelTwo.h"
 
 @interface NSArray (PinoLevelThreeToFromDictionary)
-- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects;
 - (NSArray*)arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries;
+- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects;
+- (NSArray*)arrayOfPinoLevelThreeUpdateDictionariesFromPinoLevelThreeObjects;
+- (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeObjects;
 @end
 
 @implementation NSArray (PinoLevelThreeToFromDictionary)
+- (NSArray*)arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries
+{
+    NSMutableArray *filteredPinoLevelThreeArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredPinoLevelThreeArray addObject:[JRPinoLevelThree pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary]];
+
+    return filteredPinoLevelThreeArray;
+}
+
 - (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinoLevelThree class]])
-            [filteredDictionaryArray addObject:[(JRPinoLevelThree*)object dictionaryFromPinoLevelThreeObject]];
+            [filteredDictionaryArray addObject:[(JRPinoLevelThree*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries
+- (NSArray*)arrayOfPinoLevelThreeUpdateDictionariesFromPinoLevelThreeObjects
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *dictionary in self)
-        if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredDictionaryArray addObject:[JRPinoLevelThree pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRPinoLevelThree class]])
+            [filteredDictionaryArray addObject:[(JRPinoLevelThree*)object toUpdateDictionary]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeObjects
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRPinoLevelThree class]])
+            [filteredDictionaryArray addObject:[(JRPinoLevelThree*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -76,11 +98,7 @@
 - (void)setLevel:(NSString *)newLevel
 {
     [self.dirtyPropertySet addObject:@"level"];
-
-    if (!newLevel)
-        _level = [NSNull null];
-    else
-        _level = [newLevel copy];
+    _level = [newLevel copy];
 }
 
 - (NSString *)name
@@ -91,11 +109,7 @@
 - (void)setName:(NSString *)newName
 {
     [self.dirtyPropertySet addObject:@"name"];
-
-    if (!newName)
-        _name = [NSNull null];
-    else
-        _name = [newName copy];
+    _name = [newName copy];
 }
 
 - (NSArray *)pinoLevelThree
@@ -106,11 +120,7 @@
 - (void)setPinoLevelThree:(NSArray *)newPinoLevelThree
 {
     [self.dirtyPropertySet addObject:@"pinoLevelThree"];
-
-    if (!newPinoLevelThree)
-        _pinoLevelThree = [NSNull null];
-    else
-        _pinoLevelThree = [newPinoLevelThree copy];
+    _pinoLevelThree = [newPinoLevelThree copy];
 }
 
 - (id)init
@@ -128,7 +138,7 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JRPinoLevelTwo *pinoLevelTwoCopy =
                 [[JRPinoLevelTwo allocWithZone:zone] init];
 
@@ -136,83 +146,103 @@
     pinoLevelTwoCopy.name = self.name;
     pinoLevelTwoCopy.pinoLevelThree = self.pinoLevelThree;
 
+    [pinoLevelTwoCopy.dirtyPropertySet removeAllObjects];
+    [pinoLevelTwoCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return pinoLevelTwoCopy;
 }
 
-+ (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary
-{
-    JRPinoLevelTwo *pinoLevelTwo =
-        [JRPinoLevelTwo pinoLevelTwo];
-
-    pinoLevelTwo.level = [dictionary objectForKey:@"level"];
-    pinoLevelTwo.name = [dictionary objectForKey:@"name"];
-    pinoLevelTwo.pinoLevelThree = [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries];
-
-    return pinoLevelTwo;
-}
-
-- (NSDictionary*)dictionaryFromPinoLevelTwoObject
+- (NSDictionary*)toDictionary
 {
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if (self.level && self.level != [NSNull null])
-        [dict setObject:self.level forKey:@"level"];
-    else
-        [dict setObject:[NSNull null] forKey:@"level"];
-
-    if (self.name && self.name != [NSNull null])
-        [dict setObject:self.name forKey:@"name"];
-    else
-        [dict setObject:[NSNull null] forKey:@"name"];
-
-    if (self.pinoLevelThree && self.pinoLevelThree != [NSNull null])
-        [dict setObject:[self.pinoLevelThree arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects] forKey:@"pinoLevelThree"];
-    else
-        [dict setObject:[NSNull null] forKey:@"pinoLevelThree"];
+    [dict setObject:(self.level ? self.level : [NSNull null])
+             forKey:@"level"];
+    [dict setObject:(self.name ? self.name : [NSNull null])
+             forKey:@"name"];
+    [dict setObject:(self.pinoLevelThree ? [self.pinoLevelThree arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects] : [NSNull null])
+             forKey:@"pinoLevelThree"];
 
     return dict;
 }
 
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary
++ (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary
+{
+    JRPinoLevelTwo *pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwo];
+
+    pinoLevelTwo.level =
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        [dictionary objectForKey:@"level"] : nil;
+
+    pinoLevelTwo.name =
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] : nil;
+
+    pinoLevelTwo.pinoLevelThree =
+        [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries] : nil;
+
+    [pinoLevelTwo.dirtyPropertySet removeAllObjects];
+    
+    return pinoLevelTwo;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary
 {
     if ([dictionary objectForKey:@"level"])
-        _level = [dictionary objectForKey:@"level"];
+        _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
+            [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"];
+        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+            [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"pinoLevelThree"])
-        _pinoLevelThree = [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries];
+        _pinoLevelThree = [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
+            [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries] : nil;
 }
 
-- (void)replaceLocallyFromNewDictionary:(NSDictionary*)dictionary
+- (void)replaceFromDictionary:(NSDictionary*)dictionary
 {
-    _level = [dictionary objectForKey:@"level"];
-    _name = [dictionary objectForKey:@"name"];
-    _pinoLevelThree = [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries];
+    _level =
+        [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        [dictionary objectForKey:@"level"] : nil;
+
+    _name =
+        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] : nil;
+
+    _pinoLevelThree =
+        [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionaries] : nil;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toUpdateDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"level"])
-        [dict setObject:self.level forKey:@"level"];
+        [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
-        [dict setObject:self.name forKey:@"name"];
+        [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"pinoLevelThree"])
-        [dict setObject:[self.pinoLevelThree arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects] forKey:@"pinoLevelThree"];
+        [dict setObject:(self.pinoLevelThree ? [self.pinoLevelThree arrayOfPinoLevelThreeUpdateDictionariesFromPinoLevelThreeObjects] : [NSNull null]) forKey:@"pinoLevelThree"];
 
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface updateCaptureObject:dict
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:0
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -220,21 +250,26 @@
                                 withContext:newContext];
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:self.level forKey:@"level"];
-    [dict setObject:self.name forKey:@"name"];
-    [dict setObject:[self.pinoLevelThree arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects] forKey:@"pinoLevelThree"];
+    [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
+    [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
+    [dict setObject:(self.pinoLevelThree ? [self.pinoLevelThree arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeObjects] : [NSNull null]) forKey:@"pinoLevelThree"];
 
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureObject:dict
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:0
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

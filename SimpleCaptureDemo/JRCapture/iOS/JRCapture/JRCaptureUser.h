@@ -68,9 +68,11 @@
 @property (nonatomic, copy) JRPrimaryAddress *primaryAddress;  
 @property (nonatomic, copy) NSArray *profiles; /* This is an array of JRProfiles */ 
 @property (nonatomic, copy) NSArray *statuses; /* This is an array of JRStatuses */ 
+- (id)init;
++ (id)captureUser;
 - (id)initWithEmail:(NSString *)newEmail;
 + (id)captureUserWithEmail:(NSString *)email;
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromCaptureUserObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

@@ -41,6 +41,6 @@
 - (id)init;
 + (id)bodyType;
 + (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromBodyTypeObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

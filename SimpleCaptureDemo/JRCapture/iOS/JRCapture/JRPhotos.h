@@ -39,6 +39,6 @@
 - (id)init;
 + (id)photos;
 + (id)photosObjectFromDictionary:(NSDictionary*)dictionary;
-- (NSDictionary*)dictionaryFromPhotosObject;
-- (void)updateLocallyFromNewDictionary:(NSDictionary*)dictionary;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary;
 @end

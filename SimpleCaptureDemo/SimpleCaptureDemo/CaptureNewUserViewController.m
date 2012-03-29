@@ -217,7 +217,7 @@
 
 //    captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
 
-    DLog(@"captureUser: %@", [[captureUser dictionaryFromCaptureUserObject] description]);
+    DLog(@"captureUser: %@", [[captureUser toDictionary] description]);
 
     if ([captureUser creationToken])
         [captureUser createForDelegate:self];
