@@ -73,8 +73,10 @@ static NSString *entityTypeName     = @"user_dev";
         self.currentDisplayName = [prefs objectForKey:@"currentDisplayName"];
         self.currentProvider = [prefs objectForKey:@"currentProvider"];
 
-        captureUser.accessToken = accessToken;
-        captureUser.creationToken = creationToken;
+        [JRCapture setAccessToken:accessToken];
+        [JRCapture setCreationToken:creationToken];
+//        captureUser.accessToken = accessToken;
+//        captureUser.creationToken = creationToken;
     }
 
     return self;
@@ -260,7 +262,7 @@ static NSString *entityTypeName     = @"user_dev";
     self.isNew         = [(NSNumber*)[payloadDict objectForKey:@"is_new"] boolValue];
     self.notYetCreated = creationToken ? YES: NO;
 
-    NSDictionary *captureProfile = [self nullWalker:[payloadDict objectForKey:@"capture_user"]];
+    NSDictionary *captureProfile = [payloadDict objectForKey:@"capture_user"];
     self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
 
 //    [captureUser setAccessToken:accessToken];
@@ -272,7 +274,7 @@ static NSString *entityTypeName     = @"user_dev";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:[captureUser toDictionary] forKey:@"captureUser"];
+    [prefs setObject:[self nullWalker:[captureUser toDictionary]] forKey:@"captureUser"];
     [prefs setObject:accessToken forKey:@"accessToken"];
     [prefs setObject:creationToken forKey:@"creationToken"];
 

@@ -359,7 +359,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStringPluralElement class]])
-            [filteredDictionaryArray addObject:[(JRStringPluralElement*)object dictionaryFromStringElement]];
+            [filteredDictionaryArray addObject:[(JRStringPluralElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }

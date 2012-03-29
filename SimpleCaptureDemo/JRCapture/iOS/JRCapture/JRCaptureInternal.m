@@ -311,7 +311,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:0
+                                     withId:self.elementId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -337,7 +337,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:0
+                                      withId:self.elementId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
@@ -359,7 +359,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStringPluralElement class]])
-            [filteredDictionaryArray addObject:[(JRStringPluralElement*)object dictionaryFromStringElement]];
+            [filteredDictionaryArray addObject:[(JRStringPluralElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }

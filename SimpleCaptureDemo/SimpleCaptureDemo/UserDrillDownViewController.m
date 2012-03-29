@@ -27,6 +27,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 #import "UserDrillDownViewController.h"
 #import "objc/runtime.h"
 #import "SharedData.h"
@@ -186,15 +187,15 @@ Class classNameFromKey(NSString *key)
                                                withString:[[key substringToIndex:1] capitalizedString]]]);
 }
 
-SEL toDictionarySelector(NSString *objectName)
-{
-    if (!objectName || [objectName length] < 1)
-        return nil;
-
-    return NSSelectorFromString([NSString stringWithFormat:@"dictionaryFrom%@Object",
-                  [objectName stringByReplacingCharactersInRange:NSMakeRange(0,1)
-                                                      withString:[[objectName substringToIndex:1] capitalizedString]]]);
-}
+//SEL toDictionarySelector(NSString *objectName)
+//{
+//    if (!objectName || [objectName length] < 1)
+//        return nil;
+//
+//    return NSSelectorFromString([NSString stringWithFormat:@"dictionaryFrom%@Object",
+//                  [objectName stringByReplacingCharactersInRange:NSMakeRange(0,1)
+//                                                      withString:[[objectName substringToIndex:1] capitalizedString]]]);
+//}
 
 typedef enum
 {
@@ -243,7 +244,7 @@ typedef enum
         else if ([NSStringFromClass([object superclass]) isEqualToString:@"JRCaptureObject"])
         {
             self.dataType = DataTypeObject;
-            self.tableViewData = [object performSelector:toDictionarySelector(key)];
+            self.tableViewData = [object toDictionary];
             self.dataCount = [[(NSDictionary *)tableViewData allKeys] count];
         }
         else
@@ -412,7 +413,7 @@ typedef enum
             [newPropertySubObject performSelector:selectorFromKey(propertyString) withObject:@"xxx"];
     }
 
-    DLog(@"%@", [[newPropertySubObject performSelector:toDictionarySelector(tableViewHeader)] description]);
+    DLog(@"%@", [[newPropertySubObject toDictionary] description]);
 
     JRCaptureObject *newParentObject;
     if ([propertyWithAddButton isKindOfClass:[NSArray class]])
@@ -653,8 +654,8 @@ typedef enum
      /* get the current item in our array */
         value = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
 
-        if ([value respondsToSelector:toDictionarySelector(tableViewHeader)])
-            value = [value performSelector:toDictionarySelector(tableViewHeader)];
+        if ([value respondsToSelector:@selector(toDictionary)])
+            value = [(JRCaptureObject *)value toDictionary];
     }
  /* If our data is a dictionary, */
     else if ([tableViewData isKindOfClass:[NSDictionary class]])
@@ -663,8 +664,8 @@ typedef enum
         key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:(NSUInteger)indexPath.row];
         value = [((NSDictionary *)tableViewData) objectForKey:key];
 
-        if ([value respondsToSelector:toDictionarySelector(tableViewHeader)])
-            value = [value performSelector:toDictionarySelector(tableViewHeader)];
+        if ([value respondsToSelector:@selector(toDictionary)])
+            value = [(JRCaptureObject *)value toDictionary];
 
      /* and set the cell title as the key */
         cellTitle = key;
@@ -776,8 +777,8 @@ typedef enum
         captureSubObj = [captureObject performSelector:NSSelectorFromString(key)];
     }
 
-    if ([value respondsToSelector:toDictionarySelector(key ? key : tableViewHeader)])
-        value = [value performSelector:toDictionarySelector(key ? key : tableViewHeader)];
+    if ([value respondsToSelector:@selector(toDictionary)])
+        value = [(JRCaptureObject *)value toDictionary];
 
  /* If our value isn't an array or dictionary, don't drill down. */
     if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])

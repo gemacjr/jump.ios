@@ -162,6 +162,8 @@ typedef enum CaptureInterfaceStatEnum
                                         delegate, @"delegate",
                                         context, @"context", nil];
 
+    DLog(@"%@ type_name=%@ access_token=%@", [[request URL] absoluteString], [JRCaptureData entityTypeName], token);
+
     // TODO: Better error format
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:newTag])
         [self finishGetCaptureUserWithStat:StatFail andResult:@"url failed" forDelegate:delegate withContext:context];
@@ -210,6 +212,8 @@ typedef enum CaptureInterfaceStatEnum
                                         @"createUser", @"action",
                                         delegate, @"delegate",
                                         context, @"context", nil];
+
+    DLog(@"%@ type_name=%@ attributes=%@ creation_token=%@", [[request URL] absoluteString], [JRCaptureData entityTypeName], attributes, token);
 
     // TODO: Better error format
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
@@ -270,6 +274,11 @@ typedef enum CaptureInterfaceStatEnum
                                         delegate, @"delegate",
                                         context, @"context", nil];
 
+    if (objectId)
+        DLog(@"%@ attributes=%@ access_token=%@ entity_path=%@ id=%d", [[request URL] absoluteString], attributes, token, entityPath, objectId);
+    else
+        DLog(@"%@ attributes=%@ access_token=%@ attribute_name=%@", [[request URL] absoluteString], attributes, token, entityPath);
+
     // TODO: Better error format
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])
         [self finishUpdateObjectWithStat:StatFail andResult:@"url failed" forDelegate:delegate withContext:context];
@@ -328,6 +337,11 @@ typedef enum CaptureInterfaceStatEnum
                                         @"replaceObject", @"action",
                                         delegate, @"delegate",
                                         context, @"context", nil];
+
+    if (objectId)
+        DLog(@"%@ attributes=%@ access_token=%@ entity_path=%@ id=%d", [[request URL] absoluteString], attributes, token, entityPath, objectId);
+    else
+        DLog(@"%@ attributes=%@ access_token=%@ attribute_name=%@", [[request URL] absoluteString], attributes, token, entityPath);
 
     // TODO: Better error format
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag])

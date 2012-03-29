@@ -305,7 +305,7 @@ sub recursiveParse {
     my $isNotNSObject   = 0;              # If it's a boolean or integer, we don't retain/release, etc.
     my $isSimpleArray   = 0;              # If it's a simple array (plural) of strings, we do things differently
     my $simpleArrayType = "";             # And if it is, get its type
-    my $isIdName        = 0;              # If the name of the property is 'id', we also do things differently
+    my $isId            = 0;              # If the name of the property is 'id', we also do things differently
     my $dictionaryKey   = $propertyName;  # Set the dictionary key as the property name, and change the property name if it is an objc keyword
     my $propertyNotes   = "";             # Comment that provides more infomation if necessary for a property 
                                           # (e.g., in the case of an array of objects versus and array of strings)
@@ -486,11 +486,7 @@ sub recursiveParse {
     # name to compile in ObjC
     ##########################################################################
 
-      if ($propertyName eq "id") {
-          $propertyName = $objectName . ucfirst($propertyName);
-          $isIdName = 1;
-      }      
-      
+      $isId          = 1;
       $isNotNSObject = 1;
       $objectiveType = "NSInteger";
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInt:self.$propertyName]";
@@ -676,7 +672,12 @@ sub recursiveParse {
 #         $dictFromObjSection[4] .= "        [dict setObject:[NSNull null] forKey:\@\"" . $dictionaryKey . "\"];\n";             
       }   
 
-      if (!$isIdName) {
+      if ($isId) {
+        $updateRemotelySection[3]  = "_" . $propertyName;
+        $replaceRemotelySection[3] = "_" . $propertyName;
+      }
+
+#      if (!$isIdName) {
 #         # e.g., if ([dictionary objectForKey:@"foo"])
 #         #           self.foo = [dictionary objectForKey:@"foo"];
 #         $updateFromDictSection[2]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
@@ -692,7 +693,7 @@ sub recursiveParse {
 
 #         # e.g., [dict setObject:self.car forKey:@"foo"];        
 #         $replaceRemotelySection[3] .= "    [dict setObject:" . $toDictionary . " forKey:\@\"" . $dictionaryKey . "\"];\n";
-       } else {
+#       } else {
 #         # e.g., self.foo = [dictionary objectForKey:@"foo"];
 #         $replaceFromDictSection[2] .= "    _" . $propertyName . " = " . $frDictionary . ";\n";      
         
@@ -701,9 +702,9 @@ sub recursiveParse {
         # instead of the default
         #       [JRCaptureInterfaceTwo updateCaptureObject:dict
         #                                           withId:0
-        $updateRemotelySection[5] = "_" . $propertyName;
-        $replaceRemotelySection[5] = "_" . $propertyName;
-      }
+#        $updateRemotelySection[5] = "_" . $propertyName;
+#        $replaceRemotelySection[5] = "_" . $propertyName;
+#      }
       
       if ($isSimpleArray) {
         $getterSettersSection .= createGetterSetterForSimpleArray ($propertyName, $simpleArrayType);
