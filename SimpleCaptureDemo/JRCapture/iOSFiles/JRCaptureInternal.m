@@ -294,11 +294,11 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    if ([self.dirtyPropertySet containsObject:@"elementId"])
-        [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
+//    if ([self.dirtyPropertySet containsObject:@"elementId"])
+//        [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
 
     if ([self.dirtyPropertySet containsObject:@"value"])
-        [dict setObject:self.value forKey:self.type];
+        [dict setObject:(self.value ? self.value : [NSNull null]) forKey:self.type];
 
     return dict;
 }
@@ -311,7 +311,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:0
+                                     withId:self.elementId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -323,9 +323,9 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
-    [dict setObject:self.value forKey:self.type];
-
+//    [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
+    [dict setObject:(self.value ? self.value : [NSNull null]) forKey:self.type];
+    
     return dict;
 }
 
@@ -337,7 +337,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:0
+                                      withId:self.elementId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
@@ -360,6 +360,26 @@
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStringPluralElement class]])
             [filteredDictionaryArray addObject:[(JRStringPluralElement*)object toDictionary]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray *)arrayOfStringPluralUpdateDictionariesFromStringPluralElements
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRStringPluralElement class]])
+            [filteredDictionaryArray addObject:[(JRStringPluralElement*)object toUpdateDictionary]];
+
+    return filteredDictionaryArray;
+}
+
+- (NSArray *)arrayOfStringPluralReplaceDictionariesFromStringPluralElements
+{
+    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[JRStringPluralElement class]])
+            [filteredDictionaryArray addObject:[(JRStringPluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }

@@ -2181,13 +2181,13 @@
         [dict setObject:(self.bodyType ? [self.bodyType toUpdateDictionary] : [NSNull null]) forKey:@"bodyType"];
 
     if ([self.dirtyPropertySet containsObject:@"books"])
-        [dict setObject:(self.books ? self.books : [NSNull null]) forKey:@"books"];
+        [dict setObject:(self.books ? [self.books arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"books"];
 
     if ([self.dirtyPropertySet containsObject:@"cars"])
-        [dict setObject:(self.cars ? self.cars : [NSNull null]) forKey:@"cars"];
+        [dict setObject:(self.cars ? [self.cars arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"cars"];
 
     if ([self.dirtyPropertySet containsObject:@"children"])
-        [dict setObject:(self.children ? self.children : [NSNull null]) forKey:@"children"];
+        [dict setObject:(self.children ? [self.children arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"children"];
 
     if ([self.dirtyPropertySet containsObject:@"currentLocation"])
         [dict setObject:(self.currentLocation ? [self.currentLocation toUpdateDictionary] : [NSNull null]) forKey:@"currentLocation"];
@@ -2208,7 +2208,7 @@
         [dict setObject:(self.fashion ? self.fashion : [NSNull null]) forKey:@"fashion"];
 
     if ([self.dirtyPropertySet containsObject:@"food"])
-        [dict setObject:(self.food ? self.food : [NSNull null]) forKey:@"food"];
+        [dict setObject:(self.food ? [self.food arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"food"];
 
     if ([self.dirtyPropertySet containsObject:@"gender"])
         [dict setObject:(self.gender ? self.gender : [NSNull null]) forKey:@"gender"];
@@ -2217,7 +2217,7 @@
         [dict setObject:(self.happiestWhen ? self.happiestWhen : [NSNull null]) forKey:@"happiestWhen"];
 
     if ([self.dirtyPropertySet containsObject:@"heroes"])
-        [dict setObject:(self.heroes ? self.heroes : [NSNull null]) forKey:@"heroes"];
+        [dict setObject:(self.heroes ? [self.heroes arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"heroes"];
 
     if ([self.dirtyPropertySet containsObject:@"humor"])
         [dict setObject:(self.humor ? self.humor : [NSNull null]) forKey:@"humor"];
@@ -2229,28 +2229,28 @@
         [dict setObject:(self.interestedInMeeting ? self.interestedInMeeting : [NSNull null]) forKey:@"interestedInMeeting"];
 
     if ([self.dirtyPropertySet containsObject:@"interests"])
-        [dict setObject:(self.interests ? self.interests : [NSNull null]) forKey:@"interests"];
+        [dict setObject:(self.interests ? [self.interests arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"interests"];
 
     if ([self.dirtyPropertySet containsObject:@"jobInterests"])
-        [dict setObject:(self.jobInterests ? self.jobInterests : [NSNull null]) forKey:@"jobInterests"];
+        [dict setObject:(self.jobInterests ? [self.jobInterests arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"jobInterests"];
 
     if ([self.dirtyPropertySet containsObject:@"languages"])
-        [dict setObject:(self.languages ? self.languages : [NSNull null]) forKey:@"languages"];
+        [dict setObject:(self.languages ? [self.languages arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"languages"];
 
     if ([self.dirtyPropertySet containsObject:@"languagesSpoken"])
-        [dict setObject:(self.languagesSpoken ? self.languagesSpoken : [NSNull null]) forKey:@"languagesSpoken"];
+        [dict setObject:(self.languagesSpoken ? [self.languagesSpoken arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"languagesSpoken"];
 
     if ([self.dirtyPropertySet containsObject:@"livingArrangement"])
         [dict setObject:(self.livingArrangement ? self.livingArrangement : [NSNull null]) forKey:@"livingArrangement"];
 
     if ([self.dirtyPropertySet containsObject:@"lookingFor"])
-        [dict setObject:(self.lookingFor ? self.lookingFor : [NSNull null]) forKey:@"lookingFor"];
+        [dict setObject:(self.lookingFor ? [self.lookingFor arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"lookingFor"];
 
     if ([self.dirtyPropertySet containsObject:@"movies"])
-        [dict setObject:(self.movies ? self.movies : [NSNull null]) forKey:@"movies"];
+        [dict setObject:(self.movies ? [self.movies arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"movies"];
 
     if ([self.dirtyPropertySet containsObject:@"music"])
-        [dict setObject:(self.music ? self.music : [NSNull null]) forKey:@"music"];
+        [dict setObject:(self.music ? [self.music arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"music"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
         [dict setObject:(self.name ? [self.name toUpdateDictionary] : [NSNull null]) forKey:@"name"];
@@ -2265,7 +2265,7 @@
         [dict setObject:(self.organizations ? [self.organizations arrayOfOrganizationsUpdateDictionariesFromOrganizationsObjects] : [NSNull null]) forKey:@"organizations"];
 
     if ([self.dirtyPropertySet containsObject:@"pets"])
-        [dict setObject:(self.pets ? self.pets : [NSNull null]) forKey:@"pets"];
+        [dict setObject:(self.pets ? [self.pets arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"pets"];
 
     if ([self.dirtyPropertySet containsObject:@"phoneNumbers"])
         [dict setObject:(self.phoneNumbers ? [self.phoneNumbers arrayOfPhoneNumbersUpdateDictionariesFromPhoneNumbersObjects] : [NSNull null]) forKey:@"phoneNumbers"];
@@ -2292,13 +2292,13 @@
         [dict setObject:(self.published ? [self.published stringFromISO8601DateTime] : [NSNull null]) forKey:@"published"];
 
     if ([self.dirtyPropertySet containsObject:@"quotes"])
-        [dict setObject:(self.quotes ? self.quotes : [NSNull null]) forKey:@"quotes"];
+        [dict setObject:(self.quotes ? [self.quotes arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"quotes"];
 
     if ([self.dirtyPropertySet containsObject:@"relationshipStatus"])
         [dict setObject:(self.relationshipStatus ? self.relationshipStatus : [NSNull null]) forKey:@"relationshipStatus"];
 
     if ([self.dirtyPropertySet containsObject:@"relationships"])
-        [dict setObject:(self.relationships ? self.relationships : [NSNull null]) forKey:@"relationships"];
+        [dict setObject:(self.relationships ? [self.relationships arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"relationships"];
 
     if ([self.dirtyPropertySet containsObject:@"religion"])
         [dict setObject:(self.religion ? self.religion : [NSNull null]) forKey:@"religion"];
@@ -2316,22 +2316,22 @@
         [dict setObject:(self.smoker ? self.smoker : [NSNull null]) forKey:@"smoker"];
 
     if ([self.dirtyPropertySet containsObject:@"sports"])
-        [dict setObject:(self.sports ? self.sports : [NSNull null]) forKey:@"sports"];
+        [dict setObject:(self.sports ? [self.sports arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"sports"];
 
     if ([self.dirtyPropertySet containsObject:@"status"])
         [dict setObject:(self.status ? self.status : [NSNull null]) forKey:@"status"];
 
     if ([self.dirtyPropertySet containsObject:@"tags"])
-        [dict setObject:(self.tags ? self.tags : [NSNull null]) forKey:@"tags"];
+        [dict setObject:(self.tags ? [self.tags arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"tags"];
 
     if ([self.dirtyPropertySet containsObject:@"turnOffs"])
-        [dict setObject:(self.turnOffs ? self.turnOffs : [NSNull null]) forKey:@"turnOffs"];
+        [dict setObject:(self.turnOffs ? [self.turnOffs arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"turnOffs"];
 
     if ([self.dirtyPropertySet containsObject:@"turnOns"])
-        [dict setObject:(self.turnOns ? self.turnOns : [NSNull null]) forKey:@"turnOns"];
+        [dict setObject:(self.turnOns ? [self.turnOns arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"turnOns"];
 
     if ([self.dirtyPropertySet containsObject:@"tvShows"])
-        [dict setObject:(self.tvShows ? self.tvShows : [NSNull null]) forKey:@"tvShows"];
+        [dict setObject:(self.tvShows ? [self.tvShows arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"tvShows"];
 
     if ([self.dirtyPropertySet containsObject:@"updated"])
         [dict setObject:(self.updated ? [self.updated stringFromISO8601DateTime] : [NSNull null]) forKey:@"updated"];
@@ -2371,35 +2371,35 @@
     [dict setObject:(self.anniversary ? [self.anniversary stringFromISO8601Date] : [NSNull null]) forKey:@"anniversary"];
     [dict setObject:(self.birthday ? self.birthday : [NSNull null]) forKey:@"birthday"];
     [dict setObject:(self.bodyType ? [self.bodyType toReplaceDictionary] : [NSNull null]) forKey:@"bodyType"];
-    [dict setObject:(self.books ? self.books : [NSNull null]) forKey:@"books"];
-    [dict setObject:(self.cars ? self.cars : [NSNull null]) forKey:@"cars"];
-    [dict setObject:(self.children ? self.children : [NSNull null]) forKey:@"children"];
+    [dict setObject:(self.books ? [self.books arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"books"];
+    [dict setObject:(self.cars ? [self.cars arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"cars"];
+    [dict setObject:(self.children ? [self.children arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"children"];
     [dict setObject:(self.currentLocation ? [self.currentLocation toReplaceDictionary] : [NSNull null]) forKey:@"currentLocation"];
     [dict setObject:(self.displayName ? self.displayName : [NSNull null]) forKey:@"displayName"];
     [dict setObject:(self.drinker ? self.drinker : [NSNull null]) forKey:@"drinker"];
     [dict setObject:(self.emails ? [self.emails arrayOfEmailsReplaceDictionariesFromEmailsObjects] : [NSNull null]) forKey:@"emails"];
     [dict setObject:(self.ethnicity ? self.ethnicity : [NSNull null]) forKey:@"ethnicity"];
     [dict setObject:(self.fashion ? self.fashion : [NSNull null]) forKey:@"fashion"];
-    [dict setObject:(self.food ? self.food : [NSNull null]) forKey:@"food"];
+    [dict setObject:(self.food ? [self.food arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"food"];
     [dict setObject:(self.gender ? self.gender : [NSNull null]) forKey:@"gender"];
     [dict setObject:(self.happiestWhen ? self.happiestWhen : [NSNull null]) forKey:@"happiestWhen"];
-    [dict setObject:(self.heroes ? self.heroes : [NSNull null]) forKey:@"heroes"];
+    [dict setObject:(self.heroes ? [self.heroes arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"heroes"];
     [dict setObject:(self.humor ? self.humor : [NSNull null]) forKey:@"humor"];
     [dict setObject:(self.ims ? [self.ims arrayOfImsReplaceDictionariesFromImsObjects] : [NSNull null]) forKey:@"ims"];
     [dict setObject:(self.interestedInMeeting ? self.interestedInMeeting : [NSNull null]) forKey:@"interestedInMeeting"];
-    [dict setObject:(self.interests ? self.interests : [NSNull null]) forKey:@"interests"];
-    [dict setObject:(self.jobInterests ? self.jobInterests : [NSNull null]) forKey:@"jobInterests"];
-    [dict setObject:(self.languages ? self.languages : [NSNull null]) forKey:@"languages"];
-    [dict setObject:(self.languagesSpoken ? self.languagesSpoken : [NSNull null]) forKey:@"languagesSpoken"];
+    [dict setObject:(self.interests ? [self.interests arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"interests"];
+    [dict setObject:(self.jobInterests ? [self.jobInterests arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"jobInterests"];
+    [dict setObject:(self.languages ? [self.languages arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"languages"];
+    [dict setObject:(self.languagesSpoken ? [self.languagesSpoken arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"languagesSpoken"];
     [dict setObject:(self.livingArrangement ? self.livingArrangement : [NSNull null]) forKey:@"livingArrangement"];
-    [dict setObject:(self.lookingFor ? self.lookingFor : [NSNull null]) forKey:@"lookingFor"];
-    [dict setObject:(self.movies ? self.movies : [NSNull null]) forKey:@"movies"];
-    [dict setObject:(self.music ? self.music : [NSNull null]) forKey:@"music"];
+    [dict setObject:(self.lookingFor ? [self.lookingFor arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"lookingFor"];
+    [dict setObject:(self.movies ? [self.movies arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"movies"];
+    [dict setObject:(self.music ? [self.music arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"music"];
     [dict setObject:(self.name ? [self.name toReplaceDictionary] : [NSNull null]) forKey:@"name"];
     [dict setObject:(self.nickname ? self.nickname : [NSNull null]) forKey:@"nickname"];
     [dict setObject:(self.note ? self.note : [NSNull null]) forKey:@"note"];
     [dict setObject:(self.organizations ? [self.organizations arrayOfOrganizationsReplaceDictionariesFromOrganizationsObjects] : [NSNull null]) forKey:@"organizations"];
-    [dict setObject:(self.pets ? self.pets : [NSNull null]) forKey:@"pets"];
+    [dict setObject:(self.pets ? [self.pets arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"pets"];
     [dict setObject:(self.phoneNumbers ? [self.phoneNumbers arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersObjects] : [NSNull null]) forKey:@"phoneNumbers"];
     [dict setObject:(self.profilePhotos ? [self.profilePhotos arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosObjects] : [NSNull null]) forKey:@"photos"];
     [dict setObject:(self.politicalViews ? self.politicalViews : [NSNull null]) forKey:@"politicalViews"];
@@ -2408,20 +2408,20 @@
     [dict setObject:(self.profileUrl ? self.profileUrl : [NSNull null]) forKey:@"profileUrl"];
     [dict setObject:(self.profileVideo ? self.profileVideo : [NSNull null]) forKey:@"profileVideo"];
     [dict setObject:(self.published ? [self.published stringFromISO8601DateTime] : [NSNull null]) forKey:@"published"];
-    [dict setObject:(self.quotes ? self.quotes : [NSNull null]) forKey:@"quotes"];
+    [dict setObject:(self.quotes ? [self.quotes arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"quotes"];
     [dict setObject:(self.relationshipStatus ? self.relationshipStatus : [NSNull null]) forKey:@"relationshipStatus"];
-    [dict setObject:(self.relationships ? self.relationships : [NSNull null]) forKey:@"relationships"];
+    [dict setObject:(self.relationships ? [self.relationships arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"relationships"];
     [dict setObject:(self.religion ? self.religion : [NSNull null]) forKey:@"religion"];
     [dict setObject:(self.romance ? self.romance : [NSNull null]) forKey:@"romance"];
     [dict setObject:(self.scaredOf ? self.scaredOf : [NSNull null]) forKey:@"scaredOf"];
     [dict setObject:(self.sexualOrientation ? self.sexualOrientation : [NSNull null]) forKey:@"sexualOrientation"];
     [dict setObject:(self.smoker ? self.smoker : [NSNull null]) forKey:@"smoker"];
-    [dict setObject:(self.sports ? self.sports : [NSNull null]) forKey:@"sports"];
+    [dict setObject:(self.sports ? [self.sports arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"sports"];
     [dict setObject:(self.status ? self.status : [NSNull null]) forKey:@"status"];
-    [dict setObject:(self.tags ? self.tags : [NSNull null]) forKey:@"tags"];
-    [dict setObject:(self.turnOffs ? self.turnOffs : [NSNull null]) forKey:@"turnOffs"];
-    [dict setObject:(self.turnOns ? self.turnOns : [NSNull null]) forKey:@"turnOns"];
-    [dict setObject:(self.tvShows ? self.tvShows : [NSNull null]) forKey:@"tvShows"];
+    [dict setObject:(self.tags ? [self.tags arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"tags"];
+    [dict setObject:(self.turnOffs ? [self.turnOffs arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"turnOffs"];
+    [dict setObject:(self.turnOns ? [self.turnOns arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"turnOns"];
+    [dict setObject:(self.tvShows ? [self.tvShows arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"tvShows"];
     [dict setObject:(self.updated ? [self.updated stringFromISO8601DateTime] : [NSNull null]) forKey:@"updated"];
     [dict setObject:(self.urls ? [self.urls arrayOfUrlsReplaceDictionariesFromUrlsObjects] : [NSNull null]) forKey:@"urls"];
     [dict setObject:(self.utcOffset ? self.utcOffset : [NSNull null]) forKey:@"utcOffset"];

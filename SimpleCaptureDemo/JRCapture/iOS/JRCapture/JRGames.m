@@ -237,7 +237,7 @@
         [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"opponents"])
-        [dict setObject:(self.opponents ? self.opponents : [NSNull null]) forKey:@"opponents"];
+        [dict setObject:(self.opponents ? [self.opponents arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"opponents"];
 
     if ([self.dirtyPropertySet containsObject:@"rating"])
         [dict setObject:(self.rating ? [NSNumber numberWithInt:self.rating] : [NSNull null]) forKey:@"rating"];
@@ -267,7 +267,7 @@
 
     [dict setObject:(self.isFavorite ? [NSNumber numberWithBool:self.isFavorite] : [NSNull null]) forKey:@"isFavorite"];
     [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
-    [dict setObject:(self.opponents ? self.opponents : [NSNull null]) forKey:@"opponents"];
+    [dict setObject:(self.opponents ? [self.opponents arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"opponents"];
     [dict setObject:(self.rating ? [NSNumber numberWithInt:self.rating] : [NSNull null]) forKey:@"rating"];
 
     return dict;

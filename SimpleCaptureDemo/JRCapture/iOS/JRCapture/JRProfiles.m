@@ -397,13 +397,13 @@
         [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
 
     if ([self.dirtyPropertySet containsObject:@"followers"])
-        [dict setObject:(self.followers ? self.followers : [NSNull null]) forKey:@"followers"];
+        [dict setObject:(self.followers ? [self.followers arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"followers"];
 
     if ([self.dirtyPropertySet containsObject:@"following"])
-        [dict setObject:(self.following ? self.following : [NSNull null]) forKey:@"following"];
+        [dict setObject:(self.following ? [self.following arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"following"];
 
     if ([self.dirtyPropertySet containsObject:@"friends"])
-        [dict setObject:(self.friends ? self.friends : [NSNull null]) forKey:@"friends"];
+        [dict setObject:(self.friends ? [self.friends arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"friends"];
 
     if ([self.dirtyPropertySet containsObject:@"identifier"])
         [dict setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
@@ -442,9 +442,9 @@
 
     [dict setObject:(self.accessCredentials ? self.accessCredentials : [NSNull null]) forKey:@"accessCredentials"];
     [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
-    [dict setObject:(self.followers ? self.followers : [NSNull null]) forKey:@"followers"];
-    [dict setObject:(self.following ? self.following : [NSNull null]) forKey:@"following"];
-    [dict setObject:(self.friends ? self.friends : [NSNull null]) forKey:@"friends"];
+    [dict setObject:(self.followers ? [self.followers arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"followers"];
+    [dict setObject:(self.following ? [self.following arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"following"];
+    [dict setObject:(self.friends ? [self.friends arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"friends"];
     [dict setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
     [dict setObject:(self.profile ? [self.profile toReplaceDictionary] : [NSNull null]) forKey:@"profile"];
     [dict setObject:(self.provider ? self.provider : [NSNull null]) forKey:@"provider"];
