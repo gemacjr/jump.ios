@@ -38,6 +38,7 @@
 @property (nonatomic, copy) NSString *value;  
 - (id)init;
 + (id)photos;
-+ (id)photosObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
++ (id)photosObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

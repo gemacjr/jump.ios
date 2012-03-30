@@ -83,7 +83,10 @@
         [self.view addSubview:infoBar];
     }
 
-    if (!self.navigationController.navigationBar.backItem)
+    // TODO: This test is here for the case where the sign-in flow opens straight to the webview (auth on just one provider),
+    // but it seems to be evaluating to 'true' when we are sharing as well... Why!?
+    // Will this always be a reliable test?
+    if (!self.navigationController.navigationBar.backItem && !sessionData.socialSharing)
     {
         DLog(@"no back button");
         UIBarButtonItem *cancelButton =

@@ -34,7 +34,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
-#import "JRCaptureInterface.h"
+#import "JRCaptureInternal.h"
 
 @interface NSDate (CaptureDateTime)
 + (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
@@ -43,32 +43,11 @@
 - (NSString *)stringFromISO8601DateTime;
 @end
 
-@protocol JRJsonifying <NSObject>
-@optional
-- (NSDictionary*)dictionaryFromObject;
-@end
-
-@class JRCaptureObject;
-@protocol JRCaptureObjectDelegate <NSObject>
-@optional
-- (void)updateCaptureEntity:(JRCaptureObject *)entity didSucceedWithResult:(NSString *)result;
-- (void)updateCaptureEntity:(JRCaptureObject *)entity didFailWithResult:(NSString *)result;
-@end
-
-@interface JRCaptureObject : NSObject <NSCopying, JRJsonifying, JRCaptureInterfaceDelegate>
-@property (copy) NSString *accessToken;
-@property (retain) id<JRCaptureObjectDelegate> updateDelegate;
-- (void)updateForDelegate:(id<JRCaptureObjectDelegate>)delegate;
-@end
-
-@protocol JRProfilesAssumedPresence <NSObject>
-@optional
-+ (id)profilesObjectFromDictionary:(NSDictionary *)dictionary;
-@end
-
-@interface JRCapture
+@interface JRCapture : NSObject
 + (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo;
-+ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
-       andEntityTypeName:(NSString *)newEntityTypeName;
++ (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
+                   clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName;
 + (NSString *)captureMobileEndpointUrl;
++ (void)setAccessToken:(NSString *)newAccessToken;
++ (void)setCreationToken:(NSString *)newCreationToken;
 @end

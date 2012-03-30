@@ -40,6 +40,7 @@
 @property (nonatomic, copy) NSNumber *height;  
 - (id)init;
 + (id)bodyType;
-+ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
++ (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

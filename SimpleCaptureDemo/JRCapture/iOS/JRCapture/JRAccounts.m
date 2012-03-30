@@ -32,16 +32,79 @@
 #import "JRAccounts.h"
 
 @implementation JRAccounts
-@synthesize accountsId;
-@synthesize domain;
-@synthesize primary;
-@synthesize userid;
-@synthesize username;
+{
+    NSInteger _accountsId;
+    NSString *_domain;
+    BOOL _primary;
+    NSString *_userid;
+    NSString *_username;
+}
+@dynamic accountsId;
+@dynamic domain;
+@dynamic primary;
+@dynamic userid;
+@dynamic username;
+
+- (NSInteger)accountsId
+{
+    return _accountsId;
+}
+
+- (void)setAccountsId:(NSInteger)newAccountsId
+{
+    [self.dirtyPropertySet addObject:@"accountsId"];
+    _accountsId = newAccountsId;
+}
+
+- (NSString *)domain
+{
+    return _domain;
+}
+
+- (void)setDomain:(NSString *)newDomain
+{
+    [self.dirtyPropertySet addObject:@"domain"];
+    _domain = [newDomain copy];
+}
+
+- (BOOL)primary
+{
+    return _primary;
+}
+
+- (void)setPrimary:(BOOL)newPrimary
+{
+    [self.dirtyPropertySet addObject:@"primary"];
+    _primary = newPrimary;
+}
+
+- (NSString *)userid
+{
+    return _userid;
+}
+
+- (void)setUserid:(NSString *)newUserid
+{
+    [self.dirtyPropertySet addObject:@"userid"];
+    _userid = [newUserid copy];
+}
+
+- (NSString *)username
+{
+    return _username;
+}
+
+- (void)setUsername:(NSString *)newUsername
+{
+    [self.dirtyPropertySet addObject:@"username"];
+    _username = [newUsername copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/accounts";
     }
     return self;
 }
@@ -52,7 +115,7 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JRAccounts *accountsCopy =
                 [[JRAccounts allocWithZone:zone] init];
 
@@ -62,69 +125,181 @@
     accountsCopy.userid = self.userid;
     accountsCopy.username = self.username;
 
+    [accountsCopy.dirtyPropertySet removeAllObjects];
+    [accountsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return accountsCopy;
 }
 
-+ (id)accountsObjectFromDictionary:(NSDictionary*)dictionary
+- (NSDictionary*)toDictionary
 {
-    JRAccounts *accounts =
-        [JRAccounts accounts];
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
-    accounts.accountsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    accounts.domain = [dictionary objectForKey:@"domain"];
-    accounts.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
-    accounts.userid = [dictionary objectForKey:@"userid"];
-    accounts.username = [dictionary objectForKey:@"username"];
-
-    return accounts;
-}
-
-- (NSDictionary*)dictionaryFromObject
-{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
-
-    if (accountsId)
-        [dict setObject:[NSNumber numberWithInt:accountsId] forKey:@"id"];
-
-    if (domain)
-        [dict setObject:domain forKey:@"domain"];
-
-    if (primary)
-        [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
-
-    if (userid)
-        [dict setObject:userid forKey:@"userid"];
-
-    if (username)
-        [dict setObject:username forKey:@"username"];
+    [dict setObject:[NSNumber numberWithInt:self.accountsId]
+             forKey:@"id"];
+    [dict setObject:(self.domain ? self.domain : [NSNull null])
+             forKey:@"domain"];
+    [dict setObject:[NSNumber numberWithBool:self.primary]
+             forKey:@"primary"];
+    [dict setObject:(self.userid ? self.userid : [NSNull null])
+             forKey:@"userid"];
+    [dict setObject:(self.username ? self.username : [NSNull null])
+             forKey:@"username"];
 
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
++ (id)accountsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
-    if ([dictionary objectForKey:@"accountsId"])
-        self.accountsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    JRAccounts *accounts = [JRAccounts accounts];
+    accounts.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", accounts.accountsId];
+
+    accounts.accountsId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    accounts.domain =
+        [dictionary objectForKey:@"domain"] != [NSNull null] ? 
+        [dictionary objectForKey:@"domain"] : nil;
+
+    accounts.primary =
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+
+    accounts.userid =
+        [dictionary objectForKey:@"userid"] != [NSNull null] ? 
+        [dictionary objectForKey:@"userid"] : nil;
+
+    accounts.username =
+        [dictionary objectForKey:@"username"] != [NSNull null] ? 
+        [dictionary objectForKey:@"username"] : nil;
+
+    [accounts.dirtyPropertySet removeAllObjects];
+    
+    return accounts;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", self.accountsId];
+
+    if ([dictionary objectForKey:@"id"])
+        _accountsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"domain"])
-        self.domain = [dictionary objectForKey:@"domain"];
+        _domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
+            [dictionary objectForKey:@"domain"] : nil;
 
     if ([dictionary objectForKey:@"primary"])
-        self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+        _primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
 
     if ([dictionary objectForKey:@"userid"])
-        self.userid = [dictionary objectForKey:@"userid"];
+        _userid = [dictionary objectForKey:@"userid"] != [NSNull null] ? 
+            [dictionary objectForKey:@"userid"] : nil;
 
     if ([dictionary objectForKey:@"username"])
-        self.username = [dictionary objectForKey:@"username"];
+        _username = [dictionary objectForKey:@"username"] != [NSNull null] ? 
+            [dictionary objectForKey:@"username"] : nil;
+}
+
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", self.accountsId];
+
+    _accountsId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    _domain =
+        [dictionary objectForKey:@"domain"] != [NSNull null] ? 
+        [dictionary objectForKey:@"domain"] : nil;
+
+    _primary =
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+
+    _userid =
+        [dictionary objectForKey:@"userid"] != [NSNull null] ? 
+        [dictionary objectForKey:@"userid"] : nil;
+
+    _username =
+        [dictionary objectForKey:@"username"] != [NSNull null] ? 
+        [dictionary objectForKey:@"username"] : nil;
+}
+
+- (NSDictionary *)toUpdateDictionary
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"domain"])
+        [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
+
+    if ([self.dirtyPropertySet containsObject:@"primary"])
+        [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+
+    if ([self.dirtyPropertySet containsObject:@"userid"])
+        [dict setObject:(self.userid ? self.userid : [NSNull null]) forKey:@"userid"];
+
+    if ([self.dirtyPropertySet containsObject:@"username"])
+        [dict setObject:(self.username ? self.username : [NSNull null]) forKey:@"username"];
+
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
+                                     withId:self.accountsId
+                                     atPath:self.captureObjectPath
+                                  withToken:[JRCaptureData accessToken]
+                                forDelegate:self
+                                withContext:newContext];
+}
+
+- (NSDictionary *)toReplaceDictionary
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+    [dict setObject:(self.userid ? self.userid : [NSNull null]) forKey:@"userid"];
+    [dict setObject:(self.username ? self.username : [NSNull null]) forKey:@"username"];
+
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
+                                      withId:self.accountsId
+                                      atPath:self.captureObjectPath
+                                   withToken:[JRCaptureData accessToken]
+                                 forDelegate:self
+                                 withContext:newContext];
 }
 
 - (void)dealloc
 {
-    [domain release];
-    [userid release];
-    [username release];
+    [_domain release];
+    [_userid release];
+    [_username release];
 
     [super dealloc];
 }

@@ -23,10 +23,18 @@
 @implementation SharedData
 static SharedData *singleton = nil;
 
-static NSString *appId          = @"appcfamhnpkagijaeinl";
-static NSString *captureDomain  = @"https://mobile.dev.janraincapture.com";
-static NSString *clientId       = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
-static NSString *entityTypeName = @"user";
+static NSString *appId              = @"appcfamhnpkagijaeinl";
+static NSString *captureApidDomain  = @"https://mobile.dev.janraincapture.com";
+static NSString *captureUIDomain    = @"https://mobile.dev.janraincapture.com";
+static NSString *clientId           = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
+static NSString *entityTypeName     = @"user_dev";
+
+///* Carl's local instance */
+//static NSString *appId             = @"pgfjodcppiaifejikhmh";
+//static NSString *captureApidDomain = @"http://10.0.10.47:8000";
+//static NSString *captureUIDomain   = @"http://10.0.10.47:5000";
+//static NSString *clientId          = @"puh6d29gb94mn9ek4v3w8f7w9hp58g2z";
+//static NSString *entityTypeName    = @"user2";
 
 //static NSString *appId          = @"mlfeingbenjalleljkpo";
 //static NSString *captureDomain  = @"https://demo.staging.janraincapture.com/";
@@ -42,15 +50,19 @@ static NSString *entityTypeName = @"user";
 @synthesize currentDisplayName;
 @synthesize currentProvider;
 @synthesize signInDelegate;
+@synthesize isNew;
+@synthesize notYetCreated;
 
 
 - (id)init
 {
     if ((self = [super init]))
     {
-        [JRCaptureInterface setCaptureDomain:captureDomain clientId:clientId andEntityTypeName:entityTypeName];
+        [JRCapture setCaptureApiDomain:captureApidDomain captureUIDomain:captureUIDomain
+                              clientId:clientId andEntityTypeName:entityTypeName];
+
         self.jrEngage = [JREngage jrEngageWithAppId:appId
-                                        andTokenUrl:[JRCaptureInterface captureMobileEndpointUrl]
+                                        andTokenUrl:[JRCapture captureMobileEndpointUrl]
                                            delegate:self];
 
         self.prefs = [NSUserDefaults standardUserDefaults];
@@ -61,8 +73,10 @@ static NSString *entityTypeName = @"user";
         self.currentDisplayName = [prefs objectForKey:@"currentDisplayName"];
         self.currentProvider = [prefs objectForKey:@"currentProvider"];
 
-        captureUser.accessToken = accessToken;
-        captureUser.creationToken = creationToken;
+        [JRCapture setAccessToken:accessToken];
+        [JRCapture setCreationToken:creationToken];
+//        captureUser.accessToken = accessToken;
+//        captureUser.creationToken = creationToken;
     }
 
     return self;
@@ -245,58 +259,52 @@ static NSString *entityTypeName = @"user";
 
     self.accessToken   = [payloadDict objectForKey:@"access_token"];
     self.creationToken = [payloadDict objectForKey:@"creation_token"];
-//    NSDictionary *captureCredentials;
+    self.isNew         = [(NSNumber*)[payloadDict objectForKey:@"is_new"] boolValue];
+    self.notYetCreated = creationToken ? YES: NO;
 
-//    if (self.accessToken)
-//        captureCredentials = [NSDictionary dictionaryWithObject:self.accessToken
-//                                                         forKey:@"access_token"];
-//    else if (self.creationToken)
-//        captureCredentials =  [NSDictionary dictionaryWithObject:self.creationToken
-//                                                          forKey:@"creation_token"];
-//    else
-//        captureCredentials = nil;
+//<<<<<<< HEAD
+//    if (accessToken)
+//    {
+//        NSDictionary *captureProfile = [payloadDict objectForKey:@"profile"];//[self nullWalker:[payloadDict objectForKey:@"profile"]];
+//
+//        DLog(@"user dictionary: %@", [captureProfile description]);
+//        self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+//
+//        captureUser.statuses = nil;
+//        captureUser.aboutMe = nil;
+//
+//        NSDictionary *backAgain = [captureUser dictionaryFromObject];
+//
+//        DLog(@"user dictionary back again: %@", [backAgain description]);
+//        DLog(@"json string: %@", [backAgain JSONString]);
+//
+//    }
+//    else if (creationToken)
+//    {
+//        self.captureUser = [JRCaptureUser captureUser];
+//
+//        captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
+//
+//        JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
+//
+//        if (profilesObject)
+//            captureUser.profiles = [NSArray arrayWithObject:profilesObject];
+//    }
+//=======
 
+    NSDictionary *captureProfile = [payloadDict objectForKey:@"capture_user"];
+    self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
 
-    if (accessToken)
-    {
-        NSDictionary *captureProfile = [payloadDict objectForKey:@"profile"];//[self nullWalker:[payloadDict objectForKey:@"profile"]];
+//    [captureUser setAccessToken:accessToken];
+//    [captureUser setCreationToken:creationToken];
 
-        DLog(@"user dictionary: %@", [captureProfile description]);
-        self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
-
-        captureUser.statuses = nil;
-        captureUser.aboutMe = nil;
-
-        NSDictionary *backAgain = [captureUser dictionaryFromObject];
-
-        DLog(@"user dictionary back again: %@", [backAgain description]);
-        DLog(@"json string: %@", [backAgain JSONString]);
-
-    }
-    else if (creationToken)
-    {
-        self.captureUser = [JRCaptureUser captureUser];
-
-        captureUser.email = [[engageUser objectForKey:@"profile"] objectForKey:@"email"];
-
-        JRProfiles *profilesObject = (JRProfiles *) [JRCapture captureProfilesObjectFromEngageAuthInfo:engageUser];
-
-        if (profilesObject)
-            captureUser.profiles = [NSArray arrayWithObject:profilesObject];
-    }
-
-    [captureUser setAccessToken:accessToken];
-    [captureUser setCreationToken:creationToken];
-
-//    if (captureProfile)
-//        [self.engageUser setObject:captureProfile forKey:@"captureUser"];
-//    if (captureCredentials)
-//        [self.engageUser setObject:captureCredentials forKey:@"captureCredentials"];
+    [JRCapture setAccessToken:accessToken];
+    [JRCapture setCreationToken:creationToken];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:[self nullWalker:[captureUser dictionaryFromObject]] forKey:@"captureUser"];
+    [prefs setObject:[self nullWalker:[captureUser toDictionary]] forKey:@"captureUser"];
     [prefs setObject:accessToken forKey:@"accessToken"];
     [prefs setObject:creationToken forKey:@"creationToken"];
 

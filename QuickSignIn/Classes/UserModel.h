@@ -119,7 +119,7 @@
 @property (retain) id<UserModelDelegate>     tokenUrlDelegate;
 @property (retain) id<LibraryDialogDelegate> libraryDialogDelegate;
 
-@property          BOOL pendingCallToTokenUrl;
+@property            BOOL pendingCallToTokenUrl;
 
 @property (readonly) BOOL loadingUserData;
 @property (readonly) NSDictionary *currentUser;
@@ -156,7 +156,7 @@
 - (void)startSignUserOut:(id<UserModelDelegate>)interestedParty;
 
 - (void)triggerAuthenticationDidCancel:(id)sender;
-
+- (void)addCaptureUserFromCaptureResult:(NSString *)captureResult;
 //- (void)setNavigationController:(UINavigationController*)navigationController;
 
 /* Returns singleton instance of class. */

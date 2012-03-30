@@ -6,9 +6,10 @@
 
 
 #import <Foundation/Foundation.h>
-#import "JRCaptureInterface.h"
+//#import "JRCaptureInterface.h"
 #import "JRCaptureUser.h"
 #import "JREngage.h"
+#import "JRCapture.h"
 
 @protocol SignInDelegate <NSObject>
 @optional
@@ -23,6 +24,8 @@
 @property (strong) JRCaptureUser       *captureUser;
 @property (strong) NSString            *accessToken;
 @property (strong) NSString            *creationToken;
+@property          BOOL                 isNew;
+@property          BOOL                 notYetCreated;
 @property (strong) NSString            *currentDisplayName;
 @property (strong) NSString            *currentProvider;
 @property (weak)   id<SignInDelegate>   signInDelegate;

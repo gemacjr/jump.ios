@@ -42,8 +42,6 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRCapture.h"
-#import "JRCaptureData.h"
-
 
 @implementation NSDate (CaptureDateTime)
 // YYYY-MM-DD
@@ -138,6 +136,7 @@
 
 - (NSString *)stringFromISO8601Date
 {
+    DLog(@"");
     static NSDateFormatter *dateFormatter = nil;
     if (!dateFormatter)
     {
@@ -164,46 +163,6 @@
     }
 
     return [dateFormatter stringFromDate:self];
-}
-@end
-
-@implementation JRCaptureObject
-@synthesize accessToken;
-@synthesize updateDelegate;
-
-- (void)updateForDelegate:(id<JRCaptureObjectDelegate>)delegate
-{
-    self.updateDelegate = delegate;
-
-    [JRCaptureInterface updateCaptureUser:[self dictionaryFromObject]
-                          withAccessToken:self.accessToken
-                              forDelegate:self];
-
-//            createCaptureUser:[self dictionaryFromObject]
-//                        withCreationToken:[[JRCaptureUserExtras captureUserExtras] creationToken]
-//                              forDelegate:self];
-
-}
-
-- (void)updateCaptureUserDidFailWithResult:(NSString *)result
-{
-    if ([self.updateDelegate respondsToSelector:@selector(updateCaptureEntity:didFailWithResult:)])
-        [self.updateDelegate updateCaptureEntity:self didFailWithResult:result];
-
-    self.updateDelegate = nil;
-}
-
-- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result
-{
-    if ([self.updateDelegate respondsToSelector:@selector(updateCaptureEntity:didSucceedWithResult:)])
-        [self.updateDelegate updateCaptureEntity:self didSucceedWithResult:result];
-}
-
-- (void)dealloc
-{
-    [updateDelegate release];
-    [accessToken release];
-    [super dealloc];
 }
 @end
 
@@ -246,14 +205,30 @@
     return profilesObject;
 }
 
-+ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
-       andEntityTypeName:(NSString *)newEntityTypeName
++ (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
+                   clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName
 {
-    [JRCaptureData setCaptureDomain:newCaptureDomain clientId:newClientId andEntityTypeName:newEntityTypeName];
+    [JRCaptureData setCaptureApiDomain:newCaptureApidDomain captureUIDomain:newCaptureUIDomain
+                              clientId:newClientId andEntityTypeName:newEntityTypeName];
 }
 
 + (NSString *)captureMobileEndpointUrl
 {
     return [JRCaptureData captureMobileEndpointUrl];
+}
+
++ (void)setAccessToken:(NSString *)newAccessToken
+{
+    [JRCaptureData setAccessToken:newAccessToken];
+}
+
++ (void)setCreationToken:(NSString *)newCreationToken
+{
+    [JRCaptureData setCreationToken:newCreationToken];
+}
+
+- (void)dealloc
+{
+    [super dealloc];
 }
 @end

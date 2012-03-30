@@ -46,6 +46,7 @@
 @property (nonatomic, copy) NSString *type;  
 - (id)init;
 + (id)location;
-+ (id)locationObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
++ (id)locationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

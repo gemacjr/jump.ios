@@ -32,14 +32,53 @@
 #import "JRPhotos.h"
 
 @implementation JRPhotos
-@synthesize photosId;
-@synthesize type;
-@synthesize value;
+{
+    NSInteger _photosId;
+    NSString *_type;
+    NSString *_value;
+}
+@dynamic photosId;
+@dynamic type;
+@dynamic value;
+
+- (NSInteger)photosId
+{
+    return _photosId;
+}
+
+- (void)setPhotosId:(NSInteger)newPhotosId
+{
+    [self.dirtyPropertySet addObject:@"photosId"];
+    _photosId = newPhotosId;
+}
+
+- (NSString *)type
+{
+    return _type;
+}
+
+- (void)setType:(NSString *)newType
+{
+    [self.dirtyPropertySet addObject:@"type"];
+    _type = [newType copy];
+}
+
+- (NSString *)value
+{
+    return _value;
+}
+
+- (void)setValue:(NSString *)newValue
+{
+    [self.dirtyPropertySet addObject:@"value"];
+    _value = [newValue copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/photos";
     }
     return self;
 }
@@ -50,7 +89,7 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JRPhotos *photosCopy =
                 [[JRPhotos allocWithZone:zone] init];
 
@@ -58,54 +97,144 @@
     photosCopy.type = self.type;
     photosCopy.value = self.value;
 
+    [photosCopy.dirtyPropertySet removeAllObjects];
+    [photosCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return photosCopy;
 }
 
-+ (id)photosObjectFromDictionary:(NSDictionary*)dictionary
+- (NSDictionary*)toDictionary
 {
-    JRPhotos *photos =
-        [JRPhotos photos];
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
-    photos.photosId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    photos.type = [dictionary objectForKey:@"type"];
-    photos.value = [dictionary objectForKey:@"value"];
-
-    return photos;
-}
-
-- (NSDictionary*)dictionaryFromObject
-{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
-
-    if (photosId)
-        [dict setObject:[NSNumber numberWithInt:photosId] forKey:@"id"];
-
-    if (type)
-        [dict setObject:type forKey:@"type"];
-
-    if (value)
-        [dict setObject:value forKey:@"value"];
+    [dict setObject:[NSNumber numberWithInt:self.photosId]
+             forKey:@"id"];
+    [dict setObject:(self.type ? self.type : [NSNull null])
+             forKey:@"type"];
+    [dict setObject:(self.value ? self.value : [NSNull null])
+             forKey:@"value"];
 
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
++ (id)photosObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
-    if ([dictionary objectForKey:@"photosId"])
-        self.photosId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    JRPhotos *photos = [JRPhotos photos];
+    photos.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", photos.photosId];
+
+    photos.photosId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    photos.type =
+        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] : nil;
+
+    photos.value =
+        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] : nil;
+
+    [photos.dirtyPropertySet removeAllObjects];
+    
+    return photos;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", self.photosId];
+
+    if ([dictionary objectForKey:@"id"])
+        _photosId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"];
+        _type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
+            [dictionary objectForKey:@"type"] : nil;
 
     if ([dictionary objectForKey:@"value"])
-        self.value = [dictionary objectForKey:@"value"];
+        _value = [dictionary objectForKey:@"value"] != [NSNull null] ? 
+            [dictionary objectForKey:@"value"] : nil;
+}
+
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", self.photosId];
+
+    _photosId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    _type =
+        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] : nil;
+
+    _value =
+        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] : nil;
+}
+
+- (NSDictionary *)toUpdateDictionary
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"type"])
+        [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
+
+    if ([self.dirtyPropertySet containsObject:@"value"])
+        [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
+
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
+                                     withId:self.photosId
+                                     atPath:self.captureObjectPath
+                                  withToken:[JRCaptureData accessToken]
+                                forDelegate:self
+                                withContext:newContext];
+}
+
+- (NSDictionary *)toReplaceDictionary
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
+    [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
+
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
+                                      withId:self.photosId
+                                      atPath:self.captureObjectPath
+                                   withToken:[JRCaptureData accessToken]
+                                 forDelegate:self
+                                 withContext:newContext];
 }
 
 - (void)dealloc
 {
-    [type release];
-    [value release];
+    [_type release];
+    [_value release];
 
     [super dealloc];
 }

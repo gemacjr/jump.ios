@@ -471,7 +471,6 @@ Copyright (c) 2010, Janrain, Inc.
 
 //#ifdef LILLI
     [self clearSelectedProfile];
-
     [myTableView deselectRowAtIndexPath:[myTableView indexPathForSelectedRow] animated:YES];
 
     if ([[UserModel getUserModel] currentUser])
@@ -505,31 +504,31 @@ Copyright (c) 2010, Janrain, Inc.
 {
 
     // TODO: Temporarily here for testing
-    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
-                                                                  bundle:[NSBundle mainBundle]] autorelease];
-
-    [self.navigationController pushViewController:viewController animated:YES];
-
-//    [JRCaptureInterface getCaptureEntityNamed:@"profiles"
-//                                 withEntityId:174721
-//                               andAccessToken:[[UserModel getUserModel] latestAccessToken]
-//                                  forDelegate:self];
+//    CaptureNewUserViewController *viewController= [[[CaptureNewUserViewController alloc] initWithNibName:@"CaptureNewUserViewController"
+//                                                                  bundle:[NSBundle mainBundle]] autorelease];
 //
-//    [JRCaptureInterface getCaptureUserWithAccessToken:[[UserModel getUserModel] latestAccessToken]
-//                                          forDelegate:self];
+//    [self.navigationController pushViewController:viewController animated:YES];
+//
+////    [JRCaptureInterface getCaptureEntityNamed:@"profiles"
+////                                 withEntityId:174721
+////                               andAccessToken:[[UserModel getUserModel] latestAccessToken]
+////                                  forDelegate:self];
+////
+////    [JRCaptureInterface getCaptureUserWithAccessToken:[[UserModel getUserModel] latestAccessToken]
+////                                          forDelegate:self];
     // TODO: Remove when done
 
-//    [self clearSelectedProfile];
-//
-//    if ([[UserModel getUserModel] currentUser])
-//    {
-//        myNotSignedInLabel.text = @"You are not currently signed in.";
-//        [[UserModel getUserModel] startSignUserOut:self];
-//    }
-//    else
-//    {
-//        [[self navigationController] popToRootViewControllerAnimated:YES];
-//    }
+    [self clearSelectedProfile];
+
+    if ([[UserModel getUserModel] currentUser])
+    {
+        myNotSignedInLabel.text = @"You are not currently signed in.";
+        [[UserModel getUserModel] startSignUserOut:self];
+    }
+    else
+    {
+        [[self navigationController] popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)updateCaptureUserDidFailWithResult:(NSString *)result
@@ -551,7 +550,6 @@ Copyright (c) 2010, Janrain, Inc.
 {
     DLog(@"%@", result);
 }
-
 
 - (void)userDidSignIn
 {

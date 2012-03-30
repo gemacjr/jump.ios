@@ -41,6 +41,7 @@
 @property (nonatomic, copy) NSString *middleName;  
 - (id)init;
 + (id)name;
-+ (id)nameObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
++ (id)nameObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

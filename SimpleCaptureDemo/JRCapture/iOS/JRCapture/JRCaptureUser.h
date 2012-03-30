@@ -31,7 +31,12 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
+#import "JRGames.h"
+#import "JRObjectLevelOne.h"
+#import "JROnipLevelOne.h"
 #import "JRPhotos.h"
+#import "JRPinoLevelOne.h"
+#import "JRPluralLevelOne.h"
 #import "JRPrimaryAddress.h"
 #import "JRProfiles.h"
 #import "JRStatuses.h"
@@ -49,17 +54,25 @@
 @property (nonatomic, copy) NSString *email;  
 @property (nonatomic, copy) NSDate *emailVerified;  
 @property (nonatomic, copy) NSString *familyName;  
+@property (nonatomic, copy) NSArray *games; /* This is an array of JRGames */ 
 @property (nonatomic, copy) NSString *gender;  
 @property (nonatomic, copy) NSString *givenName;  
 @property (nonatomic, copy) NSDate *lastLogin;  
 @property (nonatomic, copy) NSString *middleName;  
+@property (nonatomic, copy) JRObjectLevelOne *objectLevelOne;  
+@property (nonatomic, copy) NSArray *onipLevelOne; /* This is an array of JROnipLevelOne */ 
 @property (nonatomic, copy) NSObject *password;  
 @property (nonatomic, copy) NSArray *photos; /* This is an array of JRPhotos */ 
+@property (nonatomic, copy) JRPinoLevelOne *pinoLevelOne;  
+@property (nonatomic, copy) NSArray *pluralLevelOne; /* This is an array of JRPluralLevelOne */ 
 @property (nonatomic, copy) JRPrimaryAddress *primaryAddress;  
 @property (nonatomic, copy) NSArray *profiles; /* This is an array of JRProfiles */ 
 @property (nonatomic, copy) NSArray *statuses; /* This is an array of JRStatuses */ 
 - (id)init;
 + (id)captureUser;
-+ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary;
-- (void)updateFromDictionary:(NSDictionary*)dictionary;
+- (id)initWithEmail:(NSString *)newEmail;
++ (id)captureUserWithEmail:(NSString *)email;
++ (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)toDictionary;
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 @end

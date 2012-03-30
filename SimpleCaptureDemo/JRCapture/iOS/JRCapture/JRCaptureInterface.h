@@ -34,37 +34,42 @@
 
 #import <Foundation/Foundation.h>
 #import "JRConnectionManager.h"
-
+#import "JRCaptureInternal.h"
 
 @protocol JRCaptureInterfaceDelegate <NSObject>
 @optional
-- (void)createCaptureUserDidSucceedWithResult:(NSString *)result;
-- (void)createCaptureUserDidFailWithResult:(NSString *)result;
-- (void)updateCaptureUserDidSucceedWithResult:(NSString *)result;
-- (void)updateCaptureUserDidFailWithResult:(NSString *)result;
-- (void)getCaptureEntityDidSucceedWithResult:(NSString *)result;
-- (void)getCaptureEntityDidFailWithResult:(NSString *)result;
-- (void)getCaptureUserDidSucceedWithResult:(NSString *)result andTag:(NSObject *)tag;
-- (void)getCaptureUserDidFailWithResult:(NSString *)result andTag:(NSObject *)tag;
+- (void)getCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)getCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)createCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)createCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
 
 @interface JRCaptureInterface : NSObject <JRConnectionManagerDelegate>
-{
-//    JRCaptureUser *captureUser;
++ (void)getCaptureUserWithToken:(NSString *)token
+                    forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
+                    withContext:(NSObject *)context;
 
-    id<JRCaptureInterfaceDelegate> captureInterfaceDelegate;
-}
-+ (void)setCaptureDomain:(NSString *)newCaptureDomain clientId:(NSString *)newClientId
-       andEntityTypeName:(NSString *)newEntityTypeName;
-+ (NSString *)captureMobileEndpointUrl;
++ (void)createCaptureUser:(NSDictionary *)captureUser
+                withToken:(NSString *)token
+              forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
+              withContext:(NSObject *)context;
 
-+ (void)createCaptureUser:(NSDictionary *)user withCreationToken:(NSString *)creationToken
-              forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
-+ (void)updateCaptureUser:(NSDictionary *)user withAccessToken:(NSString *)accessToken
-              forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
-+ (void)getCaptureEntityNamed:(NSString *)entityName withEntityId:(NSInteger)entityId
-               andAccessToken:(NSString *)accessToken forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
-+ (void)getCaptureUserWithAccessToken:(NSString *)accessToken
-                          forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
-                              withTag:(NSObject *)tag;
++ (void)updateCaptureObject:(NSDictionary *)captureObject
+                     withId:(NSInteger)objectId
+                     atPath:(NSString *)entityPath
+                  withToken:(NSString *)token
+                forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
+                withContext:(NSObject *)context;
+
+
++ (void)replaceCaptureObject:(NSDictionary *)captureObject
+                      withId:(NSInteger)objectId
+                      atPath:(NSString *)entityPath
+                   withToken:(NSString *)token
+                 forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
+                 withContext:(NSObject *)context;
 @end

@@ -44,8 +44,8 @@
 - (void)updateCaptureUserDidFailWithResult:(NSString *)result;
 - (void)getCaptureEntityDidSucceedWithResult:(NSString *)result;
 - (void)getCaptureEntityDidFailWithResult:(NSString *)result;
-- (void)getCaptureUserDidSucceedWithResult:(NSString *)result;
-- (void)getCaptureUserDidFailWithResult:(NSString *)result;
+- (void)getCaptureUserDidSucceedWithResult:(NSString *)result andTag:(NSObject *)tag;
+- (void)getCaptureUserDidFailWithResult:(NSString *)result andTag:(NSObject *)tag;
 @end
 
 @interface JRCaptureInterface : NSObject <JRConnectionManagerDelegate>
@@ -65,5 +65,6 @@
 + (void)getCaptureEntityNamed:(NSString *)entityName withEntityId:(NSInteger)entityId
                andAccessToken:(NSString *)accessToken forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
 + (void)getCaptureUserWithAccessToken:(NSString *)accessToken
-                          forDelegate:(id<JRCaptureInterfaceDelegate>)delegate;
+                          forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
+                              withTag:(NSObject *)tag;
 @end

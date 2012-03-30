@@ -27,6 +27,8 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
 #import "UserDrillDownViewController.h"
 #import "objc/runtime.h"
 #import "SharedData.h"
@@ -186,6 +188,16 @@ Class classNameFromKey(NSString *key)
                                                withString:[[key substringToIndex:1] capitalizedString]]]);
 }
 
+//SEL toDictionarySelector(NSString *objectName)
+//{
+//    if (!objectName || [objectName length] < 1)
+//        return nil;
+//
+//    return NSSelectorFromString([NSString stringWithFormat:@"dictionaryFrom%@Object",
+//                  [objectName stringByReplacingCharactersInRange:NSMakeRange(0,1)
+//                                                      withString:[[objectName substringToIndex:1] capitalizedString]]]);
+//}
+
 typedef enum
 {
     DataTypeNone,
@@ -218,6 +230,7 @@ typedef enum
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forCaptureObject:(JRCaptureObject*)object
   captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key
 {
+    DLog(@"object: %@, parent: %@, key: %@", [captureObject description], [parentObject description], key);
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
         self.captureObject       = object;
@@ -229,10 +242,10 @@ typedef enum
             self.tableViewData = object;
             self.dataCount = [(NSArray *)tableViewData count];
         }
-        else if ([NSStringFromClass([object superclass]) isEqualToString:@"JRCaptureObject"])//respondsToSelector:@selector(dictionaryFromObject)])
+        else if ([NSStringFromClass([object superclass]) isEqualToString:@"JRCaptureObject"])
         {
             self.dataType = DataTypeObject;
-            self.tableViewData = [object dictionaryFromObject];
+            self.tableViewData = [object toDictionary];
             self.dataCount = [[(NSDictionary *)tableViewData allKeys] count];
         }
         else
@@ -276,6 +289,7 @@ typedef enum
 
 - (void)editButtonPressed:(id)sender
 {
+    DLog(@"");
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
                                 initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                      target:self
@@ -307,6 +321,7 @@ typedef enum
 
 - (void)doneButtonPressed:(id)sender
 {
+    DLog(@"");
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
                                 initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
                                                      target:self
@@ -342,19 +357,21 @@ typedef enum
 
 - (IBAction)updateButtonPressed:(id)sender
 {
-    DLog(@"%@", [[captureObject dictionaryFromObject] description]);
+    DLog(@"");
+//    DLog(@"%@", [[captureObject dictionaryFromObject] description]);
 
-    parentCaptureObject.accessToken = [[SharedData sharedData] accessToken];
-    captureObject.accessToken = [[SharedData sharedData] accessToken];
+//    parentCaptureObject.accessToken = [[SharedData sharedData] accessToken];
+//    captureObject.accessToken = [[SharedData sharedData] accessToken];
 
-    if (parentCaptureObject)
-        [parentCaptureObject updateForDelegate:self];
-    else
-        [captureObject updateForDelegate:self];
+//    if (parentCaptureObject)
+//        [parentCaptureObject updateObjectOnCaptureForDelegate:self withContext:nil];
+//    else
+        [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
 }
 
 - (void)updateCaptureEntity:(JRCaptureObject *)entity didFailWithResult:(NSString *)result
 {
+    DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                         message:result
                                                        delegate:nil
@@ -365,6 +382,7 @@ typedef enum
 
 - (void)updateCaptureEntity:(JRCaptureObject *)entity didSucceedWithResult:(NSString *)result
 {
+    DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
                                                         message:result
                                                        delegate:nil
@@ -376,6 +394,7 @@ typedef enum
 
 - (void)addMoreButtonPressed:(UIButton *)sender
 {
+    DLog(@"");
     NSUInteger itemIndex = (NSUInteger) (sender.tag - 200);
     currentlyEditingData = [propertyArray objectAtIndex:itemIndex];
 
@@ -395,7 +414,7 @@ typedef enum
             [newPropertySubObject performSelector:selectorFromKey(propertyString) withObject:@"xxx"];
     }
 
-    DLog(@"%@", [[newPropertySubObject dictionaryFromObject] description]);
+    DLog(@"%@", [[newPropertySubObject toDictionary] description]);
 
     JRCaptureObject *newParentObject;
     if ([propertyWithAddButton isKindOfClass:[NSArray class]])
@@ -520,6 +539,7 @@ typedef enum
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DLog(@"");
     static NSInteger keyLabelTag   = 1;
     static NSInteger valueLabelTag = 2;
     NSInteger textFieldTag         = 100 + indexPath.row;
@@ -635,8 +655,8 @@ typedef enum
      /* get the current item in our array */
         value = [((NSArray *)tableViewData) objectAtIndex:(NSUInteger)indexPath.row];
 
-        if ([value respondsToSelector:@selector(dictionaryFromObject)])
-            value = [(id<JRJsonifying>)value dictionaryFromObject];
+        if ([value respondsToSelector:@selector(toDictionary)])
+            value = [(JRCaptureObject *)value toDictionary];
     }
  /* If our data is a dictionary, */
     else if ([tableViewData isKindOfClass:[NSDictionary class]])
@@ -645,8 +665,8 @@ typedef enum
         key   = [[((NSDictionary *)tableViewData) allKeysOrdered] objectAtIndex:(NSUInteger)indexPath.row];
         value = [((NSDictionary *)tableViewData) objectForKey:key];
 
-        if ([value respondsToSelector:@selector(dictionaryFromObject)])
-            value = [(id<JRJsonifying>)value dictionaryFromObject];
+        if ([value respondsToSelector:@selector(toDictionary)])
+            value = [(JRCaptureObject *)value toDictionary];
 
      /* and set the cell title as the key */
         cellTitle = key;
@@ -710,6 +730,16 @@ typedef enum
         data.propertyValue    = subtitle;
         textField.placeholder = subtitle;
     }
+ /* If our item is set to [NSNull null], pretend it's a string, */
+    else if (value == [NSNull null]) // TODO: This will break stuff!!
+    {
+        subtitle = cellTitle ? [NSString stringWithFormat:@"No known %@", cellTitle] : @"[none]";
+
+        data.propertyType     = PTString;
+        data.canEdit          = YES;
+        data.propertyValue    = subtitle;
+        textField.placeholder = subtitle;
+    }
     else { /* I dunno... Just hopin' it won't happen... */ }
 
     if (textField.text && ![textField.text isEqualToString:@""])
@@ -738,6 +768,7 @@ typedef enum
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DLog(@"");
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
     NSString *key                  = nil;
@@ -757,8 +788,8 @@ typedef enum
         captureSubObj = [captureObject performSelector:NSSelectorFromString(key)];
     }
 
-    if ([value respondsToSelector:@selector(dictionaryFromObject)])
-        value = [(id<JRJsonifying>)value dictionaryFromObject];
+    if ([value respondsToSelector:@selector(toDictionary)])
+        value = [(JRCaptureObject *)value toDictionary];
 
  /* If our value isn't an array or dictionary, don't drill down. */
     if (![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]])
@@ -773,7 +804,7 @@ typedef enum
                                                               bundle:[NSBundle mainBundle]
                                                     forCaptureObject:captureSubObj
                                                  captureParentObject:captureObject
-                                                              andKey:key];
+                                                              andKey:key ? key : tableViewHeader];
 
 //                                                       andDataObject:captureObj
 //                                                              forKey:key];

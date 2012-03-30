@@ -32,15 +32,66 @@
 #import "JREmails.h"
 
 @implementation JREmails
-@synthesize emailsId;
-@synthesize primary;
-@synthesize type;
-@synthesize value;
+{
+    NSInteger _emailsId;
+    BOOL _primary;
+    NSString *_type;
+    NSString *_value;
+}
+@dynamic emailsId;
+@dynamic primary;
+@dynamic type;
+@dynamic value;
+
+- (NSInteger)emailsId
+{
+    return _emailsId;
+}
+
+- (void)setEmailsId:(NSInteger)newEmailsId
+{
+    [self.dirtyPropertySet addObject:@"emailsId"];
+    _emailsId = newEmailsId;
+}
+
+- (BOOL)primary
+{
+    return _primary;
+}
+
+- (void)setPrimary:(BOOL)newPrimary
+{
+    [self.dirtyPropertySet addObject:@"primary"];
+    _primary = newPrimary;
+}
+
+- (NSString *)type
+{
+    return _type;
+}
+
+- (void)setType:(NSString *)newType
+{
+    [self.dirtyPropertySet addObject:@"type"];
+    _type = [newType copy];
+}
+
+- (NSString *)value
+{
+    return _value;
+}
+
+- (void)setValue:(NSString *)newValue
+{
+    [self.dirtyPropertySet addObject:@"value"];
+    _value = [newValue copy];
+}
 
 - (id)init
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"/profiles/profile/emails";
     }
     return self;
 }
@@ -51,7 +102,7 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{
+{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
     JREmails *emailsCopy =
                 [[JREmails allocWithZone:zone] init];
 
@@ -60,61 +111,162 @@
     emailsCopy.type = self.type;
     emailsCopy.value = self.value;
 
+    [emailsCopy.dirtyPropertySet removeAllObjects];
+    [emailsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+
     return emailsCopy;
 }
 
-+ (id)emailsObjectFromDictionary:(NSDictionary*)dictionary
+- (NSDictionary*)toDictionary
 {
-    JREmails *emails =
-        [JREmails emails];
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
 
-    emails.emailsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    emails.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
-    emails.type = [dictionary objectForKey:@"type"];
-    emails.value = [dictionary objectForKey:@"value"];
-
-    return emails;
-}
-
-- (NSDictionary*)dictionaryFromObject
-{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
-
-
-    if (emailsId)
-        [dict setObject:[NSNumber numberWithInt:emailsId] forKey:@"id"];
-
-    if (primary)
-        [dict setObject:[NSNumber numberWithBool:primary] forKey:@"primary"];
-
-    if (type)
-        [dict setObject:type forKey:@"type"];
-
-    if (value)
-        [dict setObject:value forKey:@"value"];
+    [dict setObject:[NSNumber numberWithInt:self.emailsId]
+             forKey:@"id"];
+    [dict setObject:[NSNumber numberWithBool:self.primary]
+             forKey:@"primary"];
+    [dict setObject:(self.type ? self.type : [NSNull null])
+             forKey:@"type"];
+    [dict setObject:(self.value ? self.value : [NSNull null])
+             forKey:@"value"];
 
     return dict;
 }
 
-- (void)updateFromDictionary:(NSDictionary*)dictionary
++ (id)emailsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
-    if ([dictionary objectForKey:@"emailsId"])
-        self.emailsId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+    JREmails *emails = [JREmails emails];
+    emails.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", emails.emailsId];
+
+    emails.emailsId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    emails.primary =
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+
+    emails.type =
+        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] : nil;
+
+    emails.value =
+        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] : nil;
+
+    [emails.dirtyPropertySet removeAllObjects];
+    
+    return emails;
+}
+
+- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", self.emailsId];
+
+    if ([dictionary objectForKey:@"id"])
+        _emailsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"primary"])
-        self.primary = [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue];
+        _primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+            [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
 
     if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"];
+        _type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
+            [dictionary objectForKey:@"type"] : nil;
 
     if ([dictionary objectForKey:@"value"])
-        self.value = [dictionary objectForKey:@"value"];
+        _value = [dictionary objectForKey:@"value"] != [NSNull null] ? 
+            [dictionary objectForKey:@"value"] : nil;
+}
+
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+{
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", self.emailsId];
+
+    _emailsId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+
+    _primary =
+        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+
+    _type =
+        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] : nil;
+
+    _value =
+        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] : nil;
+}
+
+- (NSDictionary *)toUpdateDictionary
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    if ([self.dirtyPropertySet containsObject:@"primary"])
+        [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+
+    if ([self.dirtyPropertySet containsObject:@"type"])
+        [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
+
+    if ([self.dirtyPropertySet containsObject:@"value"])
+        [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
+
+    return dict;
+}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
+                                     withId:self.emailsId
+                                     atPath:self.captureObjectPath
+                                  withToken:[JRCaptureData accessToken]
+                                forDelegate:self
+                                withContext:newContext];
+}
+
+- (NSDictionary *)toReplaceDictionary
+{
+    NSMutableDictionary *dict =
+         [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+    [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
+    [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
+
+    return dict;
+}
+
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
+                                      withId:self.emailsId
+                                      atPath:self.captureObjectPath
+                                   withToken:[JRCaptureData accessToken]
+                                 forDelegate:self
+                                 withContext:newContext];
 }
 
 - (void)dealloc
 {
-    [type release];
-    [value release];
+    [_type release];
+    [_value release];
 
     [super dealloc];
 }
