@@ -1,4 +1,4 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2012, Janrain, Inc.
 
  All rights reserved.
@@ -34,8 +34,8 @@
 
 @interface JRStatuses : JRCaptureObject
 @property                   NSInteger statusesId;
-@property (nonatomic, copy) NSString *status;  
-@property (nonatomic, copy) NSDate *statusCreated;  
+@property (nonatomic, copy) NSString *status;
+@property (nonatomic, copy) NSDate *statusCreated;
 - (id)init;
 + (id)statuses;
 + (id)statusesObjectFromDictionary:(NSDictionary*)dictionary;

@@ -259,9 +259,19 @@ static NSString *entityTypeName = @"user";
 
     if (accessToken)
     {
-        NSDictionary *captureProfile = [self nullWalker:[payloadDict objectForKey:@"profile"]];
+        NSDictionary *captureProfile = [payloadDict objectForKey:@"profile"];//[self nullWalker:[payloadDict objectForKey:@"profile"]];
 
+        DLog(@"user dictionary: %@", [captureProfile description]);
         self.captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+
+        captureUser.statuses = nil;
+        captureUser.aboutMe = nil;
+
+        NSDictionary *backAgain = [captureUser dictionaryFromObject];
+
+        DLog(@"user dictionary back again: %@", [backAgain description]);
+        DLog(@"json string: %@", [backAgain JSONString]);
+
     }
     else if (creationToken)
     {
@@ -286,7 +296,7 @@ static NSString *entityTypeName = @"user";
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     [prefs setObject:engageUser forKey:@"engageUser"];
-    [prefs setObject:[captureUser dictionaryFromObject] forKey:@"captureUser"];
+    [prefs setObject:[self nullWalker:[captureUser dictionaryFromObject]] forKey:@"captureUser"];
     [prefs setObject:accessToken forKey:@"accessToken"];
     [prefs setObject:creationToken forKey:@"creationToken"];
 
