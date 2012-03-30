@@ -28,6 +28,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
 #import "UserDrillDownViewController.h"
 #import "objc/runtime.h"
 #import "SharedData.h"
@@ -362,9 +363,9 @@ typedef enum
 //    parentCaptureObject.accessToken = [[SharedData sharedData] accessToken];
 //    captureObject.accessToken = [[SharedData sharedData] accessToken];
 
-    if (parentCaptureObject)
-        [parentCaptureObject updateObjectOnCaptureForDelegate:self withContext:nil];
-    else
+//    if (parentCaptureObject)
+//        [parentCaptureObject updateObjectOnCaptureForDelegate:self withContext:nil];
+//    else
         [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
 }
 
@@ -725,6 +726,16 @@ typedef enum
         subtitle = [((NSNumber *)value) stringValue];
 
         data.propertyType     = PTNumber;
+        data.canEdit          = YES;
+        data.propertyValue    = subtitle;
+        textField.placeholder = subtitle;
+    }
+ /* If our item is set to [NSNull null], pretend it's a string, */
+    else if (value == [NSNull null]) // TODO: This will break stuff!!
+    {
+        subtitle = cellTitle ? [NSString stringWithFormat:@"No known %@", cellTitle] : @"[none]";
+
+        data.propertyType     = PTString;
         data.canEdit          = YES;
         data.propertyValue    = subtitle;
         textField.placeholder = subtitle;
