@@ -568,12 +568,12 @@ typedef enum CaptureInterfaceStatEnum
         if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
         {
             DLog(@"Capture update success: %@", payload);
-            [self finishGetObjectWithStat:StatOk andResult:payload forDelegate:delegate withContext:userdata];
+            [self finishGetObjectWithStat:StatOk andResult:payload forDelegate:delegate withContext:context];
         }
         else
         {
             DLog(@"Capture update failure: %@", payload);
-            [self finishGetObjectWithStat:StatFail andResult:payload forDelegate:delegate withContext:userdata];
+            [self finishGetObjectWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
         }
     }
     else if ([action isEqualToString:@"updateObject"])

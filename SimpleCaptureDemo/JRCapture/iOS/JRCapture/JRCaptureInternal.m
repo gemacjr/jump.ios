@@ -6,6 +6,14 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 #import "JRCaptureInternal.h"
 
 @interface JRCaptureObject (Internal)
@@ -80,6 +88,8 @@
 
 - (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
 {
+    DLog(@"");
+
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
     NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
@@ -93,6 +103,8 @@
 
 - (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
+    DLog(@"");
+
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
     NSString        *capturePath   = [myContext objectForKey:@"capturePath"];

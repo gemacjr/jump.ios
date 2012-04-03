@@ -1,4 +1,4 @@
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  Copyright (c) 2012, Janrain, Inc.
 
  All rights reserved.
@@ -28,14 +28,22 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 
 @interface JRStatuses : JRCaptureObject
 @property                   NSInteger statusesId;
-@property (nonatomic, copy) NSString *status;
-@property (nonatomic, copy) NSDate *statusCreated;
+@property (nonatomic, copy) NSString *status;  
+@property (nonatomic, copy) NSDate *statusCreated;  
 - (id)init;
 + (id)statuses;
 + (id)statusesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;

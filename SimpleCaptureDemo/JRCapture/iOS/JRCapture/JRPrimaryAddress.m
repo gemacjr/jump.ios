@@ -28,6 +28,14 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 
 #import "JRPrimaryAddress.h"
 
@@ -282,6 +290,8 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    DLog(@"%@ %@", capturePath, [dictionary description]);
+
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     if ([dictionary objectForKey:@"address1"])
@@ -327,6 +337,8 @@
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    DLog(@"%@ %@", capturePath, [dictionary description]);
+
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     _address1 =

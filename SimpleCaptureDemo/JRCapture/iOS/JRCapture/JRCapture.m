@@ -47,7 +47,7 @@
 // YYYY-MM-DD
 + (NSDate *)dateFromISO8601DateString:(NSString *)dateString
 {
-    if (!dateString || dateString == [NSNull null]) return nil;
+    if (!dateString) return nil;
 
     static NSDateFormatter *dateFormatter = nil;
     if (!dateFormatter)
@@ -76,7 +76,7 @@
 
 + (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString
 {
-    if (!dateTimeString || dateTimeString == [NSNull null]) return nil;
+    if (!dateTimeString) return nil;
 
     static NSDateFormatter *dateFormatter = nil;
     if (!dateFormatter)

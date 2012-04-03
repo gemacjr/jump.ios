@@ -1,3 +1,5 @@
+#!/usr/bin/perl
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Copyright (c) 2012, Janrain, Inc.
 #
@@ -31,8 +33,6 @@
 # Author: Lilli Szafranski - lilli@janrain.com, lillialexis@gmail.com
 # Date:   Wednesday, February 8, 2012
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-
-#!/usr/bin/perl
 
 ###################################################################
 # OBJC METHODS TO BE POPULATED WITH PROPERTIES
@@ -247,7 +247,7 @@ my @toDictionaryParts = (
 
 my @updateFrDictParts = (
 "- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
-"\n{\n",
+"\n{\n    DLog(@\"\%\@ \%\@\", capturePath, [dictionary description]);\n\n",
 "    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@", "", "\", capturePath, ", "", "", "];\n",
 "",
 "}\n\n");
@@ -269,7 +269,7 @@ my @updateFrDictParts = (
 
 my @replaceFrDictParts = (
 "- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
-"\n{\n",
+"\n{\n    DLog(@\"\%\@ \%\@\", capturePath, [dictionary description]);\n\n",
 "    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@", "", "\", capturePath, ", "", "", "];\n",
 "",
 "}\n\n");
@@ -444,7 +444,15 @@ my $copyrightHeader =
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */\n\n";
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((\@\"\%s [Line \%d] \" fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((\@\"\%s [Line \%d] \" fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)\n\n";
 
 sub createArrayCategoryForSubobject { 
   my $propertyName = $_[0];

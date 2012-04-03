@@ -28,6 +28,14 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 
 #import "JRCaptureUser.h"
 
@@ -918,6 +926,8 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    DLog(@"%@ %@", capturePath, [dictionary description]);
+
 //    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", self.captureUserId];
 
     self.captureObjectPath = @"";
@@ -1029,6 +1039,8 @@
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    DLog(@"%@ %@", capturePath, [dictionary description]);
+
 //    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", self.captureUserId];
 
     self.captureObjectPath = @"";
