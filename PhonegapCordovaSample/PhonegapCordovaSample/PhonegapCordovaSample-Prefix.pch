@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'PhonegapCordovaSample' target in the 'PhonegapCordovaSample' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+#endif
