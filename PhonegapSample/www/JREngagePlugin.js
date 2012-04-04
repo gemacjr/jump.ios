@@ -32,6 +32,7 @@
  Date:   Wednesday, January 4th, 2012
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+var PgCdv;
 JREngagePlugin.prototype.JREngagePhonegapError                =  -1;
 JREngagePlugin.prototype.JRUrlError                           = 100;
 JREngagePlugin.prototype.JRDataParsingError                   = 101;
@@ -71,26 +72,22 @@ function JREngagePlugin()
 
 JREngagePlugin.prototype.print = function(message, success, fail)
 {
-    Cordova.exec(success, fail, 'JREngagePlugin', 'print', [message]);
-    PhoneGap.exec(success, fail, 'JREngagePlugin', 'print', [message]);
+    PgCdv.exec(success, fail, 'JREngagePlugin', 'print', [message]);
 };
 
 JREngagePlugin.prototype.initialize = function(appid, tokenurl, success, fail)
 {
-    Cordova.exec(success, fail, 'JREngagePlugin', 'initializeJREngage', [appid, tokenurl]);
-    PhoneGap.exec(success, fail, 'JREngagePlugin', 'initializeJREngage', [appid, tokenurl]);
+    PgCdv.exec(success, fail, 'JREngagePlugin', 'initializeJREngage', [appid, tokenurl]);
 };
 
 JREngagePlugin.prototype.showAuthentication = function(success, fail)
 {
-    Cordova.exec(success, fail, 'JREngagePlugin', 'showAuthenticationDialog', []);
-    PhoneGap.exec(success, fail, 'JREngagePlugin', 'showAuthenticationDialog', []);
+    PgCdv.exec(success, fail, 'JREngagePlugin', 'showAuthenticationDialog', []);
 };
 
 JREngagePlugin.prototype.showSharing = function(activity, success, fail)
 {
-    Cordova.exec(success, fail, 'JREngagePlugin', 'showSharingDialog', [activity]);
-    PhoneGap.exec(success, fail, 'JREngagePlugin', 'showSharingDialog', [activity]);
+    PgCdv.exec(success, fail, 'JREngagePlugin', 'showSharingDialog', [activity]);
 };
 
 JREngagePlugin.install = function()
@@ -105,5 +102,15 @@ JREngagePlugin.install = function()
     return window.plugins.jrEngagePlugin;
 };
 
-Cordova.addConstructor(JREngagePlugin.install);
-PhoneGap.addConstructor(JREngagePlugin.install);
+if (typeof Cordova === 'undefined')
+{
+    PgCdv = PhoneGap;
+}
+else
+{
+    PgCdv = Cordova;
+}
+
+PgCdv.addConstructor(JREngagePlugin.install);
+
+
