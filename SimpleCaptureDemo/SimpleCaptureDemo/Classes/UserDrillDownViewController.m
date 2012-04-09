@@ -29,9 +29,9 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
+#import <objc/runtime.h>
 #import "UserDrillDownViewController.h"
-#import "objc/runtime.h"
-#import "SharedData.h"
+
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -730,7 +730,7 @@ typedef enum
         data.propertyValue    = subtitle;
         textField.placeholder = subtitle;
     }
- /* If our item is set to [NSNull null], pretend it's a string, */
+ /* If our item is set to [NSNull null], figure out what it really is, but for the UI pretend it's a string, */
     else if (value == [NSNull null]) // TODO: This will break stuff!!
     {
         subtitle = cellTitle ? [NSString stringWithFormat:@"No known %@", cellTitle] : @"[none]";

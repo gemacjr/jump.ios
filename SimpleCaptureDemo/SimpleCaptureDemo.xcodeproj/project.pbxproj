@@ -10,16 +10,27 @@
 		90C36B6B7717AA0C893E08EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08E9 /* UIKit.framework */; };
 		90C36B6B7717AA0C893E08EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08EB /* Foundation.framework */; };
 		90C36B6B7717AA0C893E08EE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08ED /* CoreGraphics.framework */; };
-		90C36B6B7717AA0C893E08F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08F3 /* InfoPlist.strings */; };
 		90C36B6B7717AA0C893E08F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08F5 /* main.m */; };
-		90C36B6B7717AA0C893E08FA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08F9 /* AppDelegate.m */; };
-		90C36B6B7717AA0C893E08FD /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08FC /* MainStoryboard.storyboard */; };
-		90C36B6B7717AA0C893E0900 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08FF /* ViewController.m */; };
 		90C36B6B7717AA0C893E090B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E090A /* SenTestingKit.framework */; };
 		90C36B6B7717AA0C893E090C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08E9 /* UIKit.framework */; };
 		90C36B6B7717AA0C893E090D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08EB /* Foundation.framework */; };
 		90C36B6B7717AA0C893E0915 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E0914 /* InfoPlist.strings */; };
 		90C36B6B7717AA0C893E0918 /* SimpleCaptureDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E0917 /* SimpleCaptureDemoTests.m */; };
+		9F7B6A8415336470002BF452 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8215336470002BF452 /* InfoPlist.strings */; };
+		9F7B6A9315336480002BF452 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8615336480002BF452 /* AppDelegate.m */; };
+		9F7B6A9415336480002BF452 /* ArrayDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8815336480002BF452 /* ArrayDrillDownViewController.m */; };
+		9F7B6A9515336480002BF452 /* CaptureNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8A15336480002BF452 /* CaptureNewUserViewController.m */; };
+		9F7B6A9615336480002BF452 /* ObjectDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8C15336480002BF452 /* ObjectDrillDownViewController.m */; };
+		9F7B6A9715336480002BF452 /* SharedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8E15336480002BF452 /* SharedData.m */; };
+		9F7B6A9815336480002BF452 /* UserDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A9015336480002BF452 /* UserDrillDownViewController.m */; };
+		9F7B6A9915336480002BF452 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A9215336480002BF452 /* ViewController.m */; };
+		9F7B6AAA1533648C002BF452 /* ArrayDrillDownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A9B1533648C002BF452 /* ArrayDrillDownViewController.xib */; };
+		9F7B6AAB1533648C002BF452 /* CaptureNewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A9D1533648C002BF452 /* CaptureNewUserViewController.xib */; };
+		9F7B6AAC1533648C002BF452 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A9F1533648C002BF452 /* InfoPlist.strings */; };
+		9F7B6AAD1533648C002BF452 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6AA11533648C002BF452 /* MainStoryboard.storyboard */; };
+		9F7B6AAE1533648C002BF452 /* ObjectDrillDownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6AA31533648C002BF452 /* ObjectDrillDownViewController.xib */; };
+		9F7B6AAF1533648C002BF452 /* UserDrillDownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6AA51533648C002BF452 /* UserDrillDownViewController.xib */; };
+		9F7B6AB01533648C002BF452 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6AA81533648C002BF452 /* background.png */; };
 		9FD2B59414F836D100053EA2 /* JRActivityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B4CE14F836D100053EA2 /* JRActivityObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B59514F836D100053EA2 /* JRConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B4D014F836D100053EA2 /* JRConnectionManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B59614F836D100053EA2 /* JREngage+CustomInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B4D214F836D100053EA2 /* JREngage+CustomInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -211,13 +222,7 @@
 		9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B69214F8380F00053EA2 /* JRUrls.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6BF14F8387100053EA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6BE14F8387100053EA2 /* Security.framework */; };
 		9FD2B6C114F8387B00053EA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6C014F8387B00053EA2 /* MessageUI.framework */; };
-		9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EA3 /* SharedData.m */; };
-		9FD2B6C114F8387B00053EAB /* CaptureNewUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAA /* CaptureNewUserViewController.m */; };
-		9FD2B6C114F8387B00053EAE /* CaptureNewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EAD /* CaptureNewUserViewController.xib */; };
 		9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D414F9AC5900053EA2 /* JRCaptureUser+Extras.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6D514F9AC5900053EA5 /* UserDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */; };
-		9FD2B6D514F9AC5900053EA8 /* UserDrillDownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6D514F9AC5900053EA7 /* UserDrillDownViewController.xib */; };
-		9FD2B6DC14FAFF9100053EA2 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DA14FAFF9100053EA2 /* background.png */; };
 		9FD2B6DC14FAFF9100053EB2 /* JRGames.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EB1 /* JRGames.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6DC14FAFF9100053EB4 /* JRObjectLevelOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EB3 /* JRObjectLevelOne.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6DC14FAFF9100053EB6 /* JRObjectLevelThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EB5 /* JRObjectLevelThree.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -250,20 +255,36 @@
 		90C36B6B7717AA0C893E08EB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		90C36B6B7717AA0C893E08ED /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		90C36B6B7717AA0C893E08F1 /* SimpleCaptureDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "SimpleCaptureDemo-Info.plist"; sourceTree = "<group>"; };
-		90C36B6B7717AA0C893E08F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E08F5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E08F7 /* SimpleCaptureDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleCaptureDemo-Prefix.pch"; sourceTree = "<group>"; };
-		90C36B6B7717AA0C893E08F8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		90C36B6B7717AA0C893E08F9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		90C36B6B7717AA0C893E08FB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		90C36B6B7717AA0C893E08FE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		90C36B6B7717AA0C893E08FF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E0901 /* SimpleCaptureDemoTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleCaptureDemoTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		90C36B6B7717AA0C893E090A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		90C36B6B7717AA0C893E0912 /* SimpleCaptureDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "SimpleCaptureDemoTests-Info.plist"; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E0913 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E0916 /* SimpleCaptureDemoTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleCaptureDemoTests.h; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E0917 /* SimpleCaptureDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleCaptureDemoTests.m; sourceTree = "<group>"; };
+		9F7B6A8315336470002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9F7B6A8515336480002BF452 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		9F7B6A8615336480002BF452 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		9F7B6A8715336480002BF452 /* ArrayDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArrayDrillDownViewController.h; path = Classes/ArrayDrillDownViewController.h; sourceTree = "<group>"; };
+		9F7B6A8815336480002BF452 /* ArrayDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArrayDrillDownViewController.m; path = Classes/ArrayDrillDownViewController.m; sourceTree = "<group>"; };
+		9F7B6A8915336480002BF452 /* CaptureNewUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CaptureNewUserViewController.h; path = Classes/CaptureNewUserViewController.h; sourceTree = "<group>"; };
+		9F7B6A8A15336480002BF452 /* CaptureNewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CaptureNewUserViewController.m; path = Classes/CaptureNewUserViewController.m; sourceTree = "<group>"; };
+		9F7B6A8B15336480002BF452 /* ObjectDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ObjectDrillDownViewController.h; path = Classes/ObjectDrillDownViewController.h; sourceTree = "<group>"; };
+		9F7B6A8C15336480002BF452 /* ObjectDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ObjectDrillDownViewController.m; path = Classes/ObjectDrillDownViewController.m; sourceTree = "<group>"; };
+		9F7B6A8D15336480002BF452 /* SharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SharedData.h; path = Classes/SharedData.h; sourceTree = "<group>"; };
+		9F7B6A8E15336480002BF452 /* SharedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SharedData.m; path = Classes/SharedData.m; sourceTree = "<group>"; };
+		9F7B6A8F15336480002BF452 /* UserDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDrillDownViewController.h; path = Classes/UserDrillDownViewController.h; sourceTree = "<group>"; };
+		9F7B6A9015336480002BF452 /* UserDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDrillDownViewController.m; path = Classes/UserDrillDownViewController.m; sourceTree = "<group>"; };
+		9F7B6A9115336480002BF452 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = Classes/ViewController.h; sourceTree = "<group>"; };
+		9F7B6A9215336480002BF452 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = Classes/ViewController.m; sourceTree = "<group>"; };
+		9F7B6A9C1533648C002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = ArrayDrillDownViewController.xib; sourceTree = "<group>"; };
+		9F7B6A9E1533648C002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = CaptureNewUserViewController.xib; sourceTree = "<group>"; };
+		9F7B6AA01533648C002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		9F7B6AA21533648C002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		9F7B6AA41533648C002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = ObjectDrillDownViewController.xib; sourceTree = "<group>"; };
+		9F7B6AA61533648C002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = UserDrillDownViewController.xib; sourceTree = "<group>"; };
+		9F7B6AA81533648C002BF452 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		9F9506FE14FEA79000335A12 /* SimpleCaptureDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimpleCaptureDemo.entitlements; sourceTree = "<group>"; };
 		9FD2B4CD14F836D100053EA2 /* JRActivityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActivityObject.h; sourceTree = "<group>"; };
 		9FD2B4CE14F836D100053EA2 /* JRActivityObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRActivityObject.m; sourceTree = "<group>"; };
@@ -490,17 +511,8 @@
 		9FD2B69214F8380F00053EA2 /* JRUrls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRUrls.m; path = JRCapture/iOS/JRCapture/JRUrls.m; sourceTree = "<group>"; };
 		9FD2B6BE14F8387100053EA2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9FD2B6C014F8387B00053EA2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		9FD2B6C114F8387B00053EA3 /* SharedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedData.m; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EA5 /* SharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedData.h; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EA9 /* CaptureNewUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureNewUserViewController.h; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EAA /* CaptureNewUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureNewUserViewController.m; sourceTree = "<group>"; };
-		9FD2B6C114F8387B00053EAC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CaptureNewUserViewController.xib; sourceTree = "<group>"; };
 		9FD2B6D314F9AC5800053EA2 /* JRCaptureUser+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "JRCaptureUser+Extras.h"; path = "JRCapture/iOS/JRCapture/JRCaptureUser+Extras.h"; sourceTree = "<group>"; };
 		9FD2B6D414F9AC5900053EA2 /* JRCaptureUser+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "JRCaptureUser+Extras.m"; path = "JRCapture/iOS/JRCapture/JRCaptureUser+Extras.m"; sourceTree = "<group>"; };
-		9FD2B6D514F9AC5900053EA3 /* UserDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDrillDownViewController.h; sourceTree = "<group>"; };
-		9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDrillDownViewController.m; sourceTree = "<group>"; };
-		9FD2B6D514F9AC5900053EA6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserDrillDownViewController.xib; sourceTree = "<group>"; };
-		9FD2B6DB14FAFF9100053EA2 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/background.png; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EA3 /* JRGames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRGames.h; path = JRCapture/iOS/JRCapture/JRGames.h; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EA4 /* JRObjectLevelOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRObjectLevelOne.h; path = JRCapture/iOS/JRCapture/JRObjectLevelOne.h; sourceTree = "<group>"; };
 		9FD2B6DC14FAFF9100053EA5 /* JRObjectLevelThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRObjectLevelThree.h; path = JRCapture/iOS/JRCapture/JRObjectLevelThree.h; sourceTree = "<group>"; };
@@ -594,21 +606,9 @@
 		90C36B6B7717AA0C893E08EF /* SimpleCaptureDemo */ = {
 			isa = PBXGroup;
 			children = (
+				9F7B6A811533644A002BF452 /* Resources */,
+				9F7B6A8015336443002BF452 /* Classes */,
 				9F9506FE14FEA79000335A12 /* SimpleCaptureDemo.entitlements */,
-				9FD2B6DA14FAFF9100053EA2 /* background.png */,
-				9FD2B6D514F9AC5900053EA7 /* UserDrillDownViewController.xib */,
-				9FD2B6D514F9AC5900053EA4 /* UserDrillDownViewController.m */,
-				9FD2B6D514F9AC5900053EA3 /* UserDrillDownViewController.h */,
-				9FD2B6C114F8387B00053EAD /* CaptureNewUserViewController.xib */,
-				9FD2B6C114F8387B00053EAA /* CaptureNewUserViewController.m */,
-				9FD2B6C114F8387B00053EA9 /* CaptureNewUserViewController.h */,
-				9FD2B6C114F8387B00053EA5 /* SharedData.h */,
-				9FD2B6C114F8387B00053EA3 /* SharedData.m */,
-				90C36B6B7717AA0C893E08FF /* ViewController.m */,
-				90C36B6B7717AA0C893E08FE /* ViewController.h */,
-				90C36B6B7717AA0C893E08FC /* MainStoryboard.storyboard */,
-				90C36B6B7717AA0C893E08F9 /* AppDelegate.m */,
-				90C36B6B7717AA0C893E08F8 /* AppDelegate.h */,
 				90C36B6B7717AA0C893E08F0 /* Supporting Files */,
 			);
 			path = SimpleCaptureDemo;
@@ -617,9 +617,9 @@
 		90C36B6B7717AA0C893E08F0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9F7B6A8215336470002BF452 /* InfoPlist.strings */,
 				90C36B6B7717AA0C893E08F7 /* SimpleCaptureDemo-Prefix.pch */,
 				90C36B6B7717AA0C893E08F5 /* main.m */,
-				90C36B6B7717AA0C893E08F3 /* InfoPlist.strings */,
 				90C36B6B7717AA0C893E08F1 /* SimpleCaptureDemo-Info.plist */,
 			);
 			name = "Supporting Files";
@@ -642,6 +642,68 @@
 				90C36B6B7717AA0C893E0912 /* SimpleCaptureDemoTests-Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9F7B6A8015336443002BF452 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9F7B6A8515336480002BF452 /* AppDelegate.h */,
+				9F7B6A8615336480002BF452 /* AppDelegate.m */,
+				9F7B6A8715336480002BF452 /* ArrayDrillDownViewController.h */,
+				9F7B6A8815336480002BF452 /* ArrayDrillDownViewController.m */,
+				9F7B6A8915336480002BF452 /* CaptureNewUserViewController.h */,
+				9F7B6A8A15336480002BF452 /* CaptureNewUserViewController.m */,
+				9F7B6A8B15336480002BF452 /* ObjectDrillDownViewController.h */,
+				9F7B6A8C15336480002BF452 /* ObjectDrillDownViewController.m */,
+				9F7B6A8D15336480002BF452 /* SharedData.h */,
+				9F7B6A8E15336480002BF452 /* SharedData.m */,
+				9F7B6A8F15336480002BF452 /* UserDrillDownViewController.h */,
+				9F7B6A9015336480002BF452 /* UserDrillDownViewController.m */,
+				9F7B6A9115336480002BF452 /* ViewController.h */,
+				9F7B6A9215336480002BF452 /* ViewController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		9F7B6A811533644A002BF452 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9F7B6A9A1533648C002BF452 /* en.lproj */,
+				9F7B6AA71533648C002BF452 /* images */,
+				9F7B6AA91533648C002BF452 /* images-2x */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		9F7B6A9A1533648C002BF452 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				9F7B6A9B1533648C002BF452 /* ArrayDrillDownViewController.xib */,
+				9F7B6A9D1533648C002BF452 /* CaptureNewUserViewController.xib */,
+				9F7B6A9F1533648C002BF452 /* InfoPlist.strings */,
+				9F7B6AA11533648C002BF452 /* MainStoryboard.storyboard */,
+				9F7B6AA31533648C002BF452 /* ObjectDrillDownViewController.xib */,
+				9F7B6AA51533648C002BF452 /* UserDrillDownViewController.xib */,
+			);
+			name = en.lproj;
+			path = Resources/en.lproj;
+			sourceTree = "<group>";
+		};
+		9F7B6AA71533648C002BF452 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				9F7B6AA81533648C002BF452 /* background.png */,
+			);
+			name = images;
+			path = Resources/images;
+			sourceTree = "<group>";
+		};
+		9F7B6AA91533648C002BF452 /* images-2x */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "images-2x";
+			path = "Resources/images-2x";
 			sourceTree = "<group>";
 		};
 		9FD2B44814F8366500053EA2 /* JRCapture */ = {
@@ -1121,8 +1183,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90C36B6B7717AA0C893E08F4 /* InfoPlist.strings in Resources */,
-				90C36B6B7717AA0C893E08FD /* MainStoryboard.storyboard in Resources */,
 				9FD2B5A014F836D100053EA2 /* JREngage-Info.plist in Resources */,
 				9FD2B5A214F836D100053EA2 /* button_black_135x40.png in Resources */,
 				9FD2B5A314F836D100053EA2 /* button_black_280x40.png in Resources */,
@@ -1278,9 +1338,14 @@
 				9FD2B63914F836D100053EA2 /* JRPublishActivityController.xib in Resources */,
 				9FD2B63A14F836D100053EA2 /* JRUserLandingController.xib in Resources */,
 				9FD2B63B14F836D100053EA2 /* JRWebViewController.xib in Resources */,
-				9FD2B6C114F8387B00053EAE /* CaptureNewUserViewController.xib in Resources */,
-				9FD2B6D514F9AC5900053EA8 /* UserDrillDownViewController.xib in Resources */,
-				9FD2B6DC14FAFF9100053EA2 /* background.png in Resources */,
+				9F7B6A8415336470002BF452 /* InfoPlist.strings in Resources */,
+				9F7B6AAA1533648C002BF452 /* ArrayDrillDownViewController.xib in Resources */,
+				9F7B6AAB1533648C002BF452 /* CaptureNewUserViewController.xib in Resources */,
+				9F7B6AAC1533648C002BF452 /* InfoPlist.strings in Resources */,
+				9F7B6AAD1533648C002BF452 /* MainStoryboard.storyboard in Resources */,
+				9F7B6AAE1533648C002BF452 /* ObjectDrillDownViewController.xib in Resources */,
+				9F7B6AAF1533648C002BF452 /* UserDrillDownViewController.xib in Resources */,
+				9F7B6AB01533648C002BF452 /* background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1316,8 +1381,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				90C36B6B7717AA0C893E08F6 /* main.m in Sources */,
-				90C36B6B7717AA0C893E08FA /* AppDelegate.m in Sources */,
-				90C36B6B7717AA0C893E0900 /* ViewController.m in Sources */,
 				9FD2B59414F836D100053EA2 /* JRActivityObject.m in Sources */,
 				9FD2B59514F836D100053EA2 /* JRConnectionManager.m in Sources */,
 				9FD2B59614F836D100053EA2 /* JREngage+CustomInterface.m in Sources */,
@@ -1352,10 +1415,7 @@
 				9FD2B6B414F8380F00053EA2 /* JRProfiles.m in Sources */,
 				9FD2B6B814F8380F00053EA2 /* JRStatuses.m in Sources */,
 				9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */,
-				9FD2B6C114F8387B00053EA4 /* SharedData.m in Sources */,
-				9FD2B6C114F8387B00053EAB /* CaptureNewUserViewController.m in Sources */,
 				9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */,
-				9FD2B6D514F9AC5900053EA5 /* UserDrillDownViewController.m in Sources */,
 				9FD2B6DC14FAFF9100053EB2 /* JRGames.m in Sources */,
 				9FD2B6DC14FAFF9100053EB4 /* JRObjectLevelOne.m in Sources */,
 				9FD2B6DC14FAFF9100053EB6 /* JRObjectLevelThree.m in Sources */,
@@ -1370,6 +1430,13 @@
 				9FD2B6DC14FAFF9100053ECA /* JRPluralLevelThree.m in Sources */,
 				9FD2B6DC14FAFF9100053ECC /* JRPluralLevelTwo.m in Sources */,
 				9FD2B6DC14FAFF9100053ECF /* JRCaptureInternal.m in Sources */,
+				9F7B6A9315336480002BF452 /* AppDelegate.m in Sources */,
+				9F7B6A9415336480002BF452 /* ArrayDrillDownViewController.m in Sources */,
+				9F7B6A9515336480002BF452 /* CaptureNewUserViewController.m in Sources */,
+				9F7B6A9615336480002BF452 /* ObjectDrillDownViewController.m in Sources */,
+				9F7B6A9715336480002BF452 /* SharedData.m in Sources */,
+				9F7B6A9815336480002BF452 /* UserDrillDownViewController.m in Sources */,
+				9F7B6A9915336480002BF452 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1392,22 +1459,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		90C36B6B7717AA0C893E08F3 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				90C36B6B7717AA0C893E08F2 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		90C36B6B7717AA0C893E08FC /* MainStoryboard.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				90C36B6B7717AA0C893E08FB /* en */,
-			);
-			name = MainStoryboard.storyboard;
-			sourceTree = "<group>";
-		};
 		90C36B6B7717AA0C893E0914 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1416,28 +1467,60 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		9FD2B6C114F8387B00053EAD /* CaptureNewUserViewController.xib */ = {
+		9F7B6A8215336470002BF452 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				9FD2B6C114F8387B00053EAC /* en */,
+				9F7B6A8315336470002BF452 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9F7B6A9B1533648C002BF452 /* ArrayDrillDownViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F7B6A9C1533648C002BF452 /* en */,
+			);
+			name = ArrayDrillDownViewController.xib;
+			sourceTree = "<group>";
+		};
+		9F7B6A9D1533648C002BF452 /* CaptureNewUserViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F7B6A9E1533648C002BF452 /* en */,
 			);
 			name = CaptureNewUserViewController.xib;
 			sourceTree = "<group>";
 		};
-		9FD2B6D514F9AC5900053EA7 /* UserDrillDownViewController.xib */ = {
+		9F7B6A9F1533648C002BF452 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				9FD2B6D514F9AC5900053EA6 /* en */,
+				9F7B6AA01533648C002BF452 /* en */,
 			);
-			name = UserDrillDownViewController.xib;
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		9FD2B6DA14FAFF9100053EA2 /* background.png */ = {
+		9F7B6AA11533648C002BF452 /* MainStoryboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				9FD2B6DB14FAFF9100053EA2 /* en */,
+				9F7B6AA21533648C002BF452 /* en */,
 			);
-			name = background.png;
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+		9F7B6AA31533648C002BF452 /* ObjectDrillDownViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F7B6AA41533648C002BF452 /* en */,
+			);
+			name = ObjectDrillDownViewController.xib;
+			sourceTree = "<group>";
+		};
+		9F7B6AA51533648C002BF452 /* UserDrillDownViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F7B6AA61533648C002BF452 /* en */,
+			);
+			name = UserDrillDownViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
