@@ -14,7 +14,7 @@
 
 @implementation ArrayDrillDownViewController
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forCaptureObject:(JRCaptureObject*)object
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forObject:(NSArray*)object
   captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key
 {
 

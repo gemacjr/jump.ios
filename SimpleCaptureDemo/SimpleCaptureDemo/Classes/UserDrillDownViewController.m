@@ -42,11 +42,11 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
-@interface PropertyUtil : NSObject
+@interface xPropertyUtil : NSObject
 + (NSDictionary *)classPropsFor:(Class)klass;
 @end
 
-@implementation PropertyUtil
+@implementation xPropertyUtil
 static const char * getPropertyType(objc_property_t property) {
 //static NSString* getPropertyType(objc_property_t property) {
     const char *attributes = property_getAttributes(property);
@@ -168,7 +168,7 @@ typedef enum propertyTypes
 @synthesize wasChanged;
 @end
 
-SEL selectorFromKey(NSString *key)
+SEL xselectorFromKey(NSString *key)
 {
     if (!key || [key length] < 1)
         return nil;
@@ -178,7 +178,7 @@ SEL selectorFromKey(NSString *key)
                                                withString:[[key substringToIndex:1] capitalizedString]]]);
 }
 
-Class classNameFromKey(NSString *key)
+Class xclassNameFromKey(NSString *key)
 {
     if (!key || [key length] < 1)
         return nil;
@@ -401,9 +401,9 @@ typedef enum
     NSObject *propertyWithAddButton        =
                 [captureObject performSelector:NSSelectorFromString(currentlyEditingData.propertyKey)];
     JRCaptureObject *newPropertySubObject  =
-                [[classNameFromKey(currentlyEditingData.propertyKey) alloc] init];
+                [[xclassNameFromKey(currentlyEditingData.propertyKey) alloc] init];
     NSDictionary *newPropertySubProperties =
-                [PropertyUtil classPropsFor:classNameFromKey(currentlyEditingData.propertyKey)];
+                [xPropertyUtil classPropsFor:xclassNameFromKey(currentlyEditingData.propertyKey)];
 
     for (NSString *propertyString in [newPropertySubProperties allKeys])
     {
@@ -411,7 +411,7 @@ typedef enum
 
         // TODO: Check for all property types
         if ([(NSString*)[newPropertySubProperties objectForKey:propertyString] isEqualToString:@"T@\"NSString\""])
-            [newPropertySubObject performSelector:selectorFromKey(propertyString) withObject:@"xxx"];
+            [newPropertySubObject performSelector:xselectorFromKey(propertyString) withObject:@"xxx"];
     }
 
     DLog(@"%@", [[newPropertySubObject toDictionary] description]);
@@ -420,13 +420,13 @@ typedef enum
     if ([propertyWithAddButton isKindOfClass:[NSArray class]])
     {
         newParentObject = captureObject;
-        [captureObject performSelector:selectorFromKey(currentlyEditingData.propertyKey)
+        [captureObject performSelector:xselectorFromKey(currentlyEditingData.propertyKey)
                                   withObject:[NSArray arrayWithObject:newPropertySubObject]];
     }
     else if (dataType == DataTypeObject)
     {
         newParentObject = captureObject;
-        [captureObject performSelector:selectorFromKey(currentlyEditingData.propertyKey)
+        [captureObject performSelector:xselectorFromKey(currentlyEditingData.propertyKey)
                             withObject:newPropertySubObject];
     }
 
@@ -463,7 +463,7 @@ typedef enum
     {
         currentlyEditingData.propertyValue = textField.text;
 
-        SEL setKeySelector = selectorFromKey(currentlyEditingData.propertyKey);
+        SEL setKeySelector = xselectorFromKey(currentlyEditingData.propertyKey);
         if ([captureObject respondsToSelector:setKeySelector])
         {
             // TODO: Check for all property types

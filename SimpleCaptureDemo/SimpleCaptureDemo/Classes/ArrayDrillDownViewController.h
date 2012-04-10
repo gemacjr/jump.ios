@@ -24,7 +24,7 @@ UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *myUpdateButton;
 - (IBAction)updateButtonPressed:(id)sender;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forCaptureObject:(JRCaptureObject*)object
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forObject:(NSArray*)object
   captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key;
 
 @end

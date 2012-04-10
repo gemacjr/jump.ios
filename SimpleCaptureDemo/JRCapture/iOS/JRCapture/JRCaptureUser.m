@@ -388,6 +388,7 @@
 @dynamic primaryAddress;
 @dynamic profiles;
 @dynamic statuses;
+//@synthesize test;
 
 - (NSInteger)captureUserId
 {
@@ -749,7 +750,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:[NSNumber numberWithInt:self.captureUserId]
@@ -816,111 +817,111 @@
     captureUser.captureObjectPath = @"";
 
     captureUser.captureUserId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     captureUser.uuid =
-        [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
+        [dictionary objectForKey:@"uuid"] != [NSNull null] ?
         [dictionary objectForKey:@"uuid"] : nil;
 
     captureUser.created =
-        [dictionary objectForKey:@"created"] != [NSNull null] ? 
+        [dictionary objectForKey:@"created"] != [NSNull null] ?
         [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     captureUser.lastUpdated =
-        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
+        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ?
         [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     captureUser.aboutMe =
-        [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
+        [dictionary objectForKey:@"aboutMe"] != [NSNull null] ?
         [dictionary objectForKey:@"aboutMe"] : nil;
 
     captureUser.birthday =
-        [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
+        [dictionary objectForKey:@"birthday"] != [NSNull null] ?
         [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]] : nil;
 
     captureUser.currentLocation =
-        [dictionary objectForKey:@"currentLocation"] != [NSNull null] ? 
+        [dictionary objectForKey:@"currentLocation"] != [NSNull null] ?
         [dictionary objectForKey:@"currentLocation"] : nil;
 
     captureUser.display =
-        [dictionary objectForKey:@"display"] != [NSNull null] ? 
+        [dictionary objectForKey:@"display"] != [NSNull null] ?
         [dictionary objectForKey:@"display"] : nil;
 
     captureUser.displayName =
-        [dictionary objectForKey:@"displayName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"displayName"] != [NSNull null] ?
         [dictionary objectForKey:@"displayName"] : nil;
 
     captureUser.email =
-        [dictionary objectForKey:@"email"] != [NSNull null] ? 
+        [dictionary objectForKey:@"email"] != [NSNull null] ?
         [dictionary objectForKey:@"email"] : nil;
 
     captureUser.emailVerified =
-        [dictionary objectForKey:@"emailVerified"] != [NSNull null] ? 
+        [dictionary objectForKey:@"emailVerified"] != [NSNull null] ?
         [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]] : nil;
 
     captureUser.familyName =
-        [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"familyName"] != [NSNull null] ?
         [dictionary objectForKey:@"familyName"] : nil;
 
     captureUser.games =
-        [dictionary objectForKey:@"games"] != [NSNull null] ? 
+        [dictionary objectForKey:@"games"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.gender =
-        [dictionary objectForKey:@"gender"] != [NSNull null] ? 
+        [dictionary objectForKey:@"gender"] != [NSNull null] ?
         [dictionary objectForKey:@"gender"] : nil;
 
     captureUser.givenName =
-        [dictionary objectForKey:@"givenName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"givenName"] != [NSNull null] ?
         [dictionary objectForKey:@"givenName"] : nil;
 
     captureUser.lastLogin =
-        [dictionary objectForKey:@"lastLogin"] != [NSNull null] ? 
+        [dictionary objectForKey:@"lastLogin"] != [NSNull null] ?
         [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]] : nil;
 
     captureUser.middleName =
-        [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"middleName"] != [NSNull null] ?
         [dictionary objectForKey:@"middleName"] : nil;
 
     captureUser.objectLevelOne =
-        [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ? 
+        [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ?
         [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"] withPath:captureUser.captureObjectPath] : nil;
 
     captureUser.onipLevelOne =
-        [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ? 
+        [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.password =
-        [dictionary objectForKey:@"password"] != [NSNull null] ? 
+        [dictionary objectForKey:@"password"] != [NSNull null] ?
         [dictionary objectForKey:@"password"] : nil;
 
     captureUser.photos =
-        [dictionary objectForKey:@"photos"] != [NSNull null] ? 
+        [dictionary objectForKey:@"photos"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.pinoLevelOne =
-        [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ? 
+        [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ?
         [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"] withPath:captureUser.captureObjectPath] : nil;
 
     captureUser.pluralLevelOne =
-        [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ? 
+        [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.primaryAddress =
-        [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ? 
+        [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ?
         [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"] withPath:captureUser.captureObjectPath] : nil;
 
     captureUser.profiles =
-        [dictionary objectForKey:@"profiles"] != [NSNull null] ? 
+        [dictionary objectForKey:@"profiles"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.statuses =
-        [dictionary objectForKey:@"statuses"] != [NSNull null] ? 
+        [dictionary objectForKey:@"statuses"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     [captureUser.dirtyPropertySet removeAllObjects];
-    
+
     return captureUser;
 }
 
@@ -933,107 +934,107 @@
     self.captureObjectPath = @"";
 
     if ([dictionary objectForKey:@"id"])
-        _captureUserId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        _captureUserId = [dictionary objectForKey:@"id"] != [NSNull null] ?
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"uuid"])
-        _uuid = [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
+        _uuid = [dictionary objectForKey:@"uuid"] != [NSNull null] ?
             [dictionary objectForKey:@"uuid"] : nil;
 
     if ([dictionary objectForKey:@"created"])
-        _created = [dictionary objectForKey:@"created"] != [NSNull null] ? 
+        _created = [dictionary objectForKey:@"created"] != [NSNull null] ?
             [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     if ([dictionary objectForKey:@"lastUpdated"])
-        _lastUpdated = [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
+        _lastUpdated = [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ?
             [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     if ([dictionary objectForKey:@"aboutMe"])
-        _aboutMe = [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
+        _aboutMe = [dictionary objectForKey:@"aboutMe"] != [NSNull null] ?
             [dictionary objectForKey:@"aboutMe"] : nil;
 
     if ([dictionary objectForKey:@"birthday"])
-        _birthday = [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
+        _birthday = [dictionary objectForKey:@"birthday"] != [NSNull null] ?
             [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]] : nil;
 
     if ([dictionary objectForKey:@"currentLocation"])
-        _currentLocation = [dictionary objectForKey:@"currentLocation"] != [NSNull null] ? 
+        _currentLocation = [dictionary objectForKey:@"currentLocation"] != [NSNull null] ?
             [dictionary objectForKey:@"currentLocation"] : nil;
 
     if ([dictionary objectForKey:@"display"])
-        _display = [dictionary objectForKey:@"display"] != [NSNull null] ? 
+        _display = [dictionary objectForKey:@"display"] != [NSNull null] ?
             [dictionary objectForKey:@"display"] : nil;
 
     if ([dictionary objectForKey:@"displayName"])
-        _displayName = [dictionary objectForKey:@"displayName"] != [NSNull null] ? 
+        _displayName = [dictionary objectForKey:@"displayName"] != [NSNull null] ?
             [dictionary objectForKey:@"displayName"] : nil;
 
     if ([dictionary objectForKey:@"email"])
-        _email = [dictionary objectForKey:@"email"] != [NSNull null] ? 
+        _email = [dictionary objectForKey:@"email"] != [NSNull null] ?
             [dictionary objectForKey:@"email"] : nil;
 
     if ([dictionary objectForKey:@"emailVerified"])
-        _emailVerified = [dictionary objectForKey:@"emailVerified"] != [NSNull null] ? 
+        _emailVerified = [dictionary objectForKey:@"emailVerified"] != [NSNull null] ?
             [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]] : nil;
 
     if ([dictionary objectForKey:@"familyName"])
-        _familyName = [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
+        _familyName = [dictionary objectForKey:@"familyName"] != [NSNull null] ?
             [dictionary objectForKey:@"familyName"] : nil;
 
     if ([dictionary objectForKey:@"games"])
-        _games = [dictionary objectForKey:@"games"] != [NSNull null] ? 
+        _games = [dictionary objectForKey:@"games"] != [NSNull null] ?
             [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"gender"])
-        _gender = [dictionary objectForKey:@"gender"] != [NSNull null] ? 
+        _gender = [dictionary objectForKey:@"gender"] != [NSNull null] ?
             [dictionary objectForKey:@"gender"] : nil;
 
     if ([dictionary objectForKey:@"givenName"])
-        _givenName = [dictionary objectForKey:@"givenName"] != [NSNull null] ? 
+        _givenName = [dictionary objectForKey:@"givenName"] != [NSNull null] ?
             [dictionary objectForKey:@"givenName"] : nil;
 
     if ([dictionary objectForKey:@"lastLogin"])
-        _lastLogin = [dictionary objectForKey:@"lastLogin"] != [NSNull null] ? 
+        _lastLogin = [dictionary objectForKey:@"lastLogin"] != [NSNull null] ?
             [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]] : nil;
 
     if ([dictionary objectForKey:@"middleName"])
-        _middleName = [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
+        _middleName = [dictionary objectForKey:@"middleName"] != [NSNull null] ?
             [dictionary objectForKey:@"middleName"] : nil;
 
     if ([dictionary objectForKey:@"objectLevelOne"])
-        _objectLevelOne = [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ? 
+        _objectLevelOne = [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ?
             [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"onipLevelOne"])
-        _onipLevelOne = [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ? 
+        _onipLevelOne = [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ?
             [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"password"])
-        _password = [dictionary objectForKey:@"password"] != [NSNull null] ? 
+        _password = [dictionary objectForKey:@"password"] != [NSNull null] ?
             [dictionary objectForKey:@"password"] : nil;
 
     if ([dictionary objectForKey:@"photos"])
-        _photos = [dictionary objectForKey:@"photos"] != [NSNull null] ? 
+        _photos = [dictionary objectForKey:@"photos"] != [NSNull null] ?
             [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"pinoLevelOne"])
-        _pinoLevelOne = [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ? 
+        _pinoLevelOne = [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ?
             [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"pluralLevelOne"])
-        _pluralLevelOne = [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ? 
+        _pluralLevelOne = [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ?
             [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"primaryAddress"])
-        _primaryAddress = [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ? 
+        _primaryAddress = [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ?
             [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"profiles"])
-        _profiles = [dictionary objectForKey:@"profiles"] != [NSNull null] ? 
+        _profiles = [dictionary objectForKey:@"profiles"] != [NSNull null] ?
             [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionariesWithPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"statuses"])
-        _statuses = [dictionary objectForKey:@"statuses"] != [NSNull null] ? 
+        _statuses = [dictionary objectForKey:@"statuses"] != [NSNull null] ?
             [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionariesWithPath:self.captureObjectPath] : nil;
 }
 
@@ -1046,107 +1047,107 @@
     self.captureObjectPath = @"";
 
     _captureUserId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     _uuid =
-        [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
+        [dictionary objectForKey:@"uuid"] != [NSNull null] ?
         [dictionary objectForKey:@"uuid"] : nil;
 
     _created =
-        [dictionary objectForKey:@"created"] != [NSNull null] ? 
+        [dictionary objectForKey:@"created"] != [NSNull null] ?
         [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     _lastUpdated =
-        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
+        [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ?
         [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     _aboutMe =
-        [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
+        [dictionary objectForKey:@"aboutMe"] != [NSNull null] ?
         [dictionary objectForKey:@"aboutMe"] : nil;
 
     _birthday =
-        [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
+        [dictionary objectForKey:@"birthday"] != [NSNull null] ?
         [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]] : nil;
 
     _currentLocation =
-        [dictionary objectForKey:@"currentLocation"] != [NSNull null] ? 
+        [dictionary objectForKey:@"currentLocation"] != [NSNull null] ?
         [dictionary objectForKey:@"currentLocation"] : nil;
 
     _display =
-        [dictionary objectForKey:@"display"] != [NSNull null] ? 
+        [dictionary objectForKey:@"display"] != [NSNull null] ?
         [dictionary objectForKey:@"display"] : nil;
 
     _displayName =
-        [dictionary objectForKey:@"displayName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"displayName"] != [NSNull null] ?
         [dictionary objectForKey:@"displayName"] : nil;
 
     _email =
-        [dictionary objectForKey:@"email"] != [NSNull null] ? 
+        [dictionary objectForKey:@"email"] != [NSNull null] ?
         [dictionary objectForKey:@"email"] : nil;
 
     _emailVerified =
-        [dictionary objectForKey:@"emailVerified"] != [NSNull null] ? 
+        [dictionary objectForKey:@"emailVerified"] != [NSNull null] ?
         [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]] : nil;
 
     _familyName =
-        [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"familyName"] != [NSNull null] ?
         [dictionary objectForKey:@"familyName"] : nil;
 
     _games =
-        [dictionary objectForKey:@"games"] != [NSNull null] ? 
+        [dictionary objectForKey:@"games"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"games"] arrayOfGamesObjectsFromGamesDictionariesWithPath:self.captureObjectPath] : nil;
 
     _gender =
-        [dictionary objectForKey:@"gender"] != [NSNull null] ? 
+        [dictionary objectForKey:@"gender"] != [NSNull null] ?
         [dictionary objectForKey:@"gender"] : nil;
 
     _givenName =
-        [dictionary objectForKey:@"givenName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"givenName"] != [NSNull null] ?
         [dictionary objectForKey:@"givenName"] : nil;
 
     _lastLogin =
-        [dictionary objectForKey:@"lastLogin"] != [NSNull null] ? 
+        [dictionary objectForKey:@"lastLogin"] != [NSNull null] ?
         [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]] : nil;
 
     _middleName =
-        [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"middleName"] != [NSNull null] ?
         [dictionary objectForKey:@"middleName"] : nil;
 
     _objectLevelOne =
-        [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ? 
+        [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ?
         [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"] withPath:self.captureObjectPath] : nil;
 
     _onipLevelOne =
-        [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ? 
+        [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"onipLevelOne"] arrayOfOnipLevelOneObjectsFromOnipLevelOneDictionariesWithPath:self.captureObjectPath] : nil;
 
     _password =
-        [dictionary objectForKey:@"password"] != [NSNull null] ? 
+        [dictionary objectForKey:@"password"] != [NSNull null] ?
         [dictionary objectForKey:@"password"] : nil;
 
     _photos =
-        [dictionary objectForKey:@"photos"] != [NSNull null] ? 
+        [dictionary objectForKey:@"photos"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfPhotosObjectsFromPhotosDictionariesWithPath:self.captureObjectPath] : nil;
 
     _pinoLevelOne =
-        [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ? 
+        [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ?
         [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"] withPath:self.captureObjectPath] : nil;
 
     _pluralLevelOne =
-        [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ? 
+        [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"pluralLevelOne"] arrayOfPluralLevelOneObjectsFromPluralLevelOneDictionariesWithPath:self.captureObjectPath] : nil;
 
     _primaryAddress =
-        [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ? 
+        [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ?
         [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"] withPath:self.captureObjectPath] : nil;
 
     _profiles =
-        [dictionary objectForKey:@"profiles"] != [NSNull null] ? 
+        [dictionary objectForKey:@"profiles"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"profiles"] arrayOfProfilesObjectsFromProfilesDictionariesWithPath:self.captureObjectPath] : nil;
 
     _statuses =
-        [dictionary objectForKey:@"statuses"] != [NSNull null] ? 
+        [dictionary objectForKey:@"statuses"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"statuses"] arrayOfStatusesObjectsFromStatusesDictionariesWithPath:self.captureObjectPath] : nil;
 }
 
