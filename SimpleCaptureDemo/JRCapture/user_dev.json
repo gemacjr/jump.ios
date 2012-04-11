@@ -1752,6 +1752,10 @@
                         "type": "dateTime"
                     }
                 ]
+            },
+            {
+                "name": "testerBoolean",
+                "type": "boolean"
             }
         ]
     },

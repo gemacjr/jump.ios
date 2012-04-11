@@ -224,19 +224,19 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", self.pluralLevelOneId];
 
     if ([dictionary objectForKey:@"id"])
-        _pluralLevelOneId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.pluralLevelOneId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"level"])
-        _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"pluralLevelTwo"])
-        _pluralLevelTwo = [dictionary objectForKey:@"pluralLevelTwo"] != [NSNull null] ? 
+        self.pluralLevelTwo = [dictionary objectForKey:@"pluralLevelTwo"] != [NSNull null] ? 
             [(NSArray*)[dictionary objectForKey:@"pluralLevelTwo"] arrayOfPluralLevelTwoObjectsFromPluralLevelTwoDictionariesWithPath:self.captureObjectPath] : nil;
 }
 
@@ -246,19 +246,19 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", self.pluralLevelOneId];
 
-    _pluralLevelOneId =
+    self.pluralLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
-    _level =
+    self.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
-    _name =
+    self.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    _pluralLevelTwo =
+    self.pluralLevelTwo =
         [dictionary objectForKey:@"pluralLevelTwo"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pluralLevelTwo"] arrayOfPluralLevelTwoObjectsFromPluralLevelTwoDictionariesWithPath:self.captureObjectPath] : nil;
 }

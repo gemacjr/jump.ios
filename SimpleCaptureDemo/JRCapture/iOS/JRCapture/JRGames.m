@@ -195,23 +195,23 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", self.gamesId];
 
     if ([dictionary objectForKey:@"id"])
-        _gamesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.gamesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"isFavorite"])
-        _isFavorite = [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
+        self.isFavorite = [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue] : 0;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"opponents"])
-        _opponents = [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
+        self.opponents = [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
             [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" andPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"rating"])
-        _rating = [dictionary objectForKey:@"rating"] != [NSNull null] ? 
+        self.rating = [dictionary objectForKey:@"rating"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"rating"] intValue] : 0;
 }
 
@@ -221,23 +221,23 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", self.gamesId];
 
-    _gamesId =
+    self.gamesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
-    _isFavorite =
+    self.isFavorite =
         [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue] : 0;
 
-    _name =
+    self.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    _opponents =
+    self.opponents =
         [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" andPath:self.captureObjectPath] : nil;
 
-    _rating =
+    self.rating =
         [dictionary objectForKey:@"rating"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"rating"] intValue] : 0;
 }

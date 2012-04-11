@@ -175,19 +175,19 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", self.onipLevelOneId];
 
     if ([dictionary objectForKey:@"id"])
-        _onipLevelOneId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.onipLevelOneId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"level"])
-        _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"onipLevelTwo"])
-        _onipLevelTwo = [dictionary objectForKey:@"onipLevelTwo"] != [NSNull null] ? 
+        self.onipLevelTwo = [dictionary objectForKey:@"onipLevelTwo"] != [NSNull null] ? 
             [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath] : nil;
 }
 
@@ -197,19 +197,19 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", self.onipLevelOneId];
 
-    _onipLevelOneId =
+    self.onipLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
-    _level =
+    self.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
-    _name =
+    self.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    _onipLevelTwo =
+    self.onipLevelTwo =
         [dictionary objectForKey:@"onipLevelTwo"] != [NSNull null] ? 
         [JROnipLevelTwo onipLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelTwo"] withPath:self.captureObjectPath] : nil;
 }

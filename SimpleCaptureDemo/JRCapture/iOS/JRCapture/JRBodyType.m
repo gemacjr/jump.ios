@@ -195,23 +195,23 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
 
     if ([dictionary objectForKey:@"build"])
-        _build = [dictionary objectForKey:@"build"] != [NSNull null] ? 
+        self.build = [dictionary objectForKey:@"build"] != [NSNull null] ? 
             [dictionary objectForKey:@"build"] : nil;
 
     if ([dictionary objectForKey:@"color"])
-        _color = [dictionary objectForKey:@"color"] != [NSNull null] ? 
+        self.color = [dictionary objectForKey:@"color"] != [NSNull null] ? 
             [dictionary objectForKey:@"color"] : nil;
 
     if ([dictionary objectForKey:@"eyeColor"])
-        _eyeColor = [dictionary objectForKey:@"eyeColor"] != [NSNull null] ? 
+        self.eyeColor = [dictionary objectForKey:@"eyeColor"] != [NSNull null] ? 
             [dictionary objectForKey:@"eyeColor"] : nil;
 
     if ([dictionary objectForKey:@"hairColor"])
-        _hairColor = [dictionary objectForKey:@"hairColor"] != [NSNull null] ? 
+        self.hairColor = [dictionary objectForKey:@"hairColor"] != [NSNull null] ? 
             [dictionary objectForKey:@"hairColor"] : nil;
 
     if ([dictionary objectForKey:@"height"])
-        _height = [dictionary objectForKey:@"height"] != [NSNull null] ? 
+        self.height = [dictionary objectForKey:@"height"] != [NSNull null] ? 
             [dictionary objectForKey:@"height"] : nil;
 }
 
@@ -221,23 +221,23 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
 
-    _build =
+    self.build =
         [dictionary objectForKey:@"build"] != [NSNull null] ? 
         [dictionary objectForKey:@"build"] : nil;
 
-    _color =
+    self.color =
         [dictionary objectForKey:@"color"] != [NSNull null] ? 
         [dictionary objectForKey:@"color"] : nil;
 
-    _eyeColor =
+    self.eyeColor =
         [dictionary objectForKey:@"eyeColor"] != [NSNull null] ? 
         [dictionary objectForKey:@"eyeColor"] : nil;
 
-    _hairColor =
+    self.hairColor =
         [dictionary objectForKey:@"hairColor"] != [NSNull null] ? 
         [dictionary objectForKey:@"hairColor"] : nil;
 
-    _height =
+    self.height =
         [dictionary objectForKey:@"height"] != [NSNull null] ? 
         [dictionary objectForKey:@"height"] : nil;
 }

@@ -155,15 +155,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipLevelTwo"];
 
     if ([dictionary objectForKey:@"level"])
-        _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"onipLevelThree"])
-        _onipLevelThree = [dictionary objectForKey:@"onipLevelThree"] != [NSNull null] ? 
+        self.onipLevelThree = [dictionary objectForKey:@"onipLevelThree"] != [NSNull null] ? 
             [JROnipLevelThree onipLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelThree"] withPath:self.captureObjectPath] : nil;
 }
 
@@ -173,15 +173,15 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipLevelTwo"];
 
-    _level =
+    self.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
-    _name =
+    self.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    _onipLevelThree =
+    self.onipLevelThree =
         [dictionary objectForKey:@"onipLevelThree"] != [NSNull null] ? 
         [JROnipLevelThree onipLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelThree"] withPath:self.captureObjectPath] : nil;
 }

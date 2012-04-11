@@ -13,7 +13,7 @@
 #import "JRCapture.h"
 
 @interface ObjectDrillDownViewController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
-UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
+                                                    UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 {
     UITableView    *myTableView;
     NSMutableArray *propertyDataArray;

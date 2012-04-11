@@ -155,15 +155,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelTwo"];
 
     if ([dictionary objectForKey:@"level"])
-        _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"objectLevelThree"])
-        _objectLevelThree = [dictionary objectForKey:@"objectLevelThree"] != [NSNull null] ? 
+        self.objectLevelThree = [dictionary objectForKey:@"objectLevelThree"] != [NSNull null] ? 
             [JRObjectLevelThree objectLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath] : nil;
 }
 
@@ -173,15 +173,15 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelTwo"];
 
-    _level =
+    self.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
-    _name =
+    self.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    _objectLevelThree =
+    self.objectLevelThree =
         [dictionary objectForKey:@"objectLevelThree"] != [NSNull null] ? 
         [JRObjectLevelThree objectLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath] : nil;
 }

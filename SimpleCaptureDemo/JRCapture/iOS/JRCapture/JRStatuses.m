@@ -155,15 +155,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", self.statusesId];
 
     if ([dictionary objectForKey:@"id"])
-        _statusesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.statusesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"status"])
-        _status = [dictionary objectForKey:@"status"] != [NSNull null] ? 
+        self.status = [dictionary objectForKey:@"status"] != [NSNull null] ? 
             [dictionary objectForKey:@"status"] : nil;
 
     if ([dictionary objectForKey:@"statusCreated"])
-        _statusCreated = [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
+        self.statusCreated = [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
             [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 }
 
@@ -173,15 +173,15 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", self.statusesId];
 
-    _statusesId =
+    self.statusesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
-    _status =
+    self.status =
         [dictionary objectForKey:@"status"] != [NSNull null] ? 
         [dictionary objectForKey:@"status"] : nil;
 
-    _statusCreated =
+    self.statusCreated =
         [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
         [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 }

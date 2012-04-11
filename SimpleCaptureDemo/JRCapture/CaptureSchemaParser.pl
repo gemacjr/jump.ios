@@ -615,11 +615,11 @@ sub recursiveParse {
         $updateFromDictSection[8]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $updateFromDictSection[8]  .= "\n        _" . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $updateFromDictSection[8]  .= "\n        self." . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
         $updateFromDictSection[8]  .=  "            " . $frUpDictionary . " : 0;\n";
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $replaceFromDictSection[8] .= "\n    _" . $propertyName . " =\n";
+        $replaceFromDictSection[8] .= "\n    self." . $propertyName . " =\n";
         $replaceFromDictSection[8] .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
         $replaceFromDictSection[8] .= "        " . $frRplDictionary . " : 0;\n";
         
@@ -648,11 +648,11 @@ sub recursiveParse {
         $updateFromDictSection[8]  .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $updateFromDictSection[8]  .= "\n        _" . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $updateFromDictSection[8]  .= "\n        self." . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
         $updateFromDictSection[8]  .= "            " . $frUpDictionary . " : nil;\n";
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $replaceFromDictSection[8] .= "\n    _" . $propertyName . " =\n";
+        $replaceFromDictSection[8] .= "\n    self." . $propertyName . " =\n";
         $replaceFromDictSection[8] .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
         $replaceFromDictSection[8] .= "        " . $frRplDictionary . " : nil;\n";
         

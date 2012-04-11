@@ -295,43 +295,43 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     if ([dictionary objectForKey:@"address1"])
-        _address1 = [dictionary objectForKey:@"address1"] != [NSNull null] ? 
+        self.address1 = [dictionary objectForKey:@"address1"] != [NSNull null] ? 
             [dictionary objectForKey:@"address1"] : nil;
 
     if ([dictionary objectForKey:@"address2"])
-        _address2 = [dictionary objectForKey:@"address2"] != [NSNull null] ? 
+        self.address2 = [dictionary objectForKey:@"address2"] != [NSNull null] ? 
             [dictionary objectForKey:@"address2"] : nil;
 
     if ([dictionary objectForKey:@"city"])
-        _city = [dictionary objectForKey:@"city"] != [NSNull null] ? 
+        self.city = [dictionary objectForKey:@"city"] != [NSNull null] ? 
             [dictionary objectForKey:@"city"] : nil;
 
     if ([dictionary objectForKey:@"company"])
-        _company = [dictionary objectForKey:@"company"] != [NSNull null] ? 
+        self.company = [dictionary objectForKey:@"company"] != [NSNull null] ? 
             [dictionary objectForKey:@"company"] : nil;
 
     if ([dictionary objectForKey:@"country"])
-        _country = [dictionary objectForKey:@"country"] != [NSNull null] ? 
+        self.country = [dictionary objectForKey:@"country"] != [NSNull null] ? 
             [dictionary objectForKey:@"country"] : nil;
 
     if ([dictionary objectForKey:@"mobile"])
-        _mobile = [dictionary objectForKey:@"mobile"] != [NSNull null] ? 
+        self.mobile = [dictionary objectForKey:@"mobile"] != [NSNull null] ? 
             [dictionary objectForKey:@"mobile"] : nil;
 
     if ([dictionary objectForKey:@"phone"])
-        _phone = [dictionary objectForKey:@"phone"] != [NSNull null] ? 
+        self.phone = [dictionary objectForKey:@"phone"] != [NSNull null] ? 
             [dictionary objectForKey:@"phone"] : nil;
 
     if ([dictionary objectForKey:@"stateAbbreviation"])
-        _stateAbbreviation = [dictionary objectForKey:@"stateAbbreviation"] != [NSNull null] ? 
+        self.stateAbbreviation = [dictionary objectForKey:@"stateAbbreviation"] != [NSNull null] ? 
             [dictionary objectForKey:@"stateAbbreviation"] : nil;
 
     if ([dictionary objectForKey:@"zip"])
-        _zip = [dictionary objectForKey:@"zip"] != [NSNull null] ? 
+        self.zip = [dictionary objectForKey:@"zip"] != [NSNull null] ? 
             [dictionary objectForKey:@"zip"] : nil;
 
     if ([dictionary objectForKey:@"zipPlus4"])
-        _zipPlus4 = [dictionary objectForKey:@"zipPlus4"] != [NSNull null] ? 
+        self.zipPlus4 = [dictionary objectForKey:@"zipPlus4"] != [NSNull null] ? 
             [dictionary objectForKey:@"zipPlus4"] : nil;
 }
 
@@ -341,43 +341,43 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
-    _address1 =
+    self.address1 =
         [dictionary objectForKey:@"address1"] != [NSNull null] ? 
         [dictionary objectForKey:@"address1"] : nil;
 
-    _address2 =
+    self.address2 =
         [dictionary objectForKey:@"address2"] != [NSNull null] ? 
         [dictionary objectForKey:@"address2"] : nil;
 
-    _city =
+    self.city =
         [dictionary objectForKey:@"city"] != [NSNull null] ? 
         [dictionary objectForKey:@"city"] : nil;
 
-    _company =
+    self.company =
         [dictionary objectForKey:@"company"] != [NSNull null] ? 
         [dictionary objectForKey:@"company"] : nil;
 
-    _country =
+    self.country =
         [dictionary objectForKey:@"country"] != [NSNull null] ? 
         [dictionary objectForKey:@"country"] : nil;
 
-    _mobile =
+    self.mobile =
         [dictionary objectForKey:@"mobile"] != [NSNull null] ? 
         [dictionary objectForKey:@"mobile"] : nil;
 
-    _phone =
+    self.phone =
         [dictionary objectForKey:@"phone"] != [NSNull null] ? 
         [dictionary objectForKey:@"phone"] : nil;
 
-    _stateAbbreviation =
+    self.stateAbbreviation =
         [dictionary objectForKey:@"stateAbbreviation"] != [NSNull null] ? 
         [dictionary objectForKey:@"stateAbbreviation"] : nil;
 
-    _zip =
+    self.zip =
         [dictionary objectForKey:@"zip"] != [NSNull null] ? 
         [dictionary objectForKey:@"zip"] : nil;
 
-    _zipPlus4 =
+    self.zipPlus4 =
         [dictionary objectForKey:@"zipPlus4"] != [NSNull null] ? 
         [dictionary objectForKey:@"zipPlus4"] : nil;
 }

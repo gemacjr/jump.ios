@@ -295,43 +295,43 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", self.organizationsId];
 
     if ([dictionary objectForKey:@"id"])
-        _organizationsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.organizationsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"department"])
-        _department = [dictionary objectForKey:@"department"] != [NSNull null] ? 
+        self.department = [dictionary objectForKey:@"department"] != [NSNull null] ? 
             [dictionary objectForKey:@"department"] : nil;
 
     if ([dictionary objectForKey:@"description"])
-        _description = [dictionary objectForKey:@"description"] != [NSNull null] ? 
+        self.description = [dictionary objectForKey:@"description"] != [NSNull null] ? 
             [dictionary objectForKey:@"description"] : nil;
 
     if ([dictionary objectForKey:@"endDate"])
-        _endDate = [dictionary objectForKey:@"endDate"] != [NSNull null] ? 
+        self.endDate = [dictionary objectForKey:@"endDate"] != [NSNull null] ? 
             [dictionary objectForKey:@"endDate"] : nil;
 
     if ([dictionary objectForKey:@"location"])
-        _location = [dictionary objectForKey:@"location"] != [NSNull null] ? 
+        self.location = [dictionary objectForKey:@"location"] != [NSNull null] ? 
             [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"primary"])
-        _primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
 
     if ([dictionary objectForKey:@"startDate"])
-        _startDate = [dictionary objectForKey:@"startDate"] != [NSNull null] ? 
+        self.startDate = [dictionary objectForKey:@"startDate"] != [NSNull null] ? 
             [dictionary objectForKey:@"startDate"] : nil;
 
     if ([dictionary objectForKey:@"title"])
-        _title = [dictionary objectForKey:@"title"] != [NSNull null] ? 
+        self.title = [dictionary objectForKey:@"title"] != [NSNull null] ? 
             [dictionary objectForKey:@"title"] : nil;
 
     if ([dictionary objectForKey:@"type"])
-        _type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
             [dictionary objectForKey:@"type"] : nil;
 }
 
@@ -341,43 +341,43 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", self.organizationsId];
 
-    _organizationsId =
+    self.organizationsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
-    _department =
+    self.department =
         [dictionary objectForKey:@"department"] != [NSNull null] ? 
         [dictionary objectForKey:@"department"] : nil;
 
-    _description =
+    self.description =
         [dictionary objectForKey:@"description"] != [NSNull null] ? 
         [dictionary objectForKey:@"description"] : nil;
 
-    _endDate =
+    self.endDate =
         [dictionary objectForKey:@"endDate"] != [NSNull null] ? 
         [dictionary objectForKey:@"endDate"] : nil;
 
-    _location =
+    self.location =
         [dictionary objectForKey:@"location"] != [NSNull null] ? 
         [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"] withPath:self.captureObjectPath] : nil;
 
-    _name =
+    self.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    _primary =
+    self.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
 
-    _startDate =
+    self.startDate =
         [dictionary objectForKey:@"startDate"] != [NSNull null] ? 
         [dictionary objectForKey:@"startDate"] : nil;
 
-    _title =
+    self.title =
         [dictionary objectForKey:@"title"] != [NSNull null] ? 
         [dictionary objectForKey:@"title"] : nil;
 
-    _type =
+    self.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 }

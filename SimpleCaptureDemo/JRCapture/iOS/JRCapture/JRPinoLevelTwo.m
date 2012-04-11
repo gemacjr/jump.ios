@@ -204,15 +204,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelTwo"];
 
     if ([dictionary objectForKey:@"level"])
-        _level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        _name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"pinoLevelThree"])
-        _pinoLevelThree = [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
+        self.pinoLevelThree = [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
             [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:self.captureObjectPath] : nil;
 }
 
@@ -222,15 +222,15 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelTwo"];
 
-    _level =
+    self.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
-    _name =
+    self.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    _pinoLevelThree =
+    self.pinoLevelThree =
         [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:self.captureObjectPath] : nil;
 }

@@ -155,15 +155,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", self.photosId];
 
     if ([dictionary objectForKey:@"id"])
-        _photosId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.photosId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"type"])
-        _type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
             [dictionary objectForKey:@"type"] : nil;
 
     if ([dictionary objectForKey:@"value"])
-        _value = [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        self.value = [dictionary objectForKey:@"value"] != [NSNull null] ? 
             [dictionary objectForKey:@"value"] : nil;
 }
 
@@ -173,15 +173,15 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", self.photosId];
 
-    _photosId =
+    self.photosId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
-    _type =
+    self.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 
-    _value =
+    self.value =
         [dictionary objectForKey:@"value"] != [NSNull null] ? 
         [dictionary objectForKey:@"value"] : nil;
 }

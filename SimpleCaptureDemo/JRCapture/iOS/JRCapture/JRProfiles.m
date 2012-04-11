@@ -315,43 +315,43 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", self.profilesId];
 
     if ([dictionary objectForKey:@"id"])
-        _profilesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.profilesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"accessCredentials"])
-        _accessCredentials = [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
+        self.accessCredentials = [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
             [dictionary objectForKey:@"accessCredentials"] : nil;
 
     if ([dictionary objectForKey:@"domain"])
-        _domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
+        self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
             [dictionary objectForKey:@"domain"] : nil;
 
     if ([dictionary objectForKey:@"followers"])
-        _followers = [dictionary objectForKey:@"followers"] != [NSNull null] ? 
+        self.followers = [dictionary objectForKey:@"followers"] != [NSNull null] ? 
             [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"following"])
-        _following = [dictionary objectForKey:@"following"] != [NSNull null] ? 
+        self.following = [dictionary objectForKey:@"following"] != [NSNull null] ? 
             [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"friends"])
-        _friends = [dictionary objectForKey:@"friends"] != [NSNull null] ? 
+        self.friends = [dictionary objectForKey:@"friends"] != [NSNull null] ? 
             [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"identifier"])
-        _identifier = [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
+        self.identifier = [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
             [dictionary objectForKey:@"identifier"] : nil;
 
     if ([dictionary objectForKey:@"profile"])
-        _profile = [dictionary objectForKey:@"profile"] != [NSNull null] ? 
+        self.profile = [dictionary objectForKey:@"profile"] != [NSNull null] ? 
             [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath] : nil;
 
     if ([dictionary objectForKey:@"provider"])
-        _provider = [dictionary objectForKey:@"provider"] != [NSNull null] ? 
+        self.provider = [dictionary objectForKey:@"provider"] != [NSNull null] ? 
             [dictionary objectForKey:@"provider"] : nil;
 
     if ([dictionary objectForKey:@"remote_key"])
-        _remote_key = [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
+        self.remote_key = [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
             [dictionary objectForKey:@"remote_key"] : nil;
 }
 
@@ -361,43 +361,43 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", self.profilesId];
 
-    _profilesId =
+    self.profilesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
-    _accessCredentials =
+    self.accessCredentials =
         [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
         [dictionary objectForKey:@"accessCredentials"] : nil;
 
-    _domain =
+    self.domain =
         [dictionary objectForKey:@"domain"] != [NSNull null] ? 
         [dictionary objectForKey:@"domain"] : nil;
 
-    _followers =
+    self.followers =
         [dictionary objectForKey:@"followers"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
-    _following =
+    self.following =
         [dictionary objectForKey:@"following"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
-    _friends =
+    self.friends =
         [dictionary objectForKey:@"friends"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
 
-    _identifier =
+    self.identifier =
         [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
         [dictionary objectForKey:@"identifier"] : nil;
 
-    _profile =
+    self.profile =
         [dictionary objectForKey:@"profile"] != [NSNull null] ? 
         [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath] : nil;
 
-    _provider =
+    self.provider =
         [dictionary objectForKey:@"provider"] != [NSNull null] ? 
         [dictionary objectForKey:@"provider"] : nil;
 
-    _remote_key =
+    self.remote_key =
         [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
         [dictionary objectForKey:@"remote_key"] : nil;
 }

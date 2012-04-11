@@ -198,8 +198,8 @@ static JRCaptureUserExtras *singleton = nil;
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    if ([delegate respondsToSelector:@selector(replaceCaptureUser:didFailWithResult:context:)])
-        [delegate replaceCaptureUser:captureObject didFailWithResult:result context:callerContext];
+    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didFailWithResult:context:)])
+        [delegate replaceCaptureObject:captureObject didFailWithResult:result context:callerContext];
 }
 
 - (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
@@ -222,8 +222,8 @@ static JRCaptureUserExtras *singleton = nil;
     [captureObject replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
     [captureObject.dirtyPropertySet removeAllObjects];
 
-    if ([delegate respondsToSelector:@selector(replaceCaptureUser:didSucceedWithResult:context:)])
-        [delegate replaceCaptureUser:captureObject didSucceedWithResult:result context:callerContext];
+    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didSucceedWithResult:context:)])
+        [delegate replaceCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
 }
 
 - (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
@@ -235,8 +235,8 @@ static JRCaptureUserExtras *singleton = nil;
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    if ([delegate respondsToSelector:@selector(updateCaptureUser:didFailWithResult:context:)])
-        [delegate updateCaptureUser:captureObject didFailWithResult:result context:callerContext];
+    if ([delegate respondsToSelector:@selector(updateCaptureObject:didFailWithResult:context:)])
+        [delegate updateCaptureObject:captureObject didFailWithResult:result context:callerContext];
 }
 
 - (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
@@ -259,8 +259,8 @@ static JRCaptureUserExtras *singleton = nil;
     [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
     [captureObject.dirtyPropertySet removeAllObjects];
 
-    if ([delegate respondsToSelector:@selector(updateCaptureUser:didSucceedWithResult:context:)])
-        [delegate updateCaptureUser:captureObject didSucceedWithResult:result context:callerContext];
+    if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
+        [delegate updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
 }
 
 - (void)updateUserOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate withContext:(NSObject *)context

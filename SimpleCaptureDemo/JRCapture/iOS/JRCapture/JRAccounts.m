@@ -195,23 +195,23 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", self.accountsId];
 
     if ([dictionary objectForKey:@"id"])
-        _accountsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.accountsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
     if ([dictionary objectForKey:@"domain"])
-        _domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
+        self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
             [dictionary objectForKey:@"domain"] : nil;
 
     if ([dictionary objectForKey:@"primary"])
-        _primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
             [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
 
     if ([dictionary objectForKey:@"userid"])
-        _userid = [dictionary objectForKey:@"userid"] != [NSNull null] ? 
+        self.userid = [dictionary objectForKey:@"userid"] != [NSNull null] ? 
             [dictionary objectForKey:@"userid"] : nil;
 
     if ([dictionary objectForKey:@"username"])
-        _username = [dictionary objectForKey:@"username"] != [NSNull null] ? 
+        self.username = [dictionary objectForKey:@"username"] != [NSNull null] ? 
             [dictionary objectForKey:@"username"] : nil;
 }
 
@@ -221,23 +221,23 @@
 
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", self.accountsId];
 
-    _accountsId =
+    self.accountsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
 
-    _domain =
+    self.domain =
         [dictionary objectForKey:@"domain"] != [NSNull null] ? 
         [dictionary objectForKey:@"domain"] : nil;
 
-    _primary =
+    self.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
 
-    _userid =
+    self.userid =
         [dictionary objectForKey:@"userid"] != [NSNull null] ? 
         [dictionary objectForKey:@"userid"] : nil;
 
-    _username =
+    self.username =
         [dictionary objectForKey:@"username"] != [NSNull null] ? 
         [dictionary objectForKey:@"username"] : nil;
 }
