@@ -176,8 +176,6 @@ typedef enum propertyTypes
 @property (strong) UIView      *editingView;
 @property          BOOL         canEdit;
 @property          BOOL         canDrillDown;
-@property          BOOL         wasChanged;
-
 - (void)printDescription;
 @end
 
@@ -191,7 +189,6 @@ typedef enum propertyTypes
 @synthesize editingView;
 @synthesize canEdit;
 @synthesize canDrillDown;
-@synthesize wasChanged;
 
 - (void)printDescription
 {
@@ -249,6 +246,11 @@ typedef enum
 @synthesize tableData;
 @synthesize myTableView;
 @synthesize myUpdateButton;
+@synthesize myKeyboardToolbar;
+@synthesize myPickerView;
+//@synthesize myPickerToolbar;
+@synthesize myDatePicker;
+
 
 - (void)printPArrayDescription
 {
@@ -333,6 +335,9 @@ typedef enum
 {
     [super viewDidLoad];
 
+    tableWidth  = myTableView.frame.size.width;
+    tableHeight = myTableView.frame.size.height;
+
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
                                 initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
                                                      target:self
@@ -342,6 +347,9 @@ typedef enum
     self.navigationItem.rightBarButtonItem.enabled = YES;
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
+
+    [myPickerView setFrame:CGRectMake(0, 416, 320, 260)];
+    [self.view addSubview:myPickerView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -354,70 +362,11 @@ typedef enum
     [super viewDidAppear:animated];
 }
 
-- (void)editButtonPressed:(id)sender
-{
-    DLog(@"");
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
-                                initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                     target:self
-                                                     action:@selector(doneButtonPressed:)];
-
-    self.navigationItem.rightBarButtonItem         = doneButton;
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-
-    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
-
-    for (PropertyData *data in propertyDataArray)
-    {
-        if (data.canEdit)
-        {
-            data.editingView.hidden   = NO;
-            data.subtitleLabel.hidden = YES;
-        }
-    }
-
-    isEditing = YES;
-
-    [myTableView reloadData];
-}
-
-- (void)doneButtonPressed:(id)sender
-{
-    DLog(@"");
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
-                                initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-                                                     target:self
-                                                     action:@selector(editButtonPressed:)];
-
-    self.navigationItem.rightBarButtonItem         = editButton;
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-
-    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
-
-    for (PropertyData *data in propertyDataArray)
-    {
-        if (data.canEdit)// || data.canDrillDownToEdit)
-        {
-            data.editingView.hidden   = YES;
-            data.subtitleLabel.hidden = NO;
-        }
-    }
-
-    isEditing = NO;
-
-    [firstResponder resignFirstResponder], firstResponder = nil;
-    [myTableView reloadData];
-}
-
-- (IBAction)updateButtonPressed:(id)sender
-{
-    DLog(@"");
-    [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
-}
-
 #define EDITING_VIEW_OFFSET 100
 #define LEFT_BUTTON_OFFSET  1000
 #define RIGHT_BUTTON_OFFSET 2000
+#define LEFT_LABEL_OFFSET   3000
+#define DATE_PICKER_OFFSET  4000
 
 typedef enum
 {
@@ -464,11 +413,6 @@ typedef enum
                         withObject:newCaptureObject];
 
     [self setEditingButtonsToState:EBSEditDeleteObject withinEditingView:sender.superview];
-//    [sender setTitle:@"Edit"
-//            forState:UIControlStateNormal];
-//    [sender addTarget:self
-//               action:@selector(editObjectButtonPressed:)
-//     forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)deleteObjectButtonPressed:(UIButton *)sender
@@ -524,14 +468,100 @@ typedef enum
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
 
+- (void)slidePickerUp
+{
+    [myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 260)]];
+    [myTableView setScrollEnabled:NO];
+
+    [UIView beginAnimations:@"slidePickerUp" context:nil];
+    [myPickerView setFrame:CGRectMake(0, 156, 320, 260)];
+    [UIView commitAnimations];
+}
+
+- (void)slidePickerDown
+{
+    [myTableView setTableFooterView:nil];
+    [myTableView setScrollEnabled:YES];
+
+    [UIView beginAnimations:@"slidePickerDown" context:nil];
+    [myPickerView setFrame:CGRectMake(0, 416, 320, 260)];
+    [UIView commitAnimations];
+}
+
+//- (void)scrollUpBy:(CGFloat)scrollOffset
+//{
+//    [myTableView setContentOffset:<#(CGPoint)contentOffset#> animated:<#(BOOL)animated#>];
+//    [myTableView setContentOffset:CGPointMake(0, scrollOffset)];
+////    [myTableView setContentSize:CGSizeMake(tableWidth, tableHeight + scrollOffset)];
+//}
+//
+//- (void)scrollBack
+//{
+//    [myTableView setContentOffset:CGPointZero];
+//    //[myTableView setContentSize:CGSizeMake(tableWidth, tableHeight)];
+//}
+
+- (void)scrollTableViewToRect:(CGRect)rect
+{
+    [myTableView scrollRectToVisible:rect animated:YES];
+}
+
+- (IBAction)hidePickerButtonPressed:(id)sender
+{
+    [self slidePickerDown];
+}
+
+- (IBAction)datePickerChanged:(UIDatePicker *)sender
+{
+    DLog(@"");
+    NSUInteger itemIndex = (NSUInteger) (sender.tag - DATE_PICKER_OFFSET);
+    PropertyData *currentPropertyData = [propertyDataArray objectAtIndex:itemIndex];
+    UILabel *label = (UILabel *) [currentPropertyData.editingView viewWithTag:(itemIndex + LEFT_LABEL_OFFSET)];
+
+    static NSDateFormatter *dateFormatter = nil;
+    if (!dateFormatter)
+    {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        [dateFormatter setDateFormat:@"MM/dd/yyyy"];
+    }
+
+    NSDate   *pickerDate = myDatePicker.date;
+    NSString *dateString = [dateFormatter stringFromDate:pickerDate];
+
+    [label setText:dateString];
+
+    [captureObject performSelector:currentPropertyData.propertySetSelector withObject:pickerDate];
+}
+
 - (void)changeDateButtonPressed:(UIButton *)sender
 {
+    NSUInteger itemIndex = (NSUInteger) (sender.tag - RIGHT_BUTTON_OFFSET);
+    PropertyData *currentPropertyData = [propertyDataArray objectAtIndex:itemIndex];
 
+    NSDate *date = [captureObject performSelector:currentPropertyData.propertyGetSelector];
+
+    if (date && [date isKindOfClass:[NSDate class]])
+        myDatePicker.date = date;
+
+    myDatePicker.tag = itemIndex + DATE_PICKER_OFFSET;
+
+    [self scrollTableViewToRect:CGRectMake(0, sender.superview.superview.frame.origin.y - 45,
+            (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 320 : 480,
+            (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 416 : 256)];
+
+    [self slidePickerUp];
 }
 
 - (void)switchChanged:(UIButton *)sender
 {
+    DLog(@"%f %f", sender.frame.size.width, sender.frame.size.height);
+}
 
+- (IBAction)doneEditingTextButtonPressed:(id)sender
+{
+    [firstResponder resignFirstResponder];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -541,16 +571,23 @@ typedef enum
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    firstResponder = textField;
+    if (!firstResponder)
+    {
+        [self scrollTableViewToRect:CGRectMake(0, textField.superview.frame.origin.y - 45,
+                (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 320 : 480,
+                (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 416 : 256)];
+    }
 
-//    NSUInteger itemIndex = (NSUInteger) (textField.tag - 100);
-//    currentlyEditingData = [propertyDataArray objectAtIndex:itemIndex];
+    firstResponder = textField;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSUInteger itemIndex = (NSUInteger) (textField.tag - EDITING_VIEW_OFFSET);
     PropertyData *currentPropertyData = [propertyDataArray objectAtIndex:itemIndex];
+
+    if ([textField.text isEqualToString:@""])
+        textField.text = nil;
 
     if (![textField.text isEqualToString:currentPropertyData.stringValue])
     {
@@ -651,6 +688,68 @@ typedef enum
     return [[tableData allKeys] count];
 }
 
+- (void)editButtonPressed:(id)sender
+{
+    DLog(@"");
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
+                                initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                     target:self
+                                                     action:@selector(doneButtonPressed:)];
+
+    self.navigationItem.rightBarButtonItem         = doneButton;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+
+    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
+
+    for (PropertyData *data in propertyDataArray)
+    {
+        if (data.canEdit)
+        {
+            data.editingView.hidden   = NO;
+            data.subtitleLabel.hidden = YES;
+        }
+    }
+
+    isEditing = YES;
+
+    [myTableView reloadData];
+}
+
+- (void)doneButtonPressed:(id)sender
+{
+    DLog(@"");
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]
+                                initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                     target:self
+                                                     action:@selector(editButtonPressed:)];
+
+    self.navigationItem.rightBarButtonItem         = editButton;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+
+    self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
+
+    for (PropertyData *data in propertyDataArray)
+    {
+        if (data.canEdit)// || data.canDrillDownToEdit)
+        {
+            data.editingView.hidden   = YES;
+            data.subtitleLabel.hidden = NO;
+        }
+    }
+
+    isEditing = NO;
+
+    [firstResponder resignFirstResponder], firstResponder = nil;
+    [self slidePickerDown];
+    [myTableView reloadData];
+}
+
+- (IBAction)updateButtonPressed:(id)sender
+{
+    DLog(@"");
+    [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
+}
+
 #define HIGHER_SUBTITLE 10
 #define NORMAL_SUBTITLE 21
 #define UP_A_LITTLE_HIGHER(r) CGRectMake(r.frame.origin.x, HIGHER_SUBTITLE, r.frame.size.width, r.frame.size.height)
@@ -707,9 +806,38 @@ typedef enum
     return rightButton;
 }
 
-- (UIView *)getTextField
+- (UIView *)getLeftLabelWithTag:(NSInteger)tag
 {
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 23, (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 280 : 440, 22)];
+    CGRect frame = CGRectMake(0, 0, (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 125 : 205, 22);
+
+    UILabel *leftLabel = [[UILabel alloc] initWithFrame:frame];
+    leftLabel.frame  = frame;
+
+    leftLabel.backgroundColor  = [UIColor clearColor];
+    leftLabel.font             = [UIFont boldSystemFontOfSize:16.0];
+    leftLabel.textColor        = [UIColor blackColor];
+    leftLabel.textAlignment    = UITextAlignmentLeft;
+
+    [leftLabel setHidden:NO];
+    [leftLabel setTag:tag + LEFT_LABEL_OFFSET];
+
+    [leftLabel setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+
+    return leftLabel;
+}
+
+- (UIView *)getButtonBox
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(20, 23,
+            (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 270 : 430, 22)];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
+- (UIView *)getTextFieldWithKeyboardType:(UIKeyboardType)keyboardType
+{
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 23,
+            (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 280 : 440, 22)];
 
     textField.backgroundColor = [UIColor clearColor];
     textField.font            = [UIFont systemFontOfSize:14.0];
@@ -719,27 +847,20 @@ typedef enum
     textField.borderStyle     = UITextBorderStyleLine;
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.delegate        = self;
+    textField.keyboardType    = keyboardType;
 
+    [textField setInputAccessoryView:myKeyboardToolbar];
     [textField setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
     return textField;
 }
 
-- (UIView *)getButtonBox
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(20, 23, (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 270 : 430, 22)];
-
-    view.backgroundColor = [UIColor clearColor];
-
-    return view;
-}
-
 - (UIView *)getBooleanSwitcher
 {
-    UISwitch *switcher = [[UISwitch alloc] initWithFrame:CGRectMake(200, 23, 100, 22)];
+    UISwitch *switcher = [[UISwitch alloc] initWithFrame:CGRectMake(221, 12, 100, 27)];
+    [switcher addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
     return switcher;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -789,15 +910,15 @@ typedef enum
 
         UIView *editingView;
 
-        DLog(@"1");
-
         switch (propertyData.propertyType)
         {
             case PTInteger:
             case PTNumber:
+                editingView = [self getTextFieldWithKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
+                break;
             case PTString:
             case PTJsonObject:
-                editingView = [self getTextField];
+                editingView = [self getTextFieldWithKeyboardType:UIKeyboardTypeDefault];
                 break;
             case PTCaptureObject:
                 editingView = [self getButtonBox];
@@ -809,10 +930,14 @@ typedef enum
                                                           andSelector:@selector(editObjectButtonPressed:)]];
                 break;
             case PTBool:
+//                frame.size.width -= 65;
+//                keyLabel.frame = frame;
+//                keyLabel.backgroundColor = [UIColor redColor];
                 editingView = [self getBooleanSwitcher];
                 break;
             case PTDate:
                 editingView = [self getButtonBox];
+                [editingView addSubview:[self getLeftLabelWithTag:indexPath.row]];
                 [editingView addSubview:[self getRightButtonWithTitle:@"Change"
                                                                   tag:indexPath.row
                                                           andSelector:@selector(changeDateButtonPressed:)]];
@@ -823,10 +948,7 @@ typedef enum
                                                                   tag:indexPath.row
                                                           andSelector:@selector(editObjectButtonPressed:)]];
                 break;
-
         }
-
-        DLog(@"2");
 
         [editingView setTag:editingViewTag];
         [editingView setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
@@ -834,17 +956,15 @@ typedef enum
         [propertyData setEditingView:editingView];
         [propertyData setSubtitleLabel:valueLabel];
 
-        [editingView setHidden:!isEditing];
-        [valueLabel setHidden:isEditing];
+//        [editingView setHidden:!isEditing];
+//        [valueLabel setHidden:isEditing];
 
         [cell addSubview:editingView];
     }
 
-    DLog(@"3");
-
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-    UIView  *editingView   = [cell.contentView viewWithTag:editingViewTag];
+    UIView  *editingView   = propertyData.editingView;//[cell.contentView viewWithTag:editingViewTag];
 
     NSString* subtitle  = nil;
     NSString* cellTitle = nil;
@@ -866,8 +986,6 @@ typedef enum
 
     cellTitle = key;
 
-    DLog(@"4");
-
  /* If our item is an array... */
     if (propertyData.propertyType == PTArray)
     {/* If our object is null, */
@@ -879,8 +997,11 @@ typedef enum
         {/* If our array has 1 or more items, add the accessory view and set the subtitle, */
             if ([((NSArray*)value) count])
             {
-                [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-                [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+                if (!isEditing)
+                {
+                    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+                }
 
              /* (Lets not say, "1 items". That's just silly.) */
                 if ([((NSArray*)value) count] == 1)
@@ -893,8 +1014,6 @@ typedef enum
                subtitle = [NSString stringWithFormat:@"Empty array of %@", cellTitle];
             }
         }
-
-        DLog(@"5");
     }
 
  /* If our item is a dictionary... */
@@ -912,13 +1031,14 @@ typedef enum
            subtitle = [[(JRCaptureObject *)value toDictionary] JSONString];
            subtitleLabel.textColor = [UIColor grayColor];
 
-           [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-           [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+           if (!isEditing)
+           {
+               [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+               [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+           }
 
            [self setEditingButtonsToState:EBSEditDeleteObject withinEditingView:editingView];
        }
-
-        DLog(@"6");
     }
 
  /* If our item is a string... */
@@ -928,13 +1048,15 @@ typedef enum
         {/* indicate that in the subtitle, */
             subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
         }
+        else if ([(NSString *)value isEqualToString:@""])
+        {/* or if it's empty, say that, */
+            subtitle = @"<empty string>";
+        }
         else
         {/* and, if it's not null, set the subtitle to our value.*/
             subtitle = (NSString*)value;
             ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
         }
-
-        DLog(@"7");
     }
 
  /* If our item is a number... */
@@ -949,8 +1071,6 @@ typedef enum
             subtitle = [((NSNumber *)value) stringValue];
             ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
         }
-
-        DLog(@"8");
     }
 
  /* If our item is an bool... */
@@ -958,20 +1078,24 @@ typedef enum
     {
         int intValue = *primValue;
         subtitle = [NSString stringWithFormat:@"%d", intValue];
-
-        DLog(@"9");
+        ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
     }
 
  /* If our item is an bool... */
     else if (propertyData.propertyType == PTBool)
     {
         int boolValue = *primValue;
-        if (boolValue)//([(NSNumber *)value boolValue])
-            subtitle = @"TRUE";
-        else
-            subtitle = @"FALSE";
 
-        DLog(@"10");
+        if (boolValue)
+        {
+            subtitle = @"TRUE";
+            ((UISwitch *)editingView).on = YES;
+        }
+        else
+        {
+            subtitle = @"FALSE";
+            ((UISwitch *)editingView).on = YES;
+        }
     }
 
  /* If our item is a date... */
@@ -988,10 +1112,9 @@ typedef enum
             if (!subtitle)
                 subtitle = [(NSDate *) value stringFromISO8601DateTime];
 
-            ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
+            UILabel *label = (UILabel *) [editingView viewWithTag:indexPath.row + LEFT_LABEL_OFFSET];
+            label.text = propertyData.stringValue = subtitle;
         }
-
-        DLog(@"11");
     }
 
  /* If our item is a date... */
@@ -1011,11 +1134,23 @@ typedef enum
 
             ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
         }
-
-        DLog(@"12");
     }
 
     else { DLog(@"???????????"); /* I dunno... Just hopin' it won't happen... */ }
+
+    if (!propertyData.canEdit)
+    {
+        [editingView setHidden:YES];
+        if (isEditing)
+            [subtitleLabel setTextColor:[UIColor grayColor]];
+        else
+            [subtitleLabel setTextColor:[UIColor blackColor]];
+    }
+    else
+    {
+        [editingView setHidden:!isEditing];
+        [subtitleLabel setHidden:isEditing];
+    }
 
 // TODO: Is this needed for editing and stuff?
 //    if (textField.text && ![textField.text isEqualToString:@""])
@@ -1029,8 +1164,6 @@ typedef enum
 //        subtitleLabel.frame = UP_A_LITTLE_HIGHER(subtitleLabel);
 //    else
 //        subtitleLabel.frame = WHERE_IT_SHOULD_BE(subtitleLabel);
-
-    DLog(@"13");
 
     return cell;
 }
@@ -1094,6 +1227,8 @@ typedef enum
 - (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"");
+    [[SharedData sharedData] resaveCaptureUser];
+
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
                                                         message:result
                                                        delegate:nil
@@ -1116,7 +1251,7 @@ typedef enum
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"");
-    [self printPArrayDescription];
+    [[SharedData sharedData] resaveCaptureUser];
 
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
                                                         message:result

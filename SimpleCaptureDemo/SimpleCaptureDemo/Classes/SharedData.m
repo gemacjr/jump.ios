@@ -125,7 +125,6 @@ static NSString *entityTypeName     = @"user_dev";
     [jrEngage showAuthenticationDialogWithCustomInterfaceOverrides:customInterface];
 }
 
-
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
 {
     NSString *name = nil;
@@ -203,6 +202,11 @@ static NSString *entityTypeName     = @"user_dev";
         return nil;
         // TODO: Better error handling
     }
+}
+
+- (void)resaveCaptureUser
+{
+    [prefs setObject:[self nullWalker:[captureUser toDictionary]] forKey:@"captureUser"];
 }
 
 - (void)jrAuthenticationCallToTokenUrl:(NSString *)tokenUrl didFailWithError:(NSError *)error forProvider:(NSString *)provider

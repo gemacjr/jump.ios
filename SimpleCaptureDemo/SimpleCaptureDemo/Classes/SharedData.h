@@ -31,5 +31,6 @@
 @property (weak)   id<SignInDelegate>   signInDelegate;
 + (SharedData *)sharedData;
 - (void)startAuthenticationWithCustomInterface:(NSDictionary *)customInterface forDelegate:(id<SignInDelegate>)delegate;
+- (void)resaveCaptureUser;
 @end
 
