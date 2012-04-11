@@ -38,6 +38,35 @@
 #import <objc/runtime.h>
 #import "ObjectDrillDownViewController.h"
 
+@interface NSObject (PerformSelector)
+- (void *)performSelector:(SEL)selector withValue:(void *)value;
+@end
+
+@implementation NSObject (PerformSelector)
+- (void *)performSelector:(SEL)selector withValue:(void *)value {
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
+    [invocation setSelector:selector];
+    [invocation setTarget:self];
+
+    if (value)
+        [invocation setArgument:value atIndex:2];
+
+    [invocation invoke];
+
+    NSUInteger length = [[invocation methodSignature] methodReturnLength];
+
+    // If method is non-void:
+    if (length > 0) {
+        void *buffer = (void *)malloc(length);
+        [invocation getReturnValue:buffer];
+        return buffer;
+    }
+
+    // If method is void:
+    return NULL;
+}
+@end
+
 @interface PropertyUtil : NSObject
 + (NSDictionary *)classPropsFor:(Class)klass;
 @end
@@ -124,18 +153,6 @@ static NSString* getPropertyType(objc_property_t property) {
 }
 @end
 
-//@interface NSDictionary (OrderedKeys)
-//- (NSArray*)allKeysOrdered;
-//@end
-//
-//@implementation NSDictionary (OrderedKeys)
-//- (NSArray*)allKeysOrdered
-//{
-//    NSArray *allKeys = [self allKeys];
-//    return [allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-//}
-//@end
-
 typedef enum propertyTypes
 {
     PTCaptureObject,
@@ -152,13 +169,10 @@ typedef enum propertyTypes
 @interface PropertyData : NSObject
 @property          PropertyType propertyType;
 @property (strong) NSString    *propertyName;
-@property (strong) NSObject    *propertyValue;
 @property          SEL          propertySetSelector;
 @property          SEL          propertyGetSelector;
 @property (strong) NSString    *stringValue;
 @property (strong) UILabel     *subtitleLabel;
-//@property (strong) UITextField *subtitleTextField;
-//@property (strong) UIButton    *addMoreButton;
 @property (strong) UIView      *editingView;
 @property          BOOL         canEdit;
 @property          BOOL         canDrillDown;
@@ -168,14 +182,11 @@ typedef enum propertyTypes
 @implementation PropertyData
 @synthesize propertyType;
 @synthesize propertyName;
-@synthesize propertyValue;
 @synthesize propertySetSelector;
 @synthesize propertyGetSelector;
 @synthesize stringValue;
 @synthesize subtitleLabel;
 @synthesize editingView;
-//@synthesize subtitleTextField;
-//@synthesize addMoreButton;
 @synthesize canEdit;
 @synthesize canDrillDown;
 @synthesize wasChanged;
@@ -217,18 +228,13 @@ typedef enum
 } DataType;
 
 @interface ObjectDrillDownViewController ()
-//@property          DataType         dataType;
-//@property          NSUInteger       dataCount;
 @property (strong) JRCaptureObject *captureObject;
 @property (strong) JRCaptureObject *parentCaptureObject;
 @property (strong) NSDictionary    *tableData;
 @property (strong) NSString        *tableHeader;
-@property (strong) PropertyData *currentlyEditingData;
 @end
 
 @implementation ObjectDrillDownViewController
-//@synthesize dataType;
-//@synthesize dataCount;
 @synthesize captureObject;
 @synthesize parentCaptureObject;
 @synthesize tableHeader;
@@ -271,11 +277,6 @@ typedef enum
 
         propertyData.propertyType = [self getPropertyTypeFromString:[propertyNamesAndTypes objectForKey:propertyName]];
         propertyData.propertyName = propertyName;
-
-        if ([propertyName hasSuffix:@"Id"])
-            propertyData.propertyValue = [tableData objectForKey:@"id"];
-        else
-            propertyData.propertyValue = [tableData objectForKey:propertyName];
 
         propertyData.propertySetSelector = getSetSelectorFromKey(propertyName);
         propertyData.propertyGetSelector = getGetSelectorFromKey(propertyName);
@@ -402,31 +403,56 @@ typedef enum
     [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
 }
 
-- (void)addMoreButtonPressed:(UIButton *)sender
+- (void)addObjectButtonPressed:(UIButton *)sender
 {
     DLog(@"");
-    NSUInteger itemIndex = (NSUInteger) (sender.tag - 100);
-    currentlyEditingData = [propertyDataArray objectAtIndex:itemIndex];
+    NSUInteger itemIndex = (NSUInteger) (sender.tag - 2000);
+    PropertyData *currentPropertyData = [propertyDataArray objectAtIndex:itemIndex];
 
-    JRCaptureObject *newCaptureObject = [[getClassFromKey(currentlyEditingData.propertyName) alloc] init];
+    JRCaptureObject *newCaptureObject = [[getClassFromKey(currentPropertyData.propertyName) alloc] init];
 
-
-    JRCaptureObject *parentObject = captureObject;
-
-    [captureObject performSelector:currentlyEditingData.propertySetSelector
+    [captureObject performSelector:currentPropertyData.propertySetSelector
                         withObject:newCaptureObject];
 
+    [sender setTitle:@"Edit"
+            forState:UIControlStateNormal];
+    [sender addTarget:self
+               action:@selector(editObjectButtonPressed:)
+     forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)deleteObjectButtonPressed:(UIButton *)sender
+{
+
+}
+
+- (void)editObjectButtonPressed:(UIButton *)sender
+{
+    NSUInteger itemIndex = (NSUInteger) (sender.tag - 2000);
+    PropertyData *currentPropertyData = [propertyDataArray objectAtIndex:itemIndex];
+
+    JRCaptureObject *newCaptureObject = [captureObject performSelector:currentPropertyData.propertyGetSelector];
+    JRCaptureObject *parentObject = captureObject;
 
     ObjectDrillDownViewController *drillDown =
                 [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
                                                                 bundle:[NSBundle mainBundle]
                                                              forObject:newCaptureObject
                                                    captureParentObject:parentObject
-                                                                andKey:currentlyEditingData.propertyName];
+                                                                andKey:currentPropertyData.propertyName];
 
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
 
+- (void)changeDataButtonPressed:(UIButton *)sender
+{
+
+}
+
+- (void)switchChanged:(UIButton *)sender
+{
+
+}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -443,14 +469,14 @@ typedef enum
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-//    NSUInteger itemIndex = (NSUInteger) (textField.tag - 100);
-//    currentlyEditingData = [propertyArray objectAtIndex:itemIndex];
+    NSUInteger itemIndex = (NSUInteger) (textField.tag - 100);
+    PropertyData *currentPropertyData = [propertyDataArray objectAtIndex:itemIndex];
 
-    if (![textField.text isEqualToString:currentlyEditingData.stringValue])
+    if (![textField.text isEqualToString:currentPropertyData.stringValue])
     {
-        if ([captureObject respondsToSelector:currentlyEditingData.propertySetSelector])
+        if ([captureObject respondsToSelector:currentPropertyData.propertySetSelector])
         {
-            switch (currentlyEditingData.propertyType)
+            switch (currentPropertyData.propertyType)
             {
                 case PTInteger:
                 case PTNumber:
@@ -463,30 +489,30 @@ typedef enum
                     if (!number) // TODO: What if you are trying to delete the number?
                         return;
 
-                    [captureObject performSelector:currentlyEditingData.propertySetSelector
+                    [captureObject performSelector:currentPropertyData.propertySetSelector
                                         withObject:number];
                     break;
                 }
                 case PTJsonObject:
                 {
-                    NSObject *jsonVal = [currentlyEditingData.stringValue objectFromJSONString];
+                    NSObject *jsonVal = [currentPropertyData.stringValue objectFromJSONString];
 
                     if (!jsonVal) // TODO: What if you are trying to delete the value?
                         return;
 
-                    [captureObject performSelector:currentlyEditingData.propertySetSelector
+                    [captureObject performSelector:currentPropertyData.propertySetSelector
                                         withObject:jsonVal];
                     break;
                 }
                 default:
                 {
-                    [captureObject performSelector:currentlyEditingData.propertySetSelector
+                    [captureObject performSelector:currentPropertyData.propertySetSelector
                                         withObject:textField.text];
                     break;
                 }
             }
 
-            currentlyEditingData.stringValue = textField.text;
+            currentPropertyData.stringValue = textField.text;
         }
     }
 }
@@ -636,7 +662,6 @@ typedef enum
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //DLog(@"");
     static NSInteger keyLabelTag    = 1;
     static NSInteger valueLabelTag  = 2;
            NSInteger editingViewTag = 100 + indexPath.row;
@@ -649,6 +674,7 @@ typedef enum
 
     PropertyData *propertyData = [propertyDataArray objectAtIndex:(NSUInteger)indexPath.row];
 
+    DLog(@"%@", propertyData.propertyName);
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -694,10 +720,10 @@ typedef enum
                 editingView = [self getButtonBox];
                 [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
                                                                  tag:editingViewTag
-                                                         andSelector:@selector(addMoreButtonPressed:)]];
+                                                         andSelector:@selector(addObjectButtonPressed:)]];
                 [editingView addSubview:[self getRightButtonWithTitle:@"Add"
                                                                   tag:editingViewTag
-                                                          andSelector:@selector(addMoreButtonPressed:)]];
+                                                          andSelector:@selector(addObjectButtonPressed:)]];
                 break;
             case PTBool:
                 editingView = [self getBooleanSwitcher];
@@ -706,13 +732,13 @@ typedef enum
                 editingView = [self getButtonBox];
                 [editingView addSubview:[self getRightButtonWithTitle:@"Change"
                                                                   tag:editingViewTag
-                                                          andSelector:@selector(addMoreButtonPressed:)]];
+                                                          andSelector:@selector(addObjectButtonPressed:)]];
                 break;
             case PTArray:
                 editingView = [self getButtonBox];
                 [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
                                                                   tag:editingViewTag
-                                                          andSelector:@selector(addMoreButtonPressed:)]];
+                                                          andSelector:@selector(addObjectButtonPressed:)]];
                 break;
 
         }
@@ -739,18 +765,21 @@ typedef enum
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType  = UITableViewCellAccessoryNone;
 
-    NSString *key;
+    NSString *key   = propertyData.propertyName;
     NSObject *value = nil;
+    int *primValue  = 0;
 
-    key   = propertyData.propertyName;
-    value = propertyData.propertyValue;
+    if (propertyData.propertyType == PTInteger || propertyData.propertyType == PTBool)
+        primValue = [captureObject performSelector:propertyData.propertyGetSelector withValue:nil];
+    else
+        value = [captureObject performSelector:propertyData.propertyGetSelector];
 
     cellTitle = key;
 
  /* If our item is an array... */
     if (propertyData.propertyType == PTArray)
     {/* If our object is null, */
-        if ([value isKindOfClass:[NSNull class]])
+        if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that in the subtitle, */
             subtitle = [NSString stringWithFormat:@"Empty array of %@", cellTitle];
         }
@@ -759,13 +788,13 @@ typedef enum
             if ([((NSArray*)value) count])
             {
                 [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-                [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+                [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
 
              /* (Lets not say, "1 items". That's just silly.) */
                 if ([((NSArray*)value) count] == 1)
                     subtitle = @"1 item";
                 else
-                    subtitle = [NSString stringWithFormat:@"%d %@ items", [((NSDictionary*)value) count], cellTitle];
+                    subtitle = [NSString stringWithFormat:@"%d %@ items", [((NSArray*)value) count], cellTitle];
             }
             else
             {/* and, if it's empty, let's indicate that as well. */
@@ -777,14 +806,14 @@ typedef enum
  /* If our item is a dictionary... */
     else if (propertyData.propertyType == PTCaptureObject)
     {/* If our object is null, */
-       if ([value isKindOfClass:[NSNull class]])
+       if (!value || [value isKindOfClass:[NSNull class]])
        {/* indicate that in the subtitle, */
            subtitle = [NSString stringWithFormat:@"No %@ object added", cellTitle];
            subtitleLabel.textColor = [UIColor blackColor];
        }
        else
        {/* and, if it's not null, let's indicate that as well. */
-           subtitle = [(NSDictionary *)value JSONString];
+           subtitle = [[(JRCaptureObject *)value toDictionary] JSONString];
            subtitleLabel.textColor = [UIColor grayColor];
 
            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
@@ -795,7 +824,7 @@ typedef enum
  /* If our item is a string... */
     else if (propertyData.propertyType == PTString)
     {/* If our value is null, */
-        if ([value isKindOfClass:[NSNull class]])
+        if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that in the subtitle, */
             subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
         }
@@ -807,9 +836,9 @@ typedef enum
     }
 
  /* If our item is a number... */
-    else if (propertyData.propertyType == PTNumber || propertyData.propertyType == PTInteger)
+    else if (propertyData.propertyType == PTNumber)// || propertyData.propertyType == PTInteger)
     {/* If our value is null, */
-        if ([value isKindOfClass:[NSNull class]])
+        if (!value || [value isKindOfClass:[NSNull class]])
         {/* just pretend that it's 0 */
             subtitle = @"0";
         }
@@ -821,9 +850,17 @@ typedef enum
     }
 
  /* If our item is an bool... */
+    else if (propertyData.propertyType == PTInteger)
+    {
+        int intValue = *primValue;
+        subtitle = [NSString stringWithFormat:@"%d", intValue];
+    }
+
+ /* If our item is an bool... */
     else if (propertyData.propertyType == PTBool)
     {
-        if ([(NSNumber *)value boolValue])
+        int boolValue = *primValue;
+        if (boolValue)//([(NSNumber *)value boolValue])
             subtitle = @"TRUE";
         else
             subtitle = @"FALSE";
@@ -832,13 +869,17 @@ typedef enum
  /* If our item is a date... */
     else if (propertyData.propertyType == PTDate)
     {/* If our value is null, */
-        if ([value isKindOfClass:[NSNull class]])
+        if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that */
             subtitle = @"No data set";
         }
         else
         {/* and, if it's not null, it should be a string, so set the subtitle as that. */
-            subtitle = (NSString*)value;
+            subtitle = [(NSDate*)value stringFromISO8601Date];
+
+            if (!subtitle)
+                subtitle = [(NSDate *) value stringFromISO8601DateTime];
+
             ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
         }
     }
@@ -846,7 +887,7 @@ typedef enum
  /* If our item is a date... */
     else if (propertyData.propertyType == PTJsonObject)
     {/* If our value is null, */
-        if ([value isKindOfClass:[NSNull class]])
+        if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that */
             subtitle = @"No data set";
         }

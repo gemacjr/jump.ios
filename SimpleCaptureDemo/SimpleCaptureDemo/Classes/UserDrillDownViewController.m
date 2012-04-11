@@ -603,7 +603,7 @@ typedef enum
         [addMoreButton setHidden:YES];
 
         [addMoreButton addTarget:self
-                          action:@selector(addMoreButtonPressed:)
+                          action:@selector(addObjectButtonPressed:)
                 forControlEvents:UIControlEventTouchUpInside];
 
         [addMoreButton setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];

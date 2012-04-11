@@ -387,10 +387,10 @@ static Class getClassFromKey(NSString *key)
             UIView *editingView = [self getButtonBox];
             [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
                                                              tag:editingViewTag
-                                                     andSelector:@selector(addMoreButtonPressed:)]];
+                                                     andSelector:@selector(addObjectButtonPressed:)]];
             [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
                                                               tag:editingViewTag
-                                                      andSelector:@selector(addMoreButtonPressed:)]];
+                                                      andSelector:@selector(addObjectButtonPressed:)]];
 
             [editingView setTag:editingViewTag];
             [editingView setHidden:YES];
