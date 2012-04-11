@@ -16,7 +16,7 @@
 UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 {
     UITableView    *myTableView;
-    NSMutableArray *propertyArray;
+    NSMutableArray *propertyDataArray;
 
     BOOL isEditing;
     UITextField *firstResponder;

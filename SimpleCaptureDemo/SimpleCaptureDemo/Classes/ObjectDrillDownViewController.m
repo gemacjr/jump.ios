@@ -28,19 +28,15 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
-#import <objc/runtime.h>
-#import "ObjectDrillDownViewController.h"
-
-
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
 #define DLog(...)
 #endif
-
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+#import <objc/runtime.h>
+#import "ObjectDrillDownViewController.h"
 
 @interface PropertyUtil : NSObject
 + (NSDictionary *)classPropsFor:(Class)klass;
@@ -128,18 +124,17 @@ static NSString* getPropertyType(objc_property_t property) {
 }
 @end
 
-
-@interface NSDictionary (OrderedKeys)
-- (NSArray*)allKeysOrdered;
-@end
-
-@implementation NSDictionary (OrderedKeys)
-- (NSArray*)allKeysOrdered
-{
-    NSArray *allKeys = [self allKeys];
-    return [allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-}
-@end
+//@interface NSDictionary (OrderedKeys)
+//- (NSArray*)allKeysOrdered;
+//@end
+//
+//@implementation NSDictionary (OrderedKeys)
+//- (NSArray*)allKeysOrdered
+//{
+//    NSArray *allKeys = [self allKeys];
+//    return [allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+//}
+//@end
 
 typedef enum propertyTypes
 {
@@ -186,7 +181,7 @@ typedef enum propertyTypes
 @synthesize wasChanged;
 @end
 
-SEL getSetSelectorFromKey(NSString *key)
+static SEL getSetSelectorFromKey(NSString *key)
 {
     if (!key || [key length] < 1)
         return nil;
@@ -196,7 +191,7 @@ SEL getSetSelectorFromKey(NSString *key)
                                                withString:[[key substringToIndex:1] capitalizedString]]]);
 }
 
-SEL getGetSelectorFromKey(NSString *key)
+static SEL getGetSelectorFromKey(NSString *key)
 {
     if (!key || [key length] < 1)
         return nil;
@@ -204,7 +199,7 @@ SEL getGetSelectorFromKey(NSString *key)
     return NSSelectorFromString(key);
 }
 
-Class getClassNameFromKey(NSString *key)
+static Class getClassFromKey(NSString *key)
 {
     if (!key || [key length] < 1)
         return nil;
@@ -222,18 +217,18 @@ typedef enum
 } DataType;
 
 @interface ObjectDrillDownViewController ()
-@property          DataType         dataType;
-@property          NSUInteger       dataCount;
+//@property          DataType         dataType;
+//@property          NSUInteger       dataCount;
 @property (strong) JRCaptureObject *captureObject;
 @property (strong) JRCaptureObject *parentCaptureObject;
 @property (strong) NSDictionary    *tableData;
 @property (strong) NSString        *tableHeader;
-@property (strong) PropertyData    *currentlyEditingData;
+@property (strong) PropertyData *currentlyEditingData;
 @end
 
 @implementation ObjectDrillDownViewController
-@synthesize dataType;
-@synthesize dataCount;
+//@synthesize dataType;
+//@synthesize dataCount;
 @synthesize captureObject;
 @synthesize parentCaptureObject;
 @synthesize tableHeader;
@@ -268,7 +263,7 @@ typedef enum
 {
     NSDictionary   *propertyNamesAndTypes = [PropertyUtil classPropsFor:[object class]];
     NSArray        *propertyNames         = [propertyNamesAndTypes allKeys];
-    NSMutableArray *propertyDataArray     = [[NSMutableArray alloc] initWithCapacity:[propertyNames count]];
+    NSMutableArray *propertyArray         = [[NSMutableArray alloc] initWithCapacity:[propertyNames count]];
 
     for (NSString *propertyName in propertyNames)
     {
@@ -295,10 +290,10 @@ typedef enum
         if (propertyData.propertyType == PTCaptureObject || propertyData.propertyType == PTArray)
             propertyData.canDrillDown = YES;
 
-        [propertyDataArray addObject:propertyData];
+        [propertyArray addObject:propertyData];
     }
 
-    return propertyDataArray;
+    return propertyArray;
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forObject:(JRCaptureObject*)object
@@ -313,7 +308,7 @@ typedef enum
         //self.dataCount = [[tableData allKeys] count];
 
         self.tableHeader = key;
-        propertyArray    = [self createPropertyArrayFromObject:object];
+        propertyDataArray = [self createPropertyArrayFromObject:object];
     }
 
     DLog(@"%@", [tableData description]);
@@ -359,7 +354,7 @@ typedef enum
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-    for (PropertyData *data in propertyArray)
+    for (PropertyData *data in propertyDataArray)
     {
         if (data.canEdit)
         {
@@ -386,7 +381,7 @@ typedef enum
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-    for (PropertyData *data in propertyArray)
+    for (PropertyData *data in propertyDataArray)
     {
         if (data.canEdit)// || data.canDrillDownToEdit)
         {
@@ -411,9 +406,9 @@ typedef enum
 {
     DLog(@"");
     NSUInteger itemIndex = (NSUInteger) (sender.tag - 100);
-    currentlyEditingData = [propertyArray objectAtIndex:itemIndex];
+    currentlyEditingData = [propertyDataArray objectAtIndex:itemIndex];
 
-    JRCaptureObject *newCaptureObject = [[getClassNameFromKey(currentlyEditingData.propertyName) alloc] init];
+    JRCaptureObject *newCaptureObject = [[getClassFromKey(currentlyEditingData.propertyName) alloc] init];
 
 
     JRCaptureObject *parentObject = captureObject;
@@ -443,7 +438,7 @@ typedef enum
     firstResponder = textField;
 
     NSUInteger itemIndex = (NSUInteger) (textField.tag - 100);
-    currentlyEditingData = [propertyArray objectAtIndex:itemIndex];
+    currentlyEditingData = [propertyDataArray objectAtIndex:itemIndex];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -642,9 +637,9 @@ typedef enum
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //DLog(@"");
-    static NSInteger keyLabelTag   = 1;
-    static NSInteger valueLabelTag = 2;
-    NSInteger editingViewTag       = 100 + indexPath.row;
+    static NSInteger keyLabelTag    = 1;
+    static NSInteger valueLabelTag  = 2;
+           NSInteger editingViewTag = 100 + indexPath.row;
 
     UITableViewCellStyle style = UITableViewCellStyleDefault;
     NSString *reuseIdentifier  = [NSString stringWithFormat:@"cachedCell_%d", indexPath.row];
@@ -652,7 +647,7 @@ typedef enum
     UITableViewCell *cell =
         [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
-    PropertyData *propertyData = [propertyArray objectAtIndex:(NSUInteger)indexPath.row];
+    PropertyData *propertyData = [propertyDataArray objectAtIndex:(NSUInteger)indexPath.row];
 
     if (cell == nil)
     {
@@ -895,7 +890,7 @@ typedef enum
     DLog(@"");
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
-    PropertyData *propertyData = [propertyArray objectAtIndex:(NSUInteger) indexPath.row];
+    PropertyData *propertyData = [propertyDataArray objectAtIndex:(NSUInteger) indexPath.row];
 
     if (!propertyData.canDrillDown)
         return;

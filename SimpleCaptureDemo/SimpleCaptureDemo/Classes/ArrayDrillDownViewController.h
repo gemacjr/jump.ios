@@ -14,13 +14,15 @@
 @interface ArrayDrillDownViewController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
 UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 {
-    UITableView *myTableView;
-    NSMutableArray *propertyArray;
+    UITableView    *myTableView;
+    NSMutableArray *objectDataArray;
+
+    NSMutableArray *newArray;
 
     BOOL isEditing;
     UITextField *firstResponder;
 }
-@property (nonatomic, strong) IBOutlet UITableView *myTableView;
+@property (nonatomic, strong) IBOutlet UITableView     *myTableView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *myUpdateButton;
 - (IBAction)updateButtonPressed:(id)sender;
 
