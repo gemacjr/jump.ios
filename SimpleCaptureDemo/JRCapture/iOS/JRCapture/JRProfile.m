@@ -436,7 +436,7 @@
     NSString *_aboutMe;
     NSArray *_accounts;
     NSArray *_addresses;
-    NSDate *_anniversary;
+    JRDate *_anniversary;
     NSString *_birthday;
     JRBodyType *_bodyType;
     NSArray *_books;
@@ -475,7 +475,7 @@
     NSString *_profileSong;
     NSString *_profileUrl;
     NSString *_profileVideo;
-    NSDate *_published;
+    JRDateTime *_published;
     NSArray *_quotes;
     NSString *_relationshipStatus;
     NSArray *_relationships;
@@ -490,7 +490,7 @@
     NSArray *_turnOffs;
     NSArray *_turnOns;
     NSArray *_tvShows;
-    NSDate *_updated;
+    JRDateTime *_updated;
     NSArray *_urls;
     NSString *_utcOffset;
 }
@@ -588,12 +588,12 @@
     _addresses = [newAddresses copy];
 }
 
-- (NSDate *)anniversary
+- (JRDate *)anniversary
 {
     return _anniversary;
 }
 
-- (void)setAnniversary:(NSDate *)newAnniversary
+- (void)setAnniversary:(JRDate *)newAnniversary
 {
     [self.dirtyPropertySet addObject:@"anniversary"];
     _anniversary = [newAnniversary copy];
@@ -1017,12 +1017,12 @@
     _profileVideo = [newProfileVideo copy];
 }
 
-- (NSDate *)published
+- (JRDateTime *)published
 {
     return _published;
 }
 
-- (void)setPublished:(NSDate *)newPublished
+- (void)setPublished:(JRDateTime *)newPublished
 {
     [self.dirtyPropertySet addObject:@"published"];
     _published = [newPublished copy];
@@ -1182,12 +1182,12 @@
     _tvShows = [newTvShows copyArrayOfStringPluralElementsWithType:@"tvShow"];
 }
 
-- (NSDate *)updated
+- (JRDateTime *)updated
 {
     return _updated;
 }
 
-- (void)setUpdated:(NSDate *)newUpdated
+- (void)setUpdated:(JRDateTime *)newUpdated
 {
     [self.dirtyPropertySet addObject:@"updated"];
     _updated = [newUpdated copy];
@@ -1427,7 +1427,7 @@
     [dict setObject:(self.utcOffset ? self.utcOffset : [NSNull null])
              forKey:@"utcOffset"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)profileObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -1449,7 +1449,7 @@
 
     profile.anniversary =
         [dictionary objectForKey:@"anniversary"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
+        [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
 
     profile.birthday =
         [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
@@ -1605,7 +1605,7 @@
 
     profile.published =
         [dictionary objectForKey:@"published"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
 
     profile.quotes =
         [dictionary objectForKey:@"quotes"] != [NSNull null] ? 
@@ -1665,7 +1665,7 @@
 
     profile.updated =
         [dictionary objectForKey:@"updated"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
 
     profile.urls =
         [dictionary objectForKey:@"urls"] != [NSNull null] ? 
@@ -1700,7 +1700,7 @@
 
     if ([dictionary objectForKey:@"anniversary"])
         self.anniversary = [dictionary objectForKey:@"anniversary"] != [NSNull null] ? 
-            [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
+            [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
 
     if ([dictionary objectForKey:@"birthday"])
         self.birthday = [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
@@ -1856,7 +1856,7 @@
 
     if ([dictionary objectForKey:@"published"])
         self.published = [dictionary objectForKey:@"published"] != [NSNull null] ? 
-            [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
+            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
 
     if ([dictionary objectForKey:@"quotes"])
         self.quotes = [dictionary objectForKey:@"quotes"] != [NSNull null] ? 
@@ -1916,7 +1916,7 @@
 
     if ([dictionary objectForKey:@"updated"])
         self.updated = [dictionary objectForKey:@"updated"] != [NSNull null] ? 
-            [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
+            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
 
     if ([dictionary objectForKey:@"urls"])
         self.urls = [dictionary objectForKey:@"urls"] != [NSNull null] ? 
@@ -1947,7 +1947,7 @@
 
     self.anniversary =
         [dictionary objectForKey:@"anniversary"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
+        [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"anniversary"]] : nil;
 
     self.birthday =
         [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
@@ -2103,7 +2103,7 @@
 
     self.published =
         [dictionary objectForKey:@"published"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"published"]] : nil;
 
     self.quotes =
         [dictionary objectForKey:@"quotes"] != [NSNull null] ? 
@@ -2163,7 +2163,7 @@
 
     self.updated =
         [dictionary objectForKey:@"updated"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"updated"]] : nil;
 
     self.urls =
         [dictionary objectForKey:@"urls"] != [NSNull null] ? 
@@ -2461,6 +2461,75 @@
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
+}
+
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"NSString" forKey:@"aboutMe"];
+    [dict setObject:@"NSArray" forKey:@"accounts"];
+    [dict setObject:@"NSArray" forKey:@"addresses"];
+    [dict setObject:@"JRDate" forKey:@"anniversary"];
+    [dict setObject:@"NSString" forKey:@"birthday"];
+    [dict setObject:@"JRBodyType" forKey:@"bodyType"];
+    [dict setObject:@"NSArray" forKey:@"books"];
+    [dict setObject:@"NSArray" forKey:@"cars"];
+    [dict setObject:@"NSArray" forKey:@"children"];
+    [dict setObject:@"JRCurrentLocation" forKey:@"currentLocation"];
+    [dict setObject:@"NSString" forKey:@"displayName"];
+    [dict setObject:@"NSString" forKey:@"drinker"];
+    [dict setObject:@"NSArray" forKey:@"emails"];
+    [dict setObject:@"NSString" forKey:@"ethnicity"];
+    [dict setObject:@"NSString" forKey:@"fashion"];
+    [dict setObject:@"NSArray" forKey:@"food"];
+    [dict setObject:@"NSString" forKey:@"gender"];
+    [dict setObject:@"NSString" forKey:@"happiestWhen"];
+    [dict setObject:@"NSArray" forKey:@"heroes"];
+    [dict setObject:@"NSString" forKey:@"humor"];
+    [dict setObject:@"NSArray" forKey:@"ims"];
+    [dict setObject:@"NSString" forKey:@"interestedInMeeting"];
+    [dict setObject:@"NSArray" forKey:@"interests"];
+    [dict setObject:@"NSArray" forKey:@"jobInterests"];
+    [dict setObject:@"NSArray" forKey:@"languages"];
+    [dict setObject:@"NSArray" forKey:@"languagesSpoken"];
+    [dict setObject:@"NSString" forKey:@"livingArrangement"];
+    [dict setObject:@"NSArray" forKey:@"lookingFor"];
+    [dict setObject:@"NSArray" forKey:@"movies"];
+    [dict setObject:@"NSArray" forKey:@"music"];
+    [dict setObject:@"JRName" forKey:@"name"];
+    [dict setObject:@"NSString" forKey:@"nickname"];
+    [dict setObject:@"NSString" forKey:@"note"];
+    [dict setObject:@"NSArray" forKey:@"organizations"];
+    [dict setObject:@"NSArray" forKey:@"pets"];
+    [dict setObject:@"NSArray" forKey:@"phoneNumbers"];
+    [dict setObject:@"NSArray" forKey:@"profilePhotos"];
+    [dict setObject:@"NSString" forKey:@"politicalViews"];
+    [dict setObject:@"NSString" forKey:@"preferredUsername"];
+    [dict setObject:@"NSString" forKey:@"profileSong"];
+    [dict setObject:@"NSString" forKey:@"profileUrl"];
+    [dict setObject:@"NSString" forKey:@"profileVideo"];
+    [dict setObject:@"JRDateTime" forKey:@"published"];
+    [dict setObject:@"NSArray" forKey:@"quotes"];
+    [dict setObject:@"NSString" forKey:@"relationshipStatus"];
+    [dict setObject:@"NSArray" forKey:@"relationships"];
+    [dict setObject:@"NSString" forKey:@"religion"];
+    [dict setObject:@"NSString" forKey:@"romance"];
+    [dict setObject:@"NSString" forKey:@"scaredOf"];
+    [dict setObject:@"NSString" forKey:@"sexualOrientation"];
+    [dict setObject:@"NSString" forKey:@"smoker"];
+    [dict setObject:@"NSArray" forKey:@"sports"];
+    [dict setObject:@"NSString" forKey:@"status"];
+    [dict setObject:@"NSArray" forKey:@"tags"];
+    [dict setObject:@"NSArray" forKey:@"turnOffs"];
+    [dict setObject:@"NSArray" forKey:@"turnOns"];
+    [dict setObject:@"NSArray" forKey:@"tvShows"];
+    [dict setObject:@"JRDateTime" forKey:@"updated"];
+    [dict setObject:@"NSArray" forKey:@"urls"];
+    [dict setObject:@"NSString" forKey:@"utcOffset"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 - (void)dealloc

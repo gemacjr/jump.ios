@@ -42,7 +42,7 @@
 #import "JRProfile.h"
 
 @interface JRProfiles : JRCaptureObject
-@property                   NSInteger profilesId;
+@property (nonatomic, copy) JRObjectId *profilesId;  
 @property (nonatomic, copy) NSObject *accessCredentials; /* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */ 
 @property (nonatomic, copy) NSString *domain;  
 @property (nonatomic, copy) NSArray *followers; /* This is an array of JRStringPluralElements with type identifier */ 
@@ -59,4 +59,5 @@
 + (id)profilesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
 @end

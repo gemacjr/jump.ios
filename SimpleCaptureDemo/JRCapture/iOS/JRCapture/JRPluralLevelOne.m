@@ -90,7 +90,7 @@
 
 @implementation JRPluralLevelOne
 {
-    NSInteger _pluralLevelOneId;
+    JRObjectId *_pluralLevelOneId;
     NSString *_level;
     NSString *_name;
     NSArray *_pluralLevelTwo;
@@ -100,15 +100,15 @@
 @dynamic name;
 @dynamic pluralLevelTwo;
 
-- (NSInteger)pluralLevelOneId
+- (JRObjectId *)pluralLevelOneId
 {
     return _pluralLevelOneId;
 }
 
-- (void)setPluralLevelOneId:(NSInteger)newPluralLevelOneId
+- (void)setPluralLevelOneId:(JRObjectId *)newPluralLevelOneId
 {
     [self.dirtyPropertySet addObject:@"pluralLevelOneId"];
-    _pluralLevelOneId = newPluralLevelOneId;
+    _pluralLevelOneId = [newPluralLevelOneId copy];
 }
 
 - (NSString *)level
@@ -179,7 +179,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.pluralLevelOneId]
+    [dict setObject:(self.pluralLevelOneId ? [NSNumber numberWithInteger:[self.pluralLevelOneId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.level ? self.level : [NSNull null])
              forKey:@"level"];
@@ -188,17 +188,17 @@
     [dict setObject:(self.pluralLevelTwo ? [self.pluralLevelTwo arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoObjects] : [NSNull null])
              forKey:@"pluralLevelTwo"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)pluralLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRPluralLevelOne *pluralLevelOne = [JRPluralLevelOne pluralLevelOne];
-    pluralLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", pluralLevelOne.pluralLevelOneId];
+    pluralLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [pluralLevelOne.pluralLevelOneId integerValue]];
 
     pluralLevelOne.pluralLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     pluralLevelOne.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -221,11 +221,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", self.pluralLevelOneId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [self.pluralLevelOneId integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.pluralLevelOneId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"level"])
         self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -244,11 +244,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", self.pluralLevelOneId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [self.pluralLevelOneId integerValue]];
 
     self.pluralLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -289,7 +289,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.pluralLevelOneId
+                                     withId:[self.pluralLevelOneId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -317,15 +317,29 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.pluralLevelOneId
+                                      withId:[self.pluralLevelOneId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
 }
 
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"JRObjectId" forKey:@"pluralLevelOneId"];
+    [dict setObject:@"NSString" forKey:@"level"];
+    [dict setObject:@"NSString" forKey:@"name"];
+    [dict setObject:@"NSArray" forKey:@"pluralLevelTwo"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (void)dealloc
 {
+    [_pluralLevelOneId release];
     [_level release];
     [_name release];
     [_pluralLevelTwo release];

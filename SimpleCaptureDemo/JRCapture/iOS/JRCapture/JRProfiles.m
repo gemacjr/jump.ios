@@ -41,7 +41,7 @@
 
 @implementation JRProfiles
 {
-    NSInteger _profilesId;
+    JRObjectId *_profilesId;
     NSObject *_accessCredentials;
     NSString *_domain;
     NSArray *_followers;
@@ -63,15 +63,15 @@
 @dynamic provider;
 @dynamic remote_key;
 
-- (NSInteger)profilesId
+- (JRObjectId *)profilesId
 {
     return _profilesId;
 }
 
-- (void)setProfilesId:(NSInteger)newProfilesId
+- (void)setProfilesId:(JRObjectId *)newProfilesId
 {
     [self.dirtyPropertySet addObject:@"profilesId"];
-    _profilesId = newProfilesId;
+    _profilesId = [newProfilesId copy];
 }
 
 - (NSObject *)accessCredentials
@@ -234,7 +234,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.profilesId]
+    [dict setObject:(self.profilesId ? [NSNumber numberWithInteger:[self.profilesId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.accessCredentials ? self.accessCredentials : [NSNull null])
              forKey:@"accessCredentials"];
@@ -255,17 +255,17 @@
     [dict setObject:(self.remote_key ? self.remote_key : [NSNull null])
              forKey:@"remote_key"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)profilesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRProfiles *profiles = [JRProfiles profiles];
-    profiles.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", profiles.profilesId];
+    profiles.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [profiles.profilesId integerValue]];
 
     profiles.profilesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     profiles.accessCredentials =
         [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
@@ -312,11 +312,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", self.profilesId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [self.profilesId integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.profilesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"accessCredentials"])
         self.accessCredentials = [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
@@ -359,11 +359,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", self.profilesId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [self.profilesId integerValue]];
 
     self.profilesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.accessCredentials =
         [dictionary objectForKey:@"accessCredentials"] != [NSNull null] ? 
@@ -446,7 +446,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.profilesId
+                                     withId:[self.profilesId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -480,15 +480,35 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.profilesId
+                                      withId:[self.profilesId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
 }
 
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"JRObjectId" forKey:@"profilesId"];
+    [dict setObject:@"NSObject" forKey:@"accessCredentials"];
+    [dict setObject:@"NSString" forKey:@"domain"];
+    [dict setObject:@"NSArray" forKey:@"followers"];
+    [dict setObject:@"NSArray" forKey:@"following"];
+    [dict setObject:@"NSArray" forKey:@"friends"];
+    [dict setObject:@"NSString" forKey:@"identifier"];
+    [dict setObject:@"JRProfile" forKey:@"profile"];
+    [dict setObject:@"NSObject" forKey:@"provider"];
+    [dict setObject:@"NSString" forKey:@"remote_key"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (void)dealloc
 {
+    [_profilesId release];
     [_accessCredentials release];
     [_domain release];
     [_followers release];

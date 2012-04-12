@@ -123,7 +123,7 @@
     [dict setObject:(self.pinoLevelTwo ? [self.pinoLevelTwo toDictionary] : [NSNull null])
              forKey:@"pinoLevelTwo"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)pinoLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -245,6 +245,18 @@
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
+}
+
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"NSString" forKey:@"level"];
+    [dict setObject:@"NSString" forKey:@"name"];
+    [dict setObject:@"JRPinoLevelTwo" forKey:@"pinoLevelTwo"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 - (void)dealloc

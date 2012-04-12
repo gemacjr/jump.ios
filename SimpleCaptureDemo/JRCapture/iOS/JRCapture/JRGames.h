@@ -41,14 +41,19 @@
 #import "JRCapture.h"
 
 @interface JRGames : JRCaptureObject
-@property                   NSInteger gamesId;
-@property                   BOOL isFavorite;
+@property (nonatomic, copy) JRObjectId *gamesId;  
+@property (nonatomic, copy) JRBoolean *isFavorite;  
 @property (nonatomic, copy) NSString *name;  
 @property (nonatomic, copy) NSArray *opponents; /* This is an array of JRStringPluralElements with type name */ 
-@property                   NSInteger rating;
+@property (nonatomic, copy) JRInteger *rating;  
 - (id)init;
 + (id)games;
 + (id)gamesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
+- (BOOL)getIsFavoriteBoolValue;
+- (void)setIsFavoriteWithBool:(BOOL)boolVal;
+- (NSInteger)getRatingIntegerValue;
+- (void)setRatingWithInteger:(NSInteger)integerVal;
 @end

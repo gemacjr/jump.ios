@@ -235,7 +235,7 @@
     [dict setObject:(self.zipPlus4 ? self.zipPlus4 : [NSNull null])
              forKey:@"zipPlus4"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -469,6 +469,25 @@
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
+}
+
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"NSString" forKey:@"address1"];
+    [dict setObject:@"NSString" forKey:@"address2"];
+    [dict setObject:@"NSString" forKey:@"city"];
+    [dict setObject:@"NSString" forKey:@"company"];
+    [dict setObject:@"NSString" forKey:@"country"];
+    [dict setObject:@"NSString" forKey:@"mobile"];
+    [dict setObject:@"NSString" forKey:@"phone"];
+    [dict setObject:@"NSString" forKey:@"stateAbbreviation"];
+    [dict setObject:@"NSString" forKey:@"zip"];
+    [dict setObject:@"NSString" forKey:@"zipPlus4"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 - (void)dealloc

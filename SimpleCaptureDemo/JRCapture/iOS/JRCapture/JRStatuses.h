@@ -41,12 +41,13 @@
 #import "JRCapture.h"
 
 @interface JRStatuses : JRCaptureObject
-@property                   NSInteger statusesId;
+@property (nonatomic, copy) JRObjectId *statusesId;  
 @property (nonatomic, copy) NSString *status;  
-@property (nonatomic, copy) NSDate *statusCreated;  
+@property (nonatomic, copy) JRDateTime *statusCreated;  
 - (id)init;
 + (id)statuses;
 + (id)statusesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
 @end

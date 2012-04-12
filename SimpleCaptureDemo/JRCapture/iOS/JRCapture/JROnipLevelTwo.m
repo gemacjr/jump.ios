@@ -123,7 +123,7 @@
     [dict setObject:(self.onipLevelThree ? [self.onipLevelThree toDictionary] : [NSNull null])
              forKey:@"onipLevelThree"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -245,6 +245,18 @@
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
+}
+
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"NSString" forKey:@"level"];
+    [dict setObject:@"NSString" forKey:@"name"];
+    [dict setObject:@"JROnipLevelThree" forKey:@"onipLevelThree"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 - (void)dealloc

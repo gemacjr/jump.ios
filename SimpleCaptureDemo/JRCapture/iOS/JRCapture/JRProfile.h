@@ -55,7 +55,7 @@
 @property (nonatomic, copy) NSString *aboutMe;  
 @property (nonatomic, copy) NSArray *accounts; /* This is an array of JRAccounts */ 
 @property (nonatomic, copy) NSArray *addresses; /* This is an array of JRAddresses */ 
-@property (nonatomic, copy) NSDate *anniversary;  
+@property (nonatomic, copy) JRDate *anniversary;  
 @property (nonatomic, copy) NSString *birthday;  
 @property (nonatomic, copy) JRBodyType *bodyType;  
 @property (nonatomic, copy) NSArray *books; /* This is an array of JRStringPluralElements with type book */ 
@@ -94,7 +94,7 @@
 @property (nonatomic, copy) NSString *profileSong;  
 @property (nonatomic, copy) NSString *profileUrl;  
 @property (nonatomic, copy) NSString *profileVideo;  
-@property (nonatomic, copy) NSDate *published;  
+@property (nonatomic, copy) JRDateTime *published;  
 @property (nonatomic, copy) NSArray *quotes; /* This is an array of JRStringPluralElements with type quote */ 
 @property (nonatomic, copy) NSString *relationshipStatus;  
 @property (nonatomic, copy) NSArray *relationships; /* This is an array of JRStringPluralElements with type relationship */ 
@@ -109,7 +109,7 @@
 @property (nonatomic, copy) NSArray *turnOffs; /* This is an array of JRStringPluralElements with type turnOff */ 
 @property (nonatomic, copy) NSArray *turnOns; /* This is an array of JRStringPluralElements with type turnOn */ 
 @property (nonatomic, copy) NSArray *tvShows; /* This is an array of JRStringPluralElements with type tvShow */ 
-@property (nonatomic, copy) NSDate *updated;  
+@property (nonatomic, copy) JRDateTime *updated;  
 @property (nonatomic, copy) NSArray *urls; /* This is an array of JRUrls */ 
 @property (nonatomic, copy) NSString *utcOffset;  
 - (id)init;
@@ -117,4 +117,5 @@
 + (id)profileObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
 @end

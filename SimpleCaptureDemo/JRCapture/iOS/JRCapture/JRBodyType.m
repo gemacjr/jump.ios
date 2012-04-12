@@ -155,7 +155,7 @@
     [dict setObject:(self.height ? self.height : [NSNull null])
              forKey:@"height"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -309,6 +309,20 @@
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
+}
+
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"NSString" forKey:@"build"];
+    [dict setObject:@"NSString" forKey:@"color"];
+    [dict setObject:@"NSString" forKey:@"eyeColor"];
+    [dict setObject:@"NSString" forKey:@"hairColor"];
+    [dict setObject:@"NSNumber" forKey:@"height"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 - (void)dealloc

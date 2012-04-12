@@ -41,7 +41,7 @@
 #import "JRCapture.h"
 
 @interface JRPluralLevelThree : JRCaptureObject
-@property                   NSInteger pluralLevelThreeId;
+@property (nonatomic, copy) JRObjectId *pluralLevelThreeId;  
 @property (nonatomic, copy) NSString *level;  
 @property (nonatomic, copy) NSString *name;  
 - (id)init;
@@ -49,4 +49,5 @@
 + (id)pluralLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
 @end

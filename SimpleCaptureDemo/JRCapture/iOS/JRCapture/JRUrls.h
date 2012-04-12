@@ -41,8 +41,8 @@
 #import "JRCapture.h"
 
 @interface JRUrls : JRCaptureObject
-@property                   NSInteger urlsId;
-@property                   BOOL primary;
+@property (nonatomic, copy) JRObjectId *urlsId;  
+@property (nonatomic, copy) JRBoolean *primary;  
 @property (nonatomic, copy) NSString *type;  
 @property (nonatomic, copy) NSString *value;  
 - (id)init;
@@ -50,4 +50,7 @@
 + (id)urlsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
+- (BOOL)getPrimaryBoolValue;
+- (void)setPrimaryWithBool:(BOOL)boolVal;
 @end

@@ -41,9 +41,9 @@
 
 @implementation JRAccounts
 {
-    NSInteger _accountsId;
+    JRObjectId *_accountsId;
     NSString *_domain;
-    BOOL _primary;
+    JRBoolean *_primary;
     NSString *_userid;
     NSString *_username;
 }
@@ -53,15 +53,15 @@
 @dynamic userid;
 @dynamic username;
 
-- (NSInteger)accountsId
+- (JRObjectId *)accountsId
 {
     return _accountsId;
 }
 
-- (void)setAccountsId:(NSInteger)newAccountsId
+- (void)setAccountsId:(JRObjectId *)newAccountsId
 {
     [self.dirtyPropertySet addObject:@"accountsId"];
-    _accountsId = newAccountsId;
+    _accountsId = [newAccountsId copy];
 }
 
 - (NSString *)domain
@@ -75,15 +75,26 @@
     _domain = [newDomain copy];
 }
 
-- (BOOL)primary
+- (JRBoolean *)primary
 {
     return _primary;
 }
 
-- (void)setPrimary:(BOOL)newPrimary
+- (void)setPrimary:(JRBoolean *)newPrimary
 {
     [self.dirtyPropertySet addObject:@"primary"];
-    _primary = newPrimary;
+    _primary = [newPrimary copy];
+}
+
+- (BOOL)getPrimaryBoolValue
+{
+    return [_primary boolValue];
+}
+
+- (void)setPrimaryWithBool:(BOOL)boolVal
+{
+    [self.dirtyPropertySet addObject:@"primary"];
+    _primary = [NSNumber numberWithBool:boolVal];
 }
 
 - (NSString *)userid
@@ -144,28 +155,28 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.accountsId]
+    [dict setObject:(self.accountsId ? [NSNumber numberWithInteger:[self.accountsId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.domain ? self.domain : [NSNull null])
              forKey:@"domain"];
-    [dict setObject:[NSNumber numberWithBool:self.primary]
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
              forKey:@"primary"];
     [dict setObject:(self.userid ? self.userid : [NSNull null])
              forKey:@"userid"];
     [dict setObject:(self.username ? self.username : [NSNull null])
              forKey:@"username"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)accountsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRAccounts *accounts = [JRAccounts accounts];
-    accounts.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", accounts.accountsId];
+    accounts.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [accounts.accountsId integerValue]];
 
     accounts.accountsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     accounts.domain =
         [dictionary objectForKey:@"domain"] != [NSNull null] ? 
@@ -173,7 +184,7 @@
 
     accounts.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+        [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     accounts.userid =
         [dictionary objectForKey:@"userid"] != [NSNull null] ? 
@@ -192,11 +203,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", self.accountsId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [self.accountsId integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.accountsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"domain"])
         self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
@@ -204,7 +215,7 @@
 
     if ([dictionary objectForKey:@"primary"])
         self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+            [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     if ([dictionary objectForKey:@"userid"])
         self.userid = [dictionary objectForKey:@"userid"] != [NSNull null] ? 
@@ -219,11 +230,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", self.accountsId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [self.accountsId integerValue]];
 
     self.accountsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.domain =
         [dictionary objectForKey:@"domain"] != [NSNull null] ? 
@@ -231,7 +242,7 @@
 
     self.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+        [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     self.userid =
         [dictionary objectForKey:@"userid"] != [NSNull null] ? 
@@ -251,7 +262,7 @@
         [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
 
     if ([self.dirtyPropertySet containsObject:@"primary"])
-        [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+        [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
 
     if ([self.dirtyPropertySet containsObject:@"userid"])
         [dict setObject:(self.userid ? self.userid : [NSNull null]) forKey:@"userid"];
@@ -271,7 +282,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.accountsId
+                                     withId:[self.accountsId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -284,7 +295,7 @@
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
-    [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
     [dict setObject:(self.userid ? self.userid : [NSNull null]) forKey:@"userid"];
     [dict setObject:(self.username ? self.username : [NSNull null]) forKey:@"username"];
 
@@ -300,16 +311,32 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.accountsId
+                                      withId:[self.accountsId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
 }
 
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"JRObjectId" forKey:@"accountsId"];
+    [dict setObject:@"NSString" forKey:@"domain"];
+    [dict setObject:@"JRBoolean" forKey:@"primary"];
+    [dict setObject:@"NSString" forKey:@"userid"];
+    [dict setObject:@"NSString" forKey:@"username"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (void)dealloc
 {
+    [_accountsId release];
     [_domain release];
+    [_primary release];
     [_userid release];
     [_username release];
 

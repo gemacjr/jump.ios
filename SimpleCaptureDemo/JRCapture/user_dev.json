@@ -1756,6 +1756,14 @@
             {
                 "name": "testerBoolean",
                 "type": "boolean"
+            },
+            {
+                "name": "testerInteger",
+                "type": "integer"
+            },
+            {
+                "name": "testerIpAddr",
+                "type": "ipAddress"
             }
         ]
     },

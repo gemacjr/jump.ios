@@ -63,7 +63,7 @@
     }
 
     // If method is void:
-    return NULL;
+    return nil;
 }
 @end
 
@@ -603,6 +603,9 @@ typedef enum
 
                     NSNumber *number = [formatter numberFromString:textField.text];
 
+                    [number boolValue];
+                    [number integerValue];
+
                     if (!number) // TODO: What if you are trying to delete the number?
                         return;
 
@@ -1084,9 +1087,10 @@ typedef enum
  /* If our item is an bool... */
     else if (propertyData.propertyType == PTBool)
     {
-        int boolValue = *primValue;
+        DLog(@"%@", [tableData description]);
+        //int boolValue = *primValue;
 
-        if (boolValue)
+        if (primValue)//boolValue)
         {
             subtitle = @"TRUE";
             ((UISwitch *)editingView).on = YES;
@@ -1107,10 +1111,10 @@ typedef enum
         }
         else
         {/* and, if it's not null, it should be a string, so set the subtitle as that. */
-            subtitle = [(NSDate*)value stringFromISO8601Date];
+            subtitle = [(JRDate*)value stringFromISO8601Date];
 
             if (!subtitle)
-                subtitle = [(NSDate *) value stringFromISO8601DateTime];
+                subtitle = [(JRDateTime *) value stringFromISO8601DateTime];
 
             UILabel *label = (UILabel *) [editingView viewWithTag:indexPath.row + LEFT_LABEL_OFFSET];
             label.text = propertyData.stringValue = subtitle;

@@ -216,7 +216,7 @@ my @fromDictionaryParts = (
 #     [dict setObject:(<property> ? <propertyToDictionaryMethod> : [NSNull null]) forKey:@"<propertyKey>"];
 #       ...
 #
-#     return dict;
+#     return [NSDictionary dictionaryWithDictionary:dict];
 #  }
 ###################################################################
 
@@ -226,7 +226,7 @@ my @toDictionaryParts = (
 "    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
 "", 
-"\n    return dict;",
+"\n    return [NSDictionary dictionaryWithDictionary:dict];",
 "\n}\n\n");
 
 
@@ -396,6 +396,29 @@ my @replaceRemotelyParts = (
 
 
 ###################################################################
+# MAKE DICTIONARY OF OBJECT'S PROPERTIES
+#
+# - (NSDictionary*)objectProperties
+# {
+#     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
+#
+#     [dict setObject:@"<propertyType>" forKey:@"<propertyName>"];
+#
+#     return [NSDictionary dictionaryWithDictionary:dict];
+#  }
+###################################################################
+
+my @objectPropertiesParts = (
+"- (NSDictionary*)objectProperties",
+"\n{\n",
+"    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
+"", 
+"\n    return [NSDictionary dictionaryWithDictionary:dict];",
+"\n}\n\n");
+
+
+###################################################################
 # DESTRUCTOR
 #
 # - (void)dealloc
@@ -505,9 +528,11 @@ sub createArrayCategoryForSubobject {
 sub createGetterSetterForProperty {
   my $propertyName  = $_[0];
   my $propertyType  = $_[1];
-  my $isNotNSObject = $_[2];
+  my $isBoolOrInt   = $_[2];
   my $getter;
   my $setter;
+  my $primitiveGetter = "";
+  my $primitiveSetter = "";
   
   $getter = "- (" . $propertyType . ")" . $propertyName;
   
@@ -519,18 +544,40 @@ sub createGetterSetterForProperty {
   $setter .= "\n{\n";
   $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
 
-  if ($isNotNSObject) {
-    $setter .= "    _" . $propertyName .  " = new" . ucfirst($propertyName) . ";";  
-  } else {
-#     $setter .= "    if (!new" . ucfirst($propertyName) . ")\n";
-#     $setter .= "        _" . $propertyName .  " = [NSNull null];\n";  
-#     $setter .= "    else\n";
-    $setter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";  
-  }
-  
+  $setter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";    
   $setter .= "\n}\n\n";
 
-  return $getter . $setter;
+  if ($isBoolOrInt eq "b") {
+  
+    $primitiveGetter .= "- (BOOL)get" . ucfirst($propertyName) . "BoolValue";
+    $primitiveGetter .= "\n{\n";
+    $primitiveGetter .= "    return [_" . $propertyName .  " boolValue];";    
+    $primitiveGetter .= "\n}\n\n";
+    
+    $primitiveSetter .= "- (void)set" . ucfirst($propertyName) . "WithBool:(BOOL)boolVal";
+    $primitiveSetter .= "\n{\n";
+    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
+  
+    $primitiveSetter .= "    _" . $propertyName .  " = [NSNumber numberWithBool:boolVal];";    
+    $primitiveSetter .= "\n}\n\n";
+
+  } elsif ($isBoolOrInt eq "i") {
+
+    $primitiveGetter .= "- (NSInteger)get" . ucfirst($propertyName) . "IntegerValue";
+    $primitiveGetter .= "\n{\n";
+    $primitiveGetter .= "    return [_" . $propertyName .  " integerValue];";    
+    $primitiveGetter .= "\n}\n\n";
+    
+    $primitiveSetter .= "- (void)set" . ucfirst($propertyName) . "WithInteger:(NSInteger)integerVal";
+    $primitiveSetter .= "\n{\n";
+    $primitiveSetter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
+  
+    $primitiveSetter .= "    _" . $propertyName .  " = [NSNumber numberWithInteger:integerVal];";    
+    $primitiveSetter .= "\n}\n\n";
+    
+  }
+
+  return $getter . $setter . $primitiveGetter . $primitiveSetter;
 }
 
 sub createGetterSetterForSimpleArray {
@@ -610,6 +657,10 @@ sub getToReplaceDictParts {
 
 sub getReplaceRemotelyParts {
   return @replaceRemotelyParts;
+}
+
+sub getObjectPropertiesParts {
+  return @objectPropertiesParts;
 }
 
 sub getDestructorParts {

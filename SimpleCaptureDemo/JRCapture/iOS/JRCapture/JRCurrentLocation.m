@@ -251,7 +251,7 @@
     [dict setObject:(self.type ? self.type : [NSNull null])
              forKey:@"type"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)currentLocationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -501,6 +501,26 @@
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
+}
+
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"NSString" forKey:@"country"];
+    [dict setObject:@"NSString" forKey:@"extendedAddress"];
+    [dict setObject:@"NSString" forKey:@"formatted"];
+    [dict setObject:@"NSNumber" forKey:@"latitude"];
+    [dict setObject:@"NSString" forKey:@"locality"];
+    [dict setObject:@"NSNumber" forKey:@"longitude"];
+    [dict setObject:@"NSString" forKey:@"poBox"];
+    [dict setObject:@"NSString" forKey:@"postalCode"];
+    [dict setObject:@"NSString" forKey:@"region"];
+    [dict setObject:@"NSString" forKey:@"streetAddress"];
+    [dict setObject:@"NSString" forKey:@"type"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 - (void)dealloc

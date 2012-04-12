@@ -42,7 +42,7 @@
 #import "JROnipLevelTwo.h"
 
 @interface JROnipLevelOne : JRCaptureObject
-@property                   NSInteger onipLevelOneId;
+@property (nonatomic, copy) JRObjectId *onipLevelOneId;  
 @property (nonatomic, copy) NSString *level;  
 @property (nonatomic, copy) NSString *name;  
 @property (nonatomic, copy) JROnipLevelTwo *onipLevelTwo;  
@@ -51,4 +51,5 @@
 + (id)onipLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
 @end

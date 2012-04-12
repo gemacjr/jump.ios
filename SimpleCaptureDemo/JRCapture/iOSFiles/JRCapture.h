@@ -33,15 +33,38 @@
  Date:   Tuesday, January 31, 2012
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+typedef NSNumber JRObjectId;
+typedef NSNumber JRInteger;
+typedef NSNumber JRBoolean;
+typedef NSString JRIpAddress;
+typedef NSString JRUuid;
+
 #import <Foundation/Foundation.h>
 #import "JRCaptureInternal.h"
 
-@interface NSDate (CaptureDateTime)
-+ (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
-+ (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
+@interface JRDate : NSDate
++ (JRDate *)dateFromISO8601DateString:(NSString *)dateString;
 - (NSString *)stringFromISO8601Date;
+@end
+
+@interface JRDateTime : NSDate
++ (JRDateTime *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
 - (NSString *)stringFromISO8601DateTime;
 @end
+
+//@interface NSDate (CaptureDateTime)
+//+ (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
+//+ (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
+//- (NSString *)stringFromISO8601Date;
+//- (NSString *)stringFromISO8601DateTime;
+//@end
+//
+//@interface NSDate (CaptureDateTime)
+//+ (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
+//+ (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
+//- (NSString *)stringFromISO8601Date;
+//- (NSString *)stringFromISO8601DateTime;
+//@end
 
 @interface JRCapture : NSObject
 + (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo;

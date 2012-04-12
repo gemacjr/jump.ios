@@ -41,23 +41,23 @@
 
 @implementation JRStatuses
 {
-    NSInteger _statusesId;
+    JRObjectId *_statusesId;
     NSString *_status;
-    NSDate *_statusCreated;
+    JRDateTime *_statusCreated;
 }
 @dynamic statusesId;
 @dynamic status;
 @dynamic statusCreated;
 
-- (NSInteger)statusesId
+- (JRObjectId *)statusesId
 {
     return _statusesId;
 }
 
-- (void)setStatusesId:(NSInteger)newStatusesId
+- (void)setStatusesId:(JRObjectId *)newStatusesId
 {
     [self.dirtyPropertySet addObject:@"statusesId"];
-    _statusesId = newStatusesId;
+    _statusesId = [newStatusesId copy];
 }
 
 - (NSString *)status
@@ -71,12 +71,12 @@
     _status = [newStatus copy];
 }
 
-- (NSDate *)statusCreated
+- (JRDateTime *)statusCreated
 {
     return _statusCreated;
 }
 
-- (void)setStatusCreated:(NSDate *)newStatusCreated
+- (void)setStatusCreated:(JRDateTime *)newStatusCreated
 {
     [self.dirtyPropertySet addObject:@"statusCreated"];
     _statusCreated = [newStatusCreated copy];
@@ -116,24 +116,24 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.statusesId]
+    [dict setObject:(self.statusesId ? [NSNumber numberWithInteger:[self.statusesId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.status ? self.status : [NSNull null])
              forKey:@"status"];
     [dict setObject:(self.statusCreated ? [self.statusCreated stringFromISO8601DateTime] : [NSNull null])
              forKey:@"statusCreated"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)statusesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRStatuses *statuses = [JRStatuses statuses];
-    statuses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", statuses.statusesId];
+    statuses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [statuses.statusesId integerValue]];
 
     statuses.statusesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     statuses.status =
         [dictionary objectForKey:@"status"] != [NSNull null] ? 
@@ -141,7 +141,7 @@
 
     statuses.statusCreated =
         [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 
     [statuses.dirtyPropertySet removeAllObjects];
     
@@ -152,11 +152,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", self.statusesId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [self.statusesId integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.statusesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"status"])
         self.status = [dictionary objectForKey:@"status"] != [NSNull null] ? 
@@ -164,18 +164,18 @@
 
     if ([dictionary objectForKey:@"statusCreated"])
         self.statusCreated = [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
-            [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
+            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", self.statusesId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [self.statusesId integerValue]];
 
     self.statusesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.status =
         [dictionary objectForKey:@"status"] != [NSNull null] ? 
@@ -183,7 +183,7 @@
 
     self.statusCreated =
         [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -209,7 +209,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.statusesId
+                                     withId:[self.statusesId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -236,15 +236,28 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.statusesId
+                                      withId:[self.statusesId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
 }
 
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"JRObjectId" forKey:@"statusesId"];
+    [dict setObject:@"NSString" forKey:@"status"];
+    [dict setObject:@"JRDateTime" forKey:@"statusCreated"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (void)dealloc
 {
+    [_statusesId release];
     [_status release];
     [_statusCreated release];
 

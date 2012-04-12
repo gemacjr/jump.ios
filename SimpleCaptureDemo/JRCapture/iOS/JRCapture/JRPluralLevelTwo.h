@@ -42,7 +42,7 @@
 #import "JRPluralLevelThree.h"
 
 @interface JRPluralLevelTwo : JRCaptureObject
-@property                   NSInteger pluralLevelTwoId;
+@property (nonatomic, copy) JRObjectId *pluralLevelTwoId;  
 @property (nonatomic, copy) NSString *level;  
 @property (nonatomic, copy) NSString *name;  
 @property (nonatomic, copy) NSArray *pluralLevelThree; /* This is an array of JRPluralLevelThree */ 
@@ -51,4 +51,5 @@
 + (id)pluralLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
 @end

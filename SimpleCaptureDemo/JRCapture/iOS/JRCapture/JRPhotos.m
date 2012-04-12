@@ -41,7 +41,7 @@
 
 @implementation JRPhotos
 {
-    NSInteger _photosId;
+    JRObjectId *_photosId;
     NSString *_type;
     NSString *_value;
 }
@@ -49,15 +49,15 @@
 @dynamic type;
 @dynamic value;
 
-- (NSInteger)photosId
+- (JRObjectId *)photosId
 {
     return _photosId;
 }
 
-- (void)setPhotosId:(NSInteger)newPhotosId
+- (void)setPhotosId:(JRObjectId *)newPhotosId
 {
     [self.dirtyPropertySet addObject:@"photosId"];
-    _photosId = newPhotosId;
+    _photosId = [newPhotosId copy];
 }
 
 - (NSString *)type
@@ -116,24 +116,24 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.photosId]
+    [dict setObject:(self.photosId ? [NSNumber numberWithInteger:[self.photosId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.type ? self.type : [NSNull null])
              forKey:@"type"];
     [dict setObject:(self.value ? self.value : [NSNull null])
              forKey:@"value"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)photosObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRPhotos *photos = [JRPhotos photos];
-    photos.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", photos.photosId];
+    photos.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [photos.photosId integerValue]];
 
     photos.photosId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     photos.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
@@ -152,11 +152,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", self.photosId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [self.photosId integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.photosId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"type"])
         self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
@@ -171,11 +171,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", self.photosId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [self.photosId integerValue]];
 
     self.photosId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
@@ -209,7 +209,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.photosId
+                                     withId:[self.photosId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -236,15 +236,28 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.photosId
+                                      withId:[self.photosId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
 }
 
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"JRObjectId" forKey:@"photosId"];
+    [dict setObject:@"NSString" forKey:@"type"];
+    [dict setObject:@"NSString" forKey:@"value"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (void)dealloc
 {
+    [_photosId release];
     [_type release];
     [_value release];
 

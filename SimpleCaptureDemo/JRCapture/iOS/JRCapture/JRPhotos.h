@@ -41,7 +41,7 @@
 #import "JRCapture.h"
 
 @interface JRPhotos : JRCaptureObject
-@property                   NSInteger photosId;
+@property (nonatomic, copy) JRObjectId *photosId;  
 @property (nonatomic, copy) NSString *type;  
 @property (nonatomic, copy) NSString *value;  
 - (id)init;
@@ -49,4 +49,5 @@
 + (id)photosObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
 @end

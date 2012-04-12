@@ -41,7 +41,7 @@
 #import "JRCapture.h"
 
 @interface JRPinoLevelThree : JRCaptureObject
-@property                   NSInteger pinoLevelThreeId;
+@property (nonatomic, copy) JRObjectId *pinoLevelThreeId;  
 @property (nonatomic, copy) NSString *level;  
 @property (nonatomic, copy) NSString *name;  
 - (id)init;
@@ -49,4 +49,5 @@
 + (id)pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
 @end

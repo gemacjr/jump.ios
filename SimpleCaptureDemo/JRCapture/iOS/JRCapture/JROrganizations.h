@@ -42,13 +42,13 @@
 #import "JRLocation.h"
 
 @interface JROrganizations : JRCaptureObject
-@property                   NSInteger organizationsId;
+@property (nonatomic, copy) JRObjectId *organizationsId;  
 @property (nonatomic, copy) NSString *department;  
 @property (nonatomic, copy) NSString *description;  
 @property (nonatomic, copy) NSString *endDate;  
 @property (nonatomic, copy) JRLocation *location;  
 @property (nonatomic, copy) NSString *name;  
-@property                   BOOL primary;
+@property (nonatomic, copy) JRBoolean *primary;  
 @property (nonatomic, copy) NSString *startDate;  
 @property (nonatomic, copy) NSString *title;  
 @property (nonatomic, copy) NSString *type;  
@@ -57,4 +57,7 @@
 + (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
+- (BOOL)getPrimaryBoolValue;
+- (void)setPrimaryWithBool:(BOOL)boolVal;
 @end

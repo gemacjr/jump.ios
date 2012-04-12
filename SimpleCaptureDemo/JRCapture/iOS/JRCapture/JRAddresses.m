@@ -41,7 +41,7 @@
 
 @implementation JRAddresses
 {
-    NSInteger _addressesId;
+    JRObjectId *_addressesId;
     NSString *_country;
     NSString *_extendedAddress;
     NSString *_formatted;
@@ -50,7 +50,7 @@
     NSNumber *_longitude;
     NSString *_poBox;
     NSString *_postalCode;
-    BOOL _primary;
+    JRBoolean *_primary;
     NSString *_region;
     NSString *_streetAddress;
     NSString *_type;
@@ -69,15 +69,15 @@
 @dynamic streetAddress;
 @dynamic type;
 
-- (NSInteger)addressesId
+- (JRObjectId *)addressesId
 {
     return _addressesId;
 }
 
-- (void)setAddressesId:(NSInteger)newAddressesId
+- (void)setAddressesId:(JRObjectId *)newAddressesId
 {
     [self.dirtyPropertySet addObject:@"addressesId"];
-    _addressesId = newAddressesId;
+    _addressesId = [newAddressesId copy];
 }
 
 - (NSString *)country
@@ -168,15 +168,26 @@
     _postalCode = [newPostalCode copy];
 }
 
-- (BOOL)primary
+- (JRBoolean *)primary
 {
     return _primary;
 }
 
-- (void)setPrimary:(BOOL)newPrimary
+- (void)setPrimary:(JRBoolean *)newPrimary
 {
     [self.dirtyPropertySet addObject:@"primary"];
-    _primary = newPrimary;
+    _primary = [newPrimary copy];
+}
+
+- (BOOL)getPrimaryBoolValue
+{
+    return [_primary boolValue];
+}
+
+- (void)setPrimaryWithBool:(BOOL)boolVal
+{
+    [self.dirtyPropertySet addObject:@"primary"];
+    _primary = [NSNumber numberWithBool:boolVal];
 }
 
 - (NSString *)region
@@ -256,7 +267,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.addressesId]
+    [dict setObject:(self.addressesId ? [NSNumber numberWithInteger:[self.addressesId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.country ? self.country : [NSNull null])
              forKey:@"country"];
@@ -274,7 +285,7 @@
              forKey:@"poBox"];
     [dict setObject:(self.postalCode ? self.postalCode : [NSNull null])
              forKey:@"postalCode"];
-    [dict setObject:[NSNumber numberWithBool:self.primary]
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
              forKey:@"primary"];
     [dict setObject:(self.region ? self.region : [NSNull null])
              forKey:@"region"];
@@ -283,17 +294,17 @@
     [dict setObject:(self.type ? self.type : [NSNull null])
              forKey:@"type"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)addressesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRAddresses *addresses = [JRAddresses addresses];
-    addresses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", addresses.addressesId];
+    addresses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [addresses.addressesId integerValue]];
 
     addresses.addressesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     addresses.country =
         [dictionary objectForKey:@"country"] != [NSNull null] ? 
@@ -329,7 +340,7 @@
 
     addresses.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+        [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     addresses.region =
         [dictionary objectForKey:@"region"] != [NSNull null] ? 
@@ -352,11 +363,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", self.addressesId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [self.addressesId integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.addressesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"country"])
         self.country = [dictionary objectForKey:@"country"] != [NSNull null] ? 
@@ -392,7 +403,7 @@
 
     if ([dictionary objectForKey:@"primary"])
         self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+            [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     if ([dictionary objectForKey:@"region"])
         self.region = [dictionary objectForKey:@"region"] != [NSNull null] ? 
@@ -411,11 +422,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", self.addressesId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [self.addressesId integerValue]];
 
     self.addressesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.country =
         [dictionary objectForKey:@"country"] != [NSNull null] ? 
@@ -451,7 +462,7 @@
 
     self.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+        [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     self.region =
         [dictionary objectForKey:@"region"] != [NSNull null] ? 
@@ -496,7 +507,7 @@
         [dict setObject:(self.postalCode ? self.postalCode : [NSNull null]) forKey:@"postalCode"];
 
     if ([self.dirtyPropertySet containsObject:@"primary"])
-        [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+        [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
 
     if ([self.dirtyPropertySet containsObject:@"region"])
         [dict setObject:(self.region ? self.region : [NSNull null]) forKey:@"region"];
@@ -519,7 +530,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.addressesId
+                                     withId:[self.addressesId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -539,7 +550,7 @@
     [dict setObject:(self.longitude ? self.longitude : [NSNull null]) forKey:@"longitude"];
     [dict setObject:(self.poBox ? self.poBox : [NSNull null]) forKey:@"poBox"];
     [dict setObject:(self.postalCode ? self.postalCode : [NSNull null]) forKey:@"postalCode"];
-    [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
     [dict setObject:(self.region ? self.region : [NSNull null]) forKey:@"region"];
     [dict setObject:(self.streetAddress ? self.streetAddress : [NSNull null]) forKey:@"streetAddress"];
     [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
@@ -556,15 +567,38 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.addressesId
+                                      withId:[self.addressesId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
 }
 
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"JRObjectId" forKey:@"addressesId"];
+    [dict setObject:@"NSString" forKey:@"country"];
+    [dict setObject:@"NSString" forKey:@"extendedAddress"];
+    [dict setObject:@"NSString" forKey:@"formatted"];
+    [dict setObject:@"NSNumber" forKey:@"latitude"];
+    [dict setObject:@"NSString" forKey:@"locality"];
+    [dict setObject:@"NSNumber" forKey:@"longitude"];
+    [dict setObject:@"NSString" forKey:@"poBox"];
+    [dict setObject:@"NSString" forKey:@"postalCode"];
+    [dict setObject:@"JRBoolean" forKey:@"primary"];
+    [dict setObject:@"NSString" forKey:@"region"];
+    [dict setObject:@"NSString" forKey:@"streetAddress"];
+    [dict setObject:@"NSString" forKey:@"type"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (void)dealloc
 {
+    [_addressesId release];
     [_country release];
     [_extendedAddress release];
     [_formatted release];
@@ -573,6 +607,7 @@
     [_longitude release];
     [_poBox release];
     [_postalCode release];
+    [_primary release];
     [_region release];
     [_streetAddress release];
     [_type release];

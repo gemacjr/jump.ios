@@ -41,9 +41,9 @@
 #import "JRCapture.h"
 
 @interface JRAccounts : JRCaptureObject
-@property                   NSInteger accountsId;
+@property (nonatomic, copy) JRObjectId *accountsId;  
 @property (nonatomic, copy) NSString *domain;  
-@property                   BOOL primary;
+@property (nonatomic, copy) JRBoolean *primary;  
 @property (nonatomic, copy) NSString *userid;  
 @property (nonatomic, copy) NSString *username;  
 - (id)init;
@@ -51,4 +51,7 @@
 + (id)accountsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
+- (BOOL)getPrimaryBoolValue;
+- (void)setPrimaryWithBool:(BOOL)boolVal;
 @end

@@ -41,7 +41,7 @@
 #import "JRCapture.h"
 
 @interface JRAddresses : JRCaptureObject
-@property                   NSInteger addressesId;
+@property (nonatomic, copy) JRObjectId *addressesId;  
 @property (nonatomic, copy) NSString *country;  
 @property (nonatomic, copy) NSString *extendedAddress;  
 @property (nonatomic, copy) NSString *formatted;  
@@ -50,7 +50,7 @@
 @property (nonatomic, copy) NSNumber *longitude;  
 @property (nonatomic, copy) NSString *poBox;  
 @property (nonatomic, copy) NSString *postalCode;  
-@property                   BOOL primary;
+@property (nonatomic, copy) JRBoolean *primary;  
 @property (nonatomic, copy) NSString *region;  
 @property (nonatomic, copy) NSString *streetAddress;  
 @property (nonatomic, copy) NSString *type;  
@@ -59,4 +59,7 @@
 + (id)addressesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
+- (BOOL)getPrimaryBoolValue;
+- (void)setPrimaryWithBool:(BOOL)boolVal;
 @end

@@ -335,22 +335,22 @@
 
 @implementation JRCaptureUser
 {
-    NSInteger _captureUserId;
-    NSString *_uuid;
-    NSDate *_created;
-    NSDate *_lastUpdated;
+    JRObjectId *_captureUserId;
+    JRUuid *_uuid;
+    JRDateTime *_created;
+    JRDateTime *_lastUpdated;
     NSString *_aboutMe;
-    NSDate *_birthday;
+    JRDate *_birthday;
     NSString *_currentLocation;
     NSObject *_display;
     NSString *_displayName;
     NSString *_email;
-    NSDate *_emailVerified;
+    JRDateTime *_emailVerified;
     NSString *_familyName;
     NSArray *_games;
     NSString *_gender;
     NSString *_givenName;
-    NSDate *_lastLogin;
+    JRDateTime *_lastLogin;
     NSString *_middleName;
     JRObjectLevelOne *_objectLevelOne;
     NSArray *_onipLevelOne;
@@ -361,7 +361,9 @@
     JRPrimaryAddress *_primaryAddress;
     NSArray *_profiles;
     NSArray *_statuses;
-    BOOL _testerBoolean;
+    JRBoolean *_testerBoolean;
+    JRInteger *_testerInteger;
+    JRIpAddress *_testerIpAddr;
 }
 @dynamic captureUserId;
 @dynamic uuid;
@@ -390,46 +392,48 @@
 @dynamic profiles;
 @dynamic statuses;
 @dynamic testerBoolean;
+@dynamic testerInteger;
+@dynamic testerIpAddr;
 
-- (NSInteger)captureUserId
+- (JRObjectId *)captureUserId
 {
     return _captureUserId;
 }
 
-- (void)setCaptureUserId:(NSInteger)newCaptureUserId
+- (void)setCaptureUserId:(JRObjectId *)newCaptureUserId
 {
     [self.dirtyPropertySet addObject:@"captureUserId"];
-    _captureUserId = newCaptureUserId;
+    _captureUserId = [newCaptureUserId copy];
 }
 
-- (NSString *)uuid
+- (JRUuid *)uuid
 {
     return _uuid;
 }
 
-- (void)setUuid:(NSString *)newUuid
+- (void)setUuid:(JRUuid *)newUuid
 {
     [self.dirtyPropertySet addObject:@"uuid"];
     _uuid = [newUuid copy];
 }
 
-- (NSDate *)created
+- (JRDateTime *)created
 {
     return _created;
 }
 
-- (void)setCreated:(NSDate *)newCreated
+- (void)setCreated:(JRDateTime *)newCreated
 {
     [self.dirtyPropertySet addObject:@"created"];
     _created = [newCreated copy];
 }
 
-- (NSDate *)lastUpdated
+- (JRDateTime *)lastUpdated
 {
     return _lastUpdated;
 }
 
-- (void)setLastUpdated:(NSDate *)newLastUpdated
+- (void)setLastUpdated:(JRDateTime *)newLastUpdated
 {
     [self.dirtyPropertySet addObject:@"lastUpdated"];
     _lastUpdated = [newLastUpdated copy];
@@ -446,12 +450,12 @@
     _aboutMe = [newAboutMe copy];
 }
 
-- (NSDate *)birthday
+- (JRDate *)birthday
 {
     return _birthday;
 }
 
-- (void)setBirthday:(NSDate *)newBirthday
+- (void)setBirthday:(JRDate *)newBirthday
 {
     [self.dirtyPropertySet addObject:@"birthday"];
     _birthday = [newBirthday copy];
@@ -501,12 +505,12 @@
     _email = [newEmail copy];
 }
 
-- (NSDate *)emailVerified
+- (JRDateTime *)emailVerified
 {
     return _emailVerified;
 }
 
-- (void)setEmailVerified:(NSDate *)newEmailVerified
+- (void)setEmailVerified:(JRDateTime *)newEmailVerified
 {
     [self.dirtyPropertySet addObject:@"emailVerified"];
     _emailVerified = [newEmailVerified copy];
@@ -556,12 +560,12 @@
     _givenName = [newGivenName copy];
 }
 
-- (NSDate *)lastLogin
+- (JRDateTime *)lastLogin
 {
     return _lastLogin;
 }
 
-- (void)setLastLogin:(NSDate *)newLastLogin
+- (void)setLastLogin:(JRDateTime *)newLastLogin
 {
     [self.dirtyPropertySet addObject:@"lastLogin"];
     _lastLogin = [newLastLogin copy];
@@ -677,15 +681,59 @@
     _statuses = [newStatuses copy];
 }
 
-- (BOOL)testerBoolean
+- (JRBoolean *)testerBoolean
 {
     return _testerBoolean;
 }
 
-- (void)setTesterBoolean:(BOOL)newTesterBoolean
+- (void)setTesterBoolean:(JRBoolean *)newTesterBoolean
 {
     [self.dirtyPropertySet addObject:@"testerBoolean"];
-    _testerBoolean = newTesterBoolean;
+    _testerBoolean = [newTesterBoolean copy];
+}
+
+- (BOOL)getTesterBooleanBoolValue
+{
+    return [_testerBoolean boolValue];
+}
+
+- (void)setTesterBooleanWithBool:(BOOL)boolVal
+{
+    [self.dirtyPropertySet addObject:@"testerBoolean"];
+    _testerBoolean = [NSNumber numberWithBool:boolVal];
+}
+
+- (JRInteger *)testerInteger
+{
+    return _testerInteger;
+}
+
+- (void)setTesterInteger:(JRInteger *)newTesterInteger
+{
+    [self.dirtyPropertySet addObject:@"testerInteger"];
+    _testerInteger = [newTesterInteger copy];
+}
+
+- (NSInteger)getTesterIntegerIntegerValue
+{
+    return [_testerInteger integerValue];
+}
+
+- (void)setTesterIntegerWithInteger:(NSInteger)integerVal
+{
+    [self.dirtyPropertySet addObject:@"testerInteger"];
+    _testerInteger = [NSNumber numberWithInteger:integerVal];
+}
+
+- (JRIpAddress *)testerIpAddr
+{
+    return _testerIpAddr;
+}
+
+- (void)setTesterIpAddr:(JRIpAddress *)newTesterIpAddr
+{
+    [self.dirtyPropertySet addObject:@"testerIpAddr"];
+    _testerIpAddr = [newTesterIpAddr copy];
 }
 
 - (id)init
@@ -754,6 +802,8 @@
     captureUserCopy.profiles = self.profiles;
     captureUserCopy.statuses = self.statuses;
     captureUserCopy.testerBoolean = self.testerBoolean;
+    captureUserCopy.testerInteger = self.testerInteger;
+    captureUserCopy.testerIpAddr = self.testerIpAddr;
 
     [captureUserCopy.dirtyPropertySet removeAllObjects];
     [captureUserCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
@@ -766,7 +816,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.captureUserId]
+    [dict setObject:(self.captureUserId ? [NSNumber numberWithInteger:[self.captureUserId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.uuid ? self.uuid : [NSNull null])
              forKey:@"uuid"];
@@ -818,22 +868,26 @@
              forKey:@"profiles"];
     [dict setObject:(self.statuses ? [self.statuses arrayOfStatusesDictionariesFromStatusesObjects] : [NSNull null])
              forKey:@"statuses"];
-    [dict setObject:[NSNumber numberWithBool:self.testerBoolean]
+    [dict setObject:(self.testerBoolean ? [NSNumber numberWithBool:[self.testerBoolean boolValue]] : [NSNull null])
              forKey:@"testerBoolean"];
+    [dict setObject:(self.testerInteger ? [NSNumber numberWithInteger:[self.testerInteger integerValue]] : [NSNull null])
+             forKey:@"testerInteger"];
+    [dict setObject:(self.testerIpAddr ? self.testerIpAddr : [NSNull null])
+             forKey:@"testerIpAddr"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
-//    captureUser.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", captureUser.captureUserId];
+//    captureUser.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [captureUser.captureUserId integerValue]];
 
     captureUser.captureObjectPath = @"";
 
     captureUser.captureUserId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     captureUser.uuid =
         [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
@@ -841,11 +895,11 @@
 
     captureUser.created =
         [dictionary objectForKey:@"created"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     captureUser.lastUpdated =
         [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     captureUser.aboutMe =
         [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
@@ -853,7 +907,7 @@
 
     captureUser.birthday =
         [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]] : nil;
+        [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]] : nil;
 
     captureUser.currentLocation =
         [dictionary objectForKey:@"currentLocation"] != [NSNull null] ? 
@@ -873,7 +927,7 @@
 
     captureUser.emailVerified =
         [dictionary objectForKey:@"emailVerified"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]] : nil;
 
     captureUser.familyName =
         [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
@@ -893,7 +947,7 @@
 
     captureUser.lastLogin =
         [dictionary objectForKey:@"lastLogin"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]] : nil;
 
     captureUser.middleName =
         [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
@@ -937,7 +991,15 @@
 
     captureUser.testerBoolean =
         [dictionary objectForKey:@"testerBoolean"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"testerBoolean"] boolValue] : 0;
+        [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"testerBoolean"] boolValue]] : nil;
+
+    captureUser.testerInteger =
+        [dictionary objectForKey:@"testerInteger"] != [NSNull null] ? 
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"testerInteger"] integerValue]] : nil;
+
+    captureUser.testerIpAddr =
+        [dictionary objectForKey:@"testerIpAddr"] != [NSNull null] ? 
+        [dictionary objectForKey:@"testerIpAddr"] : nil;
 
     [captureUser.dirtyPropertySet removeAllObjects];
     
@@ -948,13 +1010,13 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", self.captureUserId];
+//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [self.captureUserId integerValue]];
 
     self.captureObjectPath = @"";
 
     if ([dictionary objectForKey:@"id"])
         self.captureUserId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"uuid"])
         self.uuid = [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
@@ -962,11 +1024,11 @@
 
     if ([dictionary objectForKey:@"created"])
         self.created = [dictionary objectForKey:@"created"] != [NSNull null] ? 
-            [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
+            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     if ([dictionary objectForKey:@"lastUpdated"])
         self.lastUpdated = [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
-            [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
+            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     if ([dictionary objectForKey:@"aboutMe"])
         self.aboutMe = [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
@@ -974,7 +1036,7 @@
 
     if ([dictionary objectForKey:@"birthday"])
         self.birthday = [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
-            [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]] : nil;
+            [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]] : nil;
 
     if ([dictionary objectForKey:@"currentLocation"])
         self.currentLocation = [dictionary objectForKey:@"currentLocation"] != [NSNull null] ? 
@@ -994,7 +1056,7 @@
 
     if ([dictionary objectForKey:@"emailVerified"])
         self.emailVerified = [dictionary objectForKey:@"emailVerified"] != [NSNull null] ? 
-            [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]] : nil;
+            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]] : nil;
 
     if ([dictionary objectForKey:@"familyName"])
         self.familyName = [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
@@ -1014,7 +1076,7 @@
 
     if ([dictionary objectForKey:@"lastLogin"])
         self.lastLogin = [dictionary objectForKey:@"lastLogin"] != [NSNull null] ? 
-            [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]] : nil;
+            [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]] : nil;
 
     if ([dictionary objectForKey:@"middleName"])
         self.middleName = [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
@@ -1058,20 +1120,28 @@
 
     if ([dictionary objectForKey:@"testerBoolean"])
         self.testerBoolean = [dictionary objectForKey:@"testerBoolean"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"testerBoolean"] boolValue] : 0;
+            [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"testerBoolean"] boolValue]] : nil;
+
+    if ([dictionary objectForKey:@"testerInteger"])
+        self.testerInteger = [dictionary objectForKey:@"testerInteger"] != [NSNull null] ? 
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"testerInteger"] integerValue]] : nil;
+
+    if ([dictionary objectForKey:@"testerIpAddr"])
+        self.testerIpAddr = [dictionary objectForKey:@"testerIpAddr"] != [NSNull null] ? 
+            [dictionary objectForKey:@"testerIpAddr"] : nil;
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", self.captureUserId];
+//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [self.captureUserId integerValue]];
 
     self.captureObjectPath = @"";
 
     self.captureUserId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.uuid =
         [dictionary objectForKey:@"uuid"] != [NSNull null] ? 
@@ -1079,11 +1149,11 @@
 
     self.created =
         [dictionary objectForKey:@"created"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"created"]] : nil;
 
     self.lastUpdated =
         [dictionary objectForKey:@"lastUpdated"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastUpdated"]] : nil;
 
     self.aboutMe =
         [dictionary objectForKey:@"aboutMe"] != [NSNull null] ? 
@@ -1091,7 +1161,7 @@
 
     self.birthday =
         [dictionary objectForKey:@"birthday"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]] : nil;
+        [JRDate dateFromISO8601DateString:[dictionary objectForKey:@"birthday"]] : nil;
 
     self.currentLocation =
         [dictionary objectForKey:@"currentLocation"] != [NSNull null] ? 
@@ -1111,7 +1181,7 @@
 
     self.emailVerified =
         [dictionary objectForKey:@"emailVerified"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"emailVerified"]] : nil;
 
     self.familyName =
         [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
@@ -1131,7 +1201,7 @@
 
     self.lastLogin =
         [dictionary objectForKey:@"lastLogin"] != [NSNull null] ? 
-        [NSDate dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]] : nil;
+        [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"lastLogin"]] : nil;
 
     self.middleName =
         [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
@@ -1175,7 +1245,15 @@
 
     self.testerBoolean =
         [dictionary objectForKey:@"testerBoolean"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"testerBoolean"] boolValue] : 0;
+        [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"testerBoolean"] boolValue]] : nil;
+
+    self.testerInteger =
+        [dictionary objectForKey:@"testerInteger"] != [NSNull null] ? 
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"testerInteger"] integerValue]] : nil;
+
+    self.testerIpAddr =
+        [dictionary objectForKey:@"testerIpAddr"] != [NSNull null] ? 
+        [dictionary objectForKey:@"testerIpAddr"] : nil;
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -1250,7 +1328,13 @@
         [dict setObject:(self.statuses ? [self.statuses arrayOfStatusesUpdateDictionariesFromStatusesObjects] : [NSNull null]) forKey:@"statuses"];
 
     if ([self.dirtyPropertySet containsObject:@"testerBoolean"])
-        [dict setObject:(self.testerBoolean ? [NSNumber numberWithBool:self.testerBoolean] : [NSNull null]) forKey:@"testerBoolean"];
+        [dict setObject:(self.testerBoolean ? [NSNumber numberWithBool:[self.testerBoolean boolValue]] : [NSNull null]) forKey:@"testerBoolean"];
+
+    if ([self.dirtyPropertySet containsObject:@"testerInteger"])
+        [dict setObject:(self.testerInteger ? [NSNumber numberWithInteger:[self.testerInteger integerValue]] : [NSNull null]) forKey:@"testerInteger"];
+
+    if ([self.dirtyPropertySet containsObject:@"testerIpAddr"])
+        [dict setObject:(self.testerIpAddr ? self.testerIpAddr : [NSNull null]) forKey:@"testerIpAddr"];
 
     return dict;
 }
@@ -1264,7 +1348,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.captureUserId
+                                     withId:[self.captureUserId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -1298,7 +1382,9 @@
     [dict setObject:(self.primaryAddress ? [self.primaryAddress toReplaceDictionary] : [NSNull null]) forKey:@"primaryAddress"];
     [dict setObject:(self.profiles ? [self.profiles arrayOfProfilesReplaceDictionariesFromProfilesObjects] : [NSNull null]) forKey:@"profiles"];
     [dict setObject:(self.statuses ? [self.statuses arrayOfStatusesReplaceDictionariesFromStatusesObjects] : [NSNull null]) forKey:@"statuses"];
-    [dict setObject:(self.testerBoolean ? [NSNumber numberWithBool:self.testerBoolean] : [NSNull null]) forKey:@"testerBoolean"];
+    [dict setObject:(self.testerBoolean ? [NSNumber numberWithBool:[self.testerBoolean boolValue]] : [NSNull null]) forKey:@"testerBoolean"];
+    [dict setObject:(self.testerInteger ? [NSNumber numberWithInteger:[self.testerInteger integerValue]] : [NSNull null]) forKey:@"testerInteger"];
+    [dict setObject:(self.testerIpAddr ? self.testerIpAddr : [NSNull null]) forKey:@"testerIpAddr"];
 
     return dict;
 }
@@ -1312,15 +1398,54 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.captureUserId
+                                      withId:[self.captureUserId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
 }
 
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"JRObjectId" forKey:@"captureUserId"];
+    [dict setObject:@"JRUuid" forKey:@"uuid"];
+    [dict setObject:@"JRDateTime" forKey:@"created"];
+    [dict setObject:@"JRDateTime" forKey:@"lastUpdated"];
+    [dict setObject:@"NSString" forKey:@"aboutMe"];
+    [dict setObject:@"JRDate" forKey:@"birthday"];
+    [dict setObject:@"NSString" forKey:@"currentLocation"];
+    [dict setObject:@"NSObject" forKey:@"display"];
+    [dict setObject:@"NSString" forKey:@"displayName"];
+    [dict setObject:@"NSString" forKey:@"email"];
+    [dict setObject:@"JRDateTime" forKey:@"emailVerified"];
+    [dict setObject:@"NSString" forKey:@"familyName"];
+    [dict setObject:@"NSArray" forKey:@"games"];
+    [dict setObject:@"NSString" forKey:@"gender"];
+    [dict setObject:@"NSString" forKey:@"givenName"];
+    [dict setObject:@"JRDateTime" forKey:@"lastLogin"];
+    [dict setObject:@"NSString" forKey:@"middleName"];
+    [dict setObject:@"JRObjectLevelOne" forKey:@"objectLevelOne"];
+    [dict setObject:@"NSArray" forKey:@"onipLevelOne"];
+    [dict setObject:@"NSObject" forKey:@"password"];
+    [dict setObject:@"NSArray" forKey:@"photos"];
+    [dict setObject:@"JRPinoLevelOne" forKey:@"pinoLevelOne"];
+    [dict setObject:@"NSArray" forKey:@"pluralLevelOne"];
+    [dict setObject:@"JRPrimaryAddress" forKey:@"primaryAddress"];
+    [dict setObject:@"NSArray" forKey:@"profiles"];
+    [dict setObject:@"NSArray" forKey:@"statuses"];
+    [dict setObject:@"JRBoolean" forKey:@"testerBoolean"];
+    [dict setObject:@"JRInteger" forKey:@"testerInteger"];
+    [dict setObject:@"JRIpAddress" forKey:@"testerIpAddr"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (void)dealloc
 {
+    [_captureUserId release];
     [_uuid release];
     [_created release];
     [_lastUpdated release];
@@ -1346,6 +1471,9 @@
     [_primaryAddress release];
     [_profiles release];
     [_statuses release];
+    [_testerBoolean release];
+    [_testerInteger release];
+    [_testerIpAddr release];
 
     [super dealloc];
 }

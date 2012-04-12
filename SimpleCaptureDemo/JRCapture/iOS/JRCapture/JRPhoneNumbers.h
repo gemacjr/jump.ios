@@ -41,8 +41,8 @@
 #import "JRCapture.h"
 
 @interface JRPhoneNumbers : JRCaptureObject
-@property                   NSInteger phoneNumbersId;
-@property                   BOOL primary;
+@property (nonatomic, copy) JRObjectId *phoneNumbersId;  
+@property (nonatomic, copy) JRBoolean *primary;  
 @property (nonatomic, copy) NSString *type;  
 @property (nonatomic, copy) NSString *value;  
 - (id)init;
@@ -50,4 +50,7 @@
 + (id)phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (NSDictionary*)toDictionary;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+- (NSDictionary*)objectProperties;
+- (BOOL)getPrimaryBoolValue;
+- (void)setPrimaryWithBool:(BOOL)boolVal;
 @end

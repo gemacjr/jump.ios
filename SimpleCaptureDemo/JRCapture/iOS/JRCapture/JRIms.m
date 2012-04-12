@@ -41,8 +41,8 @@
 
 @implementation JRIms
 {
-    NSInteger _imsId;
-    BOOL _primary;
+    JRObjectId *_imsId;
+    JRBoolean *_primary;
     NSString *_type;
     NSString *_value;
 }
@@ -51,26 +51,37 @@
 @dynamic type;
 @dynamic value;
 
-- (NSInteger)imsId
+- (JRObjectId *)imsId
 {
     return _imsId;
 }
 
-- (void)setImsId:(NSInteger)newImsId
+- (void)setImsId:(JRObjectId *)newImsId
 {
     [self.dirtyPropertySet addObject:@"imsId"];
-    _imsId = newImsId;
+    _imsId = [newImsId copy];
 }
 
-- (BOOL)primary
+- (JRBoolean *)primary
 {
     return _primary;
 }
 
-- (void)setPrimary:(BOOL)newPrimary
+- (void)setPrimary:(JRBoolean *)newPrimary
 {
     [self.dirtyPropertySet addObject:@"primary"];
-    _primary = newPrimary;
+    _primary = [newPrimary copy];
+}
+
+- (BOOL)getPrimaryBoolValue
+{
+    return [_primary boolValue];
+}
+
+- (void)setPrimaryWithBool:(BOOL)boolVal
+{
+    [self.dirtyPropertySet addObject:@"primary"];
+    _primary = [NSNumber numberWithBool:boolVal];
 }
 
 - (NSString *)type
@@ -130,30 +141,30 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:[NSNumber numberWithInt:self.imsId]
+    [dict setObject:(self.imsId ? [NSNumber numberWithInteger:[self.imsId integerValue]] : [NSNull null])
              forKey:@"id"];
-    [dict setObject:[NSNumber numberWithBool:self.primary]
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
              forKey:@"primary"];
     [dict setObject:(self.type ? self.type : [NSNull null])
              forKey:@"type"];
     [dict setObject:(self.value ? self.value : [NSNull null])
              forKey:@"value"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)imsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     JRIms *ims = [JRIms ims];
-    ims.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", ims.imsId];
+    ims.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [ims.imsId integerValue]];
 
     ims.imsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     ims.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+        [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     ims.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
@@ -172,15 +183,15 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", self.imsId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [self.imsId integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.imsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"primary"])
         self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-            [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+            [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     if ([dictionary objectForKey:@"type"])
         self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
@@ -195,15 +206,15 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", self.imsId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [self.imsId integerValue]];
 
     self.imsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"id"] intValue] : 0;
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
-        [(NSNumber*)[dictionary objectForKey:@"primary"] boolValue] : 0;
+        [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     self.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
@@ -220,7 +231,7 @@
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     if ([self.dirtyPropertySet containsObject:@"primary"])
-        [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+        [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
 
     if ([self.dirtyPropertySet containsObject:@"type"])
         [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
@@ -240,7 +251,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.imsId
+                                     withId:[self.imsId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -252,7 +263,7 @@
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.primary ? [NSNumber numberWithBool:self.primary] : [NSNull null]) forKey:@"primary"];
+    [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
     [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
     [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
 
@@ -268,15 +279,30 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.imsId
+                                      withId:[self.imsId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
 }
 
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"JRObjectId" forKey:@"imsId"];
+    [dict setObject:@"JRBoolean" forKey:@"primary"];
+    [dict setObject:@"NSString" forKey:@"type"];
+    [dict setObject:@"NSString" forKey:@"value"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (void)dealloc
 {
+    [_imsId release];
+    [_primary release];
     [_type release];
     [_value release];
 

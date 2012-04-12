@@ -171,7 +171,7 @@
     [dict setObject:(self.middleName ? self.middleName : [NSNull null])
              forKey:@"middleName"];
 
-    return dict;
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 + (id)nameObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -341,6 +341,21 @@
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
+}
+
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict = 
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"NSString" forKey:@"familyName"];
+    [dict setObject:@"NSString" forKey:@"formatted"];
+    [dict setObject:@"NSString" forKey:@"givenName"];
+    [dict setObject:@"NSString" forKey:@"honorificPrefix"];
+    [dict setObject:@"NSString" forKey:@"honorificSuffix"];
+    [dict setObject:@"NSString" forKey:@"middleName"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
 }
 
 - (void)dealloc
