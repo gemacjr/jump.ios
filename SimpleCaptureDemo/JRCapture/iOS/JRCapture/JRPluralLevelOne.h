@@ -45,7 +45,7 @@
 @property (nonatomic, copy) JRObjectId *pluralLevelOneId;  
 @property (nonatomic, copy) NSString *level;  
 @property (nonatomic, copy) NSString *name;  
-@property (nonatomic, copy) NSArray *pluralLevelTwo; /* This is an array of JRPluralLevelTwo */ 
+@property (nonatomic, copy) JRArray *pluralLevelTwo; /* This is an array of JRPluralLevelTwo */ 
 - (id)init;
 + (id)pluralLevelOne;
 + (id)pluralLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;

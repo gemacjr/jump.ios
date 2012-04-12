@@ -160,8 +160,12 @@ typedef enum propertyTypes
     PTString,
     PTNumber,
     PTDate,
+    PTDateTime,
     PTBool,
     PTInteger,
+    PTPassword,
+    PTIpAddress,
+    PTUuid,
     PTJsonObject,
     PTUnknown,
 } PropertyType;

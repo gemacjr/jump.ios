@@ -36,38 +36,37 @@
 typedef NSNumber JRObjectId;
 typedef NSNumber JRInteger;
 typedef NSNumber JRBoolean;
-typedef NSString JRIpAddress;
 typedef NSString JRUuid;
+typedef NSString JRIpAddress;
+typedef NSObject JRPassword;
+typedef NSObject JRJsonObject;
+typedef NSArray  JRSimpleArray;
+typedef NSArray  JRArray;
+typedef NSDate   JRDate;
+typedef NSDate   JRDateTime;
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureInternal.h"
 
-@interface JRDate : NSDate
-+ (JRDate *)dateFromISO8601DateString:(NSString *)dateString;
-- (NSString *)stringFromISO8601Date;
-@end
+//@interface JRDate : NSDate
+//+ (JRDate *)dateFromISO8601DateString:(NSString *)dateString;
+//- (NSString *)stringFromISO8601Date;
+//@end
+//
+//@interface JRDateTime : NSDate
+//+ (JRDateTime *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
+//- (NSString *)stringFromISO8601DateTime;
+//@end
 
-@interface JRDateTime : NSDate
-+ (JRDateTime *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
+@interface NSDate (CaptureDateTime)
++ (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
++ (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
+- (NSString *)stringFromISO8601Date;
 - (NSString *)stringFromISO8601DateTime;
 @end
 
-//@interface NSDate (CaptureDateTime)
-//+ (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
-//+ (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
-//- (NSString *)stringFromISO8601Date;
-//- (NSString *)stringFromISO8601DateTime;
-//@end
-//
-//@interface NSDate (CaptureDateTime)
-//+ (NSDate *)dateFromISO8601DateString:(NSString *)dateString;
-//+ (NSDate *)dateFromISO8601DateTimeString:(NSString *)dateTimeString;
-//- (NSString *)stringFromISO8601Date;
-//- (NSString *)stringFromISO8601DateTime;
-//@end
-
 @interface JRCapture : NSObject
-+ (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo;
+//+ (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo;
 + (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
                    clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName;
 + (NSString *)captureMobileEndpointUrl;

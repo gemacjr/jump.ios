@@ -44,7 +44,7 @@
 @interface JRPinoLevelTwo : JRCaptureObject
 @property (nonatomic, copy) NSString *level;  
 @property (nonatomic, copy) NSString *name;  
-@property (nonatomic, copy) NSArray *pinoLevelThree; /* This is an array of JRPinoLevelThree */ 
+@property (nonatomic, copy) JRArray *pinoLevelThree; /* This is an array of JRPinoLevelThree */ 
 - (id)init;
 + (id)pinoLevelTwo;
 + (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;

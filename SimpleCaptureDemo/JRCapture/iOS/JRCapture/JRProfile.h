@@ -53,64 +53,64 @@
 
 @interface JRProfile : JRCaptureObject
 @property (nonatomic, copy) NSString *aboutMe;  
-@property (nonatomic, copy) NSArray *accounts; /* This is an array of JRAccounts */ 
-@property (nonatomic, copy) NSArray *addresses; /* This is an array of JRAddresses */ 
-@property (nonatomic, copy) JRDate *anniversary;  
+@property (nonatomic, copy) JRArray *accounts; /* This is an array of JRAccounts */ 
+@property (nonatomic, copy) JRArray *addresses; /* This is an array of JRAddresses */ 
+@property (nonatomic, copy) JRDate *anniversary; /* This is a property of type 'date', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 date string (e.g., yyyy-MM-dd) */ 
 @property (nonatomic, copy) NSString *birthday;  
 @property (nonatomic, copy) JRBodyType *bodyType;  
-@property (nonatomic, copy) NSArray *books; /* This is an array of JRStringPluralElements with type book */ 
-@property (nonatomic, copy) NSArray *cars; /* This is an array of JRStringPluralElements with type car */ 
-@property (nonatomic, copy) NSArray *children; /* This is an array of JRStringPluralElements with type value */ 
+@property (nonatomic, copy) JRSimpleArray *books; /* This is an array of JRStringPluralElements with type book */ 
+@property (nonatomic, copy) JRSimpleArray *cars; /* This is an array of JRStringPluralElements with type car */ 
+@property (nonatomic, copy) JRSimpleArray *children; /* This is an array of JRStringPluralElements with type value */ 
 @property (nonatomic, copy) JRCurrentLocation *currentLocation;  
 @property (nonatomic, copy) NSString *displayName;  
 @property (nonatomic, copy) NSString *drinker;  
-@property (nonatomic, copy) NSArray *emails; /* This is an array of JREmails */ 
+@property (nonatomic, copy) JRArray *emails; /* This is an array of JREmails */ 
 @property (nonatomic, copy) NSString *ethnicity;  
 @property (nonatomic, copy) NSString *fashion;  
-@property (nonatomic, copy) NSArray *food; /* This is an array of JRStringPluralElements with type food */ 
+@property (nonatomic, copy) JRSimpleArray *food; /* This is an array of JRStringPluralElements with type food */ 
 @property (nonatomic, copy) NSString *gender;  
 @property (nonatomic, copy) NSString *happiestWhen;  
-@property (nonatomic, copy) NSArray *heroes; /* This is an array of JRStringPluralElements with type hero */ 
+@property (nonatomic, copy) JRSimpleArray *heroes; /* This is an array of JRStringPluralElements with type hero */ 
 @property (nonatomic, copy) NSString *humor;  
-@property (nonatomic, copy) NSArray *ims; /* This is an array of JRIms */ 
+@property (nonatomic, copy) JRArray *ims; /* This is an array of JRIms */ 
 @property (nonatomic, copy) NSString *interestedInMeeting;  
-@property (nonatomic, copy) NSArray *interests; /* This is an array of JRStringPluralElements with type interest */ 
-@property (nonatomic, copy) NSArray *jobInterests; /* This is an array of JRStringPluralElements with type jobInterest */ 
-@property (nonatomic, copy) NSArray *languages; /* This is an array of JRStringPluralElements with type language */ 
-@property (nonatomic, copy) NSArray *languagesSpoken; /* This is an array of JRStringPluralElements with type languageSpoken */ 
+@property (nonatomic, copy) JRSimpleArray *interests; /* This is an array of JRStringPluralElements with type interest */ 
+@property (nonatomic, copy) JRSimpleArray *jobInterests; /* This is an array of JRStringPluralElements with type jobInterest */ 
+@property (nonatomic, copy) JRSimpleArray *languages; /* This is an array of JRStringPluralElements with type language */ 
+@property (nonatomic, copy) JRSimpleArray *languagesSpoken; /* This is an array of JRStringPluralElements with type languageSpoken */ 
 @property (nonatomic, copy) NSString *livingArrangement;  
-@property (nonatomic, copy) NSArray *lookingFor; /* This is an array of JRStringPluralElements with type value */ 
-@property (nonatomic, copy) NSArray *movies; /* This is an array of JRStringPluralElements with type movie */ 
-@property (nonatomic, copy) NSArray *music; /* This is an array of JRStringPluralElements with type music */ 
+@property (nonatomic, copy) JRSimpleArray *lookingFor; /* This is an array of JRStringPluralElements with type value */ 
+@property (nonatomic, copy) JRSimpleArray *movies; /* This is an array of JRStringPluralElements with type movie */ 
+@property (nonatomic, copy) JRSimpleArray *music; /* This is an array of JRStringPluralElements with type music */ 
 @property (nonatomic, copy) JRName *name;  
 @property (nonatomic, copy) NSString *nickname;  
 @property (nonatomic, copy) NSString *note;  
-@property (nonatomic, copy) NSArray *organizations; /* This is an array of JROrganizations */ 
-@property (nonatomic, copy) NSArray *pets; /* This is an array of JRStringPluralElements with type value */ 
-@property (nonatomic, copy) NSArray *phoneNumbers; /* This is an array of JRPhoneNumbers */ 
-@property (nonatomic, copy) NSArray *profilePhotos; /* This is an array of JRProfilePhotos */ 
+@property (nonatomic, copy) JRArray *organizations; /* This is an array of JROrganizations */ 
+@property (nonatomic, copy) JRSimpleArray *pets; /* This is an array of JRStringPluralElements with type value */ 
+@property (nonatomic, copy) JRArray *phoneNumbers; /* This is an array of JRPhoneNumbers */ 
+@property (nonatomic, copy) JRArray *profilePhotos; /* This is an array of JRProfilePhotos */ 
 @property (nonatomic, copy) NSString *politicalViews;  
 @property (nonatomic, copy) NSString *preferredUsername;  
 @property (nonatomic, copy) NSString *profileSong;  
 @property (nonatomic, copy) NSString *profileUrl;  
 @property (nonatomic, copy) NSString *profileVideo;  
-@property (nonatomic, copy) JRDateTime *published;  
-@property (nonatomic, copy) NSArray *quotes; /* This is an array of JRStringPluralElements with type quote */ 
+@property (nonatomic, copy) JRDateTime *published; /* This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
+@property (nonatomic, copy) JRSimpleArray *quotes; /* This is an array of JRStringPluralElements with type quote */ 
 @property (nonatomic, copy) NSString *relationshipStatus;  
-@property (nonatomic, copy) NSArray *relationships; /* This is an array of JRStringPluralElements with type relationship */ 
+@property (nonatomic, copy) JRSimpleArray *relationships; /* This is an array of JRStringPluralElements with type relationship */ 
 @property (nonatomic, copy) NSString *religion;  
 @property (nonatomic, copy) NSString *romance;  
 @property (nonatomic, copy) NSString *scaredOf;  
 @property (nonatomic, copy) NSString *sexualOrientation;  
 @property (nonatomic, copy) NSString *smoker;  
-@property (nonatomic, copy) NSArray *sports; /* This is an array of JRStringPluralElements with type sport */ 
+@property (nonatomic, copy) JRSimpleArray *sports; /* This is an array of JRStringPluralElements with type sport */ 
 @property (nonatomic, copy) NSString *status;  
-@property (nonatomic, copy) NSArray *tags; /* This is an array of JRStringPluralElements with type tag */ 
-@property (nonatomic, copy) NSArray *turnOffs; /* This is an array of JRStringPluralElements with type turnOff */ 
-@property (nonatomic, copy) NSArray *turnOns; /* This is an array of JRStringPluralElements with type turnOn */ 
-@property (nonatomic, copy) NSArray *tvShows; /* This is an array of JRStringPluralElements with type tvShow */ 
-@property (nonatomic, copy) JRDateTime *updated;  
-@property (nonatomic, copy) NSArray *urls; /* This is an array of JRUrls */ 
+@property (nonatomic, copy) JRSimpleArray *tags; /* This is an array of JRStringPluralElements with type tag */ 
+@property (nonatomic, copy) JRSimpleArray *turnOffs; /* This is an array of JRStringPluralElements with type turnOff */ 
+@property (nonatomic, copy) JRSimpleArray *turnOns; /* This is an array of JRStringPluralElements with type turnOn */ 
+@property (nonatomic, copy) JRSimpleArray *tvShows; /* This is an array of JRStringPluralElements with type tvShow */ 
+@property (nonatomic, copy) JRDateTime *updated; /* This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
+@property (nonatomic, copy) JRArray *urls; /* This is an array of JRUrls */ 
 @property (nonatomic, copy) NSString *utcOffset;  
 - (id)init;
 + (id)profile;

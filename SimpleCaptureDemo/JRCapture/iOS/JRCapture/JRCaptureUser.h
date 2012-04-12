@@ -51,34 +51,34 @@
 
 @interface JRCaptureUser : JRCaptureObject
 @property (nonatomic, copy) JRObjectId *captureUserId;  
-@property (nonatomic, copy) JRUuid *uuid;  
-@property (nonatomic, copy) JRDateTime *created;  
-@property (nonatomic, copy) JRDateTime *lastUpdated;  
+@property (nonatomic, copy) JRUuid *uuid; /* This is a property of type 'uuid', which is a typedef of NSString, etc. */ 
+@property (nonatomic, copy) JRDateTime *created; /* This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
+@property (nonatomic, copy) JRDateTime *lastUpdated; /* This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
 @property (nonatomic, copy) NSString *aboutMe;  
-@property (nonatomic, copy) JRDate *birthday;  
+@property (nonatomic, copy) JRDate *birthday; /* This is a property of type 'date', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 date string (e.g., yyyy-MM-dd) */ 
 @property (nonatomic, copy) NSString *currentLocation;  
-@property (nonatomic, copy) NSObject *display; /* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */ 
+@property (nonatomic, copy) JRJsonObject *display; /* This is a property of type 'json', which can be an NSDictionary, NSArray, NSString, etc., and is therefore is a typedef of NSObject */ 
 @property (nonatomic, copy) NSString *displayName;  
 @property (nonatomic, copy) NSString *email;  
-@property (nonatomic, copy) JRDateTime *emailVerified;  
+@property (nonatomic, copy) JRDateTime *emailVerified; /* This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
 @property (nonatomic, copy) NSString *familyName;  
-@property (nonatomic, copy) NSArray *games; /* This is an array of JRGames */ 
+@property (nonatomic, copy) JRArray *games; /* This is an array of JRGames */ 
 @property (nonatomic, copy) NSString *gender;  
 @property (nonatomic, copy) NSString *givenName;  
-@property (nonatomic, copy) JRDateTime *lastLogin;  
+@property (nonatomic, copy) JRDateTime *lastLogin; /* This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
 @property (nonatomic, copy) NSString *middleName;  
 @property (nonatomic, copy) JRObjectLevelOne *objectLevelOne;  
-@property (nonatomic, copy) NSArray *onipLevelOne; /* This is an array of JROnipLevelOne */ 
-@property (nonatomic, copy) NSObject *password;  
-@property (nonatomic, copy) NSArray *photos; /* This is an array of JRPhotos */ 
+@property (nonatomic, copy) JRArray *onipLevelOne; /* This is an array of JROnipLevelOne */ 
+@property (nonatomic, copy) JRPassword *password; /* This is a property of type 'password', which can be an NSString or NSDictionary, and is therefore is a typedef of NSObject */ 
+@property (nonatomic, copy) JRArray *photos; /* This is an array of JRPhotos */ 
 @property (nonatomic, copy) JRPinoLevelOne *pinoLevelOne;  
-@property (nonatomic, copy) NSArray *pluralLevelOne; /* This is an array of JRPluralLevelOne */ 
+@property (nonatomic, copy) JRArray *pluralLevelOne; /* This is an array of JRPluralLevelOne */ 
 @property (nonatomic, copy) JRPrimaryAddress *primaryAddress;  
-@property (nonatomic, copy) NSArray *profiles; /* This is an array of JRProfiles */ 
-@property (nonatomic, copy) NSArray *statuses; /* This is an array of JRStatuses */ 
+@property (nonatomic, copy) JRArray *profiles; /* This is an array of JRProfiles */ 
+@property (nonatomic, copy) JRArray *statuses; /* This is an array of JRStatuses */ 
 @property (nonatomic, copy) JRBoolean *testerBoolean;  
 @property (nonatomic, copy) JRInteger *testerInteger;  
-@property (nonatomic, copy) JRIpAddress *testerIpAddr;  
+@property (nonatomic, copy) JRIpAddress *testerIpAddr; /* This is a property of type 'ipAddress', which is a typedef of NSString, etc. */ 
 - (id)init;
 + (id)captureUser;
 - (id)initWithEmail:(NSString *)newEmail;

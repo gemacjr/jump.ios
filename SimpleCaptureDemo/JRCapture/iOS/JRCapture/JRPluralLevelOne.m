@@ -93,7 +93,7 @@
     JRObjectId *_pluralLevelOneId;
     NSString *_level;
     NSString *_name;
-    NSArray *_pluralLevelTwo;
+    JRArray *_pluralLevelTwo;
 }
 @dynamic pluralLevelOneId;
 @dynamic level;
@@ -133,12 +133,12 @@
     _name = [newName copy];
 }
 
-- (NSArray *)pluralLevelTwo
+- (JRArray *)pluralLevelTwo
 {
     return _pluralLevelTwo;
 }
 
-- (void)setPluralLevelTwo:(NSArray *)newPluralLevelTwo
+- (void)setPluralLevelTwo:(JRArray *)newPluralLevelTwo
 {
     [self.dirtyPropertySet addObject:@"pluralLevelTwo"];
     _pluralLevelTwo = [newPluralLevelTwo copy];
@@ -332,7 +332,7 @@
     [dict setObject:@"JRObjectId" forKey:@"pluralLevelOneId"];
     [dict setObject:@"NSString" forKey:@"level"];
     [dict setObject:@"NSString" forKey:@"name"];
-    [dict setObject:@"NSArray" forKey:@"pluralLevelTwo"];
+    [dict setObject:@"JRArray" forKey:@"pluralLevelTwo"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
 }

@@ -43,14 +43,14 @@
 
 @interface JRProfiles : JRCaptureObject
 @property (nonatomic, copy) JRObjectId *profilesId;  
-@property (nonatomic, copy) NSObject *accessCredentials; /* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */ 
+@property (nonatomic, copy) JRJsonObject *accessCredentials; /* This is a property of type 'json', which can be an NSDictionary, NSArray, NSString, etc., and is therefore is a typedef of NSObject */ 
 @property (nonatomic, copy) NSString *domain;  
-@property (nonatomic, copy) NSArray *followers; /* This is an array of JRStringPluralElements with type identifier */ 
-@property (nonatomic, copy) NSArray *following; /* This is an array of JRStringPluralElements with type identifier */ 
-@property (nonatomic, copy) NSArray *friends; /* This is an array of JRStringPluralElements with type identifier */ 
+@property (nonatomic, copy) JRSimpleArray *followers; /* This is an array of JRStringPluralElements with type identifier */ 
+@property (nonatomic, copy) JRSimpleArray *following; /* This is an array of JRStringPluralElements with type identifier */ 
+@property (nonatomic, copy) JRSimpleArray *friends; /* This is an array of JRStringPluralElements with type identifier */ 
 @property (nonatomic, copy) NSString *identifier;  
 @property (nonatomic, copy) JRProfile *profile;  
-@property (nonatomic, copy) NSObject *provider; /* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */ 
+@property (nonatomic, copy) JRJsonObject *provider; /* This is a property of type 'json', which can be an NSDictionary, NSArray, NSString, etc., and is therefore is a typedef of NSObject */ 
 @property (nonatomic, copy) NSString *remote_key;  
 - (id)init;
 + (id)profiles;

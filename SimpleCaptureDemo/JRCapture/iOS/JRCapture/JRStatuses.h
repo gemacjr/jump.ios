@@ -43,7 +43,7 @@
 @interface JRStatuses : JRCaptureObject
 @property (nonatomic, copy) JRObjectId *statusesId;  
 @property (nonatomic, copy) NSString *status;  
-@property (nonatomic, copy) JRDateTime *statusCreated;  
+@property (nonatomic, copy) JRDateTime *statusCreated; /* This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
 - (id)init;
 + (id)statuses;
 + (id)statusesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;

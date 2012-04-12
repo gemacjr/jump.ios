@@ -42,14 +42,14 @@
 @implementation JRProfiles
 {
     JRObjectId *_profilesId;
-    NSObject *_accessCredentials;
+    JRJsonObject *_accessCredentials;
     NSString *_domain;
-    NSArray *_followers;
-    NSArray *_following;
-    NSArray *_friends;
+    JRSimpleArray *_followers;
+    JRSimpleArray *_following;
+    JRSimpleArray *_friends;
     NSString *_identifier;
     JRProfile *_profile;
-    NSObject *_provider;
+    JRJsonObject *_provider;
     NSString *_remote_key;
 }
 @dynamic profilesId;
@@ -74,12 +74,12 @@
     _profilesId = [newProfilesId copy];
 }
 
-- (NSObject *)accessCredentials
+- (JRJsonObject *)accessCredentials
 {
     return _accessCredentials;
 }
 
-- (void)setAccessCredentials:(NSObject *)newAccessCredentials
+- (void)setAccessCredentials:(JRJsonObject *)newAccessCredentials
 {
     [self.dirtyPropertySet addObject:@"accessCredentials"];
     _accessCredentials = [newAccessCredentials copy];
@@ -151,12 +151,12 @@
     _profile = [newProfile copy];
 }
 
-- (NSObject *)provider
+- (JRJsonObject *)provider
 {
     return _provider;
 }
 
-- (void)setProvider:(NSObject *)newProvider
+- (void)setProvider:(JRJsonObject *)newProvider
 {
     [self.dirtyPropertySet addObject:@"provider"];
     _provider = [newProvider copy];
@@ -493,14 +493,14 @@
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"JRObjectId" forKey:@"profilesId"];
-    [dict setObject:@"NSObject" forKey:@"accessCredentials"];
+    [dict setObject:@"JRJsonObject" forKey:@"accessCredentials"];
     [dict setObject:@"NSString" forKey:@"domain"];
-    [dict setObject:@"NSArray" forKey:@"followers"];
-    [dict setObject:@"NSArray" forKey:@"following"];
-    [dict setObject:@"NSArray" forKey:@"friends"];
+    [dict setObject:@"JRSimpleArray" forKey:@"followers"];
+    [dict setObject:@"JRSimpleArray" forKey:@"following"];
+    [dict setObject:@"JRSimpleArray" forKey:@"friends"];
     [dict setObject:@"NSString" forKey:@"identifier"];
     [dict setObject:@"JRProfile" forKey:@"profile"];
-    [dict setObject:@"NSObject" forKey:@"provider"];
+    [dict setObject:@"JRJsonObject" forKey:@"provider"];
     [dict setObject:@"NSString" forKey:@"remote_key"];
 
     return [NSDictionary dictionaryWithDictionary:dict];

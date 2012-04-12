@@ -424,6 +424,8 @@ sub recursiveParse {
     # DATE
     ##################
       $objectiveType = "JRDate *";
+      $propertyNotes = "/* This is a property of type 'date', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 date string (e.g., yyyy-MM-dd) */";      
+
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601Date]";
       $frDictionary  = $frUpDictionary = $frRplDictionary = "[JRDate dateFromISO8601DateString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
 
@@ -432,6 +434,8 @@ sub recursiveParse {
     # DATETIME
     ##################
       $objectiveType = "JRDateTime *";
+      $propertyNotes = "/* This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */";      
+      
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601DateTime]";
       $frDictionary  = $frUpDictionary = $frRplDictionary = "[JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
 
@@ -443,7 +447,8 @@ sub recursiveParse {
     # since we don't know the type of object it could be (e.g., array, string, etc.),
     # we store it as an NSObject
     ##########################################################################
-      $objectiveType = "NSObject *";          
+      $objectiveType = "JRPassword *";          
+      $propertyNotes = "/* This is a property of type 'password', which can be an NSString or NSDictionary, and is therefore is a typedef of NSObject */";      
 
     } elsif ($propertyType eq "json") {
     ##########################################################################
@@ -453,9 +458,23 @@ sub recursiveParse {
     # type of object the property could be (e.g., array, string, etc.), 
     # we store it as an NSObject
     ##########################################################################
-      $objectiveType = "NSObject *";
-      $propertyNotes = "/* This is a property of type 'json', and therefore can be an NSDictionary, NSArray, NSString, etc. */";      
+      $objectiveType = "JRJsonObject *";
+      $propertyNotes = "/* This is a property of type 'json', which can be an NSDictionary, NSArray, NSString, etc., and is therefore is a typedef of NSObject */";      
 
+    } elsif ($propertyType eq "ipAddress") {
+    ####################################
+    # IPADDRESS IS JUST A STRING
+    ####################################
+      $objectiveType = "JRIpAddress *";
+      $propertyNotes = "/* This is a property of type 'ipAddress', which is a typedef of NSString, etc. */";      
+
+    } elsif ($propertyType eq "uuid") {
+    ####################################
+    # UUID IS JUST A STRING
+    ####################################
+      $objectiveType = "JRUuid *";
+      $propertyNotes = "/* This is a property of type 'uuid', which is a typedef of NSString, etc. */";      
+      
     } elsif ($propertyType eq "plural") {
     ##########################################################################
     # PLURAL (ARRAY)
@@ -466,12 +485,13 @@ sub recursiveParse {
     # to the current object's .m file, so that the NSArray of sub-objects can 
     # properly turn themselves into an NSArray of NSDictionaries
     ##########################################################################
-      $objectiveType = "NSArray *";      
       
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
       
       if (isAnArrayOfStrings($propertyAttrDefsRef)) {
         $isSimpleArray   = 1;
+        
+        $objectiveType = "JRSimpleArray *";      
         
         $simpleArrayType = getSimplePluralType($propertyAttrDefsRef);
         
@@ -484,7 +504,9 @@ sub recursiveParse {
         $propertyNotes   = "/* This is an array of JRStringPluralElements with type " . $simpleArrayType . " */";      
         
       } else {
-        
+
+        $objectiveType = "JRArray *";      
+
         if ($repeatNamesHash{$propertyName}) {
           $propertyName = $objectName . ucfirst($propertyName);
         }
@@ -544,16 +566,6 @@ sub recursiveParse {
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";#"[NSNumber numberWithInt:self." . $propertyName . "]";
       $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";#"[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
 
-    } elsif ($propertyType eq "ipAddress") {
-    ####################################
-    # IPADDRESS IS JUST A STRING
-    ####################################
-      $objectiveType = "JRIpAddress *";
-    } elsif ($propertyType eq "uuid") {
-    ####################################
-    # UUID IS JUST A STRING
-    ####################################
-      $objectiveType = "JRUuid *";
     } else {
     #########################################################
     # OTHER, SHOULDN'T HAPPEN, BUT JUST MAKE IT A STRING

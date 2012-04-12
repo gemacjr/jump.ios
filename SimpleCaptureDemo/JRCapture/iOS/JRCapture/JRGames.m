@@ -44,7 +44,7 @@
     JRObjectId *_gamesId;
     JRBoolean *_isFavorite;
     NSString *_name;
-    NSArray *_opponents;
+    JRSimpleArray *_opponents;
     JRInteger *_rating;
 }
 @dynamic gamesId;
@@ -337,7 +337,7 @@
     [dict setObject:@"JRObjectId" forKey:@"gamesId"];
     [dict setObject:@"JRBoolean" forKey:@"isFavorite"];
     [dict setObject:@"NSString" forKey:@"name"];
-    [dict setObject:@"NSArray" forKey:@"opponents"];
+    [dict setObject:@"JRSimpleArray" forKey:@"opponents"];
     [dict setObject:@"JRInteger" forKey:@"rating"];
 
     return [NSDictionary dictionaryWithDictionary:dict];

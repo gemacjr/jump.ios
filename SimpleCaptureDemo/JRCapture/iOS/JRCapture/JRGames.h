@@ -44,7 +44,7 @@
 @property (nonatomic, copy) JRObjectId *gamesId;  
 @property (nonatomic, copy) JRBoolean *isFavorite;  
 @property (nonatomic, copy) NSString *name;  
-@property (nonatomic, copy) NSArray *opponents; /* This is an array of JRStringPluralElements with type name */ 
+@property (nonatomic, copy) JRSimpleArray *opponents; /* This is an array of JRStringPluralElements with type name */ 
 @property (nonatomic, copy) JRInteger *rating;  
 - (id)init;
 + (id)games;
