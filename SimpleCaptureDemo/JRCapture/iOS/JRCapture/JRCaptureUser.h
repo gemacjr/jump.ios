@@ -83,6 +83,10 @@
  *
  * @return
  *   A JRCaptureUser object
+ * 
+ * @note
+ * Method creates a JRCaptureUser object without the required properties TODO:MAKE A LIST!
+ * These properties are required when updating the object on Capture.
  **/
 - (id)init;
 
@@ -91,6 +95,10 @@
  *
  * @return
  *   A JRCaptureUser object
+ * 
+ * @note
+ * Method creates a JRCaptureUser object without the required properties TODO:MAKE A LIST!
+ * These properties are required when updating the object on Capture.
  **/
 + (id)captureUser;
 
@@ -98,14 +106,18 @@
  * Returns a JRCaptureUser object
  * *
  * @return
- *   A JRCaptureUser object initialized with the given *   If the required arguments are \e nil or \e [NSNull null], returns \e nil **/
+ *   A JRCaptureUser object initialized with the given
+ *   If the required arguments are \e nil or \e [NSNull null], returns \e nil
+ **/
 - (id)initWithEmail:(NSString *)newEmail;
 
 /**
  * Returns a JRCaptureUser object
  * *
  * @return
- *   A JRCaptureUser object initialized with the given *   If the required arguments are \e nil or \e [NSNull null], returns \e nil **/
+ *   A JRCaptureUser object initialized with the given
+ *   If the required arguments are \e nil or \e [NSNull null], returns \e nil,
+ **/
 + (id)captureUserWithEmail:(NSString *)email;
 
 /**
@@ -126,6 +138,10 @@
  *
  * @return
  *   A JRCaptureUser object
+ * 
+ * @note
+ * Method creates a JRCaptureUser object without the required properties TODO:MAKE A LIST!
+ * These properties are required when updating the object on Capture.
  **/
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
@@ -164,7 +180,7 @@
  * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
  * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
  *
- *  
+ * @note 
  * The main difference between this method and the replaceFromDictionary:withPath:(), is that
  * in this method properties are only updated if they exist in the dictionary, and in 
  * replaceFromDictionary:withPath:(), all properties are replaced.  Even if the value is \e [NSNull null]
@@ -180,7 +196,7 @@
  * mobile Capture library
  *
  * @param dictionary
- *   An  NSDictionary containing keys/values which map the the object's 
+ *   An \e NSDictionary containing keys/values which map the the object's 
  *   properties and their values/types
  *
  * @param capturePath
@@ -194,7 +210,7 @@
  *
  * @note 
  * The main difference between this method and the updateFromDictionary:withPath:(), is that
- * in this method  all the properties are replaced, and in updateFromDictionary:withPath:(),
+ * in this method \e all the properties are replaced, and in updateFromDictionary:withPath:(),
  * they are only updated if the exist in the dictionary.  If the key does not exist in
  * the dictionary, the property is set to \e nil
  **/

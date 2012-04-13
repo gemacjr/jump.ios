@@ -886,9 +886,7 @@ sub recursiveParse {
   ##########################################################################
   $hFile .= $extraImportsSection . "\n";
   
-  for (my $i = 0; $i < @doxygenClassDescSection; $i++) {
-    $hFile .= $doxygenClassDescSection[$i];
-  }
+  for (my $i = 0; $i < @doxygenClassDescSection; $i++) { $hFile .= $doxygenClassDescSection[$i]; }
   
   ##########################################################################
   # Declare the interface, add the properties, and add the function
@@ -897,73 +895,51 @@ sub recursiveParse {
   $hFile .= "\@interface $className : JRCaptureObject\n";# <NSCopying, JRJsonifying>\n";
   $hFile .= $propertiesSection;
     
+  if ($requiredProperties) {
+    $minConstructorDocSection[5] = $minClassConstructorDocSection[5] = $objFromDictDocSection[5] = 
+        " * \n * \@note\n * Method creates a $className object without the required properties TODO:MAKE A LIST!\n * These properties are required when updating the object on Capture.\n"; 
+  }
+  
   $hFile .= "\n/**\n * \@name Constructors\n **/\n/*\@{*/\n";
   
-  for (my $i = 0; $i < @minConstructorDocSection; $i++) {
-    $hFile .= $minConstructorDocSection[$i];
-  }
+  for (my $i = 0; $i < @minConstructorDocSection; $i++) { $hFile .= $minConstructorDocSection[$i]; }
   $hFile .= "$minConstructorSection[0];\n\n";
-  
-  for (my $i = 0; $i < @minClassConstructorDocSection; $i++) {
-    $hFile .= $minClassConstructorDocSection[$i];
-  }
+  for (my $i = 0; $i < @minClassConstructorDocSection; $i++) { $hFile .= $minClassConstructorDocSection[$i]; }
   $hFile .= "$minClassConstructorSection[0]$minClassConstructorSection[1];\n\n";
-
+  
   if ($requiredProperties) {
-    for (my $i = 0; $i < @constructorDocSection; $i++) {
-      $hFile .= $constructorDocSection[$i];
-    }
+    for (my $i = 0; $i < @constructorDocSection; $i++) { $hFile .= $constructorDocSection[$i]; }
     $hFile .= "$constructorSection[0]$constructorSection[1];\n\n";
-
-    for (my $i = 0; $i < @classConstructorDocSection; $i++) {
-      $hFile .= $classConstructorDocSection[$i];
-    }
+    for (my $i = 0; $i < @classConstructorDocSection; $i++) { $hFile .= $classConstructorDocSection[$i]; }
     $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n\n";
   }
-
-  for (my $i = 0; $i < @objFromDictDocSection; $i++) {
-    $hFile .= $objFromDictDocSection[$i];
-  }
+  
+  for (my $i = 0; $i < @objFromDictDocSection; $i++) { $hFile .= $objFromDictDocSection[$i]; }
   $hFile .= "$objFromDictSection[0]$objFromDictSection[1]$objFromDictSection[2];\n";
   $hFile .= "/*\@}*/\n\n";
-  
-  $hFile .= "/**\n * \@name Dictionary Serialization/Deserialization\n **/\n/*\@{*/\n";
 
-  for (my $i = 0; $i < @dictFromObjectDocSection; $i++) {
-    $hFile .= $dictFromObjectDocSection[$i];
-  }
+
+  $hFile .= "/**\n * \@name Dictionary Serialization/Deserialization\n **/\n/*\@{*/\n";
+  for (my $i = 0; $i < @dictFromObjectDocSection; $i++) { $hFile .= $dictFromObjectDocSection[$i]; }
   $hFile .= "$dictFromObjSection[0];\n\n";
-  
-  for (my $i = 0; $i < @updateFrDictDocSection; $i++) {
-    $hFile .= $updateFrDictDocSection[$i];
-  }
+  for (my $i = 0; $i < @updateFrDictDocSection; $i++) { $hFile .= $updateFrDictDocSection[$i]; }
   $hFile .= "$updateFromDictSection[0];\n\n";
-  
-  for (my $i = 0; $i < @replaceFrDictDocSection; $i++) {
-    $hFile .= $replaceFrDictDocSection[$i];
-  }
+  for (my $i = 0; $i < @replaceFrDictDocSection; $i++) { $hFile .= $replaceFrDictDocSection[$i]; }
   $hFile .= "$replaceFromDictSection[0];\n";
   $hFile .= "/*\@}*/\n\n";
-
   $hFile .= "/**\n * \@name Object Introspection\n **/\n/*\@{*/\n";
-  for (my $i = 0; $i < @objectPropertiesDocSection; $i++) {
-    $hFile .= $objectPropertiesDocSection[$i];
-  }
+  for (my $i = 0; $i < @objectPropertiesDocSection; $i++) { $hFile .= $objectPropertiesDocSection[$i]; }
   $hFile .= "$objectPropertiesSection[0];\n";
   $hFile .= "/*\@}*/\n\n";
 
 
   $hFile .= "/**\n * \@name Manage Remotely \n **/\n/*\@{*/\n";
-  for (my $i = 0; $i < @updateRemotelyDocSection; $i++) {
-    $hFile .= $updateRemotelyDocSection[$i];
-  }
+  for (my $i = 0; $i < @updateRemotelyDocSection; $i++) { $hFile .= $updateRemotelyDocSection[$i]; }
   $hFile .= "$updateRemotelySection[0];\n\n";
-
-  for (my $i = 0; $i < @replaceRemotelyDocSection; $i++) {
-    $hFile .= $replaceRemotelyDocSection[$i];
-  }
+  for (my $i = 0; $i < @replaceRemotelyDocSection; $i++) { $hFile .= $replaceRemotelyDocSection[$i]; }
   $hFile .= "$replaceRemotelySection[0];\n";
   $hFile .= "/*\@}*/\n\n";
+
   
   if (@booleanProperties || @integerProperties) {
     my $total = @booleanProperties + @integerProperties;

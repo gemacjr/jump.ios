@@ -125,9 +125,9 @@ my @constructorDocParts = (
 "", 
 " *
  * \@return
- *   A ", "", " object initialized with the given", "",
-" *   If the required arguments are \\e nil or \\e [NSNull null], returns \\e nil",
-" **/\n");
+ *   A ", "", " object initialized with the given", "", "\n",
+" *   If the required arguments are \\e nil or \\e [NSNull null], returns \\e nil
+ **/\n");
 
 my @constructorParts = (
 "- (id)init", "",
@@ -208,9 +208,9 @@ my @classConstructorDocParts = (
 "", 
 " *
  * \@return
- *   A ", "", " object initialized with the given", "",
-" *   If the required arguments are \\e nil or \\e [NSNull null], returns \\e nil",
-" **/\n");
+ *   A ", "", " object initialized with the given", "", "\n",
+" *   If the required arguments are \\e nil or \\e [NSNull null], returns \\e nil,
+ **/\n");
 
 my @classConstructorParts = (
 "+ (id)", "", "", 
@@ -441,7 +441,7 @@ my @updateFrDictDocParts = (
  * The \\c /primaryAddress/city refers to the city attribute of the primaryAddress object
  * The \\c /profiles#1/username refers to the username attribute of the element in profiles with id=1
  *
- * @note 
+ * \@note 
  * The main difference between this method and the replaceFromDictionary:withPath:(), is that
  * in this method properties are only updated if they exist in the dictionary, and in 
  * replaceFromDictionary:withPath:(), all properties are replaced.  Even if the value is \\e [NSNull null]
@@ -505,7 +505,7 @@ my @replaceFrDictDocParts = (
  * mobile Capture library
  *
  * \@param dictionary
- *   An \e NSDictionary containing keys/values which map the the object's 
+ *   An \\e NSDictionary containing keys/values which map the the object's 
  *   properties and their values/types
  *
  * \@param capturePath
@@ -519,7 +519,7 @@ my @replaceFrDictDocParts = (
  *
  * \@note 
  * The main difference between this method and the updateFromDictionary:withPath:(), is that
- * in this method \e all the properties are replaced, and in updateFromDictionary:withPath:(),
+ * in this method \\e all the properties are replaced, and in updateFromDictionary:withPath:(),
  * they are only updated if the exist in the dictionary.  If the key does not exist in
  * the dictionary, the property is set to \\e nil
  **/\n");
