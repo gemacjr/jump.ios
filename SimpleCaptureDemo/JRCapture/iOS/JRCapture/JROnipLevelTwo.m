@@ -128,6 +128,9 @@
 
 + (id)onipLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JROnipLevelTwo *onipLevelTwo = [JROnipLevelTwo onipLevelTwo];
     onipLevelTwo.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipLevelTwo"];
 

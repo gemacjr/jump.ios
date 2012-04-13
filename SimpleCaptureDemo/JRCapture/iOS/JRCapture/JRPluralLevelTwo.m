@@ -193,6 +193,9 @@
 
 + (id)pluralLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRPluralLevelTwo *pluralLevelTwo = [JRPluralLevelTwo pluralLevelTwo];
     pluralLevelTwo.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelTwo", [pluralLevelTwo.pluralLevelTwoId integerValue]];
 

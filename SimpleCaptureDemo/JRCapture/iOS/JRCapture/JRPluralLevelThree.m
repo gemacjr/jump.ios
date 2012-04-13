@@ -128,6 +128,9 @@
 
 + (id)pluralLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRPluralLevelThree *pluralLevelThree = [JRPluralLevelThree pluralLevelThree];
     pluralLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelThree", [pluralLevelThree.pluralLevelThreeId integerValue]];
 

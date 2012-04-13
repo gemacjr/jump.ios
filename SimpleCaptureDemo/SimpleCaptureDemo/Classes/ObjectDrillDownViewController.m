@@ -609,6 +609,7 @@ typedef enum
 
                     [number boolValue];
                     [number integerValue];
+                    [NSNumber numberWithBool:YES];
 
                     if (!number) // TODO: What if you are trying to delete the number?
                         return;

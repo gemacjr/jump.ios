@@ -171,6 +171,9 @@
 
 + (id)accountsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRAccounts *accounts = [JRAccounts accounts];
     accounts.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [accounts.accountsId integerValue]];
 

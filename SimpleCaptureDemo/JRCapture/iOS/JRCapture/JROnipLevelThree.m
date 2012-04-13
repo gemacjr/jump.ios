@@ -112,6 +112,9 @@
 
 + (id)onipLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JROnipLevelThree *onipLevelThree = [JROnipLevelThree onipLevelThree];
     onipLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipLevelThree"];
 

@@ -299,6 +299,9 @@
 
 + (id)addressesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRAddresses *addresses = [JRAddresses addresses];
     addresses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [addresses.addressesId integerValue]];
 

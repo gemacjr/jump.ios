@@ -240,6 +240,9 @@
 
 + (id)primaryAddressObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRPrimaryAddress *primaryAddress = [JRPrimaryAddress primaryAddress];
     primaryAddress.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 

@@ -144,6 +144,9 @@
 
 + (id)onipLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JROnipLevelOne *onipLevelOne = [JROnipLevelOne onipLevelOne];
     onipLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [onipLevelOne.onipLevelOneId integerValue]];
 

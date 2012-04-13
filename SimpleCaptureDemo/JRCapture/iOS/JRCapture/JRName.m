@@ -176,6 +176,9 @@
 
 + (id)nameObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRName *name = [JRName name];
     name.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"name"];
 

@@ -41,6 +41,18 @@
 ###################################################################
 # MINIMUM INSTANCE CONSTRUCTOR (W/O REQUIRED PROPERTIES)
 #
+#                      (Section only here when there are required properties)     
+#                                               |
+# /**                                           |
+#  * Returns a <objectClass> object             |
+#  *                                            |
+#  * @return                                    |
+#  *   A <objectClass> object                   |
+#  *                                            V
+#  * @note Method creates a <objectClass> object without the required
+#  * properties <requiredProperties>.  These properties are required
+#  * when updating the object on Capture.
+#  **/
 # - (id)init
 # {                                                              
 #     if ((self = [super init]))                                 
@@ -51,6 +63,15 @@
 #     return self;
 # }
 ###################################################################
+
+my @minConstructorDocParts = (
+"/**
+ * Returns a ", "", " object
+ *
+ * \@return
+ *   A ", "", " object\n",
+"", 
+" **/\n");
 
 my @minConstructorParts = (
 "- (id)init",
@@ -65,29 +86,48 @@ my @minConstructorParts = (
 
 ###################################################################
 # INSTANCE CONSTRUCTOR (W REQUIRED PROPERTIES)
-#
-# Section only here when there are required properties     
-#                     |
-#                     V
+# (Method only here when there are required properties)
+# 
+# /**
+#  * Returns a <objectClass> object initialized with the given <requiredProperties>
+#  *
+#  * @param <requiredProperty>
+#  *   <requiredPropertyDescription>
+#  *
+#  * @return
+#  *   A <objectClass> object initialized with the given <requiredProperties>
+#  *   If the required arguments are \e nil or \e [NSNull null], returns \e nil
+#  **/
 # - (id)init<requiredProperties>
 # {
-#     if(!<requriredProperties>) <---------
-#     {                          <-------------------- Section only here
-#       [self release];          <-------------------- when there are 
-#       return nil;              <-------------------- required properties
-#     }                          <---------                      |
-#                                                                |
-#     if ((self = [super init]))                                 |
-#     {                                                          |
-#         self.captureObjectPath = @"<entity_path>";             |
-#                                                                |
-#         <requiredProperty> = [new<requiredProperty> copy]; <---+
+#     if(!<requriredProperties>)
+#     {                         
+#       [self release];         
+#       return nil;             
+#     }                         
+#                               
+#     if ((self = [super init]))
+#     {                         
+#         self.captureObjectPath = @"<entity_path>";         
+#                                                            
+#         <requiredProperty> = [new<requiredProperty> copy]; 
 #           ...
 #     }
 #
 #     return self;
 # }
 ###################################################################
+
+my @constructorDocParts = (
+"/**
+ * Returns a ", "", " object
+ *",
+"", 
+" *
+ * \@return
+ *   A ", "", " object initialized with the given", "",
+" *   If the required arguments are \\e nil or \\e [NSNull null], returns \\e nil",
+" **/\n");
 
 my @constructorParts = (
 "- (id)init", "",
@@ -108,11 +148,32 @@ my @constructorParts = (
 ###################################################################
 # MINIMUN CLASS CONSTRUCTOR (W/O REQUIRED PROPERTIES)
 #
+#                      (Section only here when there are required properties)     
+#                                               |
+# /**                                           |
+#  * Returns a <objectClass> object             |
+#  *                                            |
+#  * @return                                    |
+#  *   A <objectClass> object                   |
+#  *                                            V
+#  * @note Method creates a <objectClass> object without the required
+#  * properties <requiredProperties>.  These properties are required
+#  * when updating the object on Capture.
+#  **/
 # + (id)<objectName>    
 # {                                             
 #     return [[[<className> alloc] init] autorelease]; 
 # }
 ###################################################################
+
+my @minClassConstructorDocParts = (
+"/**
+ * Returns a ", "", " object
+ *
+ * \@return
+ *   A ", "", " object\n",
+"", 
+" **/\n");
 
 my @minClassConstructorParts = (
 "+ (id)", "",
@@ -122,15 +183,34 @@ my @minClassConstructorParts = (
 
 ###################################################################
 # CLASS CONSTRUCTOR (W REQUIRED PROPERTIES)
-#
-# Section only here when there are required properties     
-#                     |                         |
-#                     V                         |
-# + (id)<objectName><requiredProperties>        |
-# {                                             V
+# (Method only here when there are required properties)
+# 
+# /**
+#  * Returns a <objectClass> object initialized with the given <requiredProperties>
+#  *
+#  * @param <requiredProperty>
+#  *   <requiredPropertyDescription>
+#  *
+#  * @return
+#  *   A <objectClass> object initialized with the given <requiredProperties>
+#  *   If the required arguments are \e nil or \e [NSNull null], returns \e nil
+#  **/
+# + (id)<objectName><requiredProperties>        
+# {                                             
 #     return [[[<className> alloc] init<requiredProperties>] autorelease]; 
 # }
 ###################################################################
+
+my @classConstructorDocParts = (
+"/**
+ * Returns a ", "", " object
+ *",
+"", 
+" *
+ * \@return
+ *   A ", "", " object initialized with the given", "",
+" *   If the required arguments are \\e nil or \\e [NSNull null], returns \\e nil",
+" **/\n");
 
 my @classConstructorParts = (
 "+ (id)", "", "", 
@@ -142,7 +222,7 @@ my @classConstructorParts = (
 ###################################################################
 # COPY CONSTRUCTOR (W REQUIRED PROPERTIES)
 #
-# - (id)copyWithZone:(NSZone*)zone         Section only here when there are required properties     
+# - (id)copyWithZone:(NSZone*)zone         (Section only here when there are required properties)     
 # {                                                               |
 #     <className> *<object>Copy =                                 V
 #                 [[<className> allocWithZone:zone] init<requiredProperties>];
@@ -172,9 +252,37 @@ my @copyConstructorParts = (
 
 ###################################################################
 # MAKE OBJECT FROM DICTIONARY
-#
-# + (id)<objectName>ObjectFromDictionary:(NSDictionary*)dictionary
+#                                               
+# /**                                           
+#  * Returns a <objectClass> object created from an \\e NSDictionary
+#  * representing the object
+#  *
+#  * @param dictionary
+#  *   An \e NSDictionary containing keys/values which map the the object's 
+#  *   properties and their values/types.  This value cannot be nil
+#  *
+#  * @param capturePath
+#  *   This is the qualified name used to refer to specific elements in a record;
+#  *   a pound sign (#) is used to refer to plural elements with an id. The path
+#  *   of the root object is "/"
+#  *
+#  * @par Example:
+#  * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
+#  * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
+#  *                                            
+#  * @return                                              (Section only here when there are required properties)
+#  *   A <objectClass> object created from an \e NSDictionary.                       |
+#  *   If the \e NSDictionary is \e nil, returns \e nil                              |
+#  *                                                                                 |
+#  * @note Method creates a <objectClass> object without the required                |
+#  * properties <requiredProperties>.  These properties are required  <--------------+
+#  * when updating the object on Capture.
+#  **/
+# + (id)<objectName>ObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 # {
+#     if (!dictionary)
+#         return nil;
+#
 #     <className> *<object> = [<className> <object>];
 # 
 #     <object>.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
@@ -190,9 +298,32 @@ my @copyConstructorParts = (
 # }
 ###################################################################
 
+my @fromDictionaryDocParts = (
+"/**
+ * Returns a ", "", " object created from an \\e NSDictionary representing the object
+ *
+ * \@param dictionary
+ *   An \\e NSDictionary containing keys/values which map the the object's 
+ *   properties and their values/types.  This value cannot be nil
+ *
+ * \@param capturePath
+ *   This is the qualified name used to refer to specific elements in a record;
+ *   a pound sign (#) is used to refer to plural elements with an id. The path
+ *   of the root object is \"/\"
+ *
+ * \@par Example:
+ * The \\c /primaryAddress/city refers to the city attribute of the primaryAddress object
+ * The \\c /profiles#1/username refers to the username attribute of the element in profiles with id=1
+ *
+ * \@return
+ *   A ", "", " object\n",
+"", 
+" **/\n");
+
 my @fromDictionaryParts = (
 "+ (id)","","ObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
 "\n{\n",
+"    if (!dictionary)\n        return nil;\n\n",
 "", " = [","","];\n",
 "    ", "", ".captureObjectPath = [NSString stringWithFormat:\@\"%@/%@", "", "\", capturePath, ", "", "", "];\n",
 "",
@@ -205,6 +336,14 @@ my @fromDictionaryParts = (
 ###################################################################
 # MAKE DICTIONARY FROM OBJECT
 #
+# /**
+#  * Creates an \e NSDictionary represention of a <objectClass> object
+#  * populated with all of the object's properties, as the dictionary's 
+#  * keys, and the properties' values as the dictionary's values
+#  *
+#  * \@return
+#  *   An \e NSDictionary represention of a <objectClass> object
+#  **/
 # - (NSDictionary*)toDictionary
 # {
 #     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
@@ -220,6 +359,16 @@ my @fromDictionaryParts = (
 #  }
 ###################################################################
 
+my @toDictionaryDocParts = (
+"/**
+ * Creates an \e NSDictionary represention of a ", "", " object
+ * populated with all of the object's properties, as the dictionary's 
+ * keys, and the properties' values as the dictionary's values
+ *
+ * \@return
+ *   An \\e NSDictionary representation of a ", "", " object\n",
+" **/\n");
+
 my @toDictionaryParts = (
 "- (NSDictionary*)toDictionary",
 "\n{\n",
@@ -233,7 +382,33 @@ my @toDictionaryParts = (
 ###################################################################
 # UPDATE CURRENT OBJECT FROM A NEW DICTIONARY
 #
-# - (void)updateFromDictionary:(NSDictionary *)dictionary
+# /**
+#  * @internal
+#  * Updates the object from an \e NSDictionary populated with some of the object's
+#  * properties, as the dictionary's keys, and the properties' values as the dictionary's values.
+#  * This method is used by other JRCaptureObjects and should not be used by consumers of the 
+#  * mobile Capture library
+#  *
+#  * @param dictionary
+#  *   An \e NSDictionary containing keys/values which map the the object's 
+#  *   properties and their values/types
+#  *
+#  * @param capturePath
+#  *   This is the qualified name used to refer to specific elements in a record;
+#  *   a pound sign (#) is used to refer to plural elements with an id. The path
+#  *   of the root object is "/"
+#  *
+#  * @par Example:
+#  * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
+#  * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
+#  *
+#  * @note 
+#  * The main difference between this method and the replaceFromDictionary:withPath:(), is that
+#  * in this method properties are only updated if they exist in the dictionary, and in 
+#  * replaceFromDictionary:withPath:(), all properties are replaced.  Even if the value is \e [NSNull null]
+#  * so long as the key exists in the dictionary, the property is updated.
+#  **/
+# - (void)updateFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
 # {
 #     if ([dictionary objectForKey:@"<property>"])
 #         self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
@@ -244,6 +419,34 @@ my @toDictionaryParts = (
 #           ...
 # }
 ###################################################################
+
+my @updateFrDictDocParts = (
+"/**
+ * \@internal
+ * Updates the object from an \\e NSDictionary populated with some of the object's
+ * properties, as the dictionary's keys, and the properties' values as the dictionary's values. 
+ * This method is used by other JRCaptureObjects and should not be used by consumers of the 
+ * mobile Capture library
+ *
+ * \@param dictionary
+ *   An \\e NSDictionary containing keys/values which map the the object's 
+ *   properties and their values/types
+ *
+ * \@param capturePath
+ *   This is the qualified name used to refer to specific elements in a record;
+ *   a pound sign (#) is used to refer to plural elements with an id. The path
+ *   of the root object is \"/\"
+ *
+ * \@par Example:
+ * The \\c /primaryAddress/city refers to the city attribute of the primaryAddress object
+ * The \\c /profiles#1/username refers to the username attribute of the element in profiles with id=1
+ *
+ * @note 
+ * The main difference between this method and the replaceFromDictionary:withPath:(), is that
+ * in this method properties are only updated if they exist in the dictionary, and in 
+ * replaceFromDictionary:withPath:(), all properties are replaced.  Even if the value is \\e [NSNull null]
+ * so long as the key exists in the dictionary, the property is updated.
+ **/\n");
 
 my @updateFrDictParts = (
 "- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
@@ -256,7 +459,33 @@ my @updateFrDictParts = (
 ###################################################################
 # REPLACE CURRENT OBJECT FROM A NEW DICTIONARY
 #
-# - (void)replaceFromDictionary:(NSDictionary *)dictionary
+# /**
+#  * @internal
+#  * Replaces the object from an \e NSDictionary populated with some or all of the object's
+#  * properties, as the dictionary's keys, and the properties' values as the dictionary's values.
+#  * This method is used by other JRCaptureObjects and should not be used by consumers of the 
+#  * mobile Capture library
+#  *
+#  * @param dictionary
+#  *   An \e NSDictionary containing keys/values which map the the object's 
+#  *   properties and their values/types
+#  *
+#  * @param capturePath
+#  *   This is the qualified name used to refer to specific elements in a record;
+#  *   a pound sign (#) is used to refer to plural elements with an id. The path
+#  *   of the root object is "/"
+#  *
+#  * @par Example:
+#  * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
+#  * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
+#  *
+#  * @note 
+#  * The main difference between this method and the updateFromDictionary:withPath:(), is that
+#  * in this method \e all the properties are replaced, and in updateFromDictionary:withPath:(),
+#  * they are only updated if the exist in the dictionary.  If the key does not exist in
+#  * the dictionary, the property is set to \e nil
+#  **/
+# - (void)replaceFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
 # {
 #     self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
 #                                   [dictionary objectForKey:@"<property>"] : nil;
@@ -266,6 +495,34 @@ my @updateFrDictParts = (
 #       ...
 # }
 ###################################################################
+
+my @replaceFrDictDocParts = (
+"/**
+ * \@internal
+ * Replaces the object from an \\e NSDictionary populated with some or all of the object's
+ * properties, as the dictionary's keys, and the properties' values as the dictionary's values.
+ * This method is used by other JRCaptureObjects and should not be used by consumers of the 
+ * mobile Capture library
+ *
+ * \@param dictionary
+ *   An \e NSDictionary containing keys/values which map the the object's 
+ *   properties and their values/types
+ *
+ * \@param capturePath
+ *   This is the qualified name used to refer to specific elements in a record;
+ *   a pound sign (#) is used to refer to plural elements with an id. The path
+ *   of the root object is \"/\"
+ *
+ * \@par Example:
+ * The \\c /primaryAddress/city refers to the city attribute of the primaryAddress object
+ * The \\c /profiles#1/username refers to the username attribute of the element in profiles with id=1
+ *
+ * \@note 
+ * The main difference between this method and the updateFromDictionary:withPath:(), is that
+ * in this method \e all the properties are replaced, and in updateFromDictionary:withPath:(),
+ * they are only updated if the exist in the dictionary.  If the key does not exist in
+ * the dictionary, the property is set to \\e nil
+ **/\n");
 
 my @replaceFrDictParts = (
 "- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
@@ -291,6 +548,9 @@ my @replaceFrDictParts = (
 #     return dict;
 # }
 # 
+# /**
+#  * TODO: Doxygen doc
+#  **/
 # - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 # {
 #     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -306,6 +566,11 @@ my @replaceFrDictParts = (
 #                                 withContext:newContext];
 # }
 ###################################################################
+
+my @updateRemotelyDocParts = (
+"/**
+ * TODO: Doxygen doc
+ **/\n");
 
 my @toUpdateDictionaryParts = (
 "- (NSDictionary *)toUpdateDictionary",
@@ -349,6 +614,9 @@ my @updateRemotelyParts = (
 #     return dict;
 # }
 # 
+# /**
+#  * TODO: Doxygen doc
+#  **/
 # - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 # {
 #     NSMutableDictionary *dict =
@@ -367,6 +635,11 @@ my @updateRemotelyParts = (
 #                                 withContext:newContext];
 # }
 ###################################################################
+
+my @replaceRemotelyDocParts = (
+"/**
+ * TODO: Doxygen doc
+ **/\n");
 
 my @toReplaceDictionaryParts = (
 "- (NSDictionary *)toReplaceDictionary",
@@ -398,6 +671,9 @@ my @replaceRemotelyParts = (
 ###################################################################
 # MAKE DICTIONARY OF OBJECT'S PROPERTIES
 #
+# /**
+#  * TODO: Doxygen doc
+#  **/
 # - (NSDictionary*)objectProperties
 # {
 #     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
@@ -408,6 +684,11 @@ my @replaceRemotelyParts = (
 #  }
 ###################################################################
 
+my @objectPropertiesDocParts = (
+"/**
+ * TODO: Doxygen doc
+ **/\n");
+ 
 my @objectPropertiesParts = (
 "- (NSDictionary*)objectProperties",
 "\n{\n",
@@ -467,15 +748,14 @@ my $copyrightHeader =
  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */\n\n";
 
-#ifdef DEBUG
-#define DLog(fmt, ...) NSLog((\@\"\%s [Line \%d] \" fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#else
-#define DLog(...)
-#endif
 
-#define ALog(fmt, ...) NSLog((\@\"\%s [Line \%d] \" fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)\n\n";
+my @doxygenClassDescParts = (
+"/**
+ * \@brief ", "", 
+"\n **/\n");
+
 
 sub createArrayCategoryForSubobject { 
   my $propertyName = $_[0];
@@ -669,6 +949,54 @@ sub getDestructorParts {
 
 sub getCopyrightHeader {
   return $copyrightHeader;
+}
+
+sub getDoxygenClassDescParts {
+  return @doxygenClassDescParts;
+}
+
+sub getMinConstructorDocParts {
+  return @minConstructorDocParts;
+}
+
+sub getConstructorDocParts {
+  return @constructorDocParts;
+}
+
+sub getMinClassConstructorDocParts {
+  return @minClassConstructorDocParts;
+}
+
+sub getClassConstructorDocParts {
+  return @classConstructorDocParts;
+}
+
+sub getToDictionaryDocParts {
+  return @toDictionaryDocParts;
+}
+
+sub getFromDictionaryDocParts {
+  return @fromDictionaryDocParts;
+}
+
+sub getUpdateFromDictDocParts {
+  return @updateFrDictDocParts;
+}
+
+sub getReplaceFromDictDocParts {
+  return @replaceFrDictDocParts;
+}
+
+sub getUpdateRemotelyDocParts {
+  return @updateRemotelyDocParts;
+}
+
+sub getReplaceRemotelyDocParts {
+  return @replaceRemotelyDocParts;
+}
+
+sub getObjectPropertiesDocParts {
+  return @objectPropertiesDocParts;
 }
 
 sub getObjcKeywords {

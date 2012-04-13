@@ -256,6 +256,9 @@
 
 + (id)locationObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRLocation *location = [JRLocation location];
     location.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
 

@@ -155,6 +155,9 @@
 
 + (id)urlsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRUrls *urls = [JRUrls urls];
     urls.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [urls.urlsId integerValue]];
 

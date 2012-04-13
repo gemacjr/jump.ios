@@ -160,6 +160,9 @@
 
 + (id)bodyTypeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRBodyType *bodyType = [JRBodyType bodyType];
     bodyType.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
 

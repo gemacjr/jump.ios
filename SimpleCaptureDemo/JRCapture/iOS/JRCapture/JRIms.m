@@ -155,6 +155,9 @@
 
 + (id)imsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRIms *ims = [JRIms ims];
     ims.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [ims.imsId integerValue]];
 

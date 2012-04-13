@@ -1432,6 +1432,9 @@
 
 + (id)profileObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRProfile *profile = [JRProfile profile];
     profile.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"profile"];
 

@@ -175,10 +175,15 @@ sub isPropertyNameObjcKeyword {
 
 sub stripPointer {
   my $objectiveType = $_[0];
-  
   $objectiveType =~ s/ \*//;
-  
   return $objectiveType;
+}
+
+sub trim {
+	my $string = $_[0];
+	$string =~ s/^\s+//;
+	$string =~ s/\s+$//;
+	return $string;
 }
 
 ######################################################################
@@ -213,6 +218,7 @@ sub recursiveParse {
   my $arrRef     = $_[1];
   my $parentPath = $_[2];
   my $pathAppend = $_[3];
+  my $objectDesc = $_[4];
   my $objectPath;
 
   if ($parentPath eq "/") {
@@ -253,6 +259,20 @@ sub recursiveParse {
   my @toReplaceDictSection       = getToReplaceDictParts();
   my @replaceRemotelySection     = getReplaceRemotelyParts();  
   my @objectPropertiesSection    = getObjectPropertiesParts();
+  my @doxygenClassDescSection    = getDoxygenClassDescParts();
+  
+  
+  my @minConstructorDocSection      = getMinConstructorDocParts();
+  my @constructorDocSection         = getConstructorDocParts();
+  my @minClassConstructorDocSection = getMinClassConstructorDocParts();
+  my @classConstructorDocSection    = getClassConstructorDocParts();
+  my @dictFromObjectDocSection      = getToDictionaryDocParts();
+  my @objFromDictDocSection         = getFromDictionaryDocParts();
+  my @updateFrDictDocSection        = getUpdateFromDictDocParts();
+  my @replaceFrDictDocSection       = getReplaceFromDictDocParts();
+  my @updateRemotelyDocSection      = getUpdateRemotelyDocParts();
+  my @replaceRemotelyDocSection     = getReplaceRemotelyDocParts();
+  my @objectPropertiesDocSection    = getObjectPropertiesDocParts();
 
 
   ######################################################
@@ -272,11 +292,26 @@ sub recursiveParse {
   # JRUserObject *userObjectCopy =
 	#			[[JRUserObject allocWithZone:zone] init];
   ######################################################
-  $minClassConstructorSection[1] = $objectName;
-  $minClassConstructorSection[4] = $className;
+
+  $minConstructorDocSection[1] = $className;
+  $minConstructorDocSection[3] = $className;
+  $constructorDocSection[1] = $className;
+  $constructorDocSection[5] = $className;
+  
+  $minClassConstructorSection[1]    = $objectName;
+  $minClassConstructorSection[4]    = $className;
+  $minClassConstructorDocSection[1] = $className;
+  $minClassConstructorDocSection[3] = $className;
 
   $classConstructorSection[1] = $objectName;
   $classConstructorSection[5] = $className;
+  $classConstructorDocSection[1] = $className;
+  $classConstructorDocSection[5] = $className;
+  
+  $objFromDictDocSection[1] = $className;
+  $objFromDictDocSection[3] = $className;
+  $dictFromObjectDocSection[1] = $className;
+  $dictFromObjectDocSection[3] = $className;
   
   $copyConstructorSection[2]  = "    " . $className . " *" . $objectName . "Copy =\n                [[" . $className;
   $copyConstructorSection[8]  = $objectName . "Copy";
@@ -284,12 +319,12 @@ sub recursiveParse {
   $copyConstructorSection[13] = $objectName . "Copy";
   
   $objFromDictSection[1]      = $objectName;
-  $objFromDictSection[4]      = "    " . $className . " *" . $objectName;
-  $objFromDictSection[6]      = $className . " " . $objectName;
-  $objFromDictSection[9]      = $objectName;
-  $objFromDictSection[13]     = "\@\"" . $objectName . "\"";  
-  $objFromDictSection[18]     = $objectName;
-  $objFromDictSection[20]     = $objectName;
+  $objFromDictSection[5]      = "    " . $className . " *" . $objectName;
+  $objFromDictSection[7]      = $className . " " . $objectName;
+  $objFromDictSection[10]      = $objectName;
+  $objFromDictSection[14]     = "\@\"" . $objectName . "\"";  
+  $objFromDictSection[19]     = $objectName;
+  $objFromDictSection[21]     = $objectName;
 
   $updateFromDictSection[5]   = "\@\"" . $objectName . "\"";  
   $replaceFromDictSection[5]  = "\@\"" . $objectName . "\"";  
@@ -297,13 +332,18 @@ sub recursiveParse {
   $minConstructorSection[3]   = "        self.captureObjectPath = \@\"" . $objectPath . "\";\n";
   $constructorSection[8]      = "        self.captureObjectPath = \@\"" . $objectPath . "\";\n";
 
-
+  if ($objectDesc) {
+    $doxygenClassDescSection[1]      = ucfirst(trim($objectDesc));
+  } else {
+    $doxygenClassDescSection[1]      = "A " . $className . " object";
+  }
+  
   if ($objectName eq "captureUser") {
-    $objFromDictSection[8]      = "//" . $objFromDictSection[8];
+    $objFromDictSection[9]      = "//" . $objFromDictSection[9];
     $updateFromDictSection[2]   = "//" . $updateFromDictSection[2];
     $replaceFromDictSection[2]  = "//" . $replaceFromDictSection[2];    
     
-    $objFromDictSection[16]    .= "\n    captureUser.captureObjectPath = \@\"\";\n";
+    $objFromDictSection[17]    .= "\n    captureUser.captureObjectPath = \@\"\";\n";
     $updateFromDictSection[8]  .= "\n    self.captureObjectPath = \@\"\";\n";
     $replaceFromDictSection[8] .= "\n    self.captureObjectPath = \@\"\";\n"; 
   }
@@ -329,6 +369,7 @@ sub recursiveParse {
     ################################################
     my $propertyName = $propertyHash{"name"};
     my $propertyType = $propertyHash{"type"};
+    my $propertyDesc = $propertyHash{"description"};
 
     ######################################################
     # Initialize property attributes to default values
@@ -339,7 +380,7 @@ sub recursiveParse {
     my $simpleArrayType = "";             # And if it is, get its type
     my $isId            = 0;              # If the name of the property is 'id', we also do things differently
     my $dictionaryKey   = $propertyName;  # Set the dictionary key as the property name, and change the property name if it is an objc keyword
-    my $propertyNotes   = "";             # Comment that provides more infomation if necessary for a property 
+    my $propertyNotes   = "";             # Doxygen comment that provides more infomation if necessary for a property 
                                           # (e.g., in the case of an array of objects versus and array of strings)
 
     ##########################################################
@@ -390,6 +431,12 @@ sub recursiveParse {
     # STRING
     ##################
       $objectiveType = "NSString *";
+      
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc)) . " */";
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property */";
+      }
 
     } elsif ($propertyType eq "boolean") {
     ##################
@@ -399,6 +446,13 @@ sub recursiveParse {
       $objectiveType = "JRBoolean *";#"BOOL";
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithBool:[self." . $propertyName . " boolValue]]";#"[NSNumber numberWithBool:self." . $propertyName . "]";
       $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] boolValue]]";#"[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] boolValue]";
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note This is a property of type 'boolean', which is a typedef of NSNumber. The accepted values can only be [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], or [NSNull null] */";
 
       push (@booleanProperties, $propertyName);
       
@@ -410,6 +464,13 @@ sub recursiveParse {
       $objectiveType = "JRInteger *";#"NSInteger";
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";#"[NSNumber numberWithInt:self." . $propertyName . "]";
       $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";#"[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note This is a property of type 'integer', which is a typedef of NSNumber. The accepted values can only be [NSNumber numberWithInteger:<myInteger>], [NSNumber numberWithInt:<myInt>], or [NSNull null] */";
 
       push (@integerProperties, $propertyName);
 
@@ -424,20 +485,32 @@ sub recursiveParse {
     # DATE
     ##################
       $objectiveType = "JRDate *";
-      $propertyNotes = "/* This is a property of type 'date', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 date string (e.g., yyyy-MM-dd) */";      
-
+      
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601Date]";
       $frDictionary  = $frUpDictionary = $frRplDictionary = "[JRDate dateFromISO8601DateString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note This is a property of type 'date', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 date string (e.g., yyyy-MM-dd) */";      
 
     } elsif ($propertyType eq "dateTime") {
     ##################
     # DATETIME
     ##################
       $objectiveType = "JRDateTime *";
-      $propertyNotes = "/* This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */";      
       
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601DateTime]";
       $frDictionary  = $frUpDictionary = $frRplDictionary = "[JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */";
 
     } elsif ($propertyType =~ m/^password/) { 
     ##########################################################################
@@ -448,7 +521,13 @@ sub recursiveParse {
     # we store it as an NSObject
     ##########################################################################
       $objectiveType = "JRPassword *";          
-      $propertyNotes = "/* This is a property of type 'password', which can be an NSString or NSDictionary, and is therefore is a typedef of NSObject */";      
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note This is a property of type 'password', which can be an NSString or NSDictionary, and is therefore is a typedef of NSObject */";      
 
     } elsif ($propertyType eq "json") {
     ##########################################################################
@@ -459,21 +538,39 @@ sub recursiveParse {
     # we store it as an NSObject
     ##########################################################################
       $objectiveType = "JRJsonObject *";
-      $propertyNotes = "/* This is a property of type 'json', which can be an NSDictionary, NSArray, NSString, etc., and is therefore is a typedef of NSObject */";      
+      
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note This is a property of type 'json', which can be an NSDictionary, NSArray, NSString, etc., and is therefore is a typedef of NSObject */";      
 
     } elsif ($propertyType eq "ipAddress") {
     ####################################
     # IPADDRESS IS JUST A STRING
     ####################################
       $objectiveType = "JRIpAddress *";
-      $propertyNotes = "/* This is a property of type 'ipAddress', which is a typedef of NSString, etc. */";      
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note This is a property of type 'ipAddress', which is a typedef of NSString, etc. */";      
 
     } elsif ($propertyType eq "uuid") {
     ####################################
     # UUID IS JUST A STRING
     ####################################
       $objectiveType = "JRUuid *";
-      $propertyNotes = "/* This is a property of type 'uuid', which is a typedef of NSString, etc. */";      
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note This is a property of type 'uuid', which is a typedef of NSString, etc. */";      
       
     } elsif ($propertyType eq "plural") {
     ##########################################################################
@@ -501,7 +598,13 @@ sub recursiveParse {
         $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" andPath:" . $objectName . ".captureObjectPath]";
         $frUpDictionary  = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" andPath:self.captureObjectPath]";
         $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" andPath:self.captureObjectPath]";
-        $propertyNotes   = "/* This is an array of JRStringPluralElements with type " . $simpleArrayType . " */";      
+
+        if ($propertyDesc) {
+          $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+        } else {
+          $propertyNotes .= "/**< The object's " . $propertyName . " property";
+        }
+        $propertyNotes   .= " \@note This is an array of JRStringPluralElements with type " . $simpleArrayType . " */";      
         
       } else {
 
@@ -519,12 +622,18 @@ sub recursiveParse {
         $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:" . $objectName . ".captureObjectPath]";
         $frUpDictionary  = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:self.captureObjectPath]";
         $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:self.captureObjectPath]";
-        $propertyNotes   = "/* This is an array of JR" . ucfirst($propertyName) . " */";
+
+        if ($propertyDesc) {
+          $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+        } else {
+          $propertyNotes .= "/**< The object's " . $propertyName . " property";
+        }
+        $propertyNotes   .= " \@note This is an array of JR" . ucfirst($propertyName) . " */";
         
         ################
         # AND RECURSE!!
         ################
-        recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $propertyName);
+        recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $propertyName, $propertyDesc);
        
       }
       
@@ -547,11 +656,17 @@ sub recursiveParse {
       $frRplDictionary = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
       $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
 
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc)) . " */";
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property */";
+      }
+
       ################
       # AND RECURSE!!
       ################
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
-      recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $propertyName);
+      recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $propertyName, $propertyDesc);
 
     } elsif ($propertyType eq "id") {
     ##########################################################################
@@ -565,6 +680,13 @@ sub recursiveParse {
       $objectiveType = "JRObjectId *";#"NSInteger";
       $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";#"[NSNumber numberWithInt:self." . $propertyName . "]";
       $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";#"[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note The id of the object should not be set. // TODO: etc. */"
 
     } else {
     #########################################################
@@ -681,9 +803,9 @@ sub recursiveParse {
 #      } else {
 
         # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $objFromDictSection[16]     .= "\n    " . $objectName . "." . $propertyName . " =\n";
-        $objFromDictSection[16]     .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-        $objFromDictSection[16]     .= "        " . $frDictionary . " : nil;\n";
+        $objFromDictSection[17]     .= "\n    " . $objectName . "." . $propertyName . " =\n";
+        $objFromDictSection[17]     .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $objFromDictSection[17]     .= "        " . $frDictionary . " : nil;\n";
         
         # e.g., if ([dictionary objectForKey:@"foo"])
         $updateFromDictSection[8]   .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
@@ -722,8 +844,8 @@ sub recursiveParse {
         $updateRemotelySection[3]  = "[self." . $propertyName . " integerValue]";
         $replaceRemotelySection[3] = "[self." . $propertyName . " integerValue]";
         
-        $objFromDictSection[11]    = "#%d";
-        $objFromDictSection[14]    = ", [" . $objectName . "." . $propertyName . " integerValue]";
+        $objFromDictSection[12]    = "#%d";
+        $objFromDictSection[15]    = ", [" . $objectName . "." . $propertyName . " integerValue]";
         
         $updateFromDictSection[3]  = "#%d";
         $updateFromDictSection[6] = ", [self." . $propertyName . " integerValue]";
@@ -757,12 +879,16 @@ sub recursiveParse {
   ##########################################################################
   # Add the imports ...
   ##########################################################################
-  $hFile .= "\n#import <Foundation/Foundation.h>\n#import \"JRCapture.h\"\n";
+  $hFile .= "#import <Foundation/Foundation.h>\n#import \"JRCapture.h\"\n";
   
   ##########################################################################
   # Add any extra imports ...
   ##########################################################################
   $hFile .= $extraImportsSection . "\n";
+  
+  for (my $i = 0; $i < @doxygenClassDescSection; $i++) {
+    $hFile .= $doxygenClassDescSection[$i];
+  }
   
   ##########################################################################
   # Declare the interface, add the properties, and add the function
@@ -770,33 +896,113 @@ sub recursiveParse {
   ##########################################################################
   $hFile .= "\@interface $className : JRCaptureObject\n";# <NSCopying, JRJsonifying>\n";
   $hFile .= $propertiesSection;
-  $hFile .= "$minConstructorSection[0];\n";
-  $hFile .= "$minClassConstructorSection[0]$minClassConstructorSection[1];\n";
+    
+  $hFile .= "\n/**\n * \@name Constructors\n **/\n/*\@{*/\n";
+  
+  for (my $i = 0; $i < @minConstructorDocSection; $i++) {
+    $hFile .= $minConstructorDocSection[$i];
+  }
+  $hFile .= "$minConstructorSection[0];\n\n";
+  
+  for (my $i = 0; $i < @minClassConstructorDocSection; $i++) {
+    $hFile .= $minClassConstructorDocSection[$i];
+  }
+  $hFile .= "$minClassConstructorSection[0]$minClassConstructorSection[1];\n\n";
 
   if ($requiredProperties) {
-    $hFile .= "$constructorSection[0]$constructorSection[1];\n";
-    $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n";
+    for (my $i = 0; $i < @constructorDocSection; $i++) {
+      $hFile .= $constructorDocSection[$i];
+    }
+    $hFile .= "$constructorSection[0]$constructorSection[1];\n\n";
+
+    for (my $i = 0; $i < @classConstructorDocSection; $i++) {
+      $hFile .= $classConstructorDocSection[$i];
+    }
+    $hFile .= "$classConstructorSection[0]$classConstructorSection[1]$classConstructorSection[2];\n\n";
   }
 
+  for (my $i = 0; $i < @objFromDictDocSection; $i++) {
+    $hFile .= $objFromDictDocSection[$i];
+  }
   $hFile .= "$objFromDictSection[0]$objFromDictSection[1]$objFromDictSection[2];\n";
-  $hFile .= "$dictFromObjSection[0];\n";
-  $hFile .= "$updateFromDictSection[0];\n";
+  $hFile .= "/*\@}*/\n\n";
+  
+  $hFile .= "/**\n * \@name Dictionary Serialization/Deserialization\n **/\n/*\@{*/\n";
+
+  for (my $i = 0; $i < @dictFromObjectDocSection; $i++) {
+    $hFile .= $dictFromObjectDocSection[$i];
+  }
+  $hFile .= "$dictFromObjSection[0];\n\n";
+  
+  for (my $i = 0; $i < @updateFrDictDocSection; $i++) {
+    $hFile .= $updateFrDictDocSection[$i];
+  }
+  $hFile .= "$updateFromDictSection[0];\n\n";
+  
+  for (my $i = 0; $i < @replaceFrDictDocSection; $i++) {
+    $hFile .= $replaceFrDictDocSection[$i];
+  }
+  $hFile .= "$replaceFromDictSection[0];\n";
+  $hFile .= "/*\@}*/\n\n";
+
+  $hFile .= "/**\n * \@name Object Introspection\n **/\n/*\@{*/\n";
+  for (my $i = 0; $i < @objectPropertiesDocSection; $i++) {
+    $hFile .= $objectPropertiesDocSection[$i];
+  }
   $hFile .= "$objectPropertiesSection[0];\n";
-  
-  for (my $i = 0; $i < @booleanProperties; $i++) {
-    $hFile .= "- (BOOL)get" . ucfirst($booleanProperties[$i]) . "BoolValue;\n";
-    $hFile .= "- (void)set" . ucfirst($booleanProperties[$i]) . "WithBool:(BOOL)boolVal;\n";
+  $hFile .= "/*\@}*/\n\n";
+
+
+  $hFile .= "/**\n * \@name Manage Remotely \n **/\n/*\@{*/\n";
+  for (my $i = 0; $i < @updateRemotelyDocSection; $i++) {
+    $hFile .= $updateRemotelyDocSection[$i];
   }
-  
-  for (my $i = 0; $i < @integerProperties; $i++) {
-    $hFile .= "- (NSInteger)get" . ucfirst($integerProperties[$i]) . "IntegerValue;\n";
-    $hFile .= "- (void)set" . ucfirst($integerProperties[$i]) . "WithInteger:(NSInteger)integerVal;\n";
+  $hFile .= "$updateRemotelySection[0];\n\n";
+
+  for (my $i = 0; $i < @replaceRemotelyDocSection; $i++) {
+    $hFile .= $replaceRemotelyDocSection[$i];
   }
+  $hFile .= "$replaceRemotelySection[0];\n";
+  $hFile .= "/*\@}*/\n\n";
   
-  @booleanProperties = ();
-  @integerProperties = ();
+  if (@booleanProperties || @integerProperties) {
+    my $total = @booleanProperties + @integerProperties;
+    my $current = 1;
+    
+    $hFile .= "/**\n * \@name Primitive Getters/Setters \n **/\n/*\@{*/\n";
+
+    for (my $i = 0; $i < @booleanProperties; $i++) {
+      $hFile .= "/**\n * TODO\n **/\n";
+      $hFile .= "- (BOOL)get" . ucfirst($booleanProperties[$i]) . "BoolValue;\n\n";
+      $hFile .= "/**\n * TODO\n **/\n";
+      $hFile .= "- (void)set" . ucfirst($booleanProperties[$i]) . "WithBool:(BOOL)boolVal;\n";
+      
+      if ($current != $total) { $hFile .= "\n"; } $current++;
+    }
+    
+    for (my $i = 0; $i < @integerProperties; $i++) {
+      $hFile .= "/**\n * TODO\n **/\n";
+      $hFile .= "- (NSInteger)get" . ucfirst($integerProperties[$i]) . "IntegerValue;\n\n";
+      $hFile .= "/**\n * TODO\n **/\n";
+      $hFile .= "- (void)set" . ucfirst($integerProperties[$i]) . "WithInteger:(NSInteger)integerVal;\n";
+    
+      if ($current != $total) { $hFile .= "\n"; } $current++;
+    }
+
+    $hFile .= "/*\@}*/\n\n";
+  
+    @booleanProperties = ();
+    @integerProperties = ();
+  }
   
   $hFile .= "\@end\n";
+
+
+  ##########################################################################
+  # Add Dlog
+  ##########################################################################
+  $mFile .= "#ifdef DEBUG\n#define DLog(fmt, ...) NSLog((\@\"\%s [Line \%d] \" fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)\n";
+  $mFile .= "#else\n#define DLog(...)\n#endif\n\n#define ALog(fmt, ...) NSLog((\@\"\%s [Line \%d] \" fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)\n\n";
 
   ##########################################################################
   # Import the header

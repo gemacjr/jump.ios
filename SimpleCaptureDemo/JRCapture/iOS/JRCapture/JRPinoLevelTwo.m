@@ -177,6 +177,9 @@
 
 + (id)pinoLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRPinoLevelTwo *pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwo];
     pinoLevelTwo.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelTwo"];
 

@@ -128,6 +128,9 @@
 
 + (id)pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRPinoLevelThree *pinoLevelThree = [JRPinoLevelThree pinoLevelThree];
     pinoLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [pinoLevelThree.pinoLevelThreeId integerValue]];
 

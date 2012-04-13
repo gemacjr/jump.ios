@@ -880,6 +880,9 @@
 
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
 //    captureUser.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [captureUser.captureUserId integerValue]];
 

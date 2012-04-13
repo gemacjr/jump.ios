@@ -112,6 +112,9 @@
 
 + (id)objectLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRObjectLevelThree *objectLevelThree = [JRObjectLevelThree objectLevelThree];
     objectLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelThree"];
 

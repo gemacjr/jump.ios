@@ -155,6 +155,9 @@
 
 + (id)phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRPhoneNumbers *phoneNumbers = [JRPhoneNumbers phoneNumbers];
     phoneNumbers.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"phoneNumbers", [phoneNumbers.phoneNumbersId integerValue]];
 

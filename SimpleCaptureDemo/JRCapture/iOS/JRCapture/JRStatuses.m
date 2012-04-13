@@ -128,6 +128,9 @@
 
 + (id)statusesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRStatuses *statuses = [JRStatuses statuses];
     statuses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [statuses.statusesId integerValue]];
 

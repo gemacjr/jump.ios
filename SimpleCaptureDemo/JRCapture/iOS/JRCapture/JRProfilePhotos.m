@@ -155,6 +155,9 @@
 
 + (id)profilePhotosObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRProfilePhotos *profilePhotos = [JRProfilePhotos profilePhotos];
     profilePhotos.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", [profilePhotos.profilePhotosId integerValue]];
 

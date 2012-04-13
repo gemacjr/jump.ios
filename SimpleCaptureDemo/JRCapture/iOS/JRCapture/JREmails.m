@@ -155,6 +155,9 @@
 
 + (id)emailsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JREmails *emails = [JREmails emails];
     emails.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [emails.emailsId integerValue]];
 

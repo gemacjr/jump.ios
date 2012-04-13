@@ -28,27 +28,154 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifdef DEBUG
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#else
-#define DLog(...)
-#endif
-
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-
-
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
 #import "JRObjectLevelTwo.h"
 
+/**
+ * @brief A JRObjectLevelOne object
+ **/
 @interface JRObjectLevelOne : JRCaptureObject
-@property (nonatomic, copy) NSString *level;  
-@property (nonatomic, copy) NSString *name;  
-@property (nonatomic, copy) JRObjectLevelTwo *objectLevelTwo;  
+@property (nonatomic, copy) NSString *level; /**< The object's level property */ 
+@property (nonatomic, copy) NSString *name; /**< The object's name property */ 
+@property (nonatomic, copy) JRObjectLevelTwo *objectLevelTwo; /**< The object's objectLevelTwo property */ 
+
+/**
+ * @name Constructors
+ **/
+/*@{*/
+/**
+ * Returns a JRObjectLevelOne object
+ *
+ * @return
+ *   A JRObjectLevelOne object
+ **/
 - (id)init;
+
+/**
+ * Returns a JRObjectLevelOne object
+ *
+ * @return
+ *   A JRObjectLevelOne object
+ **/
 + (id)objectLevelOne;
+
+/**
+ * Returns a JRObjectLevelOne object created from an \e NSDictionary representing the object
+ *
+ * @param dictionary
+ *   An \e NSDictionary containing keys/values which map the the object's 
+ *   properties and their values/types.  This value cannot be nil
+ *
+ * @param capturePath
+ *   This is the qualified name used to refer to specific elements in a record;
+ *   a pound sign (#) is used to refer to plural elements with an id. The path
+ *   of the root object is "/"
+ *
+ * @par Example:
+ * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
+ * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
+ *
+ * @return
+ *   A JRObjectLevelOne object
+ **/
 + (id)objectLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+/*@}*/
+
+/**
+ * @name Dictionary Serialization/Deserialization
+ **/
+/*@{*/
+/**
+ * Creates an  NSDictionary represention of a JRObjectLevelOne object
+ * populated with all of the object's properties, as the dictionary's 
+ * keys, and the properties' values as the dictionary's values
+ *
+ * @return
+ *   An \e NSDictionary representation of a JRObjectLevelOne object
+ **/
 - (NSDictionary*)toDictionary;
+
+/**
+ * @internal
+ * Updates the object from an \e NSDictionary populated with some of the object's
+ * properties, as the dictionary's keys, and the properties' values as the dictionary's values. 
+ * This method is used by other JRCaptureObjects and should not be used by consumers of the 
+ * mobile Capture library
+ *
+ * @param dictionary
+ *   An \e NSDictionary containing keys/values which map the the object's 
+ *   properties and their values/types
+ *
+ * @param capturePath
+ *   This is the qualified name used to refer to specific elements in a record;
+ *   a pound sign (#) is used to refer to plural elements with an id. The path
+ *   of the root object is "/"
+ *
+ * @par Example:
+ * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
+ * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
+ *
+ *  
+ * The main difference between this method and the replaceFromDictionary:withPath:(), is that
+ * in this method properties are only updated if they exist in the dictionary, and in 
+ * replaceFromDictionary:withPath:(), all properties are replaced.  Even if the value is \e [NSNull null]
+ * so long as the key exists in the dictionary, the property is updated.
+ **/
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+
+/**
+ * @internal
+ * Replaces the object from an \e NSDictionary populated with some or all of the object's
+ * properties, as the dictionary's keys, and the properties' values as the dictionary's values.
+ * This method is used by other JRCaptureObjects and should not be used by consumers of the 
+ * mobile Capture library
+ *
+ * @param dictionary
+ *   An  NSDictionary containing keys/values which map the the object's 
+ *   properties and their values/types
+ *
+ * @param capturePath
+ *   This is the qualified name used to refer to specific elements in a record;
+ *   a pound sign (#) is used to refer to plural elements with an id. The path
+ *   of the root object is "/"
+ *
+ * @par Example:
+ * The \c /primaryAddress/city refers to the city attribute of the primaryAddress object
+ * The \c /profiles#1/username refers to the username attribute of the element in profiles with id=1
+ *
+ * @note 
+ * The main difference between this method and the updateFromDictionary:withPath:(), is that
+ * in this method  all the properties are replaced, and in updateFromDictionary:withPath:(),
+ * they are only updated if the exist in the dictionary.  If the key does not exist in
+ * the dictionary, the property is set to \e nil
+ **/
+- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
+/*@}*/
+
+/**
+ * @name Object Introspection
+ **/
+/*@{*/
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
+/*@}*/
+
+/**
+ * @name Manage Remotely 
+ **/
+/*@{*/
+/**
+ * TODO: Doxygen doc
+ **/
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+/**
+ * TODO: Doxygen doc
+ **/
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+/*@}*/
+
 @end

@@ -251,6 +251,9 @@
 
 + (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JROrganizations *organizations = [JROrganizations organizations];
     organizations.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [organizations.organizationsId integerValue]];
 

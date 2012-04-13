@@ -182,6 +182,9 @@
 
 + (id)gamesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    if (!dictionary)
+        return nil;
+
     JRGames *games = [JRGames games];
     games.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [games.gamesId integerValue]];
 
