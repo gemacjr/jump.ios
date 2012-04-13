@@ -35,16 +35,16 @@
  * @brief A JRPrimaryAddress object
  **/
 @interface JRPrimaryAddress : JRCaptureObject
-@property (nonatomic, copy) NSString *address1; /**< The object's address1 property */ 
-@property (nonatomic, copy) NSString *address2; /**< The object's address2 property */ 
-@property (nonatomic, copy) NSString *city; /**< The object's city property */ 
-@property (nonatomic, copy) NSString *company; /**< The object's company property */ 
-@property (nonatomic, copy) NSString *country; /**< The object's country property */ 
-@property (nonatomic, copy) NSString *mobile; /**< The object's mobile property */ 
-@property (nonatomic, copy) NSString *phone; /**< The object's phone property */ 
-@property (nonatomic, copy) NSString *stateAbbreviation; /**< The object's stateAbbreviation property */ 
-@property (nonatomic, copy) NSString *zip; /**< The object's zip property */ 
-@property (nonatomic, copy) NSString *zipPlus4; /**< The object's zipPlus4 property */ 
+@property (nonatomic, copy) NSString *address1; /**< The object's \e address1 property */ 
+@property (nonatomic, copy) NSString *address2; /**< The object's \e address2 property */ 
+@property (nonatomic, copy) NSString *city; /**< The object's \e city property */ 
+@property (nonatomic, copy) NSString *company; /**< The object's \e company property */ 
+@property (nonatomic, copy) NSString *country; /**< The object's \e country property */ 
+@property (nonatomic, copy) NSString *mobile; /**< The object's \e mobile property */ 
+@property (nonatomic, copy) NSString *phone; /**< The object's \e phone property */ 
+@property (nonatomic, copy) NSString *stateAbbreviation; /**< The object's \e stateAbbreviation property */ 
+@property (nonatomic, copy) NSString *zip; /**< The object's \e zip property */ 
+@property (nonatomic, copy) NSString *zipPlus4; /**< The object's \e zipPlus4 property */ 
 
 /**
  * @name Constructors

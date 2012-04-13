@@ -435,7 +435,7 @@ sub recursiveParse {
       if ($propertyDesc) {
         $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc)) . " */";
       } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property */";
+        $propertyNotes .= "/**< The object's \\e " . $propertyName . " property */";
       }
 
     } elsif ($propertyType eq "boolean") {
@@ -450,9 +450,9 @@ sub recursiveParse {
       if ($propertyDesc) {
         $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
       } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+        $propertyNotes .= "/**< The object's \\e " . $propertyName . " property";
       }
-      $propertyNotes   .= " \@note This is a property of type 'boolean', which is a typedef of NSNumber. The accepted values can only be [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], or [NSNull null] */";
+      $propertyNotes   .= " \@note This is a property of type 'boolean', which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:&gt;myBool&lt;]</code> or <code>[NSNull null]</code> */";
 
       push (@booleanProperties, $propertyName);
       
@@ -470,15 +470,21 @@ sub recursiveParse {
       } else {
         $propertyNotes .= "/**< The object's " . $propertyName . " property";
       }
-      $propertyNotes   .= " \@note This is a property of type 'integer', which is a typedef of NSNumber. The accepted values can only be [NSNumber numberWithInteger:<myInteger>], [NSNumber numberWithInt:<myInt>], or [NSNull null] */";
+      $propertyNotes   .= " \@note This is a property of type 'integer', which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:&gt;myInteger&lt;]</code>, <code>[NSNumber numberWithInt:&gt;myInt&lt;]</code>, or <code>[NSNull null]</code> */";
 
       push (@integerProperties, $propertyName);
 
     } elsif ($propertyType eq "decimal") {
     ##################
-    # NUMBER
+    # DECIMAL/NUMBER
     ##################
       $objectiveType = "NSNumber *";
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc)) . " */";
+      } else {
+        $propertyNotes .= "/**< The object's \\e " . $propertyName . " property */";
+      }
 
     } elsif ($propertyType eq "date") {
     ##################
@@ -494,7 +500,7 @@ sub recursiveParse {
       } else {
         $propertyNotes .= "/**< The object's " . $propertyName . " property";
       }
-      $propertyNotes   .= " \@note This is a property of type 'date', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 date string (e.g., yyyy-MM-dd) */";      
+      $propertyNotes   .= " \@note This is a property of type 'date', which is a typedef of \\e NSDate. The accepted format should be an ISO8601 date string (e.g., \\c yyyy-MM-dd) */";      
 
     } elsif ($propertyType eq "dateTime") {
     ##################
@@ -510,7 +516,20 @@ sub recursiveParse {
       } else {
         $propertyNotes .= "/**< The object's " . $propertyName . " property";
       }
-      $propertyNotes   .= " \@note This is a property of type 'dateTime', which is a typedef of NSDate, etc. The accepted format should be an ISO8601 dateTime string (e.g., yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */";
+      $propertyNotes   .= " \@note This is a property of type 'dateTime', which is a typedef of \\e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., \\c yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */";
+
+    } elsif ($propertyType eq "ipAddress") {
+    ####################################
+    # IPADDRESS IS JUST A STRING
+    ####################################
+      $objectiveType = "JRIpAddress *";
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note This is a property of type 'ipAddress', which is a typedef of \\e NSString. */";      
 
     } elsif ($propertyType =~ m/^password/) { 
     ##########################################################################
@@ -527,7 +546,7 @@ sub recursiveParse {
       } else {
         $propertyNotes .= "/**< The object's " . $propertyName . " property";
       }
-      $propertyNotes   .= " \@note This is a property of type 'password', which can be an NSString or NSDictionary, and is therefore is a typedef of NSObject */";      
+      $propertyNotes   .= " \@note This is a property of type 'password', which can be either an \\e NSString or \\e NSDictionary, and is therefore is a typedef of \\e NSObject */";      
 
     } elsif ($propertyType eq "json") {
     ##########################################################################
@@ -542,22 +561,9 @@ sub recursiveParse {
       if ($propertyDesc) {
         $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
       } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
+        $propertyNotes .= "/**< The object's \\e " . $propertyName . " property";
       }
-      $propertyNotes   .= " \@note This is a property of type 'json', which can be an NSDictionary, NSArray, NSString, etc., and is therefore is a typedef of NSObject */";      
-
-    } elsif ($propertyType eq "ipAddress") {
-    ####################################
-    # IPADDRESS IS JUST A STRING
-    ####################################
-      $objectiveType = "JRIpAddress *";
-
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note This is a property of type 'ipAddress', which is a typedef of NSString, etc. */";      
+      $propertyNotes   .= " \@note This is a property of type 'json', which can be an \\e NSDictionary, \\e NSArray, \\e NSString, etc., and is therefore is a typedef of \\e NSObject */";      
 
     } elsif ($propertyType eq "uuid") {
     ####################################
@@ -570,8 +576,28 @@ sub recursiveParse {
       } else {
         $propertyNotes .= "/**< The object's " . $propertyName . " property";
       }
-      $propertyNotes   .= " \@note This is a property of type 'uuid', which is a typedef of NSString, etc. */";      
+      $propertyNotes   .= " \@note This is a property of type 'uuid', which is a typedef of \\e NSString */";      
       
+    } elsif ($propertyType eq "id") {
+    ##########################################################################
+    # ID
+    # If the property is type 'id' and has the name 'id', change the property
+    # name to compile in ObjC
+    ##########################################################################
+
+      $isId          = 1;
+      #$isNotNSObject = 1;
+      $objectiveType = "JRObjectId *";#"NSInteger";
+      $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";#"[NSNumber numberWithInt:self." . $propertyName . "]";
+      $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";#"[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
+
+      if ($propertyDesc) {
+        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+      } else {
+        $propertyNotes .= "/**< The object's \\c " . $propertyName . " property";
+      }
+      $propertyNotes   .= " \@note The \\e id of the object should not be set. // TODO: etc. */"
+
     } elsif ($propertyType eq "plural") {
     ##########################################################################
     # PLURAL (ARRAY)
@@ -602,13 +628,13 @@ sub recursiveParse {
         if ($propertyDesc) {
           $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
         } else {
-          $propertyNotes .= "/**< The object's " . $propertyName . " property";
+          $propertyNotes .= "/**< The object's \\c " . $propertyName . " property";
         }
-        $propertyNotes   .= " \@note This is an array of JRStringPluralElements with type " . $simpleArrayType . " */";      
+        $propertyNotes   .= " \@note This is an array of \\c JRStringPluralElements with type \\c " . $simpleArrayType . " */";      
         
       } else {
 
-        $objectiveType = "JRArray *";      
+        $objectiveType = "NSArray *";      
 
         if ($repeatNamesHash{$propertyName}) {
           $propertyName = $objectName . ucfirst($propertyName);
@@ -626,9 +652,9 @@ sub recursiveParse {
         if ($propertyDesc) {
           $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
         } else {
-          $propertyNotes .= "/**< The object's " . $propertyName . " property";
+          $propertyNotes .= "/**< The object's \\c " . $propertyName . " property";
         }
-        $propertyNotes   .= " \@note This is an array of JR" . ucfirst($propertyName) . " */";
+        $propertyNotes   .= " \@note This is an array of \\c JR" . ucfirst($propertyName) . " objects */";
         
         ################
         # AND RECURSE!!
@@ -668,31 +694,11 @@ sub recursiveParse {
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
       recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $propertyName, $propertyDesc);
 
-    } elsif ($propertyType eq "id") {
-    ##########################################################################
-    # ID
-    # If the property is type 'id' and has the name 'id', change the property
-    # name to compile in ObjC
-    ##########################################################################
-
-      $isId          = 1;
-      #$isNotNSObject = 1;
-      $objectiveType = "JRObjectId *";#"NSInteger";
-      $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";#"[NSNumber numberWithInt:self." . $propertyName . "]";
-      $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";#"[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
-
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note The id of the object should not be set. // TODO: etc. */"
-
     } else {
     #########################################################
-    # OTHER, SHOULDN'T HAPPEN, BUT JUST MAKE IT A STRING
+    # OTHER, SHOULDN'T HAPPEN, BUT JUST MAKE IT AN OBJECT
     #########################################################
-      $objectiveType = "NSString *";
+      $objectiveType = "NSObject *";
     }
 
     ##########################################################################
@@ -1131,6 +1137,9 @@ my @mFileNames = keys (%mFiles);
 my $deviceDir  = "iOS";
 my $filesDir   = "iOSFiles";
 my $captureDir = "JRCapture";
+my $docsDir    = "Docs";
+
+my $canMakeDocs = 1;
 
 unless (-d $deviceDir) {
     mkdir $deviceDir or die "[ERROR] Unable to make the directory '$deviceDir'\n\n";
@@ -1140,7 +1149,11 @@ unless (-d "$deviceDir/$captureDir") {
     mkdir "$deviceDir/$captureDir" or die "[ERROR] Unable to make the directory '$deviceDir/$captureDir'\n\n";
 }
 
-my $copyResult = `cp ./iOSFiles/* $deviceDir/$captureDir/ 2>&1`;
+unless (-d "$deviceDir/$docsDir") {
+    mkdir $deviceDir or $canMakeDocs = 0; # or die "[ERROR] Unable to make the directory '$deviceDir'\n\n";
+}
+
+my $copyResult = `cp ./iOSFiles/JR* $deviceDir/$captureDir/ 2>&1`;
 
 if ($copyResult) {
   die "[ERROR] Unable to copy necessary files to the '$deviceDir/$captureDir': $copyResult\n\n";
@@ -1159,5 +1172,9 @@ foreach my $fileName (@mFileNames) {
   print FILE $mFiles{$fileName};
   print "Finished $fileName.\n";
 }
+
+# TODO: Better success/fail reporting if doxygen works or not
+my $doxygenResult = `doxygen ./Doxygen/Doxyfile 2>&1`;
+print $doxygenResult;
 
 print "\n[SUCCESS] Capture schema successfully parsed.\n\n"

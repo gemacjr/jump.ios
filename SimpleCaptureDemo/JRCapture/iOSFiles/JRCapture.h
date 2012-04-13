@@ -33,15 +33,17 @@
  Date:   Tuesday, January 31, 2012
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-typedef NSNumber JRObjectId;
+extern typedef NSNumber JRObjectId;
 typedef NSNumber JRInteger;
 typedef NSNumber JRBoolean;
+//typedef NSNumber JRNumber;
+//typedef NSNumber JRString;
 typedef NSString JRUuid;
 typedef NSString JRIpAddress;
 typedef NSObject JRPassword;
 typedef NSObject JRJsonObject;
 typedef NSArray  JRSimpleArray;
-typedef NSArray  JRArray;
+//typedef NSArray  JRArray;
 typedef NSDate   JRDate;
 typedef NSDate   JRDateTime;
 

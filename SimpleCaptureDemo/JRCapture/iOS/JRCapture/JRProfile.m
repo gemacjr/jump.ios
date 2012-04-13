@@ -434,8 +434,8 @@
 @implementation JRProfile
 {
     NSString *_aboutMe;
-    JRArray *_accounts;
-    JRArray *_addresses;
+    NSArray *_accounts;
+    NSArray *_addresses;
     JRDate *_anniversary;
     NSString *_birthday;
     JRBodyType *_bodyType;
@@ -445,7 +445,7 @@
     JRCurrentLocation *_currentLocation;
     NSString *_displayName;
     NSString *_drinker;
-    JRArray *_emails;
+    NSArray *_emails;
     NSString *_ethnicity;
     NSString *_fashion;
     JRSimpleArray *_food;
@@ -453,7 +453,7 @@
     NSString *_happiestWhen;
     JRSimpleArray *_heroes;
     NSString *_humor;
-    JRArray *_ims;
+    NSArray *_ims;
     NSString *_interestedInMeeting;
     JRSimpleArray *_interests;
     JRSimpleArray *_jobInterests;
@@ -466,10 +466,10 @@
     JRName *_name;
     NSString *_nickname;
     NSString *_note;
-    JRArray *_organizations;
+    NSArray *_organizations;
     JRSimpleArray *_pets;
-    JRArray *_phoneNumbers;
-    JRArray *_profilePhotos;
+    NSArray *_phoneNumbers;
+    NSArray *_profilePhotos;
     NSString *_politicalViews;
     NSString *_preferredUsername;
     NSString *_profileSong;
@@ -491,7 +491,7 @@
     JRSimpleArray *_turnOns;
     JRSimpleArray *_tvShows;
     JRDateTime *_updated;
-    JRArray *_urls;
+    NSArray *_urls;
     NSString *_utcOffset;
 }
 @dynamic aboutMe;
@@ -566,23 +566,23 @@
     _aboutMe = [newAboutMe copy];
 }
 
-- (JRArray *)accounts
+- (NSArray *)accounts
 {
     return _accounts;
 }
 
-- (void)setAccounts:(JRArray *)newAccounts
+- (void)setAccounts:(NSArray *)newAccounts
 {
     [self.dirtyPropertySet addObject:@"accounts"];
     _accounts = [newAccounts copy];
 }
 
-- (JRArray *)addresses
+- (NSArray *)addresses
 {
     return _addresses;
 }
 
-- (void)setAddresses:(JRArray *)newAddresses
+- (void)setAddresses:(NSArray *)newAddresses
 {
     [self.dirtyPropertySet addObject:@"addresses"];
     _addresses = [newAddresses copy];
@@ -687,12 +687,12 @@
     _drinker = [newDrinker copy];
 }
 
-- (JRArray *)emails
+- (NSArray *)emails
 {
     return _emails;
 }
 
-- (void)setEmails:(JRArray *)newEmails
+- (void)setEmails:(NSArray *)newEmails
 {
     [self.dirtyPropertySet addObject:@"emails"];
     _emails = [newEmails copy];
@@ -775,12 +775,12 @@
     _humor = [newHumor copy];
 }
 
-- (JRArray *)ims
+- (NSArray *)ims
 {
     return _ims;
 }
 
-- (void)setIms:(JRArray *)newIms
+- (void)setIms:(NSArray *)newIms
 {
     [self.dirtyPropertySet addObject:@"ims"];
     _ims = [newIms copy];
@@ -918,12 +918,12 @@
     _note = [newNote copy];
 }
 
-- (JRArray *)organizations
+- (NSArray *)organizations
 {
     return _organizations;
 }
 
-- (void)setOrganizations:(JRArray *)newOrganizations
+- (void)setOrganizations:(NSArray *)newOrganizations
 {
     [self.dirtyPropertySet addObject:@"organizations"];
     _organizations = [newOrganizations copy];
@@ -940,23 +940,23 @@
     _pets = [newPets copyArrayOfStringPluralElementsWithType:@"value"];
 }
 
-- (JRArray *)phoneNumbers
+- (NSArray *)phoneNumbers
 {
     return _phoneNumbers;
 }
 
-- (void)setPhoneNumbers:(JRArray *)newPhoneNumbers
+- (void)setPhoneNumbers:(NSArray *)newPhoneNumbers
 {
     [self.dirtyPropertySet addObject:@"phoneNumbers"];
     _phoneNumbers = [newPhoneNumbers copy];
 }
 
-- (JRArray *)profilePhotos
+- (NSArray *)profilePhotos
 {
     return _profilePhotos;
 }
 
-- (void)setProfilePhotos:(JRArray *)newProfilePhotos
+- (void)setProfilePhotos:(NSArray *)newProfilePhotos
 {
     [self.dirtyPropertySet addObject:@"profilePhotos"];
     _profilePhotos = [newProfilePhotos copy];
@@ -1193,12 +1193,12 @@
     _updated = [newUpdated copy];
 }
 
-- (JRArray *)urls
+- (NSArray *)urls
 {
     return _urls;
 }
 
-- (void)setUrls:(JRArray *)newUrls
+- (void)setUrls:(NSArray *)newUrls
 {
     [self.dirtyPropertySet addObject:@"urls"];
     _urls = [newUrls copy];
@@ -2472,8 +2472,8 @@
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"aboutMe"];
-    [dict setObject:@"JRArray" forKey:@"accounts"];
-    [dict setObject:@"JRArray" forKey:@"addresses"];
+    [dict setObject:@"NSArray" forKey:@"accounts"];
+    [dict setObject:@"NSArray" forKey:@"addresses"];
     [dict setObject:@"JRDate" forKey:@"anniversary"];
     [dict setObject:@"NSString" forKey:@"birthday"];
     [dict setObject:@"JRBodyType" forKey:@"bodyType"];
@@ -2483,7 +2483,7 @@
     [dict setObject:@"JRCurrentLocation" forKey:@"currentLocation"];
     [dict setObject:@"NSString" forKey:@"displayName"];
     [dict setObject:@"NSString" forKey:@"drinker"];
-    [dict setObject:@"JRArray" forKey:@"emails"];
+    [dict setObject:@"NSArray" forKey:@"emails"];
     [dict setObject:@"NSString" forKey:@"ethnicity"];
     [dict setObject:@"NSString" forKey:@"fashion"];
     [dict setObject:@"JRSimpleArray" forKey:@"food"];
@@ -2491,7 +2491,7 @@
     [dict setObject:@"NSString" forKey:@"happiestWhen"];
     [dict setObject:@"JRSimpleArray" forKey:@"heroes"];
     [dict setObject:@"NSString" forKey:@"humor"];
-    [dict setObject:@"JRArray" forKey:@"ims"];
+    [dict setObject:@"NSArray" forKey:@"ims"];
     [dict setObject:@"NSString" forKey:@"interestedInMeeting"];
     [dict setObject:@"JRSimpleArray" forKey:@"interests"];
     [dict setObject:@"JRSimpleArray" forKey:@"jobInterests"];
@@ -2504,10 +2504,10 @@
     [dict setObject:@"JRName" forKey:@"name"];
     [dict setObject:@"NSString" forKey:@"nickname"];
     [dict setObject:@"NSString" forKey:@"note"];
-    [dict setObject:@"JRArray" forKey:@"organizations"];
+    [dict setObject:@"NSArray" forKey:@"organizations"];
     [dict setObject:@"JRSimpleArray" forKey:@"pets"];
-    [dict setObject:@"JRArray" forKey:@"phoneNumbers"];
-    [dict setObject:@"JRArray" forKey:@"profilePhotos"];
+    [dict setObject:@"NSArray" forKey:@"phoneNumbers"];
+    [dict setObject:@"NSArray" forKey:@"profilePhotos"];
     [dict setObject:@"NSString" forKey:@"politicalViews"];
     [dict setObject:@"NSString" forKey:@"preferredUsername"];
     [dict setObject:@"NSString" forKey:@"profileSong"];
@@ -2529,7 +2529,7 @@
     [dict setObject:@"JRSimpleArray" forKey:@"turnOns"];
     [dict setObject:@"JRSimpleArray" forKey:@"tvShows"];
     [dict setObject:@"JRDateTime" forKey:@"updated"];
-    [dict setObject:@"JRArray" forKey:@"urls"];
+    [dict setObject:@"NSArray" forKey:@"urls"];
     [dict setObject:@"NSString" forKey:@"utcOffset"];
 
     return [NSDictionary dictionaryWithDictionary:dict];

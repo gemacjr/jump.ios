@@ -38,124 +38,125 @@
 #import <objc/runtime.h>
 #import "ObjectDrillDownViewController.h"
 
-@interface NSObject (PerformSelector)
-- (void *)performSelector:(SEL)selector withValue:(void *)value;
-@end
+//@interface NSObject (PerformSelector)
+//- (void *)performSelector:(SEL)selector withValue:(void *)value;
+//@end
+//
+//@implementation NSObject (PerformSelector)
+//- (void *)performSelector:(SEL)selector withValue:(void *)value {
+//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
+//    [invocation setSelector:selector];
+//    [invocation setTarget:self];
+//
+//    if (value)
+//        [invocation setArgument:value atIndex:2];
+//
+//    [invocation invoke];
+//
+//    NSUInteger length = [[invocation methodSignature] methodReturnLength];
+//
+//    // If method is non-void:
+//    if (length > 0) {
+//        void *buffer = (void *)malloc(length);
+//        [invocation getReturnValue:buffer];
+//        return buffer;
+//    }
+//
+//    // If method is void:
+//    return nil;
+//}
+//@end
 
-@implementation NSObject (PerformSelector)
-- (void *)performSelector:(SEL)selector withValue:(void *)value {
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
-    [invocation setSelector:selector];
-    [invocation setTarget:self];
+//@interface PropertyUtil : NSObject
+//+ (NSDictionary *)classPropsFor:(Class)klass;
+//@end
 
-    if (value)
-        [invocation setArgument:value atIndex:2];
-
-    [invocation invoke];
-
-    NSUInteger length = [[invocation methodSignature] methodReturnLength];
-
-    // If method is non-void:
-    if (length > 0) {
-        void *buffer = (void *)malloc(length);
-        [invocation getReturnValue:buffer];
-        return buffer;
-    }
-
-    // If method is void:
-    return nil;
-}
-@end
-
-@interface PropertyUtil : NSObject
-+ (NSDictionary *)classPropsFor:(Class)klass;
-@end
-
-/* Lilli: Originally got this code from orange80's answer on stackoverflow: http://stackoverflow.com/questions/754824/get-an-object-attributes-list-in-objective-c */
-@implementation PropertyUtil
-// ORIGINAL
-//static const char * getPropertyType(objc_property_t property) {
-static NSString* getPropertyType(objc_property_t property) {
-    const char *attributes = property_getAttributes(property);
-    printf("attributes=%s\n", attributes);
-    char buffer[1 + strlen(attributes)];
-    strcpy(buffer, attributes);
-    char *state = buffer, *attribute;
-    while ((attribute = strsep(&state, ",")) != NULL) {
-        if (attribute[0] == 'T' && attribute[1] != '@') {
-            /* it's a C primitive type: */
-
-            /*
-                if you want a list of what will be returned for these primitives, search online for
-                "objective-c" "Property Attribute Description Examples"
-                apple docs list plenty of examples of what you get for int "i", long "l", unsigned "I", struct, etc.
-
-                Lilli: found this: https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html
-            */
-
-            // ORIGINAL
-            //return (const char *)[[NSData dataWithBytes:(attribute + 1) length:strlen(attribute) - 1] bytes];
-
-            // MY FIRST
-            //return (const char *)[[NSData dataWithBytes:attribute length:strlen(attribute)] bytes];
-
-            return [[[NSString stringWithUTF8String:attribute] substringFromIndex:1] substringToIndex:strlen(attribute) - 1];
-        }
-        else if (attribute[0] == 'T' && attribute[1] == '@' && strlen(attribute) == 2) {
-            /* it's an ObjC id type: */
-            return @"id";
-        }
-        else if (attribute[0] == 'T' && attribute[1] == '@') {
-            /* it's another ObjC object type: */
-
-            // ORIGINAL
-            //return (const char *)[[NSData dataWithBytes:(attribute + 3) length:strlen(attribute) - 4] bytes];
-
-            // MY FIRST
-            //return (const char *)[[NSData dataWithBytes:attribute length:strlen(attribute)] bytes];
-
-            return [[[NSString stringWithUTF8String:attribute] substringFromIndex:3] substringToIndex:strlen(attribute) - 4];
-        }
-    }
-
-    return @"";
-}
-
-+ (NSDictionary *)classPropsFor:(Class)klass
-{
-    if (klass == NULL) {
-        return nil;
-    }
-
-    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
-
-    unsigned int outCount, i;
-    objc_property_t *properties = class_copyPropertyList(klass, &outCount);
-    for (i = 0; i < outCount; i++) {
-        objc_property_t property = properties[i];
-        const char *propName = property_getName(property);
-        if(propName) {
-            // ORIGINAL
-            //const char *propType = getPropertyType(property);
-            //NSString *propertyName = [NSString stringWithUTF8String:propName];
-            //NSString *propertyType = [NSString stringWithUTF8String:propType];
-
-            NSString *propertyName = [NSString stringWithUTF8String:propName];
-            NSString *propertyType = getPropertyType(property);
-            [results setObject:propertyType forKey:propertyName];
-        }
-    }
-    free(properties);
-
-    DLog(@"%@", [results description]);
-    /* returning a copy here to make sure the dictionary is immutable */
-    return [NSDictionary dictionaryWithDictionary:results];
-}
-@end
+///* Lilli: Originally got this code from orange80's answer on stackoverflow: http://stackoverflow.com/questions/754824/get-an-object-attributes-list-in-objective-c */
+//@implementation PropertyUtil
+//// ORIGINAL
+////static const char * getPropertyType(objc_property_t property) {
+//static NSString* getPropertyType(objc_property_t property) {
+//    const char *attributes = property_getAttributes(property);
+//    printf("attributes=%s\n", attributes);
+//    char buffer[1 + strlen(attributes)];
+//    strcpy(buffer, attributes);
+//    char *state = buffer, *attribute;
+//    while ((attribute = strsep(&state, ",")) != NULL) {
+//        if (attribute[0] == 'T' && attribute[1] != '@') {
+//            /* it's a C primitive type: */
+//
+//            /*
+//                if you want a list of what will be returned for these primitives, search online for
+//                "objective-c" "Property Attribute Description Examples"
+//                apple docs list plenty of examples of what you get for int "i", long "l", unsigned "I", struct, etc.
+//
+//                Lilli: found this: https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html
+//            */
+//
+//            // ORIGINAL
+//            //return (const char *)[[NSData dataWithBytes:(attribute + 1) length:strlen(attribute) - 1] bytes];
+//
+//            // MY FIRST
+//            //return (const char *)[[NSData dataWithBytes:attribute length:strlen(attribute)] bytes];
+//
+//            return [[[NSString stringWithUTF8String:attribute] substringFromIndex:1] substringToIndex:strlen(attribute) - 1];
+//        }
+//        else if (attribute[0] == 'T' && attribute[1] == '@' && strlen(attribute) == 2) {
+//            /* it's an ObjC id type: */
+//            return @"id";
+//        }
+//        else if (attribute[0] == 'T' && attribute[1] == '@') {
+//            /* it's another ObjC object type: */
+//
+//            // ORIGINAL
+//            //return (const char *)[[NSData dataWithBytes:(attribute + 3) length:strlen(attribute) - 4] bytes];
+//
+//            // MY FIRST
+//            //return (const char *)[[NSData dataWithBytes:attribute length:strlen(attribute)] bytes];
+//
+//            return [[[NSString stringWithUTF8String:attribute] substringFromIndex:3] substringToIndex:strlen(attribute) - 4];
+//        }
+//    }
+//
+//    return @"";
+//}
+//
+//+ (NSDictionary *)classPropsFor:(Class)klass
+//{
+//    if (klass == NULL) {
+//        return nil;
+//    }
+//
+//    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+//
+//    unsigned int outCount, i;
+//    objc_property_t *properties = class_copyPropertyList(klass, &outCount);
+//    for (i = 0; i < outCount; i++) {
+//        objc_property_t property = properties[i];
+//        const char *propName = property_getName(property);
+//        if(propName) {
+//            // ORIGINAL
+//            //const char *propType = getPropertyType(property);
+//            //NSString *propertyName = [NSString stringWithUTF8String:propName];
+//            //NSString *propertyType = [NSString stringWithUTF8String:propType];
+//
+//            NSString *propertyName = [NSString stringWithUTF8String:propName];
+//            NSString *propertyType = getPropertyType(property);
+//            [results setObject:propertyType forKey:propertyName];
+//        }
+//    }
+//    free(properties);
+//
+//    DLog(@"%@", [results description]);
+//    /* returning a copy here to make sure the dictionary is immutable */
+//    return [NSDictionary dictionaryWithDictionary:results];
+//}
+//@end
 
 typedef enum propertyTypes
 {
     PTCaptureObject,
+    PTSimpleArray,
     PTArray,
     PTString,
     PTNumber,
@@ -166,6 +167,7 @@ typedef enum propertyTypes
     PTPassword,
     PTIpAddress,
     PTUuid,
+    PTObjectId,
     PTJsonObject,
     PTUnknown,
 } PropertyType;
@@ -263,30 +265,44 @@ typedef enum
 }
 
 - (PropertyType)getPropertyTypeFromString:(NSString *)propertyTypeString
-{
-    if ([propertyTypeString hasPrefix:@"JR"])
-        return PTCaptureObject;                              // TODO: Will we ever need the mutable bit?
-    else if ([propertyTypeString isEqualToString:@"NSArray"])// || [propertyTypeString isEqualToString:@"NSMutableArray"])
+{                                                       // TODO: Will we ever need the mutable bit?
+    if ([propertyTypeString isEqualToString:@"NSArray"])// || [propertyTypeString isEqualToString:@"NSMutableArray"])
         return PTArray;
-    else if ([propertyTypeString isEqualToString:@"NSString"])// || [propertyTypeString isEqualToString:@"NSMutableArray"])
+    else if ([propertyTypeString isEqualToString:@"JRSimpleArray"])
+        return PTSimpleArray;
+    else if ([propertyTypeString isEqualToString:@"NSString"])// || [propertyTypeString isEqualToString:@"NSMutableString"])
         return PTString;
     else if ([propertyTypeString isEqualToString:@"NSNumber"])
         return PTNumber;
-    else if ([propertyTypeString isEqualToString:@"NSDate"])
+    else if ([propertyTypeString isEqualToString:@"JRDate"])
         return PTDate;
-    else if ([propertyTypeString isEqualToString:@"NSObject"])
-        return PTJsonObject;
-    else if ([propertyTypeString isEqualToString:@"i"])
+    else if ([propertyTypeString isEqualToString:@"JRDateTime"])
+        return PTDateTime;
+    else if ([propertyTypeString isEqualToString:@"JRBoolean"])
+        return PTBool;
+    else if ([propertyTypeString isEqualToString:@"JRInteger"])
         return PTInteger;
-    else if ([propertyTypeString isEqualToString:@"c"])
-        return PTBool; // TODO: Seems as if BOOLs will return 'c'; should verify this
+    else if ([propertyTypeString isEqualToString:@"JRPassword"])
+        return PTPassword;
+    else if ([propertyTypeString isEqualToString:@"JRIpAddress"])
+        return PTIpAddress;
+    else if ([propertyTypeString isEqualToString:@"JRUuid"])
+        return PTUuid;
+    else if ([propertyTypeString isEqualToString:@"JRObjectId"])
+        return PTObjectId;
+    else if ([propertyTypeString isEqualToString:@"JRPassword"])
+        return PTPassword;
+    else if ([propertyTypeString isEqualToString:@"JRJsonObject"])
+        return PTJsonObject;
+    else if ([propertyTypeString hasPrefix:@"JR"])
+        return PTCaptureObject;
 
     return PTUnknown;
 }
 
 - (NSMutableArray *)createPropertyArrayFromObject:(JRCaptureObject *)object
 {
-    NSDictionary   *propertyNamesAndTypes = [PropertyUtil classPropsFor:[object class]];
+    NSDictionary   *propertyNamesAndTypes = [object objectProperties];//[PropertyUtil classPropsFor:[object class]];
     NSArray        *propertyNames         = [propertyNamesAndTypes allKeys];
     NSMutableArray *propertyArray         = [[NSMutableArray alloc] initWithCapacity:[propertyNames count]];
 
@@ -307,8 +323,10 @@ typedef enum
         else
             propertyData.canEdit = YES;
 
-        if (propertyData.propertyType == PTCaptureObject || propertyData.propertyType == PTArray)
-            propertyData.canDrillDown = YES;
+        if (propertyData.propertyType == PTCaptureObject ||
+            propertyData.propertyType == PTArray ||
+            propertyData.propertyType == PTSimpleArray)
+                propertyData.canDrillDown = YES;
 
         [propertyArray addObject:propertyData];
     }
@@ -444,7 +462,7 @@ typedef enum
 //    if (!newCaptureObject || [newCaptureObject isKindOfClass:[NSNull class]])
 //        return;
 
-    if (currentPropertyData.propertyType == PTArray)
+    if (currentPropertyData.propertyType == PTArray || currentPropertyData.propertyType == PTSimpleArray)
     {
         if (!newCaptureObject || [newCaptureObject isKindOfClass:[NSNull class]])
         {
@@ -549,6 +567,11 @@ typedef enum
     if (date && [date isKindOfClass:[NSDate class]])
         myDatePicker.date = date;
 
+    if (currentPropertyData.propertyType == PTDate)
+        myDatePicker.datePickerMode = UIDatePickerModeDate;
+    else
+        myDatePicker.datePickerMode = UIDatePickerModeTime;
+
     myDatePicker.tag = itemIndex + DATE_PICKER_OFFSET;
 
     [self scrollTableViewToRect:CGRectMake(0, sender.superview.superview.frame.origin.y - 45,
@@ -606,10 +629,6 @@ typedef enum
                     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 
                     NSNumber *number = [formatter numberFromString:textField.text];
-
-                    [number boolValue];
-                    [number integerValue];
-                    [NSNumber numberWithBool:YES];
 
                     if (!number) // TODO: What if you are trying to delete the number?
                         return;
@@ -922,6 +941,7 @@ typedef enum
         {
             case PTInteger:
             case PTNumber:
+            case PTIpAddress:
                 editingView = [self getTextFieldWithKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
                 break;
             case PTString:
@@ -944,6 +964,7 @@ typedef enum
                 editingView = [self getBooleanSwitcher];
                 break;
             case PTDate:
+            case PTDateTime:
                 editingView = [self getButtonBox];
                 [editingView addSubview:[self getLeftLabelWithTag:indexPath.row]];
                 [editingView addSubview:[self getRightButtonWithTitle:@"Change"
@@ -951,6 +972,7 @@ typedef enum
                                                           andSelector:@selector(changeDateButtonPressed:)]];
                 break;
             case PTArray:
+            case PTSimpleArray:
                 editingView = [self getButtonBox];
                 [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
                                                                   tag:indexPath.row
@@ -987,15 +1009,15 @@ typedef enum
     NSObject *value = nil;
     int *primValue  = 0;
 
-    if (propertyData.propertyType == PTInteger || propertyData.propertyType == PTBool)
-        primValue = [captureObject performSelector:propertyData.propertyGetSelector withValue:nil];
-    else
+//    if (propertyData.propertyType == PTInteger || propertyData.propertyType == PTBool)
+//        primValue = [captureObject performSelector:propertyData.propertyGetSelector withValue:nil];
+//    else
         value = [captureObject performSelector:propertyData.propertyGetSelector];
 
     cellTitle = key;
 
  /* If our item is an array... */
-    if (propertyData.propertyType == PTArray)
+    if (propertyData.propertyType == PTArray || propertyData.propertyType == PTSimpleArray)
     {/* If our object is null, */
         if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that in the subtitle, */
@@ -1050,7 +1072,7 @@ typedef enum
     }
 
  /* If our item is a string... */
-    else if (propertyData.propertyType == PTString)
+    else if (propertyData.propertyType == PTString || propertyData.propertyType == PTIpAddress)
     {/* If our value is null, */
         if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that in the subtitle, */
@@ -1068,11 +1090,11 @@ typedef enum
     }
 
  /* If our item is a number... */
-    else if (propertyData.propertyType == PTNumber)// || propertyData.propertyType == PTInteger)
+    else if (propertyData.propertyType == PTNumber || propertyData.propertyType == PTInteger)
     {/* If our value is null, */
         if (!value || [value isKindOfClass:[NSNull class]])
-        {/* just pretend that it's 0 */
-            subtitle = @"0";
+        {/* indicate that */
+            subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
         }
         else
         {/* and, if it's not null, make it a string, and set the subtitle as that. */
@@ -1081,29 +1103,34 @@ typedef enum
         }
     }
 
- /* If our item is an bool... */
-    else if (propertyData.propertyType == PTInteger)
-    {
-        int intValue = *primValue;
-        subtitle = [NSString stringWithFormat:@"%d", intValue];
-        ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
-    }
+// /* If our item is an integer... */
+//    else if (propertyData.propertyType == PTInteger)
+//    {
+//        int intValue = *primValue;
+//        subtitle = [NSString stringWithFormat:@"%d", intValue];
+//        ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
+//    }
 
  /* If our item is an bool... */
     else if (propertyData.propertyType == PTBool)
-    {
-        DLog(@"%@", [tableData description]);
-        //int boolValue = *primValue;
-
-        if (primValue)//boolValue)
-        {
-            subtitle = @"TRUE";
-            ((UISwitch *)editingView).on = YES;
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* just pretend that it's 0 */
+            subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
         }
         else
-        {
-            subtitle = @"FALSE";
-            ((UISwitch *)editingView).on = YES;
+        {/* and, if it's not null, find out if it's true or false, and set the subtitle as that. */
+            BOOL boolValue = [(NSNumber *)value boolValue];
+            if (boolValue)
+            {
+                subtitle = @"TRUE";
+                ((UISwitch *)editingView).on = YES;
+            }
+            else
+            {
+                subtitle = @"FALSE";
+                ((UISwitch *)editingView).on = NO;
+            }
         }
     }
 
@@ -1112,14 +1139,27 @@ typedef enum
     {/* If our value is null, */
         if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that */
-            subtitle = @"No data set";
+            subtitle = @"No date set";
         }
         else
         {/* and, if it's not null, it should be a string, so set the subtitle as that. */
             subtitle = [(JRDate*)value stringFromISO8601Date];
 
-            if (!subtitle)
-                subtitle = [(JRDateTime *) value stringFromISO8601DateTime];
+            UILabel *label = (UILabel *) [editingView viewWithTag:indexPath.row + LEFT_LABEL_OFFSET];
+            label.text = propertyData.stringValue = subtitle;
+        }
+    }
+
+ /* If our item is a dateTime... */
+    else if (propertyData.propertyType == PTDateTime)
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* indicate that */
+            subtitle = @"No date/time set";
+        }
+        else
+        {/* and, if it's not null, it should be a string, so set the subtitle as that. */
+            subtitle = [(JRDate*)value stringFromISO8601DateTime];
 
             UILabel *label = (UILabel *) [editingView viewWithTag:indexPath.row + LEFT_LABEL_OFFSET];
             label.text = propertyData.stringValue = subtitle;
@@ -1196,7 +1236,7 @@ typedef enum
     if ([value isKindOfClass:[NSNull class]])
         return;
 
-    if (propertyData.propertyType == PTArray)
+    if (propertyData.propertyType == PTArray || propertyData.propertyType == PTSimpleArray)
     {
       /* If our value is an *empty* array, don't drill down. */
          if (![(NSArray *)value count])

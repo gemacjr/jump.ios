@@ -35,19 +35,19 @@
  * @brief A physical mailing address for this Contact.
  **/
 @interface JRAddresses : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *addressesId; /**< Simple identifier for this sub-entity @note The id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *addressesId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) NSString *country; /**< The country name component. */ 
-@property (nonatomic, copy) NSString *extendedAddress; /**< The object's extendedAddress property */ 
+@property (nonatomic, copy) NSString *extendedAddress; /**< The object's \e extendedAddress property */ 
 @property (nonatomic, copy) NSString *formatted; /**< The full mailing address, formatted for display or use with a mailing label. */ 
-@property (nonatomic, copy) NSNumber *latitude;  
+@property (nonatomic, copy) NSNumber *latitude; /**< The object's \e latitude property */ 
 @property (nonatomic, copy) NSString *locality; /**< The city or locality component. */ 
-@property (nonatomic, copy) NSNumber *longitude;  
-@property (nonatomic, copy) NSString *poBox; /**< The object's poBox property */ 
+@property (nonatomic, copy) NSNumber *longitude; /**< The object's \e longitude property */ 
+@property (nonatomic, copy) NSString *poBox; /**< The object's \e poBox property */ 
 @property (nonatomic, copy) NSString *postalCode; /**< The zipcode or postal code component. */ 
-@property (nonatomic, copy) JRBoolean *primary; /**< The object's primary property @note This is a property of type 'boolean', which is a typedef of NSNumber. The accepted values can only be [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], or [NSNull null] */ 
+@property (nonatomic, copy) JRBoolean *primary; /**< The object's \e primary property @note This is a property of type 'boolean', which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:&gt;myBool&lt;]</code> or <code>[NSNull null]</code> */ 
 @property (nonatomic, copy) NSString *region; /**< The state or region component. */ 
 @property (nonatomic, copy) NSString *streetAddress; /**< The full street address component, which may include house number, street name, PO BOX, and multi-line extended street address information. */ 
-@property (nonatomic, copy) NSString *type; /**< The object's type property */ 
+@property (nonatomic, copy) NSString *type; /**< The object's \e type property */ 
 
 /**
  * @name Constructors

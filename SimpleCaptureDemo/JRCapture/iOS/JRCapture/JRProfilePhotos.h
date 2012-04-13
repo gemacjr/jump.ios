@@ -35,10 +35,10 @@
  * @brief URL of a photo of this contact.
  **/
 @interface JRProfilePhotos : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *profilePhotosId; /**< Simple identifier for this sub-entity @note The id of the object should not be set. // TODO: etc. */ 
-@property (nonatomic, copy) JRBoolean *primary; /**< The object's primary property @note This is a property of type 'boolean', which is a typedef of NSNumber. The accepted values can only be [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], or [NSNull null] */ 
-@property (nonatomic, copy) NSString *type; /**< The object's type property */ 
-@property (nonatomic, copy) NSString *value; /**< The object's value property */ 
+@property (nonatomic, copy) JRObjectId *profilePhotosId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRBoolean *primary; /**< The object's \e primary property @note This is a property of type 'boolean', which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:&gt;myBool&lt;]</code> or <code>[NSNull null]</code> */ 
+@property (nonatomic, copy) NSString *type; /**< The object's \e type property */ 
+@property (nonatomic, copy) NSString *value; /**< The object's \e value property */ 
 
 /**
  * @name Constructors

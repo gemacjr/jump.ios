@@ -1005,10 +1005,23 @@ sub getObjcKeywords {
                   "extern", "float", "for", "goto", "id", "if", "IMP", "in", "inline", "inout", "int", "long", 
                   "nil", "NO", "nonatomic", "NULL", "oneway", "out", "Protocol", "register", "restrict", 
                   "retain", "return", "SEL", "self", "short", "signed", "sizeof", "static", "struct", 
-                  "super", "switch", "typedef", "union", "unsigned", "void", "volatile", "while", "YES");
+                  "super", "switch", "typedef", "union", "unsigned", "void", "volatile", "while", "YES"); 
+
   my %keywords = map { $_ => 1 } @keywords;
   
   return %keywords;
 }
+
+sub getJanrainObjectNames {
+  my @objectNames = ("objectId", "integer", "boolean", "uuid", "ipAddress", "password", 
+                     "jsonObject", "simpleArray", "array", "date", "dateTime");
+
+  my %keywords = map { $_ => 1 } @keywords;
+  
+  return %keywords;
+}
+
+
+
 
 1;

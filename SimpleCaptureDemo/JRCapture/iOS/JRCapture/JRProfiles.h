@@ -36,15 +36,15 @@
  * @brief A JRProfiles object
  **/
 @interface JRProfiles : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *profilesId; /**< Simple identifier for this sub-entity @note The id of the object should not be set. // TODO: etc. */ 
-@property (nonatomic, copy) JRJsonObject *accessCredentials; /**< User's authorization credentials for this provider @note This is a property of type 'json', which can be an NSDictionary, NSArray, NSString, etc., and is therefore is a typedef of NSObject */ 
-@property (nonatomic, copy) NSString *domain; /**< The object's domain property */ 
-@property (nonatomic, copy) JRSimpleArray *followers; /**< User's followers @note This is an array of JRStringPluralElements with type identifier */ 
-@property (nonatomic, copy) JRSimpleArray *following; /**< Who the user is following @note This is an array of JRStringPluralElements with type identifier */ 
-@property (nonatomic, copy) JRSimpleArray *friends; /**< User's friends @note This is an array of JRStringPluralElements with type identifier */ 
+@property (nonatomic, copy) JRObjectId *profilesId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRJsonObject *accessCredentials; /**< User's authorization credentials for this provider @note This is a property of type 'json', which can be an \e NSDictionary, \e NSArray, \e NSString, etc., and is therefore is a typedef of \e NSObject */ 
+@property (nonatomic, copy) NSString *domain; /**< The object's \e domain property */ 
+@property (nonatomic, copy) JRSimpleArray *followers; /**< User's followers @note This is an array of \c JRStringPluralElements with type \c identifier */ 
+@property (nonatomic, copy) JRSimpleArray *following; /**< Who the user is following @note This is an array of \c JRStringPluralElements with type \c identifier */ 
+@property (nonatomic, copy) JRSimpleArray *friends; /**< User's friends @note This is an array of \c JRStringPluralElements with type \c identifier */ 
 @property (nonatomic, copy) NSString *identifier; /**< Profile provider unique identifier */ 
 @property (nonatomic, copy) JRProfile *profile; /**< The object's profile property */ 
-@property (nonatomic, copy) JRJsonObject *provider; /**< Provider for this profile @note This is a property of type 'json', which can be an NSDictionary, NSArray, NSString, etc., and is therefore is a typedef of NSObject */ 
+@property (nonatomic, copy) JRJsonObject *provider; /**< Provider for this profile @note This is a property of type 'json', which can be an \e NSDictionary, \e NSArray, \e NSString, etc., and is therefore is a typedef of \e NSObject */ 
 @property (nonatomic, copy) NSString *remote_key; /**< PrimaryKey field from Engage */ 
 
 /**

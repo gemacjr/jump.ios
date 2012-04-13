@@ -36,9 +36,9 @@
  * @brief A JRPinoLevelTwo object
  **/
 @interface JRPinoLevelTwo : JRCaptureObject
-@property (nonatomic, copy) NSString *level; /**< The object's level property */ 
-@property (nonatomic, copy) NSString *name; /**< The object's name property */ 
-@property (nonatomic, copy) JRArray *pinoLevelThree; /**< The object's pinoLevelThree property @note This is an array of JRPinoLevelThree */ 
+@property (nonatomic, copy) NSString *level; /**< The object's \e level property */ 
+@property (nonatomic, copy) NSString *name; /**< The object's \e name property */ 
+@property (nonatomic, copy) NSArray *pinoLevelThree; /**< The object's \c pinoLevelThree property @note This is an array of \c JRPinoLevelThree objects */ 
 
 /**
  * @name Constructors

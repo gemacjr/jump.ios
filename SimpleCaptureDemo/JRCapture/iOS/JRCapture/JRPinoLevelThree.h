@@ -35,9 +35,9 @@
  * @brief A JRPinoLevelThree object
  **/
 @interface JRPinoLevelThree : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *pinoLevelThreeId; /**< Simple identifier for this sub-entity @note The id of the object should not be set. // TODO: etc. */ 
-@property (nonatomic, copy) NSString *level; /**< The object's level property */ 
-@property (nonatomic, copy) NSString *name; /**< The object's name property */ 
+@property (nonatomic, copy) JRObjectId *pinoLevelThreeId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) NSString *level; /**< The object's \e level property */ 
+@property (nonatomic, copy) NSString *name; /**< The object's \e name property */ 
 
 /**
  * @name Constructors

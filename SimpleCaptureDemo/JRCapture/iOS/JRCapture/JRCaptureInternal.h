@@ -26,6 +26,7 @@
 - (NSDictionary *)toDictionary;
 - (NSDictionary *)toUpdateDictionary;
 - (NSDictionary *)toReplaceDictionary;
+- (NSDictionary*)objectProperties;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 //- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary;

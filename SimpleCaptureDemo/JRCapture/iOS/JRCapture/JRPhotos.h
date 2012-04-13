@@ -35,9 +35,9 @@
  * @brief A JRPhotos object
  **/
 @interface JRPhotos : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *photosId; /**< Simple identifier for this sub-entity @note The id of the object should not be set. // TODO: etc. */ 
-@property (nonatomic, copy) NSString *type; /**< The object's type property */ 
-@property (nonatomic, copy) NSString *value; /**< The object's value property */ 
+@property (nonatomic, copy) JRObjectId *photosId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) NSString *type; /**< The object's \e type property */ 
+@property (nonatomic, copy) NSString *value; /**< The object's \e value property */ 
 
 /**
  * @name Constructors

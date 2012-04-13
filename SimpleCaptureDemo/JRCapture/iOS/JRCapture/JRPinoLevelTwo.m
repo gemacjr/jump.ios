@@ -92,7 +92,7 @@
 {
     NSString *_level;
     NSString *_name;
-    JRArray *_pinoLevelThree;
+    NSArray *_pinoLevelThree;
 }
 @dynamic level;
 @dynamic name;
@@ -120,12 +120,12 @@
     _name = [newName copy];
 }
 
-- (JRArray *)pinoLevelThree
+- (NSArray *)pinoLevelThree
 {
     return _pinoLevelThree;
 }
 
-- (void)setPinoLevelThree:(JRArray *)newPinoLevelThree
+- (void)setPinoLevelThree:(NSArray *)newPinoLevelThree
 {
     [self.dirtyPropertySet addObject:@"pinoLevelThree"];
     _pinoLevelThree = [newPinoLevelThree copy];
@@ -306,7 +306,7 @@
 
     [dict setObject:@"NSString" forKey:@"level"];
     [dict setObject:@"NSString" forKey:@"name"];
-    [dict setObject:@"JRArray" forKey:@"pinoLevelThree"];
+    [dict setObject:@"NSArray" forKey:@"pinoLevelThree"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
 }

@@ -35,11 +35,11 @@
  * @brief A JRGames object
  **/
 @interface JRGames : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *gamesId; /**< Simple identifier for this sub-entity @note The id of the object should not be set. // TODO: etc. */ 
-@property (nonatomic, copy) JRBoolean *isFavorite; /**< If the game is a favorite @note This is a property of type 'boolean', which is a typedef of NSNumber. The accepted values can only be [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], or [NSNull null] */ 
+@property (nonatomic, copy) JRObjectId *gamesId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRBoolean *isFavorite; /**< If the game is a favorite @note This is a property of type 'boolean', which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:&gt;myBool&lt;]</code> or <code>[NSNull null]</code> */ 
 @property (nonatomic, copy) NSString *name; /**< The name of the game */ 
-@property (nonatomic, copy) JRSimpleArray *opponents; /**< The object's opponents property @note This is an array of JRStringPluralElements with type name */ 
-@property (nonatomic, copy) JRInteger *rating; /**< User's rating of the game @note This is a property of type 'integer', which is a typedef of NSNumber. The accepted values can only be [NSNumber numberWithInteger:<myInteger>], [NSNumber numberWithInt:<myInt>], or [NSNull null] */ 
+@property (nonatomic, copy) JRSimpleArray *opponents; /**< The object's \c opponents property @note This is an array of \c JRStringPluralElements with type \c name */ 
+@property (nonatomic, copy) JRInteger *rating; /**< User's rating of the game @note This is a property of type 'integer', which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:&gt;myInteger&lt;]</code>, <code>[NSNumber numberWithInt:&gt;myInt&lt;]</code>, or <code>[NSNull null]</code> */ 
 
 /**
  * @name Constructors

@@ -347,20 +347,20 @@
     NSString *_email;
     JRDateTime *_emailVerified;
     NSString *_familyName;
-    JRArray *_games;
+    NSArray *_games;
     NSString *_gender;
     NSString *_givenName;
     JRDateTime *_lastLogin;
     NSString *_middleName;
     JRObjectLevelOne *_objectLevelOne;
-    JRArray *_onipLevelOne;
+    NSArray *_onipLevelOne;
     JRPassword *_password;
-    JRArray *_photos;
+    NSArray *_photos;
     JRPinoLevelOne *_pinoLevelOne;
-    JRArray *_pluralLevelOne;
+    NSArray *_pluralLevelOne;
     JRPrimaryAddress *_primaryAddress;
-    JRArray *_profiles;
-    JRArray *_statuses;
+    NSArray *_profiles;
+    NSArray *_statuses;
     JRBoolean *_testerBoolean;
     JRInteger *_testerInteger;
     JRIpAddress *_testerIpAddr;
@@ -527,12 +527,12 @@
     _familyName = [newFamilyName copy];
 }
 
-- (JRArray *)games
+- (NSArray *)games
 {
     return _games;
 }
 
-- (void)setGames:(JRArray *)newGames
+- (void)setGames:(NSArray *)newGames
 {
     [self.dirtyPropertySet addObject:@"games"];
     _games = [newGames copy];
@@ -593,12 +593,12 @@
     _objectLevelOne = [newObjectLevelOne copy];
 }
 
-- (JRArray *)onipLevelOne
+- (NSArray *)onipLevelOne
 {
     return _onipLevelOne;
 }
 
-- (void)setOnipLevelOne:(JRArray *)newOnipLevelOne
+- (void)setOnipLevelOne:(NSArray *)newOnipLevelOne
 {
     [self.dirtyPropertySet addObject:@"onipLevelOne"];
     _onipLevelOne = [newOnipLevelOne copy];
@@ -615,12 +615,12 @@
     _password = [newPassword copy];
 }
 
-- (JRArray *)photos
+- (NSArray *)photos
 {
     return _photos;
 }
 
-- (void)setPhotos:(JRArray *)newPhotos
+- (void)setPhotos:(NSArray *)newPhotos
 {
     [self.dirtyPropertySet addObject:@"photos"];
     _photos = [newPhotos copy];
@@ -637,12 +637,12 @@
     _pinoLevelOne = [newPinoLevelOne copy];
 }
 
-- (JRArray *)pluralLevelOne
+- (NSArray *)pluralLevelOne
 {
     return _pluralLevelOne;
 }
 
-- (void)setPluralLevelOne:(JRArray *)newPluralLevelOne
+- (void)setPluralLevelOne:(NSArray *)newPluralLevelOne
 {
     [self.dirtyPropertySet addObject:@"pluralLevelOne"];
     _pluralLevelOne = [newPluralLevelOne copy];
@@ -659,23 +659,23 @@
     _primaryAddress = [newPrimaryAddress copy];
 }
 
-- (JRArray *)profiles
+- (NSArray *)profiles
 {
     return _profiles;
 }
 
-- (void)setProfiles:(JRArray *)newProfiles
+- (void)setProfiles:(NSArray *)newProfiles
 {
     [self.dirtyPropertySet addObject:@"profiles"];
     _profiles = [newProfiles copy];
 }
 
-- (JRArray *)statuses
+- (NSArray *)statuses
 {
     return _statuses;
 }
 
-- (void)setStatuses:(JRArray *)newStatuses
+- (void)setStatuses:(NSArray *)newStatuses
 {
     [self.dirtyPropertySet addObject:@"statuses"];
     _statuses = [newStatuses copy];
@@ -1425,20 +1425,20 @@
     [dict setObject:@"NSString" forKey:@"email"];
     [dict setObject:@"JRDateTime" forKey:@"emailVerified"];
     [dict setObject:@"NSString" forKey:@"familyName"];
-    [dict setObject:@"JRArray" forKey:@"games"];
+    [dict setObject:@"NSArray" forKey:@"games"];
     [dict setObject:@"NSString" forKey:@"gender"];
     [dict setObject:@"NSString" forKey:@"givenName"];
     [dict setObject:@"JRDateTime" forKey:@"lastLogin"];
     [dict setObject:@"NSString" forKey:@"middleName"];
     [dict setObject:@"JRObjectLevelOne" forKey:@"objectLevelOne"];
-    [dict setObject:@"JRArray" forKey:@"onipLevelOne"];
+    [dict setObject:@"NSArray" forKey:@"onipLevelOne"];
     [dict setObject:@"JRPassword" forKey:@"password"];
-    [dict setObject:@"JRArray" forKey:@"photos"];
+    [dict setObject:@"NSArray" forKey:@"photos"];
     [dict setObject:@"JRPinoLevelOne" forKey:@"pinoLevelOne"];
-    [dict setObject:@"JRArray" forKey:@"pluralLevelOne"];
+    [dict setObject:@"NSArray" forKey:@"pluralLevelOne"];
     [dict setObject:@"JRPrimaryAddress" forKey:@"primaryAddress"];
-    [dict setObject:@"JRArray" forKey:@"profiles"];
-    [dict setObject:@"JRArray" forKey:@"statuses"];
+    [dict setObject:@"NSArray" forKey:@"profiles"];
+    [dict setObject:@"NSArray" forKey:@"statuses"];
     [dict setObject:@"JRBoolean" forKey:@"testerBoolean"];
     [dict setObject:@"JRInteger" forKey:@"testerInteger"];
     [dict setObject:@"JRIpAddress" forKey:@"testerIpAddr"];
