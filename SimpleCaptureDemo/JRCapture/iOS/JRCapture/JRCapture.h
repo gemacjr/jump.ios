@@ -33,7 +33,7 @@
  Date:   Tuesday, January 31, 2012
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-extern typedef NSNumber JRObjectId;
+typedef NSNumber JRObjectId;
 typedef NSNumber JRInteger;
 typedef NSNumber JRBoolean;
 //typedef NSNumber JRNumber;
