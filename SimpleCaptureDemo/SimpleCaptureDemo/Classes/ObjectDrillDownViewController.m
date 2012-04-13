@@ -155,20 +155,20 @@
 
 typedef enum propertyTypes
 {
-    PTCaptureObject,
-    PTSimpleArray,
-    PTArray,
     PTString,
+    PTBoolean,
+    PTInteger,
     PTNumber,
     PTDate,
     PTDateTime,
-    PTBool,
-    PTInteger,
-    PTPassword,
     PTIpAddress,
+    PTPassword,
+    PTJsonObject,
+    PTArray,
+    PTSimpleArray,
+    PTCaptureObject,
     PTUuid,
     PTObjectId,
-    PTJsonObject,
     PTUnknown,
 } PropertyType;
 
@@ -265,35 +265,33 @@ typedef enum
 }
 
 - (PropertyType)getPropertyTypeFromString:(NSString *)propertyTypeString
-{                                                       // TODO: Will we ever need the mutable bit?
-    if ([propertyTypeString isEqualToString:@"NSArray"])// || [propertyTypeString isEqualToString:@"NSMutableArray"])
-        return PTArray;
-    else if ([propertyTypeString isEqualToString:@"JRSimpleArray"])
-        return PTSimpleArray;
-    else if ([propertyTypeString isEqualToString:@"NSString"])// || [propertyTypeString isEqualToString:@"NSMutableString"])
+{                                                        // TODO: Will we ever need the mutable bit?
+    if ([propertyTypeString isEqualToString:@"NSString"])// || [propertyTypeString isEqualToString:@"NSMutableString"])
         return PTString;
+    else if ([propertyTypeString isEqualToString:@"JRBoolean"])
+        return PTBoolean;
+    else if ([propertyTypeString isEqualToString:@"JRInteger"])
+        return PTInteger;
     else if ([propertyTypeString isEqualToString:@"NSNumber"])
         return PTNumber;
     else if ([propertyTypeString isEqualToString:@"JRDate"])
         return PTDate;
     else if ([propertyTypeString isEqualToString:@"JRDateTime"])
         return PTDateTime;
-    else if ([propertyTypeString isEqualToString:@"JRBoolean"])
-        return PTBool;
-    else if ([propertyTypeString isEqualToString:@"JRInteger"])
-        return PTInteger;
-    else if ([propertyTypeString isEqualToString:@"JRPassword"])
-        return PTPassword;
     else if ([propertyTypeString isEqualToString:@"JRIpAddress"])
         return PTIpAddress;
-    else if ([propertyTypeString isEqualToString:@"JRUuid"])
-        return PTUuid;
-    else if ([propertyTypeString isEqualToString:@"JRObjectId"])
-        return PTObjectId;
     else if ([propertyTypeString isEqualToString:@"JRPassword"])
         return PTPassword;
     else if ([propertyTypeString isEqualToString:@"JRJsonObject"])
         return PTJsonObject;
+    else if ([propertyTypeString isEqualToString:@"NSArray"])// || [propertyTypeString isEqualToString:@"NSMutableArray"])
+        return PTArray;
+    else if ([propertyTypeString isEqualToString:@"JRSimpleArray"])
+        return PTSimpleArray;
+    else if ([propertyTypeString isEqualToString:@"JRUuid"])
+        return PTUuid;
+    else if ([propertyTypeString isEqualToString:@"JRObjectId"])
+        return PTObjectId;
     else if ([propertyTypeString hasPrefix:@"JR"])
         return PTCaptureObject;
 
@@ -318,6 +316,7 @@ typedef enum
 
         if ([propertyName hasSuffix:@"Id"] || [propertyName isEqualToString:@"uuid"] ||
             [propertyName isEqualToString:@"created"] || [propertyName isEqualToString:@"lastUpdated"] ||
+            [propertyName isEqualToString:@"lastLogin"] ||
             [propertyName hasSuffix:@"Password"] || [propertyName hasSuffix:@"password"])
             propertyData.canEdit = NO;
         else
@@ -439,7 +438,7 @@ typedef enum
 
 - (void)deleteObjectButtonPressed:(UIButton *)sender
 {
-    NSUInteger itemIndex = (NSUInteger) (sender.tag - EDITING_VIEW_OFFSET);
+    NSUInteger itemIndex = (NSUInteger) (sender.tag - LEFT_BUTTON_OFFSET);
     PropertyData *currentPropertyData = [propertyDataArray objectAtIndex:itemIndex];
 
     if ([captureObject respondsToSelector:currentPropertyData.propertySetSelector])
@@ -570,7 +569,7 @@ typedef enum
     if (currentPropertyData.propertyType == PTDate)
         myDatePicker.datePickerMode = UIDatePickerModeDate;
     else
-        myDatePicker.datePickerMode = UIDatePickerModeTime;
+        myDatePicker.datePickerMode = UIDatePickerModeDateAndTime;
 
     myDatePicker.tag = itemIndex + DATE_PICKER_OFFSET;
 
@@ -784,7 +783,7 @@ typedef enum
 
 - (UIButton *)getLeftButtonWithTitle:(NSString *)title tag:(NSInteger)tag andSelector:(SEL)selector
 {
-    CGRect frame = CGRectMake(0, 0, (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 125 : 205, 22);
+    CGRect frame = CGRectMake(140, 0, 60, 22);
 
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftButton.frame  = frame;
@@ -802,15 +801,14 @@ typedef enum
                    action:selector
          forControlEvents:UIControlEventTouchUpInside];
 
-    [leftButton setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+    [leftButton setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
 
     return leftButton;
 }
 
 - (UIView *)getRightButtonWithTitle:(NSString *)title tag:(NSInteger)tag andSelector:(SEL)selector
 {
-    CGRect frame = CGRectMake((UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 135 : 215, 0,
-                              (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 125 : 205, 22);
+    CGRect frame = CGRectMake(210, 0, 70, 22);
 
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     rightButton.frame  = frame;
@@ -828,14 +826,14 @@ typedef enum
                     action:selector
           forControlEvents:UIControlEventTouchUpInside];
 
-    [rightButton setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+    [rightButton setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleLeftMargin];
 
     return rightButton;
 }
 
 - (UIView *)getLeftLabelWithTag:(NSInteger)tag
 {
-    CGRect frame = CGRectMake(0, 0, (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 125 : 205, 22);
+    CGRect frame = CGRectMake(0, 0, (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 155 : 235, 22);
 
     UILabel *leftLabel = [[UILabel alloc] initWithFrame:frame];
     leftLabel.frame  = frame;
@@ -939,29 +937,16 @@ typedef enum
 
         switch (propertyData.propertyType)
         {
-            case PTInteger:
-            case PTNumber:
-            case PTIpAddress:
-                editingView = [self getTextFieldWithKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
-                break;
-            case PTString:
-            case PTJsonObject:
-                editingView = [self getTextFieldWithKeyboardType:UIKeyboardTypeDefault];
-                break;
-            case PTCaptureObject:
-                editingView = [self getButtonBox];
-                [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
-                                                                 tag:indexPath.row
-                                                         andSelector:@selector(deleteObjectButtonPressed:)]];
-                [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
-                                                                  tag:indexPath.row
-                                                          andSelector:@selector(editObjectButtonPressed:)]];
-                break;
-            case PTBool:
+            case PTBoolean:
 //                frame.size.width -= 65;
 //                keyLabel.frame = frame;
 //                keyLabel.backgroundColor = [UIColor redColor];
                 editingView = [self getBooleanSwitcher];
+                break;
+            case PTInteger:
+            case PTNumber:
+            case PTIpAddress:
+                editingView = [self getTextFieldWithKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
                 break;
             case PTDate:
             case PTDateTime:
@@ -971,9 +956,22 @@ typedef enum
                                                                   tag:indexPath.row
                                                           andSelector:@selector(changeDateButtonPressed:)]];
                 break;
+            case PTString:
+            case PTJsonObject:
+                editingView = [self getTextFieldWithKeyboardType:UIKeyboardTypeDefault];
+                break;
             case PTArray:
             case PTSimpleArray:
                 editingView = [self getButtonBox];
+                [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
+                                                                  tag:indexPath.row
+                                                          andSelector:@selector(editObjectButtonPressed:)]];
+                break;
+            case PTCaptureObject:
+                editingView = [self getButtonBox];
+                [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
+                                                                 tag:indexPath.row
+                                                         andSelector:@selector(deleteObjectButtonPressed:)]];
                 [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
                                                                   tag:indexPath.row
                                                           andSelector:@selector(editObjectButtonPressed:)]];
@@ -1016,8 +1014,153 @@ typedef enum
 
     cellTitle = key;
 
+
+ /* If our item is a string... */
+    if (propertyData.propertyType == PTString)
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* indicate that in the subtitle, */
+            subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
+        }
+        else if ([(NSString *)value isEqualToString:@""])
+        {/* or if it's empty, say that, */
+            subtitle = @"<empty string>";
+        }
+        else
+        {/* and, if it's not null, set the subtitle to our value.*/
+            subtitle = (NSString*)value;
+            ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
+        }
+    }
+
+ /* If our item is an bool... */
+    else if (propertyData.propertyType == PTBoolean)
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* just pretend that it's 0 */
+            subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
+        }
+        else
+        {/* and, if it's not null, find out if it's true or false, and set the subtitle as that. */
+            BOOL boolValue = [(NSNumber *)value boolValue];
+            if (boolValue)
+            {
+                subtitle = @"TRUE";
+                ((UISwitch *)editingView).on = YES;
+            }
+            else
+            {
+                subtitle = @"FALSE";
+                ((UISwitch *)editingView).on = NO;
+            }
+        }
+    }
+
+ /* If our item is a number... */
+    else if (propertyData.propertyType == PTNumber || propertyData.propertyType == PTInteger)
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* indicate that */
+            subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
+        }
+        else
+        {/* and, if it's not null, make it a string, and set the subtitle as that. */
+            subtitle = [((NSNumber *)value) stringValue];
+            ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
+        }
+    }
+
+ /* If our item is a date... */
+    else if (propertyData.propertyType == PTDate)
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* indicate that */
+            subtitle = @"No date set";
+        }
+        else
+        {/* and, if it's not null, it should be a string, so set the subtitle as that. */
+            subtitle = [(JRDate*)value stringFromISO8601Date];
+
+            UILabel *label = (UILabel *) [editingView viewWithTag:indexPath.row + LEFT_LABEL_OFFSET];
+            label.text = propertyData.stringValue = subtitle;
+        }
+    }
+
+ /* If our item is a dateTime... */
+    else if (propertyData.propertyType == PTDateTime)
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* indicate that */
+            subtitle = @"No date/time set";
+        }
+        else
+        {/* and, if it's not null, it should be a string, so set the subtitle as that. */
+            subtitle = [(JRDate*)value stringFromISO8601DateTime];
+
+            UILabel *label = (UILabel *) [editingView viewWithTag:indexPath.row + LEFT_LABEL_OFFSET];
+            label.text = propertyData.stringValue = subtitle;
+        }
+    }
+
+ /* If our item is a string... */
+    else if (propertyData.propertyType == PTIpAddress || propertyData.propertyType == PTUuid)
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* indicate that in the subtitle, */
+            subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
+        }
+        else if ([(NSString *)value isEqualToString:@""])
+        {/* or if it's empty, say that, */
+            subtitle = @"<empty string>";
+        }
+        else
+        {/* and, if it's not null, set the subtitle to our value.*/
+            subtitle = (NSString*)value;
+            ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
+        }
+    }
+
+ /* If our item is a date... */
+    else if (propertyData.propertyType == PTPassword)
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* indicate that */
+            subtitle = @"No password set";
+        }
+        else
+        {/* and, if it's not null, it should be a string, so set the subtitle as that. */
+            if ([value isKindOfClass:[NSString class]])
+                subtitle = (NSString *)value;
+            else if ([value isKindOfClass:[NSDictionary class]])
+                subtitle = [(NSDictionary *)value JSONString];
+        }
+    }
+
+ /* If our item is a date... */
+    else if (propertyData.propertyType == PTJsonObject)
+    {/* If our value is null, */
+        if (!value || [value isKindOfClass:[NSNull class]])
+        {/* indicate that */
+            subtitle = @"No data set";
+        }
+        else
+        {/* and, if it's not null, it should be a string, so set the subtitle as that. */
+            if ([value isKindOfClass:[NSString class]])
+                subtitle = (NSString *)value;
+            else if ([value isKindOfClass:[NSDictionary class]])
+                subtitle = [(NSDictionary *)value JSONString];
+            else if ([value isKindOfClass:[NSArray class]])
+                subtitle = [(NSArray *)value JSONString];
+            else if ([value isKindOfClass:[NSNumber class]])
+                subtitle = [(NSNumber *)value stringValue];
+            else ; // TODO: ???
+
+            ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
+        }
+    }
+
  /* If our item is an array... */
-    if (propertyData.propertyType == PTArray || propertyData.propertyType == PTSimpleArray)
+    else if (propertyData.propertyType == PTArray || propertyData.propertyType == PTSimpleArray)
     {/* If our object is null, */
         if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that in the subtitle, */
@@ -1071,35 +1214,16 @@ typedef enum
        }
     }
 
- /* If our item is a string... */
-    else if (propertyData.propertyType == PTString || propertyData.propertyType == PTIpAddress)
-    {/* If our value is null, */
-        if (!value || [value isKindOfClass:[NSNull class]])
-        {/* indicate that in the subtitle, */
-            subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
-        }
-        else if ([(NSString *)value isEqualToString:@""])
-        {/* or if it's empty, say that, */
-            subtitle = @"<empty string>";
-        }
-        else
-        {/* and, if it's not null, set the subtitle to our value.*/
-            subtitle = (NSString*)value;
-            ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
-        }
-    }
-
  /* If our item is a number... */
-    else if (propertyData.propertyType == PTNumber || propertyData.propertyType == PTInteger)
+    else if (propertyData.propertyType == PTObjectId)
     {/* If our value is null, */
         if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that */
-            subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
+            subtitle = @"Object does not yet have an id";
         }
         else
         {/* and, if it's not null, make it a string, and set the subtitle as that. */
             subtitle = [((NSNumber *)value) stringValue];
-            ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
         }
     }
 
@@ -1111,81 +1235,7 @@ typedef enum
 //        ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
 //    }
 
- /* If our item is an bool... */
-    else if (propertyData.propertyType == PTBool)
-    {/* If our value is null, */
-        if (!value || [value isKindOfClass:[NSNull class]])
-        {/* just pretend that it's 0 */
-            subtitle = [NSString stringWithFormat:@"No %@ available", cellTitle];
-        }
-        else
-        {/* and, if it's not null, find out if it's true or false, and set the subtitle as that. */
-            BOOL boolValue = [(NSNumber *)value boolValue];
-            if (boolValue)
-            {
-                subtitle = @"TRUE";
-                ((UISwitch *)editingView).on = YES;
-            }
-            else
-            {
-                subtitle = @"FALSE";
-                ((UISwitch *)editingView).on = NO;
-            }
-        }
-    }
-
- /* If our item is a date... */
-    else if (propertyData.propertyType == PTDate)
-    {/* If our value is null, */
-        if (!value || [value isKindOfClass:[NSNull class]])
-        {/* indicate that */
-            subtitle = @"No date set";
-        }
-        else
-        {/* and, if it's not null, it should be a string, so set the subtitle as that. */
-            subtitle = [(JRDate*)value stringFromISO8601Date];
-
-            UILabel *label = (UILabel *) [editingView viewWithTag:indexPath.row + LEFT_LABEL_OFFSET];
-            label.text = propertyData.stringValue = subtitle;
-        }
-    }
-
- /* If our item is a dateTime... */
-    else if (propertyData.propertyType == PTDateTime)
-    {/* If our value is null, */
-        if (!value || [value isKindOfClass:[NSNull class]])
-        {/* indicate that */
-            subtitle = @"No date/time set";
-        }
-        else
-        {/* and, if it's not null, it should be a string, so set the subtitle as that. */
-            subtitle = [(JRDate*)value stringFromISO8601DateTime];
-
-            UILabel *label = (UILabel *) [editingView viewWithTag:indexPath.row + LEFT_LABEL_OFFSET];
-            label.text = propertyData.stringValue = subtitle;
-        }
-    }
-
- /* If our item is a date... */
-    else if (propertyData.propertyType == PTJsonObject)
-    {/* If our value is null, */
-        if (!value || [value isKindOfClass:[NSNull class]])
-        {/* indicate that */
-            subtitle = @"No data set";
-        }
-        else
-        {/* and, if it's not null, it should be a string, so set the subtitle as that. */
-            if ([value isKindOfClass:[NSString class]])
-                subtitle = (NSString *)value;
-            else if ([value isKindOfClass:[NSDictionary class]])
-                subtitle = [(NSDictionary *)value JSONString];
-            else ; // TODO: ???
-
-            ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
-        }
-    }
-
-    else { DLog(@"???????????"); /* I dunno... Just hopin' it won't happen... */ }
+    else { DLog(@"??????????? %d", propertyData.propertyType); /* I dunno... Just hopin' it won't happen... */ }
 
     if (!propertyData.canEdit)
     {

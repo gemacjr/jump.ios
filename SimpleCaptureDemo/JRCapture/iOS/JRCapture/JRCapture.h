@@ -33,19 +33,33 @@
  Date:   Tuesday, January 31, 2012
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-typedef NSNumber JRObjectId;
-typedef NSNumber JRInteger;
-typedef NSNumber JRBoolean;
-//typedef NSNumber JRNumber;
-//typedef NSNumber JRString;
-typedef NSString JRUuid;
-typedef NSString JRIpAddress;
-typedef NSObject JRPassword;
-typedef NSObject JRJsonObject;
-typedef NSArray  JRSimpleArray;
-//typedef NSArray  JRArray;
-typedef NSDate   JRDate;
-typedef NSDate   JRDateTime;
+/**
+ * @mainpage Janrain Capture for iOS
+ *
+ * @brief TODO: write the brief
+ *
+ * TODO: write the doc
+ **/
+
+/*
+ * @page
+ */
+/**
+*
+**/
+typedef NSNumber JRString;  /**< TODO */
+typedef NSNumber JRBoolean; /**< TODO */
+typedef NSNumber JRInteger; /**< TODO */
+typedef NSNumber JRNumber; /**< TODO */
+typedef NSDate   JRDate; /**< TODO */
+typedef NSDate   JRDateTime; /**< TODO */
+typedef NSString JRIpAddress; /**< TODO */
+typedef NSObject JRPassword; /**< TODO */
+typedef NSObject JRJsonObject; /**< TODO */
+typedef NSArray  JRArray; /**< TODO */
+typedef NSArray  JRSimpleArray; /**< TODO */
+typedef NSString JRUuid; /**< TODO */
+typedef NSNumber JRObjectId; /**< TODO */
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureInternal.h"
