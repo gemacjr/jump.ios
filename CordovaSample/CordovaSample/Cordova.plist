@@ -61,6 +61,8 @@
           <string>*.accountservices.msn.com</string>
           <string>*.img.wlxrs.com</string>
           <string>*.c.live.com</string>
+          <string>*.a1.ec-images.myspacecdn.com</string>
+          <string>*.fbcdn-profile-a.akamaihd.net</string>
     	</array>
 	<key>Plugins</key>
 	<dict>
