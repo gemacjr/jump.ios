@@ -186,6 +186,24 @@
     if ([arguments count] > 1)
         tokenUrl = [arguments objectAtIndex:1];
 
+    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/JREngage-Info.plist"];
+    NSMutableDictionary *infoPlist =
+            [NSMutableDictionary dictionaryWithDictionary:
+                    [NSDictionary dictionaryWithContentsOfFile:path]];
+
+    NSString *version = [infoPlist objectForKey:@"CFBundleShortVersionString"];
+
+#ifdef PHONEGAP_FRAMEWORK
+    NSString *newVersion = [NSString stringWithFormat:@"%@:%@", version, @":phonegap"];
+#else
+#ifdef CORDOVA_FRAMEWORK
+    NSString *newVersion = [NSString stringWithFormat:@"%@:%@", version, @"cordova"];
+#endif
+#endif
+
+    [infoPlist setObject:newVersion forKey:@"CFBundleShortVersionString"];
+    [infoPlist writeToFile:path atomically:YES];
+
     jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
     if (!jrEngage)
     {

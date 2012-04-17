@@ -37,7 +37,7 @@ function testJREngagePlugin()
 {
     jrEngage.print
     (
-        "Hello World", //"Hello World }]%20",
+        "Hello World",
 
         function(result)
         {
