@@ -32,6 +32,35 @@
           <string>*.twimg.com</string>
           <string>*.paypal.com</string>
           <string>*.jrauthenticate.appspot.com</string>
+          <string>*.ssl.gstatic.com</string>
+          <string>*.api.screenname.aol.com</string>
+          <string>*.open.login.yahooapis.com</string>
+          <string>*.ssl.google-analytics.com</string>
+          <string>*.paypalobjects.com</string>
+          <string>*.api.linkedin.com</string>
+          <string>*.a4.ec-images.myspacecdn.com</string>
+          <string>*.x.myspacecdn.com</string>
+          <string>*.login.live.com</string>
+          <string>*.myopenid.com</string>
+          <string>*.sns-static.aolcdn.com</string>
+          <string>*.s.yimg.com</string>
+          <string>*.linkedin.com</string>
+          <string>*.Js.wlxrs.com</string>
+          <string>*.Css.wlxrs.com</string>
+          <string>*.s4-s.licdn.com</string>
+          <string>*.ak1s.abmr.net</string>
+          <string>*.a248.e.akamai.net</string>
+          <string>*.Img.wlxrs.com</string>
+          <string>*.consent.live.com</string>
+          <string>*.secure-us.imrworldwide.com</string>
+          <string>*.secure.quantserve.com</string>
+          <string>*.sb.scorecardresearch.com</string>
+          <string>*.js.wlxrs.com</string>
+          <string>*.css.wlxrs.com</string>
+          <string>*.secure.wlxrs.com</string>
+          <string>*.accountservices.msn.com</string>
+          <string>*.img.wlxrs.com</string>
+          <string>*.c.live.com</string>
     	</array>
 	<key>Plugins</key>
 	<dict>
