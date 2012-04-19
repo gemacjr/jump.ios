@@ -191,17 +191,20 @@
             [NSMutableDictionary dictionaryWithDictionary:
                     [NSDictionary dictionaryWithContentsOfFile:path]];
 
-    NSString *version = [infoPlist objectForKey:@"CFBundleShortVersionString"];
+    NSMutableString *version = [NSMutableString stringWithString:[infoPlist objectForKey:@"CFBundleShortVersionString"]];
+    //NSString *newVersion = @"";
 
 #ifdef PHONEGAP_FRAMEWORK
-    NSString *newVersion = [NSString stringWithFormat:@"%@:%@", version, @":phonegap"];
+    if (![version hasSuffix:@":phonegap"])
+        [version appendString:@":phonegap"];////newVersion = [NSString stringWithFormat:@"%@:%@", version, @":phonegap"];
 #else
 #ifdef CORDOVA_FRAMEWORK
-    NSString *newVersion = [NSString stringWithFormat:@"%@:%@", version, @"cordova"];
+    if (![version hasSuffix:@":cordova"])
+        [version appendString:@":cordova"];//newVersion = [NSString stringWithFormat:@"%@:%@", version, @"cordova"];
 #endif
 #endif
 
-    [infoPlist setObject:newVersion forKey:@"CFBundleShortVersionString"];
+    [infoPlist setObject:version forKey:@"CFBundleShortVersionString"];
     [infoPlist writeToFile:path atomically:YES];
 
     jrEngage = [JREngage jrEngageWithAppId:appId andTokenUrl:tokenUrl delegate:self];
