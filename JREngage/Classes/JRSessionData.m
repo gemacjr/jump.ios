@@ -1170,13 +1170,13 @@ static JRSessionData* singleton = nil;
     if ([currentProvider.name isEqualToString:@"linkedin"])
     {
         [activityDictionary setObject:
-                [[activity.resourceDescription substringToIndex:((activity.resourceDescription.length < 256) ?
-                                                                  activity.resourceDescription.length : 256)] URLEscaped]
+                [activity.resourceDescription substringToIndex:((activity.resourceDescription.length < 256) ?
+                                                                  activity.resourceDescription.length : 256)]
                                forKey:@"description"];
     }
 
-    NSString *activityContent = [activityDictionary JSONString];
-    NSString *deviceToken = user.deviceToken;
+    NSString *activityContent = [[activityDictionary JSONString] URLEscaped];
+    NSString *deviceToken     = user.deviceToken;
 
     DLog(@"activity json string \n %@" , activityContent);
 
@@ -1212,7 +1212,7 @@ static JRSessionData* singleton = nil;
 {
     DLog (@"activity status: %@", [activity userGeneratedContent]);
 
-    NSString *status = [activity userGeneratedContent];
+    NSString *status = [[activity userGeneratedContent] URLEscaped];
     NSString *deviceToken = user.deviceToken;
 
     NSMutableData* body = [NSMutableData data];
@@ -1454,11 +1454,11 @@ static JRSessionData* singleton = nil;
     if (!theActivity.url && ![theActivity.email.urls count] && ![theActivity.sms.urls count])
         return;
 
-    /* In case there's an error, we'll just set the activity's shortened url to the
-     * unshortened url for now, and update it only if we successfully shorten it. */
+ /* In case there's an error, we'll just set the activity's shortened url to the
+  * unshortened url for now, and update it only if we successfully shorten it. */
     theActivity.shortenedUrl = theActivity.url;
 
-    /* If we haven't gotten the baseUrl back from the configuration yet, return, and get the shortened urls later */
+ /* If we haven't gotten the baseUrl back from the configuration yet, return, and get the shortened urls later */
     if (!baseUrl)
     {
         stillNeedToShortenUrls = YES;
