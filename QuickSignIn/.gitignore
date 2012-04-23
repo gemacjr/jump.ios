@@ -1,0 +1,7 @@
+QuickSignIn.xcodeproj/xcuserdata/
+QuickSignIn.xcodeproj/*.pbxuser
+QuickSignIn.xcodeproj/*.perspective
+QuickSignIn.xcodeproj/*.perspectivev3
+QuickSignIn.xcodeproj/project.xcworkspace
+.idea/workspace.xml
+*.DS_Store

@@ -1,0 +1,7 @@
+JREngage.xcodeproj/xcuserdata/
+JREngage.xcodeproj/*.pbxuser
+JREngage.xcodeproj/*.perspective
+JREngage.xcodeproj/*.perspectivev3
+JREngage.xcodeproj/project.xcworkspace
+.idea/workspace.xml
+*.DS_Store

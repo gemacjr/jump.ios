@@ -1,1 +1,7 @@
-.DS_Store
+PhonegapSample.xcodeproj/xcuserdata/
+PhonegapSample.xcodeproj/*.pbxuser
+PhonegapSample.xcodeproj/*.perspective
+PhonegapSample.xcodeproj/*.perspectivev3
+PhonegapSample.xcodeproj/project.xcworkspace
+.idea/workspace.xml
+*.DS_Store
