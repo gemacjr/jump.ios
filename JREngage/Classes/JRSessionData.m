@@ -135,6 +135,22 @@ static NSString* applicationBundleDisplayName()
     return [infoPlist objectForKey:@"CFBundleDisplayName"];
 }
 
+#pragma mark NSString URL Escaping
+@implementation NSString (NSString_URL_ESCAPING)
+- (NSString*)URLEscaped
+{
+
+    NSString *encodedString = (NSString *)CFURLCreateStringByAddingPercentEscapes(
+                                NULL,
+                                (CFStringRef)self,
+                                NULL,
+                                (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                kCFStringEncodingUTF8);
+
+    return [encodedString autorelease];
+}
+@end
+
 #pragma mark JRError
 NSString * JREngageErrorDomain = @"JREngage.ErrorDomain";
 
@@ -679,9 +695,10 @@ static JRSessionData* singleton = nil;
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 
-    NSDictionary *tag = [[NSDictionary alloc] initWithObjectsAndKeys:picture, @"pictureName",
-                         provider, @"providerName",
-                         @"downloadPicture", @"action", nil];
+    NSDictionary *tag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              picture, @"pictureName",
+                                              provider, @"providerName",
+                                              @"downloadPicture", @"action", nil];
 
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag];
 }
@@ -766,7 +783,7 @@ static JRSessionData* singleton = nil;
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 
-    NSString *tag = [[NSString alloc] initWithFormat:@"getConfiguration"];
+    NSString *tag = @"getConfiguration";
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
         return [JRError setError:@"There was a problem connecting to the Janrain server while configuring authentication."
@@ -1195,10 +1212,10 @@ static JRSessionData* singleton = nil;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
 
-    NSDictionary* tag = [[NSDictionary alloc] initWithObjectsAndKeys:
-                         @"shareActivity", @"action",
-                         activity, @"activity",
-                         currentProvider.name, @"providerName", nil];
+    NSDictionary* tag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                            @"shareActivity", @"action",
+                                            activity, @"activity",
+                                            currentProvider.name, @"providerName", nil];
 
     ALog ("Sharing activity on %@:\n request=%@\nbody=%@", user.providerName, [[request URL] absoluteString],
           [NSString stringWithCString:body.bytes encoding:NSUTF8StringEncoding]);
@@ -1229,10 +1246,10 @@ static JRSessionData* singleton = nil;
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
 
-    NSDictionary* tag = [[NSDictionary alloc] initWithObjectsAndKeys:
-                         @"shareActivity", @"action",
-                         activity, @"activity",
-                         currentProvider.name, @"providerName", nil];
+    NSDictionary* tag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"shareActivity", @"action",
+                                        activity, @"activity",
+                                        currentProvider.name, @"providerName", nil];
 
     ALog ("Sharing activity on %@:\n request=%@\nbody=%@", user.providerName, [[request URL] absoluteString],
           [NSString stringWithCString:body.bytes encoding:NSUTF8StringEncoding]);
@@ -1443,7 +1460,7 @@ static JRSessionData* singleton = nil;
 
     NSString *tag = [NSString stringWithFormat:@"%@Success", method];
 
-    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:NO withTag:[tag retain]];
+    [JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:NO withTag:tag];
 }
 
 #pragma mark url_shortening
@@ -1478,8 +1495,8 @@ static JRSessionData* singleton = nil;
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 
-    NSDictionary *tag = [[NSDictionary alloc] initWithObjectsAndKeys:theActivity, @"activity",
-                                                                     @"shortenUrls", @"action", nil];
+    NSDictionary *tag = [NSDictionary dictionaryWithObjectsAndKeys:theActivity, @"activity",
+                                                                   @"shortenUrls", @"action", nil];
 
     [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
 }
@@ -1538,9 +1555,9 @@ CALL_DELEGATE_SELECTOR:
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
 
-    NSDictionary *tag = [[NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl",
-                                                                    providerName, @"providerName",
-                                                                    @"callTokenUrl", @"action", nil] retain];
+    NSDictionary *tag = [NSDictionary dictionaryWithObjectsAndKeys:_tokenUrl, @"tokenUrl",
+                                                                   providerName, @"providerName",
+                                                                   @"callTokenUrl", @"action", nil];
 
     if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
     {
@@ -1572,12 +1589,11 @@ CALL_DELEGATE_SELECTOR:
 
 #pragma mark connection_manager_delegate_protocol
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload
-                                           request:(NSURLRequest*)request andTag:(void*)userdata
+                                           request:(NSURLRequest*)request andTag:(id)tag
 {
-    NSObject *tag = (NSObject*)userdata;
-
     NSDictionary      *headers      = nil;
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)fullResponse;
+
     if ([httpResponse respondsToSelector:@selector(allHeaderFields)])
         headers = [httpResponse allHeaderFields];
 
@@ -1592,7 +1608,7 @@ CALL_DELEGATE_SELECTOR:
                                 andPayload:payload
                                forProvider:[(NSDictionary*)tag objectForKey:@"providerName"]];
         }
-        if ([action isEqualToString:@"downloadPicture"])
+        else if ([action isEqualToString:@"downloadPicture"])
         {
             // TODO: Later, make this more dynamic, and not fixed to just pngs.
             if ([[fullResponse MIMEType] isEqualToString:@"image/png"])
@@ -1615,16 +1631,10 @@ CALL_DELEGATE_SELECTOR:
 
         }
     }
-
-    [tag release];
 }
 
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)tag
 {
-    NSObject* tag = (NSObject*)userdata;
-
-   // [payload retain];
-
     if ([tag isKindOfClass:[NSDictionary class]])
     {
         NSString *action = [(NSDictionary*)tag objectForKey:@"action"];
@@ -1659,14 +1669,10 @@ CALL_DELEGATE_SELECTOR:
             // Do nothing for now...
         }
     }
-
-    [tag release];
 }
 
-- (void)connectionDidFailWithError:(NSError*)connectionError request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFailWithError:(NSError*)connectionError request:(NSURLRequest*)request andTag:(id)tag
 {
-    NSObject* tag = (NSObject*)userdata;
-
     if ([tag isKindOfClass:[NSString class]])
     {
         ALog (@"Connection for %@ failed with error: %@", tag, [connectionError localizedDescription]);
@@ -1732,18 +1738,11 @@ CALL_DELEGATE_SELECTOR:
             // Do nothing for now...
         }
     }
-
-    [tag release];
 }
 
-- (void)connectionWasStoppedWithTag:(void*)userdata
+- (void)connectionWasStoppedWithTag:(id)userdata
 {
     DLog (@"Connection was stopped.");
-
-    if ([(NSObject*)userdata isKindOfClass:[NSString class]])
-        [(NSString*)userdata release];
-    if ([(NSObject*)userdata isKindOfClass:[NSDictionary class]])
-        [(NSDictionary*)userdata release];
 }
 
 #pragma mark delegate_management

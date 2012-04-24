@@ -107,6 +107,10 @@ extern NSString * JREngageErrorDomain;
 + (NSError*)setError:(NSString*)message withCode:(NSInteger)code;
 @end
 
+@interface NSString (NSString_URL_ESCAPING)
+- (NSString*)URLEscaped;
+@end
+
 @interface JRActivityObject (shortenedUrl)
 @property (retain) NSString *shortenedUrl;
 @end

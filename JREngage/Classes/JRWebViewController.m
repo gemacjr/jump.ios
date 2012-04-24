@@ -168,14 +168,14 @@
     [infoBar stopProgress];
 }
 
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(void*)userdata { }
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(id)userdata { }
 
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
     [self stopProgress];
 
-    NSString* tag = [(NSString*)userdata retain];
+    NSString* tag = (NSString*)userdata;
 
     if ([tag isEqualToString:@"rpx_result"])
     {
@@ -199,14 +199,14 @@
             userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
             [sessionData triggerAuthenticationDidFailWithError:error];
         }
-        else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"stat"]) isEqualToString:@"ok"])
+        else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"stat"]) isEqualToString:@"ok"])
         {
             userHitTheBackButton = NO; /* Because authentication completed successfully. */
             [sessionData triggerAuthenticationDidCompleteWithPayload:payloadDict];
         }
         else
         {
-            if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Discovery failed for the OpenID you entered"])
+            if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Discovery failed for the OpenID you entered"])
             {
                 NSString *message;
                 if (sessionData.currentProvider.requiresInput)
@@ -227,7 +227,7 @@
 
                 [alert show];
             }
-            else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"The URL you entered does not appear to be an OpenID"])
+            else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"The URL you entered does not appear to be an OpenID"])
             {
                 NSString *message;
                 if (sessionData.currentProvider.requiresInput)
@@ -248,7 +248,7 @@
 
                 [alert show];
             }
-            else if ([((NSString *)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Please enter your OpenID"])
+            else if ([((NSString*)[((NSDictionary*)[payloadDict objectForKey:@"rpx_result"]) objectForKey:@"error"]) isEqualToString:@"Please enter your OpenID"])
             {
                 NSError *error = [JRError setError:[NSString stringWithFormat:@"Authentication failed: %@", payload]
                                           withCode:JRAuthenticationFailedError];
@@ -278,14 +278,12 @@
         connectionDataAlreadyDownloadedThis = YES;
         [myWebView loadHTMLString:payload baseURL:[request URL]];
     }
-
-    [tag release];
 }
 
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(void*)userdata
+- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
-    NSString* tag = [(NSString*)userdata retain];
+    NSString* tag = (NSString*)userdata;
     DLog(@"tag:     %@", tag);
 
     [self stopProgress];
@@ -300,15 +298,9 @@
         userHitTheBackButton = NO; /* Because authentication failed for whatever reason. */
         [sessionData triggerAuthenticationDidFailWithError:error];
     }
-
-    [tag release];
 }
 
-- (void)connectionWasStoppedWithTag:(void*)userdata
-{
-    DLog(@"");
-    [(NSString*)userdata release];
-}
+- (void)connectionWasStoppedWithTag:(id)userdata { }
 
 #define SKIP_THIS_WORK_AROUND 0
 #define WEBVIEW_SHOULDNT_LOAD 0
@@ -340,7 +332,7 @@
     {
         DLog(@"request url has prefix: %@", [sessionData baseUrl]);
 
-        NSString* tag = [[NSString stringWithFormat:@"rpx_result"] retain];
+        NSString* tag = @"rpx_result";
         [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
 
         keepProgress = YES;
