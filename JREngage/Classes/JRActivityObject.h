@@ -44,7 +44,7 @@
  **/
 
 #import <Foundation/Foundation.h>
-//#import "JRConnectionManager.h"
+
 
 @interface NSString (NSString_URL_HANDLING)
 - (BOOL)isWellFormedAbsoluteUrl;

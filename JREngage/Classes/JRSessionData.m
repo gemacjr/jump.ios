@@ -1628,7 +1628,6 @@ CALL_DELEGATE_SELECTOR:
             NSString *payloadString = [[[NSString alloc] initWithData:payload encoding:NSASCIIStringEncoding] autorelease];
             self.error = [self finishGetConfiguration:payloadString
                                              withEtag:[headers objectForKey:@"Etag"]];
-
         }
     }
 }
