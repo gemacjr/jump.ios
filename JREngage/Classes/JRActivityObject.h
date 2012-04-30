@@ -44,12 +44,9 @@
  **/
 
 #import <Foundation/Foundation.h>
-#import "JRConnectionManager.h"
 
-/* Added a category to NSString including a function to correctly escape any arguments sent to
-   Engage, so that there are no errors when sending a json structure to rpxnow's api */
+
 @interface NSString (NSString_URL_HANDLING)
-- (NSString*)URLEscaped;
 - (BOOL)isWellFormedAbsoluteUrl;
 @end
 

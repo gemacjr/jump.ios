@@ -525,7 +525,7 @@ typedef enum CaptureInterfaceStatEnum
             startReplaceObject:captureObject withId:objectId atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(NSObject*)userdata
+- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"%@", payload);
 
@@ -615,8 +615,8 @@ typedef enum CaptureInterfaceStatEnum
 }
 
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload
-                                           request:(NSURLRequest*)request andTag:(NSObject*)userdata { }
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(NSObject*)userdata
+                                           request:(NSURLRequest*)request andTag:(id)userdata { }
+- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
 
@@ -654,5 +654,5 @@ typedef enum CaptureInterfaceStatEnum
     }
 }
 
-- (void)connectionWasStoppedWithTag:(NSObject*)userdata { }
+- (void)connectionWasStoppedWithTag:(id)userdata { }
 @end

@@ -46,10 +46,10 @@
 
 @interface ConnectionData : NSObject
 {
-    NSURLRequest    *_request;
-    NSMutableData   *_response;
-    NSURLResponse   *_fullResponse;
-    NSObject        *_tag;
+    NSURLRequest  *_request;
+    NSMutableData *_response;
+    NSURLResponse *_fullResponse;
+    id             _tag;
 
     BOOL _returnFullResponse;
 
@@ -59,7 +59,7 @@
 @property (retain)   NSURLRequest  *request;
 @property (retain)   NSMutableData *response;
 @property (retain)   NSURLResponse *fullResponse;
-@property (readonly) NSObject      *tag;
+@property (readonly) id             tag;
 @property (readonly) BOOL returnFullResponse;
 @property (readonly) id<JRConnectionManagerDelegate> delegate;
 @end
@@ -75,7 +75,7 @@
 - (id)initWithRequest:(NSURLRequest*)request
           forDelegate:(id<JRConnectionManagerDelegate>)delegate
    returnFullResponse:(BOOL)returnFullResponse
-              withTag:(NSObject*)userdata
+              withTag:(id)userdata
 {
 //  DLog(@"");
 
@@ -226,7 +226,7 @@ static JRConnectionManager* singleton = nil;
 + (bool)createConnectionFromRequest:(NSURLRequest*)request
                         forDelegate:(id<JRConnectionManagerDelegate>)delegate
                  returnFullResponse:(BOOL)returnFullResponse
-                            withTag:(NSObject*)userdata
+                            withTag:(id)userdata
 {
 //    DLog(@"request: %@", [[request URL] absoluteString]);
 
@@ -264,7 +264,7 @@ static JRConnectionManager* singleton = nil;
 
 + (bool)createConnectionFromRequest:(NSURLRequest*)request
                         forDelegate:(id<JRConnectionManagerDelegate>)delegate
-                            withTag:(NSObject*)userdata
+                            withTag:(id)userdata
 {
     return [JRConnectionManager createConnectionFromRequest:request forDelegate:delegate returnFullResponse:NO withTag:userdata];
 }
@@ -320,10 +320,10 @@ static JRConnectionManager* singleton = nil;
     //DLog(@"");
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 
-    NSURLRequest *request = [connectionData request];
+    NSURLRequest  *request      = [connectionData request];
     NSURLResponse *fullResponse = [connectionData fullResponse];
-    NSData *responseBody = [connectionData response];
-    NSObject* userdata = [connectionData tag];
+    NSData        *responseBody = [connectionData response];
+    id             userdata     = [connectionData tag];
     id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 
     if ([connectionData fullResponse] == NO)
@@ -351,7 +351,7 @@ static JRConnectionManager* singleton = nil;
     ConnectionData *connectionData = (ConnectionData*)CFDictionaryGetValue(connectionBuffers, connection);
 
     NSURLRequest *request  = [connectionData request];
-    NSObject     *userdata = [connectionData tag];
+    id            userdata = [connectionData tag];
     id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 
     if ([delegate respondsToSelector:@selector(connectionDidFailWithError:request:andTag:)])
@@ -374,23 +374,21 @@ static JRConnectionManager* singleton = nil;
     return [JRConnectionManager aCopyOfTheRequestWithANonCrashingUserAgent:request];
 }
 
-
-- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
-    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-    NSArray *trustedHosts = [NSArray arrayWithObject:@"demo.staging.janraincapture.com"];
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust])
-        if ([trustedHosts containsObject:challenge.protectionSpace.host])
-            [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-
-    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
-}
-
+//- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+//    return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
+//}
+//
+//- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+//    NSArray *trustedHosts = [NSArray arrayWithObject:@"demo.staging.janraincapture.com"];
+//    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust])
+//        if ([trustedHosts containsObject:challenge.protectionSpace.host])
+//            [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
+//
+//    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+//}
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge  { DLog(@""); }
-//- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { DLog(@""); }
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge { DLog(@""); }
 - (NSCachedURLResponse*)connection:(NSURLConnection*)connection willCacheResponse:(NSCachedURLResponse*)cachedResponse       { /*DLog(@"");*/ return cachedResponse; }
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten
                                                totalBytesWritten:(NSInteger)totalBytesWritten

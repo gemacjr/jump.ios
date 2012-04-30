@@ -1241,7 +1241,7 @@ Please try again later."
 
         NSURL        *url     = [NSURL URLWithString:((JRImageMediaObject *) media).src];
         NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-        NSString     *tag     = [NSString stringWithFormat:@"getThumbnail"];
+        NSString     *tag     = @"getThumbnail";
 
         if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
@@ -1253,7 +1253,7 @@ Please try again later."
 
         NSURL        *url     = [NSURL URLWithString:((JRFlashMediaObject *) media).imgsrc];
         NSURLRequest *request = [[[NSURLRequest alloc] initWithURL:url] autorelease];
-        NSString     *tag     = [NSString stringWithFormat:@"getThumbnail"];
+        NSString     *tag     = @"getThumbnail";
 
         if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self returnFullResponse:YES withTag:tag])
             [self setButtonImage:myMediaThumbnailView toData:nil andSetLoading:myMediaThumbnailActivityIndicator toLoading:NO];
@@ -1626,10 +1626,10 @@ Please try again later."
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request
-                                       andTag:(NSObject*)userdata { }
+                                       andTag:(id)userdata { }
 
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse unencodedPayload:(NSData*)payload
-                                           request:(NSURLRequest*)request andTag:(NSObject*)userdata
+                                           request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
     NSString* tag = (NSString*)userdata;
@@ -1647,11 +1647,9 @@ Please try again later."
 
         [cachedProfilePics setValue:payload forKey:tag];
     }
-
-    [tag release];
 }
 
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(NSObject*)userdata
+- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
     NSString* tag = (NSString*)userdata;
@@ -1670,7 +1668,7 @@ Please try again later."
     }
 }
 
-- (void)connectionWasStoppedWithTag:(NSObject *)userdata { }
+- (void)connectionWasStoppedWithTag:(id)userdata { }
 
 - (void)urlShortenedToNewUrl:(NSString*)url forActivity:(JRActivityObject*)activity
 {

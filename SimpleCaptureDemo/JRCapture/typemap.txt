@@ -9,9 +9,9 @@
   password        String or     NSObject      JRPassword                      Yes
                   Object
   JSON            (any type)    NSObject      JRJsonObject                    Yes                         The JSON type is unstructured data; it only has to be valid parseable JSON.
-  object          Object        NSObject      JR<PropertyName>    Yes         No
   plural          Array         NSArray       NSArray or          Yes         No/Yes                      Primitive child attributes of plurals may have the constraint locally-unique.
                                               JRSimpleArray
+  object          Object        NSObject      JR<PropertyName>    Yes         No
   uuid            String        NSString      JRUuid                          Yes                         Not an externally usable type.
   id              Number        NSNumber      JRObjectId                      Yes                         Not an externally usable type.
 

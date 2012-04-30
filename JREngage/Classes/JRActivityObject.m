@@ -44,26 +44,6 @@
 
 
 @implementation NSString (NSString_URL_HANDLING)
-- (NSString*)URLEscaped
-{
-
-    NSString *encodedString = (NSString *)CFURLCreateStringByAddingPercentEscapes(
-                                NULL,
-                                (CFStringRef)self,
-                                NULL,
-                                (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                kCFStringEncodingUTF8);
-
-    return [encodedString autorelease];
-
-//    NSString *str = [self stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
-//    str = [str stringByReplacingOccurrencesOfString:@":" withString:@"%3a"];
-//    str = [str stringByReplacingOccurrencesOfString:@"\"" withString:@"%34"];
-//    str = [str stringByReplacingOccurrencesOfString:@";" withString:@"%3b"];
-//
-//    return str;
-}
-
 - (BOOL)isWellFormedAbsoluteUrl
 {
     NSURL *url = [NSURL URLWithString:self];

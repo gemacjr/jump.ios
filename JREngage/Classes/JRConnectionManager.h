@@ -38,13 +38,13 @@
 
 @protocol JRConnectionManagerDelegate <NSObject>
 @optional
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(NSObject*)userdata;
+- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)userdata;
 - (void)connectionDidFinishLoadingWithFullResponse:(NSURLResponse*)fullResponse
                                   unencodedPayload:(NSData*)payload
                                            request:(NSURLRequest*)request
-                                            andTag:(NSObject*)userdata;
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(NSObject*)userdata;
-- (void)connectionWasStoppedWithTag:(NSObject*)userdata;
+                                            andTag:(id)userdata;
+- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(id)userdata;
+- (void)connectionWasStoppedWithTag:(id)userdata;
 @end
 
 @interface JRConnectionManager : NSObject
@@ -56,12 +56,12 @@
 
 + (bool)createConnectionFromRequest:(NSURLRequest*)request
                         forDelegate:(id<JRConnectionManagerDelegate>)delegate
-                            withTag:(NSObject*)userdata;
+                            withTag:(id)userdata;
 
 + (bool)createConnectionFromRequest:(NSURLRequest*)request
                         forDelegate:(id<JRConnectionManagerDelegate>)delegate
                  returnFullResponse:(BOOL)returnFullResponse
-                            withTag:(NSObject*)userdata;
+                            withTag:(id)userdata;
 
 + (void)stopConnectionsForDelegate:(id<JRConnectionManagerDelegate>)delegate;
 

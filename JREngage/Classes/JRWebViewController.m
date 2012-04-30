@@ -168,9 +168,9 @@
     [infoBar stopProgress];
 }
 
-- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(NSObject*)userdata { }
+- (void)connectionDidFinishLoadingWithUnEncodedPayload:(NSData*)payload request:(NSURLRequest*)request andTag:(id)userdata { }
 
-- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(NSObject*)userdata
+- (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
     [self stopProgress];
@@ -280,7 +280,7 @@
     }
 }
 
-- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(NSObject*)userdata
+- (void)connectionDidFailWithError:(NSError*)error request:(NSURLRequest*)request andTag:(id)userdata
 {
     DLog(@"");
     NSString* tag = (NSString*)userdata;
@@ -300,7 +300,7 @@
     }
 }
 
-- (void)connectionWasStoppedWithTag:(NSObject*)userdata { }
+- (void)connectionWasStoppedWithTag:(id)userdata { }
 
 #define SKIP_THIS_WORK_AROUND 0
 #define WEBVIEW_SHOULDNT_LOAD 0
@@ -332,7 +332,7 @@
     {
         DLog(@"request url has prefix: %@", [sessionData baseUrl]);
 
-        NSString* tag = [NSString stringWithFormat:@"rpx_result"];
+        NSString* tag = @"rpx_result";
         [JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag];
 
         keepProgress = YES;
