@@ -60,8 +60,14 @@ function onDeviceReady()
 {
     jrEngage = window.plugins.jrEngagePlugin;
 
-    var appId    = "appcfamhnpkagijaeinl";
-    var tokenUrl = "http://jrauthenticate.appspot.com/login";
+//    var appId    = <your_app_id>;
+//    var tokenUrl = <your_token_url>;
+
+    if (typeof appId === 'undefined')
+    {
+        alert("Please add your Engage app id and token URL");
+        return;
+    }
 
     jrEngage.initialize(
         appId,
