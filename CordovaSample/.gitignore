@@ -1,0 +1,8 @@
+CordovaSample.xcodeproj/xcuserdata/
+CordovaSample.xcodeproj/*.pbxuser
+CordovaSample.xcodeproj/*.perspective
+CordovaSample.xcodeproj/*.perspectivev3
+CordovaSample.xcodeproj/project.xcworkspace
+.idea/workspace.xml
+.idea/misc.xml
+*.DS_Store
