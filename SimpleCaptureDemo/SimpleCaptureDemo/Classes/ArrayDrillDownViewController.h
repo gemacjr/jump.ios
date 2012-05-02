@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "SharedData.h"
 #import "JRCapture.h"
+#import "SimplePluralViewController.h"
 
 @interface ArrayDrillDownViewController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
 UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>

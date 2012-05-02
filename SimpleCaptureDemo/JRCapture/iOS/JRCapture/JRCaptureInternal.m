@@ -194,23 +194,22 @@
 
 @implementation JRStringPluralElement
 {
-    NSInteger _elementId;
-    NSString *_value;
+    NSNumber   *_elementId;
+    NSString   *_value;
 }
 @synthesize type = _type;
 @dynamic    elementId;
 @dynamic    value;
 
-- (NSInteger)elementId
+- (NSNumber *)elementId
 {
     return _elementId;
 }
 
-- (void)setElementId:(NSInteger)newElementId
+- (void)setElementId:(NSNumber *)newElementId
 {
     [self.dirtyPropertySet addObject:@"elementId"];
-
-    _elementId = newElementId;
+    _elementId = [newElementId copy];
 }
 
 - (NSString *)value
@@ -221,11 +220,7 @@
 - (void)setValue:(NSString *)newValue
 {
     [self.dirtyPropertySet addObject:@"value"];
-
-//    if (!newValue)
-//        _value = [NSNull null];
-//    else
-        _value = [newValue copy];
+    _value = [newValue copy];
 }
 
 - (id)initWithType:(NSString *)elementType
@@ -257,15 +252,36 @@
     return stringElementCopy;
 }
 
+- (NSDictionary*)toDictionary
+{
+    NSMutableDictionary *dict =
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:(self.elementId ? [NSNumber numberWithInteger:[self.elementId integerValue]] : [NSNull null])
+             forKey:@"id"];
+
+    if (self.value && self.value != [NSNull null])
+        [dict setObject:self.value forKey:self.type];
+    else
+        [dict setObject:[NSNull null] forKey:self.type];
+
+    return dict;
+}
+
 + (id)stringElementFromDictionary:(NSDictionary*)dictionary withType:(NSString *)elementType andPath:(NSString *)capturePath
 {
     JRStringPluralElement *stringElement =
         [JRStringPluralElement stringElementWithType:elementType];
 
-    stringElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", stringElement.elementId];
+    stringElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [stringElement.elementId integerValue]];
 
-    stringElement.elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    stringElement.value = [dictionary objectForKey:elementType];
+    stringElement.elementId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
+
+    stringElement.value =
+            [dictionary objectForKey:elementType] != [NSNull null] ?
+            [dictionary objectForKey:elementType] : nil;
 
     [stringElement.dirtyPropertySet removeAllObjects];
 
@@ -284,39 +300,32 @@
     return stringElement;
 }
 
-- (NSDictionary*)toDictionary
-{
-    NSMutableDictionary *dict =
-        [NSMutableDictionary dictionaryWithCapacity:10];
-
-    if (self.elementId)
-        [dict setObject:[NSNumber numberWithInt:self.elementId] forKey:@"id"];
-
-    if (self.value && self.value != [NSNull null])
-        [dict setObject:self.value forKey:self.type];
-    else
-        [dict setObject:[NSNull null] forKey:self.type];
-
-    return dict;
-}
-
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", self.elementId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [self.elementId integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        _elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
+        self.elementId =
+            [dictionary objectForKey:@"id"] != [NSNull null] ?
+            [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:_type])
-        _value = [dictionary objectForKey:_type];
+        self.value =
+            [dictionary objectForKey:_type] != [NSNull null] ?
+            [dictionary objectForKey:_type] : nil;
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", self.elementId];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [self.elementId integerValue]];
 
-    _elementId = [(NSNumber*)[dictionary objectForKey:@"id"] intValue];
-    _value = [dictionary objectForKey:_type];
+    self.elementId =
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
+        [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
+
+    self.value =
+        [dictionary objectForKey:_type] != [NSNull null] ?
+        [dictionary objectForKey:_type] : nil;
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -342,7 +351,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.elementId
+                                     withId:[self.elementId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -369,17 +378,30 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.elementId
+                                      withId:[self.elementId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self
                                  withContext:newContext];
 }
 
+- (NSDictionary*)objectProperties
+{
+    NSMutableDictionary *dict =
+        [NSMutableDictionary dictionaryWithCapacity:10];
+
+    [dict setObject:@"JRObjectId" forKey:@"elementId"];
+    [dict setObject:@"NSString" forKey:@"type"];
+    [dict setObject:@"NSString" forKey:@"value"];
+
+    return [NSDictionary dictionaryWithDictionary:dict];
+}
+
 - (void)dealloc
 {
     [_value release];
     [_type release];
+    [_elementId release];
 
     [super dealloc];
 }

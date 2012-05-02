@@ -354,6 +354,7 @@ typedef enum CaptureInterfaceStatEnum
     //[body appendData:[[NSString stringWithFormat:@"type_name=%@", [JRCaptureData entityTypeName]] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"&include_record=true" dataUsingEncoding:NSUTF8StringEncoding]];
 
 //    if (objectId)
 //    {
@@ -448,6 +449,7 @@ typedef enum CaptureInterfaceStatEnum
     //[body appendData:[[NSString stringWithFormat:@"type_name=%@", [JRCaptureData entityTypeName]] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"&include_record=true" dataUsingEncoding:NSUTF8StringEncoding]];
 
 //    if (objectId)
 //    {

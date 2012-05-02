@@ -35,7 +35,6 @@
 #endif
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import <objc/runtime.h>
 #import "ObjectDrillDownViewController.h"
 
 //@interface NSObject (PerformSelector)
@@ -231,12 +230,12 @@ static Class getClassFromKey(NSString *key)
                                                withString:[[key substringToIndex:1] capitalizedString]]]);
 }
 
-typedef enum
-{
-    DataTypeNone,
-    DataTypeObject,
-    DataTypeArray,
-} DataType;
+//typedef enum
+//{
+//    DataTypeNone,
+//    DataTypeObject,
+//    DataTypeArray,
+//} DataType;
 
 @interface ObjectDrillDownViewController ()
 @property (strong) JRCaptureObject *captureObject;
@@ -338,6 +337,9 @@ typedef enum
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
+//        if ([object isKindOfClass:[JRStringPluralElement class]])
+//            isSimplePluralElement = YES;
+
         self.captureObject       = object;
         self.parentCaptureObject = parentObject;
 

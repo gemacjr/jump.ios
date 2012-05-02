@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCaptureInterface.h"
 #import "JSONKit.h"
+#import "JRCapture.h"
 
 @class JRCaptureObject;
 @protocol JRCaptureObjectDelegate <NSObject>
@@ -26,7 +27,7 @@
 - (NSDictionary *)toDictionary;
 - (NSDictionary *)toUpdateDictionary;
 - (NSDictionary *)toReplaceDictionary;
-- (NSDictionary*)objectProperties;
+- (NSDictionary *)objectProperties;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 //- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary;
@@ -36,9 +37,10 @@
 @end
 
 @interface JRStringPluralElement : JRCaptureObject
-@property                       NSInteger elementId;
-@property (nonatomic, readonly) NSString *type;
-@property (nonatomic, copy)     NSString *value;
+// TODO: Make JRObjectId type
+@property (nonatomic, copy)     JRObjectId *elementId;
+@property (nonatomic, readonly) NSString   *type;
+@property (nonatomic, copy)     NSString   *value;
 @end
 
 @interface NSArray (JRStringPluralElement)

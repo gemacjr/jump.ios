@@ -451,12 +451,20 @@ static Class getClassFromKey(NSString *key)
         NSString *newHeader = [NSString stringWithFormat:@"%@[%d]", tableHeader, indexPath.row];
         NSObject *newObject = [newArray objectAtIndex:(NSUInteger) indexPath.row];
 
-        ObjectDrillDownViewController *drillDown =
-                         [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
-                                                                         bundle:[NSBundle mainBundle]
-                                                                      forObject:(JRCaptureObject *) newObject
-                                                            captureParentObject:captureObject
-                                                                         andKey:newHeader];
+        UIViewController *drillDown;
+
+        if ([newObject isKindOfClass:[JRStringPluralElement class]])
+            drillDown = [[SimplePluralViewController alloc] initWithNibName:@"SimplePluralViewController"
+                                                                     bundle:[NSBundle mainBundle]
+                                                                  forObject:(JRStringPluralElement *) newObject
+                                                        captureParentObject:captureObject
+                                                                     andKey:newHeader];
+        else
+            drillDown = [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
+                                                                        bundle:[NSBundle mainBundle]
+                                                                     forObject:(JRCaptureObject *) newObject
+                                                           captureParentObject:captureObject
+                                                                        andKey:newHeader];
 
         [[self navigationController] pushViewController:drillDown animated:YES];
     }

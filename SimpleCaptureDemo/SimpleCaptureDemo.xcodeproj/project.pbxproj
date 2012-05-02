@@ -16,6 +16,8 @@
 		90C36B6B7717AA0C893E090D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E08EB /* Foundation.framework */; };
 		90C36B6B7717AA0C893E0915 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E0914 /* InfoPlist.strings */; };
 		90C36B6B7717AA0C893E0918 /* SimpleCaptureDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E0917 /* SimpleCaptureDemoTests.m */; };
+		9F2C93BC1551A7AE001A810E /* SimplePluralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F2C93BA1551A7AE001A810E /* SimplePluralViewController.m */; };
+		9F2C93C11551A7EC001A810E /* SimplePluralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F2C93BF1551A7EC001A810E /* SimplePluralViewController.xib */; };
 		9F7B6A8415336470002BF452 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8215336470002BF452 /* InfoPlist.strings */; };
 		9F7B6A9315336480002BF452 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8615336480002BF452 /* AppDelegate.m */; };
 		9F7B6A9415336480002BF452 /* ArrayDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8815336480002BF452 /* ArrayDrillDownViewController.m */; };
@@ -263,6 +265,9 @@
 		90C36B6B7717AA0C893E0913 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E0916 /* SimpleCaptureDemoTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleCaptureDemoTests.h; sourceTree = "<group>"; };
 		90C36B6B7717AA0C893E0917 /* SimpleCaptureDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleCaptureDemoTests.m; sourceTree = "<group>"; };
+		9F2C93B91551A7AE001A810E /* SimplePluralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimplePluralViewController.h; path = Classes/SimplePluralViewController.h; sourceTree = "<group>"; };
+		9F2C93BA1551A7AE001A810E /* SimplePluralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimplePluralViewController.m; path = Classes/SimplePluralViewController.m; sourceTree = "<group>"; };
+		9F2C93C01551A7EC001A810E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = SimplePluralViewController.xib; sourceTree = "<group>"; };
 		9F7B6A8315336470002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F7B6A8515336480002BF452 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		9F7B6A8615336480002BF452 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
@@ -661,6 +666,8 @@
 				9F7B6A9015336480002BF452 /* UserDrillDownViewController.m */,
 				9F7B6A9115336480002BF452 /* ViewController.h */,
 				9F7B6A9215336480002BF452 /* ViewController.m */,
+				9F2C93B91551A7AE001A810E /* SimplePluralViewController.h */,
+				9F2C93BA1551A7AE001A810E /* SimplePluralViewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -678,6 +685,7 @@
 		9F7B6A9A1533648C002BF452 /* en.lproj */ = {
 			isa = PBXGroup;
 			children = (
+				9F2C93BF1551A7EC001A810E /* SimplePluralViewController.xib */,
 				9F7B6A9B1533648C002BF452 /* ArrayDrillDownViewController.xib */,
 				9F7B6A9D1533648C002BF452 /* CaptureNewUserViewController.xib */,
 				9F7B6A9F1533648C002BF452 /* InfoPlist.strings */,
@@ -1346,6 +1354,7 @@
 				9F7B6AAE1533648C002BF452 /* ObjectDrillDownViewController.xib in Resources */,
 				9F7B6AAF1533648C002BF452 /* UserDrillDownViewController.xib in Resources */,
 				9F7B6AB01533648C002BF452 /* background.png in Resources */,
+				9F2C93C11551A7EC001A810E /* SimplePluralViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1437,6 +1446,7 @@
 				9F7B6A9715336480002BF452 /* SharedData.m in Sources */,
 				9F7B6A9815336480002BF452 /* UserDrillDownViewController.m in Sources */,
 				9F7B6A9915336480002BF452 /* ViewController.m in Sources */,
+				9F2C93BC1551A7AE001A810E /* SimplePluralViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1465,6 +1475,14 @@
 				90C36B6B7717AA0C893E0913 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9F2C93BF1551A7EC001A810E /* SimplePluralViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F2C93C01551A7EC001A810E /* en */,
+			);
+			name = SimplePluralViewController.xib;
 			sourceTree = "<group>";
 		};
 		9F7B6A8215336470002BF452 /* InfoPlist.strings */ = {
