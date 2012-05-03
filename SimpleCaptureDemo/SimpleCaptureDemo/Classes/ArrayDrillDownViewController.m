@@ -96,6 +96,7 @@ static Class getClassFromKey(NSString *key)
         self.tableHeader   = key;
 
         newArray = [[NSMutableArray alloc] initWithArray:tableData];
+        rowCount = [newArray count] + 1;
 
         objectDataArray = [[NSMutableArray alloc] initWithCapacity:[tableData count]];
         for (NSUInteger i = 0; i < [tableData count]; i++)
@@ -192,29 +193,29 @@ static Class getClassFromKey(NSString *key)
 {
     DLog(@"");
 
-//    if (!newArray)
-//        newArray = [[NSMutableArray alloc] initWithArray:tableData];
-
     JRCaptureObject *newCaptureObject = [[getClassFromKey(tableHeader) alloc] init];
     JRCaptureObject *parentObject     = captureObject;
 
     [newArray addObject:newCaptureObject];
     [objectDataArray addObject:[[ObjectData alloc] init]];
 
-//    ObjectDrillDownViewController *drillDown =
-//                [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
-//                                                                bundle:[NSBundle mainBundle]
-//                                                             forObject:newCaptureObject
-//                                                   captureParentObject:parentObject
-//                                                                andKey:tableHeader];
-//
-//    [[self navigationController] pushViewController:drillDown animated:YES];
+    [myTableView beginUpdates];
+    [myTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[newArray count] - 1
+                                                                                    inSection:0]]
+                       withRowAnimation:UITableViewRowAnimationLeft];
+    [myTableView endUpdates];
 }
+
+#define EDITING_VIEW_OFFSET 100
+#define LEFT_BUTTON_OFFSET  1000
+#define RIGHT_BUTTON_OFFSET 2000
+#define LEFT_LABEL_OFFSET   3000
+#define DATE_PICKER_OFFSET  4000
 
 - (void)editObjectButtonPressed:(UIButton *)sender
 {
     DLog(@"");
-    NSUInteger itemIndex = (NSUInteger) (sender.tag - 100);
+    NSUInteger itemIndex = (NSUInteger) (sender.tag - RIGHT_BUTTON_OFFSET);
 
     JRCaptureObject *captureSubObject = [tableData objectAtIndex:itemIndex];
     JRCaptureObject *parentObject     = captureObject;
@@ -227,6 +228,18 @@ static Class getClassFromKey(NSString *key)
                                                                 andKey:tableHeader];
 
     [[self navigationController] pushViewController:drillDown animated:YES];
+}
+
+- (void)deleteObjectButtonPressed:(UIButton *)sender
+{
+    DLog(@"");
+    NSUInteger itemIndex = (NSUInteger) (sender.tag - LEFT_BUTTON_OFFSET);
+
+    [newArray removeObjectAtIndex:itemIndex];
+    [objectDataArray removeObjectAtIndex:itemIndex];
+
+    [myTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:itemIndex inSection:0]]
+                       withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -260,7 +273,15 @@ static Class getClassFromKey(NSString *key)
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    DLog(@"%d rows", rowCount);
+    //return rowCount;//[newArray count] + 1;
+
     return [newArray count] + 1;
+
+//    if (section == 0)
+//        return [newArray count] + 1;
+//    else
+//        return 1;
 }
 
 #define HIGHER_SUBTITLE 10
@@ -282,7 +303,7 @@ static Class getClassFromKey(NSString *key)
                            forState:UIControlStateNormal];
     [leftButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0]];
     [leftButton setHidden:NO];
-    [leftButton setTag:tag + 1000];
+    [leftButton setTag:tag + LEFT_BUTTON_OFFSET];
 
     [leftButton addTarget:self
                    action:selector
@@ -308,7 +329,7 @@ static Class getClassFromKey(NSString *key)
                             forState:UIControlStateNormal];
     [rightButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0]];
     [rightButton setHidden:NO];
-    [rightButton setTag:tag + 2000];
+    [rightButton setTag:tag + RIGHT_BUTTON_OFFSET];
 
     [rightButton addTarget:self
                     action:selector
@@ -333,7 +354,7 @@ static Class getClassFromKey(NSString *key)
     DLog(@"");
     static NSInteger keyLabelTag    = 1;
     static NSInteger valueLabelTag  = 2;
-           NSInteger editingViewTag = 100 + indexPath.row;
+           NSInteger editingViewTag = EDITING_VIEW_OFFSET + indexPath.row;
 
     UITableViewCellStyle style = UITableViewCellStyleDefault;
     NSString *reuseIdentifier  = [NSString stringWithFormat:@"cachedCell_%d", indexPath.row];
@@ -387,11 +408,11 @@ static Class getClassFromKey(NSString *key)
 
             UIView *editingView = [self getButtonBox];
             [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
-                                                             tag:editingViewTag
-                                                     andSelector:@selector(addObjectButtonPressed:)]];
+                                                             tag:indexPath.row
+                                                     andSelector:@selector(deleteObjectButtonPressed:)]];
             [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
-                                                              tag:editingViewTag
-                                                      andSelector:@selector(addObjectButtonPressed:)]];
+                                                              tag:indexPath.row
+                                                      andSelector:@selector(editObjectButtonPressed:)]];
 
             [editingView setTag:editingViewTag];
             [editingView setHidden:YES];
@@ -442,10 +463,10 @@ static Class getClassFromKey(NSString *key)
     if (indexPath.row == [newArray count])
     {
         [self addObjectButtonPressed:nil];
-        [myTableView insertRowsAtIndexPaths:
-                             [NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row
-                                                                         inSection:indexPath.section]]
-                           withRowAnimation:UITableViewRowAnimationLeft];
+//        [myTableView insertRowsAtIndexPaths:
+//                             [NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row
+//                                                                         inSection:indexPath.section]]
+//                           withRowAnimation:UITableViewRowAnimationLeft];
     }
     else
     {

@@ -19,6 +19,7 @@ UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
     NSMutableArray *objectDataArray;
 
     NSMutableArray *newArray;
+    NSInteger rowCount;
 
     BOOL isEditing;
     UITextField *firstResponder;

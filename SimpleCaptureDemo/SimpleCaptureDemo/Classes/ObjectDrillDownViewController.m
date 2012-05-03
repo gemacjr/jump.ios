@@ -37,121 +37,6 @@
 
 #import "ObjectDrillDownViewController.h"
 
-//@interface NSObject (PerformSelector)
-//- (void *)performSelector:(SEL)selector withValue:(void *)value;
-//@end
-//
-//@implementation NSObject (PerformSelector)
-//- (void *)performSelector:(SEL)selector withValue:(void *)value {
-//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:selector]];
-//    [invocation setSelector:selector];
-//    [invocation setTarget:self];
-//
-//    if (value)
-//        [invocation setArgument:value atIndex:2];
-//
-//    [invocation invoke];
-//
-//    NSUInteger length = [[invocation methodSignature] methodReturnLength];
-//
-//    // If method is non-void:
-//    if (length > 0) {
-//        void *buffer = (void *)malloc(length);
-//        [invocation getReturnValue:buffer];
-//        return buffer;
-//    }
-//
-//    // If method is void:
-//    return nil;
-//}
-//@end
-
-//@interface PropertyUtil : NSObject
-//+ (NSDictionary *)classPropsFor:(Class)klass;
-//@end
-
-///* Lilli: Originally got this code from orange80's answer on stackoverflow: http://stackoverflow.com/questions/754824/get-an-object-attributes-list-in-objective-c */
-//@implementation PropertyUtil
-//// ORIGINAL
-////static const char * getPropertyType(objc_property_t property) {
-//static NSString* getPropertyType(objc_property_t property) {
-//    const char *attributes = property_getAttributes(property);
-//    printf("attributes=%s\n", attributes);
-//    char buffer[1 + strlen(attributes)];
-//    strcpy(buffer, attributes);
-//    char *state = buffer, *attribute;
-//    while ((attribute = strsep(&state, ",")) != NULL) {
-//        if (attribute[0] == 'T' && attribute[1] != '@') {
-//            /* it's a C primitive type: */
-//
-//            /*
-//                if you want a list of what will be returned for these primitives, search online for
-//                "objective-c" "Property Attribute Description Examples"
-//                apple docs list plenty of examples of what you get for int "i", long "l", unsigned "I", struct, etc.
-//
-//                Lilli: found this: https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html
-//            */
-//
-//            // ORIGINAL
-//            //return (const char *)[[NSData dataWithBytes:(attribute + 1) length:strlen(attribute) - 1] bytes];
-//
-//            // MY FIRST
-//            //return (const char *)[[NSData dataWithBytes:attribute length:strlen(attribute)] bytes];
-//
-//            return [[[NSString stringWithUTF8String:attribute] substringFromIndex:1] substringToIndex:strlen(attribute) - 1];
-//        }
-//        else if (attribute[0] == 'T' && attribute[1] == '@' && strlen(attribute) == 2) {
-//            /* it's an ObjC id type: */
-//            return @"id";
-//        }
-//        else if (attribute[0] == 'T' && attribute[1] == '@') {
-//            /* it's another ObjC object type: */
-//
-//            // ORIGINAL
-//            //return (const char *)[[NSData dataWithBytes:(attribute + 3) length:strlen(attribute) - 4] bytes];
-//
-//            // MY FIRST
-//            //return (const char *)[[NSData dataWithBytes:attribute length:strlen(attribute)] bytes];
-//
-//            return [[[NSString stringWithUTF8String:attribute] substringFromIndex:3] substringToIndex:strlen(attribute) - 4];
-//        }
-//    }
-//
-//    return @"";
-//}
-//
-//+ (NSDictionary *)classPropsFor:(Class)klass
-//{
-//    if (klass == NULL) {
-//        return nil;
-//    }
-//
-//    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
-//
-//    unsigned int outCount, i;
-//    objc_property_t *properties = class_copyPropertyList(klass, &outCount);
-//    for (i = 0; i < outCount; i++) {
-//        objc_property_t property = properties[i];
-//        const char *propName = property_getName(property);
-//        if(propName) {
-//            // ORIGINAL
-//            //const char *propType = getPropertyType(property);
-//            //NSString *propertyName = [NSString stringWithUTF8String:propName];
-//            //NSString *propertyType = [NSString stringWithUTF8String:propType];
-//
-//            NSString *propertyName = [NSString stringWithUTF8String:propName];
-//            NSString *propertyType = getPropertyType(property);
-//            [results setObject:propertyType forKey:propertyName];
-//        }
-//    }
-//    free(properties);
-//
-//    DLog(@"%@", [results description]);
-//    /* returning a copy here to make sure the dictionary is immutable */
-//    return [NSDictionary dictionaryWithDictionary:results];
-//}
-//@end
-
 typedef enum propertyTypes
 {
     PTString,
@@ -229,13 +114,6 @@ static Class getClassFromKey(NSString *key)
                   [key stringByReplacingCharactersInRange:NSMakeRange(0,1)
                                                withString:[[key substringToIndex:1] capitalizedString]]]);
 }
-
-//typedef enum
-//{
-//    DataTypeNone,
-//    DataTypeObject,
-//    DataTypeArray,
-//} DataType;
 
 @interface ObjectDrillDownViewController ()
 @property (strong) JRCaptureObject *captureObject;
