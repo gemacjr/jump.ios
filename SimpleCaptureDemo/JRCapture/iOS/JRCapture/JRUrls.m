@@ -125,6 +125,8 @@
     JRUrls *urlsCopy =
                 [[JRUrls allocWithZone:zone] init];
 
+    urlsCopy.captureObjectPath = self.captureObjectPath;
+
     urlsCopy.urlsId = self.urlsId;
     urlsCopy.primary = self.primary;
     urlsCopy.type = self.type;

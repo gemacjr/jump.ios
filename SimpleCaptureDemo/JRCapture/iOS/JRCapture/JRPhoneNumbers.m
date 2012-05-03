@@ -125,6 +125,8 @@
     JRPhoneNumbers *phoneNumbersCopy =
                 [[JRPhoneNumbers allocWithZone:zone] init];
 
+    phoneNumbersCopy.captureObjectPath = self.captureObjectPath;
+
     phoneNumbersCopy.phoneNumbersId = self.phoneNumbersId;
     phoneNumbersCopy.primary = self.primary;
     phoneNumbersCopy.type = self.type;

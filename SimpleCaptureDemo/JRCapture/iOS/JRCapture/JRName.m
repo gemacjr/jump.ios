@@ -140,6 +140,8 @@
     JRName *nameCopy =
                 [[JRName allocWithZone:zone] init];
 
+    nameCopy.captureObjectPath = self.captureObjectPath;
+
     nameCopy.familyName = self.familyName;
     nameCopy.formatted = self.formatted;
     nameCopy.givenName = self.givenName;

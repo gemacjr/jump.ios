@@ -101,6 +101,8 @@
     JRObjectLevelOne *objectLevelOneCopy =
                 [[JRObjectLevelOne allocWithZone:zone] init];
 
+    objectLevelOneCopy.captureObjectPath = self.captureObjectPath;
+
     objectLevelOneCopy.level = self.level;
     objectLevelOneCopy.name = self.name;
     objectLevelOneCopy.objectLevelTwo = self.objectLevelTwo;

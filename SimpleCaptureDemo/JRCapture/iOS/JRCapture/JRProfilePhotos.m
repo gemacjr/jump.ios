@@ -125,6 +125,8 @@
     JRProfilePhotos *profilePhotosCopy =
                 [[JRProfilePhotos allocWithZone:zone] init];
 
+    profilePhotosCopy.captureObjectPath = self.captureObjectPath;
+
     profilePhotosCopy.profilePhotosId = self.profilePhotosId;
     profilePhotosCopy.primary = self.primary;
     profilePhotosCopy.type = self.type;

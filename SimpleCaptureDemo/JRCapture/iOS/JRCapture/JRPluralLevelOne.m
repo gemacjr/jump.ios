@@ -163,6 +163,8 @@
     JRPluralLevelOne *pluralLevelOneCopy =
                 [[JRPluralLevelOne allocWithZone:zone] init];
 
+    pluralLevelOneCopy.captureObjectPath = self.captureObjectPath;
+
     pluralLevelOneCopy.pluralLevelOneId = self.pluralLevelOneId;
     pluralLevelOneCopy.level = self.level;
     pluralLevelOneCopy.name = self.name;

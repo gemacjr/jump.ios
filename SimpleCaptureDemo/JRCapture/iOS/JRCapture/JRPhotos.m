@@ -101,6 +101,8 @@
     JRPhotos *photosCopy =
                 [[JRPhotos allocWithZone:zone] init];
 
+    photosCopy.captureObjectPath = self.captureObjectPath;
+
     photosCopy.photosId = self.photosId;
     photosCopy.type = self.type;
     photosCopy.value = self.value;

@@ -314,9 +314,10 @@ sub recursiveParse {
   $dictFromObjectDocSection[3] = $className;
   
   $copyConstructorSection[2]  = "    " . $className . " *" . $objectName . "Copy =\n                [[" . $className;
-  $copyConstructorSection[8]  = $objectName . "Copy";
-  $copyConstructorSection[10] = $objectName . "Copy";
+  $copyConstructorSection[7]  = $objectName . "Copy";
+  $copyConstructorSection[11]  = $objectName . "Copy";
   $copyConstructorSection[13] = $objectName . "Copy";
+  $copyConstructorSection[16] = $objectName . "Copy";
   
   $objFromDictSection[1]      = $objectName;
   $objFromDictSection[5]      = "    " . $className . " *" . $objectName;
@@ -621,9 +622,15 @@ sub recursiveParse {
         $toDictionary    = "[self." . $propertyName . " arrayOfStringPluralDictionariesFromStringPluralElements]";
         $toUpDictionary  = "[self." . $propertyName . " arrayOfStringPluralUpdateDictionariesFromStringPluralElements]";
         $toRplDictionary = "[self." . $propertyName . " arrayOfStringPluralReplaceDictionariesFromStringPluralElements]";
-        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" andPath:" . $objectName . ".captureObjectPath]";
-        $frUpDictionary  = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" andPath:self.captureObjectPath]";
-        $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" andPath:self.captureObjectPath]";
+        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
+                                                                        andPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", " . $objectName . ".captureObjectPath]]";
+        $frUpDictionary  = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
+                                                                        andPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", self.captureObjectPath]]";
+        $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
+                                                                        andPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", self.captureObjectPath]]";
 
         if ($propertyDesc) {
           $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
@@ -767,7 +774,7 @@ sub recursiveParse {
     ######################################################  
       
       # e.g., objCopy.baz = self.baz;
-      $copyConstructorSection[6] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
+      $copyConstructorSection[9] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
 
     }
     ##########################################################################

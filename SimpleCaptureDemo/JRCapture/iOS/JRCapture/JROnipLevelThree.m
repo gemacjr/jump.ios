@@ -88,6 +88,8 @@
     JROnipLevelThree *onipLevelThreeCopy =
                 [[JROnipLevelThree allocWithZone:zone] init];
 
+    onipLevelThreeCopy.captureObjectPath = self.captureObjectPath;
+
     onipLevelThreeCopy.level = self.level;
     onipLevelThreeCopy.name = self.name;
 

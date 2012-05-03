@@ -125,6 +125,8 @@
     JREmails *emailsCopy =
                 [[JREmails allocWithZone:zone] init];
 
+    emailsCopy.captureObjectPath = self.captureObjectPath;
+
     emailsCopy.emailsId = self.emailsId;
     emailsCopy.primary = self.primary;
     emailsCopy.type = self.type;

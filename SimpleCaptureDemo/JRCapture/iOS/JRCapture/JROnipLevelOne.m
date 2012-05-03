@@ -114,6 +114,8 @@
     JROnipLevelOne *onipLevelOneCopy =
                 [[JROnipLevelOne allocWithZone:zone] init];
 
+    onipLevelOneCopy.captureObjectPath = self.captureObjectPath;
+
     onipLevelOneCopy.onipLevelOneId = self.onipLevelOneId;
     onipLevelOneCopy.level = self.level;
     onipLevelOneCopy.name = self.name;

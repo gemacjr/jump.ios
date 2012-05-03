@@ -789,6 +789,8 @@
     JRCaptureUser *captureUserCopy =
                 [[JRCaptureUser allocWithZone:zone] initWithEmail:self.email];
 
+    captureUserCopy.captureObjectPath = self.captureObjectPath;
+
     captureUserCopy.captureUserId = self.captureUserId;
     captureUserCopy.uuid = self.uuid;
     captureUserCopy.created = self.created;
@@ -1022,7 +1024,9 @@
 
     captureUser.testerStringPlural =
         [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"testerStringPlural"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" andPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"testerStringPlural"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/testerStringPlural", captureUser.captureObjectPath]] : nil;
 
     [captureUser.dirtyPropertySet removeAllObjects];
     
@@ -1155,7 +1159,9 @@
 
     if ([dictionary objectForKey:@"testerStringPlural"])
         self.testerStringPlural = [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"testerStringPlural"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" andPath:self.captureObjectPath] : nil;
+            [(NSArray*)[dictionary objectForKey:@"testerStringPlural"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/testerStringPlural", self.captureObjectPath]] : nil;
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -1284,7 +1290,9 @@
 
     self.testerStringPlural =
         [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"testerStringPlural"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" andPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"testerStringPlural"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/testerStringPlural", self.captureObjectPath]] : nil;
 }
 
 - (NSDictionary *)toUpdateDictionary

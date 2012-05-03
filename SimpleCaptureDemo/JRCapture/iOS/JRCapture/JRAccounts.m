@@ -138,6 +138,8 @@
     JRAccounts *accountsCopy =
                 [[JRAccounts allocWithZone:zone] init];
 
+    accountsCopy.captureObjectPath = self.captureObjectPath;
+
     accountsCopy.accountsId = self.accountsId;
     accountsCopy.domain = self.domain;
     accountsCopy.primary = self.primary;

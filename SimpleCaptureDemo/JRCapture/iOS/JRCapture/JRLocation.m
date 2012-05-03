@@ -205,6 +205,8 @@
     JRLocation *locationCopy =
                 [[JRLocation allocWithZone:zone] init];
 
+    locationCopy.captureObjectPath = self.captureObjectPath;
+
     locationCopy.country = self.country;
     locationCopy.extendedAddress = self.extendedAddress;
     locationCopy.formatted = self.formatted;

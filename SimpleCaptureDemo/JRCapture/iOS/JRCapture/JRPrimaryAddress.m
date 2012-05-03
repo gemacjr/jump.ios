@@ -192,6 +192,8 @@
     JRPrimaryAddress *primaryAddressCopy =
                 [[JRPrimaryAddress allocWithZone:zone] init];
 
+    primaryAddressCopy.captureObjectPath = self.captureObjectPath;
+
     primaryAddressCopy.address1 = self.address1;
     primaryAddressCopy.address2 = self.address2;
     primaryAddressCopy.city = self.city;

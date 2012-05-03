@@ -203,6 +203,8 @@
     JROrganizations *organizationsCopy =
                 [[JROrganizations allocWithZone:zone] init];
 
+    organizationsCopy.captureObjectPath = self.captureObjectPath;
+
     organizationsCopy.organizationsId = self.organizationsId;
     organizationsCopy.department = self.department;
     organizationsCopy.description = self.description;

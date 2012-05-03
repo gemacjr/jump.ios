@@ -242,6 +242,8 @@
     JRAddresses *addressesCopy =
                 [[JRAddresses allocWithZone:zone] init];
 
+    addressesCopy.captureObjectPath = self.captureObjectPath;
+
     addressesCopy.addressesId = self.addressesId;
     addressesCopy.country = self.country;
     addressesCopy.extendedAddress = self.extendedAddress;

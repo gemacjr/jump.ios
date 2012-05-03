@@ -149,6 +149,8 @@
     JRGames *gamesCopy =
                 [[JRGames allocWithZone:zone] init];
 
+    gamesCopy.captureObjectPath = self.captureObjectPath;
+
     gamesCopy.gamesId = self.gamesId;
     gamesCopy.isFavorite = self.isFavorite;
     gamesCopy.name = self.name;
@@ -202,7 +204,9 @@
 
     games.opponents =
         [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" andPath:games.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"opponents"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/opponents", games.captureObjectPath]] : nil;
 
     games.rating =
         [dictionary objectForKey:@"rating"] != [NSNull null] ? 
@@ -233,7 +237,9 @@
 
     if ([dictionary objectForKey:@"opponents"])
         self.opponents = [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" andPath:self.captureObjectPath] : nil;
+            [(NSArray*)[dictionary objectForKey:@"opponents"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/opponents", self.captureObjectPath]] : nil;
 
     if ([dictionary objectForKey:@"rating"])
         self.rating = [dictionary objectForKey:@"rating"] != [NSNull null] ? 
@@ -260,7 +266,9 @@
 
     self.opponents =
         [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"opponents"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" andPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"opponents"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/opponents", self.captureObjectPath]] : nil;
 
     self.rating =
         [dictionary objectForKey:@"rating"] != [NSNull null] ? 

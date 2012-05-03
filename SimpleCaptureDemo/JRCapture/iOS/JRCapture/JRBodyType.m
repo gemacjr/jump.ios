@@ -127,6 +127,8 @@
     JRBodyType *bodyTypeCopy =
                 [[JRBodyType allocWithZone:zone] init];
 
+    bodyTypeCopy.captureObjectPath = self.captureObjectPath;
+
     bodyTypeCopy.build = self.build;
     bodyTypeCopy.color = self.color;
     bodyTypeCopy.eyeColor = self.eyeColor;

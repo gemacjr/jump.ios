@@ -125,6 +125,8 @@
     JRIms *imsCopy =
                 [[JRIms allocWithZone:zone] init];
 
+    imsCopy.captureObjectPath = self.captureObjectPath;
+
     imsCopy.imsId = self.imsId;
     imsCopy.primary = self.primary;
     imsCopy.type = self.type;

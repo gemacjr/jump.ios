@@ -101,6 +101,8 @@
     JRStatuses *statusesCopy =
                 [[JRStatuses allocWithZone:zone] init];
 
+    statusesCopy.captureObjectPath = self.captureObjectPath;
+
     statusesCopy.statusesId = self.statusesId;
     statusesCopy.status = self.status;
     statusesCopy.statusCreated = self.statusCreated;

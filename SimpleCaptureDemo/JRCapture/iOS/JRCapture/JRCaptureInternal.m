@@ -243,6 +243,8 @@
     JRStringPluralElement *stringElementCopy =
                 [[JRStringPluralElement allocWithZone:zone] initWithType:self.type];
 
+    stringElementCopy.captureObjectPath = self.captureObjectPath;
+
     stringElementCopy.elementId = self.elementId;
     stringElementCopy.value     = self.value;
 
@@ -273,7 +275,7 @@
     JRStringPluralElement *stringElement =
         [JRStringPluralElement stringElementWithType:elementType];
 
-    stringElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [stringElement.elementId integerValue]];
+    stringElement.captureObjectPath = [NSString stringWithFormat:@"%@#%d", capturePath, [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     stringElement.elementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ?
@@ -302,7 +304,7 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [self.elementId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@#%d", capturePath, [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.elementId =
@@ -317,7 +319,7 @@
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [self.elementId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@#%d", capturePath, [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.elementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ?
@@ -410,6 +412,7 @@
 @implementation NSArray (JRStringPluralElement)
 - (NSArray*)arrayOfStringPluralDictionariesFromStringPluralElements
 {
+    DLog(@"");
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStringPluralElement class]])
@@ -420,6 +423,7 @@
 
 - (NSArray *)arrayOfStringPluralUpdateDictionariesFromStringPluralElements
 {
+    DLog(@"");
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStringPluralElement class]])
@@ -430,6 +434,7 @@
 
 - (NSArray *)arrayOfStringPluralReplaceDictionariesFromStringPluralElements
 {
+    DLog(@"");
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStringPluralElement class]])
@@ -440,6 +445,7 @@
 
 - (NSArray*)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andPath:(NSString *)capturePath
 {
+    DLog(@"");
     NSMutableArray *filteredPluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
@@ -463,6 +469,7 @@
 
 - (NSArray*)copyArrayOfStringPluralElementsWithType:(NSString *)elementType
 {
+    DLog(@"");
     NSMutableArray *filteredArrayCopy = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[NSString class]])

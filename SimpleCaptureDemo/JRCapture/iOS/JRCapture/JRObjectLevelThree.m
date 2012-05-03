@@ -88,6 +88,8 @@
     JRObjectLevelThree *objectLevelThreeCopy =
                 [[JRObjectLevelThree allocWithZone:zone] init];
 
+    objectLevelThreeCopy.captureObjectPath = self.captureObjectPath;
+
     objectLevelThreeCopy.level = self.level;
     objectLevelThreeCopy.name = self.name;
 

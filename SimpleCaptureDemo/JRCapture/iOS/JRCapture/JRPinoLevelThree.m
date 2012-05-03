@@ -101,6 +101,8 @@
     JRPinoLevelThree *pinoLevelThreeCopy =
                 [[JRPinoLevelThree allocWithZone:zone] init];
 
+    pinoLevelThreeCopy.captureObjectPath = self.captureObjectPath;
+
     pinoLevelThreeCopy.pinoLevelThreeId = self.pinoLevelThreeId;
     pinoLevelThreeCopy.level = self.level;
     pinoLevelThreeCopy.name = self.name;

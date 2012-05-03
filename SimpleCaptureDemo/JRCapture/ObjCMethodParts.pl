@@ -241,6 +241,7 @@ my @copyConstructorParts = (
 "- (id)copyWithZone:(NSZone*)zone",
 "\n{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS\n", 
 "", " allocWithZone:zone] init", "", "];\n\n",
+"    ","",".captureObjectPath = self.captureObjectPath;\n\n",
 "", 
 "
     [","",".dirtyPropertySet removeAllObjects];

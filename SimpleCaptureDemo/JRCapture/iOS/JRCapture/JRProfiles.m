@@ -214,6 +214,8 @@
     JRProfiles *profilesCopy =
                 [[JRProfiles allocWithZone:zone] initWithDomain:self.domain andIdentifier:self.identifier];
 
+    profilesCopy.captureObjectPath = self.captureObjectPath;
+
     profilesCopy.profilesId = self.profilesId;
     profilesCopy.accessCredentials = self.accessCredentials;
     profilesCopy.followers = self.followers;
@@ -280,15 +282,21 @@
 
     profiles.followers =
         [dictionary objectForKey:@"followers"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:profiles.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"followers"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/followers", profiles.captureObjectPath]] : nil;
 
     profiles.following =
         [dictionary objectForKey:@"following"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:profiles.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"following"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/following", profiles.captureObjectPath]] : nil;
 
     profiles.friends =
         [dictionary objectForKey:@"friends"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:profiles.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"friends"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/friends", profiles.captureObjectPath]] : nil;
 
     profiles.identifier =
         [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
@@ -331,15 +339,21 @@
 
     if ([dictionary objectForKey:@"followers"])
         self.followers = [dictionary objectForKey:@"followers"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
+            [(NSArray*)[dictionary objectForKey:@"followers"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/followers", self.captureObjectPath]] : nil;
 
     if ([dictionary objectForKey:@"following"])
         self.following = [dictionary objectForKey:@"following"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
+            [(NSArray*)[dictionary objectForKey:@"following"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/following", self.captureObjectPath]] : nil;
 
     if ([dictionary objectForKey:@"friends"])
         self.friends = [dictionary objectForKey:@"friends"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
+            [(NSArray*)[dictionary objectForKey:@"friends"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/friends", self.captureObjectPath]] : nil;
 
     if ([dictionary objectForKey:@"identifier"])
         self.identifier = [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
@@ -378,15 +392,21 @@
 
     self.followers =
         [dictionary objectForKey:@"followers"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"followers"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"followers"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/followers", self.captureObjectPath]] : nil;
 
     self.following =
         [dictionary objectForKey:@"following"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"following"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"following"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/following", self.captureObjectPath]] : nil;
 
     self.friends =
         [dictionary objectForKey:@"friends"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"friends"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" andPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"friends"]
+                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
+                                                                        andPath:[NSString stringWithFormat:@"%@/friends", self.captureObjectPath]] : nil;
 
     self.identifier =
         [dictionary objectForKey:@"identifier"] != [NSNull null] ? 

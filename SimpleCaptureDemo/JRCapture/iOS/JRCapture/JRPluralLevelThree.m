@@ -101,6 +101,8 @@
     JRPluralLevelThree *pluralLevelThreeCopy =
                 [[JRPluralLevelThree allocWithZone:zone] init];
 
+    pluralLevelThreeCopy.captureObjectPath = self.captureObjectPath;
+
     pluralLevelThreeCopy.pluralLevelThreeId = self.pluralLevelThreeId;
     pluralLevelThreeCopy.level = self.level;
     pluralLevelThreeCopy.name = self.name;

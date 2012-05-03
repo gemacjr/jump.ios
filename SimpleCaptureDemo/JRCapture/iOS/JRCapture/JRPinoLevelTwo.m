@@ -150,6 +150,8 @@
     JRPinoLevelTwo *pinoLevelTwoCopy =
                 [[JRPinoLevelTwo allocWithZone:zone] init];
 
+    pinoLevelTwoCopy.captureObjectPath = self.captureObjectPath;
+
     pinoLevelTwoCopy.level = self.level;
     pinoLevelTwoCopy.name = self.name;
     pinoLevelTwoCopy.pinoLevelThree = self.pinoLevelThree;
