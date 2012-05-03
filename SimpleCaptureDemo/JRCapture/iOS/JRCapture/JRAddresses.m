@@ -303,7 +303,7 @@
         return nil;
 
     JRAddresses *addresses = [JRAddresses addresses];
-    addresses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [addresses.addressesId integerValue]];
+    addresses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     addresses.addressesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -366,7 +366,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [self.addressesId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.addressesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -425,7 +425,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [self.addressesId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.addressesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

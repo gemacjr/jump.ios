@@ -132,7 +132,7 @@
         return nil;
 
     JRPluralLevelThree *pluralLevelThree = [JRPluralLevelThree pluralLevelThree];
-    pluralLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelThree", [pluralLevelThree.pluralLevelThreeId integerValue]];
+    pluralLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     pluralLevelThree.pluralLevelThreeId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -155,7 +155,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelThree", [self.pluralLevelThreeId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.pluralLevelThreeId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -174,7 +174,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelThree", [self.pluralLevelThreeId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.pluralLevelThreeId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

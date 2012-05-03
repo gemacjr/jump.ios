@@ -132,7 +132,7 @@
         return nil;
 
     JRStatuses *statuses = [JRStatuses statuses];
-    statuses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [statuses.statusesId integerValue]];
+    statuses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     statuses.statusesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -155,7 +155,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [self.statusesId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.statusesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -174,7 +174,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [self.statusesId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.statusesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

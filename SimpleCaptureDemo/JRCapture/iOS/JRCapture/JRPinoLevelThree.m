@@ -132,7 +132,7 @@
         return nil;
 
     JRPinoLevelThree *pinoLevelThree = [JRPinoLevelThree pinoLevelThree];
-    pinoLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [pinoLevelThree.pinoLevelThreeId integerValue]];
+    pinoLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     pinoLevelThree.pinoLevelThreeId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -155,7 +155,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [self.pinoLevelThreeId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.pinoLevelThreeId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -174,7 +174,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [self.pinoLevelThreeId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.pinoLevelThreeId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

@@ -159,7 +159,7 @@
         return nil;
 
     JRProfilePhotos *profilePhotos = [JRProfilePhotos profilePhotos];
-    profilePhotos.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", [profilePhotos.profilePhotosId integerValue]];
+    profilePhotos.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     profilePhotos.profilePhotosId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -186,7 +186,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", [self.profilePhotosId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.profilePhotosId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -209,7 +209,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", [self.profilePhotosId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profilePhotos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.profilePhotosId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

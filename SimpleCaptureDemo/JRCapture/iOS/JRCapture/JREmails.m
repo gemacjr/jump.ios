@@ -159,7 +159,7 @@
         return nil;
 
     JREmails *emails = [JREmails emails];
-    emails.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [emails.emailsId integerValue]];
+    emails.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     emails.emailsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -186,7 +186,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [self.emailsId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.emailsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -209,7 +209,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [self.emailsId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.emailsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

@@ -186,7 +186,7 @@
         return nil;
 
     JRGames *games = [JRGames games];
-    games.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [games.gamesId integerValue]];
+    games.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     games.gamesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -217,7 +217,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [self.gamesId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.gamesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -244,7 +244,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [self.gamesId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.gamesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

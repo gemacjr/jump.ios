@@ -148,7 +148,7 @@
         return nil;
 
     JROnipLevelOne *onipLevelOne = [JROnipLevelOne onipLevelOne];
-    onipLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [onipLevelOne.onipLevelOneId integerValue]];
+    onipLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     onipLevelOne.onipLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -175,7 +175,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [self.onipLevelOneId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.onipLevelOneId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -198,7 +198,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [self.onipLevelOneId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.onipLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

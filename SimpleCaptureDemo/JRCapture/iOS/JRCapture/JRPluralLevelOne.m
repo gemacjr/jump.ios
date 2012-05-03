@@ -197,7 +197,7 @@
         return nil;
 
     JRPluralLevelOne *pluralLevelOne = [JRPluralLevelOne pluralLevelOne];
-    pluralLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [pluralLevelOne.pluralLevelOneId integerValue]];
+    pluralLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     pluralLevelOne.pluralLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -224,7 +224,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [self.pluralLevelOneId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.pluralLevelOneId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -247,7 +247,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [self.pluralLevelOneId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.pluralLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

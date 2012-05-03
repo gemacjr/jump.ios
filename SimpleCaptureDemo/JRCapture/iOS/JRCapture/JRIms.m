@@ -159,7 +159,7 @@
         return nil;
 
     JRIms *ims = [JRIms ims];
-    ims.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [ims.imsId integerValue]];
+    ims.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     ims.imsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -186,7 +186,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [self.imsId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.imsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -209,7 +209,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [self.imsId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.imsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

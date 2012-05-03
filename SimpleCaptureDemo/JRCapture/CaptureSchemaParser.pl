@@ -851,13 +851,13 @@ sub recursiveParse {
         $replaceRemotelySection[3] = "[self." . $propertyName . " integerValue]";
         
         $objFromDictSection[12]    = "#%d";
-        $objFromDictSection[15]    = ", [" . $objectName . "." . $propertyName . " integerValue]";
+        $objFromDictSection[15]    = ", [(NSNumber*)[dictionary objectForKey:\@\"id\"] integerValue]";#", [" . $objectName . "." . $propertyName . " integerValue]";
         
         $updateFromDictSection[3]  = "#%d";
-        $updateFromDictSection[6] = ", [self." . $propertyName . " integerValue]";
+        $updateFromDictSection[6]  = ", [(NSNumber*)[dictionary objectForKey:\@\"id\"] integerValue]";#", [self." . $propertyName . " integerValue]";
         
         $replaceFromDictSection[3]  = "#%d";
-        $replaceFromDictSection[6] = ", [self." . $propertyName . " integerValue]";
+        $replaceFromDictSection[6]  = ", [(NSNumber*)[dictionary objectForKey:\@\"id\"] integerValue]";#", [self." . $propertyName . " integerValue]";
       }
 
       if ($isSimpleArray) {

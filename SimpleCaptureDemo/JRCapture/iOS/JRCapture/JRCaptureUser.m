@@ -884,7 +884,7 @@
         return nil;
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
-//    captureUser.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [captureUser.captureUserId integerValue]];
+//    captureUser.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     captureUser.captureObjectPath = @"";
 
@@ -1013,7 +1013,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [self.captureUserId integerValue]];
+//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.captureObjectPath = @"";
 
@@ -1138,7 +1138,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [self.captureUserId integerValue]];
+//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.captureObjectPath = @"";
 

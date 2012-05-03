@@ -378,6 +378,7 @@ static Class getClassFromKey(NSString *key)
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [myTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated

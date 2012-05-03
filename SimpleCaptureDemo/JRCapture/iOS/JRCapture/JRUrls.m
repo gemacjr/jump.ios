@@ -159,7 +159,7 @@
         return nil;
 
     JRUrls *urls = [JRUrls urls];
-    urls.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [urls.urlsId integerValue]];
+    urls.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     urls.urlsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -186,7 +186,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [self.urlsId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.urlsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -209,7 +209,7 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [self.urlsId integerValue]];
+    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.urlsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
