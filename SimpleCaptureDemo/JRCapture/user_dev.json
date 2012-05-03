@@ -1764,6 +1764,23 @@
             {
                 "name": "testerIpAddr",
                 "type": "ipAddress"
+            },
+            {
+                "name": "testerStringPlural",
+                "type": "plural",
+                "attr_defs": [
+                    {
+                        "name": "id",
+                        "type": "id",
+                        "description": "simple identifier for this sub-entity"
+                    },
+                    {
+                        "case-sensitive": false,
+                        "name": "stringPluralItem",
+                        "length": null,
+                        "type": "string"
+                    }
+                ]
             }
         ]
     },

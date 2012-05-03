@@ -364,6 +364,7 @@
     JRBoolean *_testerBoolean;
     JRInteger *_testerInteger;
     JRIpAddress *_testerIpAddr;
+    JRSimpleArray *_testerStringPlural;
 }
 @dynamic captureUserId;
 @dynamic uuid;
@@ -394,6 +395,7 @@
 @dynamic testerBoolean;
 @dynamic testerInteger;
 @dynamic testerIpAddr;
+@dynamic testerStringPlural;
 
 - (JRObjectId *)captureUserId
 {
@@ -736,6 +738,17 @@
     _testerIpAddr = [newTesterIpAddr copy];
 }
 
+- (NSArray *)testerStringPlural
+{
+    return _testerStringPlural;
+}
+
+- (void)setTesterStringPlural:(NSArray *)newTesterStringPlural
+{
+    [self.dirtyPropertySet addObject:@"testerStringPlural"];
+    _testerStringPlural = [newTesterStringPlural copyArrayOfStringPluralElementsWithType:@"stringPluralItem"];
+}
+
 - (id)init
 {
     if ((self = [super init]))
@@ -804,6 +817,7 @@
     captureUserCopy.testerBoolean = self.testerBoolean;
     captureUserCopy.testerInteger = self.testerInteger;
     captureUserCopy.testerIpAddr = self.testerIpAddr;
+    captureUserCopy.testerStringPlural = self.testerStringPlural;
 
     [captureUserCopy.dirtyPropertySet removeAllObjects];
     [captureUserCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
@@ -874,6 +888,8 @@
              forKey:@"testerInteger"];
     [dict setObject:(self.testerIpAddr ? self.testerIpAddr : [NSNull null])
              forKey:@"testerIpAddr"];
+    [dict setObject:(self.testerStringPlural ? [self.testerStringPlural arrayOfStringPluralDictionariesFromStringPluralElements] : [NSNull null])
+             forKey:@"testerStringPlural"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
 }
@@ -1004,6 +1020,10 @@
         [dictionary objectForKey:@"testerIpAddr"] != [NSNull null] ? 
         [dictionary objectForKey:@"testerIpAddr"] : nil;
 
+    captureUser.testerStringPlural =
+        [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"testerStringPlural"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" andPath:captureUser.captureObjectPath] : nil;
+
     [captureUser.dirtyPropertySet removeAllObjects];
     
     return captureUser;
@@ -1132,6 +1152,10 @@
     if ([dictionary objectForKey:@"testerIpAddr"])
         self.testerIpAddr = [dictionary objectForKey:@"testerIpAddr"] != [NSNull null] ? 
             [dictionary objectForKey:@"testerIpAddr"] : nil;
+
+    if ([dictionary objectForKey:@"testerStringPlural"])
+        self.testerStringPlural = [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
+            [(NSArray*)[dictionary objectForKey:@"testerStringPlural"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" andPath:self.captureObjectPath] : nil;
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -1257,6 +1281,10 @@
     self.testerIpAddr =
         [dictionary objectForKey:@"testerIpAddr"] != [NSNull null] ? 
         [dictionary objectForKey:@"testerIpAddr"] : nil;
+
+    self.testerStringPlural =
+        [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
+        [(NSArray*)[dictionary objectForKey:@"testerStringPlural"] arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" andPath:self.captureObjectPath] : nil;
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -1339,6 +1367,9 @@
     if ([self.dirtyPropertySet containsObject:@"testerIpAddr"])
         [dict setObject:(self.testerIpAddr ? self.testerIpAddr : [NSNull null]) forKey:@"testerIpAddr"];
 
+    if ([self.dirtyPropertySet containsObject:@"testerStringPlural"])
+        [dict setObject:(self.testerStringPlural ? [self.testerStringPlural arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"testerStringPlural"];
+
     return dict;
 }
 
@@ -1388,6 +1419,7 @@
     [dict setObject:(self.testerBoolean ? [NSNumber numberWithBool:[self.testerBoolean boolValue]] : [NSNull null]) forKey:@"testerBoolean"];
     [dict setObject:(self.testerInteger ? [NSNumber numberWithInteger:[self.testerInteger integerValue]] : [NSNull null]) forKey:@"testerInteger"];
     [dict setObject:(self.testerIpAddr ? self.testerIpAddr : [NSNull null]) forKey:@"testerIpAddr"];
+    [dict setObject:(self.testerStringPlural ? [self.testerStringPlural arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"testerStringPlural"];
 
     return dict;
 }
@@ -1442,6 +1474,7 @@
     [dict setObject:@"JRBoolean" forKey:@"testerBoolean"];
     [dict setObject:@"JRInteger" forKey:@"testerInteger"];
     [dict setObject:@"JRIpAddress" forKey:@"testerIpAddr"];
+    [dict setObject:@"JRSimpleArray" forKey:@"testerStringPlural"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
 }
@@ -1477,6 +1510,7 @@
     [_testerBoolean release];
     [_testerInteger release];
     [_testerIpAddr release];
+    [_testerStringPlural release];
 
     [super dealloc];
 }
