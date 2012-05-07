@@ -19,7 +19,7 @@ UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
     NSMutableArray *objectDataArray;
 
     NSMutableArray *localCopyArray;
-
+    BOOL isSimpleArray;
 
     BOOL isEditing;
     UITextField *firstResponder;
@@ -29,6 +29,6 @@ UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 - (IBAction)replaceButtonPressed:(id)sender;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
-  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key;
+  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key isSimpleArray:(BOOL)simpleArray;
 
 @end

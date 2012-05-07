@@ -53,12 +53,14 @@ typedef enum propertyTypes
 
 @interface ObjectData : NSObject
 @property (strong) NSString *stringValue;
+@property (strong) UILabel  *titleLabel;
 @property (strong) UILabel  *subtitleLabel;
 @property (strong) UIView   *editingView;
 @end
 
 @implementation ObjectData
 @synthesize stringValue;
+@synthesize titleLabel;
 @synthesize subtitleLabel;
 @synthesize editingView;
 @end
@@ -79,6 +81,8 @@ static Class getClassFromKey(NSString *key)
 @property (strong) NSMutableArray  *localCopyArray;
 @property (strong) NSMutableArray  *objectDataArray;
 @property (strong) NSString        *tableHeader;
+- (void)setCellTextForObjectData:(ObjectData *)objectData atIndex:(NSUInteger)index;
+- (void)createCellViewsForObjectData:(ObjectData *)objectData atIndex:(NSUInteger)index;
 @end
 
 @implementation ArrayDrillDownViewController
@@ -97,16 +101,25 @@ static Class getClassFromKey(NSString *key)
     self.objectDataArray = [[NSMutableArray alloc] initWithCapacity:[tableData count]];
 
     for (NSUInteger i = 0; i < [tableData count]; i++)
-        [objectDataArray addObject:[[ObjectData alloc] init]];
+    {
+        ObjectData *objectData = [[ObjectData alloc] init];
+
+        [self createCellViewsForObjectData:objectData atIndex:i];
+        [self setCellTextForObjectData:objectData atIndex:i];
+
+        [objectDataArray addObject:objectData];
+    }
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
-  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key
+  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key isSimpleArray:(BOOL)simpleArray
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
         self.captureObject = parentObject;
         self.tableHeader   = key;
+
+        isSimpleArray = simpleArray;
 
         [self setTableDataWithArray:array];
     }
@@ -210,11 +223,24 @@ static Class getClassFromKey(NSString *key)
 {
     DLog(@"");
 
-    JRCaptureObject *newCaptureObject = [[getClassFromKey(tableHeader) alloc] init];
-    JRCaptureObject *parentObject     = captureObject;
+    JRCaptureObject *newCaptureObject;
+
+    // TODO (BIG!!): The capture path isn't set and this will be a problem!!!
+    if (isSimpleArray)
+        newCaptureObject = (JRCaptureObject *)[JRStringPluralElement stringElementWithType:tableHeader];
+    else
+        newCaptureObject = [[getClassFromKey(tableHeader) alloc] init];
+
+//    JRCaptureObject *parentObject     = captureObject;
 
     [localCopyArray addObject:newCaptureObject];
-    [objectDataArray addObject:[[ObjectData alloc] init]];
+
+    ObjectData *objectData = [[ObjectData alloc] init];
+
+    [self createCellViewsForObjectData:objectData atIndex:[objectDataArray count]];
+    [self setCellTextForObjectData:objectData atIndex:[objectDataArray count]];
+
+    [objectDataArray addObject:objectData];
 
     [myTableView beginUpdates];
     [myTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[localCopyArray count] - 1
@@ -247,6 +273,21 @@ static Class getClassFromKey(NSString *key)
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
 
+- (void)calibrateIndices
+{
+    for (NSUInteger i = 0; i < [objectDataArray count]; i++)
+    {
+        ObjectData *objectData = [objectDataArray objectAtIndex:i];
+        NSInteger oldIndex = objectData.editingView.tag - EDITING_VIEW_OFFSET;
+
+        [objectData.editingView setTag:EDITING_VIEW_OFFSET + i];
+        [[objectData.editingView viewWithTag:LEFT_BUTTON_OFFSET + oldIndex] setTag:LEFT_BUTTON_OFFSET + i];
+        [[objectData.editingView viewWithTag:RIGHT_BUTTON_OFFSET + oldIndex] setTag:RIGHT_BUTTON_OFFSET + i];
+
+        [self setCellTextForObjectData:objectData atIndex:i];
+    }
+}
+
 - (void)deleteObjectButtonPressed:(UIButton *)sender
 {
     DLog(@"");
@@ -257,6 +298,9 @@ static Class getClassFromKey(NSString *key)
 
     [myTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:itemIndex inSection:0]]
                        withRowAnimation:UITableViewRowAnimationLeft];
+
+    //[myTableView reloadData];
+    [self calibrateIndices];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -293,10 +337,10 @@ static Class getClassFromKey(NSString *key)
     return [localCopyArray count] + 1;
 }
 
-#define HIGHER_SUBTITLE 10
-#define NORMAL_SUBTITLE 21
-#define UP_A_LITTLE_HIGHER(r) CGRectMake(r.frame.origin.x, HIGHER_SUBTITLE, r.frame.size.width, r.frame.size.height)
-#define WHERE_IT_SHOULD_BE(r) CGRectMake(r.frame.origin.x, NORMAL_SUBTITLE, r.frame.size.width, r.frame.size.height)
+//#define HIGHER_SUBTITLE 10
+//#define NORMAL_SUBTITLE 21
+//#define UP_A_LITTLE_HIGHER(r) CGRectMake(r.frame.origin.x, HIGHER_SUBTITLE, r.frame.size.width, r.frame.size.height)
+//#define WHERE_IT_SHOULD_BE(r) CGRectMake(r.frame.origin.x, NORMAL_SUBTITLE, r.frame.size.width, r.frame.size.height)
 
 - (UIButton *)getLeftButtonWithTitle:(NSString *)title tag:(NSInteger)tag andSelector:(SEL)selector
 {
@@ -358,25 +402,100 @@ static Class getClassFromKey(NSString *key)
     return view;
 }
 
+- (void)setCellTextForObjectData:(ObjectData *)objectData atIndex:(NSUInteger)index
+{
+//    for (NSUInteger i = 0; i < [objectDataArray count]; i++)
+//    {
+//        ObjectData *objectData   = [objectDataArray objectAtIndex:i];
+
+        NSString *key   = [NSString stringWithFormat:@"%@[%d]", tableHeader, index];
+        NSObject *value = [localCopyArray objectAtIndex:index];
+
+        objectData.titleLabel.text    = key;
+        objectData.subtitleLabel.text = [[(JRCaptureObject *)value toDictionary] JSONString];
+//    }
+}
+
+- (void)createCellViewsForObjectData:(ObjectData *)objectData atIndex:(NSUInteger)index
+{
+    NSInteger editingViewTag = EDITING_VIEW_OFFSET + index;
+
+    CGRect frame = CGRectMake(10, 5, (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 280 : 440, 18);
+
+    UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
+
+    keyLabel.backgroundColor  = [UIColor clearColor];
+    keyLabel.font             = [UIFont systemFontOfSize:13.0];
+    keyLabel.textColor        = [UIColor grayColor];
+    keyLabel.textAlignment    = UITextAlignmentLeft;
+    keyLabel.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth;
+
+    [objectData setTitleLabel:keyLabel];
+
+    frame.origin.y     += 16;
+    frame.size.height  += 8;
+
+    UILabel *valueLabel = [[UILabel alloc] initWithFrame:frame];
+
+    valueLabel.backgroundColor  = [UIColor clearColor];
+    valueLabel.font             = [UIFont boldSystemFontOfSize:16.0];
+    valueLabel.textColor        = [UIColor grayColor];
+    valueLabel.textAlignment    = UITextAlignmentLeft;
+    valueLabel.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth;
+
+    [objectData setSubtitleLabel:valueLabel];
+
+    UIView *editingView = [self getButtonBox];
+    [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
+                                                     tag:index
+                                             andSelector:@selector(deleteObjectButtonPressed:)]];
+    [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
+                                                      tag:index
+                                              andSelector:@selector(editObjectButtonPressed:)]];
+
+    [editingView setTag:editingViewTag];
+    [editingView setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+
+    [objectData setEditingView:editingView];
+}
+
+//- (void)createCellViews
+//{
+//    DLog(@"");
+////    static NSInteger keyLabelTag    = 1;
+////    static NSInteger valueLabelTag  = 2;
+//
+//    for (NSUInteger i = 0; i < [objectDataArray count]; i++)
+//    {
+//        ObjectData *objectData   = [objectDataArray objectAtIndex:i];
+//
+//    }
+//
+//    [self setCellText];
+//}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DLog(@"");
-    static NSInteger keyLabelTag    = 1;
-    static NSInteger valueLabelTag  = 2;
-           NSInteger editingViewTag = EDITING_VIEW_OFFSET + indexPath.row;
+//    static NSInteger keyLabelTag    = 1;
+//    static NSInteger valueLabelTag  = 2;
+//           NSInteger editingViewTag = EDITING_VIEW_OFFSET + indexPath.row;
 
     UITableViewCellStyle style = UITableViewCellStyleDefault;
-    NSString *reuseIdentifier  = [NSString stringWithFormat:@"cachedCell_%d", indexPath.row];
+    NSString *reuseIdentifier  = (indexPath.row == [localCopyArray count]) ? @"lastCell" : @"cachedCell";//[NSString stringWithFormat:@"cachedCell_%d", indexPath.section];
 
     UITableViewCell *cell =
         [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
+    if (cell == nil)
+        cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier];
+
     if (indexPath.row == [localCopyArray count])
     {
-        if (cell == nil)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier];
-        }
+//        if (cell == nil)
+//        {
+//            cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier];
+//        }
 
         cell.textLabel.text = [NSString stringWithFormat:@"Add another %@ object", tableHeader];
     }
@@ -384,85 +503,92 @@ static Class getClassFromKey(NSString *key)
     {
         ObjectData *objectData = [objectDataArray objectAtIndex:(NSUInteger)indexPath.row];
 
-        if (cell == nil)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier];
+//        if (cell == nil)
+////        {
+//            cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier];
+//
+//            CGRect frame = CGRectMake(10, 5, (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 280 : 440, 18);
+//
+//            UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
+//            keyLabel.tag      = keyLabelTag;
+//
+//            keyLabel.backgroundColor  = [UIColor clearColor];
+//            keyLabel.font             = [UIFont systemFontOfSize:13.0];
+//            keyLabel.textColor        = [UIColor grayColor];
+//            keyLabel.textAlignment    = UITextAlignmentLeft;
+//            keyLabel.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth;
+//
+//            [cell.contentView addSubview:keyLabel];
+//
+//            frame.origin.y     += 16;
+//            frame.size.height  += 8;
+//
+//            UILabel *valueLabel = [[UILabel alloc] initWithFrame:frame];
+//            valueLabel.tag      = valueLabelTag;
+//
+//            valueLabel.backgroundColor  = [UIColor clearColor];
+//            valueLabel.font             = [UIFont boldSystemFontOfSize:16.0];
+//            valueLabel.textColor        = [UIColor grayColor];
+//            valueLabel.textAlignment    = UITextAlignmentLeft;
+//            valueLabel.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth;
+//
+//            [cell.contentView addSubview:valueLabel];
+//
+//            UIView *editingView = [self getButtonBox];
+//            [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
+//                                                             tag:indexPath.row
+//                                                     andSelector:@selector(deleteObjectButtonPressed:)]];
+//            [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
+//                                                              tag:indexPath.row
+//                                                      andSelector:@selector(editObjectButtonPressed:)]];
+//
+//            [editingView setTag:editingViewTag];
+//            //[editingView setHidden:YES];
+//            [editingView setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+//
+//            [objectData setEditingView:editingView];
+//            [objectData setSubtitleLabel:valueLabel];
+//            [cell.contentView addSubview:editingView];
+//
+//            DLog(@"cell create - editing view: %@ tag: %d", [editingView description], editingView.tag);
+//        }
 
-            CGRect frame = CGRectMake(10, 5, (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 280 : 440, 18);
+        for (UIView *view in[cell.contentView subviews])
+            [view removeFromSuperview];
 
-            UILabel *keyLabel = [[UILabel alloc] initWithFrame:frame];
-            keyLabel.tag      = keyLabelTag;
+        UILabel *titleLabel    = objectData.titleLabel;//(UILabel*)[cell.contentView viewWithTag:keyLabelTag];
+        UILabel *subtitleLabel = objectData.subtitleLabel;//(UILabel*)[cell.contentView viewWithTag:valueLabelTag];
+        UIView  *editingView   = objectData.editingView;//[cell.contentView viewWithTag:editingViewTag];
 
-            keyLabel.backgroundColor  = [UIColor clearColor];
-            keyLabel.font             = [UIFont systemFontOfSize:13.0];
-            keyLabel.textColor        = [UIColor grayColor];
-            keyLabel.textAlignment    = UITextAlignmentLeft;
-            keyLabel.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth;
+        [cell.contentView addSubview:titleLabel];
+        [cell.contentView addSubview:subtitleLabel];
+        [cell.contentView addSubview:editingView];
 
-            [cell.contentView addSubview:keyLabel];
+        //DLog(@"cell draw - editing view: %@ tag: %d", [editingView description], editingView.tag);
 
-            frame.origin.y     += 16;
-            frame.size.height  += 8;
+//        NSString* subtitle  = nil;
+//        NSString* cellTitle = nil;
+//
+//        cell.textLabel.text       = nil;
+//        cell.detailTextLabel.text = nil;
 
-            UILabel *valueLabel = [[UILabel alloc] initWithFrame:frame];
-            valueLabel.tag      = valueLabelTag;
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        cell.accessoryType  = UITableViewCellAccessoryNone;
 
-            valueLabel.backgroundColor  = [UIColor clearColor];
-            valueLabel.font             = [UIFont boldSystemFontOfSize:16.0];
-            valueLabel.textColor        = [UIColor grayColor];
-            valueLabel.textAlignment    = UITextAlignmentLeft;
-            valueLabel.autoresizingMask = UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth;
-
-            [cell.contentView addSubview:valueLabel];
-
-            UIView *editingView = [self getButtonBox];
-            [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
-                                                             tag:indexPath.row
-                                                     andSelector:@selector(deleteObjectButtonPressed:)]];
-            [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
-                                                              tag:indexPath.row
-                                                      andSelector:@selector(editObjectButtonPressed:)]];
-
-            [editingView setTag:editingViewTag];
-            //[editingView setHidden:YES];
-            [editingView setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
-
-            [objectData setEditingView:editingView];
-            [objectData setSubtitleLabel:valueLabel];
-            [cell.contentView addSubview:editingView];
-
-            DLog(@"cell create - editing view: %@ tag: %d", [editingView description], editingView.tag);
-        }
-
-        UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
-        UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-        UIView  *editingView   = [cell.contentView viewWithTag:editingViewTag];
-
-        DLog(@"cell draw - editing view: %@ tag: %d", [editingView description], editingView.tag);
-
-        NSString* subtitle  = nil;
-        NSString* cellTitle = nil;
-
-        cell.textLabel.text       = nil;
-        cell.detailTextLabel.text = nil;
-
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType  = UITableViewCellAccessoryNone;
-
-        NSString *key;
-        NSObject *value = nil;
-
-        key   = [NSString stringWithFormat:@"%@[%d]", tableHeader, indexPath.row];
-        value = [localCopyArray objectAtIndex:(NSUInteger) indexPath.row];
-
-        cellTitle = key;
-        subtitle  = [[(JRCaptureObject *)value toDictionary] JSONString];
-
+//        NSString *key;
+//        NSObject *value = nil;
+//
+//        key   = [NSString stringWithFormat:@"%@[%d]", tableHeader, indexPath.row];
+//        value = [localCopyArray objectAtIndex:(NSUInteger) indexPath.row];
+//
+//        cellTitle = key;
+//        subtitle  = [[(JRCaptureObject *)value toDictionary] JSONString];
+//
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
-
-        subtitleLabel.text = subtitle;
-        titleLabel.text    = cellTitle;
+//
+//        subtitleLabel.text = subtitle;
+//        titleLabel.text    = cellTitle;
 
         [editingView setHidden:!isEditing];
         [subtitleLabel setHidden:isEditing];

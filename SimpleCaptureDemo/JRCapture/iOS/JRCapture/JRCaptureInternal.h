@@ -41,6 +41,8 @@
 @property (nonatomic, copy)     JRObjectId *elementId;
 @property (nonatomic, readonly) NSString   *type;
 @property (nonatomic, copy)     NSString   *value;
++ (id)stringElementWithType:(NSString *)elementType;
+- (id)initWithType:(NSString *)elementType;
 @end
 
 @interface NSArray (JRStringPluralElement)

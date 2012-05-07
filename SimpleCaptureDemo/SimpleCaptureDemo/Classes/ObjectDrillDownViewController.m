@@ -355,7 +355,8 @@ typedef enum
                                                                    bundle:[NSBundle mainBundle]
                                                                  forArray:(NSArray *) newCaptureObject
                                                       captureParentObject:parentObject
-                                                                   andKey:currentPropertyData.propertyName];
+                                                                   andKey:currentPropertyData.propertyName
+                                                            isSimpleArray:(currentPropertyData.propertyType == PTSimpleArray)];
     }
     else /* if (propertyData.propertyType == PTCaptureObject) */
     {
@@ -1178,7 +1179,8 @@ typedef enum
                                                                     bundle:[NSBundle mainBundle]
                                                                   forArray:(NSArray *) subObj
                                                        captureParentObject:captureObject
-                                                                    andKey:key];
+                                                                    andKey:key
+                                                             isSimpleArray:(propertyData.propertyType == PTSimpleArray)];
 
     }
     else /* if (propertyData.propertyType == PTCaptureObject) */
