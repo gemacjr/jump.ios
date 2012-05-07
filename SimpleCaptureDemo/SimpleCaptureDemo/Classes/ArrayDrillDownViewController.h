@@ -18,17 +18,17 @@ UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
     UITableView    *myTableView;
     NSMutableArray *objectDataArray;
 
-    NSMutableArray *newArray;
-    NSInteger rowCount;
+    NSMutableArray *localCopyArray;
+
 
     BOOL isEditing;
     UITextField *firstResponder;
 }
 @property (nonatomic, strong) IBOutlet UITableView     *myTableView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *myUpdateButton;
-- (IBAction)updateButtonPressed:(id)sender;
+- (IBAction)replaceButtonPressed:(id)sender;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forObject:(NSArray*)object
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
   captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key;
 
 @end

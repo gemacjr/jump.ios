@@ -353,7 +353,7 @@ typedef enum
 
         drillDown = [[ArrayDrillDownViewController alloc] initWithNibName:@"ArrayDrillDownViewController"
                                                                    bundle:[NSBundle mainBundle]
-                                                                forObject:(NSArray *) newCaptureObject
+                                                                 forArray:(NSArray *) newCaptureObject
                                                       captureParentObject:parentObject
                                                                    andKey:currentPropertyData.propertyName];
     }
@@ -608,14 +608,14 @@ typedef enum
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-    for (PropertyData *data in propertyDataArray)
-    {
-        if (data.canEdit)
-        {
-            data.editingView.hidden   = NO;
-            data.subtitleLabel.hidden = YES;
-        }
-    }
+//    for (PropertyData *data in propertyDataArray)
+//    {
+//        if (data.canEdit)
+//        {
+//            data.editingView.hidden   = NO;
+//            data.subtitleLabel.hidden = YES;
+//        }
+//    }
 
     isEditing = YES;
 
@@ -635,14 +635,14 @@ typedef enum
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-    for (PropertyData *data in propertyDataArray)
-    {
-        if (data.canEdit)// || data.canDrillDownToEdit)
-        {
-            data.editingView.hidden   = YES;
-            data.subtitleLabel.hidden = NO;
-        }
-    }
+//    for (PropertyData *data in propertyDataArray)
+//    {
+//        if (data.canEdit)// || data.canDrillDownToEdit)
+//        {
+//            data.editingView.hidden   = YES;
+//            data.subtitleLabel.hidden = NO;
+//        }
+//    }
 
     isEditing = NO;
 
@@ -654,6 +654,7 @@ typedef enum
 - (IBAction)updateButtonPressed:(id)sender
 {
     DLog(@"");
+    [self doneButtonPressed:nil];
     [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
 }
 
@@ -868,12 +869,12 @@ typedef enum
 //        [editingView setHidden:!isEditing];
 //        [valueLabel setHidden:isEditing];
 
-        [cell addSubview:editingView];
+        [cell.contentView addSubview:editingView];
     }
 
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-    UIView  *editingView   = propertyData.editingView;//[cell.contentView viewWithTag:editingViewTag];
+    UIView  *editingView   = [cell.contentView viewWithTag:editingViewTag];//propertyData.editingView;
 
     NSString* subtitle  = nil;
     NSString* cellTitle = nil;
@@ -1175,7 +1176,7 @@ typedef enum
 
          drillDown = [[ArrayDrillDownViewController alloc] initWithNibName:@"ArrayDrillDownViewController"
                                                                     bundle:[NSBundle mainBundle]
-                                                                 forObject:(NSArray *) subObj
+                                                                  forArray:(NSArray *) subObj
                                                        captureParentObject:captureObject
                                                                     andKey:key];
 
@@ -1239,6 +1240,7 @@ typedef enum
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
+    [myTableView reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

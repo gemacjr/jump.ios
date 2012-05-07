@@ -307,14 +307,14 @@ static Class getClassFromKey(NSString *key)
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-    for (SimplePluralPropertyData *data in propertyDataArray)
-    {
-        if (data.canEdit)
-        {
-            data.editingView.hidden   = NO;
-            data.subtitleLabel.hidden = YES;
-        }
-    }
+//    for (SimplePluralPropertyData *data in propertyDataArray)
+//    {
+//        if (data.canEdit)
+//        {
+//            data.editingView.hidden   = NO;
+//            data.subtitleLabel.hidden = YES;
+//        }
+//    }
 
     isEditing = YES;
 
@@ -334,14 +334,14 @@ static Class getClassFromKey(NSString *key)
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-    for (SimplePluralPropertyData *data in propertyDataArray)
-    {
-        if (data.canEdit)
-        {
-            data.editingView.hidden   = YES;
-            data.subtitleLabel.hidden = NO;
-        }
-    }
+//    for (SimplePluralPropertyData *data in propertyDataArray)
+//    {
+//        if (data.canEdit)
+//        {
+//            data.editingView.hidden   = YES;
+//            data.subtitleLabel.hidden = NO;
+//        }
+//    }
 
     isEditing = NO;
 
@@ -352,6 +352,7 @@ static Class getClassFromKey(NSString *key)
 - (IBAction)updateButtonPressed:(id)sender
 {
     DLog(@"");
+    [self doneButtonPressed:nil];
     [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
 }
 
@@ -438,12 +439,12 @@ static Class getClassFromKey(NSString *key)
         [propertyData setEditingView:editingView];
         [propertyData setSubtitleLabel:valueLabel];
 
-        [cell addSubview:editingView];
+        [cell.contentView addSubview:editingView];
     }
 
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-    UIView  *editingView   = propertyData.editingView;
+    UIView  *editingView   = [cell.contentView viewWithTag:editingViewTag];//propertyData.editingView;
 
     NSString* subtitle  = nil;
     NSString* cellTitle = nil;
@@ -575,6 +576,7 @@ static Class getClassFromKey(NSString *key)
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
+    [myTableView reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

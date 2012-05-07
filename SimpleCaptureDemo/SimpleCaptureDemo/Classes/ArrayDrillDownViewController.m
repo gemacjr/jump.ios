@@ -76,6 +76,8 @@ static Class getClassFromKey(NSString *key)
 @interface ArrayDrillDownViewController ()
 @property (strong) JRCaptureObject *captureObject;
 @property (strong) NSArray         *tableData;
+@property (strong) NSMutableArray  *localCopyArray;
+@property (strong) NSMutableArray  *objectDataArray;
 @property (strong) NSString        *tableHeader;
 @end
 
@@ -85,22 +87,28 @@ static Class getClassFromKey(NSString *key)
 @synthesize tableData;
 @synthesize myTableView;
 @synthesize myUpdateButton;
+@synthesize localCopyArray;
+@synthesize objectDataArray;
 
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forObject:(NSArray*)object
+- (void)setTableDataWithArray:(NSArray *)array
+{
+    self.tableData       = array;
+    self.localCopyArray = [[NSMutableArray alloc] initWithArray:tableData];
+    self.objectDataArray = [[NSMutableArray alloc] initWithCapacity:[tableData count]];
+
+    for (NSUInteger i = 0; i < [tableData count]; i++)
+        [objectDataArray addObject:[[ObjectData alloc] init]];
+}
+
+- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
   captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
         self.captureObject = parentObject;
-        self.tableData     = object;
         self.tableHeader   = key;
 
-        newArray = [[NSMutableArray alloc] initWithArray:tableData];
-        rowCount = [newArray count] + 1;
-
-        objectDataArray = [[NSMutableArray alloc] initWithCapacity:[tableData count]];
-        for (NSUInteger i = 0; i < [tableData count]; i++)
-            [objectDataArray addObject:[[ObjectData alloc] init]];
+        [self setTableDataWithArray:array];
     }
 
     DLog(@"%@", [tableData description]);
@@ -147,11 +155,11 @@ static Class getClassFromKey(NSString *key)
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-    for (ObjectData *data in objectDataArray)
-    {
-        data.editingView.hidden   = NO;
-        data.subtitleLabel.hidden = YES;
-    }
+//    for (ObjectData *data in objectDataArray)
+//    {
+//        data.editingView.hidden   = NO;
+//        data.subtitleLabel.hidden = YES;
+//    }
 
     isEditing = YES;
 
@@ -171,11 +179,11 @@ static Class getClassFromKey(NSString *key)
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-    for (ObjectData *data in objectDataArray)
-    {
-        data.editingView.hidden   = YES;
-        data.subtitleLabel.hidden = NO;
-    }
+//    for (ObjectData *data in objectDataArray)
+//    {
+//        data.editingView.hidden   = YES;
+//        data.subtitleLabel.hidden = NO;
+//    }
 
     isEditing = NO;
 
@@ -183,10 +191,19 @@ static Class getClassFromKey(NSString *key)
     [myTableView reloadData];
 }
 
-- (IBAction)updateButtonPressed:(id)sender
+- (IBAction)replaceButtonPressed:(id)sender
 {
     DLog(@"");
-    [captureObject updateObjectOnCaptureForDelegate:self withContext:nil];
+
+    SEL setArraySelector =
+                NSSelectorFromString([NSString stringWithFormat:@"set%@:",
+                          [tableHeader stringByReplacingCharactersInRange:NSMakeRange(0,1)
+                                                               withString:[[tableHeader substringToIndex:1] capitalizedString]]]);
+
+    [captureObject performSelector:setArraySelector withObject:localCopyArray];
+
+    [self doneButtonPressed:nil];
+    [captureObject replaceObjectOnCaptureForDelegate:self withContext:nil];
 }
 
 - (void)addObjectButtonPressed:(UIButton *)sender
@@ -196,11 +213,11 @@ static Class getClassFromKey(NSString *key)
     JRCaptureObject *newCaptureObject = [[getClassFromKey(tableHeader) alloc] init];
     JRCaptureObject *parentObject     = captureObject;
 
-    [newArray addObject:newCaptureObject];
+    [localCopyArray addObject:newCaptureObject];
     [objectDataArray addObject:[[ObjectData alloc] init]];
 
     [myTableView beginUpdates];
-    [myTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[newArray count] - 1
+    [myTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[localCopyArray count] - 1
                                                                                     inSection:0]]
                        withRowAnimation:UITableViewRowAnimationLeft];
     [myTableView endUpdates];
@@ -235,7 +252,7 @@ static Class getClassFromKey(NSString *key)
     DLog(@"");
     NSUInteger itemIndex = (NSUInteger) (sender.tag - LEFT_BUTTON_OFFSET);
 
-    [newArray removeObjectAtIndex:itemIndex];
+    [localCopyArray removeObjectAtIndex:itemIndex];
     [objectDataArray removeObjectAtIndex:itemIndex];
 
     [myTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:itemIndex inSection:0]]
@@ -273,15 +290,7 @@ static Class getClassFromKey(NSString *key)
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    DLog(@"%d rows", rowCount);
-    //return rowCount;//[newArray count] + 1;
-
-    return [newArray count] + 1;
-
-//    if (section == 0)
-//        return [newArray count] + 1;
-//    else
-//        return 1;
+    return [localCopyArray count] + 1;
 }
 
 #define HIGHER_SUBTITLE 10
@@ -362,7 +371,7 @@ static Class getClassFromKey(NSString *key)
     UITableViewCell *cell =
         [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
-    if (indexPath.row == [newArray count])
+    if (indexPath.row == [localCopyArray count])
     {
         if (cell == nil)
         {
@@ -415,17 +424,21 @@ static Class getClassFromKey(NSString *key)
                                                       andSelector:@selector(editObjectButtonPressed:)]];
 
             [editingView setTag:editingViewTag];
-            [editingView setHidden:YES];
+            //[editingView setHidden:YES];
             [editingView setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
 
             [objectData setEditingView:editingView];
             [objectData setSubtitleLabel:valueLabel];
-            [cell addSubview:editingView];
+            [cell.contentView addSubview:editingView];
+
+            DLog(@"cell create - editing view: %@ tag: %d", [editingView description], editingView.tag);
         }
 
         UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
         UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
         UIView  *editingView   = [cell.contentView viewWithTag:editingViewTag];
+
+        DLog(@"cell draw - editing view: %@ tag: %d", [editingView description], editingView.tag);
 
         NSString* subtitle  = nil;
         NSString* cellTitle = nil;
@@ -440,7 +453,7 @@ static Class getClassFromKey(NSString *key)
         NSObject *value = nil;
 
         key   = [NSString stringWithFormat:@"%@[%d]", tableHeader, indexPath.row];
-        value = [newArray objectAtIndex:(NSUInteger) indexPath.row];
+        value = [localCopyArray objectAtIndex:(NSUInteger) indexPath.row];
 
         cellTitle = key;
         subtitle  = [[(JRCaptureObject *)value toDictionary] JSONString];
@@ -450,6 +463,9 @@ static Class getClassFromKey(NSString *key)
 
         subtitleLabel.text = subtitle;
         titleLabel.text    = cellTitle;
+
+        [editingView setHidden:!isEditing];
+        [subtitleLabel setHidden:isEditing];
     }
 
     return cell;
@@ -460,7 +476,7 @@ static Class getClassFromKey(NSString *key)
     DLog(@"");
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
-    if (indexPath.row == [newArray count])
+    if (indexPath.row == [localCopyArray count])
     {
         [self addObjectButtonPressed:nil];
 //        [myTableView insertRowsAtIndexPaths:
@@ -471,7 +487,7 @@ static Class getClassFromKey(NSString *key)
     else
     {
         NSString *newHeader = [NSString stringWithFormat:@"%@[%d]", tableHeader, indexPath.row];
-        NSObject *newObject = [newArray objectAtIndex:(NSUInteger) indexPath.row];
+        NSObject *newObject = [localCopyArray objectAtIndex:(NSUInteger) indexPath.row];
 
         UIViewController *drillDown;
 
@@ -512,6 +528,11 @@ static Class getClassFromKey(NSString *key)
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
+
+    SEL getArraySelector = NSSelectorFromString(tableHeader);
+    NSArray *array       = [object performSelector:getArraySelector];
+
+    [self setTableDataWithArray:array];
 }
 
 - (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
