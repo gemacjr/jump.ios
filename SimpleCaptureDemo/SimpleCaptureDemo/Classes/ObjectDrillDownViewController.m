@@ -131,7 +131,6 @@ static Class getClassFromKey(NSString *key)
 @synthesize myUpdateButton;
 @synthesize myKeyboardToolbar;
 @synthesize myPickerView;
-//@synthesize myPickerToolbar;
 @synthesize myDatePicker;
 
 
@@ -177,7 +176,7 @@ static Class getClassFromKey(NSString *key)
 
 - (NSMutableArray *)createPropertyArrayFromObject:(JRCaptureObject *)object
 {
-    NSDictionary   *propertyNamesAndTypes = [object objectProperties];//[PropertyUtil classPropsFor:[object class]];
+    NSDictionary   *propertyNamesAndTypes = [object objectProperties];
     NSArray        *propertyNames         = [propertyNamesAndTypes allKeys];
     NSMutableArray *propertyArray         = [[NSMutableArray alloc] initWithCapacity:[propertyNames count]];
 
@@ -215,9 +214,6 @@ static Class getClassFromKey(NSString *key)
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
-//        if ([object isKindOfClass:[JRStringPluralElement class]])
-//            isSimplePluralElement = YES;
-
         self.captureObject       = object;
         self.parentCaptureObject = parentObject;
 
@@ -227,7 +223,6 @@ static Class getClassFromKey(NSString *key)
         propertyDataArray = [self createPropertyArrayFromObject:object];
     }
 
-//    DLog(@"%@", [tableData description]);
     [self printPArrayDescription];
     return self;
 }
@@ -337,10 +332,7 @@ typedef enum
     NSObject *newCaptureObject    = [captureObject performSelector:currentPropertyData.propertyGetSelector];
     JRCaptureObject *parentObject = captureObject;
 
-    UIViewController *drillDown = nil;
-
-//    if (!newCaptureObject || [newCaptureObject isKindOfClass:[NSNull class]])
-//        return;
+    UIViewController *drillDown;
 
     if (currentPropertyData.propertyType == PTArray || currentPropertyData.propertyType == PTSimpleArray)
     {
@@ -390,19 +382,6 @@ typedef enum
     [myPickerView setFrame:CGRectMake(0, 416, 320, 260)];
     [UIView commitAnimations];
 }
-
-//- (void)scrollUpBy:(CGFloat)scrollOffset
-//{
-//    [myTableView setContentOffset:<#(CGPoint)contentOffset#> animated:<#(BOOL)animated#>];
-//    [myTableView setContentOffset:CGPointMake(0, scrollOffset)];
-////    [myTableView setContentSize:CGSizeMake(tableWidth, tableHeight + scrollOffset)];
-//}
-//
-//- (void)scrollBack
-//{
-//    [myTableView setContentOffset:CGPointZero];
-//    //[myTableView setContentSize:CGSizeMake(tableWidth, tableHeight)];
-//}
 
 - (void)scrollTableViewToRect:(CGRect)rect
 {
@@ -609,15 +588,6 @@ typedef enum
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-//    for (PropertyData *data in propertyDataArray)
-//    {
-//        if (data.canEdit)
-//        {
-//            data.editingView.hidden   = NO;
-//            data.subtitleLabel.hidden = YES;
-//        }
-//    }
-
     isEditing = YES;
 
     [myTableView reloadData];
@@ -635,15 +605,6 @@ typedef enum
     self.navigationItem.rightBarButtonItem.enabled = YES;
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
-
-//    for (PropertyData *data in propertyDataArray)
-//    {
-//        if (data.canEdit)// || data.canDrillDownToEdit)
-//        {
-//            data.editingView.hidden   = YES;
-//            data.subtitleLabel.hidden = NO;
-//        }
-//    }
 
     isEditing = NO;
 
@@ -821,9 +782,6 @@ typedef enum
         switch (propertyData.propertyType)
         {
             case PTBoolean:
-//                frame.size.width -= 65;
-//                keyLabel.frame = frame;
-//                keyLabel.backgroundColor = [UIColor redColor];
                 editingView = [self getBooleanSwitcher];
                 break;
             case PTInteger:
@@ -867,15 +825,12 @@ typedef enum
         [propertyData setEditingView:editingView];
         [propertyData setSubtitleLabel:valueLabel];
 
-//        [editingView setHidden:!isEditing];
-//        [valueLabel setHidden:isEditing];
-
         [cell.contentView addSubview:editingView];
     }
 
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-    UIView  *editingView   = [cell.contentView viewWithTag:editingViewTag];//propertyData.editingView;
+    UIView  *editingView   = [cell.contentView viewWithTag:editingViewTag];
 
     NSString* subtitle  = nil;
     NSString* cellTitle = nil;
@@ -887,13 +842,7 @@ typedef enum
     cell.accessoryType  = UITableViewCellAccessoryNone;
 
     NSString *key   = propertyData.propertyName;
-    NSObject *value = nil;
-    int *primValue  = 0;
-
-//    if (propertyData.propertyType == PTInteger || propertyData.propertyType == PTBool)
-//        primValue = [captureObject performSelector:propertyData.propertyGetSelector withValue:nil];
-//    else
-        value = [captureObject performSelector:propertyData.propertyGetSelector];
+    NSObject *value = [captureObject performSelector:propertyData.propertyGetSelector];
 
     cellTitle = key;
 
@@ -1110,14 +1059,6 @@ typedef enum
         }
     }
 
-// /* If our item is an integer... */
-//    else if (propertyData.propertyType == PTInteger)
-//    {
-//        int intValue = *primValue;
-//        subtitle = [NSString stringWithFormat:@"%d", intValue];
-//        ((UITextField *)editingView).placeholder = propertyData.stringValue = subtitle;
-//    }
-
     else { DLog(@"??????????? %d", propertyData.propertyType); /* I dunno... Just hopin' it won't happen... */ }
 
     if (!propertyData.canEdit)
@@ -1272,8 +1213,6 @@ typedef enum
 
 - (void)dealloc
 {
-//    tableViewHeader, tableViewHeader = nil;
-//    tableViewData, tableViewData = nil;
 }
 @end
 

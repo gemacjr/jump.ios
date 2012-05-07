@@ -53,8 +53,6 @@ typedef enum propertyTypes
 @property (strong) UILabel  *subtitleLabel;
 @property (strong) UIView   *editingView;
 @property          BOOL      canEdit;
-@property          BOOL      canDrillDown;
-- (void)printDescription;
 @end
 
 @implementation SimplePluralPropertyData
@@ -66,13 +64,6 @@ typedef enum propertyTypes
 @synthesize subtitleLabel;
 @synthesize editingView;
 @synthesize canEdit;
-@synthesize canDrillDown;
-
-- (void)printDescription
-{
-    DLog("propertyType=%d, propertyName=%@, propertySetSelector=%d, propertyGetSelector=%d, stringValue=%@",
-            propertyType, propertyName, propertySetSelector, propertyGetSelector, stringValue);
-}
 @end
 
 static SEL getSetSelectorFromKey(NSString *key)
@@ -189,10 +180,6 @@ static Class getClassFromKey(NSString *key)
 }
 
 #define EDITING_VIEW_OFFSET 100
-//#define LEFT_BUTTON_OFFSET  1000
-//#define RIGHT_BUTTON_OFFSET 2000
-//#define LEFT_LABEL_OFFSET   3000
-//#define DATE_PICKER_OFFSET  4000
 
 - (void)scrollTableViewToRect:(CGRect)rect
 {
@@ -307,15 +294,6 @@ static Class getClassFromKey(NSString *key)
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
 
-//    for (SimplePluralPropertyData *data in propertyDataArray)
-//    {
-//        if (data.canEdit)
-//        {
-//            data.editingView.hidden   = NO;
-//            data.subtitleLabel.hidden = YES;
-//        }
-//    }
-
     isEditing = YES;
 
     [myTableView reloadData];
@@ -333,15 +311,6 @@ static Class getClassFromKey(NSString *key)
     self.navigationItem.rightBarButtonItem.enabled = YES;
 
     self.navigationItem.rightBarButtonItem.style   = UIBarButtonItemStyleBordered;
-
-//    for (SimplePluralPropertyData *data in propertyDataArray)
-//    {
-//        if (data.canEdit)
-//        {
-//            data.editingView.hidden   = YES;
-//            data.subtitleLabel.hidden = NO;
-//        }
-//    }
 
     isEditing = NO;
 
@@ -444,7 +413,7 @@ static Class getClassFromKey(NSString *key)
 
     UILabel *titleLabel    = (UILabel*)[cell.contentView viewWithTag:keyLabelTag];
     UILabel *subtitleLabel = (UILabel*)[cell.contentView viewWithTag:valueLabelTag];
-    UIView  *editingView   = [cell.contentView viewWithTag:editingViewTag];//propertyData.editingView;
+    UIView  *editingView   = [cell.contentView viewWithTag:editingViewTag];
 
     NSString* subtitle  = nil;
     NSString* cellTitle = nil;
@@ -515,11 +484,6 @@ static Class getClassFromKey(NSString *key)
         subtitleLabel.text = subtitle;
 
     titleLabel.text    = cellTitle;
-
-//    if (!cellTitle)
-//        subtitleLabel.frame = UP_A_LITTLE_HIGHER(subtitleLabel);
-//    else
-//        subtitleLabel.frame = WHERE_IT_SHOULD_BE(subtitleLabel);
 
     return cell;
 }
@@ -606,8 +570,6 @@ static Class getClassFromKey(NSString *key)
 
 - (void)dealloc
 {
-//    tableViewHeader, tableViewHeader = nil;
-//    tableViewData, tableViewData = nil;
 }
 @end
 
