@@ -38,10 +38,12 @@
 
 @protocol JRCaptureInterfaceDelegate <NSObject>
 @optional
-- (void)getCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
-- (void)getCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context;
 - (void)createCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
 - (void)createCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)getCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)getCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)getCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)getCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
 - (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
 - (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
 - (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
