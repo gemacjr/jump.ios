@@ -49,10 +49,51 @@
     return objectCopy;
 }
 
+- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
+{
+    DLog(@"");
+
+    NSDictionary    *myContext     = (NSDictionary *)context;
+    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+    //NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+    id<JRCaptureObjectDelegate>
+                     delegate      = [myContext objectForKey:@"delegate"];
+
+    if ([delegate respondsToSelector:@selector(updateCaptureObject:didFailWithResult:context:)])
+        [delegate updateCaptureObject:captureObject didFailWithResult:result context:callerContext];
+}
+
+- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+{
+    DLog(@"");
+
+    NSDictionary    *myContext     = (NSDictionary *)context;
+    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+    id<JRCaptureObjectDelegate>
+                     delegate      = [myContext objectForKey:@"delegate"];
+
+    NSDictionary *resultDictionary = [result objectFromJSONString];
+
+    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
+        [self updateCaptureObjectDidFailWithResult:result context:context];
+
+    if (![resultDictionary objectForKey:@"result"])
+        [self updateCaptureObjectDidFailWithResult:result context:context];
+
+    [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
+    [captureObject.dirtyPropertySet removeAllObjects];
+
+    if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
+        [delegate updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
+}
+
 - (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
-    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+    //NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureObjectDelegate>
@@ -86,45 +127,71 @@
         [delegate replaceCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
 }
 
-- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceCaptureArrayDidFailWithResult:(NSString *)result context:(NSObject *)context
 {
-    DLog(@"");
-
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+    NSString        *arrayName     = [myContext objectForKey:@"arrayName"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    if ([delegate respondsToSelector:@selector(updateCaptureObject:didFailWithResult:context:)])
-        [delegate updateCaptureObject:captureObject didFailWithResult:result context:callerContext];
+    if ([delegate respondsToSelector:@selector(replaceArrayNamed:onCaptureObject:didFailWithResult:context:)])
+        [delegate replaceArrayNamed:arrayName onCaptureObject:captureObject didFailWithResult:result context:callerContext];
 }
 
-- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceCaptureArrayDidSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
-    DLog(@"");
-
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
     NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+    NSString        *arrayName     = [myContext objectForKey:@"arrayName"];
+    NSString        *elementType   = [myContext objectForKey:@"elementType"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
     NSDictionary *resultDictionary = [result objectFromJSONString];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
+        [self replaceCaptureObjectDidFailWithResult:result context:context];
 
     if (![resultDictionary objectForKey:@"result"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
+        [self replaceCaptureObjectDidFailWithResult:result context:context];
 
-    [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
-    [captureObject.dirtyPropertySet removeAllObjects];
+    NSString *capitalizedName =
+                        [arrayName stringByReplacingCharactersInRange:NSMakeRange(0,1)
+                                                           withString:[[arrayName substringToIndex:1] capitalizedString]];
 
-    if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
-        [delegate updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
+    SEL setNewArrayInParentSelector =
+                NSSelectorFromString([NSString stringWithFormat:@"set%@:", capitalizedName]);
+
+    NSArray *resultsArray = [resultDictionary objectForKey:@"result"];
+    NSArray *newArray;
+    if (elementType)/* Then it's a simple array */
+    {
+        SEL arrayOfObjectsFromArrayOfDictionariesSelector =
+                @selector(arrayOfStringPluralElementsFromStringPluralDictionariesWithType:andPath:);
+
+        newArray = [resultsArray performSelector:arrayOfObjectsFromArrayOfDictionariesSelector
+                                      withObject:elementType
+                                      withObject:capturePath];
+    }
+    else
+    {
+        SEL arrayOfObjectsFromArrayOfDictionariesSelector = NSSelectorFromString(
+                [NSString stringWithFormat:@"arrayOf%@ObjectsFrom%@DictionariesWithPath:", capitalizedName, capitalizedName]);
+
+        newArray = [resultsArray performSelector:arrayOfObjectsFromArrayOfDictionariesSelector
+                                      withObject:capturePath];
+    }
+
+    [captureObject performSelector:setNewArrayInParentSelector withObject:newArray];
+    [captureObject.dirtyPropertySet removeObject:arrayName];
+
+    if ([delegate respondsToSelector:@selector(replaceArray:named:onCaptureObject:didSucceedWithResult:context:)])
+        [delegate replaceArray:newArray named:arrayName onCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
 }
 
 - (NSDictionary *)toDictionary
@@ -215,22 +282,57 @@
                                  withContext:newContext];
 }
 
-- (void)replaceArrayOnCapture:(NSArray *)array atPath:(NSString *)captureArrayPath forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName
+                  forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
+    NSString *captureArrayPath = [NSString stringWithFormat:@"%@/%@", self.captureObjectPath, arrayName];
+    NSString *capitalizedName  =
+                    [arrayName stringByReplacingCharactersInRange:NSMakeRange(0,1)
+                                                       withString:[[arrayName substringToIndex:1] capitalizedString]];
+
+    SEL arrayOfObjectsToArrayOfDictionariesSelector = NSSelectorFromString(
+            [NSString stringWithFormat:@"arrayOf%@ReplaceDictionariesFrom%@Objects", capitalizedName, capitalizedName]);
+
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
-                                                     captureArrayPath, @"capturePath",
+                                                     arrayName, @"arrayName",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     [NSNumber numberWithBool:NO], @"isSimpleArray",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureArray:array
-                                      //withId:[self.captureUserId integerValue]
+    [JRCaptureInterface replaceCaptureArray:[array performSelector:arrayOfObjectsToArrayOfDictionariesSelector]
                                      atPath:captureArrayPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
                                 withContext:newContext];
 }
 
+- (void)replaceSimpleArrayOnCapture:(NSArray *)array ofType:(NSString *)elementType named:(NSString *)arrayName
+                        forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSString *captureArrayPath = [NSString stringWithFormat:@"%@/%@", self.captureObjectPath, arrayName];
+//    NSString *capitalizedName  = [arrayName stringByReplacingCharactersInRange:NSMakeRange(0,1)
+//                                                       withString:[[arrayName substringToIndex:1] capitalizedString]];
+//
+//    SEL arrayOfObjectsToArrayOfDictionariesSelector = NSSelectorFromString(
+//            [NSString stringWithFormat:@"arrayOf%@ReplaceDictionariesFrom%@Objects", capitalizedName, capitalizedName]);
+
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     arrayName, @"arrayName",
+                                                     elementType, @"elementType",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     [NSNumber numberWithBool:YES], @"isSimpleArray",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface replaceCaptureArray:[array arrayOfStringPluralReplaceDictionariesFromStringPluralElements]
+                                     atPath:captureArrayPath
+                                  withToken:[JRCaptureData accessToken]
+                                forDelegate:self
+                                withContext:newContext];
+}
 
 - (void)dealloc
 {
@@ -402,7 +504,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:[self.elementId integerValue]
+//                                     withId:[self.elementId integerValue]
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self
@@ -429,7 +531,7 @@
                                                      context, @"callerContext", nil];
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:[self.elementId integerValue]
+//                                      withId:[self.elementId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
                                  forDelegate:self

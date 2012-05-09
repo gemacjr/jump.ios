@@ -1464,12 +1464,15 @@
 //                                withContext:newContext];
 //}
 
-- (void)replaceSomeArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceGamesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.games
-                         atPath:[NSString stringWithFormat:@"%@/%@", self.captureObjectPath, @"arrayName"]
-                    forDelegate:delegate
-                    withContext:context];
+    [self replaceArrayOnCapture:self.games named:@"games" forDelegate:delegate withContext:context];
+}
+
+- (void)replaceTesterStringPluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    [self replaceSimpleArrayOnCapture:self.testerStringPlural ofType:@"stringPluralItem" named:@"testerStringPlural"
+                          forDelegate:delegate withContext:context];
 }
 
 - (NSDictionary*)objectProperties

@@ -60,7 +60,21 @@
 
 - (IBAction)deleteButtonPressed:(id)sender
 {
+    DLog(@"");
+    [sharedData.captureUser replaceGamesArrayOnCaptureForDelegate:self withContext:nil];
+    [sharedData.captureUser replaceTesterStringPluralArrayOnCaptureForDelegate:self withContext:nil];
 
+    [[SharedData sharedData] resaveCaptureUser];
+}
+
+- (void)replaceArray:(NSArray *)array named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+{
+    DLog(@"");
+}
+
+- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+{
+    DLog(@"");
 }
 
 - (IBAction)signInButtonPressed:(id)sender

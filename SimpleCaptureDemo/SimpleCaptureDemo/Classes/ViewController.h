@@ -16,7 +16,7 @@
 //#import "JRCaptureInterface.h"
 
 
-@interface ViewController : UIViewController <SignInDelegate>
+@interface ViewController : UIViewController <SignInDelegate, JRCaptureObjectDelegate>
 - (IBAction)browseButtonPressed:(id)sender;
 - (IBAction)updateButtonPressed:(id)sender;
 - (IBAction)deleteButtonPressed:(id)sender;

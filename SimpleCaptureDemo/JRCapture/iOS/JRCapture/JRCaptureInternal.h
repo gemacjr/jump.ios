@@ -18,6 +18,9 @@
 - (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
 - (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
 - (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
+// TODO: Do we want to add the name of the array to this method as well?
+- (void)replaceArray:(NSArray *)array named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
 
 @protocol JRCaptureInterfaceDelegate;
@@ -34,8 +37,10 @@
 //- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary;
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
-- (void)replaceArrayOnCapture:(NSArray *)array atPath:(NSString *)captureArrayPath
+- (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName
                   forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+- (void)replaceSimpleArrayOnCapture:(NSArray *)array ofType:(NSString *)elementType named:(NSString *)arrayName
+                        forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 @end
 
 @interface JRStringPluralElement : JRCaptureObject

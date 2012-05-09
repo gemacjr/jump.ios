@@ -192,18 +192,30 @@ static Class getClassFromKey(NSString *key)
     [myTableView reloadData];
 }
 
-- (IBAction)replaceButtonPressed:(id)sender
+- (void)saveLocalArrayToCaptureObject
 {
-    DLog(@"");
-
     SEL setArraySelector =
                 NSSelectorFromString([NSString stringWithFormat:@"set%@:",
                           [tableHeader stringByReplacingCharactersInRange:NSMakeRange(0,1)
                                                                withString:[[tableHeader substringToIndex:1] capitalizedString]]]);
 
-    [captureObject performSelector:setArraySelector withObject:localCopyArray];
+    [captureObject performSelector:setArraySelector withObject:[NSArray arrayWithArray:localCopyArray]];
+}
+
+- (IBAction)replaceButtonPressed:(id)sender
+{
+    DLog(@"");
+
+//    SEL setArraySelector =
+//                NSSelectorFromString([NSString stringWithFormat:@"set%@:",
+//                          [tableHeader stringByReplacingCharactersInRange:NSMakeRange(0,1)
+//                                                               withString:[[tableHeader substringToIndex:1] capitalizedString]]]);
+//
+//    [captureObject performSelector:setArraySelector withObject:localCopyArray];
 
     [self doneButtonPressed:nil];
+
+    [self saveLocalArrayToCaptureObject];
     [captureObject replaceObjectOnCaptureForDelegate:self withContext:nil];
 }
 
@@ -227,6 +239,8 @@ static Class getClassFromKey(NSString *key)
     [self setCellTextForObjectData:objectData atIndex:[objectDataArray count]];
 
     [objectDataArray addObject:objectData];
+
+    [self saveLocalArrayToCaptureObject];
 
     [myTableView beginUpdates];
     [myTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:[localCopyArray count] - 1
@@ -281,6 +295,8 @@ static Class getClassFromKey(NSString *key)
 
     [localCopyArray removeObjectAtIndex:itemIndex];
     [objectDataArray removeObjectAtIndex:itemIndex];
+
+    [self saveLocalArrayToCaptureObject];
 
     [myTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:itemIndex inSection:0]]
                        withRowAnimation:UITableViewRowAnimationLeft];
