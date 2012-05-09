@@ -48,6 +48,8 @@
 - (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
 - (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
 - (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceCaptureArrayDidSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceCaptureArrayDidFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
 
 @interface JRCaptureInterface : NSObject <JRConnectionManagerDelegate>
@@ -60,18 +62,29 @@
               forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
               withContext:(NSObject *)context;
 
++ (void)getCaptureObjectAtPath:(NSString *)entityPath
+                     withToken:(NSString *)token
+                   forDelegate:(id <JRCaptureInterfaceDelegate>)delegate
+                   withContext:(NSObject *)context;
+
 + (void)updateCaptureObject:(NSDictionary *)captureObject
-                     withId:(NSInteger)objectId
+//                     withId:(NSInteger)objectId
                      atPath:(NSString *)entityPath
                   withToken:(NSString *)token
                 forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
                 withContext:(NSObject *)context;
 
-
 + (void)replaceCaptureObject:(NSDictionary *)captureObject
-                      withId:(NSInteger)objectId
+//                      withId:(NSInteger)objectId
                       atPath:(NSString *)entityPath
                    withToken:(NSString *)token
                  forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
+                 withContext:(NSObject *)context;
+
++ (void)replaceCaptureArray:(NSArray *)captureArray
+//                   withId:(NSInteger)objectId
+                     atPath:(NSString *)entityPath
+                  withToken:(NSString *)token
+                 forDelegate:(id <JRCaptureInterfaceDelegate>)delegate
                  withContext:(NSObject *)context;
 @end

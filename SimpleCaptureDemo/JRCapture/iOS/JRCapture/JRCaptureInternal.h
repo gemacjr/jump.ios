@@ -34,6 +34,8 @@
 //- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary;
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+- (void)replaceArrayOnCapture:(NSArray *)array atPath:(NSString *)captureArrayPath
+                  forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 @end
 
 @interface JRStringPluralElement : JRCaptureObject

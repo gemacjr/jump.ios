@@ -171,17 +171,66 @@
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+//- (void)updateObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+//{
+//    [NSException raise:NSInternalInconsistencyException
+//                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+//}
+//
+//- (void)replaceObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+//{
+//    [NSException raise:NSInternalInconsistencyException
+//                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+//}
+
+- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [NSException raise:NSInternalInconsistencyException
-                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
+                                     //withId:[self.captureUserId integerValue]
+                                     atPath:self.captureObjectPath
+                                  withToken:[JRCaptureData accessToken]
+                                forDelegate:self
+                                withContext:newContext];
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id <JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [NSException raise:NSInternalInconsistencyException
-                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     self.captureObjectPath, @"capturePath",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
+                                      //withId:[self.captureUserId integerValue]
+                                      atPath:self.captureObjectPath
+                                   withToken:[JRCaptureData accessToken]
+                                 forDelegate:self
+                                 withContext:newContext];
 }
+
+- (void)replaceArrayOnCapture:(NSArray *)array atPath:(NSString *)captureArrayPath forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                     self, @"captureObject",
+                                                     captureArrayPath, @"capturePath",
+                                                     delegate, @"delegate",
+                                                     context, @"callerContext", nil];
+
+    [JRCaptureInterface replaceCaptureArray:array
+                                      //withId:[self.captureUserId integerValue]
+                                     atPath:captureArrayPath
+                                  withToken:[JRCaptureData accessToken]
+                                forDelegate:self
+                                withContext:newContext];
+}
+
 
 - (void)dealloc
 {

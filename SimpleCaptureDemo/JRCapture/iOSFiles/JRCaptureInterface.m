@@ -147,6 +147,8 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"type_name=%@", [JRCaptureData entityTypeName]] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
 
+    /* Here for testing against Carl's local instance */
+    /* TODO: Remove when done */
     if (appIdArg)
         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
 
@@ -198,6 +200,8 @@ typedef enum CaptureInterfaceStatEnum
     [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[[NSString stringWithFormat:@"&creation_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
 
+    /* Here for testing against Carl's local instance */
+    /* TODO: Remove when done */
     if (appIdArg)
         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
 
@@ -220,7 +224,6 @@ typedef enum CaptureInterfaceStatEnum
         [self finishCreateCaptureUserWithStat:StatFail andResult:@"url failed" forDelegate:delegate withContext:context];
 }
 
-
 - (void)finishGetObjectWithStat:(CaptureInterfaceStat)stat andResult:(NSString*)result
                     forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
@@ -238,7 +241,8 @@ typedef enum CaptureInterfaceStatEnum
     }
 }
 
-- (void)startGetCaptureObjectWithId:(NSInteger)objectId atPath:(NSString *)entityPath withToken:(NSString *)token
+//- (void)startGetCaptureObjectWithId:(NSInteger)objectId atPath:(NSString *)entityPath withToken:(NSString *)token
+- (void)startGetCaptureObjectAtPath:(NSString *)entityPath withToken:(NSString *)token
                         forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     DLog(@"");
@@ -250,6 +254,8 @@ typedef enum CaptureInterfaceStatEnum
     else
         [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
 
+    /* Here for testing against Carl's local instance */
+    /* TODO: Remove when done */
     if (appIdArg)
         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
 
@@ -289,7 +295,7 @@ typedef enum CaptureInterfaceStatEnum
     }
 }
 
-- (void)startUpdateObject:(NSDictionary *)captureObject withId:(NSInteger)objectId atPath:(NSString *)entityPath
+- (void)startUpdateObject:(NSDictionary *)captureObject /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath
                 withToken:(NSString *)token forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     DLog(@"");
@@ -305,6 +311,8 @@ typedef enum CaptureInterfaceStatEnum
     else
         [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
 
+    /* Here for testing against Carl's local instance */
+    /* TODO: Remove when done */
     if (appIdArg)
         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
 
@@ -343,7 +351,7 @@ typedef enum CaptureInterfaceStatEnum
     }
 }
 
-- (void)startReplaceObject:(NSDictionary *)captureObject withId:(NSInteger)objectId atPath:(NSString *)entityPath
+- (void)startReplaceObject:(NSDictionary *)captureObject /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath
                  withToken:(NSString *)token forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     DLog(@"");
@@ -359,6 +367,8 @@ typedef enum CaptureInterfaceStatEnum
     else
         [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
 
+    /* Here for testing against Carl's local instance */
+    /* TODO: Remove when done */
     if (appIdArg)
          [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
 
@@ -381,6 +391,63 @@ typedef enum CaptureInterfaceStatEnum
         [self finishReplaceObjectWithStat:StatFail andResult:@"url failed" forDelegate:delegate withContext:context];
 }
 
+- (void)finishReplaceArrayWithStat:(CaptureInterfaceStat)stat andResult:(NSString*)result
+                       forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
+{
+    DLog(@"");
+    if (stat == StatOk)
+    {
+        if ([delegate respondsToSelector:@selector(replaceCaptureArrayDidSucceedWithResult:context:)])
+            [delegate replaceCaptureArrayDidSucceedWithResult:result context:context];
+    }
+    else
+    {
+        if ([delegate respondsToSelector:@selector(replaceCaptureArrayDidFailWithResult:context:)])
+            [delegate replaceCaptureArrayDidFailWithResult:result context:context];
+    }
+}
+
+- (void)startReplaceArray:(NSArray *)captureArray /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath
+                withToken:(NSString *)token forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
+{
+    DLog(@"");
+
+    NSString      *attributes = [[captureArray JSONString] URLEscaped];
+    NSMutableData *body       = [NSMutableData data];
+
+    [body appendData:[[NSString stringWithFormat:@"&attributes=%@", attributes] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"&access_token=%@", token] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"&include_record=true" dataUsingEncoding:NSUTF8StringEncoding]];
+
+    // TODO: Test for this at the beginning and send an error if it fails??
+    if (!entityPath || [entityPath isEqualToString:@""]) ;
+    else
+        [body appendData:[[NSString stringWithFormat:@"&attribute_name=%@", entityPath] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    /* Here for testing against Carl's local instance */
+    /* TODO: Remove when done */
+    if (appIdArg)
+         [body appendData:[appIdArg dataUsingEncoding:NSUTF8StringEncoding]];
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:
+                                     [NSURL URLWithString:
+                                      [NSString stringWithFormat:@"%@/entity.replace", [JRCaptureData captureApidDomain]]]];
+
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:body];
+
+    NSDictionary *tag = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"replaceArray", @"action",
+                                        delegate, @"delegate",
+                                        context, @"context", nil];
+
+    DLog(@"%@ attributes=%@ access_token=%@ attribute_name=%@", [[request URL] absoluteString], attributes, token, entityPath);
+
+    // TODO: Better error format
+    if (![JRConnectionManager createConnectionFromRequest:request forDelegate:self withTag:tag]) /* tag vs context for workaround */
+        [self finishReplaceArrayWithStat:StatFail andResult:@"url failed" forDelegate:delegate withContext:context];
+}
+
 + (void)getCaptureUserWithToken:(NSString *)token
                     forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
@@ -395,19 +462,33 @@ typedef enum CaptureInterfaceStatEnum
             startCreateCaptureUser:captureUser withToken:token forDelegate:delegate withContext:context];
 }
 
-+ (void)updateCaptureObject:(NSDictionary *)captureObject withId:(NSInteger)objectId atPath:(NSString *)entityPath withToken:(NSString *)token
++ (void)getCaptureObjectAtPath:(NSString *)entityPath withToken:(NSString *)token
+                   forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
+{
+    [[JRCaptureInterface captureInterfaceInstance]
+            startGetCaptureObjectAtPath:entityPath withToken:token forDelegate:delegate withContext:context];
+}
+
++ (void)updateCaptureObject:(NSDictionary *)captureObject /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath withToken:(NSString *)token
                 forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     DLog(@"");
     [[JRCaptureInterface captureInterfaceInstance]
-            startUpdateObject:captureObject withId:objectId atPath:entityPath withToken:token forDelegate:delegate withContext:context];
+            startUpdateObject:captureObject /*withId:objectId*/ atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
-+ (void)replaceCaptureObject:(NSDictionary *)captureObject withId:(NSInteger)objectId atPath:(NSString *)entityPath withToken:(NSString *)token
++ (void)replaceCaptureObject:(NSDictionary *)captureObject /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath withToken:(NSString *)token
                  forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     [[JRCaptureInterface captureInterfaceInstance]
-            startReplaceObject:captureObject withId:objectId atPath:entityPath withToken:token forDelegate:delegate withContext:context];
+            startReplaceObject:captureObject /*withId:objectId*/ atPath:entityPath withToken:token forDelegate:delegate withContext:context];
+}
+
++ (void)replaceCaptureArray:(NSArray *)captureArray /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath withToken:(NSString *)token
+                forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
+{
+    [[JRCaptureInterface captureInterfaceInstance]
+            startReplaceArray:captureArray /*withId:objectId*/ atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
 - (void)connectionDidFinishLoadingWithPayload:(NSString*)payload request:(NSURLRequest*)request andTag:(id)userdata
@@ -417,77 +498,95 @@ typedef enum CaptureInterfaceStatEnum
     NSDictionary *tag       = (NSDictionary*)userdata;
     NSString     *action    = [tag objectForKey:@"action"];
     NSObject     *context   = [tag objectForKey:@"context"];
+
+    NSDictionary *response    = [payload objectFromJSONString];
+    CaptureInterfaceStat stat = [[response objectForKey:@"stat"] isEqualToString:@"ok"] ? StatOk : StatFail;
+
     id<JRCaptureInterfaceDelegate> delegate = [tag objectForKey:@"delegate"];
 
     if ([action isEqualToString:@"getUser"])
     {
-        NSDictionary *response = [payload objectFromJSONString];
-        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
-        {
-            DLog(@"Get entity success: %@", payload);
-            [self finishGetCaptureUserWithStat:StatOk andResult:payload forDelegate:delegate withContext:context];
-        }
-        else
-        {
-            DLog(@"Get entity failure: %@", payload);
-            [self finishGetCaptureUserWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
-        }
+//        NSDictionary *response = [payload objectFromJSONString];
+//        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
+//        {
+//            DLog(@"Get entity success: %@", payload);
+            [self finishGetCaptureUserWithStat:stat andResult:payload forDelegate:delegate withContext:context];
+//        }
+//        else
+//        {
+//            DLog(@"Get entity failure: %@", payload);
+//            [self finishGetCaptureUserWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
+//        }
     }
     else if ([action isEqualToString:@"createUser"])
     {
-        NSDictionary *response = [payload objectFromJSONString];
-        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
-        {
-            DLog(@"Capture creation success: %@", payload);
-            [self finishCreateCaptureUserWithStat:StatOk andResult:payload forDelegate:delegate withContext:context];
-        }
-        else
-        {
-            DLog(@"Capture creation failure: %@", payload);
-            [self finishCreateCaptureUserWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
-        }
+//        NSDictionary *response = [payload objectFromJSONString];
+//        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
+//        {
+//            DLog(@"Capture creation success: %@", payload);
+            [self finishCreateCaptureUserWithStat:stat andResult:payload forDelegate:delegate withContext:context];
+//        }
+//        else
+//        {
+//            DLog(@"Capture creation failure: %@", payload);
+//            [self finishCreateCaptureUserWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
+//        }
     }
     else if ([action isEqualToString:@"getObject"])
     {
-        NSDictionary *response = [payload objectFromJSONString];
-        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
-        {
-            DLog(@"Capture update success: %@", payload);
-            [self finishGetObjectWithStat:StatOk andResult:payload forDelegate:delegate withContext:context];
-        }
-        else
-        {
-            DLog(@"Capture update failure: %@", payload);
-            [self finishGetObjectWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
-        }
+//        NSDictionary *response = [payload objectFromJSONString];
+//        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
+//        {
+//            DLog(@"Capture update success: %@", payload);
+            [self finishGetObjectWithStat:stat andResult:payload forDelegate:delegate withContext:context];
+//        }
+//        else
+//        {
+//            DLog(@"Capture update failure: %@", payload);
+//            [self finishGetObjectWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
+//        }
     }
     else if ([action isEqualToString:@"updateObject"])
     {
-        NSDictionary *response = [payload objectFromJSONString];
-        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
-        {
-            DLog(@"Capture update success: %@", payload); /* userdata vs context for workaround */
-            [self finishUpdateObjectWithStat:StatOk andResult:payload forDelegate:delegate withContext:context];
-        }
-        else
-        {
-            DLog(@"Capture update failure: %@", payload); /* userdata vs context for workaround */
-            [self finishUpdateObjectWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
-        }
+//        NSDictionary *response = [payload objectFromJSONString];
+//        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
+//        {
+//            DLog(@"Capture update success: %@", payload); /* userdata vs context for workaround */
+            [self finishUpdateObjectWithStat:stat andResult:payload forDelegate:delegate withContext:context];
+//        }
+//        else
+//        {
+//            DLog(@"Capture update failure: %@", payload); /* userdata vs context for workaround */
+//            [self finishUpdateObjectWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
+//        }
     }
     else if ([action isEqualToString:@"replaceObject"])
     {
-        NSDictionary *response = [payload objectFromJSONString];
-        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
-        {
-            DLog(@"Get entity success: %@", payload); /* userdata vs context for workaround */
-            [self finishReplaceObjectWithStat:StatOk andResult:payload forDelegate:delegate withContext:context];
-        }
-        else
-        {
-            DLog(@"Get entity failure: %@", payload); /* userdata vs context for workaround */
-            [self finishReplaceObjectWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
-        }
+//        NSDictionary *response = [payload objectFromJSONString];
+//        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
+//        {
+//            DLog(@"Get entity success: %@", payload); /* userdata vs context for workaround */
+            [self finishReplaceObjectWithStat:stat andResult:payload forDelegate:delegate withContext:context];
+//        }
+//        else
+//        {
+//            DLog(@"Get entity failure: %@", payload); /* userdata vs context for workaround */
+//            [self finishReplaceObjectWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
+//        }
+    }
+    else if ([action isEqualToString:@"replaceArray"])
+    {
+//        NSDictionary *response = [payload objectFromJSONString];
+//        if ([(NSString *)[response objectForKey:@"stat"] isEqualToString:@"ok"])
+//        {
+//            DLog(@"Get entity success: %@", payload); /* userdata vs context for workaround */
+            [self finishReplaceArrayWithStat:stat andResult:payload forDelegate:delegate withContext:context];
+//        }
+//        else
+//        {
+//            DLog(@"Get entity failure: %@", payload); /* userdata vs context for workaround */
+//            [self finishReplaceArrayWithStat:StatFail andResult:payload forDelegate:delegate withContext:context];
+//        }
     }
 }
 
@@ -524,6 +623,10 @@ typedef enum CaptureInterfaceStatEnum
     else if ([action isEqualToString:@"replaceObject"])
     {
         [self finishReplaceObjectWithStat:StatFail andResult:result forDelegate:delegate withContext:context];
+    }
+    else if ([action isEqualToString:@"replaceArray"])
+    {
+        [self finishReplaceArrayWithStat:StatFail andResult:result forDelegate:delegate withContext:context];
     }
 }
 
