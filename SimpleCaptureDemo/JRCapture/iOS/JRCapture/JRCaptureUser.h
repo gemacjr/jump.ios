@@ -39,6 +39,7 @@
 #import "JRPrimaryAddress.h"
 #import "JRProfiles.h"
 #import "JRStatuses.h"
+#import "JRStringPluralElement.h"
 
 /**
  * @brief A JRCaptureUser object

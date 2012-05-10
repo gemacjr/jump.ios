@@ -18,6 +18,7 @@
 		90C36B6B7717AA0C893E0918 /* SimpleCaptureDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E0917 /* SimpleCaptureDemoTests.m */; };
 		9F2C93BC1551A7AE001A810E /* SimplePluralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F2C93BA1551A7AE001A810E /* SimplePluralViewController.m */; };
 		9F2C93C11551A7EC001A810E /* SimplePluralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F2C93BF1551A7EC001A810E /* SimplePluralViewController.xib */; };
+		9F2C93CF155C2A4A001A810E /* JRStringPluralElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F2C93CE155C2A4A001A810E /* JRStringPluralElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9F7B6A8415336470002BF452 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8215336470002BF452 /* InfoPlist.strings */; };
 		9F7B6A9315336480002BF452 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8615336480002BF452 /* AppDelegate.m */; };
 		9F7B6A9415336480002BF452 /* ArrayDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8815336480002BF452 /* ArrayDrillDownViewController.m */; };
@@ -268,6 +269,8 @@
 		9F2C93B91551A7AE001A810E /* SimplePluralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimplePluralViewController.h; path = Classes/SimplePluralViewController.h; sourceTree = "<group>"; };
 		9F2C93BA1551A7AE001A810E /* SimplePluralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimplePluralViewController.m; path = Classes/SimplePluralViewController.m; sourceTree = "<group>"; };
 		9F2C93C01551A7EC001A810E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = SimplePluralViewController.xib; sourceTree = "<group>"; };
+		9F2C93CD155C2A4A001A810E /* JRStringPluralElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRStringPluralElement.h; path = JRCapture/iOS/JRCapture/JRStringPluralElement.h; sourceTree = "<group>"; };
+		9F2C93CE155C2A4A001A810E /* JRStringPluralElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRStringPluralElement.m; path = JRCapture/iOS/JRCapture/JRStringPluralElement.m; sourceTree = "<group>"; };
 		9F7B6A8315336470002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F7B6A8515336480002BF452 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		9F7B6A8615336480002BF452 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
@@ -787,6 +790,8 @@
 				9FD2B68814F8380F00053EA2 /* JRStatuses.m */,
 				9FD2B69114F8380F00053EA2 /* JRUrls.h */,
 				9FD2B69214F8380F00053EA2 /* JRUrls.m */,
+				9F2C93CD155C2A4A001A810E /* JRStringPluralElement.h */,
+				9F2C93CE155C2A4A001A810E /* JRStringPluralElement.m */,
 			);
 			name = JRCapture;
 			sourceTree = "<group>";
@@ -1447,6 +1452,7 @@
 				9F7B6A9815336480002BF452 /* UserDrillDownViewController.m in Sources */,
 				9F7B6A9915336480002BF452 /* ViewController.m in Sources */,
 				9F2C93BC1551A7AE001A810E /* SimplePluralViewController.m in Sources */,
+				9F2C93CF155C2A4A001A810E /* JRStringPluralElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

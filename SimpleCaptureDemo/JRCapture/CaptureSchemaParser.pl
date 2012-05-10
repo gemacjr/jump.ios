@@ -342,8 +342,10 @@ sub recursiveParse {
   }
 
   if ($pluralParent) {
-    $minConstructorSection[3] = "        self.canBeUpdatedOrReplaced = NO;\n";
-    $constructorSection[8]    = "        self.canBeUpdatedOrReplaced = NO;\n";
+    $minConstructorSection[3]  = "        self.captureObjectPath = \@\"\";\n";
+    $minConstructorSection[3] .= "        self.canBeUpdatedOrReplaced = NO;\n";
+    $constructorSection[8]     = "        self.captureObjectPath = \@\"\";\n";
+    $constructorSection[8]    .= "        self.canBeUpdatedOrReplaced = NO;\n";
   } else {
 
     if ($objectName eq "captureUser") {      
@@ -637,6 +639,8 @@ sub recursiveParse {
         $isSimpleArray = 1;
         
         $objectiveType = "JRSimpleArray *";      
+        
+        $extraImportsSection    .= "#import \"JRStringPluralElement.h\"\n";
         
         $simpleArrayType = getSimplePluralType($propertyAttrDefsRef);
         

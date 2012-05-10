@@ -30,6 +30,9 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
+#import "JRStringPluralElement.h"
+#import "JRStringPluralElement.h"
+#import "JRStringPluralElement.h"
 #import "JRProfile.h"
 
 /**

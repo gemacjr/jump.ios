@@ -232,6 +232,7 @@
 {
     if ((self = [super init]))
     {
+        self.captureObjectPath = @"";
         self.canBeUpdatedOrReplaced = NO;
     }
     return self;

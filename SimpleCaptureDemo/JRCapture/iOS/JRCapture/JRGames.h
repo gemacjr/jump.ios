@@ -30,6 +30,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
+#import "JRStringPluralElement.h"
 
 /**
  * @brief A JRGames object
