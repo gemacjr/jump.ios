@@ -39,6 +39,10 @@
 
 #import "JRPhotos.h"
 
+@interface JRPhotos ()
+@property BOOL canBeUpdatedOrReplaced;
+@end
+
 @implementation JRPhotos
 {
     JRObjectId *_photosId;
@@ -48,6 +52,7 @@
 @dynamic photosId;
 @dynamic type;
 @dynamic value;
+@synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)photosId
 {
@@ -86,7 +91,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"/photos";
+        self.canBeUpdatedOrReplaced = NO;
     }
     return self;
 }
@@ -107,8 +112,10 @@
     photosCopy.type = self.type;
     photosCopy.value = self.value;
 
-    [photosCopy.dirtyPropertySet removeAllObjects];
+    photosCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    
     [photosCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [photosCopy.dirtyArraySet setSet:self.dirtyPropertySet];
 
     return photosCopy;
 }
@@ -149,6 +156,7 @@
         [dictionary objectForKey:@"value"] : nil;
 
     [photos.dirtyPropertySet removeAllObjects];
+    [photos.dirtyArraySet removeAllObjects];
     
     return photos;
 }
@@ -157,6 +165,10 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
@@ -170,12 +182,19 @@
     if ([dictionary objectForKey:@"value"])
         self.value = [dictionary objectForKey:@"value"] != [NSNull null] ? 
             [dictionary objectForKey:@"value"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.photosId =
@@ -189,6 +208,9 @@
     self.value =
         [dictionary objectForKey:@"value"] != [NSNull null] ? 
         [dictionary objectForKey:@"value"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -205,22 +227,6 @@
     return dict;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:[self.photosId integerValue]
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
-}
-
 - (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
@@ -230,22 +236,6 @@
     [dict setObject:(self.value ? self.value : [NSNull null]) forKey:@"value"];
 
     return dict;
-}
-
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:[self.photosId integerValue]
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
 }
 
 - (NSDictionary*)objectProperties

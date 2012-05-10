@@ -39,6 +39,10 @@
 
 #import "JRLocation.h"
 
+@interface JRLocation ()
+@property BOOL canBeUpdatedOrReplaced;
+@end
+
 @implementation JRLocation
 {
     NSString *_country;
@@ -64,6 +68,7 @@
 @dynamic region;
 @dynamic streetAddress;
 @dynamic type;
+@synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)country
 {
@@ -190,7 +195,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"/profiles/profile/organizations/location";
+        self.canBeUpdatedOrReplaced = NO;
     }
     return self;
 }
@@ -219,8 +224,10 @@
     locationCopy.streetAddress = self.streetAddress;
     locationCopy.type = self.type;
 
-    [locationCopy.dirtyPropertySet removeAllObjects];
+    locationCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    
     [locationCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [locationCopy.dirtyArraySet setSet:self.dirtyPropertySet];
 
     return locationCopy;
 }
@@ -309,6 +316,7 @@
         [dictionary objectForKey:@"type"] : nil;
 
     [location.dirtyPropertySet removeAllObjects];
+    [location.dirtyArraySet removeAllObjects];
     
     return location;
 }
@@ -317,6 +325,10 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
 
     if ([dictionary objectForKey:@"country"])
@@ -362,12 +374,19 @@
     if ([dictionary objectForKey:@"type"])
         self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
             [dictionary objectForKey:@"type"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
 
     self.country =
@@ -413,6 +432,9 @@
     self.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -456,22 +478,6 @@
     return dict;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:0
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
-}
-
 - (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
@@ -490,22 +496,6 @@
     [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
     return dict;
-}
-
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:0
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
 }
 
 - (NSDictionary*)objectProperties

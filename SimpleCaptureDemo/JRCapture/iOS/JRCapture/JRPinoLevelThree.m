@@ -39,6 +39,10 @@
 
 #import "JRPinoLevelThree.h"
 
+@interface JRPinoLevelThree ()
+@property BOOL canBeUpdatedOrReplaced;
+@end
+
 @implementation JRPinoLevelThree
 {
     JRObjectId *_pinoLevelThreeId;
@@ -48,6 +52,7 @@
 @dynamic pinoLevelThreeId;
 @dynamic level;
 @dynamic name;
+@synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)pinoLevelThreeId
 {
@@ -86,7 +91,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"/pinoLevelOne/pinoLevelTwo/pinoLevelThree";
+        self.canBeUpdatedOrReplaced = NO;
     }
     return self;
 }
@@ -107,8 +112,10 @@
     pinoLevelThreeCopy.level = self.level;
     pinoLevelThreeCopy.name = self.name;
 
-    [pinoLevelThreeCopy.dirtyPropertySet removeAllObjects];
+    pinoLevelThreeCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    
     [pinoLevelThreeCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [pinoLevelThreeCopy.dirtyArraySet setSet:self.dirtyPropertySet];
 
     return pinoLevelThreeCopy;
 }
@@ -149,6 +156,7 @@
         [dictionary objectForKey:@"name"] : nil;
 
     [pinoLevelThree.dirtyPropertySet removeAllObjects];
+    [pinoLevelThree.dirtyArraySet removeAllObjects];
     
     return pinoLevelThree;
 }
@@ -157,6 +165,10 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
@@ -170,12 +182,19 @@
     if ([dictionary objectForKey:@"name"])
         self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.pinoLevelThreeId =
@@ -189,6 +208,9 @@
     self.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -205,22 +227,6 @@
     return dict;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:[self.pinoLevelThreeId integerValue]
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
-}
-
 - (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
@@ -230,22 +236,6 @@
     [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     return dict;
-}
-
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:[self.pinoLevelThreeId integerValue]
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
 }
 
 - (NSDictionary*)objectProperties

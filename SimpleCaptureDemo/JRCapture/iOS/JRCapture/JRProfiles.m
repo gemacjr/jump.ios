@@ -39,6 +39,10 @@
 
 #import "JRProfiles.h"
 
+@interface JRProfiles ()
+@property BOOL canBeUpdatedOrReplaced;
+@end
+
 @implementation JRProfiles
 {
     JRObjectId *_profilesId;
@@ -62,6 +66,7 @@
 @dynamic profile;
 @dynamic provider;
 @dynamic remote_key;
+@synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)profilesId
 {
@@ -103,7 +108,7 @@
 
 - (void)setFollowers:(NSArray *)newFollowers
 {
-    [self.dirtyPropertySet addObject:@"followers"];
+    [self.dirtyArraySet addObject:@"followers"];
     _followers = [newFollowers copyArrayOfStringPluralElementsWithType:@"identifier"];
 }
 
@@ -114,7 +119,7 @@
 
 - (void)setFollowing:(NSArray *)newFollowing
 {
-    [self.dirtyPropertySet addObject:@"following"];
+    [self.dirtyArraySet addObject:@"following"];
     _following = [newFollowing copyArrayOfStringPluralElementsWithType:@"identifier"];
 }
 
@@ -125,7 +130,7 @@
 
 - (void)setFriends:(NSArray *)newFriends
 {
-    [self.dirtyPropertySet addObject:@"friends"];
+    [self.dirtyArraySet addObject:@"friends"];
     _friends = [newFriends copyArrayOfStringPluralElementsWithType:@"identifier"];
 }
 
@@ -177,7 +182,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"/profiles";
+        self.canBeUpdatedOrReplaced = NO;
     }
     return self;
 }
@@ -192,7 +197,7 @@
 
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"/profiles";
+        self.canBeUpdatedOrReplaced = NO;
         _domain = [newDomain copy];
         _identifier = [newIdentifier copy];
     }
@@ -225,8 +230,10 @@
     profilesCopy.provider = self.provider;
     profilesCopy.remote_key = self.remote_key;
 
-    [profilesCopy.dirtyPropertySet removeAllObjects];
+    profilesCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    
     [profilesCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [profilesCopy.dirtyArraySet setSet:self.dirtyPropertySet];
 
     return profilesCopy;
 }
@@ -315,6 +322,7 @@
         [dictionary objectForKey:@"remote_key"] : nil;
 
     [profiles.dirtyPropertySet removeAllObjects];
+    [profiles.dirtyArraySet removeAllObjects];
     
     return profiles;
 }
@@ -323,6 +331,10 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
@@ -337,31 +349,14 @@
         self.domain = [dictionary objectForKey:@"domain"] != [NSNull null] ? 
             [dictionary objectForKey:@"domain"] : nil;
 
-    if ([dictionary objectForKey:@"followers"])
-        self.followers = [dictionary objectForKey:@"followers"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"followers"]
-                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/followers", self.captureObjectPath]] : nil;
-
-    if ([dictionary objectForKey:@"following"])
-        self.following = [dictionary objectForKey:@"following"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"following"]
-                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/following", self.captureObjectPath]] : nil;
-
-    if ([dictionary objectForKey:@"friends"])
-        self.friends = [dictionary objectForKey:@"friends"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"friends"]
-                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/friends", self.captureObjectPath]] : nil;
-
     if ([dictionary objectForKey:@"identifier"])
         self.identifier = [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
             [dictionary objectForKey:@"identifier"] : nil;
 
-    if ([dictionary objectForKey:@"profile"])
-        self.profile = [dictionary objectForKey:@"profile"] != [NSNull null] ? 
-            [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath] : nil;
+    if ([dictionary objectForKey:@"profile"] == [NSNull null])
+        self.profile = nil;
+    else if ([dictionary objectForKey:@"profile"])
+        [self.profile updateFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath];
 
     if ([dictionary objectForKey:@"provider"])
         self.provider = [dictionary objectForKey:@"provider"] != [NSNull null] ? 
@@ -370,12 +365,19 @@
     if ([dictionary objectForKey:@"remote_key"])
         self.remote_key = [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
             [dictionary objectForKey:@"remote_key"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.profilesId =
@@ -412,9 +414,10 @@
         [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
         [dictionary objectForKey:@"identifier"] : nil;
 
-    self.profile =
-        [dictionary objectForKey:@"profile"] != [NSNull null] ? 
-        [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath] : nil;
+    if (![dictionary objectForKey:@"profile"] || [dictionary objectForKey:@"profile"] == [NSNull null])
+        self.profile = nil;
+    else
+        [self.profile replaceFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath];
 
     self.provider =
         [dictionary objectForKey:@"provider"] != [NSNull null] ? 
@@ -423,6 +426,9 @@
     self.remote_key =
         [dictionary objectForKey:@"remote_key"] != [NSNull null] ? 
         [dictionary objectForKey:@"remote_key"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -435,15 +441,6 @@
 
     if ([self.dirtyPropertySet containsObject:@"domain"])
         [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
-
-    if ([self.dirtyPropertySet containsObject:@"followers"])
-        [dict setObject:(self.followers ? [self.followers arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"followers"];
-
-    if ([self.dirtyPropertySet containsObject:@"following"])
-        [dict setObject:(self.following ? [self.following arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"following"];
-
-    if ([self.dirtyPropertySet containsObject:@"friends"])
-        [dict setObject:(self.friends ? [self.friends arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"friends"];
 
     if ([self.dirtyPropertySet containsObject:@"identifier"])
         [dict setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
@@ -458,22 +455,6 @@
         [dict setObject:(self.remote_key ? self.remote_key : [NSNull null]) forKey:@"remote_key"];
 
     return dict;
-}
-
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:[self.profilesId integerValue]
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
 }
 
 - (NSDictionary *)toReplaceDictionary
@@ -494,20 +475,22 @@
     return dict;
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceFollowersArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
+    [self replaceSimpleArrayOnCapture:self.followers ofType:@"identifier" named:@"followers"
+                          forDelegate:delegate withContext:context];
+}
 
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:[self.profilesId integerValue]
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
+- (void)replaceFollowingArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    [self replaceSimpleArrayOnCapture:self.following ofType:@"identifier" named:@"following"
+                          forDelegate:delegate withContext:context];
+}
+
+- (void)replaceFriendsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+{
+    [self replaceSimpleArrayOnCapture:self.friends ofType:@"identifier" named:@"friends"
+                          forDelegate:delegate withContext:context];
 }
 
 - (NSDictionary*)objectProperties

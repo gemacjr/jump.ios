@@ -204,15 +204,12 @@
  * @name Manage Remotely 
  **/
 /*@{*/
-/**
- * TODO: Doxygen doc
- **/
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/**
- * TODO: Doxygen doc
- **/
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
-/*@}*/
+
+/** * * TODO: DOXYGEN DOCS * **/- (void)replaceFollowersArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+/** * * TODO: DOXYGEN DOCS * **/- (void)replaceFollowingArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+/** * * TODO: DOXYGEN DOCS * **/- (void)replaceFriendsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;/*@}*/
 
 @end

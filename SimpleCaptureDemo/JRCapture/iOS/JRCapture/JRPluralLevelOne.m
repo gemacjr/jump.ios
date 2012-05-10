@@ -42,7 +42,6 @@
 @interface NSArray (PluralLevelTwoToFromDictionary)
 - (NSArray*)arrayOfPluralLevelTwoObjectsFromPluralLevelTwoDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralLevelTwoDictionariesFromPluralLevelTwoObjects;
-- (NSArray*)arrayOfPluralLevelTwoUpdateDictionariesFromPluralLevelTwoObjects;
 - (NSArray*)arrayOfPluralLevelTwoReplaceDictionariesFromPluralLevelTwoObjects;
 @end
 
@@ -67,16 +66,6 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPluralLevelTwoUpdateDictionariesFromPluralLevelTwoObjects
-{
-    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *object in self)
-        if ([object isKindOfClass:[JRPluralLevelTwo class]])
-            [filteredDictionaryArray addObject:[(JRPluralLevelTwo*)object toUpdateDictionary]];
-
-    return filteredDictionaryArray;
-}
-
 - (NSArray*)arrayOfPluralLevelTwoReplaceDictionariesFromPluralLevelTwoObjects
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
@@ -86,6 +75,10 @@
 
     return filteredDictionaryArray;
 }
+@end
+
+@interface JRPluralLevelOne ()
+@property BOOL canBeUpdatedOrReplaced;
 @end
 
 @implementation JRPluralLevelOne
@@ -99,6 +92,7 @@
 @dynamic level;
 @dynamic name;
 @dynamic pluralLevelTwo;
+@synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)pluralLevelOneId
 {
@@ -140,7 +134,7 @@
 
 - (void)setPluralLevelTwo:(NSArray *)newPluralLevelTwo
 {
-    [self.dirtyPropertySet addObject:@"pluralLevelTwo"];
+    [self.dirtyArraySet addObject:@"pluralLevelTwo"];
     _pluralLevelTwo = [newPluralLevelTwo copy];
 }
 
@@ -148,7 +142,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"/pluralLevelOne";
+        self.canBeUpdatedOrReplaced = NO;
     }
     return self;
 }
@@ -170,8 +164,10 @@
     pluralLevelOneCopy.name = self.name;
     pluralLevelOneCopy.pluralLevelTwo = self.pluralLevelTwo;
 
-    [pluralLevelOneCopy.dirtyPropertySet removeAllObjects];
+    pluralLevelOneCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    
     [pluralLevelOneCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [pluralLevelOneCopy.dirtyArraySet setSet:self.dirtyPropertySet];
 
     return pluralLevelOneCopy;
 }
@@ -218,6 +214,7 @@
         [(NSArray*)[dictionary objectForKey:@"pluralLevelTwo"] arrayOfPluralLevelTwoObjectsFromPluralLevelTwoDictionariesWithPath:pluralLevelOne.captureObjectPath] : nil;
 
     [pluralLevelOne.dirtyPropertySet removeAllObjects];
+    [pluralLevelOne.dirtyArraySet removeAllObjects];
     
     return pluralLevelOne;
 }
@@ -226,6 +223,10 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
@@ -240,15 +241,18 @@
         self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
-    if ([dictionary objectForKey:@"pluralLevelTwo"])
-        self.pluralLevelTwo = [dictionary objectForKey:@"pluralLevelTwo"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"pluralLevelTwo"] arrayOfPluralLevelTwoObjectsFromPluralLevelTwoDictionariesWithPath:self.captureObjectPath] : nil;
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.pluralLevelOneId =
@@ -266,6 +270,9 @@
     self.pluralLevelTwo =
         [dictionary objectForKey:@"pluralLevelTwo"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"pluralLevelTwo"] arrayOfPluralLevelTwoObjectsFromPluralLevelTwoDictionariesWithPath:self.captureObjectPath] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -279,26 +286,7 @@
     if ([self.dirtyPropertySet containsObject:@"name"])
         [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
-    if ([self.dirtyPropertySet containsObject:@"pluralLevelTwo"])
-        [dict setObject:(self.pluralLevelTwo ? [self.pluralLevelTwo arrayOfPluralLevelTwoUpdateDictionariesFromPluralLevelTwoObjects] : [NSNull null]) forKey:@"pluralLevelTwo"];
-
     return dict;
-}
-
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:[self.pluralLevelOneId integerValue]
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
 }
 
 - (NSDictionary *)toReplaceDictionary
@@ -313,20 +301,10 @@
     return dict;
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replacePluralLevelTwoArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:[self.pluralLevelOneId integerValue]
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
+    [self replaceArrayOnCapture:self.pluralLevelTwo named:@"pluralLevelTwo"
+                    forDelegate:delegate withContext:context];
 }
 
 - (NSDictionary*)objectProperties

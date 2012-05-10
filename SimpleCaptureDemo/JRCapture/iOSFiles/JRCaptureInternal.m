@@ -24,14 +24,17 @@
 @end
 
 @implementation JRCaptureObject
-@synthesize dirtyPropertySet;
 @synthesize captureObjectPath;
+@synthesize dirtyPropertySet;
+@synthesize dirtyArraySet;
+@synthesize canBeUpdatedOrReplaced;
 
 - (id)init
 {
     if ((self = [super init]))
     {
         dirtyPropertySet = [[NSMutableSet alloc] init];
+        dirtyArraySet    = [[NSMutableSet alloc] init];
     }
     return self;
 }
@@ -188,7 +191,7 @@
     }
 
     [captureObject performSelector:setNewArrayInParentSelector withObject:newArray];
-    [captureObject.dirtyPropertySet removeObject:arrayName];
+    [captureObject.dirtyArraySet removeObject:arrayName];
 
     if ([delegate respondsToSelector:@selector(replaceArray:named:onCaptureObject:didSucceedWithResult:context:)])
         [delegate replaceArray:newArray named:arrayName onCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
@@ -258,6 +261,25 @@
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
+    if (!self.canBeUpdatedOrReplaced)
+    {
+        [self updateCaptureObjectDidFailWithResult:
+                      @"{\"stat\":\"fail\",\"message\":\"This object or its parent is an element of an array, and the array needs to be replaced on Capture first\""
+                                           context:newContext];
+
+        return;
+    }
+
+    if ([dirtyArraySet count])
+    {
+        [self updateCaptureObjectDidFailWithResult:
+                      [NSString stringWithFormat:@"{\"stat\":\"fail\",\"message\":\"The following arrays needs to be replaced on Capture first:%@",
+                                [[dirtyArraySet allObjects] description]]
+                                           context:newContext];
+
+        return;
+    }
+
     [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
                                      //withId:[self.captureUserId integerValue]
                                      atPath:self.captureObjectPath
@@ -273,6 +295,15 @@
                                                      self.captureObjectPath, @"capturePath",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
+
+    if (!self.canBeUpdatedOrReplaced)
+    {
+        [self updateCaptureObjectDidFailWithResult:
+                      @"{\"stat\":\"fail\",\"message\":\"This object or its parent is an element of an array, and the array needs to be replaced on Capture first\""
+                                           context:newContext];
+
+        return;
+    }
 
     [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
                                       //withId:[self.captureUserId integerValue]
@@ -312,11 +343,6 @@
                         forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
     NSString *captureArrayPath = [NSString stringWithFormat:@"%@/%@", self.captureObjectPath, arrayName];
-//    NSString *capitalizedName  = [arrayName stringByReplacingCharactersInRange:NSMakeRange(0,1)
-//                                                       withString:[[arrayName substringToIndex:1] capitalizedString]];
-//
-//    SEL arrayOfObjectsToArrayOfDictionariesSelector = NSSelectorFromString(
-//            [NSString stringWithFormat:@"arrayOf%@ReplaceDictionariesFrom%@Objects", capitalizedName, capitalizedName]);
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
@@ -338,6 +364,7 @@
 {
     [captureObjectPath release];
     [dirtyPropertySet release];
+    [dirtyArraySet release];
 
     [super dealloc];
 }

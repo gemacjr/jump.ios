@@ -39,6 +39,10 @@
 
 #import "JRPrimaryAddress.h"
 
+@interface JRPrimaryAddress ()
+@property BOOL canBeUpdatedOrReplaced;
+@end
+
 @implementation JRPrimaryAddress
 {
     NSString *_address1;
@@ -62,6 +66,7 @@
 @dynamic stateAbbreviation;
 @dynamic zip;
 @dynamic zipPlus4;
+@synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)address1
 {
@@ -178,6 +183,7 @@
     if ((self = [super init]))
     {
         self.captureObjectPath = @"/primaryAddress";
+        self.canBeUpdatedOrReplaced = YES;
     }
     return self;
 }
@@ -205,8 +211,10 @@
     primaryAddressCopy.zip = self.zip;
     primaryAddressCopy.zipPlus4 = self.zipPlus4;
 
-    [primaryAddressCopy.dirtyPropertySet removeAllObjects];
+    primaryAddressCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    
     [primaryAddressCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [primaryAddressCopy.dirtyArraySet setSet:self.dirtyPropertySet];
 
     return primaryAddressCopy;
 }
@@ -246,7 +254,7 @@
         return nil;
 
     JRPrimaryAddress *primaryAddress = [JRPrimaryAddress primaryAddress];
-    primaryAddress.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
+//    primaryAddress.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     primaryAddress.address1 =
         [dictionary objectForKey:@"address1"] != [NSNull null] ? 
@@ -289,6 +297,7 @@
         [dictionary objectForKey:@"zipPlus4"] : nil;
 
     [primaryAddress.dirtyPropertySet removeAllObjects];
+    [primaryAddress.dirtyArraySet removeAllObjects];
     
     return primaryAddress;
 }
@@ -297,7 +306,11 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
+//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     if ([dictionary objectForKey:@"address1"])
         self.address1 = [dictionary objectForKey:@"address1"] != [NSNull null] ? 
@@ -338,13 +351,20 @@
     if ([dictionary objectForKey:@"zipPlus4"])
         self.zipPlus4 = [dictionary objectForKey:@"zipPlus4"] != [NSNull null] ? 
             [dictionary objectForKey:@"zipPlus4"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
-    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
+//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     self.address1 =
         [dictionary objectForKey:@"address1"] != [NSNull null] ? 
@@ -385,6 +405,9 @@
     self.zipPlus4 =
         [dictionary objectForKey:@"zipPlus4"] != [NSNull null] ? 
         [dictionary objectForKey:@"zipPlus4"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -425,22 +448,6 @@
     return dict;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:0
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
-}
-
 - (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
@@ -458,22 +465,6 @@
     [dict setObject:(self.zipPlus4 ? self.zipPlus4 : [NSNull null]) forKey:@"zipPlus4"];
 
     return dict;
-}
-
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:0
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
 }
 
 - (NSDictionary*)objectProperties

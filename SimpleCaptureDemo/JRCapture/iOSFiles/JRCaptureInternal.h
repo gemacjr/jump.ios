@@ -27,6 +27,8 @@
 @interface JRCaptureObject : NSObject <NSCopying, JRCaptureInterfaceDelegate>
 @property (retain)   NSString     *captureObjectPath;
 @property (readonly) NSMutableSet *dirtyPropertySet;
+@property (readonly) NSMutableSet *dirtyArraySet;
+@property (readonly) BOOL canBeUpdatedOrReplaced;
 - (NSDictionary *)toDictionary;
 - (NSDictionary *)toUpdateDictionary;
 - (NSDictionary *)toReplaceDictionary;

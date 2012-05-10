@@ -39,6 +39,10 @@
 
 #import "JRAccounts.h"
 
+@interface JRAccounts ()
+@property BOOL canBeUpdatedOrReplaced;
+@end
+
 @implementation JRAccounts
 {
     JRObjectId *_accountsId;
@@ -52,6 +56,7 @@
 @dynamic primary;
 @dynamic userid;
 @dynamic username;
+@synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)accountsId
 {
@@ -123,7 +128,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"/profiles/profile/accounts";
+        self.canBeUpdatedOrReplaced = NO;
     }
     return self;
 }
@@ -146,8 +151,10 @@
     accountsCopy.userid = self.userid;
     accountsCopy.username = self.username;
 
-    [accountsCopy.dirtyPropertySet removeAllObjects];
+    accountsCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    
     [accountsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [accountsCopy.dirtyArraySet setSet:self.dirtyPropertySet];
 
     return accountsCopy;
 }
@@ -200,6 +207,7 @@
         [dictionary objectForKey:@"username"] : nil;
 
     [accounts.dirtyPropertySet removeAllObjects];
+    [accounts.dirtyArraySet removeAllObjects];
     
     return accounts;
 }
@@ -208,6 +216,10 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
@@ -229,12 +241,19 @@
     if ([dictionary objectForKey:@"username"])
         self.username = [dictionary objectForKey:@"username"] != [NSNull null] ? 
             [dictionary objectForKey:@"username"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.accountsId =
@@ -256,6 +275,9 @@
     self.username =
         [dictionary objectForKey:@"username"] != [NSNull null] ? 
         [dictionary objectForKey:@"username"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -278,22 +300,6 @@
     return dict;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:[self.accountsId integerValue]
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
-}
-
 - (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
@@ -305,22 +311,6 @@
     [dict setObject:(self.username ? self.username : [NSNull null]) forKey:@"username"];
 
     return dict;
-}
-
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:[self.accountsId integerValue]
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
 }
 
 - (NSDictionary*)objectProperties

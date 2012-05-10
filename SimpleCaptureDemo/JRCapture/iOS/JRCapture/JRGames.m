@@ -39,6 +39,10 @@
 
 #import "JRGames.h"
 
+@interface JRGames ()
+@property BOOL canBeUpdatedOrReplaced;
+@end
+
 @implementation JRGames
 {
     JRObjectId *_gamesId;
@@ -52,6 +56,7 @@
 @dynamic name;
 @dynamic opponents;
 @dynamic rating;
+@synthesize canBeUpdatedOrReplaced;
 
 - (JRObjectId *)gamesId
 {
@@ -104,7 +109,7 @@
 
 - (void)setOpponents:(NSArray *)newOpponents
 {
-    [self.dirtyPropertySet addObject:@"opponents"];
+    [self.dirtyArraySet addObject:@"opponents"];
     _opponents = [newOpponents copyArrayOfStringPluralElementsWithType:@"name"];
 }
 
@@ -134,7 +139,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"/games";
+        self.canBeUpdatedOrReplaced = NO;
     }
     return self;
 }
@@ -157,8 +162,10 @@
     gamesCopy.opponents = self.opponents;
     gamesCopy.rating = self.rating;
 
-    [gamesCopy.dirtyPropertySet removeAllObjects];
+    gamesCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    
     [gamesCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [gamesCopy.dirtyArraySet setSet:self.dirtyPropertySet];
 
     return gamesCopy;
 }
@@ -213,6 +220,7 @@
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"rating"] integerValue]] : nil;
 
     [games.dirtyPropertySet removeAllObjects];
+    [games.dirtyArraySet removeAllObjects];
     
     return games;
 }
@@ -221,6 +229,10 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
@@ -235,21 +247,22 @@
         self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
             [dictionary objectForKey:@"name"] : nil;
 
-    if ([dictionary objectForKey:@"opponents"])
-        self.opponents = [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
-            [(NSArray*)[dictionary objectForKey:@"opponents"]
-                arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/opponents", self.captureObjectPath]] : nil;
-
     if ([dictionary objectForKey:@"rating"])
         self.rating = [dictionary objectForKey:@"rating"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"rating"] integerValue]] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.gamesId =
@@ -273,6 +286,9 @@
     self.rating =
         [dictionary objectForKey:@"rating"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"rating"] integerValue]] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -286,29 +302,10 @@
     if ([self.dirtyPropertySet containsObject:@"name"])
         [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
-    if ([self.dirtyPropertySet containsObject:@"opponents"])
-        [dict setObject:(self.opponents ? [self.opponents arrayOfStringPluralUpdateDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"opponents"];
-
     if ([self.dirtyPropertySet containsObject:@"rating"])
         [dict setObject:(self.rating ? [NSNumber numberWithInteger:[self.rating integerValue]] : [NSNull null]) forKey:@"rating"];
 
     return dict;
-}
-
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:[self.gamesId integerValue]
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
 }
 
 - (NSDictionary *)toReplaceDictionary
@@ -324,20 +321,10 @@
     return dict;
 }
 
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+- (void)replaceOpponentsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:[self.gamesId integerValue]
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
+    [self replaceSimpleArrayOnCapture:self.opponents ofType:@"name" named:@"opponents"
+                          forDelegate:delegate withContext:context];
 }
 
 - (NSDictionary*)objectProperties

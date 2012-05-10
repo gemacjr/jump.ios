@@ -173,15 +173,6 @@
  * @name Manage Remotely 
  **/
 /*@{*/
-/**
- * TODO: Doxygen doc
- **/
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
-
-/**
- * TODO: Doxygen doc
- **/
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 /*@}*/
 
 @end

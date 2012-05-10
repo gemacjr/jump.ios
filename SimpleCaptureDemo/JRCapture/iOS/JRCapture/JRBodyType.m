@@ -39,6 +39,10 @@
 
 #import "JRBodyType.h"
 
+@interface JRBodyType ()
+@property BOOL canBeUpdatedOrReplaced;
+@end
+
 @implementation JRBodyType
 {
     NSString *_build;
@@ -52,6 +56,7 @@
 @dynamic eyeColor;
 @dynamic hairColor;
 @dynamic height;
+@synthesize canBeUpdatedOrReplaced;
 
 - (NSString *)build
 {
@@ -112,7 +117,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"/profiles/profile/bodyType";
+        self.canBeUpdatedOrReplaced = NO;
     }
     return self;
 }
@@ -135,8 +140,10 @@
     bodyTypeCopy.hairColor = self.hairColor;
     bodyTypeCopy.height = self.height;
 
-    [bodyTypeCopy.dirtyPropertySet removeAllObjects];
+    bodyTypeCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    
     [bodyTypeCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [bodyTypeCopy.dirtyArraySet setSet:self.dirtyPropertySet];
 
     return bodyTypeCopy;
 }
@@ -189,6 +196,7 @@
         [dictionary objectForKey:@"height"] : nil;
 
     [bodyType.dirtyPropertySet removeAllObjects];
+    [bodyType.dirtyArraySet removeAllObjects];
     
     return bodyType;
 }
@@ -197,6 +205,10 @@
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
 
     if ([dictionary objectForKey:@"build"])
@@ -218,12 +230,19 @@
     if ([dictionary objectForKey:@"height"])
         self.height = [dictionary objectForKey:@"height"] != [NSNull null] ? 
             [dictionary objectForKey:@"height"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
+    NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
+    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+
+    self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
 
     self.build =
@@ -245,6 +264,9 @@
     self.height =
         [dictionary objectForKey:@"height"] != [NSNull null] ? 
         [dictionary objectForKey:@"height"] : nil;
+
+    [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
+    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -270,22 +292,6 @@
     return dict;
 }
 
-- (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:0
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
-}
-
 - (NSDictionary *)toReplaceDictionary
 {
     NSMutableDictionary *dict =
@@ -298,22 +304,6 @@
     [dict setObject:(self.height ? self.height : [NSNull null]) forKey:@"height"];
 
     return dict;
-}
-
-- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:0
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
 }
 
 - (NSDictionary*)objectProperties
