@@ -313,7 +313,10 @@
         return nil;
 
     JRAddresses *addresses = [JRAddresses addresses];
+
     addresses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    addresses.canBeUpdatedOrReplaced = YES;
 
     addresses.addressesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

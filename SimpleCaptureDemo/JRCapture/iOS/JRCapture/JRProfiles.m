@@ -275,7 +275,10 @@
         return nil;
 
     JRProfiles *profiles = [JRProfiles profiles];
+
     profiles.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"profiles", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    profiles.canBeUpdatedOrReplaced = YES;
 
     profiles.profilesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -293,19 +296,19 @@
         [dictionary objectForKey:@"followers"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"followers"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/followers", profiles.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/followers", profiles.captureObjectPath]] : nil;
 
     profiles.following =
         [dictionary objectForKey:@"following"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"following"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/following", profiles.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/following", profiles.captureObjectPath]] : nil;
 
     profiles.friends =
         [dictionary objectForKey:@"friends"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"friends"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/friends", profiles.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/friends", profiles.captureObjectPath]] : nil;
 
     profiles.identifier =
         [dictionary objectForKey:@"identifier"] != [NSNull null] ? 
@@ -398,19 +401,19 @@
         [dictionary objectForKey:@"followers"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"followers"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/followers", self.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/followers", self.captureObjectPath]] : nil;
 
     self.following =
         [dictionary objectForKey:@"following"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"following"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/following", self.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/following", self.captureObjectPath]] : nil;
 
     self.friends =
         [dictionary objectForKey:@"friends"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"friends"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"identifier" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/friends", self.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/friends", self.captureObjectPath]] : nil;
 
     self.identifier =
         [dictionary objectForKey:@"identifier"] != [NSNull null] ? 

@@ -206,17 +206,15 @@ static Class getClassFromKey(NSString *key)
 {
     DLog(@"");
 
-//    SEL setArraySelector =
-//                NSSelectorFromString([NSString stringWithFormat:@"set%@:",
-//                          [tableHeader stringByReplacingCharactersInRange:NSMakeRange(0,1)
-//                                                               withString:[[tableHeader substringToIndex:1] capitalizedString]]]);
-//
-//    [captureObject performSelector:setArraySelector withObject:localCopyArray];
-
     [self doneButtonPressed:nil];
-
     [self saveLocalArrayToCaptureObject];
-    [captureObject replaceObjectOnCaptureForDelegate:self withContext:nil];
+
+    SEL replaceArraySelector =
+                NSSelectorFromString([NSString stringWithFormat:@"replace%@ArrayOnCaptureForDelegate:withContext:",
+                        [tableHeader stringByReplacingCharactersInRange:NSMakeRange(0,1)
+                                                             withString:[[tableHeader substringToIndex:1] capitalizedString]]]);
+
+    [captureObject performSelector:replaceArraySelector withObject:self withObject:nil];
 }
 
 - (void)addObjectButtonPressed:(UIButton *)sender
@@ -525,7 +523,7 @@ static Class getClassFromKey(NSString *key)
     }
 }
 
-- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -536,7 +534,8 @@ static Class getClassFromKey(NSString *key)
     [alertView show];
 }
 
-- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+
+- (void)replaceArray:(NSArray *)array named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
@@ -546,33 +545,61 @@ static Class getClassFromKey(NSString *key)
                                               otherButtonTitles:nil];
     [alertView show];
 
-    SEL getArraySelector = NSSelectorFromString(tableHeader);
-    NSArray *array       = [object performSelector:getArraySelector];
+    //SEL getArraySelector = NSSelectorFromString(tableHeader);
+    //NSArray *array       = [object performSelector:getArraySelector];
 
     [self setTableDataWithArray:array];
+    [myTableView reloadData];
 }
 
-- (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
-{
-    DLog(@"");
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:result
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Dismiss"
-                                              otherButtonTitles:nil];
-    [alertView show];
-}
-
-- (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
-{
-    DLog(@"");
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
-                                                        message:result
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-    [alertView show];
-}
+//- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+//{
+//    DLog(@"");
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                                        message:result
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"Dismiss"
+//                                              otherButtonTitles:nil];
+//    [alertView show];
+//}
+//
+//- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+//{
+//    DLog(@"");
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
+//                                                        message:result
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"OK"
+//                                              otherButtonTitles:nil];
+//    [alertView show];
+//
+//    SEL getArraySelector = NSSelectorFromString(tableHeader);
+//    NSArray *array       = [object performSelector:getArraySelector];
+//
+//    [self setTableDataWithArray:array];
+//}
+//
+//- (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+//{
+//    DLog(@"");
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+//                                                        message:result
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"Dismiss"
+//                                              otherButtonTitles:nil];
+//    [alertView show];
+//}
+//
+//- (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+//{
+//    DLog(@"");
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
+//                                                        message:result
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"OK"
+//                                              otherButtonTitles:nil];
+//    [alertView show];
+//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {

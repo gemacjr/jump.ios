@@ -190,7 +190,10 @@
         return nil;
 
     JRName *name = [JRName name];
+
     name.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"name"];
+// TODO: Is this safe to assume?
+    name.canBeUpdatedOrReplaced = YES;
 
     name.familyName =
         [dictionary objectForKey:@"familyName"] != [NSNull null] ? 

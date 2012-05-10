@@ -169,7 +169,8 @@
  **/
 /*@{*/
 
-
-/** * * TODO: DOXYGEN DOCS * **/- (void)replacePluralLevelTwoArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;/*@}*/
+/** * * TODO: DOXYGEN DOCS * **/
+- (void)replacePluralLevelTwoArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+/*@}*/
 
 @end

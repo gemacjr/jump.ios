@@ -169,7 +169,10 @@
         return nil;
 
     JRIms *ims = [JRIms ims];
+
     ims.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    ims.canBeUpdatedOrReplaced = YES;
 
     ims.imsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

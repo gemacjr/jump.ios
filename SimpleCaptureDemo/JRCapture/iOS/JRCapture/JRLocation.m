@@ -270,7 +270,10 @@
         return nil;
 
     JRLocation *location = [JRLocation location];
+
     location.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"location"];
+// TODO: Is this safe to assume?
+    location.canBeUpdatedOrReplaced = YES;
 
     location.country =
         [dictionary objectForKey:@"country"] != [NSNull null] ? 

@@ -185,7 +185,10 @@
         return nil;
 
     JRAccounts *accounts = [JRAccounts accounts];
+
     accounts.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    accounts.canBeUpdatedOrReplaced = YES;
 
     accounts.accountsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

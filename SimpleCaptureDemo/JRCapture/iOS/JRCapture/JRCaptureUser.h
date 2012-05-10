@@ -234,20 +234,27 @@
  **/
 /*@{*/
 
+/** * * TODO: DOXYGEN DOCS * **/
+- (void)replaceGamesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/- (void)replaceGamesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+/** * * TODO: DOXYGEN DOCS * **/
+- (void)replaceOnipLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/- (void)replaceOnipLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+/** * * TODO: DOXYGEN DOCS * **/
+- (void)replacePhotosArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/- (void)replacePhotosArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+/** * * TODO: DOXYGEN DOCS * **/
+- (void)replacePluralLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/- (void)replacePluralLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+/** * * TODO: DOXYGEN DOCS * **/
+- (void)replaceProfilesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/- (void)replaceProfilesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+/** * * TODO: DOXYGEN DOCS * **/
+- (void)replaceStatusesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/- (void)replaceStatusesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
-
-/** * * TODO: DOXYGEN DOCS * **/- (void)replaceTesterStringPluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;/*@}*/
+/** * * TODO: DOXYGEN DOCS * **/
+- (void)replaceTesterStringPluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+/*@}*/
 
 /**
  * @name Primitive Getters/Setters 

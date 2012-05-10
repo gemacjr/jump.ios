@@ -845,6 +845,7 @@
         return nil;
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
+
 //    captureUser.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     captureUser.captureUserId =
@@ -967,7 +968,7 @@
         [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"testerStringPlural"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/testerStringPlural", captureUser.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/testerStringPlural", captureUser.captureObjectPath]] : nil;
 
     [captureUser.dirtyPropertySet removeAllObjects];
     [captureUser.dirtyArraySet removeAllObjects];
@@ -1217,7 +1218,7 @@
         [dictionary objectForKey:@"testerStringPlural"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"testerStringPlural"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"stringPluralItem" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/testerStringPlural", self.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/testerStringPlural", self.captureObjectPath]] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
     [self.dirtyArraySet setSet:dirtyArraySetCopy];

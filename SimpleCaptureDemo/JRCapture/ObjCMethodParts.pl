@@ -233,9 +233,7 @@ my @classConstructorParts = (
 #
 #     <object>Copy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
 #
-#     [<object>Copy.dirtyPropertySet removeAllObjects];
 #     [<object>Copy.dirtyPropertySet setSet:self.dirtyPropertySet];
-#     [<object>Copy.dirtyArraySet removeAllObjects];
 #     [<object>Copy.dirtyArraySet setSet:self.dirtyPropertySet];
 #
 #     return <object>Copy;
@@ -290,9 +288,12 @@ my @copyConstructorParts = (
 # {
 #     if (!dictionary)
 #         return nil;
+#                                                                     For elements in a plural
+#     <className> *<object> = [<className> <object>];                             |
+#                                                                                 V
+#     <object>.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+#     self.canBeUpdatedOrReplaced = YES; 
 #
-#     <className> *<object> = [<className> <object>];
-# 
 #     <object>.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
 #                                   [dictionary objectForKey:@"<property>"] : nil;
 #       OR
@@ -333,7 +334,7 @@ my @fromDictionaryParts = (
 "+ (id)","","ObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
 "\n{\n",
 "    if (!dictionary)\n        return nil;\n\n",
-""," = [","","];\n",
+""," = [","","];\n\n",
 "    ", "",".captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
 "",
 "
@@ -359,8 +360,6 @@ my @fromDictionaryParts = (
 # {
 #     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
 #
-#     [dict setObject:<propertyToDictionaryMethod> forKey:@"<propertyKey>"]; <- For non NSObject types
-#       OR
 #     [dict setObject:(<property> ? <property> : [NSNull null]) forKey:@"<propertyKey>"];
 #       OR
 #     [dict setObject:(<property> ? <propertyToDictionaryMethod> : [NSNull null]) forKey:@"<propertyKey>"];
@@ -425,6 +424,9 @@ my @toDictionaryParts = (
 #
 #     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
 #     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
+#
+#     self.canBeUpdatedOrReplaced = YES;
+#     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 #
 #     if ([dictionary objectForKey:@"<property>"])
 #         self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
@@ -516,6 +518,7 @@ my @updateFrDictParts = (
 #     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 #
 #     self.canBeUpdatedOrReplaced = YES;
+#     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 #
 #     self.<property> = [dictionary objectForKey:@"<property>"] != [NSNull null] ? 
 #                                   [dictionary objectForKey:@"<property>"] : nil;
@@ -848,13 +851,13 @@ sub createArrayReplaceMethodDeclaration {
   my $propertyName = $_[0];
 
   my $methodDeclaration = 
-       "\n\n" .
-       "/**"  . 
-       " *" . 
+       "\n"  .
+       "/**" . 
+       " *"  . 
        " * TODO: DOXYGEN DOCS" . 
-       " *" . 
-       " **/" . 
-       "- (void)replace" . ucfirst($propertyName) . "ArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;";
+       " *"  . 
+       " **/\n" . 
+       "- (void)replace" . ucfirst($propertyName) . "ArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;\n";
 
   return $methodDeclaration;
 }

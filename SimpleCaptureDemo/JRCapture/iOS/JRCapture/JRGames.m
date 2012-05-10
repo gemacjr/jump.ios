@@ -196,7 +196,10 @@
         return nil;
 
     JRGames *games = [JRGames games];
+
     games.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    games.canBeUpdatedOrReplaced = YES;
 
     games.gamesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -214,7 +217,7 @@
         [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"opponents"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/opponents", games.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/opponents", games.captureObjectPath]] : nil;
 
     games.rating =
         [dictionary objectForKey:@"rating"] != [NSNull null] ? 
@@ -282,7 +285,7 @@
         [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"opponents"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" 
-                                                                        andPath:[NSString stringWithFormat:@"%@/opponents", self.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/opponents", self.captureObjectPath]] : nil;
 
     self.rating =
         [dictionary objectForKey:@"rating"] != [NSNull null] ? 

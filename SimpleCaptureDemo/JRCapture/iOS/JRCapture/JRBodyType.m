@@ -174,7 +174,10 @@
         return nil;
 
     JRBodyType *bodyType = [JRBodyType bodyType];
+
     bodyType.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
+// TODO: Is this safe to assume?
+    bodyType.canBeUpdatedOrReplaced = YES;
 
     bodyType.build =
         [dictionary objectForKey:@"build"] != [NSNull null] ? 

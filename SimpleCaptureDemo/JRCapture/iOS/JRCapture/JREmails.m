@@ -169,7 +169,10 @@
         return nil;
 
     JREmails *emails = [JREmails emails];
+
     emails.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    emails.canBeUpdatedOrReplaced = YES;
 
     emails.emailsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

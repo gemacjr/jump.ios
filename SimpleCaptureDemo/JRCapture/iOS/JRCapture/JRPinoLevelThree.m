@@ -142,7 +142,10 @@
         return nil;
 
     JRPinoLevelThree *pinoLevelThree = [JRPinoLevelThree pinoLevelThree];
+
     pinoLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    pinoLevelThree.canBeUpdatedOrReplaced = YES;
 
     pinoLevelThree.pinoLevelThreeId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

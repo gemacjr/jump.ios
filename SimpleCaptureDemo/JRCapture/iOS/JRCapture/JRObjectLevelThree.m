@@ -126,6 +126,7 @@
         return nil;
 
     JRObjectLevelThree *objectLevelThree = [JRObjectLevelThree objectLevelThree];
+
 //    objectLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelThree"];
 
     objectLevelThree.level =

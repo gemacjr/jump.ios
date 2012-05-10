@@ -265,7 +265,10 @@
         return nil;
 
     JROrganizations *organizations = [JROrganizations organizations];
+
     organizations.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    organizations.canBeUpdatedOrReplaced = YES;
 
     organizations.organizationsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

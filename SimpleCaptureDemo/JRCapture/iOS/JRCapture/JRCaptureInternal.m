@@ -15,6 +15,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRCaptureInternal.h"
+#import "JRStringPluralElement.h"
 
 @interface JRCaptureObject (Internal)
 //- (NSDictionary *)toUpdateDictionary;
@@ -172,14 +173,14 @@
 
     NSArray *resultsArray = [resultDictionary objectForKey:@"result"];
     NSArray *newArray;
-    if (elementType)/* Then it's a simple array */
+    if (elementType) /* Then it's a simple array */
     {
         SEL arrayOfObjectsFromArrayOfDictionariesSelector =
-                @selector(arrayOfStringPluralElementsFromStringPluralDictionariesWithType:andPath:);
+                    @selector(arrayOfStringPluralElementsFromStringPluralDictionariesWithType:andExtendedPath:);
 
         newArray = [resultsArray performSelector:arrayOfObjectsFromArrayOfDictionariesSelector
                                       withObject:elementType
-                                      withObject:capturePath];
+                                      withObject:[NSString stringWithFormat:@"%@/testerStringPlural", capturePath]];
     }
     else
     {
@@ -353,7 +354,7 @@
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureArray:[array arrayOfStringPluralReplaceDictionariesFromStringPluralElements]
+    [JRCaptureInterface replaceCaptureArray:[array arrayOfStringsFromStringPluralElements]
                                      atPath:captureArrayPath
                                   withToken:[JRCaptureData accessToken]
                                 forDelegate:self

@@ -125,6 +125,8 @@
     JRStringPluralElement *stringElement =
         [JRStringPluralElement stringElementWithType:elementType];
 
+    // TODO: Is this safe to assume?
+    stringElement.canBeUpdatedOrReplaced = YES;
     stringElement.captureObjectPath = [NSString stringWithFormat:@"%@#%d", capturePath, [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     stringElement.elementId =
@@ -313,16 +315,17 @@
 {
     DLog(@"");
 
+    // TODO: Decide if we should ignore elements with null values or add [NSNull null] to the array; who calls the method?
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStringPluralElement class]])
-            if ([(JRStringPluralElement*)object value])
-                [filteredDictionaryArray addObject:[(JRStringPluralElement*)object value]];//[(JRStringPluralElement*)object toReplaceDictionary]];
+            //if ([(JRStringPluralElement*)object value])
+                [filteredDictionaryArray addObject:([(JRStringPluralElement*)object value]) ? [(JRStringPluralElement*)object value] : [NSNull null]];
 
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andPath:(NSString *)capturePath
+- (NSArray *)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andExtendedPath:(NSString *)capturePath
 {
     DLog(@"");
 

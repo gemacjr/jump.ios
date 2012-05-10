@@ -142,6 +142,7 @@
         return nil;
 
     JRObjectLevelTwo *objectLevelTwo = [JRObjectLevelTwo objectLevelTwo];
+
 //    objectLevelTwo.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelTwo"];
 
     objectLevelTwo.level =

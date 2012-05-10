@@ -196,7 +196,10 @@
         return nil;
 
     JRPluralLevelOne *pluralLevelOne = [JRPluralLevelOne pluralLevelOne];
+
     pluralLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    pluralLevelOne.canBeUpdatedOrReplaced = YES;
 
     pluralLevelOne.pluralLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

@@ -142,6 +142,7 @@
         return nil;
 
     JRPinoLevelOne *pinoLevelOne = [JRPinoLevelOne pinoLevelOne];
+
 //    pinoLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelOne"];
 
     pinoLevelOne.level =

@@ -126,7 +126,10 @@
         return nil;
 
     JROnipLevelThree *onipLevelThree = [JROnipLevelThree onipLevelThree];
+
     onipLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipLevelThree"];
+// TODO: Is this safe to assume?
+    onipLevelThree.canBeUpdatedOrReplaced = YES;
 
     onipLevelThree.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 

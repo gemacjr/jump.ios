@@ -346,6 +346,9 @@ sub recursiveParse {
     $minConstructorSection[3] .= "        self.canBeUpdatedOrReplaced = NO;\n";
     $constructorSection[8]     = "        self.captureObjectPath = \@\"\";\n";
     $constructorSection[8]    .= "        self.canBeUpdatedOrReplaced = NO;\n";
+    
+    $objFromDictSection[17]   .= "// TODO: Is this safe to assume?\n    " . $objectName . ".canBeUpdatedOrReplaced = YES;\n";
+
   } else {
 
     if ($objectName eq "captureUser") {      
@@ -649,13 +652,13 @@ sub recursiveParse {
         $toRplDictionary = "[self." . $propertyName . " arrayOfStringsFromStringPluralElements]";
         $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
-                                                                        andPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", " . $objectName . ".captureObjectPath]]";
+                                                                andExtendedPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", " . $objectName . ".captureObjectPath]]";
         #$frUpDictionary  = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
         #        arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
         #                                                                andPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", self.captureObjectPath]]";
         $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
-                                                                        andPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", self.captureObjectPath]]";
+                                                                andExtendedPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", self.captureObjectPath]]";
 
         $replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
         $replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName, $simpleArrayType);

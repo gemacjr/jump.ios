@@ -254,6 +254,7 @@
         return nil;
 
     JRPrimaryAddress *primaryAddress = [JRPrimaryAddress primaryAddress];
+
 //    primaryAddress.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     primaryAddress.address1 =

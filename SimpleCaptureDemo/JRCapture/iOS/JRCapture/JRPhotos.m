@@ -142,7 +142,10 @@
         return nil;
 
     JRPhotos *photos = [JRPhotos photos];
+
     photos.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    photos.canBeUpdatedOrReplaced = YES;
 
     photos.photosId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

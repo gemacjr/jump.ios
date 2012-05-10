@@ -169,7 +169,10 @@
         return nil;
 
     JRPhoneNumbers *phoneNumbers = [JRPhoneNumbers phoneNumbers];
+
     phoneNumbers.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"phoneNumbers", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    phoneNumbers.canBeUpdatedOrReplaced = YES;
 
     phoneNumbers.phoneNumbersId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

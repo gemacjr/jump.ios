@@ -142,7 +142,10 @@
         return nil;
 
     JRStatuses *statuses = [JRStatuses statuses];
+
     statuses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    statuses.canBeUpdatedOrReplaced = YES;
 
     statuses.statusesId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

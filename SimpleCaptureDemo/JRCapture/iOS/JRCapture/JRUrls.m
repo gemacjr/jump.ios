@@ -169,7 +169,10 @@
         return nil;
 
     JRUrls *urls = [JRUrls urls];
+
     urls.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    urls.canBeUpdatedOrReplaced = YES;
 
     urls.urlsId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

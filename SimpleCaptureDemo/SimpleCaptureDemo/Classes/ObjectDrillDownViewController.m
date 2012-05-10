@@ -162,7 +162,7 @@ static Class getClassFromKey(NSString *key)
         return PTJsonObject;
     else if ([propertyTypeString isEqualToString:@"NSArray"])// || [propertyTypeString isEqualToString:@"NSMutableArray"])
         return PTArray;
-    else if ([propertyTypeString isEqualToString:@"JRSimpleArray"])
+    else if ([propertyTypeString isEqualToString:@"JRStringArray"])
         return PTSimpleArray;
     else if ([propertyTypeString isEqualToString:@"JRUuid"])
         return PTUuid;

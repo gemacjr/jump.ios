@@ -170,8 +170,9 @@
  **/
 /*@{*/
 
-
-/** * * TODO: DOXYGEN DOCS * **/- (void)replaceOpponentsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;/*@}*/
+/** * * TODO: DOXYGEN DOCS * **/
+- (void)replaceOpponentsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+/*@}*/
 
 /**
  * @name Primitive Getters/Setters 

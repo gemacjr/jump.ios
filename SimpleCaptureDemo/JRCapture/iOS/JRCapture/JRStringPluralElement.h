@@ -22,7 +22,7 @@
 - (NSArray *)arrayOfStringPluralDictionariesFromStringPluralElements;
 //- (NSArray *)arrayOfStringPluralUpdateDictionariesFromStringPluralElements;
 - (NSArray *)arrayOfStringsFromStringPluralElements;
-- (NSArray *)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andPath:(NSString *)capturePath;
+- (NSArray *)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andExtendedPath:(NSString *)capturePath;
 //- (NSArray*)copyArrayOfStringsIntoArrayOfStringPluralElementsWithType:(NSString *)elementType;
 - (NSArray*)copyArrayOfStringPluralElementsWithType:(NSString *)elementType;
 @end

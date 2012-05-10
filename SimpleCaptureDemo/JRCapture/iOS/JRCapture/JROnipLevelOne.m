@@ -158,7 +158,10 @@
         return nil;
 
     JROnipLevelOne *onipLevelOne = [JROnipLevelOne onipLevelOne];
+
     onipLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+// TODO: Is this safe to assume?
+    onipLevelOne.canBeUpdatedOrReplaced = YES;
 
     onipLevelOne.onipLevelOneId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
