@@ -119,6 +119,9 @@
 
 + (id)stringElementFromDictionary:(NSDictionary*)dictionary withType:(NSString *)elementType andPath:(NSString *)capturePath
 {
+    // TODO: Will this ever happen and what do we do if it does?
+    if (!elementType) /* Do we need to handle this?! */;
+
     JRStringPluralElement *stringElement =
         [JRStringPluralElement stringElementWithType:elementType];
 
@@ -140,6 +143,9 @@
 
 + (id)stringElementFromString:(NSString*)valueString withType:(NSString *)elementType
 {
+    // TODO: Will this ever happen and what do we do if it does?
+    if (!elementType) /* Do we need to handle this?! */;
+
     JRStringPluralElement *stringElement =
         [JRStringPluralElement stringElementWithType:elementType];
 
@@ -153,6 +159,9 @@
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    // TODO: Will this ever happen and what do we do if it does?
+    if (!_type) /* EXCEPTION!! */;
+
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
@@ -175,6 +184,9 @@
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
+    // TODO: Will this ever happen and what do we do if it does?
+    if (!_type) /* EXCEPTION!! */;
+
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
@@ -295,13 +307,17 @@
 //    return filteredDictionaryArray;
 //}
 
-- (NSArray *)arrayOfStringPluralReplaceDictionariesFromStringPluralElements
+/* When passing an array of strings to Capture during a replace, we don't need to pass an array of full objects,
+   e.g., [{"type":"value1"},{"type":"value2"}], but just an array of strings, e.g., ["value1","value2"]; */
+- (NSArray *)arrayOfStringsFromStringPluralElements
 {
     DLog(@"");
+
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRStringPluralElement class]])
-            [filteredDictionaryArray addObject:[(JRStringPluralElement*)object toReplaceDictionary]];
+            if ([(JRStringPluralElement*)object value])
+                [filteredDictionaryArray addObject:[(JRStringPluralElement*)object value]];//[(JRStringPluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -309,6 +325,12 @@
 - (NSArray*)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andPath:(NSString *)capturePath
 {
     DLog(@"");
+
+ /* While this may never happen in my generated code, sending in a null elementType may cause the program to crash. */
+ // TODO: Maybe allowing it to crash or throwing a more meaningful exception would be a better plan than silently failing.
+    if (!elementType)
+        return nil;
+
     NSMutableArray *filteredPluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
@@ -333,11 +355,22 @@
 - (NSArray*)copyArrayOfStringPluralElementsWithType:(NSString *)elementType
 {
     DLog(@"");
+
+ /* While this may never happen in my generated code, sending in a null elementType may cause the program to crash. */
+ // TODO: Maybe allowing it to crash or throwing a more meaningful exception would be a better plan than silently failing.
+    if (!elementType)
+        return nil;
+
     NSMutableArray *filteredArrayCopy = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
+     /* If the array being copied is just an array of strings, we create new stringPluralElements as we add them
+        to the array.  The type is known, but not the path or id until this array is replaced on Capture. */
         if ([object isKindOfClass:[NSString class]])
             [filteredArrayCopy addObject:[JRStringPluralElement stringElementFromString:(NSString *)object
                                                                                withType:elementType]];
+     /* If the array being copied is an array stringPluralElements, we copy the element into the new array.
+        to the array.  The type is known, and the path or id may be as well, but copying an array occurs when an array
+        is set in its parent object, and it will still need to be replaced on Capture. */
         else if ([object isKindOfClass:[JRStringPluralElement class]]) // TODO: Copy or not???
             [filteredArrayCopy addObject:[[(JRStringPluralElement *)object copy] autorelease]];
 

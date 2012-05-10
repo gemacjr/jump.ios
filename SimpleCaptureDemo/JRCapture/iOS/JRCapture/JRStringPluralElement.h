@@ -21,7 +21,7 @@
 @interface NSArray (JRStringPluralElement)
 - (NSArray *)arrayOfStringPluralDictionariesFromStringPluralElements;
 //- (NSArray *)arrayOfStringPluralUpdateDictionariesFromStringPluralElements;
-- (NSArray *)arrayOfStringPluralReplaceDictionariesFromStringPluralElements;
+- (NSArray *)arrayOfStringsFromStringPluralElements;
 - (NSArray *)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andPath:(NSString *)capturePath;
 //- (NSArray*)copyArrayOfStringsIntoArrayOfStringPluralElementsWithType:(NSString *)elementType;
 - (NSArray*)copyArrayOfStringPluralElementsWithType:(NSString *)elementType;

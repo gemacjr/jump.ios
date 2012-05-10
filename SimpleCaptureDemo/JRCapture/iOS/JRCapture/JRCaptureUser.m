@@ -1318,7 +1318,7 @@
     [dict setObject:(self.testerBoolean ? [NSNumber numberWithBool:[self.testerBoolean boolValue]] : [NSNull null]) forKey:@"testerBoolean"];
     [dict setObject:(self.testerInteger ? [NSNumber numberWithInteger:[self.testerInteger integerValue]] : [NSNull null]) forKey:@"testerInteger"];
     [dict setObject:(self.testerIpAddr ? self.testerIpAddr : [NSNull null]) forKey:@"testerIpAddr"];
-    [dict setObject:(self.testerStringPlural ? [self.testerStringPlural arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"testerStringPlural"];
+    [dict setObject:(self.testerStringPlural ? [self.testerStringPlural arrayOfStringsFromStringPluralElements] : [NSNull null]) forKey:@"testerStringPlural"];
 
     return dict;
 }

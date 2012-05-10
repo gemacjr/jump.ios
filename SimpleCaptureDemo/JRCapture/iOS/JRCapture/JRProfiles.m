@@ -466,9 +466,9 @@
 
     [dict setObject:(self.accessCredentials ? self.accessCredentials : [NSNull null]) forKey:@"accessCredentials"];
     [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
-    [dict setObject:(self.followers ? [self.followers arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"followers"];
-    [dict setObject:(self.following ? [self.following arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"following"];
-    [dict setObject:(self.friends ? [self.friends arrayOfStringPluralReplaceDictionariesFromStringPluralElements] : [NSNull null]) forKey:@"friends"];
+    [dict setObject:(self.followers ? [self.followers arrayOfStringsFromStringPluralElements] : [NSNull null]) forKey:@"followers"];
+    [dict setObject:(self.following ? [self.following arrayOfStringsFromStringPluralElements] : [NSNull null]) forKey:@"following"];
+    [dict setObject:(self.friends ? [self.friends arrayOfStringsFromStringPluralElements] : [NSNull null]) forKey:@"friends"];
     [dict setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
     [dict setObject:(self.profile ? [self.profile toReplaceDictionary] : [NSNull null]) forKey:@"profile"];
     [dict setObject:(self.provider ? self.provider : [NSNull null]) forKey:@"provider"];

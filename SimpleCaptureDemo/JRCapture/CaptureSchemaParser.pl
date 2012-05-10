@@ -646,7 +646,7 @@ sub recursiveParse {
         
         $toDictionary    = "[self." . $propertyName . " arrayOfStringPluralDictionariesFromStringPluralElements]";
         #$toUpDictionary  = "[self." . $propertyName . " arrayOfStringPluralUpdateDictionariesFromStringPluralElements]";
-        $toRplDictionary = "[self." . $propertyName . " arrayOfStringPluralReplaceDictionariesFromStringPluralElements]";
+        $toRplDictionary = "[self." . $propertyName . " arrayOfStringsFromStringPluralElements]";
         $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
                                                                         andPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", " . $objectName . ".captureObjectPath]]";
@@ -665,7 +665,7 @@ sub recursiveParse {
         } else {
           $propertyNotes .= "/**< The object's \\c " . $propertyName . " property";
         }
-        $propertyNotes   .= " \@note This is an array of \\c JRStringPluralElements with type \\c " . $simpleArrayType . " */";      
+        $propertyNotes   .= " \@note This is an array of \\c JRStringPluralElements with type \\c " . $simpleArrayType . " TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */";      
         
       } else {
 
