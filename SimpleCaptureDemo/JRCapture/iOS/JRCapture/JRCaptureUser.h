@@ -74,7 +74,7 @@
 @property (nonatomic, copy) JRBoolean *testerBoolean; /**< The object's \e testerBoolean property @note This is a property of type 'boolean', which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:&gt;myBool&lt;]</code> or <code>[NSNull null]</code> */ 
 @property (nonatomic, copy) JRInteger *testerInteger; /**< The object's testerInteger property @note This is a property of type 'integer', which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:&gt;myInteger&lt;]</code>, <code>[NSNumber numberWithInt:&gt;myInt&lt;]</code>, or <code>[NSNull null]</code> */ 
 @property (nonatomic, copy) JRIpAddress *testerIpAddr; /**< The object's testerIpAddr property @note This is a property of type 'ipAddress', which is a typedef of \e NSString. */ 
-@property (nonatomic, copy) JRSimpleArray *testerStringPlural; /**< The object's \c testerStringPlural property @note This is an array of \c JRStringPluralElements with type \c stringPluralItem TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
+@property (nonatomic, copy) JRStringArray *testerStringPlural; /**< The object's \c testerStringPlural property @note This is an array of \c JRStringPluralElements with type \c stringPluralItem TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
 
 /**
  * @name Constructors

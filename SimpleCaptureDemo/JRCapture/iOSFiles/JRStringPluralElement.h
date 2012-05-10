@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureInternal.h"
+#import "JRCapture.h"
 
 @interface JRStringPluralElement : JRCaptureObject
-// TODO: Make JRObjectId type
 @property (nonatomic, copy)     JRObjectId *elementId;
 @property (nonatomic, readonly) NSString   *type;
 @property (nonatomic, copy)     NSString   *value;

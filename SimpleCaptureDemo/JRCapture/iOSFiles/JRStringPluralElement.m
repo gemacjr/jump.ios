@@ -22,7 +22,7 @@
 
 @implementation JRStringPluralElement
 {
-    NSNumber   *_elementId;
+    JRObjectId *_elementId;
     NSString   *_value;
 }
 @synthesize type = _type;
@@ -30,12 +30,12 @@
 @dynamic    value;
 @synthesize canBeUpdatedOrReplaced;
 
-- (NSNumber *)elementId
+- (JRObjectId *)elementId
 {
     return _elementId;
 }
 
-- (void)setElementId:(NSNumber *)newElementId
+- (void)setElementId:(JRObjectId *)newElementId
 {
     [self.dirtyPropertySet addObject:@"elementId"];
     _elementId = [newElementId copy];

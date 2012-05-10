@@ -302,7 +302,7 @@
     JRBoolean *_testerBoolean;
     JRInteger *_testerInteger;
     JRIpAddress *_testerIpAddr;
-    JRSimpleArray *_testerStringPlural;
+    JRStringArray *_testerStringPlural;
 }
 @dynamic captureUserId;
 @dynamic uuid;
@@ -1399,7 +1399,7 @@
     [dict setObject:@"JRBoolean" forKey:@"testerBoolean"];
     [dict setObject:@"JRInteger" forKey:@"testerInteger"];
     [dict setObject:@"JRIpAddress" forKey:@"testerIpAddr"];
-    [dict setObject:@"JRSimpleArray" forKey:@"testerStringPlural"];
+    [dict setObject:@"JRStringArray" forKey:@"testerStringPlural"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
 }

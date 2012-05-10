@@ -638,7 +638,7 @@ sub recursiveParse {
       if (isAnArrayOfStrings($propertyAttrDefsRef)) {
         $isSimpleArray = 1;
         
-        $objectiveType = "JRSimpleArray *";      
+        $objectiveType = "JRStringArray *";      
         
         $extraImportsSection    .= "#import \"JRStringPluralElement.h\"\n";
         

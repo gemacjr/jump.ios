@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "JRCaptureInterface.h"
 #import "JSONKit.h"
-#import "JRCapture.h"
 
 @class JRCaptureObject;
 @protocol JRCaptureObjectDelegate <NSObject>

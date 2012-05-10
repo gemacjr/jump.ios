@@ -48,9 +48,9 @@
     JRObjectId *_profilesId;
     JRJsonObject *_accessCredentials;
     NSString *_domain;
-    JRSimpleArray *_followers;
-    JRSimpleArray *_following;
-    JRSimpleArray *_friends;
+    JRStringArray *_followers;
+    JRStringArray *_following;
+    JRStringArray *_friends;
     NSString *_identifier;
     JRProfile *_profile;
     JRJsonObject *_provider;
@@ -503,9 +503,9 @@
     [dict setObject:@"JRObjectId" forKey:@"profilesId"];
     [dict setObject:@"JRJsonObject" forKey:@"accessCredentials"];
     [dict setObject:@"NSString" forKey:@"domain"];
-    [dict setObject:@"JRSimpleArray" forKey:@"followers"];
-    [dict setObject:@"JRSimpleArray" forKey:@"following"];
-    [dict setObject:@"JRSimpleArray" forKey:@"friends"];
+    [dict setObject:@"JRStringArray" forKey:@"followers"];
+    [dict setObject:@"JRStringArray" forKey:@"following"];
+    [dict setObject:@"JRStringArray" forKey:@"friends"];
     [dict setObject:@"NSString" forKey:@"identifier"];
     [dict setObject:@"JRProfile" forKey:@"profile"];
     [dict setObject:@"JRJsonObject" forKey:@"provider"];

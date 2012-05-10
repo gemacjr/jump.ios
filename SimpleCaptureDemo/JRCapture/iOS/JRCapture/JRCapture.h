@@ -57,7 +57,7 @@ typedef NSString JRIpAddress; /**< TODO */
 typedef NSObject JRPassword; /**< TODO */
 typedef NSObject JRJsonObject; /**< TODO */
 typedef NSArray  JRArray; /**< TODO */
-typedef NSArray  JRSimpleArray; /**< TODO */
+typedef NSArray  JRStringArray; /**< TODO */
 typedef NSString JRUuid; /**< TODO */
 typedef NSNumber JRObjectId; /**< TODO */
 
