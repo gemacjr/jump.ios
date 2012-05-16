@@ -49,6 +49,7 @@
 @implementation JRWebViewController
 @synthesize myBackgroundView;
 @synthesize myWebView;
+@synthesize originalUserAgent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andCustomInterface:(NSDictionary*)theCustomInterface
 {
@@ -59,6 +60,19 @@
     }
 
     return self;
+}
+
+- (void)setUserAgentDefault:(NSString *)userAgent {
+    if (userAgent)
+    {
+        NSDictionary *uAdefault = [[NSDictionary alloc] initWithObjectsAndKeys:userAgent, @"UserAgent", nil];
+        [[NSUserDefaults standardUserDefaults] registerDefaults:uAdefault];
+        [uAdefault release];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserAgent"];
+    }
 }
 
 - (void)viewDidLoad
@@ -108,6 +122,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     DLog(@"");
+
+    if ([sessionData.currentProvider.name isEqualToString:@"yahoo"])
+    {
+        [self setOriginalUserAgent:[[NSUserDefaults standardUserDefaults] stringForKey:@"UserAgent"]];
+        [self setUserAgentDefault:@"Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5"];
+    }
+
     [super viewWillAppear:animated];
 
     self.contentSizeForViewInPopover = CGSizeMake(320, 416);
@@ -345,15 +366,54 @@
     return YES;
 }
 
+- (void)fixPadWindowSize
+{
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) return;
+
+    if (!([sessionData.currentProvider.name isEqualToString:@"google"]) ||
+          [sessionData.currentProvider.name isEqualToString:@"yahoo"]) return;
+
+    /* This fixes the UIWebView's display of IDP sign-in pages to make them fit the iPhone sized dialog on the iPad.
+     * It's broken up into separate JS injections in case one statement fails (e.g. there is no document element),
+     * so that the others execute. */
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"window.innerHeight = 480; window.innerWidth = 320;"];
+//    [myWebView stringByEvaluatingJavaScriptFromString:
+//            @"window.screen.height = 480; window.screen.width = 320;"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.documentElement.clientWidth = 320; document.documentElement.clientHeight = 480;"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.style.minWidth = \"320px\";"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.style.width = \"auto\";"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.style.minHeight = \"0px\";"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.style.height = \"auto\";"];
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            @"document.body.children[0].style.minHeight = \"0px\";"];
+
+    [myWebView stringByEvaluatingJavaScriptFromString:@"m = document.querySelector('meta[name=viewport]');"];
+    [myWebView stringByEvaluatingJavaScriptFromString:@"if (m === null) { m = document.createElement('meta'); document.head.appendChild(m); }"];
+    [myWebView stringByEvaluatingJavaScriptFromString:@"m.name = 'viewport';"];
+
+    [myWebView stringByEvaluatingJavaScriptFromString:
+            [NSString stringWithFormat:@"m.content = 'width=%i, height=%i';",
+                    (int) myWebView.frame.size.width,
+                    (int) myWebView.frame.size.height]];
+}
+
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
     DLog(@"");
+    [self fixPadWindowSize];
     [self startProgress];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     DLog(@"");
+    [self fixPadWindowSize];
     if (!keepProgress)
         [self stopProgress];
 }
@@ -437,6 +497,9 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     DLog(@"");
+    
+    if ([sessionData.currentProvider.name isEqualToString:@"yahoo"])
+        [self setUserAgentDefault:self.originalUserAgent];
 
     [myWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@"/"]];
 
@@ -457,6 +520,7 @@
 
     [customInterface release];
     [myBackgroundView release];
+    [originalUserAgent release];
     [myWebView release];
     [infoBar release];
 
