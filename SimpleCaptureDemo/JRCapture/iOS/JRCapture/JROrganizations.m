@@ -441,7 +441,10 @@
         [dict setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
 
     if ([self.dirtyPropertySet containsObject:@"location"])
-        [dict setObject:(self.location ? [self.location toUpdateDictionary] : [NSNull null]) forKey:@"location"];
+        [dict setObject:(self.location ?
+                              [self.location toUpdateDictionary] :
+                              [[JRLocation location] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"location"];
 
     if ([self.dirtyPropertySet containsObject:@"name"])
         [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
@@ -469,7 +472,10 @@
     [dict setObject:(self.department ? self.department : [NSNull null]) forKey:@"department"];
     [dict setObject:(self.description ? self.description : [NSNull null]) forKey:@"description"];
     [dict setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
-    [dict setObject:(self.location ? [self.location toReplaceDictionary] : [NSNull null]) forKey:@"location"];
+    [dict setObject:(self.location ?
+                          [self.location toReplaceDictionary] :
+                          [[JRLocation location] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+             forKey:@"location"];
     [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
     [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null]) forKey:@"primary"];
     [dict setObject:(self.startDate ? self.startDate : [NSNull null]) forKey:@"startDate"];

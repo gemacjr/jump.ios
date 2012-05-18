@@ -229,7 +229,10 @@
         [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"objectLevelThree"])
-        [dict setObject:(self.objectLevelThree ? [self.objectLevelThree toUpdateDictionary] : [NSNull null]) forKey:@"objectLevelThree"];
+        [dict setObject:(self.objectLevelThree ?
+                              [self.objectLevelThree toUpdateDictionary] :
+                              [[JRObjectLevelThree objectLevelThree] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"objectLevelThree"];
 
     return dict;
 }
@@ -241,7 +244,10 @@
 
     [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
     [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
-    [dict setObject:(self.objectLevelThree ? [self.objectLevelThree toReplaceDictionary] : [NSNull null]) forKey:@"objectLevelThree"];
+    [dict setObject:(self.objectLevelThree ?
+                          [self.objectLevelThree toReplaceDictionary] :
+                          [[JRObjectLevelThree objectLevelThree] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+             forKey:@"objectLevelThree"];
 
     return dict;
 }

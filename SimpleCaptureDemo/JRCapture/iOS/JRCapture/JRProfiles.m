@@ -451,7 +451,10 @@
         [dict setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
 
     if ([self.dirtyPropertySet containsObject:@"profile"])
-        [dict setObject:(self.profile ? [self.profile toUpdateDictionary] : [NSNull null]) forKey:@"profile"];
+        [dict setObject:(self.profile ?
+                              [self.profile toUpdateDictionary] :
+                              [[JRProfile profile] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"profile"];
 
     if ([self.dirtyPropertySet containsObject:@"provider"])
         [dict setObject:(self.provider ? self.provider : [NSNull null]) forKey:@"provider"];
@@ -469,11 +472,14 @@
 
     [dict setObject:(self.accessCredentials ? self.accessCredentials : [NSNull null]) forKey:@"accessCredentials"];
     [dict setObject:(self.domain ? self.domain : [NSNull null]) forKey:@"domain"];
-    [dict setObject:(self.followers ? [self.followers arrayOfStringsFromStringPluralElements] : [NSNull null]) forKey:@"followers"];
-    [dict setObject:(self.following ? [self.following arrayOfStringsFromStringPluralElements] : [NSNull null]) forKey:@"following"];
-    [dict setObject:(self.friends ? [self.friends arrayOfStringsFromStringPluralElements] : [NSNull null]) forKey:@"friends"];
+    [dict setObject:(self.followers ? [self.followers arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"followers"];
+    [dict setObject:(self.following ? [self.following arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"following"];
+    [dict setObject:(self.friends ? [self.friends arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"friends"];
     [dict setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
-    [dict setObject:(self.profile ? [self.profile toReplaceDictionary] : [NSNull null]) forKey:@"profile"];
+    [dict setObject:(self.profile ?
+                          [self.profile toReplaceDictionary] :
+                          [[JRProfile profile] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+             forKey:@"profile"];
     [dict setObject:(self.provider ? self.provider : [NSNull null]) forKey:@"provider"];
     [dict setObject:(self.remote_key ? self.remote_key : [NSNull null]) forKey:@"remote_key"];
 

@@ -231,7 +231,10 @@
         [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"onipLevelThree"])
-        [dict setObject:(self.onipLevelThree ? [self.onipLevelThree toUpdateDictionary] : [NSNull null]) forKey:@"onipLevelThree"];
+        [dict setObject:(self.onipLevelThree ?
+                              [self.onipLevelThree toUpdateDictionary] :
+                              [[JROnipLevelThree onipLevelThree] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"onipLevelThree"];
 
     return dict;
 }
@@ -243,7 +246,10 @@
 
     [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
     [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
-    [dict setObject:(self.onipLevelThree ? [self.onipLevelThree toReplaceDictionary] : [NSNull null]) forKey:@"onipLevelThree"];
+    [dict setObject:(self.onipLevelThree ?
+                          [self.onipLevelThree toReplaceDictionary] :
+                          [[JROnipLevelThree onipLevelThree] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+             forKey:@"onipLevelThree"];
 
     return dict;
 }

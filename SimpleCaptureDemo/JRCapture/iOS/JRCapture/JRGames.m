@@ -319,7 +319,7 @@
 
     [dict setObject:(self.isFavorite ? [NSNumber numberWithBool:[self.isFavorite boolValue]] : [NSNull null]) forKey:@"isFavorite"];
     [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
-    [dict setObject:(self.opponents ? [self.opponents arrayOfStringsFromStringPluralElements] : [NSNull null]) forKey:@"opponents"];
+    [dict setObject:(self.opponents ? [self.opponents arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"opponents"];
     [dict setObject:(self.rating ? [NSNumber numberWithInteger:[self.rating integerValue]] : [NSNull null]) forKey:@"rating"];
 
     return dict;

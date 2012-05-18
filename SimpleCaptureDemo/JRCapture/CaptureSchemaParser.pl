@@ -905,15 +905,33 @@ sub recursiveParse {
 #      }   
 
       if (!$shouldIgnore) {
+        if ($isObject) {
+
+          $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
+          $toUpdateDictSection[3]  .= "        [dict setObject:(self." . $propertyName . " ?\n" . 
+                                      "                              " . $toUpDictionary . " :\n" .
+                                      "                              [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
+                                      "                 forKey:\@\"" . $dictionaryKey . "\"];\n";
         
-        if (!$isArray) {
+          $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ?\n" . 
+                                      "                          " . $toRplDictionary . " :\n" .
+                                      "                          [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
+                                      "             forKey:\@\"" . $dictionaryKey . "\"];\n";
+
+        } elsif ($isArray) {
+
+          $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSArray array]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+      
+        } else {
+
           # e.g., if ([self.dirtyPropertySet containsObject:@"foo"])
           #           [dict setObject:self.car forKey:@"foo"];
           $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
           $toUpdateDictSection[3]  .= "        [dict setObject:(self." . $propertyName . " ? " . $toUpDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
-        }
-        
-        $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+
+          $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+
+        }      
       }
 
       if ($isId) {

@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="CIDR_MODULE" version="4">
   <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRActivityObject.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRActivityObject.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRActivityObject.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRActivityObject.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRConnectionManager.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRConnectionManager.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRConnectionManager.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRConnectionManager.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JREngage+CustomInterface.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JREngage+CustomInterface.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JREngage+CustomInterface.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JREngage+CustomInterface.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JREngage.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JREngage.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JREngage.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JREngage.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRInfoBar.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRInfoBar.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRInfoBar.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRInfoBar.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRPreviewLabel.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRPreviewLabel.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRPreviewLabel.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRPreviewLabel.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRProvidersController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRProvidersController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRProvidersController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRProvidersController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRPublishActivityController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRPublishActivityController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRPublishActivityController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRPublishActivityController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRSessionData.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRSessionData.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRSessionData.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRSessionData.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRUserInterfaceMaestro.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRUserInterfaceMaestro.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRUserInterfaceMaestro.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRUserInterfaceMaestro.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRUserLandingController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRUserLandingController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRUserLandingController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRUserLandingController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRWebViewController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRWebViewController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Classes/JRWebViewController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Classes/JRWebViewController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/JREngage-Info.plist">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/JREngage-Info.plist" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/JSONKit/JSONKit.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/JSONKit/JSONKit.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/JSONKit/JSONKit.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/JSONKit/JSONKit.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Security/SFHFKeychainUtils.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Security/SFHFKeychainUtils.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JREngage/Security/SFHFKeychainUtils.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JREngage/Security/SFHFKeychainUtils.m" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

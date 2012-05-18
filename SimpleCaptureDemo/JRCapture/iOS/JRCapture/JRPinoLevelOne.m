@@ -229,7 +229,10 @@
         [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
     if ([self.dirtyPropertySet containsObject:@"pinoLevelTwo"])
-        [dict setObject:(self.pinoLevelTwo ? [self.pinoLevelTwo toUpdateDictionary] : [NSNull null]) forKey:@"pinoLevelTwo"];
+        [dict setObject:(self.pinoLevelTwo ?
+                              [self.pinoLevelTwo toUpdateDictionary] :
+                              [[JRPinoLevelTwo pinoLevelTwo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"pinoLevelTwo"];
 
     return dict;
 }
@@ -241,7 +244,10 @@
 
     [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
     [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
-    [dict setObject:(self.pinoLevelTwo ? [self.pinoLevelTwo toReplaceDictionary] : [NSNull null]) forKey:@"pinoLevelTwo"];
+    [dict setObject:(self.pinoLevelTwo ?
+                          [self.pinoLevelTwo toReplaceDictionary] :
+                          [[JRPinoLevelTwo pinoLevelTwo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+             forKey:@"pinoLevelTwo"];
 
     return dict;
 }
