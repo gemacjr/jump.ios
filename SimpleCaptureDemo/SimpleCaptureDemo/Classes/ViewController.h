@@ -19,7 +19,7 @@
 @interface ViewController : UIViewController <SignInDelegate, JRCaptureObjectDelegate>
 - (IBAction)browseButtonPressed:(id)sender;
 - (IBAction)updateButtonPressed:(id)sender;
-- (IBAction)deleteButtonPressed:(id)sender;
+- (IBAction)testerButtonPressed:(id)sender;
 - (IBAction)signInButtonPressed:(id)sender;
 
 @property (weak) IBOutlet UILabel *currentUserLabel;

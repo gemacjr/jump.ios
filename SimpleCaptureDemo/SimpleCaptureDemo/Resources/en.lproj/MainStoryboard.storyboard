@@ -75,7 +75,7 @@
                                 <rect key="frame" x="20" y="154" width="280" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Delete">
+                                <state key="normal" title="Test Random Stuff">
                                     <color key="titleColor" red="0.027450980619999999" green="0.27843138579999999" blue="0.39215686919999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -83,7 +83,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="deleteButtonPressed:" destination="4" eventType="touchUpInside" id="KbH-4c-k19"/>
+                                    <action selector="testerButtonPressed:" destination="4" eventType="touchUpInside" id="d0S-ef-RKf"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="PZq-1X-zH2">
@@ -154,8 +154,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
             <relationships>
                 <relationship kind="action" name="browseButtonPressed:"/>
-                <relationship kind="action" name="deleteButtonPressed:"/>
                 <relationship kind="action" name="signInButtonPressed:"/>
+                <relationship kind="action" name="testerButtonPressed:"/>
                 <relationship kind="action" name="updateButtonPressed:"/>
                 <relationship kind="outlet" name="currentUserLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="currentUserProviderIcon" candidateClass="UIImageView"/>

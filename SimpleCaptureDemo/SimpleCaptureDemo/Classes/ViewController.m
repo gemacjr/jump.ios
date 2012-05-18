@@ -58,13 +58,27 @@
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
-- (IBAction)deleteButtonPressed:(id)sender
+- (IBAction)testerButtonPressed:(id)sender
 {
     DLog(@"");
-    [sharedData.captureUser replaceGamesArrayOnCaptureForDelegate:self withContext:nil];
-    [sharedData.captureUser replaceTesterStringPluralArrayOnCaptureForDelegate:self withContext:nil];
+//    [sharedData.captureUser replaceGamesArrayOnCaptureForDelegate:self withContext:nil];
+//    [sharedData.captureUser replaceTesterStringPluralArrayOnCaptureForDelegate:self withContext:nil];
+//
+//    [[SharedData sharedData] resaveCaptureUser];
 
-    [[SharedData sharedData] resaveCaptureUser];
+
+//    NSMutableString *mutableString = [NSMutableString stringWithString:@"foo"];
+//    NSString *string = [NSString stringWithString:@"baz"];
+//
+//    sharedData.captureUser.aboutMe = mutableString;
+//
+//    mutableString = (NSMutableString *) sharedData.captureUser.aboutMe;
+//
+//    @try { [mutableString appendString:@"bar"]; }
+//    @catch(NSException *e){ }
+//
+//
+//    DLog(@"%@", mutableString);
 }
 
 - (void)replaceArray:(NSArray *)array named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
