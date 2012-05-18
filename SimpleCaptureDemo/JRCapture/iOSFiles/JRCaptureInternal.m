@@ -87,8 +87,8 @@
     if (![resultDictionary objectForKey:@"result"])
         [self updateCaptureObjectDidFailWithResult:result context:context];
 
-    [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
-    [captureObject.dirtyPropertySet removeAllObjects];
+//    [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
+//    [captureObject.dirtyPropertySet removeAllObjects];
 
     if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
         [delegate updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
