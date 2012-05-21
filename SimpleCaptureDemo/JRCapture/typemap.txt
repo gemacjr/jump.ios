@@ -1,4 +1,4 @@
-  Schema Type     Json Type     Obj-C Type    JRPCapture Type     Recursive   Typedeffed    Can Change    Notes
+  Schema Type     Json Type     Obj-C Type    JRCapture Type      Recursive   Typedeffed    Can Change    Notes
   string          String        NSString      NSString                        No
   boolean         Boolean       NSNumber      JRBoolean                       Yes
   integer         Number        NSNumber      JRInteger                       Yes

@@ -59,3 +59,6 @@
           andEntityTypeName:(NSString *)newEntityTypeName;
 + (NSString *)captureMobileEndpointUrl;
 @end
+
+
+

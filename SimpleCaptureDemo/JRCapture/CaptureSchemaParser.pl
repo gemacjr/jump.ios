@@ -63,8 +63,11 @@ if ($schemaName) {
 ############################################
 # CONSTANTS
 ############################################
-my $IS_PLURAL_TYPE     = 1;
-my $IS_NOT_PLURAL_TYPE = 0;
+my $YES = 1;
+my $NO  = 0;
+# my $PLURAL_ELEMENT     = 1;
+# my $PLURAL_PARENT      = 1;
+# my $READ_ONLY_PROPERTY = 1; # 'id', 'uuid', 'created', and 'lastUpdated' can't be changed from the client
 
 
 ############################################
@@ -73,10 +76,12 @@ my $IS_NOT_PLURAL_TYPE = 0;
 my %hFiles = ();
 my %mFiles = ();
 
+
 ############################################
 # HASH TO KEEP TRACK OF OBJECT NAMES
 ############################################
 my %repeatNamesHash = ();
+
 
 ############################################
 # ARRAYS TO KEEP TRACK OF INTEGER AND BOOLS
@@ -84,10 +89,22 @@ my %repeatNamesHash = ();
 my @booleanProperties;
 my @integerProperties;
 
+
 ############################################
 # HELPER METHODS
 ############################################
-sub isAnArrayOfStrings {
+
+################################################
+# Figure out if our plural is SIMPLE, that is, 
+# simple plurals contain lists of strings
+# e.g.:
+# "books":["book1","book2","book3"]
+#   OR
+# "books":[{"book":"book1","id":55},
+#          {"book":"book2","id":56},
+#          {"book":"book2","id":56}]
+################################################
+sub getIsAnArrayOfStrings {
   my $arrayRef    = $_[0];
   my @attrDefsArr = @$arrayRef;
 
@@ -115,6 +132,14 @@ sub isAnArrayOfStrings {
   }
 }
 
+##################################################
+# For a simple plural, figure out the type (name)
+# of our string elements
+# e.g.:
+# "books":[{"book":"book1","id":55},
+#          {"book":"book2","id":56},
+#          {"book":"book2","id":56}]
+##################################################
 sub getSimplePluralType {
   my $arrayRef    = $_[0];
   my @attrDefsArr = @$arrayRef;
@@ -122,7 +147,7 @@ sub getSimplePluralType {
   foreach my $hashRef (@attrDefsArr) {
     my %propertyHash = %$hashRef;
     my $propertyType = $propertyHash{"type"};
-    my $propertyName = $propertyHash{"name"}; # TODO: Assumes presence; return "value" if not there or just assume it always is
+    my $propertyName = $propertyHash{"name"}; # TODO: Assumes presence; return "value" if isn't there or just assume it always is
     
     if ($propertyType eq "string") {
       return $propertyName;
@@ -130,6 +155,9 @@ sub getSimplePluralType {
   }
 }
 
+##################################################
+# Determine if an object's property is required 
+##################################################
 sub getIsRequired {
   my $hashRef = $_[0];
   my %propertyHash = %$hashRef;
@@ -151,7 +179,12 @@ sub getIsRequired {
   return 0;  
 }
 
-sub getShouldIgnore {
+##########################################################
+# Certain properties, 'id', 'uuid', 'created', 
+# and 'lastUpdated', can't be changed from the client.
+# Determine if this property is one of those.
+##########################################################
+sub getIsReadOnly {
   my $propertyName = $_[0];
   my %ignoredProperties = map { $_ => 1 } ("id", "uuid", "created", "lastUpdated");
 
@@ -162,7 +195,12 @@ sub getShouldIgnore {
   return 0;
 }
 
-sub isPropertyNameObjcKeyword {
+##########################################################
+# Certain properties may share a name with Objective-C
+# keywords and reserved words (e.g., 'id'). Make sure
+# the property name can be used or change appropriately.
+##########################################################
+sub getIsPropertyNameObjcKeyword {
   my $propertyName = $_[0];
   my %keywords     = getObjcKeywords();
 
@@ -173,12 +211,20 @@ sub isPropertyNameObjcKeyword {
   return 0;
 }
 
+##########################################################
+# Quickie function to remove the pointer character from 
+# the Objective-C type string.
+# e.g., 'JRBooks *' -> 'JRBooks'
+##########################################################
 sub stripPointer {
   my $objectiveType = $_[0];
   $objectiveType =~ s/ \*//;
   return $objectiveType;
 }
 
+##########################################################
+# Duh.
+##########################################################
 sub trim {
 	my $string = $_[0];
 	$string =~ s/^\s+//;
@@ -186,64 +232,116 @@ sub trim {
 	return $string;
 }
 
-######################################################################
+
+##################################################################################################
 # RECURSIVE PARSING METHOD
 #
-# Method takes 3 arguments, the object name, a list of the 
-# object's properties (as a reference to an array of properties),
-# and whether the object (or sub-object) is an "plural object".
+# The meat of the script.  This method recursively parses the objects in the schema, extracting 
+# an object's properties, and writing an interface and implementation file for each object.
 #
-# *Properties* that are sub-objects themselves, or lists of 
-# sub-objects (plural properties), have their sub-objects 
-# recursively parsed.
+# As the properties of an object are parsed, the script checks if a property is an object or a 
+# plural of objects (not including plurals of strings), and recurses
 #
-# For each object/sub-object, method will write the appropriate
-# .h and .m files.  The .h/.m files include an instance constructor, 
-# class constructor, copy constructor, destructor, a method to 
-# convert the object to NSArrays/NSDictionaries for easy
-# jsonification, and synthesized accessors for all of its properties.
-# Required properties are treated as such in the constructors, etc.
+# For each object, this method will write the appropriate .h and .m files.  The .h/.m files 
+# include instance constructors, class constructors, a copy constructor, a destructor, methods to 
+# convert the object to/from NSArrays/NSDictionaries for easy jsonification, methods to 
+# create/update objects from NSDictionaries, methods to update/replace the object and its arrays
+# on Capture, and accessors for all of the properties. Required properties are treated as such in 
+# special constructors.  This method adds Doxygen comments to the object.
 #
-# Arguments:
-#   0:  The name of the object, with a lower-cased first letter and
-#       camel-cased rest
-#   1:  A reference (pointer) to the array of properties.  Each 
-#       property is a hash of attributes
-#   2:  If the sub-object is a 'plural' it is treated ???
+# Arguments
+#   objectName:       The name of the object as it is in the schema, with a lower-cased first letter
+#                     and camel-cased rest.  If the property shares a name with a property of another
+#                     object or with a reserved word in Objective-C, this name has already been updated
+#                     to be unique, by appending the parent object's name to it while still parsing
+#                     the parent.
+#    
+#   arrRef:           A list of the object's properties (as a reference to an array of properties).
+#                     That is, a reference (pointer) to the array of properties, where each element in
+#                     the array is a reference (pointer) to a hash of attributes of the property
+#    
+#   parentPath:       The path of object names from the root object '/' to the parent of the current
+#                     object. The current object's Name is appended to this value. This value is used by
+#                     objects when updating/replacing themselves on Capture, and is equivalent to the
+#                     value path 'attribute_name' on APID. Objects who are children of plurals won't
+#                     know their path until they have been assigned an id. When this happens (the objects
+#                     or their parents have been assigned an id), the generated code will automatically
+#                     update the object's path.
+#                     e.g.:
+#                       /objectLevelOne/objectLevel3
+#                         OR
+#                       /objectWithPlural/pluralElement#55
+#    
+#   pathAppend:       The name of the object that gets appended to the parent path, which is the exact
+#                     name of the property as it appears in the schema. This is needed as the objectName
+#                     might have changed from what is in the schema (see above for explanation), and
+#                     there is a special case with the top-level object (captureUser) and its direct
+#                     decendents.  In the Objective-C code, the top level object is called captureUser
+#                     (or JRCaptureUser), but on Capture the path to this entity is just '/'. The path
+#                     to the children of this entity is /nameOfChildObject, as opposed to 
+#                     /captureUser/firstChild. When we call this method for our top-level object, we pass
+#                     in "" for this parameter and "/" for the parentPath. On subsequent calls, we pass 
+#                     in an object's path as the parentPath of the subobject, and the name of the subobject
+#                     as the path append.
+#  
+#   isPluralElement:  If the object itself is an element in a plural.
+#  
+#   hasPluralParent:  If the object or parent of the object (or any ancestor) is an element of a plural
+#                     paths need to be handled differently, so keep track of this.
+#  
+#   objectDesc:       The description of the object as it is found in the schema. This value is used in
+#                     Doxygen comments of the object.
 ######################################################################
 
 sub recursiveParse {
 
-  my $objectName   = $_[0];
-  my $arrRef       = $_[1];
-  my $parentPath   = $_[2];
-  my $pathAppend   = $_[3];
-  my $objectDesc   = $_[4];
-  my $pluralParent = $_[5];
+  my $objectName      = $_[0];
+  my $arrRef          = $_[1];
+  my $parentPath      = $_[2];
+  my $pathAppend      = $_[3];
+  my $isPluralElement = $_[4];
+  my $hasPluralParent = $_[4];
+  my $objectDesc      = $_[5];
+
+  my $className;
   my $objectPath;
 
-  if ($parentPath eq "/") {
-    $objectPath = $parentPath . $pathAppend;
-  } else {
-    $objectPath = $parentPath . "/" . $pathAppend;
-  }
-  
-  $repeatNamesHash{$objectName} = 1;
-  
   ################################################
   # Dereference the list of properties
   ################################################
   my @propertyList = @$arrRef;
 
+  ################################################
+  # Add the object name to the repeatNamesHash
+  ################################################
+  $repeatNamesHash{$objectName} = 1;
 
-  ################################################
-  # Initialize the sections of the .h/.m files
-  ################################################
+  ##########################################################################
+  # Create the object's path. Object path depends on if the object is a 
+  # decendent of a plural element and if it falls under the special case of 
+  # the top-level object and its direct decendents
+  # e.g.:
+  #   /firstChild
+  #     OR
+  #   /firstChild/secondChild
+  ##########################################################################
+  # TODO: Don't create if child of plural??
+  if ($parentPath eq "/") { 
+    $objectPath = $parentPath . $pathAppend;
+  } else {
+    $objectPath = $parentPath . "/" . $pathAppend;
+  }
+  
+  
+  ##########################################################################
+  # Initialize the sections of the .h/.m files from the stubbed out methods
+  # in the file ObjCMethodParts.pl
+  ##########################################################################
   my $extraImportsSection        = "";
   my $propertiesSection          = "";
-  my $arrayCategoriesSection     = "";
-  my $synthesizeSection          = "";
   my $privateIvarsSection        = "";
+  my $arrayCategoriesSection     = "";
+  my $synthesizeSection          = ""; # Well, now it's all dynamic; still needed
   my $getterSettersSection       = "";
   my $replaceArrayIntfSection    = "";
   my $replaceArrayImplSection    = "";
@@ -258,13 +356,10 @@ sub recursiveParse {
   my @updateFromDictSection      = getUpdateFromDictParts();
   my @replaceFromDictSection     = getReplaceFromDictParts();
   my @toUpdateDictSection        = getToUpdateDictParts();
-  #my @updateRemotelySection      = getUpdateRemotelyParts();
   my @toReplaceDictSection       = getToReplaceDictParts();
-  #my @replaceRemotelySection     = getReplaceRemotelyParts();  
   my @objectPropertiesSection    = getObjectPropertiesParts();
-  my @doxygenClassDescSection    = getDoxygenClassDescParts();
-  
-  
+
+  my @doxygenClassDescSection    = getDoxygenClassDescParts();  
   my @minConstructorDocSection      = getMinConstructorDocParts();
   my @constructorDocSection         = getConstructorDocParts();
   my @minClassConstructorDocSection = getMinClassConstructorDocParts();
@@ -278,23 +373,41 @@ sub recursiveParse {
   my @objectPropertiesDocSection    = getObjectPropertiesDocParts();
 
 
-  ######################################################
-  # Create the class name of an object
-  # e.g., 'primaryAddress' becomes 'JRPrimaryAddress'
-  ######################################################
-  my $className = "JR" . ucfirst($objectName);
+  ######################################################################
+  # Create the class name of an object, adding 'Element' if the object
+  # is in a plural (but not an object in an object in a plural).
+  # e.g.:
+  #   'primaryAddress' becomes 'JRPrimaryAddress' or
+  #   'statuses' becomes 'JRStatusesElement'
+  ######################################################################
+  if ($isPluralElement) {
+    $className = "JR" . ucfirst($objectName) . "Element";  
+  } else {
+    $className = "JR" . ucfirst($objectName);  
+  }
  
   print "Parsing object $className...\n";
   
-  ##############################################################
-  # Parts of the class constructor, copy constructor, and other 
-  # methods reference the object name and class name in a 
-  # few, specific places in their implementation
+  
+  
+  ####################################################
+  # FILL IN METHODS WITH OBJECT NAME AND CLASS NAME
+  ####################################################
+  
+  ################################################################################
+  # Parts of the class constructor, copy constructor, and other methods reference 
+  # the object name and class name in a few specific places in their 
+  # implementation. Now that we have the object name and the class name, we need
+  # to fill in these portions of the stubbed out methods (see ObjCMethodParts.pl
+  # for exact details).
   #
   # e.g., 
   # JRUserObject *userObjectCopy =
 	#			[[JRUserObject allocWithZone:zone] init];
-  ######################################################
+  #	
+  # The rest of the methods/sections of our class get filled in as we loop through
+  # the list of properties.
+  ################################################################################
 
   $minConstructorDocSection[1] = $className;
   $minConstructorDocSection[3] = $className;

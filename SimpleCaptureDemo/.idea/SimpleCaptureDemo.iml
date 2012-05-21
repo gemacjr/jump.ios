@@ -89,6 +89,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../JREngage/Security/SFHFKeychainUtils.m" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$" />
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/SimpleCaptureDemo-da3beb40/Build/Products/Debug-iphonesimulator/SimpleCaptureDemo.app" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
