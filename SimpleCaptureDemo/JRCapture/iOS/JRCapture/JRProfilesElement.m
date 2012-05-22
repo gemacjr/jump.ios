@@ -317,7 +317,7 @@
 
     profiles.profile =
         [dictionary objectForKey:@"profile"] != [NSNull null] ? 
-        [JRProfile profileObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"profile"] withPath:profiles.captureObjectPath] : nil;
+        [JRProfile profileObjectFromDictionary:[dictionary objectForKey:@"profile"] withPath:profiles.captureObjectPath] : nil;
 
     profiles.provider =
         [dictionary objectForKey:@"provider"] != [NSNull null] ? 
@@ -361,6 +361,8 @@
 
     if ([dictionary objectForKey:@"profile"] == [NSNull null])
         self.profile = nil;
+    else if ([dictionary objectForKey:@"profile"] && !self.profile)
+        self.profile = [JRProfile profileObjectFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"profile"])
         [self.profile updateFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath];
 
@@ -422,6 +424,8 @@
 
     if (![dictionary objectForKey:@"profile"] || [dictionary objectForKey:@"profile"] == [NSNull null])
         self.profile = nil;
+    else if (!self.profile)
+        self.profile = [JRProfile profileObjectFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath];
     else
         [self.profile replaceFromDictionary:[dictionary objectForKey:@"profile"] withPath:self.captureObjectPath];
 

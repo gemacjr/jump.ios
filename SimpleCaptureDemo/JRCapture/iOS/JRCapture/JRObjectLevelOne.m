@@ -155,7 +155,7 @@
 
     objectLevelOne.objectLevelTwo =
         [dictionary objectForKey:@"objectLevelTwo"] != [NSNull null] ? 
-        [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelTwo"] withPath:objectLevelOne.captureObjectPath] : nil;
+        [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:[dictionary objectForKey:@"objectLevelTwo"] withPath:objectLevelOne.captureObjectPath] : nil;
 
     [objectLevelOne.dirtyPropertySet removeAllObjects];
     [objectLevelOne.dirtyArraySet removeAllObjects];
@@ -182,6 +182,8 @@
 
     if ([dictionary objectForKey:@"objectLevelTwo"] == [NSNull null])
         self.objectLevelTwo = nil;
+    else if ([dictionary objectForKey:@"objectLevelTwo"] && !self.objectLevelTwo)
+        self.objectLevelTwo = [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:[dictionary objectForKey:@"objectLevelTwo"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"objectLevelTwo"])
         [self.objectLevelTwo updateFromDictionary:[dictionary objectForKey:@"objectLevelTwo"] withPath:self.captureObjectPath];
 
@@ -208,6 +210,8 @@
 
     if (![dictionary objectForKey:@"objectLevelTwo"] || [dictionary objectForKey:@"objectLevelTwo"] == [NSNull null])
         self.objectLevelTwo = nil;
+    else if (!self.objectLevelTwo)
+        self.objectLevelTwo = [JRObjectLevelTwo objectLevelTwoObjectFromDictionary:[dictionary objectForKey:@"objectLevelTwo"] withPath:self.captureObjectPath];
     else
         [self.objectLevelTwo replaceFromDictionary:[dictionary objectForKey:@"objectLevelTwo"] withPath:self.captureObjectPath];
 

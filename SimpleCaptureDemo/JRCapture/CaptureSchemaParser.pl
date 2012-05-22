@@ -629,13 +629,13 @@ sub recursiveParse {
   $objFromDictSection[23]     = $objectName;
   
 
-  ##############################################################################
+  ################################################################################
   # Deal with the Capture path and id depending on whether the object itself
   # is an element of a plural or if it is a decendent of an object in a plural
-  ##############################################################################
+  ################################################################################
   
   if ($isPluralElement) {
-  ##############################################################################
+  ################################################################################
   # The Capture path needs to be created dynamically, once we know the id of the
   # plural element. We can only get from deserializing the JSON returned by 
   # Capture or other sources or by copying it from another object.  In our
@@ -645,7 +645,7 @@ sub recursiveParse {
   # from the dictionary.
   #
   # Path would look like /exampleObject/examplePluralElement#55
-  ##############################################################################
+  ################################################################################
   
     # e.g.:
     #   exampleElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"exampleElement", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -667,7 +667,7 @@ sub recursiveParse {
     $replaceFromDictSection[7] = ", [(NSNumber*)[dictionary objectForKey:\@\"id\"] integerValue]";
   
   } elsif ($hasPluralParent) {
-  ##############################################################################
+  ################################################################################
   # The Capture path still needs to be created dynamically with id of the 
   # parent plural element. We can only get from deserializing the JSON returned
   # by Capture or other sources or by copying it from another object, but we 
@@ -676,7 +676,7 @@ sub recursiveParse {
   # method, and then appending the object's name (from the pathAppend argument)
   #
   # Path would look like /exampleObject/examplePluralElement#55/exampleSubobject
-  ##############################################################################
+  ################################################################################
 
     # e.g.:
     #   exampleElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"exampleElement"];
@@ -689,9 +689,9 @@ sub recursiveParse {
     $replaceFromDictSection[6] = "\@\"" . $pathAppend . "\"";      
   
   } else {
-  ##############################################################################
+  ################################################################################
   # Let's just remove this bit from the methods altogether
-  ##############################################################################
+  ################################################################################
     
     for (my $i = 9; $i <= 16; $i++) { $objFromDictSection[$i]     = ""; }
     for (my $i = 3; $i <= 8;  $i++) { $updateFromDictSection[$i]  = ""; }
@@ -700,11 +700,11 @@ sub recursiveParse {
   }
 
   if ($hasPluralParent) {
-  ############################################################################
+  ################################################################################
   # For all plural elements and their children, until an id has been assigned
   # their paths are unknown and they can't be updated or replaced on Capture.
   # Set these values in the constructors to indicate this.
-  ############################################################################
+  ################################################################################
   
     # e.g.:
     #   self.captureObjectPath      = @"";
@@ -723,16 +723,13 @@ sub recursiveParse {
     $objFromDictSection[17]   .= "// TODO: Is this safe to assume?\n    " . $objectName . ".canBeUpdatedOrReplaced = YES;\n";
 
   } else {
-  ############################################################################
-  # Otherwise, the capture path is known and we can set this in the 
-  # constructors.
-  ############################################################################
+  ################################################################################
+  # Otherwise, the capture path is known and we can set this in the constructors.
+  ################################################################################
 
+    #### Special case ####
     if ($objectName eq "captureUser") {      
-    ######################################
-    # Special case
-    ######################################
-            
+
       # e.g.:
       #   self.captureObjectPath = @"";
       $minConstructorSection[3] = "        self.captureObjectPath = \@\"\";\n";
@@ -761,8 +758,6 @@ sub recursiveParse {
   my $requiredProperties = 0;
 
 
-  # reference (pointer) to a hash of attributes of the property. We will loop through this array later.
-
   ################################################################################################
   # Each object has a list of properties defined in the schema as the object's 'attr_defs' array. 
   # Each element in the list contains a reference (pointer) to a hash describing that property.
@@ -784,14 +779,13 @@ sub recursiveParse {
     my $propertyDesc = $propertyHash{"description"};
 
     my %propertyConstraints = getConstraints(\%propertyHash);
-    
-#   ######################################################
-#   # Find out if it's a required property, and
-#   # increase the requiredProperties counter if it is
-#   ######################################################
+
 #   my $isRequired = getIsRequired (\%propertyHash); 
+
+    
+    ### Find out if it's a required property, and increase the requiredProperties counter if it is  
     my $isRequired = exists($propertyConstraints{"required"});
-    if ($isRequired) {
+    if ($isRequired) { 
       $requiredProperties++;
     }
     
@@ -810,8 +804,8 @@ sub recursiveParse {
 
 
     ##########################################################
-    # Calls to the Capture server should not contain id, uuid, 
-    # created, and lastUpdated
+    # Updates to the Capture server should not contain 'id', 
+    # 'uuid', 'created', and 'lastUpdated'
     ##########################################################
     my $isReadOnly = getIsReadOnly($propertyName);
 
@@ -834,11 +828,11 @@ sub recursiveParse {
           "[dictionary objectForKey:\@\"$dictionaryKey\"]"; # the dictionary and stick it into the property
     my $frUpDictionary  = 
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";
-    my $frRplDictionary  = 
+    my $frRplDictionary = 
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";
 
-    if ($propertyDesc) {
-      $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+    if ($propertyDesc) {                                    # Use the property description for the Doxygen comment
+      $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));  # or create a default one if there is no description
     } else {
       $propertyNotes .= "/**< The object's \\e " . $propertyName . " property";
     }
@@ -850,48 +844,45 @@ sub recursiveParse {
     # first so that it can stored in the dictionary) and add any notes to the property's Doxygen comment
     ##################################################################################################################
 
+    ######## STRING ########
     if ($propertyType eq "string") {
-    ##################
-    # STRING
-    ##################
-      $objectiveType  = "NSString *";
+    
+      $objectiveType   = "NSString *";
 
+    ######## BOOLEAN ########
     } elsif ($propertyType eq "boolean") {
-    ##################
-    # BOOLEAN
-    ##################
-      $isAlsoPrimitive = "b";
+
       $objectiveType   = "JRBoolean *";
+      
       $toDictionary    = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithBool:[self." . $propertyName . " boolValue]]";
       $frDictionary    = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] boolValue]]";
 
       $propertyNotes  .= " \@note This is a property of type \\ref types \"boolean\", which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code>";
-
+      $isAlsoPrimitive = "b";
+      
       push (@booleanProperties, $propertyName);
       
+    ######## INTEGER ########
     } elsif ($propertyType eq "integer") {
-    ##################
-    # INTEGER
-    ##################
-      $isAlsoPrimitive = "i";
+
       $objectiveType   = "JRInteger *";
+
       $toDictionary    = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";
       $frDictionary    = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";
 
-      $propertyNotes  .= " \@note This is a property of type \\ref types \"integer\", which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:<em>myInteger</em>]</code>, <code>[NSNumber numberWithInt:<em>myInt</em>]</code>, or <code>[NSNull null]</code>";
-
+      $propertyNotes  .= " \@note This is a property of type \\ref types \"integer\", which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:<em>myInteger</em>]</code>, <code>[NSNumber numberWithInt:<em>myInt</em>]</code>, or <code>[NSNull null]</code>";    
+      $isAlsoPrimitive = "i";
+  
       push (@integerProperties, $propertyName);
 
+    ######## DECIMAL/NUMBER ########
     } elsif ($propertyType eq "decimal") {
-    ##################
-    # DECIMAL/NUMBER
-    ##################
-      $objectiveType  = "NSNumber *";
 
+      $objectiveType  = "NSNumber *";
+ 
+    ######## DATE ########
     } elsif ($propertyType eq "date") {
-    ##################
-    # DATE
-    ##################
+
       $objectiveType  = "JRDate *";
       
       $toDictionary   = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601Date]";
@@ -899,10 +890,9 @@ sub recursiveParse {
 
       $propertyNotes .= " \@note This is a property of type \\ref types \"date\", which is a typedef of \\e NSDate. The accepted format should be an ISO8601 date string (e.g., <code>yyyy-MM-dd</code>)";      
 
+    ######## DATETIME ########
     } elsif ($propertyType eq "dateTime") {
-    ##################
-    # DATETIME
-    ##################
+
       $objectiveType  = "JRDateTime *";
       
       $toDictionary   = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601DateTime]";
@@ -910,51 +900,50 @@ sub recursiveParse {
 
       $propertyNotes .= " \@note This is a property of type \\ref types \"dateTime\", which is a typedef of \\e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>)";
 
+    ######## IPADDRESS ########
     } elsif ($propertyType eq "ipAddress") {
     ####################################
-    # IPADDRESS IS JUST A STRING
+    # 'ipAddress' is just a string
     ####################################
+      
       $objectiveType  = "JRIpAddress *";
-
       $propertyNotes .= " \@note This is a property of type \\ref types \"ipAddress\", which is a typedef of \\e NSString.";      
 
+    ######## PASSWORD ########
     } elsif ($propertyType =~ m/^password/) { 
-    ##########################################################################
-    # PASSWORD
-    #'password' types all start with the string 'password' (e.g., "password-crypt-sha256") 
-    # Passwords are typically string representations of a json object, and 
-    # since we don't know the type of object it could be (e.g., array, string, etc.),
-    # we store it as an NSObject
-    ##########################################################################
+    ####################################################################################################################
+    #'password' types all start with the string 'password' (e.g., "password-crypt-sha256") Passwords are typically
+    # string representations of a json object, and since we don't know the type of object it could be (e.g., array, 
+    # string, etc.), we store it as an NSObject.
+    ####################################################################################################################
+      
       $objectiveType  = "JRPassword *";          
-
       $propertyNotes .= " \@note This is a property of type \\ref types \"password\", which can be either an \\e NSString or \\e NSDictionary, and is therefore is a typedef of \\e NSObject";      
 
+    ######## JSON ########
     } elsif ($propertyType eq "json") {
-    ##########################################################################
-    # JSON
-    # Properties of type 'json' are typically string representations
-    # of a basic json object or primitive type. Since we don't know what
-    # type of object the property could be (e.g., array, string, etc.), 
-    # we store it as an NSObject
-    ##########################################################################
-      $objectiveType  = "JRJsonObject *";
-       
-      $propertyNotes .= " \@note This is a property of type \\ref types \"json\", which can be an \\e NSDictionary, \\e NSArray, \\e NSString, etc., and is therefore is a typedef of \\e NSObject";      
+    ####################################################################################################################
+    # Properties of type 'json' are typically string representations of a basic json object or primitive type. Since we
+    # don't know what type of object the property could be (e.g., array, string, etc.), we store it as an NSObject
+    ####################################################################################################################
+     
+      $objectiveType  = "JRJsonObject *";  
+      $propertyNotes .= " \@note This is a property of type \\ref types \"json\", which can be an \\e NSDictionary, \\e NSArray, \\e NSString, etc., and is therefore is a typedef of \\e NSObject";
+
+    ######## UUID ########
     } elsif ($propertyType eq "uuid") {
     ####################################
-    # UUID IS JUST A STRING
+    # 'uuid' is just a string
     ####################################
+      
       $objectiveType  = "JRUuid *";
- 
       $propertyNotes .= " \@note This is a property of type \\ref types \"uuid\", which is a typedef of \\e NSString";      
       
+    ######## ID ########
     } elsif ($propertyType eq "id") {
-    ##########################################################################
-    # ID
-    # If the property is type 'id' and has the name 'id', change the property
-    # name to compile in ObjC
-    ##########################################################################
+    ###################################################################################################
+    # If the property is type 'id' and has the name 'id', change the property name to compile in ObjC
+    ###################################################################################################
 
       $objectiveType  = "JRObjectId *";
      
@@ -963,16 +952,15 @@ sub recursiveParse {
 
       $propertyNotes .= " \@note The \\e id of the object should not be set. // TODO: etc."
 
+    ######## PLURAL (ARRAY) ########
     } elsif ($propertyType eq "plural") {
-    ##########################################################################
-    # PLURAL (ARRAY)
-    # If the property is a 'plural' (i.e., a list of strings or sub-objects), 
-    # first decide if it's a list of strings or sub-objects by checking the 
-    # property's 'attr_defs'. If it's a list of sub-objects, recurse on the 
-    # plural's attr_defs', creating the sub-object.  Also, add an NSArray category
-    # to the current object's .m file, so that the NSArray of sub-objects can 
-    # properly turn themselves into an NSArray of NSDictionaries
-    ##########################################################################
+    ####################################################################################################################
+    # If the property is a 'plural' (i.e., a list of strings or sub-objects), first decide if it's a list of strings or
+    # sub-objects by checking the property's 'attr_defs'. If it's a list of sub-objects, recurse on the plural's 
+    # 'attr_defs', creating the sub-object.  Also, add an NSArray category to the current object's .m file, so that the
+    # NSArray of sub-objects can properly turn themselves into an NSArray of NSDictionaries
+    ####################################################################################################################
+
       $isArray = 1;
       
       my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
@@ -1020,20 +1008,21 @@ sub recursiveParse {
 
         $propertyNotes .= " \@note This is an array of \\c JR" . ucfirst($propertyName) . "Element objects";
         
-        ################
-        # AND RECURSE!!
-        ################
+        ######## AND RECURSE!! ########
         recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $pathName, $IS_PLURAL_ELEMENT, $HAS_PLURAL_PARENT, $propertyDesc);
        
       }
       
+    ######## OBJECT (DICTIONARY) ########
     } elsif ($propertyType eq "object") {
-    ##########################################################################
-    # OBJECT (DICTIONARY)
+    ##################################################################################
     # If the property is an object itself, recurse on the sub-object's 'attr_defs'
-    ##########################################################################
+    ##################################################################################
+
       $isObject = 1;
       
+      my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
+            
       if ($repeatNamesHash{$propertyName}) {
         $propertyName = $objectName . ucfirst($propertyName);
       }
@@ -1042,20 +1031,23 @@ sub recursiveParse {
       $toDictionary    = "[self." . $propertyName . " toDictionary]";
       $toUpDictionary  = "[self." . $propertyName . " toUpdateDictionary]";
       $toRplDictionary = "[self." . $propertyName . " toReplaceDictionary]";
-      $frDictionary    = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:" . $objectName . ".captureObjectPath]";
+      $frDictionary    = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:" . $objectName . ".captureObjectPath]";
+      $frUpDictionary  = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
+      $frRplDictionary = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
+
       $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
 
-      ################
-      # AND RECURSE!!
-      ################
-      my $propertyAttrDefsRef = $propertyHash{"attr_defs"};
+      ######## AND RECURSE!! ########
       recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $pathName, $NOT_PLURAL_ELEMENT, $hasPluralParent, $propertyDesc);
 
+    ######## OTHER ########
     } else {
     #########################################################
-    # OTHER, SHOULDN'T HAPPEN, BUT JUST MAKE IT AN OBJECT
+    # Shouldn't happen, but just make it an object
     #########################################################
+
       $objectiveType = "NSObject *";
+
     }
 
     $propertyNotes .= " */";
@@ -1064,11 +1056,10 @@ sub recursiveParse {
     # "APPENDED PROPERTY ADDITIONS": FILL IN METHODS BY APPENDING CODE FOR EACH PROPERTY
     ######################################################################################
 
-
-    ##########################################################################
-    # Now, to take the property, and add it to all those function's in the 
-    # object's .h/.m files
-    ##########################################################################
+    #############################################################################################
+    # Now, to take the property, and append the appropriate code to all those functions in 
+    # the object's .h/.m files.
+    #############################################################################################
 
     if ($isRequired) {
     ######################################################
@@ -1076,45 +1067,53 @@ sub recursiveParse {
     ######################################################
 
       if ($requiredProperties == 1) { 
-      ##########################################################################
-      # If the property is the *first* required property, we usually precede it
-      # with 'With' in method names
-      ##########################################################################
+      ######################################################################################################
+      # If the property is the *first* required property, we usually precede it with 'With' in method names
+      ######################################################################################################
 
-        # e.g., - (id)initWithFoo:(NSObject *)newFoo ...
+        # e.g.:
+        #   - (id)initWithFoo:(NSObject *)newFoo ...
         $constructorSection[1] .= "With" . ucfirst($propertyName) . ":(" . $objectiveType . ")new" . ucfirst($propertyName);
 
-        # e.g., if (!newFoo ...
+        # e.g.:
+        #   if (!newFoo ...
         $constructorSection[4] .= "!new" . ucfirst($propertyName);
 
-        # e.g., + (id)objWithFoo:(NSObject *)foo ...
+        # e.g.:
+        #   + (id)exampleElementWithFoo:(NSObject *)foo ...
         $classConstructorSection[2] .= "With" . ucfirst($propertyName) . ":(" . $objectiveType . ")" . $propertyName;
 
-        # e.g., return [[[JRObj alloc] initWithFoo:foo ...
+        # e.g.:
+        #   return [[[JRExampleElement alloc] initWithFoo:foo ...
         $classConstructorSection[7] .= "With" . ucfirst($propertyName) . ":" . $propertyName;
 
-        # e.g., JRObj *objCopy = [[JRObj allocWithZone:zone] initWithFoo:self.foo ...
+        # e.g.:
+        #   JRObj *exampleElementCopy = [[JRExampleElement allocWithZone:zone] initWithFoo:self.foo ...
         $copyConstructorSection[4]  .= "With" . ucfirst($propertyName) . ":self.$propertyName";
         
       } else {
-      ##########################################################################
-      # If the property is *not* the first required property, we usually 
-      # precede it with 'And' in method names
-      ##########################################################################
+      ##########################################################################################################
+      # If the property is *not* the first required property, we usually  precede it with 'And' in method names
+      ##########################################################################################################
         
-        # e.g., - (id)initWithFoo:(NSObject *)newFoo andBar:(NSObject *)newBar ...
+        # e.g.:
+        #   - (id)initWithFoo:(NSObject *)newFoo andBar:(NSObject *)newBar ...
         $constructorSection[1] .= " and" . ucfirst($propertyName) . ":(" . $objectiveType . ")new" . ucfirst($propertyName);
 
-        # e.g., if (!newFoo || !newBar ...
+        # e.g.:
+        #   if (!newFoo || !newBar ...
         $constructorSection[4] .= " || !new" . ucfirst($propertyName);
 
-        # e.g., + (id)objWithFoo:(NSObject *)foo andBar:(NSObject *)bar ...
+        # e.g.:
+        #   + (id)objWithFoo:(NSObject *)foo andBar:(NSObject *)bar ...
         $classConstructorSection[2] .= " and" . ucfirst($propertyName) . ":(" . $objectiveType . ")" . $propertyName;
 
-        # e.g., return [[[JRObj alloc] initWithFoo:foo andBar:bar ...
+        # e.g.:
+        #   return [[[JRObj alloc] initWithFoo:foo andBar:bar ...
         $classConstructorSection[7] .= " and" . ucfirst($propertyName) . ":" . $propertyName;
 
-        # e.g., JRObj *objCopy = [[JRObj allocWithZone:zone] initWithFoo:self.foo andBar:self.bar ...
+        # e.g.:
+        #   JRExampleElement *exampleElementCopy = [[JRExampleElement allocWithZone:zone] initWithFoo:self.foo andBar:self.bar ...
         $copyConstructorSection[4]  .= " and" . ucfirst($propertyName) . ":self.$propertyName";
 
       }        
@@ -1122,7 +1121,8 @@ sub recursiveParse {
       # For *all* required properties...
       ##########################################################################
       
-      # e.g., foo = [newFoo copy];
+      # e.g.:
+      #   foo = [newFoo copy];
       $constructorSection[8] .= "        _" . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
       
     } else {
@@ -1130,102 +1130,173 @@ sub recursiveParse {
     # If the property is *not* required...
     ######################################################  
       
-      # e.g., objCopy.baz = self.baz;
+      # e.g.:
+      #   exampleElementCopy.baz = self.baz;
       $copyConstructorSection[9] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
 
     }
     ##########################################################################
-    # For *all* properties...
+    # For *all* properties (mostly)...
     ##########################################################################
 
-    # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
+    # e.g.:
+    #   exampleElement.baz = 
+    #       [dictionary objectForKey:@"baz"] != [NSNull null] ? 
+    #       [dictionary objectForKey:@"baz"] : nil;
     $objFromDictSection[17]     .= "\n    " . $objectName . "." . $propertyName . " =\n";
     $objFromDictSection[17]     .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
     $objFromDictSection[17]     .= "        " . $frDictionary . " : nil;\n";
     
-    if (!$isArray) {
-      # e.g., if ([dictionary objectForKey:@"foo"])
-
-      if ($isObject) { 
-
-        $updateFromDictSection[9]   .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"] == [NSNull null])";
-        $updateFromDictSection[9]   .= "\n        self." . $propertyName . " = nil;";
-        $updateFromDictSection[9]   .= "\n    else if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
-        $updateFromDictSection[9]   .= "\n        [self." . $propertyName . " updateFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath];\n";
-
-      } else {
-    
-        $updateFromDictSection[9]   .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
- 
-        # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-        $updateFromDictSection[9]   .= "\n        self." . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-        $updateFromDictSection[9]   .= "            " . $frUpDictionary . " : nil;\n";          
-    
-      }
-    }
-    
-    if ($isObject) { 
-
-      $replaceFromDictSection[9]   .= "\n    if (![dictionary objectForKey:\@\"" . $dictionaryKey . "\"] || [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] == [NSNull null])";
-      $replaceFromDictSection[9]   .= "\n        self." . $propertyName . " = nil;";
-      $replaceFromDictSection[9]   .= "\n    else";
-      $replaceFromDictSection[9]   .= "\n        [self." . $propertyName . " replaceFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath];\n";
-
-    } else {
-    
-      # e.g., obj.baz = [dictionary objectForKey:@"baz"] != [NSNull null] ? [dictionary objectForKey:@"baz"] : nil;
-      $replaceFromDictSection[9]  .= "\n    self." . $propertyName . " =\n";
-      $replaceFromDictSection[9]  .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
-      $replaceFromDictSection[9]  .= "        " . $frRplDictionary . " : nil;\n";
-    
-    }
-    
-    # e.g., [dict setObject:(self.baz ? self.baz : [NSNull null]) forKey:@"baz"];
+    # e.g.:
+    #   [dict setObject:(self.baz ? self.baz : [NSNull null]) 
+    #            forKey:@"baz"];
     $dictFromObjSection[3]      .= "    [dict setObject:(self." . $propertyName . " ? " . $toDictionary . " : [NSNull null])\n";
     $dictFromObjSection[3]      .= "             forKey:\@\"" . $dictionaryKey . "\"];\n";
     
+    # e.g.:
+    #   [dict setObject:@"JRFoo" forKey:@"foo"];
     $objectPropertiesSection[3] .= "    [dict setObject:\@\"" . stripPointer($objectiveType) . "\" forKey:\@\"" . $propertyName . "\"];\n";
+    
+    ### All pretty straightforward stuff here... ###
     
     $destructorSection[2] .= "    [_$propertyName release];\n";
     $propertiesSection    .= "\@property (nonatomic, copy) $objectiveType$propertyName; $propertyNotes \n";
     $privateIvarsSection  .= "    " . $objectiveType . "_" . $propertyName . ";\n";
     $synthesizeSection    .= "\@dynamic $propertyName;\n";
- 
+  
+    if ($isSimpleArray) { #
+      $getterSettersSection .= createGetterSetterForSimpleArray ($propertyName, $simpleArrayType);
+    } else {
+      $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isAlsoPrimitive, $isArray); 
+    }
+
+    if ($isObject) { 
+    ####################################################################################################################
+    # If the NSDictionary has the value [NSNull null] for our property object, set the property to nil (though, I 
+    # think this case may never happen as Capture objects are never null). If the dictionary contains a value for
+    # our property object, and our property is not nil, call the 'updateFromDictionary'/'replaceFromDictionary' method
+    # on our property to avoid invalidating the pointer. If our property is nil, calling this method will do nothing, 
+    # so we have to construct a new object from the dictionary.
+    ####################################################################################################################
+
+      # e.g.:
+      #   if ([dictionary objectForKey:@"foo"] == [NSNull null])
+      #       self.foo = nil;
+      #   else if ([dictionary objectForKey:@"foo"] && !self.foo)
+      #       self.foo = [JRFoo fooObjectFromDictionary:[dictionary objectForKey:@"foo"] withPath:self.captureObjectPath];
+      #   else if ([dictionary objectForKey:@"foo"])
+      #       [self.foo updateFromDictionary:[dictionary objectForKey:@"foo"] withPath:self.captureObjectPath];
+      $updateFromDictSection[9]   .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"] == [NSNull null])";
+      $updateFromDictSection[9]   .= "\n        self." . $propertyName . " = nil;";
+      $updateFromDictSection[9]   .= "\n    else if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"] && !self." . $propertyName . ")";
+      $updateFromDictSection[9]   .= "\n        self." . $propertyName . " = " . $frUpDictionary . ";";
+      $updateFromDictSection[9]   .= "\n    else if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
+      $updateFromDictSection[9]   .= "\n        [self." . $propertyName . " updateFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath];\n";
+
+      # e.g.:
+      #   if (![dictionary objectForKey:@"foo"] || [dictionary objectForKey:@"foo"] == [NSNull null])
+      #       self.foo = nil;
+      #   else if (!self.foo)
+      #       self.foo = [JRFoo fooObjectFromDictionary:[dictionary objectForKey:@"foo"] withPath:self.captureObjectPath];
+      #   else
+      #       [self.foo replaceFromDictionary:[dictionary objectForKey:@"foo"] withPath:self.captureObjectPath];
+      $replaceFromDictSection[9]  .= "\n    if (![dictionary objectForKey:\@\"" . $dictionaryKey . "\"] || [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] == [NSNull null])";
+      $replaceFromDictSection[9]  .= "\n        self." . $propertyName . " = nil;";
+      $replaceFromDictSection[9]  .= "\n    else if (!self." . $propertyName . ")";
+      $replaceFromDictSection[9]  .= "\n        self." . $propertyName . " = " . $frRplDictionary . ";";
+      $replaceFromDictSection[9]  .= "\n    else";
+      $replaceFromDictSection[9]  .= "\n        [self." . $propertyName . " replaceFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath];\n";
+
+    } else {
+  
+      if (!$isArray) {
+        ####################################################################################################################
+        # Arrays don't get updated remotely, though their elements can be updated if their paths are valid. Likewise,
+        # arrays don't get updated locally (from the NSDictionary argument of the method), as it would be too difficult to 
+        # figure out which Objective-C element in the object's existing array corresponds with which NSDictionary element 
+        # in the array in the NSDictionary argument. Don't want to create a new array, so it's just left out of this method.
+        ####################################################################################################################
+
+        # e.g.:        
+        #   if ([dictionary objectForKey:@"bar"])
+        #       self.name = [dictionary objectForKey:@"bar"] != [NSNull null] ? 
+        #           [dictionary objectForKey:@"bar"] : nil;
+        $updateFromDictSection[9]   .= "\n    if ([dictionary objectForKey:\@\"" . $dictionaryKey . "\"])";
+        $updateFromDictSection[9]   .= "\n        self." . $propertyName . " = [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+        $updateFromDictSection[9]   .= "            " . $frUpDictionary . " : nil;\n";          
+      
+      }
+      ############################################
+      # Everything but objects (yes, arrays too)
+      ############################################
+  
+      # e.g.:
+      #   self.baz =
+      #       [dictionary objectForKey:@"baz"] != [NSNull null] ? 
+      #       [dictionary objectForKey:@"baz"] : nil;
+      $replaceFromDictSection[9]  .= "\n    self." . $propertyName . " =\n";
+      $replaceFromDictSection[9]  .= "        [dictionary objectForKey:\@\"" . $dictionaryKey . "\"] != [NSNull null] ? \n";
+      $replaceFromDictSection[9]  .= "        " . $frRplDictionary . " : nil;\n";
+    
+    }
 
     if (!$isReadOnly) {
+    ##############################################################################################
+    # Updates to the Capture server should not contain 'id', 'uuid', 'created', and 'lastUpdated'
+    ##############################################################################################
+ 
       if ($isObject) {
-
+      ##################################################################################################################
+      # Objects on Capture can't be null, so if a developer sets an object property to null, instead of sending null to
+      # Capture, we use the object's default (minimal) class constructor to create an object with nulled-out fields and
+      # send that to Capture instead.
+      ##################################################################################################################
+      
+        # e.g.:      
+        #   if ([self.dirtyPropertySet containsObject:@"foo"])
+        #       [dict setObject:(self.foo ?
+        #                             [self.foo toUpdateDictionary] :
+        #                             [[JRFoo foo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+        #                forKey:@"foo"];        
         $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
         $toUpdateDictSection[3]  .= "        [dict setObject:(self." . $propertyName . " ?\n" . 
                                     "                              " . $toUpDictionary . " :\n" .
                                     "                              [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
                                     "                 forKey:\@\"" . $dictionaryKey . "\"];\n";
-      
+        # e.g.:      
+        #   [dict setObject:(self.foo ?
+        #                         [self.foo toUpdateDictionary] :
+        #                         [[JRFoo foo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+        #            forKey:@"foo"];              
         $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ?\n" . 
                                     "                          " . $toRplDictionary . " :\n" .
                                     "                          [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
                                     "             forKey:\@\"" . $dictionaryKey . "\"];\n";
 
       } elsif ($isArray) {
+      ####################################################################################################################
+      # Arrays don't get updated, though their elements can be updated if their paths are valid. If an array has changed, 
+      # that is, the pointer to the NSArray is different, we assume it's a whole new array. Changed arrays need to be 
+      # replaced on Capture before their elements or sub-elements can be updated. In any case, leave them out here.
+      ####################################################################################################################
 
+        # e.g.:      
+        #   [dict setObject:(self.bar ? [self.bar arrayOfBarReplaceDictionariesFromBarObjects] : [NSArray array]) forKey:@"bar"];
         $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSArray array]) forKey:\@\"" . $dictionaryKey . "\"];\n";
     
       } else {
 
-        # e.g., if ([self.dirtyPropertySet containsObject:@"foo"])
-        #           [dict setObject:self.car forKey:@"foo"];
+        # e.g.:
+        #   if ([self.dirtyPropertySet containsObject:@"baz"])
+        #       [dict setObject:self.baz forKey:@"baz"];
         $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
         $toUpdateDictSection[3]  .= "        [dict setObject:(self." . $propertyName . " ? " . $toUpDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
 
+        # e.g.:      
+        #   [dict setObject:(self.baz ? self.baz : [NSNull null]) forKey:@"baz"];
         $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
 
       }      
-    }
-
-    if ($isSimpleArray) {
-      $getterSettersSection .= createGetterSetterForSimpleArray ($propertyName, $simpleArrayType);
-    } else {
-      $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isAlsoPrimitive, $isArray); 
     }
 
   ##########################################################################

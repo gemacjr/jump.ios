@@ -1386,7 +1386,7 @@
 
     profile.bodyType =
         [dictionary objectForKey:@"bodyType"] != [NSNull null] ? 
-        [JRBodyType bodyTypeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"bodyType"] withPath:profile.captureObjectPath] : nil;
+        [JRBodyType bodyTypeObjectFromDictionary:[dictionary objectForKey:@"bodyType"] withPath:profile.captureObjectPath] : nil;
 
     profile.books =
         [dictionary objectForKey:@"books"] != [NSNull null] ? 
@@ -1408,7 +1408,7 @@
 
     profile.currentLocation =
         [dictionary objectForKey:@"currentLocation"] != [NSNull null] ? 
-        [JRCurrentLocation currentLocationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"currentLocation"] withPath:profile.captureObjectPath] : nil;
+        [JRCurrentLocation currentLocationObjectFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:profile.captureObjectPath] : nil;
 
     profile.displayName =
         [dictionary objectForKey:@"displayName"] != [NSNull null] ? 
@@ -1510,7 +1510,7 @@
 
     profile.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
-        [JRName nameObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"name"] withPath:profile.captureObjectPath] : nil;
+        [JRName nameObjectFromDictionary:[dictionary objectForKey:@"name"] withPath:profile.captureObjectPath] : nil;
 
     profile.nickname =
         [dictionary objectForKey:@"nickname"] != [NSNull null] ? 
@@ -1674,11 +1674,15 @@
 
     if ([dictionary objectForKey:@"bodyType"] == [NSNull null])
         self.bodyType = nil;
+    else if ([dictionary objectForKey:@"bodyType"] && !self.bodyType)
+        self.bodyType = [JRBodyType bodyTypeObjectFromDictionary:[dictionary objectForKey:@"bodyType"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"bodyType"])
         [self.bodyType updateFromDictionary:[dictionary objectForKey:@"bodyType"] withPath:self.captureObjectPath];
 
     if ([dictionary objectForKey:@"currentLocation"] == [NSNull null])
         self.currentLocation = nil;
+    else if ([dictionary objectForKey:@"currentLocation"] && !self.currentLocation)
+        self.currentLocation = [JRCurrentLocation currentLocationObjectFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"currentLocation"])
         [self.currentLocation updateFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:self.captureObjectPath];
 
@@ -1720,6 +1724,8 @@
 
     if ([dictionary objectForKey:@"name"] == [NSNull null])
         self.name = nil;
+    else if ([dictionary objectForKey:@"name"] && !self.name)
+        self.name = [JRName nameObjectFromDictionary:[dictionary objectForKey:@"name"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"name"])
         [self.name updateFromDictionary:[dictionary objectForKey:@"name"] withPath:self.captureObjectPath];
 
@@ -1827,6 +1833,8 @@
 
     if (![dictionary objectForKey:@"bodyType"] || [dictionary objectForKey:@"bodyType"] == [NSNull null])
         self.bodyType = nil;
+    else if (!self.bodyType)
+        self.bodyType = [JRBodyType bodyTypeObjectFromDictionary:[dictionary objectForKey:@"bodyType"] withPath:self.captureObjectPath];
     else
         [self.bodyType replaceFromDictionary:[dictionary objectForKey:@"bodyType"] withPath:self.captureObjectPath];
 
@@ -1850,6 +1858,8 @@
 
     if (![dictionary objectForKey:@"currentLocation"] || [dictionary objectForKey:@"currentLocation"] == [NSNull null])
         self.currentLocation = nil;
+    else if (!self.currentLocation)
+        self.currentLocation = [JRCurrentLocation currentLocationObjectFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:self.captureObjectPath];
     else
         [self.currentLocation replaceFromDictionary:[dictionary objectForKey:@"currentLocation"] withPath:self.captureObjectPath];
 
@@ -1953,6 +1963,8 @@
 
     if (![dictionary objectForKey:@"name"] || [dictionary objectForKey:@"name"] == [NSNull null])
         self.name = nil;
+    else if (!self.name)
+        self.name = [JRName nameObjectFromDictionary:[dictionary objectForKey:@"name"] withPath:self.captureObjectPath];
     else
         [self.name replaceFromDictionary:[dictionary objectForKey:@"name"] withPath:self.captureObjectPath];
 

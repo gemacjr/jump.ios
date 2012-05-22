@@ -158,7 +158,7 @@
 
     onipLevelTwo.onipLevelThree =
         [dictionary objectForKey:@"onipLevelThree"] != [NSNull null] ? 
-        [JROnipLevelThree onipLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"onipLevelThree"] withPath:onipLevelTwo.captureObjectPath] : nil;
+        [JROnipLevelThree onipLevelThreeObjectFromDictionary:[dictionary objectForKey:@"onipLevelThree"] withPath:onipLevelTwo.captureObjectPath] : nil;
 
     [onipLevelTwo.dirtyPropertySet removeAllObjects];
     [onipLevelTwo.dirtyArraySet removeAllObjects];
@@ -186,6 +186,8 @@
 
     if ([dictionary objectForKey:@"onipLevelThree"] == [NSNull null])
         self.onipLevelThree = nil;
+    else if ([dictionary objectForKey:@"onipLevelThree"] && !self.onipLevelThree)
+        self.onipLevelThree = [JROnipLevelThree onipLevelThreeObjectFromDictionary:[dictionary objectForKey:@"onipLevelThree"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"onipLevelThree"])
         [self.onipLevelThree updateFromDictionary:[dictionary objectForKey:@"onipLevelThree"] withPath:self.captureObjectPath];
 
@@ -213,6 +215,8 @@
 
     if (![dictionary objectForKey:@"onipLevelThree"] || [dictionary objectForKey:@"onipLevelThree"] == [NSNull null])
         self.onipLevelThree = nil;
+    else if (!self.onipLevelThree)
+        self.onipLevelThree = [JROnipLevelThree onipLevelThreeObjectFromDictionary:[dictionary objectForKey:@"onipLevelThree"] withPath:self.captureObjectPath];
     else
         [self.onipLevelThree replaceFromDictionary:[dictionary objectForKey:@"onipLevelThree"] withPath:self.captureObjectPath];
 

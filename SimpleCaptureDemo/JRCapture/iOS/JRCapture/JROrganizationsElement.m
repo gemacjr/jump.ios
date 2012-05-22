@@ -289,7 +289,7 @@
 
     organizations.location =
         [dictionary objectForKey:@"location"] != [NSNull null] ? 
-        [JRLocation locationObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"location"] withPath:organizations.captureObjectPath] : nil;
+        [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:organizations.captureObjectPath] : nil;
 
     organizations.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
@@ -345,6 +345,8 @@
 
     if ([dictionary objectForKey:@"location"] == [NSNull null])
         self.location = nil;
+    else if ([dictionary objectForKey:@"location"] && !self.location)
+        self.location = [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"location"])
         [self.location updateFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath];
 
@@ -400,6 +402,8 @@
 
     if (![dictionary objectForKey:@"location"] || [dictionary objectForKey:@"location"] == [NSNull null])
         self.location = nil;
+    else if (!self.location)
+        self.location = [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath];
     else
         [self.location replaceFromDictionary:[dictionary objectForKey:@"location"] withPath:self.captureObjectPath];
 

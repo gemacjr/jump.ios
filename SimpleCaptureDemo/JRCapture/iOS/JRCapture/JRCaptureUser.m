@@ -918,7 +918,7 @@
 
     captureUser.objectLevelOne =
         [dictionary objectForKey:@"objectLevelOne"] != [NSNull null] ? 
-        [JRObjectLevelOne objectLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelOne"] withPath:captureUser.captureObjectPath] : nil;
+        [JRObjectLevelOne objectLevelOneObjectFromDictionary:[dictionary objectForKey:@"objectLevelOne"] withPath:captureUser.captureObjectPath] : nil;
 
     captureUser.onipLevelOne =
         [dictionary objectForKey:@"onipLevelOne"] != [NSNull null] ? 
@@ -934,7 +934,7 @@
 
     captureUser.pinoLevelOne =
         [dictionary objectForKey:@"pinoLevelOne"] != [NSNull null] ? 
-        [JRPinoLevelOne pinoLevelOneObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelOne"] withPath:captureUser.captureObjectPath] : nil;
+        [JRPinoLevelOne pinoLevelOneObjectFromDictionary:[dictionary objectForKey:@"pinoLevelOne"] withPath:captureUser.captureObjectPath] : nil;
 
     captureUser.pluralLevelOne =
         [dictionary objectForKey:@"pluralLevelOne"] != [NSNull null] ? 
@@ -942,7 +942,7 @@
 
     captureUser.primaryAddress =
         [dictionary objectForKey:@"primaryAddress"] != [NSNull null] ? 
-        [JRPrimaryAddress primaryAddressObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"primaryAddress"] withPath:captureUser.captureObjectPath] : nil;
+        [JRPrimaryAddress primaryAddressObjectFromDictionary:[dictionary objectForKey:@"primaryAddress"] withPath:captureUser.captureObjectPath] : nil;
 
     captureUser.profiles =
         [dictionary objectForKey:@"profiles"] != [NSNull null] ? 
@@ -1051,6 +1051,8 @@
 
     if ([dictionary objectForKey:@"objectLevelOne"] == [NSNull null])
         self.objectLevelOne = nil;
+    else if ([dictionary objectForKey:@"objectLevelOne"] && !self.objectLevelOne)
+        self.objectLevelOne = [JRObjectLevelOne objectLevelOneObjectFromDictionary:[dictionary objectForKey:@"objectLevelOne"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"objectLevelOne"])
         [self.objectLevelOne updateFromDictionary:[dictionary objectForKey:@"objectLevelOne"] withPath:self.captureObjectPath];
 
@@ -1060,11 +1062,15 @@
 
     if ([dictionary objectForKey:@"pinoLevelOne"] == [NSNull null])
         self.pinoLevelOne = nil;
+    else if ([dictionary objectForKey:@"pinoLevelOne"] && !self.pinoLevelOne)
+        self.pinoLevelOne = [JRPinoLevelOne pinoLevelOneObjectFromDictionary:[dictionary objectForKey:@"pinoLevelOne"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"pinoLevelOne"])
         [self.pinoLevelOne updateFromDictionary:[dictionary objectForKey:@"pinoLevelOne"] withPath:self.captureObjectPath];
 
     if ([dictionary objectForKey:@"primaryAddress"] == [NSNull null])
         self.primaryAddress = nil;
+    else if ([dictionary objectForKey:@"primaryAddress"] && !self.primaryAddress)
+        self.primaryAddress = [JRPrimaryAddress primaryAddressObjectFromDictionary:[dictionary objectForKey:@"primaryAddress"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"primaryAddress"])
         [self.primaryAddress updateFromDictionary:[dictionary objectForKey:@"primaryAddress"] withPath:self.captureObjectPath];
 
@@ -1163,6 +1169,8 @@
 
     if (![dictionary objectForKey:@"objectLevelOne"] || [dictionary objectForKey:@"objectLevelOne"] == [NSNull null])
         self.objectLevelOne = nil;
+    else if (!self.objectLevelOne)
+        self.objectLevelOne = [JRObjectLevelOne objectLevelOneObjectFromDictionary:[dictionary objectForKey:@"objectLevelOne"] withPath:self.captureObjectPath];
     else
         [self.objectLevelOne replaceFromDictionary:[dictionary objectForKey:@"objectLevelOne"] withPath:self.captureObjectPath];
 
@@ -1180,6 +1188,8 @@
 
     if (![dictionary objectForKey:@"pinoLevelOne"] || [dictionary objectForKey:@"pinoLevelOne"] == [NSNull null])
         self.pinoLevelOne = nil;
+    else if (!self.pinoLevelOne)
+        self.pinoLevelOne = [JRPinoLevelOne pinoLevelOneObjectFromDictionary:[dictionary objectForKey:@"pinoLevelOne"] withPath:self.captureObjectPath];
     else
         [self.pinoLevelOne replaceFromDictionary:[dictionary objectForKey:@"pinoLevelOne"] withPath:self.captureObjectPath];
 
@@ -1189,6 +1199,8 @@
 
     if (![dictionary objectForKey:@"primaryAddress"] || [dictionary objectForKey:@"primaryAddress"] == [NSNull null])
         self.primaryAddress = nil;
+    else if (!self.primaryAddress)
+        self.primaryAddress = [JRPrimaryAddress primaryAddressObjectFromDictionary:[dictionary objectForKey:@"primaryAddress"] withPath:self.captureObjectPath];
     else
         [self.primaryAddress replaceFromDictionary:[dictionary objectForKey:@"primaryAddress"] withPath:self.captureObjectPath];
 

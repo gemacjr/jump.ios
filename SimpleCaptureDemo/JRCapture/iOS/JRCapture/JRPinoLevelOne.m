@@ -155,7 +155,7 @@
 
     pinoLevelOne.pinoLevelTwo =
         [dictionary objectForKey:@"pinoLevelTwo"] != [NSNull null] ? 
-        [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"pinoLevelTwo"] withPath:pinoLevelOne.captureObjectPath] : nil;
+        [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:pinoLevelOne.captureObjectPath] : nil;
 
     [pinoLevelOne.dirtyPropertySet removeAllObjects];
     [pinoLevelOne.dirtyArraySet removeAllObjects];
@@ -182,6 +182,8 @@
 
     if ([dictionary objectForKey:@"pinoLevelTwo"] == [NSNull null])
         self.pinoLevelTwo = nil;
+    else if ([dictionary objectForKey:@"pinoLevelTwo"] && !self.pinoLevelTwo)
+        self.pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"pinoLevelTwo"])
         [self.pinoLevelTwo updateFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath];
 
@@ -208,6 +210,8 @@
 
     if (![dictionary objectForKey:@"pinoLevelTwo"] || [dictionary objectForKey:@"pinoLevelTwo"] == [NSNull null])
         self.pinoLevelTwo = nil;
+    else if (!self.pinoLevelTwo)
+        self.pinoLevelTwo = [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath];
     else
         [self.pinoLevelTwo replaceFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:self.captureObjectPath];
 

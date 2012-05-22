@@ -155,7 +155,7 @@
 
     objectLevelTwo.objectLevelThree =
         [dictionary objectForKey:@"objectLevelThree"] != [NSNull null] ? 
-        [JRObjectLevelThree objectLevelThreeObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:@"objectLevelThree"] withPath:objectLevelTwo.captureObjectPath] : nil;
+        [JRObjectLevelThree objectLevelThreeObjectFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:objectLevelTwo.captureObjectPath] : nil;
 
     [objectLevelTwo.dirtyPropertySet removeAllObjects];
     [objectLevelTwo.dirtyArraySet removeAllObjects];
@@ -182,6 +182,8 @@
 
     if ([dictionary objectForKey:@"objectLevelThree"] == [NSNull null])
         self.objectLevelThree = nil;
+    else if ([dictionary objectForKey:@"objectLevelThree"] && !self.objectLevelThree)
+        self.objectLevelThree = [JRObjectLevelThree objectLevelThreeObjectFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath];
     else if ([dictionary objectForKey:@"objectLevelThree"])
         [self.objectLevelThree updateFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath];
 
@@ -208,6 +210,8 @@
 
     if (![dictionary objectForKey:@"objectLevelThree"] || [dictionary objectForKey:@"objectLevelThree"] == [NSNull null])
         self.objectLevelThree = nil;
+    else if (!self.objectLevelThree)
+        self.objectLevelThree = [JRObjectLevelThree objectLevelThreeObjectFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath];
     else
         [self.objectLevelThree replaceFromDictionary:[dictionary objectForKey:@"objectLevelThree"] withPath:self.captureObjectPath];
 
