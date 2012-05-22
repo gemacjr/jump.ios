@@ -30,7 +30,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
-#import "JRPluralLevelThree.h"
+#import "JRPluralLevelThreeElement.h"
 
 /**
  * @brief A JRPluralLevelTwoElement object

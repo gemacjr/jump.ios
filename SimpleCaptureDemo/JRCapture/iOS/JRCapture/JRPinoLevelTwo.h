@@ -30,7 +30,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
-#import "JRPinoLevelThree.h"
+#import "JRPinoLevelThreeElement.h"
 
 /**
  * @brief A JRPinoLevelTwo object

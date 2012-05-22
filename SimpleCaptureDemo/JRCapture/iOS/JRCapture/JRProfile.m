@@ -51,7 +51,7 @@
     NSMutableArray *filteredAccountsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredAccountsArray addObject:[JRAccounts accountsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredAccountsArray addObject:[JRAccountsElement accountsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredAccountsArray;
 }
@@ -60,8 +60,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRAccounts class]])
-            [filteredDictionaryArray addObject:[(JRAccounts*)object toDictionary]];
+        if ([object isKindOfClass:[JRAccountsElement class]])
+            [filteredDictionaryArray addObject:[(JRAccountsElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -70,8 +70,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRAccounts class]])
-            [filteredDictionaryArray addObject:[(JRAccounts*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JRAccountsElement class]])
+            [filteredDictionaryArray addObject:[(JRAccountsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -89,7 +89,7 @@
     NSMutableArray *filteredAddressesArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredAddressesArray addObject:[JRAddresses addressesObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredAddressesArray addObject:[JRAddressesElement addressesObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredAddressesArray;
 }
@@ -98,8 +98,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRAddresses class]])
-            [filteredDictionaryArray addObject:[(JRAddresses*)object toDictionary]];
+        if ([object isKindOfClass:[JRAddressesElement class]])
+            [filteredDictionaryArray addObject:[(JRAddressesElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -108,8 +108,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRAddresses class]])
-            [filteredDictionaryArray addObject:[(JRAddresses*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JRAddressesElement class]])
+            [filteredDictionaryArray addObject:[(JRAddressesElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -127,7 +127,7 @@
     NSMutableArray *filteredEmailsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredEmailsArray addObject:[JREmails emailsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredEmailsArray addObject:[JREmailsElement emailsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredEmailsArray;
 }
@@ -136,8 +136,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JREmails class]])
-            [filteredDictionaryArray addObject:[(JREmails*)object toDictionary]];
+        if ([object isKindOfClass:[JREmailsElement class]])
+            [filteredDictionaryArray addObject:[(JREmailsElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -146,8 +146,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JREmails class]])
-            [filteredDictionaryArray addObject:[(JREmails*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JREmailsElement class]])
+            [filteredDictionaryArray addObject:[(JREmailsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -165,7 +165,7 @@
     NSMutableArray *filteredImsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredImsArray addObject:[JRIms imsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredImsArray addObject:[JRImsElement imsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredImsArray;
 }
@@ -174,8 +174,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRIms class]])
-            [filteredDictionaryArray addObject:[(JRIms*)object toDictionary]];
+        if ([object isKindOfClass:[JRImsElement class]])
+            [filteredDictionaryArray addObject:[(JRImsElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -184,8 +184,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRIms class]])
-            [filteredDictionaryArray addObject:[(JRIms*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JRImsElement class]])
+            [filteredDictionaryArray addObject:[(JRImsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -203,7 +203,7 @@
     NSMutableArray *filteredOrganizationsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredOrganizationsArray addObject:[JROrganizations organizationsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredOrganizationsArray addObject:[JROrganizationsElement organizationsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredOrganizationsArray;
 }
@@ -212,8 +212,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JROrganizations class]])
-            [filteredDictionaryArray addObject:[(JROrganizations*)object toDictionary]];
+        if ([object isKindOfClass:[JROrganizationsElement class]])
+            [filteredDictionaryArray addObject:[(JROrganizationsElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -222,8 +222,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JROrganizations class]])
-            [filteredDictionaryArray addObject:[(JROrganizations*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JROrganizationsElement class]])
+            [filteredDictionaryArray addObject:[(JROrganizationsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -241,7 +241,7 @@
     NSMutableArray *filteredPhoneNumbersArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPhoneNumbersArray addObject:[JRPhoneNumbers phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPhoneNumbersArray addObject:[JRPhoneNumbersElement phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPhoneNumbersArray;
 }
@@ -250,8 +250,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRPhoneNumbers class]])
-            [filteredDictionaryArray addObject:[(JRPhoneNumbers*)object toDictionary]];
+        if ([object isKindOfClass:[JRPhoneNumbersElement class]])
+            [filteredDictionaryArray addObject:[(JRPhoneNumbersElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -260,8 +260,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRPhoneNumbers class]])
-            [filteredDictionaryArray addObject:[(JRPhoneNumbers*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JRPhoneNumbersElement class]])
+            [filteredDictionaryArray addObject:[(JRPhoneNumbersElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -279,7 +279,7 @@
     NSMutableArray *filteredProfilePhotosArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredProfilePhotosArray addObject:[JRProfilePhotos profilePhotosObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredProfilePhotosArray addObject:[JRProfilePhotosElement profilePhotosObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredProfilePhotosArray;
 }
@@ -288,8 +288,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRProfilePhotos class]])
-            [filteredDictionaryArray addObject:[(JRProfilePhotos*)object toDictionary]];
+        if ([object isKindOfClass:[JRProfilePhotosElement class]])
+            [filteredDictionaryArray addObject:[(JRProfilePhotosElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -298,8 +298,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRProfilePhotos class]])
-            [filteredDictionaryArray addObject:[(JRProfilePhotos*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JRProfilePhotosElement class]])
+            [filteredDictionaryArray addObject:[(JRProfilePhotosElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -317,7 +317,7 @@
     NSMutableArray *filteredUrlsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredUrlsArray addObject:[JRUrls urlsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredUrlsArray addObject:[JRUrlsElement urlsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredUrlsArray;
 }
@@ -326,8 +326,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRUrls class]])
-            [filteredDictionaryArray addObject:[(JRUrls*)object toDictionary]];
+        if ([object isKindOfClass:[JRUrlsElement class]])
+            [filteredDictionaryArray addObject:[(JRUrlsElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -336,8 +336,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRUrls class]])
-            [filteredDictionaryArray addObject:[(JRUrls*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JRUrlsElement class]])
+            [filteredDictionaryArray addObject:[(JRUrlsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }

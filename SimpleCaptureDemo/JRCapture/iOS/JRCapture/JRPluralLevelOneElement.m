@@ -51,7 +51,7 @@
     NSMutableArray *filteredPluralLevelTwoArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPluralLevelTwoArray addObject:[JRPluralLevelTwo pluralLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPluralLevelTwoArray addObject:[JRPluralLevelTwoElement pluralLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPluralLevelTwoArray;
 }
@@ -60,8 +60,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRPluralLevelTwo class]])
-            [filteredDictionaryArray addObject:[(JRPluralLevelTwo*)object toDictionary]];
+        if ([object isKindOfClass:[JRPluralLevelTwoElement class]])
+            [filteredDictionaryArray addObject:[(JRPluralLevelTwoElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -70,8 +70,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRPluralLevelTwo class]])
-            [filteredDictionaryArray addObject:[(JRPluralLevelTwo*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JRPluralLevelTwoElement class]])
+            [filteredDictionaryArray addObject:[(JRPluralLevelTwoElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }

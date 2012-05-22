@@ -307,8 +307,6 @@ sub recursiveParse {
   my $className;
   my $objectPath;
 
-
-
   ################################################
   # Dereference the list of properties
   ################################################
@@ -336,15 +334,86 @@ sub recursiveParse {
   }
   
   
-  ##########################################################################
-  # Initialize the sections of the .h/.m files from the stubbed out methods
-  # in the file ObjCMethodParts.pl
-  ##########################################################################
-  my $extraImportsSection        = "";
+  ######################################################################################################################
+  # Initialize the sections of the .h/.m files from the stubbed out methods in the file ObjCMethodParts.pl. Most of the
+  # sections are arrays of strings, where each array element is either a known bit of text or an empty string.  Empty 
+  # strings get filled in as the script runs. Once an object has been parsed, the script loops through the entire 
+  # array, printing it to the .m file, and subsequently writing valid Objective-C. The first few elements of the array 
+  # get written to the .h file (as the method signature), and the documentation arrays get unrolled to the .h file as 
+  # well (as Doxygen comments).
+  # 
+  # For example, the array holding the pieces of the dealloc method looks like this:
+  #
+  # my @destructorParts = (
+  # "- (void)dealloc",
+  # "\n{\n",
+  # "", 
+  # "\n    [super dealloc];",
+  # "\n}\n");
+  #   
+  # The array contains 5 elements, and the first two and last two are fixed; that is, they are the same pieces of text 
+  # for every object. The third element is an empty string, and it gets filled in with "[<propertyName release];" as 
+  # each of the object's properties are parsed. Once unrolled into the .m file, the resulting code looks like this:
+  #
+  # - (void)dealloc
+  # {
+  #     [_propertyOne release];
+  #     [_propertyTwo release];
+  #       ...
+  #
+  #     [super dealloc];
+  # }
+  #
+  # There are two primary places at which an array element gets filled in during the running of this script:
+  #
+  # 1. The first place, in the beginning of the recursiveParse method, is the "one-time additions" filling-in; There are 
+  #    certain methods/sections that require an object's name or class name, such as in the class and copy constructors.
+  #    These sections are edited once per object. That is, the array elements are updated once, usually with the name of
+  #    the object or it's class.
+  #
+  #    For example, the array holding the pieces of the minimal class constructor method looks like this:
+  #
+  #    my @minClassConstructorParts = (
+  #    "+ (id)","",
+  #    "\n{\n",
+  #    "    return [[[",""," alloc] init] autorelease];",
+  #    "\n}\n\n"); 
+  #
+  #    The first, third, fourth, sixth, and seventh elements are fixed; they do not change.  The second and fifth
+  #    elements are empty.  They get filled in with the object's name (e.g., 'exampleElement') and class name (e.g., 
+  #    JRExampleElement):
+  #  
+  #    $minClassConstructorSection[1] = $objectName;
+  #    $minClassConstructorSection[4] = $className;
+  # 
+  #    The final method will look like this:
+  #
+  #    + (id)exampleElement
+  #    {
+  #        return [[[JRExampleElement alloc] init] autorelease];
+  #    }
+  #
+  # 2. The second place, as the script loops through an object's properties, and after it determines a property's name
+  #    and type, is the "appended property additions" filling-in.  There are certain methods/sections that do stuff
+  #    for each property of an object, such as releasing each property in the dealloc.  These sections are appended to
+  #    for each property an object contains.  That is, the script loops through an object's properties, and the array 
+  #    elements are appended to for each one encountered.
+  #
+  #    In the example of the dealloc method above, the third array element has "[<propertyName> release];" appended to
+  #    it, for each property of the object.
+  #
+  #    Some sections of the .h/.m files, such as the getters/setters, consist entirely of these "appended property
+  #    additions" and have no other text. In these cases, using/unrolling arrays is not needed. These are just empty 
+  #    strings defined below.
+  #
+  # The file ObjCMethodParts.pl has the stubbed out methods/sections with comments describing each method and detailing
+  # exactly what each will look like in its final form.
+  ######################################################################################################################
+  my $extraImportsSection        = ""; 
   my $propertiesSection          = "";
   my $privateIvarsSection        = "";
   my $arrayCategoriesSection     = "";
-  my $synthesizeSection          = ""; # Well, now it's all dynamic; still needed
+  my $synthesizeSection          = ""; # Well, now it's all dynamic, but the section is still needed
   my $getterSettersSection       = "";
   my $replaceArrayIntfSection    = "";
   my $replaceArrayImplSection    = "";
@@ -362,7 +431,7 @@ sub recursiveParse {
   my @toReplaceDictSection       = getToReplaceDictParts();
   my @objectPropertiesSection    = getObjectPropertiesParts();
 
-  my @doxygenClassDescSection    = getDoxygenClassDescParts();  
+  my @doxygenClassDescSection       = getDoxygenClassDescParts();  
   my @minConstructorDocSection      = getMinConstructorDocParts();
   my @constructorDocSection         = getConstructorDocParts();
   my @minClassConstructorDocSection = getMinClassConstructorDocParts();
@@ -392,10 +461,9 @@ sub recursiveParse {
   print "Parsing object $className...\n";
   
   
-  
-  ####################################################
-  # FILL IN METHODS WITH OBJECT NAME AND CLASS NAME
-  ####################################################
+  ########################################################################
+  # "ONE-TIME ADDITIONS": FILL IN METHODS WITH OBJECT NAME AND CLASS NAME
+  ########################################################################
   
   ################################################################################
   # Parts of the class constructor, copy constructor, and other methods reference 
@@ -971,7 +1039,7 @@ sub recursiveParse {
           $propertyName = $objectName . ucfirst($propertyName);
         }
         
-        $extraImportsSection    .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
+        $extraImportsSection    .= "#import \"JR" . ucfirst($propertyName) . "Element.h\"\n";
         $arrayCategoriesSection .= createArrayCategoryForSubobject ($propertyName);
         $toDictionary    = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
         $toRplDictionary = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Objects]";
@@ -1031,6 +1099,12 @@ sub recursiveParse {
     #########################################################
       $objectiveType = "NSObject *";
     }
+
+
+    ######################################################################################
+    # "APPENDED PROPERTY ADDITIONS": FILL IN METHODS BY APPENDING CODE FOR EACH PROPERTY
+    ######################################################################################
+
 
     ##########################################################################
     # Now, to take the property, and add it to all those function's in the 

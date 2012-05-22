@@ -18,7 +18,6 @@
 		90C36B6B7717AA0C893E0918 /* SimpleCaptureDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 90C36B6B7717AA0C893E0917 /* SimpleCaptureDemoTests.m */; };
 		9F2C93BC1551A7AE001A810E /* SimplePluralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F2C93BA1551A7AE001A810E /* SimplePluralViewController.m */; };
 		9F2C93C11551A7EC001A810E /* SimplePluralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F2C93BF1551A7EC001A810E /* SimplePluralViewController.xib */; };
-		9F2C93CF155C2A4A001A810E /* JRStringPluralElement.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9F7B6A8415336470002BF452 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8215336470002BF452 /* InfoPlist.strings */; };
 		9F7B6A9315336480002BF452 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8615336480002BF452 /* AppDelegate.m */; };
 		9F7B6A9415336480002BF452 /* ArrayDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8815336480002BF452 /* ArrayDrillDownViewController.m */; };
@@ -203,79 +202,44 @@
 		9FD2B63A14F836D100053EA2 /* JRUserLandingController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B58F14F836D100053EA2 /* JRUserLandingController.xib */; };
 		9FD2B63B14F836D100053EA2 /* JRWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FD2B59014F836D100053EA2 /* JRWebViewController.xib */; };
 		9FD2B63C14F836D100053EA2 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B59314F836D100053EA2 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69314F8380F00053EA2 /* JRAccounts.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69414F8380F00053EA2 /* JRAddresses.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69514F8380F00053EA2 /* JRBodyType.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69714F8380F00053EA2 /* JRCapture.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69814F8380F00053EA2 /* JRCaptureInterface.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69914F8380F00053EA2 /* JRCaptureUser.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69C14F8380F00053EA2 /* JRCurrentLocation.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B69D14F8380F00053EA2 /* JREmails.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A314F8380F00053EA2 /* JRIms.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6A814F8380F00053EA2 /* JRLocation.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6AC14F8380F00053EA2 /* JRName.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6AD14F8380F00053EA2 /* JROrganizations.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6AF14F8380F00053EA2 /* JRPhoneNumbers.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B014F8380F00053EA2 /* JRPhotos.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B114F8380F00053EA2 /* JRPrimaryAddress.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B214F8380F00053EA2 /* JRProfile.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B314F8380F00053EA2 /* JRProfilePhotos.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B414F8380F00053EA2 /* JRProfiles.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6B814F8380F00053EA2 /* JRStatuses.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9FD2B6BF14F8387100053EA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6BE14F8387100053EA2 /* Security.framework */; };
 		9FD2B6C114F8387B00053EA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6C014F8387B00053EA2 /* MessageUI.framework */; };
-		9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EB2 /* JRGames.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EB4 /* JRObjectLevelOne.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EB6 /* JRObjectLevelThree.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EB8 /* JRObjectLevelTwo.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EBA /* JROnipLevelOne.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EBC /* JROnipLevelThree.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EBE /* JROnipLevelTwo.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EC2 /* JRPinoLevelOne.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EC4 /* JRPinoLevelThree.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EC6 /* JRPinoLevelTwo.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053EC8 /* JRPluralLevelOne.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053ECA /* JRPluralLevelThree.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053ECC /* JRPluralLevelTwo.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053ECF /* JRCaptureInternal.m in Sources */ = {isa = PBXBuildFile; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9FD2B6DC14FAFF9100053ED2 /* JRAccountsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053ED1 /* JRAccountsElement.m */; };
-		9FD2B6DC14FAFF9100053ED5 /* JRAddressesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053ED4 /* JRAddressesElement.m */; };
-		9FD2B6DC14FAFF9100053ED8 /* JRBodyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053ED7 /* JRBodyType.m */; };
-		9FD2B6DC14FAFF9100053EDB /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EDA /* JRCapture.m */; };
-		9FD2B6DC14FAFF9100053EDE /* JRCaptureInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EDD /* JRCaptureInterface.m */; };
-		9FD2B6DC14FAFF9100053EE1 /* JRCaptureInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EE0 /* JRCaptureInternal.m */; };
-		9FD2B6DC14FAFF9100053EE4 /* JRCaptureUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EE3 /* JRCaptureUser.m */; };
-		9FD2B6DC14FAFF9100053EE7 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EE6 /* JRCaptureUser+Extras.m */; };
-		9FD2B6DC14FAFF9100053EEA /* JRCurrentLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EE9 /* JRCurrentLocation.m */; };
-		9FD2B6DC14FAFF9100053EED /* JREmailsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EEC /* JREmailsElement.m */; };
-		9FD2B6DC14FAFF9100053EF0 /* JRGamesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EEF /* JRGamesElement.m */; };
-		9FD2B6DC14FAFF9100053EF3 /* JRImsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EF2 /* JRImsElement.m */; };
-		9FD2B6DC14FAFF9100053EF6 /* JRLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EF5 /* JRLocation.m */; };
-		9FD2B6DC14FAFF9100053EF9 /* JRName.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EF8 /* JRName.m */; };
-		9FD2B6DC14FAFF9100053EFC /* JRObjectLevelOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EFB /* JRObjectLevelOne.m */; };
-		9FD2B6DC14FAFF9100053EFF /* JRObjectLevelThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EFE /* JRObjectLevelThree.m */; };
-		9FD2B6DC14FAFF9100053F02 /* JRObjectLevelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F01 /* JRObjectLevelTwo.m */; };
-		9FD2B6DC14FAFF9100053F05 /* JROnipLevelOneElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F04 /* JROnipLevelOneElement.m */; };
-		9FD2B6DC14FAFF9100053F08 /* JROnipLevelThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F07 /* JROnipLevelThree.m */; };
-		9FD2B6DC14FAFF9100053F0B /* JROnipLevelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F0A /* JROnipLevelTwo.m */; };
-		9FD2B6DC14FAFF9100053F0E /* JROrganizationsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F0D /* JROrganizationsElement.m */; };
-		9FD2B6DC14FAFF9100053F11 /* JRPhoneNumbersElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F10 /* JRPhoneNumbersElement.m */; };
-		9FD2B6DC14FAFF9100053F14 /* JRPhotosElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F13 /* JRPhotosElement.m */; };
-		9FD2B6DC14FAFF9100053F17 /* JRPinoLevelOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F16 /* JRPinoLevelOne.m */; };
-		9FD2B6DC14FAFF9100053F1A /* JRPinoLevelThreeElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F19 /* JRPinoLevelThreeElement.m */; };
-		9FD2B6DC14FAFF9100053F1D /* JRPinoLevelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F1C /* JRPinoLevelTwo.m */; };
-		9FD2B6DC14FAFF9100053F20 /* JRPluralLevelOneElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F1F /* JRPluralLevelOneElement.m */; };
-		9FD2B6DC14FAFF9100053F23 /* JRPluralLevelThreeElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F22 /* JRPluralLevelThreeElement.m */; };
-		9FD2B6DC14FAFF9100053F26 /* JRPluralLevelTwoElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F25 /* JRPluralLevelTwoElement.m */; };
-		9FD2B6DC14FAFF9100053F29 /* JRPrimaryAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F28 /* JRPrimaryAddress.m */; };
-		9FD2B6DC14FAFF9100053F2C /* JRProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F2B /* JRProfile.m */; };
-		9FD2B6DC14FAFF9100053F2F /* JRProfilePhotosElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F2E /* JRProfilePhotosElement.m */; };
-		9FD2B6DC14FAFF9100053F32 /* JRProfilesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F31 /* JRProfilesElement.m */; };
-		9FD2B6DC14FAFF9100053F35 /* JRStatusesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F34 /* JRStatusesElement.m */; };
-		9FD2B6DC14FAFF9100053F38 /* JRStringPluralElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F37 /* JRStringPluralElement.m */; };
-		9FD2B6DC14FAFF9100053F3B /* JRUrlsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F3A /* JRUrlsElement.m */; };
+		9FD2B6DC14FAFF9100053ED2 /* JRAccountsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053ED1 /* JRAccountsElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053ED5 /* JRAddressesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053ED4 /* JRAddressesElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053ED8 /* JRBodyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053ED7 /* JRBodyType.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EDB /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EDA /* JRCapture.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EDE /* JRCaptureInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EDD /* JRCaptureInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EE1 /* JRCaptureInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EE0 /* JRCaptureInternal.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EE4 /* JRCaptureUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EE3 /* JRCaptureUser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EE7 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EE6 /* JRCaptureUser+Extras.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EEA /* JRCurrentLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EE9 /* JRCurrentLocation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EED /* JREmailsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EEC /* JREmailsElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EF0 /* JRGamesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EEF /* JRGamesElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EF3 /* JRImsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EF2 /* JRImsElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EF6 /* JRLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EF5 /* JRLocation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EF9 /* JRName.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EF8 /* JRName.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EFC /* JRObjectLevelOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EFB /* JRObjectLevelOne.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053EFF /* JRObjectLevelThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053EFE /* JRObjectLevelThree.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F02 /* JRObjectLevelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F01 /* JRObjectLevelTwo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F05 /* JROnipLevelOneElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F04 /* JROnipLevelOneElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F08 /* JROnipLevelThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F07 /* JROnipLevelThree.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F0B /* JROnipLevelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F0A /* JROnipLevelTwo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F0E /* JROrganizationsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F0D /* JROrganizationsElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F11 /* JRPhoneNumbersElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F10 /* JRPhoneNumbersElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F14 /* JRPhotosElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F13 /* JRPhotosElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F17 /* JRPinoLevelOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F16 /* JRPinoLevelOne.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F1A /* JRPinoLevelThreeElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F19 /* JRPinoLevelThreeElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F1D /* JRPinoLevelTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F1C /* JRPinoLevelTwo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F20 /* JRPluralLevelOneElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F1F /* JRPluralLevelOneElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F23 /* JRPluralLevelThreeElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F22 /* JRPluralLevelThreeElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F26 /* JRPluralLevelTwoElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F25 /* JRPluralLevelTwoElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F29 /* JRPrimaryAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F28 /* JRPrimaryAddress.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F2C /* JRProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F2B /* JRProfile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F2F /* JRProfilePhotosElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F2E /* JRProfilePhotosElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F32 /* JRProfilesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F31 /* JRProfilesElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F35 /* JRStatusesElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F34 /* JRStatusesElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F38 /* JRStringPluralElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F37 /* JRStringPluralElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9FD2B6DC14FAFF9100053F3B /* JRUrlsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6DC14FAFF9100053F3A /* JRUrlsElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1445,41 +1409,6 @@
 				9FD2B59F14F836D100053EA2 /* JRWebViewController.m in Sources */,
 				9FD2B5A114F836D100053EA2 /* JSONKit.m in Sources */,
 				9FD2B63C14F836D100053EA2 /* SFHFKeychainUtils.m in Sources */,
-				9FD2B69314F8380F00053EA2 /* JRAccounts.m in Sources */,
-				9FD2B69414F8380F00053EA2 /* JRAddresses.m in Sources */,
-				9FD2B69514F8380F00053EA2 /* JRBodyType.m in Sources */,
-				9FD2B69714F8380F00053EA2 /* JRCapture.m in Sources */,
-				9FD2B69814F8380F00053EA2 /* JRCaptureInterface.m in Sources */,
-				9FD2B69914F8380F00053EA2 /* JRCaptureUser.m in Sources */,
-				9FD2B69C14F8380F00053EA2 /* JRCurrentLocation.m in Sources */,
-				9FD2B69D14F8380F00053EA2 /* JREmails.m in Sources */,
-				9FD2B6A314F8380F00053EA2 /* JRIms.m in Sources */,
-				9FD2B6A814F8380F00053EA2 /* JRLocation.m in Sources */,
-				9FD2B6AC14F8380F00053EA2 /* JRName.m in Sources */,
-				9FD2B6AD14F8380F00053EA2 /* JROrganizations.m in Sources */,
-				9FD2B6AF14F8380F00053EA2 /* JRPhoneNumbers.m in Sources */,
-				9FD2B6B014F8380F00053EA2 /* JRPhotos.m in Sources */,
-				9FD2B6B114F8380F00053EA2 /* JRPrimaryAddress.m in Sources */,
-				9FD2B6B214F8380F00053EA2 /* JRProfile.m in Sources */,
-				9FD2B6B314F8380F00053EA2 /* JRProfilePhotos.m in Sources */,
-				9FD2B6B414F8380F00053EA2 /* JRProfiles.m in Sources */,
-				9FD2B6B814F8380F00053EA2 /* JRStatuses.m in Sources */,
-				9FD2B6BD14F8380F00053EA2 /* JRUrls.m in Sources */,
-				9FD2B6D514F9AC5900053EA2 /* JRCaptureUser+Extras.m in Sources */,
-				9FD2B6DC14FAFF9100053EB2 /* JRGames.m in Sources */,
-				9FD2B6DC14FAFF9100053EB4 /* JRObjectLevelOne.m in Sources */,
-				9FD2B6DC14FAFF9100053EB6 /* JRObjectLevelThree.m in Sources */,
-				9FD2B6DC14FAFF9100053EB8 /* JRObjectLevelTwo.m in Sources */,
-				9FD2B6DC14FAFF9100053EBA /* JROnipLevelOne.m in Sources */,
-				9FD2B6DC14FAFF9100053EBC /* JROnipLevelThree.m in Sources */,
-				9FD2B6DC14FAFF9100053EBE /* JROnipLevelTwo.m in Sources */,
-				9FD2B6DC14FAFF9100053EC2 /* JRPinoLevelOne.m in Sources */,
-				9FD2B6DC14FAFF9100053EC4 /* JRPinoLevelThree.m in Sources */,
-				9FD2B6DC14FAFF9100053EC6 /* JRPinoLevelTwo.m in Sources */,
-				9FD2B6DC14FAFF9100053EC8 /* JRPluralLevelOne.m in Sources */,
-				9FD2B6DC14FAFF9100053ECA /* JRPluralLevelThree.m in Sources */,
-				9FD2B6DC14FAFF9100053ECC /* JRPluralLevelTwo.m in Sources */,
-				9FD2B6DC14FAFF9100053ECF /* JRCaptureInternal.m in Sources */,
 				9F7B6A9315336480002BF452 /* AppDelegate.m in Sources */,
 				9F7B6A9415336480002BF452 /* ArrayDrillDownViewController.m in Sources */,
 				9F7B6A9515336480002BF452 /* CaptureNewUserViewController.m in Sources */,
@@ -1488,7 +1417,6 @@
 				9F7B6A9815336480002BF452 /* UserDrillDownViewController.m in Sources */,
 				9F7B6A9915336480002BF452 /* ViewController.m in Sources */,
 				9F2C93BC1551A7AE001A810E /* SimplePluralViewController.m in Sources */,
-				9F2C93CF155C2A4A001A810E /* JRStringPluralElement.m in Sources */,
 				9FD2B6DC14FAFF9100053ED2 /* JRAccountsElement.m in Sources */,
 				9FD2B6DC14FAFF9100053ED5 /* JRAddressesElement.m in Sources */,
 				9FD2B6DC14FAFF9100053ED8 /* JRBodyType.m in Sources */,

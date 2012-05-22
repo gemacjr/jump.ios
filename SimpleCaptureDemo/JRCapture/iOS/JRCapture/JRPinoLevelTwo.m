@@ -51,7 +51,7 @@
     NSMutableArray *filteredPinoLevelThreeArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPinoLevelThreeArray addObject:[JRPinoLevelThree pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPinoLevelThreeArray addObject:[JRPinoLevelThreeElement pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPinoLevelThreeArray;
 }
@@ -60,8 +60,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRPinoLevelThree class]])
-            [filteredDictionaryArray addObject:[(JRPinoLevelThree*)object toDictionary]];
+        if ([object isKindOfClass:[JRPinoLevelThreeElement class]])
+            [filteredDictionaryArray addObject:[(JRPinoLevelThreeElement*)object toDictionary]];
 
     return filteredDictionaryArray;
 }
@@ -70,8 +70,8 @@
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
-        if ([object isKindOfClass:[JRPinoLevelThree class]])
-            [filteredDictionaryArray addObject:[(JRPinoLevelThree*)object toReplaceDictionary]];
+        if ([object isKindOfClass:[JRPinoLevelThreeElement class]])
+            [filteredDictionaryArray addObject:[(JRPinoLevelThreeElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
 }

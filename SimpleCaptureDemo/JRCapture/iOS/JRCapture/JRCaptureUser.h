@@ -30,15 +30,15 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCapture.h"
-#import "JRGames.h"
+#import "JRGamesElement.h"
 #import "JRObjectLevelOne.h"
-#import "JROnipLevelOne.h"
-#import "JRPhotos.h"
+#import "JROnipLevelOneElement.h"
+#import "JRPhotosElement.h"
 #import "JRPinoLevelOne.h"
-#import "JRPluralLevelOne.h"
+#import "JRPluralLevelOneElement.h"
 #import "JRPrimaryAddress.h"
-#import "JRProfiles.h"
-#import "JRStatuses.h"
+#import "JRProfilesElement.h"
+#import "JRStatusesElement.h"
 #import "JRStringPluralElement.h"
 
 /**

@@ -806,47 +806,37 @@ sub createArrayCategoryForSubobject {
 
   my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath";
   my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects";
-  #my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "UpdateDictionariesFrom" . ucfirst($propertyName) . "Objects";
-  my $methodName4 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Objects";
+  my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Objects";
   
-  #$arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName3;\n$methodName4;\n\@end\n\n";
-  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName4;\n\@end\n\n";
+
+  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName3;\n\@end\n\n";
   
   $arrayCategoryImpl .= "$methodName1\n{\n";
   $arrayCategoryImpl .=        
        "    NSMutableArray *filtered" . ucfirst($propertyName) . "Array = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *dictionary in self)\n" . 
        "        if ([dictionary isKindOfClass:[NSDictionary class]])\n" . 
-       "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];\n\n" . 
+       "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . "Element " . $propertyName . "ObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];\n\n" . 
        "    return filtered" . ucfirst($propertyName) . "Array;\n}\n\n";
        
   $arrayCategoryImpl .= "$methodName2\n{\n";
   $arrayCategoryImpl .=        
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *object in self)\n" . 
-       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . " class]])\n" . 
-       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "*)object toDictionary]];\n\n" . 
+       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . "Element class]])\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toDictionary]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\n";
 
-#  $arrayCategoryImpl .= "$methodName3\n{\n";
-#  $arrayCategoryImpl .=        
-#       "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
-#       "    for (NSObject *object in self)\n" . 
-#       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . " class]])\n" . 
-#       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "*)object toUpdateDictionary]];\n\n" . 
-#       "    return filteredDictionaryArray;\n}\n\n";
-
-  $arrayCategoryImpl .= "$methodName4\n{\n";
+  $arrayCategoryImpl .= "$methodName3\n{\n";
   $arrayCategoryImpl .=        
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *object in self)\n" . 
-       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . " class]])\n" . 
-       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "*)object toReplaceDictionary]];\n\n" . 
+       "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . "Element class]])\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toReplaceDictionary]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\@end\n\n";
 
   return "$arrayCategoryIntf$arrayCategoryImpl";
 }
-
 
 sub createArrayReplaceMethodDeclaration { 
   my $propertyName = $_[0];
