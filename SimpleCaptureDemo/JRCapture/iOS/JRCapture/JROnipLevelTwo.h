@@ -45,7 +45,7 @@
  **/
 /*@{*/
 /**
- * Returns a JROnipLevelTwo object
+ * Default constructor. Returns an empty JROnipLevelTwo object
  *
  * @return
  *   A JROnipLevelTwo object
@@ -53,7 +53,7 @@
 - (id)init;
 
 /**
- * Returns a JROnipLevelTwo object
+ * Returns an empty JROnipLevelTwo object
  *
  * @return
  *   A JROnipLevelTwo object

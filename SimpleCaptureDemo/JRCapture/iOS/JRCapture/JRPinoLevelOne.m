@@ -112,11 +112,12 @@
     pinoLevelOneCopy.level = self.level;
     pinoLevelOneCopy.name = self.name;
     pinoLevelOneCopy.pinoLevelTwo = self.pinoLevelTwo;
-
+    // TODO: Necessary??
     pinoLevelOneCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [pinoLevelOneCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinoLevelOneCopy.dirtyArraySet setSet:self.dirtyPropertySet];
+    [pinoLevelOneCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return pinoLevelOneCopy;
 }
@@ -143,7 +144,6 @@
 
     JRPinoLevelOne *pinoLevelOne = [JRPinoLevelOne pinoLevelOne];
 
-//    pinoLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelOne"];
 
     pinoLevelOne.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -171,7 +171,6 @@
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelOne"];
 
     if ([dictionary objectForKey:@"level"])
         self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -198,7 +197,6 @@
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinoLevelOne"];
 
     self.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 

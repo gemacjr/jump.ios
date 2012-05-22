@@ -112,11 +112,12 @@
     objectLevelOneCopy.level = self.level;
     objectLevelOneCopy.name = self.name;
     objectLevelOneCopy.objectLevelTwo = self.objectLevelTwo;
-
+    // TODO: Necessary??
     objectLevelOneCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [objectLevelOneCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [objectLevelOneCopy.dirtyArraySet setSet:self.dirtyPropertySet];
+    [objectLevelOneCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return objectLevelOneCopy;
 }
@@ -143,7 +144,6 @@
 
     JRObjectLevelOne *objectLevelOne = [JRObjectLevelOne objectLevelOne];
 
-//    objectLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelOne"];
 
     objectLevelOne.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -171,7 +171,6 @@
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelOne"];
 
     if ([dictionary objectForKey:@"level"])
         self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
@@ -198,7 +197,6 @@
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"objectLevelOne"];
 
     self.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 

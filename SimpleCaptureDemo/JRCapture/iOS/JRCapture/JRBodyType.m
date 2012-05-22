@@ -117,7 +117,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"";
+        self.captureObjectPath      = @"";
         self.canBeUpdatedOrReplaced = NO;
     }
     return self;
@@ -140,11 +140,12 @@
     bodyTypeCopy.eyeColor = self.eyeColor;
     bodyTypeCopy.hairColor = self.hairColor;
     bodyTypeCopy.height = self.height;
-
+    // TODO: Necessary??
     bodyTypeCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [bodyTypeCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [bodyTypeCopy.dirtyArraySet setSet:self.dirtyPropertySet];
+    [bodyTypeCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return bodyTypeCopy;
 }

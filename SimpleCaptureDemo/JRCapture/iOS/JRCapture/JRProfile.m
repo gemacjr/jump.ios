@@ -1136,7 +1136,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"";
+        self.captureObjectPath      = @"";
         self.canBeUpdatedOrReplaced = NO;
     }
     return self;
@@ -1214,11 +1214,12 @@
     profileCopy.updated = self.updated;
     profileCopy.urls = self.urls;
     profileCopy.utcOffset = self.utcOffset;
-
+    // TODO: Necessary??
     profileCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [profileCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [profileCopy.dirtyArraySet setSet:self.dirtyPropertySet];
+    [profileCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return profileCopy;
 }

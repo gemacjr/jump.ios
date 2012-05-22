@@ -52,7 +52,7 @@
  **/
 /*@{*/
 /**
- * Returns a JRLocation object
+ * Default constructor. Returns an empty JRLocation object
  *
  * @return
  *   A JRLocation object
@@ -60,7 +60,7 @@
 - (id)init;
 
 /**
- * Returns a JRLocation object
+ * Returns an empty JRLocation object
  *
  * @return
  *   A JRLocation object

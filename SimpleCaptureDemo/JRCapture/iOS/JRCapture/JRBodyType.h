@@ -46,7 +46,7 @@
  **/
 /*@{*/
 /**
- * Returns a JRBodyType object
+ * Default constructor. Returns an empty JRBodyType object
  *
  * @return
  *   A JRBodyType object
@@ -54,7 +54,7 @@
 - (id)init;
 
 /**
- * Returns a JRBodyType object
+ * Returns an empty JRBodyType object
  *
  * @return
  *   A JRBodyType object

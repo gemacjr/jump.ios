@@ -45,7 +45,7 @@
  **/
 /*@{*/
 /**
- * Returns a JRObjectLevelOne object
+ * Default constructor. Returns an empty JRObjectLevelOne object
  *
  * @return
  *   A JRObjectLevelOne object
@@ -53,7 +53,7 @@
 - (id)init;
 
 /**
- * Returns a JRObjectLevelOne object
+ * Returns an empty JRObjectLevelOne object
  *
  * @return
  *   A JRObjectLevelOne object

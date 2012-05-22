@@ -132,7 +132,7 @@
  **/
 /*@{*/
 /**
- * Returns a JRProfile object
+ * Default constructor. Returns an empty JRProfile object
  *
  * @return
  *   A JRProfile object
@@ -140,7 +140,7 @@
 - (id)init;
 
 /**
- * Returns a JRProfile object
+ * Returns an empty JRProfile object
  *
  * @return
  *   A JRProfile object

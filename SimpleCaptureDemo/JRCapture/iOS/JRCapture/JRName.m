@@ -130,7 +130,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"";
+        self.captureObjectPath      = @"";
         self.canBeUpdatedOrReplaced = NO;
     }
     return self;
@@ -154,11 +154,12 @@
     nameCopy.honorificPrefix = self.honorificPrefix;
     nameCopy.honorificSuffix = self.honorificSuffix;
     nameCopy.middleName = self.middleName;
-
+    // TODO: Necessary??
     nameCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [nameCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [nameCopy.dirtyArraySet setSet:self.dirtyPropertySet];
+    [nameCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return nameCopy;
 }

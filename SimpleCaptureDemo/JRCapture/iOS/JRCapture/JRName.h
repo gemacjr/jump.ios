@@ -47,7 +47,7 @@
  **/
 /*@{*/
 /**
- * Returns a JRName object
+ * Default constructor. Returns an empty JRName object
  *
  * @return
  *   A JRName object
@@ -55,7 +55,7 @@
 - (id)init;
 
 /**
- * Returns a JRName object
+ * Returns an empty JRName object
  *
  * @return
  *   A JRName object

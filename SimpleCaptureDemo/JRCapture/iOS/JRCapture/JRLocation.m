@@ -195,7 +195,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"";
+        self.captureObjectPath      = @"";
         self.canBeUpdatedOrReplaced = NO;
     }
     return self;
@@ -224,11 +224,12 @@
     locationCopy.region = self.region;
     locationCopy.streetAddress = self.streetAddress;
     locationCopy.type = self.type;
-
+    // TODO: Necessary??
     locationCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [locationCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [locationCopy.dirtyArraySet setSet:self.dirtyPropertySet];
+    [locationCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return locationCopy;
 }

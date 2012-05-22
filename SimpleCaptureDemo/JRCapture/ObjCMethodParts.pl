@@ -41,16 +41,16 @@
 ###################################################################
 # MINIMUM INSTANCE CONSTRUCTOR (W/O REQUIRED PROPERTIES)
 #
-#                      (Section only here when there are required properties)     
-#                                               |
-# /**                                           |
-#  * Returns a <objectClass> object             |
-#  *                                            |
-#  * @return                                    |
-#  *   A <objectClass> object                   |
-#  *                                            V
-#  * @note Method creates a <objectClass> object without the required
-#  * properties <requiredProperties>.  These properties are required
+#                                          (Section only here when there are required properties)     
+#                                                                        |
+# /**                                                                    |
+#  * Default constructor. Returns an empty <objectClass> object.         |
+#  *                                                                     |
+#  * @return                                                             |
+#  *   A <objectClass> object                                            |
+#  *                                                                     |
+#  * @note Method creates a <objectClass> object without the required    |
+#  * properties <requiredProperties>.  These properties are required  <--+
 #  * when updating the object on Capture.
 #  **/
 # - (id)init
@@ -67,10 +67,10 @@
 
 my @minConstructorDocParts = (
 "/**
- * Returns a ", "", " object
+ * Default constructor. Returns an empty ",""," object
  *
  * \@return
- *   A ", "", " object\n",
+ *   A ",""," object\n",
 "", 
 " **/\n");
 
@@ -121,19 +121,19 @@ my @minConstructorParts = (
 
 my @constructorDocParts = (
 "/**
- * Returns a ", "", " object
+ * Returns a ",""," object initialized with the given","","
  *",
 "", 
 " *
  * \@return
- *   A ", "", " object initialized with the given", "", "\n",
+ *   A ",""," object initialized with the given","","\n",
 " *   If the required arguments are \\e nil or \\e [NSNull null], returns \\e nil
  **/\n");
 
 my @constructorParts = (
-"- (id)init", "",
+"- (id)init","",
 "\n{\n",
-"    if (", "", ")\n",
+"    if (","",")\n",
 "    {
         [self release];
         return nil;
@@ -152,7 +152,7 @@ my @constructorParts = (
 #                      (Section only here when there are required properties)     
 #                                               |
 # /**                                           |
-#  * Returns a <objectClass> object             |
+#  * Returns an empty <objectClass> object      |
 #  *                                            |
 #  * @return                                    |
 #  *   A <objectClass> object                   |
@@ -169,17 +169,17 @@ my @constructorParts = (
 
 my @minClassConstructorDocParts = (
 "/**
- * Returns a ", "", " object
+ * Returns an empty ",""," object
  *
  * \@return
- *   A ", "", " object\n",
+ *   A ",""," object\n",
 "", 
 " **/\n");
 
 my @minClassConstructorParts = (
-"+ (id)", "",
+"+ (id)","",
 "\n{\n",
-"    return [[[", "", " alloc] init] autorelease];",
+"    return [[[",""," alloc] init] autorelease];",
 "\n}\n\n"); 
 
 ###################################################################
@@ -204,19 +204,19 @@ my @minClassConstructorParts = (
 
 my @classConstructorDocParts = (
 "/**
- * Returns a ", "", " object
+ * Returns a ",""," object initialized with the given","","
  *",
 "", 
 " *
  * \@return
- *   A ", "", " object initialized with the given", "", "\n",
+ *   A ",""," object initialized with the given","","\n",
 " *   If the required arguments are \\e nil or \\e [NSNull null], returns \\e nil,
  **/\n");
 
 my @classConstructorParts = (
-"+ (id)", "", "", 
+"+ (id)","","", 
 "\n{\n",
-"    return [[[", "", " alloc] init", "", "] autorelease];",
+"    return [[[",""," alloc] init","","] autorelease];",
 "\n}\n\n"); 
 
 
@@ -243,16 +243,17 @@ my @classConstructorParts = (
 my @copyConstructorParts = (
 "- (id)copyWithZone:(NSZone*)zone",
 "\n{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS\n", 
-"", " allocWithZone:zone] init", "", "];\n\n",
+""," allocWithZone:zone] init","","];\n\n",
 "    ","",".captureObjectPath = self.captureObjectPath;\n\n",
 "", 
-"
+"    // TODO: Necessary??
     ","",".canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [","",".dirtyPropertySet setSet:self.dirtyPropertySet];
-    [","",".dirtyArraySet setSet:self.dirtyPropertySet];
+    [","",".dirtyArraySet setSet:self.dirtyArraySet];
 ",
-"\n    return ", "", ";",
+"\n    return ","",";",
 "\n}\n\n");
 
 
@@ -310,7 +311,7 @@ my @copyConstructorParts = (
 
 my @fromDictionaryDocParts = (
 "/**
- * Returns a ", "", " object created from an \\e NSDictionary representing the object
+ * Returns a ",""," object created from an \\e NSDictionary representing the object
  *
  * \@param dictionary
  *   An \\e NSDictionary containing keys/values which map the the object's 
@@ -326,7 +327,7 @@ my @fromDictionaryDocParts = (
  * The \\c /profiles#1/username refers to the username attribute of the element in profiles with id=1
  *
  * \@return
- *   A ", "", " object\n",
+ *   A ",""," object\n",
 "", 
 " **/\n");
 
@@ -335,13 +336,13 @@ my @fromDictionaryParts = (
 "\n{\n",
 "    if (!dictionary)\n        return nil;\n\n",
 ""," = [","","];\n\n",
-"    ", "",".captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
+"    ","",".captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
 "",
 "
     [","",".dirtyPropertySet removeAllObjects];
     [","",".dirtyArraySet removeAllObjects];
     
-    return ", "", ";",
+    return ","",";",
 "\n}\n\n");
 
 
@@ -371,12 +372,12 @@ my @fromDictionaryParts = (
 
 my @toDictionaryDocParts = (
 "/**
- * Creates an \e NSDictionary represention of a ", "", " object
+ * Creates an \e NSDictionary represention of a ",""," object
  * populated with all of the object's properties, as the dictionary's 
  * keys, and the properties' values as the dictionary's values
  *
  * \@return
- *   An \\e NSDictionary representation of a ", "", " object\n",
+ *   An \\e NSDictionary representation of a ",""," object\n",
 " **/\n");
 
 my @toDictionaryParts = (
@@ -476,7 +477,7 @@ my @updateFrDictParts = (
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;\n",
-"    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@", "", "\", capturePath, ", "", "", "];\n",
+"    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
 "","
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
     [self.dirtyArraySet setSet:dirtyArraySetCopy];
@@ -566,7 +567,7 @@ my @replaceFrDictParts = (
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;\n",
-"    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@", "", "\", capturePath, ", "", "", "];\n",
+"    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
 "","
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
     [self.dirtyArraySet setSet:dirtyArraySetCopy];
@@ -631,7 +632,7 @@ my @toUpdateDictionaryParts = (
 #                                                     context, \@\"callerContext\", nil];
 #
 #    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
-#                                     withId:", "0", "
+#//                                     withId:
 #                                     atPath:self.captureObjectPath
 #                                  withToken:[JRCaptureData accessToken]
 #                                forDelegate:self
@@ -700,7 +701,7 @@ my @toReplaceDictionaryParts = (
 #                                                     context, \@\"callerContext\", nil];
 #
 #    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
-#                                      withId:", "0", "
+#//                                      withId:
 #                                      atPath:self.captureObjectPath
 #                                   withToken:[JRCaptureData accessToken]
 #                                 forDelegate:self
@@ -793,7 +794,7 @@ my $copyrightHeader =
 
 my @doxygenClassDescParts = (
 "/**
- * \@brief ", "", 
+ * \@brief ","", 
 "\n **/\n");
 
 

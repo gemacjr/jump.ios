@@ -45,7 +45,7 @@
  **/
 /*@{*/
 /**
- * Returns a JRPinoLevelOne object
+ * Default constructor. Returns an empty JRPinoLevelOne object
  *
  * @return
  *   A JRPinoLevelOne object
@@ -53,7 +53,7 @@
 - (id)init;
 
 /**
- * Returns a JRPinoLevelOne object
+ * Returns an empty JRPinoLevelOne object
  *
  * @return
  *   A JRPinoLevelOne object

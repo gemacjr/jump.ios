@@ -52,7 +52,7 @@
  **/
 /*@{*/
 /**
- * Returns a JRCurrentLocation object
+ * Default constructor. Returns an empty JRCurrentLocation object
  *
  * @return
  *   A JRCurrentLocation object
@@ -60,7 +60,7 @@
 - (id)init;
 
 /**
- * Returns a JRCurrentLocation object
+ * Returns an empty JRCurrentLocation object
  *
  * @return
  *   A JRCurrentLocation object

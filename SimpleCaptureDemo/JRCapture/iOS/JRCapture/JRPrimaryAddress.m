@@ -210,11 +210,12 @@
     primaryAddressCopy.stateAbbreviation = self.stateAbbreviation;
     primaryAddressCopy.zip = self.zip;
     primaryAddressCopy.zipPlus4 = self.zipPlus4;
-
+    // TODO: Necessary??
     primaryAddressCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [primaryAddressCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [primaryAddressCopy.dirtyArraySet setSet:self.dirtyPropertySet];
+    [primaryAddressCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return primaryAddressCopy;
 }
@@ -255,7 +256,6 @@
 
     JRPrimaryAddress *primaryAddress = [JRPrimaryAddress primaryAddress];
 
-//    primaryAddress.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     primaryAddress.address1 =
         [dictionary objectForKey:@"address1"] != [NSNull null] ? 
@@ -311,7 +311,6 @@
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     if ([dictionary objectForKey:@"address1"])
         self.address1 = [dictionary objectForKey:@"address1"] != [NSNull null] ? 
@@ -365,7 +364,6 @@
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"primaryAddress"];
 
     self.address1 =
         [dictionary objectForKey:@"address1"] != [NSNull null] ? 

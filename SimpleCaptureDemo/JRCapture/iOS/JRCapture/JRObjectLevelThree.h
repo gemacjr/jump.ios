@@ -43,7 +43,7 @@
  **/
 /*@{*/
 /**
- * Returns a JRObjectLevelThree object
+ * Default constructor. Returns an empty JRObjectLevelThree object
  *
  * @return
  *   A JRObjectLevelThree object
@@ -51,7 +51,7 @@
 - (id)init;
 
 /**
- * Returns a JRObjectLevelThree object
+ * Returns an empty JRObjectLevelThree object
  *
  * @return
  *   A JRObjectLevelThree object

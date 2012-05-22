@@ -78,7 +78,7 @@
 {
     if ((self = [super init]))
     {
-        self.captureObjectPath = @"";
+        self.captureObjectPath      = @"";
         self.canBeUpdatedOrReplaced = NO;
     }
     return self;
@@ -98,11 +98,12 @@
 
     onipLevelThreeCopy.level = self.level;
     onipLevelThreeCopy.name = self.name;
-
+    // TODO: Necessary??
     onipLevelThreeCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [onipLevelThreeCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [onipLevelThreeCopy.dirtyArraySet setSet:self.dirtyPropertySet];
+    [onipLevelThreeCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return onipLevelThreeCopy;
 }

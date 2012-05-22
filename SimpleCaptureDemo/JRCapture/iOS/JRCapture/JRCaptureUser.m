@@ -761,11 +761,12 @@
     captureUserCopy.testerInteger = self.testerInteger;
     captureUserCopy.testerIpAddr = self.testerIpAddr;
     captureUserCopy.testerStringPlural = self.testerStringPlural;
-
+    // TODO: Necessary??
     captureUserCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
+    // TODO: Necessary??
     [captureUserCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [captureUserCopy.dirtyArraySet setSet:self.dirtyPropertySet];
+    [captureUserCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return captureUserCopy;
 }
@@ -846,7 +847,6 @@
 
     JRCaptureUser *captureUser = [JRCaptureUser captureUser];
 
-//    captureUser.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     captureUser.captureUserId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -984,7 +984,6 @@
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
         self.captureUserId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
@@ -1093,7 +1092,6 @@
     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
-//    self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"captureUser", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.captureUserId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 

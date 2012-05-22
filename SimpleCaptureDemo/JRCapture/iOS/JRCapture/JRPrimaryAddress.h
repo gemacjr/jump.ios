@@ -51,7 +51,7 @@
  **/
 /*@{*/
 /**
- * Returns a JRPrimaryAddress object
+ * Default constructor. Returns an empty JRPrimaryAddress object
  *
  * @return
  *   A JRPrimaryAddress object
@@ -59,7 +59,7 @@
 - (id)init;
 
 /**
- * Returns a JRPrimaryAddress object
+ * Returns an empty JRPrimaryAddress object
  *
  * @return
  *   A JRPrimaryAddress object
