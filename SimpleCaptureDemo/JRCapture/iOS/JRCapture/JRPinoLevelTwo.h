@@ -38,7 +38,7 @@
 @interface JRPinoLevelTwo : JRCaptureObject
 @property (nonatomic, copy) NSString *level; /**< The object's \e level property */ 
 @property (nonatomic, copy) NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, copy) NSArray *pinoLevelThree; /**< The object's \c pinoLevelThree property @note This is an array of \c JRPinoLevelThree objects */ 
+@property (nonatomic, copy) NSArray *pinoLevelThree; /**< The object's \e pinoLevelThree property @note This is an array of \c JRPinoLevelThreeElement objects */ 
 
 /**
  * @name Constructors

@@ -180,6 +180,26 @@ sub getIsRequired {
   return 0;  
 }
 
+
+##################################################
+# Get a property's constraints
+##################################################
+sub getConstraints {
+  my $hashRef = $_[0];
+  my %propertyHash = %$hashRef;
+  
+  my $constraintsArrRef = $propertyHash{"constraints"};
+  
+  if (!$constraintsArrRef) {
+    return;
+  }
+  
+  my @constraintsArray = @$constraintsArrRef; 
+  my %constraintsHash = map { $_ => 1 } @constraintsArray;
+  
+  return %constraintsHash;
+}
+
 ##########################################################
 # Certain properties, 'id', 'uuid', 'created', 
 # and 'lastUpdated', can't be changed from the client.
@@ -307,9 +327,11 @@ sub recursiveParse {
   my $className;
   my $objectPath;
 
-  ################################################
-  # Dereference the list of properties
-  ################################################
+  ######################################################################################################################
+  # Dereference the list of properties from the array reference (pointer) passed into this function. Each object has a 
+  # list of properties defined in the schema as the object's 'attr_defs' array. Each element in the list is a 
+  # reference (pointer) to a hash of attributes of the property. We will loop through this array later.
+  ######################################################################################################################
   my @propertyList = @$arrRef;
 
   ################################################
@@ -317,15 +339,14 @@ sub recursiveParse {
   ################################################
   $repeatNamesHash{$objectName} = 1;
 
-  ##########################################################################
-  # Create the object's path. Object path depends on if the object is a 
-  # decendent of a plural element and if it falls under the special case of 
-  # the top-level object and its direct decendents
+  ######################################################################################################################
+  # Create the object's path. Object path depends on if the object is a descendant of a plural element and if it falls
+  # under the special case of the top-level object and its direct descendants
   # e.g.:
   #   /firstChild
   #     OR
   #   /firstChild/secondChild
-  ##########################################################################
+  ######################################################################################################################
   # TODO: Don't create if child of plural??
   if ($parentPath eq "/") { 
     $objectPath = $parentPath . $pathAppend;
@@ -481,7 +502,7 @@ sub recursiveParse {
   ################################################################################
 
   ############################
-  # Doxygen stuff
+  # DOXYGEN STUFF
   ############################
 
   # Doxygen class documentation...
@@ -552,7 +573,7 @@ sub recursiveParse {
 
 
   ############################
-  # Code stuff
+  # CODE STUFF
   ############################
 
   # e.g.:
@@ -677,7 +698,6 @@ sub recursiveParse {
     for (my $i = 3; $i <= 8;  $i++) { $replaceFromDictSection[$i] = ""; }
   
   }
-  
 
   if ($hasPluralParent) {
   ############################################################################
@@ -712,7 +732,7 @@ sub recursiveParse {
     ######################################
     # Special case
     ######################################
-      
+            
       # e.g.:
       #   self.captureObjectPath = @"";
       $minConstructorSection[3] = "        self.captureObjectPath = \@\"\";\n";
@@ -740,10 +760,15 @@ sub recursiveParse {
   ######################################################
   my $requiredProperties = 0;
 
-  ########################################################################
-  # A property list contains references (pointers) to property hashes.
-  # Loop through the properties, dereference, and parse...
-  ########################################################################
+
+  # reference (pointer) to a hash of attributes of the property. We will loop through this array later.
+
+  ################################################################################################
+  # Each object has a list of properties defined in the schema as the object's 'attr_defs' array. 
+  # Each element in the list contains a reference (pointer) to a hash describing that property.
+  # Loop through the list, dereference the hash, determine the property name and type, set
+  # the code snippets, and append to the stubbed-out code arrays...
+  ################################################################################################
   foreach my $hashRef (@propertyList) {
 
     ################################################
@@ -758,21 +783,31 @@ sub recursiveParse {
     my $propertyType = $propertyHash{"type"};
     my $propertyDesc = $propertyHash{"description"};
 
+    my %propertyConstraints = getConstraints(\%propertyHash);
+    
+#   ######################################################
+#   # Find out if it's a required property, and
+#   # increase the requiredProperties counter if it is
+#   ######################################################
+#   my $isRequired = getIsRequired (\%propertyHash); 
+    my $isRequired = exists($propertyConstraints{"required"});
+    if ($isRequired) {
+      $requiredProperties++;
+    }
+    
     ######################################################
     # Initialize property attributes to default values
     ######################################################
     my $objectiveType   = "";             # Property type in Objective-C (e.g., NSString*)
-    my $isAlsoPrimitive = 0;              # If it's a boolean or integer, we don't retain/release, etc.
+    my $isAlsoPrimitive = 0;              # If it's a boolean or integer we add special accessor methods
     my $isObject        = 0;              # If it's an object, we do things differently
     my $isArray         = 0;              # If it's an array (plural), we do things differently
     my $isSimpleArray   = 0;              # If it's a simple array (plural) of strings, we do things differently
     my $simpleArrayType = "";             # And if it is, get its type
-    my $isId            = 0;              # If the name of the property is 'id', we also do things differently
-    my $dictionaryKey   = $propertyName;  # Set the dictionary key as the property name, and change the property name if it is an objc keyword
+    my $dictionaryKey   = $propertyName;  # Set the dictionary key as the property name, as it may be changed because of conflicts
+    my $pathName        = $propertyName;  # Save the name of the property as it is needed as the pathAppend in the recursive call, and it may be changed because of conflicts
     my $propertyNotes   = "";             # Doxygen comment that provides more infomation if necessary for a property 
-                                          # (e.g., in the case of an array of objects versus and array of strings)
-    my $pathName        = $propertyName;  # Save the name of the property in case it is needed as the pathAppend in a recursive call and it 
-                                          # has been changed because of conflicts
+
 
     ##########################################################
     # Calls to the Capture server should not contain id, uuid, 
@@ -791,8 +826,8 @@ sub recursiveParse {
     ######################################################
     # Finish initializing property defaults
     ######################################################
-    my $toDictionary    =                                   # Default operation is to just stick the NSObject 
-          "self.$propertyName";                             # into an NSMutableDictionary
+    my $toDictionary    =                                   # Default operation is to insert the NSObject 
+          "self.$propertyName";                             # into an NSMutableDictionary with no other modifications
     my $toUpDictionary  = "self.$propertyName";             # Default operation for toUpdateDictionary                                        
     my $toRplDictionary = "self.$propertyName";             # Default operation for toReplaceDictionary 
     my $frDictionary    =                                   # Default operation is to just pull the NSObject from 
@@ -801,50 +836,36 @@ sub recursiveParse {
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";
     my $frRplDictionary  = 
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";
-    
-    ######################################################
-    # Find out if it's a required property, and
-    # increase the requiredProperties counter if it is
-    ######################################################
-    my $isRequired = getIsRequired (\%propertyHash); 
-    if ($isRequired) {
-      $requiredProperties++;
+
+    if ($propertyDesc) {
+      $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
+    } else {
+      $propertyNotes .= "/**< The object's \\e " . $propertyName . " property";
     }
+
     
-    ##########################################################################
-    # Determine the property's ObjC type.  Also determine how the property 
-    # should be serialized/deserialized to/from and NSDictionary 
-    # (e.g., do we store the property in an NSMutableDictionary as is, or do
-    # we need to do something first so that it can stored in the dictionary)
-    ##########################################################################
+    ##################################################################################################################
+    # Determine the property's ObjC type.  Also determine how the property should be serialized/deserialized to/from
+    # and NSDictionary (e.g., do we store the property in an NSMutableDictionary as is, or do we need to do something 
+    # first so that it can stored in the dictionary) and add any notes to the property's Doxygen comment
+    ##################################################################################################################
 
     if ($propertyType eq "string") {
     ##################
     # STRING
     ##################
-      $objectiveType = "NSString *";
-      
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc)) . " */";
-      } else {
-        $propertyNotes .= "/**< The object's \\e " . $propertyName . " property */";
-      }
+      $objectiveType  = "NSString *";
 
     } elsif ($propertyType eq "boolean") {
     ##################
     # BOOLEAN
     ##################
       $isAlsoPrimitive = "b";
-      $objectiveType = "JRBoolean *";#"BOOL";
-      $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithBool:[self." . $propertyName . " boolValue]]";#"[NSNumber numberWithBool:self." . $propertyName . "]";
-      $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] boolValue]]";#"[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] boolValue]";
+      $objectiveType   = "JRBoolean *";
+      $toDictionary    = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithBool:[self." . $propertyName . " boolValue]]";
+      $frDictionary    = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] boolValue]]";
 
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's \\e " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note This is a property of type 'boolean', which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:&gt;myBool&lt;]</code> or <code>[NSNull null]</code> */";
+      $propertyNotes  .= " \@note This is a property of type \\ref types \"boolean\", which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code>";
 
       push (@booleanProperties, $propertyName);
       
@@ -853,16 +874,11 @@ sub recursiveParse {
     # INTEGER
     ##################
       $isAlsoPrimitive = "i";
-      $objectiveType = "JRInteger *";#"NSInteger";
-      $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";#"[NSNumber numberWithInt:self." . $propertyName . "]";
-      $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";#"[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] intValue]";
+      $objectiveType   = "JRInteger *";
+      $toDictionary    = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";
+      $frDictionary    = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";
 
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note This is a property of type 'integer', which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:&gt;myInteger&lt;]</code>, <code>[NSNumber numberWithInt:&gt;myInt&lt;]</code>, or <code>[NSNull null]</code> */";
+      $propertyNotes  .= " \@note This is a property of type \\ref types \"integer\", which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:<em>myInteger</em>]</code>, <code>[NSNumber numberWithInt:<em>myInt</em>]</code>, or <code>[NSNull null]</code>";
 
       push (@integerProperties, $propertyName);
 
@@ -870,58 +886,37 @@ sub recursiveParse {
     ##################
     # DECIMAL/NUMBER
     ##################
-      $objectiveType = "NSNumber *";
-
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc)) . " */";
-      } else {
-        $propertyNotes .= "/**< The object's \\e " . $propertyName . " property */";
-      }
+      $objectiveType  = "NSNumber *";
 
     } elsif ($propertyType eq "date") {
     ##################
     # DATE
     ##################
-      $objectiveType = "JRDate *";
+      $objectiveType  = "JRDate *";
       
-      $toDictionary  = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601Date]";
-      $frDictionary  = $frUpDictionary = $frRplDictionary = "[JRDate dateFromISO8601DateString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
+      $toDictionary   = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601Date]";
+      $frDictionary   = $frUpDictionary = $frRplDictionary = "[JRDate dateFromISO8601DateString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
 
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note This is a property of type 'date', which is a typedef of \\e NSDate. The accepted format should be an ISO8601 date string (e.g., \\c yyyy-MM-dd) */";      
+      $propertyNotes .= " \@note This is a property of type \\ref types \"date\", which is a typedef of \\e NSDate. The accepted format should be an ISO8601 date string (e.g., <code>yyyy-MM-dd</code>)";      
 
     } elsif ($propertyType eq "dateTime") {
     ##################
     # DATETIME
     ##################
-      $objectiveType = "JRDateTime *";
+      $objectiveType  = "JRDateTime *";
       
-      $toDictionary  = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601DateTime]";
-      $frDictionary  = $frUpDictionary = $frRplDictionary = "[JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
+      $toDictionary   = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601DateTime]";
+      $frDictionary   = $frUpDictionary = $frRplDictionary = "[JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
 
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note This is a property of type 'dateTime', which is a typedef of \\e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., \\c yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */";
+      $propertyNotes .= " \@note This is a property of type \\ref types \"dateTime\", which is a typedef of \\e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>)";
 
     } elsif ($propertyType eq "ipAddress") {
     ####################################
     # IPADDRESS IS JUST A STRING
     ####################################
-      $objectiveType = "JRIpAddress *";
+      $objectiveType  = "JRIpAddress *";
 
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note This is a property of type 'ipAddress', which is a typedef of \\e NSString. */";      
+      $propertyNotes .= " \@note This is a property of type \\ref types \"ipAddress\", which is a typedef of \\e NSString.";      
 
     } elsif ($propertyType =~ m/^password/) { 
     ##########################################################################
@@ -931,14 +926,9 @@ sub recursiveParse {
     # since we don't know the type of object it could be (e.g., array, string, etc.),
     # we store it as an NSObject
     ##########################################################################
-      $objectiveType = "JRPassword *";          
+      $objectiveType  = "JRPassword *";          
 
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note This is a property of type 'password', which can be either an \\e NSString or \\e NSDictionary, and is therefore is a typedef of \\e NSObject */";      
+      $propertyNotes .= " \@note This is a property of type \\ref types \"password\", which can be either an \\e NSString or \\e NSDictionary, and is therefore is a typedef of \\e NSObject";      
 
     } elsif ($propertyType eq "json") {
     ##########################################################################
@@ -948,27 +938,16 @@ sub recursiveParse {
     # type of object the property could be (e.g., array, string, etc.), 
     # we store it as an NSObject
     ##########################################################################
-      $objectiveType = "JRJsonObject *";
-      
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's \\e " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note This is a property of type 'json', which can be an \\e NSDictionary, \\e NSArray, \\e NSString, etc., and is therefore is a typedef of \\e NSObject */";      
-
+      $objectiveType  = "JRJsonObject *";
+       
+      $propertyNotes .= " \@note This is a property of type \\ref types \"json\", which can be an \\e NSDictionary, \\e NSArray, \\e NSString, etc., and is therefore is a typedef of \\e NSObject";      
     } elsif ($propertyType eq "uuid") {
     ####################################
     # UUID IS JUST A STRING
     ####################################
-      $objectiveType = "JRUuid *";
-
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note This is a property of type 'uuid', which is a typedef of \\e NSString */";      
+      $objectiveType  = "JRUuid *";
+ 
+      $propertyNotes .= " \@note This is a property of type \\ref types \"uuid\", which is a typedef of \\e NSString";      
       
     } elsif ($propertyType eq "id") {
     ##########################################################################
@@ -977,17 +956,12 @@ sub recursiveParse {
     # name to compile in ObjC
     ##########################################################################
 
-      $isId          = 1;
-      $objectiveType = "JRObjectId *";
-      $toDictionary  = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";
-      $frDictionary  = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";
+      $objectiveType  = "JRObjectId *";
+     
+      $toDictionary   = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";
+      $frDictionary   = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";
 
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-      } else {
-        $propertyNotes .= "/**< The object's \\c " . $propertyName . " property";
-      }
-      $propertyNotes   .= " \@note The \\e id of the object should not be set. // TODO: etc. */"
+      $propertyNotes .= " \@note The \\e id of the object should not be set. // TODO: etc."
 
     } elsif ($propertyType eq "plural") {
     ##########################################################################
@@ -1008,7 +982,7 @@ sub recursiveParse {
         
         $objectiveType = "JRStringArray *";      
         
-        $extraImportsSection    .= "#import \"JRStringPluralElement.h\"\n";
+        $extraImportsSection .= "#import \"JRStringPluralElement.h\"\n";
         
         $simpleArrayType = getSimplePluralType($propertyAttrDefsRef);
         
@@ -1024,12 +998,7 @@ sub recursiveParse {
         $replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
         $replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName, $simpleArrayType);
         
-        if ($propertyDesc) {
-          $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-        } else {
-          $propertyNotes .= "/**< The object's \\c " . $propertyName . " property";
-        }
-        $propertyNotes   .= " \@note This is an array of \\c JRStringPluralElements with type \\c " . $simpleArrayType . " TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */";      
+        $propertyNotes .= " \@note This is an array of \\c JRStringPluralElements with type \\c " . $simpleArrayType . " TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings";      
         
       } else {
 
@@ -1049,12 +1018,7 @@ sub recursiveParse {
         $replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
         $replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName);
 
-        if ($propertyDesc) {
-          $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));
-        } else {
-          $propertyNotes .= "/**< The object's \\c " . $propertyName . " property";
-        }
-        $propertyNotes   .= " \@note This is an array of \\c JR" . ucfirst($propertyName) . " objects */";
+        $propertyNotes .= " \@note This is an array of \\c JR" . ucfirst($propertyName) . "Element objects";
         
         ################
         # AND RECURSE!!
@@ -1081,12 +1045,6 @@ sub recursiveParse {
       $frDictionary    = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:(NSDictionary*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:" . $objectName . ".captureObjectPath]";
       $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
 
-      if ($propertyDesc) {
-        $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc)) . " */";
-      } else {
-        $propertyNotes .= "/**< The object's " . $propertyName . " property */";
-      }
-
       ################
       # AND RECURSE!!
       ################
@@ -1100,6 +1058,7 @@ sub recursiveParse {
       $objectiveType = "NSObject *";
     }
 
+    $propertyNotes .= " */";
 
     ######################################################################################
     # "APPENDED PROPERTY ADDITIONS": FILL IN METHODS BY APPENDING CODE FOR EACH PROPERTY

@@ -36,7 +36,7 @@
  **/
 @interface JRImsElement : JRCaptureObject
 @property (nonatomic, copy) JRObjectId *imsId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
-@property (nonatomic, copy) JRBoolean *primary; /**< The object's \e primary property @note This is a property of type 'boolean', which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:&gt;myBool&lt;]</code> or <code>[NSNull null]</code> */ 
+@property (nonatomic, copy) JRBoolean *primary; /**< The object's \e primary property @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code> */ 
 @property (nonatomic, copy) NSString *type; /**< The object's \e type property */ 
 @property (nonatomic, copy) NSString *value; /**< The object's \e value property */ 
 

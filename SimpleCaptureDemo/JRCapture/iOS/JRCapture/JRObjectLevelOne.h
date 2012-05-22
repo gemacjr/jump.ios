@@ -38,7 +38,7 @@
 @interface JRObjectLevelOne : JRCaptureObject
 @property (nonatomic, copy) NSString *level; /**< The object's \e level property */ 
 @property (nonatomic, copy) NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, copy) JRObjectLevelTwo *objectLevelTwo; /**< The object's objectLevelTwo property */ 
+@property (nonatomic, copy) JRObjectLevelTwo *objectLevelTwo; /**< The object's \e objectLevelTwo property */ 
 
 /**
  * @name Constructors

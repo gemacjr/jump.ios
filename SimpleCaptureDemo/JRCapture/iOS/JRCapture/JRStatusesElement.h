@@ -37,7 +37,7 @@
 @interface JRStatusesElement : JRCaptureObject
 @property (nonatomic, copy) JRObjectId *statusesId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) NSString *status; /**< The object's \e status property */ 
-@property (nonatomic, copy) JRDateTime *statusCreated; /**< The object's statusCreated property @note This is a property of type 'dateTime', which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., \c yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
+@property (nonatomic, copy) JRDateTime *statusCreated; /**< The object's \e statusCreated property @note This is a property of type \ref types "dateTime", which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>) */ 
 
 /**
  * @name Constructors

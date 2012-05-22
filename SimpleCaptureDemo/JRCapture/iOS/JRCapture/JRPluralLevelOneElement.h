@@ -39,7 +39,7 @@
 @property (nonatomic, copy) JRObjectId *pluralLevelOneId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) NSString *level; /**< The object's \e level property */ 
 @property (nonatomic, copy) NSString *name; /**< The object's \e name property */ 
-@property (nonatomic, copy) NSArray *pluralLevelTwo; /**< The object's \c pluralLevelTwo property @note This is an array of \c JRPluralLevelTwo objects */ 
+@property (nonatomic, copy) NSArray *pluralLevelTwo; /**< The object's \e pluralLevelTwo property @note This is an array of \c JRPluralLevelTwoElement objects */ 
 
 /**
  * @name Constructors

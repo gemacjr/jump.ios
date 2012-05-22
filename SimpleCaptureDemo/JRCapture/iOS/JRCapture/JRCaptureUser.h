@@ -46,35 +46,35 @@
  **/
 @interface JRCaptureUser : JRCaptureObject
 @property (nonatomic, copy) JRObjectId *captureUserId; /**< Simple identifier for this entity @note The \e id of the object should not be set. // TODO: etc. */ 
-@property (nonatomic, copy) JRUuid *uuid; /**< Globally unique indentifier for this entity @note This is a property of type 'uuid', which is a typedef of \e NSString */ 
-@property (nonatomic, copy) JRDateTime *created; /**< When this entity was created @note This is a property of type 'dateTime', which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., \c yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
-@property (nonatomic, copy) JRDateTime *lastUpdated; /**< When this entity was last updated @note This is a property of type 'dateTime', which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., \c yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
+@property (nonatomic, copy) JRUuid *uuid; /**< Globally unique indentifier for this entity @note This is a property of type \ref types "uuid", which is a typedef of \e NSString */ 
+@property (nonatomic, copy) JRDateTime *created; /**< When this entity was created @note This is a property of type \ref types "dateTime", which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>) */ 
+@property (nonatomic, copy) JRDateTime *lastUpdated; /**< When this entity was last updated @note This is a property of type \ref types "dateTime", which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>) */ 
 @property (nonatomic, copy) NSString *aboutMe; /**< The object's \e aboutMe property */ 
-@property (nonatomic, copy) JRDate *birthday; /**< The object's birthday property @note This is a property of type 'date', which is a typedef of \e NSDate. The accepted format should be an ISO8601 date string (e.g., \c yyyy-MM-dd) */ 
+@property (nonatomic, copy) JRDate *birthday; /**< The object's \e birthday property @note This is a property of type \ref types "date", which is a typedef of \e NSDate. The accepted format should be an ISO8601 date string (e.g., <code>yyyy-MM-dd</code>) */ 
 @property (nonatomic, copy) NSString *currentLocation; /**< The object's \e currentLocation property */ 
-@property (nonatomic, copy) JRJsonObject *display; /**< The object's \e display property @note This is a property of type 'json', which can be an \e NSDictionary, \e NSArray, \e NSString, etc., and is therefore is a typedef of \e NSObject */ 
+@property (nonatomic, copy) JRJsonObject *display; /**< The object's \e display property @note This is a property of type \ref types "json", which can be an \e NSDictionary, \e NSArray, \e NSString, etc., and is therefore is a typedef of \e NSObject */ 
 @property (nonatomic, copy) NSString *displayName; /**< The name of this Contact, suitable for display to end-users. */ 
 @property (nonatomic, copy) NSString *email; /**< The object's \e email property */ 
-@property (nonatomic, copy) JRDateTime *emailVerified; /**< The object's emailVerified property @note This is a property of type 'dateTime', which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., \c yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
+@property (nonatomic, copy) JRDateTime *emailVerified; /**< The object's \e emailVerified property @note This is a property of type \ref types "dateTime", which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>) */ 
 @property (nonatomic, copy) NSString *familyName; /**< The object's \e familyName property */ 
-@property (nonatomic, copy) NSArray *games; /**< The object's \c games property @note This is an array of \c JRGames objects */ 
+@property (nonatomic, copy) NSArray *games; /**< The object's \e games property @note This is an array of \c JRGamesElement objects */ 
 @property (nonatomic, copy) NSString *gender; /**< The object's \e gender property */ 
 @property (nonatomic, copy) NSString *givenName; /**< The object's \e givenName property */ 
-@property (nonatomic, copy) JRDateTime *lastLogin; /**< The object's lastLogin property @note This is a property of type 'dateTime', which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., \c yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ) */ 
+@property (nonatomic, copy) JRDateTime *lastLogin; /**< The object's \e lastLogin property @note This is a property of type \ref types "dateTime", which is a typedef of \e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>) */ 
 @property (nonatomic, copy) NSString *middleName; /**< The object's \e middleName property */ 
-@property (nonatomic, copy) JRObjectLevelOne *objectLevelOne; /**< The object's objectLevelOne property */ 
-@property (nonatomic, copy) NSArray *onipLevelOne; /**< The object's \c onipLevelOne property @note This is an array of \c JROnipLevelOne objects */ 
-@property (nonatomic, copy) JRPassword *password; /**< The object's password property @note This is a property of type 'password', which can be either an \e NSString or \e NSDictionary, and is therefore is a typedef of \e NSObject */ 
-@property (nonatomic, copy) NSArray *photos; /**< The object's \c photos property @note This is an array of \c JRPhotos objects */ 
-@property (nonatomic, copy) JRPinoLevelOne *pinoLevelOne; /**< The object's pinoLevelOne property */ 
-@property (nonatomic, copy) NSArray *pluralLevelOne; /**< The object's \c pluralLevelOne property @note This is an array of \c JRPluralLevelOne objects */ 
-@property (nonatomic, copy) JRPrimaryAddress *primaryAddress; /**< The object's primaryAddress property */ 
-@property (nonatomic, copy) NSArray *profiles; /**< The object's \c profiles property @note This is an array of \c JRProfiles objects */ 
-@property (nonatomic, copy) NSArray *statuses; /**< The object's \c statuses property @note This is an array of \c JRStatuses objects */ 
-@property (nonatomic, copy) JRBoolean *testerBoolean; /**< The object's \e testerBoolean property @note This is a property of type 'boolean', which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:&gt;myBool&lt;]</code> or <code>[NSNull null]</code> */ 
-@property (nonatomic, copy) JRInteger *testerInteger; /**< The object's testerInteger property @note This is a property of type 'integer', which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:&gt;myInteger&lt;]</code>, <code>[NSNumber numberWithInt:&gt;myInt&lt;]</code>, or <code>[NSNull null]</code> */ 
-@property (nonatomic, copy) JRIpAddress *testerIpAddr; /**< The object's testerIpAddr property @note This is a property of type 'ipAddress', which is a typedef of \e NSString. */ 
-@property (nonatomic, copy) JRStringArray *testerStringPlural; /**< The object's \c testerStringPlural property @note This is an array of \c JRStringPluralElements with type \c stringPluralItem TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
+@property (nonatomic, copy) JRObjectLevelOne *objectLevelOne; /**< The object's \e objectLevelOne property */ 
+@property (nonatomic, copy) NSArray *onipLevelOne; /**< The object's \e onipLevelOne property @note This is an array of \c JROnipLevelOneElement objects */ 
+@property (nonatomic, copy) JRPassword *password; /**< The object's \e password property @note This is a property of type \ref types "password", which can be either an \e NSString or \e NSDictionary, and is therefore is a typedef of \e NSObject */ 
+@property (nonatomic, copy) NSArray *photos; /**< The object's \e photos property @note This is an array of \c JRPhotosElement objects */ 
+@property (nonatomic, copy) JRPinoLevelOne *pinoLevelOne; /**< The object's \e pinoLevelOne property */ 
+@property (nonatomic, copy) NSArray *pluralLevelOne; /**< The object's \e pluralLevelOne property @note This is an array of \c JRPluralLevelOneElement objects */ 
+@property (nonatomic, copy) JRPrimaryAddress *primaryAddress; /**< The object's \e primaryAddress property */ 
+@property (nonatomic, copy) NSArray *profiles; /**< The object's \e profiles property @note This is an array of \c JRProfilesElement objects */ 
+@property (nonatomic, copy) NSArray *statuses; /**< The object's \e statuses property @note This is an array of \c JRStatusesElement objects */ 
+@property (nonatomic, copy) JRBoolean *testerBoolean; /**< The object's \e testerBoolean property @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code> */ 
+@property (nonatomic, copy) JRInteger *testerInteger; /**< The object's \e testerInteger property @note This is a property of type \ref types "integer", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:<em>myInteger</em>]</code>, <code>[NSNumber numberWithInt:<em>myInt</em>]</code>, or <code>[NSNull null]</code> */ 
+@property (nonatomic, copy) JRIpAddress *testerIpAddr; /**< The object's \e testerIpAddr property @note This is a property of type \ref types "ipAddress", which is a typedef of \e NSString. */ 
+@property (nonatomic, copy) JRStringArray *testerStringPlural; /**< The object's \e testerStringPlural property @note This is an array of \c JRStringPluralElements with type \c stringPluralItem TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
 
 /**
  * @name Constructors
