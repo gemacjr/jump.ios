@@ -1077,7 +1077,7 @@ static JRSessionData* singleton = nil;
             NSString *cookieString = savedCookie.value;
             NSArray *strArr = [cookieString componentsSeparatedByString:@"%22"];
 
-            if ([strArr count] <= 1)
+            if ([strArr count] <= 5)
                 return nil;
 
             return [[[NSString stringWithFormat:@"Sign in as %@?", (NSString*)[strArr objectAtIndex:5]]
