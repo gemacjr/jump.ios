@@ -1275,7 +1275,7 @@
     if ([self.dirtyPropertySet containsObject:@"middleName"])
         [dict setObject:(self.middleName ? self.middleName : [NSNull null]) forKey:@"middleName"];
 
-    if ([self.dirtyPropertySet containsObject:@"objectLevelOne"])
+    if ([self.dirtyPropertySet containsObject:@"objectLevelOne"] || [self.objectLevelOne needsUpdate])
         [dict setObject:(self.objectLevelOne ?
                               [self.objectLevelOne toUpdateDictionary] :
                               [[JRObjectLevelOne objectLevelOne] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -1284,13 +1284,13 @@
     if ([self.dirtyPropertySet containsObject:@"password"])
         [dict setObject:(self.password ? self.password : [NSNull null]) forKey:@"password"];
 
-    if ([self.dirtyPropertySet containsObject:@"pinoLevelOne"])
+    if ([self.dirtyPropertySet containsObject:@"pinoLevelOne"] || [self.pinoLevelOne needsUpdate])
         [dict setObject:(self.pinoLevelOne ?
                               [self.pinoLevelOne toUpdateDictionary] :
                               [[JRPinoLevelOne pinoLevelOne] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"pinoLevelOne"];
 
-    if ([self.dirtyPropertySet containsObject:@"primaryAddress"])
+    if ([self.dirtyPropertySet containsObject:@"primaryAddress"] || [self.primaryAddress needsUpdate])
         [dict setObject:(self.primaryAddress ?
                               [self.primaryAddress toUpdateDictionary] :
                               [[JRPrimaryAddress primaryAddress] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -1392,6 +1392,23 @@
 {
     [self replaceSimpleArrayOnCapture:self.testerStringPlural ofType:@"stringPluralItem" named:@"testerStringPlural"
                           forDelegate:delegate withContext:context];
+}
+
+- (BOOL)needsUpdate
+{
+    if ([self.dirtyPropertySet count])
+         return YES;
+
+    if([self.objectLevelOne needsUpdate])
+        return YES;
+
+    if([self.pinoLevelOne needsUpdate])
+        return YES;
+
+    if([self.primaryAddress needsUpdate])
+        return YES;
+
+    return NO;
 }
 
 - (NSDictionary*)objectProperties

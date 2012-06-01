@@ -2118,13 +2118,13 @@
     if ([self.dirtyPropertySet containsObject:@"birthday"])
         [dict setObject:(self.birthday ? self.birthday : [NSNull null]) forKey:@"birthday"];
 
-    if ([self.dirtyPropertySet containsObject:@"bodyType"])
+    if ([self.dirtyPropertySet containsObject:@"bodyType"] || [self.bodyType needsUpdate])
         [dict setObject:(self.bodyType ?
                               [self.bodyType toUpdateDictionary] :
                               [[JRBodyType bodyType] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"bodyType"];
 
-    if ([self.dirtyPropertySet containsObject:@"currentLocation"])
+    if ([self.dirtyPropertySet containsObject:@"currentLocation"] || [self.currentLocation needsUpdate])
         [dict setObject:(self.currentLocation ?
                               [self.currentLocation toUpdateDictionary] :
                               [[JRCurrentLocation currentLocation] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -2157,7 +2157,7 @@
     if ([self.dirtyPropertySet containsObject:@"livingArrangement"])
         [dict setObject:(self.livingArrangement ? self.livingArrangement : [NSNull null]) forKey:@"livingArrangement"];
 
-    if ([self.dirtyPropertySet containsObject:@"name"])
+    if ([self.dirtyPropertySet containsObject:@"name"] || [self.name needsUpdate])
         [dict setObject:(self.name ?
                               [self.name toUpdateDictionary] :
                               [[JRName name] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -2461,6 +2461,23 @@
 {
     [self replaceArrayOnCapture:self.urls named:@"urls"
                     forDelegate:delegate withContext:context];
+}
+
+- (BOOL)needsUpdate
+{
+    if ([self.dirtyPropertySet count])
+         return YES;
+
+    if([self.bodyType needsUpdate])
+        return YES;
+
+    if([self.currentLocation needsUpdate])
+        return YES;
+
+    if([self.name needsUpdate])
+        return YES;
+
+    return NO;
 }
 
 - (NSDictionary*)objectProperties

@@ -710,6 +710,40 @@ my @toReplaceDictionaryParts = (
 
 
 ###################################################################
+# RECURSIVE CHECK IF OBJECT NEEDS UPDATE
+#
+# /**
+#  * TODO: Doxygen doc
+#  **/
+# - (BOOL)needsUpdate
+# {
+#     if ([dirtyPropertiesSet count])
+#         return YES;
+#
+#     if ([self.<objectProperty> needsUpdate])
+#         return YES;
+#       ...
+#
+#     return NO;    
+# }
+###################################################################
+
+my @needsUpdateDocParts = (
+"/**
+ * TODO: Doxygen doc
+ **/\n");
+ 
+my @needsUpdateParts = (
+"- (BOOL)needsUpdate",
+"\n{\n",
+"    if ([self.dirtyPropertySet count])
+         return YES;\n\n",
+"",
+"    return NO;",
+"\n}\n\n");
+
+
+###################################################################
 # MAKE DICTIONARY OF OBJECT'S PROPERTIES
 #
 # /**
@@ -843,10 +877,8 @@ sub createArrayReplaceMethodDeclaration {
 
   my $methodDeclaration = 
        "\n"  .
-       "/**" . 
-       " *"  . 
-       " * TODO: DOXYGEN DOCS" . 
-       " *"  . 
+       "/**\n" . 
+       " * TODO: DOXYGEN DOCS\n" . 
        " **/\n" . 
        "- (void)replace" . ucfirst($propertyName) . "ArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;\n";
 
@@ -1016,6 +1048,14 @@ sub getToReplaceDictParts {
 #sub getReplaceRemotelyParts {
 #  return @replaceRemotelyParts;
 #}
+
+sub getNeedsUpdateDocParts {
+  return @needsUpdateDocParts;
+}
+
+sub getNeedsUpdateParts {
+  return @needsUpdateParts;
+}
 
 sub getObjectPropertiesParts {
   return @objectPropertiesParts;

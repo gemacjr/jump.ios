@@ -450,7 +450,9 @@ sub recursiveParse {
   my @replaceFromDictSection     = getReplaceFromDictParts();
   my @toUpdateDictSection        = getToUpdateDictParts();
   my @toReplaceDictSection       = getToReplaceDictParts();
+  my @needsUpdateSection         = getNeedsUpdateParts();
   my @objectPropertiesSection    = getObjectPropertiesParts();
+  
 
   my @doxygenClassDescSection       = getDoxygenClassDescParts();  
   my @minConstructorDocSection      = getMinConstructorDocParts();
@@ -463,6 +465,7 @@ sub recursiveParse {
   my @replaceFrDictDocSection       = getReplaceFromDictDocParts();
   my @updateRemotelyDocSection      = getUpdateRemotelyDocParts();
   my @replaceRemotelyDocSection     = getReplaceRemotelyDocParts();
+  my @needsUpdateDocSection         = getNeedsUpdateDocParts();
   my @objectPropertiesDocSection    = getObjectPropertiesDocParts();
 
 
@@ -1164,7 +1167,7 @@ sub recursiveParse {
     $privateIvarsSection  .= "    " . $objectiveType . "_" . $propertyName . ";\n";
     $synthesizeSection    .= "\@dynamic $propertyName;\n";
   
-    if ($isSimpleArray) { #
+    if ($isSimpleArray) { 
       $getterSettersSection .= createGetterSetterForSimpleArray ($propertyName, $simpleArrayType);
     } else {
       $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isAlsoPrimitive, $isArray); 
@@ -1253,12 +1256,12 @@ sub recursiveParse {
       ##################################################################################################################
       
         # e.g.:      
-        #   if ([self.dirtyPropertySet containsObject:@"foo"])
+        #   if ([self.dirtyPropertySet containsObject:@"foo"] || [self.foo needsUpdate])
         #       [dict setObject:(self.foo ?
         #                             [self.foo toUpdateDictionary] :
         #                             [[JRFoo foo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
         #                forKey:@"foo"];        
-        $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
+        $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"] || [self." . $propertyName . " needsUpdate])\n";
         $toUpdateDictSection[3]  .= "        [dict setObject:(self." . $propertyName . " ?\n" . 
                                     "                              " . $toUpDictionary . " :\n" .
                                     "                              [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
@@ -1272,6 +1275,11 @@ sub recursiveParse {
                                     "                          " . $toRplDictionary . " :\n" .
                                     "                          [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
                                     "             forKey:\@\"" . $dictionaryKey . "\"];\n";
+    
+        # e.g.:      
+        #   if ([self.foo needsUpdate])
+        #       return YES;
+        $needsUpdateSection[3]   .= "    if([self." . $propertyName . " needsUpdate])\n        return YES;\n\n";
 
       } elsif ($isArray) {
       ####################################################################################################################
@@ -1336,7 +1344,7 @@ sub recursiveParse {
     
   if ($requiredProperties) {
     $minConstructorDocSection[5] = $minClassConstructorDocSection[5] = $objFromDictDocSection[5] = 
-        " * \n * \@note\n * Method creates a $className object without the required properties TODO:MAKE A LIST!\n * These properties are required when updating the object on Capture.\n"; 
+        " * \n * \@note\n * Method creates a $className object without the required properties TODO: MAKE A LIST!\n * These properties are required when updating the object on Capture.\n"; 
   }
   
   $hFile .= "\n/**\n * \@name Constructors\n **/\n/*\@{*/\n";
@@ -1366,14 +1374,17 @@ sub recursiveParse {
   for (my $i = 0; $i < @replaceFrDictDocSection; $i++) { $hFile .= $replaceFrDictDocSection[$i]; }
   $hFile .= "$replaceFromDictSection[0];\n";
   $hFile .= "/*\@}*/\n\n";
+
   $hFile .= "/**\n * \@name Object Introspection\n **/\n/*\@{*/\n";
   for (my $i = 0; $i < @objectPropertiesDocSection; $i++) { $hFile .= $objectPropertiesDocSection[$i]; }
   $hFile .= "$objectPropertiesSection[0];\n";
   $hFile .= "/*\@}*/\n\n";
 
 
-  $hFile .= "/**\n * \@name Manage Remotely \n **/\n/*\@{*/\n";
-  $hFile .= $replaceArrayIntfSection;
+  $hFile .= "/**\n * \@name Manage Remotely \n **/\n/*\@{*/";
+  $hFile .= "$replaceArrayIntfSection\n";
+  for (my $i = 0; $i < @needsUpdateDocSection; $i++) { $hFile .= $needsUpdateDocSection[$i]; }
+  $hFile .= "$needsUpdateSection[0];\n";
   $hFile .= "/*\@}*/\n\n";
 
   
@@ -1504,6 +1515,10 @@ sub recursiveParse {
 
   $mFile .= $replaceArrayImplSection;
 
+  for (my $i = 0; $i < @needsUpdateSection; $i++) {
+    $mFile .= $needsUpdateSection[$i];
+  }
+  
   for (my $i = 0; $i < @objectPropertiesSection; $i++) {
     $mFile .= $objectPropertiesSection[$i];
   }

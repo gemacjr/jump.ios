@@ -252,6 +252,14 @@
     return nil; // TODO: What's the better way to raise the exception in a method w a return?
 }
 
+- (BOOL)needsUpdate
+{
+    [NSException raise:NSInternalInconsistencyException
+                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+
+    return NO; // TODO: What's the better way to raise the exception in a method w a return?
+}
+
 - (void)updateFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
 {
     [NSException raise:NSInternalInconsistencyException

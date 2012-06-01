@@ -39,7 +39,7 @@
 - (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
 - (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
 // TODO: Do we want to add the name of the array to this method as well?
-- (void)replaceArray:(NSArray *)array named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
+- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context;
 - (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
 
@@ -53,6 +53,7 @@
 - (NSDictionary *)toUpdateDictionary;
 - (NSDictionary *)toReplaceDictionary;
 - (NSDictionary *)objectProperties;
+- (BOOL)needsUpdate;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 //- (void)updateLocallyFromNewDictionary:(NSDictionary *)dictionary;

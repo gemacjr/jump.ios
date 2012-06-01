@@ -455,7 +455,7 @@
     if ([self.dirtyPropertySet containsObject:@"identifier"])
         [dict setObject:(self.identifier ? self.identifier : [NSNull null]) forKey:@"identifier"];
 
-    if ([self.dirtyPropertySet containsObject:@"profile"])
+    if ([self.dirtyPropertySet containsObject:@"profile"] || [self.profile needsUpdate])
         [dict setObject:(self.profile ?
                               [self.profile toUpdateDictionary] :
                               [[JRProfile profile] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -507,6 +507,17 @@
 {
     [self replaceSimpleArrayOnCapture:self.friends ofType:@"identifier" named:@"friends"
                           forDelegate:delegate withContext:context];
+}
+
+- (BOOL)needsUpdate
+{
+    if ([self.dirtyPropertySet count])
+         return YES;
+
+    if([self.profile needsUpdate])
+        return YES;
+
+    return NO;
 }
 
 - (NSDictionary*)objectProperties

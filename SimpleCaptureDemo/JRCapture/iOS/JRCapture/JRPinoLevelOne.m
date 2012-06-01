@@ -230,7 +230,7 @@
     if ([self.dirtyPropertySet containsObject:@"name"])
         [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
-    if ([self.dirtyPropertySet containsObject:@"pinoLevelTwo"])
+    if ([self.dirtyPropertySet containsObject:@"pinoLevelTwo"] || [self.pinoLevelTwo needsUpdate])
         [dict setObject:(self.pinoLevelTwo ?
                               [self.pinoLevelTwo toUpdateDictionary] :
                               [[JRPinoLevelTwo pinoLevelTwo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -252,6 +252,17 @@
              forKey:@"pinoLevelTwo"];
 
     return dict;
+}
+
+- (BOOL)needsUpdate
+{
+    if ([self.dirtyPropertySet count])
+         return YES;
+
+    if([self.pinoLevelTwo needsUpdate])
+        return YES;
+
+    return NO;
 }
 
 - (NSDictionary*)objectProperties

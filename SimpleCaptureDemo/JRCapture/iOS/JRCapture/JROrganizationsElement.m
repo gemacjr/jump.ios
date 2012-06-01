@@ -445,7 +445,7 @@
     if ([self.dirtyPropertySet containsObject:@"endDate"])
         [dict setObject:(self.endDate ? self.endDate : [NSNull null]) forKey:@"endDate"];
 
-    if ([self.dirtyPropertySet containsObject:@"location"])
+    if ([self.dirtyPropertySet containsObject:@"location"] || [self.location needsUpdate])
         [dict setObject:(self.location ?
                               [self.location toUpdateDictionary] :
                               [[JRLocation location] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -488,6 +488,17 @@
     [dict setObject:(self.type ? self.type : [NSNull null]) forKey:@"type"];
 
     return dict;
+}
+
+- (BOOL)needsUpdate
+{
+    if ([self.dirtyPropertySet count])
+         return YES;
+
+    if([self.location needsUpdate])
+        return YES;
+
+    return NO;
 }
 
 - (NSDictionary*)objectProperties

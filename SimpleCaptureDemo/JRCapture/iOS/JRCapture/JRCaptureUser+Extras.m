@@ -20,7 +20,6 @@
 
 static JRCaptureUserExtras *singleton = nil;
 
-
 - (id)init
 {
     if ((self = [super init])) { }
@@ -189,109 +188,109 @@ static JRCaptureUserExtras *singleton = nil;
         [delegate createCaptureUser:captureObject didSucceedWithResult:result context:callerContext];
 }
 
-- (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
-{
-    NSDictionary    *myContext     = (NSDictionary *)context;
-    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
-    id<JRCaptureObjectDelegate>
-                     delegate      = [myContext objectForKey:@"delegate"];
+//- (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
+//{
+//    NSDictionary    *myContext     = (NSDictionary *)context;
+//    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+//    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+//    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+//    id<JRCaptureObjectDelegate>
+//                     delegate      = [myContext objectForKey:@"delegate"];
+//
+//    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didFailWithResult:context:)])
+//        [delegate replaceCaptureObject:captureObject didFailWithResult:result context:callerContext];
+//}
+//
+//- (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+//{
+//    NSDictionary    *myContext     = (NSDictionary *)context;
+//    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+//    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+//    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+//    id<JRCaptureObjectDelegate>
+//                     delegate      = [myContext objectForKey:@"delegate"];
+//
+//    NSDictionary *resultDictionary = [result objectFromJSONString];
+//
+//    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
+//        [self updateCaptureObjectDidFailWithResult:result context:context];
+//
+//    if (![resultDictionary objectForKey:@"result"])
+//        [self updateCaptureObjectDidFailWithResult:result context:context];
+//
+//    [captureObject replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
+//    [captureObject.dirtyPropertySet removeAllObjects];
+//
+//    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didSucceedWithResult:context:)])
+//        [delegate replaceCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
+//}
+//
+//- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
+//{
+//    NSDictionary    *myContext     = (NSDictionary *)context;
+//    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+//    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+//    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+//    id<JRCaptureObjectDelegate>
+//                     delegate      = [myContext objectForKey:@"delegate"];
+//
+//    if ([delegate respondsToSelector:@selector(updateCaptureObject:didFailWithResult:context:)])
+//        [delegate updateCaptureObject:captureObject didFailWithResult:result context:callerContext];
+//}
+//
+//- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+//{
+//    NSDictionary    *myContext     = (NSDictionary *)context;
+//    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
+//    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
+//    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+//    id<JRCaptureObjectDelegate>
+//                     delegate      = [myContext objectForKey:@"delegate"];
+//
+//    NSDictionary *resultDictionary = [result objectFromJSONString];
+//
+//    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
+//        [self updateCaptureObjectDidFailWithResult:result context:context];
+//
+//    if (![resultDictionary objectForKey:@"result"])
+//        [self updateCaptureObjectDidFailWithResult:result context:context];
+//
+//    [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
+//    [captureObject.dirtyPropertySet removeAllObjects];
+//
+//    if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
+//        [delegate updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
+//}
 
-    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didFailWithResult:context:)])
-        [delegate replaceCaptureObject:captureObject didFailWithResult:result context:callerContext];
-}
-
-- (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
-{
-    NSDictionary    *myContext     = (NSDictionary *)context;
-    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
-    id<JRCaptureObjectDelegate>
-                     delegate      = [myContext objectForKey:@"delegate"];
-
-    NSDictionary *resultDictionary = [result objectFromJSONString];
-
-    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
-
-    if (![resultDictionary objectForKey:@"result"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
-
-    [captureObject replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
-    [captureObject.dirtyPropertySet removeAllObjects];
-
-    if ([delegate respondsToSelector:@selector(replaceCaptureObject:didSucceedWithResult:context:)])
-        [delegate replaceCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
-}
-
-- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
-{
-    NSDictionary    *myContext     = (NSDictionary *)context;
-    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
-    id<JRCaptureObjectDelegate>
-                     delegate      = [myContext objectForKey:@"delegate"];
-
-    if ([delegate respondsToSelector:@selector(updateCaptureObject:didFailWithResult:context:)])
-        [delegate updateCaptureObject:captureObject didFailWithResult:result context:callerContext];
-}
-
-- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
-{
-    NSDictionary    *myContext     = (NSDictionary *)context;
-    JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
-    NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
-    NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
-    id<JRCaptureObjectDelegate>
-                     delegate      = [myContext objectForKey:@"delegate"];
-
-    NSDictionary *resultDictionary = [result objectFromJSONString];
-
-    if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
-
-    if (![resultDictionary objectForKey:@"result"])
-        [self updateCaptureObjectDidFailWithResult:result context:context];
-
-    [captureObject updateFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
-    [captureObject.dirtyPropertySet removeAllObjects];
-
-    if ([delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
-        [delegate updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
-}
-
-- (void)updateUserOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
-                                     withId:self.captureUserId
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
-}
-
-- (void)replaceUserOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate withContext:(NSObject *)context
-{
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionary]
-                                      withId:self.captureUserId
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
-}
+//- (void)updateUserOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate withContext:(NSObject *)context
+//{
+//    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                                     self, @"captureObject",
+//                                                     delegate, @"delegate",
+//                                                     context, @"callerContext", nil];
+//
+//    [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
+//                                     withId:self.captureUserId
+//                                     atPath:self.captureObjectPath
+//                                  withToken:[JRCaptureData accessToken]
+//                                forDelegate:self
+//                                withContext:newContext];
+//}
+//
+//- (void)replaceUserOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate withContext:(NSObject *)context
+//{
+//    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                                     self, @"captureObject",
+//                                                     delegate, @"delegate",
+//                                                     context, @"callerContext", nil];
+//
+//    [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionary]
+//                                      withId:self.captureUserId
+//                                      atPath:self.captureObjectPath
+//                                   withToken:[JRCaptureData accessToken]
+//                                 forDelegate:self
+//                                 withContext:newContext];
+//}
 
 - (void)createUserOnCaptureForDelegate:(id<JRCaptureUserDelegate>)delegate withContext:(NSObject *)context
 {

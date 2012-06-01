@@ -81,7 +81,7 @@
 //    DLog(@"%@", mutableString);
 }
 
-- (void)replaceArray:(NSArray *)array named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"");
 }

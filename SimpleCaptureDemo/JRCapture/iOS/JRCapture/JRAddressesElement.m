@@ -574,6 +574,14 @@
     return dict;
 }
 
+- (BOOL)needsUpdate
+{
+    if ([self.dirtyPropertySet count])
+         return YES;
+
+    return NO;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

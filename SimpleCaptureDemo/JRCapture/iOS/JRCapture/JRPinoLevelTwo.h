@@ -168,8 +168,15 @@
  **/
 /*@{*/
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replacePinoLevelThreeArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+/**
+ * TODO: Doxygen doc
+ **/
+- (BOOL)needsUpdate;
 /*@}*/
 
 @end

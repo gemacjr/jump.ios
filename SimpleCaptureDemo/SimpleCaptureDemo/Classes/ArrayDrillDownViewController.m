@@ -535,7 +535,7 @@ static Class getClassFromKey(NSString *key)
 }
 
 
-- (void)replaceArray:(NSArray *)array named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
@@ -548,7 +548,7 @@ static Class getClassFromKey(NSString *key)
     //SEL getArraySelector = NSSelectorFromString(tableHeader);
     //NSArray *array       = [object performSelector:getArraySelector];
 
-    [self setTableDataWithArray:array];
+    [self setTableDataWithArray:newArray];
     [myTableView reloadData];
 }
 

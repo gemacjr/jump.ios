@@ -61,7 +61,7 @@
  *   A JRProfilesElement object
  * 
  * @note
- * Method creates a JRProfilesElement object without the required properties TODO:MAKE A LIST!
+ * Method creates a JRProfilesElement object without the required properties TODO: MAKE A LIST!
  * These properties are required when updating the object on Capture.
  **/
 - (id)init;
@@ -73,7 +73,7 @@
  *   A JRProfilesElement object
  * 
  * @note
- * Method creates a JRProfilesElement object without the required properties TODO:MAKE A LIST!
+ * Method creates a JRProfilesElement object without the required properties TODO: MAKE A LIST!
  * These properties are required when updating the object on Capture.
  **/
 + (id)profiles;
@@ -116,7 +116,7 @@
  *   A JRProfilesElement object
  * 
  * @note
- * Method creates a JRProfilesElement object without the required properties TODO:MAKE A LIST!
+ * Method creates a JRProfilesElement object without the required properties TODO: MAKE A LIST!
  * These properties are required when updating the object on Capture.
  **/
 + (id)profilesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
@@ -208,14 +208,25 @@
  **/
 /*@{*/
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replaceFollowersArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replaceFollowingArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replaceFriendsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+/**
+ * TODO: Doxygen doc
+ **/
+- (BOOL)needsUpdate;
 /*@}*/
 
 @end

@@ -170,8 +170,15 @@
  **/
 /*@{*/
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replaceOpponentsArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+/**
+ * TODO: Doxygen doc
+ **/
+- (BOOL)needsUpdate;
 /*@}*/
 
 /**

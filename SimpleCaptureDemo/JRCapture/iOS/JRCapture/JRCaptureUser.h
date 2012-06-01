@@ -87,7 +87,7 @@
  *   A JRCaptureUser object
  * 
  * @note
- * Method creates a JRCaptureUser object without the required properties TODO:MAKE A LIST!
+ * Method creates a JRCaptureUser object without the required properties TODO: MAKE A LIST!
  * These properties are required when updating the object on Capture.
  **/
 - (id)init;
@@ -99,7 +99,7 @@
  *   A JRCaptureUser object
  * 
  * @note
- * Method creates a JRCaptureUser object without the required properties TODO:MAKE A LIST!
+ * Method creates a JRCaptureUser object without the required properties TODO: MAKE A LIST!
  * These properties are required when updating the object on Capture.
  **/
 + (id)captureUser;
@@ -142,7 +142,7 @@
  *   A JRCaptureUser object
  * 
  * @note
- * Method creates a JRCaptureUser object without the required properties TODO:MAKE A LIST!
+ * Method creates a JRCaptureUser object without the required properties TODO: MAKE A LIST!
  * These properties are required when updating the object on Capture.
  **/
 + (id)captureUserObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
@@ -234,26 +234,45 @@
  **/
 /*@{*/
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replaceGamesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replaceOnipLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replacePhotosArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replacePluralLevelOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replaceProfilesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replaceStatusesArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
-/** * * TODO: DOXYGEN DOCS * **/
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replaceTesterStringPluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+/**
+ * TODO: Doxygen doc
+ **/
+- (BOOL)needsUpdate;
 /*@}*/
 
 /**

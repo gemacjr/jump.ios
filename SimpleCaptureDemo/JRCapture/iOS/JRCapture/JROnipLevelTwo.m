@@ -235,7 +235,7 @@
     if ([self.dirtyPropertySet containsObject:@"name"])
         [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
 
-    if ([self.dirtyPropertySet containsObject:@"onipLevelThree"])
+    if ([self.dirtyPropertySet containsObject:@"onipLevelThree"] || [self.onipLevelThree needsUpdate])
         [dict setObject:(self.onipLevelThree ?
                               [self.onipLevelThree toUpdateDictionary] :
                               [[JROnipLevelThree onipLevelThree] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -257,6 +257,17 @@
              forKey:@"onipLevelThree"];
 
     return dict;
+}
+
+- (BOOL)needsUpdate
+{
+    if ([self.dirtyPropertySet count])
+         return YES;
+
+    if([self.onipLevelThree needsUpdate])
+        return YES;
+
+    return NO;
 }
 
 - (NSDictionary*)objectProperties
