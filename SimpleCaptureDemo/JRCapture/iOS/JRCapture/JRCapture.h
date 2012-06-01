@@ -85,6 +85,7 @@ typedef NSNumber JRObjectId; /**< TODO */
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureInternal.h"
+#import "JRCaptureObject.h"
 
 //@interface JRDate : NSDate
 //+ (JRDate *)dateFromISO8601DateString:(NSString *)dateString;

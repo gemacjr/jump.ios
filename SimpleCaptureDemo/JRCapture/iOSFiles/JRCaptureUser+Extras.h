@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureUser.h"
-#import "JRCaptureInterface.h"
+#import "JRCaptureApidInterface.h"
 
 @protocol JRCaptureUserDelegate <NSObject>
 @optional

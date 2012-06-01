@@ -6,7 +6,7 @@
 
 
 #import <Foundation/Foundation.h>
-//#import "JRCaptureInterface.h"
+//#import "JRCaptureApidInterface.h"
 #import "JRCaptureUser.h"
 #import "JREngage.h"
 #import "JRCapture.h"

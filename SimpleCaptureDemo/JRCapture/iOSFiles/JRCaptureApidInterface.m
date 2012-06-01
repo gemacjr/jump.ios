@@ -41,7 +41,7 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import "JRCaptureInterface.h"
+#import "JRCaptureApidInterface.h"
 
 @interface NSString (NSString_JSON_ESCAPE)
 - (NSString*)URLEscaped;
@@ -62,15 +62,15 @@
 }
 @end
 
-@implementation JRCaptureInterface
-static JRCaptureInterface *singleton = nil;
+@implementation JRCaptureApidInterface
+static JRCaptureApidInterface *singleton = nil;
 
 /* Here for testing against Carl's local instance */
 /* TODO: Remove when done */
 static NSString *appIdArg   = nil;
 //static NSString *appIdArg = @"&application_id=qx3ss262yufnmpb3ck93jr3zfs"
 
-- (JRCaptureInterface*)init
+- (JRCaptureApidInterface *)init
 {
     if ((self = [super init])) { }
 
@@ -80,7 +80,7 @@ static NSString *appIdArg   = nil;
 + (id)captureInterfaceInstance
 {
     if (singleton == nil) {
-        singleton = [((JRCaptureInterface*)[super allocWithZone:NULL]) init];
+        singleton = [((JRCaptureApidInterface *)[super allocWithZone:NULL]) init];
     }
 
     return singleton;
@@ -451,21 +451,21 @@ typedef enum CaptureInterfaceStatEnum
 + (void)getCaptureUserWithToken:(NSString *)token
                     forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
-    [[JRCaptureInterface captureInterfaceInstance]
+    [[JRCaptureApidInterface captureInterfaceInstance]
             startGetCaptureUserWithToken:token forDelegate:delegate withContext:context];
 }
 
 + (void)createCaptureUser:(NSDictionary *)captureUser withToken:(NSString *)token
               forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
-    [[JRCaptureInterface captureInterfaceInstance]
+    [[JRCaptureApidInterface captureInterfaceInstance]
             startCreateCaptureUser:captureUser withToken:token forDelegate:delegate withContext:context];
 }
 
 + (void)getCaptureObjectAtPath:(NSString *)entityPath withToken:(NSString *)token
                    forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
-    [[JRCaptureInterface captureInterfaceInstance]
+    [[JRCaptureApidInterface captureInterfaceInstance]
             startGetCaptureObjectAtPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
@@ -473,21 +473,21 @@ typedef enum CaptureInterfaceStatEnum
                 forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
     DLog(@"");
-    [[JRCaptureInterface captureInterfaceInstance]
+    [[JRCaptureApidInterface captureInterfaceInstance]
             startUpdateObject:captureObject /*withId:objectId*/ atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
 + (void)replaceCaptureObject:(NSDictionary *)captureObject /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath withToken:(NSString *)token
                  forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
-    [[JRCaptureInterface captureInterfaceInstance]
+    [[JRCaptureApidInterface captureInterfaceInstance]
             startReplaceObject:captureObject /*withId:objectId*/ atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 
 + (void)replaceCaptureArray:(NSArray *)captureArray /*withId:(NSInteger)objectId*/ atPath:(NSString *)entityPath withToken:(NSString *)token
                 forDelegate:(id <JRCaptureInterfaceDelegate>)delegate withContext:(NSObject *)context
 {
-    [[JRCaptureInterface captureInterfaceInstance]
+    [[JRCaptureApidInterface captureInterfaceInstance]
             startReplaceArray:captureArray /*withId:objectId*/ atPath:entityPath withToken:token forDelegate:delegate withContext:context];
 }
 

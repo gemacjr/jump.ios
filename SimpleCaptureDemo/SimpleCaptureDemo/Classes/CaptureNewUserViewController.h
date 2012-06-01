@@ -33,7 +33,7 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <UIKit/UIKit.h>
-#import "JRCaptureInterface.h"
+#import "JRCaptureApidInterface.h"
 #import "JRCaptureUser+Extras.h"
 
 @interface CaptureNewUserViewController : UIViewController <JRCaptureInterfaceDelegate, UITextViewDelegate,

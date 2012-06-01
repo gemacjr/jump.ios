@@ -270,7 +270,7 @@ static JRCaptureUserExtras *singleton = nil;
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface updateCaptureObject:[self toUpdateDictionary]
+    [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
                                      withId:self.captureUserId
                                      atPath:self.captureObjectPath
                                   withToken:[JRCaptureData accessToken]
@@ -285,7 +285,7 @@ static JRCaptureUserExtras *singleton = nil;
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface replaceCaptureObject:[self toReplaceDictionary]
+    [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionary]
                                       withId:self.captureUserId
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]
@@ -301,7 +301,7 @@ static JRCaptureUserExtras *singleton = nil;
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureInterface createCaptureUser:[self toReplaceDictionary]
+    [JRCaptureApidInterface createCaptureUser:[self toReplaceDictionary]
                                 withToken:[JRCaptureData creationToken]
                               forDelegate:self
                               withContext:newContext];

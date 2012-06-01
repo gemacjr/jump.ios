@@ -52,7 +52,7 @@
 - (void)replaceCaptureArrayDidFailWithResult:(NSString *)result context:(NSObject *)context;
 @end
 
-@interface JRCaptureInterface : NSObject <JRConnectionManagerDelegate>
+@interface JRCaptureApidInterface : NSObject <JRConnectionManagerDelegate>
 + (void)getCaptureUserWithToken:(NSString *)token
                     forDelegate:(id<JRCaptureInterfaceDelegate>)delegate
                     withContext:(NSObject *)context;

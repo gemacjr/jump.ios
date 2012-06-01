@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JRCaptureInternal.h"
+#import "JRCaptureObject.h"
 #import "JRCapture.h"
 
 @interface JRStringPluralElement : JRCaptureObject
