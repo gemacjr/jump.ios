@@ -1,0 +1,773 @@
+{
+  "schema": {
+    "name": "test_user1",
+    "attr_defs": [
+      {
+        "case-sensitive": false,
+        "name": "email",
+        "constraints": [
+            "unique"
+        ],
+        "length": 256,
+        "type": "string"
+      },
+      {
+        "name": "basicBoolean",
+        "description": "basic boolean property for testing getting/setting with NSNumbers and primitives, updating, and replacing",
+        "type": "boolean"
+      },
+      {
+        "case-sensitive": false,
+        "name": "basicString",
+        "description": "basic string property for testing getting/setting, updating, and replacing",
+        "type": "string"
+      },
+      {
+        "name": "basicInteger",
+        "description": "basic integer property for testing getting/setting with NSNumbers and primitives, updating, and replacing",
+        "type": "integer"
+      },
+      {
+        "name": "basicDecimal",
+        "description": "basic decimal property for testing getting/setting with various NSNumbers, updating, and replacing",
+        "type": "decimal"
+      },
+      {
+        "name": "basicDate",
+        "description": "basic date property for testing getting/setting with various formats, updating, and replacing",
+        "type": "date"
+      },
+      {
+        "name": "basicDateTime",
+        "description": "basic dateTime property for testing getting/setting with various formats, updating, and replacing",
+        "type": "dateTime"
+      },
+      {
+        "name": "basicIpAddress",
+        "description": "basic ipAddress property for testing getting/setting with various formats, updating, and replacing",
+        "type": "ipAddress"
+      },
+      {
+        "name": "basicPassword",
+        "description": "property used to test password strings, getting/setting with various formats, updating, and replacing",
+        "type": "password-bcrypt"
+      },
+      {
+        "name": "jsonNumber",
+        "description": "property used to test json numbers, getting/setting with various formats, updating, and replacing",
+        "type": "json"
+      },
+      {
+        "name": "jsonString",
+        "description": "property used to test json strings, getting/setting with various formats, updating, and replacing",
+        "type": "json"
+      },
+      {
+        "name": "jsonArray",
+        "description": "property used to test json arrays, getting/setting with various formats, updating, and replacing",
+        "type": "json"
+      },
+      {
+        "name": "jsonDictionary",
+        "description": "property used to test json dictionaries, getting/setting with various formats, updating, and replacing",
+        "type": "json"
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestJson",
+        "description": "property used to test getting/setting, updating, and replacing strings that contain valid json objects, json characters, etc.",
+        "type": "string"
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestEmpty",
+        "description": "property used to test getting/setting, updating, and replacing empty strings",
+        "type": "string"
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestNull",
+        "description": "property used to test getting/setting, updating, and replacing null strings",
+        "type": "string"
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestInvalid",
+        "description": "property used to test getting/setting, updating, and replacing strings that contain special or dangerous characters",
+        "type": "string"
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestNSNull",
+        "description": "property used to test getting/setting, updating, and replacing [NSNull null] strings",
+        "type": "string"
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestAlphanumeric",
+        "description": "property used to test getting/setting, updating, and replacing strings that have the 'alphanumeric' constraint",
+        "type": "string",
+        "constraints": [
+          "alphanumeric"
+        ]
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestUnicodeLetters",
+        "description": "property used to test getting/setting, updating, and replacing strings that have the 'unicode-letters' constraint",
+        "type": "string",
+        "constraints": [
+          "unicode-letters"
+        ]
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestUnicodePrintable",
+        "description": "property used to test getting/setting, updating, and replacing strings that have the 'unicode-printable' constraint",
+        "type": "string",
+        "constraints": [
+          "unicode-printable"
+        ]
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestEmailAddress",
+        "description": "property used to test getting/setting, updating, and replacing strings that have the 'email-address' constraint",
+        "type": "string",
+        "constraints": [
+          "email-address"
+        ]
+      },
+      {
+        "case-sensitive": false,
+        "name": "stringTestLength",
+        "description": "property used to test getting/setting, updating, and replacing strings that have the length attribute defined",
+        "type": "string",
+        "length": 100
+      },
+      {
+        "case-sensitive": true,
+        "name": "stringTestCaseSensitive",
+        "description": "property used to test getting/setting, updating, and replacing strings that have the case-sensitive attribute defined",
+        "type": "string"
+      },
+      {
+        "name": "stringTestFeatures",
+        "description": "property used to test getting/setting, updating, and replacing strings that have the features attribute defined",
+        "type": "string",
+        "length":1000,
+        "features": [
+          "query"
+        ]
+      },
+      {
+        "name": "basicPlural",
+        "description": "basic plural property for testing getting/setting, updating, and replacing",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "basicObject",
+        "description": "basic object property for testing getting/setting, updating, and replacing",
+        "type": "object",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "objectTestRequired",
+        "description": "object for testing getting/setting, updating, and replacing properties when one property has the constraint of being required",
+        "type": "object",
+        "attr_defs": [
+          {
+            "name": "requiredString",
+            "type": "string",
+            "constraints": [
+              "required"
+            ]
+          },
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "pluralTestUnique",
+        "description": "plural for testing getting/setting, updating, and replacing elements when one element property has the constraint of being unique",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "uniqueString",
+            "type": "string",
+            "constraints": [
+              "unique"
+            ]
+          },
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "objectTestRequiredUnique",
+        "description": "object for testing getting/setting, updating, and replacing properties when the properties have the constraints of being required and unique",
+        "type": "object",
+        "attr_defs": [
+          {
+            "name": "requiredString",
+            "type": "string",
+            "constraints": [
+              "required"
+            ]
+          },
+          {
+            "name": "uniqueString",
+            "type": "string",
+            "constraints": [
+              "unique"
+            ]
+          },
+          {
+            "name": "requiredUniqueString",
+            "type": "string",
+            "constraints": [
+              "required",
+              "unique"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pluralTestAlphabetic",
+        "description": "plural for testing getting/setting, updating, and replacing elements when one element property has the constraint of being alphabetic",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "uniqueString",
+            "type": "string",
+            "constraints": [
+              "alphabetic"
+            ]
+          },
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "simpleStringPluralOne",
+        "description": "plural property for testing getting/setting, updating, and replacing lists of strings/JRStringPluralElements",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "simpleTypeOne",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "simpleStringPluralTwo",
+        "description": "another plural property for testing getting/setting, updating, and replacing lists of strings/JRStringPluralElements",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "simpleTypeTwo",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "pinapL1Plural",
+        "description":"plural in a plural (element in a plural in an element in a plural)",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "pinapL2Plural",
+            "type": "plural",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pinoL1Object",
+        "description":"plural in an object (element in a plural in an object)",
+        "type": "object",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "pinoL2Plural",
+            "type": "plural",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "onipL1Plural",
+        "description":"object in a plural (object in an element in a plural)",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "onipL2Object",
+            "type": "object",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "oinoL1Object",
+        "description":"object in a object",
+        "type": "object",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "oinoL2Object",
+            "type": "object",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pinapinapL1Plural",
+        "description":"plural in a plural in a plural (element in a plural in an element in a plural in an element in a plural)",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "pinapinapL2Plural",
+            "type": "plural",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              },
+              {
+                "name": "pinapinapL3Plural",
+                "type": "plural",
+                "attr_defs": [
+                  {
+                    "name": "string1",
+                    "type": "string"
+                  },
+                  {
+                    "name": "string2",
+                    "type": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pinonipL1Plural",
+        "description":"plural in an object in a plural (element in a plural in an object in an element in a plural)",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "pinonipL2Object",
+            "type": "object",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              },
+              {
+                "name": "pinonipL3Plural",
+                "type": "plural",
+                "attr_defs": [
+                  {
+                    "name": "string1",
+                    "type": "string"
+                  },
+                  {
+                    "name": "string2",
+                    "type": "string"
+                  }
+                ] 
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pinapinoL1Object",
+        "description":"plural in a plural in an object (element in a plural in an element in a plural in an object)",
+        "type": "object",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "pinapinoL2Plural",
+            "type": "plural",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              },
+              {
+                "name": "pinapinoL3Plural",
+                "type": "plural",
+                "attr_defs": [
+                  {
+                    "name": "string1",
+                    "type": "string"
+                  },
+                  {
+                    "name": "string2",
+                    "type": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "pinoinoL1Object",
+        "description":"plural in an object in a object (element in a plural in an object in an object)",
+        "type": "object",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "pinoinoL2Object",
+            "type": "object",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              },
+              {
+                "name": "pinoinoL3Plural",
+                "type": "plural",
+                "attr_defs": [
+                  {
+                    "name": "string1",
+                    "type": "string"
+                  },
+                  {
+                    "name": "string2",
+                    "type": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "onipinapL1Plural",
+        "description":"object in a plural in a plural (object in an element in a plural in an element in a plural)",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "onipinapL2Plural",
+            "type": "plural",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              },
+              {
+                "name": "onipinapL3Object",
+                "type": "object",
+                "attr_defs": [
+                  {
+                    "name": "string1",
+                    "type": "string"
+                  },
+                  {
+                    "name": "string2",
+                    "type": "string"
+                  }
+                ]  
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "oinonipL1Plural",
+        "description":"object in an object in a plural (object in an object in an element in a plural)",
+        "type": "plural",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "oinonipL2Object",
+            "type": "object",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              },
+              {
+                "name": "oinonipL3Object",
+                "type": "object",
+                "attr_defs": [
+                  {
+                    "name": "string1",
+                    "type": "string"
+                  },
+                  {
+                    "name": "string2",
+                    "type": "string"
+                  }
+                ] 
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "onipinoL1Object",
+        "description":"object in a plural in an object (object in an element in a plural in an object)",
+        "type": "object",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "onipinoL2Plural",
+            "type": "plural",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              },
+              {
+                "name": "onipinoL3Object",
+                "type": "object",
+                "attr_defs": [
+                  {
+                    "name": "string1",
+                    "type": "string"
+                  },
+                  {
+                    "name": "string2",
+                    "type": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "oinoinoL1Object",
+        "description":"object in an object in a object",
+        "type": "object",
+        "attr_defs": [
+          {
+            "name": "string1",
+            "type": "string"
+          },
+          {
+            "name": "string2",
+            "type": "string"
+          },
+          {
+            "name": "oinoinoL2Object",
+            "type": "object",
+            "attr_defs": [
+              {
+                "name": "string1",
+                "type": "string"
+              },
+              {
+                "name": "string2",
+                "type": "string"
+              },
+              {
+                "name": "oinoinoL3Object",
+                "type": "object",
+                "attr_defs": [
+                  {
+                    "name": "string1",
+                    "type": "string"
+                  },
+                  {
+                    "name": "string2",
+                    "type": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]  
+  } 
+}      
+ 
