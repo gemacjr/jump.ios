@@ -48,8 +48,9 @@ use Getopt::Std;
 # First things first: If the schema was passed in on the command line
 # with the option '-f', open it up, otherwise, find out where it is
 ########################################################################
+our ($opt_o);
 our ($opt_f);
-getopt('f');
+getopt('fo');
 my $schemaName = $opt_f;
 my $schema = "";
 
@@ -59,6 +60,15 @@ if ($schemaName) {
   $schema = getCaptureSchema (0, "");
 }
 
+########################################################################
+# Next, if the output directory was passed in on the command line
+# with the option '-o', remember it
+########################################################################
+# our ($opt_o);
+# getopt('o');
+my $outputDir = $opt_o;
+
+print "output directory: $outputDir\n";
 
 ############################################
 # CONSTANTS
@@ -1577,45 +1587,49 @@ recursiveParse ("captureUser", $attrDefsArrayRef, "", "", $NOT_PLURAL_ELEMENT, $
 my @hFileNames = keys (%hFiles);
 my @mFileNames = keys (%mFiles);
 
-my $deviceDir  = "iOS";
-my $filesDir   = "iOSFiles";
-my $captureDir = "JRCapture";
-my $docsDir    = "Docs";
+my $docsDir  = "Docs";
+my $copyDir  = "iOSFiles";
+my $filesDir = "JRCapture";
+
+if (!$outputDir) {
+  $outputDir  = "iOS";
+}
 
 my $canMakeDocs = 1;
 
-unless (-d $deviceDir) {
-    mkdir $deviceDir or die "[ERROR] Unable to make the directory '$deviceDir'\n\n";
+unless (-d $outputDir) {
+    mkdir "$outputDir" or die "[ERROR] Unable to make the directory '$outputDir'\n\n";
 }
 
-unless (-d "$deviceDir/$captureDir") {
-    mkdir "$deviceDir/$captureDir" or die "[ERROR] Unable to make the directory '$deviceDir/$captureDir'\n\n";
+unless (-d "$outputDir/$filesDir") {
+    mkdir "$outputDir/$filesDir" or die "[ERROR] Unable to make the directory '$outputDir/$filesDir'\n\n";
 }
 
-unless (-d "$deviceDir/$docsDir") {
-    mkdir $deviceDir or $canMakeDocs = 0; # or die "[ERROR] Unable to make the directory '$deviceDir'\n\n";
+unless (-d "$outputDir/$docsDir") {
+    mkdir "$outputDir/$docsDir" or $canMakeDocs = 0;
 }
 
-my $copyResult = `cp ./iOSFiles/JR* $deviceDir/$captureDir/ 2>&1`;
+my $copyResult = `cp ./$copyDir/JR* $outputDir/$filesDir 2>&1`;
 
 if ($copyResult) {
-  die "[ERROR] Unable to copy necessary files to the '$deviceDir/$captureDir': $copyResult\n\n";
+  die "[ERROR] Unable to copy necessary files to the '$outputDir': $copyResult\n\n";
 }
 
 foreach my $fileName (@hFileNames) {
-  open (FILE, ">$deviceDir/$captureDir/$fileName") or die "[ERROR] Unable to open '$deviceDir/$captureDir/$fileName' for writing\n\n";
+  open (FILE, ">$outputDir/$filesDir/$fileName") or die "[ERROR] Unable to open '$outputDir/$filesDir/$fileName' for writing\n\n";
   print "Writing $fileName... ";
   print FILE $hFiles{$fileName};
   print "Finished $fileName.\n";
 }
 
 foreach my $fileName (@mFileNames) {
-  open (FILE, ">$deviceDir/$captureDir/$fileName") or die "[ERROR] Unable to open '$deviceDir/$captureDir/$fileName' for writing\n\n";
+  open (FILE, ">$outputDir/$filesDir/$fileName") or die "[ERROR] Unable to open '$outputDir/$filesDir/$fileName' for writing\n\n";
   print "Writing $fileName... ";
   print FILE $mFiles{$fileName};
   print "Finished $fileName.\n";
 }
 
+# TODO: Make sure the correct input/output directories are known by doxygen when passing in a different out dir
 # TODO: Better success/fail reporting if doxygen works or not
 my $doxygenResult = `doxygen ./Doxygen/Doxyfile 2>&1`;
 print $doxygenResult;

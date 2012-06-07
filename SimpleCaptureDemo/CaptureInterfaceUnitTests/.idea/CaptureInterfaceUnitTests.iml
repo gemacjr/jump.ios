@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CIDR_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRActivityObject.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRActivityObject.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRActivityObject.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRActivityObject.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRConnectionManager.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRConnectionManager.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRConnectionManager.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRConnectionManager.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JREngage+CustomInterface.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JREngage+CustomInterface.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JREngage+CustomInterface.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JREngage+CustomInterface.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JREngage.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JREngage.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JREngage.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JREngage.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JREngagePhonegapPlugin.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JREngagePhonegapPlugin.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JREngagePhonegapPlugin.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JREngagePhonegapPlugin.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRInfoBar.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRInfoBar.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRInfoBar.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRInfoBar.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRPreviewLabel.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRPreviewLabel.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRPreviewLabel.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRPreviewLabel.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRProvidersController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRProvidersController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRProvidersController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRProvidersController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRPublishActivityController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRPublishActivityController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRPublishActivityController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRPublishActivityController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRSessionData.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRSessionData.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRSessionData.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRSessionData.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRUserInterfaceMaestro.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRUserInterfaceMaestro.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRUserInterfaceMaestro.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRUserInterfaceMaestro.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRUserLandingController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRUserLandingController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRUserLandingController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRUserLandingController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRWebViewController.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRWebViewController.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRWebViewController.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRWebViewController.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/JREngage-Info.plist">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/JREngage-Info.plist" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/JSONKit/JSONKit.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/JSONKit/JSONKit.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/JSONKit/JSONKit.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/JSONKit/JSONKit.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Security/SFHFKeychainUtils.h">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Security/SFHFKeychainUtils.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../JREngage/Security/SFHFKeychainUtils.m">
+      <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Security/SFHFKeychainUtils.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicObject.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicObject.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicObject.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicObject.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicPluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicPluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicPluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicPluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCapture.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCapture.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCapture.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCapture.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureApidInterface.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureApidInterface.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureApidInterface.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureApidInterface.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureInternal.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureInternal.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureInternal.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureInternal.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser+Extras.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser+Extras.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser+Extras.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser+Extras.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRObjectTestRequired.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRObjectTestRequired.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRObjectTestRequired.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRObjectTestRequired.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRObjectTestRequiredUnique.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRObjectTestRequiredUnique.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRObjectTestRequiredUnique.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRObjectTestRequiredUnique.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL1Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL1Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL1Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL1Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL2Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL2Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL2Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL2Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL1Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL1Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL1Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL1Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL3Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL3Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL3Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL3Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL1PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL1PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL1PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL1PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL2Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL2Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL2Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL2Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL3Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL3Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL3Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL3Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL1PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL1PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL1PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL1PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL2Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL2Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL2Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL2Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL2PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL2PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL2PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL2PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL3Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL3Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL3Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL3Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL1Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL1Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL1Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL1Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL2PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL2PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL2PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL2PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL3Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL3Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL3Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL3Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL2PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL2PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL2PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL2PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL1PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL1PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL1PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL1PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL2PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL2PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL2PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL2PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL3PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL3PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL3PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL3PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL1Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL1Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL1Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL1Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL3PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL3PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL3PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL3PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL1Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL1Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL1Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL1Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL2PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL2PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL2PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL2PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL1Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL1Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL1Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL1Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL2Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL2Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL2Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL2Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL3PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL3PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL3PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL3PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL1PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL1PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL1PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL1PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL2Object.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL2Object.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL2Object.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL2Object.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL3PluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL3PluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL3PluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL3PluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestAlphabeticElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestAlphabeticElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestAlphabeticElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestAlphabeticElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestUniqueElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestUniqueElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestUniqueElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestUniqueElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralOneElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralOneElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralOneElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralOneElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralTwoElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralTwoElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralTwoElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralTwoElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.h">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.h" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.m">
+      <sourceFolder url="file://$MODULE_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.m" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-f5cd57b/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-f5cd57b/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+
