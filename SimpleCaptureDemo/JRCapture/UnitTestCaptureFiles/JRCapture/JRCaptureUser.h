@@ -289,4 +289,29 @@
 - (BOOL)needsUpdate;
 /*@}*/
 
+/**
+ * @name Primitive Getters/Setters 
+ **/
+/*@{*/
+/**
+ * TODO
+ **/
+- (BOOL)getBasicBooleanBoolValue;
+
+/**
+ * TODO
+ **/
+- (void)setBasicBooleanWithBool:(BOOL)boolVal;
+
+/**
+ * TODO
+ **/
+- (NSInteger)getBasicIntegerIntegerValue;
+
+/**
+ * TODO
+ **/
+- (void)setBasicIntegerWithInteger:(NSInteger)integerVal;
+/*@}*/
+
 @end

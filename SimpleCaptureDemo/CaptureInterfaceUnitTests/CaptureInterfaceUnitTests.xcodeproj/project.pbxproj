@@ -233,8 +233,8 @@
 		DDE0B9A67F00A1DC4B6DFBC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBBF /* InfoPlist.strings */; };
 		DDE0B9A67F00A1DC4B6DFBC2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBC1 /* main.m */; };
 		DDE0B9A67F00A1DC4B6DFBC5 /* SampleTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBC4 /* SampleTestCase.m */; };
-		DDE0B9A67F00A1DC4B6DFBC7 /* SimplePropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBC6 /* SimplePropertyTests.m */; };
-		DDE0B9A67F00A1DC4B6DFBCA /* DeepPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBC9 /* DeepPropertyTests.m */; };
+		DDE0B9A67F00A1DC4B6DFBC7 /* SimplePropertySetterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBC6 /* SimplePropertySetterTests.m */; };
+		DDE0B9A67F00A1DC4B6DFBCA /* DeepPropertySetterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBC9 /* DeepPropertySetterTests.m */; };
 		DDE0B9A67F00A1DC4B6DFBCD /* ConstraintsTests.m in Sources */ = {isa = PBXBuildFile; };
 		DDE0B9A67F00A1DC4B6DFBD0 /* ContraintsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBCF /* ContraintsTests.m */; };
 		DDE0B9A67F00A1DC4B6DFBD3 /* OtherAttributesTests.m in Sources */ = {isa = PBXBuildFile; };
@@ -535,8 +535,8 @@
 		DDE0B9A67F00A1DC4B6DFBC1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFBC3 /* CaptureInterfaceUnitTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CaptureInterfaceUnitTests-Prefix.pch"; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFBC4 /* SampleTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTestCase.m; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFBC6 /* SimplePropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePropertyTests.m; sourceTree = "<group>"; };
-		DDE0B9A67F00A1DC4B6DFBC9 /* DeepPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepPropertyTests.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFBC6 /* SimplePropertySetterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePropertySetterTests.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFBC9 /* DeepPropertySetterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeepPropertySetterTests.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFBCF /* ContraintsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContraintsTests.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFBD5 /* OtherAttributesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherAttributesTests.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFBD8 /* SharedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedData.m; sourceTree = "<group>"; };
@@ -1034,8 +1034,8 @@
 				DDE0B9A67F00A1DC4B6DFBD8 /* SharedData.m */,
 				DDE0B9A67F00A1DC4B6DFBD5 /* OtherAttributesTests.m */,
 				DDE0B9A67F00A1DC4B6DFBCF /* ContraintsTests.m */,
-				DDE0B9A67F00A1DC4B6DFBC9 /* DeepPropertyTests.m */,
-				DDE0B9A67F00A1DC4B6DFBC6 /* SimplePropertyTests.m */,
+				DDE0B9A67F00A1DC4B6DFBC9 /* DeepPropertySetterTests.m */,
+				DDE0B9A67F00A1DC4B6DFBC6 /* SimplePropertySetterTests.m */,
 				DDE0B9A67F00A1DC4B6DFBC4 /* SampleTestCase.m */,
 				DDE0B9A67F00A1DC4B6DFBBC /* Supporting Files */,
 			);
@@ -1330,8 +1330,8 @@
 				9FEB37E8158130BF007706DC /* JRWebViewController.m in Sources */,
 				9FEB37EA158130BF007706DC /* JSONKit.m in Sources */,
 				9FEB3885158130BF007706DC /* SFHFKeychainUtils.m in Sources */,
-				DDE0B9A67F00A1DC4B6DFBC7 /* SimplePropertyTests.m in Sources */,
-				DDE0B9A67F00A1DC4B6DFBCA /* DeepPropertyTests.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFBC7 /* SimplePropertySetterTests.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFBCA /* DeepPropertySetterTests.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFBCD /* ConstraintsTests.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFBD0 /* ContraintsTests.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFBD3 /* OtherAttributesTests.m in Sources */,

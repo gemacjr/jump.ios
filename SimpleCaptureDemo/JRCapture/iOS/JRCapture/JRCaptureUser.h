@@ -233,7 +233,6 @@
  * @name Manage Remotely 
  **/
 /*@{*/
-
 /**
  * TODO: DOXYGEN DOCS
  **/

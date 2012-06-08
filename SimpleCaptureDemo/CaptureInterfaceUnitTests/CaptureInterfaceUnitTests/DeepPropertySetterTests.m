@@ -16,10 +16,10 @@
 
 #import <GHUnitIOS/GHUnit.h>
 
-@interface DeepPropertyTests : GHTestCase { }
+@interface a200_DeepPropertySetterTests : GHTestCase { }
 @end
 
-@implementation DeepPropertyTests
+@implementation a200_DeepPropertySetterTests
 
 - (void)setUpClass {
     DLog(@"");

@@ -173,7 +173,6 @@
  * @name Manage Remotely 
  **/
 /*@{*/
-
 /**
  * TODO: Doxygen doc
  **/

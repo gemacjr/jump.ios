@@ -23,7 +23,7 @@ static NSString *captureApidDomain  = @"https://mobile.dev.janraincapture.com";
 static NSString *captureUIDomain    = @"https://mobile.dev.janraincapture.com";
 static NSString *clientId           = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
 static NSString *entityTypeName     = @"test_user1";
-static NSString *accessToken        = @"";
+static NSString *accessToken        = @"ve5agstyyb9gqzjm";
 
 - (id)init
 {

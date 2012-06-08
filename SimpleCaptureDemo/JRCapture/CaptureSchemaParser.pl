@@ -95,13 +95,6 @@ my %repeatNamesHash = ();
 
 
 ############################################
-# ARRAYS TO KEEP TRACK OF INTEGER AND BOOLS
-############################################
-my @booleanProperties;
-my @integerProperties;
-
-
-############################################
 # HELPER METHODS
 ############################################
 
@@ -337,6 +330,17 @@ sub recursiveParse {
   my $className;
   my $objectPath;
 
+  ################################################
+  # Arrays to keep track of boolean and integers
+  ################################################
+  my @booleanProperties;
+  my @integerProperties;
+
+  ######################################################
+  # Keep track of how many properties are required
+  ######################################################
+  my $requiredProperties = 0;
+
   ######################################################################################################################
   # Dereference the list of properties from the array reference (pointer) passed into this function. Each object has a 
   # list of properties defined in the schema as the object's 'attr_defs' array. Each element in the list is a 
@@ -364,7 +368,7 @@ sub recursiveParse {
     $objectPath = $parentPath . "/" . $pathAppend;
   }
   
-  
+
   ######################################################################################################################
   # Initialize the sections of the .h/.m files from the stubbed out methods in the file ObjCMethodParts.pl. Most of the
   # sections are arrays of strings, where each array element is either a known bit of text or an empty string.  Empty 
@@ -463,7 +467,6 @@ sub recursiveParse {
   my @needsUpdateSection         = getNeedsUpdateParts();
   my @objectPropertiesSection    = getObjectPropertiesParts();
   
-
   my @doxygenClassDescSection       = getDoxygenClassDescParts();  
   my @minConstructorDocSection      = getMinConstructorDocParts();
   my @constructorDocSection         = getConstructorDocParts();
@@ -765,12 +768,6 @@ sub recursiveParse {
 
   }
   
-  ######################################################
-  # Keep track of how many properties are required
-  ######################################################
-  my $requiredProperties = 0;
-
-
   ################################################################################################
   # Each object has a list of properties defined in the schema as the object's 'attr_defs' array. 
   # Each element in the list contains a reference (pointer) to a hash describing that property.
@@ -1426,6 +1423,8 @@ sub recursiveParse {
   
     @booleanProperties = ();
     @integerProperties = ();
+  } else {
+    print "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFF!?\n";
   }
   
   $hFile .= "\@end\n";
