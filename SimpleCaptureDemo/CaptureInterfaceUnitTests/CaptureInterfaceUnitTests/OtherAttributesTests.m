@@ -4,6 +4,7 @@
 // To change the template use AppCode | Preferences | File Templates.
 //
 
+
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
@@ -15,10 +16,10 @@
 
 #import <GHUnitIOS/GHUnit.h>
 
-@interface SampleLibTest : GHTestCase { }
+@interface OtherAttributesTests : GHTestCase { }
 @end
 
-@implementation SampleLibTest
+@implementation OtherAttributesTests
 
 - (void)setUpClass {
     DLog(@"");
@@ -36,7 +37,7 @@
     DLog(@"");
 }
 
-- (void)testFoo {
+//- (void)testFoo {
 //  NSString *a = @"foo";
 //  GHTestLog(@"I can log to the GHUnit test console: %@", a);
 //
@@ -46,19 +47,20 @@
 //  // Assert equal objects, add custom error description
 //  NSString *b = @"bar";
 //  GHAssertEqualObjects(a, b, @"A custom error message. a should be equal to: %@.", b);
-}
-
-- (void)testBar {
-  // Another test
-}
-
-
-- (void)testSimplePass {
-	// Another test
-}
-
-- (void)testSimpleFail {
+//}
+//
+//- (void)testBar {
+//  // Another test
+//}
+//
+//
+//- (void)testSimplePass {
+//	// Another test
+//}
+//
+//- (void)testSimpleFail {
 //	GHAssertTrue(NO, nil);
-}
+//}
 
 @end
+
