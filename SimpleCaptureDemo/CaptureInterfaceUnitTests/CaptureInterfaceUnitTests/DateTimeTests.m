@@ -16,14 +16,14 @@
 #import "SharedData.h"
 #import "JRCaptureUser+Extras.h"
 
-@interface c2_OtherAttributesTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+@interface a6_DateTimeTests : GHAsyncTestCase <JRCaptureObjectDelegate>
 {
     JRCaptureUser *captureUser;
 }
 @property(retain) JRCaptureUser *captureUser;
 @end
 
-@implementation c2_OtherAttributesTests
+@implementation a6_DateTimeTests
 @synthesize captureUser;
 
 - (void)setUpClass
@@ -51,7 +51,7 @@
 
 
 /* Set an integer with an NSNumber boolean */
-- (void)test_c201_integerWithBoolTrue
+- (void)test_a601_integerWithBoolTrue
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -73,7 +73,7 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_c201_integerWithBoolTrue"])
+        if ([testSelectorString isEqualToString:@"test_a601_integerWithBoolTrue"])
         {
             GHAssertEquals([newUser.basicInteger integerValue], 1, nil);
         }
