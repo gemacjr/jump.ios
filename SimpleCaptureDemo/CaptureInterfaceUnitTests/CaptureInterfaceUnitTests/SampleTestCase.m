@@ -15,25 +15,25 @@
 
 #import <GHUnitIOS/GHUnit.h>
 
-@interface SampleLibTest : GHTestCase { }
+@interface zSampleLibTest : GHTestCase { }
 @end
 
-@implementation SampleLibTest
+@implementation zSampleLibTest
 
 - (void)setUpClass {
-    DLog(@"");
+//    DLog(@"");
 }
 
 - (void)tearDownClass {
-    DLog(@"");
+//    DLog(@"");
 }
 
 - (void)setUp {
-    DLog(@"");
+//    DLog(@"");
 }
 
 - (void)tearDown {
-    DLog(@"");
+//    DLog(@"");
 }
 
 - (void)testFoo {

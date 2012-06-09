@@ -241,6 +241,9 @@
 		DDE0B9A67F00A1DC4B6DFBD6 /* OtherAttributesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBD5 /* OtherAttributesTests.m */; };
 		DDE0B9A67F00A1DC4B6DFBD9 /* SharedData.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBD8 /* SharedData.m */; };
 		DDE0B9A67F00A1DC4B6DFBDD /* GetCaptureUserAsyncTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBDC /* GetCaptureUserAsyncTest.m */; };
+		DDE0B9A67F00A1DC4B6DFBDF /* SimplePropertyUpdateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBDE /* SimplePropertyUpdateTests.m */; };
+		DDE0B9A67F00A1DC4B6DFBE2 /* BooleanTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBE1 /* BooleanTests.m */; };
+		DDE0B9A67F00A1DC4B6DFBE5 /* IntegerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBE4 /* IntegerTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -542,6 +545,9 @@
 		DDE0B9A67F00A1DC4B6DFBD8 /* SharedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedData.m; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFBDA /* SharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedData.h; sourceTree = "<group>"; };
 		DDE0B9A67F00A1DC4B6DFBDC /* GetCaptureUserAsyncTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCaptureUserAsyncTest.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFBDE /* SimplePropertyUpdateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePropertyUpdateTests.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFBE1 /* BooleanTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooleanTests.m; sourceTree = "<group>"; };
+		DDE0B9A67F00A1DC4B6DFBE4 /* IntegerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegerTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1029,6 +1035,9 @@
 		DDE0B9A67F00A1DC4B6DFBBB /* CaptureInterfaceUnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				DDE0B9A67F00A1DC4B6DFBE4 /* IntegerTests.m */,
+				DDE0B9A67F00A1DC4B6DFBE1 /* BooleanTests.m */,
+				DDE0B9A67F00A1DC4B6DFBDE /* SimplePropertyUpdateTests.m */,
 				DDE0B9A67F00A1DC4B6DFBDC /* GetCaptureUserAsyncTest.m */,
 				DDE0B9A67F00A1DC4B6DFBDA /* SharedData.h */,
 				DDE0B9A67F00A1DC4B6DFBD8 /* SharedData.m */,
@@ -1338,6 +1347,9 @@
 				DDE0B9A67F00A1DC4B6DFBD6 /* OtherAttributesTests.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFBD9 /* SharedData.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFBDD /* GetCaptureUserAsyncTest.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFBDF /* SimplePropertyUpdateTests.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFBE2 /* BooleanTests.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFBE5 /* IntegerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

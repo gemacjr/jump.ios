@@ -16,4 +16,5 @@
 @interface SharedData : NSObject <JRCaptureInterfaceDelegate>
 + (JRCaptureUser *)sharedCaptureUser;
 + (void)getCaptureUserForDelegate:(id<SharedDataDelegate>)delegate;
++ (void)initializeCapture;
 @end

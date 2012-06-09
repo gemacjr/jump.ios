@@ -22,19 +22,19 @@
 @implementation OtherAttributesTests
 
 - (void)setUpClass {
-    DLog(@"");
+//    DLog(@"");
 }
 
 - (void)tearDownClass {
-    DLog(@"");
+//    DLog(@"");
 }
 
 - (void)setUp {
-    DLog(@"");
+//    DLog(@"");
 }
 
 - (void)tearDown {
-    DLog(@"");
+//    DLog(@"");
 }
 
 //- (void)testFoo {

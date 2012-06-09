@@ -23,7 +23,7 @@ static NSString *captureApidDomain  = @"https://mobile.dev.janraincapture.com";
 static NSString *captureUIDomain    = @"https://mobile.dev.janraincapture.com";
 static NSString *clientId           = @"zc7tx83fqy68mper69mxbt5dfvd7c2jh";
 static NSString *entityTypeName     = @"test_user1";
-static NSString *accessToken        = @"ve5agstyyb9gqzjm";
+static NSString *accessToken        = @"";
 
 - (id)init
 {
@@ -80,13 +80,19 @@ static NSString *accessToken        = @"ve5agstyyb9gqzjm";
 - (void)getCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];
-    NSDictionary *captureProfile   = [resultDictionary objectForKey:@"capture_user"];
+    NSDictionary *captureProfile   = [resultDictionary objectForKey:@"result"];
 
-    captureUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+    [self setCaptureUser:[JRCaptureUser captureUserObjectFromDictionary:captureProfile]];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [delegate getCaptureUserDidSucceedWithUser:captureUser];
     [self setDelegate:nil];
+}
+
++ (void)initializeCapture
+{
+    // Simply calling this will call the constructor if sharedData's singleton is null which will init Capture
+    [SharedData sharedData];
 }
 
 - (void)dealloc
