@@ -62,7 +62,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a102_numberWithBoolFalse
+- (void)test_a102_booleanWithBoolFalse
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -75,7 +75,7 @@
 }
 
 /* Set a boolean with an NSNumber integer */
-- (void)test_a103_numberWithIntTrue
+- (void)test_a103_booleanWithIntTrue
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -87,7 +87,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a104_numberWithIntFalse
+- (void)test_a104_booleanWithIntFalse
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -100,7 +100,7 @@
 }
 
 /* Set a boolean with an NSNumber double */
-- (void)test_a105_numberWithDoubleTrue
+- (void)test_a105_booleanWithDoubleTrue
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -112,7 +112,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a106_numberWithDoubleFalse
+- (void)test_a106_booleanWithDoubleFalse
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -184,27 +184,27 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_a101_numberWithBoolTrue"])
+        if ([testSelectorString isEqualToString:@"test_a101_booleanWithBoolTrue"])
         {
             GHAssertTrue([newUser.basicBoolean boolValue], nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a101_numberWithBoolFalse"])
+        else if ([testSelectorString isEqualToString:@"test_a101_booleanWithBoolFalse"])
         {
             GHAssertFalse([newUser.basicBoolean boolValue], nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a103_numberWithIntTrue"])
+        else if ([testSelectorString isEqualToString:@"test_a103_booleanWithIntTrue"])
         {
             GHAssertTrue([newUser.basicBoolean boolValue], nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a104_numberWithIntFalse"])
+        else if ([testSelectorString isEqualToString:@"test_a104_booleanWithIntFalse"])
         {
             GHAssertFalse([newUser.basicBoolean boolValue], nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a105_numberWithDoubleTrue"])
+        else if ([testSelectorString isEqualToString:@"test_a105_booleanWithDoubleTrue"])
         {
             GHAssertTrue([newUser.basicBoolean boolValue], nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a106_numberWithDoubleFalse"])
+        else if ([testSelectorString isEqualToString:@"test_a106_booleanWithDoubleFalse"])
         {
             GHAssertFalse([newUser.basicBoolean boolValue], nil);
         }

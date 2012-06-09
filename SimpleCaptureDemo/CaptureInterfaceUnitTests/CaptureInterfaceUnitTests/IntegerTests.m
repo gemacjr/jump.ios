@@ -50,25 +50,24 @@
 }
 
 
-
 /* Set an integer with an NSNumber boolean */
-- (void)test_a201_numberWithBoolTrue
+- (void)test_a201_integerWithBoolTrue
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
     captureUser.basicInteger = [NSNumber numberWithBool:YES];
-    GHAssertEquals([captureUser.basicInteger integerValue], INT_MAX, nil);
+    GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
 
     [self prepare];
     [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a202_numberWithBoolFalse
+- (void)test_a202_integerWithBoolFalse
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
-    captureUser.basicInteger = [NSNumber numberWithBool:YES];
+    captureUser.basicInteger = [NSNumber numberWithBool:NO];
     GHAssertEquals([captureUser.basicInteger integerValue], 0, nil);
 
     [self prepare];
@@ -77,7 +76,7 @@
 }
 
 /* Set an integer with an NSNumber integer */
-- (void)test_a203_numberWithIntPositive
+- (void)test_a203_integerWithIntPositive
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -89,7 +88,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a204_numberWithIntNegative
+- (void)test_a204_integerWithIntNegative
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -102,7 +101,7 @@
 }
 
 /* Set an integer with an NSNumber double */
-- (void)test_a205_numberWithDoublePositive
+- (void)test_a205_integerWithDoublePositive
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -114,7 +113,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a206_numberWithDoubleScientific
+- (void)test_a206_integerWithDoubleScientific
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -126,8 +125,33 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+/* Set an integer with an NSString */
+- (void)test_a207_integerWithStringPositive
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicInteger = [NSNumber numberWithInteger:[@"100" integerValue]];
+    GHAssertEquals([captureUser.basicInteger integerValue], 100, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)test_a208_integerWithStringInvalid
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicInteger = [NSNumber numberWithInteger:[@"badf00d" integerValue]];
+    GHAssertEquals([captureUser.basicInteger integerValue], 0, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
 /* Set an integer to null, [NSNull null] */
-- (void)test_a207_integerFromNil
+- (void)test_a209_integerFromNil
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -139,7 +163,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a208_booleanFromNSNull
+- (void)test_a210_integerFromNSNull
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -151,25 +175,25 @@
 //    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-/* Set a boolean with a primitive boolean setters/getters */
-- (void)test_a209_primitiveSetterTrue
+/* Set an integer with a primitive integer setters/getters */
+- (void)test_a211_primitiveSetterPositive
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
-    [captureUser setBasicBooleanWithBool:YES];
-    GHAssertTrue([captureUser getBasicBooleanBoolValue], nil);
+    [captureUser setBasicIntegerWithInteger:100];
+    GHAssertEquals([captureUser.basicInteger integerValue], 100, nil);
 
     [self prepare];
     [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a210_primitiveSetterFalse
+- (void)test_a212_primitiveSetterNegative
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
-    [captureUser setBasicBooleanWithBool:NO];
-    GHAssertFalse([captureUser getBasicBooleanBoolValue],  nil);
+    [captureUser setBasicIntegerWithInteger:-100];
+    GHAssertEquals([captureUser.basicInteger integerValue], -100, nil);
 
     [self prepare];
     [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
@@ -186,45 +210,53 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_a201_numberWithBoolTrue"])
+        if ([testSelectorString isEqualToString:@"test_a201_integerWithBoolTrue"])
         {
-            GHAssertTrue([newUser.basicBoolean boolValue], nil);
+            GHAssertEquals([newUser.basicInteger integerValue], 1, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a201_numberWithBoolFalse"])
+        else if ([testSelectorString isEqualToString:@"test_a201_integerWithBoolFalse"])
         {
-            GHAssertFalse([newUser.basicBoolean boolValue], nil);
+            GHAssertEquals([newUser.basicInteger integerValue], 0, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a203_numberWithIntTrue"])
+        else if ([testSelectorString isEqualToString:@"test_a203_integerWithIntPositive"])
         {
-            GHAssertTrue([newUser.basicBoolean boolValue], nil);
+            GHAssertEquals([newUser.basicInteger integerValue], 100, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a204_numberWithIntFalse"])
+        else if ([testSelectorString isEqualToString:@"test_a204_integerWithIntNegative"])
         {
-            GHAssertFalse([newUser.basicBoolean boolValue], nil);
+            GHAssertEquals([newUser.basicInteger integerValue], -100, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a205_numberWithDoubleTrue"])
+        else if ([testSelectorString isEqualToString:@"test_a205_integerWithDoublePositive"])
         {
-            GHAssertTrue([newUser.basicBoolean boolValue], nil);
+            GHAssertEquals([newUser.basicInteger integerValue], 100, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a206_numberWithDoubleFalse"])
+        else if ([testSelectorString isEqualToString:@"test_a206_integerWithDoubleScientific"])
         {
-            GHAssertFalse([newUser.basicBoolean boolValue], nil);
+            GHAssertEquals([newUser.basicInteger integerValue], 0, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a207_booleanFromNil"])
+        else if ([testSelectorString isEqualToString:@"test_a207_integerWithStringPositive"])
         {
-            GHAssertNil(newUser.basicBoolean, nil);
+            GHAssertEquals([newUser.basicInteger integerValue], 100, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a208_booleanFromNSNull"])
+        else if ([testSelectorString isEqualToString:@"test_a208_integerWithStringInvalid"])
         {
-            GHAssertNil(newUser.basicBoolean, nil);
+            GHAssertEquals([newUser.basicInteger integerValue], 0, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a209_primitiveSetterTrue"])
+        else if ([testSelectorString isEqualToString:@"test_a209_integerFromNil"])
         {
-            GHAssertTrue([newUser getBasicBooleanBoolValue], nil);
+            GHAssertNil(newUser.basicInteger, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a210_primitiveSetterFalse"])
+//        else if ([testSelectorString isEqualToString:@"test_a210_integerFromNSNull"])
+//        {
+//            GHAssertNil(newUser.basicInteger, nil);
+//        }
+        else if ([testSelectorString isEqualToString:@"test_a211_primitiveSetterPositive"])
         {
-            GHAssertFalse([newUser getBasicBooleanBoolValue], nil);
+            GHAssertEquals([newUser.basicInteger integerValue], 100, nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_a212_primitiveSetterNegative"])
+        {
+            GHAssertEquals([newUser.basicInteger integerValue], -100, nil);
         }
     }
     @catch (NSException *exception)
