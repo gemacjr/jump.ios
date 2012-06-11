@@ -188,7 +188,7 @@
         {
             GHAssertTrue([newUser.basicBoolean boolValue], nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a101_booleanWithBoolFalse"])
+        else if ([testSelectorString isEqualToString:@"test_a102_booleanWithBoolFalse"])
         {
             GHAssertFalse([newUser.basicBoolean boolValue], nil);
         }
@@ -223,6 +223,10 @@
         else if ([testSelectorString isEqualToString:@"test_a110_primitiveSetterFalse"])
         {
             GHAssertFalse([newUser getBasicBooleanBoolValue], nil);
+        }
+        else
+        {
+            GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
         }
     }
     @catch (NSException *exception)

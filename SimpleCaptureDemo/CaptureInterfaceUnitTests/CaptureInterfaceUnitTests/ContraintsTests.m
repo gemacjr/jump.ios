@@ -73,9 +73,13 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_a201_integerWithBoolTrue"])
+        if ([testSelectorString isEqualToString:@"test_c101_integerWithBoolTrue"])
         {
             GHAssertEquals([newUser.basicInteger integerValue], 1, nil);
+        }
+        else
+        {
+            GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
         }
     }
     @catch (NSException *exception)

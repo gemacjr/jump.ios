@@ -88,6 +88,10 @@
         {
             GHAssertEquals([newUser.basicInteger integerValue], 1, nil);
         }
+        else
+        {
+            GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
+        }
     }
     @catch (NSException *exception)
     {

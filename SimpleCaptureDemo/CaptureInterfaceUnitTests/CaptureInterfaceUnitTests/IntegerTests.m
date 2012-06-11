@@ -214,7 +214,7 @@
         {
             GHAssertEquals([newUser.basicInteger integerValue], 1, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a201_integerWithBoolFalse"])
+        else if ([testSelectorString isEqualToString:@"test_a202_integerWithBoolFalse"])
         {
             GHAssertEquals([newUser.basicInteger integerValue], 0, nil);
         }
@@ -257,6 +257,10 @@
         else if ([testSelectorString isEqualToString:@"test_a212_primitiveSetterNegative"])
         {
             GHAssertEquals([newUser.basicInteger integerValue], -100, nil);
+        }
+        else
+        {
+            GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
         }
     }
     @catch (NSException *exception)

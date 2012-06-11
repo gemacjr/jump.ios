@@ -144,11 +144,7 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_a401_integerWithBoolTrue"])
-        {
-            GHAssertEquals([newUser.basicInteger integerValue], 1, nil);
-        }
-        else if ([testSelectorString isEqualToString:@"test_a401_stringWithString"])
+        if ([testSelectorString isEqualToString:@"test_a401_stringWithString"])
         {
             GHAssertEqualStrings(newUser.basicString, @"basic string", nil);
         }
@@ -171,6 +167,10 @@
         else if ([testSelectorString isEqualToString:@"test_a406_stringWithInvalidCharacters"])
         {
             GHAssertEqualStrings(newUser.stringTestInvalid, @"!@#$%^&*()<>?/\\;:\'\",.", nil);
+        }
+        else
+        {
+            GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
         }
     }
     @catch (NSException *exception)
