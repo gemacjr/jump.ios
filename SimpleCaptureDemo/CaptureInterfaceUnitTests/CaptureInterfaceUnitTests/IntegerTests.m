@@ -151,7 +151,7 @@
 }
 
 /* Set an integer to null, [NSNull null] */
-- (void)test_a209_integerFromNil
+- (void)test_a209_integerWithNil
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -163,7 +163,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a210_integerFromNSNull
+- (void)test_a210_integerWithNSNull
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -242,11 +242,11 @@
         {
             GHAssertEquals([newUser.basicInteger integerValue], 0, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a209_integerFromNil"])
+        else if ([testSelectorString isEqualToString:@"test_a209_integerWithNil"])
         {
             GHAssertNil(newUser.basicInteger, nil);
         }
-//        else if ([testSelectorString isEqualToString:@"test_a210_integerFromNSNull"])
+//        else if ([testSelectorString isEqualToString:@"test_a210_integerWithNSNull"])
 //        {
 //            GHAssertNil(newUser.basicInteger, nil);
 //        }

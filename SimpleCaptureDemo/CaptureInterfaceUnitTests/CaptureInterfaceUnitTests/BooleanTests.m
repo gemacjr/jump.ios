@@ -50,7 +50,7 @@
 }
 
 /* Set a boolean with an NSNumber boolean */
-- (void)test_a101_numberWithBoolTrue
+- (void)test_a101_booleanWithBoolTrue
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -125,7 +125,7 @@
 }
 
 /* Set a boolean to null, [NSNull null] */
-- (void)test_a107_booleanFromNil
+- (void)test_a107_booleanWithNil
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -137,7 +137,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_a108_booleanFromNSNull
+- (void)test_a108_booleanWithNSNull
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -208,11 +208,11 @@
         {
             GHAssertFalse([newUser.basicBoolean boolValue], nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a107_booleanFromNil"])
+        else if ([testSelectorString isEqualToString:@"test_a107_booleanWithNil"])
         {
             GHAssertNil(newUser.basicBoolean, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a108_booleanFromNSNull"])
+        else if ([testSelectorString isEqualToString:@"test_a108_booleanWithNSNull"])
         {
             GHAssertNil(newUser.basicBoolean, nil);
         }
