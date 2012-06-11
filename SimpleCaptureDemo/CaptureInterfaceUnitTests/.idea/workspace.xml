@@ -2,24 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efea0fb2-188e-4d59-b1f1-2b43e018c0dc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedTests.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/ObjectTests.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/PluralTests.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/ReservedWordsTests.m" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DeepPropertySetterTests.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/SampleTestCase.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/SimplePropertySetterTests.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/SimplePropertyUpdateTests.m" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/ObjectTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/SimpleObjectTests.m" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/PluralTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/SimplePluralTests.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/OtherAttributesTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/OtherAttributesTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m" />
     </list>
     <ignored path="CaptureInterfaceUnitTests.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,7 +37,7 @@
       <file leaf-file-name="DateTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="15" selection-start="1033" selection-end="1033" vertical-scroll-proportion="0.0">
+            <state line="69" column="0" selection-start="1578" selection-end="1578" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
               </folding>
@@ -55,7 +48,7 @@
       <file leaf-file-name="DecimalTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="57" selection-start="1942" selection-end="1942" vertical-scroll-proportion="0.0">
+            <state line="70" column="0" selection-start="1702" selection-end="1702" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
               </folding>
@@ -66,7 +59,7 @@
       <file leaf-file-name="StringTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="57" selection-start="1939" selection-end="1939" vertical-scroll-proportion="0.0">
+            <state line="70" column="0" selection-start="1782" selection-end="1782" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
               </folding>
@@ -77,7 +70,7 @@
       <file leaf-file-name="DateTimeTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="57" selection-start="1944" selection-end="1944" vertical-scroll-proportion="0.0">
+            <state line="69" column="0" selection-start="1606" selection-end="1606" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
               </folding>
@@ -88,7 +81,7 @@
       <file leaf-file-name="IPAddressTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="57" selection-start="1946" selection-end="1946" vertical-scroll-proportion="0.0">
+            <state line="68" column="0" selection-start="1596" selection-end="1596" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
               </folding>
@@ -99,7 +92,7 @@
       <file leaf-file-name="JSONPropertyTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="57" selection-start="1952" selection-end="1952" vertical-scroll-proportion="0.0">
+            <state line="75" column="0" selection-start="2075" selection-end="2075" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
               </folding>
@@ -107,10 +100,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PluralTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/PluralTests.m">
+      <file leaf-file-name="SimplePluralTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SimplePluralTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="15" selection-start="1037" selection-end="1037" vertical-scroll-proportion="0.0">
+            <state line="25" column="36" selection-start="647" selection-end="647" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
               </folding>
@@ -118,10 +111,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ObjectTests.m">
+      <file leaf-file-name="SimpleObjectTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SimpleObjectTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="14" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.0">
+            <state line="25" column="25" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
               </folding>
@@ -129,10 +122,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NestedTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedTests.m">
+      <file leaf-file-name="NestedPluralObjectTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="57" selection-start="1940" selection-end="1940" vertical-scroll-proportion="0.0">
+            <state line="55" column="66" selection-start="1152" selection-end="1152" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
               </folding>
@@ -165,7 +158,7 @@
       <file leaf-file-name="SharedData.m" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.64076245">
+            <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.49434388">
               <folding />
             </state>
           </provider>
@@ -244,29 +237,29 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/IntegerTests.m" />
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DeepPropertySetterTests.m" />
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/SimplePropertyUpdateTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/ReservedWordsTests.m" />
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/PluralTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/OtherAttributesTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/ObjectTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedTests.m" />
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m" />
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m" />
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/SimpleObjectTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/SimplePluralTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1440" />
-    <option name="height" value="874" />
+    <option name="width" value="1920" />
+    <option name="height" value="1054" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -453,7 +446,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="874" extended-state="0" />
+    <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32802126" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -461,7 +454,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32934928" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16231474" sideWeight="0.6719788" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12124407" sideWeight="0.95605576" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997344" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -564,81 +557,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="57" selection-start="1939" selection-end="1939" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/PluralTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="15" selection-start="1037" selection-end="1037" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/OtherAttributesTests.m">
       <provider selected="true" editor-type-id="text-editor">
         <state line="75" column="56" selection-start="1957" selection-end="1957" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ObjectTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="14" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="57" selection-start="1940" selection-end="1940" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="57" selection-start="1952" selection-end="1952" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="57" selection-start="1946" selection-end="1946" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="57" selection-start="1942" selection-end="1942" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="57" selection-start="1944" selection-end="1944" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#361#389#0" expanded="true" />
           </folding>
@@ -654,9 +575,81 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="0" selection-start="1782" selection-end="1782" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="0" selection-start="1702" selection-end="1702" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="15" selection-start="1033" selection-end="1033" vertical-scroll-proportion="0.0">
+        <state line="69" column="0" selection-start="1578" selection-end="1578" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="0" selection-start="1606" selection-end="1606" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="0" selection-start="1596" selection-end="1596" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="75" column="0" selection-start="2075" selection-end="2075" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SimpleObjectTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="25" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SimplePluralTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="36" selection-start="647" selection-end="647" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="66" selection-start="1152" selection-end="1152" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#361#389#0" expanded="true" />
           </folding>
@@ -665,7 +658,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.64076245">
+        <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.49434388">
           <folding />
         </state>
       </provider>

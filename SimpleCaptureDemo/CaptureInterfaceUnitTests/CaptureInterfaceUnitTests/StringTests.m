@@ -62,6 +62,13 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+/* Set a string with an NSString */
+/* Set a string to null, [NSNull null] */
+/* Set a string with a mutable string, change original, verify copy: pointer changed, value didn’t */
+/* Set a string with a json object string (what happens? should be nothing) */
+/* Set a string to an empty string */
+/* Set a string to invalid characters */
+
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];

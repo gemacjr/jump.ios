@@ -63,6 +63,17 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+/* Set a json with an NSNumber boolean */
+/* Set a json with an NSNumber integer */
+/* Set a json with an NSNumber double */
+/* Set a json with an NSString */
+/* Set a json with an NSArray */
+/* Set a json with an NSDictionary */
+/* Set a json to null, [NSNull null] */
+/* Set a json with a mutable string, change original, verify copy: pointer changed, value didn’t */
+/* Set to a dictionary of mutable strings, changes strings, verify correct copying (will this work? define how deep we want to copy things) */
+/* Set a json with an NSObject that is not a number, string, array, or dictionary, verify not changed */
+
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];

@@ -63,6 +63,10 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+/* Set an ipaddress with an NSString */
+/* Set an ipaddress to null, [NSNull null] */
+/* Set an ipaddress to a string that isn't an ipaddress */
+
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];

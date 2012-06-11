@@ -63,6 +63,11 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+/* Set a date with an ISO8601 date */
+/* Set a date with a non-ISO8601 date */
+/* Set a date with a datetime */
+/* Set a date to null */
+
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];

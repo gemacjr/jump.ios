@@ -16,14 +16,14 @@
 #import "SharedData.h"
 #import "JRCaptureUser+Extras.h"
 
-@interface b3_NestedTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+@interface b3_NestedPluralObjectTests : GHAsyncTestCase <JRCaptureObjectDelegate>
 {
     JRCaptureUser *captureUser;
 }
 @property(retain) JRCaptureUser *captureUser;
 @end
 
-@implementation b3_NestedTests
+@implementation b3_NestedPluralObjectTests
 @synthesize captureUser;
 
 - (void)setUpClass

@@ -63,6 +63,12 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+/* Set a decimal with an NSNumber boolean */
+/* Set a decimal with an NSNumber integer */
+/* Set a decimal with an NSNumber double */
+/* Set a decimal with an NSString: valid double, negative, positive, scientific, fraction */
+/* Set a decimal to null */
+
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];
