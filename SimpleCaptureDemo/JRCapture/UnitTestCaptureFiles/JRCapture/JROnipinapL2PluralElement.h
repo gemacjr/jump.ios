@@ -160,6 +160,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToOnipinapL2PluralElement:(JROnipinapL2PluralElement *)otherOnipinapL2PluralElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

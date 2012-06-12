@@ -158,6 +158,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToPinapL2PluralElement:(JRPinapL2PluralElement *)otherPinapL2PluralElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

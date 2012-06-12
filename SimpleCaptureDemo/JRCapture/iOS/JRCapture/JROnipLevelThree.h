@@ -158,6 +158,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToOnipLevelThree:(JROnipLevelThree *)otherOnipLevelThree;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

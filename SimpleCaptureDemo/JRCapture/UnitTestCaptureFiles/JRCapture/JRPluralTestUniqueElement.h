@@ -159,6 +159,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToPluralTestUniqueElement:(JRPluralTestUniqueElement *)otherPluralTestUniqueElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

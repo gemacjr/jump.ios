@@ -340,6 +340,35 @@
     return NO;
 }
 
+- (BOOL)isEqualToGamesElement:(JRGamesElement *)otherGamesElement
+{
+    if ((self.isFavorite == nil) ^ (otherGamesElement.isFavorite == nil)) // xor
+        return NO;
+
+    if (![self.isFavorite isEqualToNumber:otherGamesElement.isFavorite])
+        return NO;
+
+    if ((self.name == nil) ^ (otherGamesElement.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToString:otherGamesElement.name])
+        return NO;
+
+    if ((self.opponents == nil) ^ (otherGamesElement.opponents == nil)) // xor
+        return NO;
+
+    if (![self.opponents isEqualToOtherStringPluralArray:otherGamesElement.opponents])
+        return NO;
+
+    if ((self.rating == nil) ^ (otherGamesElement.rating == nil)) // xor
+        return NO;
+
+    if (![self.rating isEqualToNumber:otherGamesElement.rating])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

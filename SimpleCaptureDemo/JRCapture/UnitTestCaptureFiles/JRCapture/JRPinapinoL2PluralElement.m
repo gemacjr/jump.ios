@@ -43,6 +43,7 @@
 - (NSArray*)arrayOfPinapinoL3PluralElementsFromPinapinoL3PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinapinoL3PluralDictionariesFromPinapinoL3PluralElements;
 - (NSArray*)arrayOfPinapinoL3PluralReplaceDictionariesFromPinapinoL3PluralElements;
+- (BOOL)isEqualToOtherPinapinoL3PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PinapinoL3PluralToFromDictionary)
@@ -74,6 +75,17 @@
             [filteredDictionaryArray addObject:[(JRPinapinoL3PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
+}
+
+- (BOOL)isEqualToOtherPinapinoL3PluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPinapinoL3PluralElement *)[self objectAtIndex:i]) isEqualToPinapinoL3PluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
 }
 @end
 
@@ -290,6 +302,29 @@
          return YES;
 
     return NO;
+}
+
+- (BOOL)isEqualToPinapinoL2PluralElement:(JRPinapinoL2PluralElement *)otherPinapinoL2PluralElement
+{
+    if ((self.string1 == nil) ^ (otherPinapinoL2PluralElement.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherPinapinoL2PluralElement.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherPinapinoL2PluralElement.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherPinapinoL2PluralElement.string2])
+        return NO;
+
+    if ((self.pinapinoL3Plural == nil) ^ (otherPinapinoL2PluralElement.pinapinoL3Plural == nil)) // xor
+        return NO;
+
+    if (![self.pinapinoL3Plural isEqualToOtherPinapinoL3PluralArray:otherPinapinoL2PluralElement.pinapinoL3Plural])
+        return NO;
+
+    return YES;
 }
 
 - (NSDictionary*)objectProperties

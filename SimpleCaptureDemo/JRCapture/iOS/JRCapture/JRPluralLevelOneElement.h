@@ -161,6 +161,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToPluralLevelOneElement:(JRPluralLevelOneElement *)otherPluralLevelOneElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

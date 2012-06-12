@@ -161,6 +161,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToBodyType:(JRBodyType *)otherBodyType;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

@@ -43,6 +43,7 @@
 - (NSArray*)arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralElements;
 - (NSArray*)arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements;
+- (BOOL)isEqualToOtherOnipinoL2PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (OnipinoL2PluralToFromDictionary)
@@ -74,6 +75,17 @@
             [filteredDictionaryArray addObject:[(JROnipinoL2PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
+}
+
+- (BOOL)isEqualToOtherOnipinoL2PluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JROnipinoL2PluralElement *)[self objectAtIndex:i]) isEqualToOnipinoL2PluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
 }
 @end
 
@@ -285,6 +297,29 @@
          return YES;
 
     return NO;
+}
+
+- (BOOL)isEqualToOnipinoL1Object:(JROnipinoL1Object *)otherOnipinoL1Object
+{
+    if ((self.string1 == nil) ^ (otherOnipinoL1Object.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherOnipinoL1Object.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherOnipinoL1Object.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherOnipinoL1Object.string2])
+        return NO;
+
+    if ((self.onipinoL2Plural == nil) ^ (otherOnipinoL1Object.onipinoL2Plural == nil)) // xor
+        return NO;
+
+    if (![self.onipinoL2Plural isEqualToOtherOnipinoL2PluralArray:otherOnipinoL1Object.onipinoL2Plural])
+        return NO;
+
+    return YES;
 }
 
 - (NSDictionary*)objectProperties

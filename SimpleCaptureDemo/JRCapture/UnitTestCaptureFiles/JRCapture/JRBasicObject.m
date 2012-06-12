@@ -218,6 +218,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToBasicObject:(JRBasicObject *)otherBasicObject
+{
+    if ((self.string1 == nil) ^ (otherBasicObject.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherBasicObject.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherBasicObject.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherBasicObject.string2])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

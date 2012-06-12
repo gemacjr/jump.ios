@@ -157,6 +157,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToSimpleStringPluralOneElement:(JRSimpleStringPluralOneElement *)otherSimpleStringPluralOneElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

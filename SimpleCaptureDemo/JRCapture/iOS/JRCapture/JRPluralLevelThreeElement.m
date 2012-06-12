@@ -251,6 +251,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToPluralLevelThreeElement:(JRPluralLevelThreeElement *)otherPluralLevelThreeElement
+{
+    if ((self.level == nil) ^ (otherPluralLevelThreeElement.level == nil)) // xor
+        return NO;
+
+    if (![self.level isEqualToString:otherPluralLevelThreeElement.level])
+        return NO;
+
+    if ((self.name == nil) ^ (otherPluralLevelThreeElement.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToString:otherPluralLevelThreeElement.name])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

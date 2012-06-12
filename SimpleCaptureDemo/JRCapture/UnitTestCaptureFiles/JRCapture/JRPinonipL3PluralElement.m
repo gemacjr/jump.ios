@@ -223,6 +223,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToPinonipL3PluralElement:(JRPinonipL3PluralElement *)otherPinonipL3PluralElement
+{
+    if ((self.string1 == nil) ^ (otherPinonipL3PluralElement.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherPinonipL3PluralElement.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherPinonipL3PluralElement.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherPinonipL3PluralElement.string2])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

@@ -265,6 +265,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToPinoLevelOne:(JRPinoLevelOne *)otherPinoLevelOne
+{
+    if ((self.level == nil) ^ (otherPinoLevelOne.level == nil)) // xor
+        return NO;
+
+    if (![self.level isEqualToString:otherPinoLevelOne.level])
+        return NO;
+
+    if ((self.name == nil) ^ (otherPinoLevelOne.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToString:otherPinoLevelOne.name])
+        return NO;
+
+    if ((self.pinoLevelTwo == nil) ^ (otherPinoLevelOne.pinoLevelTwo == nil)) // xor
+        return NO;
+
+    if (![self.pinoLevelTwo isEqualToPinoLevelTwo:otherPinoLevelOne.pinoLevelTwo])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

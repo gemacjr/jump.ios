@@ -294,6 +294,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToEmailsElement:(JREmailsElement *)otherEmailsElement
+{
+    if ((self.primary == nil) ^ (otherEmailsElement.primary == nil)) // xor
+        return NO;
+
+    if (![self.primary isEqualToNumber:otherEmailsElement.primary])
+        return NO;
+
+    if ((self.type == nil) ^ (otherEmailsElement.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherEmailsElement.type])
+        return NO;
+
+    if ((self.value == nil) ^ (otherEmailsElement.value == nil)) // xor
+        return NO;
+
+    if (![self.value isEqualToString:otherEmailsElement.value])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

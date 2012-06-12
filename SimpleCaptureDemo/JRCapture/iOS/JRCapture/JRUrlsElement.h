@@ -160,6 +160,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToUrlsElement:(JRUrlsElement *)otherUrlsElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

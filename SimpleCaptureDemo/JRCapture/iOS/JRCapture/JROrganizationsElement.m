@@ -501,6 +501,65 @@
     return NO;
 }
 
+- (BOOL)isEqualToOrganizationsElement:(JROrganizationsElement *)otherOrganizationsElement
+{
+    if ((self.department == nil) ^ (otherOrganizationsElement.department == nil)) // xor
+        return NO;
+
+    if (![self.department isEqualToString:otherOrganizationsElement.department])
+        return NO;
+
+    if ((self.description == nil) ^ (otherOrganizationsElement.description == nil)) // xor
+        return NO;
+
+    if (![self.description isEqualToString:otherOrganizationsElement.description])
+        return NO;
+
+    if ((self.endDate == nil) ^ (otherOrganizationsElement.endDate == nil)) // xor
+        return NO;
+
+    if (![self.endDate isEqualToString:otherOrganizationsElement.endDate])
+        return NO;
+
+    if ((self.location == nil) ^ (otherOrganizationsElement.location == nil)) // xor
+        return NO;
+
+    if (![self.location isEqualToLocation:otherOrganizationsElement.location])
+        return NO;
+
+    if ((self.name == nil) ^ (otherOrganizationsElement.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToString:otherOrganizationsElement.name])
+        return NO;
+
+    if ((self.primary == nil) ^ (otherOrganizationsElement.primary == nil)) // xor
+        return NO;
+
+    if (![self.primary isEqualToNumber:otherOrganizationsElement.primary])
+        return NO;
+
+    if ((self.startDate == nil) ^ (otherOrganizationsElement.startDate == nil)) // xor
+        return NO;
+
+    if (![self.startDate isEqualToString:otherOrganizationsElement.startDate])
+        return NO;
+
+    if ((self.title == nil) ^ (otherOrganizationsElement.title == nil)) // xor
+        return NO;
+
+    if (![self.title isEqualToString:otherOrganizationsElement.title])
+        return NO;
+
+    if ((self.type == nil) ^ (otherOrganizationsElement.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherOrganizationsElement.type])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

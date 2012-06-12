@@ -294,6 +294,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToUrlsElement:(JRUrlsElement *)otherUrlsElement
+{
+    if ((self.primary == nil) ^ (otherUrlsElement.primary == nil)) // xor
+        return NO;
+
+    if (![self.primary isEqualToNumber:otherUrlsElement.primary])
+        return NO;
+
+    if ((self.type == nil) ^ (otherUrlsElement.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherUrlsElement.type])
+        return NO;
+
+    if ((self.value == nil) ^ (otherUrlsElement.value == nil)) // xor
+        return NO;
+
+    if (![self.value isEqualToString:otherUrlsElement.value])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

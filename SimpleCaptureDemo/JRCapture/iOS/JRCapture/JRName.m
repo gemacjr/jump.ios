@@ -351,6 +351,47 @@
     return NO;
 }
 
+- (BOOL)isEqualToName:(JRName *)otherName
+{
+    if ((self.familyName == nil) ^ (otherName.familyName == nil)) // xor
+        return NO;
+
+    if (![self.familyName isEqualToString:otherName.familyName])
+        return NO;
+
+    if ((self.formatted == nil) ^ (otherName.formatted == nil)) // xor
+        return NO;
+
+    if (![self.formatted isEqualToString:otherName.formatted])
+        return NO;
+
+    if ((self.givenName == nil) ^ (otherName.givenName == nil)) // xor
+        return NO;
+
+    if (![self.givenName isEqualToString:otherName.givenName])
+        return NO;
+
+    if ((self.honorificPrefix == nil) ^ (otherName.honorificPrefix == nil)) // xor
+        return NO;
+
+    if (![self.honorificPrefix isEqualToString:otherName.honorificPrefix])
+        return NO;
+
+    if ((self.honorificSuffix == nil) ^ (otherName.honorificSuffix == nil)) // xor
+        return NO;
+
+    if (![self.honorificSuffix isEqualToString:otherName.honorificSuffix])
+        return NO;
+
+    if ((self.middleName == nil) ^ (otherName.middleName == nil)) // xor
+        return NO;
+
+    if (![self.middleName isEqualToString:otherName.middleName])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

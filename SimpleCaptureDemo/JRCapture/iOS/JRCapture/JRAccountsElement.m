@@ -326,6 +326,35 @@
     return NO;
 }
 
+- (BOOL)isEqualToAccountsElement:(JRAccountsElement *)otherAccountsElement
+{
+    if ((self.domain == nil) ^ (otherAccountsElement.domain == nil)) // xor
+        return NO;
+
+    if (![self.domain isEqualToString:otherAccountsElement.domain])
+        return NO;
+
+    if ((self.primary == nil) ^ (otherAccountsElement.primary == nil)) // xor
+        return NO;
+
+    if (![self.primary isEqualToNumber:otherAccountsElement.primary])
+        return NO;
+
+    if ((self.userid == nil) ^ (otherAccountsElement.userid == nil)) // xor
+        return NO;
+
+    if (![self.userid isEqualToString:otherAccountsElement.userid])
+        return NO;
+
+    if ((self.username == nil) ^ (otherAccountsElement.username == nil)) // xor
+        return NO;
+
+    if (![self.username isEqualToString:otherAccountsElement.username])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

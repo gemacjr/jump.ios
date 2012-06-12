@@ -221,6 +221,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToCaptureUser:(JRCaptureUser *)otherCaptureUser;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

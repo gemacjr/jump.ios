@@ -511,6 +511,77 @@
     return NO;
 }
 
+- (BOOL)isEqualToCurrentLocation:(JRCurrentLocation *)otherCurrentLocation
+{
+    if ((self.country == nil) ^ (otherCurrentLocation.country == nil)) // xor
+        return NO;
+
+    if (![self.country isEqualToString:otherCurrentLocation.country])
+        return NO;
+
+    if ((self.extendedAddress == nil) ^ (otherCurrentLocation.extendedAddress == nil)) // xor
+        return NO;
+
+    if (![self.extendedAddress isEqualToString:otherCurrentLocation.extendedAddress])
+        return NO;
+
+    if ((self.formatted == nil) ^ (otherCurrentLocation.formatted == nil)) // xor
+        return NO;
+
+    if (![self.formatted isEqualToString:otherCurrentLocation.formatted])
+        return NO;
+
+    if ((self.latitude == nil) ^ (otherCurrentLocation.latitude == nil)) // xor
+        return NO;
+
+    if (![self.latitude isEqualToNumber:otherCurrentLocation.latitude])
+        return NO;
+
+    if ((self.locality == nil) ^ (otherCurrentLocation.locality == nil)) // xor
+        return NO;
+
+    if (![self.locality isEqualToString:otherCurrentLocation.locality])
+        return NO;
+
+    if ((self.longitude == nil) ^ (otherCurrentLocation.longitude == nil)) // xor
+        return NO;
+
+    if (![self.longitude isEqualToNumber:otherCurrentLocation.longitude])
+        return NO;
+
+    if ((self.poBox == nil) ^ (otherCurrentLocation.poBox == nil)) // xor
+        return NO;
+
+    if (![self.poBox isEqualToString:otherCurrentLocation.poBox])
+        return NO;
+
+    if ((self.postalCode == nil) ^ (otherCurrentLocation.postalCode == nil)) // xor
+        return NO;
+
+    if (![self.postalCode isEqualToString:otherCurrentLocation.postalCode])
+        return NO;
+
+    if ((self.region == nil) ^ (otherCurrentLocation.region == nil)) // xor
+        return NO;
+
+    if (![self.region isEqualToString:otherCurrentLocation.region])
+        return NO;
+
+    if ((self.streetAddress == nil) ^ (otherCurrentLocation.streetAddress == nil)) // xor
+        return NO;
+
+    if (![self.streetAddress isEqualToString:otherCurrentLocation.streetAddress])
+        return NO;
+
+    if ((self.type == nil) ^ (otherCurrentLocation.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherCurrentLocation.type])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

@@ -251,6 +251,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToPinoLevelThreeElement:(JRPinoLevelThreeElement *)otherPinoLevelThreeElement
+{
+    if ((self.level == nil) ^ (otherPinoLevelThreeElement.level == nil)) // xor
+        return NO;
+
+    if (![self.level isEqualToString:otherPinoLevelThreeElement.level])
+        return NO;
+
+    if ((self.name == nil) ^ (otherPinoLevelThreeElement.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToString:otherPinoLevelThreeElement.name])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

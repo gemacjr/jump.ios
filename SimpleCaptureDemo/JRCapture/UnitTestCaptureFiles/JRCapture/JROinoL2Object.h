@@ -158,6 +158,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToOinoL2Object:(JROinoL2Object *)otherOinoL2Object;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

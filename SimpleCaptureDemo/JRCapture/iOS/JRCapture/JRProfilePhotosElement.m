@@ -294,6 +294,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToProfilePhotosElement:(JRProfilePhotosElement *)otherProfilePhotosElement
+{
+    if ((self.primary == nil) ^ (otherProfilePhotosElement.primary == nil)) // xor
+        return NO;
+
+    if (![self.primary isEqualToNumber:otherProfilePhotosElement.primary])
+        return NO;
+
+    if ((self.type == nil) ^ (otherProfilePhotosElement.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherProfilePhotosElement.type])
+        return NO;
+
+    if ((self.value == nil) ^ (otherProfilePhotosElement.value == nil)) // xor
+        return NO;
+
+    if (![self.value isEqualToString:otherProfilePhotosElement.value])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

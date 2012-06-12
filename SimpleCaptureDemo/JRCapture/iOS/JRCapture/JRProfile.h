@@ -247,6 +247,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToProfile:(JRProfile *)otherProfile;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

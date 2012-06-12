@@ -162,6 +162,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToGamesElement:(JRGamesElement *)otherGamesElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

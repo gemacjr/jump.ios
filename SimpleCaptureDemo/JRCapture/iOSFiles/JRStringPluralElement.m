@@ -248,6 +248,24 @@
     return dict;
 }
 
+
+- (BOOL)isEqualToStringPluralElement:(JRStringPluralElement *)otherElement
+{
+    if ((self.type == nil) ^ (otherElement.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherElement.type])
+        return NO;
+
+    if ((self.value == nil) ^ (otherElement.value == nil)) // xor
+        return NO;
+
+    if (![self.value isEqualToString:otherElement.value])
+        return NO;
+
+    return YES;
+}
+
 //- (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 //{
 //    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -378,5 +396,17 @@
             [filteredArrayCopy addObject:[[(JRStringPluralElement *)object copy] autorelease]];
 
     return [filteredArrayCopy retain];
+}
+
+- (BOOL)isEqualToOtherStringPluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count])
+        return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRStringPluralElement *)[self objectAtIndex:i]) isEqualToStringPluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
 }
 @end

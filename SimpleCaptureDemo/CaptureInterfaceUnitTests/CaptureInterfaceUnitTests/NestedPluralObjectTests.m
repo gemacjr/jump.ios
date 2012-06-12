@@ -21,6 +21,8 @@
     JRCaptureUser *captureUser;
     NSArray  *currentPlural;
     NSObject *currentObject;
+
+    NSArray *fillerFodder;
 }
 @property (retain) JRCaptureUser *captureUser;
 @property (retain) NSArray  *currentPlural;
@@ -36,6 +38,16 @@
 {
     DLog(@"");
     [SharedData initializeCapture];
+
+    fillerFodder = [[NSArray alloc] initWithObjects:
+                                    @"apples", @"bananas", @"coconuts",
+                                    @"alameda", @"beaumont", @"concordia",
+                                    @"asteroids", @"battlezone", @"centipede",
+                                    @"amnesia", @"bridgeport", @"cascade",
+                                    @"akita", @"bulldog", @"collie",
+                                    @"andromeda", @"bootes", @"capricorn",
+
+                                    nil];
 }
 
 - (void)tearDownClass
@@ -68,32 +80,90 @@
     self.currentObject = nil;
 }
 
-/* Set an integer with an NSNumber boolean */
-- (void)test_b301_integerWithBoolTrue
+- (NSArray *)arrayWithElementsOfType:(Class)klass withConstructor:(SEL)constructor fillerFodderOffset:(NSUInteger)offset
 {
-    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+//    if (offset+3 > [fillerFodder count])
+//    {
+        GHAssertLessThan(offset+3, [fillerFodder count], nil);
+//        return nil;
+//    }
 
-    captureUser.basicInteger = [NSNumber numberWithBool:YES];
-    GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:3];
 
-    [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
-    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+    for (NSUInteger i = 0; i < 3; i++)
+    {
+        id element = [klass performSelector:constructor];
+        ((JRPinapL1PluralElement*)element).string1 = [fillerFodder objectAtIndex:i+offset];
+        ((JRPinapL1PluralElement*)element).string2 = [fillerFodder objectAtIndex:i+offset+3];
+
+        [array addObject:element];
+    }
+
+    return [[array copy] autorelease];
+}
+
+- (id)objectOfType:(Class)klass withConstructor:(SEL)constructor
+{
+    id object = [klass performSelector:constructor];
+    ((JROinoL1Object*)object).string1 = [fillerFodder objectAtIndex:0];
+    ((JROinoL1Object*)object).string2 = [fillerFodder objectAtIndex:3];
+
+    return object;
+}
+
+- (void)updateObjectProperties:(id)object toFillerFodderIndex:(NSUInteger)index
+{
+    ((JROinoL1Object*)object).string1 = [fillerFodder objectAtIndex:index];
+    ((JROinoL1Object*)object).string2 = [fillerFodder objectAtIndex:index+3];
 }
 
 /* Plural in a plural (300-304) */
 // pinap
 - (void)test_b300_pinapCreate
 {
-    JRPinapL1PluralElement *ppL1_1 = [JRPinapL1PluralElement pinapL1PluralElement];
+    [self newTestCluster];
+
+    captureUser.pinapL1Plural = [self arrayWithElementsOfType:[JRPinapL1PluralElement class]
+                                              withConstructor:@selector(pinapL1PluralElement)
+                                           fillerFodderOffset:0];
+
+    ((JRPinapL1PluralElement *)[captureUser.pinapL1Plural objectAtIndex:1]).pinapL2Plural =
+            [self arrayWithElementsOfType:[JRPinapL2PluralElement class]
+                          withConstructor:@selector(pinapL2PluralElement)
+                       fillerFodderOffset:3];
+
+    ((JRPinapL1PluralElement *)[captureUser.pinapL1Plural objectAtIndex:2]).pinapL2Plural =
+            [self arrayWithElementsOfType:[JRPinapL2PluralElement class]
+                          withConstructor:@selector(pinapL2PluralElement)
+                       fillerFodderOffset:6];
+
+    self.currentPlural = captureUser.pinapL1Plural;
 }
 
 - (void)test_b301_pinapUpdate_Level2_PreReplace_FailCase
 {
+    if (!captureUser)
+        [self test_b300_pinapCreate];
 
+    JRPinapL1PluralElement *l1PluralElement = [captureUser.pinapL1Plural objectAtIndex:1];
+    JRPinapL2PluralElement *l2PluralElement = [l1PluralElement.pinapL2Plural objectAtIndex:1];
+
+    [self prepare];
+    [l2PluralElement updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_b302_pinapReplaceArray
+- (void)test_b302a_pinapReplaceArray
+{
+    if (!captureUser)
+        [self test_b300_pinapCreate];
+
+    [self prepare];
+    [captureUser replacePinapL1PluralArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)test_b302b_verify_pinapReplaceArray
 {
 
 }
@@ -311,7 +381,6 @@
 
 }
 
-
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];
@@ -345,6 +414,14 @@
 - (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
     NSString *testSelectorString = (NSString *)context;
+    GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
+
+    if ([testSelectorString hasSuffix:@"FailCase"])
+    {
+        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+        return;
+    }
+
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
 }
 
@@ -353,6 +430,7 @@
     [captureUser release];
     [currentObject release];
     [currentPlural release];
+    [fillerFodder release];
     [super dealloc];
 }
 @end

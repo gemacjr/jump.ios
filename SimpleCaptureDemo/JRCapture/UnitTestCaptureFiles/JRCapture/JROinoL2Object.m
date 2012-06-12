@@ -218,6 +218,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToOinoL2Object:(JROinoL2Object *)otherOinoL2Object
+{
+    if ((self.string1 == nil) ^ (otherOinoL2Object.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherOinoL2Object.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherOinoL2Object.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherOinoL2Object.string2])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

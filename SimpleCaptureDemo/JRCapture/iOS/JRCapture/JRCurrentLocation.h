@@ -167,6 +167,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToCurrentLocation:(JRCurrentLocation *)otherCurrentLocation;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

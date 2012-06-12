@@ -159,6 +159,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToPhotosElement:(JRPhotosElement *)otherPhotosElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

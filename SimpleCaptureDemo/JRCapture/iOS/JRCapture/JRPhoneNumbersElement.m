@@ -294,6 +294,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToPhoneNumbersElement:(JRPhoneNumbersElement *)otherPhoneNumbersElement
+{
+    if ((self.primary == nil) ^ (otherPhoneNumbersElement.primary == nil)) // xor
+        return NO;
+
+    if (![self.primary isEqualToNumber:otherPhoneNumbersElement.primary])
+        return NO;
+
+    if ((self.type == nil) ^ (otherPhoneNumbersElement.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherPhoneNumbersElement.type])
+        return NO;
+
+    if ((self.value == nil) ^ (otherPhoneNumbersElement.value == nil)) // xor
+        return NO;
+
+    if (![self.value isEqualToString:otherPhoneNumbersElement.value])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

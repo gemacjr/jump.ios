@@ -189,6 +189,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToObjectTestRequired:(JRObjectTestRequired *)otherObjectTestRequired;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

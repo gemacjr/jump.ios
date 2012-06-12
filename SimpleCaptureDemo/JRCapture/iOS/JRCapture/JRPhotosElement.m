@@ -251,6 +251,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToPhotosElement:(JRPhotosElement *)otherPhotosElement
+{
+    if ((self.type == nil) ^ (otherPhotosElement.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherPhotosElement.type])
+        return NO;
+
+    if ((self.value == nil) ^ (otherPhotosElement.value == nil)) // xor
+        return NO;
+
+    if (![self.value isEqualToString:otherPhotosElement.value])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

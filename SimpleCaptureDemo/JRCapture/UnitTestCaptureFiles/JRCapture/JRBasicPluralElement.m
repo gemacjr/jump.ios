@@ -223,6 +223,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToBasicPluralElement:(JRBasicPluralElement *)otherBasicPluralElement
+{
+    if ((self.string1 == nil) ^ (otherBasicPluralElement.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherBasicPluralElement.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherBasicPluralElement.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherBasicPluralElement.string2])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

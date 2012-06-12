@@ -465,6 +465,7 @@ sub recursiveParse {
   my @toUpdateDictSection        = getToUpdateDictParts();
   my @toReplaceDictSection       = getToReplaceDictParts();
   my @needsUpdateSection         = getNeedsUpdateParts();
+  my @isEqualObjectSection       = getIsEqualObjectParts();
   my @objectPropertiesSection    = getObjectPropertiesParts();
   
   my @doxygenClassDescSection       = getDoxygenClassDescParts();  
@@ -479,6 +480,7 @@ sub recursiveParse {
   my @updateRemotelyDocSection      = getUpdateRemotelyDocParts();
   my @replaceRemotelyDocSection     = getReplaceRemotelyDocParts();
   my @needsUpdateDocSection         = getNeedsUpdateDocParts();
+  my @isEqualObjectDocSection       = getIsEqualObjectDocParts();
   my @objectPropertiesDocSection    = getObjectPropertiesDocParts();
 
 
@@ -651,7 +653,12 @@ sub recursiveParse {
   $objFromDictSection[21]     = $objectName;
   $objFromDictSection[23]     = $objectName;
   
-
+  # e.g.:
+  #   - (BOOL)isEqualToExampleElement:(JRExampleElement *)otherExampleElement
+  #   {
+  $isEqualObjectSection[1]    = ucfirst($objectName) . ":(" . $className . " *)other" . ucfirst($objectName);
+  #$isEqualObjectSection[4]    = ucfirst($objectName);
+  
   ################################################################################
   # Deal with the Capture path and id depending on whether the object itself
   # is an element of a plural or if it is a decendent of an object in a plural
@@ -847,6 +854,7 @@ sub recursiveParse {
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";
     my $frRplDictionary = 
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";
+    my $isEqualMethod   = "";
 
     if ($propertyDesc) {                                    # Use the property description for the Doxygen comment
       $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));  # or create a default one if there is no description
@@ -865,6 +873,7 @@ sub recursiveParse {
     if ($propertyType eq "string") {
     
       $objectiveType   = "NSString *";
+      $isEqualMethod   = "isEqualToString:";
 
     ######## BOOLEAN ########
     } elsif ($propertyType eq "boolean") {
@@ -874,6 +883,8 @@ sub recursiveParse {
       $toDictionary    = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithBool:[self." . $propertyName . " boolValue]]";
       $frDictionary    = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] boolValue]]";
 
+      $isEqualMethod   = "isEqualToNumber:";
+      
       $propertyNotes  .= " \@note This is a property of type \\ref types \"boolean\", which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code>";
       $isAlsoPrimitive = "b";
       
@@ -887,6 +898,8 @@ sub recursiveParse {
       $toDictionary    = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";
       $frDictionary    = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";
 
+      $isEqualMethod   = "isEqualToNumber:";
+
       $propertyNotes  .= " \@note This is a property of type \\ref types \"integer\", which is a typedef of \\e NSNumber. The accepted values can only be <code>[NSNumber numberWithInteger:<em>myInteger</em>]</code>, <code>[NSNumber numberWithInt:<em>myInt</em>]</code>, or <code>[NSNull null]</code>";    
       $isAlsoPrimitive = "i";
   
@@ -896,6 +909,7 @@ sub recursiveParse {
     } elsif ($propertyType eq "decimal") {
 
       $objectiveType  = "NSNumber *";
+      $isEqualMethod  = "isEqualToNumber:";
  
     ######## DATE ########
     } elsif ($propertyType eq "date") {
@@ -904,6 +918,8 @@ sub recursiveParse {
       
       $toDictionary   = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601Date]";
       $frDictionary   = $frUpDictionary = $frRplDictionary = "[JRDate dateFromISO8601DateString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
+
+      $isEqualMethod  = "isEqualToDate:";
 
       $propertyNotes .= " \@note This is a property of type \\ref types \"date\", which is a typedef of \\e NSDate. The accepted format should be an ISO8601 date string (e.g., <code>yyyy-MM-dd</code>)";      
 
@@ -915,6 +931,8 @@ sub recursiveParse {
       $toDictionary   = $toUpDictionary = $toRplDictionary = "[self." . $propertyName . " stringFromISO8601DateTime]";
       $frDictionary   = $frUpDictionary = $frRplDictionary = "[JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]]";
 
+      $isEqualMethod  = "isEqualToDate:";
+
       $propertyNotes .= " \@note This is a property of type \\ref types \"dateTime\", which is a typedef of \\e NSDate. The accepted format should be an ISO8601 dateTime string (e.g., <code>yyyy-MM-dd HH:mm:ss.SSSSSS ZZZ</code>)";
 
     ######## IPADDRESS ########
@@ -924,6 +942,7 @@ sub recursiveParse {
     ####################################
       
       $objectiveType  = "JRIpAddress *";
+      $isEqualMethod  = "isEqualToString:";
       $propertyNotes .= " \@note This is a property of type \\ref types \"ipAddress\", which is a typedef of \\e NSString.";      
 
     ######## PASSWORD ########
@@ -934,7 +953,8 @@ sub recursiveParse {
     # string, etc.), we store it as an NSObject.
     ####################################################################################################################
       
-      $objectiveType  = "JRPassword *";          
+      $objectiveType  = "JRPassword *";  
+      $isEqualMethod  = "isEqual:";        
       $propertyNotes .= " \@note This is a property of type \\ref types \"password\", which can be either an \\e NSString or \\e NSDictionary, and is therefore is a typedef of \\e NSObject";      
 
     ######## JSON ########
@@ -945,6 +965,7 @@ sub recursiveParse {
     ####################################################################################################################
      
       $objectiveType  = "JRJsonObject *";  
+      $isEqualMethod  = "isEqual:";        
       $propertyNotes .= " \@note This is a property of type \\ref types \"json\", which can be an \\e NSDictionary, \\e NSArray, \\e NSString, etc., and is therefore is a typedef of \\e NSObject";
 
     ######## UUID ########
@@ -954,6 +975,7 @@ sub recursiveParse {
     ####################################
       
       $objectiveType  = "JRUuid *";
+      $isEqualMethod  = "isEqualToString:";        
       $propertyNotes .= " \@note This is a property of type \\ref types \"uuid\", which is a typedef of \\e NSString";      
       
     ######## ID ########
@@ -966,6 +988,8 @@ sub recursiveParse {
      
       $toDictionary   = $toUpDictionary = $toRplDictionary = "[NSNumber numberWithInteger:[self." . $propertyName . " integerValue]]";
       $frDictionary   = $frUpDictionary = $frRplDictionary = "[NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] integerValue]]";
+
+      $isEqualMethod  = "isEqualToNumber:";        
 
       $propertyNotes .= " \@note The \\e id of the object should not be set. // TODO: etc."
 
@@ -1000,6 +1024,8 @@ sub recursiveParse {
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
                                                                 andExtendedPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", self.captureObjectPath]]";
 
+        $isEqualMethod  = "isEqualToOtherStringPluralArray:";        
+
         $replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
         $replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName, $simpleArrayType);
         
@@ -1022,6 +1048,8 @@ sub recursiveParse {
 
         $replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
         $replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName);
+
+        $isEqualMethod  = "isEqualToOther" . ucfirst($propertyName) . "Array:";        
 
         $propertyNotes .= " \@note This is an array of \\c JR" . ucfirst($propertyName) . "Element objects";
         
@@ -1051,6 +1079,8 @@ sub recursiveParse {
       $frDictionary    = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:" . $objectName . ".captureObjectPath]";
       $frUpDictionary  = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
       $frRplDictionary = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
+
+      $isEqualMethod   = "isEqualTo" . ucfirst($propertyName) . ":";        
 
       $extraImportsSection .= "#import \"JR" . ucfirst($propertyName) . ".h\"\n";
 
@@ -1319,6 +1349,16 @@ sub recursiveParse {
         $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
 
       }      
+      
+      # e.g.:      
+      #   if ((self.foo == nil) ^ (otherExampleObject.foo == nil)) // xor
+      #       return NO;
+      #
+      #   if (![self.foo isEqualToString:otherExampleObject.foo])
+      #       return NO;
+      $isEqualObjectSection[3] .= "    if ((self." . $propertyName . " == nil) ^ (other" . ucfirst($objectName) . "." . $propertyName . " == nil)) // xor\n        return NO;\n\n";
+      $isEqualObjectSection[3] .= "    if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "])\n        return NO;\n\n";
+      
     }
 
   ##########################################################################
@@ -1390,6 +1430,8 @@ sub recursiveParse {
   $hFile .= "/*\@}*/\n\n";
 
   $hFile .= "/**\n * \@name Object Introspection\n **/\n/*\@{*/\n";
+  for (my $i = 0; $i < @isEqualObjectDocSection; $i++) { $hFile .= $isEqualObjectDocSection[$i]; }
+  $hFile .= "$isEqualObjectSection[0]$isEqualObjectSection[1];\n";
   for (my $i = 0; $i < @objectPropertiesDocSection; $i++) { $hFile .= $objectPropertiesDocSection[$i]; }
   $hFile .= "$objectPropertiesSection[0];\n";
   $hFile .= "/*\@}*/\n\n";
@@ -1534,7 +1576,11 @@ sub recursiveParse {
   for (my $i = 0; $i < @needsUpdateSection; $i++) {
     $mFile .= $needsUpdateSection[$i];
   }
-  
+
+  for (my $i = 0; $i < @isEqualObjectSection; $i++) {
+    $mFile .= $isEqualObjectSection[$i];
+  }
+    
   for (my $i = 0; $i < @objectPropertiesSection; $i++) {
     $mFile .= $objectPropertiesSection[$i];
   }

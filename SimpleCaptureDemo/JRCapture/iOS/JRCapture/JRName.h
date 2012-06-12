@@ -162,6 +162,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToName:(JRName *)otherName;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

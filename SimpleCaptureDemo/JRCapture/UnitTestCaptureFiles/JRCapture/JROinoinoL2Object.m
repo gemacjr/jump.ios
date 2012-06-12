@@ -265,6 +265,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToOinoinoL2Object:(JROinoinoL2Object *)otherOinoinoL2Object
+{
+    if ((self.string1 == nil) ^ (otherOinoinoL2Object.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherOinoinoL2Object.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherOinoinoL2Object.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherOinoinoL2Object.string2])
+        return NO;
+
+    if ((self.oinoinoL3Object == nil) ^ (otherOinoinoL2Object.oinoinoL3Object == nil)) // xor
+        return NO;
+
+    if (![self.oinoinoL3Object isEqualToOinoinoL3Object:otherOinoinoL2Object.oinoinoL3Object])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

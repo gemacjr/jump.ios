@@ -294,6 +294,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToImsElement:(JRImsElement *)otherImsElement
+{
+    if ((self.primary == nil) ^ (otherImsElement.primary == nil)) // xor
+        return NO;
+
+    if (![self.primary isEqualToNumber:otherImsElement.primary])
+        return NO;
+
+    if ((self.type == nil) ^ (otherImsElement.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherImsElement.type])
+        return NO;
+
+    if ((self.value == nil) ^ (otherImsElement.value == nil)) // xor
+        return NO;
+
+    if (![self.value isEqualToString:otherImsElement.value])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

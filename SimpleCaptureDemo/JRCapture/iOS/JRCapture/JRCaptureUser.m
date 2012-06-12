@@ -43,6 +43,7 @@
 - (NSArray*)arrayOfGamesElementsFromGamesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfGamesDictionariesFromGamesElements;
 - (NSArray*)arrayOfGamesReplaceDictionariesFromGamesElements;
+- (BOOL)isEqualToOtherGamesArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (GamesToFromDictionary)
@@ -75,12 +76,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherGamesArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRGamesElement *)[self objectAtIndex:i]) isEqualToGamesElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (OnipLevelOneToFromDictionary)
 - (NSArray*)arrayOfOnipLevelOneElementsFromOnipLevelOneDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOnipLevelOneDictionariesFromOnipLevelOneElements;
 - (NSArray*)arrayOfOnipLevelOneReplaceDictionariesFromOnipLevelOneElements;
+- (BOOL)isEqualToOtherOnipLevelOneArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (OnipLevelOneToFromDictionary)
@@ -113,12 +126,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherOnipLevelOneArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JROnipLevelOneElement *)[self objectAtIndex:i]) isEqualToOnipLevelOneElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (PhotosToFromDictionary)
 - (NSArray*)arrayOfPhotosElementsFromPhotosDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPhotosDictionariesFromPhotosElements;
 - (NSArray*)arrayOfPhotosReplaceDictionariesFromPhotosElements;
+- (BOOL)isEqualToOtherPhotosArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PhotosToFromDictionary)
@@ -151,12 +176,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherPhotosArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPhotosElement *)[self objectAtIndex:i]) isEqualToPhotosElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (PluralLevelOneToFromDictionary)
 - (NSArray*)arrayOfPluralLevelOneElementsFromPluralLevelOneDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralLevelOneDictionariesFromPluralLevelOneElements;
 - (NSArray*)arrayOfPluralLevelOneReplaceDictionariesFromPluralLevelOneElements;
+- (BOOL)isEqualToOtherPluralLevelOneArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PluralLevelOneToFromDictionary)
@@ -189,12 +226,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherPluralLevelOneArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPluralLevelOneElement *)[self objectAtIndex:i]) isEqualToPluralLevelOneElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (ProfilesToFromDictionary)
 - (NSArray*)arrayOfProfilesElementsFromProfilesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfProfilesDictionariesFromProfilesElements;
 - (NSArray*)arrayOfProfilesReplaceDictionariesFromProfilesElements;
+- (BOOL)isEqualToOtherProfilesArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (ProfilesToFromDictionary)
@@ -227,12 +276,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherProfilesArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRProfilesElement *)[self objectAtIndex:i]) isEqualToProfilesElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (StatusesToFromDictionary)
 - (NSArray*)arrayOfStatusesElementsFromStatusesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfStatusesDictionariesFromStatusesElements;
 - (NSArray*)arrayOfStatusesReplaceDictionariesFromStatusesElements;
+- (BOOL)isEqualToOtherStatusesArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (StatusesToFromDictionary)
@@ -264,6 +325,17 @@
             [filteredDictionaryArray addObject:[(JRStatusesElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
+}
+
+- (BOOL)isEqualToOtherStatusesArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRStatusesElement *)[self objectAtIndex:i]) isEqualToStatusesElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
 }
 @end
 
@@ -1409,6 +1481,167 @@
         return YES;
 
     return NO;
+}
+
+- (BOOL)isEqualToCaptureUser:(JRCaptureUser *)otherCaptureUser
+{
+    if ((self.aboutMe == nil) ^ (otherCaptureUser.aboutMe == nil)) // xor
+        return NO;
+
+    if (![self.aboutMe isEqualToString:otherCaptureUser.aboutMe])
+        return NO;
+
+    if ((self.birthday == nil) ^ (otherCaptureUser.birthday == nil)) // xor
+        return NO;
+
+    if (![self.birthday isEqualToDate:otherCaptureUser.birthday])
+        return NO;
+
+    if ((self.currentLocation == nil) ^ (otherCaptureUser.currentLocation == nil)) // xor
+        return NO;
+
+    if (![self.currentLocation isEqualToString:otherCaptureUser.currentLocation])
+        return NO;
+
+    if ((self.display == nil) ^ (otherCaptureUser.display == nil)) // xor
+        return NO;
+
+    if (![self.display isEqual:otherCaptureUser.display])
+        return NO;
+
+    if ((self.displayName == nil) ^ (otherCaptureUser.displayName == nil)) // xor
+        return NO;
+
+    if (![self.displayName isEqualToString:otherCaptureUser.displayName])
+        return NO;
+
+    if ((self.email == nil) ^ (otherCaptureUser.email == nil)) // xor
+        return NO;
+
+    if (![self.email isEqualToString:otherCaptureUser.email])
+        return NO;
+
+    if ((self.emailVerified == nil) ^ (otherCaptureUser.emailVerified == nil)) // xor
+        return NO;
+
+    if (![self.emailVerified isEqualToDate:otherCaptureUser.emailVerified])
+        return NO;
+
+    if ((self.familyName == nil) ^ (otherCaptureUser.familyName == nil)) // xor
+        return NO;
+
+    if (![self.familyName isEqualToString:otherCaptureUser.familyName])
+        return NO;
+
+    if ((self.games == nil) ^ (otherCaptureUser.games == nil)) // xor
+        return NO;
+
+    if (![self.games isEqualToOtherGamesArray:otherCaptureUser.games])
+        return NO;
+
+    if ((self.gender == nil) ^ (otherCaptureUser.gender == nil)) // xor
+        return NO;
+
+    if (![self.gender isEqualToString:otherCaptureUser.gender])
+        return NO;
+
+    if ((self.givenName == nil) ^ (otherCaptureUser.givenName == nil)) // xor
+        return NO;
+
+    if (![self.givenName isEqualToString:otherCaptureUser.givenName])
+        return NO;
+
+    if ((self.lastLogin == nil) ^ (otherCaptureUser.lastLogin == nil)) // xor
+        return NO;
+
+    if (![self.lastLogin isEqualToDate:otherCaptureUser.lastLogin])
+        return NO;
+
+    if ((self.middleName == nil) ^ (otherCaptureUser.middleName == nil)) // xor
+        return NO;
+
+    if (![self.middleName isEqualToString:otherCaptureUser.middleName])
+        return NO;
+
+    if ((self.objectLevelOne == nil) ^ (otherCaptureUser.objectLevelOne == nil)) // xor
+        return NO;
+
+    if (![self.objectLevelOne isEqualToObjectLevelOne:otherCaptureUser.objectLevelOne])
+        return NO;
+
+    if ((self.onipLevelOne == nil) ^ (otherCaptureUser.onipLevelOne == nil)) // xor
+        return NO;
+
+    if (![self.onipLevelOne isEqualToOtherOnipLevelOneArray:otherCaptureUser.onipLevelOne])
+        return NO;
+
+    if ((self.password == nil) ^ (otherCaptureUser.password == nil)) // xor
+        return NO;
+
+    if (![self.password isEqual:otherCaptureUser.password])
+        return NO;
+
+    if ((self.photos == nil) ^ (otherCaptureUser.photos == nil)) // xor
+        return NO;
+
+    if (![self.photos isEqualToOtherPhotosArray:otherCaptureUser.photos])
+        return NO;
+
+    if ((self.pinoLevelOne == nil) ^ (otherCaptureUser.pinoLevelOne == nil)) // xor
+        return NO;
+
+    if (![self.pinoLevelOne isEqualToPinoLevelOne:otherCaptureUser.pinoLevelOne])
+        return NO;
+
+    if ((self.pluralLevelOne == nil) ^ (otherCaptureUser.pluralLevelOne == nil)) // xor
+        return NO;
+
+    if (![self.pluralLevelOne isEqualToOtherPluralLevelOneArray:otherCaptureUser.pluralLevelOne])
+        return NO;
+
+    if ((self.primaryAddress == nil) ^ (otherCaptureUser.primaryAddress == nil)) // xor
+        return NO;
+
+    if (![self.primaryAddress isEqualToPrimaryAddress:otherCaptureUser.primaryAddress])
+        return NO;
+
+    if ((self.profiles == nil) ^ (otherCaptureUser.profiles == nil)) // xor
+        return NO;
+
+    if (![self.profiles isEqualToOtherProfilesArray:otherCaptureUser.profiles])
+        return NO;
+
+    if ((self.statuses == nil) ^ (otherCaptureUser.statuses == nil)) // xor
+        return NO;
+
+    if (![self.statuses isEqualToOtherStatusesArray:otherCaptureUser.statuses])
+        return NO;
+
+    if ((self.testerBoolean == nil) ^ (otherCaptureUser.testerBoolean == nil)) // xor
+        return NO;
+
+    if (![self.testerBoolean isEqualToNumber:otherCaptureUser.testerBoolean])
+        return NO;
+
+    if ((self.testerInteger == nil) ^ (otherCaptureUser.testerInteger == nil)) // xor
+        return NO;
+
+    if (![self.testerInteger isEqualToNumber:otherCaptureUser.testerInteger])
+        return NO;
+
+    if ((self.testerIpAddr == nil) ^ (otherCaptureUser.testerIpAddr == nil)) // xor
+        return NO;
+
+    if (![self.testerIpAddr isEqualToString:otherCaptureUser.testerIpAddr])
+        return NO;
+
+    if ((self.testerStringPlural == nil) ^ (otherCaptureUser.testerStringPlural == nil)) // xor
+        return NO;
+
+    if (![self.testerStringPlural isEqualToOtherStringPluralArray:otherCaptureUser.testerStringPlural])
+        return NO;
+
+    return YES;
 }
 
 - (NSDictionary*)objectProperties

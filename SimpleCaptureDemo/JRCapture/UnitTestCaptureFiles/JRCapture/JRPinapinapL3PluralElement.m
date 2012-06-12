@@ -223,6 +223,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToPinapinapL3PluralElement:(JRPinapinapL3PluralElement *)otherPinapinapL3PluralElement
+{
+    if ((self.string1 == nil) ^ (otherPinapinapL3PluralElement.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherPinapinapL3PluralElement.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherPinapinapL3PluralElement.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherPinapinapL3PluralElement.string2])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

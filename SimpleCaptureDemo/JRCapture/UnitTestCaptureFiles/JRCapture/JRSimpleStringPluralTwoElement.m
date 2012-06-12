@@ -191,6 +191,17 @@
     return NO;
 }
 
+- (BOOL)isEqualToSimpleStringPluralTwoElement:(JRSimpleStringPluralTwoElement *)otherSimpleStringPluralTwoElement
+{
+    if ((self.simpleTypeTwo == nil) ^ (otherSimpleStringPluralTwoElement.simpleTypeTwo == nil)) // xor
+        return NO;
+
+    if (![self.simpleTypeTwo isEqualToString:otherSimpleStringPluralTwoElement.simpleTypeTwo])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

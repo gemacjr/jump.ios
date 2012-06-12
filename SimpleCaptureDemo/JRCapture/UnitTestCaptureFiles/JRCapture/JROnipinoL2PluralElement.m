@@ -270,6 +270,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToOnipinoL2PluralElement:(JROnipinoL2PluralElement *)otherOnipinoL2PluralElement
+{
+    if ((self.string1 == nil) ^ (otherOnipinoL2PluralElement.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherOnipinoL2PluralElement.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherOnipinoL2PluralElement.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherOnipinoL2PluralElement.string2])
+        return NO;
+
+    if ((self.onipinoL3Object == nil) ^ (otherOnipinoL2PluralElement.onipinoL3Object == nil)) // xor
+        return NO;
+
+    if (![self.onipinoL3Object isEqualToOnipinoL3Object:otherOnipinoL2PluralElement.onipinoL3Object])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

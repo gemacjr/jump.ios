@@ -251,6 +251,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToStatusesElement:(JRStatusesElement *)otherStatusesElement
+{
+    if ((self.status == nil) ^ (otherStatusesElement.status == nil)) // xor
+        return NO;
+
+    if (![self.status isEqualToString:otherStatusesElement.status])
+        return NO;
+
+    if ((self.statusCreated == nil) ^ (otherStatusesElement.statusCreated == nil)) // xor
+        return NO;
+
+    if (![self.statusCreated isEqualToDate:otherStatusesElement.statusCreated])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

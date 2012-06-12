@@ -710,6 +710,40 @@ my @toReplaceDictionaryParts = (
 
 
 ###################################################################
+# OBJECT EQUALITY
+#
+# /**
+#  * TODO: Doxygen doc
+#  **/
+# - (BOOL)isEqualTo<objectName>:<className>other<objectName>
+# {
+#     if ((self.<objectProperty> == nil) ^ (other<objectName>.<objectProperty> == nil)) // xor
+#         return NO;
+#
+#     if (![self.<objectProperty> <isEqualMethod>:other<objectName>.<objectProperty>])
+#         return NO;
+#       ...
+#
+#     return YES;    
+# }
+###################################################################
+
+my @isEqualObjectDocParts = (
+"/**
+ * TODO: Doxygen doc
+ **/\n");
+ 
+my @isEqualObjectParts = (
+"- (BOOL)isEqualTo","",
+"\n{\n",
+#"    if (![self.captureObjectPath isEqualToString:other","",".captureObjectPath])
+#         return NO;\n\n",
+"",
+"    return YES;",
+"\n}\n\n");
+
+
+###################################################################
 # RECURSIVE CHECK IF OBJECT NEEDS UPDATE
 #
 # /**
@@ -841,9 +875,9 @@ sub createArrayCategoryForSubobject {
   my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath";
   my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Elements";
   my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Elements";
-  
+  my $methodName4 = "- (BOOL)isEqualToOther" . ucfirst($propertyName) . "Array:(NSArray *)otherArray";
 
-  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName3;\n\@end\n\n";
+  $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName3;\n$methodName4;\n\@end\n\n";
   
   $arrayCategoryImpl .= "$methodName1\n{\n";
   $arrayCategoryImpl .=        
@@ -867,7 +901,15 @@ sub createArrayCategoryForSubobject {
        "    for (NSObject *object in self)\n" . 
        "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . "Element class]])\n" . 
        "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toReplaceDictionary]];\n\n" . 
-       "    return filteredDictionaryArray;\n}\n\@end\n\n";
+       "    return filteredDictionaryArray;\n}\n\n";
+
+  $arrayCategoryImpl .= "$methodName4\n{\n";
+  $arrayCategoryImpl .=     
+       "    if ([self count] != [otherArray count]) return NO;\n\n" . 
+       "    for (NSUInteger i = 0; i < [self count]; i++)\n" .
+       "        if (![((JR" . ucfirst($propertyName) . "Element *)[self objectAtIndex:i]) isEqualTo" . ucfirst($propertyName) . "Element:[otherArray objectAtIndex:i]])\n" .
+       "            return NO;\n\n" .
+       "    return YES;\n}\n\@end\n\n";             
 
   return "$arrayCategoryIntf$arrayCategoryImpl";
 }
@@ -1055,6 +1097,14 @@ sub getNeedsUpdateDocParts {
 
 sub getNeedsUpdateParts {
   return @needsUpdateParts;
+}
+
+sub getIsEqualObjectParts {
+  return @isEqualObjectParts;
+}
+
+sub getIsEqualObjectDocParts {
+  return @isEqualObjectDocParts;
 }
 
 sub getObjectPropertiesParts {

@@ -223,6 +223,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToOnipinoL3Object:(JROnipinoL3Object *)otherOnipinoL3Object
+{
+    if ((self.string1 == nil) ^ (otherOnipinoL3Object.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherOnipinoL3Object.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherOnipinoL3Object.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherOnipinoL3Object.string2])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

@@ -474,6 +474,71 @@
     return NO;
 }
 
+- (BOOL)isEqualToPrimaryAddress:(JRPrimaryAddress *)otherPrimaryAddress
+{
+    if ((self.address1 == nil) ^ (otherPrimaryAddress.address1 == nil)) // xor
+        return NO;
+
+    if (![self.address1 isEqualToString:otherPrimaryAddress.address1])
+        return NO;
+
+    if ((self.address2 == nil) ^ (otherPrimaryAddress.address2 == nil)) // xor
+        return NO;
+
+    if (![self.address2 isEqualToString:otherPrimaryAddress.address2])
+        return NO;
+
+    if ((self.city == nil) ^ (otherPrimaryAddress.city == nil)) // xor
+        return NO;
+
+    if (![self.city isEqualToString:otherPrimaryAddress.city])
+        return NO;
+
+    if ((self.company == nil) ^ (otherPrimaryAddress.company == nil)) // xor
+        return NO;
+
+    if (![self.company isEqualToString:otherPrimaryAddress.company])
+        return NO;
+
+    if ((self.country == nil) ^ (otherPrimaryAddress.country == nil)) // xor
+        return NO;
+
+    if (![self.country isEqualToString:otherPrimaryAddress.country])
+        return NO;
+
+    if ((self.mobile == nil) ^ (otherPrimaryAddress.mobile == nil)) // xor
+        return NO;
+
+    if (![self.mobile isEqualToString:otherPrimaryAddress.mobile])
+        return NO;
+
+    if ((self.phone == nil) ^ (otherPrimaryAddress.phone == nil)) // xor
+        return NO;
+
+    if (![self.phone isEqualToString:otherPrimaryAddress.phone])
+        return NO;
+
+    if ((self.stateAbbreviation == nil) ^ (otherPrimaryAddress.stateAbbreviation == nil)) // xor
+        return NO;
+
+    if (![self.stateAbbreviation isEqualToString:otherPrimaryAddress.stateAbbreviation])
+        return NO;
+
+    if ((self.zip == nil) ^ (otherPrimaryAddress.zip == nil)) // xor
+        return NO;
+
+    if (![self.zip isEqualToString:otherPrimaryAddress.zip])
+        return NO;
+
+    if ((self.zipPlus4 == nil) ^ (otherPrimaryAddress.zipPlus4 == nil)) // xor
+        return NO;
+
+    if (![self.zipPlus4 isEqualToString:otherPrimaryAddress.zipPlus4])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

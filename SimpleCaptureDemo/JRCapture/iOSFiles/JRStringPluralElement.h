@@ -17,6 +17,7 @@
 @property (nonatomic, copy)     NSString   *value;
 + (id)stringElementWithType:(NSString *)elementType;
 - (id)initWithType:(NSString *)elementType;
+- (BOOL)isEqualToStringPluralElement:(JRStringPluralElement *)otherElement;
 @end
 
 @interface NSArray (JRStringPluralElement)
@@ -26,4 +27,5 @@
 - (NSArray *)arrayOfStringPluralElementsFromStringPluralDictionariesWithType:(NSString *)elementType andExtendedPath:(NSString *)capturePath;
 //- (NSArray*)copyArrayOfStringsIntoArrayOfStringPluralElementsWithType:(NSString *)elementType;
 - (NSArray*)copyArrayOfStringPluralElementsWithType:(NSString *)elementType;
+- (BOOL)isEqualToOtherStringPluralArray:(NSArray *)otherArray;
 @end

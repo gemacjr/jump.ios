@@ -298,6 +298,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToOnipLevelOneElement:(JROnipLevelOneElement *)otherOnipLevelOneElement
+{
+    if ((self.level == nil) ^ (otherOnipLevelOneElement.level == nil)) // xor
+        return NO;
+
+    if (![self.level isEqualToString:otherOnipLevelOneElement.level])
+        return NO;
+
+    if ((self.name == nil) ^ (otherOnipLevelOneElement.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToString:otherOnipLevelOneElement.name])
+        return NO;
+
+    if ((self.onipLevelTwo == nil) ^ (otherOnipLevelOneElement.onipLevelTwo == nil)) // xor
+        return NO;
+
+    if (![self.onipLevelTwo isEqualToOnipLevelTwo:otherOnipLevelOneElement.onipLevelTwo])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

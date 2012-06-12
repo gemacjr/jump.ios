@@ -169,6 +169,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToAddressesElement:(JRAddressesElement *)otherAddressesElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

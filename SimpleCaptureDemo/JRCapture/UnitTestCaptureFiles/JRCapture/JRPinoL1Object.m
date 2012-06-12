@@ -43,6 +43,7 @@
 - (NSArray*)arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinoL2PluralDictionariesFromPinoL2PluralElements;
 - (NSArray*)arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralElements;
+- (BOOL)isEqualToOtherPinoL2PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PinoL2PluralToFromDictionary)
@@ -74,6 +75,17 @@
             [filteredDictionaryArray addObject:[(JRPinoL2PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
+}
+
+- (BOOL)isEqualToOtherPinoL2PluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPinoL2PluralElement *)[self objectAtIndex:i]) isEqualToPinoL2PluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
 }
 @end
 
@@ -285,6 +297,29 @@
          return YES;
 
     return NO;
+}
+
+- (BOOL)isEqualToPinoL1Object:(JRPinoL1Object *)otherPinoL1Object
+{
+    if ((self.string1 == nil) ^ (otherPinoL1Object.string1 == nil)) // xor
+        return NO;
+
+    if (![self.string1 isEqualToString:otherPinoL1Object.string1])
+        return NO;
+
+    if ((self.string2 == nil) ^ (otherPinoL1Object.string2 == nil)) // xor
+        return NO;
+
+    if (![self.string2 isEqualToString:otherPinoL1Object.string2])
+        return NO;
+
+    if ((self.pinoL2Plural == nil) ^ (otherPinoL1Object.pinoL2Plural == nil)) // xor
+        return NO;
+
+    if (![self.pinoL2Plural isEqualToOtherPinoL2PluralArray:otherPinoL1Object.pinoL2Plural])
+        return NO;
+
+    return YES;
 }
 
 - (NSDictionary*)objectProperties

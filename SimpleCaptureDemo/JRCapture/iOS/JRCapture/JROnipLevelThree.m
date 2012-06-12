@@ -223,6 +223,23 @@
     return NO;
 }
 
+- (BOOL)isEqualToOnipLevelThree:(JROnipLevelThree *)otherOnipLevelThree
+{
+    if ((self.level == nil) ^ (otherOnipLevelThree.level == nil)) // xor
+        return NO;
+
+    if (![self.level isEqualToString:otherOnipLevelThree.level])
+        return NO;
+
+    if ((self.name == nil) ^ (otherOnipLevelThree.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToString:otherOnipLevelThree.name])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

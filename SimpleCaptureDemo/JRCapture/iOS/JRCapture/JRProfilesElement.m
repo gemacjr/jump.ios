@@ -520,6 +520,65 @@
     return NO;
 }
 
+- (BOOL)isEqualToProfilesElement:(JRProfilesElement *)otherProfilesElement
+{
+    if ((self.accessCredentials == nil) ^ (otherProfilesElement.accessCredentials == nil)) // xor
+        return NO;
+
+    if (![self.accessCredentials isEqual:otherProfilesElement.accessCredentials])
+        return NO;
+
+    if ((self.domain == nil) ^ (otherProfilesElement.domain == nil)) // xor
+        return NO;
+
+    if (![self.domain isEqualToString:otherProfilesElement.domain])
+        return NO;
+
+    if ((self.followers == nil) ^ (otherProfilesElement.followers == nil)) // xor
+        return NO;
+
+    if (![self.followers isEqualToOtherStringPluralArray:otherProfilesElement.followers])
+        return NO;
+
+    if ((self.following == nil) ^ (otherProfilesElement.following == nil)) // xor
+        return NO;
+
+    if (![self.following isEqualToOtherStringPluralArray:otherProfilesElement.following])
+        return NO;
+
+    if ((self.friends == nil) ^ (otherProfilesElement.friends == nil)) // xor
+        return NO;
+
+    if (![self.friends isEqualToOtherStringPluralArray:otherProfilesElement.friends])
+        return NO;
+
+    if ((self.identifier == nil) ^ (otherProfilesElement.identifier == nil)) // xor
+        return NO;
+
+    if (![self.identifier isEqualToString:otherProfilesElement.identifier])
+        return NO;
+
+    if ((self.profile == nil) ^ (otherProfilesElement.profile == nil)) // xor
+        return NO;
+
+    if (![self.profile isEqualToProfile:otherProfilesElement.profile])
+        return NO;
+
+    if ((self.provider == nil) ^ (otherProfilesElement.provider == nil)) // xor
+        return NO;
+
+    if (![self.provider isEqual:otherProfilesElement.provider])
+        return NO;
+
+    if ((self.remote_key == nil) ^ (otherProfilesElement.remote_key == nil)) // xor
+        return NO;
+
+    if (![self.remote_key isEqualToString:otherProfilesElement.remote_key])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

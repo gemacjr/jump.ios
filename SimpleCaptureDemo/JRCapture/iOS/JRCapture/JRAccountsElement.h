@@ -161,6 +161,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToAccountsElement:(JRAccountsElement *)otherAccountsElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

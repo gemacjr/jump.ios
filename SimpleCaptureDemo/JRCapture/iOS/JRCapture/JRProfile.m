@@ -43,6 +43,7 @@
 - (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfAccountsDictionariesFromAccountsElements;
 - (NSArray*)arrayOfAccountsReplaceDictionariesFromAccountsElements;
+- (BOOL)isEqualToOtherAccountsArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (AccountsToFromDictionary)
@@ -75,12 +76,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherAccountsArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRAccountsElement *)[self objectAtIndex:i]) isEqualToAccountsElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (AddressesToFromDictionary)
 - (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfAddressesDictionariesFromAddressesElements;
 - (NSArray*)arrayOfAddressesReplaceDictionariesFromAddressesElements;
+- (BOOL)isEqualToOtherAddressesArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (AddressesToFromDictionary)
@@ -113,12 +126,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherAddressesArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRAddressesElement *)[self objectAtIndex:i]) isEqualToAddressesElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (EmailsToFromDictionary)
 - (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfEmailsDictionariesFromEmailsElements;
 - (NSArray*)arrayOfEmailsReplaceDictionariesFromEmailsElements;
+- (BOOL)isEqualToOtherEmailsArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (EmailsToFromDictionary)
@@ -151,12 +176,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherEmailsArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JREmailsElement *)[self objectAtIndex:i]) isEqualToEmailsElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (ImsToFromDictionary)
 - (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfImsDictionariesFromImsElements;
 - (NSArray*)arrayOfImsReplaceDictionariesFromImsElements;
+- (BOOL)isEqualToOtherImsArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (ImsToFromDictionary)
@@ -189,12 +226,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherImsArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRImsElement *)[self objectAtIndex:i]) isEqualToImsElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (OrganizationsToFromDictionary)
 - (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElements;
 - (NSArray*)arrayOfOrganizationsReplaceDictionariesFromOrganizationsElements;
+- (BOOL)isEqualToOtherOrganizationsArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (OrganizationsToFromDictionary)
@@ -227,12 +276,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherOrganizationsArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JROrganizationsElement *)[self objectAtIndex:i]) isEqualToOrganizationsElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (PhoneNumbersToFromDictionary)
 - (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElements;
 - (NSArray*)arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersElements;
+- (BOOL)isEqualToOtherPhoneNumbersArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PhoneNumbersToFromDictionary)
@@ -265,12 +326,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherPhoneNumbersArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPhoneNumbersElement *)[self objectAtIndex:i]) isEqualToPhoneNumbersElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (ProfilePhotosToFromDictionary)
 - (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElements;
 - (NSArray*)arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosElements;
+- (BOOL)isEqualToOtherProfilePhotosArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (ProfilePhotosToFromDictionary)
@@ -303,12 +376,24 @@
 
     return filteredDictionaryArray;
 }
+
+- (BOOL)isEqualToOtherProfilePhotosArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRProfilePhotosElement *)[self objectAtIndex:i]) isEqualToProfilePhotosElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
 @end
 
 @interface NSArray (UrlsToFromDictionary)
 - (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfUrlsDictionariesFromUrlsElements;
 - (NSArray*)arrayOfUrlsReplaceDictionariesFromUrlsElements;
+- (BOOL)isEqualToOtherUrlsArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (UrlsToFromDictionary)
@@ -340,6 +425,17 @@
             [filteredDictionaryArray addObject:[(JRUrlsElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
+}
+
+- (BOOL)isEqualToOtherUrlsArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRUrlsElement *)[self objectAtIndex:i]) isEqualToUrlsElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
 }
 @end
 
@@ -2478,6 +2574,371 @@
         return YES;
 
     return NO;
+}
+
+- (BOOL)isEqualToProfile:(JRProfile *)otherProfile
+{
+    if ((self.aboutMe == nil) ^ (otherProfile.aboutMe == nil)) // xor
+        return NO;
+
+    if (![self.aboutMe isEqualToString:otherProfile.aboutMe])
+        return NO;
+
+    if ((self.accounts == nil) ^ (otherProfile.accounts == nil)) // xor
+        return NO;
+
+    if (![self.accounts isEqualToOtherAccountsArray:otherProfile.accounts])
+        return NO;
+
+    if ((self.addresses == nil) ^ (otherProfile.addresses == nil)) // xor
+        return NO;
+
+    if (![self.addresses isEqualToOtherAddressesArray:otherProfile.addresses])
+        return NO;
+
+    if ((self.anniversary == nil) ^ (otherProfile.anniversary == nil)) // xor
+        return NO;
+
+    if (![self.anniversary isEqualToDate:otherProfile.anniversary])
+        return NO;
+
+    if ((self.birthday == nil) ^ (otherProfile.birthday == nil)) // xor
+        return NO;
+
+    if (![self.birthday isEqualToString:otherProfile.birthday])
+        return NO;
+
+    if ((self.bodyType == nil) ^ (otherProfile.bodyType == nil)) // xor
+        return NO;
+
+    if (![self.bodyType isEqualToBodyType:otherProfile.bodyType])
+        return NO;
+
+    if ((self.books == nil) ^ (otherProfile.books == nil)) // xor
+        return NO;
+
+    if (![self.books isEqualToOtherStringPluralArray:otherProfile.books])
+        return NO;
+
+    if ((self.cars == nil) ^ (otherProfile.cars == nil)) // xor
+        return NO;
+
+    if (![self.cars isEqualToOtherStringPluralArray:otherProfile.cars])
+        return NO;
+
+    if ((self.children == nil) ^ (otherProfile.children == nil)) // xor
+        return NO;
+
+    if (![self.children isEqualToOtherStringPluralArray:otherProfile.children])
+        return NO;
+
+    if ((self.currentLocation == nil) ^ (otherProfile.currentLocation == nil)) // xor
+        return NO;
+
+    if (![self.currentLocation isEqualToCurrentLocation:otherProfile.currentLocation])
+        return NO;
+
+    if ((self.displayName == nil) ^ (otherProfile.displayName == nil)) // xor
+        return NO;
+
+    if (![self.displayName isEqualToString:otherProfile.displayName])
+        return NO;
+
+    if ((self.drinker == nil) ^ (otherProfile.drinker == nil)) // xor
+        return NO;
+
+    if (![self.drinker isEqualToString:otherProfile.drinker])
+        return NO;
+
+    if ((self.emails == nil) ^ (otherProfile.emails == nil)) // xor
+        return NO;
+
+    if (![self.emails isEqualToOtherEmailsArray:otherProfile.emails])
+        return NO;
+
+    if ((self.ethnicity == nil) ^ (otherProfile.ethnicity == nil)) // xor
+        return NO;
+
+    if (![self.ethnicity isEqualToString:otherProfile.ethnicity])
+        return NO;
+
+    if ((self.fashion == nil) ^ (otherProfile.fashion == nil)) // xor
+        return NO;
+
+    if (![self.fashion isEqualToString:otherProfile.fashion])
+        return NO;
+
+    if ((self.food == nil) ^ (otherProfile.food == nil)) // xor
+        return NO;
+
+    if (![self.food isEqualToOtherStringPluralArray:otherProfile.food])
+        return NO;
+
+    if ((self.gender == nil) ^ (otherProfile.gender == nil)) // xor
+        return NO;
+
+    if (![self.gender isEqualToString:otherProfile.gender])
+        return NO;
+
+    if ((self.happiestWhen == nil) ^ (otherProfile.happiestWhen == nil)) // xor
+        return NO;
+
+    if (![self.happiestWhen isEqualToString:otherProfile.happiestWhen])
+        return NO;
+
+    if ((self.heroes == nil) ^ (otherProfile.heroes == nil)) // xor
+        return NO;
+
+    if (![self.heroes isEqualToOtherStringPluralArray:otherProfile.heroes])
+        return NO;
+
+    if ((self.humor == nil) ^ (otherProfile.humor == nil)) // xor
+        return NO;
+
+    if (![self.humor isEqualToString:otherProfile.humor])
+        return NO;
+
+    if ((self.ims == nil) ^ (otherProfile.ims == nil)) // xor
+        return NO;
+
+    if (![self.ims isEqualToOtherImsArray:otherProfile.ims])
+        return NO;
+
+    if ((self.interestedInMeeting == nil) ^ (otherProfile.interestedInMeeting == nil)) // xor
+        return NO;
+
+    if (![self.interestedInMeeting isEqualToString:otherProfile.interestedInMeeting])
+        return NO;
+
+    if ((self.interests == nil) ^ (otherProfile.interests == nil)) // xor
+        return NO;
+
+    if (![self.interests isEqualToOtherStringPluralArray:otherProfile.interests])
+        return NO;
+
+    if ((self.jobInterests == nil) ^ (otherProfile.jobInterests == nil)) // xor
+        return NO;
+
+    if (![self.jobInterests isEqualToOtherStringPluralArray:otherProfile.jobInterests])
+        return NO;
+
+    if ((self.languages == nil) ^ (otherProfile.languages == nil)) // xor
+        return NO;
+
+    if (![self.languages isEqualToOtherStringPluralArray:otherProfile.languages])
+        return NO;
+
+    if ((self.languagesSpoken == nil) ^ (otherProfile.languagesSpoken == nil)) // xor
+        return NO;
+
+    if (![self.languagesSpoken isEqualToOtherStringPluralArray:otherProfile.languagesSpoken])
+        return NO;
+
+    if ((self.livingArrangement == nil) ^ (otherProfile.livingArrangement == nil)) // xor
+        return NO;
+
+    if (![self.livingArrangement isEqualToString:otherProfile.livingArrangement])
+        return NO;
+
+    if ((self.lookingFor == nil) ^ (otherProfile.lookingFor == nil)) // xor
+        return NO;
+
+    if (![self.lookingFor isEqualToOtherStringPluralArray:otherProfile.lookingFor])
+        return NO;
+
+    if ((self.movies == nil) ^ (otherProfile.movies == nil)) // xor
+        return NO;
+
+    if (![self.movies isEqualToOtherStringPluralArray:otherProfile.movies])
+        return NO;
+
+    if ((self.music == nil) ^ (otherProfile.music == nil)) // xor
+        return NO;
+
+    if (![self.music isEqualToOtherStringPluralArray:otherProfile.music])
+        return NO;
+
+    if ((self.name == nil) ^ (otherProfile.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToName:otherProfile.name])
+        return NO;
+
+    if ((self.nickname == nil) ^ (otherProfile.nickname == nil)) // xor
+        return NO;
+
+    if (![self.nickname isEqualToString:otherProfile.nickname])
+        return NO;
+
+    if ((self.note == nil) ^ (otherProfile.note == nil)) // xor
+        return NO;
+
+    if (![self.note isEqualToString:otherProfile.note])
+        return NO;
+
+    if ((self.organizations == nil) ^ (otherProfile.organizations == nil)) // xor
+        return NO;
+
+    if (![self.organizations isEqualToOtherOrganizationsArray:otherProfile.organizations])
+        return NO;
+
+    if ((self.pets == nil) ^ (otherProfile.pets == nil)) // xor
+        return NO;
+
+    if (![self.pets isEqualToOtherStringPluralArray:otherProfile.pets])
+        return NO;
+
+    if ((self.phoneNumbers == nil) ^ (otherProfile.phoneNumbers == nil)) // xor
+        return NO;
+
+    if (![self.phoneNumbers isEqualToOtherPhoneNumbersArray:otherProfile.phoneNumbers])
+        return NO;
+
+    if ((self.profilePhotos == nil) ^ (otherProfile.profilePhotos == nil)) // xor
+        return NO;
+
+    if (![self.profilePhotos isEqualToOtherProfilePhotosArray:otherProfile.profilePhotos])
+        return NO;
+
+    if ((self.politicalViews == nil) ^ (otherProfile.politicalViews == nil)) // xor
+        return NO;
+
+    if (![self.politicalViews isEqualToString:otherProfile.politicalViews])
+        return NO;
+
+    if ((self.preferredUsername == nil) ^ (otherProfile.preferredUsername == nil)) // xor
+        return NO;
+
+    if (![self.preferredUsername isEqualToString:otherProfile.preferredUsername])
+        return NO;
+
+    if ((self.profileSong == nil) ^ (otherProfile.profileSong == nil)) // xor
+        return NO;
+
+    if (![self.profileSong isEqualToString:otherProfile.profileSong])
+        return NO;
+
+    if ((self.profileUrl == nil) ^ (otherProfile.profileUrl == nil)) // xor
+        return NO;
+
+    if (![self.profileUrl isEqualToString:otherProfile.profileUrl])
+        return NO;
+
+    if ((self.profileVideo == nil) ^ (otherProfile.profileVideo == nil)) // xor
+        return NO;
+
+    if (![self.profileVideo isEqualToString:otherProfile.profileVideo])
+        return NO;
+
+    if ((self.published == nil) ^ (otherProfile.published == nil)) // xor
+        return NO;
+
+    if (![self.published isEqualToDate:otherProfile.published])
+        return NO;
+
+    if ((self.quotes == nil) ^ (otherProfile.quotes == nil)) // xor
+        return NO;
+
+    if (![self.quotes isEqualToOtherStringPluralArray:otherProfile.quotes])
+        return NO;
+
+    if ((self.relationshipStatus == nil) ^ (otherProfile.relationshipStatus == nil)) // xor
+        return NO;
+
+    if (![self.relationshipStatus isEqualToString:otherProfile.relationshipStatus])
+        return NO;
+
+    if ((self.relationships == nil) ^ (otherProfile.relationships == nil)) // xor
+        return NO;
+
+    if (![self.relationships isEqualToOtherStringPluralArray:otherProfile.relationships])
+        return NO;
+
+    if ((self.religion == nil) ^ (otherProfile.religion == nil)) // xor
+        return NO;
+
+    if (![self.religion isEqualToString:otherProfile.religion])
+        return NO;
+
+    if ((self.romance == nil) ^ (otherProfile.romance == nil)) // xor
+        return NO;
+
+    if (![self.romance isEqualToString:otherProfile.romance])
+        return NO;
+
+    if ((self.scaredOf == nil) ^ (otherProfile.scaredOf == nil)) // xor
+        return NO;
+
+    if (![self.scaredOf isEqualToString:otherProfile.scaredOf])
+        return NO;
+
+    if ((self.sexualOrientation == nil) ^ (otherProfile.sexualOrientation == nil)) // xor
+        return NO;
+
+    if (![self.sexualOrientation isEqualToString:otherProfile.sexualOrientation])
+        return NO;
+
+    if ((self.smoker == nil) ^ (otherProfile.smoker == nil)) // xor
+        return NO;
+
+    if (![self.smoker isEqualToString:otherProfile.smoker])
+        return NO;
+
+    if ((self.sports == nil) ^ (otherProfile.sports == nil)) // xor
+        return NO;
+
+    if (![self.sports isEqualToOtherStringPluralArray:otherProfile.sports])
+        return NO;
+
+    if ((self.status == nil) ^ (otherProfile.status == nil)) // xor
+        return NO;
+
+    if (![self.status isEqualToString:otherProfile.status])
+        return NO;
+
+    if ((self.tags == nil) ^ (otherProfile.tags == nil)) // xor
+        return NO;
+
+    if (![self.tags isEqualToOtherStringPluralArray:otherProfile.tags])
+        return NO;
+
+    if ((self.turnOffs == nil) ^ (otherProfile.turnOffs == nil)) // xor
+        return NO;
+
+    if (![self.turnOffs isEqualToOtherStringPluralArray:otherProfile.turnOffs])
+        return NO;
+
+    if ((self.turnOns == nil) ^ (otherProfile.turnOns == nil)) // xor
+        return NO;
+
+    if (![self.turnOns isEqualToOtherStringPluralArray:otherProfile.turnOns])
+        return NO;
+
+    if ((self.tvShows == nil) ^ (otherProfile.tvShows == nil)) // xor
+        return NO;
+
+    if (![self.tvShows isEqualToOtherStringPluralArray:otherProfile.tvShows])
+        return NO;
+
+    if ((self.updated == nil) ^ (otherProfile.updated == nil)) // xor
+        return NO;
+
+    if (![self.updated isEqualToDate:otherProfile.updated])
+        return NO;
+
+    if ((self.urls == nil) ^ (otherProfile.urls == nil)) // xor
+        return NO;
+
+    if (![self.urls isEqualToOtherUrlsArray:otherProfile.urls])
+        return NO;
+
+    if ((self.utcOffset == nil) ^ (otherProfile.utcOffset == nil)) // xor
+        return NO;
+
+    if (![self.utcOffset isEqualToString:otherProfile.utcOffset])
+        return NO;
+
+    return YES;
 }
 
 - (NSDictionary*)objectProperties

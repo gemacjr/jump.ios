@@ -319,6 +319,41 @@
     return NO;
 }
 
+- (BOOL)isEqualToBodyType:(JRBodyType *)otherBodyType
+{
+    if ((self.build == nil) ^ (otherBodyType.build == nil)) // xor
+        return NO;
+
+    if (![self.build isEqualToString:otherBodyType.build])
+        return NO;
+
+    if ((self.color == nil) ^ (otherBodyType.color == nil)) // xor
+        return NO;
+
+    if (![self.color isEqualToString:otherBodyType.color])
+        return NO;
+
+    if ((self.eyeColor == nil) ^ (otherBodyType.eyeColor == nil)) // xor
+        return NO;
+
+    if (![self.eyeColor isEqualToString:otherBodyType.eyeColor])
+        return NO;
+
+    if ((self.hairColor == nil) ^ (otherBodyType.hairColor == nil)) // xor
+        return NO;
+
+    if (![self.hairColor isEqualToString:otherBodyType.hairColor])
+        return NO;
+
+    if ((self.height == nil) ^ (otherBodyType.height == nil)) // xor
+        return NO;
+
+    if (![self.height isEqualToNumber:otherBodyType.height])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

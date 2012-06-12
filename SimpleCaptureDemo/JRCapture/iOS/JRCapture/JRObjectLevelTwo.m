@@ -265,6 +265,29 @@
     return NO;
 }
 
+- (BOOL)isEqualToObjectLevelTwo:(JRObjectLevelTwo *)otherObjectLevelTwo
+{
+    if ((self.level == nil) ^ (otherObjectLevelTwo.level == nil)) // xor
+        return NO;
+
+    if (![self.level isEqualToString:otherObjectLevelTwo.level])
+        return NO;
+
+    if ((self.name == nil) ^ (otherObjectLevelTwo.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToString:otherObjectLevelTwo.name])
+        return NO;
+
+    if ((self.objectLevelThree == nil) ^ (otherObjectLevelTwo.objectLevelThree == nil)) // xor
+        return NO;
+
+    if (![self.objectLevelThree isEqualToObjectLevelThree:otherObjectLevelTwo.objectLevelThree])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

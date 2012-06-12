@@ -43,6 +43,7 @@
 - (NSArray*)arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElements;
 - (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeElements;
+- (BOOL)isEqualToOtherPinoLevelThreeArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PinoLevelThreeToFromDictionary)
@@ -74,6 +75,17 @@
             [filteredDictionaryArray addObject:[(JRPinoLevelThreeElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
+}
+
+- (BOOL)isEqualToOtherPinoLevelThreeArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPinoLevelThreeElement *)[self objectAtIndex:i]) isEqualToPinoLevelThreeElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
 }
 @end
 
@@ -285,6 +297,29 @@
          return YES;
 
     return NO;
+}
+
+- (BOOL)isEqualToPinoLevelTwo:(JRPinoLevelTwo *)otherPinoLevelTwo
+{
+    if ((self.level == nil) ^ (otherPinoLevelTwo.level == nil)) // xor
+        return NO;
+
+    if (![self.level isEqualToString:otherPinoLevelTwo.level])
+        return NO;
+
+    if ((self.name == nil) ^ (otherPinoLevelTwo.name == nil)) // xor
+        return NO;
+
+    if (![self.name isEqualToString:otherPinoLevelTwo.name])
+        return NO;
+
+    if ((self.pinoLevelThree == nil) ^ (otherPinoLevelTwo.pinoLevelThree == nil)) // xor
+        return NO;
+
+    if (![self.pinoLevelThree isEqualToOtherPinoLevelThreeArray:otherPinoLevelTwo.pinoLevelThree])
+        return NO;
+
+    return YES;
 }
 
 - (NSDictionary*)objectProperties

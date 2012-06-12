@@ -167,6 +167,10 @@
 /**
  * TODO: Doxygen doc
  **/
+- (BOOL)isEqualToOrganizationsElement:(JROrganizationsElement *)otherOrganizationsElement;
+/**
+ * TODO: Doxygen doc
+ **/
 - (NSDictionary*)objectProperties;
 /*@}*/
 

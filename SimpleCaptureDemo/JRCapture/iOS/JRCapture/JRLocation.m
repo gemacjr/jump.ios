@@ -511,6 +511,77 @@
     return NO;
 }
 
+- (BOOL)isEqualToLocation:(JRLocation *)otherLocation
+{
+    if ((self.country == nil) ^ (otherLocation.country == nil)) // xor
+        return NO;
+
+    if (![self.country isEqualToString:otherLocation.country])
+        return NO;
+
+    if ((self.extendedAddress == nil) ^ (otherLocation.extendedAddress == nil)) // xor
+        return NO;
+
+    if (![self.extendedAddress isEqualToString:otherLocation.extendedAddress])
+        return NO;
+
+    if ((self.formatted == nil) ^ (otherLocation.formatted == nil)) // xor
+        return NO;
+
+    if (![self.formatted isEqualToString:otherLocation.formatted])
+        return NO;
+
+    if ((self.latitude == nil) ^ (otherLocation.latitude == nil)) // xor
+        return NO;
+
+    if (![self.latitude isEqualToNumber:otherLocation.latitude])
+        return NO;
+
+    if ((self.locality == nil) ^ (otherLocation.locality == nil)) // xor
+        return NO;
+
+    if (![self.locality isEqualToString:otherLocation.locality])
+        return NO;
+
+    if ((self.longitude == nil) ^ (otherLocation.longitude == nil)) // xor
+        return NO;
+
+    if (![self.longitude isEqualToNumber:otherLocation.longitude])
+        return NO;
+
+    if ((self.poBox == nil) ^ (otherLocation.poBox == nil)) // xor
+        return NO;
+
+    if (![self.poBox isEqualToString:otherLocation.poBox])
+        return NO;
+
+    if ((self.postalCode == nil) ^ (otherLocation.postalCode == nil)) // xor
+        return NO;
+
+    if (![self.postalCode isEqualToString:otherLocation.postalCode])
+        return NO;
+
+    if ((self.region == nil) ^ (otherLocation.region == nil)) // xor
+        return NO;
+
+    if (![self.region isEqualToString:otherLocation.region])
+        return NO;
+
+    if ((self.streetAddress == nil) ^ (otherLocation.streetAddress == nil)) // xor
+        return NO;
+
+    if (![self.streetAddress isEqualToString:otherLocation.streetAddress])
+        return NO;
+
+    if ((self.type == nil) ^ (otherLocation.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherLocation.type])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 

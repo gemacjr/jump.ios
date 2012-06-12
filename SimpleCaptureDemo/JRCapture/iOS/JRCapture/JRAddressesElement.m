@@ -582,6 +582,83 @@
     return NO;
 }
 
+- (BOOL)isEqualToAddressesElement:(JRAddressesElement *)otherAddressesElement
+{
+    if ((self.country == nil) ^ (otherAddressesElement.country == nil)) // xor
+        return NO;
+
+    if (![self.country isEqualToString:otherAddressesElement.country])
+        return NO;
+
+    if ((self.extendedAddress == nil) ^ (otherAddressesElement.extendedAddress == nil)) // xor
+        return NO;
+
+    if (![self.extendedAddress isEqualToString:otherAddressesElement.extendedAddress])
+        return NO;
+
+    if ((self.formatted == nil) ^ (otherAddressesElement.formatted == nil)) // xor
+        return NO;
+
+    if (![self.formatted isEqualToString:otherAddressesElement.formatted])
+        return NO;
+
+    if ((self.latitude == nil) ^ (otherAddressesElement.latitude == nil)) // xor
+        return NO;
+
+    if (![self.latitude isEqualToNumber:otherAddressesElement.latitude])
+        return NO;
+
+    if ((self.locality == nil) ^ (otherAddressesElement.locality == nil)) // xor
+        return NO;
+
+    if (![self.locality isEqualToString:otherAddressesElement.locality])
+        return NO;
+
+    if ((self.longitude == nil) ^ (otherAddressesElement.longitude == nil)) // xor
+        return NO;
+
+    if (![self.longitude isEqualToNumber:otherAddressesElement.longitude])
+        return NO;
+
+    if ((self.poBox == nil) ^ (otherAddressesElement.poBox == nil)) // xor
+        return NO;
+
+    if (![self.poBox isEqualToString:otherAddressesElement.poBox])
+        return NO;
+
+    if ((self.postalCode == nil) ^ (otherAddressesElement.postalCode == nil)) // xor
+        return NO;
+
+    if (![self.postalCode isEqualToString:otherAddressesElement.postalCode])
+        return NO;
+
+    if ((self.primary == nil) ^ (otherAddressesElement.primary == nil)) // xor
+        return NO;
+
+    if (![self.primary isEqualToNumber:otherAddressesElement.primary])
+        return NO;
+
+    if ((self.region == nil) ^ (otherAddressesElement.region == nil)) // xor
+        return NO;
+
+    if (![self.region isEqualToString:otherAddressesElement.region])
+        return NO;
+
+    if ((self.streetAddress == nil) ^ (otherAddressesElement.streetAddress == nil)) // xor
+        return NO;
+
+    if (![self.streetAddress isEqualToString:otherAddressesElement.streetAddress])
+        return NO;
+
+    if ((self.type == nil) ^ (otherAddressesElement.type == nil)) // xor
+        return NO;
+
+    if (![self.type isEqualToString:otherAddressesElement.type])
+        return NO;
+
+    return YES;
+}
+
 - (NSDictionary*)objectProperties
 {
     NSMutableDictionary *dict = 
