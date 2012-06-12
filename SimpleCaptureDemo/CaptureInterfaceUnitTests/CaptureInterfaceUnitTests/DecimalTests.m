@@ -16,14 +16,14 @@
 #import "SharedData.h"
 #import "JRCaptureUser+Extras.h"
 
-@interface a3_DecimalTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+@interface a4_DecimalTests : GHAsyncTestCase <JRCaptureObjectDelegate>
 {
     JRCaptureUser *captureUser;
 }
 @property(retain) JRCaptureUser *captureUser;
 @end
 
-@implementation a3_DecimalTests
+@implementation a4_DecimalTests
 @synthesize captureUser;
 
 - (void)setUpClass
@@ -49,25 +49,106 @@
     self.captureUser = nil;
 }
 
-
-/* Set an integer with an NSNumber boolean */
-- (void)test_a301_integerWithBoolTrue
+/* Set a decimal with an NSNumber boolean */
+- (void)test_a401_decimalWithBoolFalse
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
-    captureUser.basicInteger = [NSNumber numberWithBool:YES];
-    GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
+    captureUser.basicDecimal = [NSNumber numberWithBool:NO];
+    GHAssertEquals([captureUser.basicDecimal boolValue], NO, nil);
 
     [self prepare];
     [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-/* Set a decimal with an NSNumber boolean */
 /* Set a decimal with an NSNumber integer */
+- (void)test_a402_decimalWithIntPositive
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicDecimal = [NSNumber numberWithInt:100];
+    GHAssertEquals([captureUser.basicDecimal intValue], 100, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)test_a403_decimalWithIntNegative
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicDecimal = [NSNumber numberWithInt:-100];
+    GHAssertEquals([captureUser.basicDecimal intValue], -100, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
 /* Set a decimal with an NSNumber double */
-/* Set a decimal with an NSString: valid double, negative, positive, scientific, fraction */
-/* Set a decimal to null */
+- (void)test_a404_decimalWithDoublePositive
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicDecimal = [NSNumber numberWithDouble:100.1];
+    GHAssertEquals([captureUser.basicDecimal doubleValue], 100.1, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)test_a405_decimalWithDoubleScientific
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicDecimal = [NSNumber numberWithDouble:1.0e-3];
+    GHAssertEquals([captureUser.basicDecimal doubleValue], 1.0e-3, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+/* Set a decimal with an NSString */
+- (void)test_a406_decimalWithStringPositive
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicDecimal = [NSNumber numberWithDouble:[@"1/4" doubleValue]];
+    GHAssertEquals([captureUser.basicDecimal doubleValue], 0.25, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)test_a407_decimalWithStringInvalid
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicDecimal = [NSNumber numberWithDouble:[@"badf00d" doubleValue]];
+    GHAssertEquals([captureUser.basicDecimal intValue], 0, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+/* Set a decimal to null, [NSNull null] */
+- (void)test_a408_decimalWithNil
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicDecimal = nil;
+    GHAssertNil(captureUser.basicDecimal, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
 
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
@@ -79,9 +160,37 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_a301_integerWithBoolTrue"])
+        if ([testSelectorString isEqualToString:@"test_a401_decimalWithBoolFalse"])
         {
-            GHAssertEquals([newUser.basicInteger integerValue], 1, nil);
+            GHAssertEquals([newUser.basicDecimal boolValue], NO, nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_a402_decimalWithIntPositive"])
+        {
+            GHAssertEquals([newUser.basicDecimal intValue], 100, nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_a403_decimalWithIntNegative"])
+        {
+            GHAssertEquals([newUser.basicDecimal intValue], -100, nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_a404_decimalWithDoublePositive"])
+        {
+            GHAssertEquals([newUser.basicDecimal doubleValue], 100.1, nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_a405_decimalWithDoubleScientific"])
+        {
+            GHAssertEquals([newUser.basicDecimal doubleValue], 1.0e-3, nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_a406_decimalWithStringPositive"])
+        {
+            GHAssertEquals([newUser.basicDecimal doubleValue], 0.25, nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_a407_decimalWithStringInvalid"])
+        {
+            GHAssertEquals([newUser.basicDecimal intValue], 0, nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_a408_decimalWithNil"])
+        {
+            GHAssertNil(newUser.basicDecimal, nil);
         }
         else
         {

@@ -16,14 +16,14 @@
 #import "SharedData.h"
 #import "JRCaptureUser+Extras.h"
 
-@interface a4_StringTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+@interface a3_StringTests : GHAsyncTestCase <JRCaptureObjectDelegate>
 {
     JRCaptureUser *captureUser;
 }
 @property(retain) JRCaptureUser *captureUser;
 @end
 
-@implementation a4_StringTests
+@implementation a3_StringTests
 @synthesize captureUser;
 
 - (void)setUpClass
@@ -50,7 +50,7 @@
 }
 
 /* Set a string with an NSString */
-- (void)test_a401_stringWithString
+- (void)test_a301_stringWithString
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -63,7 +63,7 @@
 }
 
 /* Set a string to null, [NSNull null] */
-- (void)test_a402_stringWithNil
+- (void)test_a302_stringWithNil
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -76,7 +76,7 @@
 }
 
 /* Set a string with a mutable string, change original, verify copy: pointer changed, value didn’t */
-- (void)test_a403_stringWithMutableString
+- (void)test_a303_stringWithMutableString
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -85,7 +85,7 @@
     captureUser.basicString = mutableString;
     GHAssertEqualStrings(captureUser.basicString, @"mutable string", nil);
 
-    [mutableString appendString:@"not mutated"];
+    [mutableString appendString:@"now mutated"];
 
     GHAssertEqualStrings(captureUser.basicString, @"mutable string", nil);
     GHAssertNotEquals(captureUser.basicString, mutableString, nil);
@@ -96,7 +96,7 @@
 }
 
 /* Set a string with a json object string (what happens? should be nothing) */
-- (void)test_a404_stringWithJsonString
+- (void)test_a304_stringWithJsonString
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -109,7 +109,7 @@
 }
 
 /* Set a string to an empty string */
-- (void)test_a405_stringWithEmptyString
+- (void)test_a305_stringWithEmptyString
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -122,7 +122,7 @@
 }
 
 /* Set a string to invalid characters */
-- (void)test_a406_stringWithInvalidCharacters
+- (void)test_a306_stringWithInvalidCharacters
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -144,27 +144,27 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_a401_stringWithString"])
+        if ([testSelectorString isEqualToString:@"test_a301_stringWithString"])
         {
             GHAssertEqualStrings(newUser.basicString, @"basic string", nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a402_stringWithNil"])
+        else if ([testSelectorString isEqualToString:@"test_a302_stringWithNil"])
         {
             GHAssertNil(newUser.stringTestNull, nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a403_stringWithMutableString"])
+        else if ([testSelectorString isEqualToString:@"test_a303_stringWithMutableString"])
         {
             GHAssertEqualStrings(newUser.basicString, @"mutable string", nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a404_stringWithJsonString"])
+        else if ([testSelectorString isEqualToString:@"test_a304_stringWithJsonString"])
         {
             GHAssertEqualStrings(newUser.stringTestJson, @"{\"name\":\"stringTestJson\",\"id\":5,\"somePlural\":[\"one\",\"two\",\"three\"]}", nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a405_stringWithEmptyString"])
+        else if ([testSelectorString isEqualToString:@"test_a305_stringWithEmptyString"])
         {
             GHAssertEqualStrings(newUser.stringTestEmpty, @"", nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a406_stringWithInvalidCharacters"])
+        else if ([testSelectorString isEqualToString:@"test_a306_stringWithInvalidCharacters"])
         {
             GHAssertEqualStrings(newUser.stringTestInvalid, @"!@#$%^&*()<>?/\\;:\'\",.", nil);
         }

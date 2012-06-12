@@ -19,12 +19,18 @@
 @interface b3_NestedPluralObjectTests : GHAsyncTestCase <JRCaptureObjectDelegate>
 {
     JRCaptureUser *captureUser;
+    NSArray  *currentPlural;
+    NSObject *currentObject;
 }
-@property(retain) JRCaptureUser *captureUser;
+@property (retain) JRCaptureUser *captureUser;
+@property (retain) NSArray  *currentPlural;
+@property (retain) NSObject *currentObject;
 @end
 
 @implementation b3_NestedPluralObjectTests
 @synthesize captureUser;
+@synthesize currentPlural;
+@synthesize currentObject;
 
 - (void)setUpClass
 {
@@ -36,6 +42,8 @@
 {
     DLog(@"");
     self.captureUser = nil;
+    self.currentPlural = nil;
+    self.currentObject = nil;
 }
 
 - (void)setUp
@@ -47,6 +55,8 @@
 - (void)tearDown
 {
     self.captureUser = nil;
+    self.currentPlural = nil;
+    self.currentObject = nil;
 }
 
 
@@ -62,6 +72,20 @@
     [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
+
+/* Plural in a plural */
+/* Plural in an object */
+/* Object in a plural */
+/* Object in an object */
+/* Plural in a plural in a plural */
+/* Plural in an object in a plural */
+/* Plural in a plural in an object */
+/* Plural in an object in an object */
+/* Object in a plural in a plural */
+/* Object in an object in a plural */
+/* Object in a plural in an object */
+
+
 
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
@@ -102,6 +126,8 @@
 - (void)dealloc
 {
     [captureUser release];
+    [currentObject release];
+    [currentPlural release];
     [super dealloc];
 }
 @end
