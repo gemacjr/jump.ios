@@ -43,7 +43,6 @@
 - (NSArray*)arrayOfPluralLevelThreeElementsFromPluralLevelThreeDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeElements;
 - (NSArray*)arrayOfPluralLevelThreeReplaceDictionariesFromPluralLevelThreeElements;
-- (BOOL)isEqualToOtherPluralLevelThreeArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PluralLevelThreeToFromDictionary)
@@ -76,6 +75,9 @@
 
     return filteredDictionaryArray;
 }
+@end
+
+@implementation NSArray (PluralLevelTwoElement_ArrayComparison)
 
 - (BOOL)isEqualToOtherPluralLevelThreeArray:(NSArray *)otherArray
 {
@@ -346,11 +348,10 @@
     if (![self.name isEqualToString:otherPluralLevelTwoElement.name])
         return NO;
 
-    if ((self.pluralLevelThree == nil) ^ (otherPluralLevelTwoElement.pluralLevelThree == nil)) // xor
-        return NO;
-
-    if (![self.pluralLevelThree isEqualToOtherPluralLevelThreeArray:otherPluralLevelTwoElement.pluralLevelThree])
-        return NO;
+    if (!self.pluralLevelThree && !otherPluralLevelTwoElement.pluralLevelThree) /* Keep going... */;
+    else if (!self.pluralLevelThree && ![otherPluralLevelTwoElement.pluralLevelThree count]) /* Keep going... */;
+    else if (!otherPluralLevelTwoElement.pluralLevelThree && ![self.pluralLevelThree count]) /* Keep going... */;
+    else if (![self.pluralLevelThree isEqualToOtherPluralLevelThreeArray:otherPluralLevelTwoElement.pluralLevelThree]) return NO;
 
     return YES;
 }

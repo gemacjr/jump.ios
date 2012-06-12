@@ -208,7 +208,7 @@
     else
     {
         SEL arrayOfObjectsFromArrayOfDictionariesSelector = NSSelectorFromString(
-                [NSString stringWithFormat:@"arrayOf%@ObjectsFrom%@DictionariesWithPath:", capitalizedName, capitalizedName]);
+                [NSString stringWithFormat:@"arrayOf%@ElementsFrom%@DictionariesWithPath:", capitalizedName, capitalizedName]);
 
         newArray = [resultsArray performSelector:arrayOfObjectsFromArrayOfDictionariesSelector
                                       withObject:capturePath];
@@ -354,7 +354,7 @@
                                                        withString:[[arrayName substringToIndex:1] capitalizedString]];
 
     SEL arrayOfObjectsToArrayOfDictionariesSelector = NSSelectorFromString(
-            [NSString stringWithFormat:@"arrayOf%@ReplaceDictionariesFrom%@Objects", capitalizedName, capitalizedName]);
+            [NSString stringWithFormat:@"arrayOf%@ReplaceDictionariesFrom%@Elements", capitalizedName, capitalizedName]);
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",

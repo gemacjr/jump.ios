@@ -32,6 +32,10 @@
 #import "JRCapture.h"
 #import "JRPinapinapL2PluralElement.h"
 
+@interface NSArray (PinapinapL1PluralElement_ArrayComparison)
+- (BOOL)isEqualToOtherPinapinapL2PluralArray:(NSArray *)otherArray;
+@end
+
 /**
  * @brief Plural in a plural in a plural (element in a plural in an element in a plural in an element in a plural)
  **/

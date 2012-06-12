@@ -279,11 +279,10 @@
     if (![self.string2 isEqualToString:otherPinoinoL1Object.string2])
         return NO;
 
-    if ((self.pinoinoL2Object == nil) ^ (otherPinoinoL1Object.pinoinoL2Object == nil)) // xor
-        return NO;
-
-    if (![self.pinoinoL2Object isEqualToPinoinoL2Object:otherPinoinoL1Object.pinoinoL2Object])
-        return NO;
+    if (!self.pinoinoL2Object && !otherPinoinoL1Object.pinoinoL2Object) /* Keep going... */;
+    else if (!self.pinoinoL2Object && [otherPinoinoL1Object.pinoinoL2Object isEqualToPinoinoL2Object:[JRPinoinoL2Object pinoinoL2Object]]) /* Keep going... */;
+    else if (!otherPinoinoL1Object.pinoinoL2Object && [self.pinoinoL2Object isEqualToPinoinoL2Object:[JRPinoinoL2Object pinoinoL2Object]]) /* Keep going... */;
+    else if (![self.pinoinoL2Object isEqualToPinoinoL2Object:otherPinoinoL1Object.pinoinoL2Object]) return NO;
 
     return YES;
 }

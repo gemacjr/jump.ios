@@ -284,11 +284,10 @@
     if (![self.string2 isEqualToString:otherOnipinoL2PluralElement.string2])
         return NO;
 
-    if ((self.onipinoL3Object == nil) ^ (otherOnipinoL2PluralElement.onipinoL3Object == nil)) // xor
-        return NO;
-
-    if (![self.onipinoL3Object isEqualToOnipinoL3Object:otherOnipinoL2PluralElement.onipinoL3Object])
-        return NO;
+    if (!self.onipinoL3Object && !otherOnipinoL2PluralElement.onipinoL3Object) /* Keep going... */;
+    else if (!self.onipinoL3Object && [otherOnipinoL2PluralElement.onipinoL3Object isEqualToOnipinoL3Object:[JROnipinoL3Object onipinoL3Object]]) /* Keep going... */;
+    else if (!otherOnipinoL2PluralElement.onipinoL3Object && [self.onipinoL3Object isEqualToOnipinoL3Object:[JROnipinoL3Object onipinoL3Object]]) /* Keep going... */;
+    else if (![self.onipinoL3Object isEqualToOnipinoL3Object:otherOnipinoL2PluralElement.onipinoL3Object]) return NO;
 
     return YES;
 }

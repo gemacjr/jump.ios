@@ -521,11 +521,10 @@
     if (![self.endDate isEqualToString:otherOrganizationsElement.endDate])
         return NO;
 
-    if ((self.location == nil) ^ (otherOrganizationsElement.location == nil)) // xor
-        return NO;
-
-    if (![self.location isEqualToLocation:otherOrganizationsElement.location])
-        return NO;
+    if (!self.location && !otherOrganizationsElement.location) /* Keep going... */;
+    else if (!self.location && [otherOrganizationsElement.location isEqualToLocation:[JRLocation location]]) /* Keep going... */;
+    else if (!otherOrganizationsElement.location && [self.location isEqualToLocation:[JRLocation location]]) /* Keep going... */;
+    else if (![self.location isEqualToLocation:otherOrganizationsElement.location]) return NO;
 
     if ((self.name == nil) ^ (otherOrganizationsElement.name == nil)) // xor
         return NO;

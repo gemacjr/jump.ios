@@ -32,6 +32,10 @@
 #import "JRCapture.h"
 #import "JRPinoLevelThreeElement.h"
 
+@interface NSArray (PinoLevelTwo_ArrayComparison)
+- (BOOL)isEqualToOtherPinoLevelThreeArray:(NSArray *)otherArray;
+@end
+
 /**
  * @brief A JRPinoLevelTwo object
  **/

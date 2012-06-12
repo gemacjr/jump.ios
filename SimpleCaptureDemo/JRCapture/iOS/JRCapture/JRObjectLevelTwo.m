@@ -279,11 +279,10 @@
     if (![self.name isEqualToString:otherObjectLevelTwo.name])
         return NO;
 
-    if ((self.objectLevelThree == nil) ^ (otherObjectLevelTwo.objectLevelThree == nil)) // xor
-        return NO;
-
-    if (![self.objectLevelThree isEqualToObjectLevelThree:otherObjectLevelTwo.objectLevelThree])
-        return NO;
+    if (!self.objectLevelThree && !otherObjectLevelTwo.objectLevelThree) /* Keep going... */;
+    else if (!self.objectLevelThree && [otherObjectLevelTwo.objectLevelThree isEqualToObjectLevelThree:[JRObjectLevelThree objectLevelThree]]) /* Keep going... */;
+    else if (!otherObjectLevelTwo.objectLevelThree && [self.objectLevelThree isEqualToObjectLevelThree:[JRObjectLevelThree objectLevelThree]]) /* Keep going... */;
+    else if (![self.objectLevelThree isEqualToObjectLevelThree:otherObjectLevelTwo.objectLevelThree]) return NO;
 
     return YES;
 }

@@ -284,11 +284,10 @@
     if (![self.string2 isEqualToString:otherPinonipL1PluralElement.string2])
         return NO;
 
-    if ((self.pinonipL2Object == nil) ^ (otherPinonipL1PluralElement.pinonipL2Object == nil)) // xor
-        return NO;
-
-    if (![self.pinonipL2Object isEqualToPinonipL2Object:otherPinonipL1PluralElement.pinonipL2Object])
-        return NO;
+    if (!self.pinonipL2Object && !otherPinonipL1PluralElement.pinonipL2Object) /* Keep going... */;
+    else if (!self.pinonipL2Object && [otherPinonipL1PluralElement.pinonipL2Object isEqualToPinonipL2Object:[JRPinonipL2Object pinonipL2Object]]) /* Keep going... */;
+    else if (!otherPinonipL1PluralElement.pinonipL2Object && [self.pinonipL2Object isEqualToPinonipL2Object:[JRPinonipL2Object pinonipL2Object]]) /* Keep going... */;
+    else if (![self.pinonipL2Object isEqualToPinonipL2Object:otherPinonipL1PluralElement.pinonipL2Object]) return NO;
 
     return YES;
 }

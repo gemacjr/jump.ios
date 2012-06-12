@@ -284,11 +284,10 @@
     if (![self.string2 isEqualToString:otherOnipinapL2PluralElement.string2])
         return NO;
 
-    if ((self.onipinapL3Object == nil) ^ (otherOnipinapL2PluralElement.onipinapL3Object == nil)) // xor
-        return NO;
-
-    if (![self.onipinapL3Object isEqualToOnipinapL3Object:otherOnipinapL2PluralElement.onipinapL3Object])
-        return NO;
+    if (!self.onipinapL3Object && !otherOnipinapL2PluralElement.onipinapL3Object) /* Keep going... */;
+    else if (!self.onipinapL3Object && [otherOnipinapL2PluralElement.onipinapL3Object isEqualToOnipinapL3Object:[JROnipinapL3Object onipinapL3Object]]) /* Keep going... */;
+    else if (!otherOnipinapL2PluralElement.onipinapL3Object && [self.onipinapL3Object isEqualToOnipinapL3Object:[JROnipinapL3Object onipinapL3Object]]) /* Keep going... */;
+    else if (![self.onipinapL3Object isEqualToOnipinapL3Object:otherOnipinapL2PluralElement.onipinapL3Object]) return NO;
 
     return YES;
 }

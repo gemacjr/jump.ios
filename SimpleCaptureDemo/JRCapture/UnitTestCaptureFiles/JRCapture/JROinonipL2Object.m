@@ -284,11 +284,10 @@
     if (![self.string2 isEqualToString:otherOinonipL2Object.string2])
         return NO;
 
-    if ((self.oinonipL3Object == nil) ^ (otherOinonipL2Object.oinonipL3Object == nil)) // xor
-        return NO;
-
-    if (![self.oinonipL3Object isEqualToOinonipL3Object:otherOinonipL2Object.oinonipL3Object])
-        return NO;
+    if (!self.oinonipL3Object && !otherOinonipL2Object.oinonipL3Object) /* Keep going... */;
+    else if (!self.oinonipL3Object && [otherOinonipL2Object.oinonipL3Object isEqualToOinonipL3Object:[JROinonipL3Object oinonipL3Object]]) /* Keep going... */;
+    else if (!otherOinonipL2Object.oinonipL3Object && [self.oinonipL3Object isEqualToOinonipL3Object:[JROinonipL3Object oinonipL3Object]]) /* Keep going... */;
+    else if (![self.oinonipL3Object isEqualToOinonipL3Object:otherOinonipL2Object.oinonipL3Object]) return NO;
 
     return YES;
 }

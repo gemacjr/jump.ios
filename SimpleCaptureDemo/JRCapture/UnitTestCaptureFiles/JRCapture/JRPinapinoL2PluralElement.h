@@ -32,6 +32,10 @@
 #import "JRCapture.h"
 #import "JRPinapinoL3PluralElement.h"
 
+@interface NSArray (PinapinoL2PluralElement_ArrayComparison)
+- (BOOL)isEqualToOtherPinapinoL3PluralArray:(NSArray *)otherArray;
+@end
+
 /**
  * @brief A JRPinapinoL2PluralElement object
  **/

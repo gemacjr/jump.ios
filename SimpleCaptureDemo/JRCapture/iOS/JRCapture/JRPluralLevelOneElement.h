@@ -32,6 +32,10 @@
 #import "JRCapture.h"
 #import "JRPluralLevelTwoElement.h"
 
+@interface NSArray (PluralLevelOneElement_ArrayComparison)
+- (BOOL)isEqualToOtherPluralLevelTwoArray:(NSArray *)otherArray;
+@end
+
 /**
  * @brief A JRPluralLevelOneElement object
  **/

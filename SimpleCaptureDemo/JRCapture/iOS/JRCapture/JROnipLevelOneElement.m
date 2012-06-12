@@ -312,11 +312,10 @@
     if (![self.name isEqualToString:otherOnipLevelOneElement.name])
         return NO;
 
-    if ((self.onipLevelTwo == nil) ^ (otherOnipLevelOneElement.onipLevelTwo == nil)) // xor
-        return NO;
-
-    if (![self.onipLevelTwo isEqualToOnipLevelTwo:otherOnipLevelOneElement.onipLevelTwo])
-        return NO;
+    if (!self.onipLevelTwo && !otherOnipLevelOneElement.onipLevelTwo) /* Keep going... */;
+    else if (!self.onipLevelTwo && [otherOnipLevelOneElement.onipLevelTwo isEqualToOnipLevelTwo:[JROnipLevelTwo onipLevelTwo]]) /* Keep going... */;
+    else if (!otherOnipLevelOneElement.onipLevelTwo && [self.onipLevelTwo isEqualToOnipLevelTwo:[JROnipLevelTwo onipLevelTwo]]) /* Keep going... */;
+    else if (![self.onipLevelTwo isEqualToOnipLevelTwo:otherOnipLevelOneElement.onipLevelTwo]) return NO;
 
     return YES;
 }

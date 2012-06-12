@@ -32,6 +32,10 @@
 #import "JRCapture.h"
 #import "JROnipinoL2PluralElement.h"
 
+@interface NSArray (OnipinoL1Object_ArrayComparison)
+- (BOOL)isEqualToOtherOnipinoL2PluralArray:(NSArray *)otherArray;
+@end
+
 /**
  * @brief Object in a plural in an object (object in an element in a plural in an object)
  **/

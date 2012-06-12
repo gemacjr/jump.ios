@@ -354,11 +354,10 @@
     if (![self.name isEqualToString:otherGamesElement.name])
         return NO;
 
-    if ((self.opponents == nil) ^ (otherGamesElement.opponents == nil)) // xor
-        return NO;
-
-    if (![self.opponents isEqualToOtherStringPluralArray:otherGamesElement.opponents])
-        return NO;
+    if (!self.opponents && !otherGamesElement.opponents) /* Keep going... */;
+    else if (!self.opponents && ![otherGamesElement.opponents count]) /* Keep going... */;
+    else if (!otherGamesElement.opponents && ![self.opponents count]) /* Keep going... */;
+    else if (![self.opponents isEqualToOtherStringPluralArray:otherGamesElement.opponents]) return NO;
 
     if ((self.rating == nil) ^ (otherGamesElement.rating == nil)) // xor
         return NO;

@@ -43,7 +43,6 @@
 - (NSArray*)arrayOfPinapinoL3PluralElementsFromPinapinoL3PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinapinoL3PluralDictionariesFromPinapinoL3PluralElements;
 - (NSArray*)arrayOfPinapinoL3PluralReplaceDictionariesFromPinapinoL3PluralElements;
-- (BOOL)isEqualToOtherPinapinoL3PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PinapinoL3PluralToFromDictionary)
@@ -76,6 +75,9 @@
 
     return filteredDictionaryArray;
 }
+@end
+
+@implementation NSArray (PinapinoL2PluralElement_ArrayComparison)
 
 - (BOOL)isEqualToOtherPinapinoL3PluralArray:(NSArray *)otherArray
 {
@@ -318,11 +320,10 @@
     if (![self.string2 isEqualToString:otherPinapinoL2PluralElement.string2])
         return NO;
 
-    if ((self.pinapinoL3Plural == nil) ^ (otherPinapinoL2PluralElement.pinapinoL3Plural == nil)) // xor
-        return NO;
-
-    if (![self.pinapinoL3Plural isEqualToOtherPinapinoL3PluralArray:otherPinapinoL2PluralElement.pinapinoL3Plural])
-        return NO;
+    if (!self.pinapinoL3Plural && !otherPinapinoL2PluralElement.pinapinoL3Plural) /* Keep going... */;
+    else if (!self.pinapinoL3Plural && ![otherPinapinoL2PluralElement.pinapinoL3Plural count]) /* Keep going... */;
+    else if (!otherPinapinoL2PluralElement.pinapinoL3Plural && ![self.pinapinoL3Plural count]) /* Keep going... */;
+    else if (![self.pinapinoL3Plural isEqualToOtherPinapinoL3PluralArray:otherPinapinoL2PluralElement.pinapinoL3Plural]) return NO;
 
     return YES;
 }

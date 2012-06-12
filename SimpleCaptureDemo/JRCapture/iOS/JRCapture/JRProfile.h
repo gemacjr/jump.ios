@@ -62,6 +62,17 @@
 #import "JRStringPluralElement.h"
 #import "JRUrlsElement.h"
 
+@interface NSArray (Profile_ArrayComparison)
+- (BOOL)isEqualToOtherAccountsArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOtherAddressesArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOtherEmailsArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOtherImsArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOtherOrganizationsArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOtherPhoneNumbersArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOtherProfilePhotosArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOtherUrlsArray:(NSArray *)otherArray;
+@end
+
 /**
  * @brief A JRProfile object
  **/

@@ -43,7 +43,6 @@
 - (NSArray*)arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinoL2PluralDictionariesFromPinoL2PluralElements;
 - (NSArray*)arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralElements;
-- (BOOL)isEqualToOtherPinoL2PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PinoL2PluralToFromDictionary)
@@ -76,6 +75,9 @@
 
     return filteredDictionaryArray;
 }
+@end
+
+@implementation NSArray (PinoL1Object_ArrayComparison)
 
 - (BOOL)isEqualToOtherPinoL2PluralArray:(NSArray *)otherArray
 {
@@ -313,11 +315,10 @@
     if (![self.string2 isEqualToString:otherPinoL1Object.string2])
         return NO;
 
-    if ((self.pinoL2Plural == nil) ^ (otherPinoL1Object.pinoL2Plural == nil)) // xor
-        return NO;
-
-    if (![self.pinoL2Plural isEqualToOtherPinoL2PluralArray:otherPinoL1Object.pinoL2Plural])
-        return NO;
+    if (!self.pinoL2Plural && !otherPinoL1Object.pinoL2Plural) /* Keep going... */;
+    else if (!self.pinoL2Plural && ![otherPinoL1Object.pinoL2Plural count]) /* Keep going... */;
+    else if (!otherPinoL1Object.pinoL2Plural && ![self.pinoL2Plural count]) /* Keep going... */;
+    else if (![self.pinoL2Plural isEqualToOtherPinoL2PluralArray:otherPinoL1Object.pinoL2Plural]) return NO;
 
     return YES;
 }

@@ -279,11 +279,10 @@
     if (![self.string2 isEqualToString:otherOinoinoL1Object.string2])
         return NO;
 
-    if ((self.oinoinoL2Object == nil) ^ (otherOinoinoL1Object.oinoinoL2Object == nil)) // xor
-        return NO;
-
-    if (![self.oinoinoL2Object isEqualToOinoinoL2Object:otherOinoinoL1Object.oinoinoL2Object])
-        return NO;
+    if (!self.oinoinoL2Object && !otherOinoinoL1Object.oinoinoL2Object) /* Keep going... */;
+    else if (!self.oinoinoL2Object && [otherOinoinoL1Object.oinoinoL2Object isEqualToOinoinoL2Object:[JROinoinoL2Object oinoinoL2Object]]) /* Keep going... */;
+    else if (!otherOinoinoL1Object.oinoinoL2Object && [self.oinoinoL2Object isEqualToOinoinoL2Object:[JROinoinoL2Object oinoinoL2Object]]) /* Keep going... */;
+    else if (![self.oinoinoL2Object isEqualToOinoinoL2Object:otherOinoinoL1Object.oinoinoL2Object]) return NO;
 
     return YES;
 }

@@ -279,11 +279,10 @@
     if (![self.name isEqualToString:otherPinoLevelOne.name])
         return NO;
 
-    if ((self.pinoLevelTwo == nil) ^ (otherPinoLevelOne.pinoLevelTwo == nil)) // xor
-        return NO;
-
-    if (![self.pinoLevelTwo isEqualToPinoLevelTwo:otherPinoLevelOne.pinoLevelTwo])
-        return NO;
+    if (!self.pinoLevelTwo && !otherPinoLevelOne.pinoLevelTwo) /* Keep going... */;
+    else if (!self.pinoLevelTwo && [otherPinoLevelOne.pinoLevelTwo isEqualToPinoLevelTwo:[JRPinoLevelTwo pinoLevelTwo]]) /* Keep going... */;
+    else if (!otherPinoLevelOne.pinoLevelTwo && [self.pinoLevelTwo isEqualToPinoLevelTwo:[JRPinoLevelTwo pinoLevelTwo]]) /* Keep going... */;
+    else if (![self.pinoLevelTwo isEqualToPinoLevelTwo:otherPinoLevelOne.pinoLevelTwo]) return NO;
 
     return YES;
 }

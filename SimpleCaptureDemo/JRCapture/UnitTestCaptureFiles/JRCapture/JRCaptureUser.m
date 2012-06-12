@@ -43,7 +43,6 @@
 - (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralElements;
 - (NSArray*)arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements;
-- (BOOL)isEqualToOtherBasicPluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (BasicPluralToFromDictionary)
@@ -76,24 +75,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherBasicPluralArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JRBasicPluralElement *)[self objectAtIndex:i]) isEqualToBasicPluralElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (PluralTestUniqueToFromDictionary)
 - (NSArray*)arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElements;
 - (NSArray*)arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements;
-- (BOOL)isEqualToOtherPluralTestUniqueArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PluralTestUniqueToFromDictionary)
@@ -126,24 +113,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherPluralTestUniqueArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JRPluralTestUniqueElement *)[self objectAtIndex:i]) isEqualToPluralTestUniqueElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (PluralTestAlphabeticToFromDictionary)
 - (NSArray*)arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElements;
 - (NSArray*)arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements;
-- (BOOL)isEqualToOtherPluralTestAlphabeticArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PluralTestAlphabeticToFromDictionary)
@@ -176,24 +151,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherPluralTestAlphabeticArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JRPluralTestAlphabeticElement *)[self objectAtIndex:i]) isEqualToPluralTestAlphabeticElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (SimpleStringPluralOneToFromDictionary)
 - (NSArray*)arrayOfSimpleStringPluralOneElementsFromSimpleStringPluralOneDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfSimpleStringPluralOneDictionariesFromSimpleStringPluralOneElements;
 - (NSArray*)arrayOfSimpleStringPluralOneReplaceDictionariesFromSimpleStringPluralOneElements;
-- (BOOL)isEqualToOtherSimpleStringPluralOneArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (SimpleStringPluralOneToFromDictionary)
@@ -226,24 +189,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherSimpleStringPluralOneArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JRSimpleStringPluralOneElement *)[self objectAtIndex:i]) isEqualToSimpleStringPluralOneElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (SimpleStringPluralTwoToFromDictionary)
 - (NSArray*)arrayOfSimpleStringPluralTwoElementsFromSimpleStringPluralTwoDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfSimpleStringPluralTwoDictionariesFromSimpleStringPluralTwoElements;
 - (NSArray*)arrayOfSimpleStringPluralTwoReplaceDictionariesFromSimpleStringPluralTwoElements;
-- (BOOL)isEqualToOtherSimpleStringPluralTwoArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (SimpleStringPluralTwoToFromDictionary)
@@ -276,24 +227,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherSimpleStringPluralTwoArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JRSimpleStringPluralTwoElement *)[self objectAtIndex:i]) isEqualToSimpleStringPluralTwoElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (PinapL1PluralToFromDictionary)
 - (NSArray*)arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralElements;
 - (NSArray*)arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements;
-- (BOOL)isEqualToOtherPinapL1PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PinapL1PluralToFromDictionary)
@@ -326,24 +265,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherPinapL1PluralArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JRPinapL1PluralElement *)[self objectAtIndex:i]) isEqualToPinapL1PluralElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (OnipL1PluralToFromDictionary)
 - (NSArray*)arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralElements;
 - (NSArray*)arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements;
-- (BOOL)isEqualToOtherOnipL1PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (OnipL1PluralToFromDictionary)
@@ -376,24 +303,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherOnipL1PluralArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JROnipL1PluralElement *)[self objectAtIndex:i]) isEqualToOnipL1PluralElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (PinapinapL1PluralToFromDictionary)
 - (NSArray*)arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElements;
 - (NSArray*)arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements;
-- (BOOL)isEqualToOtherPinapinapL1PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PinapinapL1PluralToFromDictionary)
@@ -426,24 +341,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherPinapinapL1PluralArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JRPinapinapL1PluralElement *)[self objectAtIndex:i]) isEqualToPinapinapL1PluralElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (PinonipL1PluralToFromDictionary)
 - (NSArray*)arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElements;
 - (NSArray*)arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements;
-- (BOOL)isEqualToOtherPinonipL1PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PinonipL1PluralToFromDictionary)
@@ -476,24 +379,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherPinonipL1PluralArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JRPinonipL1PluralElement *)[self objectAtIndex:i]) isEqualToPinonipL1PluralElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (OnipinapL1PluralToFromDictionary)
 - (NSArray*)arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElements;
 - (NSArray*)arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements;
-- (BOOL)isEqualToOtherOnipinapL1PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (OnipinapL1PluralToFromDictionary)
@@ -526,24 +417,12 @@
 
     return filteredDictionaryArray;
 }
-
-- (BOOL)isEqualToOtherOnipinapL1PluralArray:(NSArray *)otherArray
-{
-    if ([self count] != [otherArray count]) return NO;
-
-    for (NSUInteger i = 0; i < [self count]; i++)
-        if (![((JROnipinapL1PluralElement *)[self objectAtIndex:i]) isEqualToOnipinapL1PluralElement:[otherArray objectAtIndex:i]])
-            return NO;
-
-    return YES;
-}
 @end
 
 @interface NSArray (OinonipL1PluralToFromDictionary)
 - (NSArray*)arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElements;
 - (NSArray*)arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements;
-- (BOOL)isEqualToOtherOinonipL1PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (OinonipL1PluralToFromDictionary)
@@ -575,6 +454,119 @@
             [filteredDictionaryArray addObject:[(JROinonipL1PluralElement*)object toReplaceDictionary]];
 
     return filteredDictionaryArray;
+}
+@end
+
+@implementation NSArray (CaptureUser_ArrayComparison)
+
+- (BOOL)isEqualToOtherBasicPluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRBasicPluralElement *)[self objectAtIndex:i]) isEqualToBasicPluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
+
+- (BOOL)isEqualToOtherPluralTestUniqueArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPluralTestUniqueElement *)[self objectAtIndex:i]) isEqualToPluralTestUniqueElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
+
+- (BOOL)isEqualToOtherPluralTestAlphabeticArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPluralTestAlphabeticElement *)[self objectAtIndex:i]) isEqualToPluralTestAlphabeticElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
+
+- (BOOL)isEqualToOtherSimpleStringPluralOneArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRSimpleStringPluralOneElement *)[self objectAtIndex:i]) isEqualToSimpleStringPluralOneElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
+
+- (BOOL)isEqualToOtherSimpleStringPluralTwoArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRSimpleStringPluralTwoElement *)[self objectAtIndex:i]) isEqualToSimpleStringPluralTwoElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
+
+- (BOOL)isEqualToOtherPinapL1PluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPinapL1PluralElement *)[self objectAtIndex:i]) isEqualToPinapL1PluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
+
+- (BOOL)isEqualToOtherOnipL1PluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JROnipL1PluralElement *)[self objectAtIndex:i]) isEqualToOnipL1PluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
+
+- (BOOL)isEqualToOtherPinapinapL1PluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPinapinapL1PluralElement *)[self objectAtIndex:i]) isEqualToPinapinapL1PluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
+
+- (BOOL)isEqualToOtherPinonipL1PluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JRPinonipL1PluralElement *)[self objectAtIndex:i]) isEqualToPinonipL1PluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
+}
+
+- (BOOL)isEqualToOtherOnipinapL1PluralArray:(NSArray *)otherArray
+{
+    if ([self count] != [otherArray count]) return NO;
+
+    for (NSUInteger i = 0; i < [self count]; i++)
+        if (![((JROnipinapL1PluralElement *)[self objectAtIndex:i]) isEqualToOnipinapL1PluralElement:[otherArray objectAtIndex:i]])
+            return NO;
+
+    return YES;
 }
 
 - (BOOL)isEqualToOtherOinonipL1PluralArray:(NSArray *)otherArray
@@ -2442,125 +2434,105 @@
     if (![self.stringTestFeatures isEqualToString:otherCaptureUser.stringTestFeatures])
         return NO;
 
-    if ((self.basicPlural == nil) ^ (otherCaptureUser.basicPlural == nil)) // xor
-        return NO;
+    if (!self.basicPlural && !otherCaptureUser.basicPlural) /* Keep going... */;
+    else if (!self.basicPlural && ![otherCaptureUser.basicPlural count]) /* Keep going... */;
+    else if (!otherCaptureUser.basicPlural && ![self.basicPlural count]) /* Keep going... */;
+    else if (![self.basicPlural isEqualToOtherBasicPluralArray:otherCaptureUser.basicPlural]) return NO;
 
-    if (![self.basicPlural isEqualToOtherBasicPluralArray:otherCaptureUser.basicPlural])
-        return NO;
+    if (!self.basicObject && !otherCaptureUser.basicObject) /* Keep going... */;
+    else if (!self.basicObject && [otherCaptureUser.basicObject isEqualToBasicObject:[JRBasicObject basicObject]]) /* Keep going... */;
+    else if (!otherCaptureUser.basicObject && [self.basicObject isEqualToBasicObject:[JRBasicObject basicObject]]) /* Keep going... */;
+    else if (![self.basicObject isEqualToBasicObject:otherCaptureUser.basicObject]) return NO;
 
-    if ((self.basicObject == nil) ^ (otherCaptureUser.basicObject == nil)) // xor
-        return NO;
+    if (!self.objectTestRequired && !otherCaptureUser.objectTestRequired) /* Keep going... */;
+    else if (!self.objectTestRequired && [otherCaptureUser.objectTestRequired isEqualToObjectTestRequired:[JRObjectTestRequired objectTestRequired]]) /* Keep going... */;
+    else if (!otherCaptureUser.objectTestRequired && [self.objectTestRequired isEqualToObjectTestRequired:[JRObjectTestRequired objectTestRequired]]) /* Keep going... */;
+    else if (![self.objectTestRequired isEqualToObjectTestRequired:otherCaptureUser.objectTestRequired]) return NO;
 
-    if (![self.basicObject isEqualToBasicObject:otherCaptureUser.basicObject])
-        return NO;
+    if (!self.pluralTestUnique && !otherCaptureUser.pluralTestUnique) /* Keep going... */;
+    else if (!self.pluralTestUnique && ![otherCaptureUser.pluralTestUnique count]) /* Keep going... */;
+    else if (!otherCaptureUser.pluralTestUnique && ![self.pluralTestUnique count]) /* Keep going... */;
+    else if (![self.pluralTestUnique isEqualToOtherPluralTestUniqueArray:otherCaptureUser.pluralTestUnique]) return NO;
 
-    if ((self.objectTestRequired == nil) ^ (otherCaptureUser.objectTestRequired == nil)) // xor
-        return NO;
+    if (!self.objectTestRequiredUnique && !otherCaptureUser.objectTestRequiredUnique) /* Keep going... */;
+    else if (!self.objectTestRequiredUnique && [otherCaptureUser.objectTestRequiredUnique isEqualToObjectTestRequiredUnique:[JRObjectTestRequiredUnique objectTestRequiredUnique]]) /* Keep going... */;
+    else if (!otherCaptureUser.objectTestRequiredUnique && [self.objectTestRequiredUnique isEqualToObjectTestRequiredUnique:[JRObjectTestRequiredUnique objectTestRequiredUnique]]) /* Keep going... */;
+    else if (![self.objectTestRequiredUnique isEqualToObjectTestRequiredUnique:otherCaptureUser.objectTestRequiredUnique]) return NO;
 
-    if (![self.objectTestRequired isEqualToObjectTestRequired:otherCaptureUser.objectTestRequired])
-        return NO;
+    if (!self.pluralTestAlphabetic && !otherCaptureUser.pluralTestAlphabetic) /* Keep going... */;
+    else if (!self.pluralTestAlphabetic && ![otherCaptureUser.pluralTestAlphabetic count]) /* Keep going... */;
+    else if (!otherCaptureUser.pluralTestAlphabetic && ![self.pluralTestAlphabetic count]) /* Keep going... */;
+    else if (![self.pluralTestAlphabetic isEqualToOtherPluralTestAlphabeticArray:otherCaptureUser.pluralTestAlphabetic]) return NO;
 
-    if ((self.pluralTestUnique == nil) ^ (otherCaptureUser.pluralTestUnique == nil)) // xor
-        return NO;
+    if (!self.simpleStringPluralOne && !otherCaptureUser.simpleStringPluralOne) /* Keep going... */;
+    else if (!self.simpleStringPluralOne && ![otherCaptureUser.simpleStringPluralOne count]) /* Keep going... */;
+    else if (!otherCaptureUser.simpleStringPluralOne && ![self.simpleStringPluralOne count]) /* Keep going... */;
+    else if (![self.simpleStringPluralOne isEqualToOtherSimpleStringPluralOneArray:otherCaptureUser.simpleStringPluralOne]) return NO;
 
-    if (![self.pluralTestUnique isEqualToOtherPluralTestUniqueArray:otherCaptureUser.pluralTestUnique])
-        return NO;
+    if (!self.simpleStringPluralTwo && !otherCaptureUser.simpleStringPluralTwo) /* Keep going... */;
+    else if (!self.simpleStringPluralTwo && ![otherCaptureUser.simpleStringPluralTwo count]) /* Keep going... */;
+    else if (!otherCaptureUser.simpleStringPluralTwo && ![self.simpleStringPluralTwo count]) /* Keep going... */;
+    else if (![self.simpleStringPluralTwo isEqualToOtherSimpleStringPluralTwoArray:otherCaptureUser.simpleStringPluralTwo]) return NO;
 
-    if ((self.objectTestRequiredUnique == nil) ^ (otherCaptureUser.objectTestRequiredUnique == nil)) // xor
-        return NO;
+    if (!self.pinapL1Plural && !otherCaptureUser.pinapL1Plural) /* Keep going... */;
+    else if (!self.pinapL1Plural && ![otherCaptureUser.pinapL1Plural count]) /* Keep going... */;
+    else if (!otherCaptureUser.pinapL1Plural && ![self.pinapL1Plural count]) /* Keep going... */;
+    else if (![self.pinapL1Plural isEqualToOtherPinapL1PluralArray:otherCaptureUser.pinapL1Plural]) return NO;
 
-    if (![self.objectTestRequiredUnique isEqualToObjectTestRequiredUnique:otherCaptureUser.objectTestRequiredUnique])
-        return NO;
+    if (!self.pinoL1Object && !otherCaptureUser.pinoL1Object) /* Keep going... */;
+    else if (!self.pinoL1Object && [otherCaptureUser.pinoL1Object isEqualToPinoL1Object:[JRPinoL1Object pinoL1Object]]) /* Keep going... */;
+    else if (!otherCaptureUser.pinoL1Object && [self.pinoL1Object isEqualToPinoL1Object:[JRPinoL1Object pinoL1Object]]) /* Keep going... */;
+    else if (![self.pinoL1Object isEqualToPinoL1Object:otherCaptureUser.pinoL1Object]) return NO;
 
-    if ((self.pluralTestAlphabetic == nil) ^ (otherCaptureUser.pluralTestAlphabetic == nil)) // xor
-        return NO;
+    if (!self.onipL1Plural && !otherCaptureUser.onipL1Plural) /* Keep going... */;
+    else if (!self.onipL1Plural && ![otherCaptureUser.onipL1Plural count]) /* Keep going... */;
+    else if (!otherCaptureUser.onipL1Plural && ![self.onipL1Plural count]) /* Keep going... */;
+    else if (![self.onipL1Plural isEqualToOtherOnipL1PluralArray:otherCaptureUser.onipL1Plural]) return NO;
 
-    if (![self.pluralTestAlphabetic isEqualToOtherPluralTestAlphabeticArray:otherCaptureUser.pluralTestAlphabetic])
-        return NO;
+    if (!self.oinoL1Object && !otherCaptureUser.oinoL1Object) /* Keep going... */;
+    else if (!self.oinoL1Object && [otherCaptureUser.oinoL1Object isEqualToOinoL1Object:[JROinoL1Object oinoL1Object]]) /* Keep going... */;
+    else if (!otherCaptureUser.oinoL1Object && [self.oinoL1Object isEqualToOinoL1Object:[JROinoL1Object oinoL1Object]]) /* Keep going... */;
+    else if (![self.oinoL1Object isEqualToOinoL1Object:otherCaptureUser.oinoL1Object]) return NO;
 
-    if ((self.simpleStringPluralOne == nil) ^ (otherCaptureUser.simpleStringPluralOne == nil)) // xor
-        return NO;
+    if (!self.pinapinapL1Plural && !otherCaptureUser.pinapinapL1Plural) /* Keep going... */;
+    else if (!self.pinapinapL1Plural && ![otherCaptureUser.pinapinapL1Plural count]) /* Keep going... */;
+    else if (!otherCaptureUser.pinapinapL1Plural && ![self.pinapinapL1Plural count]) /* Keep going... */;
+    else if (![self.pinapinapL1Plural isEqualToOtherPinapinapL1PluralArray:otherCaptureUser.pinapinapL1Plural]) return NO;
 
-    if (![self.simpleStringPluralOne isEqualToOtherSimpleStringPluralOneArray:otherCaptureUser.simpleStringPluralOne])
-        return NO;
+    if (!self.pinonipL1Plural && !otherCaptureUser.pinonipL1Plural) /* Keep going... */;
+    else if (!self.pinonipL1Plural && ![otherCaptureUser.pinonipL1Plural count]) /* Keep going... */;
+    else if (!otherCaptureUser.pinonipL1Plural && ![self.pinonipL1Plural count]) /* Keep going... */;
+    else if (![self.pinonipL1Plural isEqualToOtherPinonipL1PluralArray:otherCaptureUser.pinonipL1Plural]) return NO;
 
-    if ((self.simpleStringPluralTwo == nil) ^ (otherCaptureUser.simpleStringPluralTwo == nil)) // xor
-        return NO;
+    if (!self.pinapinoL1Object && !otherCaptureUser.pinapinoL1Object) /* Keep going... */;
+    else if (!self.pinapinoL1Object && [otherCaptureUser.pinapinoL1Object isEqualToPinapinoL1Object:[JRPinapinoL1Object pinapinoL1Object]]) /* Keep going... */;
+    else if (!otherCaptureUser.pinapinoL1Object && [self.pinapinoL1Object isEqualToPinapinoL1Object:[JRPinapinoL1Object pinapinoL1Object]]) /* Keep going... */;
+    else if (![self.pinapinoL1Object isEqualToPinapinoL1Object:otherCaptureUser.pinapinoL1Object]) return NO;
 
-    if (![self.simpleStringPluralTwo isEqualToOtherSimpleStringPluralTwoArray:otherCaptureUser.simpleStringPluralTwo])
-        return NO;
+    if (!self.pinoinoL1Object && !otherCaptureUser.pinoinoL1Object) /* Keep going... */;
+    else if (!self.pinoinoL1Object && [otherCaptureUser.pinoinoL1Object isEqualToPinoinoL1Object:[JRPinoinoL1Object pinoinoL1Object]]) /* Keep going... */;
+    else if (!otherCaptureUser.pinoinoL1Object && [self.pinoinoL1Object isEqualToPinoinoL1Object:[JRPinoinoL1Object pinoinoL1Object]]) /* Keep going... */;
+    else if (![self.pinoinoL1Object isEqualToPinoinoL1Object:otherCaptureUser.pinoinoL1Object]) return NO;
 
-    if ((self.pinapL1Plural == nil) ^ (otherCaptureUser.pinapL1Plural == nil)) // xor
-        return NO;
+    if (!self.onipinapL1Plural && !otherCaptureUser.onipinapL1Plural) /* Keep going... */;
+    else if (!self.onipinapL1Plural && ![otherCaptureUser.onipinapL1Plural count]) /* Keep going... */;
+    else if (!otherCaptureUser.onipinapL1Plural && ![self.onipinapL1Plural count]) /* Keep going... */;
+    else if (![self.onipinapL1Plural isEqualToOtherOnipinapL1PluralArray:otherCaptureUser.onipinapL1Plural]) return NO;
 
-    if (![self.pinapL1Plural isEqualToOtherPinapL1PluralArray:otherCaptureUser.pinapL1Plural])
-        return NO;
+    if (!self.oinonipL1Plural && !otherCaptureUser.oinonipL1Plural) /* Keep going... */;
+    else if (!self.oinonipL1Plural && ![otherCaptureUser.oinonipL1Plural count]) /* Keep going... */;
+    else if (!otherCaptureUser.oinonipL1Plural && ![self.oinonipL1Plural count]) /* Keep going... */;
+    else if (![self.oinonipL1Plural isEqualToOtherOinonipL1PluralArray:otherCaptureUser.oinonipL1Plural]) return NO;
 
-    if ((self.pinoL1Object == nil) ^ (otherCaptureUser.pinoL1Object == nil)) // xor
-        return NO;
+    if (!self.onipinoL1Object && !otherCaptureUser.onipinoL1Object) /* Keep going... */;
+    else if (!self.onipinoL1Object && [otherCaptureUser.onipinoL1Object isEqualToOnipinoL1Object:[JROnipinoL1Object onipinoL1Object]]) /* Keep going... */;
+    else if (!otherCaptureUser.onipinoL1Object && [self.onipinoL1Object isEqualToOnipinoL1Object:[JROnipinoL1Object onipinoL1Object]]) /* Keep going... */;
+    else if (![self.onipinoL1Object isEqualToOnipinoL1Object:otherCaptureUser.onipinoL1Object]) return NO;
 
-    if (![self.pinoL1Object isEqualToPinoL1Object:otherCaptureUser.pinoL1Object])
-        return NO;
-
-    if ((self.onipL1Plural == nil) ^ (otherCaptureUser.onipL1Plural == nil)) // xor
-        return NO;
-
-    if (![self.onipL1Plural isEqualToOtherOnipL1PluralArray:otherCaptureUser.onipL1Plural])
-        return NO;
-
-    if ((self.oinoL1Object == nil) ^ (otherCaptureUser.oinoL1Object == nil)) // xor
-        return NO;
-
-    if (![self.oinoL1Object isEqualToOinoL1Object:otherCaptureUser.oinoL1Object])
-        return NO;
-
-    if ((self.pinapinapL1Plural == nil) ^ (otherCaptureUser.pinapinapL1Plural == nil)) // xor
-        return NO;
-
-    if (![self.pinapinapL1Plural isEqualToOtherPinapinapL1PluralArray:otherCaptureUser.pinapinapL1Plural])
-        return NO;
-
-    if ((self.pinonipL1Plural == nil) ^ (otherCaptureUser.pinonipL1Plural == nil)) // xor
-        return NO;
-
-    if (![self.pinonipL1Plural isEqualToOtherPinonipL1PluralArray:otherCaptureUser.pinonipL1Plural])
-        return NO;
-
-    if ((self.pinapinoL1Object == nil) ^ (otherCaptureUser.pinapinoL1Object == nil)) // xor
-        return NO;
-
-    if (![self.pinapinoL1Object isEqualToPinapinoL1Object:otherCaptureUser.pinapinoL1Object])
-        return NO;
-
-    if ((self.pinoinoL1Object == nil) ^ (otherCaptureUser.pinoinoL1Object == nil)) // xor
-        return NO;
-
-    if (![self.pinoinoL1Object isEqualToPinoinoL1Object:otherCaptureUser.pinoinoL1Object])
-        return NO;
-
-    if ((self.onipinapL1Plural == nil) ^ (otherCaptureUser.onipinapL1Plural == nil)) // xor
-        return NO;
-
-    if (![self.onipinapL1Plural isEqualToOtherOnipinapL1PluralArray:otherCaptureUser.onipinapL1Plural])
-        return NO;
-
-    if ((self.oinonipL1Plural == nil) ^ (otherCaptureUser.oinonipL1Plural == nil)) // xor
-        return NO;
-
-    if (![self.oinonipL1Plural isEqualToOtherOinonipL1PluralArray:otherCaptureUser.oinonipL1Plural])
-        return NO;
-
-    if ((self.onipinoL1Object == nil) ^ (otherCaptureUser.onipinoL1Object == nil)) // xor
-        return NO;
-
-    if (![self.onipinoL1Object isEqualToOnipinoL1Object:otherCaptureUser.onipinoL1Object])
-        return NO;
-
-    if ((self.oinoinoL1Object == nil) ^ (otherCaptureUser.oinoinoL1Object == nil)) // xor
-        return NO;
-
-    if (![self.oinoinoL1Object isEqualToOinoinoL1Object:otherCaptureUser.oinoinoL1Object])
-        return NO;
+    if (!self.oinoinoL1Object && !otherCaptureUser.oinoinoL1Object) /* Keep going... */;
+    else if (!self.oinoinoL1Object && [otherCaptureUser.oinoinoL1Object isEqualToOinoinoL1Object:[JROinoinoL1Object oinoinoL1Object]]) /* Keep going... */;
+    else if (!otherCaptureUser.oinoinoL1Object && [self.oinoinoL1Object isEqualToOinoinoL1Object:[JROinoinoL1Object oinoinoL1Object]]) /* Keep going... */;
+    else if (![self.oinoinoL1Object isEqualToOinoinoL1Object:otherCaptureUser.oinoinoL1Object]) return NO;
 
     return YES;
 }

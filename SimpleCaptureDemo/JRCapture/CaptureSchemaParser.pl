@@ -452,6 +452,8 @@ sub recursiveParse {
   my $getterSettersSection       = "";
   my $replaceArrayIntfSection    = "";
   my $replaceArrayImplSection    = "";
+  my $arrayCompareIntfSection    = "";
+  my $arrayCompareImplSection    = "";
   my @minConstructorSection      = getMinConstructorParts();
   my @constructorSection         = getConstructorParts();
   my @minClassConstructorSection = getMinClassConstructorParts();
@@ -1049,6 +1051,9 @@ sub recursiveParse {
         $replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
         $replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName);
 
+        $arrayCompareIntfSection .= getArrayComparisonDeclaration($propertyName);
+        $arrayCompareImplSection .= getArrayComparisonImplementation($propertyName);        
+
         $isEqualMethod  = "isEqualToOther" . ucfirst($propertyName) . "Array:";        
 
         $propertyNotes .= " \@note This is an array of \\c JR" . ucfirst($propertyName) . "Element objects";
@@ -1325,6 +1330,29 @@ sub recursiveParse {
         #       return YES;
         $needsUpdateSection[3]   .= "    if([self." . $propertyName . " needsUpdate])\n        return YES;\n\n";
 
+        ####################################################################################################
+        # For objects, they are considered equal in the following cases:
+        #   a. They are both null
+        #   b. One is null and the other is empty
+        #   c. Their properties are the same
+        # This is because Capture returns empty subobjects, as opposed to 'null' subobjects, causing those 
+        # subobjects to get initialized locally after a replace. On the other hand, locally a subobject can
+        # be set to 'null'.  As our comparison is purposely loose, we can assume that objects that differ 
+        # in this way (an empty subobject versus a null subobject) are still the same
+        ####################################################################################################
+        
+        # e.g.:      
+        #   if (!self.bar && !otherExampleObject.bar) /* Keep going... */;
+        #   else if (!self.bar && [otherExampleObject.bar isEqualToBar:[JRBar bar]]) /* Keep going... */;
+        #   else if (!otherExampleObject.bar && [self.bar isEqualToBar:[JRBar bar]]) /* Keep going... */;
+        #   else if (![self.bar isEqualToOtherBarArray:otherExampleObject.bar]) return NO;
+        $isEqualObjectSection[3] .=
+              "    if (!self." . $propertyName . " && !other" . ucfirst($objectName) . "." . $propertyName . ") /* Keep going... */;\n" . 
+              "    else if (!self." . $propertyName . " && [other" . ucfirst($objectName) . "." . $propertyName . " " . $isEqualMethod . "[JR" . ucfirst($propertyName) . " " . $propertyName . "]]) /* Keep going... */;\n" . 
+              "    else if (!other" . ucfirst($objectName) . "." . $propertyName . " && [self." . $propertyName . " " . $isEqualMethod . "[JR" . ucfirst($propertyName) . " " . $propertyName . "]]) /* Keep going... */;\n" . 
+              "    else if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "]) return NO;\n\n";
+
+
       } elsif ($isArray) {
       ####################################################################################################################
       # Arrays don't get updated, though their elements can be updated if their paths are valid. If an array has changed, 
@@ -1335,6 +1363,28 @@ sub recursiveParse {
         # e.g.:      
         #   [dict setObject:(self.bar ? [self.bar arrayOfBarReplaceDictionariesFromBarObjects] : [NSArray array]) forKey:@"bar"];
         $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSArray array]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+              
+        ####################################################################################################
+        # For arrays, they are considered equal in the following cases:
+        #   a. They are both null
+        #   b. One is null and the other is empty
+        #   c. Their elements are the same
+        # This is because Capture returns empty arrays, as opposed to 'null' arrays, causing the object to
+        # get initialized with an empty array after a replace. On the other hand, locally an object can have
+        # 'null' for an array.  As our comparison is purposely loose, we can assume that objects that differ
+        # in this way (an empty array versus a null array) are still the same
+        ####################################################################################################
+        
+        # e.g.:      
+        #   if (!self.bar && !otherExampleObject.bar) /* Keep going... */;
+        #   else if (!self.bar && [otherExampleObject.bar count]) return NO;
+        #   else if (!otherExampleObject.bar && [self.bar count]) return NO;
+        #   else if (![self.bar isEqualToOtherBarArray:otherExampleObject.bar]) return NO;        
+        $isEqualObjectSection[3] .= 
+              "    if (!self." . $propertyName . " && !other" . ucfirst($objectName) . "." . $propertyName . ") /* Keep going... */;\n" .
+              "    else if (!self." . $propertyName . " && ![other" . ucfirst($objectName) . "." . $propertyName . " count]) /* Keep going... */;\n" .
+              "    else if (!other" . ucfirst($objectName) . "." . $propertyName . " && ![self." . $propertyName . " count]) /* Keep going... */;\n" .
+              "    else if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "]) return NO;\n\n";
     
       } else {
 
@@ -1348,17 +1398,17 @@ sub recursiveParse {
         #   [dict setObject:(self.baz ? self.baz : [NSNull null]) forKey:@"baz"];
         $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSNull null]) forKey:\@\"" . $dictionaryKey . "\"];\n";
 
+        # e.g.:      
+        #   if ((self.foo == nil) ^ (otherExampleObject.foo == nil)) // xor
+        #       return NO;
+        #
+        #   if (![self.foo isEqualToString:otherExampleObject.foo])
+        #       return NO;
+        $isEqualObjectSection[3] .= "    if ((self." . $propertyName . " == nil) ^ (other" . ucfirst($objectName) . "." . $propertyName . " == nil)) // xor\n        return NO;\n\n";
+        $isEqualObjectSection[3] .= "    if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "])\n        return NO;\n\n";
+
       }      
-      
-      # e.g.:      
-      #   if ((self.foo == nil) ^ (otherExampleObject.foo == nil)) // xor
-      #       return NO;
-      #
-      #   if (![self.foo isEqualToString:otherExampleObject.foo])
-      #       return NO;
-      $isEqualObjectSection[3] .= "    if ((self." . $propertyName . " == nil) ^ (other" . ucfirst($objectName) . "." . $propertyName . " == nil)) // xor\n        return NO;\n\n";
-      $isEqualObjectSection[3] .= "    if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "])\n        return NO;\n\n";
-      
+            
     }
 
   ##########################################################################
@@ -1387,6 +1437,10 @@ sub recursiveParse {
   ##########################################################################
   $hFile .= $extraImportsSection . "\n";
   
+  if ($arrayCompareIntfSection ne "") {
+    $hFile .= "\@interface NSArray (" . ucfirst($objectName) . "_ArrayComparison)\n$arrayCompareIntfSection\@end\n\n";
+  }
+     
   for (my $i = 0; $i < @doxygenClassDescSection; $i++) { $hFile .= $doxygenClassDescSection[$i]; }
   
   ##########################################################################
@@ -1472,8 +1526,6 @@ sub recursiveParse {
   
     @booleanProperties = ();
     @integerProperties = ();
-  } else {
-    print "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFF!?\n";
   }
   
   $hFile .= "\@end\n";
@@ -1495,6 +1547,10 @@ sub recursiveParse {
   ##########################################################################
   $mFile .= $arrayCategoriesSection;
   
+  if ($arrayCompareImplSection ne "") {
+    $mFile .= "\@implementation NSArray (" . ucfirst($objectName) . "_ArrayComparison)\n$arrayCompareImplSection\@end\n\n";
+  }
+   
   ##########################################################################
   # Declare the implementation, ivars, and the dynamic properties
   ##########################################################################

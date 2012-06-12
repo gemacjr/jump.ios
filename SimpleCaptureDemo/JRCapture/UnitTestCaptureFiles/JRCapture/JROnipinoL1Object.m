@@ -43,7 +43,6 @@
 - (NSArray*)arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralElements;
 - (NSArray*)arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements;
-- (BOOL)isEqualToOtherOnipinoL2PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (OnipinoL2PluralToFromDictionary)
@@ -76,6 +75,9 @@
 
     return filteredDictionaryArray;
 }
+@end
+
+@implementation NSArray (OnipinoL1Object_ArrayComparison)
 
 - (BOOL)isEqualToOtherOnipinoL2PluralArray:(NSArray *)otherArray
 {
@@ -313,11 +315,10 @@
     if (![self.string2 isEqualToString:otherOnipinoL1Object.string2])
         return NO;
 
-    if ((self.onipinoL2Plural == nil) ^ (otherOnipinoL1Object.onipinoL2Plural == nil)) // xor
-        return NO;
-
-    if (![self.onipinoL2Plural isEqualToOtherOnipinoL2PluralArray:otherOnipinoL1Object.onipinoL2Plural])
-        return NO;
+    if (!self.onipinoL2Plural && !otherOnipinoL1Object.onipinoL2Plural) /* Keep going... */;
+    else if (!self.onipinoL2Plural && ![otherOnipinoL1Object.onipinoL2Plural count]) /* Keep going... */;
+    else if (!otherOnipinoL1Object.onipinoL2Plural && ![self.onipinoL2Plural count]) /* Keep going... */;
+    else if (![self.onipinoL2Plural isEqualToOtherOnipinoL2PluralArray:otherOnipinoL1Object.onipinoL2Plural]) return NO;
 
     return YES;
 }

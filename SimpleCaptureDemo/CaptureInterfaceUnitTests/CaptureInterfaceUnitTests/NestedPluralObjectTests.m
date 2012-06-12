@@ -153,19 +153,14 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_b302a_pinapReplaceArray
+- (void)test_b302_pinapReplaceArray
 {
     if (!captureUser)
         [self test_b300_pinapCreate];
 
     [self prepare];
     [captureUser replacePinapL1PluralArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
-    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
-}
-
-- (void)test_b302b_verify_pinapReplaceArray
-{
-
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
 - (void)test_b303_pinapUpdate_Level2_PostReplace
@@ -381,6 +376,100 @@
 
 }
 
+- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+{
+    NSDictionary *resultDictionary = [result objectFromJSONString];
+//    NSDictionary *captureProfile   = [resultDictionary objectForKey:@"result"];
+
+    //JRCaptureUser *newUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+
+    NSString *testSelectorString = (NSString *)context;
+    @try
+    {
+        if ([testSelectorString isEqualToString:@"test_b302_pinapReplaceArray"])
+        {
+            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:captureUser.pinapL1Plural], nil);
+//            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:newUser.pinapL1Plural], nil);
+            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:((JRCaptureUser *)object).pinapL1Plural], nil);
+        }
+        else
+        {
+            GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
+        }
+    }
+    @catch (NSException *exception)
+    {
+        GHTestLog([exception description]);
+        [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
+
+        return;
+    }
+
+    [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+
+}
+
+- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+{
+    NSString *testSelectorString = (NSString *)context;
+    GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
+
+    if ([testSelectorString hasSuffix:@"FailCase"])
+    {
+        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+        return;
+    }
+
+    [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
+}
+
+- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+{
+    NSDictionary *resultDictionary = [result objectFromJSONString];
+//    NSDictionary *captureProfile   = [resultDictionary objectForKey:@"result"];
+
+//    JRCaptureUser *newUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+
+    NSString *testSelectorString = (NSString *)context;
+    @try
+    {
+        if ([testSelectorString isEqualToString:@"test_b302_pinapReplaceArray"])
+        {
+            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:captureUser.pinapL1Plural], nil);
+//            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:newUser.pinapL1Plural], nil);
+            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:((JRCaptureUser *)object).pinapL1Plural], nil);
+        }
+        else
+        {
+            GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
+        }
+    }
+    @catch (NSException *exception)
+    {
+        GHTestLog([exception description]);
+        [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
+
+        return;
+    }
+
+    [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+}
+
+- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+{
+    NSString *testSelectorString = (NSString *)context;
+    GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
+
+    if ([testSelectorString hasSuffix:@"FailCase"])
+    {
+        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+        return;
+    }
+
+    [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
+}
+
+
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];
@@ -391,9 +480,11 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_b301_integerWithBoolTrue"])
+        if ([testSelectorString isEqualToString:@"test_b302_pinapReplaceArray"])
         {
-            GHAssertEquals([newUser.basicInteger integerValue], 1, nil);
+            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:captureUser.pinapL1Plural], nil);
+            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:newUser.pinapL1Plural], nil);
+            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:((JRCaptureUser *)object).pinapL1Plural], nil);
         }
         else
         {

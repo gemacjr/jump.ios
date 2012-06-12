@@ -534,23 +534,20 @@
     if (![self.domain isEqualToString:otherProfilesElement.domain])
         return NO;
 
-    if ((self.followers == nil) ^ (otherProfilesElement.followers == nil)) // xor
-        return NO;
+    if (!self.followers && !otherProfilesElement.followers) /* Keep going... */;
+    else if (!self.followers && ![otherProfilesElement.followers count]) /* Keep going... */;
+    else if (!otherProfilesElement.followers && ![self.followers count]) /* Keep going... */;
+    else if (![self.followers isEqualToOtherStringPluralArray:otherProfilesElement.followers]) return NO;
 
-    if (![self.followers isEqualToOtherStringPluralArray:otherProfilesElement.followers])
-        return NO;
+    if (!self.following && !otherProfilesElement.following) /* Keep going... */;
+    else if (!self.following && ![otherProfilesElement.following count]) /* Keep going... */;
+    else if (!otherProfilesElement.following && ![self.following count]) /* Keep going... */;
+    else if (![self.following isEqualToOtherStringPluralArray:otherProfilesElement.following]) return NO;
 
-    if ((self.following == nil) ^ (otherProfilesElement.following == nil)) // xor
-        return NO;
-
-    if (![self.following isEqualToOtherStringPluralArray:otherProfilesElement.following])
-        return NO;
-
-    if ((self.friends == nil) ^ (otherProfilesElement.friends == nil)) // xor
-        return NO;
-
-    if (![self.friends isEqualToOtherStringPluralArray:otherProfilesElement.friends])
-        return NO;
+    if (!self.friends && !otherProfilesElement.friends) /* Keep going... */;
+    else if (!self.friends && ![otherProfilesElement.friends count]) /* Keep going... */;
+    else if (!otherProfilesElement.friends && ![self.friends count]) /* Keep going... */;
+    else if (![self.friends isEqualToOtherStringPluralArray:otherProfilesElement.friends]) return NO;
 
     if ((self.identifier == nil) ^ (otherProfilesElement.identifier == nil)) // xor
         return NO;
@@ -558,11 +555,10 @@
     if (![self.identifier isEqualToString:otherProfilesElement.identifier])
         return NO;
 
-    if ((self.profile == nil) ^ (otherProfilesElement.profile == nil)) // xor
-        return NO;
-
-    if (![self.profile isEqualToProfile:otherProfilesElement.profile])
-        return NO;
+    if (!self.profile && !otherProfilesElement.profile) /* Keep going... */;
+    else if (!self.profile && [otherProfilesElement.profile isEqualToProfile:[JRProfile profile]]) /* Keep going... */;
+    else if (!otherProfilesElement.profile && [self.profile isEqualToProfile:[JRProfile profile]]) /* Keep going... */;
+    else if (![self.profile isEqualToProfile:otherProfilesElement.profile]) return NO;
 
     if ((self.provider == nil) ^ (otherProfilesElement.provider == nil)) // xor
         return NO;

@@ -284,11 +284,10 @@
     if (![self.name isEqualToString:otherOnipLevelTwo.name])
         return NO;
 
-    if ((self.onipLevelThree == nil) ^ (otherOnipLevelTwo.onipLevelThree == nil)) // xor
-        return NO;
-
-    if (![self.onipLevelThree isEqualToOnipLevelThree:otherOnipLevelTwo.onipLevelThree])
-        return NO;
+    if (!self.onipLevelThree && !otherOnipLevelTwo.onipLevelThree) /* Keep going... */;
+    else if (!self.onipLevelThree && [otherOnipLevelTwo.onipLevelThree isEqualToOnipLevelThree:[JROnipLevelThree onipLevelThree]]) /* Keep going... */;
+    else if (!otherOnipLevelTwo.onipLevelThree && [self.onipLevelThree isEqualToOnipLevelThree:[JROnipLevelThree onipLevelThree]]) /* Keep going... */;
+    else if (![self.onipLevelThree isEqualToOnipLevelThree:otherOnipLevelTwo.onipLevelThree]) return NO;
 
     return YES;
 }

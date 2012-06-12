@@ -43,7 +43,6 @@
 - (NSArray*)arrayOfPinapL2PluralElementsFromPinapL2PluralDictionariesWithPath:(NSString*)capturePath;
 - (NSArray*)arrayOfPinapL2PluralDictionariesFromPinapL2PluralElements;
 - (NSArray*)arrayOfPinapL2PluralReplaceDictionariesFromPinapL2PluralElements;
-- (BOOL)isEqualToOtherPinapL2PluralArray:(NSArray *)otherArray;
 @end
 
 @implementation NSArray (PinapL2PluralToFromDictionary)
@@ -76,6 +75,9 @@
 
     return filteredDictionaryArray;
 }
+@end
+
+@implementation NSArray (PinapL1PluralElement_ArrayComparison)
 
 - (BOOL)isEqualToOtherPinapL2PluralArray:(NSArray *)otherArray
 {
@@ -164,7 +166,7 @@
     pinapL1PluralElementCopy.pinapL2Plural = self.pinapL2Plural;
     // TODO: Necessary??
     pinapL1PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
+
     // TODO: Necessary??
     [pinapL1PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
     [pinapL1PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
@@ -174,7 +176,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null])
@@ -199,20 +201,20 @@
     pinapL1PluralElement.canBeUpdatedOrReplaced = YES;
 
     pinapL1PluralElement.string1 =
-        [dictionary objectForKey:@"string1"] != [NSNull null] ? 
+        [dictionary objectForKey:@"string1"] != [NSNull null] ?
         [dictionary objectForKey:@"string1"] : nil;
 
     pinapL1PluralElement.string2 =
-        [dictionary objectForKey:@"string2"] != [NSNull null] ? 
+        [dictionary objectForKey:@"string2"] != [NSNull null] ?
         [dictionary objectForKey:@"string2"] : nil;
 
     pinapL1PluralElement.pinapL2Plural =
-        [dictionary objectForKey:@"pinapL2Plural"] != [NSNull null] ? 
+        [dictionary objectForKey:@"pinapL2Plural"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"pinapL2Plural"] arrayOfPinapL2PluralElementsFromPinapL2PluralDictionariesWithPath:pinapL1PluralElement.captureObjectPath] : nil;
 
     [pinapL1PluralElement.dirtyPropertySet removeAllObjects];
     [pinapL1PluralElement.dirtyArraySet removeAllObjects];
-    
+
     return pinapL1PluralElement;
 }
 
@@ -227,11 +229,11 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
+        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ?
             [dictionary objectForKey:@"string1"] : nil;
 
     if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
+        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ?
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -249,15 +251,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.string1 =
-        [dictionary objectForKey:@"string1"] != [NSNull null] ? 
+        [dictionary objectForKey:@"string1"] != [NSNull null] ?
         [dictionary objectForKey:@"string1"] : nil;
 
     self.string2 =
-        [dictionary objectForKey:@"string2"] != [NSNull null] ? 
+        [dictionary objectForKey:@"string2"] != [NSNull null] ?
         [dictionary objectForKey:@"string2"] : nil;
 
     self.pinapL2Plural =
-        [dictionary objectForKey:@"pinapL2Plural"] != [NSNull null] ? 
+        [dictionary objectForKey:@"pinapL2Plural"] != [NSNull null] ?
         [(NSArray*)[dictionary objectForKey:@"pinapL2Plural"] arrayOfPinapL2PluralElementsFromPinapL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -304,8 +306,21 @@
     return NO;
 }
 
+- (NSString *)detail
+{
+    NSMutableString *string = [NSMutableString stringWithString:@"JRPinapL1PluralElement: ("];
+
+    [string appendFormat:@"string1<%p>:%@, ", &_string1, _string1];
+    [string appendFormat:@"string2<%p>:%@, ", &_string2, _string2];
+    [string appendFormat:@"pinapL2Plural:%@", [_pinapL2Plural description]];
+
+    return string;
+}
+
 - (BOOL)isEqualToPinapL1PluralElement:(JRPinapL1PluralElement *)otherPinapL1PluralElement
 {
+    DLog(@"%@", [self detail]);
+    DLog(@"%@", [otherPinapL1PluralElement detail]);
     if ((self.string1 == nil) ^ (otherPinapL1PluralElement.string1 == nil)) // xor
         return NO;
 
@@ -318,18 +333,17 @@
     if (![self.string2 isEqualToString:otherPinapL1PluralElement.string2])
         return NO;
 
-    if ((self.pinapL2Plural == nil) ^ (otherPinapL1PluralElement.pinapL2Plural == nil)) // xor
-        return NO;
-
-    if (![self.pinapL2Plural isEqualToOtherPinapL2PluralArray:otherPinapL1PluralElement.pinapL2Plural])
-        return NO;
+    if (!self.pinapL2Plural && !otherPinapL1PluralElement.pinapL2Plural) /* Keep going... */;
+    else if (!self.pinapL2Plural && ![otherPinapL1PluralElement.pinapL2Plural count]) /* Keep going... */;
+    else if (!otherPinapL1PluralElement.pinapL2Plural && ![self.pinapL2Plural count]) /* Keep going... */;
+    else if (![self.pinapL2Plural isEqualToOtherPinapL2PluralArray:otherPinapL1PluralElement.pinapL2Plural]) return NO;
 
     return YES;
 }
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"string1"];
