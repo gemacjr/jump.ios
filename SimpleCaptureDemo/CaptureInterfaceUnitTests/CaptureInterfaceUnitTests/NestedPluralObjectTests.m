@@ -48,17 +48,25 @@
 
 - (void)setUp
 {
-    self.captureUser  = [JRCaptureUser captureUser];
-    captureUser.email = @"lilli@janrain.com";
+//    self.captureUser  = [JRCaptureUser captureUser];
+//    captureUser.email = @"lilli@janrain.com";
 }
 
 - (void)tearDown
 {
-    self.captureUser = nil;
+//    self.captureUser = nil;
+//    self.currentPlural = nil;
+//    self.currentObject = nil;
+}
+
+- (void)newTestCluster
+{
+    self.captureUser  = [JRCaptureUser captureUser];
+    captureUser.email = @"lilli@janrain.com";
+
     self.currentPlural = nil;
     self.currentObject = nil;
 }
-
 
 /* Set an integer with an NSNumber boolean */
 - (void)test_b301_integerWithBoolTrue
@@ -73,18 +81,235 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-/* Plural in a plural */
-/* Plural in an object */
-/* Object in a plural */
-/* Object in an object */
-/* Plural in a plural in a plural */
-/* Plural in an object in a plural */
-/* Plural in a plural in an object */
-/* Plural in an object in an object */
-/* Object in a plural in a plural */
-/* Object in an object in a plural */
-/* Object in a plural in an object */
+/* Plural in a plural (300-304) */
+// pinap
+- (void)test_b300_pinapCreate
+{
+    JRPinapL1PluralElement *ppL1_1 = [JRPinapL1PluralElement pinapL1PluralElement];
+}
 
+- (void)test_b301_pinapUpdate_Level2_PreReplace_FailCase
+{
+
+}
+
+- (void)test_b302_pinapReplaceArray
+{
+
+}
+
+- (void)test_b303_pinapUpdate_Level2_PostReplace
+{
+
+}
+
+/* Plural in an object (305-309) */
+// pino
+- (void)test_b305_pinoCreate
+{
+
+}
+
+- (void)test_b306_pinoUpdate_Level1_PreReplace
+{
+
+}
+
+- (void)test_b307_pinoReplace_Level1
+{
+
+}
+
+- (void)test_b308_pinoUpdate_Level2_PostReplace
+{
+
+}
+
+
+/* Object in a plural (310-314) */
+// onip
+- (void)test_b310_onipCreate
+{
+
+}
+
+- (void)test_b311_onipUpdate_Level2_PreReplace_FailCase
+{
+
+}
+
+- (void)test_b312_onipReplaceArray
+{
+
+}
+
+- (void)test_b313_onipUpdate_Level2_PostReplace
+{
+
+}
+
+/* Object in an object (315-319) */
+// oino
+- (void)test_b315_onioCreate
+{
+
+}
+
+- (void)test_b316_onioUpdate_Level1
+{
+
+}
+
+- (void)test_b317_oinoUpdate_Level1_NoChangeL2
+{
+
+}
+
+- (void)test_b318_oinoUpdate_Level1_ChangeL2
+{
+
+}
+
+/* Plural in a plural in a plural (320-329) */
+// pinapinap
+- (void)test_b320_pinapinapCreate
+{
+
+}
+
+- (void)test_b321_pinapinapUpdate_Level3_PreReplace_FailCase
+{
+
+}
+
+- (void)test_b322_pinapinapReplaceArray_Level2_FailCase
+{
+
+}
+
+- (void)test_b323_pinapinapReplaceArray_Level1
+{
+
+}
+
+/* Plural in an object in a plural (330-339) */
+// pinonip
+/* Plural in a plural in an object (340-349) */
+// pinapino
+/* Plural in an object in an object (350-359) */
+// pinoino
+- (void)test_b350_pinoinoCreate
+{
+
+}
+
+- (void)test_b351_pinoinoUpdate_Level1
+{
+
+}
+
+- (void)test_b352_pinoinoUpdate_Level2
+{
+
+}
+
+- (void)test_b353_pinoinoReplace_Level1
+{
+
+}
+
+- (void)test_b354_pinoinoReplace_Level2
+{
+
+}
+
+/* Object in a plural in a plural (360-369) */
+// onipinap
+- (void)test_b360_onipinapCreate
+{
+
+}
+
+- (void)test_b361_onipinapUpdate_Level3_PreReplace_FailCase
+{
+
+}
+
+- (void)test_b362_onipinapReplaceArray_Level2_FailCase
+{
+
+}
+
+- (void)test_b363_onipinapReplaceArray_Level1
+{
+
+}
+
+- (void)test_b364_onipinapUpdate_Level3_PostReplace
+{
+
+}
+
+/* Object in an object in a plural (370-379) */
+// oinonip
+- (void)test_b370_oinonipCreate
+{
+
+}
+
+- (void)test_b3371_oinonipUpdate_Level3_PreReplace_FailCase
+{
+
+}
+
+- (void)test_b372_oinonipUpdate_Level2_PreReplace_FailCase
+{
+
+}
+
+- (void)test_b373_oinonipReplaceArray_Level1
+{
+
+}
+
+- (void)test_b374_oinonipUpdate_Level3_PostReplace
+{
+
+}
+
+/* Object in a plural in an object (380-389) */
+// onipino
+/* Object in an object (390-399) */
+// oinoino
+- (void)test_b390_oinoinoCreate
+{
+
+}
+
+- (void)test_b391_oinoinoUpdate_Level1_NoChangeL2L3
+{
+
+}
+
+- (void)test_b392_oinoinoUpdate_Level1_ChangeL2
+{
+
+}
+
+- (void)test_b393_oinoinoUpdate_Level1_ChangeL3
+{
+
+}
+
+- (void)test_b394_oinoinoUpdate_Level1_ChangeL2L3
+{
+
+}
+
+- (void)test_b395_oinoinoReplace_Level1_ChangeL2L3
+{
+
+}
 
 
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context

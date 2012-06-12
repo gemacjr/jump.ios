@@ -45,26 +45,26 @@
 
 @implementation JROnipLevelOneElement
 {
-    JRObjectId *_onipLevelOneId;
+    JRObjectId *_onipLevelOneElementId;
     NSString *_level;
     NSString *_name;
     JROnipLevelTwo *_onipLevelTwo;
 }
-@dynamic onipLevelOneId;
+@dynamic onipLevelOneElementId;
 @dynamic level;
 @dynamic name;
 @dynamic onipLevelTwo;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)onipLevelOneId
+- (JRObjectId *)onipLevelOneElementId
 {
-    return _onipLevelOneId;
+    return _onipLevelOneElementId;
 }
 
-- (void)setOnipLevelOneId:(JRObjectId *)newOnipLevelOneId
+- (void)setOnipLevelOneElementId:(JRObjectId *)newOnipLevelOneElementId
 {
-    [self.dirtyPropertySet addObject:@"onipLevelOneId"];
-    _onipLevelOneId = [newOnipLevelOneId copy];
+    [self.dirtyPropertySet addObject:@"onipLevelOneElementId"];
+    _onipLevelOneElementId = [newOnipLevelOneElementId copy];
 }
 
 - (NSString *)level
@@ -110,30 +110,30 @@
     return self;
 }
 
-+ (id)onipLevelOne
++ (id)onipLevelOneElement
 {
     return [[[JROnipLevelOneElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JROnipLevelOneElement *onipLevelOneCopy =
+    JROnipLevelOneElement *onipLevelOneElementCopy =
                 [[JROnipLevelOneElement allocWithZone:zone] init];
 
-    onipLevelOneCopy.captureObjectPath = self.captureObjectPath;
+    onipLevelOneElementCopy.captureObjectPath = self.captureObjectPath;
 
-    onipLevelOneCopy.onipLevelOneId = self.onipLevelOneId;
-    onipLevelOneCopy.level = self.level;
-    onipLevelOneCopy.name = self.name;
-    onipLevelOneCopy.onipLevelTwo = self.onipLevelTwo;
+    onipLevelOneElementCopy.onipLevelOneElementId = self.onipLevelOneElementId;
+    onipLevelOneElementCopy.level = self.level;
+    onipLevelOneElementCopy.name = self.name;
+    onipLevelOneElementCopy.onipLevelTwo = self.onipLevelTwo;
     // TODO: Necessary??
-    onipLevelOneCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    onipLevelOneElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [onipLevelOneCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [onipLevelOneCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [onipLevelOneElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [onipLevelOneElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return onipLevelOneCopy;
+    return onipLevelOneElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -141,7 +141,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.onipLevelOneId ? [NSNumber numberWithInteger:[self.onipLevelOneId integerValue]] : [NSNull null])
+    [dict setObject:(self.onipLevelOneElementId ? [NSNumber numberWithInteger:[self.onipLevelOneElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.level ? self.level : [NSNull null])
              forKey:@"level"];
@@ -153,37 +153,37 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)onipLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)onipLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JROnipLevelOneElement *onipLevelOne = [JROnipLevelOneElement onipLevelOne];
+    JROnipLevelOneElement *onipLevelOneElement = [JROnipLevelOneElement onipLevelOneElement];
 
-    onipLevelOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    onipLevelOneElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    onipLevelOne.canBeUpdatedOrReplaced = YES;
+    onipLevelOneElement.canBeUpdatedOrReplaced = YES;
 
-    onipLevelOne.onipLevelOneId =
+    onipLevelOneElement.onipLevelOneElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    onipLevelOne.level =
+    onipLevelOneElement.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
-    onipLevelOne.name =
+    onipLevelOneElement.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    onipLevelOne.onipLevelTwo =
+    onipLevelOneElement.onipLevelTwo =
         [dictionary objectForKey:@"onipLevelTwo"] != [NSNull null] ? 
-        [JROnipLevelTwo onipLevelTwoObjectFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:onipLevelOne.captureObjectPath] : nil;
+        [JROnipLevelTwo onipLevelTwoObjectFromDictionary:[dictionary objectForKey:@"onipLevelTwo"] withPath:onipLevelOneElement.captureObjectPath] : nil;
 
-    [onipLevelOne.dirtyPropertySet removeAllObjects];
-    [onipLevelOne.dirtyArraySet removeAllObjects];
+    [onipLevelOneElement.dirtyPropertySet removeAllObjects];
+    [onipLevelOneElement.dirtyArraySet removeAllObjects];
     
-    return onipLevelOne;
+    return onipLevelOneElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -197,7 +197,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.onipLevelOneId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.onipLevelOneElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"level"])
@@ -229,7 +229,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipLevelOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.onipLevelOneId =
+    self.onipLevelOneElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -303,7 +303,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"onipLevelOneId"];
+    [dict setObject:@"JRObjectId" forKey:@"onipLevelOneElementId"];
     [dict setObject:@"NSString" forKey:@"level"];
     [dict setObject:@"NSString" forKey:@"name"];
     [dict setObject:@"JROnipLevelTwo" forKey:@"onipLevelTwo"];
@@ -313,7 +313,7 @@
 
 - (void)dealloc
 {
-    [_onipLevelOneId release];
+    [_onipLevelOneElementId release];
     [_level release];
     [_name release];
     [_onipLevelTwo release];

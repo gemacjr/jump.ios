@@ -35,7 +35,7 @@
  * @brief URL of a web page relating to this Contact.
  **/
 @interface JRUrlsElement : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *urlsId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *urlsElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) JRBoolean *primary; /**< The object's \e primary property @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code> */ 
 @property (nonatomic, copy) NSString *type; /**< The object's \e type property */ 
 @property (nonatomic, copy) NSString *value; /**< The object's \e value property */ 
@@ -58,7 +58,7 @@
  * @return
  *   A JRUrlsElement object
  **/
-+ (id)urls;
++ (id)urlsElement;
 
 /**
  * Returns a JRUrlsElement object created from an \e NSDictionary representing the object
@@ -79,7 +79,7 @@
  * @return
  *   A JRUrlsElement object
  **/
-+ (id)urlsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)urlsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

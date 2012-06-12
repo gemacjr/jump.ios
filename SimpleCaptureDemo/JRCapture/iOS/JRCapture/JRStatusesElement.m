@@ -45,24 +45,24 @@
 
 @implementation JRStatusesElement
 {
-    JRObjectId *_statusesId;
+    JRObjectId *_statusesElementId;
     NSString *_status;
     JRDateTime *_statusCreated;
 }
-@dynamic statusesId;
+@dynamic statusesElementId;
 @dynamic status;
 @dynamic statusCreated;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)statusesId
+- (JRObjectId *)statusesElementId
 {
-    return _statusesId;
+    return _statusesElementId;
 }
 
-- (void)setStatusesId:(JRObjectId *)newStatusesId
+- (void)setStatusesElementId:(JRObjectId *)newStatusesElementId
 {
-    [self.dirtyPropertySet addObject:@"statusesId"];
-    _statusesId = [newStatusesId copy];
+    [self.dirtyPropertySet addObject:@"statusesElementId"];
+    _statusesElementId = [newStatusesElementId copy];
 }
 
 - (NSString *)status
@@ -97,29 +97,29 @@
     return self;
 }
 
-+ (id)statuses
++ (id)statusesElement
 {
     return [[[JRStatusesElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRStatusesElement *statusesCopy =
+    JRStatusesElement *statusesElementCopy =
                 [[JRStatusesElement allocWithZone:zone] init];
 
-    statusesCopy.captureObjectPath = self.captureObjectPath;
+    statusesElementCopy.captureObjectPath = self.captureObjectPath;
 
-    statusesCopy.statusesId = self.statusesId;
-    statusesCopy.status = self.status;
-    statusesCopy.statusCreated = self.statusCreated;
+    statusesElementCopy.statusesElementId = self.statusesElementId;
+    statusesElementCopy.status = self.status;
+    statusesElementCopy.statusCreated = self.statusCreated;
     // TODO: Necessary??
-    statusesCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    statusesElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [statusesCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [statusesCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [statusesElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [statusesElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return statusesCopy;
+    return statusesElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -127,7 +127,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.statusesId ? [NSNumber numberWithInteger:[self.statusesId integerValue]] : [NSNull null])
+    [dict setObject:(self.statusesElementId ? [NSNumber numberWithInteger:[self.statusesElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.status ? self.status : [NSNull null])
              forKey:@"status"];
@@ -137,33 +137,33 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)statusesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)statusesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRStatusesElement *statuses = [JRStatusesElement statuses];
+    JRStatusesElement *statusesElement = [JRStatusesElement statusesElement];
 
-    statuses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    statusesElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    statuses.canBeUpdatedOrReplaced = YES;
+    statusesElement.canBeUpdatedOrReplaced = YES;
 
-    statuses.statusesId =
+    statusesElement.statusesElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    statuses.status =
+    statusesElement.status =
         [dictionary objectForKey:@"status"] != [NSNull null] ? 
         [dictionary objectForKey:@"status"] : nil;
 
-    statuses.statusCreated =
+    statusesElement.statusCreated =
         [dictionary objectForKey:@"statusCreated"] != [NSNull null] ? 
         [JRDateTime dateFromISO8601DateTimeString:[dictionary objectForKey:@"statusCreated"]] : nil;
 
-    [statuses.dirtyPropertySet removeAllObjects];
-    [statuses.dirtyArraySet removeAllObjects];
+    [statusesElement.dirtyPropertySet removeAllObjects];
+    [statusesElement.dirtyArraySet removeAllObjects];
     
-    return statuses;
+    return statusesElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -177,7 +177,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.statusesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.statusesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"status"])
@@ -202,7 +202,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"statuses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.statusesId =
+    self.statusesElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -256,7 +256,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"statusesId"];
+    [dict setObject:@"JRObjectId" forKey:@"statusesElementId"];
     [dict setObject:@"NSString" forKey:@"status"];
     [dict setObject:@"JRDateTime" forKey:@"statusCreated"];
 
@@ -265,7 +265,7 @@
 
 - (void)dealloc
 {
-    [_statusesId release];
+    [_statusesElementId release];
     [_status release];
     [_statusCreated release];
 

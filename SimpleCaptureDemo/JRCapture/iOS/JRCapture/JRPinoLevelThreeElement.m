@@ -45,24 +45,24 @@
 
 @implementation JRPinoLevelThreeElement
 {
-    JRObjectId *_pinoLevelThreeId;
+    JRObjectId *_pinoLevelThreeElementId;
     NSString *_level;
     NSString *_name;
 }
-@dynamic pinoLevelThreeId;
+@dynamic pinoLevelThreeElementId;
 @dynamic level;
 @dynamic name;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)pinoLevelThreeId
+- (JRObjectId *)pinoLevelThreeElementId
 {
-    return _pinoLevelThreeId;
+    return _pinoLevelThreeElementId;
 }
 
-- (void)setPinoLevelThreeId:(JRObjectId *)newPinoLevelThreeId
+- (void)setPinoLevelThreeElementId:(JRObjectId *)newPinoLevelThreeElementId
 {
-    [self.dirtyPropertySet addObject:@"pinoLevelThreeId"];
-    _pinoLevelThreeId = [newPinoLevelThreeId copy];
+    [self.dirtyPropertySet addObject:@"pinoLevelThreeElementId"];
+    _pinoLevelThreeElementId = [newPinoLevelThreeElementId copy];
 }
 
 - (NSString *)level
@@ -97,29 +97,29 @@
     return self;
 }
 
-+ (id)pinoLevelThree
++ (id)pinoLevelThreeElement
 {
     return [[[JRPinoLevelThreeElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinoLevelThreeElement *pinoLevelThreeCopy =
+    JRPinoLevelThreeElement *pinoLevelThreeElementCopy =
                 [[JRPinoLevelThreeElement allocWithZone:zone] init];
 
-    pinoLevelThreeCopy.captureObjectPath = self.captureObjectPath;
+    pinoLevelThreeElementCopy.captureObjectPath = self.captureObjectPath;
 
-    pinoLevelThreeCopy.pinoLevelThreeId = self.pinoLevelThreeId;
-    pinoLevelThreeCopy.level = self.level;
-    pinoLevelThreeCopy.name = self.name;
+    pinoLevelThreeElementCopy.pinoLevelThreeElementId = self.pinoLevelThreeElementId;
+    pinoLevelThreeElementCopy.level = self.level;
+    pinoLevelThreeElementCopy.name = self.name;
     // TODO: Necessary??
-    pinoLevelThreeCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    pinoLevelThreeElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [pinoLevelThreeCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinoLevelThreeCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [pinoLevelThreeElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [pinoLevelThreeElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return pinoLevelThreeCopy;
+    return pinoLevelThreeElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -127,7 +127,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.pinoLevelThreeId ? [NSNumber numberWithInteger:[self.pinoLevelThreeId integerValue]] : [NSNull null])
+    [dict setObject:(self.pinoLevelThreeElementId ? [NSNumber numberWithInteger:[self.pinoLevelThreeElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.level ? self.level : [NSNull null])
              forKey:@"level"];
@@ -137,33 +137,33 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)pinoLevelThreeElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRPinoLevelThreeElement *pinoLevelThree = [JRPinoLevelThreeElement pinoLevelThree];
+    JRPinoLevelThreeElement *pinoLevelThreeElement = [JRPinoLevelThreeElement pinoLevelThreeElement];
 
-    pinoLevelThree.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    pinoLevelThreeElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    pinoLevelThree.canBeUpdatedOrReplaced = YES;
+    pinoLevelThreeElement.canBeUpdatedOrReplaced = YES;
 
-    pinoLevelThree.pinoLevelThreeId =
+    pinoLevelThreeElement.pinoLevelThreeElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    pinoLevelThree.level =
+    pinoLevelThreeElement.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
-    pinoLevelThree.name =
+    pinoLevelThreeElement.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    [pinoLevelThree.dirtyPropertySet removeAllObjects];
-    [pinoLevelThree.dirtyArraySet removeAllObjects];
+    [pinoLevelThreeElement.dirtyPropertySet removeAllObjects];
+    [pinoLevelThreeElement.dirtyArraySet removeAllObjects];
     
-    return pinoLevelThree;
+    return pinoLevelThreeElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -177,7 +177,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.pinoLevelThreeId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.pinoLevelThreeElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"level"])
@@ -202,7 +202,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoLevelThree", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.pinoLevelThreeId =
+    self.pinoLevelThreeElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -256,7 +256,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"pinoLevelThreeId"];
+    [dict setObject:@"JRObjectId" forKey:@"pinoLevelThreeElementId"];
     [dict setObject:@"NSString" forKey:@"level"];
     [dict setObject:@"NSString" forKey:@"name"];
 
@@ -265,7 +265,7 @@
 
 - (void)dealloc
 {
-    [_pinoLevelThreeId release];
+    [_pinoLevelThreeElementId release];
     [_level release];
     [_name release];
 

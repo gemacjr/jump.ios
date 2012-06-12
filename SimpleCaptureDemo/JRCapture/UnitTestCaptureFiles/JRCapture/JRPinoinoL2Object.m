@@ -40,23 +40,23 @@
 #import "JRPinoinoL2Object.h"
 
 @interface NSArray (PinoinoL3PluralToFromDictionary)
-- (NSArray*)arrayOfPinoinoL3PluralObjectsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralObjects;
-- (NSArray*)arrayOfPinoinoL3PluralReplaceDictionariesFromPinoinoL3PluralObjects;
+- (NSArray*)arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElements;
+- (NSArray*)arrayOfPinoinoL3PluralReplaceDictionariesFromPinoinoL3PluralElements;
 @end
 
 @implementation NSArray (PinoinoL3PluralToFromDictionary)
-- (NSArray*)arrayOfPinoinoL3PluralObjectsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPinoinoL3PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPinoinoL3PluralArray addObject:[JRPinoinoL3PluralElement pinoinoL3PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPinoinoL3PluralArray addObject:[JRPinoinoL3PluralElement pinoinoL3PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPinoinoL3PluralArray;
 }
 
-- (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralObjects
+- (NSArray*)arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -66,7 +66,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPinoinoL3PluralReplaceDictionariesFromPinoinoL3PluralObjects
+- (NSArray*)arrayOfPinoinoL3PluralReplaceDictionariesFromPinoinoL3PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -169,7 +169,7 @@
              forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null])
              forKey:@"string2"];
-    [dict setObject:(self.pinoinoL3Plural ? [self.pinoinoL3Plural arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralObjects] : [NSNull null])
+    [dict setObject:(self.pinoinoL3Plural ? [self.pinoinoL3Plural arrayOfPinoinoL3PluralDictionariesFromPinoinoL3PluralElements] : [NSNull null])
              forKey:@"pinoinoL3Plural"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
@@ -193,7 +193,7 @@
 
     pinoinoL2Object.pinoinoL3Plural =
         [dictionary objectForKey:@"pinoinoL3Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinoinoL3Plural"] arrayOfPinoinoL3PluralObjectsFromPinoinoL3PluralDictionariesWithPath:pinoinoL2Object.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinoinoL3Plural"] arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:pinoinoL2Object.captureObjectPath] : nil;
 
     [pinoinoL2Object.dirtyPropertySet removeAllObjects];
     [pinoinoL2Object.dirtyArraySet removeAllObjects];
@@ -241,7 +241,7 @@
 
     self.pinoinoL3Plural =
         [dictionary objectForKey:@"pinoinoL3Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinoinoL3Plural"] arrayOfPinoinoL3PluralObjectsFromPinoinoL3PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinoinoL3Plural"] arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
     [self.dirtyArraySet setSet:dirtyArraySetCopy];
@@ -268,7 +268,7 @@
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
-    [dict setObject:(self.pinoinoL3Plural ? [self.pinoinoL3Plural arrayOfPinoinoL3PluralReplaceDictionariesFromPinoinoL3PluralObjects] : [NSArray array]) forKey:@"pinoinoL3Plural"];
+    [dict setObject:(self.pinoinoL3Plural ? [self.pinoinoL3Plural arrayOfPinoinoL3PluralReplaceDictionariesFromPinoinoL3PluralElements] : [NSArray array]) forKey:@"pinoinoL3Plural"];
 
     return dict;
 }

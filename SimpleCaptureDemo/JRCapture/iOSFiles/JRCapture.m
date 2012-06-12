@@ -193,7 +193,7 @@
     }
     if (!date) /* 19830312 */
     {
-        [dateFormatter setDateFormat:@"YYYYMMDD"];
+        [dateFormatter setDateFormat:@"yyyyMMDD"];
         date = [dateFormatter dateFromString:ISO8601String];
     }
 

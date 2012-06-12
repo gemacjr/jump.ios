@@ -285,7 +285,7 @@ my @copyConstructorParts = (
 #  * properties <requiredProperties>.  These properties are required  <--------------+
 #  * when updating the object on Capture.
 #  **/
-# + (id)<objectName>ObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+# + (id)<objectName>[Object/Element]FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 # {
 #     if (!dictionary)
 #         return nil;
@@ -332,7 +332,7 @@ my @fromDictionaryDocParts = (
 " **/\n");
 
 my @fromDictionaryParts = (
-"+ (id)","","ObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
+"+ (id)","","FromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
 "\n{\n",
 "    if (!dictionary)\n        return nil;\n\n",
 ""," = [","","];\n\n",
@@ -838,9 +838,9 @@ sub createArrayCategoryForSubobject {
   my $arrayCategoryIntf = "\@interface NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
   my $arrayCategoryImpl = "\@implementation NSArray (" . ucfirst($propertyName) . "ToFromDictionary)\n";
 
-  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath";
-  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects";
-  my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Objects";
+  my $methodName1 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:(NSString*)capturePath";
+  my $methodName2 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Elements";
+  my $methodName3 = "- (NSArray*)arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Elements";
   
 
   $arrayCategoryIntf .= "$methodName1;\n$methodName2;\n$methodName3;\n\@end\n\n";
@@ -850,7 +850,7 @@ sub createArrayCategoryForSubobject {
        "    NSMutableArray *filtered" . ucfirst($propertyName) . "Array = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *dictionary in self)\n" . 
        "        if ([dictionary isKindOfClass:[NSDictionary class]])\n" . 
-       "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . "Element " . $propertyName . "ObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];\n\n" . 
+       "            [filtered" . ucfirst($propertyName) . "Array addObject:[JR" . ucfirst($propertyName) . "Element " . $propertyName . "ElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];\n\n" . 
        "    return filtered" . ucfirst($propertyName) . "Array;\n}\n\n";
        
   $arrayCategoryImpl .= "$methodName2\n{\n";

@@ -58,7 +58,7 @@
  * @return
  *   A JROinonipL1PluralElement object
  **/
-+ (id)oinonipL1Plural;
++ (id)oinonipL1PluralElement;
 
 /**
  * Returns a JROinonipL1PluralElement object created from an \e NSDictionary representing the object
@@ -79,7 +79,7 @@
  * @return
  *   A JROinonipL1PluralElement object
  **/
-+ (id)oinonipL1PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)oinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

@@ -45,28 +45,28 @@
 
 @implementation JRGamesElement
 {
-    JRObjectId *_gamesId;
+    JRObjectId *_gamesElementId;
     JRBoolean *_isFavorite;
     NSString *_name;
     JRStringArray *_opponents;
     JRInteger *_rating;
 }
-@dynamic gamesId;
+@dynamic gamesElementId;
 @dynamic isFavorite;
 @dynamic name;
 @dynamic opponents;
 @dynamic rating;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)gamesId
+- (JRObjectId *)gamesElementId
 {
-    return _gamesId;
+    return _gamesElementId;
 }
 
-- (void)setGamesId:(JRObjectId *)newGamesId
+- (void)setGamesElementId:(JRObjectId *)newGamesElementId
 {
-    [self.dirtyPropertySet addObject:@"gamesId"];
-    _gamesId = [newGamesId copy];
+    [self.dirtyPropertySet addObject:@"gamesElementId"];
+    _gamesElementId = [newGamesElementId copy];
 }
 
 - (JRBoolean *)isFavorite
@@ -145,31 +145,31 @@
     return self;
 }
 
-+ (id)games
++ (id)gamesElement
 {
     return [[[JRGamesElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRGamesElement *gamesCopy =
+    JRGamesElement *gamesElementCopy =
                 [[JRGamesElement allocWithZone:zone] init];
 
-    gamesCopy.captureObjectPath = self.captureObjectPath;
+    gamesElementCopy.captureObjectPath = self.captureObjectPath;
 
-    gamesCopy.gamesId = self.gamesId;
-    gamesCopy.isFavorite = self.isFavorite;
-    gamesCopy.name = self.name;
-    gamesCopy.opponents = self.opponents;
-    gamesCopy.rating = self.rating;
+    gamesElementCopy.gamesElementId = self.gamesElementId;
+    gamesElementCopy.isFavorite = self.isFavorite;
+    gamesElementCopy.name = self.name;
+    gamesElementCopy.opponents = self.opponents;
+    gamesElementCopy.rating = self.rating;
     // TODO: Necessary??
-    gamesCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    gamesElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [gamesCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [gamesCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [gamesElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [gamesElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return gamesCopy;
+    return gamesElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -177,7 +177,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.gamesId ? [NSNumber numberWithInteger:[self.gamesId integerValue]] : [NSNull null])
+    [dict setObject:(self.gamesElementId ? [NSNumber numberWithInteger:[self.gamesElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.isFavorite ? [NSNumber numberWithBool:[self.isFavorite boolValue]] : [NSNull null])
              forKey:@"isFavorite"];
@@ -191,43 +191,43 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)gamesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)gamesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRGamesElement *games = [JRGamesElement games];
+    JRGamesElement *gamesElement = [JRGamesElement gamesElement];
 
-    games.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    gamesElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    games.canBeUpdatedOrReplaced = YES;
+    gamesElement.canBeUpdatedOrReplaced = YES;
 
-    games.gamesId =
+    gamesElement.gamesElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    games.isFavorite =
+    gamesElement.isFavorite =
         [dictionary objectForKey:@"isFavorite"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"isFavorite"] boolValue]] : nil;
 
-    games.name =
+    gamesElement.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    games.opponents =
+    gamesElement.opponents =
         [dictionary objectForKey:@"opponents"] != [NSNull null] ? 
         [(NSArray*)[dictionary objectForKey:@"opponents"]
                 arrayOfStringPluralElementsFromStringPluralDictionariesWithType:@"name" 
-                                                                andExtendedPath:[NSString stringWithFormat:@"%@/opponents", games.captureObjectPath]] : nil;
+                                                                andExtendedPath:[NSString stringWithFormat:@"%@/opponents", gamesElement.captureObjectPath]] : nil;
 
-    games.rating =
+    gamesElement.rating =
         [dictionary objectForKey:@"rating"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"rating"] integerValue]] : nil;
 
-    [games.dirtyPropertySet removeAllObjects];
-    [games.dirtyArraySet removeAllObjects];
+    [gamesElement.dirtyPropertySet removeAllObjects];
+    [gamesElement.dirtyArraySet removeAllObjects];
     
-    return games;
+    return gamesElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -241,7 +241,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.gamesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.gamesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"isFavorite"])
@@ -270,7 +270,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"games", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.gamesId =
+    self.gamesElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -345,7 +345,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"gamesId"];
+    [dict setObject:@"JRObjectId" forKey:@"gamesElementId"];
     [dict setObject:@"JRBoolean" forKey:@"isFavorite"];
     [dict setObject:@"NSString" forKey:@"name"];
     [dict setObject:@"JRStringArray" forKey:@"opponents"];
@@ -356,7 +356,7 @@
 
 - (void)dealloc
 {
-    [_gamesId release];
+    [_gamesElementId release];
     [_isFavorite release];
     [_name release];
     [_opponents release];

@@ -97,29 +97,29 @@
     return self;
 }
 
-+ (id)oinonipL1Plural
++ (id)oinonipL1PluralElement
 {
     return [[[JROinonipL1PluralElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JROinonipL1PluralElement *oinonipL1PluralCopy =
+    JROinonipL1PluralElement *oinonipL1PluralElementCopy =
                 [[JROinonipL1PluralElement allocWithZone:zone] init];
 
-    oinonipL1PluralCopy.captureObjectPath = self.captureObjectPath;
+    oinonipL1PluralElementCopy.captureObjectPath = self.captureObjectPath;
 
-    oinonipL1PluralCopy.string1 = self.string1;
-    oinonipL1PluralCopy.string2 = self.string2;
-    oinonipL1PluralCopy.oinonipL2Object = self.oinonipL2Object;
+    oinonipL1PluralElementCopy.string1 = self.string1;
+    oinonipL1PluralElementCopy.string2 = self.string2;
+    oinonipL1PluralElementCopy.oinonipL2Object = self.oinonipL2Object;
     // TODO: Necessary??
-    oinonipL1PluralCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    oinonipL1PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [oinonipL1PluralCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [oinonipL1PluralCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [oinonipL1PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [oinonipL1PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return oinonipL1PluralCopy;
+    return oinonipL1PluralElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -137,33 +137,33 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)oinonipL1PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)oinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JROinonipL1PluralElement *oinonipL1Plural = [JROinonipL1PluralElement oinonipL1Plural];
+    JROinonipL1PluralElement *oinonipL1PluralElement = [JROinonipL1PluralElement oinonipL1PluralElement];
 
-    oinonipL1Plural.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"oinonipL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    oinonipL1PluralElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"oinonipL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    oinonipL1Plural.canBeUpdatedOrReplaced = YES;
+    oinonipL1PluralElement.canBeUpdatedOrReplaced = YES;
 
-    oinonipL1Plural.string1 =
+    oinonipL1PluralElement.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
         [dictionary objectForKey:@"string1"] : nil;
 
-    oinonipL1Plural.string2 =
+    oinonipL1PluralElement.string2 =
         [dictionary objectForKey:@"string2"] != [NSNull null] ? 
         [dictionary objectForKey:@"string2"] : nil;
 
-    oinonipL1Plural.oinonipL2Object =
+    oinonipL1PluralElement.oinonipL2Object =
         [dictionary objectForKey:@"oinonipL2Object"] != [NSNull null] ? 
-        [JROinonipL2Object oinonipL2ObjectObjectFromDictionary:[dictionary objectForKey:@"oinonipL2Object"] withPath:oinonipL1Plural.captureObjectPath] : nil;
+        [JROinonipL2Object oinonipL2ObjectObjectFromDictionary:[dictionary objectForKey:@"oinonipL2Object"] withPath:oinonipL1PluralElement.captureObjectPath] : nil;
 
-    [oinonipL1Plural.dirtyPropertySet removeAllObjects];
-    [oinonipL1Plural.dirtyArraySet removeAllObjects];
+    [oinonipL1PluralElement.dirtyPropertySet removeAllObjects];
+    [oinonipL1PluralElement.dirtyArraySet removeAllObjects];
     
-    return oinonipL1Plural;
+    return oinonipL1PluralElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

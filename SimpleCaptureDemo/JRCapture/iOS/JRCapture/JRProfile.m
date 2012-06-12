@@ -40,23 +40,23 @@
 #import "JRProfile.h"
 
 @interface NSArray (AccountsToFromDictionary)
-- (NSArray*)arrayOfAccountsObjectsFromAccountsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfAccountsDictionariesFromAccountsObjects;
-- (NSArray*)arrayOfAccountsReplaceDictionariesFromAccountsObjects;
+- (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfAccountsDictionariesFromAccountsElements;
+- (NSArray*)arrayOfAccountsReplaceDictionariesFromAccountsElements;
 @end
 
 @implementation NSArray (AccountsToFromDictionary)
-- (NSArray*)arrayOfAccountsObjectsFromAccountsDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfAccountsElementsFromAccountsDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredAccountsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredAccountsArray addObject:[JRAccountsElement accountsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredAccountsArray addObject:[JRAccountsElement accountsElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredAccountsArray;
 }
 
-- (NSArray*)arrayOfAccountsDictionariesFromAccountsObjects
+- (NSArray*)arrayOfAccountsDictionariesFromAccountsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -66,7 +66,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfAccountsReplaceDictionariesFromAccountsObjects
+- (NSArray*)arrayOfAccountsReplaceDictionariesFromAccountsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -78,23 +78,23 @@
 @end
 
 @interface NSArray (AddressesToFromDictionary)
-- (NSArray*)arrayOfAddressesObjectsFromAddressesDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfAddressesDictionariesFromAddressesObjects;
-- (NSArray*)arrayOfAddressesReplaceDictionariesFromAddressesObjects;
+- (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfAddressesDictionariesFromAddressesElements;
+- (NSArray*)arrayOfAddressesReplaceDictionariesFromAddressesElements;
 @end
 
 @implementation NSArray (AddressesToFromDictionary)
-- (NSArray*)arrayOfAddressesObjectsFromAddressesDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfAddressesElementsFromAddressesDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredAddressesArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredAddressesArray addObject:[JRAddressesElement addressesObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredAddressesArray addObject:[JRAddressesElement addressesElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredAddressesArray;
 }
 
-- (NSArray*)arrayOfAddressesDictionariesFromAddressesObjects
+- (NSArray*)arrayOfAddressesDictionariesFromAddressesElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -104,7 +104,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfAddressesReplaceDictionariesFromAddressesObjects
+- (NSArray*)arrayOfAddressesReplaceDictionariesFromAddressesElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -116,23 +116,23 @@
 @end
 
 @interface NSArray (EmailsToFromDictionary)
-- (NSArray*)arrayOfEmailsObjectsFromEmailsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfEmailsDictionariesFromEmailsObjects;
-- (NSArray*)arrayOfEmailsReplaceDictionariesFromEmailsObjects;
+- (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfEmailsDictionariesFromEmailsElements;
+- (NSArray*)arrayOfEmailsReplaceDictionariesFromEmailsElements;
 @end
 
 @implementation NSArray (EmailsToFromDictionary)
-- (NSArray*)arrayOfEmailsObjectsFromEmailsDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfEmailsElementsFromEmailsDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredEmailsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredEmailsArray addObject:[JREmailsElement emailsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredEmailsArray addObject:[JREmailsElement emailsElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredEmailsArray;
 }
 
-- (NSArray*)arrayOfEmailsDictionariesFromEmailsObjects
+- (NSArray*)arrayOfEmailsDictionariesFromEmailsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -142,7 +142,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfEmailsReplaceDictionariesFromEmailsObjects
+- (NSArray*)arrayOfEmailsReplaceDictionariesFromEmailsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -154,23 +154,23 @@
 @end
 
 @interface NSArray (ImsToFromDictionary)
-- (NSArray*)arrayOfImsObjectsFromImsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfImsDictionariesFromImsObjects;
-- (NSArray*)arrayOfImsReplaceDictionariesFromImsObjects;
+- (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfImsDictionariesFromImsElements;
+- (NSArray*)arrayOfImsReplaceDictionariesFromImsElements;
 @end
 
 @implementation NSArray (ImsToFromDictionary)
-- (NSArray*)arrayOfImsObjectsFromImsDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfImsElementsFromImsDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredImsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredImsArray addObject:[JRImsElement imsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredImsArray addObject:[JRImsElement imsElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredImsArray;
 }
 
-- (NSArray*)arrayOfImsDictionariesFromImsObjects
+- (NSArray*)arrayOfImsDictionariesFromImsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -180,7 +180,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfImsReplaceDictionariesFromImsObjects
+- (NSArray*)arrayOfImsReplaceDictionariesFromImsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -192,23 +192,23 @@
 @end
 
 @interface NSArray (OrganizationsToFromDictionary)
-- (NSArray*)arrayOfOrganizationsObjectsFromOrganizationsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsObjects;
-- (NSArray*)arrayOfOrganizationsReplaceDictionariesFromOrganizationsObjects;
+- (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElements;
+- (NSArray*)arrayOfOrganizationsReplaceDictionariesFromOrganizationsElements;
 @end
 
 @implementation NSArray (OrganizationsToFromDictionary)
-- (NSArray*)arrayOfOrganizationsObjectsFromOrganizationsDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredOrganizationsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredOrganizationsArray addObject:[JROrganizationsElement organizationsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredOrganizationsArray addObject:[JROrganizationsElement organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredOrganizationsArray;
 }
 
-- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsObjects
+- (NSArray*)arrayOfOrganizationsDictionariesFromOrganizationsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -218,7 +218,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfOrganizationsReplaceDictionariesFromOrganizationsObjects
+- (NSArray*)arrayOfOrganizationsReplaceDictionariesFromOrganizationsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -230,23 +230,23 @@
 @end
 
 @interface NSArray (PhoneNumbersToFromDictionary)
-- (NSArray*)arrayOfPhoneNumbersObjectsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersObjects;
-- (NSArray*)arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersObjects;
+- (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElements;
+- (NSArray*)arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersElements;
 @end
 
 @implementation NSArray (PhoneNumbersToFromDictionary)
-- (NSArray*)arrayOfPhoneNumbersObjectsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPhoneNumbersArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPhoneNumbersArray addObject:[JRPhoneNumbersElement phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPhoneNumbersArray addObject:[JRPhoneNumbersElement phoneNumbersElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPhoneNumbersArray;
 }
 
-- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersObjects
+- (NSArray*)arrayOfPhoneNumbersDictionariesFromPhoneNumbersElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -256,7 +256,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersObjects
+- (NSArray*)arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -268,23 +268,23 @@
 @end
 
 @interface NSArray (ProfilePhotosToFromDictionary)
-- (NSArray*)arrayOfProfilePhotosObjectsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosObjects;
-- (NSArray*)arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosObjects;
+- (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElements;
+- (NSArray*)arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosElements;
 @end
 
 @implementation NSArray (ProfilePhotosToFromDictionary)
-- (NSArray*)arrayOfProfilePhotosObjectsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredProfilePhotosArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredProfilePhotosArray addObject:[JRProfilePhotosElement profilePhotosObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredProfilePhotosArray addObject:[JRProfilePhotosElement profilePhotosElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredProfilePhotosArray;
 }
 
-- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosObjects
+- (NSArray*)arrayOfProfilePhotosDictionariesFromProfilePhotosElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -294,7 +294,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosObjects
+- (NSArray*)arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -306,23 +306,23 @@
 @end
 
 @interface NSArray (UrlsToFromDictionary)
-- (NSArray*)arrayOfUrlsObjectsFromUrlsDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfUrlsDictionariesFromUrlsObjects;
-- (NSArray*)arrayOfUrlsReplaceDictionariesFromUrlsObjects;
+- (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfUrlsDictionariesFromUrlsElements;
+- (NSArray*)arrayOfUrlsReplaceDictionariesFromUrlsElements;
 @end
 
 @implementation NSArray (UrlsToFromDictionary)
-- (NSArray*)arrayOfUrlsObjectsFromUrlsDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfUrlsElementsFromUrlsDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredUrlsArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredUrlsArray addObject:[JRUrlsElement urlsObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredUrlsArray addObject:[JRUrlsElement urlsElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredUrlsArray;
 }
 
-- (NSArray*)arrayOfUrlsDictionariesFromUrlsObjects
+- (NSArray*)arrayOfUrlsDictionariesFromUrlsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -332,7 +332,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfUrlsReplaceDictionariesFromUrlsObjects
+- (NSArray*)arrayOfUrlsReplaceDictionariesFromUrlsElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -1231,9 +1231,9 @@
 
     [dict setObject:(self.aboutMe ? self.aboutMe : [NSNull null])
              forKey:@"aboutMe"];
-    [dict setObject:(self.accounts ? [self.accounts arrayOfAccountsDictionariesFromAccountsObjects] : [NSNull null])
+    [dict setObject:(self.accounts ? [self.accounts arrayOfAccountsDictionariesFromAccountsElements] : [NSNull null])
              forKey:@"accounts"];
-    [dict setObject:(self.addresses ? [self.addresses arrayOfAddressesDictionariesFromAddressesObjects] : [NSNull null])
+    [dict setObject:(self.addresses ? [self.addresses arrayOfAddressesDictionariesFromAddressesElements] : [NSNull null])
              forKey:@"addresses"];
     [dict setObject:(self.anniversary ? [self.anniversary stringFromISO8601Date] : [NSNull null])
              forKey:@"anniversary"];
@@ -1253,7 +1253,7 @@
              forKey:@"displayName"];
     [dict setObject:(self.drinker ? self.drinker : [NSNull null])
              forKey:@"drinker"];
-    [dict setObject:(self.emails ? [self.emails arrayOfEmailsDictionariesFromEmailsObjects] : [NSNull null])
+    [dict setObject:(self.emails ? [self.emails arrayOfEmailsDictionariesFromEmailsElements] : [NSNull null])
              forKey:@"emails"];
     [dict setObject:(self.ethnicity ? self.ethnicity : [NSNull null])
              forKey:@"ethnicity"];
@@ -1269,7 +1269,7 @@
              forKey:@"heroes"];
     [dict setObject:(self.humor ? self.humor : [NSNull null])
              forKey:@"humor"];
-    [dict setObject:(self.ims ? [self.ims arrayOfImsDictionariesFromImsObjects] : [NSNull null])
+    [dict setObject:(self.ims ? [self.ims arrayOfImsDictionariesFromImsElements] : [NSNull null])
              forKey:@"ims"];
     [dict setObject:(self.interestedInMeeting ? self.interestedInMeeting : [NSNull null])
              forKey:@"interestedInMeeting"];
@@ -1295,13 +1295,13 @@
              forKey:@"nickname"];
     [dict setObject:(self.note ? self.note : [NSNull null])
              forKey:@"note"];
-    [dict setObject:(self.organizations ? [self.organizations arrayOfOrganizationsDictionariesFromOrganizationsObjects] : [NSNull null])
+    [dict setObject:(self.organizations ? [self.organizations arrayOfOrganizationsDictionariesFromOrganizationsElements] : [NSNull null])
              forKey:@"organizations"];
     [dict setObject:(self.pets ? [self.pets arrayOfStringPluralDictionariesFromStringPluralElements] : [NSNull null])
              forKey:@"pets"];
-    [dict setObject:(self.phoneNumbers ? [self.phoneNumbers arrayOfPhoneNumbersDictionariesFromPhoneNumbersObjects] : [NSNull null])
+    [dict setObject:(self.phoneNumbers ? [self.phoneNumbers arrayOfPhoneNumbersDictionariesFromPhoneNumbersElements] : [NSNull null])
              forKey:@"phoneNumbers"];
-    [dict setObject:(self.profilePhotos ? [self.profilePhotos arrayOfProfilePhotosDictionariesFromProfilePhotosObjects] : [NSNull null])
+    [dict setObject:(self.profilePhotos ? [self.profilePhotos arrayOfProfilePhotosDictionariesFromProfilePhotosElements] : [NSNull null])
              forKey:@"photos"];
     [dict setObject:(self.politicalViews ? self.politicalViews : [NSNull null])
              forKey:@"politicalViews"];
@@ -1345,7 +1345,7 @@
              forKey:@"tvShows"];
     [dict setObject:(self.updated ? [self.updated stringFromISO8601DateTime] : [NSNull null])
              forKey:@"updated"];
-    [dict setObject:(self.urls ? [self.urls arrayOfUrlsDictionariesFromUrlsObjects] : [NSNull null])
+    [dict setObject:(self.urls ? [self.urls arrayOfUrlsDictionariesFromUrlsElements] : [NSNull null])
              forKey:@"urls"];
     [dict setObject:(self.utcOffset ? self.utcOffset : [NSNull null])
              forKey:@"utcOffset"];
@@ -1370,11 +1370,11 @@
 
     profile.accounts =
         [dictionary objectForKey:@"accounts"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"accounts"] arrayOfAccountsObjectsFromAccountsDictionariesWithPath:profile.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"accounts"] arrayOfAccountsElementsFromAccountsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.addresses =
         [dictionary objectForKey:@"addresses"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"addresses"] arrayOfAddressesObjectsFromAddressesDictionariesWithPath:profile.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"addresses"] arrayOfAddressesElementsFromAddressesDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.anniversary =
         [dictionary objectForKey:@"anniversary"] != [NSNull null] ? 
@@ -1420,7 +1420,7 @@
 
     profile.emails =
         [dictionary objectForKey:@"emails"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"emails"] arrayOfEmailsObjectsFromEmailsDictionariesWithPath:profile.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"emails"] arrayOfEmailsElementsFromEmailsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.ethnicity =
         [dictionary objectForKey:@"ethnicity"] != [NSNull null] ? 
@@ -1456,7 +1456,7 @@
 
     profile.ims =
         [dictionary objectForKey:@"ims"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"ims"] arrayOfImsObjectsFromImsDictionariesWithPath:profile.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"ims"] arrayOfImsElementsFromImsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.interestedInMeeting =
         [dictionary objectForKey:@"interestedInMeeting"] != [NSNull null] ? 
@@ -1522,7 +1522,7 @@
 
     profile.organizations =
         [dictionary objectForKey:@"organizations"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsObjectsFromOrganizationsDictionariesWithPath:profile.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.pets =
         [dictionary objectForKey:@"pets"] != [NSNull null] ? 
@@ -1532,11 +1532,11 @@
 
     profile.phoneNumbers =
         [dictionary objectForKey:@"phoneNumbers"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersObjectsFromPhoneNumbersDictionariesWithPath:profile.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.profilePhotos =
         [dictionary objectForKey:@"photos"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfProfilePhotosObjectsFromProfilePhotosDictionariesWithPath:profile.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.politicalViews =
         [dictionary objectForKey:@"politicalViews"] != [NSNull null] ? 
@@ -1638,7 +1638,7 @@
 
     profile.urls =
         [dictionary objectForKey:@"urls"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsObjectsFromUrlsDictionariesWithPath:profile.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsElementsFromUrlsDictionariesWithPath:profile.captureObjectPath] : nil;
 
     profile.utcOffset =
         [dictionary objectForKey:@"utcOffset"] != [NSNull null] ? 
@@ -1817,11 +1817,11 @@
 
     self.accounts =
         [dictionary objectForKey:@"accounts"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"accounts"] arrayOfAccountsObjectsFromAccountsDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"accounts"] arrayOfAccountsElementsFromAccountsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.addresses =
         [dictionary objectForKey:@"addresses"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"addresses"] arrayOfAddressesObjectsFromAddressesDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"addresses"] arrayOfAddressesElementsFromAddressesDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.anniversary =
         [dictionary objectForKey:@"anniversary"] != [NSNull null] ? 
@@ -1873,7 +1873,7 @@
 
     self.emails =
         [dictionary objectForKey:@"emails"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"emails"] arrayOfEmailsObjectsFromEmailsDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"emails"] arrayOfEmailsElementsFromEmailsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.ethnicity =
         [dictionary objectForKey:@"ethnicity"] != [NSNull null] ? 
@@ -1909,7 +1909,7 @@
 
     self.ims =
         [dictionary objectForKey:@"ims"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"ims"] arrayOfImsObjectsFromImsDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"ims"] arrayOfImsElementsFromImsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.interestedInMeeting =
         [dictionary objectForKey:@"interestedInMeeting"] != [NSNull null] ? 
@@ -1978,7 +1978,7 @@
 
     self.organizations =
         [dictionary objectForKey:@"organizations"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsObjectsFromOrganizationsDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"organizations"] arrayOfOrganizationsElementsFromOrganizationsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.pets =
         [dictionary objectForKey:@"pets"] != [NSNull null] ? 
@@ -1988,11 +1988,11 @@
 
     self.phoneNumbers =
         [dictionary objectForKey:@"phoneNumbers"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersObjectsFromPhoneNumbersDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"phoneNumbers"] arrayOfPhoneNumbersElementsFromPhoneNumbersDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.profilePhotos =
         [dictionary objectForKey:@"photos"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfProfilePhotosObjectsFromProfilePhotosDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"photos"] arrayOfProfilePhotosElementsFromProfilePhotosDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.politicalViews =
         [dictionary objectForKey:@"politicalViews"] != [NSNull null] ? 
@@ -2094,7 +2094,7 @@
 
     self.urls =
         [dictionary objectForKey:@"urls"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsObjectsFromUrlsDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"urls"] arrayOfUrlsElementsFromUrlsDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.utcOffset =
         [dictionary objectForKey:@"utcOffset"] != [NSNull null] ? 
@@ -2223,8 +2223,8 @@
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.aboutMe ? self.aboutMe : [NSNull null]) forKey:@"aboutMe"];
-    [dict setObject:(self.accounts ? [self.accounts arrayOfAccountsReplaceDictionariesFromAccountsObjects] : [NSArray array]) forKey:@"accounts"];
-    [dict setObject:(self.addresses ? [self.addresses arrayOfAddressesReplaceDictionariesFromAddressesObjects] : [NSArray array]) forKey:@"addresses"];
+    [dict setObject:(self.accounts ? [self.accounts arrayOfAccountsReplaceDictionariesFromAccountsElements] : [NSArray array]) forKey:@"accounts"];
+    [dict setObject:(self.addresses ? [self.addresses arrayOfAddressesReplaceDictionariesFromAddressesElements] : [NSArray array]) forKey:@"addresses"];
     [dict setObject:(self.anniversary ? [self.anniversary stringFromISO8601Date] : [NSNull null]) forKey:@"anniversary"];
     [dict setObject:(self.birthday ? self.birthday : [NSNull null]) forKey:@"birthday"];
     [dict setObject:(self.bodyType ?
@@ -2240,7 +2240,7 @@
              forKey:@"currentLocation"];
     [dict setObject:(self.displayName ? self.displayName : [NSNull null]) forKey:@"displayName"];
     [dict setObject:(self.drinker ? self.drinker : [NSNull null]) forKey:@"drinker"];
-    [dict setObject:(self.emails ? [self.emails arrayOfEmailsReplaceDictionariesFromEmailsObjects] : [NSArray array]) forKey:@"emails"];
+    [dict setObject:(self.emails ? [self.emails arrayOfEmailsReplaceDictionariesFromEmailsElements] : [NSArray array]) forKey:@"emails"];
     [dict setObject:(self.ethnicity ? self.ethnicity : [NSNull null]) forKey:@"ethnicity"];
     [dict setObject:(self.fashion ? self.fashion : [NSNull null]) forKey:@"fashion"];
     [dict setObject:(self.food ? [self.food arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"food"];
@@ -2248,7 +2248,7 @@
     [dict setObject:(self.happiestWhen ? self.happiestWhen : [NSNull null]) forKey:@"happiestWhen"];
     [dict setObject:(self.heroes ? [self.heroes arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"heroes"];
     [dict setObject:(self.humor ? self.humor : [NSNull null]) forKey:@"humor"];
-    [dict setObject:(self.ims ? [self.ims arrayOfImsReplaceDictionariesFromImsObjects] : [NSArray array]) forKey:@"ims"];
+    [dict setObject:(self.ims ? [self.ims arrayOfImsReplaceDictionariesFromImsElements] : [NSArray array]) forKey:@"ims"];
     [dict setObject:(self.interestedInMeeting ? self.interestedInMeeting : [NSNull null]) forKey:@"interestedInMeeting"];
     [dict setObject:(self.interests ? [self.interests arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"interests"];
     [dict setObject:(self.jobInterests ? [self.jobInterests arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"jobInterests"];
@@ -2264,10 +2264,10 @@
              forKey:@"name"];
     [dict setObject:(self.nickname ? self.nickname : [NSNull null]) forKey:@"nickname"];
     [dict setObject:(self.note ? self.note : [NSNull null]) forKey:@"note"];
-    [dict setObject:(self.organizations ? [self.organizations arrayOfOrganizationsReplaceDictionariesFromOrganizationsObjects] : [NSArray array]) forKey:@"organizations"];
+    [dict setObject:(self.organizations ? [self.organizations arrayOfOrganizationsReplaceDictionariesFromOrganizationsElements] : [NSArray array]) forKey:@"organizations"];
     [dict setObject:(self.pets ? [self.pets arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"pets"];
-    [dict setObject:(self.phoneNumbers ? [self.phoneNumbers arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersObjects] : [NSArray array]) forKey:@"phoneNumbers"];
-    [dict setObject:(self.profilePhotos ? [self.profilePhotos arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosObjects] : [NSArray array]) forKey:@"photos"];
+    [dict setObject:(self.phoneNumbers ? [self.phoneNumbers arrayOfPhoneNumbersReplaceDictionariesFromPhoneNumbersElements] : [NSArray array]) forKey:@"phoneNumbers"];
+    [dict setObject:(self.profilePhotos ? [self.profilePhotos arrayOfProfilePhotosReplaceDictionariesFromProfilePhotosElements] : [NSArray array]) forKey:@"photos"];
     [dict setObject:(self.politicalViews ? self.politicalViews : [NSNull null]) forKey:@"politicalViews"];
     [dict setObject:(self.preferredUsername ? self.preferredUsername : [NSNull null]) forKey:@"preferredUsername"];
     [dict setObject:(self.profileSong ? self.profileSong : [NSNull null]) forKey:@"profileSong"];
@@ -2289,7 +2289,7 @@
     [dict setObject:(self.turnOns ? [self.turnOns arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"turnOns"];
     [dict setObject:(self.tvShows ? [self.tvShows arrayOfStringsFromStringPluralElements] : [NSArray array]) forKey:@"tvShows"];
     [dict setObject:(self.updated ? [self.updated stringFromISO8601DateTime] : [NSNull null]) forKey:@"updated"];
-    [dict setObject:(self.urls ? [self.urls arrayOfUrlsReplaceDictionariesFromUrlsObjects] : [NSArray array]) forKey:@"urls"];
+    [dict setObject:(self.urls ? [self.urls arrayOfUrlsReplaceDictionariesFromUrlsElements] : [NSArray array]) forKey:@"urls"];
     [dict setObject:(self.utcOffset ? self.utcOffset : [NSNull null]) forKey:@"utcOffset"];
 
     return dict;

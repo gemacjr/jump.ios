@@ -58,7 +58,7 @@
  * @return
  *   A JROnipinoL2PluralElement object
  **/
-+ (id)onipinoL2Plural;
++ (id)onipinoL2PluralElement;
 
 /**
  * Returns a JROnipinoL2PluralElement object created from an \e NSDictionary representing the object
@@ -79,7 +79,7 @@
  * @return
  *   A JROnipinoL2PluralElement object
  **/
-+ (id)onipinoL2PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)onipinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

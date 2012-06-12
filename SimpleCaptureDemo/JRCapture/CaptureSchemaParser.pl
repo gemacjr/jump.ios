@@ -490,7 +490,8 @@ sub recursiveParse {
   #   'statuses' becomes 'JRStatusesElement'
   ######################################################################
   if ($isPluralElement) {
-    $className = "JR" . ucfirst($objectName) . "Element";  
+    $className   = "JR" . ucfirst($objectName) . "Element";  
+    $objectName .= "Element";
   } else {
     $className = "JR" . ucfirst($objectName);  
   }
@@ -627,8 +628,14 @@ sub recursiveParse {
   $copyConstructorSection[18] = $objectName . "Copy";
   
   # e.g.:
-  #   + (id)exampleElementObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+  #   + (id)exampleElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
   $objFromDictSection[1]      = $objectName;
+  
+  if (!$isPluralElement) {
+    # e.g.:
+    #   + (id)exampleObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
+    $objFromDictSection[1]   .= "Object";
+  }
   
   # e.g.:
   #   JRExampleElement *exampleElement = [JRExampleElement exampleElement];
@@ -1008,10 +1015,10 @@ sub recursiveParse {
         
         $extraImportsSection    .= "#import \"JR" . ucfirst($propertyName) . "Element.h\"\n";
         $arrayCategoriesSection .= createArrayCategoryForSubobject ($propertyName);
-        $toDictionary    = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Objects]";
-        $toRplDictionary = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Objects]";
-        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:" . $objectName . ".captureObjectPath]";
-        $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ObjectsFrom" . ucfirst($propertyName) . "DictionariesWithPath:self.captureObjectPath]";
+        $toDictionary    = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "DictionariesFrom" . ucfirst($propertyName) . "Elements]";
+        $toRplDictionary = "[self." . $propertyName . " arrayOf" . ucfirst($propertyName) . "ReplaceDictionariesFrom" . ucfirst($propertyName) . "Elements]";
+        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:" . $objectName . ".captureObjectPath]";
+        $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:self.captureObjectPath]";
 
         $replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
         $replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName);

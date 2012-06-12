@@ -45,26 +45,26 @@
 
 @implementation JRPhoneNumbersElement
 {
-    JRObjectId *_phoneNumbersId;
+    JRObjectId *_phoneNumbersElementId;
     JRBoolean *_primary;
     NSString *_type;
     NSString *_value;
 }
-@dynamic phoneNumbersId;
+@dynamic phoneNumbersElementId;
 @dynamic primary;
 @dynamic type;
 @dynamic value;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)phoneNumbersId
+- (JRObjectId *)phoneNumbersElementId
 {
-    return _phoneNumbersId;
+    return _phoneNumbersElementId;
 }
 
-- (void)setPhoneNumbersId:(JRObjectId *)newPhoneNumbersId
+- (void)setPhoneNumbersElementId:(JRObjectId *)newPhoneNumbersElementId
 {
-    [self.dirtyPropertySet addObject:@"phoneNumbersId"];
-    _phoneNumbersId = [newPhoneNumbersId copy];
+    [self.dirtyPropertySet addObject:@"phoneNumbersElementId"];
+    _phoneNumbersElementId = [newPhoneNumbersElementId copy];
 }
 
 - (JRBoolean *)primary
@@ -121,30 +121,30 @@
     return self;
 }
 
-+ (id)phoneNumbers
++ (id)phoneNumbersElement
 {
     return [[[JRPhoneNumbersElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPhoneNumbersElement *phoneNumbersCopy =
+    JRPhoneNumbersElement *phoneNumbersElementCopy =
                 [[JRPhoneNumbersElement allocWithZone:zone] init];
 
-    phoneNumbersCopy.captureObjectPath = self.captureObjectPath;
+    phoneNumbersElementCopy.captureObjectPath = self.captureObjectPath;
 
-    phoneNumbersCopy.phoneNumbersId = self.phoneNumbersId;
-    phoneNumbersCopy.primary = self.primary;
-    phoneNumbersCopy.type = self.type;
-    phoneNumbersCopy.value = self.value;
+    phoneNumbersElementCopy.phoneNumbersElementId = self.phoneNumbersElementId;
+    phoneNumbersElementCopy.primary = self.primary;
+    phoneNumbersElementCopy.type = self.type;
+    phoneNumbersElementCopy.value = self.value;
     // TODO: Necessary??
-    phoneNumbersCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    phoneNumbersElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [phoneNumbersCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [phoneNumbersCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [phoneNumbersElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [phoneNumbersElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return phoneNumbersCopy;
+    return phoneNumbersElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -152,7 +152,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.phoneNumbersId ? [NSNumber numberWithInteger:[self.phoneNumbersId integerValue]] : [NSNull null])
+    [dict setObject:(self.phoneNumbersElementId ? [NSNumber numberWithInteger:[self.phoneNumbersElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
              forKey:@"primary"];
@@ -164,37 +164,37 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)phoneNumbersObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)phoneNumbersElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRPhoneNumbersElement *phoneNumbers = [JRPhoneNumbersElement phoneNumbers];
+    JRPhoneNumbersElement *phoneNumbersElement = [JRPhoneNumbersElement phoneNumbersElement];
 
-    phoneNumbers.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"phoneNumbers", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    phoneNumbersElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"phoneNumbers", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    phoneNumbers.canBeUpdatedOrReplaced = YES;
+    phoneNumbersElement.canBeUpdatedOrReplaced = YES;
 
-    phoneNumbers.phoneNumbersId =
+    phoneNumbersElement.phoneNumbersElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    phoneNumbers.primary =
+    phoneNumbersElement.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
-    phoneNumbers.type =
+    phoneNumbersElement.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 
-    phoneNumbers.value =
+    phoneNumbersElement.value =
         [dictionary objectForKey:@"value"] != [NSNull null] ? 
         [dictionary objectForKey:@"value"] : nil;
 
-    [phoneNumbers.dirtyPropertySet removeAllObjects];
-    [phoneNumbers.dirtyArraySet removeAllObjects];
+    [phoneNumbersElement.dirtyPropertySet removeAllObjects];
+    [phoneNumbersElement.dirtyArraySet removeAllObjects];
     
-    return phoneNumbers;
+    return phoneNumbersElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -208,7 +208,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"phoneNumbers", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.phoneNumbersId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.phoneNumbersElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"primary"])
@@ -237,7 +237,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"phoneNumbers", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.phoneNumbersId =
+    self.phoneNumbersElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -299,7 +299,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"phoneNumbersId"];
+    [dict setObject:@"JRObjectId" forKey:@"phoneNumbersElementId"];
     [dict setObject:@"JRBoolean" forKey:@"primary"];
     [dict setObject:@"NSString" forKey:@"type"];
     [dict setObject:@"NSString" forKey:@"value"];
@@ -309,7 +309,7 @@
 
 - (void)dealloc
 {
-    [_phoneNumbersId release];
+    [_phoneNumbersElementId release];
     [_primary release];
     [_type release];
     [_value release];

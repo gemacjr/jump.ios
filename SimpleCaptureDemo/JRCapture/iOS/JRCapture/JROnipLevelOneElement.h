@@ -36,7 +36,7 @@
  * @brief A JROnipLevelOneElement object
  **/
 @interface JROnipLevelOneElement : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *onipLevelOneId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *onipLevelOneElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) NSString *level; /**< The object's \e level property */ 
 @property (nonatomic, copy) NSString *name; /**< The object's \e name property */ 
 @property (nonatomic, copy) JROnipLevelTwo *onipLevelTwo; /**< The object's \e onipLevelTwo property */ 
@@ -59,7 +59,7 @@
  * @return
  *   A JROnipLevelOneElement object
  **/
-+ (id)onipLevelOne;
++ (id)onipLevelOneElement;
 
 /**
  * Returns a JROnipLevelOneElement object created from an \e NSDictionary representing the object
@@ -80,7 +80,7 @@
  * @return
  *   A JROnipLevelOneElement object
  **/
-+ (id)onipLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)onipLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

@@ -40,23 +40,23 @@
 #import "JRPinoLevelTwo.h"
 
 @interface NSArray (PinoLevelThreeToFromDictionary)
-- (NSArray*)arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects;
-- (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeObjects;
+- (NSArray*)arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElements;
+- (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeElements;
 @end
 
 @implementation NSArray (PinoLevelThreeToFromDictionary)
-- (NSArray*)arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPinoLevelThreeArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPinoLevelThreeArray addObject:[JRPinoLevelThreeElement pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPinoLevelThreeArray addObject:[JRPinoLevelThreeElement pinoLevelThreeElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPinoLevelThreeArray;
 }
 
-- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects
+- (NSArray*)arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -66,7 +66,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeObjects
+- (NSArray*)arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -169,7 +169,7 @@
              forKey:@"level"];
     [dict setObject:(self.name ? self.name : [NSNull null])
              forKey:@"name"];
-    [dict setObject:(self.pinoLevelThree ? [self.pinoLevelThree arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeObjects] : [NSNull null])
+    [dict setObject:(self.pinoLevelThree ? [self.pinoLevelThree arrayOfPinoLevelThreeDictionariesFromPinoLevelThreeElements] : [NSNull null])
              forKey:@"pinoLevelThree"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
@@ -193,7 +193,7 @@
 
     pinoLevelTwo.pinoLevelThree =
         [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:pinoLevelTwo.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:pinoLevelTwo.captureObjectPath] : nil;
 
     [pinoLevelTwo.dirtyPropertySet removeAllObjects];
     [pinoLevelTwo.dirtyArraySet removeAllObjects];
@@ -241,7 +241,7 @@
 
     self.pinoLevelThree =
         [dictionary objectForKey:@"pinoLevelThree"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeObjectsFromPinoLevelThreeDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinoLevelThree"] arrayOfPinoLevelThreeElementsFromPinoLevelThreeDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
     [self.dirtyArraySet setSet:dirtyArraySetCopy];
@@ -268,7 +268,7 @@
 
     [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
     [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
-    [dict setObject:(self.pinoLevelThree ? [self.pinoLevelThree arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeObjects] : [NSArray array]) forKey:@"pinoLevelThree"];
+    [dict setObject:(self.pinoLevelThree ? [self.pinoLevelThree arrayOfPinoLevelThreeReplaceDictionariesFromPinoLevelThreeElements] : [NSArray array]) forKey:@"pinoLevelThree"];
 
     return dict;
 }

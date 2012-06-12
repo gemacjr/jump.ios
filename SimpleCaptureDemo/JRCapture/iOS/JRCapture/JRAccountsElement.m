@@ -45,28 +45,28 @@
 
 @implementation JRAccountsElement
 {
-    JRObjectId *_accountsId;
+    JRObjectId *_accountsElementId;
     NSString *_domain;
     JRBoolean *_primary;
     NSString *_userid;
     NSString *_username;
 }
-@dynamic accountsId;
+@dynamic accountsElementId;
 @dynamic domain;
 @dynamic primary;
 @dynamic userid;
 @dynamic username;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)accountsId
+- (JRObjectId *)accountsElementId
 {
-    return _accountsId;
+    return _accountsElementId;
 }
 
-- (void)setAccountsId:(JRObjectId *)newAccountsId
+- (void)setAccountsElementId:(JRObjectId *)newAccountsElementId
 {
-    [self.dirtyPropertySet addObject:@"accountsId"];
-    _accountsId = [newAccountsId copy];
+    [self.dirtyPropertySet addObject:@"accountsElementId"];
+    _accountsElementId = [newAccountsElementId copy];
 }
 
 - (NSString *)domain
@@ -134,31 +134,31 @@
     return self;
 }
 
-+ (id)accounts
++ (id)accountsElement
 {
     return [[[JRAccountsElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRAccountsElement *accountsCopy =
+    JRAccountsElement *accountsElementCopy =
                 [[JRAccountsElement allocWithZone:zone] init];
 
-    accountsCopy.captureObjectPath = self.captureObjectPath;
+    accountsElementCopy.captureObjectPath = self.captureObjectPath;
 
-    accountsCopy.accountsId = self.accountsId;
-    accountsCopy.domain = self.domain;
-    accountsCopy.primary = self.primary;
-    accountsCopy.userid = self.userid;
-    accountsCopy.username = self.username;
+    accountsElementCopy.accountsElementId = self.accountsElementId;
+    accountsElementCopy.domain = self.domain;
+    accountsElementCopy.primary = self.primary;
+    accountsElementCopy.userid = self.userid;
+    accountsElementCopy.username = self.username;
     // TODO: Necessary??
-    accountsCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    accountsElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [accountsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [accountsCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [accountsElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [accountsElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return accountsCopy;
+    return accountsElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -166,7 +166,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.accountsId ? [NSNumber numberWithInteger:[self.accountsId integerValue]] : [NSNull null])
+    [dict setObject:(self.accountsElementId ? [NSNumber numberWithInteger:[self.accountsElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.domain ? self.domain : [NSNull null])
              forKey:@"domain"];
@@ -180,41 +180,41 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)accountsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)accountsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRAccountsElement *accounts = [JRAccountsElement accounts];
+    JRAccountsElement *accountsElement = [JRAccountsElement accountsElement];
 
-    accounts.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    accountsElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    accounts.canBeUpdatedOrReplaced = YES;
+    accountsElement.canBeUpdatedOrReplaced = YES;
 
-    accounts.accountsId =
+    accountsElement.accountsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    accounts.domain =
+    accountsElement.domain =
         [dictionary objectForKey:@"domain"] != [NSNull null] ? 
         [dictionary objectForKey:@"domain"] : nil;
 
-    accounts.primary =
+    accountsElement.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
-    accounts.userid =
+    accountsElement.userid =
         [dictionary objectForKey:@"userid"] != [NSNull null] ? 
         [dictionary objectForKey:@"userid"] : nil;
 
-    accounts.username =
+    accountsElement.username =
         [dictionary objectForKey:@"username"] != [NSNull null] ? 
         [dictionary objectForKey:@"username"] : nil;
 
-    [accounts.dirtyPropertySet removeAllObjects];
-    [accounts.dirtyArraySet removeAllObjects];
+    [accountsElement.dirtyPropertySet removeAllObjects];
+    [accountsElement.dirtyArraySet removeAllObjects];
     
-    return accounts;
+    return accountsElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -228,7 +228,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.accountsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.accountsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"domain"])
@@ -261,7 +261,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"accounts", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.accountsId =
+    self.accountsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -331,7 +331,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"accountsId"];
+    [dict setObject:@"JRObjectId" forKey:@"accountsElementId"];
     [dict setObject:@"NSString" forKey:@"domain"];
     [dict setObject:@"JRBoolean" forKey:@"primary"];
     [dict setObject:@"NSString" forKey:@"userid"];
@@ -342,7 +342,7 @@
 
 - (void)dealloc
 {
-    [_accountsId release];
+    [_accountsElementId release];
     [_domain release];
     [_primary release];
     [_userid release];

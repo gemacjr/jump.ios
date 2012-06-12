@@ -58,7 +58,7 @@
  * @return
  *   A JRPinapinapL2PluralElement object
  **/
-+ (id)pinapinapL2Plural;
++ (id)pinapinapL2PluralElement;
 
 /**
  * Returns a JRPinapinapL2PluralElement object created from an \e NSDictionary representing the object
@@ -79,7 +79,7 @@
  * @return
  *   A JRPinapinapL2PluralElement object
  **/
-+ (id)pinapinapL2PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)pinapinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

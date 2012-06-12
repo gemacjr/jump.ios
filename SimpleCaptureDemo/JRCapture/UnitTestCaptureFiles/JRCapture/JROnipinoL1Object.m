@@ -40,23 +40,23 @@
 #import "JROnipinoL1Object.h"
 
 @interface NSArray (OnipinoL2PluralToFromDictionary)
-- (NSArray*)arrayOfOnipinoL2PluralObjectsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralObjects;
-- (NSArray*)arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralObjects;
+- (NSArray*)arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralElements;
+- (NSArray*)arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements;
 @end
 
 @implementation NSArray (OnipinoL2PluralToFromDictionary)
-- (NSArray*)arrayOfOnipinoL2PluralObjectsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredOnipinoL2PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredOnipinoL2PluralArray addObject:[JROnipinoL2PluralElement onipinoL2PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredOnipinoL2PluralArray addObject:[JROnipinoL2PluralElement onipinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredOnipinoL2PluralArray;
 }
 
-- (NSArray*)arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralObjects
+- (NSArray*)arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -66,7 +66,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralObjects
+- (NSArray*)arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -169,7 +169,7 @@
              forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null])
              forKey:@"string2"];
-    [dict setObject:(self.onipinoL2Plural ? [self.onipinoL2Plural arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralObjects] : [NSNull null])
+    [dict setObject:(self.onipinoL2Plural ? [self.onipinoL2Plural arrayOfOnipinoL2PluralDictionariesFromOnipinoL2PluralElements] : [NSNull null])
              forKey:@"onipinoL2Plural"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
@@ -193,7 +193,7 @@
 
     onipinoL1Object.onipinoL2Plural =
         [dictionary objectForKey:@"onipinoL2Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipinoL2Plural"] arrayOfOnipinoL2PluralObjectsFromOnipinoL2PluralDictionariesWithPath:onipinoL1Object.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipinoL2Plural"] arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:onipinoL1Object.captureObjectPath] : nil;
 
     [onipinoL1Object.dirtyPropertySet removeAllObjects];
     [onipinoL1Object.dirtyArraySet removeAllObjects];
@@ -241,7 +241,7 @@
 
     self.onipinoL2Plural =
         [dictionary objectForKey:@"onipinoL2Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipinoL2Plural"] arrayOfOnipinoL2PluralObjectsFromOnipinoL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipinoL2Plural"] arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
     [self.dirtyArraySet setSet:dirtyArraySetCopy];
@@ -268,7 +268,7 @@
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
-    [dict setObject:(self.onipinoL2Plural ? [self.onipinoL2Plural arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralObjects] : [NSArray array]) forKey:@"onipinoL2Plural"];
+    [dict setObject:(self.onipinoL2Plural ? [self.onipinoL2Plural arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements] : [NSArray array]) forKey:@"onipinoL2Plural"];
 
     return dict;
 }

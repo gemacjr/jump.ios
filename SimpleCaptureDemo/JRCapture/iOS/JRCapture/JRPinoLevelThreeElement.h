@@ -35,7 +35,7 @@
  * @brief A JRPinoLevelThreeElement object
  **/
 @interface JRPinoLevelThreeElement : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *pinoLevelThreeId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *pinoLevelThreeElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) NSString *level; /**< The object's \e level property */ 
 @property (nonatomic, copy) NSString *name; /**< The object's \e name property */ 
 
@@ -57,7 +57,7 @@
  * @return
  *   A JRPinoLevelThreeElement object
  **/
-+ (id)pinoLevelThree;
++ (id)pinoLevelThreeElement;
 
 /**
  * Returns a JRPinoLevelThreeElement object created from an \e NSDictionary representing the object
@@ -78,7 +78,7 @@
  * @return
  *   A JRPinoLevelThreeElement object
  **/
-+ (id)pinoLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)pinoLevelThreeElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

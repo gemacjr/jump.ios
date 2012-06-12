@@ -36,7 +36,7 @@
  * @brief A JRGamesElement object
  **/
 @interface JRGamesElement : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *gamesId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *gamesElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) JRBoolean *isFavorite; /**< If the game is a favorite @note This is a property of type \ref types "boolean", which is a typedef of \e NSNumber. The accepted values can only be <code>[NSNumber numberWithBool:<em>myBool</em>]</code> or <code>[NSNull null]</code> */ 
 @property (nonatomic, copy) NSString *name; /**< The name of the game */ 
 @property (nonatomic, copy) JRStringArray *opponents; /**< The object's \e opponents property @note This is an array of \c JRStringPluralElements with type \c name TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
@@ -60,7 +60,7 @@
  * @return
  *   A JRGamesElement object
  **/
-+ (id)games;
++ (id)gamesElement;
 
 /**
  * Returns a JRGamesElement object created from an \e NSDictionary representing the object
@@ -81,7 +81,7 @@
  * @return
  *   A JRGamesElement object
  **/
-+ (id)gamesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)gamesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

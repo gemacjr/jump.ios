@@ -97,29 +97,29 @@
     return self;
 }
 
-+ (id)pluralTestUnique
++ (id)pluralTestUniqueElement
 {
     return [[[JRPluralTestUniqueElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPluralTestUniqueElement *pluralTestUniqueCopy =
+    JRPluralTestUniqueElement *pluralTestUniqueElementCopy =
                 [[JRPluralTestUniqueElement allocWithZone:zone] init];
 
-    pluralTestUniqueCopy.captureObjectPath = self.captureObjectPath;
+    pluralTestUniqueElementCopy.captureObjectPath = self.captureObjectPath;
 
-    pluralTestUniqueCopy.uniqueString = self.uniqueString;
-    pluralTestUniqueCopy.string1 = self.string1;
-    pluralTestUniqueCopy.string2 = self.string2;
+    pluralTestUniqueElementCopy.uniqueString = self.uniqueString;
+    pluralTestUniqueElementCopy.string1 = self.string1;
+    pluralTestUniqueElementCopy.string2 = self.string2;
     // TODO: Necessary??
-    pluralTestUniqueCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    pluralTestUniqueElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [pluralTestUniqueCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pluralTestUniqueCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [pluralTestUniqueElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [pluralTestUniqueElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return pluralTestUniqueCopy;
+    return pluralTestUniqueElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -137,33 +137,33 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)pluralTestUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)pluralTestUniqueElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRPluralTestUniqueElement *pluralTestUnique = [JRPluralTestUniqueElement pluralTestUnique];
+    JRPluralTestUniqueElement *pluralTestUniqueElement = [JRPluralTestUniqueElement pluralTestUniqueElement];
 
-    pluralTestUnique.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralTestUnique", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    pluralTestUniqueElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralTestUnique", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    pluralTestUnique.canBeUpdatedOrReplaced = YES;
+    pluralTestUniqueElement.canBeUpdatedOrReplaced = YES;
 
-    pluralTestUnique.uniqueString =
+    pluralTestUniqueElement.uniqueString =
         [dictionary objectForKey:@"uniqueString"] != [NSNull null] ? 
         [dictionary objectForKey:@"uniqueString"] : nil;
 
-    pluralTestUnique.string1 =
+    pluralTestUniqueElement.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
         [dictionary objectForKey:@"string1"] : nil;
 
-    pluralTestUnique.string2 =
+    pluralTestUniqueElement.string2 =
         [dictionary objectForKey:@"string2"] != [NSNull null] ? 
         [dictionary objectForKey:@"string2"] : nil;
 
-    [pluralTestUnique.dirtyPropertySet removeAllObjects];
-    [pluralTestUnique.dirtyArraySet removeAllObjects];
+    [pluralTestUniqueElement.dirtyPropertySet removeAllObjects];
+    [pluralTestUniqueElement.dirtyArraySet removeAllObjects];
     
-    return pluralTestUnique;
+    return pluralTestUniqueElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

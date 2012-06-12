@@ -40,23 +40,23 @@
 #import "JRPinoL1Object.h"
 
 @interface NSArray (PinoL2PluralToFromDictionary)
-- (NSArray*)arrayOfPinoL2PluralObjectsFromPinoL2PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinoL2PluralDictionariesFromPinoL2PluralObjects;
-- (NSArray*)arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralObjects;
+- (NSArray*)arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPinoL2PluralDictionariesFromPinoL2PluralElements;
+- (NSArray*)arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralElements;
 @end
 
 @implementation NSArray (PinoL2PluralToFromDictionary)
-- (NSArray*)arrayOfPinoL2PluralObjectsFromPinoL2PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPinoL2PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPinoL2PluralArray addObject:[JRPinoL2PluralElement pinoL2PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPinoL2PluralArray addObject:[JRPinoL2PluralElement pinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPinoL2PluralArray;
 }
 
-- (NSArray*)arrayOfPinoL2PluralDictionariesFromPinoL2PluralObjects
+- (NSArray*)arrayOfPinoL2PluralDictionariesFromPinoL2PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -66,7 +66,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralObjects
+- (NSArray*)arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -169,7 +169,7 @@
              forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null])
              forKey:@"string2"];
-    [dict setObject:(self.pinoL2Plural ? [self.pinoL2Plural arrayOfPinoL2PluralDictionariesFromPinoL2PluralObjects] : [NSNull null])
+    [dict setObject:(self.pinoL2Plural ? [self.pinoL2Plural arrayOfPinoL2PluralDictionariesFromPinoL2PluralElements] : [NSNull null])
              forKey:@"pinoL2Plural"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
@@ -193,7 +193,7 @@
 
     pinoL1Object.pinoL2Plural =
         [dictionary objectForKey:@"pinoL2Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinoL2Plural"] arrayOfPinoL2PluralObjectsFromPinoL2PluralDictionariesWithPath:pinoL1Object.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinoL2Plural"] arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:pinoL1Object.captureObjectPath] : nil;
 
     [pinoL1Object.dirtyPropertySet removeAllObjects];
     [pinoL1Object.dirtyArraySet removeAllObjects];
@@ -241,7 +241,7 @@
 
     self.pinoL2Plural =
         [dictionary objectForKey:@"pinoL2Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinoL2Plural"] arrayOfPinoL2PluralObjectsFromPinoL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinoL2Plural"] arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
     [self.dirtyArraySet setSet:dirtyArraySetCopy];
@@ -268,7 +268,7 @@
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
-    [dict setObject:(self.pinoL2Plural ? [self.pinoL2Plural arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralObjects] : [NSArray array]) forKey:@"pinoL2Plural"];
+    [dict setObject:(self.pinoL2Plural ? [self.pinoL2Plural arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralElements] : [NSArray array]) forKey:@"pinoL2Plural"];
 
     return dict;
 }

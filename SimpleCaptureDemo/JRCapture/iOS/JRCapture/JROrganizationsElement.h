@@ -36,7 +36,7 @@
  * @brief Describes a current or past organizational affiliation of this contact.
  **/
 @interface JROrganizationsElement : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *organizationsId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *organizationsElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) NSString *department; /**< The department within this organization. */ 
 @property (nonatomic, copy) NSString *description; /**< A textual description of the role this Contact played in this organization. */ 
 @property (nonatomic, copy) NSString *endDate; /**< The date this Contact left this organization or the role specified by title within this organization. */ 
@@ -65,7 +65,7 @@
  * @return
  *   A JROrganizationsElement object
  **/
-+ (id)organizations;
++ (id)organizationsElement;
 
 /**
  * Returns a JROrganizationsElement object created from an \e NSDictionary representing the object
@@ -86,7 +86,7 @@
  * @return
  *   A JROrganizationsElement object
  **/
-+ (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

@@ -45,7 +45,7 @@
 
 @implementation JRAddressesElement
 {
-    JRObjectId *_addressesId;
+    JRObjectId *_addressesElementId;
     NSString *_country;
     NSString *_extendedAddress;
     NSString *_formatted;
@@ -59,7 +59,7 @@
     NSString *_streetAddress;
     NSString *_type;
 }
-@dynamic addressesId;
+@dynamic addressesElementId;
 @dynamic country;
 @dynamic extendedAddress;
 @dynamic formatted;
@@ -74,15 +74,15 @@
 @dynamic type;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)addressesId
+- (JRObjectId *)addressesElementId
 {
-    return _addressesId;
+    return _addressesElementId;
 }
 
-- (void)setAddressesId:(JRObjectId *)newAddressesId
+- (void)setAddressesElementId:(JRObjectId *)newAddressesElementId
 {
-    [self.dirtyPropertySet addObject:@"addressesId"];
-    _addressesId = [newAddressesId copy];
+    [self.dirtyPropertySet addObject:@"addressesElementId"];
+    _addressesElementId = [newAddressesElementId copy];
 }
 
 - (NSString *)country
@@ -238,39 +238,39 @@
     return self;
 }
 
-+ (id)addresses
++ (id)addressesElement
 {
     return [[[JRAddressesElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRAddressesElement *addressesCopy =
+    JRAddressesElement *addressesElementCopy =
                 [[JRAddressesElement allocWithZone:zone] init];
 
-    addressesCopy.captureObjectPath = self.captureObjectPath;
+    addressesElementCopy.captureObjectPath = self.captureObjectPath;
 
-    addressesCopy.addressesId = self.addressesId;
-    addressesCopy.country = self.country;
-    addressesCopy.extendedAddress = self.extendedAddress;
-    addressesCopy.formatted = self.formatted;
-    addressesCopy.latitude = self.latitude;
-    addressesCopy.locality = self.locality;
-    addressesCopy.longitude = self.longitude;
-    addressesCopy.poBox = self.poBox;
-    addressesCopy.postalCode = self.postalCode;
-    addressesCopy.primary = self.primary;
-    addressesCopy.region = self.region;
-    addressesCopy.streetAddress = self.streetAddress;
-    addressesCopy.type = self.type;
+    addressesElementCopy.addressesElementId = self.addressesElementId;
+    addressesElementCopy.country = self.country;
+    addressesElementCopy.extendedAddress = self.extendedAddress;
+    addressesElementCopy.formatted = self.formatted;
+    addressesElementCopy.latitude = self.latitude;
+    addressesElementCopy.locality = self.locality;
+    addressesElementCopy.longitude = self.longitude;
+    addressesElementCopy.poBox = self.poBox;
+    addressesElementCopy.postalCode = self.postalCode;
+    addressesElementCopy.primary = self.primary;
+    addressesElementCopy.region = self.region;
+    addressesElementCopy.streetAddress = self.streetAddress;
+    addressesElementCopy.type = self.type;
     // TODO: Necessary??
-    addressesCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    addressesElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [addressesCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [addressesCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [addressesElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [addressesElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return addressesCopy;
+    return addressesElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -278,7 +278,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.addressesId ? [NSNumber numberWithInteger:[self.addressesId integerValue]] : [NSNull null])
+    [dict setObject:(self.addressesElementId ? [NSNumber numberWithInteger:[self.addressesElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.country ? self.country : [NSNull null])
              forKey:@"country"];
@@ -308,73 +308,73 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)addressesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)addressesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRAddressesElement *addresses = [JRAddressesElement addresses];
+    JRAddressesElement *addressesElement = [JRAddressesElement addressesElement];
 
-    addresses.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    addressesElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    addresses.canBeUpdatedOrReplaced = YES;
+    addressesElement.canBeUpdatedOrReplaced = YES;
 
-    addresses.addressesId =
+    addressesElement.addressesElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    addresses.country =
+    addressesElement.country =
         [dictionary objectForKey:@"country"] != [NSNull null] ? 
         [dictionary objectForKey:@"country"] : nil;
 
-    addresses.extendedAddress =
+    addressesElement.extendedAddress =
         [dictionary objectForKey:@"extendedAddress"] != [NSNull null] ? 
         [dictionary objectForKey:@"extendedAddress"] : nil;
 
-    addresses.formatted =
+    addressesElement.formatted =
         [dictionary objectForKey:@"formatted"] != [NSNull null] ? 
         [dictionary objectForKey:@"formatted"] : nil;
 
-    addresses.latitude =
+    addressesElement.latitude =
         [dictionary objectForKey:@"latitude"] != [NSNull null] ? 
         [dictionary objectForKey:@"latitude"] : nil;
 
-    addresses.locality =
+    addressesElement.locality =
         [dictionary objectForKey:@"locality"] != [NSNull null] ? 
         [dictionary objectForKey:@"locality"] : nil;
 
-    addresses.longitude =
+    addressesElement.longitude =
         [dictionary objectForKey:@"longitude"] != [NSNull null] ? 
         [dictionary objectForKey:@"longitude"] : nil;
 
-    addresses.poBox =
+    addressesElement.poBox =
         [dictionary objectForKey:@"poBox"] != [NSNull null] ? 
         [dictionary objectForKey:@"poBox"] : nil;
 
-    addresses.postalCode =
+    addressesElement.postalCode =
         [dictionary objectForKey:@"postalCode"] != [NSNull null] ? 
         [dictionary objectForKey:@"postalCode"] : nil;
 
-    addresses.primary =
+    addressesElement.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
-    addresses.region =
+    addressesElement.region =
         [dictionary objectForKey:@"region"] != [NSNull null] ? 
         [dictionary objectForKey:@"region"] : nil;
 
-    addresses.streetAddress =
+    addressesElement.streetAddress =
         [dictionary objectForKey:@"streetAddress"] != [NSNull null] ? 
         [dictionary objectForKey:@"streetAddress"] : nil;
 
-    addresses.type =
+    addressesElement.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 
-    [addresses.dirtyPropertySet removeAllObjects];
-    [addresses.dirtyArraySet removeAllObjects];
+    [addressesElement.dirtyPropertySet removeAllObjects];
+    [addressesElement.dirtyArraySet removeAllObjects];
     
-    return addresses;
+    return addressesElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -388,7 +388,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.addressesId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.addressesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"country"])
@@ -453,7 +453,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.addressesId =
+    self.addressesElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -587,7 +587,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"addressesId"];
+    [dict setObject:@"JRObjectId" forKey:@"addressesElementId"];
     [dict setObject:@"NSString" forKey:@"country"];
     [dict setObject:@"NSString" forKey:@"extendedAddress"];
     [dict setObject:@"NSString" forKey:@"formatted"];
@@ -606,7 +606,7 @@
 
 - (void)dealloc
 {
-    [_addressesId release];
+    [_addressesElementId release];
     [_country release];
     [_extendedAddress release];
     [_formatted release];

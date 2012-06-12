@@ -57,7 +57,7 @@
  * @return
  *   A JRPluralTestAlphabeticElement object
  **/
-+ (id)pluralTestAlphabetic;
++ (id)pluralTestAlphabeticElement;
 
 /**
  * Returns a JRPluralTestAlphabeticElement object created from an \e NSDictionary representing the object
@@ -78,7 +78,7 @@
  * @return
  *   A JRPluralTestAlphabeticElement object
  **/
-+ (id)pluralTestAlphabeticObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)pluralTestAlphabeticElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

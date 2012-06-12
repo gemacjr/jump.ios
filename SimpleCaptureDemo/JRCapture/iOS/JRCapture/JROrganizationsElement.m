@@ -45,7 +45,7 @@
 
 @implementation JROrganizationsElement
 {
-    JRObjectId *_organizationsId;
+    JRObjectId *_organizationsElementId;
     NSString *_department;
     NSString *_description;
     NSString *_endDate;
@@ -56,7 +56,7 @@
     NSString *_title;
     NSString *_type;
 }
-@dynamic organizationsId;
+@dynamic organizationsElementId;
 @dynamic department;
 @dynamic description;
 @dynamic endDate;
@@ -68,15 +68,15 @@
 @dynamic type;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)organizationsId
+- (JRObjectId *)organizationsElementId
 {
-    return _organizationsId;
+    return _organizationsElementId;
 }
 
-- (void)setOrganizationsId:(JRObjectId *)newOrganizationsId
+- (void)setOrganizationsElementId:(JRObjectId *)newOrganizationsElementId
 {
-    [self.dirtyPropertySet addObject:@"organizationsId"];
-    _organizationsId = [newOrganizationsId copy];
+    [self.dirtyPropertySet addObject:@"organizationsElementId"];
+    _organizationsElementId = [newOrganizationsElementId copy];
 }
 
 - (NSString *)department
@@ -199,36 +199,36 @@
     return self;
 }
 
-+ (id)organizations
++ (id)organizationsElement
 {
     return [[[JROrganizationsElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JROrganizationsElement *organizationsCopy =
+    JROrganizationsElement *organizationsElementCopy =
                 [[JROrganizationsElement allocWithZone:zone] init];
 
-    organizationsCopy.captureObjectPath = self.captureObjectPath;
+    organizationsElementCopy.captureObjectPath = self.captureObjectPath;
 
-    organizationsCopy.organizationsId = self.organizationsId;
-    organizationsCopy.department = self.department;
-    organizationsCopy.description = self.description;
-    organizationsCopy.endDate = self.endDate;
-    organizationsCopy.location = self.location;
-    organizationsCopy.name = self.name;
-    organizationsCopy.primary = self.primary;
-    organizationsCopy.startDate = self.startDate;
-    organizationsCopy.title = self.title;
-    organizationsCopy.type = self.type;
+    organizationsElementCopy.organizationsElementId = self.organizationsElementId;
+    organizationsElementCopy.department = self.department;
+    organizationsElementCopy.description = self.description;
+    organizationsElementCopy.endDate = self.endDate;
+    organizationsElementCopy.location = self.location;
+    organizationsElementCopy.name = self.name;
+    organizationsElementCopy.primary = self.primary;
+    organizationsElementCopy.startDate = self.startDate;
+    organizationsElementCopy.title = self.title;
+    organizationsElementCopy.type = self.type;
     // TODO: Necessary??
-    organizationsCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    organizationsElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [organizationsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [organizationsCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [organizationsElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [organizationsElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return organizationsCopy;
+    return organizationsElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -236,7 +236,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.organizationsId ? [NSNumber numberWithInteger:[self.organizationsId integerValue]] : [NSNull null])
+    [dict setObject:(self.organizationsElementId ? [NSNumber numberWithInteger:[self.organizationsElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.department ? self.department : [NSNull null])
              forKey:@"department"];
@@ -260,61 +260,61 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)organizationsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)organizationsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JROrganizationsElement *organizations = [JROrganizationsElement organizations];
+    JROrganizationsElement *organizationsElement = [JROrganizationsElement organizationsElement];
 
-    organizations.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    organizationsElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    organizations.canBeUpdatedOrReplaced = YES;
+    organizationsElement.canBeUpdatedOrReplaced = YES;
 
-    organizations.organizationsId =
+    organizationsElement.organizationsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    organizations.department =
+    organizationsElement.department =
         [dictionary objectForKey:@"department"] != [NSNull null] ? 
         [dictionary objectForKey:@"department"] : nil;
 
-    organizations.description =
+    organizationsElement.description =
         [dictionary objectForKey:@"description"] != [NSNull null] ? 
         [dictionary objectForKey:@"description"] : nil;
 
-    organizations.endDate =
+    organizationsElement.endDate =
         [dictionary objectForKey:@"endDate"] != [NSNull null] ? 
         [dictionary objectForKey:@"endDate"] : nil;
 
-    organizations.location =
+    organizationsElement.location =
         [dictionary objectForKey:@"location"] != [NSNull null] ? 
-        [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:organizations.captureObjectPath] : nil;
+        [JRLocation locationObjectFromDictionary:[dictionary objectForKey:@"location"] withPath:organizationsElement.captureObjectPath] : nil;
 
-    organizations.name =
+    organizationsElement.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    organizations.primary =
+    organizationsElement.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
-    organizations.startDate =
+    organizationsElement.startDate =
         [dictionary objectForKey:@"startDate"] != [NSNull null] ? 
         [dictionary objectForKey:@"startDate"] : nil;
 
-    organizations.title =
+    organizationsElement.title =
         [dictionary objectForKey:@"title"] != [NSNull null] ? 
         [dictionary objectForKey:@"title"] : nil;
 
-    organizations.type =
+    organizationsElement.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 
-    [organizations.dirtyPropertySet removeAllObjects];
-    [organizations.dirtyArraySet removeAllObjects];
+    [organizationsElement.dirtyPropertySet removeAllObjects];
+    [organizationsElement.dirtyArraySet removeAllObjects];
     
-    return organizations;
+    return organizationsElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -328,7 +328,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.organizationsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.organizationsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"department"])
@@ -384,7 +384,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"organizations", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.organizationsId =
+    self.organizationsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -506,7 +506,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"organizationsId"];
+    [dict setObject:@"JRObjectId" forKey:@"organizationsElementId"];
     [dict setObject:@"NSString" forKey:@"department"];
     [dict setObject:@"NSString" forKey:@"description"];
     [dict setObject:@"NSString" forKey:@"endDate"];
@@ -522,7 +522,7 @@
 
 - (void)dealloc
 {
-    [_organizationsId release];
+    [_organizationsElementId release];
     [_department release];
     [_description release];
     [_endDate release];

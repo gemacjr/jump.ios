@@ -45,26 +45,26 @@
 
 @implementation JRUrlsElement
 {
-    JRObjectId *_urlsId;
+    JRObjectId *_urlsElementId;
     JRBoolean *_primary;
     NSString *_type;
     NSString *_value;
 }
-@dynamic urlsId;
+@dynamic urlsElementId;
 @dynamic primary;
 @dynamic type;
 @dynamic value;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)urlsId
+- (JRObjectId *)urlsElementId
 {
-    return _urlsId;
+    return _urlsElementId;
 }
 
-- (void)setUrlsId:(JRObjectId *)newUrlsId
+- (void)setUrlsElementId:(JRObjectId *)newUrlsElementId
 {
-    [self.dirtyPropertySet addObject:@"urlsId"];
-    _urlsId = [newUrlsId copy];
+    [self.dirtyPropertySet addObject:@"urlsElementId"];
+    _urlsElementId = [newUrlsElementId copy];
 }
 
 - (JRBoolean *)primary
@@ -121,30 +121,30 @@
     return self;
 }
 
-+ (id)urls
++ (id)urlsElement
 {
     return [[[JRUrlsElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRUrlsElement *urlsCopy =
+    JRUrlsElement *urlsElementCopy =
                 [[JRUrlsElement allocWithZone:zone] init];
 
-    urlsCopy.captureObjectPath = self.captureObjectPath;
+    urlsElementCopy.captureObjectPath = self.captureObjectPath;
 
-    urlsCopy.urlsId = self.urlsId;
-    urlsCopy.primary = self.primary;
-    urlsCopy.type = self.type;
-    urlsCopy.value = self.value;
+    urlsElementCopy.urlsElementId = self.urlsElementId;
+    urlsElementCopy.primary = self.primary;
+    urlsElementCopy.type = self.type;
+    urlsElementCopy.value = self.value;
     // TODO: Necessary??
-    urlsCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    urlsElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [urlsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [urlsCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [urlsElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [urlsElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return urlsCopy;
+    return urlsElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -152,7 +152,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.urlsId ? [NSNumber numberWithInteger:[self.urlsId integerValue]] : [NSNull null])
+    [dict setObject:(self.urlsElementId ? [NSNumber numberWithInteger:[self.urlsElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
              forKey:@"primary"];
@@ -164,37 +164,37 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)urlsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)urlsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRUrlsElement *urls = [JRUrlsElement urls];
+    JRUrlsElement *urlsElement = [JRUrlsElement urlsElement];
 
-    urls.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    urlsElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    urls.canBeUpdatedOrReplaced = YES;
+    urlsElement.canBeUpdatedOrReplaced = YES;
 
-    urls.urlsId =
+    urlsElement.urlsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    urls.primary =
+    urlsElement.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
-    urls.type =
+    urlsElement.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 
-    urls.value =
+    urlsElement.value =
         [dictionary objectForKey:@"value"] != [NSNull null] ? 
         [dictionary objectForKey:@"value"] : nil;
 
-    [urls.dirtyPropertySet removeAllObjects];
-    [urls.dirtyArraySet removeAllObjects];
+    [urlsElement.dirtyPropertySet removeAllObjects];
+    [urlsElement.dirtyArraySet removeAllObjects];
     
-    return urls;
+    return urlsElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -208,7 +208,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.urlsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.urlsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"primary"])
@@ -237,7 +237,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.urlsId =
+    self.urlsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -299,7 +299,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"urlsId"];
+    [dict setObject:@"JRObjectId" forKey:@"urlsElementId"];
     [dict setObject:@"JRBoolean" forKey:@"primary"];
     [dict setObject:@"NSString" forKey:@"type"];
     [dict setObject:@"NSString" forKey:@"value"];
@@ -309,7 +309,7 @@
 
 - (void)dealloc
 {
-    [_urlsId release];
+    [_urlsElementId release];
     [_primary release];
     [_type release];
     [_value release];

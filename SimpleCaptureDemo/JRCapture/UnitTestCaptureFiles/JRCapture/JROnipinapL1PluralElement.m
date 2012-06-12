@@ -40,23 +40,23 @@
 #import "JROnipinapL1PluralElement.h"
 
 @interface NSArray (OnipinapL2PluralToFromDictionary)
-- (NSArray*)arrayOfOnipinapL2PluralObjectsFromOnipinapL2PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOnipinapL2PluralDictionariesFromOnipinapL2PluralObjects;
-- (NSArray*)arrayOfOnipinapL2PluralReplaceDictionariesFromOnipinapL2PluralObjects;
+- (NSArray*)arrayOfOnipinapL2PluralElementsFromOnipinapL2PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfOnipinapL2PluralDictionariesFromOnipinapL2PluralElements;
+- (NSArray*)arrayOfOnipinapL2PluralReplaceDictionariesFromOnipinapL2PluralElements;
 @end
 
 @implementation NSArray (OnipinapL2PluralToFromDictionary)
-- (NSArray*)arrayOfOnipinapL2PluralObjectsFromOnipinapL2PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfOnipinapL2PluralElementsFromOnipinapL2PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredOnipinapL2PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredOnipinapL2PluralArray addObject:[JROnipinapL2PluralElement onipinapL2PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredOnipinapL2PluralArray addObject:[JROnipinapL2PluralElement onipinapL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredOnipinapL2PluralArray;
 }
 
-- (NSArray*)arrayOfOnipinapL2PluralDictionariesFromOnipinapL2PluralObjects
+- (NSArray*)arrayOfOnipinapL2PluralDictionariesFromOnipinapL2PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -66,7 +66,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfOnipinapL2PluralReplaceDictionariesFromOnipinapL2PluralObjects
+- (NSArray*)arrayOfOnipinapL2PluralReplaceDictionariesFromOnipinapL2PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -135,29 +135,29 @@
     return self;
 }
 
-+ (id)onipinapL1Plural
++ (id)onipinapL1PluralElement
 {
     return [[[JROnipinapL1PluralElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JROnipinapL1PluralElement *onipinapL1PluralCopy =
+    JROnipinapL1PluralElement *onipinapL1PluralElementCopy =
                 [[JROnipinapL1PluralElement allocWithZone:zone] init];
 
-    onipinapL1PluralCopy.captureObjectPath = self.captureObjectPath;
+    onipinapL1PluralElementCopy.captureObjectPath = self.captureObjectPath;
 
-    onipinapL1PluralCopy.string1 = self.string1;
-    onipinapL1PluralCopy.string2 = self.string2;
-    onipinapL1PluralCopy.onipinapL2Plural = self.onipinapL2Plural;
+    onipinapL1PluralElementCopy.string1 = self.string1;
+    onipinapL1PluralElementCopy.string2 = self.string2;
+    onipinapL1PluralElementCopy.onipinapL2Plural = self.onipinapL2Plural;
     // TODO: Necessary??
-    onipinapL1PluralCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    onipinapL1PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [onipinapL1PluralCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [onipinapL1PluralCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [onipinapL1PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [onipinapL1PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return onipinapL1PluralCopy;
+    return onipinapL1PluralElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -169,39 +169,39 @@
              forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null])
              forKey:@"string2"];
-    [dict setObject:(self.onipinapL2Plural ? [self.onipinapL2Plural arrayOfOnipinapL2PluralDictionariesFromOnipinapL2PluralObjects] : [NSNull null])
+    [dict setObject:(self.onipinapL2Plural ? [self.onipinapL2Plural arrayOfOnipinapL2PluralDictionariesFromOnipinapL2PluralElements] : [NSNull null])
              forKey:@"onipinapL2Plural"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)onipinapL1PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)onipinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JROnipinapL1PluralElement *onipinapL1Plural = [JROnipinapL1PluralElement onipinapL1Plural];
+    JROnipinapL1PluralElement *onipinapL1PluralElement = [JROnipinapL1PluralElement onipinapL1PluralElement];
 
-    onipinapL1Plural.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    onipinapL1PluralElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    onipinapL1Plural.canBeUpdatedOrReplaced = YES;
+    onipinapL1PluralElement.canBeUpdatedOrReplaced = YES;
 
-    onipinapL1Plural.string1 =
+    onipinapL1PluralElement.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
         [dictionary objectForKey:@"string1"] : nil;
 
-    onipinapL1Plural.string2 =
+    onipinapL1PluralElement.string2 =
         [dictionary objectForKey:@"string2"] != [NSNull null] ? 
         [dictionary objectForKey:@"string2"] : nil;
 
-    onipinapL1Plural.onipinapL2Plural =
+    onipinapL1PluralElement.onipinapL2Plural =
         [dictionary objectForKey:@"onipinapL2Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipinapL2Plural"] arrayOfOnipinapL2PluralObjectsFromOnipinapL2PluralDictionariesWithPath:onipinapL1Plural.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipinapL2Plural"] arrayOfOnipinapL2PluralElementsFromOnipinapL2PluralDictionariesWithPath:onipinapL1PluralElement.captureObjectPath] : nil;
 
-    [onipinapL1Plural.dirtyPropertySet removeAllObjects];
-    [onipinapL1Plural.dirtyArraySet removeAllObjects];
+    [onipinapL1PluralElement.dirtyPropertySet removeAllObjects];
+    [onipinapL1PluralElement.dirtyArraySet removeAllObjects];
     
-    return onipinapL1Plural;
+    return onipinapL1PluralElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -246,7 +246,7 @@
 
     self.onipinapL2Plural =
         [dictionary objectForKey:@"onipinapL2Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipinapL2Plural"] arrayOfOnipinapL2PluralObjectsFromOnipinapL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipinapL2Plural"] arrayOfOnipinapL2PluralElementsFromOnipinapL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
     [self.dirtyArraySet setSet:dirtyArraySetCopy];
@@ -273,7 +273,7 @@
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
-    [dict setObject:(self.onipinapL2Plural ? [self.onipinapL2Plural arrayOfOnipinapL2PluralReplaceDictionariesFromOnipinapL2PluralObjects] : [NSArray array]) forKey:@"onipinapL2Plural"];
+    [dict setObject:(self.onipinapL2Plural ? [self.onipinapL2Plural arrayOfOnipinapL2PluralReplaceDictionariesFromOnipinapL2PluralElements] : [NSArray array]) forKey:@"onipinapL2Plural"];
 
     return dict;
 }

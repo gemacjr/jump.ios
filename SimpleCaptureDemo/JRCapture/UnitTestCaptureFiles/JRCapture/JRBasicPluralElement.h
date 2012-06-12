@@ -56,7 +56,7 @@
  * @return
  *   A JRBasicPluralElement object
  **/
-+ (id)basicPlural;
++ (id)basicPluralElement;
 
 /**
  * Returns a JRBasicPluralElement object created from an \e NSDictionary representing the object
@@ -77,7 +77,7 @@
  * @return
  *   A JRBasicPluralElement object
  **/
-+ (id)basicPluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)basicPluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

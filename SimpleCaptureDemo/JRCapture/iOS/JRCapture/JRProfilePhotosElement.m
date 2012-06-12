@@ -45,26 +45,26 @@
 
 @implementation JRProfilePhotosElement
 {
-    JRObjectId *_profilePhotosId;
+    JRObjectId *_profilePhotosElementId;
     JRBoolean *_primary;
     NSString *_type;
     NSString *_value;
 }
-@dynamic profilePhotosId;
+@dynamic profilePhotosElementId;
 @dynamic primary;
 @dynamic type;
 @dynamic value;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)profilePhotosId
+- (JRObjectId *)profilePhotosElementId
 {
-    return _profilePhotosId;
+    return _profilePhotosElementId;
 }
 
-- (void)setProfilePhotosId:(JRObjectId *)newProfilePhotosId
+- (void)setProfilePhotosElementId:(JRObjectId *)newProfilePhotosElementId
 {
-    [self.dirtyPropertySet addObject:@"profilePhotosId"];
-    _profilePhotosId = [newProfilePhotosId copy];
+    [self.dirtyPropertySet addObject:@"profilePhotosElementId"];
+    _profilePhotosElementId = [newProfilePhotosElementId copy];
 }
 
 - (JRBoolean *)primary
@@ -121,30 +121,30 @@
     return self;
 }
 
-+ (id)profilePhotos
++ (id)profilePhotosElement
 {
     return [[[JRProfilePhotosElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRProfilePhotosElement *profilePhotosCopy =
+    JRProfilePhotosElement *profilePhotosElementCopy =
                 [[JRProfilePhotosElement allocWithZone:zone] init];
 
-    profilePhotosCopy.captureObjectPath = self.captureObjectPath;
+    profilePhotosElementCopy.captureObjectPath = self.captureObjectPath;
 
-    profilePhotosCopy.profilePhotosId = self.profilePhotosId;
-    profilePhotosCopy.primary = self.primary;
-    profilePhotosCopy.type = self.type;
-    profilePhotosCopy.value = self.value;
+    profilePhotosElementCopy.profilePhotosElementId = self.profilePhotosElementId;
+    profilePhotosElementCopy.primary = self.primary;
+    profilePhotosElementCopy.type = self.type;
+    profilePhotosElementCopy.value = self.value;
     // TODO: Necessary??
-    profilePhotosCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    profilePhotosElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [profilePhotosCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [profilePhotosCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [profilePhotosElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [profilePhotosElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return profilePhotosCopy;
+    return profilePhotosElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -152,7 +152,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.profilePhotosId ? [NSNumber numberWithInteger:[self.profilePhotosId integerValue]] : [NSNull null])
+    [dict setObject:(self.profilePhotosElementId ? [NSNumber numberWithInteger:[self.profilePhotosElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
              forKey:@"primary"];
@@ -164,37 +164,37 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)profilePhotosObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)profilePhotosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRProfilePhotosElement *profilePhotos = [JRProfilePhotosElement profilePhotos];
+    JRProfilePhotosElement *profilePhotosElement = [JRProfilePhotosElement profilePhotosElement];
 
-    profilePhotos.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    profilePhotosElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    profilePhotos.canBeUpdatedOrReplaced = YES;
+    profilePhotosElement.canBeUpdatedOrReplaced = YES;
 
-    profilePhotos.profilePhotosId =
+    profilePhotosElement.profilePhotosElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    profilePhotos.primary =
+    profilePhotosElement.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
-    profilePhotos.type =
+    profilePhotosElement.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 
-    profilePhotos.value =
+    profilePhotosElement.value =
         [dictionary objectForKey:@"value"] != [NSNull null] ? 
         [dictionary objectForKey:@"value"] : nil;
 
-    [profilePhotos.dirtyPropertySet removeAllObjects];
-    [profilePhotos.dirtyArraySet removeAllObjects];
+    [profilePhotosElement.dirtyPropertySet removeAllObjects];
+    [profilePhotosElement.dirtyArraySet removeAllObjects];
     
-    return profilePhotos;
+    return profilePhotosElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -208,7 +208,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.profilePhotosId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.profilePhotosElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"primary"])
@@ -237,7 +237,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.profilePhotosId =
+    self.profilePhotosElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -299,7 +299,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"profilePhotosId"];
+    [dict setObject:@"JRObjectId" forKey:@"profilePhotosElementId"];
     [dict setObject:@"JRBoolean" forKey:@"primary"];
     [dict setObject:@"NSString" forKey:@"type"];
     [dict setObject:@"NSString" forKey:@"value"];
@@ -309,7 +309,7 @@
 
 - (void)dealloc
 {
-    [_profilePhotosId release];
+    [_profilePhotosElementId release];
     [_primary release];
     [_type release];
     [_value release];

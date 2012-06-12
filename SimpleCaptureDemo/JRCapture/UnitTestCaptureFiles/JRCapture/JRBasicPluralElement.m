@@ -84,28 +84,28 @@
     return self;
 }
 
-+ (id)basicPlural
++ (id)basicPluralElement
 {
     return [[[JRBasicPluralElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRBasicPluralElement *basicPluralCopy =
+    JRBasicPluralElement *basicPluralElementCopy =
                 [[JRBasicPluralElement allocWithZone:zone] init];
 
-    basicPluralCopy.captureObjectPath = self.captureObjectPath;
+    basicPluralElementCopy.captureObjectPath = self.captureObjectPath;
 
-    basicPluralCopy.string1 = self.string1;
-    basicPluralCopy.string2 = self.string2;
+    basicPluralElementCopy.string1 = self.string1;
+    basicPluralElementCopy.string2 = self.string2;
     // TODO: Necessary??
-    basicPluralCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    basicPluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [basicPluralCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [basicPluralCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [basicPluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [basicPluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return basicPluralCopy;
+    return basicPluralElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -121,29 +121,29 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)basicPluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)basicPluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRBasicPluralElement *basicPlural = [JRBasicPluralElement basicPlural];
+    JRBasicPluralElement *basicPluralElement = [JRBasicPluralElement basicPluralElement];
 
-    basicPlural.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"basicPlural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    basicPluralElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"basicPlural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    basicPlural.canBeUpdatedOrReplaced = YES;
+    basicPluralElement.canBeUpdatedOrReplaced = YES;
 
-    basicPlural.string1 =
+    basicPluralElement.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
         [dictionary objectForKey:@"string1"] : nil;
 
-    basicPlural.string2 =
+    basicPluralElement.string2 =
         [dictionary objectForKey:@"string2"] != [NSNull null] ? 
         [dictionary objectForKey:@"string2"] : nil;
 
-    [basicPlural.dirtyPropertySet removeAllObjects];
-    [basicPlural.dirtyArraySet removeAllObjects];
+    [basicPluralElement.dirtyPropertySet removeAllObjects];
+    [basicPluralElement.dirtyArraySet removeAllObjects];
     
-    return basicPlural;
+    return basicPluralElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

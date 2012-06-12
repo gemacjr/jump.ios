@@ -84,28 +84,28 @@
     return self;
 }
 
-+ (id)pinapinapL3Plural
++ (id)pinapinapL3PluralElement
 {
     return [[[JRPinapinapL3PluralElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinapinapL3PluralElement *pinapinapL3PluralCopy =
+    JRPinapinapL3PluralElement *pinapinapL3PluralElementCopy =
                 [[JRPinapinapL3PluralElement allocWithZone:zone] init];
 
-    pinapinapL3PluralCopy.captureObjectPath = self.captureObjectPath;
+    pinapinapL3PluralElementCopy.captureObjectPath = self.captureObjectPath;
 
-    pinapinapL3PluralCopy.string1 = self.string1;
-    pinapinapL3PluralCopy.string2 = self.string2;
+    pinapinapL3PluralElementCopy.string1 = self.string1;
+    pinapinapL3PluralElementCopy.string2 = self.string2;
     // TODO: Necessary??
-    pinapinapL3PluralCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    pinapinapL3PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [pinapinapL3PluralCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinapinapL3PluralCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [pinapinapL3PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [pinapinapL3PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return pinapinapL3PluralCopy;
+    return pinapinapL3PluralElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -121,29 +121,29 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)pinapinapL3PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)pinapinapL3PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRPinapinapL3PluralElement *pinapinapL3Plural = [JRPinapinapL3PluralElement pinapinapL3Plural];
+    JRPinapinapL3PluralElement *pinapinapL3PluralElement = [JRPinapinapL3PluralElement pinapinapL3PluralElement];
 
-    pinapinapL3Plural.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapinapL3Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    pinapinapL3PluralElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapinapL3Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    pinapinapL3Plural.canBeUpdatedOrReplaced = YES;
+    pinapinapL3PluralElement.canBeUpdatedOrReplaced = YES;
 
-    pinapinapL3Plural.string1 =
+    pinapinapL3PluralElement.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
         [dictionary objectForKey:@"string1"] : nil;
 
-    pinapinapL3Plural.string2 =
+    pinapinapL3PluralElement.string2 =
         [dictionary objectForKey:@"string2"] != [NSNull null] ? 
         [dictionary objectForKey:@"string2"] : nil;
 
-    [pinapinapL3Plural.dirtyPropertySet removeAllObjects];
-    [pinapinapL3Plural.dirtyArraySet removeAllObjects];
+    [pinapinapL3PluralElement.dirtyPropertySet removeAllObjects];
+    [pinapinapL3PluralElement.dirtyArraySet removeAllObjects];
     
-    return pinapinapL3Plural;
+    return pinapinapL3PluralElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

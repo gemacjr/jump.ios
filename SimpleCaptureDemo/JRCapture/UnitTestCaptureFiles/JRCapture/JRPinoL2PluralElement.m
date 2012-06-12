@@ -84,28 +84,28 @@
     return self;
 }
 
-+ (id)pinoL2Plural
++ (id)pinoL2PluralElement
 {
     return [[[JRPinoL2PluralElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinoL2PluralElement *pinoL2PluralCopy =
+    JRPinoL2PluralElement *pinoL2PluralElementCopy =
                 [[JRPinoL2PluralElement allocWithZone:zone] init];
 
-    pinoL2PluralCopy.captureObjectPath = self.captureObjectPath;
+    pinoL2PluralElementCopy.captureObjectPath = self.captureObjectPath;
 
-    pinoL2PluralCopy.string1 = self.string1;
-    pinoL2PluralCopy.string2 = self.string2;
+    pinoL2PluralElementCopy.string1 = self.string1;
+    pinoL2PluralElementCopy.string2 = self.string2;
     // TODO: Necessary??
-    pinoL2PluralCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    pinoL2PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [pinoL2PluralCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinoL2PluralCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [pinoL2PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [pinoL2PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return pinoL2PluralCopy;
+    return pinoL2PluralElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -121,29 +121,29 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)pinoL2PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)pinoL2PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRPinoL2PluralElement *pinoL2Plural = [JRPinoL2PluralElement pinoL2Plural];
+    JRPinoL2PluralElement *pinoL2PluralElement = [JRPinoL2PluralElement pinoL2PluralElement];
 
-    pinoL2Plural.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    pinoL2PluralElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    pinoL2Plural.canBeUpdatedOrReplaced = YES;
+    pinoL2PluralElement.canBeUpdatedOrReplaced = YES;
 
-    pinoL2Plural.string1 =
+    pinoL2PluralElement.string1 =
         [dictionary objectForKey:@"string1"] != [NSNull null] ? 
         [dictionary objectForKey:@"string1"] : nil;
 
-    pinoL2Plural.string2 =
+    pinoL2PluralElement.string2 =
         [dictionary objectForKey:@"string2"] != [NSNull null] ? 
         [dictionary objectForKey:@"string2"] : nil;
 
-    [pinoL2Plural.dirtyPropertySet removeAllObjects];
-    [pinoL2Plural.dirtyArraySet removeAllObjects];
+    [pinoL2PluralElement.dirtyPropertySet removeAllObjects];
+    [pinoL2PluralElement.dirtyArraySet removeAllObjects];
     
-    return pinoL2Plural;
+    return pinoL2PluralElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

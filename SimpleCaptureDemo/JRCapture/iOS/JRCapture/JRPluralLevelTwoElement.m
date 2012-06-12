@@ -40,23 +40,23 @@
 #import "JRPluralLevelTwoElement.h"
 
 @interface NSArray (PluralLevelThreeToFromDictionary)
-- (NSArray*)arrayOfPluralLevelThreeObjectsFromPluralLevelThreeDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeObjects;
-- (NSArray*)arrayOfPluralLevelThreeReplaceDictionariesFromPluralLevelThreeObjects;
+- (NSArray*)arrayOfPluralLevelThreeElementsFromPluralLevelThreeDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeElements;
+- (NSArray*)arrayOfPluralLevelThreeReplaceDictionariesFromPluralLevelThreeElements;
 @end
 
 @implementation NSArray (PluralLevelThreeToFromDictionary)
-- (NSArray*)arrayOfPluralLevelThreeObjectsFromPluralLevelThreeDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPluralLevelThreeElementsFromPluralLevelThreeDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPluralLevelThreeArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPluralLevelThreeArray addObject:[JRPluralLevelThreeElement pluralLevelThreeObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPluralLevelThreeArray addObject:[JRPluralLevelThreeElement pluralLevelThreeElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPluralLevelThreeArray;
 }
 
-- (NSArray*)arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeObjects
+- (NSArray*)arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -66,7 +66,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPluralLevelThreeReplaceDictionariesFromPluralLevelThreeObjects
+- (NSArray*)arrayOfPluralLevelThreeReplaceDictionariesFromPluralLevelThreeElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -83,26 +83,26 @@
 
 @implementation JRPluralLevelTwoElement
 {
-    JRObjectId *_pluralLevelTwoId;
+    JRObjectId *_pluralLevelTwoElementId;
     NSString *_level;
     NSString *_name;
     NSArray *_pluralLevelThree;
 }
-@dynamic pluralLevelTwoId;
+@dynamic pluralLevelTwoElementId;
 @dynamic level;
 @dynamic name;
 @dynamic pluralLevelThree;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)pluralLevelTwoId
+- (JRObjectId *)pluralLevelTwoElementId
 {
-    return _pluralLevelTwoId;
+    return _pluralLevelTwoElementId;
 }
 
-- (void)setPluralLevelTwoId:(JRObjectId *)newPluralLevelTwoId
+- (void)setPluralLevelTwoElementId:(JRObjectId *)newPluralLevelTwoElementId
 {
-    [self.dirtyPropertySet addObject:@"pluralLevelTwoId"];
-    _pluralLevelTwoId = [newPluralLevelTwoId copy];
+    [self.dirtyPropertySet addObject:@"pluralLevelTwoElementId"];
+    _pluralLevelTwoElementId = [newPluralLevelTwoElementId copy];
 }
 
 - (NSString *)level
@@ -148,30 +148,30 @@
     return self;
 }
 
-+ (id)pluralLevelTwo
++ (id)pluralLevelTwoElement
 {
     return [[[JRPluralLevelTwoElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPluralLevelTwoElement *pluralLevelTwoCopy =
+    JRPluralLevelTwoElement *pluralLevelTwoElementCopy =
                 [[JRPluralLevelTwoElement allocWithZone:zone] init];
 
-    pluralLevelTwoCopy.captureObjectPath = self.captureObjectPath;
+    pluralLevelTwoElementCopy.captureObjectPath = self.captureObjectPath;
 
-    pluralLevelTwoCopy.pluralLevelTwoId = self.pluralLevelTwoId;
-    pluralLevelTwoCopy.level = self.level;
-    pluralLevelTwoCopy.name = self.name;
-    pluralLevelTwoCopy.pluralLevelThree = self.pluralLevelThree;
+    pluralLevelTwoElementCopy.pluralLevelTwoElementId = self.pluralLevelTwoElementId;
+    pluralLevelTwoElementCopy.level = self.level;
+    pluralLevelTwoElementCopy.name = self.name;
+    pluralLevelTwoElementCopy.pluralLevelThree = self.pluralLevelThree;
     // TODO: Necessary??
-    pluralLevelTwoCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    pluralLevelTwoElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [pluralLevelTwoCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pluralLevelTwoCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [pluralLevelTwoElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [pluralLevelTwoElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return pluralLevelTwoCopy;
+    return pluralLevelTwoElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -179,49 +179,49 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.pluralLevelTwoId ? [NSNumber numberWithInteger:[self.pluralLevelTwoId integerValue]] : [NSNull null])
+    [dict setObject:(self.pluralLevelTwoElementId ? [NSNumber numberWithInteger:[self.pluralLevelTwoElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.level ? self.level : [NSNull null])
              forKey:@"level"];
     [dict setObject:(self.name ? self.name : [NSNull null])
              forKey:@"name"];
-    [dict setObject:(self.pluralLevelThree ? [self.pluralLevelThree arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeObjects] : [NSNull null])
+    [dict setObject:(self.pluralLevelThree ? [self.pluralLevelThree arrayOfPluralLevelThreeDictionariesFromPluralLevelThreeElements] : [NSNull null])
              forKey:@"pluralLevelThree"];
 
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)pluralLevelTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)pluralLevelTwoElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRPluralLevelTwoElement *pluralLevelTwo = [JRPluralLevelTwoElement pluralLevelTwo];
+    JRPluralLevelTwoElement *pluralLevelTwoElement = [JRPluralLevelTwoElement pluralLevelTwoElement];
 
-    pluralLevelTwo.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelTwo", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    pluralLevelTwoElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelTwo", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    pluralLevelTwo.canBeUpdatedOrReplaced = YES;
+    pluralLevelTwoElement.canBeUpdatedOrReplaced = YES;
 
-    pluralLevelTwo.pluralLevelTwoId =
+    pluralLevelTwoElement.pluralLevelTwoElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    pluralLevelTwo.level =
+    pluralLevelTwoElement.level =
         [dictionary objectForKey:@"level"] != [NSNull null] ? 
         [dictionary objectForKey:@"level"] : nil;
 
-    pluralLevelTwo.name =
+    pluralLevelTwoElement.name =
         [dictionary objectForKey:@"name"] != [NSNull null] ? 
         [dictionary objectForKey:@"name"] : nil;
 
-    pluralLevelTwo.pluralLevelThree =
+    pluralLevelTwoElement.pluralLevelThree =
         [dictionary objectForKey:@"pluralLevelThree"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pluralLevelThree"] arrayOfPluralLevelThreeObjectsFromPluralLevelThreeDictionariesWithPath:pluralLevelTwo.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pluralLevelThree"] arrayOfPluralLevelThreeElementsFromPluralLevelThreeDictionariesWithPath:pluralLevelTwoElement.captureObjectPath] : nil;
 
-    [pluralLevelTwo.dirtyPropertySet removeAllObjects];
-    [pluralLevelTwo.dirtyArraySet removeAllObjects];
+    [pluralLevelTwoElement.dirtyPropertySet removeAllObjects];
+    [pluralLevelTwoElement.dirtyArraySet removeAllObjects];
     
-    return pluralLevelTwo;
+    return pluralLevelTwoElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -235,7 +235,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelTwo", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.pluralLevelTwoId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.pluralLevelTwoElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"level"])
@@ -260,7 +260,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralLevelTwo", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.pluralLevelTwoId =
+    self.pluralLevelTwoElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -274,7 +274,7 @@
 
     self.pluralLevelThree =
         [dictionary objectForKey:@"pluralLevelThree"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pluralLevelThree"] arrayOfPluralLevelThreeObjectsFromPluralLevelThreeDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pluralLevelThree"] arrayOfPluralLevelThreeElementsFromPluralLevelThreeDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
     [self.dirtyArraySet setSet:dirtyArraySetCopy];
@@ -301,7 +301,7 @@
 
     [dict setObject:(self.level ? self.level : [NSNull null]) forKey:@"level"];
     [dict setObject:(self.name ? self.name : [NSNull null]) forKey:@"name"];
-    [dict setObject:(self.pluralLevelThree ? [self.pluralLevelThree arrayOfPluralLevelThreeReplaceDictionariesFromPluralLevelThreeObjects] : [NSArray array]) forKey:@"pluralLevelThree"];
+    [dict setObject:(self.pluralLevelThree ? [self.pluralLevelThree arrayOfPluralLevelThreeReplaceDictionariesFromPluralLevelThreeElements] : [NSArray array]) forKey:@"pluralLevelThree"];
 
     return dict;
 }
@@ -325,7 +325,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"pluralLevelTwoId"];
+    [dict setObject:@"JRObjectId" forKey:@"pluralLevelTwoElementId"];
     [dict setObject:@"NSString" forKey:@"level"];
     [dict setObject:@"NSString" forKey:@"name"];
     [dict setObject:@"NSArray" forKey:@"pluralLevelThree"];
@@ -335,7 +335,7 @@
 
 - (void)dealloc
 {
-    [_pluralLevelTwoId release];
+    [_pluralLevelTwoElementId release];
     [_level release];
     [_name release];
     [_pluralLevelThree release];

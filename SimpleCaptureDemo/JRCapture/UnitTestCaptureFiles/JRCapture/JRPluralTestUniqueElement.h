@@ -57,7 +57,7 @@
  * @return
  *   A JRPluralTestUniqueElement object
  **/
-+ (id)pluralTestUnique;
++ (id)pluralTestUniqueElement;
 
 /**
  * Returns a JRPluralTestUniqueElement object created from an \e NSDictionary representing the object
@@ -78,7 +78,7 @@
  * @return
  *   A JRPluralTestUniqueElement object
  **/
-+ (id)pluralTestUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)pluralTestUniqueElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

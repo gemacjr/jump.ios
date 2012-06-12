@@ -40,23 +40,23 @@
 #import "JRCaptureUser.h"
 
 @interface NSArray (BasicPluralToFromDictionary)
-- (NSArray*)arrayOfBasicPluralObjectsFromBasicPluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralObjects;
-- (NSArray*)arrayOfBasicPluralReplaceDictionariesFromBasicPluralObjects;
+- (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralElements;
+- (NSArray*)arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements;
 @end
 
 @implementation NSArray (BasicPluralToFromDictionary)
-- (NSArray*)arrayOfBasicPluralObjectsFromBasicPluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredBasicPluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredBasicPluralArray addObject:[JRBasicPluralElement basicPluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredBasicPluralArray addObject:[JRBasicPluralElement basicPluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredBasicPluralArray;
 }
 
-- (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralObjects
+- (NSArray*)arrayOfBasicPluralDictionariesFromBasicPluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -66,7 +66,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfBasicPluralReplaceDictionariesFromBasicPluralObjects
+- (NSArray*)arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -78,23 +78,23 @@
 @end
 
 @interface NSArray (PluralTestUniqueToFromDictionary)
-- (NSArray*)arrayOfPluralTestUniqueObjectsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueObjects;
-- (NSArray*)arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueObjects;
+- (NSArray*)arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElements;
+- (NSArray*)arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements;
 @end
 
 @implementation NSArray (PluralTestUniqueToFromDictionary)
-- (NSArray*)arrayOfPluralTestUniqueObjectsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPluralTestUniqueArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPluralTestUniqueArray addObject:[JRPluralTestUniqueElement pluralTestUniqueObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPluralTestUniqueArray addObject:[JRPluralTestUniqueElement pluralTestUniqueElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPluralTestUniqueArray;
 }
 
-- (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueObjects
+- (NSArray*)arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -104,7 +104,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueObjects
+- (NSArray*)arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -116,23 +116,23 @@
 @end
 
 @interface NSArray (PluralTestAlphabeticToFromDictionary)
-- (NSArray*)arrayOfPluralTestAlphabeticObjectsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticObjects;
-- (NSArray*)arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticObjects;
+- (NSArray*)arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElements;
+- (NSArray*)arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements;
 @end
 
 @implementation NSArray (PluralTestAlphabeticToFromDictionary)
-- (NSArray*)arrayOfPluralTestAlphabeticObjectsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPluralTestAlphabeticArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPluralTestAlphabeticArray addObject:[JRPluralTestAlphabeticElement pluralTestAlphabeticObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPluralTestAlphabeticArray addObject:[JRPluralTestAlphabeticElement pluralTestAlphabeticElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPluralTestAlphabeticArray;
 }
 
-- (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticObjects
+- (NSArray*)arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -142,7 +142,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticObjects
+- (NSArray*)arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -154,23 +154,23 @@
 @end
 
 @interface NSArray (SimpleStringPluralOneToFromDictionary)
-- (NSArray*)arrayOfSimpleStringPluralOneObjectsFromSimpleStringPluralOneDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfSimpleStringPluralOneDictionariesFromSimpleStringPluralOneObjects;
-- (NSArray*)arrayOfSimpleStringPluralOneReplaceDictionariesFromSimpleStringPluralOneObjects;
+- (NSArray*)arrayOfSimpleStringPluralOneElementsFromSimpleStringPluralOneDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfSimpleStringPluralOneDictionariesFromSimpleStringPluralOneElements;
+- (NSArray*)arrayOfSimpleStringPluralOneReplaceDictionariesFromSimpleStringPluralOneElements;
 @end
 
 @implementation NSArray (SimpleStringPluralOneToFromDictionary)
-- (NSArray*)arrayOfSimpleStringPluralOneObjectsFromSimpleStringPluralOneDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfSimpleStringPluralOneElementsFromSimpleStringPluralOneDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredSimpleStringPluralOneArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredSimpleStringPluralOneArray addObject:[JRSimpleStringPluralOneElement simpleStringPluralOneObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredSimpleStringPluralOneArray addObject:[JRSimpleStringPluralOneElement simpleStringPluralOneElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredSimpleStringPluralOneArray;
 }
 
-- (NSArray*)arrayOfSimpleStringPluralOneDictionariesFromSimpleStringPluralOneObjects
+- (NSArray*)arrayOfSimpleStringPluralOneDictionariesFromSimpleStringPluralOneElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -180,7 +180,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfSimpleStringPluralOneReplaceDictionariesFromSimpleStringPluralOneObjects
+- (NSArray*)arrayOfSimpleStringPluralOneReplaceDictionariesFromSimpleStringPluralOneElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -192,23 +192,23 @@
 @end
 
 @interface NSArray (SimpleStringPluralTwoToFromDictionary)
-- (NSArray*)arrayOfSimpleStringPluralTwoObjectsFromSimpleStringPluralTwoDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfSimpleStringPluralTwoDictionariesFromSimpleStringPluralTwoObjects;
-- (NSArray*)arrayOfSimpleStringPluralTwoReplaceDictionariesFromSimpleStringPluralTwoObjects;
+- (NSArray*)arrayOfSimpleStringPluralTwoElementsFromSimpleStringPluralTwoDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfSimpleStringPluralTwoDictionariesFromSimpleStringPluralTwoElements;
+- (NSArray*)arrayOfSimpleStringPluralTwoReplaceDictionariesFromSimpleStringPluralTwoElements;
 @end
 
 @implementation NSArray (SimpleStringPluralTwoToFromDictionary)
-- (NSArray*)arrayOfSimpleStringPluralTwoObjectsFromSimpleStringPluralTwoDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfSimpleStringPluralTwoElementsFromSimpleStringPluralTwoDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredSimpleStringPluralTwoArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredSimpleStringPluralTwoArray addObject:[JRSimpleStringPluralTwoElement simpleStringPluralTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredSimpleStringPluralTwoArray addObject:[JRSimpleStringPluralTwoElement simpleStringPluralTwoElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredSimpleStringPluralTwoArray;
 }
 
-- (NSArray*)arrayOfSimpleStringPluralTwoDictionariesFromSimpleStringPluralTwoObjects
+- (NSArray*)arrayOfSimpleStringPluralTwoDictionariesFromSimpleStringPluralTwoElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -218,7 +218,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfSimpleStringPluralTwoReplaceDictionariesFromSimpleStringPluralTwoObjects
+- (NSArray*)arrayOfSimpleStringPluralTwoReplaceDictionariesFromSimpleStringPluralTwoElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -230,23 +230,23 @@
 @end
 
 @interface NSArray (PinapL1PluralToFromDictionary)
-- (NSArray*)arrayOfPinapL1PluralObjectsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralObjects;
-- (NSArray*)arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralObjects;
+- (NSArray*)arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralElements;
+- (NSArray*)arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements;
 @end
 
 @implementation NSArray (PinapL1PluralToFromDictionary)
-- (NSArray*)arrayOfPinapL1PluralObjectsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPinapL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPinapL1PluralArray addObject:[JRPinapL1PluralElement pinapL1PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPinapL1PluralArray addObject:[JRPinapL1PluralElement pinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPinapL1PluralArray;
 }
 
-- (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralObjects
+- (NSArray*)arrayOfPinapL1PluralDictionariesFromPinapL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -256,7 +256,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralObjects
+- (NSArray*)arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -268,23 +268,23 @@
 @end
 
 @interface NSArray (OnipL1PluralToFromDictionary)
-- (NSArray*)arrayOfOnipL1PluralObjectsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralObjects;
-- (NSArray*)arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralObjects;
+- (NSArray*)arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralElements;
+- (NSArray*)arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements;
 @end
 
 @implementation NSArray (OnipL1PluralToFromDictionary)
-- (NSArray*)arrayOfOnipL1PluralObjectsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredOnipL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredOnipL1PluralArray addObject:[JROnipL1PluralElement onipL1PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredOnipL1PluralArray addObject:[JROnipL1PluralElement onipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredOnipL1PluralArray;
 }
 
-- (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralObjects
+- (NSArray*)arrayOfOnipL1PluralDictionariesFromOnipL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -294,7 +294,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralObjects
+- (NSArray*)arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -306,23 +306,23 @@
 @end
 
 @interface NSArray (PinapinapL1PluralToFromDictionary)
-- (NSArray*)arrayOfPinapinapL1PluralObjectsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralObjects;
-- (NSArray*)arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralObjects;
+- (NSArray*)arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElements;
+- (NSArray*)arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements;
 @end
 
 @implementation NSArray (PinapinapL1PluralToFromDictionary)
-- (NSArray*)arrayOfPinapinapL1PluralObjectsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPinapinapL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPinapinapL1PluralArray addObject:[JRPinapinapL1PluralElement pinapinapL1PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPinapinapL1PluralArray addObject:[JRPinapinapL1PluralElement pinapinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPinapinapL1PluralArray;
 }
 
-- (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralObjects
+- (NSArray*)arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -332,7 +332,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralObjects
+- (NSArray*)arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -344,23 +344,23 @@
 @end
 
 @interface NSArray (PinonipL1PluralToFromDictionary)
-- (NSArray*)arrayOfPinonipL1PluralObjectsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralObjects;
-- (NSArray*)arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralObjects;
+- (NSArray*)arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElements;
+- (NSArray*)arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements;
 @end
 
 @implementation NSArray (PinonipL1PluralToFromDictionary)
-- (NSArray*)arrayOfPinonipL1PluralObjectsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredPinonipL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredPinonipL1PluralArray addObject:[JRPinonipL1PluralElement pinonipL1PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredPinonipL1PluralArray addObject:[JRPinonipL1PluralElement pinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredPinonipL1PluralArray;
 }
 
-- (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralObjects
+- (NSArray*)arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -370,7 +370,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralObjects
+- (NSArray*)arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -382,23 +382,23 @@
 @end
 
 @interface NSArray (OnipinapL1PluralToFromDictionary)
-- (NSArray*)arrayOfOnipinapL1PluralObjectsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralObjects;
-- (NSArray*)arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralObjects;
+- (NSArray*)arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElements;
+- (NSArray*)arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements;
 @end
 
 @implementation NSArray (OnipinapL1PluralToFromDictionary)
-- (NSArray*)arrayOfOnipinapL1PluralObjectsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredOnipinapL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredOnipinapL1PluralArray addObject:[JROnipinapL1PluralElement onipinapL1PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredOnipinapL1PluralArray addObject:[JROnipinapL1PluralElement onipinapL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredOnipinapL1PluralArray;
 }
 
-- (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralObjects
+- (NSArray*)arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -408,7 +408,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralObjects
+- (NSArray*)arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -420,23 +420,23 @@
 @end
 
 @interface NSArray (OinonipL1PluralToFromDictionary)
-- (NSArray*)arrayOfOinonipL1PluralObjectsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
-- (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralObjects;
-- (NSArray*)arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralObjects;
+- (NSArray*)arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath;
+- (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElements;
+- (NSArray*)arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements;
 @end
 
 @implementation NSArray (OinonipL1PluralToFromDictionary)
-- (NSArray*)arrayOfOinonipL1PluralObjectsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath
+- (NSArray*)arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:(NSString*)capturePath
 {
     NSMutableArray *filteredOinonipL1PluralArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)
         if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredOinonipL1PluralArray addObject:[JROinonipL1PluralElement oinonipL1PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
+            [filteredOinonipL1PluralArray addObject:[JROinonipL1PluralElement oinonipL1PluralElementFromDictionary:(NSDictionary*)dictionary withPath:capturePath]];
 
     return filteredOinonipL1PluralArray;
 }
 
-- (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralObjects
+- (NSArray*)arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -446,7 +446,7 @@
     return filteredDictionaryArray;
 }
 
-- (NSArray*)arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralObjects
+- (NSArray*)arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements
 {
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
@@ -1205,41 +1205,41 @@
              forKey:@"stringTestCaseSensitive"];
     [dict setObject:(self.stringTestFeatures ? self.stringTestFeatures : [NSNull null])
              forKey:@"stringTestFeatures"];
-    [dict setObject:(self.basicPlural ? [self.basicPlural arrayOfBasicPluralDictionariesFromBasicPluralObjects] : [NSNull null])
+    [dict setObject:(self.basicPlural ? [self.basicPlural arrayOfBasicPluralDictionariesFromBasicPluralElements] : [NSNull null])
              forKey:@"basicPlural"];
     [dict setObject:(self.basicObject ? [self.basicObject toDictionary] : [NSNull null])
              forKey:@"basicObject"];
     [dict setObject:(self.objectTestRequired ? [self.objectTestRequired toDictionary] : [NSNull null])
              forKey:@"objectTestRequired"];
-    [dict setObject:(self.pluralTestUnique ? [self.pluralTestUnique arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueObjects] : [NSNull null])
+    [dict setObject:(self.pluralTestUnique ? [self.pluralTestUnique arrayOfPluralTestUniqueDictionariesFromPluralTestUniqueElements] : [NSNull null])
              forKey:@"pluralTestUnique"];
     [dict setObject:(self.objectTestRequiredUnique ? [self.objectTestRequiredUnique toDictionary] : [NSNull null])
              forKey:@"objectTestRequiredUnique"];
-    [dict setObject:(self.pluralTestAlphabetic ? [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticObjects] : [NSNull null])
+    [dict setObject:(self.pluralTestAlphabetic ? [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticDictionariesFromPluralTestAlphabeticElements] : [NSNull null])
              forKey:@"pluralTestAlphabetic"];
-    [dict setObject:(self.simpleStringPluralOne ? [self.simpleStringPluralOne arrayOfSimpleStringPluralOneDictionariesFromSimpleStringPluralOneObjects] : [NSNull null])
+    [dict setObject:(self.simpleStringPluralOne ? [self.simpleStringPluralOne arrayOfSimpleStringPluralOneDictionariesFromSimpleStringPluralOneElements] : [NSNull null])
              forKey:@"simpleStringPluralOne"];
-    [dict setObject:(self.simpleStringPluralTwo ? [self.simpleStringPluralTwo arrayOfSimpleStringPluralTwoDictionariesFromSimpleStringPluralTwoObjects] : [NSNull null])
+    [dict setObject:(self.simpleStringPluralTwo ? [self.simpleStringPluralTwo arrayOfSimpleStringPluralTwoDictionariesFromSimpleStringPluralTwoElements] : [NSNull null])
              forKey:@"simpleStringPluralTwo"];
-    [dict setObject:(self.pinapL1Plural ? [self.pinapL1Plural arrayOfPinapL1PluralDictionariesFromPinapL1PluralObjects] : [NSNull null])
+    [dict setObject:(self.pinapL1Plural ? [self.pinapL1Plural arrayOfPinapL1PluralDictionariesFromPinapL1PluralElements] : [NSNull null])
              forKey:@"pinapL1Plural"];
     [dict setObject:(self.pinoL1Object ? [self.pinoL1Object toDictionary] : [NSNull null])
              forKey:@"pinoL1Object"];
-    [dict setObject:(self.onipL1Plural ? [self.onipL1Plural arrayOfOnipL1PluralDictionariesFromOnipL1PluralObjects] : [NSNull null])
+    [dict setObject:(self.onipL1Plural ? [self.onipL1Plural arrayOfOnipL1PluralDictionariesFromOnipL1PluralElements] : [NSNull null])
              forKey:@"onipL1Plural"];
     [dict setObject:(self.oinoL1Object ? [self.oinoL1Object toDictionary] : [NSNull null])
              forKey:@"oinoL1Object"];
-    [dict setObject:(self.pinapinapL1Plural ? [self.pinapinapL1Plural arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralObjects] : [NSNull null])
+    [dict setObject:(self.pinapinapL1Plural ? [self.pinapinapL1Plural arrayOfPinapinapL1PluralDictionariesFromPinapinapL1PluralElements] : [NSNull null])
              forKey:@"pinapinapL1Plural"];
-    [dict setObject:(self.pinonipL1Plural ? [self.pinonipL1Plural arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralObjects] : [NSNull null])
+    [dict setObject:(self.pinonipL1Plural ? [self.pinonipL1Plural arrayOfPinonipL1PluralDictionariesFromPinonipL1PluralElements] : [NSNull null])
              forKey:@"pinonipL1Plural"];
     [dict setObject:(self.pinapinoL1Object ? [self.pinapinoL1Object toDictionary] : [NSNull null])
              forKey:@"pinapinoL1Object"];
     [dict setObject:(self.pinoinoL1Object ? [self.pinoinoL1Object toDictionary] : [NSNull null])
              forKey:@"pinoinoL1Object"];
-    [dict setObject:(self.onipinapL1Plural ? [self.onipinapL1Plural arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralObjects] : [NSNull null])
+    [dict setObject:(self.onipinapL1Plural ? [self.onipinapL1Plural arrayOfOnipinapL1PluralDictionariesFromOnipinapL1PluralElements] : [NSNull null])
              forKey:@"onipinapL1Plural"];
-    [dict setObject:(self.oinonipL1Plural ? [self.oinonipL1Plural arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralObjects] : [NSNull null])
+    [dict setObject:(self.oinonipL1Plural ? [self.oinonipL1Plural arrayOfOinonipL1PluralDictionariesFromOinonipL1PluralElements] : [NSNull null])
              forKey:@"oinonipL1Plural"];
     [dict setObject:(self.onipinoL1Object ? [self.onipinoL1Object toDictionary] : [NSNull null])
              forKey:@"onipinoL1Object"];
@@ -1359,7 +1359,7 @@
 
     captureUser.basicPlural =
         [dictionary objectForKey:@"basicPlural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"basicPlural"] arrayOfBasicPluralObjectsFromBasicPluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"basicPlural"] arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.basicObject =
         [dictionary objectForKey:@"basicObject"] != [NSNull null] ? 
@@ -1371,7 +1371,7 @@
 
     captureUser.pluralTestUnique =
         [dictionary objectForKey:@"pluralTestUnique"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pluralTestUnique"] arrayOfPluralTestUniqueObjectsFromPluralTestUniqueDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pluralTestUnique"] arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.objectTestRequiredUnique =
         [dictionary objectForKey:@"objectTestRequiredUnique"] != [NSNull null] ? 
@@ -1379,19 +1379,19 @@
 
     captureUser.pluralTestAlphabetic =
         [dictionary objectForKey:@"pluralTestAlphabetic"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pluralTestAlphabetic"] arrayOfPluralTestAlphabeticObjectsFromPluralTestAlphabeticDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pluralTestAlphabetic"] arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.simpleStringPluralOne =
         [dictionary objectForKey:@"simpleStringPluralOne"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"simpleStringPluralOne"] arrayOfSimpleStringPluralOneObjectsFromSimpleStringPluralOneDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"simpleStringPluralOne"] arrayOfSimpleStringPluralOneElementsFromSimpleStringPluralOneDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.simpleStringPluralTwo =
         [dictionary objectForKey:@"simpleStringPluralTwo"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"simpleStringPluralTwo"] arrayOfSimpleStringPluralTwoObjectsFromSimpleStringPluralTwoDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"simpleStringPluralTwo"] arrayOfSimpleStringPluralTwoElementsFromSimpleStringPluralTwoDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.pinapL1Plural =
         [dictionary objectForKey:@"pinapL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinapL1Plural"] arrayOfPinapL1PluralObjectsFromPinapL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinapL1Plural"] arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.pinoL1Object =
         [dictionary objectForKey:@"pinoL1Object"] != [NSNull null] ? 
@@ -1399,7 +1399,7 @@
 
     captureUser.onipL1Plural =
         [dictionary objectForKey:@"onipL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipL1Plural"] arrayOfOnipL1PluralObjectsFromOnipL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipL1Plural"] arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.oinoL1Object =
         [dictionary objectForKey:@"oinoL1Object"] != [NSNull null] ? 
@@ -1407,11 +1407,11 @@
 
     captureUser.pinapinapL1Plural =
         [dictionary objectForKey:@"pinapinapL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinapinapL1Plural"] arrayOfPinapinapL1PluralObjectsFromPinapinapL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinapinapL1Plural"] arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.pinonipL1Plural =
         [dictionary objectForKey:@"pinonipL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinonipL1Plural"] arrayOfPinonipL1PluralObjectsFromPinonipL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinonipL1Plural"] arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.pinapinoL1Object =
         [dictionary objectForKey:@"pinapinoL1Object"] != [NSNull null] ? 
@@ -1423,11 +1423,11 @@
 
     captureUser.onipinapL1Plural =
         [dictionary objectForKey:@"onipinapL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipinapL1Plural"] arrayOfOnipinapL1PluralObjectsFromOnipinapL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipinapL1Plural"] arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.oinonipL1Plural =
         [dictionary objectForKey:@"oinonipL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"oinonipL1Plural"] arrayOfOinonipL1PluralObjectsFromOinonipL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"oinonipL1Plural"] arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:captureUser.captureObjectPath] : nil;
 
     captureUser.onipinoL1Object =
         [dictionary objectForKey:@"onipinoL1Object"] != [NSNull null] ? 
@@ -1730,7 +1730,7 @@
 
     self.basicPlural =
         [dictionary objectForKey:@"basicPlural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"basicPlural"] arrayOfBasicPluralObjectsFromBasicPluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"basicPlural"] arrayOfBasicPluralElementsFromBasicPluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     if (![dictionary objectForKey:@"basicObject"] || [dictionary objectForKey:@"basicObject"] == [NSNull null])
         self.basicObject = nil;
@@ -1748,7 +1748,7 @@
 
     self.pluralTestUnique =
         [dictionary objectForKey:@"pluralTestUnique"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pluralTestUnique"] arrayOfPluralTestUniqueObjectsFromPluralTestUniqueDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pluralTestUnique"] arrayOfPluralTestUniqueElementsFromPluralTestUniqueDictionariesWithPath:self.captureObjectPath] : nil;
 
     if (![dictionary objectForKey:@"objectTestRequiredUnique"] || [dictionary objectForKey:@"objectTestRequiredUnique"] == [NSNull null])
         self.objectTestRequiredUnique = nil;
@@ -1759,19 +1759,19 @@
 
     self.pluralTestAlphabetic =
         [dictionary objectForKey:@"pluralTestAlphabetic"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pluralTestAlphabetic"] arrayOfPluralTestAlphabeticObjectsFromPluralTestAlphabeticDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pluralTestAlphabetic"] arrayOfPluralTestAlphabeticElementsFromPluralTestAlphabeticDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.simpleStringPluralOne =
         [dictionary objectForKey:@"simpleStringPluralOne"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"simpleStringPluralOne"] arrayOfSimpleStringPluralOneObjectsFromSimpleStringPluralOneDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"simpleStringPluralOne"] arrayOfSimpleStringPluralOneElementsFromSimpleStringPluralOneDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.simpleStringPluralTwo =
         [dictionary objectForKey:@"simpleStringPluralTwo"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"simpleStringPluralTwo"] arrayOfSimpleStringPluralTwoObjectsFromSimpleStringPluralTwoDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"simpleStringPluralTwo"] arrayOfSimpleStringPluralTwoElementsFromSimpleStringPluralTwoDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.pinapL1Plural =
         [dictionary objectForKey:@"pinapL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinapL1Plural"] arrayOfPinapL1PluralObjectsFromPinapL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinapL1Plural"] arrayOfPinapL1PluralElementsFromPinapL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     if (![dictionary objectForKey:@"pinoL1Object"] || [dictionary objectForKey:@"pinoL1Object"] == [NSNull null])
         self.pinoL1Object = nil;
@@ -1782,7 +1782,7 @@
 
     self.onipL1Plural =
         [dictionary objectForKey:@"onipL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipL1Plural"] arrayOfOnipL1PluralObjectsFromOnipL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipL1Plural"] arrayOfOnipL1PluralElementsFromOnipL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     if (![dictionary objectForKey:@"oinoL1Object"] || [dictionary objectForKey:@"oinoL1Object"] == [NSNull null])
         self.oinoL1Object = nil;
@@ -1793,11 +1793,11 @@
 
     self.pinapinapL1Plural =
         [dictionary objectForKey:@"pinapinapL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinapinapL1Plural"] arrayOfPinapinapL1PluralObjectsFromPinapinapL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinapinapL1Plural"] arrayOfPinapinapL1PluralElementsFromPinapinapL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.pinonipL1Plural =
         [dictionary objectForKey:@"pinonipL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"pinonipL1Plural"] arrayOfPinonipL1PluralObjectsFromPinonipL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"pinonipL1Plural"] arrayOfPinonipL1PluralElementsFromPinonipL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     if (![dictionary objectForKey:@"pinapinoL1Object"] || [dictionary objectForKey:@"pinapinoL1Object"] == [NSNull null])
         self.pinapinoL1Object = nil;
@@ -1815,11 +1815,11 @@
 
     self.onipinapL1Plural =
         [dictionary objectForKey:@"onipinapL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"onipinapL1Plural"] arrayOfOnipinapL1PluralObjectsFromOnipinapL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"onipinapL1Plural"] arrayOfOnipinapL1PluralElementsFromOnipinapL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     self.oinonipL1Plural =
         [dictionary objectForKey:@"oinonipL1Plural"] != [NSNull null] ? 
-        [(NSArray*)[dictionary objectForKey:@"oinonipL1Plural"] arrayOfOinonipL1PluralObjectsFromOinonipL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
+        [(NSArray*)[dictionary objectForKey:@"oinonipL1Plural"] arrayOfOinonipL1PluralElementsFromOinonipL1PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     if (![dictionary objectForKey:@"onipinoL1Object"] || [dictionary objectForKey:@"onipinoL1Object"] == [NSNull null])
         self.onipinoL1Object = nil;
@@ -2006,7 +2006,7 @@
     [dict setObject:(self.stringTestLength ? self.stringTestLength : [NSNull null]) forKey:@"stringTestLength"];
     [dict setObject:(self.stringTestCaseSensitive ? self.stringTestCaseSensitive : [NSNull null]) forKey:@"stringTestCaseSensitive"];
     [dict setObject:(self.stringTestFeatures ? self.stringTestFeatures : [NSNull null]) forKey:@"stringTestFeatures"];
-    [dict setObject:(self.basicPlural ? [self.basicPlural arrayOfBasicPluralReplaceDictionariesFromBasicPluralObjects] : [NSArray array]) forKey:@"basicPlural"];
+    [dict setObject:(self.basicPlural ? [self.basicPlural arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements] : [NSArray array]) forKey:@"basicPlural"];
     [dict setObject:(self.basicObject ?
                           [self.basicObject toReplaceDictionary] :
                           [[JRBasicObject basicObject] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -2015,26 +2015,26 @@
                           [self.objectTestRequired toReplaceDictionary] :
                           [[JRObjectTestRequired objectTestRequired] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"objectTestRequired"];
-    [dict setObject:(self.pluralTestUnique ? [self.pluralTestUnique arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueObjects] : [NSArray array]) forKey:@"pluralTestUnique"];
+    [dict setObject:(self.pluralTestUnique ? [self.pluralTestUnique arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements] : [NSArray array]) forKey:@"pluralTestUnique"];
     [dict setObject:(self.objectTestRequiredUnique ?
                           [self.objectTestRequiredUnique toReplaceDictionary] :
                           [[JRObjectTestRequiredUnique objectTestRequiredUnique] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"objectTestRequiredUnique"];
-    [dict setObject:(self.pluralTestAlphabetic ? [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticObjects] : [NSArray array]) forKey:@"pluralTestAlphabetic"];
-    [dict setObject:(self.simpleStringPluralOne ? [self.simpleStringPluralOne arrayOfSimpleStringPluralOneReplaceDictionariesFromSimpleStringPluralOneObjects] : [NSArray array]) forKey:@"simpleStringPluralOne"];
-    [dict setObject:(self.simpleStringPluralTwo ? [self.simpleStringPluralTwo arrayOfSimpleStringPluralTwoReplaceDictionariesFromSimpleStringPluralTwoObjects] : [NSArray array]) forKey:@"simpleStringPluralTwo"];
-    [dict setObject:(self.pinapL1Plural ? [self.pinapL1Plural arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralObjects] : [NSArray array]) forKey:@"pinapL1Plural"];
+    [dict setObject:(self.pluralTestAlphabetic ? [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements] : [NSArray array]) forKey:@"pluralTestAlphabetic"];
+    [dict setObject:(self.simpleStringPluralOne ? [self.simpleStringPluralOne arrayOfSimpleStringPluralOneReplaceDictionariesFromSimpleStringPluralOneElements] : [NSArray array]) forKey:@"simpleStringPluralOne"];
+    [dict setObject:(self.simpleStringPluralTwo ? [self.simpleStringPluralTwo arrayOfSimpleStringPluralTwoReplaceDictionariesFromSimpleStringPluralTwoElements] : [NSArray array]) forKey:@"simpleStringPluralTwo"];
+    [dict setObject:(self.pinapL1Plural ? [self.pinapL1Plural arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements] : [NSArray array]) forKey:@"pinapL1Plural"];
     [dict setObject:(self.pinoL1Object ?
                           [self.pinoL1Object toReplaceDictionary] :
                           [[JRPinoL1Object pinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"pinoL1Object"];
-    [dict setObject:(self.onipL1Plural ? [self.onipL1Plural arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralObjects] : [NSArray array]) forKey:@"onipL1Plural"];
+    [dict setObject:(self.onipL1Plural ? [self.onipL1Plural arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements] : [NSArray array]) forKey:@"onipL1Plural"];
     [dict setObject:(self.oinoL1Object ?
                           [self.oinoL1Object toReplaceDictionary] :
                           [[JROinoL1Object oinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"oinoL1Object"];
-    [dict setObject:(self.pinapinapL1Plural ? [self.pinapinapL1Plural arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralObjects] : [NSArray array]) forKey:@"pinapinapL1Plural"];
-    [dict setObject:(self.pinonipL1Plural ? [self.pinonipL1Plural arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralObjects] : [NSArray array]) forKey:@"pinonipL1Plural"];
+    [dict setObject:(self.pinapinapL1Plural ? [self.pinapinapL1Plural arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements] : [NSArray array]) forKey:@"pinapinapL1Plural"];
+    [dict setObject:(self.pinonipL1Plural ? [self.pinonipL1Plural arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements] : [NSArray array]) forKey:@"pinonipL1Plural"];
     [dict setObject:(self.pinapinoL1Object ?
                           [self.pinapinoL1Object toReplaceDictionary] :
                           [[JRPinapinoL1Object pinapinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
@@ -2043,8 +2043,8 @@
                           [self.pinoinoL1Object toReplaceDictionary] :
                           [[JRPinoinoL1Object pinoinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"pinoinoL1Object"];
-    [dict setObject:(self.onipinapL1Plural ? [self.onipinapL1Plural arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralObjects] : [NSArray array]) forKey:@"onipinapL1Plural"];
-    [dict setObject:(self.oinonipL1Plural ? [self.oinonipL1Plural arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralObjects] : [NSArray array]) forKey:@"oinonipL1Plural"];
+    [dict setObject:(self.onipinapL1Plural ? [self.onipinapL1Plural arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements] : [NSArray array]) forKey:@"onipinapL1Plural"];
+    [dict setObject:(self.oinonipL1Plural ? [self.oinonipL1Plural arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements] : [NSArray array]) forKey:@"oinonipL1Plural"];
     [dict setObject:(self.onipinoL1Object ?
                           [self.onipinoL1Object toReplaceDictionary] :
                           [[JROnipinoL1Object onipinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */

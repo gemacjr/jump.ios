@@ -45,26 +45,26 @@
 
 @implementation JRImsElement
 {
-    JRObjectId *_imsId;
+    JRObjectId *_imsElementId;
     JRBoolean *_primary;
     NSString *_type;
     NSString *_value;
 }
-@dynamic imsId;
+@dynamic imsElementId;
 @dynamic primary;
 @dynamic type;
 @dynamic value;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)imsId
+- (JRObjectId *)imsElementId
 {
-    return _imsId;
+    return _imsElementId;
 }
 
-- (void)setImsId:(JRObjectId *)newImsId
+- (void)setImsElementId:(JRObjectId *)newImsElementId
 {
-    [self.dirtyPropertySet addObject:@"imsId"];
-    _imsId = [newImsId copy];
+    [self.dirtyPropertySet addObject:@"imsElementId"];
+    _imsElementId = [newImsElementId copy];
 }
 
 - (JRBoolean *)primary
@@ -121,30 +121,30 @@
     return self;
 }
 
-+ (id)ims
++ (id)imsElement
 {
     return [[[JRImsElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRImsElement *imsCopy =
+    JRImsElement *imsElementCopy =
                 [[JRImsElement allocWithZone:zone] init];
 
-    imsCopy.captureObjectPath = self.captureObjectPath;
+    imsElementCopy.captureObjectPath = self.captureObjectPath;
 
-    imsCopy.imsId = self.imsId;
-    imsCopy.primary = self.primary;
-    imsCopy.type = self.type;
-    imsCopy.value = self.value;
+    imsElementCopy.imsElementId = self.imsElementId;
+    imsElementCopy.primary = self.primary;
+    imsElementCopy.type = self.type;
+    imsElementCopy.value = self.value;
     // TODO: Necessary??
-    imsCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    imsElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [imsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [imsCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [imsElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [imsElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return imsCopy;
+    return imsElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -152,7 +152,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.imsId ? [NSNumber numberWithInteger:[self.imsId integerValue]] : [NSNull null])
+    [dict setObject:(self.imsElementId ? [NSNumber numberWithInteger:[self.imsElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
              forKey:@"primary"];
@@ -164,37 +164,37 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)imsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)imsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRImsElement *ims = [JRImsElement ims];
+    JRImsElement *imsElement = [JRImsElement imsElement];
 
-    ims.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    imsElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    ims.canBeUpdatedOrReplaced = YES;
+    imsElement.canBeUpdatedOrReplaced = YES;
 
-    ims.imsId =
+    imsElement.imsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    ims.primary =
+    imsElement.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
-    ims.type =
+    imsElement.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 
-    ims.value =
+    imsElement.value =
         [dictionary objectForKey:@"value"] != [NSNull null] ? 
         [dictionary objectForKey:@"value"] : nil;
 
-    [ims.dirtyPropertySet removeAllObjects];
-    [ims.dirtyArraySet removeAllObjects];
+    [imsElement.dirtyPropertySet removeAllObjects];
+    [imsElement.dirtyArraySet removeAllObjects];
     
-    return ims;
+    return imsElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -208,7 +208,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.imsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.imsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"primary"])
@@ -237,7 +237,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"ims", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.imsId =
+    self.imsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -299,7 +299,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"imsId"];
+    [dict setObject:@"JRObjectId" forKey:@"imsElementId"];
     [dict setObject:@"JRBoolean" forKey:@"primary"];
     [dict setObject:@"NSString" forKey:@"type"];
     [dict setObject:@"NSString" forKey:@"value"];
@@ -309,7 +309,7 @@
 
 - (void)dealloc
 {
-    [_imsId release];
+    [_imsElementId release];
     [_primary release];
     [_type release];
     [_value release];

@@ -55,7 +55,7 @@
  * @return
  *   A JRSimpleStringPluralOneElement object
  **/
-+ (id)simpleStringPluralOne;
++ (id)simpleStringPluralOneElement;
 
 /**
  * Returns a JRSimpleStringPluralOneElement object created from an \e NSDictionary representing the object
@@ -76,7 +76,7 @@
  * @return
  *   A JRSimpleStringPluralOneElement object
  **/
-+ (id)simpleStringPluralOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)simpleStringPluralOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

@@ -39,7 +39,7 @@
  * @brief A JRProfilesElement object
  **/
 @interface JRProfilesElement : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *profilesId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *profilesElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) JRJsonObject *accessCredentials; /**< User's authorization credentials for this provider @note This is a property of type \ref types "json", which can be an \e NSDictionary, \e NSArray, \e NSString, etc., and is therefore is a typedef of \e NSObject */ 
 @property (nonatomic, copy) NSString *domain; /**< The object's \e domain property */ 
 @property (nonatomic, copy) JRStringArray *followers; /**< User's followers @note This is an array of \c JRStringPluralElements with type \c identifier TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
@@ -76,7 +76,7 @@
  * Method creates a JRProfilesElement object without the required properties TODO: MAKE A LIST!
  * These properties are required when updating the object on Capture.
  **/
-+ (id)profiles;
++ (id)profilesElement;
 
 /**
  * Returns a JRProfilesElement object initialized with the given
@@ -94,7 +94,7 @@
  *   A JRProfilesElement object initialized with the given
  *   If the required arguments are \e nil or \e [NSNull null], returns \e nil,
  **/
-+ (id)profilesWithDomain:(NSString *)domain andIdentifier:(NSString *)identifier;
++ (id)profilesElementWithDomain:(NSString *)domain andIdentifier:(NSString *)identifier;
 
 /**
  * Returns a JRProfilesElement object created from an \e NSDictionary representing the object
@@ -119,7 +119,7 @@
  * Method creates a JRProfilesElement object without the required properties TODO: MAKE A LIST!
  * These properties are required when updating the object on Capture.
  **/
-+ (id)profilesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)profilesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

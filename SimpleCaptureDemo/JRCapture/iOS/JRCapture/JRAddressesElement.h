@@ -35,7 +35,7 @@
  * @brief A physical mailing address for this Contact.
  **/
 @interface JRAddressesElement : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *addressesId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *addressesElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) NSString *country; /**< The country name component. */ 
 @property (nonatomic, copy) NSString *extendedAddress; /**< The object's \e extendedAddress property */ 
 @property (nonatomic, copy) NSString *formatted; /**< The full mailing address, formatted for display or use with a mailing label. */ 
@@ -67,7 +67,7 @@
  * @return
  *   A JRAddressesElement object
  **/
-+ (id)addresses;
++ (id)addressesElement;
 
 /**
  * Returns a JRAddressesElement object created from an \e NSDictionary representing the object
@@ -88,7 +88,7 @@
  * @return
  *   A JRAddressesElement object
  **/
-+ (id)addressesObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)addressesElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

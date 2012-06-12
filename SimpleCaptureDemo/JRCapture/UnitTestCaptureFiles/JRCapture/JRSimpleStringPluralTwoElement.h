@@ -55,7 +55,7 @@
  * @return
  *   A JRSimpleStringPluralTwoElement object
  **/
-+ (id)simpleStringPluralTwo;
++ (id)simpleStringPluralTwoElement;
 
 /**
  * Returns a JRSimpleStringPluralTwoElement object created from an \e NSDictionary representing the object
@@ -76,7 +76,7 @@
  * @return
  *   A JRSimpleStringPluralTwoElement object
  **/
-+ (id)simpleStringPluralTwoObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)simpleStringPluralTwoElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

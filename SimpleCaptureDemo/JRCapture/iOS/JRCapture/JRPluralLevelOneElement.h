@@ -36,7 +36,7 @@
  * @brief A JRPluralLevelOneElement object
  **/
 @interface JRPluralLevelOneElement : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *pluralLevelOneId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *pluralLevelOneElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) NSString *level; /**< The object's \e level property */ 
 @property (nonatomic, copy) NSString *name; /**< The object's \e name property */ 
 @property (nonatomic, copy) NSArray *pluralLevelTwo; /**< The object's \e pluralLevelTwo property @note This is an array of \c JRPluralLevelTwoElement objects */ 
@@ -59,7 +59,7 @@
  * @return
  *   A JRPluralLevelOneElement object
  **/
-+ (id)pluralLevelOne;
++ (id)pluralLevelOneElement;
 
 /**
  * Returns a JRPluralLevelOneElement object created from an \e NSDictionary representing the object
@@ -80,7 +80,7 @@
  * @return
  *   A JRPluralLevelOneElement object
  **/
-+ (id)pluralLevelOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)pluralLevelOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

@@ -35,7 +35,7 @@
  * @brief A JRPhotosElement object
  **/
 @interface JRPhotosElement : JRCaptureObject
-@property (nonatomic, copy) JRObjectId *photosId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
+@property (nonatomic, copy) JRObjectId *photosElementId; /**< Simple identifier for this sub-entity @note The \e id of the object should not be set. // TODO: etc. */ 
 @property (nonatomic, copy) NSString *type; /**< The object's \e type property */ 
 @property (nonatomic, copy) NSString *value; /**< The object's \e value property */ 
 
@@ -57,7 +57,7 @@
  * @return
  *   A JRPhotosElement object
  **/
-+ (id)photos;
++ (id)photosElement;
 
 /**
  * Returns a JRPhotosElement object created from an \e NSDictionary representing the object
@@ -78,7 +78,7 @@
  * @return
  *   A JRPhotosElement object
  **/
-+ (id)photosObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)photosElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**

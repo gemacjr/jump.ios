@@ -45,26 +45,26 @@
 
 @implementation JREmailsElement
 {
-    JRObjectId *_emailsId;
+    JRObjectId *_emailsElementId;
     JRBoolean *_primary;
     NSString *_type;
     NSString *_value;
 }
-@dynamic emailsId;
+@dynamic emailsElementId;
 @dynamic primary;
 @dynamic type;
 @dynamic value;
 @synthesize canBeUpdatedOrReplaced;
 
-- (JRObjectId *)emailsId
+- (JRObjectId *)emailsElementId
 {
-    return _emailsId;
+    return _emailsElementId;
 }
 
-- (void)setEmailsId:(JRObjectId *)newEmailsId
+- (void)setEmailsElementId:(JRObjectId *)newEmailsElementId
 {
-    [self.dirtyPropertySet addObject:@"emailsId"];
-    _emailsId = [newEmailsId copy];
+    [self.dirtyPropertySet addObject:@"emailsElementId"];
+    _emailsElementId = [newEmailsElementId copy];
 }
 
 - (JRBoolean *)primary
@@ -121,30 +121,30 @@
     return self;
 }
 
-+ (id)emails
++ (id)emailsElement
 {
     return [[[JREmailsElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JREmailsElement *emailsCopy =
+    JREmailsElement *emailsElementCopy =
                 [[JREmailsElement allocWithZone:zone] init];
 
-    emailsCopy.captureObjectPath = self.captureObjectPath;
+    emailsElementCopy.captureObjectPath = self.captureObjectPath;
 
-    emailsCopy.emailsId = self.emailsId;
-    emailsCopy.primary = self.primary;
-    emailsCopy.type = self.type;
-    emailsCopy.value = self.value;
+    emailsElementCopy.emailsElementId = self.emailsElementId;
+    emailsElementCopy.primary = self.primary;
+    emailsElementCopy.type = self.type;
+    emailsElementCopy.value = self.value;
     // TODO: Necessary??
-    emailsCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    emailsElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [emailsCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [emailsCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [emailsElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [emailsElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return emailsCopy;
+    return emailsElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -152,7 +152,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:(self.emailsId ? [NSNumber numberWithInteger:[self.emailsId integerValue]] : [NSNull null])
+    [dict setObject:(self.emailsElementId ? [NSNumber numberWithInteger:[self.emailsElementId integerValue]] : [NSNull null])
              forKey:@"id"];
     [dict setObject:(self.primary ? [NSNumber numberWithBool:[self.primary boolValue]] : [NSNull null])
              forKey:@"primary"];
@@ -164,37 +164,37 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)emailsObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)emailsElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JREmailsElement *emails = [JREmailsElement emails];
+    JREmailsElement *emailsElement = [JREmailsElement emailsElement];
 
-    emails.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    emailsElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    emails.canBeUpdatedOrReplaced = YES;
+    emailsElement.canBeUpdatedOrReplaced = YES;
 
-    emails.emailsId =
+    emailsElement.emailsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
-    emails.primary =
+    emailsElement.primary =
         [dictionary objectForKey:@"primary"] != [NSNull null] ? 
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
-    emails.type =
+    emailsElement.type =
         [dictionary objectForKey:@"type"] != [NSNull null] ? 
         [dictionary objectForKey:@"type"] : nil;
 
-    emails.value =
+    emailsElement.value =
         [dictionary objectForKey:@"value"] != [NSNull null] ? 
         [dictionary objectForKey:@"value"] : nil;
 
-    [emails.dirtyPropertySet removeAllObjects];
-    [emails.dirtyArraySet removeAllObjects];
+    [emailsElement.dirtyPropertySet removeAllObjects];
+    [emailsElement.dirtyArraySet removeAllObjects];
     
-    return emails;
+    return emailsElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -208,7 +208,7 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.emailsId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.emailsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"primary"])
@@ -237,7 +237,7 @@
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"emails", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
-    self.emailsId =
+    self.emailsElementId =
         [dictionary objectForKey:@"id"] != [NSNull null] ? 
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
@@ -299,7 +299,7 @@
     NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
-    [dict setObject:@"JRObjectId" forKey:@"emailsId"];
+    [dict setObject:@"JRObjectId" forKey:@"emailsElementId"];
     [dict setObject:@"JRBoolean" forKey:@"primary"];
     [dict setObject:@"NSString" forKey:@"type"];
     [dict setObject:@"NSString" forKey:@"value"];
@@ -309,7 +309,7 @@
 
 - (void)dealloc
 {
-    [_emailsId release];
+    [_emailsElementId release];
     [_primary release];
     [_type release];
     [_value release];

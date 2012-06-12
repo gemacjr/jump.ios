@@ -71,27 +71,27 @@
     return self;
 }
 
-+ (id)simpleStringPluralOne
++ (id)simpleStringPluralOneElement
 {
     return [[[JRSimpleStringPluralOneElement alloc] init] autorelease];
 }
 
 - (id)copyWithZone:(NSZone*)zone
 { // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRSimpleStringPluralOneElement *simpleStringPluralOneCopy =
+    JRSimpleStringPluralOneElement *simpleStringPluralOneElementCopy =
                 [[JRSimpleStringPluralOneElement allocWithZone:zone] init];
 
-    simpleStringPluralOneCopy.captureObjectPath = self.captureObjectPath;
+    simpleStringPluralOneElementCopy.captureObjectPath = self.captureObjectPath;
 
-    simpleStringPluralOneCopy.simpleTypeOne = self.simpleTypeOne;
+    simpleStringPluralOneElementCopy.simpleTypeOne = self.simpleTypeOne;
     // TODO: Necessary??
-    simpleStringPluralOneCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
+    simpleStringPluralOneElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
     
     // TODO: Necessary??
-    [simpleStringPluralOneCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [simpleStringPluralOneCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    [simpleStringPluralOneElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
+    [simpleStringPluralOneElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
-    return simpleStringPluralOneCopy;
+    return simpleStringPluralOneElementCopy;
 }
 
 - (NSDictionary*)toDictionary
@@ -105,25 +105,25 @@
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-+ (id)simpleStringPluralOneObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
++ (id)simpleStringPluralOneElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
 {
     if (!dictionary)
         return nil;
 
-    JRSimpleStringPluralOneElement *simpleStringPluralOne = [JRSimpleStringPluralOneElement simpleStringPluralOne];
+    JRSimpleStringPluralOneElement *simpleStringPluralOneElement = [JRSimpleStringPluralOneElement simpleStringPluralOneElement];
 
-    simpleStringPluralOne.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"simpleStringPluralOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
+    simpleStringPluralOneElement.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"simpleStringPluralOne", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 // TODO: Is this safe to assume?
-    simpleStringPluralOne.canBeUpdatedOrReplaced = YES;
+    simpleStringPluralOneElement.canBeUpdatedOrReplaced = YES;
 
-    simpleStringPluralOne.simpleTypeOne =
+    simpleStringPluralOneElement.simpleTypeOne =
         [dictionary objectForKey:@"simpleTypeOne"] != [NSNull null] ? 
         [dictionary objectForKey:@"simpleTypeOne"] : nil;
 
-    [simpleStringPluralOne.dirtyPropertySet removeAllObjects];
-    [simpleStringPluralOne.dirtyArraySet removeAllObjects];
+    [simpleStringPluralOneElement.dirtyPropertySet removeAllObjects];
+    [simpleStringPluralOneElement.dirtyArraySet removeAllObjects];
     
-    return simpleStringPluralOne;
+    return simpleStringPluralOneElement;
 }
 
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath

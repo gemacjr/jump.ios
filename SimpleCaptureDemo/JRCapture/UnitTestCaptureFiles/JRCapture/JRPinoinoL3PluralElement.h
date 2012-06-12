@@ -56,7 +56,7 @@
  * @return
  *   A JRPinoinoL3PluralElement object
  **/
-+ (id)pinoinoL3Plural;
++ (id)pinoinoL3PluralElement;
 
 /**
  * Returns a JRPinoinoL3PluralElement object created from an \e NSDictionary representing the object
@@ -77,7 +77,7 @@
  * @return
  *   A JRPinoinoL3PluralElement object
  **/
-+ (id)pinoinoL3PluralObjectFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
++ (id)pinoinoL3PluralElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;
 /*@}*/
 
 /**
