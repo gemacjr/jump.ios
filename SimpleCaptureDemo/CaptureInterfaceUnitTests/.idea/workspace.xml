@@ -2,126 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efea0fb2-188e-4d59-b1f1-2b43e018c0dc" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRAccounts.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRAccounts.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRAddresses.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRAddresses.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRBodyType.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRBodyType.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRBooks.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRBooks.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCapture.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCapture.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureInterface.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureInterface.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureInternal.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureInternal.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureUser+Extras.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureUser+Extras.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureUser.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureUser.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCars.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCars.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRChildren.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRChildren.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCurrentLocation.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCurrentLocation.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JREmails.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JREmails.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFollowers.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFollowers.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFollowing.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFollowing.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFood.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFood.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFriends.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFriends.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRGames.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRGames.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRHeroes.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRHeroes.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRIms.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRIms.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRInterests.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRInterests.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRJobInterests.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRJobInterests.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLanguages.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLanguages.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLanguagesSpoken.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLanguagesSpoken.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLocation.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLocation.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLookingFor.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLookingFor.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRMovies.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRMovies.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRMusic.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRMusic.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRName.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRName.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelOne.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelOne.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelThree.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelThree.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelTwo.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelTwo.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelOne.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelOne.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelThree.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelThree.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelTwo.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelTwo.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROpponents.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROpponents.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROrganizations.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROrganizations.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPets.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPets.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPhoneNumbers.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPhoneNumbers.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPhotos.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPhotos.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelOne.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelOne.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelThree.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelThree.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelTwo.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelTwo.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelOne.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelOne.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelThree.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelThree.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelTwo.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelTwo.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPrimaryAddress.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPrimaryAddress.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfile.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfile.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfilePhotos.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfilePhotos.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfiles.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfiles.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRQuotes.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRQuotes.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRRelationships.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRRelationships.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRSports.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRSports.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRStatuses.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRStatuses.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTags.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTags.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTurnOffs.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTurnOffs.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTurnOns.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTurnOns.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTvShows.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTvShows.m" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRUrls.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRUrls.m" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m" />
     </list>
     <ignored path="CaptureInterfaceUnitTests.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -152,10 +33,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SharedData.m" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SharedData.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.47285068">
+            <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -224,10 +105,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContraintsTests.m" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ContraintsTests.m" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="80" column="9" selection-start="2091" selection-end="2091" vertical-scroll-proportion="0.0">
+            <state line="78" column="3" selection-start="1557" selection-end="1557" vertical-scroll-proportion="0.42986426">
               <folding />
             </state>
           </provider>
@@ -341,7 +222,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL2PluralElement.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.m" />
@@ -357,6 +237,7 @@
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/BooleanTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m" />
       </list>
     </option>
   </component>
@@ -646,13 +527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="9" selection-start="2091" selection-end="2091" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.m">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -746,7 +620,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.47285068">
+        <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="3" selection-start="1557" selection-end="1557" vertical-scroll-proportion="0.42986426">
           <folding />
         </state>
       </provider>
