@@ -23,6 +23,9 @@
     NSObject *currentObject;
 
     NSArray *fillerFodder;
+
+    BOOL weArePostReplace;
+    BOOL weAreReplacingToTestPostReplace;
 }
 @property (retain) JRCaptureUser *captureUser;
 @property (retain) NSArray  *currentPlural;
@@ -71,22 +74,21 @@
 //    self.currentObject = nil;
 }
 
-- (void)newTestCluster
+- (void)setUpTestCluster
 {
     self.captureUser  = [JRCaptureUser captureUser];
     captureUser.email = @"lilli@janrain.com";
 
     self.currentPlural = nil;
     self.currentObject = nil;
+
+    weArePostReplace = NO;
+    weAreReplacingToTestPostReplace = NO;
 }
 
 - (NSArray *)arrayWithElementsOfType:(Class)klass withConstructor:(SEL)constructor fillerFodderOffset:(NSUInteger)offset
 {
-//    if (offset+3 > [fillerFodder count])
-//    {
-        GHAssertLessThan(offset+3, [fillerFodder count], nil);
-//        return nil;
-//    }
+    GHAssertLessThan(offset+3, [fillerFodder count], nil);
 
     NSMutableArray *array = [NSMutableArray arrayWithCapacity:3];
 
@@ -121,21 +123,21 @@
 // pinap
 - (void)test_b300_pinapCreate
 {
-    [self newTestCluster];
+    [self setUpTestCluster];
 
     captureUser.pinapL1Plural = [self arrayWithElementsOfType:[JRPinapL1PluralElement class]
                                               withConstructor:@selector(pinapL1PluralElement)
                                            fillerFodderOffset:0];
 
-    ((JRPinapL1PluralElement *)[captureUser.pinapL1Plural objectAtIndex:1]).pinapL2Plural =
-            [self arrayWithElementsOfType:[JRPinapL2PluralElement class]
-                          withConstructor:@selector(pinapL2PluralElement)
-                       fillerFodderOffset:3];
-
-    ((JRPinapL1PluralElement *)[captureUser.pinapL1Plural objectAtIndex:2]).pinapL2Plural =
+    ((JRPinapL1PluralElement *)[captureUser.pinapL1Plural objectAtIndex:0]).pinapL2Plural =
             [self arrayWithElementsOfType:[JRPinapL2PluralElement class]
                           withConstructor:@selector(pinapL2PluralElement)
                        fillerFodderOffset:6];
+
+    ((JRPinapL1PluralElement *)[captureUser.pinapL1Plural objectAtIndex:1]).pinapL2Plural =
+            [self arrayWithElementsOfType:[JRPinapL2PluralElement class]
+                          withConstructor:@selector(pinapL2PluralElement)
+                       fillerFodderOffset:9];
 
     self.currentPlural = captureUser.pinapL1Plural;
 }
@@ -145,8 +147,8 @@
     if (!captureUser)
         [self test_b300_pinapCreate];
 
-    JRPinapL1PluralElement *l1PluralElement = [captureUser.pinapL1Plural objectAtIndex:1];
-    JRPinapL2PluralElement *l2PluralElement = [l1PluralElement.pinapL2Plural objectAtIndex:1];
+    JRPinapL1PluralElement *l1PluralElement = [captureUser.pinapL1Plural objectAtIndex:0];
+    JRPinapL2PluralElement *l2PluralElement = [l1PluralElement.pinapL2Plural objectAtIndex:0];
 
     [self prepare];
     [l2PluralElement updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
@@ -158,6 +160,8 @@
     if (!captureUser)
         [self test_b300_pinapCreate];
 
+    weArePostReplace = YES;
+
     [self prepare];
     [captureUser replacePinapL1PluralArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
@@ -165,7 +169,31 @@
 
 - (void)test_b303_pinapUpdate_Level2_PostReplace
 {
+    [self prepare];
 
+    if (!weArePostReplace)
+    {
+        if (!captureUser)
+            [self test_b300_pinapCreate];
+
+        weAreReplacingToTestPostReplace = YES;
+
+        [captureUser replacePinapL1PluralArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+
+        goto WAIT_FOR_STATUS;
+    }
+
+    JRPinapL1PluralElement *l1PluralElement = [captureUser.pinapL1Plural objectAtIndex:0];
+    JRPinapL2PluralElement *l2PluralElement = [l1PluralElement.pinapL2Plural objectAtIndex:0];
+
+    [self updateObjectProperties:l2PluralElement toFillerFodderIndex:1];
+
+    [l2PluralElement updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+
+    self.currentObject = l2PluralElement;
+
+WAIT_FOR_STATUS:
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:20.0];
 }
 
 /* Plural in an object (305-309) */
@@ -378,19 +406,27 @@
 
 - (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
-    NSDictionary *resultDictionary = [result objectFromJSONString];
-//    NSDictionary *captureProfile   = [resultDictionary objectForKey:@"result"];
-
-    //JRCaptureUser *newUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
-
     NSString *testSelectorString = (NSString *)context;
+
+    if (weAreReplacingToTestPostReplace)
+    {
+        weArePostReplace = YES;
+        weAreReplacingToTestPostReplace = NO;
+
+        [self performSelector:NSSelectorFromString(testSelectorString)];
+        return;
+    }
+
+    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSArray      *resultArray      = [resultDictionary objectForKey:@"result"];
+
     @try
     {
         if ([testSelectorString isEqualToString:@"test_b302_pinapReplaceArray"])
         {
             GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:captureUser.pinapL1Plural], nil);
-//            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:newUser.pinapL1Plural], nil);
             GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:((JRCaptureUser *)object).pinapL1Plural], nil);
+            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:newArray], nil);
         }
         else
         {
@@ -414,10 +450,12 @@
     NSString *testSelectorString = (NSString *)context;
     GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
 
-    if ([testSelectorString hasSuffix:@"FailCase"])
+    if (weAreReplacingToTestPostReplace)
     {
-        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
-        return;
+        weArePostReplace = YES;
+        weAreReplacingToTestPostReplace = NO;
+
+        // TODO: stuff..
     }
 
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
@@ -425,19 +463,21 @@
 
 - (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
-    NSDictionary *resultDictionary = [result objectFromJSONString];
-//    NSDictionary *captureProfile   = [resultDictionary objectForKey:@"result"];
+    if (weAreReplacingToTestPostReplace)
+    {
+        weArePostReplace = YES;
+        weAreReplacingToTestPostReplace = NO;
 
-//    JRCaptureUser *newUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+        // TODO: stuff..
+    }
+
+    NSDictionary *resultDictionary = [result objectFromJSONString];
 
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_b302_pinapReplaceArray"])
+        if ([testSelectorString isEqualToString:@""])
         {
-            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:captureUser.pinapL1Plural], nil);
-//            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:newUser.pinapL1Plural], nil);
-            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:((JRCaptureUser *)object).pinapL1Plural], nil);
         }
         else
         {
@@ -457,34 +497,32 @@
 
 - (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
+    if (weAreReplacingToTestPostReplace)
+    {
+        weArePostReplace = YES;
+        weAreReplacingToTestPostReplace = NO;
+
+        // TODO: stuff..
+    }
+
     NSString *testSelectorString = (NSString *)context;
     GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
-
-    if ([testSelectorString hasSuffix:@"FailCase"])
-    {
-        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
-        return;
-    }
 
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
 }
 
-
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
-    NSDictionary *resultDictionary = [result objectFromJSONString];
-    NSDictionary *captureProfile   = [resultDictionary objectForKey:@"result"];
-
-    JRCaptureUser *newUser = [JRCaptureUser captureUserObjectFromDictionary:captureProfile];
+    NSDictionary *resultDictionary        = [result objectFromJSONString];
+    NSDictionary *captureObjectDictionary = [resultDictionary objectForKey:@"result"];
 
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_b302_pinapReplaceArray"])
+        if ([testSelectorString isEqualToString:@"test_b303_pinapUpdate_Level2_PostReplace"])
         {
-            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:captureUser.pinapL1Plural], nil);
-            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:newUser.pinapL1Plural], nil);
-            GHAssertTrue([currentPlural isEqualToOtherPinapL1PluralArray:((JRCaptureUser *)object).pinapL1Plural], nil);
+            GHAssertTrue([(JRPinapL2PluralElement *)currentObject isEqualToPinapL2PluralElement:(JRPinapL2PluralElement *)object], nil);
+            GHAssertTrue([(JRPinapL2PluralElement *)currentObject isEqualToPinapL2PluralElement:[JRPinapL2PluralElement pinapL2PluralElementFromDictionary:captureObjectDictionary withPath:nil]], nil);
         }
         else
         {

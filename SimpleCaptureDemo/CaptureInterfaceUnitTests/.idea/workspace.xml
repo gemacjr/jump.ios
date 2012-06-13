@@ -2,46 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efea0fb2-188e-4d59-b1f1-2b43e018c0dc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/CaptureSchemaParser.pl" afterPath="$PROJECT_DIR$/../JRCapture/CaptureSchemaParser.pl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/ObjCMethodParts.pl" afterPath="$PROJECT_DIR$/../JRCapture/ObjCMethodParts.pl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL1Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL1Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL1Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL1Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL1PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL1PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL2Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinonipL2Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL1PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL1PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL2PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL2PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL1Object.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL1Object.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL1Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL1Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL2PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinoL2PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL1PluralElement.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL1PluralElement.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL1PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL1PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL2PluralElement.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL2PluralElement.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL2PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinapL2PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL1Object.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL1Object.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL1Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL1Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL1Object.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL1Object.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL1Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoL1Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL1Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL1Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL2Object.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL2Object.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL2Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinoinoL2Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL1PluralElement.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL1PluralElement.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL2Object.h" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL2Object.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL2Object.m" afterPath="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinonipL2Object.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../JRCapture/iOSFiles/JRCaptureObject.m" afterPath="$PROJECT_DIR$/../JRCapture/iOSFiles/JRCaptureObject.m" />
     </list>
     <ignored path="CaptureInterfaceUnitTests.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -124,7 +86,7 @@
       <file leaf-file-name="SharedData.m" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.03877551">
+            <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.096287705">
               <folding />
             </state>
           </provider>
@@ -187,10 +149,10 @@
       <file leaf-file-name="NestedPluralObjectTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="437" column="0" selection-start="10119" selection-end="10119" vertical-scroll-proportion="0.0">
+            <state line="171" column="0" selection-start="5237" selection-end="5237" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
-                <element signature="e#835#859#0" expanded="true" />
+                <element signature="e#905#929#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -208,7 +170,7 @@
       <file leaf-file-name="JRPinapL1PluralElement.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="3" selection-start="2000" selection-end="2022" vertical-scroll-proportion="0.0">
+            <state line="45" column="0" selection-start="2379" selection-end="2379" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -276,8 +238,8 @@
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m" />
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m" />
       </list>
     </option>
@@ -479,8 +441,8 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12124407" sideWeight="0.6012862" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39871383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12124407" sideWeight="0.48445874" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39871383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51554126" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -556,6 +518,14 @@
           <url>file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m</url>
           <line>321</line>
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m</url>
+          <line>407</line>
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m</url>
+          <line>515</line>
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -627,27 +597,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="3" selection-start="2000" selection-end="2022" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.h">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="43" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="437" column="0" selection-start="10119" selection-end="10119" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-            <element signature="e#835#859#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -674,9 +627,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="0" selection-start="2379" selection-end="2379" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="171" column="0" selection-start="5237" selection-end="5237" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+            <element signature="e#905#929#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.03877551">
+        <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.096287705">
           <folding />
         </state>
       </provider>
