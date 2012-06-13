@@ -308,17 +308,13 @@
 
 - (BOOL)isEqualToOnipinapL1PluralElement:(JROnipinapL1PluralElement *)otherOnipinapL1PluralElement
 {
-    if ((self.string1 == nil) ^ (otherOnipinapL1PluralElement.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherOnipinapL1PluralElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherOnipinapL1PluralElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherOnipinapL1PluralElement.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherOnipinapL1PluralElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherOnipinapL1PluralElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherOnipinapL1PluralElement.string2])
-        return NO;
+    if (!self.string2 && !otherOnipinapL1PluralElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherOnipinapL1PluralElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherOnipinapL1PluralElement.string2]) return NO;
 
     if (!self.onipinapL2Plural && !otherOnipinapL1PluralElement.onipinapL2Plural) /* Keep going... */;
     else if (!self.onipinapL2Plural && ![otherOnipinapL1PluralElement.onipinapL2Plural count]) /* Keep going... */;

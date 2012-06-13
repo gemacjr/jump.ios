@@ -267,17 +267,13 @@
 
 - (BOOL)isEqualToOinoL1Object:(JROinoL1Object *)otherOinoL1Object
 {
-    if ((self.string1 == nil) ^ (otherOinoL1Object.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherOinoL1Object.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherOinoL1Object.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherOinoL1Object.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherOinoL1Object.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherOinoL1Object.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherOinoL1Object.string2])
-        return NO;
+    if (!self.string2 && !otherOinoL1Object.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherOinoL1Object.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherOinoL1Object.string2]) return NO;
 
     if (!self.oinoL2Object && !otherOinoL1Object.oinoL2Object) /* Keep going... */;
     else if (!self.oinoL2Object && [otherOinoL1Object.oinoL2Object isEqualToOinoL2Object:[JROinoL2Object oinoL2Object]]) /* Keep going... */;

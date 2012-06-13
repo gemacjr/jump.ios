@@ -272,17 +272,13 @@
 
 - (BOOL)isEqualToOnipL1PluralElement:(JROnipL1PluralElement *)otherOnipL1PluralElement
 {
-    if ((self.string1 == nil) ^ (otherOnipL1PluralElement.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherOnipL1PluralElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherOnipL1PluralElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherOnipL1PluralElement.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherOnipL1PluralElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherOnipL1PluralElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherOnipL1PluralElement.string2])
-        return NO;
+    if (!self.string2 && !otherOnipL1PluralElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherOnipL1PluralElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherOnipL1PluralElement.string2]) return NO;
 
     if (!self.onipL2Object && !otherOnipL1PluralElement.onipL2Object) /* Keep going... */;
     else if (!self.onipL2Object && [otherOnipL1PluralElement.onipL2Object isEqualToOnipL2Object:[JROnipL2Object onipL2Object]]) /* Keep going... */;

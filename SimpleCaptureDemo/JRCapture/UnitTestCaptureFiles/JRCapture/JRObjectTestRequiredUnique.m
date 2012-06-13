@@ -275,23 +275,17 @@
 
 - (BOOL)isEqualToObjectTestRequiredUnique:(JRObjectTestRequiredUnique *)otherObjectTestRequiredUnique
 {
-    if ((self.requiredString == nil) ^ (otherObjectTestRequiredUnique.requiredString == nil)) // xor
-        return NO;
+    if (!self.requiredString && !otherObjectTestRequiredUnique.requiredString) /* Keep going... */;
+    else if ((self.requiredString == nil) ^ (otherObjectTestRequiredUnique.requiredString == nil)) return NO; // xor
+    else if (![self.requiredString isEqualToString:otherObjectTestRequiredUnique.requiredString]) return NO;
 
-    if (![self.requiredString isEqualToString:otherObjectTestRequiredUnique.requiredString])
-        return NO;
+    if (!self.uniqueString && !otherObjectTestRequiredUnique.uniqueString) /* Keep going... */;
+    else if ((self.uniqueString == nil) ^ (otherObjectTestRequiredUnique.uniqueString == nil)) return NO; // xor
+    else if (![self.uniqueString isEqualToString:otherObjectTestRequiredUnique.uniqueString]) return NO;
 
-    if ((self.uniqueString == nil) ^ (otherObjectTestRequiredUnique.uniqueString == nil)) // xor
-        return NO;
-
-    if (![self.uniqueString isEqualToString:otherObjectTestRequiredUnique.uniqueString])
-        return NO;
-
-    if ((self.requiredUniqueString == nil) ^ (otherObjectTestRequiredUnique.requiredUniqueString == nil)) // xor
-        return NO;
-
-    if (![self.requiredUniqueString isEqualToString:otherObjectTestRequiredUnique.requiredUniqueString])
-        return NO;
+    if (!self.requiredUniqueString && !otherObjectTestRequiredUnique.requiredUniqueString) /* Keep going... */;
+    else if ((self.requiredUniqueString == nil) ^ (otherObjectTestRequiredUnique.requiredUniqueString == nil)) return NO; // xor
+    else if (![self.requiredUniqueString isEqualToString:otherObjectTestRequiredUnique.requiredUniqueString]) return NO;
 
     return YES;
 }

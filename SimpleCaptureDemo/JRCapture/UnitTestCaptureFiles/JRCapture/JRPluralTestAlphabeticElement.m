@@ -257,23 +257,17 @@
 
 - (BOOL)isEqualToPluralTestAlphabeticElement:(JRPluralTestAlphabeticElement *)otherPluralTestAlphabeticElement
 {
-    if ((self.uniqueString == nil) ^ (otherPluralTestAlphabeticElement.uniqueString == nil)) // xor
-        return NO;
+    if (!self.uniqueString && !otherPluralTestAlphabeticElement.uniqueString) /* Keep going... */;
+    else if ((self.uniqueString == nil) ^ (otherPluralTestAlphabeticElement.uniqueString == nil)) return NO; // xor
+    else if (![self.uniqueString isEqualToString:otherPluralTestAlphabeticElement.uniqueString]) return NO;
 
-    if (![self.uniqueString isEqualToString:otherPluralTestAlphabeticElement.uniqueString])
-        return NO;
+    if (!self.string1 && !otherPluralTestAlphabeticElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherPluralTestAlphabeticElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherPluralTestAlphabeticElement.string1]) return NO;
 
-    if ((self.string1 == nil) ^ (otherPluralTestAlphabeticElement.string1 == nil)) // xor
-        return NO;
-
-    if (![self.string1 isEqualToString:otherPluralTestAlphabeticElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherPluralTestAlphabeticElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherPluralTestAlphabeticElement.string2])
-        return NO;
+    if (!self.string2 && !otherPluralTestAlphabeticElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherPluralTestAlphabeticElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherPluralTestAlphabeticElement.string2]) return NO;
 
     return YES;
 }

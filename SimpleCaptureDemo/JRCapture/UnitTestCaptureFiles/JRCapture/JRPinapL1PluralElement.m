@@ -308,17 +308,13 @@
 
 - (BOOL)isEqualToPinapL1PluralElement:(JRPinapL1PluralElement *)otherPinapL1PluralElement
 {
-    if ((self.string1 == nil) ^ (otherPinapL1PluralElement.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherPinapL1PluralElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherPinapL1PluralElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherPinapL1PluralElement.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherPinapL1PluralElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherPinapL1PluralElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherPinapL1PluralElement.string2])
-        return NO;
+    if (!self.string2 && !otherPinapL1PluralElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherPinapL1PluralElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherPinapL1PluralElement.string2]) return NO;
 
     if (!self.pinapL2Plural && !otherPinapL1PluralElement.pinapL2Plural) /* Keep going... */;
     else if (!self.pinapL2Plural && ![otherPinapL1PluralElement.pinapL2Plural count]) /* Keep going... */;

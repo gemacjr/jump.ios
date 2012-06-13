@@ -225,17 +225,13 @@
 
 - (BOOL)isEqualToPinapinoL3PluralElement:(JRPinapinoL3PluralElement *)otherPinapinoL3PluralElement
 {
-    if ((self.string1 == nil) ^ (otherPinapinoL3PluralElement.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherPinapinoL3PluralElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherPinapinoL3PluralElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherPinapinoL3PluralElement.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherPinapinoL3PluralElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherPinapinoL3PluralElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherPinapinoL3PluralElement.string2])
-        return NO;
+    if (!self.string2 && !otherPinapinoL3PluralElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherPinapinoL3PluralElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherPinapinoL3PluralElement.string2]) return NO;
 
     return YES;
 }

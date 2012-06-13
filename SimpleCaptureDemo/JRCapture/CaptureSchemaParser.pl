@@ -1407,8 +1407,10 @@ sub recursiveParse {
         #
         #   if (![self.foo isEqualToString:otherExampleObject.foo])
         #       return NO;
-        $isEqualObjectSection[3] .= "    if ((self." . $propertyName . " == nil) ^ (other" . ucfirst($objectName) . "." . $propertyName . " == nil)) // xor\n        return NO;\n\n";
-        $isEqualObjectSection[3] .= "    if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "])\n        return NO;\n\n";
+        $isEqualObjectSection[3] .= 
+              "    if (!self." . $propertyName . " && !other" . ucfirst($objectName) . "." . $propertyName . ") /* Keep going... */;\n" .
+              "    else if ((self." . $propertyName . " == nil) ^ (other" . ucfirst($objectName) . "." . $propertyName . " == nil)) return NO; // xor\n" .
+              "    else if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "]) return NO;\n\n";
 
       }      
             

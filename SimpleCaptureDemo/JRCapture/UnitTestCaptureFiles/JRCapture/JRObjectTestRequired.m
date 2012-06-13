@@ -274,23 +274,17 @@
 
 - (BOOL)isEqualToObjectTestRequired:(JRObjectTestRequired *)otherObjectTestRequired
 {
-    if ((self.requiredString == nil) ^ (otherObjectTestRequired.requiredString == nil)) // xor
-        return NO;
+    if (!self.requiredString && !otherObjectTestRequired.requiredString) /* Keep going... */;
+    else if ((self.requiredString == nil) ^ (otherObjectTestRequired.requiredString == nil)) return NO; // xor
+    else if (![self.requiredString isEqualToString:otherObjectTestRequired.requiredString]) return NO;
 
-    if (![self.requiredString isEqualToString:otherObjectTestRequired.requiredString])
-        return NO;
+    if (!self.string1 && !otherObjectTestRequired.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherObjectTestRequired.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherObjectTestRequired.string1]) return NO;
 
-    if ((self.string1 == nil) ^ (otherObjectTestRequired.string1 == nil)) // xor
-        return NO;
-
-    if (![self.string1 isEqualToString:otherObjectTestRequired.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherObjectTestRequired.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherObjectTestRequired.string2])
-        return NO;
+    if (!self.string2 && !otherObjectTestRequired.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherObjectTestRequired.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherObjectTestRequired.string2]) return NO;
 
     return YES;
 }

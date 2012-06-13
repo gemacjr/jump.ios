@@ -193,11 +193,9 @@
 
 - (BOOL)isEqualToSimpleStringPluralTwoElement:(JRSimpleStringPluralTwoElement *)otherSimpleStringPluralTwoElement
 {
-    if ((self.simpleTypeTwo == nil) ^ (otherSimpleStringPluralTwoElement.simpleTypeTwo == nil)) // xor
-        return NO;
-
-    if (![self.simpleTypeTwo isEqualToString:otherSimpleStringPluralTwoElement.simpleTypeTwo])
-        return NO;
+    if (!self.simpleTypeTwo && !otherSimpleStringPluralTwoElement.simpleTypeTwo) /* Keep going... */;
+    else if ((self.simpleTypeTwo == nil) ^ (otherSimpleStringPluralTwoElement.simpleTypeTwo == nil)) return NO; // xor
+    else if (![self.simpleTypeTwo isEqualToString:otherSimpleStringPluralTwoElement.simpleTypeTwo]) return NO;
 
     return YES;
 }

@@ -257,23 +257,17 @@
 
 - (BOOL)isEqualToPluralTestUniqueElement:(JRPluralTestUniqueElement *)otherPluralTestUniqueElement
 {
-    if ((self.uniqueString == nil) ^ (otherPluralTestUniqueElement.uniqueString == nil)) // xor
-        return NO;
+    if (!self.uniqueString && !otherPluralTestUniqueElement.uniqueString) /* Keep going... */;
+    else if ((self.uniqueString == nil) ^ (otherPluralTestUniqueElement.uniqueString == nil)) return NO; // xor
+    else if (![self.uniqueString isEqualToString:otherPluralTestUniqueElement.uniqueString]) return NO;
 
-    if (![self.uniqueString isEqualToString:otherPluralTestUniqueElement.uniqueString])
-        return NO;
+    if (!self.string1 && !otherPluralTestUniqueElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherPluralTestUniqueElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherPluralTestUniqueElement.string1]) return NO;
 
-    if ((self.string1 == nil) ^ (otherPluralTestUniqueElement.string1 == nil)) // xor
-        return NO;
-
-    if (![self.string1 isEqualToString:otherPluralTestUniqueElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherPluralTestUniqueElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherPluralTestUniqueElement.string2])
-        return NO;
+    if (!self.string2 && !otherPluralTestUniqueElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherPluralTestUniqueElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherPluralTestUniqueElement.string2]) return NO;
 
     return YES;
 }

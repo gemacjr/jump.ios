@@ -272,17 +272,13 @@
 
 - (BOOL)isEqualToPinonipL1PluralElement:(JRPinonipL1PluralElement *)otherPinonipL1PluralElement
 {
-    if ((self.string1 == nil) ^ (otherPinonipL1PluralElement.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherPinonipL1PluralElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherPinonipL1PluralElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherPinonipL1PluralElement.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherPinonipL1PluralElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherPinonipL1PluralElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherPinonipL1PluralElement.string2])
-        return NO;
+    if (!self.string2 && !otherPinonipL1PluralElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherPinonipL1PluralElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherPinonipL1PluralElement.string2]) return NO;
 
     if (!self.pinonipL2Object && !otherPinonipL1PluralElement.pinonipL2Object) /* Keep going... */;
     else if (!self.pinonipL2Object && [otherPinonipL1PluralElement.pinonipL2Object isEqualToPinonipL2Object:[JRPinonipL2Object pinonipL2Object]]) /* Keep going... */;
