@@ -308,17 +308,13 @@
 
 - (BOOL)isEqualToPinapinapL1PluralElement:(JRPinapinapL1PluralElement *)otherPinapinapL1PluralElement
 {
-    if ((self.string1 == nil) ^ (otherPinapinapL1PluralElement.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherPinapinapL1PluralElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherPinapinapL1PluralElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherPinapinapL1PluralElement.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherPinapinapL1PluralElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherPinapinapL1PluralElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherPinapinapL1PluralElement.string2])
-        return NO;
+    if (!self.string2 && !otherPinapinapL1PluralElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherPinapinapL1PluralElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherPinapinapL1PluralElement.string2]) return NO;
 
     if (!self.pinapinapL2Plural && !otherPinapinapL1PluralElement.pinapinapL2Plural) /* Keep going... */;
     else if (!self.pinapinapL2Plural && ![otherPinapinapL1PluralElement.pinapinapL2Plural count]) /* Keep going... */;

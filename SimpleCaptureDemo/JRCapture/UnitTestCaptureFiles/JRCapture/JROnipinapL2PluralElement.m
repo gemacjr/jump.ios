@@ -272,17 +272,13 @@
 
 - (BOOL)isEqualToOnipinapL2PluralElement:(JROnipinapL2PluralElement *)otherOnipinapL2PluralElement
 {
-    if ((self.string1 == nil) ^ (otherOnipinapL2PluralElement.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherOnipinapL2PluralElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherOnipinapL2PluralElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherOnipinapL2PluralElement.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherOnipinapL2PluralElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherOnipinapL2PluralElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherOnipinapL2PluralElement.string2])
-        return NO;
+    if (!self.string2 && !otherOnipinapL2PluralElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherOnipinapL2PluralElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherOnipinapL2PluralElement.string2]) return NO;
 
     if (!self.onipinapL3Object && !otherOnipinapL2PluralElement.onipinapL3Object) /* Keep going... */;
     else if (!self.onipinapL3Object && [otherOnipinapL2PluralElement.onipinapL3Object isEqualToOnipinapL3Object:[JROnipinapL3Object onipinapL3Object]]) /* Keep going... */;

@@ -225,17 +225,13 @@
 
 - (BOOL)isEqualToPinoinoL3PluralElement:(JRPinoinoL3PluralElement *)otherPinoinoL3PluralElement
 {
-    if ((self.string1 == nil) ^ (otherPinoinoL3PluralElement.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherPinoinoL3PluralElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherPinoinoL3PluralElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherPinoinoL3PluralElement.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherPinoinoL3PluralElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherPinoinoL3PluralElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherPinoinoL3PluralElement.string2])
-        return NO;
+    if (!self.string2 && !otherPinoinoL3PluralElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherPinoinoL3PluralElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherPinoinoL3PluralElement.string2]) return NO;
 
     return YES;
 }

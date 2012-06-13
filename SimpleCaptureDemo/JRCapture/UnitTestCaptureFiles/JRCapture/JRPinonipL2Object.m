@@ -308,17 +308,13 @@
 
 - (BOOL)isEqualToPinonipL2Object:(JRPinonipL2Object *)otherPinonipL2Object
 {
-    if ((self.string1 == nil) ^ (otherPinonipL2Object.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherPinonipL2Object.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherPinonipL2Object.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherPinonipL2Object.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherPinonipL2Object.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherPinonipL2Object.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherPinonipL2Object.string2])
-        return NO;
+    if (!self.string2 && !otherPinonipL2Object.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherPinonipL2Object.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherPinonipL2Object.string2]) return NO;
 
     if (!self.pinonipL3Plural && !otherPinonipL2Object.pinonipL3Plural) /* Keep going... */;
     else if (!self.pinonipL3Plural && ![otherPinonipL2Object.pinonipL3Plural count]) /* Keep going... */;

@@ -272,17 +272,13 @@
 
 - (BOOL)isEqualToOinonipL1PluralElement:(JROinonipL1PluralElement *)otherOinonipL1PluralElement
 {
-    if ((self.string1 == nil) ^ (otherOinonipL1PluralElement.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherOinonipL1PluralElement.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherOinonipL1PluralElement.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherOinonipL1PluralElement.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherOinonipL1PluralElement.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherOinonipL1PluralElement.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherOinonipL1PluralElement.string2])
-        return NO;
+    if (!self.string2 && !otherOinonipL1PluralElement.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherOinonipL1PluralElement.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherOinonipL1PluralElement.string2]) return NO;
 
     if (!self.oinonipL2Object && !otherOinonipL1PluralElement.oinonipL2Object) /* Keep going... */;
     else if (!self.oinonipL2Object && [otherOinonipL1PluralElement.oinonipL2Object isEqualToOinonipL2Object:[JROinonipL2Object oinonipL2Object]]) /* Keep going... */;

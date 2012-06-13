@@ -267,17 +267,13 @@
 
 - (BOOL)isEqualToPinoinoL1Object:(JRPinoinoL1Object *)otherPinoinoL1Object
 {
-    if ((self.string1 == nil) ^ (otherPinoinoL1Object.string1 == nil)) // xor
-        return NO;
+    if (!self.string1 && !otherPinoinoL1Object.string1) /* Keep going... */;
+    else if ((self.string1 == nil) ^ (otherPinoinoL1Object.string1 == nil)) return NO; // xor
+    else if (![self.string1 isEqualToString:otherPinoinoL1Object.string1]) return NO;
 
-    if (![self.string1 isEqualToString:otherPinoinoL1Object.string1])
-        return NO;
-
-    if ((self.string2 == nil) ^ (otherPinoinoL1Object.string2 == nil)) // xor
-        return NO;
-
-    if (![self.string2 isEqualToString:otherPinoinoL1Object.string2])
-        return NO;
+    if (!self.string2 && !otherPinoinoL1Object.string2) /* Keep going... */;
+    else if ((self.string2 == nil) ^ (otherPinoinoL1Object.string2 == nil)) return NO; // xor
+    else if (![self.string2 isEqualToString:otherPinoinoL1Object.string2]) return NO;
 
     if (!self.pinoinoL2Object && !otherPinoinoL1Object.pinoinoL2Object) /* Keep going... */;
     else if (!self.pinoinoL2Object && [otherPinoinoL1Object.pinoinoL2Object isEqualToPinoinoL2Object:[JRPinoinoL2Object pinoinoL2Object]]) /* Keep going... */;

@@ -2284,155 +2284,105 @@
 
 - (BOOL)isEqualToCaptureUser:(JRCaptureUser *)otherCaptureUser
 {
-    if ((self.email == nil) ^ (otherCaptureUser.email == nil)) // xor
-        return NO;
+    if (!self.email && !otherCaptureUser.email) /* Keep going... */;
+    else if ((self.email == nil) ^ (otherCaptureUser.email == nil)) return NO; // xor
+    else if (![self.email isEqualToString:otherCaptureUser.email]) return NO;
 
-    if (![self.email isEqualToString:otherCaptureUser.email])
-        return NO;
+    if (!self.basicBoolean && !otherCaptureUser.basicBoolean) /* Keep going... */;
+    else if ((self.basicBoolean == nil) ^ (otherCaptureUser.basicBoolean == nil)) return NO; // xor
+    else if (![self.basicBoolean isEqualToNumber:otherCaptureUser.basicBoolean]) return NO;
 
-    if ((self.basicBoolean == nil) ^ (otherCaptureUser.basicBoolean == nil)) // xor
-        return NO;
+    if (!self.basicString && !otherCaptureUser.basicString) /* Keep going... */;
+    else if ((self.basicString == nil) ^ (otherCaptureUser.basicString == nil)) return NO; // xor
+    else if (![self.basicString isEqualToString:otherCaptureUser.basicString]) return NO;
 
-    if (![self.basicBoolean isEqualToNumber:otherCaptureUser.basicBoolean])
-        return NO;
+    if (!self.basicInteger && !otherCaptureUser.basicInteger) /* Keep going... */;
+    else if ((self.basicInteger == nil) ^ (otherCaptureUser.basicInteger == nil)) return NO; // xor
+    else if (![self.basicInteger isEqualToNumber:otherCaptureUser.basicInteger]) return NO;
 
-    if ((self.basicString == nil) ^ (otherCaptureUser.basicString == nil)) // xor
-        return NO;
+    if (!self.basicDecimal && !otherCaptureUser.basicDecimal) /* Keep going... */;
+    else if ((self.basicDecimal == nil) ^ (otherCaptureUser.basicDecimal == nil)) return NO; // xor
+    else if (![self.basicDecimal isEqualToNumber:otherCaptureUser.basicDecimal]) return NO;
 
-    if (![self.basicString isEqualToString:otherCaptureUser.basicString])
-        return NO;
+    if (!self.basicDate && !otherCaptureUser.basicDate) /* Keep going... */;
+    else if ((self.basicDate == nil) ^ (otherCaptureUser.basicDate == nil)) return NO; // xor
+    else if (![self.basicDate isEqualToDate:otherCaptureUser.basicDate]) return NO;
 
-    if ((self.basicInteger == nil) ^ (otherCaptureUser.basicInteger == nil)) // xor
-        return NO;
+    if (!self.basicDateTime && !otherCaptureUser.basicDateTime) /* Keep going... */;
+    else if ((self.basicDateTime == nil) ^ (otherCaptureUser.basicDateTime == nil)) return NO; // xor
+    else if (![self.basicDateTime isEqualToDate:otherCaptureUser.basicDateTime]) return NO;
 
-    if (![self.basicInteger isEqualToNumber:otherCaptureUser.basicInteger])
-        return NO;
+    if (!self.basicIpAddress && !otherCaptureUser.basicIpAddress) /* Keep going... */;
+    else if ((self.basicIpAddress == nil) ^ (otherCaptureUser.basicIpAddress == nil)) return NO; // xor
+    else if (![self.basicIpAddress isEqualToString:otherCaptureUser.basicIpAddress]) return NO;
 
-    if ((self.basicDecimal == nil) ^ (otherCaptureUser.basicDecimal == nil)) // xor
-        return NO;
+    if (!self.basicPassword && !otherCaptureUser.basicPassword) /* Keep going... */;
+    else if ((self.basicPassword == nil) ^ (otherCaptureUser.basicPassword == nil)) return NO; // xor
+    else if (![self.basicPassword isEqual:otherCaptureUser.basicPassword]) return NO;
 
-    if (![self.basicDecimal isEqualToNumber:otherCaptureUser.basicDecimal])
-        return NO;
+    if (!self.jsonNumber && !otherCaptureUser.jsonNumber) /* Keep going... */;
+    else if ((self.jsonNumber == nil) ^ (otherCaptureUser.jsonNumber == nil)) return NO; // xor
+    else if (![self.jsonNumber isEqual:otherCaptureUser.jsonNumber]) return NO;
 
-    if ((self.basicDate == nil) ^ (otherCaptureUser.basicDate == nil)) // xor
-        return NO;
+    if (!self.jsonString && !otherCaptureUser.jsonString) /* Keep going... */;
+    else if ((self.jsonString == nil) ^ (otherCaptureUser.jsonString == nil)) return NO; // xor
+    else if (![self.jsonString isEqual:otherCaptureUser.jsonString]) return NO;
 
-    if (![self.basicDate isEqualToDate:otherCaptureUser.basicDate])
-        return NO;
+    if (!self.jsonArray && !otherCaptureUser.jsonArray) /* Keep going... */;
+    else if ((self.jsonArray == nil) ^ (otherCaptureUser.jsonArray == nil)) return NO; // xor
+    else if (![self.jsonArray isEqual:otherCaptureUser.jsonArray]) return NO;
 
-    if ((self.basicDateTime == nil) ^ (otherCaptureUser.basicDateTime == nil)) // xor
-        return NO;
+    if (!self.jsonDictionary && !otherCaptureUser.jsonDictionary) /* Keep going... */;
+    else if ((self.jsonDictionary == nil) ^ (otherCaptureUser.jsonDictionary == nil)) return NO; // xor
+    else if (![self.jsonDictionary isEqual:otherCaptureUser.jsonDictionary]) return NO;
 
-    if (![self.basicDateTime isEqualToDate:otherCaptureUser.basicDateTime])
-        return NO;
+    if (!self.stringTestJson && !otherCaptureUser.stringTestJson) /* Keep going... */;
+    else if ((self.stringTestJson == nil) ^ (otherCaptureUser.stringTestJson == nil)) return NO; // xor
+    else if (![self.stringTestJson isEqualToString:otherCaptureUser.stringTestJson]) return NO;
 
-    if ((self.basicIpAddress == nil) ^ (otherCaptureUser.basicIpAddress == nil)) // xor
-        return NO;
+    if (!self.stringTestEmpty && !otherCaptureUser.stringTestEmpty) /* Keep going... */;
+    else if ((self.stringTestEmpty == nil) ^ (otherCaptureUser.stringTestEmpty == nil)) return NO; // xor
+    else if (![self.stringTestEmpty isEqualToString:otherCaptureUser.stringTestEmpty]) return NO;
 
-    if (![self.basicIpAddress isEqualToString:otherCaptureUser.basicIpAddress])
-        return NO;
+    if (!self.stringTestNull && !otherCaptureUser.stringTestNull) /* Keep going... */;
+    else if ((self.stringTestNull == nil) ^ (otherCaptureUser.stringTestNull == nil)) return NO; // xor
+    else if (![self.stringTestNull isEqualToString:otherCaptureUser.stringTestNull]) return NO;
 
-    if ((self.basicPassword == nil) ^ (otherCaptureUser.basicPassword == nil)) // xor
-        return NO;
+    if (!self.stringTestInvalid && !otherCaptureUser.stringTestInvalid) /* Keep going... */;
+    else if ((self.stringTestInvalid == nil) ^ (otherCaptureUser.stringTestInvalid == nil)) return NO; // xor
+    else if (![self.stringTestInvalid isEqualToString:otherCaptureUser.stringTestInvalid]) return NO;
 
-    if (![self.basicPassword isEqual:otherCaptureUser.basicPassword])
-        return NO;
+    if (!self.stringTestNSNull && !otherCaptureUser.stringTestNSNull) /* Keep going... */;
+    else if ((self.stringTestNSNull == nil) ^ (otherCaptureUser.stringTestNSNull == nil)) return NO; // xor
+    else if (![self.stringTestNSNull isEqualToString:otherCaptureUser.stringTestNSNull]) return NO;
 
-    if ((self.jsonNumber == nil) ^ (otherCaptureUser.jsonNumber == nil)) // xor
-        return NO;
+    if (!self.stringTestAlphanumeric && !otherCaptureUser.stringTestAlphanumeric) /* Keep going... */;
+    else if ((self.stringTestAlphanumeric == nil) ^ (otherCaptureUser.stringTestAlphanumeric == nil)) return NO; // xor
+    else if (![self.stringTestAlphanumeric isEqualToString:otherCaptureUser.stringTestAlphanumeric]) return NO;
 
-    if (![self.jsonNumber isEqual:otherCaptureUser.jsonNumber])
-        return NO;
+    if (!self.stringTestUnicodeLetters && !otherCaptureUser.stringTestUnicodeLetters) /* Keep going... */;
+    else if ((self.stringTestUnicodeLetters == nil) ^ (otherCaptureUser.stringTestUnicodeLetters == nil)) return NO; // xor
+    else if (![self.stringTestUnicodeLetters isEqualToString:otherCaptureUser.stringTestUnicodeLetters]) return NO;
 
-    if ((self.jsonString == nil) ^ (otherCaptureUser.jsonString == nil)) // xor
-        return NO;
+    if (!self.stringTestUnicodePrintable && !otherCaptureUser.stringTestUnicodePrintable) /* Keep going... */;
+    else if ((self.stringTestUnicodePrintable == nil) ^ (otherCaptureUser.stringTestUnicodePrintable == nil)) return NO; // xor
+    else if (![self.stringTestUnicodePrintable isEqualToString:otherCaptureUser.stringTestUnicodePrintable]) return NO;
 
-    if (![self.jsonString isEqual:otherCaptureUser.jsonString])
-        return NO;
+    if (!self.stringTestEmailAddress && !otherCaptureUser.stringTestEmailAddress) /* Keep going... */;
+    else if ((self.stringTestEmailAddress == nil) ^ (otherCaptureUser.stringTestEmailAddress == nil)) return NO; // xor
+    else if (![self.stringTestEmailAddress isEqualToString:otherCaptureUser.stringTestEmailAddress]) return NO;
 
-    if ((self.jsonArray == nil) ^ (otherCaptureUser.jsonArray == nil)) // xor
-        return NO;
+    if (!self.stringTestLength && !otherCaptureUser.stringTestLength) /* Keep going... */;
+    else if ((self.stringTestLength == nil) ^ (otherCaptureUser.stringTestLength == nil)) return NO; // xor
+    else if (![self.stringTestLength isEqualToString:otherCaptureUser.stringTestLength]) return NO;
 
-    if (![self.jsonArray isEqual:otherCaptureUser.jsonArray])
-        return NO;
+    if (!self.stringTestCaseSensitive && !otherCaptureUser.stringTestCaseSensitive) /* Keep going... */;
+    else if ((self.stringTestCaseSensitive == nil) ^ (otherCaptureUser.stringTestCaseSensitive == nil)) return NO; // xor
+    else if (![self.stringTestCaseSensitive isEqualToString:otherCaptureUser.stringTestCaseSensitive]) return NO;
 
-    if ((self.jsonDictionary == nil) ^ (otherCaptureUser.jsonDictionary == nil)) // xor
-        return NO;
-
-    if (![self.jsonDictionary isEqual:otherCaptureUser.jsonDictionary])
-        return NO;
-
-    if ((self.stringTestJson == nil) ^ (otherCaptureUser.stringTestJson == nil)) // xor
-        return NO;
-
-    if (![self.stringTestJson isEqualToString:otherCaptureUser.stringTestJson])
-        return NO;
-
-    if ((self.stringTestEmpty == nil) ^ (otherCaptureUser.stringTestEmpty == nil)) // xor
-        return NO;
-
-    if (![self.stringTestEmpty isEqualToString:otherCaptureUser.stringTestEmpty])
-        return NO;
-
-    if ((self.stringTestNull == nil) ^ (otherCaptureUser.stringTestNull == nil)) // xor
-        return NO;
-
-    if (![self.stringTestNull isEqualToString:otherCaptureUser.stringTestNull])
-        return NO;
-
-    if ((self.stringTestInvalid == nil) ^ (otherCaptureUser.stringTestInvalid == nil)) // xor
-        return NO;
-
-    if (![self.stringTestInvalid isEqualToString:otherCaptureUser.stringTestInvalid])
-        return NO;
-
-    if ((self.stringTestNSNull == nil) ^ (otherCaptureUser.stringTestNSNull == nil)) // xor
-        return NO;
-
-    if (![self.stringTestNSNull isEqualToString:otherCaptureUser.stringTestNSNull])
-        return NO;
-
-    if ((self.stringTestAlphanumeric == nil) ^ (otherCaptureUser.stringTestAlphanumeric == nil)) // xor
-        return NO;
-
-    if (![self.stringTestAlphanumeric isEqualToString:otherCaptureUser.stringTestAlphanumeric])
-        return NO;
-
-    if ((self.stringTestUnicodeLetters == nil) ^ (otherCaptureUser.stringTestUnicodeLetters == nil)) // xor
-        return NO;
-
-    if (![self.stringTestUnicodeLetters isEqualToString:otherCaptureUser.stringTestUnicodeLetters])
-        return NO;
-
-    if ((self.stringTestUnicodePrintable == nil) ^ (otherCaptureUser.stringTestUnicodePrintable == nil)) // xor
-        return NO;
-
-    if (![self.stringTestUnicodePrintable isEqualToString:otherCaptureUser.stringTestUnicodePrintable])
-        return NO;
-
-    if ((self.stringTestEmailAddress == nil) ^ (otherCaptureUser.stringTestEmailAddress == nil)) // xor
-        return NO;
-
-    if (![self.stringTestEmailAddress isEqualToString:otherCaptureUser.stringTestEmailAddress])
-        return NO;
-
-    if ((self.stringTestLength == nil) ^ (otherCaptureUser.stringTestLength == nil)) // xor
-        return NO;
-
-    if (![self.stringTestLength isEqualToString:otherCaptureUser.stringTestLength])
-        return NO;
-
-    if ((self.stringTestCaseSensitive == nil) ^ (otherCaptureUser.stringTestCaseSensitive == nil)) // xor
-        return NO;
-
-    if (![self.stringTestCaseSensitive isEqualToString:otherCaptureUser.stringTestCaseSensitive])
-        return NO;
-
-    if ((self.stringTestFeatures == nil) ^ (otherCaptureUser.stringTestFeatures == nil)) // xor
-        return NO;
-
-    if (![self.stringTestFeatures isEqualToString:otherCaptureUser.stringTestFeatures])
-        return NO;
+    if (!self.stringTestFeatures && !otherCaptureUser.stringTestFeatures) /* Keep going... */;
+    else if ((self.stringTestFeatures == nil) ^ (otherCaptureUser.stringTestFeatures == nil)) return NO; // xor
+    else if (![self.stringTestFeatures isEqualToString:otherCaptureUser.stringTestFeatures]) return NO;
 
     if (!self.basicPlural && !otherCaptureUser.basicPlural) /* Keep going... */;
     else if (!self.basicPlural && ![otherCaptureUser.basicPlural count]) /* Keep going... */;

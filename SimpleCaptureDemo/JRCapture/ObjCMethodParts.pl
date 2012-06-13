@@ -718,11 +718,9 @@ my @toReplaceDictionaryParts = (
 #  **/
 # - (BOOL)isEqualTo<objectName>:<className>other<objectName>
 # {
-#     if ((self.<objectProperty> == nil) ^ (other<objectName>.<objectProperty> == nil)) // xor
-#         return NO;
-#
-#     if (![self.<objectProperty> <isEqualMethod>:other<objectName>.<objectProperty>])
-#         return NO;
+#     if (!self.<objectProperty> && !other<objectName>.<objectProperty>) /* Keep going... */;
+#     else if ((self.<objectProperty> == nil) ^ (other<objectName>.<objectProperty> == nil)) return NO; // xor
+#     else if (![self.<objectProperty> isEqualTo<propertyObject>:other<objectName>.<objectProperty>]) return NO;
 #       ...
 #
 #     return YES;    
