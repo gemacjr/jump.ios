@@ -37,30 +37,27 @@
 {
     DLog(@"");
     [SharedData initializeCapture];
-    self.captureUser  = [JRCaptureUser captureUser];
-    captureUser.email = @"lilli@janrain.com";
 }
 
 - (void)tearDownClass
 {
     DLog(@"");
-    self.captureUser = nil;
 }
 
 - (void)setUp
 {
-//    self.captureUser  = [JRCaptureUser captureUser];
-//    captureUser.email = @"lilli@janrain.com";
+    self.captureUser  = [JRCaptureUser captureUser];
+    captureUser.email = @"lilli@janrain.com";
 }
 
 - (void)tearDown
 {
-//    self.captureUser = nil;
+    self.captureUser = nil;
 }
 
 
 /*  */
-- (void)test_c101_createPluralWithValidElements
+- (void)test_c101_pluralUniqueCreateValid
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
     JRPluralTestUniqueElement *jrptue1 = [JRPluralTestUniqueElement pluralTestUniqueElement];
@@ -80,10 +77,39 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void)test_c102_pluralUniqueCreateInvalid
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+    JRPluralTestUniqueElement *jrptue1 = [JRPluralTestUniqueElement pluralTestUniqueElement];
+    jrptue1.string1 = @"asteroids";
+    jrptue1.string2 = @"battlezone";
+    jrptue1.uniqueString = @"centipede";
+
+    JRPluralTestUniqueElement *jrptue2 = [JRPluralTestUniqueElement pluralTestUniqueElement];
+    jrptue2.string1 = @"asteroids";
+    jrptue2.string2 = @"battlezone";
+    jrptue2.uniqueString = @"centipede";
+
+    self.currentPlural = captureUser.pluralTestUnique = [NSArray arrayWithObjects:jrptue1, jrptue2, nil];
+
+    [self prepare];
+    [captureUser replacePluralTestUniqueArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
 
 // unique
 
 // required
+- (void)test_c111_objectRequiredCreate
+{
+    JRObjectTestRequired *jrotr = [JRObjectTestRequired objectTestRequiredWithRequiredString:@"amazon"];
+    captureUser.objectTestRequired = jrotr;
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
 
 // alphabetic
 
@@ -105,9 +131,10 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_c101_integerWithBoolTrue"])
+        if ([testSelectorString isEqualToString:@"test_c111_objectRequiredCreate"])
         {
-            GHAssertEquals([newUser.basicInteger integerValue], 1, nil);
+            GHAssertTrue([newUser.objectTestRequired isEqualToObjectTestRequired:captureUser.objectTestRequired], nil);
+//            newUser.objectTestRequired.requiredString
         }
         else
         {
@@ -158,8 +185,26 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
 
 }
 
-- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context {
+- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
+        didFailWithResult:(NSString *)result context:(NSObject *)context
+{
+//    DLog(@"result: %@", result);
+    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSString     *error            = [resultDictionary objectForKey:@"error"];
+    NSNumber     *code             = [resultDictionary objectForKey:@"code"];
 
+    NSString *testSelectorString = (NSString *)context;
+
+    if ([testSelectorString isEqualToString:@"test_c102_pluralUniqueCreateInvalid"])
+    {
+        if ([error isEqualToString:@"unique_violation"] && [code isEqualToNumber:[NSNumber numberWithInteger:361]])
+        {
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
+        }
+    }
+
+    [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
 }
 
 
