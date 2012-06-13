@@ -19,17 +19,26 @@
 @interface c1_ConstraintsTests : GHAsyncTestCase <JRCaptureObjectDelegate>
 {
     JRCaptureUser *captureUser;
+    NSArray  *currentPlural;
+    NSObject *currentObject;
+
+    BOOL weArePostReplace;
+    BOOL weAreReplacingToTestPostReplace;
 }
-@property(retain) JRCaptureUser *captureUser;
+@property (retain) JRCaptureUser *captureUser;
+@property (retain) NSArray  *currentPlural;
+@property (retain) NSObject *currentObject;
 @end
 
 @implementation c1_ConstraintsTests
-@synthesize captureUser;
+@synthesize captureUser, currentPlural, currentObject;
 
 - (void)setUpClass
 {
     DLog(@"");
     [SharedData initializeCapture];
+    self.captureUser  = [JRCaptureUser captureUser];
+    captureUser.email = @"lilli@janrain.com";
 }
 
 - (void)tearDownClass
@@ -40,26 +49,34 @@
 
 - (void)setUp
 {
-    self.captureUser  = [JRCaptureUser captureUser];
-    captureUser.email = @"lilli@janrain.com";
+//    self.captureUser  = [JRCaptureUser captureUser];
+//    captureUser.email = @"lilli@janrain.com";
 }
 
 - (void)tearDown
 {
-    self.captureUser = nil;
+//    self.captureUser = nil;
 }
 
 
-/* Set an integer with an NSNumber boolean */
-- (void)test_c101_integerWithBoolTrue
+/*  */
+- (void)test_c101_createPluralWithValidElements
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
+    JRPluralTestUniqueElement *jrptue1 = [JRPluralTestUniqueElement pluralTestUniqueElement];
+    jrptue1.string1 = @"asteroids";
+    jrptue1.string2 = @"battlezone";
+    jrptue1.uniqueString = @"centipede";
 
-    captureUser.basicInteger = [NSNumber numberWithBool:YES];
-    GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
+    JRPluralTestUniqueElement *jrptue2 = [JRPluralTestUniqueElement pluralTestUniqueElement];
+    jrptue2.string1 = @"amnesia";
+    jrptue2.string2 = @"bridgeport";
+    jrptue2.uniqueString = @"cascade";
+
+    self.currentPlural = captureUser.pluralTestUnique = [NSArray arrayWithObjects:jrptue1, jrptue2, nil];
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser replacePluralTestUniqueArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -113,6 +130,38 @@
     NSString *testSelectorString = (NSString *)context;
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
 }
+
+- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
+didSucceedWithResult:(NSString *)result context:(NSObject *)context
+{
+    NSString *testSelectorString = (NSString *)context;
+    @try
+    {
+        if ([testSelectorString isEqualToString:@"test_c101_createPluralWithValidElements"])
+        {
+            GHAssertTrue([newArray isEqualToOtherPluralTestUniqueArray:currentPlural], nil);
+        }
+        else
+        {
+            GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
+        }
+    }
+    @catch (NSException *exception)
+    {
+        GHTestLog([exception description]);
+        [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
+
+        return;
+    }
+
+    [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+
+}
+
+- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context {
+
+}
+
 
 - (void)dealloc
 {
