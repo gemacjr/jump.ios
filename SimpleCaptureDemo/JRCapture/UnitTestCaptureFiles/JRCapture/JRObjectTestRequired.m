@@ -110,6 +110,7 @@
         self.captureObjectPath = @"/objectTestRequired";
         self.canBeUpdatedOrReplaced = YES;
         _requiredString = [newRequiredString copy];
+        [self.dirtyPropertySet addObject:@"requiredString"];
     }
     return self;
 }
