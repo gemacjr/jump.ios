@@ -77,7 +77,7 @@
 }
 
 /* Set an ipaddress to a string that isn't an ipaddress */
-- (void)test_a703_ipAddressWithNonIpAddress
+- (void)test_a703_ipAddressWithNonIpAddress_FailCase
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -139,7 +139,7 @@
 
     NSString *testSelectorString = (NSString *)context;
 
-    if ([testSelectorString isEqualToString:@"test_a703_ipAddressWithNonIpAddress"])
+    if ([testSelectorString isEqualToString:@"test_a703_ipAddressWithNonIpAddress_FailCase"])
     {   /* {"error_description":"/basicIpAddress was not a valid ip address.","stat":"error","code":200,"error":"invalid_argument","argument_name":"/basicIpAddress"} */
         if ([error isEqualToString:@"invalid_argument"] &&
             [argument_name isEqualToString:@"/basicIpAddress"] &&

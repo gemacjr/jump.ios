@@ -80,6 +80,21 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+
+// unique
+
+// required
+
+// alphabetic
+
+// alphanumeric
+
+// unicode-letters
+
+// unicode-printable
+
+// email-address
+
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];
