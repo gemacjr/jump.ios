@@ -2,8 +2,126 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efea0fb2-188e-4d59-b1f1-2b43e018c0dc" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRAccounts.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRAccounts.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRAddresses.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRAddresses.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRBodyType.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRBodyType.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRBooks.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRBooks.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCapture.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCapture.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureInterface.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureInterface.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureInternal.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureInternal.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureUser+Extras.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureUser+Extras.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureUser.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCaptureUser.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCars.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCars.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRChildren.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRChildren.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCurrentLocation.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRCurrentLocation.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JREmails.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JREmails.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFollowers.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFollowers.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFollowing.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFollowing.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFood.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFood.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFriends.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRFriends.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRGames.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRGames.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRHeroes.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRHeroes.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRIms.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRIms.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRInterests.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRInterests.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRJobInterests.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRJobInterests.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLanguages.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLanguages.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLanguagesSpoken.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLanguagesSpoken.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLocation.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLocation.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLookingFor.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRLookingFor.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRMovies.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRMovies.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRMusic.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRMusic.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRName.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRName.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelOne.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelOne.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelThree.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelThree.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelTwo.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRObjectLevelTwo.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelOne.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelOne.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelThree.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelThree.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelTwo.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROnipLevelTwo.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROpponents.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROpponents.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROrganizations.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JROrganizations.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPets.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPets.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPhoneNumbers.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPhoneNumbers.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPhotos.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPhotos.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelOne.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelOne.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelThree.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelThree.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelTwo.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPinoLevelTwo.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelOne.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelOne.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelThree.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelThree.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelTwo.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPluralLevelTwo.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPrimaryAddress.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRPrimaryAddress.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfile.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfile.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfilePhotos.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfilePhotos.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfiles.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRProfiles.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRQuotes.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRQuotes.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRRelationships.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRRelationships.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRSports.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRSports.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRStatuses.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRStatuses.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTags.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTags.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTurnOffs.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTurnOffs.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTurnOns.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTurnOns.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTvShows.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRTvShows.m" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRUrls.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../JRCapture/iOS/JRCapture_prearraysimplification/JRUrls.m" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" />
     </list>
     <ignored path="CaptureInterfaceUnitTests.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,59 +143,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="JRPinapL1PluralElement.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="324" column="18" selection-start="11865" selection-end="11865" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#4271#4288#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JRStringPluralElement.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="33" selection-start="2538" selection-end="2538" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#621#646#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JRBasicPluralElement.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicPluralElement.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JROinoinoL2Object.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="DateTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="2" selection-start="3563" selection-end="3563" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DecimalTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="148" column="93" selection-start="4508" selection-end="4534" vertical-scroll-proportion="0.0">
+            <state line="115" column="0" selection-start="3444" selection-end="3444" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -86,16 +155,16 @@
       <file leaf-file-name="SharedData.m" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.096287705">
+            <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.47285068">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SharedData.h" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.h">
+      <file leaf-file-name="IPAddressTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0">
+            <state line="66" column="34" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -113,7 +182,7 @@
       <file leaf-file-name="JRCaptureUser.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="518" column="0" selection-start="23285" selection-end="23285" vertical-scroll-proportion="0.0">
+            <state line="715" column="22" selection-start="28807" selection-end="28807" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -128,6 +197,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="DecimalTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="148" column="93" selection-start="4508" selection-end="4534" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="IntegerTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IntegerTests.m">
           <provider selected="true" editor-type-id="text-editor">
@@ -137,10 +215,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="StringTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ContraintsTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="36" selection-start="2022" selection-end="2022" vertical-scroll-proportion="0.0">
+            <state line="80" column="9" selection-start="2091" selection-end="2091" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -149,7 +236,7 @@
       <file leaf-file-name="NestedPluralObjectTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="171" column="0" selection-start="5237" selection-end="5237" vertical-scroll-proportion="0.0">
+            <state line="144" column="56" selection-start="4423" selection-end="4423" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#361#389#0" expanded="true" />
                 <element signature="e#905#929#0" expanded="true" />
@@ -179,7 +266,36 @@
       <file leaf-file-name="JRCaptureUser.h" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="17" selection-start="2498" selection-end="2498" vertical-scroll-proportion="0.0">
+            <state line="118" column="21" selection-start="12988" selection-end="12988" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JRPinapinoL2PluralElement.h" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="169" column="4" selection-start="6860" selection-end="6860" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BooleanTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/BooleanTests.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="247" column="0" selection-start="8202" selection-end="8202" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#361#389#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JSONPropertyTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="125" column="19" selection-start="3673" selection-end="3673" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -225,12 +341,10 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL2PluralElement.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL1PluralElement.m" />
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/BooleanTests.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.h" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m" />
@@ -240,6 +354,8 @@
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/BooleanTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m" />
       </list>
     </option>
@@ -299,20 +415,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="CaptureInterfaceUnitTests" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeRootNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CaptureInterfaceUnitTests" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JRCapture" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodePBXReferenceNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -441,7 +543,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12124407" sideWeight="0.48445874" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12124407" sideWeight="0.97320473" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39871383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -530,12 +632,10 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.m">
+    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapinoL2PluralElement.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="33" selection-start="2538" selection-end="2538" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#621#646#0" expanded="true" />
-          </folding>
+        <state line="169" column="4" selection-start="6860" selection-end="6860" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -546,9 +646,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser+Extras.m">
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="163" column="8" selection-start="4989" selection-end="4989" vertical-scroll-proportion="0.0">
+        <state line="80" column="9" selection-start="2091" selection-end="2091" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -560,60 +660,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ReservedWordsTests.m">
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="9" selection-start="2234" selection-end="2234" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="144" column="56" selection-start="4423" selection-end="4423" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+            <element signature="e#905#929#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h">
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="17" selection-start="2498" selection-end="2498" vertical-scroll-proportion="0.0">
+        <state line="66" column="34" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/BooleanTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="0" selection-start="1545" selection-end="1545" vertical-scroll-proportion="0.0">
+        <state line="247" column="0" selection-start="8202" selection-end="8202" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#361#389#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="0" selection-start="3444" selection-end="3444" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m">
       <provider selected="true" editor-type-id="text-editor">
         <state line="244" column="2" selection-start="8592" selection-end="8592" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="2" selection-start="3563" selection-end="3563" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="43" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="211" column="0" selection-start="9828" selection-end="9828" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="518" column="0" selection-start="23285" selection-end="23285" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -627,26 +709,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h">
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="0" selection-start="2379" selection-end="2379" vertical-scroll-proportion="0.0">
+        <state line="148" column="93" selection-start="4508" selection-end="4534" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="0" selection-start="5237" selection-end="5237" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-            <element signature="e#905#929#0" expanded="true" />
-          </folding>
+        <state line="125" column="19" selection-start="3673" selection-end="3673" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IntegerTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="176" column="0" selection-start="1446" selection-end="5463" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.096287705">
+        <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.47285068">
           <folding />
         </state>
       </provider>
