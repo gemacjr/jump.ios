@@ -110,7 +110,9 @@
         self.captureObjectPath = @"/objectTestRequiredUnique";
         self.canBeUpdatedOrReplaced = YES;
         _requiredString = [newRequiredString copy];
+        [self.dirtyPropertySet addObject:@"requiredString"];
         _requiredUniqueString = [newRequiredUniqueString copy];
+        [self.dirtyPropertySet addObject:@"requiredUniqueString"];
     }
     return self;
 }

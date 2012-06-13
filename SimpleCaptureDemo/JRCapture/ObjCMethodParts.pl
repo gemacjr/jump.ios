@@ -111,7 +111,8 @@ my @minConstructorParts = (
 #     {                         
 #         self.captureObjectPath = @"<entity_path>";         
 #                                                            
-#         <requiredProperty> = [new<requiredProperty> copy]; 
+#         <requiredProperty> = [new<requiredProperty> copy];
+#         [self.dirtyPropertySet addObject:@"<requiredProperty>"];
 #           ...
 #     }
 #

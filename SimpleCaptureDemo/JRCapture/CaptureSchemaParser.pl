@@ -1175,7 +1175,10 @@ sub recursiveParse {
       
       # e.g.:
       #   foo = [newFoo copy];
+      #   [self.dirtyPropertySet addObject:@"foo"];
       $constructorSection[8] .= "        _" . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
+      $constructorSection[8] .= "        [self.dirtyPropertySet addObject:\@\"" . $propertyName . "\"];\n";
+
       
     } else {
     ######################################################
