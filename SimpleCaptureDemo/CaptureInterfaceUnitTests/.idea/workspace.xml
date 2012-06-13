@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efea0fb2-188e-4d59-b1f1-2b43e018c0dc" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/CaptureInterfaceUnitTests.iml" afterPath="$PROJECT_DIR$/.idea/CaptureInterfaceUnitTests.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m" afterPath="$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m" />
     </list>
     <ignored path="CaptureInterfaceUnitTests.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,9 +31,7 @@
         <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m">
           <provider selected="true" editor-type-id="text-editor">
             <state line="324" column="18" selection-start="11865" selection-end="11865" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#4271#4288#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -40,9 +40,7 @@
         <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.m">
           <provider selected="true" editor-type-id="text-editor">
             <state line="111" column="33" selection-start="2538" selection-end="2538" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#621#646#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -56,91 +54,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JROinoinoL2Object.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.m">
+      <file leaf-file-name="JRCaptureUser.h" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="99" column="53" selection-start="9727" selection-end="9733" vertical-scroll-proportion="-12.076923">
+              <folding>
+                <element signature="e#1683#1716#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JRPluralTestUniqueElement.h" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestUniqueElement.h">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DateTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTests.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="2" selection-start="3563" selection-end="3563" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DecimalTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="148" column="93" selection-start="4508" selection-end="4534" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SharedData.m" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.096287705">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SharedData.h" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/main.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JRCaptureUser.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="518" column="0" selection-start="23285" selection-end="23285" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DateTimeTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="244" column="2" selection-start="8592" selection-end="8592" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IntegerTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IntegerTests.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="176" column="0" selection-start="1446" selection-end="5463" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ContraintsTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="36" selection-start="2022" selection-end="2022" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -149,64 +77,43 @@
       <file leaf-file-name="NestedPluralObjectTests.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="171" column="0" selection-start="5237" selection-end="5237" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#361#389#0" expanded="true" />
-                <element signature="e#905#929#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JRCaptureObject.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="211" column="0" selection-start="9828" selection-end="9828" vertical-scroll-proportion="0.0">
+            <state line="17" column="0" selection-start="446" selection-end="861" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JRPinapL1PluralElement.h" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h">
+      <file leaf-file-name="JSONKit.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../JREngage/JSONKit/JSONKit.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="0" selection-start="2379" selection-end="2379" vertical-scroll-proportion="0.0">
+            <state line="738" column="0" selection-start="31946" selection-end="31946" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JRCaptureUser.h" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h">
+      <file leaf-file-name="JRCaptureUser.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="17" selection-start="2498" selection-end="2498" vertical-scroll-proportion="0.0">
+            <state line="477" column="0" selection-start="21956" selection-end="21956" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JROnipL2Object.h" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipL2Object.h">
+      <file leaf-file-name="ContraintsTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="144" selection-end="144" vertical-scroll-proportion="0.0">
+            <state line="69" column="0" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JROinoL1Object.h" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoL1Object.h">
+      <file leaf-file-name="SharedData.m" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="25" selection-start="1558" selection-end="1558" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OtherAttributesTests.m" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/OtherAttributesTests.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="32" selection-start="1242" selection-end="1242" vertical-scroll-proportion="0.0">
+            <state line="25" column="50" selection-start="745" selection-end="761" vertical-scroll-proportion="0.4752066">
               <folding />
             </state>
           </provider>
@@ -225,7 +132,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/StringTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROnipinapL2PluralElement.m" />
@@ -240,14 +146,15 @@
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m" />
         <option value="$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m" />
+        <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m" />
         <option value="$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1920" />
-    <option name="height" value="1054" />
+    <option name="width" value="1440" />
+    <option name="height" value="874" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -275,6 +182,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="DirectoryView.Xcode">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CaptureInterfaceUnitTests" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeDirectoryView$1$1" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -327,40 +244,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="CaptureInterfaceUnitTests" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodePBXReferenceNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="DirectoryView.Xcode">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CaptureInterfaceUnitTests" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeDirectoryView$1$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CaptureInterfaceUnitTests" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeDirectoryView$1$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CaptureInterfaceUnitTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CaptureInterfaceUnitTests" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.XcodeDirectoryView$1$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CaptureInterfaceUnitTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CaptureInterfaceUnitTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -434,18 +317,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
+    <frame x="0" y="22" width="1440" height="874" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279743" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32669324" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12124407" sideWeight="0.48445874" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39871383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23782639" sideWeight="0.48472777" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3984064" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51554126" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51527226" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -530,62 +413,16 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.m">
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="33" selection-start="2538" selection-end="2538" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#621#646#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicPluralElement.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="20" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser+Extras.m">
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DecimalTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="163" column="8" selection-start="4989" selection-end="4989" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ReservedWordsTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="9" selection-start="2234" selection-end="2234" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="17" selection-start="2498" selection-end="2498" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/BooleanTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="0" selection-start="1545" selection-end="1545" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/DateTimeTests.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="244" column="2" selection-start="8592" selection-end="8592" vertical-scroll-proportion="0.0">
+        <state line="148" column="93" selection-start="4508" selection-end="4534" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -597,23 +434,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.h">
+    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JROinoinoL2Object.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="43" selection-start="585" selection-end="585" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureObject.m">
+    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRBasicPluralElement.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="211" column="0" selection-start="9828" selection-end="9828" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m">
+    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="518" column="0" selection-start="23285" selection-end="23285" vertical-scroll-proportion="0.0">
+        <state line="111" column="33" selection-start="2538" selection-end="2538" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -621,32 +458,73 @@
     <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.m">
       <provider selected="true" editor-type-id="text-editor">
         <state line="324" column="18" selection-start="11865" selection-end="11865" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCapture.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="99" column="53" selection-start="9727" selection-end="9733" vertical-scroll-proportion="-12.076923">
           <folding>
-            <element signature="e#4271#4288#0" expanded="true" />
+            <element signature="e#1683#1716#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPinapL1PluralElement.h">
+    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestUniqueElement.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="0" selection-start="2379" selection-end="2379" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/BooleanTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.4834712">
+          <folding>
+            <element signature="e#361#389#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="0" selection-start="5237" selection-end="5237" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#361#389#0" expanded="true" />
-            <element signature="e#905#929#0" expanded="true" />
-          </folding>
+        <state line="17" column="0" selection-start="446" selection-end="861" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../JREngage/JSONKit/JSONKit.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="738" column="0" selection-start="31946" selection-end="31946" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../JRCapture/UnitTestCaptureFiles/JRCapture/JRCaptureUser.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="477" column="0" selection-start="21956" selection-end="21956" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/ContraintsTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="0" selection-start="1670" selection-end="1670" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="40" selection-start="745" selection-end="745" vertical-scroll-proportion="0.096287705">
+        <state line="25" column="50" selection-start="745" selection-end="761" vertical-scroll-proportion="0.4752066">
           <folding />
         </state>
       </provider>
