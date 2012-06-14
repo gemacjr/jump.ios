@@ -169,7 +169,11 @@
 // unicode-letters
 - (void) test_c141_stringUnicodeLetters
 {
-    captureUser.stringTestUnicodeLetters = @"";
+    captureUser.stringTestUnicodeLetters = @"\u0393"; // greek letter gamma
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
 // unicode-printable
@@ -193,6 +197,10 @@
         else if ([testSelectorString isEqualToString:@"test_c121_stringAlphanumeric"])
         {
             GHAssertTrue([newUser.stringTestAlphanumeric isEqualToString:captureUser.stringTestAlphanumeric], nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_c141_stringUnicodeLetters"])
+        {
+            GHAssertTrue([newUser.stringTestUnicodeLetters isEqualToString:captureUser.stringTestUnicodeLetters], nil);
         }
         else
         {
@@ -270,7 +278,6 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
     }
 
     [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
-
 }
 
 - (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
