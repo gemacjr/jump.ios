@@ -111,6 +111,20 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void) test_c112_objectRequiredCreateInvalid
+{
+    JRObjectTestRequired *jrotr = [JRObjectTestRequired objectTestRequired];
+    jrotr.requiredString = nil;
+    jrotr.string1 = @"antimony";
+    jrotr.string2 = @"basalt";
+    captureUser.objectTestRequired = jrotr;
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+
 // alphabetic
 
 // alphanumeric
@@ -134,7 +148,6 @@
         if ([testSelectorString isEqualToString:@"test_c111_objectRequiredCreate"])
         {
             GHAssertTrue([newUser.objectTestRequired isEqualToObjectTestRequired:captureUser.objectTestRequired], nil);
-//            newUser.objectTestRequired.requiredString
         }
         else
         {
@@ -155,6 +168,27 @@
 - (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
     NSString *testSelectorString = (NSString *)context;
+
+    @try
+    {
+        if ([testSelectorString isEqualToString:@"test_c112_objectRequiredCreateInvalid"])
+        {
+            DLog(@"result: %@", result);
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+        }
+        else
+        {
+            GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
+        }
+    }
+    @catch (NSException *exception)
+    {
+        GHTestLog([exception description]);
+        [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
+
+        return;
+    }
+
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
 }
 
