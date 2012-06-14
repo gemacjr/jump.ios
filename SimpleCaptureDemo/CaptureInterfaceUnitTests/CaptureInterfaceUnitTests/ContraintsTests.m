@@ -124,9 +124,10 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+// alphanumeric
 - (void) test_c121_stringAlphanumeric
 {
-    captureUser.stringTestAlphanumeric = @"abc";
+    captureUser.stringTestAlphanumeric = @"abc123";
 
     [self prepare];
     [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
@@ -143,8 +144,27 @@
 }
 
 // alphabetic
+- (void) test_c131_stringAlphabetic
+{
+    JRPluralTestAlphabeticElement *const element = [JRPluralTestAlphabeticElement pluralTestAlphabeticElement];
+    element.uniqueString = @"abc";
+    currentPlural = captureUser.pluralTestAlphabetic = [NSArray arrayWithObject:element];
 
-// alphanumeric
+    [self prepare];
+    [captureUser replacePluralTestAlphabeticArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void) test_c132_stringAlphabeticInvalid
+{
+    JRPluralTestAlphabeticElement *const element = [JRPluralTestAlphabeticElement pluralTestAlphabeticElement];
+    element.uniqueString = @"abc123";
+    currentPlural = captureUser.pluralTestAlphabetic = [NSArray arrayWithObject:element];
+
+    [self prepare];
+    [captureUser replacePluralTestAlphabeticArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
 
 // unicode-letters
 
@@ -228,6 +248,10 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
         {
             GHAssertTrue([newArray isEqualToOtherPluralTestUniqueArray:currentPlural], nil);
         }
+        else if ([testSelectorString isEqualToString:@"test_c131_stringAlphabetic"])
+        {
+            GHAssertTrue([newArray isEqualToOtherPluralTestAlphabeticArray:currentPlural], nil);
+        }
         else
         {
             GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
@@ -258,6 +282,14 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
     if ([testSelectorString isEqualToString:@"test_c102_pluralUniqueCreateInvalid"])
     {
         if ([error isEqualToString:@"unique_violation"] && [code isEqualToNumber:[NSNumber numberWithInteger:361]])
+        {
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
+        }
+    }
+    else if ([testSelectorString isEqualToString:@"test_c132_stringAlphabeticInvalid"])
+    {
+        if ([error isEqualToString:@"constraint_violation"] && [code isEqualToNumber:[NSNumber numberWithInteger:360]])
         {
             [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
             return;
