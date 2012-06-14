@@ -167,6 +167,10 @@
 }
 
 // unicode-letters
+- (void) test_c141_stringUnicodeLetters
+{
+    captureUser.stringTestUnicodeLetters = @"";
+}
 
 // unicode-printable
 
@@ -244,7 +248,7 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_c101_createPluralWithValidElements"])
+        if ([testSelectorString isEqualToString:@"test_c101_pluralUniqueCreateValid"])
         {
             GHAssertTrue([newArray isEqualToOtherPluralTestUniqueArray:currentPlural], nil);
         }
