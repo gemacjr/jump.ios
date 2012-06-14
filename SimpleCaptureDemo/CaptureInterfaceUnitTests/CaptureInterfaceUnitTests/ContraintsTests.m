@@ -124,6 +124,23 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void) test_c121_stringAlphanumeric
+{
+    captureUser.stringTestAlphanumeric = @"abc";
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void) test_c122_stringAlphaNumericInvalid
+{
+    captureUser.stringTestAlphanumeric = @"!@#$%^&*()";
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
 
 // alphabetic
 
@@ -149,6 +166,10 @@
         {
             GHAssertTrue([newUser.objectTestRequired isEqualToObjectTestRequired:captureUser.objectTestRequired], nil);
         }
+        else if ([testSelectorString isEqualToString:@"test_c121_stringAlphanumeric"])
+        {
+            GHAssertTrue([newUser.stringTestAlphanumeric isEqualToString:captureUser.stringTestAlphanumeric], nil);
+        }
         else
         {
             GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
@@ -173,8 +194,13 @@
     {
         if ([testSelectorString isEqualToString:@"test_c112_objectRequiredCreateInvalid"])
         {
-            DLog(@"result: %@", result);
             [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
+        }
+        else if ([testSelectorString isEqualToString:@"test_c122_stringAlphaNumericInvalid"])
+        {
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
         }
         else
         {
