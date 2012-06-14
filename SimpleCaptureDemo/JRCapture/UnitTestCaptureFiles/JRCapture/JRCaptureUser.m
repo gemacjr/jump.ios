@@ -71,7 +71,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRBasicPluralElement class]])
-            [filteredDictionaryArray addObject:[(JRBasicPluralElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JRBasicPluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -109,7 +109,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPluralTestUniqueElement class]])
-            [filteredDictionaryArray addObject:[(JRPluralTestUniqueElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JRPluralTestUniqueElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -147,7 +147,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPluralTestAlphabeticElement class]])
-            [filteredDictionaryArray addObject:[(JRPluralTestAlphabeticElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JRPluralTestAlphabeticElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -185,7 +185,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRSimpleStringPluralOneElement class]])
-            [filteredDictionaryArray addObject:[(JRSimpleStringPluralOneElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JRSimpleStringPluralOneElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -223,7 +223,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRSimpleStringPluralTwoElement class]])
-            [filteredDictionaryArray addObject:[(JRSimpleStringPluralTwoElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JRSimpleStringPluralTwoElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -261,7 +261,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinapL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JRPinapL1PluralElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JRPinapL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -299,7 +299,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JROnipL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JROnipL1PluralElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JROnipL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -337,7 +337,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinapinapL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JRPinapinapL1PluralElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JRPinapinapL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -375,7 +375,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinonipL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JRPinonipL1PluralElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JRPinonipL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -413,7 +413,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JROnipinapL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JROnipinapL1PluralElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JROnipinapL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }
@@ -451,7 +451,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JROinonipL1PluralElement class]])
-            [filteredDictionaryArray addObject:[(JROinonipL1PluralElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JROinonipL1PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }

@@ -339,7 +339,7 @@
         return;
     }
 
-    [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionaryIncludingArrrays:YES]
+    [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionaryIncludingArrays:YES]
                                       //withId:[self.captureUserId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

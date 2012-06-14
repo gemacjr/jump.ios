@@ -71,7 +71,7 @@
     NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *object in self)
         if ([object isKindOfClass:[JRPinoL2PluralElement class]])
-            [filteredDictionaryArray addObject:[(JRPinoL2PluralElement*)object toReplaceDictionary]];
+            [filteredDictionaryArray addObject:[(JRPinoL2PluralElement*)object toReplaceDictionaryIncludingArrays:YES]];
 
     return filteredDictionaryArray;
 }

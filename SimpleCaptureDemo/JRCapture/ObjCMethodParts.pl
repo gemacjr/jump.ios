@@ -886,7 +886,7 @@ sub createArrayCategoryForSubobject {
        "    NSMutableArray *filteredDictionaryArray = [NSMutableArray arrayWithCapacity:[self count]];\n" . 
        "    for (NSObject *object in self)\n" . 
        "        if ([object isKindOfClass:[JR" . ucfirst($propertyName) . "Element class]])\n" . 
-       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toReplaceDictionary]];\n\n" . 
+       "            [filteredDictionaryArray addObject:[(JR" . ucfirst($propertyName) . "Element*)object toReplaceDictionaryIncludingArrays:YES]];\n\n" . 
        "    return filteredDictionaryArray;\n}\n\@end\n\n";          
 
   return "$arrayCategoryIntf$arrayCategoryImpl";
