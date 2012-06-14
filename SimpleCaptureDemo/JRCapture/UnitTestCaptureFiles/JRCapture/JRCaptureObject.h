@@ -51,7 +51,7 @@
 @property (readonly) BOOL canBeUpdatedOrReplaced;
 - (NSDictionary *)toDictionary;
 - (NSDictionary *)toUpdateDictionary;
-- (NSDictionary *)toReplaceDictionary;
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays;
 - (NSDictionary *)objectProperties;
 - (BOOL)needsUpdate;
 - (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath;

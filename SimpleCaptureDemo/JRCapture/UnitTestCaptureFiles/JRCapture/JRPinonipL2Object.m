@@ -114,6 +114,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -125,6 +127,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -136,6 +140,8 @@
 - (void)setPinonipL3Plural:(NSArray *)newPinonipL3Plural
 {
     [self.dirtyArraySet addObject:@"pinonipL3Plural"];
+
+    [_pinonipL3Plural autorelease];
     _pinonipL3Plural = [newPinonipL3Plural copy];
 }
 
@@ -155,21 +161,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinonipL2Object *pinonipL2ObjectCopy =
-                [[JRPinonipL2Object allocWithZone:zone] init];
-
-    pinonipL2ObjectCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRPinonipL2Object *pinonipL2ObjectCopy = (JRPinonipL2Object *)[super copy];
 
     pinonipL2ObjectCopy.string1 = self.string1;
     pinonipL2ObjectCopy.string2 = self.string2;
     pinonipL2ObjectCopy.pinonipL3Plural = self.pinonipL3Plural;
-    // TODO: Necessary??
-    pinonipL2ObjectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [pinonipL2ObjectCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinonipL2ObjectCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return pinonipL2ObjectCopy;
 }
@@ -280,14 +277,16 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
-    [dict setObject:(self.pinonipL3Plural ? [self.pinonipL3Plural arrayOfPinonipL3PluralReplaceDictionariesFromPinonipL3PluralElements] : [NSArray array]) forKey:@"pinonipL3Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.pinonipL3Plural ? [self.pinonipL3Plural arrayOfPinonipL3PluralReplaceDictionariesFromPinonipL3PluralElements] : [NSArray array]) forKey:@"pinonipL3Plural"];
 
     return dict;
 }

@@ -224,18 +224,14 @@ my @classConstructorParts = (
 ###################################################################
 # COPY CONSTRUCTOR (W REQUIRED PROPERTIES)
 #
-# - (id)copyWithZone:(NSZone*)zone         (Section only here when there are required properties)     
-# {                                                               |
-#     <className> *<object>Copy =                                 V
-#                 [[<className> allocWithZone:zone] init<requiredProperties>];
+# - (id)copyWithZone:(NSZone*)zone
+# {                                                      
+#     <className> *<object>Copy = (<className> *)[JRCaptureObject copy];
 #
 #     <object>Copy.<property> = self.<property>;
 #       ...
 #
 #     <object>Copy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-#
-#     [<object>Copy.dirtyPropertySet setSet:self.dirtyPropertySet];
-#     [<object>Copy.dirtyArraySet setSet:self.dirtyPropertySet];
 #
 #     return <object>Copy;
 # }
@@ -243,17 +239,9 @@ my @classConstructorParts = (
 
 my @copyConstructorParts = (
 "- (id)copyWithZone:(NSZone*)zone",
-"\n{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS\n", 
-""," allocWithZone:zone] init","","];\n\n",
-"    ","",".captureObjectPath = self.captureObjectPath;\n\n",
+"\n{\n", 
+"","[super copy];\n\n",
 "", 
-"    // TODO: Necessary??
-    ","",".canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [","",".dirtyPropertySet setSet:self.dirtyPropertySet];
-    [","",".dirtyArraySet setSet:self.dirtyArraySet];
-",
 "\n    return ","",";",
 "\n}\n\n");
 
@@ -644,7 +632,7 @@ my @toUpdateDictionaryParts = (
 ###################################################################
 # REPLACE OBJECT ON CAPTURE
 #
-# - (NSDictionary *)toReplaceDictionary
+# - (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 # {
 #     NSMutableDictionary *dict =
 #          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -669,7 +657,7 @@ my @toUpdateDictionaryParts = (
 #                                                      delegate, @"delegate",
 #                                                      context, @"callerContext", nil];
 # 
-#     [JRCaptureInterface updateCaptureObject:[self toReplaceDictionary]
+#     [JRCaptureInterface updateCaptureObject:[self toReplaceDictionaryIncludingArrays:YES]
 #                                      withId:self.<objectName>Id OR 0
 #                                      atPath:self.captureObjectPath
 #                                   withToken:[JRCaptureData accessToken]
@@ -684,7 +672,7 @@ my @replaceRemotelyDocParts = (
  **/\n");
 
 my @toReplaceDictionaryParts = (
-"- (NSDictionary *)toReplaceDictionary",
+"- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays",
 "\n{\n",
 "    NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];\n\n",
@@ -964,6 +952,7 @@ sub createGetterSetterForProperty {
   my $propertyType  = $_[1];
   my $isBoolOrInt   = $_[2];
   my $isArray       = $_[3];
+  my $isObject      = $_[4];
   my $getter;
   my $setter;
   my $primitiveGetter = "";
@@ -979,12 +968,19 @@ sub createGetterSetterForProperty {
   $setter .= "\n{\n";
 
   if ($isArray) {
-    $setter .= "    [self.dirtyArraySet addObject:@\"" . $propertyName . "\"];\n";
+    $setter .= "    [self.dirtyArraySet addObject:@\"" . $propertyName . "\"];\n\n";
   } else {
-    $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n";
+    $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
+  }
+
+  $setter .= "    [_" . $propertyName . " autorelease];\n";
+  
+  if ($isObject) {
+    $setter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " retain];";    
+  } else {
+    $setter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";    
   }
   
-  $setter .= "    _" . $propertyName .  " = [new" . ucfirst($propertyName) . " copy];";    
   $setter .= "\n}\n\n";
 
   if ($isBoolOrInt eq "b") {

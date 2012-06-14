@@ -114,6 +114,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -125,6 +127,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -136,6 +140,8 @@
 - (void)setOnipinoL2Plural:(NSArray *)newOnipinoL2Plural
 {
     [self.dirtyArraySet addObject:@"onipinoL2Plural"];
+
+    [_onipinoL2Plural autorelease];
     _onipinoL2Plural = [newOnipinoL2Plural copy];
 }
 
@@ -155,21 +161,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JROnipinoL1Object *onipinoL1ObjectCopy =
-                [[JROnipinoL1Object allocWithZone:zone] init];
-
-    onipinoL1ObjectCopy.captureObjectPath = self.captureObjectPath;
+{
+    JROnipinoL1Object *onipinoL1ObjectCopy = (JROnipinoL1Object *)[super copy];
 
     onipinoL1ObjectCopy.string1 = self.string1;
     onipinoL1ObjectCopy.string2 = self.string2;
     onipinoL1ObjectCopy.onipinoL2Plural = self.onipinoL2Plural;
-    // TODO: Necessary??
-    onipinoL1ObjectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [onipinoL1ObjectCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [onipinoL1ObjectCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return onipinoL1ObjectCopy;
 }
@@ -275,14 +272,16 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
-    [dict setObject:(self.onipinoL2Plural ? [self.onipinoL2Plural arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements] : [NSArray array]) forKey:@"onipinoL2Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.onipinoL2Plural ? [self.onipinoL2Plural arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements] : [NSArray array]) forKey:@"onipinoL2Plural"];
 
     return dict;
 }

@@ -114,6 +114,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -125,6 +127,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -136,6 +140,8 @@
 - (void)setPinapL2Plural:(NSArray *)newPinapL2Plural
 {
     [self.dirtyArraySet addObject:@"pinapL2Plural"];
+
+    [_pinapL2Plural autorelease];
     _pinapL2Plural = [newPinapL2Plural copy];
 }
 
@@ -155,21 +161,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinapL1PluralElement *pinapL1PluralElementCopy =
-                [[JRPinapL1PluralElement allocWithZone:zone] init];
-
-    pinapL1PluralElementCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRPinapL1PluralElement *pinapL1PluralElementCopy = (JRPinapL1PluralElement *)[super copy];
 
     pinapL1PluralElementCopy.string1 = self.string1;
     pinapL1PluralElementCopy.string2 = self.string2;
     pinapL1PluralElementCopy.pinapL2Plural = self.pinapL2Plural;
-    // TODO: Necessary??
-    pinapL1PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [pinapL1PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinapL1PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return pinapL1PluralElementCopy;
 }
@@ -280,14 +277,16 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
-    [dict setObject:(self.pinapL2Plural ? [self.pinapL2Plural arrayOfPinapL2PluralReplaceDictionariesFromPinapL2PluralElements] : [NSArray array]) forKey:@"pinapL2Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.pinapL2Plural ? [self.pinapL2Plural arrayOfPinapL2PluralReplaceDictionariesFromPinapL2PluralElements] : [NSArray array]) forKey:@"pinapL2Plural"];
 
     return dict;
 }

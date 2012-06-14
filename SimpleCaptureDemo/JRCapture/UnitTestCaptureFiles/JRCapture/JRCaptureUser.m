@@ -688,6 +688,8 @@
 - (void)setEmail:(NSString *)newEmail
 {
     [self.dirtyPropertySet addObject:@"email"];
+
+    [_email autorelease];
     _email = [newEmail copy];
 }
 
@@ -699,6 +701,8 @@
 - (void)setBasicBoolean:(JRBoolean *)newBasicBoolean
 {
     [self.dirtyPropertySet addObject:@"basicBoolean"];
+
+    [_basicBoolean autorelease];
     _basicBoolean = [newBasicBoolean copy];
 }
 
@@ -721,6 +725,8 @@
 - (void)setBasicString:(NSString *)newBasicString
 {
     [self.dirtyPropertySet addObject:@"basicString"];
+
+    [_basicString autorelease];
     _basicString = [newBasicString copy];
 }
 
@@ -732,6 +738,8 @@
 - (void)setBasicInteger:(JRInteger *)newBasicInteger
 {
     [self.dirtyPropertySet addObject:@"basicInteger"];
+
+    [_basicInteger autorelease];
     _basicInteger = [newBasicInteger copy];
 }
 
@@ -754,6 +762,8 @@
 - (void)setBasicDecimal:(NSNumber *)newBasicDecimal
 {
     [self.dirtyPropertySet addObject:@"basicDecimal"];
+
+    [_basicDecimal autorelease];
     _basicDecimal = [newBasicDecimal copy];
 }
 
@@ -765,6 +775,8 @@
 - (void)setBasicDate:(JRDate *)newBasicDate
 {
     [self.dirtyPropertySet addObject:@"basicDate"];
+
+    [_basicDate autorelease];
     _basicDate = [newBasicDate copy];
 }
 
@@ -776,6 +788,8 @@
 - (void)setBasicDateTime:(JRDateTime *)newBasicDateTime
 {
     [self.dirtyPropertySet addObject:@"basicDateTime"];
+
+    [_basicDateTime autorelease];
     _basicDateTime = [newBasicDateTime copy];
 }
 
@@ -787,6 +801,8 @@
 - (void)setBasicIpAddress:(JRIpAddress *)newBasicIpAddress
 {
     [self.dirtyPropertySet addObject:@"basicIpAddress"];
+
+    [_basicIpAddress autorelease];
     _basicIpAddress = [newBasicIpAddress copy];
 }
 
@@ -798,6 +814,8 @@
 - (void)setBasicPassword:(JRPassword *)newBasicPassword
 {
     [self.dirtyPropertySet addObject:@"basicPassword"];
+
+    [_basicPassword autorelease];
     _basicPassword = [newBasicPassword copy];
 }
 
@@ -809,6 +827,8 @@
 - (void)setJsonNumber:(JRJsonObject *)newJsonNumber
 {
     [self.dirtyPropertySet addObject:@"jsonNumber"];
+
+    [_jsonNumber autorelease];
     _jsonNumber = [newJsonNumber copy];
 }
 
@@ -820,6 +840,8 @@
 - (void)setJsonString:(JRJsonObject *)newJsonString
 {
     [self.dirtyPropertySet addObject:@"jsonString"];
+
+    [_jsonString autorelease];
     _jsonString = [newJsonString copy];
 }
 
@@ -831,6 +853,8 @@
 - (void)setJsonArray:(JRJsonObject *)newJsonArray
 {
     [self.dirtyPropertySet addObject:@"jsonArray"];
+
+    [_jsonArray autorelease];
     _jsonArray = [newJsonArray copy];
 }
 
@@ -842,6 +866,8 @@
 - (void)setJsonDictionary:(JRJsonObject *)newJsonDictionary
 {
     [self.dirtyPropertySet addObject:@"jsonDictionary"];
+
+    [_jsonDictionary autorelease];
     _jsonDictionary = [newJsonDictionary copy];
 }
 
@@ -853,6 +879,8 @@
 - (void)setStringTestJson:(NSString *)newStringTestJson
 {
     [self.dirtyPropertySet addObject:@"stringTestJson"];
+
+    [_stringTestJson autorelease];
     _stringTestJson = [newStringTestJson copy];
 }
 
@@ -864,6 +892,8 @@
 - (void)setStringTestEmpty:(NSString *)newStringTestEmpty
 {
     [self.dirtyPropertySet addObject:@"stringTestEmpty"];
+
+    [_stringTestEmpty autorelease];
     _stringTestEmpty = [newStringTestEmpty copy];
 }
 
@@ -875,6 +905,8 @@
 - (void)setStringTestNull:(NSString *)newStringTestNull
 {
     [self.dirtyPropertySet addObject:@"stringTestNull"];
+
+    [_stringTestNull autorelease];
     _stringTestNull = [newStringTestNull copy];
 }
 
@@ -886,6 +918,8 @@
 - (void)setStringTestInvalid:(NSString *)newStringTestInvalid
 {
     [self.dirtyPropertySet addObject:@"stringTestInvalid"];
+
+    [_stringTestInvalid autorelease];
     _stringTestInvalid = [newStringTestInvalid copy];
 }
 
@@ -897,6 +931,8 @@
 - (void)setStringTestNSNull:(NSString *)newStringTestNSNull
 {
     [self.dirtyPropertySet addObject:@"stringTestNSNull"];
+
+    [_stringTestNSNull autorelease];
     _stringTestNSNull = [newStringTestNSNull copy];
 }
 
@@ -908,6 +944,8 @@
 - (void)setStringTestAlphanumeric:(NSString *)newStringTestAlphanumeric
 {
     [self.dirtyPropertySet addObject:@"stringTestAlphanumeric"];
+
+    [_stringTestAlphanumeric autorelease];
     _stringTestAlphanumeric = [newStringTestAlphanumeric copy];
 }
 
@@ -919,6 +957,8 @@
 - (void)setStringTestUnicodeLetters:(NSString *)newStringTestUnicodeLetters
 {
     [self.dirtyPropertySet addObject:@"stringTestUnicodeLetters"];
+
+    [_stringTestUnicodeLetters autorelease];
     _stringTestUnicodeLetters = [newStringTestUnicodeLetters copy];
 }
 
@@ -930,6 +970,8 @@
 - (void)setStringTestUnicodePrintable:(NSString *)newStringTestUnicodePrintable
 {
     [self.dirtyPropertySet addObject:@"stringTestUnicodePrintable"];
+
+    [_stringTestUnicodePrintable autorelease];
     _stringTestUnicodePrintable = [newStringTestUnicodePrintable copy];
 }
 
@@ -941,6 +983,8 @@
 - (void)setStringTestEmailAddress:(NSString *)newStringTestEmailAddress
 {
     [self.dirtyPropertySet addObject:@"stringTestEmailAddress"];
+
+    [_stringTestEmailAddress autorelease];
     _stringTestEmailAddress = [newStringTestEmailAddress copy];
 }
 
@@ -952,6 +996,8 @@
 - (void)setStringTestLength:(NSString *)newStringTestLength
 {
     [self.dirtyPropertySet addObject:@"stringTestLength"];
+
+    [_stringTestLength autorelease];
     _stringTestLength = [newStringTestLength copy];
 }
 
@@ -963,6 +1009,8 @@
 - (void)setStringTestCaseSensitive:(NSString *)newStringTestCaseSensitive
 {
     [self.dirtyPropertySet addObject:@"stringTestCaseSensitive"];
+
+    [_stringTestCaseSensitive autorelease];
     _stringTestCaseSensitive = [newStringTestCaseSensitive copy];
 }
 
@@ -974,6 +1022,8 @@
 - (void)setStringTestFeatures:(NSString *)newStringTestFeatures
 {
     [self.dirtyPropertySet addObject:@"stringTestFeatures"];
+
+    [_stringTestFeatures autorelease];
     _stringTestFeatures = [newStringTestFeatures copy];
 }
 
@@ -985,6 +1035,8 @@
 - (void)setBasicPlural:(NSArray *)newBasicPlural
 {
     [self.dirtyArraySet addObject:@"basicPlural"];
+
+    [_basicPlural autorelease];
     _basicPlural = [newBasicPlural copy];
 }
 
@@ -996,7 +1048,9 @@
 - (void)setBasicObject:(JRBasicObject *)newBasicObject
 {
     [self.dirtyPropertySet addObject:@"basicObject"];
-    _basicObject = [newBasicObject copy];
+
+    [_basicObject autorelease];
+    _basicObject = [newBasicObject retain];
 }
 
 - (JRObjectTestRequired *)objectTestRequired
@@ -1007,7 +1061,9 @@
 - (void)setObjectTestRequired:(JRObjectTestRequired *)newObjectTestRequired
 {
     [self.dirtyPropertySet addObject:@"objectTestRequired"];
-    _objectTestRequired = [newObjectTestRequired copy];
+
+    [_objectTestRequired autorelease];
+    _objectTestRequired = [newObjectTestRequired retain];
 }
 
 - (NSArray *)pluralTestUnique
@@ -1018,6 +1074,8 @@
 - (void)setPluralTestUnique:(NSArray *)newPluralTestUnique
 {
     [self.dirtyArraySet addObject:@"pluralTestUnique"];
+
+    [_pluralTestUnique autorelease];
     _pluralTestUnique = [newPluralTestUnique copy];
 }
 
@@ -1029,7 +1087,9 @@
 - (void)setObjectTestRequiredUnique:(JRObjectTestRequiredUnique *)newObjectTestRequiredUnique
 {
     [self.dirtyPropertySet addObject:@"objectTestRequiredUnique"];
-    _objectTestRequiredUnique = [newObjectTestRequiredUnique copy];
+
+    [_objectTestRequiredUnique autorelease];
+    _objectTestRequiredUnique = [newObjectTestRequiredUnique retain];
 }
 
 - (NSArray *)pluralTestAlphabetic
@@ -1040,6 +1100,8 @@
 - (void)setPluralTestAlphabetic:(NSArray *)newPluralTestAlphabetic
 {
     [self.dirtyArraySet addObject:@"pluralTestAlphabetic"];
+
+    [_pluralTestAlphabetic autorelease];
     _pluralTestAlphabetic = [newPluralTestAlphabetic copy];
 }
 
@@ -1051,6 +1113,8 @@
 - (void)setSimpleStringPluralOne:(NSArray *)newSimpleStringPluralOne
 {
     [self.dirtyArraySet addObject:@"simpleStringPluralOne"];
+
+    [_simpleStringPluralOne autorelease];
     _simpleStringPluralOne = [newSimpleStringPluralOne copy];
 }
 
@@ -1062,6 +1126,8 @@
 - (void)setSimpleStringPluralTwo:(NSArray *)newSimpleStringPluralTwo
 {
     [self.dirtyArraySet addObject:@"simpleStringPluralTwo"];
+
+    [_simpleStringPluralTwo autorelease];
     _simpleStringPluralTwo = [newSimpleStringPluralTwo copy];
 }
 
@@ -1073,6 +1139,8 @@
 - (void)setPinapL1Plural:(NSArray *)newPinapL1Plural
 {
     [self.dirtyArraySet addObject:@"pinapL1Plural"];
+
+    [_pinapL1Plural autorelease];
     _pinapL1Plural = [newPinapL1Plural copy];
 }
 
@@ -1084,7 +1152,9 @@
 - (void)setPinoL1Object:(JRPinoL1Object *)newPinoL1Object
 {
     [self.dirtyPropertySet addObject:@"pinoL1Object"];
-    _pinoL1Object = [newPinoL1Object copy];
+
+    [_pinoL1Object autorelease];
+    _pinoL1Object = [newPinoL1Object retain];
 }
 
 - (NSArray *)onipL1Plural
@@ -1095,6 +1165,8 @@
 - (void)setOnipL1Plural:(NSArray *)newOnipL1Plural
 {
     [self.dirtyArraySet addObject:@"onipL1Plural"];
+
+    [_onipL1Plural autorelease];
     _onipL1Plural = [newOnipL1Plural copy];
 }
 
@@ -1106,7 +1178,9 @@
 - (void)setOinoL1Object:(JROinoL1Object *)newOinoL1Object
 {
     [self.dirtyPropertySet addObject:@"oinoL1Object"];
-    _oinoL1Object = [newOinoL1Object copy];
+
+    [_oinoL1Object autorelease];
+    _oinoL1Object = [newOinoL1Object retain];
 }
 
 - (NSArray *)pinapinapL1Plural
@@ -1117,6 +1191,8 @@
 - (void)setPinapinapL1Plural:(NSArray *)newPinapinapL1Plural
 {
     [self.dirtyArraySet addObject:@"pinapinapL1Plural"];
+
+    [_pinapinapL1Plural autorelease];
     _pinapinapL1Plural = [newPinapinapL1Plural copy];
 }
 
@@ -1128,6 +1204,8 @@
 - (void)setPinonipL1Plural:(NSArray *)newPinonipL1Plural
 {
     [self.dirtyArraySet addObject:@"pinonipL1Plural"];
+
+    [_pinonipL1Plural autorelease];
     _pinonipL1Plural = [newPinonipL1Plural copy];
 }
 
@@ -1139,7 +1217,9 @@
 - (void)setPinapinoL1Object:(JRPinapinoL1Object *)newPinapinoL1Object
 {
     [self.dirtyPropertySet addObject:@"pinapinoL1Object"];
-    _pinapinoL1Object = [newPinapinoL1Object copy];
+
+    [_pinapinoL1Object autorelease];
+    _pinapinoL1Object = [newPinapinoL1Object retain];
 }
 
 - (JRPinoinoL1Object *)pinoinoL1Object
@@ -1150,7 +1230,9 @@
 - (void)setPinoinoL1Object:(JRPinoinoL1Object *)newPinoinoL1Object
 {
     [self.dirtyPropertySet addObject:@"pinoinoL1Object"];
-    _pinoinoL1Object = [newPinoinoL1Object copy];
+
+    [_pinoinoL1Object autorelease];
+    _pinoinoL1Object = [newPinoinoL1Object retain];
 }
 
 - (NSArray *)onipinapL1Plural
@@ -1161,6 +1243,8 @@
 - (void)setOnipinapL1Plural:(NSArray *)newOnipinapL1Plural
 {
     [self.dirtyArraySet addObject:@"onipinapL1Plural"];
+
+    [_onipinapL1Plural autorelease];
     _onipinapL1Plural = [newOnipinapL1Plural copy];
 }
 
@@ -1172,6 +1256,8 @@
 - (void)setOinonipL1Plural:(NSArray *)newOinonipL1Plural
 {
     [self.dirtyArraySet addObject:@"oinonipL1Plural"];
+
+    [_oinonipL1Plural autorelease];
     _oinonipL1Plural = [newOinonipL1Plural copy];
 }
 
@@ -1183,7 +1269,9 @@
 - (void)setOnipinoL1Object:(JROnipinoL1Object *)newOnipinoL1Object
 {
     [self.dirtyPropertySet addObject:@"onipinoL1Object"];
-    _onipinoL1Object = [newOnipinoL1Object copy];
+
+    [_onipinoL1Object autorelease];
+    _onipinoL1Object = [newOnipinoL1Object retain];
 }
 
 - (JROinoinoL1Object *)oinoinoL1Object
@@ -1194,7 +1282,9 @@
 - (void)setOinoinoL1Object:(JROinoinoL1Object *)newOinoinoL1Object
 {
     [self.dirtyPropertySet addObject:@"oinoinoL1Object"];
-    _oinoinoL1Object = [newOinoinoL1Object copy];
+
+    [_oinoinoL1Object autorelease];
+    _oinoinoL1Object = [newOinoinoL1Object retain];
 }
 
 - (id)init
@@ -1213,11 +1303,8 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRCaptureUser *captureUserCopy =
-                [[JRCaptureUser allocWithZone:zone] init];
-
-    captureUserCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRCaptureUser *captureUserCopy = (JRCaptureUser *)[super copy];
 
     captureUserCopy.email = self.email;
     captureUserCopy.basicBoolean = self.basicBoolean;
@@ -1264,12 +1351,6 @@
     captureUserCopy.oinonipL1Plural = self.oinonipL1Plural;
     captureUserCopy.onipinoL1Object = self.onipinoL1Object;
     captureUserCopy.oinoinoL1Object = self.oinoinoL1Object;
-    // TODO: Necessary??
-    captureUserCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [captureUserCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [captureUserCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return captureUserCopy;
 }
@@ -2043,64 +2124,91 @@
     if ([self.dirtyPropertySet containsObject:@"stringTestFeatures"])
         [dict setObject:(self.stringTestFeatures ? self.stringTestFeatures : [NSNull null]) forKey:@"stringTestFeatures"];
 
-    if ([self.dirtyPropertySet containsObject:@"basicObject"] || [self.basicObject needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"basicObject"])
         [dict setObject:(self.basicObject ?
-                              [self.basicObject toUpdateDictionary] :
+                              [self.basicObject toReplaceDictionaryIncludingArrays:NO] :
                               [[JRBasicObject basicObject] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"basicObject"];
+    else if ([self.basicObject needsUpdate])
+        [dict setObject:[self.basicObject toUpdateDictionary]
+                 forKey:@"basicObject"];
 
-    if ([self.dirtyPropertySet containsObject:@"objectTestRequired"] || [self.objectTestRequired needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"objectTestRequired"])
         [dict setObject:(self.objectTestRequired ?
-                              [self.objectTestRequired toUpdateDictionary] :
+                              [self.objectTestRequired toReplaceDictionaryIncludingArrays:NO] :
                               [[JRObjectTestRequired objectTestRequired] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"objectTestRequired"];
+    else if ([self.objectTestRequired needsUpdate])
+        [dict setObject:[self.objectTestRequired toUpdateDictionary]
+                 forKey:@"objectTestRequired"];
 
-    if ([self.dirtyPropertySet containsObject:@"objectTestRequiredUnique"] || [self.objectTestRequiredUnique needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"objectTestRequiredUnique"])
         [dict setObject:(self.objectTestRequiredUnique ?
-                              [self.objectTestRequiredUnique toUpdateDictionary] :
+                              [self.objectTestRequiredUnique toReplaceDictionaryIncludingArrays:NO] :
                               [[JRObjectTestRequiredUnique objectTestRequiredUnique] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"objectTestRequiredUnique"];
+    else if ([self.objectTestRequiredUnique needsUpdate])
+        [dict setObject:[self.objectTestRequiredUnique toUpdateDictionary]
+                 forKey:@"objectTestRequiredUnique"];
 
-    if ([self.dirtyPropertySet containsObject:@"pinoL1Object"] || [self.pinoL1Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"pinoL1Object"])
         [dict setObject:(self.pinoL1Object ?
-                              [self.pinoL1Object toUpdateDictionary] :
+                              [self.pinoL1Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JRPinoL1Object pinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"pinoL1Object"];
+    else if ([self.pinoL1Object needsUpdate])
+        [dict setObject:[self.pinoL1Object toUpdateDictionary]
+                 forKey:@"pinoL1Object"];
 
-    if ([self.dirtyPropertySet containsObject:@"oinoL1Object"] || [self.oinoL1Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"oinoL1Object"])
         [dict setObject:(self.oinoL1Object ?
-                              [self.oinoL1Object toUpdateDictionary] :
+                              [self.oinoL1Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JROinoL1Object oinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"oinoL1Object"];
+    else if ([self.oinoL1Object needsUpdate])
+        [dict setObject:[self.oinoL1Object toUpdateDictionary]
+                 forKey:@"oinoL1Object"];
 
-    if ([self.dirtyPropertySet containsObject:@"pinapinoL1Object"] || [self.pinapinoL1Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"pinapinoL1Object"])
         [dict setObject:(self.pinapinoL1Object ?
-                              [self.pinapinoL1Object toUpdateDictionary] :
+                              [self.pinapinoL1Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JRPinapinoL1Object pinapinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"pinapinoL1Object"];
+    else if ([self.pinapinoL1Object needsUpdate])
+        [dict setObject:[self.pinapinoL1Object toUpdateDictionary]
+                 forKey:@"pinapinoL1Object"];
 
-    if ([self.dirtyPropertySet containsObject:@"pinoinoL1Object"] || [self.pinoinoL1Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"pinoinoL1Object"])
         [dict setObject:(self.pinoinoL1Object ?
-                              [self.pinoinoL1Object toUpdateDictionary] :
+                              [self.pinoinoL1Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JRPinoinoL1Object pinoinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"pinoinoL1Object"];
+    else if ([self.pinoinoL1Object needsUpdate])
+        [dict setObject:[self.pinoinoL1Object toUpdateDictionary]
+                 forKey:@"pinoinoL1Object"];
 
-    if ([self.dirtyPropertySet containsObject:@"onipinoL1Object"] || [self.onipinoL1Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"onipinoL1Object"])
         [dict setObject:(self.onipinoL1Object ?
-                              [self.onipinoL1Object toUpdateDictionary] :
+                              [self.onipinoL1Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JROnipinoL1Object onipinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
                  forKey:@"onipinoL1Object"];
+    else if ([self.onipinoL1Object needsUpdate])
+        [dict setObject:[self.onipinoL1Object toUpdateDictionary]
+                 forKey:@"onipinoL1Object"];
 
-    if ([self.dirtyPropertySet containsObject:@"oinoinoL1Object"] || [self.oinoinoL1Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"oinoinoL1Object"])
         [dict setObject:(self.oinoinoL1Object ?
-                              [self.oinoinoL1Object toUpdateDictionary] :
+                              [self.oinoinoL1Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JROinoinoL1Object oinoinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"oinoinoL1Object"];
+    else if ([self.oinoinoL1Object needsUpdate])
+        [dict setObject:[self.oinoinoL1Object toUpdateDictionary]
                  forKey:@"oinoinoL1Object"];
 
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -2130,51 +2238,73 @@
     [dict setObject:(self.stringTestLength ? self.stringTestLength : [NSNull null]) forKey:@"stringTestLength"];
     [dict setObject:(self.stringTestCaseSensitive ? self.stringTestCaseSensitive : [NSNull null]) forKey:@"stringTestCaseSensitive"];
     [dict setObject:(self.stringTestFeatures ? self.stringTestFeatures : [NSNull null]) forKey:@"stringTestFeatures"];
-    [dict setObject:(self.basicPlural ? [self.basicPlural arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements] : [NSArray array]) forKey:@"basicPlural"];
+
+    if (includingArrays)
+        [dict setObject:(self.basicPlural ? [self.basicPlural arrayOfBasicPluralReplaceDictionariesFromBasicPluralElements] : [NSArray array]) forKey:@"basicPlural"];
     [dict setObject:(self.basicObject ?
-                          [self.basicObject toReplaceDictionary] :
+                          [self.basicObject toReplaceDictionaryIncludingArrays:YES] :
                           [[JRBasicObject basicObject] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"basicObject"];
     [dict setObject:(self.objectTestRequired ?
-                          [self.objectTestRequired toReplaceDictionary] :
+                          [self.objectTestRequired toReplaceDictionaryIncludingArrays:YES] :
                           [[JRObjectTestRequired objectTestRequired] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"objectTestRequired"];
-    [dict setObject:(self.pluralTestUnique ? [self.pluralTestUnique arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements] : [NSArray array]) forKey:@"pluralTestUnique"];
+
+    if (includingArrays)
+        [dict setObject:(self.pluralTestUnique ? [self.pluralTestUnique arrayOfPluralTestUniqueReplaceDictionariesFromPluralTestUniqueElements] : [NSArray array]) forKey:@"pluralTestUnique"];
     [dict setObject:(self.objectTestRequiredUnique ?
-                          [self.objectTestRequiredUnique toReplaceDictionary] :
+                          [self.objectTestRequiredUnique toReplaceDictionaryIncludingArrays:YES] :
                           [[JRObjectTestRequiredUnique objectTestRequiredUnique] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"objectTestRequiredUnique"];
-    [dict setObject:(self.pluralTestAlphabetic ? [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements] : [NSArray array]) forKey:@"pluralTestAlphabetic"];
-    [dict setObject:(self.simpleStringPluralOne ? [self.simpleStringPluralOne arrayOfSimpleStringPluralOneReplaceDictionariesFromSimpleStringPluralOneElements] : [NSArray array]) forKey:@"simpleStringPluralOne"];
-    [dict setObject:(self.simpleStringPluralTwo ? [self.simpleStringPluralTwo arrayOfSimpleStringPluralTwoReplaceDictionariesFromSimpleStringPluralTwoElements] : [NSArray array]) forKey:@"simpleStringPluralTwo"];
-    [dict setObject:(self.pinapL1Plural ? [self.pinapL1Plural arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements] : [NSArray array]) forKey:@"pinapL1Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.pluralTestAlphabetic ? [self.pluralTestAlphabetic arrayOfPluralTestAlphabeticReplaceDictionariesFromPluralTestAlphabeticElements] : [NSArray array]) forKey:@"pluralTestAlphabetic"];
+
+    if (includingArrays)
+        [dict setObject:(self.simpleStringPluralOne ? [self.simpleStringPluralOne arrayOfSimpleStringPluralOneReplaceDictionariesFromSimpleStringPluralOneElements] : [NSArray array]) forKey:@"simpleStringPluralOne"];
+
+    if (includingArrays)
+        [dict setObject:(self.simpleStringPluralTwo ? [self.simpleStringPluralTwo arrayOfSimpleStringPluralTwoReplaceDictionariesFromSimpleStringPluralTwoElements] : [NSArray array]) forKey:@"simpleStringPluralTwo"];
+
+    if (includingArrays)
+        [dict setObject:(self.pinapL1Plural ? [self.pinapL1Plural arrayOfPinapL1PluralReplaceDictionariesFromPinapL1PluralElements] : [NSArray array]) forKey:@"pinapL1Plural"];
     [dict setObject:(self.pinoL1Object ?
-                          [self.pinoL1Object toReplaceDictionary] :
+                          [self.pinoL1Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JRPinoL1Object pinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"pinoL1Object"];
-    [dict setObject:(self.onipL1Plural ? [self.onipL1Plural arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements] : [NSArray array]) forKey:@"onipL1Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.onipL1Plural ? [self.onipL1Plural arrayOfOnipL1PluralReplaceDictionariesFromOnipL1PluralElements] : [NSArray array]) forKey:@"onipL1Plural"];
     [dict setObject:(self.oinoL1Object ?
-                          [self.oinoL1Object toReplaceDictionary] :
+                          [self.oinoL1Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JROinoL1Object oinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"oinoL1Object"];
-    [dict setObject:(self.pinapinapL1Plural ? [self.pinapinapL1Plural arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements] : [NSArray array]) forKey:@"pinapinapL1Plural"];
-    [dict setObject:(self.pinonipL1Plural ? [self.pinonipL1Plural arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements] : [NSArray array]) forKey:@"pinonipL1Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.pinapinapL1Plural ? [self.pinapinapL1Plural arrayOfPinapinapL1PluralReplaceDictionariesFromPinapinapL1PluralElements] : [NSArray array]) forKey:@"pinapinapL1Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.pinonipL1Plural ? [self.pinonipL1Plural arrayOfPinonipL1PluralReplaceDictionariesFromPinonipL1PluralElements] : [NSArray array]) forKey:@"pinonipL1Plural"];
     [dict setObject:(self.pinapinoL1Object ?
-                          [self.pinapinoL1Object toReplaceDictionary] :
+                          [self.pinapinoL1Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JRPinapinoL1Object pinapinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"pinapinoL1Object"];
     [dict setObject:(self.pinoinoL1Object ?
-                          [self.pinoinoL1Object toReplaceDictionary] :
+                          [self.pinoinoL1Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JRPinoinoL1Object pinoinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"pinoinoL1Object"];
-    [dict setObject:(self.onipinapL1Plural ? [self.onipinapL1Plural arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements] : [NSArray array]) forKey:@"onipinapL1Plural"];
-    [dict setObject:(self.oinonipL1Plural ? [self.oinonipL1Plural arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements] : [NSArray array]) forKey:@"oinonipL1Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.onipinapL1Plural ? [self.onipinapL1Plural arrayOfOnipinapL1PluralReplaceDictionariesFromOnipinapL1PluralElements] : [NSArray array]) forKey:@"onipinapL1Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.oinonipL1Plural ? [self.oinonipL1Plural arrayOfOinonipL1PluralReplaceDictionariesFromOinonipL1PluralElements] : [NSArray array]) forKey:@"oinonipL1Plural"];
     [dict setObject:(self.onipinoL1Object ?
-                          [self.onipinoL1Object toReplaceDictionary] :
+                          [self.onipinoL1Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JROnipinoL1Object onipinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"onipinoL1Object"];
     [dict setObject:(self.oinoinoL1Object ?
-                          [self.oinoinoL1Object toReplaceDictionary] :
+                          [self.oinoinoL1Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JROinoinoL1Object oinoinoL1Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"oinoinoL1Object"];
 

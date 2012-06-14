@@ -35,7 +35,7 @@
  * @brief Another plural property for testing getting/setting, updating, and replacing lists of strings/JRStringPluralElements
  **/
 @interface JRSimpleStringPluralTwoElement : JRCaptureObject
-@property (nonatomic, copy) NSString *simpleTypeTwo; /**< The object's \e simpleTypeTwo property */ 
+@property (nonatomic, copy)   NSString *simpleTypeTwo; /**< The object's \e simpleTypeTwo property */ 
 
 /**
  * @name Constructors

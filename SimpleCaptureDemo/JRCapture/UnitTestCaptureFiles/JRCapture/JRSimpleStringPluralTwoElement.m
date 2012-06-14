@@ -58,6 +58,8 @@
 - (void)setSimpleTypeTwo:(NSString *)newSimpleTypeTwo
 {
     [self.dirtyPropertySet addObject:@"simpleTypeTwo"];
+
+    [_simpleTypeTwo autorelease];
     _simpleTypeTwo = [newSimpleTypeTwo copy];
 }
 
@@ -77,19 +79,10 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRSimpleStringPluralTwoElement *simpleStringPluralTwoElementCopy =
-                [[JRSimpleStringPluralTwoElement allocWithZone:zone] init];
-
-    simpleStringPluralTwoElementCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRSimpleStringPluralTwoElement *simpleStringPluralTwoElementCopy = (JRSimpleStringPluralTwoElement *)[super copy];
 
     simpleStringPluralTwoElementCopy.simpleTypeTwo = self.simpleTypeTwo;
-    // TODO: Necessary??
-    simpleStringPluralTwoElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [simpleStringPluralTwoElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [simpleStringPluralTwoElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return simpleStringPluralTwoElementCopy;
 }
@@ -173,7 +166,7 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];

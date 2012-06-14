@@ -60,6 +60,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -71,6 +73,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -90,20 +94,11 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinoinoL3PluralElement *pinoinoL3PluralElementCopy =
-                [[JRPinoinoL3PluralElement allocWithZone:zone] init];
-
-    pinoinoL3PluralElementCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRPinoinoL3PluralElement *pinoinoL3PluralElementCopy = (JRPinoinoL3PluralElement *)[super copy];
 
     pinoinoL3PluralElementCopy.string1 = self.string1;
     pinoinoL3PluralElementCopy.string2 = self.string2;
-    // TODO: Necessary??
-    pinoinoL3PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [pinoinoL3PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinoinoL3PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return pinoinoL3PluralElementCopy;
 }
@@ -204,7 +199,7 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];

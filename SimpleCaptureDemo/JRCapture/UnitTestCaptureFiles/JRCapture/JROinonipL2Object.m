@@ -62,6 +62,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -73,6 +75,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -84,7 +88,9 @@
 - (void)setOinonipL3Object:(JROinonipL3Object *)newOinonipL3Object
 {
     [self.dirtyPropertySet addObject:@"oinonipL3Object"];
-    _oinonipL3Object = [newOinonipL3Object copy];
+
+    [_oinonipL3Object autorelease];
+    _oinonipL3Object = [newOinonipL3Object retain];
 }
 
 - (id)init
@@ -103,21 +109,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JROinonipL2Object *oinonipL2ObjectCopy =
-                [[JROinonipL2Object allocWithZone:zone] init];
-
-    oinonipL2ObjectCopy.captureObjectPath = self.captureObjectPath;
+{
+    JROinonipL2Object *oinonipL2ObjectCopy = (JROinonipL2Object *)[super copy];
 
     oinonipL2ObjectCopy.string1 = self.string1;
     oinonipL2ObjectCopy.string2 = self.string2;
     oinonipL2ObjectCopy.oinonipL3Object = self.oinonipL3Object;
-    // TODO: Necessary??
-    oinonipL2ObjectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [oinonipL2ObjectCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [oinonipL2ObjectCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return oinonipL2ObjectCopy;
 }
@@ -235,16 +232,19 @@
     if ([self.dirtyPropertySet containsObject:@"string2"])
         [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    if ([self.dirtyPropertySet containsObject:@"oinonipL3Object"] || [self.oinonipL3Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"oinonipL3Object"])
         [dict setObject:(self.oinonipL3Object ?
-                              [self.oinonipL3Object toUpdateDictionary] :
+                              [self.oinonipL3Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JROinonipL3Object oinonipL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"oinonipL3Object"];
+    else if ([self.oinonipL3Object needsUpdate])
+        [dict setObject:[self.oinonipL3Object toUpdateDictionary]
                  forKey:@"oinonipL3Object"];
 
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -252,7 +252,7 @@
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
     [dict setObject:(self.oinonipL3Object ?
-                          [self.oinonipL3Object toReplaceDictionary] :
+                          [self.oinonipL3Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JROinonipL3Object oinonipL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"oinonipL3Object"];
 

@@ -114,6 +114,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -125,6 +127,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -136,6 +140,8 @@
 - (void)setPinapinoL3Plural:(NSArray *)newPinapinoL3Plural
 {
     [self.dirtyArraySet addObject:@"pinapinoL3Plural"];
+
+    [_pinapinoL3Plural autorelease];
     _pinapinoL3Plural = [newPinapinoL3Plural copy];
 }
 
@@ -155,21 +161,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinapinoL2PluralElement *pinapinoL2PluralElementCopy =
-                [[JRPinapinoL2PluralElement allocWithZone:zone] init];
-
-    pinapinoL2PluralElementCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRPinapinoL2PluralElement *pinapinoL2PluralElementCopy = (JRPinapinoL2PluralElement *)[super copy];
 
     pinapinoL2PluralElementCopy.string1 = self.string1;
     pinapinoL2PluralElementCopy.string2 = self.string2;
     pinapinoL2PluralElementCopy.pinapinoL3Plural = self.pinapinoL3Plural;
-    // TODO: Necessary??
-    pinapinoL2PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [pinapinoL2PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinapinoL2PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return pinapinoL2PluralElementCopy;
 }
@@ -280,14 +277,16 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
-    [dict setObject:(self.pinapinoL3Plural ? [self.pinapinoL3Plural arrayOfPinapinoL3PluralReplaceDictionariesFromPinapinoL3PluralElements] : [NSArray array]) forKey:@"pinapinoL3Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.pinapinoL3Plural ? [self.pinapinoL3Plural arrayOfPinapinoL3PluralReplaceDictionariesFromPinapinoL3PluralElements] : [NSArray array]) forKey:@"pinapinoL3Plural"];
 
     return dict;
 }

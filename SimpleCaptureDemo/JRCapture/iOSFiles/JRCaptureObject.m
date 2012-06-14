@@ -41,6 +41,7 @@
 
 
 @interface JRCaptureObject (Internal)
+@property BOOL canBeUpdatedOrReplaced;
 //- (NSDictionary *)toUpdateDictionary;
 //- (NSDictionary *)toReplaceDictionary;
 //- (void)updateFromDictionary:(NSDictionary*)dictionary;
@@ -71,7 +72,8 @@
     for (NSString *dirtyProperty in [self.dirtyPropertySet allObjects])
         [objectCopy.dirtyPropertySet addObject:dirtyProperty];
 
-    objectCopy.captureObjectPath = self.captureObjectPath;
+    objectCopy.captureObjectPath      = self.captureObjectPath;
+    objectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
 
     return objectCopy;
 }
@@ -237,7 +239,7 @@
     return nil; // TODO: What's the better way to raise the exception in a method w a return?
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
@@ -337,7 +339,7 @@
         return;
     }
 
-    [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionary]
+    [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionaryIncludingArrrays:YES]
                                       //withId:[self.captureUserId integerValue]
                                       atPath:self.captureObjectPath
                                    withToken:[JRCaptureData accessToken]

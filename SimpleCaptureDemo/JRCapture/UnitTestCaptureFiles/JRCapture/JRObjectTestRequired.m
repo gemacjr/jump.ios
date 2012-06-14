@@ -62,6 +62,8 @@
 - (void)setRequiredString:(NSString *)newRequiredString
 {
     [self.dirtyPropertySet addObject:@"requiredString"];
+
+    [_requiredString autorelease];
     _requiredString = [newRequiredString copy];
 }
 
@@ -73,6 +75,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -84,6 +88,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -126,20 +132,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRObjectTestRequired *objectTestRequiredCopy =
-                [[JRObjectTestRequired allocWithZone:zone] initWithRequiredString:self.requiredString];
+{
+    JRObjectTestRequired *objectTestRequiredCopy = (JRObjectTestRequired *)[super copy];
 
-    objectTestRequiredCopy.captureObjectPath = self.captureObjectPath;
-
+    objectTestRequiredCopy.requiredString = self.requiredString;
     objectTestRequiredCopy.string1 = self.string1;
     objectTestRequiredCopy.string2 = self.string2;
-    // TODO: Necessary??
-    objectTestRequiredCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [objectTestRequiredCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [objectTestRequiredCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return objectTestRequiredCopy;
 }
@@ -252,7 +250,7 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];

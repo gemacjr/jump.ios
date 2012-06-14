@@ -62,6 +62,8 @@
 - (void)setUniqueString:(NSString *)newUniqueString
 {
     [self.dirtyPropertySet addObject:@"uniqueString"];
+
+    [_uniqueString autorelease];
     _uniqueString = [newUniqueString copy];
 }
 
@@ -73,6 +75,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -84,6 +88,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -103,21 +109,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPluralTestAlphabeticElement *pluralTestAlphabeticElementCopy =
-                [[JRPluralTestAlphabeticElement allocWithZone:zone] init];
-
-    pluralTestAlphabeticElementCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRPluralTestAlphabeticElement *pluralTestAlphabeticElementCopy = (JRPluralTestAlphabeticElement *)[super copy];
 
     pluralTestAlphabeticElementCopy.uniqueString = self.uniqueString;
     pluralTestAlphabeticElementCopy.string1 = self.string1;
     pluralTestAlphabeticElementCopy.string2 = self.string2;
-    // TODO: Necessary??
-    pluralTestAlphabeticElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [pluralTestAlphabeticElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pluralTestAlphabeticElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return pluralTestAlphabeticElementCopy;
 }
@@ -235,7 +232,7 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];

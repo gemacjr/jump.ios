@@ -62,6 +62,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -73,6 +75,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -84,7 +88,9 @@
 - (void)setPinonipL2Object:(JRPinonipL2Object *)newPinonipL2Object
 {
     [self.dirtyPropertySet addObject:@"pinonipL2Object"];
-    _pinonipL2Object = [newPinonipL2Object copy];
+
+    [_pinonipL2Object autorelease];
+    _pinonipL2Object = [newPinonipL2Object retain];
 }
 
 - (id)init
@@ -103,21 +109,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinonipL1PluralElement *pinonipL1PluralElementCopy =
-                [[JRPinonipL1PluralElement allocWithZone:zone] init];
-
-    pinonipL1PluralElementCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRPinonipL1PluralElement *pinonipL1PluralElementCopy = (JRPinonipL1PluralElement *)[super copy];
 
     pinonipL1PluralElementCopy.string1 = self.string1;
     pinonipL1PluralElementCopy.string2 = self.string2;
     pinonipL1PluralElementCopy.pinonipL2Object = self.pinonipL2Object;
-    // TODO: Necessary??
-    pinonipL1PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [pinonipL1PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinonipL1PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return pinonipL1PluralElementCopy;
 }
@@ -235,16 +232,19 @@
     if ([self.dirtyPropertySet containsObject:@"string2"])
         [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    if ([self.dirtyPropertySet containsObject:@"pinonipL2Object"] || [self.pinonipL2Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"pinonipL2Object"])
         [dict setObject:(self.pinonipL2Object ?
-                              [self.pinonipL2Object toUpdateDictionary] :
+                              [self.pinonipL2Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JRPinonipL2Object pinonipL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"pinonipL2Object"];
+    else if ([self.pinonipL2Object needsUpdate])
+        [dict setObject:[self.pinonipL2Object toUpdateDictionary]
                  forKey:@"pinonipL2Object"];
 
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -252,7 +252,7 @@
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
     [dict setObject:(self.pinonipL2Object ?
-                          [self.pinonipL2Object toReplaceDictionary] :
+                          [self.pinonipL2Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JRPinonipL2Object pinonipL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"pinonipL2Object"];
 

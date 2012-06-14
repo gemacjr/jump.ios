@@ -35,7 +35,7 @@
  * @brief Plural property for testing getting/setting, updating, and replacing lists of strings/JRStringPluralElements
  **/
 @interface JRSimpleStringPluralOneElement : JRCaptureObject
-@property (nonatomic, copy) NSString *simpleTypeOne; /**< The object's \e simpleTypeOne property */ 
+@property (nonatomic, copy)   NSString *simpleTypeOne; /**< The object's \e simpleTypeOne property */ 
 
 /**
  * @name Constructors

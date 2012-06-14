@@ -58,6 +58,8 @@
 - (void)setSimpleTypeOne:(NSString *)newSimpleTypeOne
 {
     [self.dirtyPropertySet addObject:@"simpleTypeOne"];
+
+    [_simpleTypeOne autorelease];
     _simpleTypeOne = [newSimpleTypeOne copy];
 }
 
@@ -77,19 +79,10 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRSimpleStringPluralOneElement *simpleStringPluralOneElementCopy =
-                [[JRSimpleStringPluralOneElement allocWithZone:zone] init];
-
-    simpleStringPluralOneElementCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRSimpleStringPluralOneElement *simpleStringPluralOneElementCopy = (JRSimpleStringPluralOneElement *)[super copy];
 
     simpleStringPluralOneElementCopy.simpleTypeOne = self.simpleTypeOne;
-    // TODO: Necessary??
-    simpleStringPluralOneElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [simpleStringPluralOneElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [simpleStringPluralOneElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return simpleStringPluralOneElementCopy;
 }
@@ -173,7 +166,7 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];

@@ -40,9 +40,9 @@
  * @brief Plural in a plural in an object (element in a plural in an element in a plural in an object)
  **/
 @interface JRPinapinoL1Object : JRCaptureObject
-@property (nonatomic, copy) NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy) NSString *string2; /**< The object's \e string2 property */ 
-@property (nonatomic, copy) NSArray *pinapinoL2Plural; /**< The object's \e pinapinoL2Plural property @note This is an array of \c JRPinapinoL2PluralElement objects */ 
+@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, copy)   NSArray *pinapinoL2Plural; /**< The object's \e pinapinoL2Plural property @note This is an array of \c JRPinapinoL2PluralElement objects */ 
 
 /**
  * @name Constructors

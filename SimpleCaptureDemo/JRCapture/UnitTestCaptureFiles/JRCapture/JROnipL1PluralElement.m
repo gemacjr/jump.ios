@@ -62,6 +62,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -73,6 +75,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -84,7 +88,9 @@
 - (void)setOnipL2Object:(JROnipL2Object *)newOnipL2Object
 {
     [self.dirtyPropertySet addObject:@"onipL2Object"];
-    _onipL2Object = [newOnipL2Object copy];
+
+    [_onipL2Object autorelease];
+    _onipL2Object = [newOnipL2Object retain];
 }
 
 - (id)init
@@ -103,21 +109,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JROnipL1PluralElement *onipL1PluralElementCopy =
-                [[JROnipL1PluralElement allocWithZone:zone] init];
-
-    onipL1PluralElementCopy.captureObjectPath = self.captureObjectPath;
+{
+    JROnipL1PluralElement *onipL1PluralElementCopy = (JROnipL1PluralElement *)[super copy];
 
     onipL1PluralElementCopy.string1 = self.string1;
     onipL1PluralElementCopy.string2 = self.string2;
     onipL1PluralElementCopy.onipL2Object = self.onipL2Object;
-    // TODO: Necessary??
-    onipL1PluralElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [onipL1PluralElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [onipL1PluralElementCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return onipL1PluralElementCopy;
 }
@@ -235,16 +232,19 @@
     if ([self.dirtyPropertySet containsObject:@"string2"])
         [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    if ([self.dirtyPropertySet containsObject:@"onipL2Object"] || [self.onipL2Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"onipL2Object"])
         [dict setObject:(self.onipL2Object ?
-                              [self.onipL2Object toUpdateDictionary] :
+                              [self.onipL2Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JROnipL2Object onipL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"onipL2Object"];
+    else if ([self.onipL2Object needsUpdate])
+        [dict setObject:[self.onipL2Object toUpdateDictionary]
                  forKey:@"onipL2Object"];
 
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -252,7 +252,7 @@
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
     [dict setObject:(self.onipL2Object ?
-                          [self.onipL2Object toReplaceDictionary] :
+                          [self.onipL2Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JROnipL2Object onipL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"onipL2Object"];
 

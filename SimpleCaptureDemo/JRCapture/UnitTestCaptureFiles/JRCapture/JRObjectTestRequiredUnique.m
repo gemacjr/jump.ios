@@ -62,6 +62,8 @@
 - (void)setRequiredString:(NSString *)newRequiredString
 {
     [self.dirtyPropertySet addObject:@"requiredString"];
+
+    [_requiredString autorelease];
     _requiredString = [newRequiredString copy];
 }
 
@@ -73,6 +75,8 @@
 - (void)setUniqueString:(NSString *)newUniqueString
 {
     [self.dirtyPropertySet addObject:@"uniqueString"];
+
+    [_uniqueString autorelease];
     _uniqueString = [newUniqueString copy];
 }
 
@@ -84,6 +88,8 @@
 - (void)setRequiredUniqueString:(NSString *)newRequiredUniqueString
 {
     [self.dirtyPropertySet addObject:@"requiredUniqueString"];
+
+    [_requiredUniqueString autorelease];
     _requiredUniqueString = [newRequiredUniqueString copy];
 }
 
@@ -128,19 +134,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRObjectTestRequiredUnique *objectTestRequiredUniqueCopy =
-                [[JRObjectTestRequiredUnique allocWithZone:zone] initWithRequiredString:self.requiredString andRequiredUniqueString:self.requiredUniqueString];
+{
+    JRObjectTestRequiredUnique *objectTestRequiredUniqueCopy = (JRObjectTestRequiredUnique *)[super copy];
 
-    objectTestRequiredUniqueCopy.captureObjectPath = self.captureObjectPath;
-
+    objectTestRequiredUniqueCopy.requiredString = self.requiredString;
     objectTestRequiredUniqueCopy.uniqueString = self.uniqueString;
-    // TODO: Necessary??
-    objectTestRequiredUniqueCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [objectTestRequiredUniqueCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [objectTestRequiredUniqueCopy.dirtyArraySet setSet:self.dirtyArraySet];
+    objectTestRequiredUniqueCopy.requiredUniqueString = self.requiredUniqueString;
 
     return objectTestRequiredUniqueCopy;
 }
@@ -253,7 +252,7 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];

@@ -35,8 +35,8 @@
  * @brief A JRPinonipL3PluralElement object
  **/
 @interface JRPinonipL3PluralElement : JRCaptureObject
-@property (nonatomic, copy) NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy) NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
 
 /**
  * @name Constructors

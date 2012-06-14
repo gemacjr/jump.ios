@@ -62,6 +62,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -73,6 +75,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -84,7 +88,9 @@
 - (void)setPinoinoL2Object:(JRPinoinoL2Object *)newPinoinoL2Object
 {
     [self.dirtyPropertySet addObject:@"pinoinoL2Object"];
-    _pinoinoL2Object = [newPinoinoL2Object copy];
+
+    [_pinoinoL2Object autorelease];
+    _pinoinoL2Object = [newPinoinoL2Object retain];
 }
 
 - (id)init
@@ -103,21 +109,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinoinoL1Object *pinoinoL1ObjectCopy =
-                [[JRPinoinoL1Object allocWithZone:zone] init];
-
-    pinoinoL1ObjectCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRPinoinoL1Object *pinoinoL1ObjectCopy = (JRPinoinoL1Object *)[super copy];
 
     pinoinoL1ObjectCopy.string1 = self.string1;
     pinoinoL1ObjectCopy.string2 = self.string2;
     pinoinoL1ObjectCopy.pinoinoL2Object = self.pinoinoL2Object;
-    // TODO: Necessary??
-    pinoinoL1ObjectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [pinoinoL1ObjectCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinoinoL1ObjectCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return pinoinoL1ObjectCopy;
 }
@@ -230,16 +227,19 @@
     if ([self.dirtyPropertySet containsObject:@"string2"])
         [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
-    if ([self.dirtyPropertySet containsObject:@"pinoinoL2Object"] || [self.pinoinoL2Object needsUpdate])
+    if ([self.dirtyPropertySet containsObject:@"pinoinoL2Object"])
         [dict setObject:(self.pinoinoL2Object ?
-                              [self.pinoinoL2Object toUpdateDictionary] :
+                              [self.pinoinoL2Object toReplaceDictionaryIncludingArrays:NO] :
                               [[JRPinoinoL2Object pinoinoL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                 forKey:@"pinoinoL2Object"];
+    else if ([self.pinoinoL2Object needsUpdate])
+        [dict setObject:[self.pinoinoL2Object toUpdateDictionary]
                  forKey:@"pinoinoL2Object"];
 
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
@@ -247,7 +247,7 @@
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
     [dict setObject:(self.pinoinoL2Object ?
-                          [self.pinoinoL2Object toReplaceDictionary] :
+                          [self.pinoinoL2Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JRPinoinoL2Object pinoinoL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
              forKey:@"pinoinoL2Object"];
 

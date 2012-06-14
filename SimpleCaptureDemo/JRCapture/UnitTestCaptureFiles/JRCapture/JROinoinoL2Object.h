@@ -36,9 +36,9 @@
  * @brief A JROinoinoL2Object object
  **/
 @interface JROinoinoL2Object : JRCaptureObject
-@property (nonatomic, copy) NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy) NSString *string2; /**< The object's \e string2 property */ 
-@property (nonatomic, copy) JROinoinoL3Object *oinoinoL3Object; /**< The object's \e oinoinoL3Object property */ 
+@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, retain) JROinoinoL3Object *oinoinoL3Object; /**< The object's \e oinoinoL3Object property */ 
 
 /**
  * @name Constructors

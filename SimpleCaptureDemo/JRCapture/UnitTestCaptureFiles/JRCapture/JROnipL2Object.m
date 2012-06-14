@@ -60,6 +60,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -71,6 +73,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -90,20 +94,11 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JROnipL2Object *onipL2ObjectCopy =
-                [[JROnipL2Object allocWithZone:zone] init];
-
-    onipL2ObjectCopy.captureObjectPath = self.captureObjectPath;
+{
+    JROnipL2Object *onipL2ObjectCopy = (JROnipL2Object *)[super copy];
 
     onipL2ObjectCopy.string1 = self.string1;
     onipL2ObjectCopy.string2 = self.string2;
-    // TODO: Necessary??
-    onipL2ObjectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [onipL2ObjectCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [onipL2ObjectCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return onipL2ObjectCopy;
 }
@@ -204,7 +199,7 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];

@@ -616,20 +616,8 @@ sub recursiveParse {
   #             [[JRExampleElement allocWithZone:zone] init...
   #
   #   exampleElementCopy.captureObjectPath = self.captureObjectPath;
-  $copyConstructorSection[2]  = "    " . $className . " *" . $objectName . "Copy =\n                [[" . $className;
-  $copyConstructorSection[7]  = $objectName . "Copy";
-
-  # e.g.:
-  #   exampleElementCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-  #     
-  #   [exampleElementCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-  #   [exampleElementCopy.dirtyArraySet setSet:self.dirtyPropertySet];
-  # 
-  #   return exampleElementCopy;
-  $copyConstructorSection[11] = $objectName . "Copy";
-  $copyConstructorSection[13] = $objectName . "Copy";
-  $copyConstructorSection[15] = $objectName . "Copy";
-  $copyConstructorSection[18] = $objectName . "Copy";
+  $copyConstructorSection[2]  = "    " . $className . " *" . $objectName . "Copy = (" . $className . " *)";
+  $copyConstructorSection[6]  = $objectName . "Copy";
   
   # e.g.:
   #   + (id)exampleElementFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -846,17 +834,19 @@ sub recursiveParse {
     ######################################################
     # Finish initializing property defaults
     ######################################################
-    my $toDictionary    =                                   # Default operation is to insert the NSObject 
-          "self.$propertyName";                             # into an NSMutableDictionary with no other modifications
-    my $toUpDictionary  = "self.$propertyName";             # Default operation for toUpdateDictionary                                        
-    my $toRplDictionary = "self.$propertyName";             # Default operation for toReplaceDictionary 
-    my $frDictionary    =                                   # Default operation is to just pull the NSObject from 
-          "[dictionary objectForKey:\@\"$dictionaryKey\"]"; # the dictionary and stick it into the property
-    my $frUpDictionary  = 
+    my $toDictionary           =                                   # Default operation is to insert the NSObject 
+          "self.$propertyName";                                    # into an NSMutableDictionary with no other modifications
+    my $toUpDictionary         = "self.$propertyName";             # Default operation for toUpdateDictionary                                        
+    my $toRplDictionary        = "self.$propertyName";             # Default operation for toReplaceDictionary 
+    my $toRplDictionaryYesArrs = "";
+    my $toRplDictionaryNoArrs  = "";
+    my $frDictionary           =                                   # Default operation is to just pull the NSObject from 
+          "[dictionary objectForKey:\@\"$dictionaryKey\"]";        # the dictionary and stick it into the property
+    my $frUpDictionary         = 
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";
-    my $frRplDictionary = 
+    my $frRplDictionary        = 
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";
-    my $isEqualMethod   = "";
+    my $isEqualMethod          = "";
 
     if ($propertyDesc) {                                    # Use the property description for the Doxygen comment
       $propertyNotes .= "/**< " . ucfirst(trim($propertyDesc));  # or create a default one if there is no description
@@ -1077,10 +1067,11 @@ sub recursiveParse {
         $propertyName = $objectName . ucfirst($propertyName);
       }
       
-      $objectiveType   = "JR" . ucfirst($propertyName) . " *";
-      $toDictionary    = "[self." . $propertyName . " toDictionary]";
-      $toUpDictionary  = "[self." . $propertyName . " toUpdateDictionary]";
-      $toRplDictionary = "[self." . $propertyName . " toReplaceDictionary]";
+      $objectiveType          = "JR" . ucfirst($propertyName) . " *";
+      $toDictionary           = "[self." . $propertyName . " toDictionary]";
+      $toUpDictionary         = "[self." . $propertyName . " toUpdateDictionary]";
+      $toRplDictionaryYesArrs = "[self." . $propertyName . " toReplaceDictionaryIncludingArrays:YES]";
+      $toRplDictionaryNoArrs  = "[self." . $propertyName . " toReplaceDictionaryIncludingArrays:NO]";
       $frDictionary    = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:" . $objectName . ".captureObjectPath]";
       $frUpDictionary  = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
       $frRplDictionary = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
@@ -1138,10 +1129,6 @@ sub recursiveParse {
         # e.g.:
         #   return [[[JRExampleElement alloc] initWithFoo:foo ...
         $classConstructorSection[7] .= "With" . ucfirst($propertyName) . ":" . $propertyName;
-
-        # e.g.:
-        #   JRObj *exampleElementCopy = [[JRExampleElement allocWithZone:zone] initWithFoo:self.foo ...
-        $copyConstructorSection[4]  .= "With" . ucfirst($propertyName) . ":self.$propertyName";
         
       } else {
       ##########################################################################################################
@@ -1164,10 +1151,6 @@ sub recursiveParse {
         #   return [[[JRObj alloc] initWithFoo:foo andBar:bar ...
         $classConstructorSection[7] .= " and" . ucfirst($propertyName) . ":" . $propertyName;
 
-        # e.g.:
-        #   JRExampleElement *exampleElementCopy = [[JRExampleElement allocWithZone:zone] initWithFoo:self.foo andBar:self.bar ...
-        $copyConstructorSection[4]  .= " and" . ucfirst($propertyName) . ":self.$propertyName";
-
       }        
       ##########################################################################
       # For *all* required properties...
@@ -1185,14 +1168,18 @@ sub recursiveParse {
     # If the property is *not* required...
     ######################################################  
       
-      # e.g.:
-      #   exampleElementCopy.baz = self.baz;
-      $copyConstructorSection[9] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
+#      # e.g.:
+#      #   exampleElementCopy.baz = self.baz;
+#      $copyConstructorSection[9] .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
 
     }
     ##########################################################################
     # For *all* properties (mostly)...
     ##########################################################################
+
+    # e.g.:
+    #   exampleElementCopy.baz = self.baz;
+    $copyConstructorSection[4]  .= "    " . $objectName . "Copy." . $propertyName . " = self." . $propertyName . ";\n";
 
     # e.g.:
     #   exampleElement.baz = 
@@ -1215,14 +1202,19 @@ sub recursiveParse {
     ### All pretty straightforward stuff here... ###
     
     $destructorSection[2] .= "    [_$propertyName release];\n";
-    $propertiesSection    .= "\@property (nonatomic, copy) $objectiveType$propertyName; $propertyNotes \n";
     $privateIvarsSection  .= "    " . $objectiveType . "_" . $propertyName . ";\n";
     $synthesizeSection    .= "\@dynamic $propertyName;\n";
+  
+    if ($isObject) {
+      $propertiesSection    .= "\@property (nonatomic, retain) $objectiveType$propertyName; $propertyNotes \n";
+    } else {
+      $propertiesSection    .= "\@property (nonatomic, copy)   $objectiveType$propertyName; $propertyNotes \n";
+    }
   
     if ($isSimpleArray) { 
       $getterSettersSection .= createGetterSetterForSimpleArray ($propertyName, $simpleArrayType);
     } else {
-      $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isAlsoPrimitive, $isArray); 
+      $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isAlsoPrimitive, $isArray, $isObject); 
     }
 
     if ($isObject) { 
@@ -1304,27 +1296,35 @@ sub recursiveParse {
       ##################################################################################################################
       # Objects on Capture can't be null, so if a developer sets an object property to null, instead of sending null to
       # Capture, we use the object's default (minimal) class constructor to create an object with nulled-out fields and
-      # send that to Capture instead.
+      # send that to Capture instead. If the dirtyPropertySet contains the object, we assume it's new, and send all of 
+      # it's properties accept for it's arrays
       ##################################################################################################################
       
         # e.g.:      
-        #   if ([self.dirtyPropertySet containsObject:@"foo"] || [self.foo needsUpdate])
+        #   if ([self.dirtyPropertySet containsObject:@"foo"])
         #       [dict setObject:(self.foo ?
-        #                             [self.foo toUpdateDictionary] :
+        #                             [self.foo toReplaceDictionaryIncludingArrays:NO] :
         #                             [[JRFoo foo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
         #                forKey:@"foo"];        
-        $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"] || [self." . $propertyName . " needsUpdate])\n";
+        #   else if ([self.foo needsUpdate])
+        #       [dict setObject:[self.foo toUpdateDictionary]
+        #                forKey:@"foo"];        
+        $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
         $toUpdateDictSection[3]  .= "        [dict setObject:(self." . $propertyName . " ?\n" . 
-                                    "                              " . $toUpDictionary . " :\n" .
+                                    "                              " . $toRplDictionaryNoArrs . " :\n" .
                                     "                              [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
-                                    "                 forKey:\@\"" . $dictionaryKey . "\"];\n";
+                                    "                 forKey:\@\"" . $dictionaryKey . "\"];\n" .
+                                    "    else if ([self." . $propertyName . " needsUpdate])\n" . 
+                                    "        [dict setObject:[self." . $propertyName . " toUpdateDictionary]\n" . 
+                                    "                 forKey:\@\"" . $dictionaryKey . "\"];\n";        
+
         # e.g.:      
         #   [dict setObject:(self.foo ?
-        #                         [self.foo toUpdateDictionary] :
-        #                         [[JRFoo foo] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+        #                         [self.foo toReplaceDictionaryIncludingArrays:YES] :
+        #                         [[JRFoo foo] toReplaceDictionaryIncludingArrays:YES]) /* Use the default constructor to create an empty object */
         #            forKey:@"foo"];              
         $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ?\n" . 
-                                    "                          " . $toRplDictionary . " :\n" .
+                                    "                          " . $toRplDictionaryYesArrs . " :\n" .
                                     "                          [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
                                     "             forKey:\@\"" . $dictionaryKey . "\"];\n";
     
@@ -1363,9 +1363,11 @@ sub recursiveParse {
       # replaced on Capture before their elements or sub-elements can be updated. In any case, leave them out here.
       ####################################################################################################################
 
-        # e.g.:      
-        #   [dict setObject:(self.bar ? [self.bar arrayOfBarReplaceDictionariesFromBarObjects] : [NSArray array]) forKey:@"bar"];
-        $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSArray array]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+        # e.g.:
+        #   if (includingArrays)      
+        #       [dict setObject:(self.bar ? [self.bar arrayOfBarReplaceDictionariesFromBarObjects] : [NSArray array]) forKey:@"bar"];
+        $toReplaceDictSection[3] .= "\n    if (includingArrays)";
+        $toReplaceDictSection[3] .= "\n        [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSArray array]) forKey:\@\"" . $dictionaryKey . "\"];\n";
               
         ####################################################################################################
         # For arrays, they are considered equal in the following cases:
@@ -1389,7 +1391,7 @@ sub recursiveParse {
               "    else if (!other" . ucfirst($objectName) . "." . $propertyName . " && ![self." . $propertyName . " count]) /* Keep going... */;\n" .
               "    else if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "]) return NO;\n\n";
     
-      } else {
+      } else { ### Not an object or array ###
 
         # e.g.:
         #   if ([self.dirtyPropertySet containsObject:@"baz"])

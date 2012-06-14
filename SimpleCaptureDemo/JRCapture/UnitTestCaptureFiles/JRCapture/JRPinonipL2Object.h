@@ -40,9 +40,9 @@
  * @brief A JRPinonipL2Object object
  **/
 @interface JRPinonipL2Object : JRCaptureObject
-@property (nonatomic, copy) NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy) NSString *string2; /**< The object's \e string2 property */ 
-@property (nonatomic, copy) NSArray *pinonipL3Plural; /**< The object's \e pinonipL3Plural property @note This is an array of \c JRPinonipL3PluralElement objects */ 
+@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, copy)   NSArray *pinonipL3Plural; /**< The object's \e pinonipL3Plural property @note This is an array of \c JRPinonipL3PluralElement objects */ 
 
 /**
  * @name Constructors

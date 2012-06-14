@@ -114,6 +114,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -125,6 +127,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -136,6 +140,8 @@
 - (void)setPinoL2Plural:(NSArray *)newPinoL2Plural
 {
     [self.dirtyArraySet addObject:@"pinoL2Plural"];
+
+    [_pinoL2Plural autorelease];
     _pinoL2Plural = [newPinoL2Plural copy];
 }
 
@@ -155,21 +161,12 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRPinoL1Object *pinoL1ObjectCopy =
-                [[JRPinoL1Object allocWithZone:zone] init];
-
-    pinoL1ObjectCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRPinoL1Object *pinoL1ObjectCopy = (JRPinoL1Object *)[super copy];
 
     pinoL1ObjectCopy.string1 = self.string1;
     pinoL1ObjectCopy.string2 = self.string2;
     pinoL1ObjectCopy.pinoL2Plural = self.pinoL2Plural;
-    // TODO: Necessary??
-    pinoL1ObjectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [pinoL1ObjectCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [pinoL1ObjectCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return pinoL1ObjectCopy;
 }
@@ -275,14 +272,16 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
-    [dict setObject:(self.pinoL2Plural ? [self.pinoL2Plural arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralElements] : [NSArray array]) forKey:@"pinoL2Plural"];
+
+    if (includingArrays)
+        [dict setObject:(self.pinoL2Plural ? [self.pinoL2Plural arrayOfPinoL2PluralReplaceDictionariesFromPinoL2PluralElements] : [NSArray array]) forKey:@"pinoL2Plural"];
 
     return dict;
 }

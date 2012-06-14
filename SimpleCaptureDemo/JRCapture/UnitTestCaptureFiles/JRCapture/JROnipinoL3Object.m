@@ -60,6 +60,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -71,6 +73,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -90,20 +94,11 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JROnipinoL3Object *onipinoL3ObjectCopy =
-                [[JROnipinoL3Object allocWithZone:zone] init];
-
-    onipinoL3ObjectCopy.captureObjectPath = self.captureObjectPath;
+{
+    JROnipinoL3Object *onipinoL3ObjectCopy = (JROnipinoL3Object *)[super copy];
 
     onipinoL3ObjectCopy.string1 = self.string1;
     onipinoL3ObjectCopy.string2 = self.string2;
-    // TODO: Necessary??
-    onipinoL3ObjectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [onipinoL3ObjectCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [onipinoL3ObjectCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return onipinoL3ObjectCopy;
 }
@@ -204,7 +199,7 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];

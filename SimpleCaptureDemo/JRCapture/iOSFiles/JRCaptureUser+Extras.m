@@ -300,7 +300,7 @@ static JRCaptureUserExtras *singleton = nil;
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    [JRCaptureApidInterface createCaptureUser:[self toReplaceDictionary]
+    [JRCaptureApidInterface createCaptureUser:[self toReplaceDictionaryIncludingArrays:YES]
                                 withToken:[JRCaptureData creationToken]
                               forDelegate:self
                               withContext:newContext];

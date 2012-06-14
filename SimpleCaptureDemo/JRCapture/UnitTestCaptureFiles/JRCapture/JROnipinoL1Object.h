@@ -40,9 +40,9 @@
  * @brief Object in a plural in an object (object in an element in a plural in an object)
  **/
 @interface JROnipinoL1Object : JRCaptureObject
-@property (nonatomic, copy) NSString *string1; /**< The object's \e string1 property */ 
-@property (nonatomic, copy) NSString *string2; /**< The object's \e string2 property */ 
-@property (nonatomic, copy) NSArray *onipinoL2Plural; /**< The object's \e onipinoL2Plural property @note This is an array of \c JROnipinoL2PluralElement objects */ 
+@property (nonatomic, copy)   NSString *string1; /**< The object's \e string1 property */ 
+@property (nonatomic, copy)   NSString *string2; /**< The object's \e string2 property */ 
+@property (nonatomic, copy)   NSArray *onipinoL2Plural; /**< The object's \e onipinoL2Plural property @note This is an array of \c JROnipinoL2PluralElement objects */ 
 
 /**
  * @name Constructors

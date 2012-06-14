@@ -60,6 +60,8 @@
 - (void)setString1:(NSString *)newString1
 {
     [self.dirtyPropertySet addObject:@"string1"];
+
+    [_string1 autorelease];
     _string1 = [newString1 copy];
 }
 
@@ -71,6 +73,8 @@
 - (void)setString2:(NSString *)newString2
 {
     [self.dirtyPropertySet addObject:@"string2"];
+
+    [_string2 autorelease];
     _string2 = [newString2 copy];
 }
 
@@ -90,20 +94,11 @@
 }
 
 - (id)copyWithZone:(NSZone*)zone
-{ // TODO: SHOULD PROBABLY NOT REQUIRE REQUIRED FIELDS
-    JRBasicObject *basicObjectCopy =
-                [[JRBasicObject allocWithZone:zone] init];
-
-    basicObjectCopy.captureObjectPath = self.captureObjectPath;
+{
+    JRBasicObject *basicObjectCopy = (JRBasicObject *)[super copy];
 
     basicObjectCopy.string1 = self.string1;
     basicObjectCopy.string2 = self.string2;
-    // TODO: Necessary??
-    basicObjectCopy.canBeUpdatedOrReplaced = self.canBeUpdatedOrReplaced;
-    
-    // TODO: Necessary??
-    [basicObjectCopy.dirtyPropertySet setSet:self.dirtyPropertySet];
-    [basicObjectCopy.dirtyArraySet setSet:self.dirtyArraySet];
 
     return basicObjectCopy;
 }
@@ -199,7 +194,7 @@
     return dict;
 }
 
-- (NSDictionary *)toReplaceDictionary
+- (NSDictionary *)toReplaceDictionaryIncludingArrays:(BOOL)includingArrays
 {
     NSMutableDictionary *dict =
          [NSMutableDictionary dictionaryWithCapacity:10];
