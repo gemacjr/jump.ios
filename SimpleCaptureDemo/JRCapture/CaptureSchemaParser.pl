@@ -838,8 +838,8 @@ sub recursiveParse {
           "self.$propertyName";                                    # into an NSMutableDictionary with no other modifications
     my $toUpDictionary         = "self.$propertyName";             # Default operation for toUpdateDictionary                                        
     my $toRplDictionary        = "self.$propertyName";             # Default operation for toReplaceDictionary 
-    my $toRplDictionaryYesArrs = "";
-    my $toRplDictionaryNoArrs  = "";
+#    my $toRplDictionaryYesArrs = "";
+#    my $toRplDictionaryNoArrs  = "";
     my $frDictionary           =                                   # Default operation is to just pull the NSObject from 
           "[dictionary objectForKey:\@\"$dictionaryKey\"]";        # the dictionary and stick it into the property
     my $frUpDictionary         = 
@@ -1070,8 +1070,8 @@ sub recursiveParse {
       $objectiveType          = "JR" . ucfirst($propertyName) . " *";
       $toDictionary           = "[self." . $propertyName . " toDictionary]";
       $toUpDictionary         = "[self." . $propertyName . " toUpdateDictionary]";
-      $toRplDictionaryYesArrs = "[self." . $propertyName . " toReplaceDictionaryIncludingArrays:YES]";
-      $toRplDictionaryNoArrs  = "[self." . $propertyName . " toReplaceDictionaryIncludingArrays:NO]";
+#      $toRplDictionaryYesArrs = "[self." . $propertyName . " toReplaceDictionaryIncludingArrays:YES]";
+#      $toRplDictionaryNoArrs  = "[self." . $propertyName . " toReplaceDictionaryIncludingArrays:NO]";
       $frDictionary    = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:" . $objectName . ".captureObjectPath]";
       $frUpDictionary  = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
       $frRplDictionary = "[JR" . ucfirst($propertyName) . " " . $propertyName . "ObjectFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath]";
@@ -1311,8 +1311,8 @@ sub recursiveParse {
         #                forKey:@"foo"];        
         $toUpdateDictSection[3]  .= "\n    if ([self.dirtyPropertySet containsObject:\@\"" . $propertyName . "\"])\n";
         $toUpdateDictSection[3]  .= "        [dict setObject:(self." . $propertyName . " ?\n" . 
-                                    "                              " . $toRplDictionaryNoArrs . " :\n" .
-                                    "                              [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
+                                    "                              [self." . $propertyName . " toReplaceDictionaryIncludingArrays:NO] :\n" .
+                                    "                              [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */\n" . 
                                     "                 forKey:\@\"" . $dictionaryKey . "\"];\n" .
                                     "    else if ([self." . $propertyName . " needsUpdate])\n" . 
                                     "        [dict setObject:[self." . $propertyName . " toUpdateDictionary]\n" . 
@@ -1323,8 +1323,8 @@ sub recursiveParse {
         #                         [self.foo toReplaceDictionaryIncludingArrays:YES] :
         #                         [[JRFoo foo] toReplaceDictionaryIncludingArrays:YES]) /* Use the default constructor to create an empty object */
         #            forKey:@"foo"];              
-        $toReplaceDictSection[3] .= "    [dict setObject:(self." . $propertyName . " ?\n" . 
-                                    "                          " . $toRplDictionaryYesArrs . " :\n" .
+        $toReplaceDictSection[3] .= "\n    [dict setObject:(self." . $propertyName . " ?\n" . 
+                                    "                          [self." . $propertyName . " toReplaceDictionaryIncludingArrays:YES] :\n" .
                                     "                          [[JR" . ucfirst($propertyName) . " " . $propertyName . "] toUpdateDictionary]) /* Use the default constructor to create an empty object */\n" . 
                                     "             forKey:\@\"" . $dictionaryKey . "\"];\n";
     
@@ -1366,8 +1366,11 @@ sub recursiveParse {
         # e.g.:
         #   if (includingArrays)      
         #       [dict setObject:(self.bar ? [self.bar arrayOfBarReplaceDictionariesFromBarObjects] : [NSArray array]) forKey:@"bar"];
-        $toReplaceDictSection[3] .= "\n    if (includingArrays)";
-        $toReplaceDictSection[3] .= "\n        [dict setObject:(self." . $propertyName . " ? " . $toRplDictionary . " : [NSArray array]) forKey:\@\"" . $dictionaryKey . "\"];\n";
+        $toReplaceDictSection[3] .= "\n    if (includingArrays)\n" . 
+                                    "        [dict setObject:(self." . $propertyName . " ?\n" .
+                                    "                          " . $toRplDictionary . " :\n" . 
+                                    "                          [NSArray array])\n" . 
+                                    "                 forKey:\@\"" . $dictionaryKey . "\"];\n";
               
         ####################################################################################################
         # For arrays, they are considered equal in the following cases:

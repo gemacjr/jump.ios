@@ -230,7 +230,7 @@
     if ([self.dirtyPropertySet containsObject:@"pinoinoL2Object"])
         [dict setObject:(self.pinoinoL2Object ?
                               [self.pinoinoL2Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JRPinoinoL2Object pinoinoL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                              [[JRPinoinoL2Object pinoinoL2Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
                  forKey:@"pinoinoL2Object"];
     else if ([self.pinoinoL2Object needsUpdate])
         [dict setObject:[self.pinoinoL2Object toUpdateDictionary]
@@ -246,6 +246,7 @@
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+
     [dict setObject:(self.pinoinoL2Object ?
                           [self.pinoinoL2Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JRPinoinoL2Object pinoinoL2Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */

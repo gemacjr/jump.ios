@@ -281,7 +281,10 @@
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     if (includingArrays)
-        [dict setObject:(self.onipinoL2Plural ? [self.onipinoL2Plural arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements] : [NSArray array]) forKey:@"onipinoL2Plural"];
+        [dict setObject:(self.onipinoL2Plural ?
+                          [self.onipinoL2Plural arrayOfOnipinoL2PluralReplaceDictionariesFromOnipinoL2PluralElements] :
+                          [NSArray array])
+                 forKey:@"onipinoL2Plural"];
 
     return dict;
 }
