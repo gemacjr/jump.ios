@@ -50,7 +50,7 @@
 }
 
 /* Set a decimal with an NSNumber boolean */
-- (void)test_a401_decimalWithBoolFalse
+- (void)test_a401_decimalWithBoolFalse_FailCase
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -160,9 +160,9 @@
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@"test_a401_decimalWithBoolFalse"])
+        if ([testSelectorString isEqualToString:@"test_a401_decimalWithBoolFalse_FailCase"])
         {
-            GHAssertEquals([newUser.basicDecimal boolValue], NO, nil);
+            GHAssertFalse(TRUE, @"Test case %@ should have resulted in a Capture error, but didn't", testSelectorString);
         }
         else if ([testSelectorString isEqualToString:@"test_a402_decimalWithIntPositive"])
         {
@@ -210,7 +210,21 @@
 
 - (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
+    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSString     *error            = [resultDictionary objectForKey:@"error"];
+    NSNumber     *code             = [resultDictionary objectForKey:@"code"];
+
     NSString *testSelectorString = (NSString *)context;
+
+    if ([testSelectorString isEqualToString:@"test_a401_decimalWithBoolFalse_FailCase"])
+    {   /* ... "code":341,"error":"invalid_json_type" */
+        if ([error isEqualToString:@"invalid_json_type"] &&
+            [code isEqualToNumber:[NSNumber numberWithInteger:341]])
+        {
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
+        }
+    }
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
 }
 

@@ -56,7 +56,7 @@
 }
 
 
-/*  */
+/* unique */
 - (void)test_c101_pluralUniqueCreateValid
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
@@ -96,9 +96,6 @@
     [captureUser replacePluralTestUniqueArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
-
-
-// unique
 
 // required
 - (void)test_c111_objectRequiredCreate

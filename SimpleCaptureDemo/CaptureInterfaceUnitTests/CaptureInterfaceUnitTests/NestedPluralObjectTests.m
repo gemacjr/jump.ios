@@ -49,7 +49,6 @@
                                     @"amnesia", @"bridgeport", @"cascade",
                                     @"akita", @"bulldog", @"collie",
                                     @"andromeda", @"bootes", @"capricorn",
-
                                     nil];
 }
 
@@ -200,20 +199,48 @@ WAIT_FOR_STATUS:
 // pino
 - (void)test_b305_pinoCreate
 {
+    [self setUpTestCluster];
 
+    captureUser.pinoL1Object = [self objectOfType:[JRPinoL1Object class]
+                                  withConstructor:@selector(pinoL1Object)];
+
+    captureUser.pinoL1Object.pinoL2Plural = [self arrayWithElementsOfType:[JRPinoL2PluralElement class]
+                                                          withConstructor:@selector(pinoL2PluralElement)
+                                                       fillerFodderOffset:0];
 }
 
 - (void)test_b306_pinoUpdate_Level1_PreReplace
 {
+    if (!captureUser)
+        [self test_b300_pinapCreate];
 
+    JRPinoL1Object *pinoL1Object = captureUser.pinoL1Object;
+
+    self.currentObject = captureUser.pinoL1Object;
+    self.currentPlural = captureUser.pinoL1Object.pinoL2Plural;
+
+    [self prepare];
+    [pinoL1Object updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
 - (void)test_b307_pinoReplace_Level1
 {
+    if (!captureUser)
+        [self test_b305_pinoCreate];
+
+    JRPinoL1Object *pinoL1Object = captureUser.pinoL1Object;
+
+    self.currentObject = cap    tureUser.pinoL1Object;
+    self.currentPlural = captureUser.pinoL1Object.pinoL2Plural;
+
+    [self prepare];
+    [pinoL1Object replaceObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 
 }
 
-- (void)test_b308_pinoUpdate_Level2_PostReplace
+- (void)test_b308_pinoUpdate_Level1_PostReplace
 {
 
 }
@@ -461,7 +488,7 @@ WAIT_FOR_STATUS:
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
 }
 
-- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     if (weAreReplacingToTestPostReplace)
     {
@@ -471,13 +498,16 @@ WAIT_FOR_STATUS:
         // TODO: stuff..
     }
 
-    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSDictionary *resultDictionary        = [result objectFromJSONString];
+    NSDictionary *captureObjectDictionary = [resultDictionary objectForKey:@"result"];
 
     NSString *testSelectorString = (NSString *)context;
     @try
     {
-        if ([testSelectorString isEqualToString:@""])
+        if ([testSelectorString isEqualToString:@"test_b307_pinoReplace_Level1"])
         {
+            GHAssertTrue([(JRPinoL1Object *)currentObject isEqualToPinoL1Object:(JRPinoL1Object*)object], nil);
+            GHAssertTrue([(JRPinoL1Object *)currentObject isEqualToPinoL1Object:[JRPinoL1Object pinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil]], nil);
         }
         else
         {
@@ -495,7 +525,7 @@ WAIT_FOR_STATUS:
     [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
 }
 
-- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
     if (weAreReplacingToTestPostReplace)
     {
@@ -523,6 +553,11 @@ WAIT_FOR_STATUS:
         {
             GHAssertTrue([(JRPinapL2PluralElement *)currentObject isEqualToPinapL2PluralElement:(JRPinapL2PluralElement *)object], nil);
             GHAssertTrue([(JRPinapL2PluralElement *)currentObject isEqualToPinapL2PluralElement:[JRPinapL2PluralElement pinapL2PluralElementFromDictionary:captureObjectDictionary withPath:nil]], nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_b306_pinoUpdate_Level1_PreReplace"])
+        {
+            GHAssertTrue([(JRPinoL1Object *)currentObject isEqualToPinoL1Object:(JRPinoL1Object*)object], nil);
+            GHAssertTrue([(JRPinoL1Object *)currentObject isEqualToPinoL1Object:[JRPinoL1Object pinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil]], nil);
         }
         else
         {
