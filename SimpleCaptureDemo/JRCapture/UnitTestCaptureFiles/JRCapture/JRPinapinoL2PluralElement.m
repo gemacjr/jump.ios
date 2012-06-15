@@ -286,7 +286,10 @@
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
 
     if (includingArrays)
-        [dict setObject:(self.pinapinoL3Plural ? [self.pinapinoL3Plural arrayOfPinapinoL3PluralReplaceDictionariesFromPinapinoL3PluralElements] : [NSArray array]) forKey:@"pinapinoL3Plural"];
+        [dict setObject:(self.pinapinoL3Plural ?
+                          [self.pinapinoL3Plural arrayOfPinapinoL3PluralReplaceDictionariesFromPinapinoL3PluralElements] :
+                          [NSArray array])
+                 forKey:@"pinapinoL3Plural"];
 
     return dict;
 }

@@ -235,7 +235,7 @@
     if ([self.dirtyPropertySet containsObject:@"oinonipL3Object"])
         [dict setObject:(self.oinonipL3Object ?
                               [self.oinonipL3Object toReplaceDictionaryIncludingArrays:NO] :
-                              [[JROinonipL3Object oinonipL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
+                              [[JROinonipL3Object oinonipL3Object] toReplaceDictionaryIncludingArrays:NO]) /* Use the default constructor to create an empty object */
                  forKey:@"oinonipL3Object"];
     else if ([self.oinonipL3Object needsUpdate])
         [dict setObject:[self.oinonipL3Object toUpdateDictionary]
@@ -251,6 +251,7 @@
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null]) forKey:@"string1"];
     [dict setObject:(self.string2 ? self.string2 : [NSNull null]) forKey:@"string2"];
+
     [dict setObject:(self.oinonipL3Object ?
                           [self.oinonipL3Object toReplaceDictionaryIncludingArrays:YES] :
                           [[JROinonipL3Object oinonipL3Object] toUpdateDictionary]) /* Use the default constructor to create an empty object */
