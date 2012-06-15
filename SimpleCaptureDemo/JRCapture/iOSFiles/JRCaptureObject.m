@@ -304,15 +304,15 @@
         return;
     }
 
-    if ([dirtyArraySet count])
-    {
-        [self updateCaptureObjectDidFailWithResult:
-                      [NSString stringWithFormat:@"{\"stat\":\"fail\",\"message\":\"The following arrays needs to be replaced on Capture first:%@",
-                                [[dirtyArraySet allObjects] description]]
-                                           context:newContext];
-
-        return;
-    }
+//    if ([dirtyArraySet count])
+//    {
+//        [self updateCaptureObjectDidFailWithResult:
+//                      [NSString stringWithFormat:@"{\"stat\":\"fail\",\"message\":\"The following arrays needs to be replaced on Capture first:%@",
+//                                [[dirtyArraySet allObjects] description]]
+//                                           context:newContext];
+//
+//        return;
+//    }
 
     [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
                                      //withId:[self.captureUserId integerValue]
