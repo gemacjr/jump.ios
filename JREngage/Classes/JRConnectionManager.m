@@ -326,9 +326,42 @@ static JRConnectionManager* singleton = nil;
     id             userdata     = [connectionData tag];
     id<JRConnectionManagerDelegate> delegate = [connectionData delegate];
 
+    NSStringEncoding encoding = NSUTF8StringEncoding;
+    // Unused code to support other string encodings:
+    //if ([fullResponse isKindOfClass:[NSHTTPURLResponse class]])
+    //{
+    //    NSHTTPURLResponse *_r = (NSHTTPURLResponse *) fullResponse;
+    //    NSEnumerator *keys = [_r.allHeaderFields keyEnumerator];
+    //    id key;
+    //    while (key = [keys nextObject])
+    //    {
+    //        if (![key isKindOfClass:[NSString class]]) continue;
+    //        if ([[key lowercaseString] isEqualToString:@"content-type"])
+    //        {
+    //            NSString *ct = [_r.allHeaderFields objectForKey:key];
+    //            NSArray *pieces = [ct componentsSeparatedByString:@";"];
+    //            for (NSUInteger i = 1; i < ([pieces count] - 1); i++)
+    //            {
+    //                NSString *piece = [pieces objectAtIndex:i];
+    //                NSArray *maybeCharsetPair = [piece componentsSeparatedByString:@"="];
+    //                if ([maybeCharsetPair count] != 2) continue;
+    //                NSString *maybeCharset = [(NSString *) [maybeCharsetPair objectAtIndex:0] lowercaseString];
+    //                NSCharacterSet *const whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    //                maybeCharset = [maybeCharset stringByTrimmingCharactersInSet:whitespace];
+    //                if ([maybeCharset isEqualToString:@"charset"])
+    //                {
+    //                    NSString *charset = [[maybeCharsetPair objectAtIndex:1] lowercaseString];
+    //                    charset = [charset stringByTrimmingCharactersInSet:whitespace];
+    //                    // match charset to an NSStringEncoding here
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
     if ([connectionData fullResponse] == NO)
     {
-        NSString *payload = [[[NSString alloc] initWithData:responseBody encoding:NSASCIIStringEncoding] autorelease];
+        NSString *payload = [[[NSString alloc] initWithData:responseBody encoding:encoding] autorelease];
 
         if ([delegate respondsToSelector:@selector(connectionDidFinishLoadingWithPayload:request:andTag:)])
             [delegate connectionDidFinishLoadingWithPayload:payload request:request andTag:userdata];
