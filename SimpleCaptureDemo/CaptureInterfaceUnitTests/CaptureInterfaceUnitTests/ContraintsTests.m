@@ -176,9 +176,62 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void) test_c142_stringUnicodeLettersInvalid
+{
+    captureUser.stringTestUnicodeLetters = @"\u2615";
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
 // unicode-printable
+- (void) test_c151_stringUnicodePrintable
+{
+    captureUser.stringTestUnicodePrintable = @"\u2615";
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+//- (void) test_c152_stringUnicodePrintableInvalid
+//{
+//    // \u202a ended up being OK
+//    //captureUser.stringTestUnicodePrintable = @"\u202a";
+//
+//    [self prepare];
+//    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+//    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+//}
+
+- (void) test_c153_stringUnicodePrintableInvalid
+{
+    captureUser.stringTestUnicodePrintable = @"\x11"; // XON control character
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
 
 // email-address
+- (void) test_c161_stringEmailValid
+{
+    captureUser.stringTestEmailAddress = @"Rδοκιμή123abc.def+ghi@a.abπαράδειγμα.δοκιμή";
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void) test_c162_stringEmailInvalid
+{
+    captureUser.stringTestEmailAddress = @"anemone";
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
 
 - (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
@@ -201,6 +254,14 @@
         else if ([testSelectorString isEqualToString:@"test_c141_stringUnicodeLetters"])
         {
             GHAssertTrue([newUser.stringTestUnicodeLetters isEqualToString:captureUser.stringTestUnicodeLetters], nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_c151_stringUnicodePrintable"])
+        {
+            GHAssertTrue([newUser.stringTestUnicodePrintable isEqualToString:captureUser.stringTestUnicodePrintable], nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_c161_stringEmailValid"])
+        {
+            GHAssertTrue([newUser.stringTestEmailAddress isEqualToString:captureUser.stringTestEmailAddress], nil);
         }
         else
         {
@@ -230,6 +291,26 @@
             return;
         }
         else if ([testSelectorString isEqualToString:@"test_c122_stringAlphaNumericInvalid"])
+        {
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
+        }
+        else if ([testSelectorString isEqualToString:@"test_c142_stringUnicodeLettersInvalid"])
+        {
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
+        }
+        else if ([testSelectorString isEqualToString:@"test_c152_stringUnicodePrintableInvalid"])
+        {
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
+        }
+        else if ([testSelectorString isEqualToString:@"test_c153_stringUnicodePrintableInvalid"])
+        {
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
+        }
+        else if ([testSelectorString isEqualToString:@"test_c162_stringEmailInvalid"])
         {
             [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
             return;
