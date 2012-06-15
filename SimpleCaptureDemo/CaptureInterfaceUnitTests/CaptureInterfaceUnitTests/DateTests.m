@@ -276,7 +276,7 @@
         {
             GHAssertEqualStrings([newUser.basicDate stringFromISO8601Date], [currentDate stringFromISO8601Date], nil);
         }
-        else if ([testSelectorString isEqualToString:@"test_a502_dateWithValidISO8601Strings"])
+        else if ([testSelectorString isEqualToString:@"test_a502_dateWithValidISO8601String"])
         {
             DLog(@"");
             GHAssertEqualStrings([newUser.basicDate stringFromISO8601Date], @"2012-03-12", nil);
