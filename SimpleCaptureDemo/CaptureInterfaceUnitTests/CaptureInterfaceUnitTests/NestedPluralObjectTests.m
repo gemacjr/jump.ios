@@ -450,12 +450,29 @@
 
     JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
 
-    GHAssertTrue([oinoL1Object isEqualToOinoL1Object:((JROinoL1Object *)currentL1Object)], nil);
+    GHAssertTrue([captureUser.oinoL1Object isEqualToOinoL1Object:oinoL1Object], nil);
 }
 
 - (void)test_b317_oinoUpdate_Level1_ChangeL2
 {
+    [self oinoPreparatoryUpdateWithContext:_sel];
+}
 
+- (void)continue_b317_oinoUpdate_Level1_ChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    [self updateObjectProperties:captureUser.oinoL1Object.oinoL2Object toFillerFodderIndex:2];
+    [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+}
+
+- (void)finish_b317_oinoUpdate_Level1_ChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
+    JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
+
+    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+
+    GHAssertTrue([captureUser.oinoL1Object isEqualToOinoL1Object:oinoL1Object], nil);
+    GHAssertTrue([captureUser.oinoL1Object.oinoL2Object isEqualToOinoL2Object:oinoL1Object.oinoL2Object], nil);
 }
 
 - (void)test_b318_oinoUpdate_Level1_NewL2
