@@ -15,6 +15,7 @@
 #define _sel       NSStringFromSelector(_cmd)
 #define _csel      [NSString stringWithFormat:@"%@%@%@", @"continue", @".", _sel]
 #define _fsel      [NSString stringWithFormat:@"%@%@%@", @"finish", @".", _sel]
+#define _esel      [NSString stringWithFormat:@"%@%@%@", @"fail", @".", _sel]
 #define _ctel(str) [NSString stringWithFormat:@"%@%@%@", @"continue", @".", str]
 #define _ftel(str) [NSString stringWithFormat:@"%@%@%@", @"finish", @".", str]
 #define _nsel(str) NSSelectorFromString(str)
@@ -152,7 +153,7 @@
     GHAssertFalse(l2PluralElement.canBeUpdatedOrReplaced, nil);
 
     [self prepare];
-    [l2PluralElement updateObjectOnCaptureForDelegate:self withContext:_sel];
+    [l2PluralElement updateObjectOnCaptureForDelegate:self withContext:_esel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -186,8 +187,6 @@
     GHAssertNotEquals(l1PluralElement, currentL1Object, nil);
     GHAssertTrue([l2PluralElement isEqualToPinapL2PluralElement:((JRPinapL2PluralElement *)currentL2Object)], nil);
     GHAssertNotEquals(l2PluralElement, currentL2Object, nil);
-
-    //[self notify:kGHUnitWaitStatusSuccess forSelector:_nsel(testSelectorString)];
 }
 
 /* Lastly, let's replace the array, giving the child elements id's/paths, and then let's update an element on Capture.
@@ -236,8 +235,6 @@
 
     /* And what we have saved as the old currentL2object should not be the same */
     GHAssertFalse([l2PluralElement isEqualToPinapL2PluralElement:(JRPinapL2PluralElement *)currentL2Object], nil);
-
-    //[self notify:kGHUnitWaitStatusSuccess forSelector:_nsel(testSelectorString)];
 }
 
 
@@ -319,7 +316,7 @@
     [self updateObjectProperties:self.currentL1Object toFillerFodderIndex:1];
 
     /* Then do the update... */
-    [((JRPinoinoL1Object *)self.currentL1Object) updateObjectOnCaptureForDelegate:self withContext:testSelectorString];
+    [((JRPinoinoL1Object *)self.currentL1Object) updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
 
 - (void)finish_b307_pinoUpdate_Level1_PostReplace_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -356,7 +353,7 @@
     [self onipCreate];
 
     [self prepare];
-    [currentL2Object updateObjectOnCaptureForDelegate:self withContext:_sel];
+    [currentL2Object updateObjectOnCaptureForDelegate:self withContext:_esel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
@@ -380,9 +377,10 @@
     JRCaptureObject *captureObject = [arguments objectForKey:@"captureObject"];
     NSString        *result        = [arguments objectForKey:@"result"];
 
-    JROnipL2Object *const object1 = ((JROnipL1PluralElement *) [newArray objectAtIndex:0]).onipL2Object;
-    [self updateObjectProperties:object1 toFillerFodderIndex:5];
-    [object1 updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    JROnipL2Object  *onipL2Object  = ((JROnipL1PluralElement *)[newArray objectAtIndex:0]).onipL2Object;
+
+    [self updateObjectProperties:onipL2Object toFillerFodderIndex:5];
+    [onipL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
 
 - (void)finish_b312_onipUpdate_Level2_PostReplace_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -390,9 +388,10 @@
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
-    JROnipL2Object *t = [JROnipL2Object onipL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
-    GHAssertTrue([t isEqualToOnipL2Object:((JROnipL2Object *)captureObject)], nil);
-    GHAssertFalse([t isEqualToOnipL2Object:((JROnipL2Object *)currentL2Object)], nil);
+    JROnipL2Object  *onipL2Object = [JROnipL2Object onipL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+
+    GHAssertTrue([onipL2Object isEqualToOnipL2Object:((JROnipL2Object *)captureObject)], nil);
+    GHAssertFalse([onipL2Object isEqualToOnipL2Object:((JROnipL2Object *)currentL2Object)], nil);
 }
 
 /* Object in an object (315-319) */
@@ -419,7 +418,8 @@
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
-    JROinoL1Object *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+
     GHAssertTrue([oinoL1Object isEqualToOinoL1Object:((JROinoL1Object *)currentL1Object)], nil);
 }
 
@@ -436,7 +436,7 @@
 - (void)onioPreparatoryUpdateWithContext:(NSString *)finisher
 {
     [self onioCreate];
-    //NSString *compositeContext = [NSString stringWithFormat:@"%@%@%@", _sel, @".", finisher];
+
     [self prepare];
     [currentL1Object updateObjectOnCaptureForDelegate:self withContext:_ctel(finisher)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
@@ -444,7 +444,6 @@
 
 - (void)test_b318_oinoUpdate_Level1_NewL2
 {
-    //[self onioCreate];
     [self onioPreparatoryUpdateWithContext:_sel];
 }
 
@@ -460,28 +459,55 @@
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
-    JROinoL1Object *o = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
-    GHAssertTrue([o isEqualToOinoL1Object:captureUser.oinoL1Object], nil);
+    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+
+    GHAssertTrue([oinoL1Object isEqualToOinoL1Object:captureUser.oinoL1Object], nil);
+}
+
+- (void)test_b319_oinoUpdate_Level2_NewL2
+{
+    [self onioPreparatoryUpdateWithContext:_sel];
+}
+
+- (void)continue_b319_oinoUpdate_Level2_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
+    JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
+
+    JROinoL2Object *oinoL2Object = [JROinoL2Object oinoL2Object];
+    captureUser.oinoL1Object.oinoL2Object = oinoL2Object;
+
+    [captureUser.oinoL1Object.oinoL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+}
+
+- (void)finish_b319_oinoUpdate_Level2_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
+    JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
+
+    JROinoL2Object  *oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+
+    GHAssertTrue([oinoL2Object isEqualToOinoL2Object:captureUser.oinoL1Object.oinoL2Object], nil);
 }
 
 /* Plural in a plural in a plural (320-329) */
 // pinapinap
-- (void)test_b320_pinapinapCreate
+- (void)pinapinapCreate
 {
 
 }
 
-- (void)test_b321_pinapinapUpdate_Level3_PreReplace_FailCase
+- (void)test_b320_pinapinapUpdate_Level3_PreReplace_FailCase
 {
 
 }
 
-- (void)test_b322_pinapinapReplaceArray_Level2_FailCase
+- (void)test_b321_pinapinapReplaceArray_Level2_FailCase
 {
 
 }
 
-- (void)test_b323_pinapinapReplaceArray_Level1
+- (void)test_b322_pinapinapReplaceArray_Level1
 {
 
 }
@@ -492,81 +518,81 @@
 // pinapino
 /* Plural in an object in an object (350-359) */
 // pinoino
-- (void)test_b350_pinoinoCreate
+- (void)pinoinoCreate
 {
 
 }
 
-- (void)test_b351_pinoinoUpdate_Level1
+- (void)test_b350_pinoinoUpdate_Level1
 {
 
 }
 
-- (void)test_b352_pinoinoUpdate_Level2
+- (void)test_b351_pinoinoUpdate_Level2
 {
 
 }
 
-- (void)test_b353_pinoinoReplace_Level1
+- (void)test_b352_pinoinoReplace_Level1
 {
 
 }
 
-- (void)test_b354_pinoinoReplace_Level2
+- (void)test_b353_pinoinoReplace_Level2
 {
 
 }
 
 /* Object in a plural in a plural (360-369) */
 // onipinap
-- (void)test_b360_onipinapCreate
+- (void)onipinapCreate
 {
 
 }
 
-- (void)test_b361_onipinapUpdate_Level3_PreReplace_FailCase
+- (void)test_b360_onipinapUpdate_Level3_PreReplace_FailCase
 {
 
 }
 
-- (void)test_b362_onipinapReplaceArray_Level2_FailCase
+- (void)test_b361_onipinapReplaceArray_Level2_FailCase
 {
 
 }
 
-- (void)test_b363_onipinapReplaceArray_Level1
+- (void)test_b362_onipinapReplaceArray_Level1
 {
 
 }
 
-- (void)test_b364_onipinapUpdate_Level3_PostReplace
+- (void)test_b363_onipinapUpdate_Level3_PostReplace
 {
 
 }
 
 /* Object in an object in a plural (370-379) */
 // oinonip
-- (void)test_b370_oinonipCreate
+- (void)oinonipCreate
 {
 
 }
 
-- (void)test_b3371_oinonipUpdate_Level3_PreReplace_FailCase
+- (void)test_b370_oinonipUpdate_Level3_PreReplace_FailCase
 {
 
 }
 
-- (void)test_b372_oinonipUpdate_Level2_PreReplace_FailCase
+- (void)test_b371_oinonipUpdate_Level2_PreReplace_FailCase
 {
 
 }
 
-- (void)test_b373_oinonipReplaceArray_Level1
+- (void)test_b372_oinonipReplaceArray_Level1
 {
 
 }
 
-- (void)test_b374_oinonipUpdate_Level3_PostReplace
+- (void)test_b373_oinonipUpdate_Level3_PostReplace
 {
 
 }
@@ -575,34 +601,43 @@
 // onipino
 /* Object in an object (390-399) */
 // oinoino
-- (void)test_b390_oinoinoCreate
+- (void)oinoinoCreate
 {
 
 }
 
-- (void)test_b391_oinoinoUpdate_Level1_NoChangeL2L3
+- (void)test_b390_oinoinoUpdate_Level1_NoChangeL2L3
 {
 
 }
 
-- (void)test_b392_oinoinoUpdate_Level1_ChangeL2
+- (void)test_b391_oinoinoUpdate_Level1_ChangeL2
 {
 
 }
 
-- (void)test_b393_oinoinoUpdate_Level1_ChangeL3
+- (void)test_b392_oinoinoUpdate_Level1_ChangeL3
 {
 
 }
 
-- (void)test_b394_oinoinoUpdate_Level1_ChangeL2L3
+- (void)test_b393_oinoinoUpdate_Level1_ChangeL2L3
 {
 
 }
 
-- (void)test_b395_oinoinoReplace_Level1_ChangeL2L3
+- (void)test_b394_oinoinoReplace_Level1_ChangeL2L3
 {
 
+}
+
+-(void)callSelectorPrefixed:(NSString *)prefixed withArguments:(NSObject *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    NSString *newSelector = [NSString stringWithFormat:@"%@%@",
+                                           [testSelectorString stringByReplacingOccurrencesOfString:@"test" withString:prefixed],
+                                           @"_withArguments:andTestSelectorString:"];
+
+    [self performSelector:_nsel(newSelector) withObject:arguments withObject:testSelectorString];
 }
 
 - (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
@@ -610,79 +645,25 @@
     NSDictionary *resultDictionary = [result objectFromJSONString];
     NSArray      *resultArray      = [resultDictionary objectForKey:@"result"];
 
-    NSString *testSelectorString = (NSString *)context;
+    NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                                newArray, @"newArray",
+                                                                resultArray, @"resultArray",
+                                                                object, @"captureObject",
+                                                                result, @"result", nil];
+
+    NSString *status             = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:0];
+    NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
     @try
     {
-        if ([testSelectorString hasPrefix:@"continue"])
+        if ([status isEqualToString:@"continue"])
         {
-            NSString *testSelector     = [[testSelectorString componentsSeparatedByString:@"."] objectAtIndex:1];
-            NSString *continueSelector = [NSString stringWithFormat:@"%@%@",
-                                                   [testSelector stringByReplacingOccurrencesOfString:@"test_" withString:@"continue_"],
-                                                   @"_withArguments:andTestSelectorString:"];
-
-            NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:newArray, @"newArray", object, @"captureObject", result, @"result", nil];
-
-            [self performSelector:NSSelectorFromString(continueSelector) withObject:arguments withObject:testSelector];
-
-            // TODO: Remove when done w refactor
-            testSelectorString = testSelector;
-            //return;
+            [self callSelectorPrefixed:@"continue" withArguments:arguments andTestSelectorString:testSelectorString];
+            return;
         }
-        else if ([testSelectorString hasPrefix:@"finish"])
+        else if ([status isEqualToString:@"finish"])
         {
-            NSString *testSelector     = [[testSelectorString componentsSeparatedByString:@"."] objectAtIndex:1];
-            NSString *finishSelector = [NSString stringWithFormat:@"%@%@",
-                                                   [testSelector stringByReplacingOccurrencesOfString:@"test_" withString:@"finish_"],
-                                                   @"_withArguments:andTestSelectorString:"];
-
-            NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:newArray, @"newArray", object, @"captureObject", result, @"result", nil];
-
-            [self performSelector:NSSelectorFromString(finishSelector) withObject:arguments withObject:testSelector];
-
-            // TODO: Remove when done w refactor
-            testSelectorString = testSelector;
-            //return;
+            [self callSelectorPrefixed:@"finish" withArguments:arguments andTestSelectorString:testSelectorString];
         }
-//        else if ([testSelectorString isEqualToString:@"test_b301_pinapReplaceArray"])
-//        {
-//            GHAssertTrue([currentL1Plural isEqualToOtherPinapL1PluralArray:captureUser.pinapL1Plural], nil);
-//            GHAssertTrue([currentL1Plural isEqualToOtherPinapL1PluralArray:((JRCaptureUser *)object).pinapL1Plural], nil);
-//            GHAssertTrue([currentL1Plural isEqualToOtherPinapL1PluralArray:newArray], nil);
-//
-//            /* Let's grab the elements that are now in our captureUser */
-//            JRPinapL1PluralElement *l1PluralElement = [captureUser.pinapL1Plural objectAtIndex:0];
-//            JRPinapL2PluralElement *l2PluralElement = [l1PluralElement.pinapL2Plural objectAtIndex:0];
-//
-//            /* We can compare our new elements to our saved elements. They should be the same in their content, but
-//               have different pointers. */
-//            GHAssertTrue([l1PluralElement isEqualToPinapL1PluralElement:((JRPinapL1PluralElement *)currentL1Object)], nil);
-//            GHAssertNotEquals(l1PluralElement, currentL1Object, nil);
-//            GHAssertTrue([l2PluralElement isEqualToPinapL2PluralElement:((JRPinapL2PluralElement *)currentL2Object)], nil);
-//            GHAssertNotEquals(l2PluralElement, currentL2Object, nil);
-//        }
-//        else if ([testSelectorString isEqualToString:@"test_b302_pinapUpdate_Level2_PostReplace"])
-//        {
-//            JRPinapL1PluralElement *l1PluralElement = [captureUser.pinapL1Plural objectAtIndex:0];
-//            JRPinapL2PluralElement *l2PluralElement = [l1PluralElement.pinapL2Plural objectAtIndex:0];
-//
-//            /* And, yep, they should now be updatable/replaceable! */
-//            GHAssertTrue(l1PluralElement.canBeUpdatedOrReplaced, nil);
-//            GHAssertTrue(l2PluralElement.canBeUpdatedOrReplaced, nil);
-//
-//            /* Let's change the values for our second level object (remember, currentL2Object will still have the old values). */
-//            [self updateObjectProperties:l2PluralElement toFillerFodderIndex:1];
-//
-//            /* Then do the update... */
-//            [l2PluralElement updateObjectOnCaptureForDelegate:self withContext:context];
-//
-//            return;
-//        }
-//        else if ([testSelectorString isEqualToString:@"test_b312_onipUpdate_Level2_PostReplace"])
-//        {
-//            JROnipL2Object *const object1 = ((JROnipL1PluralElement *) [newArray objectAtIndex:0]).onipL2Object;
-//            [self updateObjectProperties:object1 toFillerFodderIndex:5];
-//            [object1 updateObjectOnCaptureForDelegate:self withContext:testSelectorString];
-//        }
         else
         {
             GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
@@ -702,7 +683,9 @@
 - (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
         didFailWithResult:(NSString *)result context:(NSObject *)context
 {
-    NSString *testSelectorString = (NSString *)context;
+    NSString *status             = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:0];
+    NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
+
     GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
 
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
@@ -713,88 +696,24 @@
     NSDictionary *resultDictionary        = [result objectFromJSONString];
     NSDictionary *captureObjectDictionary = [resultDictionary objectForKey:@"result"];
 
-    NSString *testSelectorString = (NSString *)context;
+    NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    object, @"captureObject",
+                                                    captureObjectDictionary, @"captureObjectDictionary",
+                                                    result, @"result", nil];
+
+    NSString *status             = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:0];
+    NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
     @try
     {
-        if ([testSelectorString hasPrefix:@"continue"])
+        if ([status isEqualToString:@"continue"])
         {
-            NSString *testSelector     = [[testSelectorString componentsSeparatedByString:@"."] objectAtIndex:1];
-            NSString *continueSelector = [NSString stringWithFormat:@"%@%@",
-                                                   [testSelector stringByReplacingOccurrencesOfString:@"test_" withString:@"continue_"],
-                                                   @"_withArguments:andTestSelectorString:"];
-
-            NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:object, @"captureObject", captureObjectDictionary, @"captureObjectDictionary", result, @"result", nil];
-
-            [self performSelector:NSSelectorFromString(continueSelector) withObject:arguments withObject:testSelector];
-
-            // TODO: Remove when done w refactor
-            testSelectorString = testSelector;
-            //return;
+            [self callSelectorPrefixed:@"continue" withArguments:arguments andTestSelectorString:testSelectorString];
+            return;
         }
-        else if ([testSelectorString hasPrefix:@"finish"])
+        if ([status isEqualToString:@"finish"])
         {
-            NSString *testSelector     = [[testSelectorString componentsSeparatedByString:@"."] objectAtIndex:1];
-            NSString *finishSelector = [NSString stringWithFormat:@"%@%@",
-                                                   [testSelector stringByReplacingOccurrencesOfString:@"test_" withString:@"finish_"],
-                                                   @"_withArguments:andTestSelectorString:"];
-
-            NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:object, @"captureObject", captureObjectDictionary, @"captureObjectDictionary", result, @"result", nil];
-
-            [self performSelector:NSSelectorFromString(finishSelector) withObject:arguments withObject:testSelector];
-
-            // TODO: Remove when done w refactor
-            testSelectorString = testSelector;
-            //return;
+            [self callSelectorPrefixed:@"finish" withArguments:arguments andTestSelectorString:testSelectorString];
         }
-//        else if ([testSelectorString isEqualToString:@"test_b302_pinapUpdate_Level2_PostReplace"])
-//        {
-//            JRPinapL1PluralElement *l1PluralElement = [captureUser.pinapL1Plural objectAtIndex:0];
-//            JRPinapL2PluralElement *l2PluralElement = [l1PluralElement.pinapL2Plural objectAtIndex:0];
-//
-//            /* What we have in our captureUser should be equal to our result. */
-//            GHAssertTrue([l2PluralElement isEqualToPinapL2PluralElement:(JRPinapL2PluralElement *)object], nil);
-//            GHAssertTrue([l2PluralElement isEqualToPinapL2PluralElement:[JRPinapL2PluralElement pinapL2PluralElementFromDictionary:captureObjectDictionary withPath:nil]], nil);
-//
-//            /* And what we have saved as the old currentL2object should not be the same */
-//            GHAssertFalse([l2PluralElement isEqualToPinapL2PluralElement:(JRPinapL2PluralElement *)currentL2Object], nil);
-//        }
-//        else if ([testSelectorString isEqualToString:@"test_b305_pinoUpdate_Level1_PreReplace"])
-//        {
-//            /* Both the content and the pointers of our object should be the same */
-//            GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:(JRPinoL1Object*)object], nil);
-//            GHAssertEquals(currentL1Object, object, nil);
-//
-//            /* The returned dictionary may or may not match our object, as it will have the values from whatever the array was last. */
-//        }
-//        else if ([testSelectorString isEqualToString:@"test_b307_pinoUpdate_Level1_PostReplace"])
-//        {
-//            /* And since we replaced the object first, both should have equal arrays too. */
-//            GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:(JRPinoL1Object*)object], nil);
-//            GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:[JRPinoL1Object pinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil]], nil);
-//        }
-//        else if ([testSelectorString isEqualToString:@"test_b312_onipUpdate_Level2_PostReplace"])
-//        {
-//            JROnipL2Object *t = [JROnipL2Object onipL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
-//            GHAssertTrue([t isEqualToOnipL2Object:((JROnipL2Object *) object)], nil);
-//            GHAssertFalse([t isEqualToOnipL2Object:currentL2Object], nil);
-//        }
-//        else if ([testSelectorString isEqualToString:@"test_b315_onioUpdate_Level1"])
-//        {
-//            [self finish_b315_onioUpdate_Level1_withResult:captureObjectDictionary andContext:context];
-//        }
-//        else if ([testSelectorString isEqualToString:@"test_b318_oinoUpdate_Level1_NewL2"])
-//        {
-//            JROinoL1Object *o = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
-//            GHAssertTrue([o isEqualToOinoL1Object:captureUser.oinoL1Object], nil);
-//        }
-//        else if ([testSelectorString hasPrefix:@"onioPreparatoryUpdateWithContext"])
-//        {
-//            NSString *test = [[testSelectorString componentsSeparatedByString:@"."] objectAtIndex:1];
-//            NSString *finisher = [test stringByReplacingOccurrencesOfString:@"test_" withString:@"finish_"];
-//            finisher = [finisher stringByAppendingFormat:@"%@", @"_withResult:andContext:"];
-//            [self performSelector:NSSelectorFromString(finisher) withObject:captureObjectDictionary withObject:test];
-//            return;
-//        }
         else
         {
             GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
@@ -813,7 +732,9 @@
 
 - (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
-    NSString *testSelectorString = (NSString *)context;
+    NSString *status             = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:0];
+    NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
+
     GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
 
     if ([testSelectorString hasSuffix:@"FailCase"])
@@ -830,54 +751,24 @@
     NSDictionary *resultDictionary        = [result objectFromJSONString];
     NSDictionary *captureObjectDictionary = [resultDictionary objectForKey:@"result"];
 
-    NSString *testSelectorString = (NSString *)context;
+    NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                    object, @"captureObject",
+                                                    captureObjectDictionary, @"captureObjectDictionary",
+                                                    result, @"result", nil];
+
+    NSString *status             = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:0];
+    NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
     @try
     {
-        if ([testSelectorString hasPrefix:@"continue"])
+        if ([status isEqualToString:@"continue"])
         {
-            NSString *testSelector     = [[testSelectorString componentsSeparatedByString:@"."] objectAtIndex:1];
-            NSString *continueSelector = [NSString stringWithFormat:@"%@%@",
-                                                   [testSelector stringByReplacingOccurrencesOfString:@"test_" withString:@"continue_"],
-                                                   @"_withArguments:andTestSelectorString:"];
-
-            NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:object, @"captureObject", captureObjectDictionary, @"captureObjectDictionary", result, @"result", nil];
-
-            [self performSelector:NSSelectorFromString(continueSelector) withObject:arguments withObject:testSelector];
-
-            // TODO: Remove when done w refactor
-            testSelectorString = testSelector;
-            //return;
+            [self callSelectorPrefixed:@"continue" withArguments:arguments andTestSelectorString:testSelectorString];
+            return;
         }
-        else if ([testSelectorString hasPrefix:@"finish"])
+        if ([status isEqualToString:@"finish"])
         {
-            NSString *testSelector     = [[testSelectorString componentsSeparatedByString:@"."] objectAtIndex:1];
-            NSString *finishSelector = [NSString stringWithFormat:@"%@%@",
-                                                   [testSelector stringByReplacingOccurrencesOfString:@"test_" withString:@"finish_"],
-                                                   @"_withArguments:andTestSelectorString:"];
-
-            NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:object, @"captureObject", captureObjectDictionary, @"captureObjectDictionary", result, @"result", nil];
-
-            [self performSelector:NSSelectorFromString(finishSelector) withObject:arguments withObject:testSelector];
-
-            // TODO: Remove when done w refactor
-            testSelectorString = testSelector;
-            //return;
+            [self callSelectorPrefixed:@"finish" withArguments:arguments andTestSelectorString:testSelectorString];
         }
-//        if ([testSelectorString isEqualToString:@"test_b306_pinoReplace_Level1"])
-//        {
-//            GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:(JRPinoL1Object*)object], nil);
-//            GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:[JRPinoL1Object pinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil]], nil);
-//        }
-//        else if ([testSelectorString isEqualToString:@"test_b307_pinoUpdate_Level1_PostReplace"])
-//        {
-//            GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:(JRPinoL1Object*)object], nil);
-//            [self updateObjectProperties:self.currentL1Object toFillerFodderIndex:1];
-//
-//            /* Then do the update... */
-//            [((JRPinoinoL1Object *)self.currentL1Object) updateObjectOnCaptureForDelegate:self withContext:context];
-//
-//            return;
-//        }
         else
         {
             GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
@@ -896,7 +787,9 @@
 
 - (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
 {
-    NSString *testSelectorString = (NSString *)context;
+    NSString *status             = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:0];
+    NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
+
     GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
 
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
