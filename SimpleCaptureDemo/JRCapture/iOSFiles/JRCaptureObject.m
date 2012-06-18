@@ -59,7 +59,7 @@
     if ((self = [super init]))
     {
         dirtyPropertySet = [[NSMutableSet alloc] init];
-        dirtyArraySet    = [[NSMutableSet alloc] init];
+//        dirtyArraySet    = [[NSMutableSet alloc] init];
     }
     return self;
 }

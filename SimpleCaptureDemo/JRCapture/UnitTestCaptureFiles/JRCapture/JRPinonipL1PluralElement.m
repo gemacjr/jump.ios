@@ -99,6 +99,8 @@
     {
         self.captureObjectPath      = @"";
         self.canBeUpdatedOrReplaced = NO;
+
+        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"pinonipL2Object", nil]];
     }
     return self;
 }

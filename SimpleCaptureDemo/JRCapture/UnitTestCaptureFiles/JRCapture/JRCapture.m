@@ -66,7 +66,7 @@
 //    }
 //    if (!date) /* 19830312 */
 //    {
-//        [dateFormatter setDateFormat:@"YYYYMMDD"]; // wrong
+//        [dateFormatter setDateFormat:@"YYYYMMDD"];
 //        date = (JRDate *) [dateFormatter dateFromString:ISO8601String];
 //    }
 //
@@ -182,7 +182,6 @@
         dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
         [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-        [dateFormatter setLenient:NO];
     }
 
     NSDate *date = nil;
@@ -194,11 +193,11 @@
     }
     if (!date) /* 19830312 */
     {
-        [dateFormatter setDateFormat:@"yyyyMMdd"];
+        [dateFormatter setDateFormat:@"yyyyMMDD"];
         date = [dateFormatter dateFromString:ISO8601String];
     }
 
-    if (!date) NSLog(@"Could not parse ISO8601 date: \"%@\" Possibly invalid format.", dateString);
+    if (!date) NSLog(@"Could not parse IS8601 date: \"%@\" Possibly invalid format.", dateString);
     return date;
 }
 

@@ -99,6 +99,8 @@
     {
         self.captureObjectPath = @"/objectTestRequiredUnique";
         self.canBeUpdatedOrReplaced = YES;
+
+        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"requiredString", @"uniqueString", @"requiredUniqueString", nil]];
     }
     return self;
 }
@@ -116,9 +118,9 @@
         self.captureObjectPath = @"/objectTestRequiredUnique";
         self.canBeUpdatedOrReplaced = YES;
         _requiredString = [newRequiredString copy];
-        [self.dirtyPropertySet addObject:@"requiredString"];
         _requiredUniqueString = [newRequiredUniqueString copy];
-        [self.dirtyPropertySet addObject:@"requiredUniqueString"];
+
+        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"requiredString", @"uniqueString", @"requiredUniqueString", nil]];
     }
     return self;
 }

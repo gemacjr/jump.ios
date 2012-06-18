@@ -1160,7 +1160,7 @@ sub recursiveParse {
       #   foo = [newFoo copy];
       #   [self.dirtyPropertySet addObject:@"foo"];
       $constructorSection[8] .= "        _" . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
-      $constructorSection[8] .= "        [self.dirtyPropertySet addObject:\@\"" . $propertyName . "\"];\n";
+      #$constructorSection[8] .= "        [self.dirtyPropertySet addObject:\@\"" . $propertyName . "\"];\n";
 
       
     } else {
@@ -1217,6 +1217,11 @@ sub recursiveParse {
       $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isAlsoPrimitive, $isArray, $isObject); 
     }
 
+    if (!$isArray) {
+      $minConstructorSection[4] .= "\@\"" . $propertyName . "\", ";
+      $constructorSection[9]    .= "\@\"" . $propertyName . "\", ";
+    }
+    
     if ($isObject) { 
     ####################################################################################################################
     # If the NSDictionary has the value [NSNull null] for our property object, set the property to nil (though, I 
@@ -1354,7 +1359,6 @@ sub recursiveParse {
               "    else if (!self." . $propertyName . " && [other" . ucfirst($objectName) . "." . $propertyName . " " . $isEqualMethod . "[JR" . ucfirst($propertyName) . " " . $propertyName . "]]) /* Keep going... */;\n" . 
               "    else if (!other" . ucfirst($objectName) . "." . $propertyName . " && [self." . $propertyName . " " . $isEqualMethod . "[JR" . ucfirst($propertyName) . " " . $propertyName . "]]) /* Keep going... */;\n" . 
               "    else if (![self." . $propertyName . " " . $isEqualMethod . "other" . ucfirst($objectName) . "." . $propertyName . "]) return NO;\n\n";
-
 
       } elsif ($isArray) {
       ####################################################################################################################

@@ -69,6 +69,8 @@
     {
         self.captureObjectPath      = @"";
         self.canBeUpdatedOrReplaced = NO;
+
+        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"simpleTypeTwo", nil]];
     }
     return self;
 }

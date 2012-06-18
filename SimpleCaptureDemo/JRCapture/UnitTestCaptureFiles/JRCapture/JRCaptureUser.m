@@ -1293,6 +1293,8 @@
     {
         self.captureObjectPath = @"";
         self.canBeUpdatedOrReplaced = YES;
+
+        [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"email", @"basicBoolean", @"basicString", @"basicInteger", @"basicDecimal", @"basicDate", @"basicDateTime", @"basicIpAddress", @"basicPassword", @"jsonNumber", @"jsonString", @"jsonArray", @"jsonDictionary", @"stringTestJson", @"stringTestEmpty", @"stringTestNull", @"stringTestInvalid", @"stringTestNSNull", @"stringTestAlphanumeric", @"stringTestUnicodeLetters", @"stringTestUnicodePrintable", @"stringTestEmailAddress", @"stringTestLength", @"stringTestCaseSensitive", @"stringTestFeatures", @"basicObject", @"objectTestRequired", @"objectTestRequiredUnique", @"pinoL1Object", @"oinoL1Object", @"pinapinoL1Object", @"pinoinoL1Object", @"onipinoL1Object", @"oinoinoL1Object", nil]];
     }
     return self;
 }
