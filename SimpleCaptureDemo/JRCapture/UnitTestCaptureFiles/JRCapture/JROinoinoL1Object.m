@@ -100,6 +100,9 @@
         self.captureObjectPath = @"/oinoinoL1Object";
         self.canBeUpdatedOrReplaced = YES;
 
+        _oinoinoL2Object = [[JROinoinoL2Object alloc] init];
+        _oinoinoL2Object = [[JROinoinoL2Object alloc] init];
+
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"oinoinoL2Object", nil]];
     }
     return self;

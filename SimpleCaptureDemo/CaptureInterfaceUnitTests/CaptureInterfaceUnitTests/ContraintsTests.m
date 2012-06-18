@@ -46,8 +46,7 @@
 
 - (void)setUp
 {
-    self.captureUser  = [JRCaptureUser captureUser];
-    captureUser.email = @"lilli@janrain.com";
+    self.captureUser = [SharedData getBlankCaptureUser];
 }
 
 - (void)tearDown

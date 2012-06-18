@@ -95,6 +95,18 @@ static NSString *accessToken        = @"ve5agstyyb9gqzjm";
     [SharedData sharedData];
 }
 
++ (JRCaptureUser *)getBlankCaptureUser
+{
+    JRCaptureUser *captureUser  = [JRCaptureUser captureUser];
+    captureUser.email = @"lilli@janrain.com";
+    captureUser.objectTestRequired.requiredString = @"required";
+    captureUser.objectTestRequiredUnique.requiredString = @"required";
+    captureUser.objectTestRequiredUnique.requiredUniqueString = @"requiredUnique";
+
+    return captureUser;
+}
+
+
 - (void)dealloc
 {
     [captureUser release];

@@ -100,6 +100,7 @@
         self.captureObjectPath = @"/objectTestRequired";
         self.canBeUpdatedOrReplaced = YES;
 
+
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"requiredString", @"string1", @"string2", nil]];
     }
     return self;
@@ -117,8 +118,9 @@
     {
         self.captureObjectPath = @"/objectTestRequired";
         self.canBeUpdatedOrReplaced = YES;
-        _requiredString = [newRequiredString copy];
 
+        _requiredString = [newRequiredString copy];
+    
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"requiredString", @"string1", @"string2", nil]];
     }
     return self;

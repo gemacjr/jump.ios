@@ -1158,7 +1158,7 @@ sub recursiveParse {
       
       # e.g.:
       #   foo = [newFoo copy];
-      $constructorSection[8] .= "        _" . $propertyName . " = [new" . ucfirst($propertyName) . " copy];\n";
+      $constructorSection[8] .= "\n        _" . $propertyName . " = [new" . ucfirst($propertyName) . " copy];";
       
     } else {
     ######################################################
@@ -1255,6 +1255,12 @@ sub recursiveParse {
       $replaceFromDictSection[9]  .= "\n        self." . $propertyName . " = " . $frRplDictionary . ";";
       $replaceFromDictSection[9]  .= "\n    else";
       $replaceFromDictSection[9]  .= "\n        [self." . $propertyName . " replaceFromDictionary:[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] withPath:self.captureObjectPath];\n";
+
+
+      # e.g.:
+      #   _foo = [[JRFoo alloc] init];
+      $minConstructorSection[3] .= "\n        _" . $propertyName . " = [[JR" . ucfirst($propertyName) . " alloc] init];";
+      $minConstructorSection[3] .= "\n        _" . $propertyName . " = [[JR" . ucfirst($propertyName) . " alloc] init];";
 
     } else {
   

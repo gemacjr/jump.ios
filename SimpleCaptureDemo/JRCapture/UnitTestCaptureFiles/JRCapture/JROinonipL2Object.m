@@ -100,6 +100,9 @@
         self.captureObjectPath      = @"";
         self.canBeUpdatedOrReplaced = NO;
 
+        _oinonipL3Object = [[JROinonipL3Object alloc] init];
+        _oinonipL3Object = [[JROinonipL3Object alloc] init];
+
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"oinonipL3Object", nil]];
     }
     return self;

@@ -70,6 +70,7 @@
         self.captureObjectPath      = @"";
         self.canBeUpdatedOrReplaced = NO;
 
+
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"simpleTypeOne", nil]];
     }
     return self;

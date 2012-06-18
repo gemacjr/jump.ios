@@ -85,6 +85,7 @@
         self.captureObjectPath = @"/oinoinoL1Object/oinoinoL2Object/oinoinoL3Object";
         self.canBeUpdatedOrReplaced = YES;
 
+
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", nil]];
     }
     return self;

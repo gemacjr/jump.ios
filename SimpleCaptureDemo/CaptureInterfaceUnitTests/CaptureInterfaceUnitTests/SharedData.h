@@ -17,4 +17,5 @@
 + (JRCaptureUser *)sharedCaptureUser;
 + (void)getCaptureUserForDelegate:(id<SharedDataDelegate>)delegate;
 + (void)initializeCapture;
++ (JRCaptureUser *)getBlankCaptureUser;
 @end

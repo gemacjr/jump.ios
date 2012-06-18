@@ -152,6 +152,7 @@
         self.captureObjectPath = @"/pinoinoL1Object/pinoinoL2Object";
         self.canBeUpdatedOrReplaced = YES;
 
+
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", nil]];
     }
     return self;
