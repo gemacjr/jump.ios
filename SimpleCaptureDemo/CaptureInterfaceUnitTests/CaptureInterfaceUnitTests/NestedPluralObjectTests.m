@@ -119,7 +119,7 @@
 // pinap
 - (void)pinapCreate
 {
-   captureUser.pinapL1Plural = [self arrayWithElementsOfType:[JRPinapL1PluralElement class]
+    captureUser.pinapL1Plural = [self arrayWithElementsOfType:[JRPinapL1PluralElement class]
                                               withConstructor:@selector(pinapL1PluralElement)
                                            fillerFodderOffset:0];
 
@@ -490,21 +490,63 @@
     GHAssertTrue([oinoL2Object isEqualToOinoL2Object:captureUser.oinoL1Object.oinoL2Object], nil);
 }
 
-/* Plural in a plural in a plural (320-329) */
-// pinapinap
 - (void)pinapinapCreate
 {
+    self.currentL1Plural = captureUser.pinapinapL1Plural =
+            [self arrayWithElementsOfType:[JRPinapinapL1PluralElement class]
+                  withConstructor:@selector(pinapinapL1PluralElement) fillerFodderOffset:0];
+    self.currentL1Object = [currentL1Plural objectAtIndex:1];
 
+    self.currentL2Plural = ((JRPinapinapL1PluralElement *) currentL1Object).pinapinapL2Plural =
+            [self arrayWithElementsOfType:[JRPinapinapL2PluralElement class]
+                          withConstructor:@selector(pinapinapL2PluralElement)
+                       fillerFodderOffset:6];
+    self.currentL2Object = [currentL2Plural objectAtIndex:1];
+
+    self.currentL3Plural = ((JRPinapinapL2PluralElement *) currentL2Object).pinapinapL3Plural =
+            [self arrayWithElementsOfType:[JRPinapinapL3PluralElement class]
+                          withConstructor:@selector(pinapinapL3PluralElement)
+                       fillerFodderOffset:9];
+    self.currentL3Object = [currentL3Plural objectAtIndex:1];
+}
+
+/* Plural in a plural in a plural (320-329) */
+// pinapinap
+- (void)test_b320a_pinapinapCreate
+{
+    [self pinapinapCreate];
+
+    [self prepare];
+    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self withContext:_fsel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)finish_b320a_pinapinapCreate_withArguments:(NSDictionary *)arguments
+                             andTestSelectorString:(NSString *)testSelectorString
+{
+    NSArray *newArray = [arguments objectForKey:@"newArray"];
+    JRCaptureObject *captureObject = [arguments objectForKey:@"captureObject"];
+
+    GHAssertTrue([newArray isEqualToOtherPinapinapL1PluralArray:currentL1Plural], nil);
 }
 
 - (void)test_b320_pinapinapUpdate_Level3_PreReplace_FailCase
 {
+    [self pinapinapCreate];
 
+    [self prepare];
+    [currentL3Object updateObjectOnCaptureForDelegate:self withContext:_esel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
 - (void)test_b321_pinapinapReplaceArray_Level2_FailCase
 {
+    [self pinapinapCreate];
 
+    [self prepare];
+    [((JRPinapinapL1PluralElement *)currentL1Object) replacePinapinapL2PluralArrayOnCaptureForDelegate:self
+                                                                                           withContext:_esel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
 - (void)test_b322_pinapinapReplaceArray_Level1
@@ -640,7 +682,8 @@
     [self performSelector:_nsel(newSelector) withObject:arguments withObject:testSelectorString];
 }
 
-- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
+didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     NSDictionary *resultDictionary = [result objectFromJSONString];
     NSArray      *resultArray      = [resultDictionary objectForKey:@"result"];
