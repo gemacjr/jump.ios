@@ -530,6 +530,7 @@
     GHAssertTrue([newArray isEqualToOtherPinapinapL1PluralArray:currentL1Plural], nil);
 }
 
+/* Create a plural in a plural in a plural, then try and update an element in the third plural. Should fail. */
 - (void)test_b320_pinapinapUpdate_Level3_PreReplace_FailCase
 {
     [self pinapinapCreate];
@@ -539,6 +540,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+/* Create a plural in a plural in a plural, then try and replace the second plural. Should fail. */
 - (void)test_b321_pinapinapReplaceArray_Level2_FailCase
 {
     [self pinapinapCreate];
@@ -549,10 +551,27 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+/* Create a plural in a plural in a plural, then replace the first plural. Confirm that an element in the second
+ * and third plurals can be updated. */
 - (void)test_b322_pinapinapReplaceArray_Level1
 {
 
 }
+
+/* Create a plural in a plural in a plural, then replace the first plural. Confirm that we can update an element from
+ * the third plural. */
+- (void)test_b323_pinapinapUpdate_Level3_PostReplace
+{
+
+}
+
+/* Create a plural in a plural in a plural, then replace the first plural. Copy the first plural and confirm that
+ * elements from the second and third plurals were copied correctly. */
+- (void)test_b324_pinapinapCopy_Level1_PostReplace
+{
+
+}
+
 
 /* Plural in an object in a plural (330-339) */
 // pinonip
