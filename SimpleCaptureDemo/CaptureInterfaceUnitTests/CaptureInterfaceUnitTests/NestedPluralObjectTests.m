@@ -16,6 +16,8 @@
 #import "SharedData.h"
 #import "JRCaptureUser+Extras.h"
 
+#define _sel NSStringFromSelector(_cmd)
+
 @interface b3_NestedPluralObjectTests : GHAsyncTestCase <JRCaptureObjectDelegate>
 {
     JRCaptureUser *captureUser;
@@ -92,11 +94,13 @@
     return [[array copy] autorelease];
 }
 
-- (id)objectOfType:(Class)klass withConstructor:(SEL)constructor
+- (id)objectOfType:(Class)klass withConstructor:(SEL)constructor fillerFodderOffset:(NSUInteger)offset
 {
+    GHAssertLessThan(offset+3, [fillerFodder count], nil);
+
     id object = [klass performSelector:constructor];
-    ((JROinoL1Object*)object).string1 = [fillerFodder objectAtIndex:0];
-    ((JROinoL1Object*)object).string2 = [fillerFodder objectAtIndex:3];
+    ((JROinoL1Object*)object).string1 = [fillerFodder objectAtIndex:0 + offset];
+    ((JROinoL1Object*)object).string2 = [fillerFodder objectAtIndex:3 + offset];
 
     return object;
 }
@@ -175,8 +179,7 @@
 // pino
 - (void)pinoCreate
 {
-    captureUser.pinoL1Object = [self objectOfType:[JRPinoL1Object class]
-                                  withConstructor:@selector(pinoL1Object)];
+    captureUser.pinoL1Object = [self objectOfType:[JRPinoL1Object class] withConstructor:@selector(pinoL1Object) fillerFodderOffset:0];
 
     captureUser.pinoL1Object.pinoL2Plural = [self arrayWithElementsOfType:[JRPinoL2PluralElement class]
                                                           withConstructor:@selector(pinoL2PluralElement)
@@ -230,10 +233,10 @@
                                            fillerFodderOffset:0];
 
     ((JROnipL1PluralElement *)[captureUser.onipL1Plural objectAtIndex:0]).onipL2Object =
-            [self objectOfType:[JROnipL2Object class] withConstructor:@selector(onipL2Object)];
+            [self objectOfType:[JROnipL2Object class] withConstructor:@selector(onipL2Object) fillerFodderOffset:0];
 
     ((JROnipL1PluralElement *)[captureUser.onipL1Plural objectAtIndex:1]).onipL2Object =
-            [self objectOfType:[JROnipL2Object class] withConstructor:@selector(onipL2Object)];
+            [self objectOfType:[JROnipL2Object class] withConstructor:@selector(onipL2Object) fillerFodderOffset:0];
 
     self.currentL1Plural = captureUser.onipL1Plural;
     self.currentL1Object = [currentL1Plural objectAtIndex:0];
@@ -249,10 +252,10 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
-- (void)test_b311_onipReplaceArray
-{
-
-}
+//- (void)test_b311_onipReplaceArray
+//{
+//    // Leaving this out because 312 also tests the replace
+//}
 
 - (void)test_b312_onipUpdate_Level2_PostReplace
 {
@@ -265,24 +268,58 @@
 
 /* Object in an object (315-319) */
 // oino
-- (void)test_b315_onioCreate
+- (void)onioCreate
+{
+    self.currentL1Object = captureUser.oinoL1Object =
+            [self objectOfType:[JROinoL1Object class] withConstructor:@selector(oinoL1Object) fillerFodderOffset:0];
+    self.currentL2Object = captureUser.oinoL1Object.oinoL2Object =
+            [self objectOfType:[JROinoL2Object class] withConstructor:@selector(oinoL2Object) fillerFodderOffset:6];
+}
+
+- (void)test_b315_onioUpdate_Level1
+{
+    [self onioCreate];
+
+    [self prepare];
+    [currentL1Object updateObjectOnCaptureForDelegate:self withContext:_sel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)finish_b315_onioUpdate_Level1_withResult:(NSDictionary *)result andContext:(NSString *)context
+{
+    JROinoL1Object *o = [JROinoL1Object oinoL1ObjectObjectFromDictionary:result withPath:nil];
+    GHAssertTrue([o isEqualToOinoL1Object:currentL1Object], nil);
+}
+
+- (void)test_b316_oinoUpdate_Level1_NoChangeL2
 {
 
 }
 
-- (void)test_b316_onioUpdate_Level1
+- (void)test_b317_oinoUpdate_Level1_ChangeL2
 {
 
 }
 
-- (void)test_b317_oinoUpdate_Level1_NoChangeL2
+- (void)onioPreparatoryUpdateWithContext:(NSString *)finisher
 {
-
+    NSString *compositeContext = [NSString stringWithFormat:@"%@%@%@", _sel, @".", finisher];
+    [self prepare];
+    [currentL1Object updateObjectOnCaptureForDelegate:self withContext:compositeContext];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_b318_oinoUpdate_Level1_ChangeL2
+- (void) test_b318_oinoUpdate_Level1_NewL2
 {
+    [self onioCreate];
+    [self onioPreparatoryUpdateWithContext:_sel];
+}
 
+- (void) finish_b318_oinoUpdate_Level1_NewL2_withResult:(NSDictionary *)result andContext:(NSString *)context
+{
+    JROinoL2Object *o = [JROinoL2Object oinoL2Object];
+    captureUser.oinoL1Object.oinoL2Object = o;
+    [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:context];
 }
 
 /* Plural in a plural in a plural (320-329) */
@@ -490,7 +527,8 @@
     [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
 }
 
-- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
+        didFailWithResult:(NSString *)result context:(NSObject *)context
 {
     NSString *testSelectorString = (NSString *)context;
     GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
@@ -537,6 +575,23 @@
             JROnipL2Object *t = [JROnipL2Object onipL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
             GHAssertTrue([t isEqualToOnipL2Object:((JROnipL2Object *) object)], nil);
             GHAssertFalse([t isEqualToOnipL2Object:currentL2Object], nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_b315_onioUpdate_Level1"])
+        {
+            [self finish_b315_onioUpdate_Level1_withResult:captureObjectDictionary andContext:context];
+        }
+        else if ([testSelectorString isEqualToString:@"test_b318_oinoUpdate_Level1_NewL2"])
+        {
+            JROinoL1Object *o = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+            GHAssertTrue([o isEqualToOinoL1Object:captureUser.oinoL1Object], nil);
+        }
+        else if ([testSelectorString hasPrefix:@"onioPreparatoryUpdateWithContext"])
+        {
+            NSString *test = [[testSelectorString componentsSeparatedByString:@"."] objectAtIndex:1];
+            NSString *finisher = [test stringByReplacingOccurrencesOfString:@"test_" withString:@"finish_"];
+            finisher = [finisher stringByAppendingFormat:@"%@", @"_withResult:andContext:"];
+            [self performSelector:NSSelectorFromString(finisher) withObject:captureObjectDictionary withObject:test];
+            return;
         }
         else
         {
