@@ -21,7 +21,7 @@
     JRCaptureUser *captureUser;
     /* Variables to hold pointers to objects/plurals/plural elements we may be interested in checking */
     NSArray  *currentL1Plural, *currentL2Plural, *currentL3Plural;
-    NSObject *currentL1Object, *currentL2Object, *currentL3Object;
+    JRCaptureObject *currentL1Object, *currentL2Object, *currentL3Object;
 
     NSArray *fillerFodder;
 }
@@ -223,24 +223,44 @@
 
 /* Object in a plural (310-314) */
 // onip
-- (void)test_b310_onipCreate
+- (void)onipCreate
+{
+   captureUser.onipL1Plural = [self arrayWithElementsOfType:[JROnipL1PluralElement class]
+                                              withConstructor:@selector(onipL1PluralElement)
+                                           fillerFodderOffset:0];
+
+    ((JROnipL1PluralElement *)[captureUser.onipL1Plural objectAtIndex:0]).onipL2Object =
+            [self objectOfType:[JROnipL2Object class] withConstructor:@selector(onipL2Object)];
+
+    ((JROnipL1PluralElement *)[captureUser.onipL1Plural objectAtIndex:1]).onipL2Object =
+            [self objectOfType:[JROnipL2Object class] withConstructor:@selector(onipL2Object)];
+
+    self.currentL1Plural = captureUser.onipL1Plural;
+    self.currentL1Object = [currentL1Plural objectAtIndex:0];
+    self.currentL2Object = ((JROnipL1PluralElement *)[currentL1Plural objectAtIndex:0]).onipL2Object;
+}
+
+- (void)test_b310_onipUpdate_Level2_PreReplace_FailCase
+{
+    [self onipCreate];
+
+    [self prepare];
+    [currentL2Object updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
+}
+
+- (void)test_b311_onipReplaceArray
 {
 
 }
 
-- (void)test_b311_onipUpdate_Level2_PreReplace_FailCase
+- (void)test_b312_onipUpdate_Level2_PostReplace
 {
+    [self onipCreate];
 
-}
-
-- (void)test_b312_onipReplaceArray
-{
-
-}
-
-- (void)test_b313_onipUpdate_Level2_PostReplace
-{
-
+    [self prepare];
+    [captureUser replaceOnipL1PluralArrayOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:120.0];
 }
 
 /* Object in an object (315-319) */
@@ -448,6 +468,12 @@
 
             return;
         }
+        else if ([testSelectorString isEqualToString:@"test_b312_onipUpdate_Level2_PostReplace"])
+        {
+            JROnipL2Object *const object1 = ((JROnipL1PluralElement *) [newArray objectAtIndex:0]).onipL2Object;
+            [self updateObjectProperties:object1 toFillerFodderIndex:5];
+            [object1 updateObjectOnCaptureForDelegate:self withContext:testSelectorString];
+        }
         else
         {
             GHAssertFalse(TRUE, @"Missing test result comparison for %@ in %@", testSelectorString, NSStringFromSelector(_cmd));
@@ -505,6 +531,12 @@
             /* And since we replaced the object first, both should have equal arrays too. */
             GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:(JRPinoL1Object*)object], nil);
             GHAssertTrue([(JRPinoL1Object *)currentL1Object isEqualToPinoL1Object:[JRPinoL1Object pinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil]], nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_b312_onipUpdate_Level2_PostReplace"])
+        {
+            JROnipL2Object *t = [JROnipL2Object onipL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+            GHAssertTrue([t isEqualToOnipL2Object:((JROnipL2Object *) object)], nil);
+            GHAssertFalse([t isEqualToOnipL2Object:currentL2Object], nil);
         }
         else
         {
