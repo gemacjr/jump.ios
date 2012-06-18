@@ -322,6 +322,19 @@
     [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:context];
 }
 
+- (void) test_b319_oinoUpdate_Level2_NewL2
+{
+    [self onioCreate];
+    [self onioPreparatoryUpdateWithContext:_sel];
+}
+
+- (void) finish_b319_oinoUpdate_Level2_NewL2_withResult:(NSDictionary *)result andContext:(NSString *)context
+{
+    JROinoL2Object *o = [JROinoL2Object oinoL2Object];
+    captureUser.oinoL1Object.oinoL2Object = o;
+    [captureUser.oinoL1Object.oinoL2Object updateObjectOnCaptureForDelegate:self withContext:context];
+}
+
 /* Plural in a plural in a plural (320-329) */
 // pinapinap
 - (void)test_b320_pinapinapCreate
@@ -584,6 +597,11 @@
         {
             JROinoL1Object *o = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
             GHAssertTrue([o isEqualToOinoL1Object:captureUser.oinoL1Object], nil);
+        }
+        else if ([testSelectorString isEqualToString:@"test_b319_oinoUpdate_Level2_NewL2"])
+        {
+            JROinoL2Object *o = [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+            GHAssertTrue([o isEqualToOinoL2Object:captureUser.oinoinoL1Object.oinoinoL2Object], nil);
         }
         else if ([testSelectorString hasPrefix:@"onioPreparatoryUpdateWithContext"])
         {
