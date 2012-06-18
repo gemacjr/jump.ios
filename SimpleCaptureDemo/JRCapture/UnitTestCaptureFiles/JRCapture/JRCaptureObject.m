@@ -366,6 +366,15 @@
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
+    if (!self.canBeUpdatedOrReplaced)
+    {
+        [self replaceCaptureArrayDidFailWithResult:
+                      @"{\"stat\":\"fail\",\"message\":\"This object or its parent is an element of an array, and the array needs to be replaced on Capture first\""
+                                           context:newContext];
+
+        return;
+    }
+
     [JRCaptureApidInterface replaceCaptureArray:[array performSelector:arrayOfObjectsToArrayOfDictionariesSelector]
                                      atPath:captureArrayPath
                                   withToken:[JRCaptureData accessToken]
@@ -386,6 +395,15 @@
                                                      [NSNumber numberWithBool:YES], @"isSimpleArray",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
+
+    if (!self.canBeUpdatedOrReplaced)
+    {
+        [self replaceCaptureArrayDidFailWithResult:
+                      @"{\"stat\":\"fail\",\"message\":\"This object or its parent is an element of an array, and the array needs to be replaced on Capture first\""
+                                           context:newContext];
+
+        return;
+    }
 
     [JRCaptureApidInterface replaceCaptureArray:[array arrayOfStringsFromStringPluralElements]
                                      atPath:captureArrayPath

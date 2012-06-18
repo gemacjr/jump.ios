@@ -396,7 +396,7 @@
 
 /* Object in an object (315-319) */
 // oino
-- (void)onioCreate
+- (void)oinoCreate
 {
     self.currentL1Object = captureUser.oinoL1Object =
             [self objectOfType:[JROinoL1Object class] withConstructor:@selector(oinoL1Object) fillerFodderOffset:0];
@@ -404,9 +404,18 @@
             [self objectOfType:[JROinoL2Object class] withConstructor:@selector(oinoL2Object) fillerFodderOffset:6];
 }
 
+- (void)oinoPreparatoryUpdateWithContext:(NSString *)finisher
+{
+    [self oinoCreate];
+
+    [self prepare];
+    [currentL1Object updateObjectOnCaptureForDelegate:self withContext:_ctel(finisher)];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
 - (void)test_b315_onioUpdate_Level1
 {
-    [self onioCreate];
+    [self oinoCreate];
 
     [self prepare];
     [currentL1Object updateObjectOnCaptureForDelegate:self withContext:_fsel];
@@ -425,7 +434,23 @@
 
 - (void)test_b316_oinoUpdate_Level1_NoChangeL2
 {
+    [self oinoPreparatoryUpdateWithContext:_sel];
+}
 
+- (void)continue_b316_oinoUpdate_Level1_NoChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    [self updateObjectProperties:captureUser.oinoL1Object toFillerFodderIndex:2];
+    [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+}
+
+- (void)finish_b316_oinoUpdate_Level1_NoChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
+    JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
+
+    JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+
+    GHAssertTrue([oinoL1Object isEqualToOinoL1Object:((JROinoL1Object *)currentL1Object)], nil);
 }
 
 - (void)test_b317_oinoUpdate_Level1_ChangeL2
@@ -433,24 +458,15 @@
 
 }
 
-- (void)onioPreparatoryUpdateWithContext:(NSString *)finisher
-{
-    [self onioCreate];
-
-    [self prepare];
-    [currentL1Object updateObjectOnCaptureForDelegate:self withContext:_ctel(finisher)];
-    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
-}
-
 - (void)test_b318_oinoUpdate_Level1_NewL2
 {
-    [self onioPreparatoryUpdateWithContext:_sel];
+    [self oinoPreparatoryUpdateWithContext:_sel];
 }
 
 - (void)continue_b318_oinoUpdate_Level1_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
-    JROinoL2Object *oinoL2Object = [JROinoL2Object oinoL2Object];
-    captureUser.oinoL1Object.oinoL2Object = oinoL2Object;
+    self.currentL2Object = captureUser.oinoL1Object.oinoL2Object = [JROinoL2Object oinoL2Object];
+
     [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
 
@@ -462,11 +478,12 @@
     JROinoL1Object  *oinoL1Object = [JROinoL1Object oinoL1ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
 
     GHAssertTrue([oinoL1Object isEqualToOinoL1Object:captureUser.oinoL1Object], nil);
+    GHAssertTrue([oinoL1Object.oinoL2Object isEqualToOinoL2Object:((JROinoL2Object *)currentL2Object)], nil);
 }
 
 - (void)test_b319_oinoUpdate_Level2_NewL2
 {
-    [self onioPreparatoryUpdateWithContext:_sel];
+    [self oinoPreparatoryUpdateWithContext:_sel];
 }
 
 - (void)continue_b319_oinoUpdate_Level2_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
@@ -475,7 +492,7 @@
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
 
     JROinoL2Object *oinoL2Object = [JROinoL2Object oinoL2Object];
-    captureUser.oinoL1Object.oinoL2Object = oinoL2Object;
+    self.currentL2Object = captureUser.oinoL1Object.oinoL2Object = [JROinoL2Object oinoL2Object];
 
     [captureUser.oinoL1Object.oinoL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
