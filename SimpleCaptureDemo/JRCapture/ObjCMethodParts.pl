@@ -60,7 +60,7 @@
 #         self.captureObjectPath = @"<entity_path>";
 #         self.canBeUpdatedOrReplaced = <YES_or_NO>;\n
 #
-#         dirtyPropertySet = [[NSMutableSet alloc] initWithObjects:@"<objectProperty1>", @"<objectProperty2>, ... , nil];
+#         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"<objectProperty1>", @"<objectProperty2>, ... , nil]];
 #     }
 #
 #     return self;
@@ -117,7 +117,8 @@ my @minConstructorParts = (
 #                                                            
 #         <requiredProperty> = [new<requiredProperty> copy];
 #           ...
-#         dirtyPropertySet = [[NSMutableSet alloc] initWithObjects:@"<objectProperty1>", @"<objectProperty2>, ... , nil];
+#
+#         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"<objectProperty1>", @"<objectProperty2>, ... , nil]];
 #     }
 #
 #     return self;
