@@ -232,14 +232,14 @@
 		DDE0B9A67F00A1DC4B6DFBBA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBB9 /* CoreGraphics.framework */; };
 		DDE0B9A67F00A1DC4B6DFBC0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBBF /* InfoPlist.strings */; };
 		DDE0B9A67F00A1DC4B6DFBC2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBC1 /* main.m */; };
-		DDE0B9A67F00A1DC4B6DFBC7 /* SimplePropertySetterTests.m in Sources */ = {isa = PBXBuildFile; };
-		DDE0B9A67F00A1DC4B6DFBCD /* ConstraintsTests.m in Sources */ = {isa = PBXBuildFile; };
+		DDE0B9A67F00A1DC4B6DFBC7 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		DDE0B9A67F00A1DC4B6DFBCD /* (null) in Sources */ = {isa = PBXBuildFile; };
 		DDE0B9A67F00A1DC4B6DFBD0 /* ContraintsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBCF /* ContraintsTests.m */; };
-		DDE0B9A67F00A1DC4B6DFBD3 /* OtherAttributesTests.m in Sources */ = {isa = PBXBuildFile; };
+		DDE0B9A67F00A1DC4B6DFBD3 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		DDE0B9A67F00A1DC4B6DFBD6 /* OtherAttributesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBD5 /* OtherAttributesTests.m */; };
 		DDE0B9A67F00A1DC4B6DFBD9 /* SharedData.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBD8 /* SharedData.m */; };
 		DDE0B9A67F00A1DC4B6DFBDD /* GetCaptureUserAsyncTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBDC /* GetCaptureUserAsyncTest.m */; };
-		DDE0B9A67F00A1DC4B6DFBDF /* SimplePropertyUpdateTests.m in Sources */ = {isa = PBXBuildFile; };
+		DDE0B9A67F00A1DC4B6DFBDF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		DDE0B9A67F00A1DC4B6DFBE2 /* BooleanTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBE1 /* BooleanTests.m */; };
 		DDE0B9A67F00A1DC4B6DFBE5 /* IntegerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBE4 /* IntegerTests.m */; };
 		DDE0B9A67F00A1DC4B6DFBE8 /* DecimalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDE0B9A67F00A1DC4B6DFBE7 /* DecimalTests.m */; };
@@ -537,7 +537,7 @@
 		9FEB37DB158130BF007706DC /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		9FEB3886158130E1007706DC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9FEB3887158130E1007706DC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaptureInterfaceUnitTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaptureInterfaceUnitTests.1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDE0B9A67F00A1DC4B6DFBB5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DDE0B9A67F00A1DC4B6DFBB7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DDE0B9A67F00A1DC4B6DFBB9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1028,7 +1028,7 @@
 		DDE0B9A67F00A1DC4B6DFBA9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.app */,
+				DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.1.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1099,7 +1099,7 @@
 			);
 			name = CaptureInterfaceUnitTests;
 			productName = CaptureInterfaceUnitTests;
-			productReference = DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.app */;
+			productReference = DDE0B9A67F00A1DC4B6DFBAC /* CaptureInterfaceUnitTests.1.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1358,14 +1358,14 @@
 				9FEB37E8158130BF007706DC /* JRWebViewController.m in Sources */,
 				9FEB37EA158130BF007706DC /* JSONKit.m in Sources */,
 				9FEB3885158130BF007706DC /* SFHFKeychainUtils.m in Sources */,
-				DDE0B9A67F00A1DC4B6DFBC7 /* SimplePropertySetterTests.m in Sources */,
-				DDE0B9A67F00A1DC4B6DFBCD /* ConstraintsTests.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFBC7 /* (null) in Sources */,
+				DDE0B9A67F00A1DC4B6DFBCD /* (null) in Sources */,
 				DDE0B9A67F00A1DC4B6DFBD0 /* ContraintsTests.m in Sources */,
-				DDE0B9A67F00A1DC4B6DFBD3 /* OtherAttributesTests.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFBD3 /* (null) in Sources */,
 				DDE0B9A67F00A1DC4B6DFBD6 /* OtherAttributesTests.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFBD9 /* SharedData.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFBDD /* GetCaptureUserAsyncTest.m in Sources */,
-				DDE0B9A67F00A1DC4B6DFBDF /* SimplePropertyUpdateTests.m in Sources */,
+				DDE0B9A67F00A1DC4B6DFBDF /* (null) in Sources */,
 				DDE0B9A67F00A1DC4B6DFBE2 /* BooleanTests.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFBE5 /* IntegerTests.m in Sources */,
 				DDE0B9A67F00A1DC4B6DFBE8 /* DecimalTests.m in Sources */,
@@ -1471,7 +1471,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME).1";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

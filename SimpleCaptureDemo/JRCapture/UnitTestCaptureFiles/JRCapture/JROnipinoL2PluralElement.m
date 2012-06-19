@@ -101,7 +101,6 @@
         self.canBeUpdatedOrReplaced = NO;
 
         _onipinoL3Object = [[JROnipinoL3Object alloc] init];
-        _onipinoL3Object = [[JROnipinoL3Object alloc] init];
 
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"onipinoL3Object", nil]];
     }

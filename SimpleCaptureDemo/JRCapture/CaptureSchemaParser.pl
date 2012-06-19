@@ -1260,7 +1260,7 @@ sub recursiveParse {
       # e.g.:
       #   _foo = [[JRFoo alloc] init];
       $minConstructorSection[3] .= "\n        _" . $propertyName . " = [[JR" . ucfirst($propertyName) . " alloc] init];";
-      $minConstructorSection[3] .= "\n        _" . $propertyName . " = [[JR" . ucfirst($propertyName) . " alloc] init];";
+      $constructorSection[8] .= "\n        _" . $propertyName . " = [[JR" . ucfirst($propertyName) . " alloc] init];";
 
     } else {
   

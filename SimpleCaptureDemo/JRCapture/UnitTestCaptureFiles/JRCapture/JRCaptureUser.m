@@ -1295,22 +1295,13 @@
         self.canBeUpdatedOrReplaced = YES;
 
         _basicObject = [[JRBasicObject alloc] init];
-        _basicObject = [[JRBasicObject alloc] init];
-        _objectTestRequired = [[JRObjectTestRequired alloc] init];
         _objectTestRequired = [[JRObjectTestRequired alloc] init];
         _objectTestRequiredUnique = [[JRObjectTestRequiredUnique alloc] init];
-        _objectTestRequiredUnique = [[JRObjectTestRequiredUnique alloc] init];
-        _pinoL1Object = [[JRPinoL1Object alloc] init];
         _pinoL1Object = [[JRPinoL1Object alloc] init];
         _oinoL1Object = [[JROinoL1Object alloc] init];
-        _oinoL1Object = [[JROinoL1Object alloc] init];
-        _pinapinoL1Object = [[JRPinapinoL1Object alloc] init];
         _pinapinoL1Object = [[JRPinapinoL1Object alloc] init];
         _pinoinoL1Object = [[JRPinoinoL1Object alloc] init];
-        _pinoinoL1Object = [[JRPinoinoL1Object alloc] init];
         _onipinoL1Object = [[JROnipinoL1Object alloc] init];
-        _onipinoL1Object = [[JROnipinoL1Object alloc] init];
-        _oinoinoL1Object = [[JROinoinoL1Object alloc] init];
         _oinoinoL1Object = [[JROinoinoL1Object alloc] init];
 
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"email", @"basicBoolean", @"basicString", @"basicInteger", @"basicDecimal", @"basicDate", @"basicDateTime", @"basicIpAddress", @"basicPassword", @"jsonNumber", @"jsonString", @"jsonArray", @"jsonDictionary", @"stringTestJson", @"stringTestEmpty", @"stringTestNull", @"stringTestInvalid", @"stringTestNSNull", @"stringTestAlphanumeric", @"stringTestUnicodeLetters", @"stringTestUnicodePrintable", @"stringTestEmailAddress", @"stringTestLength", @"stringTestCaseSensitive", @"stringTestFeatures", @"basicObject", @"objectTestRequired", @"objectTestRequiredUnique", @"pinoL1Object", @"oinoL1Object", @"pinapinoL1Object", @"pinoinoL1Object", @"onipinoL1Object", @"oinoinoL1Object", nil]];

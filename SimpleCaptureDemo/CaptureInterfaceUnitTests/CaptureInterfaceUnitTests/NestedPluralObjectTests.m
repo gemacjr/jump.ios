@@ -17,6 +17,7 @@
 #define _fsel      [NSString stringWithFormat:@"%@%@%@", @"finish", @".", _sel]
 #define _esel      [NSString stringWithFormat:@"%@%@%@", @"fail", @".", _sel]
 #define _ctel(str) [NSString stringWithFormat:@"%@%@%@", @"continue", @".", str]
+#define _cnel(n,s) [NSString stringWithFormat:@"%@%@%@%@", @"continue", n, @".", s]
 #define _ftel(str) [NSString stringWithFormat:@"%@%@%@", @"finish", @".", str]
 #define _nsel(str) NSSelectorFromString(str)
 
@@ -333,9 +334,9 @@
 // onip
 - (void)onipCreate
 {
-   captureUser.onipL1Plural = [self arrayWithElementsOfType:[JROnipL1PluralElement class]
-                                              withConstructor:@selector(onipL1PluralElement)
-                                           fillerFodderOffset:0];
+    captureUser.onipL1Plural = [self arrayWithElementsOfType:[JROnipL1PluralElement class]
+                                             withConstructor:@selector(onipL1PluralElement)
+                                          fillerFodderOffset:0];
 
     ((JROnipL1PluralElement *)[captureUser.onipL1Plural objectAtIndex:0]).onipL2Object =
             [self objectOfType:[JROnipL2Object class] withConstructor:@selector(onipL2Object) fillerFodderOffset:0];
@@ -432,18 +433,18 @@
     GHAssertTrue([oinoL1Object isEqualToOinoL1Object:((JROinoL1Object *)currentL1Object)], nil);
 }
 
-- (void)test_b316_oinoUpdate_Level1_NoChangeL2
+- (void)test_b316a_oinoUpdate_Level1_NoChangeL2
 {
     [self oinoPreparatoryUpdateWithContext:_sel];
 }
 
-- (void)continue_b316_oinoUpdate_Level1_NoChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+- (void)continue_b316a_oinoUpdate_Level1_NoChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
     [self updateObjectProperties:captureUser.oinoL1Object toFillerFodderIndex:2];
     [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
 
-- (void)finish_b316_oinoUpdate_Level1_NoChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+- (void)finish_b316a_oinoUpdate_Level1_NoChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
@@ -453,18 +454,18 @@
     GHAssertTrue([captureUser.oinoL1Object isEqualToOinoL1Object:oinoL1Object], nil);
 }
 
-- (void)test_b317_oinoUpdate_Level1_ChangeL2
+- (void)test_b316b_oinoUpdate_Level1_ChangeL2
 {
     [self oinoPreparatoryUpdateWithContext:_sel];
 }
 
-- (void)continue_b317_oinoUpdate_Level1_ChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+- (void)continue_b316b_oinoUpdate_Level1_ChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
     [self updateObjectProperties:captureUser.oinoL1Object.oinoL2Object toFillerFodderIndex:2];
     [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
 
-- (void)finish_b317_oinoUpdate_Level1_ChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+- (void)finish_b316b_oinoUpdate_Level1_ChangeL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
@@ -475,19 +476,19 @@
     GHAssertTrue([captureUser.oinoL1Object.oinoL2Object isEqualToOinoL2Object:oinoL1Object.oinoL2Object], nil);
 }
 
-- (void)test_b318_oinoUpdate_Level1_NewL2
+- (void)test_b317a_oinoUpdate_Level1_NewL2
 {
     [self oinoPreparatoryUpdateWithContext:_sel];
 }
 
-- (void)continue_b318_oinoUpdate_Level1_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+- (void)continue_b317a_oinoUpdate_Level1_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
     self.currentL2Object = captureUser.oinoL1Object.oinoL2Object = [JROinoL2Object oinoL2Object];
 
     [captureUser.oinoL1Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
 
-- (void)finish_b318_oinoUpdate_Level1_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+- (void)finish_b317a_oinoUpdate_Level1_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
@@ -498,12 +499,12 @@
     GHAssertTrue([oinoL1Object.oinoL2Object isEqualToOinoL2Object:((JROinoL2Object *)currentL2Object)], nil);
 }
 
-- (void)test_b319_oinoUpdate_Level2_NewL2
+- (void)test_b317b_oinoUpdate_Level2_NewL2
 {
     [self oinoPreparatoryUpdateWithContext:_sel];
 }
 
-- (void)continue_b319_oinoUpdate_Level2_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+- (void)continue_b317b_oinoUpdate_Level2_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
@@ -514,7 +515,7 @@
     [captureUser.oinoL1Object.oinoL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
 
-- (void)finish_b319_oinoUpdate_Level2_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+- (void)finish_b317b_oinoUpdate_Level2_NewL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
     NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
     JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
@@ -524,6 +525,61 @@
     GHAssertTrue([oinoL2Object isEqualToOinoL2Object:captureUser.oinoL1Object.oinoL2Object], nil);
 }
 
+- (void)test_b318a_oinoUpdate_Level2_CopiedL2
+{
+    [self oinoPreparatoryUpdateWithContext:_sel];
+}
+
+- (void)continue_b318a_oinoUpdate_Level2_CopiedL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
+    JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
+
+    JROinoL2Object *oinoL2Object = [JROinoL2Object oinoL2Object];
+    self.currentL2Object = captureUser.oinoL1Object.oinoL2Object = [JROinoL2Object oinoL2Object];
+
+    [captureUser.oinoL1Object.oinoL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+}
+
+- (void)finish_b318a_oinoUpdate_Level2_CopiedL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
+    JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
+
+    JROinoL2Object  *oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+
+    GHAssertTrue([oinoL2Object isEqualToOinoL2Object:captureUser.oinoL1Object.oinoL2Object], nil);
+}
+
+- (void)test_b318b_oinoUpdate_Level1_CopiedL2
+{
+    [self oinoPreparatoryUpdateWithContext:_sel];
+}
+
+- (void)continue_b318b_oinoUpdate_Level1_CopiedL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
+    JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
+
+    JROinoL2Object *oinoL2Object = [JROinoL2Object oinoL2Object];
+    self.currentL2Object = captureUser.oinoL1Object.oinoL2Object = [JROinoL2Object oinoL2Object];
+
+    [captureUser.oinoL1Object.oinoL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+}
+
+- (void)finish_b318b_oinoUpdate_Level1_CopiedL2_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    NSDictionary    *captureObjectDictionary = [arguments objectForKey:@"captureObjectDictionary"];
+    JRCaptureObject *captureObject           = [arguments objectForKey:@"captureObject"];
+
+    JROinoL2Object  *oinoL2Object = [JROinoL2Object oinoL2ObjectObjectFromDictionary:captureObjectDictionary withPath:nil];
+
+    GHAssertTrue([oinoL2Object isEqualToOinoL2Object:captureUser.oinoL1Object.oinoL2Object], nil);
+}
+
+
+/* Plural in a plural in a plural (320-329) */
+// pinapinap
 - (void)pinapinapCreate
 {
     self.currentL1Plural = captureUser.pinapinapL1Plural =
@@ -544,8 +600,6 @@
     self.currentL3Object = [currentL3Plural objectAtIndex:1];
 }
 
-/* Plural in a plural in a plural (320-329) */
-// pinapinap
 - (void)test_b320a_pinapinapCreate
 {
     [self pinapinapCreate];
@@ -669,7 +723,21 @@
 // oinonip
 - (void)oinonipCreate
 {
+    DLog(@"");
+    captureUser.oinonipL1Plural = [self arrayWithElementsOfType:[JROinonipL1PluralElement class]
+                                                withConstructor:@selector(oinonipL1PluralElement)
+                                             fillerFodderOffset:0];
 
+    ((JROinonipL1PluralElement *)[captureUser.oinonipL1Plural objectAtIndex:0]).oinonipL2Object =
+             [self objectOfType:[JROinonipL2Object class] withConstructor:@selector(oinonipL2Object) fillerFodderOffset:0];
+
+    ((JROinonipL1PluralElement *)[captureUser.onipL1Plural objectAtIndex:1]).oinonipL2Object.oinonipL3Object =
+             [self objectOfType:[JROinonipL3Object class] withConstructor:@selector(oinonipL3Object) fillerFodderOffset:0];
+
+    self.currentL1Plural = captureUser.oinonipL1Plural;
+    self.currentL1Object = [currentL1Plural objectAtIndex:0];
+    self.currentL2Object = ((JROinonipL1PluralElement *)[currentL1Plural objectAtIndex:0]).oinonipL2Object;
+    self.currentL3Object = ((JROinonipL1PluralElement *)[currentL1Plural objectAtIndex:0]).oinonipL2Object.oinonipL3Object;
 }
 
 - (void)test_b370_oinonipUpdate_Level3_PreReplace_FailCase
@@ -691,6 +759,54 @@
 {
 
 }
+
+/* Create an object in an object in a plural. Replace the plural. Copy the object. Replace the plural again, then try
+   and update the copied level 3 object */
+- (void)test_b375_oinonipUpdate_Level3_CopiedL3_PostReplace_FailCase
+{
+    DLog(@"");
+
+    [self oinonipCreate];
+
+    [self prepare];
+    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self withContext:_csel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:100.0];
+}
+
+- (void)continue_b375_oinonipUpdate_Level3_CopiedL3_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
+                                                               andTestSelectorString:(NSString *)testSelectorString
+{
+    DLog(@"");
+
+    JROinonipL1PluralElement *oinonipL1PluralElement = [captureUser.oinonipL1Plural objectAtIndex:0];
+    JROinonipL3Object *oinonipL3Object = oinonipL1PluralElement.oinonipL2Object.oinonipL3Object;
+
+    NSInteger retainCount = oinonipL3Object.retainCount;
+
+//    DLog(@"%@", testSelectorString);
+//    testSelectorString = _cnel(@"1", testSelectorString);
+//    DLog(@"%@", testSelectorString);
+
+    JROinonipL3Object *oinonipL3ObjectCopy = [oinonipL3Object copy];
+
+    self.currentL3Object =
+            [[((JROinonipL1PluralElement *)[captureUser.oinonipL1Plural objectAtIndex:0]).oinonipL2Object.oinonipL3Object copy] autorelease];
+
+    [captureUser replaceOinonipL1PluralArrayOnCaptureForDelegate:self withContext:_cnel(@"1", testSelectorString)];
+}
+
+- (void)continue1_b375_oinonipUpdate_Level3_CopiedL3_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
+                                                               andTestSelectorString:(NSString *)testSelectorString
+{
+    DLog(@"");
+    [self updateObjectProperties:currentL3Object toFillerFodderIndex:2];
+    [currentL3Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+}
+
+- (void)finish_b375_oinonipUpdate_Level3_CopiedL3_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
+                                                            andTestSelectorString:(NSString *)testSelectorString
+{ /* Should fail here */ }
+
 
 /* Object in a plural in an object (380-389) */
 // onipino
@@ -728,6 +844,8 @@
 
 -(void)callSelectorPrefixed:(NSString *)prefixed withArguments:(NSObject *)arguments andTestSelectorString:(NSString *)testSelectorString
 {
+    DLog(@"testSelectorString: %@", testSelectorString);
+
     NSString *newSelector = [NSString stringWithFormat:@"%@%@",
                                            [testSelectorString stringByReplacingOccurrencesOfString:@"test" withString:prefixed],
                                            @"_withArguments:andTestSelectorString:"];
@@ -751,14 +869,14 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
     NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
     @try
     {
-        if ([status isEqualToString:@"continue"])
+        if ([status hasPrefix:@"continue"])
         {
-            [self callSelectorPrefixed:@"continue" withArguments:arguments andTestSelectorString:testSelectorString];
+            [self callSelectorPrefixed:status withArguments:arguments andTestSelectorString:testSelectorString];
             return;
         }
-        else if ([status isEqualToString:@"finish"])
+        else if ([status hasPrefix:@"finish"])
         {
-            [self callSelectorPrefixed:@"finish" withArguments:arguments andTestSelectorString:testSelectorString];
+            [self callSelectorPrefixed:status withArguments:arguments andTestSelectorString:testSelectorString];
         }
         else
         {
@@ -801,14 +919,14 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
     NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
     @try
     {
-        if ([status isEqualToString:@"continue"])
+        if ([status hasPrefix:@"continue"])
         {
-            [self callSelectorPrefixed:@"continue" withArguments:arguments andTestSelectorString:testSelectorString];
+            [self callSelectorPrefixed:status withArguments:arguments andTestSelectorString:testSelectorString];
             return;
         }
-        if ([status isEqualToString:@"finish"])
+        if ([status hasPrefix:@"finish"])
         {
-            [self callSelectorPrefixed:@"finish" withArguments:arguments andTestSelectorString:testSelectorString];
+            [self callSelectorPrefixed:status withArguments:arguments andTestSelectorString:testSelectorString];
         }
         else
         {
@@ -856,14 +974,14 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
     NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
     @try
     {
-        if ([status isEqualToString:@"continue"])
+        if ([status hasPrefix:@"continue"])
         {
-            [self callSelectorPrefixed:@"continue" withArguments:arguments andTestSelectorString:testSelectorString];
+            [self callSelectorPrefixed:status withArguments:arguments andTestSelectorString:testSelectorString];
             return;
         }
-        if ([status isEqualToString:@"finish"])
+        if ([status hasPrefix:@"finish"])
         {
-            [self callSelectorPrefixed:@"finish" withArguments:arguments andTestSelectorString:testSelectorString];
+            [self callSelectorPrefixed:status withArguments:arguments andTestSelectorString:testSelectorString];
         }
         else
         {

@@ -101,7 +101,6 @@
         self.canBeUpdatedOrReplaced = NO;
 
         _onipL2Object = [[JROnipL2Object alloc] init];
-        _onipL2Object = [[JROnipL2Object alloc] init];
 
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"onipL2Object", nil]];
     }
