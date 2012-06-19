@@ -62,7 +62,8 @@
     return self;
 }
 
-- (void)setUserAgentDefault:(NSString *)userAgent {
+- (void)setUserAgentDefault:(NSString *)userAgent
+{
     if (userAgent)
     {
         NSDictionary *uAdefault = [[NSDictionary alloc] initWithObjectsAndKeys:userAgent, @"UserAgent", nil];
@@ -497,7 +498,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     DLog(@"");
-    
+
     if ([sessionData.currentProvider.name isEqualToString:@"yahoo"])
         [self setUserAgentDefault:self.originalUserAgent];
 
