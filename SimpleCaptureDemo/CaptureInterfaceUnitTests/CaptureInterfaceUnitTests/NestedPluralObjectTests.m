@@ -652,9 +652,24 @@
  * elements from the second and third plurals were copied correctly. */
 - (void)test_b324_pinapinapCopy_Level1_PostReplace
 {
+    [self pinapinapCreate];
 
+    NSArray *a = captureUser.pinapinapL1Plural;
+    NSArray *b = [[a copy] autorelease];
+    GHAssertTrue([b isEqualToOtherPinapinapL1PluralArray:a], nil);
+
+    [self prepare];
+    [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self withContext:_fsel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void)finish_b324_pinapinapCopy_Level1_PostReplace_withArguments:(NSDictionary *)arguments
+                                             andTestSelectorString:(NSString *)testSelectorString
+{
+    NSArray *a = [arguments objectForKey:@"newArray"];
+    NSArray *b = [[a copy] autorelease];
+    GHAssertTrue([b isEqualToOtherPinapinapL1PluralArray:a], nil);
+}
 
 /* Plural in an object in a plural (330-339) */
 // pinonip
@@ -832,6 +847,12 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
     NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
 
     GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
+
+    if ([testSelectorString hasSuffix:@"FailCase"])
+    {
+        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+        return;
+    }
 
     [self notify:kGHUnitWaitStatusFailure forSelector:NSSelectorFromString(testSelectorString)];
 }
