@@ -40,6 +40,20 @@
 #import "JRStringPluralElement.h"
 
 
+@implementation NSArray (StringArray)
+- (NSArray *)arrayOfStringsFromStringPluralDictionariesWithType:(NSString *)type
+{
+    DLog(@"");
+
+    NSMutableArray *filteredStringArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredStringArray addObject:[((NSDictionary *)dictionary) objectForKey:type]];
+
+    return filteredStringArray;
+}
+@end
+
 @interface JRCaptureObject (Internal)
 @property BOOL canBeUpdatedOrReplaced;
 //- (NSDictionary *)toUpdateDictionary;

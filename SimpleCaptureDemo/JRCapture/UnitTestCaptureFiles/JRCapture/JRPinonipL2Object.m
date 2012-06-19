@@ -79,7 +79,7 @@
 
 @implementation NSArray (PinonipL2Object_ArrayComparison)
 
-- (BOOL)isEqualToOtherPinonipL3PluralArray:(NSArray *)otherArray
+- (BOOL)isEqualToPinonipL3PluralArray:(NSArray *)otherArray
 {
     if ([self count] != [otherArray count]) return NO;
 
@@ -139,8 +139,6 @@
 
 - (void)setPinonipL3Plural:(NSArray *)newPinonipL3Plural
 {
-    [self.dirtyArraySet addObject:@"pinonipL3Plural"];
-
     [_pinonipL3Plural autorelease];
     _pinonipL3Plural = [newPinonipL3Plural copy];
 }
@@ -324,7 +322,7 @@
     if (!self.pinonipL3Plural && !otherPinonipL2Object.pinonipL3Plural) /* Keep going... */;
     else if (!self.pinonipL3Plural && ![otherPinonipL2Object.pinonipL3Plural count]) /* Keep going... */;
     else if (!otherPinonipL2Object.pinonipL3Plural && ![self.pinonipL3Plural count]) /* Keep going... */;
-    else if (![self.pinonipL3Plural isEqualToOtherPinonipL3PluralArray:otherPinonipL2Object.pinonipL3Plural]) return NO;
+    else if (![self.pinonipL3Plural isEqualToPinonipL3PluralArray:otherPinonipL2Object.pinonipL3Plural]) return NO;
 
     return YES;
 }

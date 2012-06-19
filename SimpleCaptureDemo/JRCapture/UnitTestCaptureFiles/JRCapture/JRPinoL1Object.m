@@ -79,7 +79,7 @@
 
 @implementation NSArray (PinoL1Object_ArrayComparison)
 
-- (BOOL)isEqualToOtherPinoL2PluralArray:(NSArray *)otherArray
+- (BOOL)isEqualToPinoL2PluralArray:(NSArray *)otherArray
 {
     if ([self count] != [otherArray count]) return NO;
 
@@ -139,8 +139,6 @@
 
 - (void)setPinoL2Plural:(NSArray *)newPinoL2Plural
 {
-    [self.dirtyArraySet addObject:@"pinoL2Plural"];
-
     [_pinoL2Plural autorelease];
     _pinoL2Plural = [newPinoL2Plural copy];
 }
@@ -319,7 +317,7 @@
     if (!self.pinoL2Plural && !otherPinoL1Object.pinoL2Plural) /* Keep going... */;
     else if (!self.pinoL2Plural && ![otherPinoL1Object.pinoL2Plural count]) /* Keep going... */;
     else if (!otherPinoL1Object.pinoL2Plural && ![self.pinoL2Plural count]) /* Keep going... */;
-    else if (![self.pinoL2Plural isEqualToOtherPinoL2PluralArray:otherPinoL1Object.pinoL2Plural]) return NO;
+    else if (![self.pinoL2Plural isEqualToPinoL2PluralArray:otherPinoL1Object.pinoL2Plural]) return NO;
 
     return YES;
 }

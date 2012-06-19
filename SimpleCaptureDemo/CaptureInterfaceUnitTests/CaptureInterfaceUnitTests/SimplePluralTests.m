@@ -32,19 +32,19 @@
 
     /* Variables to hold pointers to objects/plurals/plural elements we may be interested in checking */
     NSArray               *currentPlural;
-    JRStringPluralElement *currentElement;
+//    JRStringPluralElement *currentElement;
 
     NSArray *fillerFodder;
 }
 @property (retain) JRCaptureUser         *captureUser;
 @property (retain) NSArray               *currentPlural;
-@property (retain) JRStringPluralElement *currentElement;
+//@property (retain) JRStringPluralElement *currentElement;
 @end
 
 @implementation b1_SimplePluralTests
 @synthesize captureUser;
 @synthesize currentPlural;
-@synthesize currentElement;
+//@synthesize currentElement;
 
 - (void)setUpClass
 {
@@ -66,7 +66,7 @@
     DLog(@"");
     self.captureUser    = nil;
     self.currentPlural  = nil;
-    self.currentElement = nil;
+//    self.currentElement = nil;
 }
 
 - (void)setUp
@@ -77,39 +77,39 @@
 - (void)tearDown
 {
     self.currentPlural  = nil;
-    self.currentElement = nil;
+//    self.currentElement = nil;
 }
 
-- (NSArray *)arrayOfStringPluralElementsWithType:(NSString *)type fillerFodderOffset:(NSUInteger)offset
-{
-    GHAssertLessThan(offset+3, [fillerFodder count], nil);
-
-    NSMutableArray *array = [NSMutableArray arrayWithCapacity:3];
-
-    for (NSUInteger i = 0; i < 3; i++)
-    {
-        JRStringPluralElement *element = [JRStringPluralElement stringElementWithType:type];
-        element.value = [fillerFodder objectAtIndex:i+offset];
-        [array addObject:element];
-    }
-
-    return [[array copy] autorelease];
-}
-
-- (id)elementOfType:(NSString *)type fillerFodderOffset:(NSUInteger)offset
-{
-    GHAssertLessThan(offset+3, [fillerFodder count], nil);
-
-    JRStringPluralElement *element = [JRStringPluralElement stringElementWithType:type];
-    element.value = [fillerFodder objectAtIndex:0 + offset];
-
-    return element;
-}
-
-- (void)updateElementValue:(JRStringPluralElement*)element toFillerFodderIndex:(NSUInteger)index
-{
-    element.value = [fillerFodder objectAtIndex:index];
-}
+//- (NSArray *)arrayOfStringPluralElementsWithType:(NSString *)type fillerFodderOffset:(NSUInteger)offset
+//{
+//    GHAssertLessThan(offset+3, [fillerFodder count], nil);
+//
+//    NSMutableArray *array = [NSMutableArray arrayWithCapacity:3];
+//
+//    for (NSUInteger i = 0; i < 3; i++)
+//    {
+//        JRStringPluralElement *element = [JRStringPluralElement stringElementWithType:type];
+//        element.value = [fillerFodder objectAtIndex:i+offset];
+//        [array addObject:element];
+//    }
+//
+//    return [[array copy] autorelease];
+//}
+//
+//- (id)elementOfType:(NSString *)type fillerFodderOffset:(NSUInteger)offset
+//{
+//    GHAssertLessThan(offset+3, [fillerFodder count], nil);
+//
+//    JRStringPluralElement *element = [JRStringPluralElement stringElementWithType:type];
+//    element.value = [fillerFodder objectAtIndex:0 + offset];
+//
+//    return element;
+//}
+//
+//- (void)updateElementValue:(JRStringPluralElement*)element toFillerFodderIndex:(NSUInteger)index
+//{
+//    element.value = [fillerFodder objectAtIndex:index];
+//}
 
 /* Set value string with an NSString */
 - (void)test_b101_simplePluralElement_WithString
@@ -404,7 +404,7 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
 - (void)dealloc
 {
     [captureUser release];
-    [currentElement release];
+//    [currentElement release];
     [currentPlural release];
     [fillerFodder release];
     [super dealloc];

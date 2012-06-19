@@ -33,7 +33,7 @@
 #import "JRPinapinoL3PluralElement.h"
 
 @interface NSArray (PinapinoL2PluralElement_ArrayComparison)
-- (BOOL)isEqualToOtherPinapinoL3PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinapinoL3PluralArray:(NSArray *)otherArray;
 @end
 
 /**

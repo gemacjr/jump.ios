@@ -79,7 +79,7 @@
 
 @implementation NSArray (PinapinoL2PluralElement_ArrayComparison)
 
-- (BOOL)isEqualToOtherPinapinoL3PluralArray:(NSArray *)otherArray
+- (BOOL)isEqualToPinapinoL3PluralArray:(NSArray *)otherArray
 {
     if ([self count] != [otherArray count]) return NO;
 
@@ -139,8 +139,6 @@
 
 - (void)setPinapinoL3Plural:(NSArray *)newPinapinoL3Plural
 {
-    [self.dirtyArraySet addObject:@"pinapinoL3Plural"];
-
     [_pinapinoL3Plural autorelease];
     _pinapinoL3Plural = [newPinapinoL3Plural copy];
 }
@@ -324,7 +322,7 @@
     if (!self.pinapinoL3Plural && !otherPinapinoL2PluralElement.pinapinoL3Plural) /* Keep going... */;
     else if (!self.pinapinoL3Plural && ![otherPinapinoL2PluralElement.pinapinoL3Plural count]) /* Keep going... */;
     else if (!otherPinapinoL2PluralElement.pinapinoL3Plural && ![self.pinapinoL3Plural count]) /* Keep going... */;
-    else if (![self.pinapinoL3Plural isEqualToOtherPinapinoL3PluralArray:otherPinapinoL2PluralElement.pinapinoL3Plural]) return NO;
+    else if (![self.pinapinoL3Plural isEqualToPinapinoL3PluralArray:otherPinapinoL2PluralElement.pinapinoL3Plural]) return NO;
 
     return YES;
 }

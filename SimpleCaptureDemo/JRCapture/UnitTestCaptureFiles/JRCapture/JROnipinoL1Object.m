@@ -79,7 +79,7 @@
 
 @implementation NSArray (OnipinoL1Object_ArrayComparison)
 
-- (BOOL)isEqualToOtherOnipinoL2PluralArray:(NSArray *)otherArray
+- (BOOL)isEqualToOnipinoL2PluralArray:(NSArray *)otherArray
 {
     if ([self count] != [otherArray count]) return NO;
 
@@ -139,8 +139,6 @@
 
 - (void)setOnipinoL2Plural:(NSArray *)newOnipinoL2Plural
 {
-    [self.dirtyArraySet addObject:@"onipinoL2Plural"];
-
     [_onipinoL2Plural autorelease];
     _onipinoL2Plural = [newOnipinoL2Plural copy];
 }
@@ -319,7 +317,7 @@
     if (!self.onipinoL2Plural && !otherOnipinoL1Object.onipinoL2Plural) /* Keep going... */;
     else if (!self.onipinoL2Plural && ![otherOnipinoL1Object.onipinoL2Plural count]) /* Keep going... */;
     else if (!otherOnipinoL1Object.onipinoL2Plural && ![self.onipinoL2Plural count]) /* Keep going... */;
-    else if (![self.onipinoL2Plural isEqualToOtherOnipinoL2PluralArray:otherOnipinoL1Object.onipinoL2Plural]) return NO;
+    else if (![self.onipinoL2Plural isEqualToOnipinoL2PluralArray:otherOnipinoL1Object.onipinoL2Plural]) return NO;
 
     return YES;
 }

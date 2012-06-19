@@ -31,6 +31,10 @@
 #import <Foundation/Foundation.h>
 #import "JRCaptureApidInterface.h"
 
+@interface NSArray (StringArray)
+- (NSArray *)arrayOfStringsFromStringPluralDictionariesWithType:(NSString *)type;
+@end
+
 @class JRCaptureObject;
 @protocol JRCaptureObjectDelegate <NSObject>
 @optional

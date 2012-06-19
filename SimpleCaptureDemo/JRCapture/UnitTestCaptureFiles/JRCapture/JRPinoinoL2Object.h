@@ -33,7 +33,7 @@
 #import "JRPinoinoL3PluralElement.h"
 
 @interface NSArray (PinoinoL2Object_ArrayComparison)
-- (BOOL)isEqualToOtherPinoinoL3PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinoinoL3PluralArray:(NSArray *)otherArray;
 @end
 
 /**

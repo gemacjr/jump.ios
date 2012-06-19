@@ -79,7 +79,7 @@
 
 @implementation NSArray (OnipinapL1PluralElement_ArrayComparison)
 
-- (BOOL)isEqualToOtherOnipinapL2PluralArray:(NSArray *)otherArray
+- (BOOL)isEqualToOnipinapL2PluralArray:(NSArray *)otherArray
 {
     if ([self count] != [otherArray count]) return NO;
 
@@ -139,8 +139,6 @@
 
 - (void)setOnipinapL2Plural:(NSArray *)newOnipinapL2Plural
 {
-    [self.dirtyArraySet addObject:@"onipinapL2Plural"];
-
     [_onipinapL2Plural autorelease];
     _onipinapL2Plural = [newOnipinapL2Plural copy];
 }
@@ -324,7 +322,7 @@
     if (!self.onipinapL2Plural && !otherOnipinapL1PluralElement.onipinapL2Plural) /* Keep going... */;
     else if (!self.onipinapL2Plural && ![otherOnipinapL1PluralElement.onipinapL2Plural count]) /* Keep going... */;
     else if (!otherOnipinapL1PluralElement.onipinapL2Plural && ![self.onipinapL2Plural count]) /* Keep going... */;
-    else if (![self.onipinapL2Plural isEqualToOtherOnipinapL2PluralArray:otherOnipinapL1PluralElement.onipinapL2Plural]) return NO;
+    else if (![self.onipinapL2Plural isEqualToOnipinapL2PluralArray:otherOnipinapL1PluralElement.onipinapL2Plural]) return NO;
 
     return YES;
 }

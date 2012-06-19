@@ -33,7 +33,7 @@
 #import "JRPinapL2PluralElement.h"
 
 @interface NSArray (PinapL1PluralElement_ArrayComparison)
-- (BOOL)isEqualToOtherPinapL2PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinapL2PluralArray:(NSArray *)otherArray;
 @end
 
 /**

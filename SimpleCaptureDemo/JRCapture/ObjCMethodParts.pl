@@ -907,14 +907,14 @@ sub createArrayCategoryForSubobject {
 sub getArrayComparisonDeclaration { 
   my $propertyName = $_[0];
   
-  return "- (BOOL)isEqualToOther" . ucfirst($propertyName) . "Array:(NSArray *)otherArray;\n";
+  return "- (BOOL)isEqualTo" . ucfirst($propertyName) . "Array:(NSArray *)otherArray;\n";
 }
 
 sub getArrayComparisonImplementation { 
   my $propertyName = $_[0];
   
   return "\n" . 
-  "- (BOOL)isEqualToOther" . ucfirst($propertyName) . "Array:(NSArray *)otherArray\n{\n" .
+  "- (BOOL)isEqualTo" . ucfirst($propertyName) . "Array:(NSArray *)otherArray\n{\n" .
   "    if ([self count] != [otherArray count]) return NO;\n\n" . 
   "    for (NSUInteger i = 0; i < [self count]; i++)\n" .
   "        if (![((JR" . ucfirst($propertyName) . "Element *)[self objectAtIndex:i]) isEqualTo" . ucfirst($propertyName) . "Element:[otherArray objectAtIndex:i]])\n" .
@@ -979,9 +979,10 @@ sub createGetterSetterForProperty {
   $setter .= "- (void)set". ucfirst($propertyName) . ":(" . $propertyType . ")new" . ucfirst($propertyName); 
   $setter .= "\n{\n";
 
-  if ($isArray) {
-    $setter .= "    [self.dirtyArraySet addObject:@\"" . $propertyName . "\"];\n\n";
-  } else {
+#  if ($isArray) {
+#    $setter .= "    [self.dirtyArraySet addObject:@\"" . $propertyName . "\"];\n\n";
+#  } else {
+  if (!$isArray) {
     $setter .= "    [self.dirtyPropertySet addObject:@\"" . $propertyName . "\"];\n\n";
   }
 
