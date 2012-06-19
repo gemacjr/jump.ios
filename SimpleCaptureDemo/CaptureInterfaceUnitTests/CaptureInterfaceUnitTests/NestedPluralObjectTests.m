@@ -989,8 +989,8 @@
 {
     DLog(@"");
     /* Now try and update our copy's subobject, which should be invalid. */
-    [self updateObjectProperties:((JROinonipL2Object *)currentL3Object).oinonipL3Object toFillerFodderIndex:2];
-    [currentL3Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [self updateObjectProperties:((JROinonipL2Object *)currentL2Object).oinonipL3Object toFillerFodderIndex:2];
+    [((JROinonipL2Object *)currentL2Object).oinonipL3Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
 
 - (void)finish_b375b_oinonipUpdate_Level3_CopiedL2_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
@@ -1028,7 +1028,7 @@
     DLog(@"");
     /* Now try and update our copy, which should be invalid. */
     [self updateObjectProperties:currentL2Object toFillerFodderIndex:2];
-    [currentL3Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
+    [currentL2Object updateObjectOnCaptureForDelegate:self withContext:_ftel(testSelectorString)];
 }
 
 - (void)finish_b375c_oinonipUpdate_Level2_CopiedL2_PostReplace_FailCase_withArguments:(NSDictionary *)arguments
