@@ -139,7 +139,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRObjectTestRequiredUnique *objectTestRequiredUniqueCopy = (JRObjectTestRequiredUnique *)[super copy];
+    JRObjectTestRequiredUnique *objectTestRequiredUniqueCopy = (JRObjectTestRequiredUnique *)[super copyWithZone:zone];
 
     objectTestRequiredUniqueCopy.requiredString = self.requiredString;
     objectTestRequiredUniqueCopy.uniqueString = self.uniqueString;

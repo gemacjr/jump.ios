@@ -98,7 +98,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRPinonipL3PluralElement *pinonipL3PluralElementCopy = (JRPinonipL3PluralElement *)[super copy];
+    JRPinonipL3PluralElement *pinonipL3PluralElementCopy = (JRPinonipL3PluralElement *)[super copyWithZone:zone];
 
     pinonipL3PluralElementCopy.string1 = self.string1;
     pinonipL3PluralElementCopy.string2 = self.string2;

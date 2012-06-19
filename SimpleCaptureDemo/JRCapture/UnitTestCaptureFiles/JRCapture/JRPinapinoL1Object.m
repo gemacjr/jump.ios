@@ -165,7 +165,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRPinapinoL1Object *pinapinoL1ObjectCopy = (JRPinapinoL1Object *)[super copy];
+    JRPinapinoL1Object *pinapinoL1ObjectCopy = (JRPinapinoL1Object *)[super copyWithZone:zone];
 
     pinapinoL1ObjectCopy.string1 = self.string1;
     pinapinoL1ObjectCopy.string2 = self.string2;

@@ -252,7 +252,7 @@ my @classConstructorParts = (
 my @copyConstructorParts = (
 "- (id)copyWithZone:(NSZone*)zone",
 "\n{\n", 
-"","[super copy];\n\n",
+"","[super copyWithZone:zone];\n\n",
 "", 
 "\n    return ","",";",
 "\n}\n\n");

@@ -114,7 +114,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JROinoinoL1Object *oinoinoL1ObjectCopy = (JROinoinoL1Object *)[super copy];
+    JROinoinoL1Object *oinoinoL1ObjectCopy = (JROinoinoL1Object *)[super copyWithZone:zone];
 
     oinoinoL1ObjectCopy.string1 = self.string1;
     oinoinoL1ObjectCopy.string2 = self.string2;

@@ -138,7 +138,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRObjectTestRequired *objectTestRequiredCopy = (JRObjectTestRequired *)[super copy];
+    JRObjectTestRequired *objectTestRequiredCopy = (JRObjectTestRequired *)[super copyWithZone:zone];
 
     objectTestRequiredCopy.requiredString = self.requiredString;
     objectTestRequiredCopy.string1 = self.string1;

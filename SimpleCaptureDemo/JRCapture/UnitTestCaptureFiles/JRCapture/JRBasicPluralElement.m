@@ -98,7 +98,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRBasicPluralElement *basicPluralElementCopy = (JRBasicPluralElement *)[super copy];
+    JRBasicPluralElement *basicPluralElementCopy = (JRBasicPluralElement *)[super copyWithZone:zone];
 
     basicPluralElementCopy.string1 = self.string1;
     basicPluralElementCopy.string2 = self.string2;

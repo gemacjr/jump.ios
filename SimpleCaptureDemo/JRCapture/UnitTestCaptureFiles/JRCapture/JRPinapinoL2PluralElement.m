@@ -165,7 +165,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRPinapinoL2PluralElement *pinapinoL2PluralElementCopy = (JRPinapinoL2PluralElement *)[super copy];
+    JRPinapinoL2PluralElement *pinapinoL2PluralElementCopy = (JRPinapinoL2PluralElement *)[super copyWithZone:zone];
 
     pinapinoL2PluralElementCopy.string1 = self.string1;
     pinapinoL2PluralElementCopy.string2 = self.string2;

@@ -98,7 +98,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JROnipinoL3Object *onipinoL3ObjectCopy = (JROnipinoL3Object *)[super copy];
+    JROnipinoL3Object *onipinoL3ObjectCopy = (JROnipinoL3Object *)[super copyWithZone:zone];
 
     onipinoL3ObjectCopy.string1 = self.string1;
     onipinoL3ObjectCopy.string2 = self.string2;

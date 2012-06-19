@@ -113,7 +113,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRPluralTestAlphabeticElement *pluralTestAlphabeticElementCopy = (JRPluralTestAlphabeticElement *)[super copy];
+    JRPluralTestAlphabeticElement *pluralTestAlphabeticElementCopy = (JRPluralTestAlphabeticElement *)[super copyWithZone:zone];
 
     pluralTestAlphabeticElementCopy.uniqueString = self.uniqueString;
     pluralTestAlphabeticElementCopy.string1 = self.string1;

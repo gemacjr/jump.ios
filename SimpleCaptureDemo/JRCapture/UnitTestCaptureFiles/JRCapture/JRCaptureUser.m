@@ -1316,7 +1316,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRCaptureUser *captureUserCopy = (JRCaptureUser *)[super copy];
+    JRCaptureUser *captureUserCopy = (JRCaptureUser *)[super copyWithZone:zone];
 
     captureUserCopy.email = self.email;
     captureUserCopy.basicBoolean = self.basicBoolean;

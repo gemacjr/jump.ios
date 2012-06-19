@@ -83,7 +83,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRSimpleStringPluralTwoElement *simpleStringPluralTwoElementCopy = (JRSimpleStringPluralTwoElement *)[super copy];
+    JRSimpleStringPluralTwoElement *simpleStringPluralTwoElementCopy = (JRSimpleStringPluralTwoElement *)[super copyWithZone:zone];
 
     simpleStringPluralTwoElementCopy.simpleTypeTwo = self.simpleTypeTwo;
 

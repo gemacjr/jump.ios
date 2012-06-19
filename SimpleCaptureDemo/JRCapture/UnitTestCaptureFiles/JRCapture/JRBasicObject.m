@@ -98,7 +98,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRBasicObject *basicObjectCopy = (JRBasicObject *)[super copy];
+    JRBasicObject *basicObjectCopy = (JRBasicObject *)[super copyWithZone:zone];
 
     basicObjectCopy.string1 = self.string1;
     basicObjectCopy.string2 = self.string2;

@@ -114,7 +114,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JROnipinoL2PluralElement *onipinoL2PluralElementCopy = (JROnipinoL2PluralElement *)[super copy];
+    JROnipinoL2PluralElement *onipinoL2PluralElementCopy = (JROnipinoL2PluralElement *)[super copyWithZone:zone];
 
     onipinoL2PluralElementCopy.string1 = self.string1;
     onipinoL2PluralElementCopy.string2 = self.string2;

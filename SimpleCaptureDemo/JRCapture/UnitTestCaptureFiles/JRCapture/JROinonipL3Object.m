@@ -108,7 +108,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.string1 ? self.string1 : [NSNull null])
@@ -131,16 +131,16 @@
     oinonipL3Object.canBeUpdatedOrReplaced = YES;
 
     oinonipL3Object.string1 =
-        [dictionary objectForKey:@"string1"] != [NSNull null] ?
+        [dictionary objectForKey:@"string1"] != [NSNull null] ? 
         [dictionary objectForKey:@"string1"] : nil;
 
     oinonipL3Object.string2 =
-        [dictionary objectForKey:@"string2"] != [NSNull null] ?
+        [dictionary objectForKey:@"string2"] != [NSNull null] ? 
         [dictionary objectForKey:@"string2"] : nil;
 
     [oinonipL3Object.dirtyPropertySet removeAllObjects];
     [oinonipL3Object.dirtyArraySet removeAllObjects];
-
+    
     return oinonipL3Object;
 }
 
@@ -155,11 +155,11 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"oinonipL3Object"];
 
     if ([dictionary objectForKey:@"string1"])
-        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ?
+        self.string1 = [dictionary objectForKey:@"string1"] != [NSNull null] ? 
             [dictionary objectForKey:@"string1"] : nil;
 
     if ([dictionary objectForKey:@"string2"])
-        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ?
+        self.string2 = [dictionary objectForKey:@"string2"] != [NSNull null] ? 
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -177,11 +177,11 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"oinonipL3Object"];
 
     self.string1 =
-        [dictionary objectForKey:@"string1"] != [NSNull null] ?
+        [dictionary objectForKey:@"string1"] != [NSNull null] ? 
         [dictionary objectForKey:@"string1"] : nil;
 
     self.string2 =
-        [dictionary objectForKey:@"string2"] != [NSNull null] ?
+        [dictionary objectForKey:@"string2"] != [NSNull null] ? 
         [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -236,7 +236,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict =
+    NSMutableDictionary *dict = 
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"string1"];
