@@ -211,7 +211,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinapL2Plural"] arrayOfPinapL2PluralElementsFromPinapL2PluralDictionariesWithPath:pinapL1PluralElement.captureObjectPath] : nil;
 
     [pinapL1PluralElement.dirtyPropertySet removeAllObjects];
-    [pinapL1PluralElement.dirtyArraySet removeAllObjects];
     
     return pinapL1PluralElement;
 }
@@ -221,7 +220,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -235,7 +233,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -243,7 +240,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -261,7 +257,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinapL2Plural"] arrayOfPinapL2PluralElementsFromPinapL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -297,8 +292,8 @@
 
 - (void)replacePinapL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.pinapL2Plural named:@"pinapL2Plural"
-                    forDelegate:delegate withContext:context];
+    [self replaceArrayOnCapture:self.pinapL2Plural named:@"pinapL2Plural" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
 }
 
 - (BOOL)needsUpdate

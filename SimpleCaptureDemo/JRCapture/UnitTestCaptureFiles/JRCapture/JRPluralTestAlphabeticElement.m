@@ -161,7 +161,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [pluralTestAlphabeticElement.dirtyPropertySet removeAllObjects];
-    [pluralTestAlphabeticElement.dirtyArraySet removeAllObjects];
     
     return pluralTestAlphabeticElement;
 }
@@ -171,7 +170,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralTestAlphabetic", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -189,7 +187,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -197,7 +194,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralTestAlphabetic", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -215,7 +211,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary

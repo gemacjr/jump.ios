@@ -162,7 +162,6 @@
         [JROinonipL3Object oinonipL3ObjectObjectFromDictionary:[dictionary objectForKey:@"oinonipL3Object"] withPath:oinonipL2Object.captureObjectPath] : nil;
 
     [oinonipL2Object.dirtyPropertySet removeAllObjects];
-    [oinonipL2Object.dirtyArraySet removeAllObjects];
     
     return oinonipL2Object;
 }
@@ -172,7 +171,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"oinonipL2Object"];
@@ -193,7 +191,6 @@
         [self.oinonipL3Object updateFromDictionary:[dictionary objectForKey:@"oinonipL3Object"] withPath:self.captureObjectPath];
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -201,7 +198,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"oinonipL2Object"];
@@ -222,7 +218,6 @@
         [self.oinonipL3Object replaceFromDictionary:[dictionary objectForKey:@"oinonipL3Object"] withPath:self.captureObjectPath];
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary

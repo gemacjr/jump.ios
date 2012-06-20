@@ -24,27 +24,21 @@
 #import <GHUnitIOS/GHUnit.h>
 #import "SharedData.h"
 #import "JRCaptureUser+Extras.h"
-#import "JRStringPluralElement.h"
 
-@interface b1_SimplePluralTests : GHAsyncTestCase <JRCaptureObjectDelegate>
+@interface b1_StringPluralTests : GHAsyncTestCase <JRCaptureObjectDelegate>
 {
-    JRCaptureUser         *captureUser;
-
-    /* Variables to hold pointers to objects/plurals/plural elements we may be interested in checking */
-    NSArray               *currentPlural;
-//    JRStringPluralElement *currentElement;
+    JRCaptureUser *captureUser;
+    NSArray       *currentPlural;
 
     NSArray *fillerFodder;
 }
 @property (retain) JRCaptureUser         *captureUser;
 @property (retain) NSArray               *currentPlural;
-//@property (retain) JRStringPluralElement *currentElement;
 @end
 
-@implementation b1_SimplePluralTests
+@implementation b1_StringPluralTests
 @synthesize captureUser;
 @synthesize currentPlural;
-//@synthesize currentElement;
 
 - (void)setUpClass
 {
@@ -64,9 +58,9 @@
 - (void)tearDownClass
 {
     DLog(@"");
-    self.captureUser    = nil;
-    self.currentPlural  = nil;
-//    self.currentElement = nil;
+    self.captureUser   = nil;
+    self.currentPlural = nil;
+
 }
 
 - (void)setUp
@@ -76,43 +70,114 @@
 
 - (void)tearDown
 {
-    self.currentPlural  = nil;
-//    self.currentElement = nil;
+    self.currentPlural = nil;
 }
 
-//- (NSArray *)arrayOfStringPluralElementsWithType:(NSString *)type fillerFodderOffset:(NSUInteger)offset
-//{
-//    GHAssertLessThan(offset+3, [fillerFodder count], nil);
-//
-//    NSMutableArray *array = [NSMutableArray arrayWithCapacity:3];
-//
-//    for (NSUInteger i = 0; i < 3; i++)
-//    {
-//        JRStringPluralElement *element = [JRStringPluralElement stringElementWithType:type];
-//        element.value = [fillerFodder objectAtIndex:i+offset];
-//        [array addObject:element];
-//    }
-//
-//    return [[array copy] autorelease];
-//}
-//
-//- (id)elementOfType:(NSString *)type fillerFodderOffset:(NSUInteger)offset
-//{
-//    GHAssertLessThan(offset+3, [fillerFodder count], nil);
-//
-//    JRStringPluralElement *element = [JRStringPluralElement stringElementWithType:type];
-//    element.value = [fillerFodder objectAtIndex:0 + offset];
-//
-//    return element;
-//}
-//
-//- (void)updateElementValue:(JRStringPluralElement*)element toFillerFodderIndex:(NSUInteger)index
-//{
-//    element.value = [fillerFodder objectAtIndex:index];
-//}
+- (NSArray *)arrayOfStringsWithfillerFodderOffset:(NSUInteger)offset
+{
+    GHAssertLessThan(offset+3, [fillerFodder count], nil);
 
-/* Set value string with an NSString */
-- (void)test_b101_simplePluralElement_WithString
+    NSMutableArray *array = [NSMutableArray arrayWithCapacity:3];
+
+    for (NSUInteger i = 0; i < 3; i++)
+        [array addObject:[NSString stringWithString:[fillerFodder objectAtIndex:i+offset]]];
+
+    return [[array copy] autorelease];
+}
+
+/* Make an array of strings */
+- (void)test_b101_stringPluralWithStrings
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.simpleStringPluralOne = [self arrayOfStringsWithfillerFodderOffset:0];
+    NSArray *dummyArray = [NSArray arrayWithObjects:@"apples", @"bananas", @"coconuts", nil];
+    GHAssertTrue([captureUser.simpleStringPluralOne isEqualToArray:dummyArray], nil);
+
+    // Wah wah! Not equal!
+    //GHAssertEquals(captureUser.simpleStringPluralOne, dummyArray, nil);
+}
+
+/* Make an array of mutable strings, change strings, verify copy */
+- (void)test_b102_stringPluralWithMutableStrings
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    NSArray *comparisonArray       = [self arrayOfStringsWithfillerFodderOffset:0];
+    NSArray *arrayOfMutableStrings = [NSArray arrayWithObjects:
+                                                      [NSMutableString stringWithString:@"apples"],
+                                                      [NSMutableString stringWithString:@"bananas"],
+                                                      [NSMutableString stringWithString:@"coconutes"], nil];
+
+    captureUser.simpleStringPluralOne = arrayOfMutableStrings;
+
+    for (NSMutableString *mutableString in arrayOfMutableStrings)
+        [mutableString appendString:@"_mutated"];
+
+    DLog(@"%@", [captureUser.simpleStringPluralOne description]);
+
+    // TODO: Is this ok??
+    GHAssertTrue([captureUser.simpleStringPluralOne isEqualToArray:comparisonArray], nil);
+    GHAssertNotEquals(captureUser.simpleStringPluralOne, arrayOfMutableStrings, nil);
+}
+
+/* Make array with a mutable array, change original, verify copy: pointer changed, values didn’t */
+- (void)test_b103_stringPluralWithMutableArray
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    NSArray *comparisonArray     = [self arrayOfStringsWithfillerFodderOffset:0];
+    NSArray *additionalArray     = [self arrayOfStringsWithfillerFodderOffset:3];
+    NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:comparisonArray];
+
+    captureUser.simpleStringPluralOne = mutableArray;
+
+    [mutableArray arrayByAddingObjectsFromArray:additionalArray];
+
+    GHAssertTrue([captureUser.simpleStringPluralOne isEqualToArray:comparisonArray], nil);
+    GHAssertNotEquals(captureUser.simpleStringPluralOne, mutableArray, nil);
+}
+
+/* Replace array of strings. */
+- (void)test_b104_stringPluralReplace
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.simpleStringPluralOne = self.currentPlural = [self arrayOfStringsWithfillerFodderOffset:0];
+
+    [self prepare];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_fsel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)finish_b104_stringPluralReplace_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    GHAssertTrue([captureUser.simpleStringPluralOne isEqualToArray:currentPlural], nil);
+}
+
+/* Make with array with NSNull strings. Replace on Capture. */
+- (void)test_b105_stringPluralReplace_WithNSNullValue
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    NSArray *arrayWithNulls = [NSArray arrayWithObjects:
+                                       @"apples", @"bananas", @"coconuts",
+                                       [NSNull null], [NSNull null], [NSNull null], nil];
+
+    captureUser.simpleStringPluralOne = self.currentPlural = arrayWithNulls;
+
+    [self prepare];
+    [captureUser replaceSimpleStringPluralOneArrayOnCaptureForDelegate:self withContext:_fsel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)finish_b105_stringPluralReplace_WithNSNullValue_withArguments:(NSDictionary *)arguments andTestSelectorString:(NSString *)testSelectorString
+{
+    GHAssertTrue([captureUser.simpleStringPluralOne isEqualToArray:currentPlural], nil);
+}
+
+/* Make array with non-strings. Replace on Capture. */
+- (void)test_b106_stringPluralReplace_WithNonStrings_FailCase
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -120,12 +185,12 @@
     GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-/* Set value string with a mutable string, change, verify copy */
-- (void)test_b101_simplePluralElement_WithMutableString
+/* Replace array of strings. Add strings. Replace again. */
+- (void)test_b107_stringPluralReplace_AddedElements
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -133,12 +198,12 @@
     GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-/* Set/Update value string to nil, [NSNull null] */
-- (void)test_b101_simplePluralElement_WithNilValue
+/* Replace array of strings. Remove strings. Replace again. */
+- (void)test_b108_stringPluralReplace_RemovedElements
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -146,11 +211,12 @@
     GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)test_b101_simplePluralElement_WithNSNullValue
+/* Replace array of strings. Change strings. Replace again. */
+- (void)test_b109_stringPluralReplace_ChangedElements
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -158,12 +224,12 @@
     GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-/* Create/Update with type */
-- (void)test_b101_simplePluralElement_WithType
+/* Replace array of strings. Add and remove strings. Replace again. */
+- (void)test_b110_stringPluralReplace_AddedRemovedElements
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -171,12 +237,12 @@
     GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-/* Create/Update without type */
-- (void)test_b101_simplePluralElement_WithoutType
+/* Replace array of strings. Add and change strings. Replace again. */
+- (void)test_b111_stringPluralReplace_AddedChangedElements
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -184,19 +250,39 @@
     GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-/* Set array with an array of strings */
-/* Set array with an array of simple objects */
-/* Set array with an array of strings and simple objects w correct type */
-/* Set array with an array of strings and simple objects w correct type and other objects, verify only strings and simple objects present */
-/* Set array with a mutable array, change original, verify copy: pointer changed, values didn’t */
-/* Set array to array of mutable strings, changes strings, verify the new array’s strings are also changed */
+/* Replace array of strings. Remove and change strings. Replace again. */
+- (void)test_b112_stringPluralReplace_RemovedChangedElements
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicInteger = [NSNumber numberWithBool:YES];
+    GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+/* Replace array of strings. Add and remove and change strings. Replace again. */
+- (void)test_b113_stringPluralReplace_AddedRemovedChangedElements
+{
+    GHAssertNotNil(captureUser, @"captureUser should not be nil");
+
+    captureUser.basicInteger = [NSNumber numberWithBool:YES];
+    GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
+
+    [self prepare];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
 
 /* Set/Update array with an null element */
-- (void)test_b101_simplePlural_WithNSNullElement
+- (void)test_b114_stringPlural_WithNSNullElement
 {
     GHAssertNotNil(captureUser, @"captureUser should not be nil");
 
@@ -204,27 +290,13 @@
     GHAssertEquals([captureUser.basicInteger integerValue], 1, nil);
 
     [self prepare];
-    [captureUser updateObjectOnCaptureForDelegate:self withContext:NSStringFromSelector(_cmd)];
+    [captureUser updateObjectOnCaptureForDelegate:self withContext:_fsel];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-/* Update with a basic string */
-/* Update with a string containing a json object string (what happens? should be nothing) */
-/* Update with an empty string */
-/* Update with null */
-/* Update with a string of invalid characters */
-/* Update with [NSNull null] */
-/* Update with simple plural element that has the wrong type, verify error from Capture */
-/* Update with simple plural element that has no type, verify error from Capture */
-/* Update with simple plural element that has no ‘id’, verify error from Capture */
-/* Replace with a basic string */
-/* Replace with array set to null, [NSNull null] */
-/* Replace with array set to an array of strings */
-/* Replace with array set to an array of simple objects */
-/* Replace with array set to an array of strings and simple objects w correct type */
-/* Replace with array set to an array of strings and simple objects w correct type and other objects, verify only strings and simple objects present */
-
-
+/* Replace with a string containing a json object string (what happens? should be nothing) */
+/* Replace with an empty string */
+/* Replace with a string of invalid characters */
 
 
 
@@ -236,7 +308,10 @@
                                            [testSelectorString stringByReplacingOccurrencesOfString:@"test" withString:prefixed],
                                            @"_withArguments:andTestSelectorString:"];
 
-    [self performSelector:_nsel(newSelector) withObject:arguments withObject:testSelectorString];
+    if ([self respondsToSelector:_nsel(newSelector)])
+        [self performSelector:_nsel(newSelector) withObject:arguments withObject:testSelectorString];
+    else
+        GHTestLog(@"The selector %@ has not been implemented!!", newSelector);
 }
 
 - (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
@@ -404,7 +479,6 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
 - (void)dealloc
 {
     [captureUser release];
-//    [currentElement release];
     [currentPlural release];
     [fillerFodder release];
     [super dealloc];

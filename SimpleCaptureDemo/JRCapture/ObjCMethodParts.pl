@@ -304,7 +304,6 @@ my @copyConstructorParts = (
 #       ...
 #
 #     [<object>.dirtyPropertySet removeAllObjects];
-#     [<object>.dirtyArraySet removeAllObjects];
 #
 #     return <object>;
 # }
@@ -341,7 +340,6 @@ my @fromDictionaryParts = (
 "",
 "
     [","",".dirtyPropertySet removeAllObjects];
-    [","",".dirtyArraySet removeAllObjects];
     
     return ","",";",
 "\n}\n\n");
@@ -425,7 +423,6 @@ my @toDictionaryParts = (
 #     self.canBeUpdatedOrReplaced = YES;
 #
 #     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-#     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 #
 #     self.canBeUpdatedOrReplaced = YES;
 #     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -439,7 +436,6 @@ my @toDictionaryParts = (
 #           ...
 #
 #     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-#     [self.dirtyArraySet setSet:dirtyArraySetCopy];
 # }
 ###################################################################
 
@@ -475,13 +471,11 @@ my @updateFrDictParts = (
 "- (void)updateFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
 "\n{\n    DLog(@\"\%\@ \%\@\", capturePath, [dictionary description]);\n","
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;\n",
 "    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
 "","
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }\n\n");
 
 
@@ -517,7 +511,6 @@ my @updateFrDictParts = (
 # - (void)replaceFromDictionary:(NSDictionary *)dictionary withPath:(NSString *)capturePath
 # {
 #     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-#     NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 #
 #     self.canBeUpdatedOrReplaced = YES;
 #     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"<object>", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -529,7 +522,6 @@ my @updateFrDictParts = (
 #                                   [<propertyFromDictionaryMethod>:[dictionary objectForKey:@"<property>"]] : nil;
 #       ...
 #     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-#     [self.dirtyArraySet setSet:dirtyArraySetCopy];
 # }
 ###################################################################
 
@@ -565,13 +557,11 @@ my @replaceFrDictParts = (
 "- (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath",
 "\n{\n    DLog(@\"\%\@ \%\@\", capturePath, [dictionary description]);\n","
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;\n",
 "    self.captureObjectPath = [NSString stringWithFormat:\@\"%@/%@","","\", capturePath, ","","","];\n",
 "","
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }\n\n");
 
 ###################################################################
@@ -936,26 +926,17 @@ sub createArrayReplaceMethodDeclaration {
 }
 
 sub createArrayReplaceMethodImplementation { 
-  my $propertyName = $_[0];
-  my $elementType   = $_[1];
+  my $propertyName  = $_[0];
+  my $isStringArray = $_[1];
+  my $elementType   = $_[2];
 
-  my $methodImplementation;
-  if ($elementType) { # Indicates that the array is a simple array of strings
-    $methodImplementation = 
+  my $methodImplementation =
        "- (void)replace" . ucfirst($propertyName) . "ArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context\n" . 
        "{\n" . 
-       "    [self replaceSimpleArrayOnCapture:self." . $propertyName . " ofType:\@\"" . $elementType . "\" named:\@\"" . $propertyName . "\"\n" .
-       "                          forDelegate:delegate withContext:context];\n" . 
+       "    [self replaceArrayOnCapture:self." . $propertyName . " named:\@\"" . $propertyName . "\" isArrayOfStrings:" . ($isStringArray ? "YES" : "NO" ) . "\n" . 
+       "                       withType:\@\"" . ($isStringArray ? $elementType : "" ) . "\" forDelegate:delegate withContext:context];\n" . 
        "}\n\n";
-  } else {
-    $methodImplementation = 
-       "- (void)replace" . ucfirst($propertyName) . "ArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context\n" . 
-       "{\n" . 
-       "    [self replaceArrayOnCapture:self." . $propertyName . " named:\@\"" . $propertyName . "\"\n" . 
-       "                    forDelegate:delegate withContext:context];\n" . 
-       "}\n\n";
-  }
-
+       
   return $methodImplementation;
 }
 
@@ -1029,32 +1010,32 @@ sub createGetterSetterForProperty {
   return $getter . $setter . $primitiveGetter . $primitiveSetter;
 }
 
-sub createGetterSetterForSimpleArray {
-  my $propertyName  = $_[0];
-  my $pluralType    = $_[1];
-  my $getter;
-  my $setter;
-  
-  $getter = "- (NSArray *)" . $propertyName;
-  
-  $getter .= "\n{\n";
-  $getter .= "    return _" . $propertyName . ";";
-  $getter .= "\n}\n\n";
-  
-  $setter .= "- (void)set". ucfirst($propertyName) . ":(NSArray *)new" . ucfirst($propertyName); 
-  $setter .= "\n{\n";
-  $setter .= "    [self.dirtyArraySet addObject:@\"" . $propertyName . "\"];\n";
-
-#   $setter .= "    if (!new" . ucfirst($propertyName) . ")\n";
-#   $setter .= "        _" . $propertyName .  " = [NSNull null];\n";  
-#   $setter .= "    else\n";
-  $setter .= "    _" . $propertyName .  " = ";
-  $setter .= "[new" . ucfirst($propertyName) . " copyArrayOfStringPluralElementsWithType:\@\"" . $pluralType . "\"];";  
-  
-  $setter .= "\n}\n\n";
-
-  return $getter . $setter;
-}
+# sub createGetterSetterForSimpleArray {
+#   my $propertyName  = $_[0];
+#   my $pluralType    = $_[1];
+#   my $getter;
+#   my $setter;
+#   
+#   $getter = "- (NSArray *)" . $propertyName;
+#   
+#   $getter .= "\n{\n";
+#   $getter .= "    return _" . $propertyName . ";";
+#   $getter .= "\n}\n\n";
+#   
+#   $setter .= "- (void)set". ucfirst($propertyName) . ":(NSArray *)new" . ucfirst($propertyName); 
+#   $setter .= "\n{\n";
+#   $setter .= "    [self.dirtyArraySet addObject:@\"" . $propertyName . "\"];\n";
+# 
+# #   $setter .= "    if (!new" . ucfirst($propertyName) . ")\n";
+# #   $setter .= "        _" . $propertyName .  " = [NSNull null];\n";  
+# #   $setter .= "    else\n";
+#   $setter .= "    _" . $propertyName .  " = ";
+#   $setter .= "[new" . ucfirst($propertyName) . " copyArrayOfStringPluralElementsWithType:\@\"" . $pluralType . "\"];";  
+#   
+#   $setter .= "\n}\n\n";
+# 
+#   return $getter . $setter;
+# }
 
 sub getMinConstructorParts {
   return @minConstructorParts;

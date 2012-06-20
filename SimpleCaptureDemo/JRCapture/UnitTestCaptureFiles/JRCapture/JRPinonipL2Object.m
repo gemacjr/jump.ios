@@ -211,7 +211,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinonipL3Plural"] arrayOfPinonipL3PluralElementsFromPinonipL3PluralDictionariesWithPath:pinonipL2Object.captureObjectPath] : nil;
 
     [pinonipL2Object.dirtyPropertySet removeAllObjects];
-    [pinonipL2Object.dirtyArraySet removeAllObjects];
     
     return pinonipL2Object;
 }
@@ -221,7 +220,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinonipL2Object"];
@@ -235,7 +233,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -243,7 +240,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"pinonipL2Object"];
@@ -261,7 +257,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinonipL3Plural"] arrayOfPinonipL3PluralElementsFromPinonipL3PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -297,8 +292,8 @@
 
 - (void)replacePinonipL3PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.pinonipL3Plural named:@"pinonipL3Plural"
-                    forDelegate:delegate withContext:context];
+    [self replaceArrayOnCapture:self.pinonipL3Plural named:@"pinonipL3Plural" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
 }
 
 - (BOOL)needsUpdate

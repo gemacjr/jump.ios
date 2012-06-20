@@ -640,12 +640,10 @@ sub recursiveParse {
 
   # e.g.:
   #   [exampleElement.dirtyPropertySet removeAllObjects];
-  #   [exampleElement.dirtyArraySet removeAllObjects];
   #  
   #    return exampleElement;
   $objFromDictSection[19]     = $objectName;
   $objFromDictSection[21]     = $objectName;
-  $objFromDictSection[23]     = $objectName;
   
   # e.g.:
   #   - (BOOL)isEqualToExampleElement:(JRExampleElement *)otherExampleElement
@@ -815,7 +813,7 @@ sub recursiveParse {
     my $isObject        = 0;              # If it's an object, we do things differently
     my $isArray         = 0;              # If it's an array (plural), we do things differently
     my $isStringArray   = 0;              # If it's a simple array (plural) of strings, we do things differently
-    my $simpleArrayType = "";             # And if it is, get its type
+    my $stringArrayType = "";             # And if it is, get its type
     my $dictionaryKey   = $propertyName;  # Set the dictionary key as the property name, as it may be changed because of conflicts
     my $pathName        = $propertyName;  # Save the name of the property as it is needed as the pathAppend in the recursive call, and it may be changed because of conflicts
     my $propertyNotes   = "";             # Doxygen comment that provides more infomation if necessary for a property 
@@ -1009,30 +1007,30 @@ sub recursiveParse {
         
         #$extraImportsSection .= "#import \"JRStringPluralElement.h\"\n";
         
-        $simpleArrayType = getSimplePluralType($propertyAttrDefsRef);
+        $stringArrayType = getSimplePluralType($propertyAttrDefsRef);
         
         #$toDictionary    = "[self." . $propertyName . " arrayOfStringPluralDictionariesFromStringPluralElements]";
         #$toRplDictionary = "[self." . $propertyName . " arrayOfStringsFromStringPluralElements]";
         #$frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
-        #        arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
+        #        arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $stringArrayType . "\" 
         #                                                        andExtendedPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", " . $objectName . ".captureObjectPath]]";
         #$frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"]
-        #        arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\" 
+        #        arrayOfStringPluralElementsFromStringPluralDictionariesWithType:\@\"" . $stringArrayType . "\" 
         #                                                        andExtendedPath:[NSString stringWithFormat:\@\"\%\@/" . $propertyName . "\", self.captureObjectPath]]";
 
         #$isEqualMethod  = "isEqualToOtherStringPluralArray:";        
         
-        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\"]";
-        $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringsFromStringPluralDictionariesWithType:\@\"" . $simpleArrayType . "\"]";
+        $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringsFromStringPluralDictionariesWithType:\@\"" . $stringArrayType . "\"]";
+        $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOfStringsFromStringPluralDictionariesWithType:\@\"" . $stringArrayType . "\"]";
 
         $isEqualMethod  = "isEqualToArray:";
 
         #$replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
-        #$replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName, $simpleArrayType);
+        #$replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName, $stringArrayType);
         
-        #$propertyNotes .= " \@note This is an array of \\c JRStringPluralElements with type \\c " . $simpleArrayType . " TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings";      
+        #$propertyNotes .= " \@note This is an array of \\c JRStringPluralElements with type \\c " . $stringArrayType . " TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings";      
         
-        $propertyNotes .= " \@note This is an array of \\c NSStrings representing a list of \\c " . $simpleArrayType . " objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings";      
+        $propertyNotes .= " \@note This is an array of \\c NSStrings representing a list of \\c " . $stringArrayType . " objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings";      
         
       } else {
 
@@ -1049,9 +1047,6 @@ sub recursiveParse {
         $frDictionary    = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:" . $objectName . ".captureObjectPath]";
         $frRplDictionary = "[(NSArray*)[dictionary objectForKey:\@\"" . $dictionaryKey . "\"] arrayOf" . ucfirst($propertyName) . "ElementsFrom" . ucfirst($propertyName) . "DictionariesWithPath:self.captureObjectPath]";
 
-        $replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
-        $replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName);
-
         $arrayCompareIntfSection .= getArrayComparisonDeclaration($propertyName);
         $arrayCompareImplSection .= getArrayComparisonImplementation($propertyName);        
 
@@ -1063,6 +1058,9 @@ sub recursiveParse {
         recursiveParse ($propertyName, $propertyAttrDefsRef, $objectPath, $pathName, $IS_PLURAL_ELEMENT, $HAS_PLURAL_PARENT, $propertyDesc);
        
       }
+      
+      $replaceArrayIntfSection .= createArrayReplaceMethodDeclaration($propertyName);
+      $replaceArrayImplSection .= createArrayReplaceMethodImplementation($propertyName, $isStringArray, $stringArrayType);  
       
     ######## OBJECT (DICTIONARY) ########
     } elsif ($propertyType eq "object") {
@@ -1220,7 +1218,7 @@ sub recursiveParse {
     }
   
     #if ($isStringArray) { 
-    #  $getterSettersSection .= createGetterSetterForSimpleArray ($propertyName, $simpleArrayType);
+    #  $getterSettersSection .= createGetterSetterForSimpleArray ($propertyName, $stringArrayType);
     #} else {
       $getterSettersSection .= createGetterSetterForProperty ($propertyName, $objectiveType, $isAlsoPrimitive, $isArray, $isObject); 
     #}

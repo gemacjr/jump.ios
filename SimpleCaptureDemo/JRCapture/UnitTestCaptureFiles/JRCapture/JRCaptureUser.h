@@ -260,6 +260,16 @@
 /**
  * TODO: DOXYGEN DOCS
  **/
+- (void)replaceSimpleStringPluralOneArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+/**
+ * TODO: DOXYGEN DOCS
+ **/
+- (void)replaceSimpleStringPluralTwoArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+
+/**
+ * TODO: DOXYGEN DOCS
+ **/
 - (void)replacePinapL1PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 
 /**

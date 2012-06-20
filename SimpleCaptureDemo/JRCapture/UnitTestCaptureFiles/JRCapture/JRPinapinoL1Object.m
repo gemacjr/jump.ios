@@ -208,7 +208,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinapinoL2Plural"] arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:pinapinoL1Object.captureObjectPath] : nil;
 
     [pinapinoL1Object.dirtyPropertySet removeAllObjects];
-    [pinapinoL1Object.dirtyArraySet removeAllObjects];
     
     return pinapinoL1Object;
 }
@@ -218,7 +217,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -231,7 +229,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -239,7 +236,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -256,7 +252,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinapinoL2Plural"] arrayOfPinapinoL2PluralElementsFromPinapinoL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -292,8 +287,8 @@
 
 - (void)replacePinapinoL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.pinapinoL2Plural named:@"pinapinoL2Plural"
-                    forDelegate:delegate withContext:context];
+    [self replaceArrayOnCapture:self.pinapinoL2Plural named:@"pinapinoL2Plural" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
 }
 
 - (BOOL)needsUpdate

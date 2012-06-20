@@ -208,7 +208,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinoL2Plural"] arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:pinoL1Object.captureObjectPath] : nil;
 
     [pinoL1Object.dirtyPropertySet removeAllObjects];
-    [pinoL1Object.dirtyArraySet removeAllObjects];
     
     return pinoL1Object;
 }
@@ -218,7 +217,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -231,7 +229,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -239,7 +236,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -256,7 +252,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinoL2Plural"] arrayOfPinoL2PluralElementsFromPinoL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -292,8 +287,8 @@
 
 - (void)replacePinoL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.pinoL2Plural named:@"pinoL2Plural"
-                    forDelegate:delegate withContext:context];
+    [self replaceArrayOnCapture:self.pinoL2Plural named:@"pinoL2Plural" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
 }
 
 - (BOOL)needsUpdate

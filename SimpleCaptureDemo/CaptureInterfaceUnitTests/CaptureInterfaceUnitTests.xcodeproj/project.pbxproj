@@ -52,8 +52,6 @@
 		9FEB370B15813049007706DC /* JRPinonipL3PluralElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB36D715813049007706DC /* JRPinonipL3PluralElement.m */; };
 		9FEB370C15813049007706DC /* JRPluralTestAlphabeticElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB36D915813049007706DC /* JRPluralTestAlphabeticElement.m */; };
 		9FEB370D15813049007706DC /* JRPluralTestUniqueElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB36DB15813049007706DC /* JRPluralTestUniqueElement.m */; };
-		9FEB370E15813049007706DC /* JRSimpleStringPluralOneElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB36DD15813049007706DC /* JRSimpleStringPluralOneElement.m */; };
-		9FEB370F15813049007706DC /* JRSimpleStringPluralTwoElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB36DF15813049007706DC /* JRSimpleStringPluralTwoElement.m */; };
 		9FEB371015813049007706DC /* JRStringPluralElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB36E115813049007706DC /* JRStringPluralElement.m */; };
 		9FEB37DC158130BF007706DC /* JRActivityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB3714158130BF007706DC /* JRActivityObject.m */; };
 		9FEB37DD158130BF007706DC /* JRConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB3716158130BF007706DC /* JRConnectionManager.m */; };
@@ -344,10 +342,6 @@
 		9FEB36D915813049007706DC /* JRPluralTestAlphabeticElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPluralTestAlphabeticElement.m; path = ../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestAlphabeticElement.m; sourceTree = "<group>"; };
 		9FEB36DA15813049007706DC /* JRPluralTestUniqueElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRPluralTestUniqueElement.h; path = ../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestUniqueElement.h; sourceTree = "<group>"; };
 		9FEB36DB15813049007706DC /* JRPluralTestUniqueElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRPluralTestUniqueElement.m; path = ../JRCapture/UnitTestCaptureFiles/JRCapture/JRPluralTestUniqueElement.m; sourceTree = "<group>"; };
-		9FEB36DC15813049007706DC /* JRSimpleStringPluralOneElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRSimpleStringPluralOneElement.h; path = ../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralOneElement.h; sourceTree = "<group>"; };
-		9FEB36DD15813049007706DC /* JRSimpleStringPluralOneElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSimpleStringPluralOneElement.m; path = ../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralOneElement.m; sourceTree = "<group>"; };
-		9FEB36DE15813049007706DC /* JRSimpleStringPluralTwoElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRSimpleStringPluralTwoElement.h; path = ../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralTwoElement.h; sourceTree = "<group>"; };
-		9FEB36DF15813049007706DC /* JRSimpleStringPluralTwoElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRSimpleStringPluralTwoElement.m; path = ../JRCapture/UnitTestCaptureFiles/JRCapture/JRSimpleStringPluralTwoElement.m; sourceTree = "<group>"; };
 		9FEB36E015813049007706DC /* JRStringPluralElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JRStringPluralElement.h; path = ../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.h; sourceTree = "<group>"; };
 		9FEB36E115813049007706DC /* JRStringPluralElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JRStringPluralElement.m; path = ../JRCapture/UnitTestCaptureFiles/JRCapture/JRStringPluralElement.m; sourceTree = "<group>"; };
 		9FEB3713158130BF007706DC /* JRActivityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRActivityObject.h; sourceTree = "<group>"; };
@@ -672,10 +666,6 @@
 				9FEB36D915813049007706DC /* JRPluralTestAlphabeticElement.m */,
 				9FEB36DA15813049007706DC /* JRPluralTestUniqueElement.h */,
 				9FEB36DB15813049007706DC /* JRPluralTestUniqueElement.m */,
-				9FEB36DC15813049007706DC /* JRSimpleStringPluralOneElement.h */,
-				9FEB36DD15813049007706DC /* JRSimpleStringPluralOneElement.m */,
-				9FEB36DE15813049007706DC /* JRSimpleStringPluralTwoElement.h */,
-				9FEB36DF15813049007706DC /* JRSimpleStringPluralTwoElement.m */,
 				9FEB36E015813049007706DC /* JRStringPluralElement.h */,
 				9FEB36E115813049007706DC /* JRStringPluralElement.m */,
 			);
@@ -1340,8 +1330,6 @@
 				9FEB370B15813049007706DC /* JRPinonipL3PluralElement.m in Sources */,
 				9FEB370C15813049007706DC /* JRPluralTestAlphabeticElement.m in Sources */,
 				9FEB370D15813049007706DC /* JRPluralTestUniqueElement.m in Sources */,
-				9FEB370E15813049007706DC /* JRSimpleStringPluralOneElement.m in Sources */,
-				9FEB370F15813049007706DC /* JRSimpleStringPluralTwoElement.m in Sources */,
 				9FEB371015813049007706DC /* JRStringPluralElement.m in Sources */,
 				9FEB37DC158130BF007706DC /* JRActivityObject.m in Sources */,
 				9FEB37DD158130BF007706DC /* JRConnectionManager.m in Sources */,

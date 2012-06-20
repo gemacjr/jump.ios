@@ -211,7 +211,6 @@
         [(NSArray*)[dictionary objectForKey:@"onipinapL2Plural"] arrayOfOnipinapL2PluralElementsFromOnipinapL2PluralDictionariesWithPath:onipinapL1PluralElement.captureObjectPath] : nil;
 
     [onipinapL1PluralElement.dirtyPropertySet removeAllObjects];
-    [onipinapL1PluralElement.dirtyArraySet removeAllObjects];
     
     return onipinapL1PluralElement;
 }
@@ -221,7 +220,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -235,7 +233,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -243,7 +240,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -261,7 +257,6 @@
         [(NSArray*)[dictionary objectForKey:@"onipinapL2Plural"] arrayOfOnipinapL2PluralElementsFromOnipinapL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -297,8 +292,8 @@
 
 - (void)replaceOnipinapL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.onipinapL2Plural named:@"onipinapL2Plural"
-                    forDelegate:delegate withContext:context];
+    [self replaceArrayOnCapture:self.onipinapL2Plural named:@"onipinapL2Plural" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
 }
 
 - (BOOL)needsUpdate

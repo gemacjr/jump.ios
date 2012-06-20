@@ -174,9 +174,9 @@
     JRCaptureObject *captureObject = [arguments objectForKey:@"captureObject"];
     NSString        *result        = [arguments objectForKey:@"result"];
 
-    GHAssertTrue([currentL1Plural isEqualToOtherPinapL1PluralArray:captureUser.pinapL1Plural], nil);
-    GHAssertTrue([currentL1Plural isEqualToOtherPinapL1PluralArray:((JRCaptureUser *)captureObject).pinapL1Plural], nil);
-    GHAssertTrue([currentL1Plural isEqualToOtherPinapL1PluralArray:newArray], nil);
+    GHAssertTrue([currentL1Plural isEqualToPinapL1PluralArray:captureUser.pinapL1Plural], nil);
+    GHAssertTrue([currentL1Plural isEqualToPinapL1PluralArray:((JRCaptureUser *)captureObject).pinapL1Plural], nil);
+    GHAssertTrue([currentL1Plural isEqualToPinapL1PluralArray:newArray], nil);
 
     /* Let's grab the elements that are now in our captureUser */
     JRPinapL1PluralElement *l1PluralElement = [captureUser.pinapL1Plural objectAtIndex:0];
@@ -634,7 +634,7 @@
     NSArray *newArray = [arguments objectForKey:@"newArray"];
     JRCaptureObject *captureObject = [arguments objectForKey:@"captureObject"];
 
-    GHAssertTrue([newArray isEqualToOtherPinapinapL1PluralArray:currentL1Plural], nil);
+    GHAssertTrue([newArray isEqualToPinapinapL1PluralArray:currentL1Plural], nil);
 }
 
 /* Create a plural in a plural in a plural, then try and update an element in the third plural. Should fail. */
@@ -723,7 +723,7 @@
 
     NSArray *a = captureUser.pinapinapL1Plural;
     NSArray *b = [[a copy] autorelease];
-    GHAssertTrue([b isEqualToOtherPinapinapL1PluralArray:a], nil);
+    GHAssertTrue([b isEqualToPinapinapL1PluralArray:a], nil);
 
     [self prepare];
     [captureUser replacePinapinapL1PluralArrayOnCaptureForDelegate:self withContext:_fsel];
@@ -735,7 +735,7 @@
 {
     NSArray *a = [arguments objectForKey:@"newArray"];
     NSArray *b = [[a copy] autorelease];
-    GHAssertTrue([b isEqualToOtherPinapinapL1PluralArray:a], nil);
+    GHAssertTrue([b isEqualToPinapinapL1PluralArray:a], nil);
 }
 
 /* Plural in an object in a plural (330-339) */

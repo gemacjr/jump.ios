@@ -162,7 +162,6 @@
         [JROnipinapL3Object onipinapL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:onipinapL2PluralElement.captureObjectPath] : nil;
 
     [onipinapL2PluralElement.dirtyPropertySet removeAllObjects];
-    [onipinapL2PluralElement.dirtyArraySet removeAllObjects];
     
     return onipinapL2PluralElement;
 }
@@ -172,7 +171,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -193,7 +191,6 @@
         [self.onipinapL3Object updateFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath];
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -201,7 +198,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinapL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -222,7 +218,6 @@
         [self.onipinapL3Object replaceFromDictionary:[dictionary objectForKey:@"onipinapL3Object"] withPath:self.captureObjectPath];
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
