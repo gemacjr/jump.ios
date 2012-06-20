@@ -407,12 +407,12 @@
             [self objectOfType:[JROinoL2Object class] withConstructor:@selector(oinoL2Object) fillerFodderOffset:6];
 }
 
-- (void)oinoPreparatoryUpdateWithContext:(NSString *)finisher
+- (void)oinoReset_UpdateWithCurrentTestString:(NSString *)currentTestString
 {
     [self oinoCreate];
 
     [self prepare];
-    [currentL1Object updateObjectOnCaptureForDelegate:self withContext:_ctel(finisher)];
+    [currentL1Object updateObjectOnCaptureForDelegate:self withContext:_ctel(currentTestString)];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -438,7 +438,7 @@
 
 - (void)test_b316a_oinoUpdate_Level1_NoChangeL2
 {
-    [self oinoPreparatoryUpdateWithContext:_sel];
+    [self oinoReset_UpdateWithCurrentTestString:_sel];
 }
 
 - (void)continue_b316a_oinoUpdate_Level1_NoChangeL2_withArguments:(NSDictionary *)arguments
@@ -461,7 +461,7 @@
 
 - (void)test_b316b_oinoUpdate_Level1_ChangeL2
 {
-    [self oinoPreparatoryUpdateWithContext:_sel];
+    [self oinoReset_UpdateWithCurrentTestString:_sel];
 }
 
 - (void)continue_b316b_oinoUpdate_Level1_ChangeL2_withArguments:(NSDictionary *)arguments
@@ -485,7 +485,7 @@
 
 - (void)test_b317a_oinoUpdate_Level1_NewL2
 {
-    [self oinoPreparatoryUpdateWithContext:_sel];
+    [self oinoReset_UpdateWithCurrentTestString:_sel];
 }
 
 - (void)continue_b317a_oinoUpdate_Level1_NewL2_withArguments:(NSDictionary *)arguments
@@ -511,7 +511,7 @@
 
 - (void)test_b317b_oinoUpdate_Level2_NewL2
 {
-    [self oinoPreparatoryUpdateWithContext:_sel];
+    [self oinoReset_UpdateWithCurrentTestString:_sel];
 }
 
 - (void)continue_b317b_oinoUpdate_Level2_NewL2_withArguments:(NSDictionary *)arguments
@@ -539,7 +539,7 @@
 
 - (void)test_b318a_oinoUpdate_Level2_CopiedL2
 {
-    [self oinoPreparatoryUpdateWithContext:_sel];
+    [self oinoReset_UpdateWithCurrentTestString:_sel];
 }
 
 - (void)continue_b318a_oinoUpdate_Level2_CopiedL2_withArguments:(NSDictionary *)arguments
@@ -567,7 +567,7 @@
 
 - (void)test_b318b_oinoUpdate_Level1_CopiedL2
 {
-    [self oinoPreparatoryUpdateWithContext:_sel];
+    [self oinoReset_UpdateWithCurrentTestString:_sel];
 }
 
 
