@@ -1,3 +1,5 @@
+#!/usr/bin/perl -w
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Copyright (c) 2012, Janrain, Inc.
 #
@@ -32,8 +34,6 @@
 # Date:   Wednesday, February 8, 2012
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
-
-#!/usr/bin/perl -w
 use strict;
 use warnings;
 

@@ -64,11 +64,16 @@ if ($schemaName) {
 # Next, if the output directory was passed in on the command line
 # with the option '-o', remember it
 ########################################################################
-# our ($opt_o);
-# getopt('o');
-my $outputDir = $opt_o;
+my $outputDir;
+my $usingCustomOutputDir = 0;
 
-#print "output directory: $outputDir\n";
+if (defined $opt_o) {
+  $usingCustomOutputDir = 1;
+  $outputDir = $opt_o;
+  
+  print "Using cutom output directory: $outputDir\n";
+}
+
 
 ############################################
 # CONSTANTS
@@ -1721,25 +1726,19 @@ recursiveParse ("captureUser", $attrDefsArrayRef, "", "", $NOT_PLURAL_ELEMENT, $
 my @hFileNames = keys (%hFiles);
 my @mFileNames = keys (%mFiles);
 
-my $pathToWorkingDir = getWorkingDir();
-my $pathToCaptureDir = "";
-my $pathToOutputDir  = "";
-my $pathToDocsDir    = "";
-my $customOutputDir  = "";
+my $pathToOutputDir = "";
+my $pathToDocsDir   = "";
+my $genDir          = "Generated";
 
-#my $docsDir  = "Docs";
-#my $copyDir  = "iOSFiles";
-my $genDir = "Generated";
+my $canMakeDocs = 1;
 
-if ($outputDir) {
-  $customOutputDir = 1;
+if ($usingCustomOutputDir) {
   $pathToOutputDir = $outputDir;
+  $canMakeDocs     = 0;
 } else {
   $pathToOutputDir = "../Classes/APIDInterface";
   $pathToDocsDir   = "../../../Docs/JRCapture";
-} 
-
-my $canMakeDocs = 1;
+}
 
 unless (-d $pathToOutputDir) {
     mkdir "$pathToOutputDir" or die "[ERROR] Unable to make the directory '$pathToOutputDir'\n\n";
@@ -1749,13 +1748,7 @@ unless (-d "$pathToOutputDir/$genDir") {
     mkdir "$pathToOutputDir/$genDir" or die "[ERROR] Unable to make the directory '$pathToOutputDir/$genDir'\n\n";
 }
 
-#unless (-d "$outputDir/$docsDir") {
-#    mkdir "$outputDir/$docsDir" or $canMakeDocs = 0;
-#}
-
-#my $copyResult = `cp ./$copyDir/JR* $outputDir/$filesDir 2>&1`;
-
-if ($customOutputDir) {
+if ($usingCustomOutputDir) {
   my $copyResult = `cp ../Classes/APIDInterface/JR* $pathToOutputDir 2>&1`;
   if ($copyResult) {
     die "[ERROR] Unable to copy necessary files to the '$pathToOutputDir': $copyResult\n\n";
@@ -1763,7 +1756,7 @@ if ($customOutputDir) {
 }
 
 foreach my $fileName (@hFileNames) {
-  open (FILE, ">$pathToOutputDir/$genDir") or die "[ERROR] Unable to open '$pathToOutputDir/$genDir/$fileName' for writing\n\n";
+  open (FILE, ">$pathToOutputDir/$genDir/$fileName") or die "[ERROR] Unable to open '$pathToOutputDir/$genDir/$fileName' for writing\n\n";
   print "Writing $fileName... ";
   print FILE $hFiles{$fileName};
   print "Finished $fileName.\n";
@@ -1779,8 +1772,9 @@ foreach my $fileName (@mFileNames) {
 # TODO: Make sure the correct input/output directories are known by doxygen when passing in a different out dir
 # TODO: Better success/fail reporting if doxygen works or not
 
-if (!$customOutputDir) {
-  my $doxygenResult = `$pathToOutputDir/doxygen ../../../Docs/Doxygen/JRCapture/Doxyfile 2>&1`;
+if (!$usingCustomOutputDir) {
+  my $doxygenResult = `cd $pathToOutputDir `;
+  $doxygenResult   .= `doxygen ../../../Docs/Doxygen/JRCapture/Doxyfile 2>&1`;
   print $doxygenResult;
 }
 
