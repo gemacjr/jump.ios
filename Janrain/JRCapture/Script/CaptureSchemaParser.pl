@@ -1749,7 +1749,8 @@ unless (-d "$pathToOutputDir/$genDir") {
 }
 
 if ($usingCustomOutputDir) {
-  my $copyResult = `cp ../Classes/APIDInterface/JR* $pathToOutputDir 2>&1`;
+  my $copyResult = `cp ../Classes/JR* $pathToOutputDir 2>&1`;
+  $copyResult = `cp ../Classes/APIDInterface/JR* $pathToOutputDir 2>&1`;
   if ($copyResult) {
     die "[ERROR] Unable to copy necessary files to the '$pathToOutputDir': $copyResult\n\n";
   }
