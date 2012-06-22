@@ -42,7 +42,7 @@
 @implementation NSArray (StringArray)
 - (NSArray *)arrayOfStringsFromStringPluralDictionariesWithType:(NSString *)type
 {
-    DLog(@"");
+//    DLog(@"");
 
     NSMutableArray *filteredStringArray = [NSMutableArray arrayWithCapacity:[self count]];
     for (NSObject *dictionary in self)

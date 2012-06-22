@@ -49,7 +49,7 @@ typedef enum propertyTypes
     PTPassword,
     PTJsonObject,
     PTArray,
-    PTSimpleArray,
+    PTStringArray,
     PTCaptureObject,
     PTUuid,
     PTObjectId,
@@ -141,8 +141,8 @@ static Class getClassFromKey(NSString *key)
 }
 
 - (PropertyType)getPropertyTypeFromString:(NSString *)propertyTypeString
-{                                                        // TODO: Will we ever need the mutable bit?
-    if ([propertyTypeString isEqualToString:@"NSString"])// || [propertyTypeString isEqualToString:@"NSMutableString"])
+{
+    if ([propertyTypeString isEqualToString:@"NSString"])
         return PTString;
     else if ([propertyTypeString isEqualToString:@"JRBoolean"])
         return PTBoolean;
@@ -160,10 +160,10 @@ static Class getClassFromKey(NSString *key)
         return PTPassword;
     else if ([propertyTypeString isEqualToString:@"JRJsonObject"])
         return PTJsonObject;
-    else if ([propertyTypeString isEqualToString:@"NSArray"])// || [propertyTypeString isEqualToString:@"NSMutableArray"])
+    else if ([propertyTypeString isEqualToString:@"NSArray"])
         return PTArray;
     else if ([propertyTypeString isEqualToString:@"JRStringArray"])
-        return PTSimpleArray;
+        return PTStringArray;
     else if ([propertyTypeString isEqualToString:@"JRUuid"])
         return PTUuid;
     else if ([propertyTypeString isEqualToString:@"JRObjectId"])
@@ -200,7 +200,7 @@ static Class getClassFromKey(NSString *key)
 
         if (propertyData.propertyType == PTCaptureObject ||
             propertyData.propertyType == PTArray ||
-            propertyData.propertyType == PTSimpleArray)
+            propertyData.propertyType == PTStringArray)
                 propertyData.canDrillDown = YES;
 
         [propertyArray addObject:propertyData];
@@ -334,7 +334,11 @@ typedef enum
 
     UIViewController *drillDown;
 
-    if (currentPropertyData.propertyType == PTArray || currentPropertyData.propertyType == PTSimpleArray)
+    if (currentPropertyData.propertyType == PTStringArray)
+    {
+
+    }
+    else if (currentPropertyData.propertyType == PTArray)
     {
         if (!newCaptureObject || [newCaptureObject isKindOfClass:[NSNull class]])
         {
@@ -347,8 +351,7 @@ typedef enum
                                                                    bundle:[NSBundle mainBundle]
                                                                  forArray:(NSArray *) newCaptureObject
                                                       captureParentObject:parentObject
-                                                                   andKey:currentPropertyData.propertyName
-                                                            isSimpleArray:(currentPropertyData.propertyType == PTSimpleArray)];
+                                                                   andKey:currentPropertyData.propertyName];
     }
     else /* if (propertyData.propertyType == PTCaptureObject) */
     {
@@ -745,7 +748,7 @@ typedef enum
 
     PropertyData *propertyData = [propertyDataArray objectAtIndex:(NSUInteger)indexPath.row];
 
-    DLog(@"%@", propertyData.propertyName);
+    //DLog(@"%@", propertyData.propertyName);
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -802,7 +805,7 @@ typedef enum
                 editingView = [self getTextFieldWithKeyboardType:UIKeyboardTypeDefault];
                 break;
             case PTArray:
-            case PTSimpleArray:
+            case PTStringArray:
                 editingView = [self getButtonBox];
                 [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
                                                                   tag:indexPath.row
@@ -992,7 +995,7 @@ typedef enum
     }
 
  /* If our item is an array... */
-    else if (propertyData.propertyType == PTArray || propertyData.propertyType == PTSimpleArray)
+    else if (propertyData.propertyType == PTArray || propertyData.propertyType == PTStringArray)
     {/* If our object is null, */
         if (!value || [value isKindOfClass:[NSNull class]])
         {/* indicate that in the subtitle, */
@@ -1110,7 +1113,11 @@ typedef enum
     if ([value isKindOfClass:[NSNull class]])
         return;
 
-    if (propertyData.propertyType == PTArray || propertyData.propertyType == PTSimpleArray)
+    if (propertyData.propertyType == PTStringArray)
+    {
+
+    }
+    else if (propertyData.propertyType == PTArray)
     {
       /* If our value is an *empty* array, don't drill down. */
          if (![(NSArray *)value count])
@@ -1120,9 +1127,7 @@ typedef enum
                                                                     bundle:[NSBundle mainBundle]
                                                                   forArray:(NSArray *) subObj
                                                        captureParentObject:captureObject
-                                                                    andKey:key
-                                                             isSimpleArray:(propertyData.propertyType == PTSimpleArray)];
-
+                                                                    andKey:key];
     }
     else /* if (propertyData.propertyType == PTCaptureObject) */
     {
@@ -1134,6 +1139,7 @@ typedef enum
 
     }
 
+    if (propertyData.propertyType != PTStringArray) // TODO: Here temporarily
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
 

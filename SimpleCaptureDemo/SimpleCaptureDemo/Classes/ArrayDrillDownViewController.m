@@ -112,14 +112,12 @@ static Class getClassFromKey(NSString *key)
 }
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
-  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key isSimpleArray:(BOOL)simpleArray
+  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
         self.captureObject = parentObject;
         self.tableHeader   = key;
-
-        isSimpleArray = simpleArray;
 
         [self setTableDataWithArray:array];
     }
@@ -221,15 +219,9 @@ static Class getClassFromKey(NSString *key)
 {
     DLog(@"");
 
-    JRCaptureObject *newCaptureObject;
+    NSObject *newCaptureElement = [[getClassFromKey(tableHeader) alloc] init];
 
-    // TODO (BIG!!): The capture path isn't set and this will be a problem!!!
-    if (isSimpleArray)
-        newCaptureObject = (JRCaptureObject *)[JRStringPluralElement stringElementWithType:tableHeader];
-    else
-        newCaptureObject = [[getClassFromKey(tableHeader) alloc] init];
-
-    [localCopyArray addObject:newCaptureObject];
+    [localCopyArray addObject:newCaptureElement];
 
     ObjectData *objectData = [[ObjectData alloc] init];
 
@@ -504,26 +496,19 @@ static Class getClassFromKey(NSString *key)
         NSString *newHeader = [NSString stringWithFormat:@"%@[%d]", tableHeader, indexPath.row];
         NSObject *newObject = [localCopyArray objectAtIndex:(NSUInteger) indexPath.row];
 
-        UIViewController *drillDown;
-
-        if ([newObject isKindOfClass:[JRStringPluralElement class]])
-            drillDown = [[SimplePluralViewController alloc] initWithNibName:@"SimplePluralViewController"
-                                                                     bundle:[NSBundle mainBundle]
-                                                                  forObject:(JRStringPluralElement *) newObject
-                                                        captureParentObject:captureObject
-                                                                     andKey:newHeader];
-        else
-            drillDown = [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
-                                                                        bundle:[NSBundle mainBundle]
-                                                                     forObject:(JRCaptureObject *) newObject
-                                                           captureParentObject:captureObject
-                                                                        andKey:newHeader];
+        UIViewController *drillDown =
+                [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
+                                                                bundle:[NSBundle mainBundle]
+                                                             forObject:(JRCaptureObject *) newObject
+                                                   captureParentObject:captureObject
+                                                                andKey:newHeader];
 
         [[self navigationController] pushViewController:drillDown animated:YES];
     }
 }
 
-- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result
+                  context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -535,7 +520,8 @@ static Class getClassFromKey(NSString *key)
 }
 
 
-- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceArray:(NSArray *)newArray named:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
+didSucceedWithResult:(NSString *)result context:(NSObject *)context
 {
     DLog(@"");
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"

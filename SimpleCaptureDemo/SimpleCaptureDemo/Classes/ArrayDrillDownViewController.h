@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "SharedData.h"
 #import "JRCapture.h"
-#import "SimplePluralViewController.h"
+
 
 @interface ArrayDrillDownViewController : UIViewController <UINavigationBarDelegate, UITableViewDelegate,
 UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
@@ -19,7 +19,6 @@ UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
     NSMutableArray *objectDataArray;
 
     NSMutableArray *localCopyArray;
-    BOOL isSimpleArray;
 
     BOOL isEditing;
     UITextField *firstResponder;
@@ -29,6 +28,6 @@ UITableViewDataSource, UITextFieldDelegate, JRCaptureObjectDelegate>
 - (IBAction)replaceButtonPressed:(id)sender;
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil forArray:(NSArray*)array
-  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key isSimpleArray:(BOOL)simpleArray;
+  captureParentObject:(JRCaptureObject*)parentObject andKey:(NSString*)key;
 
 @end
