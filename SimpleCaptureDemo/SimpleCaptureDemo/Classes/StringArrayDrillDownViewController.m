@@ -35,7 +35,7 @@
 #endif
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
-#import "ArrayDrillDownViewController.h"
+#import "StringArrayDrillDownViewController.h"
 #import "ObjectDrillDownViewController.h"
 
 typedef enum propertyTypes
@@ -51,14 +51,14 @@ typedef enum propertyTypes
     PTUnknown,
 } PropertyType;
 
-@interface ElementData : NSObject
+@interface StringElementData : NSObject
 @property (strong) NSString *stringValue;
 @property (strong) UILabel  *titleLabel;
 @property (strong) UILabel  *subtitleLabel;
 @property (strong) UIView   *editingView;
 @end
 
-@implementation ElementData
+@implementation StringElementData
 @synthesize stringValue;
 @synthesize titleLabel;
 @synthesize subtitleLabel;
@@ -75,22 +75,23 @@ static Class getClassFromKey(NSString *key)
                                                withString:[[key substringToIndex:1] capitalizedString]]]);
 }
 
-@interface ArrayDrillDownViewController ()
+@interface StringArrayDrillDownViewController ()
 @property (strong) JRCaptureObject *captureObject;
 @property (strong) NSArray         *tableData;
 @property (strong) NSMutableArray  *localCopyArray;
 @property (strong) NSMutableArray  *objectDataArray;
 @property (strong) NSString        *tableHeader;
-- (void)setCellTextForObjectData:(ElementData *)objectData atIndex:(NSUInteger)index;
-- (void)createCellViewsForObjectData:(ElementData *)objectData atIndex:(NSUInteger)index;
+- (void)setCellTextForObjectData:(StringElementData *)objectData atIndex:(NSUInteger)index;
+- (void)createCellViewsForObjectData:(StringElementData *)objectData atIndex:(NSUInteger)index;
 @end
 
-@implementation ArrayDrillDownViewController
+@implementation StringArrayDrillDownViewController
 @synthesize captureObject;
 @synthesize tableHeader;
 @synthesize tableData;
 @synthesize myTableView;
 @synthesize myUpdateButton;
+@synthesize myKeyboardToolbar;
 @synthesize localCopyArray;
 @synthesize objectDataArray;
 
@@ -102,7 +103,7 @@ static Class getClassFromKey(NSString *key)
 
     for (NSUInteger i = 0; i < [tableData count]; i++)
     {
-        ElementData *objectData = [[ElementData alloc] init];
+        StringElementData *objectData = [[StringElementData alloc] init];
 
         [self createCellViewsForObjectData:objectData atIndex:i];
         [self setCellTextForObjectData:objectData atIndex:i];
@@ -151,6 +152,11 @@ static Class getClassFromKey(NSString *key)
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+}
+
+- (IBAction)doneEditingTextButtonPressed:(id)sender
+{
+    [firstResponder resignFirstResponder];
 }
 
 - (void)editButtonPressed:(id)sender
@@ -219,11 +225,9 @@ static Class getClassFromKey(NSString *key)
 {
     DLog(@"");
 
-    NSObject *newCaptureElement = [[getClassFromKey(tableHeader) alloc] init];
+    [localCopyArray addObject:[NSNull null]];
 
-    [localCopyArray addObject:newCaptureElement];
-
-    ElementData *objectData = [[ElementData alloc] init];
+    StringElementData *objectData = [[StringElementData alloc] init];
 
     [self createCellViewsForObjectData:objectData atIndex:[objectDataArray count]];
     [self setCellTextForObjectData:objectData atIndex:[objectDataArray count]];
@@ -267,7 +271,7 @@ static Class getClassFromKey(NSString *key)
 {
     for (NSUInteger i = 0; i < [objectDataArray count]; i++)
     {
-        ElementData *objectData = [objectDataArray objectAtIndex:i];
+        StringElementData *objectData = [objectDataArray objectAtIndex:i];
         NSInteger oldIndex = objectData.editingView.tag - EDITING_VIEW_OFFSET;
 
         [objectData.editingView setTag:EDITING_VIEW_OFFSET + i];
@@ -327,6 +331,28 @@ static Class getClassFromKey(NSString *key)
 {
     return [localCopyArray count] + 1;
 }
+
+- (UIView *)getTextFieldWithKeyboardType:(UIKeyboardType)keyboardType
+{
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 23,
+            (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? 280 : 440, 22)];
+
+    textField.backgroundColor = [UIColor clearColor];
+    textField.font            = [UIFont systemFontOfSize:14.0];
+    textField.textColor       = [UIColor blackColor];
+    textField.textAlignment   = UITextAlignmentLeft;
+    textField.hidden          = YES;
+    textField.borderStyle     = UITextBorderStyleLine;
+    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    textField.delegate        = self;
+    textField.keyboardType    = keyboardType;
+
+    [textField setInputAccessoryView:myKeyboardToolbar];
+    [textField setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
+
+    return textField;
+}
+
 
 - (UIButton *)getLeftButtonWithTitle:(NSString *)title tag:(NSInteger)tag andSelector:(SEL)selector
 {
@@ -388,16 +414,19 @@ static Class getClassFromKey(NSString *key)
     return view;
 }
 
-- (void)setCellTextForObjectData:(ElementData *)objectData atIndex:(NSUInteger)index
+- (void)setCellTextForObjectData:(StringElementData *)objectData atIndex:(NSUInteger)index
 {
     NSString *key   = [NSString stringWithFormat:@"%@[%d]", tableHeader, index];
-    NSObject *value = [localCopyArray objectAtIndex:index];
+    NSString *value = [localCopyArray objectAtIndex:index];
+
+    if (value == [NSNull null])
+        value = @"null element";
 
     objectData.titleLabel.text    = key;
-    objectData.subtitleLabel.text = [[(JRCaptureObject *)value toDictionary] JSONString];
+    objectData.subtitleLabel.text = value;
 }
 
-- (void)createCellViewsForObjectData:(ElementData *)objectData atIndex:(NSUInteger)index
+- (void)createCellViewsForObjectData:(StringElementData *)objectData atIndex:(NSUInteger)index
 {
     NSInteger editingViewTag = EDITING_VIEW_OFFSET + index;
 
@@ -426,13 +455,15 @@ static Class getClassFromKey(NSString *key)
 
     [objectData setSubtitleLabel:valueLabel];
 
-    UIView *editingView = [self getButtonBox];
-    [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
-                                                     tag:index
-                                             andSelector:@selector(deleteObjectButtonPressed:)]];
-    [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
-                                                      tag:index
-                                              andSelector:@selector(editObjectButtonPressed:)]];
+//    UIView *editingView = [self getButtonBox];
+//    [editingView addSubview:[self getLeftButtonWithTitle:@"Delete"
+//                                                     tag:index
+//                                             andSelector:@selector(deleteObjectButtonPressed:)]];
+//    [editingView addSubview:[self getRightButtonWithTitle:@"Edit"
+//                                                      tag:index
+//                                              andSelector:@selector(editObjectButtonPressed:)]];
+
+    UIView *editingView = [self getTextFieldWithKeyboardType:UIKeyboardTypeDefault];
 
     [editingView setTag:editingViewTag];
     [editingView setAutoresizingMask:UIViewAutoresizingNone | UIViewAutoresizingFlexibleWidth];
@@ -459,7 +490,7 @@ static Class getClassFromKey(NSString *key)
     }
     else
     {
-        ElementData *objectData = [objectDataArray objectAtIndex:(NSUInteger)indexPath.row];
+        StringElementData *objectData = [objectDataArray objectAtIndex:(NSUInteger)indexPath.row];
 
         for (UIView *view in [cell.contentView subviews])
             [view removeFromSuperview];
@@ -472,8 +503,8 @@ static Class getClassFromKey(NSString *key)
         [cell.contentView addSubview:subtitleLabel];
         [cell.contentView addSubview:editingView];
 
-        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
+//        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+//        [cell setSelectionStyle: UITableViewCellSelectionStyleBlue];
 
         [editingView setHidden:!isEditing];
         [subtitleLabel setHidden:isEditing];
@@ -491,20 +522,20 @@ static Class getClassFromKey(NSString *key)
     {
         [self addObjectButtonPressed:nil];
     }
-    else
-    {
-        NSString *newHeader = [NSString stringWithFormat:@"%@[%d]", tableHeader, indexPath.row];
-        NSObject *newObject = [localCopyArray objectAtIndex:(NSUInteger) indexPath.row];
-
-        UIViewController *drillDown =
-                [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
-                                                                bundle:[NSBundle mainBundle]
-                                                             forObject:(JRCaptureObject *) newObject
-                                                   captureParentObject:captureObject
-                                                                andKey:newHeader];
-
-        [[self navigationController] pushViewController:drillDown animated:YES];
-    }
+//    else
+//    {
+//        NSString *newHeader = [NSString stringWithFormat:@"%@[%d]", tableHeader, indexPath.row];
+//        NSObject *newObject = [localCopyArray objectAtIndex:(NSUInteger) indexPath.row];
+//
+//        UIViewController *drillDown =
+//                [[ObjectDrillDownViewController alloc] initWithNibName:@"ObjectDrillDownViewController"
+//                                                                bundle:[NSBundle mainBundle]
+//                                                             forObject:(JRCaptureObject *) newObject
+//                                                   captureParentObject:captureObject
+//                                                                andKey:newHeader];
+//
+//        [[self navigationController] pushViewController:drillDown animated:YES];
+//    }
 }
 
 - (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result
@@ -531,61 +562,9 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
                                               otherButtonTitles:nil];
     [alertView show];
 
-    //SEL getArraySelector = NSSelectorFromString(tableHeader);
-    //NSArray *array       = [object performSelector:getArraySelector];
-
     [self setTableDataWithArray:newArray];
     [myTableView reloadData];
 }
-
-//- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
-//{
-//    DLog(@"");
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                        message:result
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"Dismiss"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
-//}
-//
-//- (void)replaceCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
-//{
-//    DLog(@"");
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
-//                                                        message:result
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
-//
-//    SEL getArraySelector = NSSelectorFromString(tableHeader);
-//    NSArray *array       = [object performSelector:getArraySelector];
-//
-//    [self setTableDataWithArray:array];
-//}
-//
-//- (void)updateCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context
-//{
-//    DLog(@"");
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-//                                                        message:result
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"Dismiss"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
-//}
-//
-//- (void)updateCaptureObject:(JRCaptureObject *)object didSucceedWithResult:(NSString *)result context:(NSObject *)context
-//{
-//    DLog(@"");
-//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success"
-//                                                        message:result
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles:nil];
-//    [alertView show];
-//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {

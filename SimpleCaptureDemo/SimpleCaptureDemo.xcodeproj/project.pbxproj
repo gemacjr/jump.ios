@@ -226,6 +226,7 @@
 		9F578A001593E00300478D15 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5789DE1593E00300478D15 /* JRCaptureUser+Extras.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9F578A051593E0AC00478D15 /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578A011593E0AC00478D15 /* JRCapture.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9F578A061593E0AC00478D15 /* JRCaptureInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578A021593E0AC00478D15 /* JRCaptureInternal.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9F5792AC1595141500478D15 /* StringArrayDrillDownViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F5792AA1595141500478D15 /* StringArrayDrillDownViewController.xib */; };
 		9F7B6A8415336470002BF452 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8215336470002BF452 /* InfoPlist.strings */; };
 		9F7B6A9315336480002BF452 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8615336480002BF452 /* AppDelegate.m */; };
 		9F7B6A9415336480002BF452 /* ArrayDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8815336480002BF452 /* ArrayDrillDownViewController.m */; };
@@ -243,6 +244,7 @@
 		9F7B6AB01533648C002BF452 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6AA81533648C002BF452 /* background.png */; };
 		9FD2B6BF14F8387100053EA2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6BE14F8387100053EA2 /* Security.framework */; };
 		9FD2B6C114F8387B00053EA2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD2B6C014F8387B00053EA2 /* MessageUI.framework */; };
+		9FD2B6C114F8387B00053EA4 /* StringArrayDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD2B6C114F8387B00053EA3 /* StringArrayDrillDownViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -531,6 +533,7 @@
 		9F578A021593E0AC00478D15 /* JRCaptureInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRCaptureInternal.m; sourceTree = "<group>"; };
 		9F578A031593E0AC00478D15 /* JRCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCapture.h; sourceTree = "<group>"; };
 		9F578A041593E0AC00478D15 /* JRCaptureInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRCaptureInternal.h; sourceTree = "<group>"; };
+		9F5792AB1595141500478D15 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = StringArrayDrillDownViewController.xib; sourceTree = "<group>"; };
 		9F7B6A8315336470002BF452 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9F7B6A8515336480002BF452 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		9F7B6A8615336480002BF452 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
@@ -556,6 +559,8 @@
 		9F9506FE14FEA79000335A12 /* SimpleCaptureDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimpleCaptureDemo.entitlements; sourceTree = "<group>"; };
 		9FD2B6BE14F8387100053EA2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9FD2B6C014F8387B00053EA2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		9FD2B6C114F8387B00053EA3 /* StringArrayDrillDownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringArrayDrillDownViewController.m; path = Classes/StringArrayDrillDownViewController.m; sourceTree = "<group>"; };
+		9FD2B6C114F8387B00053EA5 /* StringArrayDrillDownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StringArrayDrillDownViewController.h; path = Classes/StringArrayDrillDownViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1096,6 +1101,8 @@
 		9F7B6A8015336443002BF452 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9FD2B6C114F8387B00053EA5 /* StringArrayDrillDownViewController.h */,
+				9FD2B6C114F8387B00053EA3 /* StringArrayDrillDownViewController.m */,
 				9F7B6A8515336480002BF452 /* AppDelegate.h */,
 				9F7B6A8615336480002BF452 /* AppDelegate.m */,
 				9F7B6A8715336480002BF452 /* ArrayDrillDownViewController.h */,
@@ -1129,6 +1136,7 @@
 		9F7B6A9A1533648C002BF452 /* en.lproj */ = {
 			isa = PBXGroup;
 			children = (
+				9F5792AA1595141500478D15 /* StringArrayDrillDownViewController.xib */,
 				9F2C93BF1551A7EC001A810E /* SimplePluralViewController.xib */,
 				9F7B6A9B1533648C002BF452 /* ArrayDrillDownViewController.xib */,
 				9F7B6A9D1533648C002BF452 /* CaptureNewUserViewController.xib */,
@@ -1393,6 +1401,7 @@
 				9F5789931593DFF000478D15 /* JRPublishActivityController.xib in Resources */,
 				9F5789941593DFF000478D15 /* JRUserLandingController.xib in Resources */,
 				9F5789951593DFF000478D15 /* JRWebViewController.xib in Resources */,
+				9F5792AC1595141500478D15 /* StringArrayDrillDownViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1488,6 +1497,7 @@
 				9F578A001593E00300478D15 /* JRCaptureUser+Extras.m in Sources */,
 				9F578A051593E0AC00478D15 /* JRCapture.m in Sources */,
 				9F578A061593E0AC00478D15 /* JRCaptureInternal.m in Sources */,
+				9FD2B6C114F8387B00053EA4 /* StringArrayDrillDownViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1524,6 +1534,14 @@
 				9F2C93C01551A7EC001A810E /* en */,
 			);
 			name = SimplePluralViewController.xib;
+			sourceTree = "<group>";
+		};
+		9F5792AA1595141500478D15 /* StringArrayDrillDownViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F5792AB1595141500478D15 /* en */,
+			);
+			name = StringArrayDrillDownViewController.xib;
 			sourceTree = "<group>";
 		};
 		9F7B6A8215336470002BF452 /* InfoPlist.strings */ = {

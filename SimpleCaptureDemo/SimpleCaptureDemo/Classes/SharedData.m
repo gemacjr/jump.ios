@@ -73,6 +73,8 @@ static NSString *entityTypeName     = @"user_dev";
         self.currentDisplayName = [prefs objectForKey:@"currentDisplayName"];
         self.currentProvider = [prefs objectForKey:@"currentProvider"];
 
+        DLog(@"%@", [prefs objectForKey:@"captureUser"]);
+
         [JRCapture setAccessToken:accessToken];
         [JRCapture setCreationToken:creationToken];
 //        captureUser.accessToken = accessToken;

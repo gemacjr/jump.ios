@@ -36,6 +36,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "ObjectDrillDownViewController.h"
+#import "StringArrayDrillDownViewController.h"
 
 typedef enum propertyTypes
 {
@@ -1115,7 +1116,15 @@ typedef enum
 
     if (propertyData.propertyType == PTStringArray)
     {
+      /* If our value is an *empty* array, don't drill down. */
+         if (![(NSArray *)value count])
+             return;
 
+         drillDown = [[StringArrayDrillDownViewController alloc] initWithNibName:@"StringArrayDrillDownViewController"
+                                                                    bundle:[NSBundle mainBundle]
+                                                                  forArray:(NSArray *) subObj
+                                                       captureParentObject:captureObject
+                                                                    andKey:key];
     }
     else if (propertyData.propertyType == PTArray)
     {
@@ -1139,7 +1148,6 @@ typedef enum
 
     }
 
-    if (propertyData.propertyType != PTStringArray) // TODO: Here temporarily
     [[self navigationController] pushViewController:drillDown animated:YES];
 }
 

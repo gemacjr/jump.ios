@@ -40,14 +40,21 @@
 
 
 @implementation NSArray (StringArray)
+// TODO: Test this!
+/* If it's just an array of strings, it will return an array of string. If it's not an array of strings or
+   dictionaries, it will return null.  If type is null, and it is not an array of strings, it will return null. */
 - (NSArray *)arrayOfStringsFromStringPluralDictionariesWithType:(NSString *)type
 {
-    DLog(@"");
-
     NSMutableArray *filteredStringArray = [NSMutableArray arrayWithCapacity:[self count]];
-    for (NSObject *dictionary in self)
-        if ([dictionary isKindOfClass:[NSDictionary class]])
-            [filteredStringArray addObject:[((NSDictionary *)dictionary) objectForKey:type]];
+    for (NSObject *object in self)
+        if ([object isKindOfClass:[NSString class]])
+            [filteredStringArray addObject:object];
+        else if (object == [NSNull null])
+            [filteredStringArray addObject:object];
+        else if ([object isKindOfClass:[NSDictionary class]] && type && [((NSDictionary *)object) objectForKey:type])
+            [filteredStringArray addObject:[((NSDictionary *)object) objectForKey:type]];
+        else
+            return nil;
 
     return filteredStringArray;
 }
