@@ -79,7 +79,7 @@
 
 @implementation NSArray (PinapinapL1PluralElement_ArrayComparison)
 
-- (BOOL)isEqualToOtherPinapinapL2PluralArray:(NSArray *)otherArray
+- (BOOL)isEqualToPinapinapL2PluralArray:(NSArray *)otherArray
 {
     if ([self count] != [otherArray count]) return NO;
 
@@ -139,8 +139,6 @@
 
 - (void)setPinapinapL2Plural:(NSArray *)newPinapinapL2Plural
 {
-    [self.dirtyArraySet addObject:@"pinapinapL2Plural"];
-
     [_pinapinapL2Plural autorelease];
     _pinapinapL2Plural = [newPinapinapL2Plural copy];
 }
@@ -165,7 +163,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRPinapinapL1PluralElement *pinapinapL1PluralElementCopy = (JRPinapinapL1PluralElement *)[super copy];
+    JRPinapinapL1PluralElement *pinapinapL1PluralElementCopy = (JRPinapinapL1PluralElement *)[super copyWithZone:zone];
 
     pinapinapL1PluralElementCopy.string1 = self.string1;
     pinapinapL1PluralElementCopy.string2 = self.string2;
@@ -213,7 +211,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinapinapL2Plural"] arrayOfPinapinapL2PluralElementsFromPinapinapL2PluralDictionariesWithPath:pinapinapL1PluralElement.captureObjectPath] : nil;
 
     [pinapinapL1PluralElement.dirtyPropertySet removeAllObjects];
-    [pinapinapL1PluralElement.dirtyArraySet removeAllObjects];
     
     return pinapinapL1PluralElement;
 }
@@ -223,7 +220,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -237,7 +233,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -245,7 +240,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapinapL1Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -263,7 +257,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinapinapL2Plural"] arrayOfPinapinapL2PluralElementsFromPinapinapL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -299,8 +292,8 @@
 
 - (void)replacePinapinapL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.pinapinapL2Plural named:@"pinapinapL2Plural"
-                    forDelegate:delegate withContext:context];
+    [self replaceArrayOnCapture:self.pinapinapL2Plural named:@"pinapinapL2Plural" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
 }
 
 - (BOOL)needsUpdate
@@ -324,7 +317,7 @@
     if (!self.pinapinapL2Plural && !otherPinapinapL1PluralElement.pinapinapL2Plural) /* Keep going... */;
     else if (!self.pinapinapL2Plural && ![otherPinapinapL1PluralElement.pinapinapL2Plural count]) /* Keep going... */;
     else if (!otherPinapinapL1PluralElement.pinapinapL2Plural && ![self.pinapinapL2Plural count]) /* Keep going... */;
-    else if (![self.pinapinapL2Plural isEqualToOtherPinapinapL2PluralArray:otherPinapinapL1PluralElement.pinapinapL2Plural]) return NO;
+    else if (![self.pinapinapL2Plural isEqualToPinapinapL2PluralArray:otherPinapinapL1PluralElement.pinapinapL2Plural]) return NO;
 
     return YES;
 }

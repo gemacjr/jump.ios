@@ -138,7 +138,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRObjectTestRequired *objectTestRequiredCopy = (JRObjectTestRequired *)[super copy];
+    JRObjectTestRequired *objectTestRequiredCopy = (JRObjectTestRequired *)[super copyWithZone:zone];
 
     objectTestRequiredCopy.requiredString = self.requiredString;
     objectTestRequiredCopy.string1 = self.string1;
@@ -183,7 +183,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [objectTestRequired.dirtyPropertySet removeAllObjects];
-    [objectTestRequired.dirtyArraySet removeAllObjects];
     
     return objectTestRequired;
 }
@@ -193,7 +192,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -210,7 +208,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -218,7 +215,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -235,7 +231,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary

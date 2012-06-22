@@ -79,7 +79,7 @@
 
 @implementation NSArray (PinapinoL2PluralElement_ArrayComparison)
 
-- (BOOL)isEqualToOtherPinapinoL3PluralArray:(NSArray *)otherArray
+- (BOOL)isEqualToPinapinoL3PluralArray:(NSArray *)otherArray
 {
     if ([self count] != [otherArray count]) return NO;
 
@@ -139,8 +139,6 @@
 
 - (void)setPinapinoL3Plural:(NSArray *)newPinapinoL3Plural
 {
-    [self.dirtyArraySet addObject:@"pinapinoL3Plural"];
-
     [_pinapinoL3Plural autorelease];
     _pinapinoL3Plural = [newPinapinoL3Plural copy];
 }
@@ -165,7 +163,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRPinapinoL2PluralElement *pinapinoL2PluralElementCopy = (JRPinapinoL2PluralElement *)[super copy];
+    JRPinapinoL2PluralElement *pinapinoL2PluralElementCopy = (JRPinapinoL2PluralElement *)[super copyWithZone:zone];
 
     pinapinoL2PluralElementCopy.string1 = self.string1;
     pinapinoL2PluralElementCopy.string2 = self.string2;
@@ -213,7 +211,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinapinoL3Plural"] arrayOfPinapinoL3PluralElementsFromPinapinoL3PluralDictionariesWithPath:pinapinoL2PluralElement.captureObjectPath] : nil;
 
     [pinapinoL2PluralElement.dirtyPropertySet removeAllObjects];
-    [pinapinoL2PluralElement.dirtyArraySet removeAllObjects];
     
     return pinapinoL2PluralElement;
 }
@@ -223,7 +220,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -237,7 +233,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -245,7 +240,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinapinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -263,7 +257,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinapinoL3Plural"] arrayOfPinapinoL3PluralElementsFromPinapinoL3PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -299,8 +292,8 @@
 
 - (void)replacePinapinoL3PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.pinapinoL3Plural named:@"pinapinoL3Plural"
-                    forDelegate:delegate withContext:context];
+    [self replaceArrayOnCapture:self.pinapinoL3Plural named:@"pinapinoL3Plural" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
 }
 
 - (BOOL)needsUpdate
@@ -324,7 +317,7 @@
     if (!self.pinapinoL3Plural && !otherPinapinoL2PluralElement.pinapinoL3Plural) /* Keep going... */;
     else if (!self.pinapinoL3Plural && ![otherPinapinoL2PluralElement.pinapinoL3Plural count]) /* Keep going... */;
     else if (!otherPinapinoL2PluralElement.pinapinoL3Plural && ![self.pinapinoL3Plural count]) /* Keep going... */;
-    else if (![self.pinapinoL3Plural isEqualToOtherPinapinoL3PluralArray:otherPinapinoL2PluralElement.pinapinoL3Plural]) return NO;
+    else if (![self.pinapinoL3Plural isEqualToPinapinoL3PluralArray:otherPinapinoL2PluralElement.pinapinoL3Plural]) return NO;
 
     return YES;
 }

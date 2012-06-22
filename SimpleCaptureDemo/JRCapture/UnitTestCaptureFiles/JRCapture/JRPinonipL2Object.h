@@ -33,7 +33,7 @@
 #import "JRPinonipL3PluralElement.h"
 
 @interface NSArray (PinonipL2Object_ArrayComparison)
-- (BOOL)isEqualToOtherPinonipL3PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinonipL3PluralArray:(NSArray *)otherArray;
 @end
 
 /**

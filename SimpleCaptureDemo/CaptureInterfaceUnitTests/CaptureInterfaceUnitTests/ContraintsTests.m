@@ -107,7 +107,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void) test_c112_objectRequiredCreateInvalid
+- (void)test_c112_objectRequiredCreateInvalid
 {
     JRObjectTestRequired *jrotr = [JRObjectTestRequired objectTestRequired];
     jrotr.requiredString = nil;
@@ -120,8 +120,18 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void)test_c113_objectRequiredCopy
+{
+    GHAssertFalse(YES, @"Implement me!");
+}
+
+- (void)test_c114_objectRequiredEquals
+{
+    GHAssertFalse(YES, @"Implement me!");
+}
+
 // alphanumeric
-- (void) test_c121_stringAlphanumeric
+- (void)test_c121_stringAlphanumeric
 {
     captureUser.stringTestAlphanumeric = @"abc123";
 
@@ -130,7 +140,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void) test_c122_stringAlphaNumericInvalid
+- (void)test_c122_stringAlphaNumericInvalid
 {
     captureUser.stringTestAlphanumeric = @"!@#$%^&*()";
 
@@ -140,7 +150,7 @@
 }
 
 // alphabetic
-- (void) test_c131_stringAlphabetic
+- (void)test_c131_stringAlphabetic
 {
     JRPluralTestAlphabeticElement *const element = [JRPluralTestAlphabeticElement pluralTestAlphabeticElement];
     element.uniqueString = @"abc";
@@ -151,7 +161,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void) test_c132_stringAlphabeticInvalid
+- (void)test_c132_stringAlphabeticInvalid
 {
     JRPluralTestAlphabeticElement *const element = [JRPluralTestAlphabeticElement pluralTestAlphabeticElement];
     element.uniqueString = @"abc123";
@@ -163,7 +173,7 @@
 }
 
 // unicode-letters
-- (void) test_c141_stringUnicodeLetters
+- (void)test_c141_stringUnicodeLetters
 {
     captureUser.stringTestUnicodeLetters = @"\u0393"; // greek letter gamma
 
@@ -172,7 +182,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void) test_c142_stringUnicodeLettersInvalid
+- (void)test_c142_stringUnicodeLettersInvalid
 {
     captureUser.stringTestUnicodeLetters = @"\u2615";
 
@@ -182,7 +192,7 @@
 }
 
 // unicode-printable
-- (void) test_c151_stringUnicodePrintable
+- (void)test_c151_stringUnicodePrintable
 {
     captureUser.stringTestUnicodePrintable = @"\u2615";
 
@@ -201,7 +211,7 @@
 //    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 //}
 
-- (void) test_c153_stringUnicodePrintableInvalid
+- (void)test_c153_stringUnicodePrintableInvalid
 {
     captureUser.stringTestUnicodePrintable = @"\x11"; // XON control character
 
@@ -211,7 +221,7 @@
 }
 
 // email-address
-- (void) test_c161_stringEmailValid
+- (void)test_c161_stringEmailValid
 {
     captureUser.stringTestEmailAddress = @"Rδοκιμή123abc.def+ghi@a.abπαράδειγμα.δοκιμή";
 
@@ -220,7 +230,7 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void) test_c162_stringEmailInvalid
+- (void)test_c162_stringEmailInvalid
 {
     captureUser.stringTestEmailAddress = @"anemone";
 

@@ -33,7 +33,7 @@
 #import "JROnipinoL2PluralElement.h"
 
 @interface NSArray (OnipinoL1Object_ArrayComparison)
-- (BOOL)isEqualToOtherOnipinoL2PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipinoL2PluralArray:(NSArray *)otherArray;
 @end
 
 /**

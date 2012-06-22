@@ -113,7 +113,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRPluralTestUniqueElement *pluralTestUniqueElementCopy = (JRPluralTestUniqueElement *)[super copy];
+    JRPluralTestUniqueElement *pluralTestUniqueElementCopy = (JRPluralTestUniqueElement *)[super copyWithZone:zone];
 
     pluralTestUniqueElementCopy.uniqueString = self.uniqueString;
     pluralTestUniqueElementCopy.string1 = self.string1;
@@ -161,7 +161,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [pluralTestUniqueElement.dirtyPropertySet removeAllObjects];
-    [pluralTestUniqueElement.dirtyArraySet removeAllObjects];
     
     return pluralTestUniqueElement;
 }
@@ -171,7 +170,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralTestUnique", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -189,7 +187,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -197,7 +194,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pluralTestUnique", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -215,7 +211,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary

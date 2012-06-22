@@ -101,7 +101,6 @@
         self.canBeUpdatedOrReplaced = YES;
 
         _oinoinoL3Object = [[JROinoinoL3Object alloc] init];
-        _oinoinoL3Object = [[JROinoinoL3Object alloc] init];
 
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"oinoinoL3Object", nil]];
     }
@@ -115,7 +114,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JROinoinoL2Object *oinoinoL2ObjectCopy = (JROinoinoL2Object *)[super copy];
+    JROinoinoL2Object *oinoinoL2ObjectCopy = (JROinoinoL2Object *)[super copyWithZone:zone];
 
     oinoinoL2ObjectCopy.string1 = self.string1;
     oinoinoL2ObjectCopy.string2 = self.string2;
@@ -160,7 +159,6 @@
         [JROinoinoL3Object oinoinoL3ObjectObjectFromDictionary:[dictionary objectForKey:@"oinoinoL3Object"] withPath:oinoinoL2Object.captureObjectPath] : nil;
 
     [oinoinoL2Object.dirtyPropertySet removeAllObjects];
-    [oinoinoL2Object.dirtyArraySet removeAllObjects];
     
     return oinoinoL2Object;
 }
@@ -170,7 +168,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -190,7 +187,6 @@
         [self.oinoinoL3Object updateFromDictionary:[dictionary objectForKey:@"oinoinoL3Object"] withPath:self.captureObjectPath];
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -198,7 +194,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -218,7 +213,6 @@
         [self.oinoinoL3Object replaceFromDictionary:[dictionary objectForKey:@"oinoinoL3Object"] withPath:self.captureObjectPath];
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary

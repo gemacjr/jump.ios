@@ -98,7 +98,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRPinoL2PluralElement *pinoL2PluralElementCopy = (JRPinoL2PluralElement *)[super copy];
+    JRPinoL2PluralElement *pinoL2PluralElementCopy = (JRPinoL2PluralElement *)[super copyWithZone:zone];
 
     pinoL2PluralElementCopy.string1 = self.string1;
     pinoL2PluralElementCopy.string2 = self.string2;
@@ -139,7 +139,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [pinoL2PluralElement.dirtyPropertySet removeAllObjects];
-    [pinoL2PluralElement.dirtyArraySet removeAllObjects];
     
     return pinoL2PluralElement;
 }
@@ -149,7 +148,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -163,7 +161,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -171,7 +168,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"pinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -185,7 +181,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary

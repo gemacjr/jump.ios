@@ -36,8 +36,6 @@
 #import "JRPluralTestUniqueElement.h"
 #import "JRObjectTestRequiredUnique.h"
 #import "JRPluralTestAlphabeticElement.h"
-#import "JRSimpleStringPluralOneElement.h"
-#import "JRSimpleStringPluralTwoElement.h"
 #import "JRPinapL1PluralElement.h"
 #import "JRPinoL1Object.h"
 #import "JROnipL1PluralElement.h"
@@ -52,17 +50,15 @@
 #import "JROinoinoL1Object.h"
 
 @interface NSArray (CaptureUser_ArrayComparison)
-- (BOOL)isEqualToOtherBasicPluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherPluralTestUniqueArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherPluralTestAlphabeticArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherSimpleStringPluralOneArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherSimpleStringPluralTwoArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherPinapL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherOnipL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherPinapinapL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherPinonipL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherOnipinapL1PluralArray:(NSArray *)otherArray;
-- (BOOL)isEqualToOtherOinonipL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToBasicPluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPluralTestUniqueArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPluralTestAlphabeticArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinapL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinapinapL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToPinonipL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipinapL1PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOinonipL1PluralArray:(NSArray *)otherArray;
 @end
 
 /**
@@ -100,8 +96,8 @@
 @property (nonatomic, copy)   NSArray *pluralTestUnique; /**< Plural for testing getting/setting, updating, and replacing elements when one element property has the constraint of being unique @note This is an array of \c JRPluralTestUniqueElement objects */ 
 @property (nonatomic, retain) JRObjectTestRequiredUnique *objectTestRequiredUnique; /**< Object for testing getting/setting, updating, and replacing properties when the properties have the constraints of being required and unique */ 
 @property (nonatomic, copy)   NSArray *pluralTestAlphabetic; /**< Plural for testing getting/setting, updating, and replacing elements when one element property has the constraint of being alphabetic @note This is an array of \c JRPluralTestAlphabeticElement objects */ 
-@property (nonatomic, copy)   NSArray *simpleStringPluralOne; /**< Plural property for testing getting/setting, updating, and replacing lists of strings/JRStringPluralElements @note This is an array of \c JRSimpleStringPluralOneElement objects */ 
-@property (nonatomic, copy)   NSArray *simpleStringPluralTwo; /**< Another plural property for testing getting/setting, updating, and replacing lists of strings/JRStringPluralElements @note This is an array of \c JRSimpleStringPluralTwoElement objects */ 
+@property (nonatomic, copy)   JRStringArray *simpleStringPluralOne; /**< Plural property for testing getting/setting, updating, and replacing lists of strings/JRStringPluralElements @note This is an array of \c NSStrings representing a list of \c simpleTypeOne objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
+@property (nonatomic, copy)   JRStringArray *simpleStringPluralTwo; /**< Another plural property for testing getting/setting, updating, and replacing lists of strings/JRStringPluralElements @note This is an array of \c NSStrings representing a list of \c simpleTypeTwo objects TODO: Add note about how setting the array requires a replace on capture and how you can set it with an array of stringPluralElements or just an array of strings */ 
 @property (nonatomic, copy)   NSArray *pinapL1Plural; /**< Plural in a plural (element in a plural in an element in a plural) @note This is an array of \c JRPinapL1PluralElement objects */ 
 @property (nonatomic, retain) JRPinoL1Object *pinoL1Object; /**< Plural in an object (element in a plural in an object) */ 
 @property (nonatomic, copy)   NSArray *onipL1Plural; /**< Object in a plural (object in an element in a plural) @note This is an array of \c JROnipL1PluralElement objects */ 

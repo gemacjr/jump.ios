@@ -40,6 +40,20 @@
 #import "JRStringPluralElement.h"
 
 
+@implementation NSArray (StringArray)
+- (NSArray *)arrayOfStringsFromStringPluralDictionariesWithType:(NSString *)type
+{
+    DLog(@"");
+
+    NSMutableArray *filteredStringArray = [NSMutableArray arrayWithCapacity:[self count]];
+    for (NSObject *dictionary in self)
+        if ([dictionary isKindOfClass:[NSDictionary class]])
+            [filteredStringArray addObject:[((NSDictionary *)dictionary) objectForKey:type]];
+
+    return filteredStringArray;
+}
+@end
+
 @interface JRCaptureObject (Internal)
 @property BOOL canBeUpdatedOrReplaced;
 //- (NSDictionary *)toUpdateDictionary;
@@ -51,7 +65,7 @@
 @implementation JRCaptureObject
 @synthesize captureObjectPath;
 @synthesize dirtyPropertySet;
-@synthesize dirtyArraySet;
+//@synthesize dirtyArraySet;
 @synthesize canBeUpdatedOrReplaced;
 
 - (id)init
@@ -67,7 +81,7 @@
 - (id)copyWithZone:(NSZone*)zone
 {
     JRCaptureObject *objectCopy =
-                [[JRCaptureObject allocWithZone:zone] init];
+                [[[self class] allocWithZone:zone] init];
 
     for (NSString *dirtyProperty in [self.dirtyPropertySet allObjects])
         [objectCopy.dirtyPropertySet addObject:dirtyProperty];
@@ -175,8 +189,9 @@
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
     NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
     NSString        *arrayName     = [myContext objectForKey:@"arrayName"];
-    NSString        *elementType   = [myContext objectForKey:@"elementType"];
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
+    NSString        *elementType   = [myContext objectForKey:@"elementType"];
+    BOOL             isStringArray = [((NSNumber *)[myContext objectForKey:@"isStringArray"]) boolValue];
 
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
@@ -198,14 +213,9 @@
 
     NSArray *resultsArray = [resultDictionary objectForKey:@"result"];
     NSArray *newArray;
-    if (elementType) /* Then it's a simple array */
+    if (isStringArray)
     {
-        SEL arrayOfObjectsFromArrayOfDictionariesSelector =
-                    @selector(arrayOfStringPluralElementsFromStringPluralDictionariesWithType:andExtendedPath:);
-
-        newArray = [resultsArray performSelector:arrayOfObjectsFromArrayOfDictionariesSelector
-                                      withObject:elementType
-                                      withObject:[NSString stringWithFormat:@"%@/testerStringPlural", capturePath]];
+        newArray = [resultsArray arrayOfStringsFromStringPluralDictionariesWithType:elementType];
     }
     else
     {
@@ -217,7 +227,7 @@
     }
 
     [captureObject performSelector:setNewArrayInParentSelector withObject:newArray];
-    [captureObject.dirtyArraySet removeObject:arrayName];
+    //[captureObject.dirtyArraySet removeObject:arrayName];
 
     if ([delegate respondsToSelector:@selector(replaceArray:named:onCaptureObject:didSucceedWithResult:context:)])
         [delegate replaceArray:newArray named:arrayName onCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
@@ -315,11 +325,10 @@
 //    }
 
     [JRCaptureApidInterface updateCaptureObject:[self toUpdateDictionary]
-                                     //withId:[self.captureUserId integerValue]
-                                     atPath:self.captureObjectPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
+                                         atPath:self.captureObjectPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:self
+                                    withContext:newContext];
 }
 
 - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
@@ -340,83 +349,72 @@
     }
 
     [JRCaptureApidInterface replaceCaptureObject:[self toReplaceDictionaryIncludingArrays:YES]
-                                      //withId:[self.captureUserId integerValue]
-                                      atPath:self.captureObjectPath
-                                   withToken:[JRCaptureData accessToken]
-                                 forDelegate:self
-                                 withContext:newContext];
+                                          atPath:self.captureObjectPath
+                                       withToken:[JRCaptureData accessToken]
+                                     forDelegate:self
+                                     withContext:newContext];
 }
 
-- (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName
+- (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName isArrayOfStrings:(BOOL)isStringArray withType:(NSString *)type
                   forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
+    if (!type) type = @"";
+
     NSString *captureArrayPath = [NSString stringWithFormat:@"%@/%@", self.captureObjectPath, arrayName];
     NSString *capitalizedName  =
                     [arrayName stringByReplacingCharactersInRange:NSMakeRange(0,1)
                                                        withString:[[arrayName substringToIndex:1] capitalizedString]];
 
-    SEL arrayOfObjectsToArrayOfDictionariesSelector = NSSelectorFromString(
-            [NSString stringWithFormat:@"arrayOf%@ReplaceDictionariesFrom%@Elements", capitalizedName, capitalizedName]);
+    NSArray *serialized;
+
+    if (!isStringArray)
+        serialized = [array performSelector:NSSelectorFromString([NSString stringWithFormat:
+                           @"arrayOf%@ReplaceDictionariesFrom%@Elements", capitalizedName, capitalizedName])];
+    else
+        serialized = array;
 
     NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      self, @"captureObject",
                                                      arrayName, @"arrayName",
                                                      self.captureObjectPath, @"capturePath",
-                                                     [NSNumber numberWithBool:NO], @"isSimpleArray",
+                                                     [NSNumber numberWithBool:isStringArray], @"isStringArray",
+                                                     type, @"elementType",
                                                      delegate, @"delegate",
                                                      context, @"callerContext", nil];
 
-    if (!self.canBeUpdatedOrReplaced)
-    {
-        [self replaceCaptureArrayDidFailWithResult:
-                      @"{\"stat\":\"fail\",\"message\":\"This object or its parent is an element of an array, and the array needs to be replaced on Capture first\""
-                                           context:newContext];
-
-        return;
-    }
-
-    [JRCaptureApidInterface replaceCaptureArray:[array performSelector:arrayOfObjectsToArrayOfDictionariesSelector]
-                                     atPath:captureArrayPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
+    [JRCaptureApidInterface replaceCaptureArray:serialized
+                                         atPath:captureArrayPath
+                                      withToken:[JRCaptureData accessToken]
+                                    forDelegate:self
+                                    withContext:newContext];
 }
 
-- (void)replaceSimpleArrayOnCapture:(NSArray *)array ofType:(NSString *)elementType named:(NSString *)arrayName
-                        forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
-{
-    NSString *captureArrayPath = [NSString stringWithFormat:@"%@/%@", self.captureObjectPath, arrayName];
-
-    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                     self, @"captureObject",
-                                                     arrayName, @"arrayName",
-                                                     elementType, @"elementType",
-                                                     self.captureObjectPath, @"capturePath",
-                                                     [NSNumber numberWithBool:YES], @"isSimpleArray",
-                                                     delegate, @"delegate",
-                                                     context, @"callerContext", nil];
-
-    if (!self.canBeUpdatedOrReplaced)
-    {
-        [self replaceCaptureArrayDidFailWithResult:
-                      @"{\"stat\":\"fail\",\"message\":\"This object or its parent is an element of an array, and the array needs to be replaced on Capture first\""
-                                           context:newContext];
-
-        return;
-    }
-
-    [JRCaptureApidInterface replaceCaptureArray:[array arrayOfStringsFromStringPluralElements]
-                                     atPath:captureArrayPath
-                                  withToken:[JRCaptureData accessToken]
-                                forDelegate:self
-                                withContext:newContext];
-}
+//- (void)replaceSimpleArrayOnCapture:(NSArray *)array ofType:(NSString *)elementType named:(NSString *)arrayName
+//                        forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
+//{
+//    NSString *captureArrayPath = [NSString stringWithFormat:@"%@/%@", self.captureObjectPath, arrayName];
+//
+//    NSDictionary *newContext = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                                     self, @"captureObject",
+//                                                     arrayName, @"arrayName",
+//                                                     elementType, @"elementType",
+//                                                     self.captureObjectPath, @"capturePath",
+//                                                     [NSNumber numberWithBool:YES], @"isSimpleArray",
+//                                                     delegate, @"delegate",
+//                                                     context, @"callerContext", nil];
+//
+//    [JRCaptureApidInterface replaceCaptureArray:[array arrayOfStringsFromStringPluralElements]
+//                                     atPath:captureArrayPath
+//                                  withToken:[JRCaptureData accessToken]
+//                                forDelegate:self
+//                                withContext:newContext];
+//}
 
 - (void)dealloc
 {
     [captureObjectPath release];
     [dirtyPropertySet release];
-    [dirtyArraySet release];
+    //[dirtyArraySet release];
 
     [super dealloc];
 }

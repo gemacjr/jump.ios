@@ -79,7 +79,7 @@
 
 @implementation NSArray (OnipinoL1Object_ArrayComparison)
 
-- (BOOL)isEqualToOtherOnipinoL2PluralArray:(NSArray *)otherArray
+- (BOOL)isEqualToOnipinoL2PluralArray:(NSArray *)otherArray
 {
     if ([self count] != [otherArray count]) return NO;
 
@@ -139,8 +139,6 @@
 
 - (void)setOnipinoL2Plural:(NSArray *)newOnipinoL2Plural
 {
-    [self.dirtyArraySet addObject:@"onipinoL2Plural"];
-
     [_onipinoL2Plural autorelease];
     _onipinoL2Plural = [newOnipinoL2Plural copy];
 }
@@ -165,7 +163,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JROnipinoL1Object *onipinoL1ObjectCopy = (JROnipinoL1Object *)[super copy];
+    JROnipinoL1Object *onipinoL1ObjectCopy = (JROnipinoL1Object *)[super copyWithZone:zone];
 
     onipinoL1ObjectCopy.string1 = self.string1;
     onipinoL1ObjectCopy.string2 = self.string2;
@@ -210,7 +208,6 @@
         [(NSArray*)[dictionary objectForKey:@"onipinoL2Plural"] arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:onipinoL1Object.captureObjectPath] : nil;
 
     [onipinoL1Object.dirtyPropertySet removeAllObjects];
-    [onipinoL1Object.dirtyArraySet removeAllObjects];
     
     return onipinoL1Object;
 }
@@ -220,7 +217,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -233,7 +229,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -241,7 +236,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -258,7 +252,6 @@
         [(NSArray*)[dictionary objectForKey:@"onipinoL2Plural"] arrayOfOnipinoL2PluralElementsFromOnipinoL2PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -294,8 +287,8 @@
 
 - (void)replaceOnipinoL2PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.onipinoL2Plural named:@"onipinoL2Plural"
-                    forDelegate:delegate withContext:context];
+    [self replaceArrayOnCapture:self.onipinoL2Plural named:@"onipinoL2Plural" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
 }
 
 - (BOOL)needsUpdate
@@ -319,7 +312,7 @@
     if (!self.onipinoL2Plural && !otherOnipinoL1Object.onipinoL2Plural) /* Keep going... */;
     else if (!self.onipinoL2Plural && ![otherOnipinoL1Object.onipinoL2Plural count]) /* Keep going... */;
     else if (!otherOnipinoL1Object.onipinoL2Plural && ![self.onipinoL2Plural count]) /* Keep going... */;
-    else if (![self.onipinoL2Plural isEqualToOtherOnipinoL2PluralArray:otherOnipinoL1Object.onipinoL2Plural]) return NO;
+    else if (![self.onipinoL2Plural isEqualToOnipinoL2PluralArray:otherOnipinoL1Object.onipinoL2Plural]) return NO;
 
     return YES;
 }

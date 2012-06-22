@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="CIDR_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-d1d56596/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app">
-      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-d1d56596/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app" isTestSource="false" />
-    </content>
-    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-f5cd57b/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app">
-      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-f5cd57b/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.app" isTestSource="false" />
+    <content url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-f5cd57b/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.1.app">
+      <sourceFolder url="file://$USER_HOME$/Library/Caches/appCode10/DerivedData/CaptureInterfaceUnitTests-f5cd57b/Build/Products/Debug-iphonesimulator/CaptureInterfaceUnitTests.1.app" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../JREngage/Classes/JRActivityObject.h">
       <sourceFolder url="file://$MODULE_DIR$/../../JREngage/Classes/JRActivityObject.h" isTestSource="false" />

@@ -33,7 +33,7 @@
 #import "JROnipinapL2PluralElement.h"
 
 @interface NSArray (OnipinapL1PluralElement_ArrayComparison)
-- (BOOL)isEqualToOtherOnipinapL2PluralArray:(NSArray *)otherArray;
+- (BOOL)isEqualToOnipinapL2PluralArray:(NSArray *)otherArray;
 @end
 
 /**

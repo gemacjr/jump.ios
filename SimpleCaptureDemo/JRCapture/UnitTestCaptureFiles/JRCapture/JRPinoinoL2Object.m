@@ -79,7 +79,7 @@
 
 @implementation NSArray (PinoinoL2Object_ArrayComparison)
 
-- (BOOL)isEqualToOtherPinoinoL3PluralArray:(NSArray *)otherArray
+- (BOOL)isEqualToPinoinoL3PluralArray:(NSArray *)otherArray
 {
     if ([self count] != [otherArray count]) return NO;
 
@@ -139,8 +139,6 @@
 
 - (void)setPinoinoL3Plural:(NSArray *)newPinoinoL3Plural
 {
-    [self.dirtyArraySet addObject:@"pinoinoL3Plural"];
-
     [_pinoinoL3Plural autorelease];
     _pinoinoL3Plural = [newPinoinoL3Plural copy];
 }
@@ -165,7 +163,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JRPinoinoL2Object *pinoinoL2ObjectCopy = (JRPinoinoL2Object *)[super copy];
+    JRPinoinoL2Object *pinoinoL2ObjectCopy = (JRPinoinoL2Object *)[super copyWithZone:zone];
 
     pinoinoL2ObjectCopy.string1 = self.string1;
     pinoinoL2ObjectCopy.string2 = self.string2;
@@ -210,7 +208,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinoinoL3Plural"] arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:pinoinoL2Object.captureObjectPath] : nil;
 
     [pinoinoL2Object.dirtyPropertySet removeAllObjects];
-    [pinoinoL2Object.dirtyArraySet removeAllObjects];
     
     return pinoinoL2Object;
 }
@@ -220,7 +217,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -233,7 +229,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -241,7 +236,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -258,7 +252,6 @@
         [(NSArray*)[dictionary objectForKey:@"pinoinoL3Plural"] arrayOfPinoinoL3PluralElementsFromPinoinoL3PluralDictionariesWithPath:self.captureObjectPath] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
@@ -294,8 +287,8 @@
 
 - (void)replacePinoinoL3PluralArrayOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context
 {
-    [self replaceArrayOnCapture:self.pinoinoL3Plural named:@"pinoinoL3Plural"
-                    forDelegate:delegate withContext:context];
+    [self replaceArrayOnCapture:self.pinoinoL3Plural named:@"pinoinoL3Plural" isArrayOfStrings:NO
+                       withType:@"" forDelegate:delegate withContext:context];
 }
 
 - (BOOL)needsUpdate
@@ -319,7 +312,7 @@
     if (!self.pinoinoL3Plural && !otherPinoinoL2Object.pinoinoL3Plural) /* Keep going... */;
     else if (!self.pinoinoL3Plural && ![otherPinoinoL2Object.pinoinoL3Plural count]) /* Keep going... */;
     else if (!otherPinoinoL2Object.pinoinoL3Plural && ![self.pinoinoL3Plural count]) /* Keep going... */;
-    else if (![self.pinoinoL3Plural isEqualToOtherPinoinoL3PluralArray:otherPinoinoL2Object.pinoinoL3Plural]) return NO;
+    else if (![self.pinoinoL3Plural isEqualToPinoinoL3PluralArray:otherPinoinoL2Object.pinoinoL3Plural]) return NO;
 
     return YES;
 }

@@ -31,6 +31,10 @@
 #import <Foundation/Foundation.h>
 #import "JRCaptureApidInterface.h"
 
+@interface NSArray (StringArray)
+- (NSArray *)arrayOfStringsFromStringPluralDictionariesWithType:(NSString *)type;
+@end
+
 @class JRCaptureObject;
 @protocol JRCaptureObjectDelegate <NSObject>
 @optional
@@ -47,7 +51,7 @@
 @interface JRCaptureObject : NSObject <NSCopying, JRCaptureInterfaceDelegate>
 @property (retain)   NSString     *captureObjectPath;
 @property (readonly) NSMutableSet *dirtyPropertySet;
-@property (readonly) NSMutableSet *dirtyArraySet;
+//@property (readonly) NSMutableSet *dirtyArraySet;
 @property (readonly) BOOL canBeUpdatedOrReplaced;
 - (NSDictionary *)toDictionary;
 - (NSDictionary *)toUpdateDictionary;
@@ -60,9 +64,9 @@
 //- (void)replaceLocallyFromNewDictionary:(NSDictionary *)dictionary;
 - (void)updateObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 - (void)replaceObjectOnCaptureForDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
-- (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName
+- (void)replaceArrayOnCapture:(NSArray *)array named:(NSString *)arrayName isArrayOfStrings:(BOOL)isStringArray withType:(NSString *)type
                   forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
-- (void)replaceSimpleArrayOnCapture:(NSArray *)array ofType:(NSString *)elementType named:(NSString *)arrayName
-                        forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
+//- (void)replaceSimpleArrayOnCapture:(NSArray *)array ofType:(NSString *)elementType named:(NSString *)arrayName
+//                        forDelegate:(id<JRCaptureObjectDelegate>)delegate withContext:(NSObject *)context;
 @end
 

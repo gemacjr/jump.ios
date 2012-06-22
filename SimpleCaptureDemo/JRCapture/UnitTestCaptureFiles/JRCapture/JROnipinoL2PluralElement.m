@@ -101,7 +101,6 @@
         self.canBeUpdatedOrReplaced = NO;
 
         _onipinoL3Object = [[JROnipinoL3Object alloc] init];
-        _onipinoL3Object = [[JROnipinoL3Object alloc] init];
 
         [self.dirtyPropertySet setSet:[NSMutableSet setWithObjects:@"string1", @"string2", @"onipinoL3Object", nil]];
     }
@@ -115,7 +114,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JROnipinoL2PluralElement *onipinoL2PluralElementCopy = (JROnipinoL2PluralElement *)[super copy];
+    JROnipinoL2PluralElement *onipinoL2PluralElementCopy = (JROnipinoL2PluralElement *)[super copyWithZone:zone];
 
     onipinoL2PluralElementCopy.string1 = self.string1;
     onipinoL2PluralElementCopy.string2 = self.string2;
@@ -163,7 +162,6 @@
         [JROnipinoL3Object onipinoL3ObjectObjectFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:onipinoL2PluralElement.captureObjectPath] : nil;
 
     [onipinoL2PluralElement.dirtyPropertySet removeAllObjects];
-    [onipinoL2PluralElement.dirtyArraySet removeAllObjects];
     
     return onipinoL2PluralElement;
 }
@@ -173,7 +171,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -194,7 +191,6 @@
         [self.onipinoL3Object updateFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:self.captureObjectPath];
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -202,7 +198,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"onipinoL2Plural", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
@@ -223,7 +218,6 @@
         [self.onipinoL3Object replaceFromDictionary:[dictionary objectForKey:@"onipinoL3Object"] withPath:self.captureObjectPath];
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary

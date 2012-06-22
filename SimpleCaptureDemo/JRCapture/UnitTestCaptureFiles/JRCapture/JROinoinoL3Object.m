@@ -98,7 +98,7 @@
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    JROinoinoL3Object *oinoinoL3ObjectCopy = (JROinoinoL3Object *)[super copy];
+    JROinoinoL3Object *oinoinoL3ObjectCopy = (JROinoinoL3Object *)[super copyWithZone:zone];
 
     oinoinoL3ObjectCopy.string1 = self.string1;
     oinoinoL3ObjectCopy.string2 = self.string2;
@@ -136,7 +136,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [oinoinoL3Object.dirtyPropertySet removeAllObjects];
-    [oinoinoL3Object.dirtyArraySet removeAllObjects];
     
     return oinoinoL3Object;
 }
@@ -146,7 +145,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -159,7 +157,6 @@
             [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (void)replaceFromDictionary:(NSDictionary*)dictionary withPath:(NSString *)capturePath
@@ -167,7 +164,6 @@
     DLog(@"%@ %@", capturePath, [dictionary description]);
 
     NSSet *dirtyPropertySetCopy = [[self.dirtyPropertySet copy] autorelease];
-    NSSet *dirtyArraySetCopy    = [[self.dirtyArraySet copy] autorelease];
 
     self.canBeUpdatedOrReplaced = YES;
 
@@ -180,7 +176,6 @@
         [dictionary objectForKey:@"string2"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
-    [self.dirtyArraySet setSet:dirtyArraySetCopy];
 }
 
 - (NSDictionary *)toUpdateDictionary
