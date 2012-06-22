@@ -224,8 +224,8 @@
 		9F5789FE1593E00300478D15 /* JRCaptureApidInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5789DA1593E00300478D15 /* JRCaptureApidInterface.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9F5789FF1593E00300478D15 /* JRCaptureObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5789DC1593E00300478D15 /* JRCaptureObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9F578A001593E00300478D15 /* JRCaptureUser+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5789DE1593E00300478D15 /* JRCaptureUser+Extras.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9F578A051593E0AC00478D15 /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578A011593E0AC00478D15 /* JRCapture.m */; };
-		9F578A061593E0AC00478D15 /* JRCaptureInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578A021593E0AC00478D15 /* JRCaptureInternal.m */; };
+		9F578A051593E0AC00478D15 /* JRCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578A011593E0AC00478D15 /* JRCapture.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9F578A061593E0AC00478D15 /* JRCaptureInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F578A021593E0AC00478D15 /* JRCaptureInternal.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9F7B6A8415336470002BF452 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8215336470002BF452 /* InfoPlist.strings */; };
 		9F7B6A9315336480002BF452 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8615336480002BF452 /* AppDelegate.m */; };
 		9F7B6A9415336480002BF452 /* ArrayDrillDownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B6A8815336480002BF452 /* ArrayDrillDownViewController.m */; };
