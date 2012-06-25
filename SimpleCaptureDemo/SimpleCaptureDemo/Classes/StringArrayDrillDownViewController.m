@@ -564,6 +564,7 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
 
     [self setTableDataWithArray:newArray];
     [myTableView reloadData];
+    [[SharedData sharedData] resaveCaptureUser];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

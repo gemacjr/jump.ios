@@ -536,6 +536,7 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
 
     [self setTableDataWithArray:newArray];
     [myTableView reloadData];
+    [[SharedData sharedData] resaveCaptureUser];
 }
 
 //- (void)replaceCaptureObject:(JRCaptureObject *)object didFailWithResult:(NSString *)result context:(NSObject *)context

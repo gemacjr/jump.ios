@@ -41,17 +41,67 @@
 
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
+@interface JREngage ()
+{
+    JRUserInterfaceMaestro *_interfaceMaestro; /*< \internal Class that handles customizations to the library's UI */
+    JRSessionData          *_sessionData;      /*< \internal Holds configuration and state for the JREngage library */
+    NSMutableArray         *_delegates;        /*< \internal Array of JREngageDelegate objects */
+}
+@end
+
 @implementation JREngage
 
-static JREngage* singletonJREngage = nil;
+static JREngage* singleton = nil;
+
+- (id)init
+{
+    if ((self = [super init]))
+    {
+    }
+
+    return self;
+}
+
++ (id)singletonInstance
+{
+    if (singleton == nil) {
+        singleton = [((JREngage*)[super allocWithZone:NULL]) init];
+    }
+
+    return singleton;
+}
+
 + (JREngage*)jrEngage
 {
-    return singletonJREngage;
+    return singleton;
 }
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [[self jrEngage] retain];
+    return [[self singletonInstance] retain];
+}
+
+- (void)setEngageAppID:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageDelegate>)delegate
+{
+    ALog (@"Initialize JREngage library with appID: %@, and tokenUrl: %@", appId, tokenUrl);
+
+    if (!_delegates)
+        _delegates = [[NSMutableArray alloc] initWithObjects:delegate, nil];
+    else
+        [_delegates addObject:delegate];
+
+    if (!_sessionData)
+        _sessionData = [JRSessionData jrSessionDataWithAppId:appId tokenUrl:tokenUrl andDelegate:self];
+    else
+        [_sessionData reconfigureWithAppId:appId tokenUrl:tokenUrl];
+
+    if (!_interfaceMaestro)
+        _interfaceMaestro = [JRUserInterfaceMaestro jrUserInterfaceMaestroWithSessionData:_sessionData];
+}
+
++ (void)setEngageAppId:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageDelegate>)delegate
+{
+    [[JREngage singletonInstance] setEngageAppID:appId tokenUrl:tokenUrl andDelegate:delegate];
 }
 
 - (id)reconfigureWithAppID:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
@@ -71,7 +121,7 @@ static JREngage* singletonJREngage = nil;
 
     if ((self = [super init]))
     {
-        singletonJREngage = self;
+        singleton = self;
 
         _delegates = [[NSMutableArray alloc] initWithObjects:delegate, nil];
 
@@ -87,8 +137,8 @@ static JREngage* singletonJREngage = nil;
     if (appId == nil || appId.length == 0)
         return nil;
 
-    if(singletonJREngage)
-        return [singletonJREngage reconfigureWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
+    if (singleton)
+        return [singleton reconfigureWithAppID:appId andTokenUrl:tokenUrl delegate:delegate];
 
     return [[((JREngage *)[super allocWithZone:nil]) /* autoreleasing to stop IDE warnings; does nothing for singleton objects. */
              initWithAppID:appId andTokenUrl:tokenUrl delegate:delegate] autorelease];
@@ -122,9 +172,19 @@ static JREngage* singletonJREngage = nil;
         [_delegates addObject:delegate];
 }
 
++ (void)addDelegate:(id<JREngageDelegate>)delegate
+{
+    [[JREngage singletonInstance] addDelegate:delegate];
+}
+
 - (void)removeDelegate:(id<JREngageDelegate>)delegate
 {
     [_delegates removeObject:delegate];
+}
+
++ (void)removeDelegate:(id<JREngageDelegate>)delegate
+{
+    [[JREngage singletonInstance] removeDelegate:delegate];
 }
 
 - (void)engageDidFailWithError:(NSError*)error
@@ -228,9 +288,22 @@ static JREngage* singletonJREngage = nil;
                             orAuthenticatingOnJustThisProvider:provider];
 }
 
++ (void)showAuthenticationDialogForProvider:(NSString*)provider
+               withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+{
+    [[JREngage singletonInstance] showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides /*skippingReturningUserLandingPage:NO*/
+                            orAuthenticatingOnJustThisProvider:provider];
+}
+
 - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
     [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides /*skippingReturningUserLandingPage:NO*/
+                            orAuthenticatingOnJustThisProvider:nil];
+}
+
++ (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+{
+    [[JREngage singletonInstance] showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides /*skippingReturningUserLandingPage:NO*/
                             orAuthenticatingOnJustThisProvider:nil];
 }
 
@@ -240,21 +313,33 @@ static JREngage* singletonJREngage = nil;
                             orAuthenticatingOnJustThisProvider:provider];
 }
 
++ (void)showAuthenticationDialogForProvider:(NSString*)provider
+{
+    [[JREngage singletonInstance] showAuthenticationDialogWithCustomInterfaceOverrides:nil                      /*skippingReturningUserLandingPage:NO*/
+                            orAuthenticatingOnJustThisProvider:provider];
+}
+
 - (void)showAuthenticationDialog
 {
     [self showAuthenticationDialogWithCustomInterfaceOverrides:nil                      /*skippingReturningUserLandingPage:NO*/
                             orAuthenticatingOnJustThisProvider:nil];
 }
 
-- (void)setCustomNavigationController:(UINavigationController*)navigationController
++ (void)showAuthenticationDialog
 {
-ALog (
-@"This function has been deprecated and will not do anything.\
-  Please use - (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides"
-     );
+    [[JREngage singletonInstance] showAuthenticationDialogWithCustomInterfaceOverrides:nil                      /*skippingReturningUserLandingPage:NO*/
+                                                    orAuthenticatingOnJustThisProvider:nil];
 }
 
 //- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+//                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
+//{
+//    [[JREngage singletonInstance] showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides
+//                                                      skippingReturningUserLandingPage:skipReturningUserLandingPage
+//                                                    orAuthenticatingOnJustThisProvider:nil];
+//}
+
+//+ (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 //                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
 //{
 //    [self showAuthenticationDialogWithCustomInterfaceOverrides:customInterfaceOverrides
@@ -269,7 +354,14 @@ ALog (
 //                            orAuthenticatingOnJustThisProvider:nil];
 //}
 
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+//+ (void)showAuthenticationDialogSkippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage
+//{
+//    [[JREngage singletonInstance] showAuthenticationDialogWithCustomInterfaceOverrides:nil
+//                                                      skippingReturningUserLandingPage:skipReturningUserLandingPage
+//                                                    orAuthenticatingOnJustThisProvider:nil];
+//}
+
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
     ALog (@"");
 
@@ -319,18 +411,26 @@ ALog (
     [_interfaceMaestro showPublishingDialogForActivityWithCustomInterface:customInterfaceOverrides];
 }
 
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
 {
-ALog (
-@"This function has been deprecated and will not do anything.\
-  Please use - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides instead"
-     );
+    [self showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
+}
+
++ (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+{
+    [[JREngage singletonInstance] showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:customInterfaceOverrides];
 }
 
 - (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
 {
-    [self showSocialPublishingDialogWithActivity:activity andCustomInterfaceOverrides:nil];
+    [self showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
 }
+
++ (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+{
+    [[JREngage singletonInstance] showSocialPublishingDialogWithActivity:activity withCustomInterfaceOverrides:nil];
+}
+
 
 - (void)authenticationDidRestart
 {
@@ -471,10 +571,20 @@ ALog (
     [_sessionData forgetAuthenticatedUserForProvider:provider];
 }
 
++ (void)signoutUserForProvider:(NSString*)provider
+{
+    [[JREngage singletonInstance] signoutUserForProvider:provider];
+}
+
 - (void)signoutUserForAllProviders
 {
     DLog(@"");
     [_sessionData forgetAllAuthenticatedUsers];
+}
+
++ (void)signoutUserForAllProviders
+{
+    [[JREngage singletonInstance] signoutUserForAllProviders];
 }
 
 - (void)signoutUserForSocialProvider:(NSString*)provider
@@ -495,10 +605,20 @@ ALog (
     [_sessionData setAlwaysForceReauth:force];
 }
 
++ (void)alwaysForceReauthentication:(BOOL)force
+{
+    [[JREngage singletonInstance] alwaysForceReauthentication:force];
+}
+
 - (void)cancelAuthentication
 {
     DLog(@"");
     [_sessionData triggerAuthenticationDidCancel];
+}
+
++ (void)cancelAuthentication
+{
+    [[JREngage singletonInstance] cancelAuthentication];
 }
 
 - (void)cancelPublishing
@@ -507,14 +627,29 @@ ALog (
     [_sessionData triggerPublishingDidCancel];
 }
 
++ (void)cancelPublishing
+{
+    [[JREngage singletonInstance] cancelPublishing];
+}
+
 - (void)updateTokenUrl:(NSString*)newTokenUrl
 {
     DLog(@"");
     [_sessionData setTokenUrl:newTokenUrl];
 }
 
-//- (void)setCustomNavigationController:(UINavigationController*)navigationController
-//{
-//    [_interfaceMaestro useApplicationNavigationController:navigationController];
-//}
++ (void)updateTokenUrl:(NSString*)newTokenUrl
+{
+    [[JREngage singletonInstance] updateTokenUrl:newTokenUrl];
+}
+
+- (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults
+{
+    [_interfaceMaestro setCustomInterfaceDefaults:customInterfaceDefaults];
+}
+
++ (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults
+{
+    [[JREngage singletonInstance] setCustomInterfaceDefaults:customInterfaceDefaults];
+}
 @end

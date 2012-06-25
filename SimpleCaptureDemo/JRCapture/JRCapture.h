@@ -105,7 +105,7 @@ typedef NSNumber JRObjectId; /**< TODO */
 @end
 
 @interface JRCapture : NSObject
-//+ (id)captureProfilesObjectFromEngageAuthInfo:(NSDictionary *)engageAuthInfo;
+
 + (void)setCaptureApiDomain:(NSString *)newCaptureApidDomain captureUIDomain:(NSString *)newCaptureUIDomain
                    clientId:(NSString *)newClientId andEntityTypeName:(NSString *)newEntityTypeName;
 + (NSString *)captureMobileEndpointUrl;

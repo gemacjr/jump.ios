@@ -162,6 +162,7 @@ static NSString *entityTypeName     = @"user_dev";
  * (Capture profiles can have null values and JSONKit parses them to NSNulls, but Engage profiles don't and so
  * didn't trigger this incompatibility.)
  */
+// TODO: Can't do this; need nulls... instead, turn dictionary into string and save that, then back again
 - (id)nullWalker:(id)structure
 {
     if ([structure isKindOfClass:[NSDictionary class]])

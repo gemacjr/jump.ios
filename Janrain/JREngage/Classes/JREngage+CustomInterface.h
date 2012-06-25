@@ -344,7 +344,7 @@
  **/
 #define kJRSocialSharingBackgroundColorRGBa   @"SocialSharing.Background.Color.RGBa"
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//#ifndef DOXYGEN_SHOULD_SKIP_THIS
 ///**
 // * @deprecated Please use define #kJRAuthenticationBackgroundImageView instead.
 // **/
@@ -404,43 +404,54 @@
 // * @deprecated This value will not be used. define #kJRProviderTableSectionFooterView will be used instead.
 // **/
 //#define kJRProviderTableSectionFooterView_iPad  @"ProviderTable.Section.Footer.View-iPad"
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+//#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 /*@}*/
 
-@interface JREngage (CustomInterface)
-
-/**
- * @name Configure the User Interface
- * Methods used to customize the JREngage's user interface
- **/
-/*@{*/
-
-/**
- * Use this function if you want to customize the look and feel of the user interface or add
- * your own native login experience, by passing an \e NSMutableDictionary object indexed by the set of
- * \link customInterface pre-defined custom interface keys\endlink.
- *
- * @param customInterfaceDefaults
- *   A dictionary of objects and properties, indexed by the set of
- *   \link customInterface pre-defined custom interface keys\endlink,
- *   to be used by the library to customize the look and feel of the user
- *   interface and/or add a native login experience
- *
- * @note
- * Any values specified in the \e customizationInterfaceOverrides dictionary of the
- * showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*) or
- * showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:()
- * methods, will override the corresponding values specified in the dictionary passed into
- * the setCustomInterfaceDefaults:() method.
- **/
-- (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//@interface JREngage (CustomInterface)
+//
 ///**
-// * @deprecated Please use setCustomInterfaceDefaults() instead.
+// * @name Configure the User Interface
+// * Methods used to customize the JREngage's user interface
 // **/
-- (void)setCustomInterface:(NSDictionary*)customizations
-            __attribute__ ((deprecated)) __attribute__ ((unavailable));
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
-/*@}*/
-@end
+///*@{*/
+//
+///**
+// * Use this function if you want to customize the look and feel of the user interface or add
+// * your own native login experience, by passing an \e NSMutableDictionary object indexed by the set of
+// * \link customInterface pre-defined custom interface keys\endlink.
+// *
+// * @param customInterfaceDefaults
+// *   A dictionary of objects and properties, indexed by the set of
+// *   \link customInterface pre-defined custom interface keys\endlink,
+// *   to be used by the library to customize the look and feel of the user
+// *   interface and/or add a native login experience
+// *
+// * @note
+// * Any values specified in the \e customizationInterfaceOverrides dictionary of the
+// * showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*) or
+// * showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:()
+// * methods, will override the corresponding values specified in the dictionary passed into
+// * the setCustomInterfaceDefaults:() method.
+// **/
+//+ (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
+//
+////#ifndef DOXYGEN_SHOULD_SKIP_THIS
+///////**
+////// * @deprecated Please use setCustomInterfaceDefaults() instead.
+////// **/
+////- (void)setCustomInterface:(NSDictionary*)customizations
+////            __attribute__ ((deprecated)) __attribute__ ((unavailable));
+////#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+///*@}*/
+//
+///**
+// * @name Depricated
+// **/
+///*@{*/
+///**
+// * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+// **/
+//- (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults
+//__attribute__ ((deprecated));// __attribute__ ((unavailable));
+///*@}*/
+//@end

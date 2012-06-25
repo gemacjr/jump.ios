@@ -194,14 +194,14 @@
  **/
 - (void)jrAuthenticationDidFailWithError:(NSError*)error forProvider:(NSString*)provider;
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-///**
-// * @deprecated
-// * Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() instead.
-// **/
-- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
-            __attribute__ ((deprecated)) __attribute__ ((unavailable));
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+//#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/////**
+//// * @deprecated
+//// * Please use jrAuthenticationDidReachTokenUrl:withResponse:andPayload:forProvider:() instead.
+//// **/
+//- (void)jrAuthenticationDidReachTokenUrl:(NSString*)tokenUrl withPayload:(NSData*)tokenUrlPayload forProvider:(NSString*)provider
+//            __attribute__ ((deprecated)) __attribute__ ((unavailable));
+//#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 /**
  * Sent after JREngage has successfully posted the token to your application's token_url, containing
@@ -309,9 +309,9 @@
  **/
 @interface JREngage : NSObject <JRSessionDelegate>
 {
-    JRUserInterfaceMaestro *_interfaceMaestro; /*< \internal Class that handles customizations to the library's UI */
-    JRSessionData          *_sessionData;      /*< \internal Holds configuration and state for the JREngage library */
-    NSMutableArray         *_delegates;        /*< \internal Array of JREngageDelegate objects */
+//    JRUserInterfaceMaestro *_interfaceMaestro; /*< \internal Class that handles customizations to the library's UI */
+//    JRSessionData          *_sessionData;      /*< \internal Holds configuration and state for the JREngage library */
+//    NSMutableArray         *_delegates;        /*< \internal Array of JREngageDelegate objects */
 }
 
 /**
@@ -319,17 +319,8 @@
  * Methods that initialize and return the shared JREngage instance
  **/
 /*@{*/
-
 /**
- * Shared instance of the JREngage library.
- *
- * @return
- *   The instance of the JREngage library once it has been created, otherwise this will return \e nil
- **/
-+ (JREngage*)jrEngage;
-
-/**
- * Initializes and returns the shared instance of the JREngage library
+ * Initializes the shared instance of the JREngage library
  *
  * @param appId
  *   This is your 20-character application ID. You can find this on your application's Dashboard
@@ -344,11 +335,11 @@
  * @param delegate
  *   The delegate object that implements the JREngageDelegate protocol
  *
- * @return
- *   The shared instance of the JREngage object initialized with the given
- *   appId, tokenUrl, and delegate.  If the given appId is nil, returns \e nil.
+// * @return
+// *   The shared instance of the JREngage object initialized with the given
+// *   appId, tokenUrl, and delegate.  If the given appId is nil, returns \e nil.
  **/
-+ (id)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate;
++ (void)setEngageAppId:(NSString*)appId tokenUrl:(NSString*)tokenUrl andDelegate:(id<JREngageDelegate>)delegate;
 /*@}*/
 
 /**
@@ -363,7 +354,7 @@
  * @param delegate
  *   The object that implements the JREngageDelegate protocol
  **/
-- (void)addDelegate:(id<JREngageDelegate>)delegate;
++ (void)addDelegate:(id<JREngageDelegate>)delegate;
 
 /**
  * Remove a JREngageDelegate from the JREngage library.
@@ -371,7 +362,7 @@
  * @param delegate
  *   The object that implements the JREngageDelegate protocol
  **/
-- (void)removeDelegate:(id<JREngageDelegate>)delegate;
++ (void)removeDelegate:(id<JREngageDelegate>)delegate;
 /*@}*/
 
 /**
@@ -384,7 +375,7 @@
  * Use this function to begin authentication.  The JREngage library will
  * pop up a modal dialog and take the user through the sign-in process.
  **/
-- (void)showAuthenticationDialog;
++ (void)showAuthenticationDialog;
 
 /**
  * Use this function to begin authentication for one specific provider.  The JREngage library will
@@ -395,7 +386,7 @@
  *   The name of the provider on which the user will authenticate.  For a list of possible strings,
  *   please see the \ref basicProviders "List of Providers"
  **/
-- (void)showAuthenticationDialogForProvider:(NSString*)provider;
++ (void)showAuthenticationDialogForProvider:(NSString*)provider;
 
 /**
  * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
@@ -411,7 +402,7 @@
  * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
-- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
++ (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 
 /**
 * Use this function to begin authentication.  The JREngage library will pop up a modal dialog, configured
@@ -432,57 +423,8 @@
 * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
 * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
 **/
-- (void)showAuthenticationDialogForProvider:(NSString*)provider
++ (void)showAuthenticationDialogForProvider:(NSString*)provider
                withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-///**
-// * Use this function to begin authentication.  The JREngage library will pop up a modal dialog,
-// * configured with the given custom interface, possibly skipping the user landing page,
-// * and take the user through the sign-in process.
-// *
-// * @param customInterfaceOverrides
-// *   A dictionary of objects and properties, indexed by the set of
-// *   \link customInterface pre-defined custom interface keys\endlink,
-// *   to be used by the library to customize the look and feel of the user
-// *   interface and/or add a native login experience
-// *
-// * @param skipReturningUserLandingPage
-// *   Prevents the dialog from opening to the returning-user landing page when \c YES.  That is, the
-// *   dialog will always open straight to the list of providers.  The dialog falls back to the default
-// *   behavior when \c NO
-// *
-// * @note
-// * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
-// * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
-// *
-// * @note
-// * If you always want to force the user to re=enter his/her credentials, pass \c true to the method
-// * setAlwaysForceReauthentication().
-// **/
-//- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
-//                            skippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage;
-
-///**
-// * Use this function to begin authentication.  The JREngage library will pop up a modal dialog and
-// * take the user through the sign-in process.
-// *
-// * @param skipReturningUserLandingPage
-// *   Prevents the dialog from opening to the returning-user landing page when \c YES.  That is, the
-// *   dialog will always open straight to the list of providers.  The dialog falls back to the default
-// *   behavior when \c NO
-// *
-// * @note
-// * If you always want to force the user to re=enter his/her credentials, pass \c true to the method
-// * setAlwaysForceReauthentication().
-// **/
-//- (void)showAuthenticationDialogSkippingReturningUserLandingPage:(BOOL)skipReturningUserLandingPage;
-
-///**
-// *
-// **/
-//- (void)showAuthenticationDialogWithForcedReauthenticationOnLastUsedProvider;
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 /**
  * Use this function to begin social publishing. The JREngage library will pop up a modal dialog and
@@ -491,7 +433,7 @@
  * @param activity
  *   The activity you wish to share
  **/
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
++ (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity;
 
 /**
  * Use this function to begin social publishing.  The JREngage library will pop up a modal dialog,
@@ -511,14 +453,8 @@
  * Any values specified in the \e customInterfaceOverrides dictionary will override the corresponding
  * values specified the dictionary passed into the setCustomInterfaceDefaults:() method.
  **/
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
++ (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides;
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-///**
-// * Use this function to detect if a dialog has already been loaded, so that you may cancel it.
-// **/
-//- (BOOL)isDialogLoaded;
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 /*@}*/
 
 /**
@@ -534,13 +470,13 @@
  *   The name of the provider on which the user authenticated.  For a list of possible strings,
  *   please see the \ref basicProviders "List of Providers"
  **/
-- (void)signoutUserForProvider:(NSString*)provider;
++ (void)signoutUserForProvider:(NSString*)provider;
 
 /**
  * Tell JREngage to forget that a user is signed in with all the
  * \ref socialProviders "Social Providers"
  **/
-- (void)signoutUserForAllProviders;
++ (void)signoutUserForAllProviders;
 
 /**
  * Use this function to toggle whether or not the library should force the user to
@@ -550,7 +486,7 @@
  *   \c YES if the library should force reauthentication for all providers or \c NO if the library should
  *   perform the default behavior
  **/
-- (void)alwaysForceReauthentication:(BOOL)force;
++ (void)alwaysForceReauthentication:(BOOL)force;
 /*@}*/
 
 /**
@@ -562,12 +498,12 @@
 /**
  * Use this functions if you need to cancel authentication for any reason.
  **/
-- (void)cancelAuthentication;
++ (void)cancelAuthentication;
 
 /**
  * Use this functions if you need to cancel publishing for any reason.
  **/
-- (void)cancelPublishing;
++ (void)cancelPublishing;
 /*@}*/
 
 /**
@@ -585,75 +521,171 @@
  * @param tokenUrl
  *   The valid URL on your web server where the library will \e POST the authentication token
  **/
-- (void)updateTokenUrl:(NSString*)tokenUrl;
++ (void)updateTokenUrl:(NSString*)tokenUrl;
 /*@}*/
 
 /**
- * @page Providers
- *
-@htmlonly
-<!-- Script to resize the iFrames; Only works because iFrames origin is on same domain and iFrame
-      code contains script that calls this script -->
-<script type="text/javascript">
-    function resize(width, height, id) {
-        var iframe = document.getElementById(id);
-        iframe.width = width;
-        iframe.height = height + 50;
-        iframe.scrolling = false;
-        console.log(width);
-        console.log(height);
-    }
-</script>
-@endhtmlonly
-
-@anchor basicProviders
-@htmlonly
-<!-- Redundant attributes to force scrolling to work across multiple browsers -->
-<iframe id="basic" src="../mobile_providers?list=basic&device=iphone" width="100%" height="100%"
-    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
-  Your browser does not support iFrames.
-  <a href="../mobile_providers?list=basic&device=iphone">List of Providers</a>
-</iframe></p>
-@endhtmlonly
-
-@anchor socialProviders
-@htmlonly
-<iframe id="social" src="../mobile_providers?list=social&device=iphone" width="100%" height="100%"
-    style="border:none; overflow:hidden;" frameborder="0" scrolling="no">
-  Your browser does not support iFrames.
-  <a href="../mobile_providers?list=social&device=iphone">List of Social Providers</a>
-</iframe></p>
-@endhtmlonly
- *
+ * @name Configure the User Interface
+ * Methods used to customize the JREngage's user interface
  **/
+/*@{*/
+/**
+ * Use this function if you want to customize the look and feel of the user interface or add
+ * your own native login experience, by passing an \e NSMutableDictionary object indexed by the set of
+ * \link customInterface pre-defined custom interface keys\endlink.
+ *
+ * @param customInterfaceDefaults
+ *   A dictionary of objects and properties, indexed by the set of
+ *   \link customInterface pre-defined custom interface keys\endlink,
+ *   to be used by the library to customize the look and feel of the user
+ *   interface and/or add a native login experience
+ *
+ * @note
+ * Any values specified in the \e customizationInterfaceOverrides dictionary of the
+ * showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*) or
+ * showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:()
+ * methods, will override the corresponding values specified in the dictionary passed into
+ * the setCustomInterfaceDefaults:() method.
+ **/
++ (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults;
+/*@}*/
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-///**
-// * @name Deprecated
-// * These keys have been deprecated in the current version of the JREngage library
-// **/
-///*@{*/
 
-///**
-// * @deprecated
-// * This method has been deprecated. If you want to push the JREngage dialogs on your pass a pointer
-// * to this object to the custom interface with the key define #kJRApplicationNavigationController.
-// **/
-- (void)setCustomNavigationController:(UINavigationController*)navigationController
-            __attribute__ ((deprecated)) __attribute__ ((unavailable));
 
-///**
-// * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
-// **/
-//- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+/**
+ * @name Depricated
+ **/
+/*@{*/
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
++ (JREngage*)jrEngage
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
 
-///**
-// * @deprecated Please use showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:() instead.
-// **/
-- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
-            __attribute__ ((deprecated)) __attribute__ ((unavailable));
-///*}*/
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
++ (id)jrEngageWithAppId:(NSString*)appId andTokenUrl:(NSString*)tokenUrl delegate:(id<JREngageDelegate>)delegate
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
 
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)addDelegate:(id<JREngageDelegate>)delegate
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)removeDelegate:(id<JREngageDelegate>)delegate
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)showAuthenticationDialog
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)showAuthenticationDialogForProvider:(NSString*)provider
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)showAuthenticationDialogWithCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)showAuthenticationDialogForProvider:(NSString*)provider
+               withCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterfaceOverrides:(NSDictionary*)customInterfaceOverrides
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)signoutUserForProvider:(NSString*)provider
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)signoutUserForAllProviders
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)alwaysForceReauthentication:(BOOL)force
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)cancelAuthentication
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)cancelPublishing
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)updateTokenUrl:(NSString*)tokenUrl
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+
+/**
+ * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+ **/
+- (void)setCustomInterfaceDefaults:(NSMutableDictionary*)customInterfaceDefaults
+__attribute__ ((deprecated));// __attribute__ ((unavailable));
+/*@}*/
+
+//#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/////**
+//// * @name Deprecated
+//// * These keys have been deprecated in the current version of the JREngage library
+//// **/
+/////*@{*/
+//
+/////**
+//// * @deprecated
+//// * This method has been deprecated. If you want to push the JREngage dialogs on your pass a pointer
+//// * to this object to the custom interface with the key define #kJRApplicationNavigationController.
+//// **/
+//- (void)setCustomNavigationController:(UINavigationController*)navigationController
+//            __attribute__ ((deprecated)) __attribute__ ((unavailable));
+//
+/////**
+//// * @deprecated Please use showAuthenticationDialogWithCustomInterfaceOverrides:() instead.
+//// **/
+////- (void)showAuthenticationDialogWithCustomInterface:(NSDictionary*)customizations;
+//
+/////**
+//// * @deprecated Please use showSocialPublishingDialogWithActivity:andCustomInterfaceOverrides:() instead.
+//// **/
+//- (void)showSocialPublishingDialogWithActivity:(JRActivityObject*)activity andCustomInterface:(NSDictionary*)customizations
+//            __attribute__ ((deprecated)) __attribute__ ((unavailable));
+/////*}*/
+//#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 @end
 
