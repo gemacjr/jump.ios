@@ -792,6 +792,7 @@ NSString *pluralName;
 
     NSString *const context = [@"finish.test_genericTestApidMethod" stringByAppendingFormat:@".%@", test];
 
+
     if (method == update)
     {
         if (!genericApidTestPlural)
@@ -814,7 +815,7 @@ NSString *pluralName;
 -  (void)finish_genericTestApidMethod_withArguments:(NSDictionary *)arguments
                              andTestSelectorString:(NSString *)testSelectorString
 {
-    GHAssertTrue(expectedResult = success, nil);
+    GHAssertTrue((arguments == nil) == (expectedResult == failure), nil);
 
     if (!genericApidTestPlural)
     {
@@ -839,6 +840,12 @@ NSString *pluralName;
     }
     else
     {
+        if (expectedResult == failure)
+        {
+            [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+            return;
+        }
+
         unsigned int mc;
         Method *ml = class_copyMethodList([NSArray class], &mc);
         SEL isEqualSelector = nil;
@@ -924,17 +931,36 @@ NSString *pluralName;
 // onipinap
 - (void)onipinapCreate
 {
+    self.currentL1Plural = captureUser.onipinapL1Plural =
+            [self arrayWithElementsOfType:[JROnipinapL1PluralElement class]
+                          withConstructor:@selector(onipinapL1PluralElement)
+                       fillerFodderOffset:3];
+    self.currentL1Object = [currentL1Plural objectAtIndex:1];
 
+    self.currentL2Plural = ((JROnipinapL1PluralElement *) currentL1Object).onipinapL2Plural =
+            [self arrayWithElementsOfType:[JROnipinapL2PluralElement class]
+                          withConstructor:@selector(onipinapL2PluralElement)
+                       fillerFodderOffset:6];
+    self.currentL2Object = [currentL2Plural objectAtIndex:1];
+
+    self.currentL3Object = ((JROnipinapL2PluralElement *) currentL2Object).onipinapL3Object =
+            [self objectOfType:[JROnipinapL3Object class] withConstructor:@selector(onipinapL3Object)
+            fillerFodderOffset:9];
 }
-
 - (void)test_b360_onipinapUpdate_Level3_PreReplace_FailCase
 {
-
+    [self onipinapCreate];
+    [self genericTestApidMethod:update forObject:currentL3Object expectResult:failure forTest:_sel forPlural:nil
+                      withArray:nil];
 }
 
 - (void)test_b361_onipinapReplaceArray_Level2_FailCase
 {
-
+    [self onipinapCreate];
+    [self genericTestApidMethod:replace forObject:currentL1Object expectResult:failure forTest:_sel
+                      forPlural:@"onipinapL2Plural" withArray:currentL2Plural];
+    //[((JROnipinapL1PluralElement *) [captureUser.onipinapL1Plural objectAtIndex:1])
+    //        replaceOnipinapL2PluralArrayOnCaptureForDelegate:self withContext:_esel];
 }
 
 - (void)test_b362_onipinapReplaceArray_Level1
@@ -1286,14 +1312,26 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
 - (void)replaceArrayNamed:(NSString *)arrayName onCaptureObject:(JRCaptureObject *)object
         didFailWithResult:(NSString *)result context:(NSObject *)context
 {
-    NSString *nextMethodPrefix   = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:0];
-    NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
+    NSArray *const splitContext = [((NSString *) context) componentsSeparatedByString:@"."];
+    NSString *nextMethodPrefix = [splitContext objectAtIndex:0];
+    NSString *testSelectorString = [splitContext objectAtIndex:1];
 
     GHTestLog(@"%@ %@", NSStringFromSelector(_cmd), result);
 
     if ([testSelectorString hasSuffix:@"FailCase"])
     {
         [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+        return;
+    }
+
+    if ([testSelectorString isEqual:@"test_genericTestApidMethod"])
+    {
+        NSString *testSelectorString1 = [splitContext objectAtIndex:2];
+        NSString *newSelector = [NSString stringWithFormat:@"%@%@",
+                                               [testSelectorString stringByReplacingOccurrencesOfString:@"test" withString:@"finish"],
+                                               @"_withArguments:andTestSelectorString:"];
+
+        [self performSelector:_nsel(newSelector) withObject:nil withObject:testSelectorString1];
         return;
     }
 
