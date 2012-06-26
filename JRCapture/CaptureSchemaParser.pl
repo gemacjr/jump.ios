@@ -243,7 +243,7 @@ sub recursiveParse {
     my $isNotNSObject = 0;              # If it's a boolean or integer, we don't retain/release, etc.
     my $isArrayType   = 0;              # If it's an array (plural), we do things differently
     my $isIdName      = 0;              # If the name of the property is 'id', we also do things differently
-    my $propertyNotes = "";             # Comment that provides more infomation if necessary for a property 
+    my $propertyNotes = "";             # Comment that provides more information if necessary for a property
                                         # (e.g., in the case of an array of objects versus and array of strings)
     
     ######################################################

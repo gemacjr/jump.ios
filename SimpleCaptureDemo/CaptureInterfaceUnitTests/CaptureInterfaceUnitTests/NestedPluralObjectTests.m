@@ -23,7 +23,10 @@
 
 #import <GHUnitIOS/GHUnit.h>
 #import <objc/runtime.h>
+#import <Foundation/Foundation.h>
 #import "SharedData.h"
+#import "JRPlural.h"
+#import "ucfirst.h"
 
 @interface b3_NestedPluralObjectTests : GHAsyncTestCase <JRCaptureObjectDelegate>
 {
@@ -771,86 +774,150 @@ typedef enum apidResult apidResult;
 
 JRCaptureObject *genericApidTestObj;
 apidResult expectedResult;
+NSArray *genericApidTestPlural;
+NSString *pluralName;
 
 - (void)genericTestApidMethod:(apidMethod) method
-                    forObject:(NSObject *)object
+                    forObject:(JRCaptureObject *)object
                  expectResult:(apidResult) result
                       forTest:(NSString *) test
+                    forPlural:(NSString *) plural
+                    withArray:(NSArray *) array
 {
     [self prepare];
     genericApidTestObj = object;
+    pluralName = plural;
+    genericApidTestPlural = array;
     expectedResult = result;
+
     NSString *const context = [@"finish.test_genericTestApidMethod" stringByAppendingFormat:@".%@", test];
+
     if (method == update)
     {
-        [object updateObjectOnCaptureForDelegate:self withContext:context];
+        if (!genericApidTestPlural)
+            [object updateObjectOnCaptureForDelegate:self withContext:context];
+        else
+            ;
     }
     else if (method == replace)
     {
-        [object replaceObjectOnCaptureForDelegate:self withContext:context];
+        if (!genericApidTestPlural)
+            [(object) replaceObjectOnCaptureForDelegate:self withContext:context];
+        else
+            [object replaceArrayOnCapture:array named:pluralName isArrayOfStrings:false withType:nil
+                              forDelegate:self withContext:context];
     }
     else [NSException raise:nil format:nil];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)finish_genericTestApidMethod_withArguments:(NSDictionary *)arguments
-                                             andTestSelectorString:(NSString *)testSelectorString
+-  (void)finish_genericTestApidMethod_withArguments:(NSDictionary *)arguments
+                             andTestSelectorString:(NSString *)testSelectorString
 {
     GHAssertTrue(expectedResult = success, nil);
-    unsigned int mc;
-    Method *ml = class_copyMethodList([genericApidTestObj class], &mc);
-    SEL isEqualSelector = nil;
-    for (int i = 0; i < mc; i++)
-    {
-        const char *s = sel_getName(method_getName(ml[i]));
-        NSString *s_ = [NSString stringWithUTF8String:s];
-        if ([s_ hasPrefix:@"isEqual"] && [s_ length] > 7)
-        {
-            isEqualSelector = NSSelectorFromString(s_);
-            break;
-        }
-    }
-    if (!isEqualSelector) [NSException raise:nil format:nil];
 
-    JRCaptureObject *result = ((JRCaptureObject *)[arguments objectForKey:@"captureObject"]);
-    GHAssertTrue([result performSelector:isEqualSelector withObject:genericApidTestObj], nil);
-    [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+    if (!genericApidTestPlural)
+    {
+        unsigned int mc;
+        Method *ml = class_copyMethodList([genericApidTestObj class], &mc);
+        SEL isEqualSelector = nil;
+        for (int i = 0; i < mc; i++)
+        {
+            const char *s = sel_getName(method_getName(ml[i]));
+            NSString *s_ = [NSString stringWithUTF8String:s];
+            if ([s_ hasPrefix:@"isEqual"] && [s_ length] > 7)
+            {
+                isEqualSelector = NSSelectorFromString(s_);
+                break;
+            }
+        }
+        if (!isEqualSelector) [NSException raise:nil format:nil];
+
+        JRCaptureObject *result = ((JRCaptureObject *)[arguments objectForKey:@"captureObject"]);
+        GHAssertTrue([result performSelector:isEqualSelector withObject:genericApidTestObj], nil);
+        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+    }
+    else
+    {
+        unsigned int mc;
+        Method *ml = class_copyMethodList([NSArray class], &mc);
+        SEL isEqualSelector = nil;
+        for (int i = 0; i < mc; i++)
+        {
+            const char *s = sel_getName(method_getName(ml[i]));
+            NSString *s_ = [NSString stringWithUTF8String:s];
+            if ([s_ rangeOfString:ucfirst(pluralName)].length)
+            {
+                isEqualSelector = NSSelectorFromString(s_);
+                break;
+            }
+        }
+        if (!isEqualSelector) [NSException raise:nil format:nil];
+
+        NSArray *result = ((NSArray *)[arguments objectForKey:@"newArray"]);
+        GHAssertTrue([result performSelector:isEqualSelector withObject:genericApidTestPlural], nil);
+        [self notify:kGHUnitWaitStatusSuccess forSelector:NSSelectorFromString(testSelectorString)];
+    }
 }
 
 - (void)test_b350_pinoinoUpdate_Level1
 {
     [self pinoinoCreate];
-    [self genericTestApidMethod:update forObject:currentL1Object expectResult:success forTest:_sel];
+    [self genericTestApidMethod:update forObject:currentL1Object expectResult:success forTest:_sel forPlural:nil
+                      withArray:nil];
 }
 
 - (void)test_b351_pinoinoUpdate_Level2
 {
     [self pinoinoCreate];
-    [self genericTestApidMethod:update forObject:currentL2Object expectResult:success forTest:_sel];
+    [self genericTestApidMethod:update forObject:currentL2Object expectResult:success forTest:_sel forPlural:nil
+                      withArray:nil];
 }
 
 - (void)test_b352_pinoinoReplace_Level1
 {
     [self pinoinoCreate];
-    [self genericTestApidMethod:replace forObject:currentL1Object expectResult:success forTest:_sel];
+    [self genericTestApidMethod:replace forObject:currentL1Object expectResult:success forTest:_sel forPlural:nil
+                      withArray:nil];
 }
 
 - (void)test_b353_pinoinoReplace_Level2
 {
     [self pinoinoCreate];
-    [self genericTestApidMethod:replace forObject:currentL2Object expectResult:success forTest:_sel];
+    [self genericTestApidMethod:replace forObject:currentL2Object expectResult:success forTest:_sel forPlural:nil
+                      withArray:nil];
 }
 
 - (void)test_b354_pinoinoPreReplace_Level3_FailCase
 {
     [self pinoinoCreate];
-    [self genericTestApidMethod:update forObject:currentL3Object expectResult:failure forTest:_sel];
+    [self genericTestApidMethod:update forObject:currentL3Object expectResult:failure forTest:_sel forPlural:nil
+                      withArray:nil];
 }
 
 - (void)test_b355_pinoinoReplace_Level3
 {
     [self pinoinoCreate];
-    [self genericTestApidMethod:replace forObject:currentL3Plural expectResult:success forTest:_sel];
+    [self genericTestApidMethod:replace forObject:currentL2Object expectResult:success forTest:_sel
+                      forPlural:@"pinoinoL3Plural"  withArray:currentL3Plural];
+}
+
+- (void)asldfkj
+{
+    //JRPlural *p = [JRPlural arrayWithArray:currentL3Plural];
+    //p = [JRPlural array];
+    //p = [JRPlural arrayWithArray:nil];
+    //p = [JRPlural arrayWithArray:[NSArray arrayWithObject:[NSNull null]]];
+    //p = [JRPlural arrayWithObject:[NSNull null]];
+    //p = [JRPlural arrayWithObjects:nil];
+    //p = [JRPlural arrayWithObjects:nil count:0];
+    //p = [JRPlural arrayWithArray:currentL3Plural];
+    //NSArray *a2 = [p arrayByAddingObject:[NSNull null]];
+    //NSString *s = [p componentsJoinedByString:@""];
+    //BOOL b = [p containsObject:[NSNull null]];
+    //NSUInteger i = [p indexOfObject:[NSNull null]];
+    //NSArray *a = [p subarrayWithRange:NSMakeRange(0, 1)];
+    //[self pinoinoCreate];
 }
 
 /* Object in a plural in a plural (360-369) */
@@ -1176,8 +1243,9 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
                                                                 object, @"captureObject",
                                                                 result, @"result", nil];
 
-    NSString *nextMethodPrefix   = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:0];
-    NSString *testSelectorString = [[((NSString *)context) componentsSeparatedByString:@"."] objectAtIndex:1];
+    NSArray *const splitContext = [((NSString *) context) componentsSeparatedByString:@"."];
+    NSString *nextMethodPrefix = [splitContext objectAtIndex:0];
+    NSString *testSelectorString = [splitContext objectAtIndex:1];
     @try
     {
         if ([nextMethodPrefix hasPrefix:@"continue"])
@@ -1187,6 +1255,16 @@ didSucceedWithResult:(NSString *)result context:(NSObject *)context
         }
         else if ([nextMethodPrefix hasPrefix:@"finish"])
         {
+            if ([testSelectorString isEqual:@"test_genericTestApidMethod"])
+            {
+                NSString *testSelectorString1 = [splitContext objectAtIndex:2];
+                NSString *newSelector = [NSString stringWithFormat:@"%@%@",
+                                                       [testSelectorString stringByReplacingOccurrencesOfString:@"test" withString:@"finish"],
+                                                       @"_withArguments:andTestSelectorString:"];
+
+                [self performSelector:_nsel(newSelector) withObject:arguments withObject:testSelectorString1];
+                return;
+            }
             [self callSelectorPrefixed:nextMethodPrefix withArguments:arguments andTestSelectorString:testSelectorString];
         }
         else
