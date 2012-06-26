@@ -61,9 +61,10 @@ static NSString *entityTypeName     = @"user_dev";
         [JRCapture setCaptureApiDomain:captureApidDomain captureUIDomain:captureUIDomain
                               clientId:clientId andEntityTypeName:entityTypeName];
 
-        self.jrEngage = [JREngage jrEngageWithAppId:appId
-                                        andTokenUrl:[JRCapture captureMobileEndpointUrl]
-                                           delegate:self];
+        [JRCapture setEngageAppId:appId];
+//        self.jrEngage = [JREngage jrEngageWithAppId:appId
+//                                        andTokenUrl:[JRCapture captureMobileEndpointUrl]
+//                                           delegate:self];
 
         self.prefs = [NSUserDefaults standardUserDefaults];
         self.engageUser = [NSMutableDictionary dictionaryWithDictionary:[prefs objectForKey:@"engageUser"]];
@@ -124,7 +125,9 @@ static NSString *entityTypeName     = @"user_dev";
 - (void)startAuthenticationWithCustomInterface:(NSDictionary *)customInterface forDelegate:(id<SignInDelegate>)delegate
 {
     [self setSignInDelegate:delegate];
-    [jrEngage showAuthenticationDialogWithCustomInterfaceOverrides:customInterface];
+    [JRCapture startAuthenticationDialogWithNativeSignin:JRNativeSigninNone
+                             andCustomInterfaceOverrides:customInterface forDelegate:self];
+    //[jrEngage showAuthenticationDialogWithCustomInterfaceOverrides:customInterface];
 }
 
 + (NSString*)getDisplayNameFromProfile:(NSDictionary*)profile
@@ -324,5 +327,11 @@ static NSString *entityTypeName     = @"user_dev";
     if ([signInDelegate respondsToSelector:@selector(engageSignInDidFailWithError:)])
         [signInDelegate engageSignInDidFailWithError:error];
 }
+
+- (void)jrAuthenticationDidSucceedForUser:(JRCaptureUser *)captureUser withToken:(NSString *)captureToken andStatus:(JRCaptureAuthenticationStatus)status
+{
+
+}
+
 
 @end

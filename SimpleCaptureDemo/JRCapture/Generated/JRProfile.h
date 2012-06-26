@@ -29,7 +29,9 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
-#import "JRCapture.h"
+#import "JRCaptureObject.h"
+#import "JRCaptureTypes.h"
+#import "NSDate+ISO8601_CaptureDateTimeString.h"
 #import "JRAccountsElement.h"
 #import "JRAddressesElement.h"
 #import "JRBodyType.h"

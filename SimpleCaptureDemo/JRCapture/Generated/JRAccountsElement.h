@@ -29,7 +29,9 @@
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #import <Foundation/Foundation.h>
-#import "JRCapture.h"
+#import "JRCaptureObject.h"
+#import "JRCaptureTypes.h"
+#import "NSDate+ISO8601_CaptureDateTimeString.h"
 
 /**
  * @brief Describes an account held by this Contact, which MAY be on the Service Provider's service, or MAY be on a different service.
