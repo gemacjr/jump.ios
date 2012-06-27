@@ -14,13 +14,13 @@
 @protocol JRCaptureUserDelegate <JRCaptureObjectDelegate>
 @optional
 - (void)createDidSucceedForUser:(JRCaptureUser *)user context:(NSObject *)context;
-- (void)createDidFailForUser:(JRCaptureUser *)user withError:(NSString *)error context:(NSObject *)context;
+- (void)createDidFailForUser:(JRCaptureUser *)user withError:(NSError *)error context:(NSObject *)context;
 
 - (void)fetchUserDidSucceed:(JRCaptureUser *)fetchedUser context:(NSObject *)context;
-- (void)fetchUserDidFailWithError:(NSString *)error context:(NSObject *)context;
+- (void)fetchUserDidFailWithError:(NSError *)error context:(NSObject *)context;
 
 - (void)fetchLastUpdatedDidSucceed:(JRDateTime *)serverLastUpdated isOutdated:(BOOL)isOutdated context:(NSObject *)context;
-- (void)fetchLastUpdatedDidFailWithError:(NSString *)error context:(NSObject *)context;
+- (void)fetchLastUpdatedDidFailWithError:(NSError *)error context:(NSObject *)context;
 @end
 
 @interface JRCaptureUser (Extras)

@@ -2,11 +2,55 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efea0fb2-188e-4d59-b1f1-2b43e018c0dc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../Janrain/JREngage/Classes/JREngage.m" afterPath="$PROJECT_DIR$/../../Janrain/JREngage/Classes/JREngage.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureInternal.h" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureInternal.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureError.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureError.m" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureInternal.h" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureObject+Internal.h" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureInternal.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureObject+Internal.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRAccountsElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRAccountsElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRAddressesElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRAddressesElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRBodyType.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRBodyType.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRCaptureUser.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRCaptureUser.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRCurrentLocation.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRCurrentLocation.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JREmailsElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JREmailsElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRGamesElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRGamesElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRImsElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRImsElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRLocation.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRLocation.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRName.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRName.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRObjectLevelOne.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRObjectLevelOne.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRObjectLevelThree.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRObjectLevelThree.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRObjectLevelTwo.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRObjectLevelTwo.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JROnipLevelOneElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JROnipLevelOneElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JROnipLevelThree.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JROnipLevelThree.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JROnipLevelTwo.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JROnipLevelTwo.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JROrganizationsElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JROrganizationsElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPhoneNumbersElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPhoneNumbersElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPhotosElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPhotosElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPinoLevelOne.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPinoLevelOne.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPinoLevelThreeElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPinoLevelThreeElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPinoLevelTwo.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPinoLevelTwo.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPluralLevelOneElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPluralLevelOneElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPluralLevelThreeElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPluralLevelThreeElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPluralLevelTwoElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPluralLevelTwoElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPrimaryAddress.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRPrimaryAddress.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRProfile.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRProfile.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRProfilePhotosElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRProfilePhotosElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRProfilesElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRProfilesElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRStatusesElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRStatusesElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRUrlsElement.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/Generated/JRUrlsElement.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCapture.h" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCapture.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureApidInterface.h" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureApidInterface.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureApidInterface.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureApidInterface.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureObject.h" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureObject.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureObject.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureObject.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureUser+Extras.h" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureUser+Extras.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureUser+Extras.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/JRCapture/JRCaptureUser+Extras.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo.xcodeproj/project.pbxproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/ArrayDrillDownViewController.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/ArrayDrillDownViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/CaptureNewUserViewController.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/CaptureNewUserViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/ObjectDrillDownViewController.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/ObjectDrillDownViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/SharedData.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/SharedData.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/UserDrillDownViewController.m" afterPath="$PROJECT_DIR$/../../SimpleCaptureDemo/SimpleCaptureDemo/Classes/UserDrillDownViewController.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CaptureInterfaceUnitTests.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,10 +81,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NestedPluralObjectTests.m" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="NestedPluralObjectTests.m" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="380" column="0" selection-start="16996" selection-end="17224" vertical-scroll-proportion="0.0">
+            <state line="380" column="0" selection-start="16996" selection-end="17224" vertical-scroll-proportion="7.906181">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IPAddressTests.m" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="141" column="168" selection-start="4474" selection-end="4634" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -64,7 +117,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SharedData.m" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SharedData.m" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -280,7 +333,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
+    <frame x="0" y="22" width="1920" height="1054" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -378,42 +431,39 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/JSONPropertyTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="56" selection-start="891" selection-end="891" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="42" column="56" selection-start="891" selection-end="891" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SimplePluralTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="242" column="1" selection-start="9210" selection-end="9210" vertical-scroll-proportion="0.0">
+        <state line="242" column="1" selection-start="9210" selection-end="9210" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/GetCaptureUserAsyncTest.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/IPAddressTests.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="141" column="168" selection-start="4474" selection-end="4634" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/NestedPluralObjectTests.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="380" column="0" selection-start="16996" selection-end="17224" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/GetCaptureUserAsyncTest.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CaptureInterfaceUnitTests/SharedData.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="380" column="0" selection-start="16996" selection-end="17224" vertical-scroll-proportion="7.906181">
           <folding />
         </state>
       </provider>

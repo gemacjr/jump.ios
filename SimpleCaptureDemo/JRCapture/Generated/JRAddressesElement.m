@@ -37,7 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 #import "JRAddressesElement.h"
 
 @interface JRAddressesElement ()
@@ -283,7 +283,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.addressesElementId ? [NSNumber numberWithInteger:[self.addressesElementId integerValue]] : [NSNull null])
@@ -328,59 +328,59 @@
     addressesElement.canBeUpdatedOrReplaced = YES;
 
     addressesElement.addressesElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     addressesElement.country =
-        [dictionary objectForKey:@"country"] != [NSNull null] ? 
+        [dictionary objectForKey:@"country"] != [NSNull null] ?
         [dictionary objectForKey:@"country"] : nil;
 
     addressesElement.extendedAddress =
-        [dictionary objectForKey:@"extendedAddress"] != [NSNull null] ? 
+        [dictionary objectForKey:@"extendedAddress"] != [NSNull null] ?
         [dictionary objectForKey:@"extendedAddress"] : nil;
 
     addressesElement.formatted =
-        [dictionary objectForKey:@"formatted"] != [NSNull null] ? 
+        [dictionary objectForKey:@"formatted"] != [NSNull null] ?
         [dictionary objectForKey:@"formatted"] : nil;
 
     addressesElement.latitude =
-        [dictionary objectForKey:@"latitude"] != [NSNull null] ? 
+        [dictionary objectForKey:@"latitude"] != [NSNull null] ?
         [dictionary objectForKey:@"latitude"] : nil;
 
     addressesElement.locality =
-        [dictionary objectForKey:@"locality"] != [NSNull null] ? 
+        [dictionary objectForKey:@"locality"] != [NSNull null] ?
         [dictionary objectForKey:@"locality"] : nil;
 
     addressesElement.longitude =
-        [dictionary objectForKey:@"longitude"] != [NSNull null] ? 
+        [dictionary objectForKey:@"longitude"] != [NSNull null] ?
         [dictionary objectForKey:@"longitude"] : nil;
 
     addressesElement.poBox =
-        [dictionary objectForKey:@"poBox"] != [NSNull null] ? 
+        [dictionary objectForKey:@"poBox"] != [NSNull null] ?
         [dictionary objectForKey:@"poBox"] : nil;
 
     addressesElement.postalCode =
-        [dictionary objectForKey:@"postalCode"] != [NSNull null] ? 
+        [dictionary objectForKey:@"postalCode"] != [NSNull null] ?
         [dictionary objectForKey:@"postalCode"] : nil;
 
     addressesElement.primary =
-        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [dictionary objectForKey:@"primary"] != [NSNull null] ?
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     addressesElement.region =
-        [dictionary objectForKey:@"region"] != [NSNull null] ? 
+        [dictionary objectForKey:@"region"] != [NSNull null] ?
         [dictionary objectForKey:@"region"] : nil;
 
     addressesElement.streetAddress =
-        [dictionary objectForKey:@"streetAddress"] != [NSNull null] ? 
+        [dictionary objectForKey:@"streetAddress"] != [NSNull null] ?
         [dictionary objectForKey:@"streetAddress"] : nil;
 
     addressesElement.type =
-        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] != [NSNull null] ?
         [dictionary objectForKey:@"type"] : nil;
 
     [addressesElement.dirtyPropertySet removeAllObjects];
-    
+
     return addressesElement;
 }
 
@@ -394,55 +394,55 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.addressesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.addressesElementId = [dictionary objectForKey:@"id"] != [NSNull null] ?
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"country"])
-        self.country = [dictionary objectForKey:@"country"] != [NSNull null] ? 
+        self.country = [dictionary objectForKey:@"country"] != [NSNull null] ?
             [dictionary objectForKey:@"country"] : nil;
 
     if ([dictionary objectForKey:@"extendedAddress"])
-        self.extendedAddress = [dictionary objectForKey:@"extendedAddress"] != [NSNull null] ? 
+        self.extendedAddress = [dictionary objectForKey:@"extendedAddress"] != [NSNull null] ?
             [dictionary objectForKey:@"extendedAddress"] : nil;
 
     if ([dictionary objectForKey:@"formatted"])
-        self.formatted = [dictionary objectForKey:@"formatted"] != [NSNull null] ? 
+        self.formatted = [dictionary objectForKey:@"formatted"] != [NSNull null] ?
             [dictionary objectForKey:@"formatted"] : nil;
 
     if ([dictionary objectForKey:@"latitude"])
-        self.latitude = [dictionary objectForKey:@"latitude"] != [NSNull null] ? 
+        self.latitude = [dictionary objectForKey:@"latitude"] != [NSNull null] ?
             [dictionary objectForKey:@"latitude"] : nil;
 
     if ([dictionary objectForKey:@"locality"])
-        self.locality = [dictionary objectForKey:@"locality"] != [NSNull null] ? 
+        self.locality = [dictionary objectForKey:@"locality"] != [NSNull null] ?
             [dictionary objectForKey:@"locality"] : nil;
 
     if ([dictionary objectForKey:@"longitude"])
-        self.longitude = [dictionary objectForKey:@"longitude"] != [NSNull null] ? 
+        self.longitude = [dictionary objectForKey:@"longitude"] != [NSNull null] ?
             [dictionary objectForKey:@"longitude"] : nil;
 
     if ([dictionary objectForKey:@"poBox"])
-        self.poBox = [dictionary objectForKey:@"poBox"] != [NSNull null] ? 
+        self.poBox = [dictionary objectForKey:@"poBox"] != [NSNull null] ?
             [dictionary objectForKey:@"poBox"] : nil;
 
     if ([dictionary objectForKey:@"postalCode"])
-        self.postalCode = [dictionary objectForKey:@"postalCode"] != [NSNull null] ? 
+        self.postalCode = [dictionary objectForKey:@"postalCode"] != [NSNull null] ?
             [dictionary objectForKey:@"postalCode"] : nil;
 
     if ([dictionary objectForKey:@"primary"])
-        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ?
             [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     if ([dictionary objectForKey:@"region"])
-        self.region = [dictionary objectForKey:@"region"] != [NSNull null] ? 
+        self.region = [dictionary objectForKey:@"region"] != [NSNull null] ?
             [dictionary objectForKey:@"region"] : nil;
 
     if ([dictionary objectForKey:@"streetAddress"])
-        self.streetAddress = [dictionary objectForKey:@"streetAddress"] != [NSNull null] ? 
+        self.streetAddress = [dictionary objectForKey:@"streetAddress"] != [NSNull null] ?
             [dictionary objectForKey:@"streetAddress"] : nil;
 
     if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ?
             [dictionary objectForKey:@"type"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -458,55 +458,55 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"addresses", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.addressesElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.country =
-        [dictionary objectForKey:@"country"] != [NSNull null] ? 
+        [dictionary objectForKey:@"country"] != [NSNull null] ?
         [dictionary objectForKey:@"country"] : nil;
 
     self.extendedAddress =
-        [dictionary objectForKey:@"extendedAddress"] != [NSNull null] ? 
+        [dictionary objectForKey:@"extendedAddress"] != [NSNull null] ?
         [dictionary objectForKey:@"extendedAddress"] : nil;
 
     self.formatted =
-        [dictionary objectForKey:@"formatted"] != [NSNull null] ? 
+        [dictionary objectForKey:@"formatted"] != [NSNull null] ?
         [dictionary objectForKey:@"formatted"] : nil;
 
     self.latitude =
-        [dictionary objectForKey:@"latitude"] != [NSNull null] ? 
+        [dictionary objectForKey:@"latitude"] != [NSNull null] ?
         [dictionary objectForKey:@"latitude"] : nil;
 
     self.locality =
-        [dictionary objectForKey:@"locality"] != [NSNull null] ? 
+        [dictionary objectForKey:@"locality"] != [NSNull null] ?
         [dictionary objectForKey:@"locality"] : nil;
 
     self.longitude =
-        [dictionary objectForKey:@"longitude"] != [NSNull null] ? 
+        [dictionary objectForKey:@"longitude"] != [NSNull null] ?
         [dictionary objectForKey:@"longitude"] : nil;
 
     self.poBox =
-        [dictionary objectForKey:@"poBox"] != [NSNull null] ? 
+        [dictionary objectForKey:@"poBox"] != [NSNull null] ?
         [dictionary objectForKey:@"poBox"] : nil;
 
     self.postalCode =
-        [dictionary objectForKey:@"postalCode"] != [NSNull null] ? 
+        [dictionary objectForKey:@"postalCode"] != [NSNull null] ?
         [dictionary objectForKey:@"postalCode"] : nil;
 
     self.primary =
-        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [dictionary objectForKey:@"primary"] != [NSNull null] ?
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     self.region =
-        [dictionary objectForKey:@"region"] != [NSNull null] ? 
+        [dictionary objectForKey:@"region"] != [NSNull null] ?
         [dictionary objectForKey:@"region"] : nil;
 
     self.streetAddress =
-        [dictionary objectForKey:@"streetAddress"] != [NSNull null] ? 
+        [dictionary objectForKey:@"streetAddress"] != [NSNull null] ?
         [dictionary objectForKey:@"streetAddress"] : nil;
 
     self.type =
-        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] != [NSNull null] ?
         [dictionary objectForKey:@"type"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -640,7 +640,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"JRObjectId" forKey:@"addressesElementId"];

@@ -14,7 +14,7 @@
 
 #import "SharedData.h"
 #import "JRCaptureUser+Extras.h"
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 
 @interface SharedData ()
 @property (nonatomic, retain) JREngage *jrEngage;

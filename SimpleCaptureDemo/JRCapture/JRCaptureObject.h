@@ -34,15 +34,15 @@
 @protocol JRCaptureObjectDelegate <NSObject>
 @optional
 - (void)updateDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
-- (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSString *)error context:(NSObject *)context;
+- (void)updateDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context;
 
 - (void)replaceDidSucceedForObject:(JRCaptureObject *)object context:(NSObject *)context;
-- (void)replaceDidFailForObject:(JRCaptureObject *)object withError:(NSString *)error context:(NSObject *)context;
+- (void)replaceDidFailForObject:(JRCaptureObject *)object withError:(NSError *)error context:(NSObject *)context;
 
 - (void)replaceArrayDidSucceedForObject:(JRCaptureObject *)object newArray:(NSArray *)replacedArray /* replaced array? */
                                   named:(NSString *)arrayName context:(NSObject *)context;
 - (void)replaceArrayDidFailForObject:(JRCaptureObject *)object arrayNamed:(NSString *)arrayName
-                           withError:(NSString *)error context:(NSObject *)context;
+                           withError:(NSError *)error context:(NSObject *)context;
 @end
 
 //@protocol JRCaptureInterfaceDelegate;

@@ -37,7 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 #import "JRName.h"
 
 @interface JRName ()
@@ -167,7 +167,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.familyName ? self.familyName : [NSNull null])
@@ -198,31 +198,31 @@
     name.canBeUpdatedOrReplaced = YES;
 
     name.familyName =
-        [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"familyName"] != [NSNull null] ?
         [dictionary objectForKey:@"familyName"] : nil;
 
     name.formatted =
-        [dictionary objectForKey:@"formatted"] != [NSNull null] ? 
+        [dictionary objectForKey:@"formatted"] != [NSNull null] ?
         [dictionary objectForKey:@"formatted"] : nil;
 
     name.givenName =
-        [dictionary objectForKey:@"givenName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"givenName"] != [NSNull null] ?
         [dictionary objectForKey:@"givenName"] : nil;
 
     name.honorificPrefix =
-        [dictionary objectForKey:@"honorificPrefix"] != [NSNull null] ? 
+        [dictionary objectForKey:@"honorificPrefix"] != [NSNull null] ?
         [dictionary objectForKey:@"honorificPrefix"] : nil;
 
     name.honorificSuffix =
-        [dictionary objectForKey:@"honorificSuffix"] != [NSNull null] ? 
+        [dictionary objectForKey:@"honorificSuffix"] != [NSNull null] ?
         [dictionary objectForKey:@"honorificSuffix"] : nil;
 
     name.middleName =
-        [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"middleName"] != [NSNull null] ?
         [dictionary objectForKey:@"middleName"] : nil;
 
     [name.dirtyPropertySet removeAllObjects];
-    
+
     return name;
 }
 
@@ -236,27 +236,27 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"name"];
 
     if ([dictionary objectForKey:@"familyName"])
-        self.familyName = [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
+        self.familyName = [dictionary objectForKey:@"familyName"] != [NSNull null] ?
             [dictionary objectForKey:@"familyName"] : nil;
 
     if ([dictionary objectForKey:@"formatted"])
-        self.formatted = [dictionary objectForKey:@"formatted"] != [NSNull null] ? 
+        self.formatted = [dictionary objectForKey:@"formatted"] != [NSNull null] ?
             [dictionary objectForKey:@"formatted"] : nil;
 
     if ([dictionary objectForKey:@"givenName"])
-        self.givenName = [dictionary objectForKey:@"givenName"] != [NSNull null] ? 
+        self.givenName = [dictionary objectForKey:@"givenName"] != [NSNull null] ?
             [dictionary objectForKey:@"givenName"] : nil;
 
     if ([dictionary objectForKey:@"honorificPrefix"])
-        self.honorificPrefix = [dictionary objectForKey:@"honorificPrefix"] != [NSNull null] ? 
+        self.honorificPrefix = [dictionary objectForKey:@"honorificPrefix"] != [NSNull null] ?
             [dictionary objectForKey:@"honorificPrefix"] : nil;
 
     if ([dictionary objectForKey:@"honorificSuffix"])
-        self.honorificSuffix = [dictionary objectForKey:@"honorificSuffix"] != [NSNull null] ? 
+        self.honorificSuffix = [dictionary objectForKey:@"honorificSuffix"] != [NSNull null] ?
             [dictionary objectForKey:@"honorificSuffix"] : nil;
 
     if ([dictionary objectForKey:@"middleName"])
-        self.middleName = [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
+        self.middleName = [dictionary objectForKey:@"middleName"] != [NSNull null] ?
             [dictionary objectForKey:@"middleName"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -272,27 +272,27 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"name"];
 
     self.familyName =
-        [dictionary objectForKey:@"familyName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"familyName"] != [NSNull null] ?
         [dictionary objectForKey:@"familyName"] : nil;
 
     self.formatted =
-        [dictionary objectForKey:@"formatted"] != [NSNull null] ? 
+        [dictionary objectForKey:@"formatted"] != [NSNull null] ?
         [dictionary objectForKey:@"formatted"] : nil;
 
     self.givenName =
-        [dictionary objectForKey:@"givenName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"givenName"] != [NSNull null] ?
         [dictionary objectForKey:@"givenName"] : nil;
 
     self.honorificPrefix =
-        [dictionary objectForKey:@"honorificPrefix"] != [NSNull null] ? 
+        [dictionary objectForKey:@"honorificPrefix"] != [NSNull null] ?
         [dictionary objectForKey:@"honorificPrefix"] : nil;
 
     self.honorificSuffix =
-        [dictionary objectForKey:@"honorificSuffix"] != [NSNull null] ? 
+        [dictionary objectForKey:@"honorificSuffix"] != [NSNull null] ?
         [dictionary objectForKey:@"honorificSuffix"] : nil;
 
     self.middleName =
-        [dictionary objectForKey:@"middleName"] != [NSNull null] ? 
+        [dictionary objectForKey:@"middleName"] != [NSNull null] ?
         [dictionary objectForKey:@"middleName"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -378,7 +378,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"familyName"];

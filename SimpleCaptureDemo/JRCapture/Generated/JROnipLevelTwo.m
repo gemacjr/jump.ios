@@ -37,7 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 #import "JROnipLevelTwo.h"
 
 @interface JROnipLevelThree (OnipLevelThreeInternalMethods)
@@ -128,7 +128,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.level ? self.level : [NSNull null])
@@ -153,19 +153,19 @@
     onipLevelTwo.canBeUpdatedOrReplaced = YES;
 
     onipLevelTwo.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        [dictionary objectForKey:@"level"] != [NSNull null] ?
         [dictionary objectForKey:@"level"] : nil;
 
     onipLevelTwo.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] != [NSNull null] ?
         [dictionary objectForKey:@"name"] : nil;
 
     onipLevelTwo.onipLevelThree =
-        [dictionary objectForKey:@"onipLevelThree"] != [NSNull null] ? 
+        [dictionary objectForKey:@"onipLevelThree"] != [NSNull null] ?
         [JROnipLevelThree onipLevelThreeObjectFromDictionary:[dictionary objectForKey:@"onipLevelThree"] withPath:onipLevelTwo.captureObjectPath] : nil;
 
     [onipLevelTwo.dirtyPropertySet removeAllObjects];
-    
+
     return onipLevelTwo;
 }
 
@@ -179,11 +179,11 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipLevelTwo"];
 
     if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ?
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ?
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"onipLevelThree"] == [NSNull null])
@@ -206,11 +206,11 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"onipLevelTwo"];
 
     self.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        [dictionary objectForKey:@"level"] != [NSNull null] ?
         [dictionary objectForKey:@"level"] : nil;
 
     self.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] != [NSNull null] ?
         [dictionary objectForKey:@"name"] : nil;
 
     if (![dictionary objectForKey:@"onipLevelThree"] || [dictionary objectForKey:@"onipLevelThree"] == [NSNull null])
@@ -293,7 +293,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"level"];

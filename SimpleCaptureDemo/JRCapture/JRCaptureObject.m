@@ -13,7 +13,7 @@
    other materials provided with the distribution.
  * Neither the name of the Janrain, Inc. nor the names of its
    contributors may be used to endorse or promote products derived from this
-   software without specific prior written permission.
+    software without specific prior written permission.
 
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
@@ -37,12 +37,13 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import "JRCaptureObject.h"
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 #import "JRCaptureApidInterface.h"
 
 
 #import "JRCaptureData.h"
 #import "JSONKit.h"
+#import "JRCaptureError.h"
 
 @implementation NSArray (StringArray)
 // TODO: Test this!
@@ -74,7 +75,7 @@
     return [[[JRCaptureApidHandler alloc] init] autorelease];
 }
 
-- (void)updateCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)updateCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
     DLog(@"");
 
@@ -87,12 +88,14 @@
     // TODO: Parse error out of result
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
         [delegate respondsToSelector:@selector(updateCaptureObject:didFailWithResult:context:)])
-            [((id<JRCaptureObjectTesterDelegate>)delegate) updateCaptureObject:captureObject didFailWithResult:result context:callerContext];
+            [((id<JRCaptureObjectTesterDelegate>)delegate) updateCaptureObject:captureObject
+                                                             didFailWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
+                                                                       context:callerContext];
     else if ([delegate respondsToSelector:@selector(updateDidFailForObject:withError:context:)])
-            [delegate updateDidFailForObject:captureObject withError:result context:callerContext];
+            [delegate updateDidFailForObject:captureObject withError:[JRCaptureError errorFromResult:result] context:callerContext];
 }
 
-- (void)updateCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)updateCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
     DLog(@"");
 
@@ -102,7 +105,7 @@
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         [self updateCaptureObjectDidFailWithResult:result context:context];
@@ -112,12 +115,14 @@
 
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
         [delegate respondsToSelector:@selector(updateCaptureObject:didSucceedWithResult:context:)])
-            [((id<JRCaptureObjectTesterDelegate>)delegate) updateCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
+            [((id<JRCaptureObjectTesterDelegate>)delegate) updateCaptureObject:captureObject
+                                                          didSucceedWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
+                                                                       context:callerContext];
     else if ([delegate respondsToSelector:@selector(updateDidSucceedForObject:context:)])
             [delegate updateDidSucceedForObject:captureObject context:callerContext];
 }
 
-- (void)replaceCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
@@ -128,12 +133,14 @@
     // TODO: Parse error out of result
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
         [delegate respondsToSelector:@selector(replaceCaptureObject:didFailWithResult:context:)])
-            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceCaptureObject:captureObject didFailWithResult:result context:callerContext];
+            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceCaptureObject:captureObject
+                                                              didFailWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
+                                                                        context:callerContext];
     else if ([delegate respondsToSelector:@selector(replaceDidFailForObject:withError:context:)])
-            [delegate replaceDidFailForObject:captureObject withError:result context:callerContext];
+            [delegate replaceDidFailForObject:captureObject withError:[JRCaptureError errorFromResult:result] context:callerContext];
 }
 
-- (void)replaceCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
@@ -142,7 +149,7 @@
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         [self replaceCaptureObjectDidFailWithResult:result context:context];
@@ -154,12 +161,14 @@
 
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
         [delegate respondsToSelector:@selector(replaceCaptureObject:didSucceedWithResult:context:)])
-            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
+            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceCaptureObject:captureObject
+                                                           didSucceedWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
+                                                                        context:callerContext];
     else if ([delegate respondsToSelector:@selector(replaceDidSucceedForObject:context:)])
             [delegate replaceDidSucceedForObject:captureObject context:callerContext];
 }
 
-- (void)replaceCaptureArrayDidFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceCaptureArrayDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
@@ -170,12 +179,14 @@
 
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
         [delegate respondsToSelector:@selector(replaceArrayNamed:onCaptureObject:didFailWithResult:context:)])
-            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceArrayNamed:arrayName onCaptureObject:captureObject didFailWithResult:result context:callerContext];
+            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceArrayNamed:arrayName onCaptureObject:captureObject
+                                                           didFailWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
+                                                                     context:callerContext];
     else if ([delegate respondsToSelector:@selector(replaceArrayDidFailForObject:arrayNamed:withError:context:)])
-            [delegate replaceArrayDidFailForObject:captureObject arrayNamed:arrayName withError:result context:callerContext];
+            [delegate replaceArrayDidFailForObject:captureObject arrayNamed:arrayName withError:[JRCaptureError errorFromResult:result] context:callerContext];
 }
 
-- (void)replaceCaptureArrayDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)replaceCaptureArrayDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureObject *captureObject = [myContext objectForKey:@"captureObject"];
@@ -188,7 +199,7 @@
     id<JRCaptureObjectDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         [self replaceCaptureObjectDidFailWithResult:result context:context];
@@ -222,7 +233,10 @@
 
     if ([delegate conformsToProtocol:@protocol(JRCaptureObjectTesterDelegate)] &&
         [delegate respondsToSelector:@selector(replaceArray:named:onCaptureObject:didSucceedWithResult:context:)])
-            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceArray:newArray named:arrayName onCaptureObject:captureObject didSucceedWithResult:result context:callerContext];
+            [((id<JRCaptureObjectTesterDelegate>)delegate) replaceArray:newArray named:arrayName
+                                                        onCaptureObject:captureObject
+                                                   didSucceedWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
+                                                                context:callerContext];
     else if ([delegate respondsToSelector:@selector(replaceArrayDidSucceedForObject:newArray:named:context:)])
             [delegate replaceArrayDidSucceedForObject:captureObject newArray:newArray named:arrayName context:callerContext];
 }
@@ -325,7 +339,12 @@
     if (!self.canBeUpdatedOrReplaced)
     {
         [[JRCaptureApidHandler captureApidHandler] updateCaptureObjectDidFailWithResult:
-                      @"{\"stat\":\"fail\",\"message\":\"This object or its parent is an element of an array, and the array needs to be replaced on Capture first\""
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                                            @"error", @"stat",
+                                            @"invalid_array_element", @"error",
+                                            @"This object or its parent is an element of an array, and the array needs to be replaced on Capture first", @"error_description",
+                                            [NSNumber numberWithInteger:JRCaptureLocalApidErrorInvalidArrayElement], @"code",
+                                            [NSDictionary dictionaryWithObjectsAndKeys:self.captureObjectPath, @"attribute_name", nil], @"extraFields", nil]
                                                                                 context:newContext];
 
         return;
@@ -355,7 +374,12 @@
     if (!self.canBeUpdatedOrReplaced)
     {
         [[JRCaptureApidHandler captureApidHandler] updateCaptureObjectDidFailWithResult:
-                      @"{\"stat\":\"fail\",\"message\":\"This object or its parent is an element of an array, and the array needs to be replaced on Capture first\""
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                                            @"error", @"stat",
+                                            @"invalid_array_element", @"error",
+                                            @"This object or its parent is an element of an array, and the array needs to be replaced on Capture first", @"error_description",
+                                            [NSNumber numberWithInteger:JRCaptureLocalApidErrorInvalidArrayElement], @"code",
+                                            [NSDictionary dictionaryWithObjectsAndKeys:self.captureObjectPath, @"attribute_name", nil], @"extraFields", nil]
                                                                                 context:newContext];
 
         return;

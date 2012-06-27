@@ -44,21 +44,7 @@
 #import <Foundation/Foundation.h>
 #import "JRCaptureObject.h"
 #import "JRCaptureUser.h"
-
-typedef enum
-{
-    JRCaptureApidError_foo = 400,
-} JRCaptureApidError;
-
-typedef enum
-{
-    JRCaptureWrappedEngageError_foo = 500,
-} JRCaptureWrappedEngageError;
-
-typedef enum
-{
-    JRCaptureWebviewError_foo = 500,
-} JRCaptureWebviewError;
+#import "JRCaptureError.h"
 
 typedef enum
 {

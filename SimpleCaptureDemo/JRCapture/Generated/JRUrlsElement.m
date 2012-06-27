@@ -37,7 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 #import "JRUrlsElement.h"
 
 @interface JRUrlsElement ()
@@ -148,7 +148,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.urlsElementId ? [NSNumber numberWithInteger:[self.urlsElementId integerValue]] : [NSNull null])
@@ -175,23 +175,23 @@
     urlsElement.canBeUpdatedOrReplaced = YES;
 
     urlsElement.urlsElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     urlsElement.primary =
-        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [dictionary objectForKey:@"primary"] != [NSNull null] ?
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     urlsElement.type =
-        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] != [NSNull null] ?
         [dictionary objectForKey:@"type"] : nil;
 
     urlsElement.value =
-        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] != [NSNull null] ?
         [dictionary objectForKey:@"value"] : nil;
 
     [urlsElement.dirtyPropertySet removeAllObjects];
-    
+
     return urlsElement;
 }
 
@@ -205,19 +205,19 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.urlsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.urlsElementId = [dictionary objectForKey:@"id"] != [NSNull null] ?
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"primary"])
-        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        self.primary = [dictionary objectForKey:@"primary"] != [NSNull null] ?
             [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ?
             [dictionary objectForKey:@"type"] : nil;
 
     if ([dictionary objectForKey:@"value"])
-        self.value = [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        self.value = [dictionary objectForKey:@"value"] != [NSNull null] ?
             [dictionary objectForKey:@"value"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -233,19 +233,19 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"urls", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.urlsElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.primary =
-        [dictionary objectForKey:@"primary"] != [NSNull null] ? 
+        [dictionary objectForKey:@"primary"] != [NSNull null] ?
         [NSNumber numberWithBool:[(NSNumber*)[dictionary objectForKey:@"primary"] boolValue]] : nil;
 
     self.type =
-        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] != [NSNull null] ?
         [dictionary objectForKey:@"type"] : nil;
 
     self.value =
-        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] != [NSNull null] ?
         [dictionary objectForKey:@"value"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -307,7 +307,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"JRObjectId" forKey:@"urlsElementId"];

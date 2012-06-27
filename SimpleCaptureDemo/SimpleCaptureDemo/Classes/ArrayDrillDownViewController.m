@@ -37,7 +37,7 @@
 
 #import "ArrayDrillDownViewController.h"
 #import "ObjectDrillDownViewController.h"
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 
 typedef enum propertyTypes
 {

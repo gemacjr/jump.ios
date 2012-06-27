@@ -37,7 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 #import "JRBodyType.h"
 
 @interface JRBodyType ()
@@ -152,7 +152,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.build ? self.build : [NSNull null])
@@ -181,27 +181,27 @@
     bodyType.canBeUpdatedOrReplaced = YES;
 
     bodyType.build =
-        [dictionary objectForKey:@"build"] != [NSNull null] ? 
+        [dictionary objectForKey:@"build"] != [NSNull null] ?
         [dictionary objectForKey:@"build"] : nil;
 
     bodyType.color =
-        [dictionary objectForKey:@"color"] != [NSNull null] ? 
+        [dictionary objectForKey:@"color"] != [NSNull null] ?
         [dictionary objectForKey:@"color"] : nil;
 
     bodyType.eyeColor =
-        [dictionary objectForKey:@"eyeColor"] != [NSNull null] ? 
+        [dictionary objectForKey:@"eyeColor"] != [NSNull null] ?
         [dictionary objectForKey:@"eyeColor"] : nil;
 
     bodyType.hairColor =
-        [dictionary objectForKey:@"hairColor"] != [NSNull null] ? 
+        [dictionary objectForKey:@"hairColor"] != [NSNull null] ?
         [dictionary objectForKey:@"hairColor"] : nil;
 
     bodyType.height =
-        [dictionary objectForKey:@"height"] != [NSNull null] ? 
+        [dictionary objectForKey:@"height"] != [NSNull null] ?
         [dictionary objectForKey:@"height"] : nil;
 
     [bodyType.dirtyPropertySet removeAllObjects];
-    
+
     return bodyType;
 }
 
@@ -215,23 +215,23 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
 
     if ([dictionary objectForKey:@"build"])
-        self.build = [dictionary objectForKey:@"build"] != [NSNull null] ? 
+        self.build = [dictionary objectForKey:@"build"] != [NSNull null] ?
             [dictionary objectForKey:@"build"] : nil;
 
     if ([dictionary objectForKey:@"color"])
-        self.color = [dictionary objectForKey:@"color"] != [NSNull null] ? 
+        self.color = [dictionary objectForKey:@"color"] != [NSNull null] ?
             [dictionary objectForKey:@"color"] : nil;
 
     if ([dictionary objectForKey:@"eyeColor"])
-        self.eyeColor = [dictionary objectForKey:@"eyeColor"] != [NSNull null] ? 
+        self.eyeColor = [dictionary objectForKey:@"eyeColor"] != [NSNull null] ?
             [dictionary objectForKey:@"eyeColor"] : nil;
 
     if ([dictionary objectForKey:@"hairColor"])
-        self.hairColor = [dictionary objectForKey:@"hairColor"] != [NSNull null] ? 
+        self.hairColor = [dictionary objectForKey:@"hairColor"] != [NSNull null] ?
             [dictionary objectForKey:@"hairColor"] : nil;
 
     if ([dictionary objectForKey:@"height"])
-        self.height = [dictionary objectForKey:@"height"] != [NSNull null] ? 
+        self.height = [dictionary objectForKey:@"height"] != [NSNull null] ?
             [dictionary objectForKey:@"height"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -247,23 +247,23 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@", capturePath, @"bodyType"];
 
     self.build =
-        [dictionary objectForKey:@"build"] != [NSNull null] ? 
+        [dictionary objectForKey:@"build"] != [NSNull null] ?
         [dictionary objectForKey:@"build"] : nil;
 
     self.color =
-        [dictionary objectForKey:@"color"] != [NSNull null] ? 
+        [dictionary objectForKey:@"color"] != [NSNull null] ?
         [dictionary objectForKey:@"color"] : nil;
 
     self.eyeColor =
-        [dictionary objectForKey:@"eyeColor"] != [NSNull null] ? 
+        [dictionary objectForKey:@"eyeColor"] != [NSNull null] ?
         [dictionary objectForKey:@"eyeColor"] : nil;
 
     self.hairColor =
-        [dictionary objectForKey:@"hairColor"] != [NSNull null] ? 
+        [dictionary objectForKey:@"hairColor"] != [NSNull null] ?
         [dictionary objectForKey:@"hairColor"] : nil;
 
     self.height =
-        [dictionary objectForKey:@"height"] != [NSNull null] ? 
+        [dictionary objectForKey:@"height"] != [NSNull null] ?
         [dictionary objectForKey:@"height"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -341,7 +341,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"build"];

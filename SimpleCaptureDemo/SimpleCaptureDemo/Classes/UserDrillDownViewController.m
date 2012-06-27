@@ -31,7 +31,7 @@
 
 #import <objc/runtime.h>
 #import "UserDrillDownViewController.h"
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 
 
 #ifdef DEBUG

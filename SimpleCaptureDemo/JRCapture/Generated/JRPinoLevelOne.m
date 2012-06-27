@@ -37,7 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 #import "JRPinoLevelOne.h"
 
 @interface JRPinoLevelTwo (PinoLevelTwoInternalMethods)
@@ -128,7 +128,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.level ? self.level : [NSNull null])
@@ -150,19 +150,19 @@
 
 
     pinoLevelOne.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        [dictionary objectForKey:@"level"] != [NSNull null] ?
         [dictionary objectForKey:@"level"] : nil;
 
     pinoLevelOne.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] != [NSNull null] ?
         [dictionary objectForKey:@"name"] : nil;
 
     pinoLevelOne.pinoLevelTwo =
-        [dictionary objectForKey:@"pinoLevelTwo"] != [NSNull null] ? 
+        [dictionary objectForKey:@"pinoLevelTwo"] != [NSNull null] ?
         [JRPinoLevelTwo pinoLevelTwoObjectFromDictionary:[dictionary objectForKey:@"pinoLevelTwo"] withPath:pinoLevelOne.captureObjectPath] : nil;
 
     [pinoLevelOne.dirtyPropertySet removeAllObjects];
-    
+
     return pinoLevelOne;
 }
 
@@ -175,11 +175,11 @@
     self.canBeUpdatedOrReplaced = YES;
 
     if ([dictionary objectForKey:@"level"])
-        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        self.level = [dictionary objectForKey:@"level"] != [NSNull null] ?
             [dictionary objectForKey:@"level"] : nil;
 
     if ([dictionary objectForKey:@"name"])
-        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        self.name = [dictionary objectForKey:@"name"] != [NSNull null] ?
             [dictionary objectForKey:@"name"] : nil;
 
     if ([dictionary objectForKey:@"pinoLevelTwo"] == [NSNull null])
@@ -201,11 +201,11 @@
     self.canBeUpdatedOrReplaced = YES;
 
     self.level =
-        [dictionary objectForKey:@"level"] != [NSNull null] ? 
+        [dictionary objectForKey:@"level"] != [NSNull null] ?
         [dictionary objectForKey:@"level"] : nil;
 
     self.name =
-        [dictionary objectForKey:@"name"] != [NSNull null] ? 
+        [dictionary objectForKey:@"name"] != [NSNull null] ?
         [dictionary objectForKey:@"name"] : nil;
 
     if (![dictionary objectForKey:@"pinoLevelTwo"] || [dictionary objectForKey:@"pinoLevelTwo"] == [NSNull null])
@@ -288,7 +288,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"NSString" forKey:@"level"];

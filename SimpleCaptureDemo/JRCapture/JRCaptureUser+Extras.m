@@ -9,8 +9,9 @@
 #import "JRCaptureUser.h"
 
 #import "JRCaptureUser+Extras.h"
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 #import "JSONKit.h"
+#import "JRCaptureError.h"
 
 #ifdef DEBUG
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
@@ -29,7 +30,7 @@
     return [[[JRCaptureUserExtrasApidHandler alloc] init] autorelease];
 }
 
-- (void)createCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)createCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
@@ -40,12 +41,14 @@
     // TODO: Parse error out of result
     if ([delegate conformsToProtocol:@protocol(JRCaptureUserTesterDelegate)] &&
         [delegate respondsToSelector:@selector(createCaptureUser:didFailWithResult:context:)])
-            [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser didFailWithResult:result context:callerContext];
+            [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser
+                                                         didFailWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
+                                                                   context:callerContext];
     else if ([delegate respondsToSelector:@selector(createDidFailForUser:withError:context:)])
-            [delegate createDidFailForUser:captureUser withError:result context:callerContext];
+            [delegate createDidFailForUser:captureUser withError:[JRCaptureError errorFromResult:result] context:callerContext];
 }
 
-- (void)createCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)createCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
@@ -54,7 +57,7 @@
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         [self createCaptureUserDidFailWithResult:result context:context];
@@ -66,12 +69,14 @@
 
     if ([delegate conformsToProtocol:@protocol(JRCaptureUserTesterDelegate)] &&
         [delegate respondsToSelector:@selector(createCaptureUser:didSucceedWithResult:context:)])
-            [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser didSucceedWithResult:result context:callerContext];
+            [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser
+                                                      didSucceedWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
+                                                                   context:callerContext];
     else if ([delegate respondsToSelector:@selector(createDidSucceedForUser:context:)])
             [delegate createDidSucceedForUser:captureUser context:callerContext];
 }
 
-- (void)getCaptureUserDidFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)getCaptureUserDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     NSObject        *callerContext = [myContext objectForKey:@"callerContext"];
@@ -80,11 +85,11 @@
 
     // TODO: Parse error out of result
     if ([delegate respondsToSelector:@selector(fetchUserDidFailWithError:context:)])
-        [delegate fetchUserDidFailWithError:result context:callerContext];
+        [delegate fetchUserDidFailWithError:[JRCaptureError errorFromResult:result] context:callerContext];
 
 }
 
-- (void)getCaptureUserDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)getCaptureUserDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     NSString        *capturePath   = [myContext objectForKey:@"capturePath"];
@@ -92,7 +97,7 @@
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         [self getCaptureUserDidFailWithResult:result context:context];
@@ -100,17 +105,19 @@
     if (![resultDictionary objectForKey:@"result"])
         [self getCaptureUserDidFailWithResult:result context:context];
 
-    JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:[resultDictionary objectForKey:@"result"]];//replaceFromDictionary:[resultDictionary objectForKey:@"result"] withPath:capturePath];
+    JRCaptureUser *captureUser = [JRCaptureUser captureUserObjectFromDictionary:[resultDictionary objectForKey:@"result"]];
 
     if ([delegate conformsToProtocol:@protocol(JRCaptureUserTesterDelegate)] &&
         [delegate respondsToSelector:@selector(createCaptureUser:didSucceedWithResult:context:)])
-            [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser didSucceedWithResult:result context:callerContext];
+            [((id<JRCaptureUserTesterDelegate>)delegate) createCaptureUser:captureUser
+                                                      didSucceedWithResult:([result isKindOfClass:[NSString class]] ? (NSString *)result : [(NSDictionary *)result JSONString])
+                                                                   context:callerContext];
     else if ([delegate respondsToSelector:@selector(createDidSucceedForUser:context:)])
             [delegate createDidSucceedForUser:captureUser context:callerContext];
 
 }
 
-- (void)getCaptureObjectDidFailWithResult:(NSString *)result context:(NSObject *)context
+- (void)getCaptureObjectDidFailWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
@@ -120,10 +127,10 @@
 
     // TODO: Parse error out of result
     if ([delegate respondsToSelector:@selector(fetchLastUpdatedDidFailWithError:context:)])
-        [delegate fetchLastUpdatedDidFailWithError:result context:callerContext];
+        [delegate fetchLastUpdatedDidFailWithError:[JRCaptureError errorFromResult:result] context:callerContext];
 }
 
-- (void)getCaptureObjectDidSucceedWithResult:(NSString *)result context:(NSObject *)context
+- (void)getCaptureObjectDidSucceedWithResult:(NSObject *)result context:(NSObject *)context
 {
     NSDictionary    *myContext     = (NSDictionary *)context;
     JRCaptureUser   *captureUser   = [myContext objectForKey:@"captureUser"];
@@ -132,7 +139,7 @@
     id<JRCaptureUserDelegate>
                      delegate      = [myContext objectForKey:@"delegate"];
 
-    NSDictionary *resultDictionary = [result objectFromJSONString];
+    NSDictionary *resultDictionary = [(NSString *)result objectFromJSONString];
 
     if (![((NSString *)[resultDictionary objectForKey:@"stat"]) isEqualToString:@"ok"])
         [self getCaptureObjectDidFailWithResult:result context:context];

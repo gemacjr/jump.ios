@@ -37,7 +37,7 @@
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 
-#import "JRCaptureInternal.h"
+#import "JRCaptureObject+Internal.h"
 #import "JRPhotosElement.h"
 
 @interface JRPhotosElement ()
@@ -122,7 +122,7 @@
 
 - (NSDictionary*)toDictionary
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:(self.photosElementId ? [NSNumber numberWithInteger:[self.photosElementId integerValue]] : [NSNull null])
@@ -147,19 +147,19 @@
     photosElement.canBeUpdatedOrReplaced = YES;
 
     photosElement.photosElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     photosElement.type =
-        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] != [NSNull null] ?
         [dictionary objectForKey:@"type"] : nil;
 
     photosElement.value =
-        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] != [NSNull null] ?
         [dictionary objectForKey:@"value"] : nil;
 
     [photosElement.dirtyPropertySet removeAllObjects];
-    
+
     return photosElement;
 }
 
@@ -173,15 +173,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     if ([dictionary objectForKey:@"id"])
-        self.photosElementId = [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        self.photosElementId = [dictionary objectForKey:@"id"] != [NSNull null] ?
             [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     if ([dictionary objectForKey:@"type"])
-        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        self.type = [dictionary objectForKey:@"type"] != [NSNull null] ?
             [dictionary objectForKey:@"type"] : nil;
 
     if ([dictionary objectForKey:@"value"])
-        self.value = [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        self.value = [dictionary objectForKey:@"value"] != [NSNull null] ?
             [dictionary objectForKey:@"value"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -197,15 +197,15 @@
     self.captureObjectPath = [NSString stringWithFormat:@"%@/%@#%d", capturePath, @"photos", [(NSNumber*)[dictionary objectForKey:@"id"] integerValue]];
 
     self.photosElementId =
-        [dictionary objectForKey:@"id"] != [NSNull null] ? 
+        [dictionary objectForKey:@"id"] != [NSNull null] ?
         [NSNumber numberWithInteger:[(NSNumber*)[dictionary objectForKey:@"id"] integerValue]] : nil;
 
     self.type =
-        [dictionary objectForKey:@"type"] != [NSNull null] ? 
+        [dictionary objectForKey:@"type"] != [NSNull null] ?
         [dictionary objectForKey:@"type"] : nil;
 
     self.value =
-        [dictionary objectForKey:@"value"] != [NSNull null] ? 
+        [dictionary objectForKey:@"value"] != [NSNull null] ?
         [dictionary objectForKey:@"value"] : nil;
 
     [self.dirtyPropertySet setSet:dirtyPropertySetCopy];
@@ -259,7 +259,7 @@
 
 - (NSDictionary*)objectProperties
 {
-    NSMutableDictionary *dict = 
+    NSMutableDictionary *dict =
         [NSMutableDictionary dictionaryWithCapacity:10];
 
     [dict setObject:@"JRObjectId" forKey:@"photosElementId"];
